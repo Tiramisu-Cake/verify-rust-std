@@ -32,8 +32,13 @@
       ]
     }
   ],
+  "g0_whitespace_check": "PASS for authored text/code; immutable diff.patch/*.patch and dependency snapshots excluded because patch context markers and exact frozen bytes are preserved",
   "local_compiler_verifier_execution": "NONE",
   "review": "PASS_STATIC_PREPARATION_ONLY; REVIEW.md",
+  "review_packet_checks": {
+    "ci": "PACKET_VALID_NOT_REVIEWED; independent verdict separately in REVIEW.md",
+    "std": "PACKET_VALID_NOT_REVIEWED; independent verdict separately in REVIEW.md"
+  },
   "runtime_proof": "NOT_RUN",
   "schema": "ch8-w0-a1-r3-validation-v1",
   "std_sha": "312ff625b9b3338281d899cca47d72c24d5a2539"

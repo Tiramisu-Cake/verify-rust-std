@@ -17,6 +17,10 @@ applies to the old std A1 package6586; std-test-only.patch applies to frozen70ba
 reconstructs the exact new library tree. Historical R1/R2 artifacts and ledgers were
 not modified. Existing unrelated `kani3300/ch8-c-ctl/` was left untouched; concurrent
 g0 commits `169dcbf58f` and `45498717e2` arrived during preparation and are preserved.
+The shared-index packet was included unchanged by concurrent coordinator commit
+`e3fce08411b8a222fc7e7b6d7e9969df3cbae407`; its unrelated ledger/task edits belong
+to that coordinator. This worker did not edit them. Final closeout uses a separate
+path-limited commit and preserves this history.
 
 Next authorized stage belongs to the coordinator: verify exact local package hashes,
 review and current reserve/slot/budget, then choose whether to publish and dispatch
