@@ -1,0 +1,30 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-prof-off-intake-w11",
+  "baseline_commit": "741b7183b4d6e9d752c0b7951206d7257f69f951",
+  "candidate_commit": "0089c0f2f8190ef1bb84011295e6a304fcdd8a00",
+  "defect": "Profiles target stage checker rejects TokenStream whitespace around :: and bare forwarder names.",
+  "applicability": "Review delta only. Deliverable 112fcc9ada67ee2bb8e1712d47983d6717487b78 has same tree b8751524e6be94edb9c69c88c11c1734ed5a89f4 and sole stock 0aac parent. Verify equality.",
+  "invariants": [
+    "No oracles, required covers, inventory gates, source/tool pins, workflow, budgets or caps changed.",
+    "No push, CI, ledger or local compiler/verifier. No nested delegation.",
+    "Terminal identifier stage check is not independent contracted-symbol resolution. No proof credit."
+  ],
+  "controls": [
+    "Spaced and unqualified targets; wrong/null/malformed identifiers remain rejected.",
+    "Source file/mode/target triple/unwind/inventory guards remain effective.",
+    "62-row synthetic batch uses actual spaced/local target forms; existing service error paths retained."
+  ],
+  "dependencies": [
+    "ch8-prof-off-control/manifest.json",
+    "ch8-prof-off-control/runner.py",
+    "ch8-prof-off-control/test_profiles.py",
+    "ch8-prof-off-control/test_batch.py",
+    "ch8-prof-off-control/CI-REQUEST.json"
+  ],
+  "known_limitations": [
+    "Frozen ASCII nongeneric profile paths only; independent symbol resolution not established.",
+    "Acceptance must preserve existing conservative inventory and leaf gates."
+  ],
+  "prior_reviews": []
+}

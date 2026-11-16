@@ -1,0 +1,97 @@
+diff --git a/ch8-prof-off-control/CI-REQUEST.json b/ch8-prof-off-control/CI-REQUEST.json
+index 94a889894..5463bbd92 100644
+--- a/ch8-prof-off-control/CI-REQUEST.json
++++ b/ch8-prof-off-control/CI-REQUEST.json
+@@ -1385,2 +1385,2 @@
+-    "ch8-prof-off-control/runner.py": "e866a565788f1f41e4cfb26e9880a44a9cd09713d82b323de3508032bca066be",
+-    "ch8-prof-off-control/test_profiles.py": "9726fad1363cdb75628d4560426271125b2dd5e3928ca525571b1e079633a972",
++    "ch8-prof-off-control/runner.py": "ac13fd8d48ff135f8f336960147bb3938eea37a795b7d038dd3f2fb7ae677744",
++    "ch8-prof-off-control/test_profiles.py": "a5fec2167ffdbba20715cff15e4fea06ce758ee6073707293f57fe8e6033326b",
+@@ -1388 +1388 @@
+-    "ch8-prof-off-control/test_batch.py": "4f1a1f735474bf3f554fac87f23ec3c9fa1ae292438bf76292b9ca0ba015907c",
++    "ch8-prof-off-control/test_batch.py": "6c699bdff24ed9bc86a806d497659f605f5301c6a862053bfd3881eae3d58296",
+diff --git a/ch8-prof-off-control/runner.py b/ch8-prof-off-control/runner.py
+index 36aae7238..56ed2cba0 100644
+--- a/ch8-prof-off-control/runner.py
++++ b/ch8-prof-off-control/runner.py
+@@ -15,0 +16 @@ from pathlib import Path
++import re
+@@ -537,0 +539,14 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
++def _profile_target_matches(value: Any, expected: str) -> bool:
++    """Match the frozen profile's terminal identifier, preserving Rust tokens.
++
++    Macro TokenStream formatting inserts whitespace around ::. A local
++    proof_for_contract attribute may also name an unqualified function.
++    Do not merge identifiers or treat an arbitrary text suffix as a path.
++    This is a stage check, not independent resolution of the contracted symbol.
++    """
++    if not isinstance(value, str) or re.fullmatch(
++            r"\s*[A-Za-z_][A-Za-z_0-9]*(?:\s*::\s*[A-Za-z_][A-Za-z_0-9]*)*\s*", value) is None:
++        return False
++    return value.split("::")[-1].strip() == expected
++
++
+@@ -608,2 +623 @@ def _parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_B
+-            if (not isinstance(exported_target, str) or
+-                    not exported_target.split("::<", 1)[0].endswith("::" + expected)):
++            if not _profile_target_matches(exported_target, expected):
+diff --git a/ch8-prof-off-control/test_batch.py b/ch8-prof-off-control/test_batch.py
+index 33249696e..483796b55 100644
+--- a/ch8-prof-off-control/test_batch.py
++++ b/ch8-prof-off-control/test_batch.py
+@@ -33 +33,3 @@ def payload_for(rows):
+-            h['attributes']['kind']['ProofForContract']['target_fn'] = 'slice::' + target
++            # Match the export's TokenStream formatting and local forwarders.
++            h['attributes']['kind']['ProofForContract']['target_fn'] = (
++                target if r['profile_mode'] == 'PFC:concrete_forwarder' else 'slice :: ' + target)
+diff --git a/ch8-prof-off-control/test_profiles.py b/ch8-prof-off-control/test_profiles.py
+index 24755064c..678f2d197 100644
+--- a/ch8-prof-off-control/test_profiles.py
++++ b/ch8-prof-off-control/test_profiles.py
+@@ -97,0 +98,46 @@ class ProfilesTests(unittest.TestCase):
++    def test_macro_spaced_and_local_profile_targets(self):
++        with tempfile.TemporaryDirectory() as d:
++            p = Path(d) / 'export.json'
++            for rid, profile, targets in [
++                ('swap_contract_u8_n2', 'swap_profile',
++                 ['super::merge::profiles::swap_profile', 'super :: merge :: profiles :: swap_profile']),
++                ('stable_cell_n2', 'concrete_forwarder', ['stable_cell', 'module :: stable_cell']),
++                ('unstable_byte_n2', 'concrete_forwarder', ['unstable_byte']),
++                ('freeze_noncopy_n2', 'concrete_forwarder', ['freeze_noncopy']),
++            ]:
++                r = row(id=rid, profile_mode='PFC:' + profile,
++                        source_file='library/core/src/pinned.rs')
++                def parse(target):
++                    payload = export()
++                    payload['harnesses'][0]['file'] = r['source_file']
++                    payload['harnesses'][0]['attributes']['kind']['ProofForContract']['target_fn'] = target
++                    p.write_text(json.dumps(payload))
++                    return runner.parse_export(p, r)
++                for target in targets:
++                    self.assertEqual(parse(target)['outcome'], 'EXPECTED', target)
++                for target in [None, {}, '', 'other_profile', 'x::wrong_' + targets[0].split('::')[-1],
++                               targets[0] + '_wrong', targets[0] + '()', 'swap_ profile',
++                               'stable_ cell', 'x : : ' + targets[0].split('::')[-1]]:
++                    self.assertEqual(parse(target)['state'], 'SOURCE_STAGE_TARGET_MISMATCH', target)
++
++    def test_binding_fix_preserves_inventory_and_target_guards(self):
++        r = row(profile_mode='PFC:swap_profile', source_file='library/core/src/pinned.rs')
++        good = export()
++        h = good['harnesses'][0]
++        h['file'] = r['source_file']
++        h['attributes']['kind']['ProofForContract']['target_fn'] = 'super :: profiles :: swap_profile'
++        with tempfile.TemporaryDirectory() as d:
++            p = Path(d) / 'export.json'
++            for field, value, state in [
++                ('file', 'library/core/src/other.rs', 'WRONG_SOURCE_FILE'),
++                ('resolved_unwind', 5, 'WRONG_UNWIND'),
++                ('attributes', {'kind': 'Proof'}, 'WRONG_MODE'),
++                ('unsupported_constructs', [{'status': 'SUCCESS'}], 'INCOMPLETE_CHECK_INVENTORY'),
++                ('checks', {**h['checks'], 'unreachable': ['p']}, 'INCOMPLETE_CHECK_INVENTORY'),
++            ]:
++                payload = copy.deepcopy(good); payload['harnesses'][0][field] = value
++                p.write_text(json.dumps(payload))
++                self.assertEqual(runner.parse_export(p, r)['state'], state)
++            good['target'] = 'wrong-target'; p.write_text(json.dumps(good))
++            self.assertEqual(runner.parse_export(p, r)['state'], 'WRONG_TARGET')
++

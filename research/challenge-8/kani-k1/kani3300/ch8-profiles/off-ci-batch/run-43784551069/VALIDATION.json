@@ -1,0 +1,43 @@
+{
+  "schema": "ch8-prof-off-intake-validation-v1",
+  "synthetic_tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -q test_runner.py test_profiles.py test_batch.py test_workflow_repo.py",
+    "cwd": "/root/kani-ch8-prof-off-intake-w11/ch8-prof-off-control",
+    "tests": 42,
+    "result": "PASS",
+    "elapsed_seconds": 4.162,
+    "execution_scope": "isolated Python only"
+  },
+  "static": {
+    "payload_hashes": "ALL_MATCH",
+    "source_manifest_oracles": "BYTE_IDENTICAL",
+    "ci_changed_paths": "EXACT",
+    "control_and_sibling_tree": "452b26330b97fc9b9816c28c64240bd667b2d4c0",
+    "fixed_tree": "b8751524e6be94edb9c69c88c11c1734ed5a89f4",
+    "sole_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "diff_check": "PASS",
+    "delta_patch_reconstruction": "b8751524e6be94edb9c69c88c11c1734ed5a89f4",
+    "delta_patch_format": "git diff --binary --unified=0; git apply --cached --unidiff-zero"
+  },
+  "replay": {
+    "zip_sha256": "6b1f8ed210d93aae32b3e512565df7d6726d43660c19cb3c614f612f6b1a15e9",
+    "original_classifier_snapshots_exact": 62,
+    "oracle_changes": 0,
+    "binding_mismatch_after_fix": 0
+  },
+  "review": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "decision": "GO_DELTA_ONLY",
+    "packet_sha256": "c55caa80f433d79d8f083b43bd4cae08ca8753db126e0e848e94825098a2e0f2",
+    "review_sha256": "4b2baf869e2bd9dd858d5a2476a879aad8b532d057bf2bf76f3354b7fa84cc4f"
+  },
+  "actions": {
+    "push": 0,
+    "ci": 0,
+    "ledger_writes": 0,
+    "local_cargo_rustc_kani_cbmc": 0,
+    "raw_logs_read": 0
+  },
+  "proof_credit": "NONE"
+}

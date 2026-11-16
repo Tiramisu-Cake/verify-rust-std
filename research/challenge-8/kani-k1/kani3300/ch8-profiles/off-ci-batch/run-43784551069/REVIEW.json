@@ -1,0 +1,35 @@
+{
+  "schema": "smallsort-candidate-review-v1",
+  "decision": "GO",
+  "scope": "review delta only; no proof credit",
+  "identities": {
+    "baseline_commit": "741b7183b4d6e9d752c0b7951206d7257f69f951",
+    "review_candidate_commit": "0089c0f2f8190ef1bb84011295e6a304fcdd8a00",
+    "delivery_commit": "112fcc9ada67ee2bb8e1712d47983d6717487b78",
+    "candidate_tree": "b8751524e6be94edb9c69c88c11c1734ed5a89f4",
+    "delivery_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "diff_sha256": "34a053251e293c184b0ebc111b4229ab5fd5b22df4a0c71d5c48223f898b8781",
+    "spec_sha256": "c8652c4dae7ac7f01eb6e44eb04201d9f7d68e09144beed1170253ac96b5751c"
+  },
+  "identity_checks": {
+    "candidate_and_delivery_tree_equal": true,
+    "delivery_has_stated_sole_parent": true,
+    "packet_diff_sha256_matches": true,
+    "all_declared_dependency_sha256_match": true,
+    "changed_paths_are_exactly_declared_four": true,
+    "manifest_unchanged": true,
+    "diff_check_clean": true
+  },
+  "review": {
+    "target_parser": "The stage checker accepts ASCII identifier paths with TokenStream whitespace around :: and unqualified forwarder identifiers; malformed, null, non-string, wrong-terminal and suffix-confusion forms remain rejected by the added synthetic cases and grammar.",
+    "invariants": "The delta changes only profile target matching, its synthetic fixtures/tests, and CI-REQUEST hash references. Existing source/mode/target/unwind/configuration and conservative inventory/required-cover checks are unchanged. Manifest, batch grouping, budgets/caps, pins, workflow, and consumer leaf gates are unchanged.",
+    "synthetic_tests": "Reviewed additions for spaced and local targets, negative target cases, source/mode/target/unwind/inventory guard preservation, and the 62-row batch fixture. Tests were not executed; no compiler/verifier or CI was run.",
+    "findings": []
+  },
+  "limitations": [
+    "Terminal-identifier checking does not independently resolve the contracted symbol; unrelated qualified paths ending in the expected name remain within the declared stage-check limitation.",
+    "Frozen ASCII nongeneric profile paths only.",
+    "GO applies only to the reviewed tree/delta and does not imply admission, proof acceptance, or proof credit."
+  ],
+  "proof_credit": "NONE"
+}
