@@ -31,7 +31,7 @@ macro_rules! positive {
             let len: usize = kani::any();
             kani::assume(len <= 3);
             let values = [$new(input[0]), $new(input[1]), $new(input[2])];
-            assert!(enabled::<$ty, KeyLess<$ty>>(), "S1_MODEL_ENABLED");
+            kani::assert(enabled::<$ty, KeyLess<$ty>>(), concat!(stringify!($name), "::model_enabled"));
             let before = snapshot::<$ty, KeyLess<$ty>>(&values[..len]);
             let mut ordered = true;
             let mut i = 1;
@@ -39,21 +39,16 @@ macro_rules! positive {
                 ordered = ordered && input[i - 1] <= input[i];
                 i += 1;
             }
-            assert!(post::<$ty, KeyLess<$ty>>(before, &values[..len]) == ordered,
-                "S1_IDENTITY_CHECKER");
+            kani::assert(post::<$ty, KeyLess<$ty>>(before, &values[..len]) == ordered, concat!(stringify!($name), "::identity_checker"));
             let sorted = sorted_prefix(input, len);
             let output = [$new(sorted[0]), $new(sorted[1]), $new(sorted[2])];
-            assert!(post::<$ty, KeyLess<$ty>>(before, &output[..len]),
-                "S1_CONSTRUCTED_SORTED_PERMUTATION");
+            kani::assert(post::<$ty, KeyLess<$ty>>(before, &output[..len]), concat!(stringify!($name), "::constructed_sorted_permutation"));
             let mut less = KeyLess::<$ty>::new();
-            assert!(less(&values[0], &values[1]) == (input[0] < input[1]),
-                "S1_FNMUT_TWO_PROJECTIONS");
-            assert!(FnOnce::call_once(KeyLess::<$ty>::new(), (&values[1], &values[0]))
-                == (input[1] < input[0]), "S1_FNONCE_TWO_PROJECTIONS");
-            assert!(size_of::<$ty>() == 1 && align_of::<$ty>() == 1,
-                "S1_ELEMENT_LAYOUT");
-            assert!(size_of::<KeyLess<$ty>>() == 0 && !needs_drop::<$ty>(),
-                "S1_COMPARATOR_ZST_ELEMENT_NO_DROP");
+            kani::assert(less(&values[0], &values[1]) == (input[0] < input[1]), concat!(stringify!($name), "::fnmut_two_projections"));
+            kani::assert(FnOnce::call_once(KeyLess::<$ty>::new(), (&values[1], &values[0]))
+                == (input[1] < input[0]), concat!(stringify!($name), "::fnonce_two_projections"));
+            kani::assert(size_of::<$ty>() == 1 && align_of::<$ty>() == 1, concat!(stringify!($name), "::element_layout"));
+            kani::assert(size_of::<KeyLess<$ty>>() == 0 && !needs_drop::<$ty>(), concat!(stringify!($name), "::comparator_zst_element_no_drop"));
             kani::cover(len == 0, "S1_model_N0_return");
             kani::cover(len == 1, "S1_model_N1_return");
             kani::cover(len == 2, "S1_model_N2_return");
