@@ -39,11 +39,11 @@ fn merge_fixture<const WRITE: bool>() {
 }
 
 #[kani::proof_for_contract(bidirectional_merge)]
-#[kani::unwind(8)]
+#[kani::unwind(17)]
 fn c_merge_source_write_restore() { merge_fixture::<true>(); }
 
 #[kani::proof_for_contract(bidirectional_merge)]
-#[kani::unwind(8)]
+#[kani::unwind(17)]
 fn c_merge_source_read_only() { merge_fixture::<false>(); }
 
 // Both variants execute the same real helper graph. Exactly the input pair is writable;
