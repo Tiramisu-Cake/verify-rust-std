@@ -178,4 +178,5 @@ S1 list fix (a) `c03363b3b0` (list timeout 1500 s) rejected by coordinator: orga
 C-01 dispatched (was held for the list fix; now batch, no global list).
 C-01 held (superseded): C controls (std `d073585946` on P′, control `cdd3c6d041`, g0 `425f10fbfd`) use the same global `kani list` that timed out in S1-02 — dispatch after the list fix.
 
-Item 1 used: 24 of 24 (A1 3, B 2, U 3, Profiles 4, E 2, C 2, Issue-MRE 2; owner +6 on 2026-11-16 for wave 0: confirm-main, F1 full CI, #5151 repro/#649, reserve). Item 2 used: 6 of 14 (S1 6; S1-04 a/b charged 0). Total 30 of 38.
+2026-11-16 | W0-F1 | kani#5183 opened (head bc8f8bb57e) on owner command; #5172 fixup 80e5d6fabc pushed + comment | charge 0
+Item 1 used: 24 of 26 (A1 3, B 2, U 3, Profiles 4, E 2, C 2, Issue-MRE 2; owner +6 on 2026-11-16 for wave 0: confirm-main, F1 full CI, #5151 repro/#649, reserve; owner +2 on 2026-11-16 for F3 standalone PR, unused). Item 2 used: 6 of 14 (S1 6; S1-04 a/b charged 0). Total 30 of 40.
