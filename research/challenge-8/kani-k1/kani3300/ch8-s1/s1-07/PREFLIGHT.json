@@ -1,0 +1,51 @@
+{
+  "control": {
+    "control_sha": "9208b373c0a08a265fa0d7493a6529e331065271",
+    "control_parent": "b25dd39a46ba90b167500997d546a5f2f5bd8f3b",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "status": "PASS"
+  },
+  "yaml": {
+    "yaml": "PASS",
+    "scalar_types": "NATIVE_LITERAL_PASS",
+    "runner_context": "STEP_ENV_ONLY",
+    "checkout_depth": {
+      "control": 4,
+      "export": 2,
+      "tool": 2
+    },
+    "layout": [
+      "control",
+      "export",
+      "tool"
+    ],
+    "dispatch": "NOT_RUN"
+  },
+  "source": {
+    "std_sha": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+    "std_tree": "a9caaa953d579641ecc6a4b84b5c16fa1d23563b",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "changed_file_sha256": {
+      "library/core/Cargo.toml": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb",
+      "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "library/core/src/slice/sort/shared/smallsort.rs": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+      "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+    }
+  },
+  "exact_candidate_shallow_clone": {
+    "control_sha": "9208b373c0a08a265fa0d7493a6529e331065271",
+    "control_parent": "b25dd39a46ba90b167500997d546a5f2f5bd8f3b",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "status": "PASS",
+    "transport": "file:// --no-local --single-branch --depth 4",
+    "shallow": "true",
+    "commit_count": 4,
+    "alternates": false
+  }
+}

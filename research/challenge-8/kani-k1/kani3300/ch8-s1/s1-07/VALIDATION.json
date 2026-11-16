@@ -1,0 +1,117 @@
+{
+  "schema": "ch8-s1-07-local-validation-v1",
+  "state": "READY_LOCAL_PACKAGE",
+  "assurance": "LOCAL_STATIC_AND_SYNTHETIC_ONLY",
+  "control_sha": "9208b373c0a08a265fa0d7493a6529e331065271",
+  "entry_g0": "44ee751dcfe192f11133099f85cb65348f51c1b6",
+  "unit_tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s ch8-s1-control -p test_*.py -q",
+    "cwd": "/root/kani-ch8-s1-07-w13",
+    "tests_run": 59,
+    "failures": 0,
+    "errors": 0,
+    "exit_code": 0,
+    "elapsed_seconds": 29.866,
+    "covered_paths": [
+      "success",
+      "error",
+      "timeout",
+      "partial export",
+      "missing export",
+      "null export",
+      "wrong-type export",
+      "explicit NOT_RUN",
+      "source-stage-target mismatch",
+      "execution exception",
+      "rich validation exception",
+      "snapshot error",
+      "missing required binary",
+      "binary drift",
+      "partial per-binary hash failure",
+      "monitor exception child reaping",
+      "source/variant cleanup",
+      "location exception exact fields/IDs/rows",
+      "collector replay",
+      "YAML scalar sensitivity",
+      "control/payload pinning",
+      "actual synthetic shallow clones",
+      "native metadata partial/null/wrong-type/missing/cap/capture failure",
+      "adjacent stale native metadata exclusion",
+      "metadata manifest digests/bytes and original errors",
+      "partial/invalid-UTF8 export retains subsequent records while INCOMPLETE",
+      "missing/unmatched/duplicate native refs fail UNKNOWN",
+      "collector rederives native refs and rejects tampering even with recomputed outer digest",
+      "invalid native UTF8 base64/raw digest preservation"
+    ],
+    "targeted_final_delta": {
+      "state": "SUPERSEDED_BY_FULL59_SUITE_AFTER_P2_FIX",
+      "earlier_targeted_tests": 12,
+      "earlier_targeted_elapsed_seconds": 1.618
+    },
+    "control_sha": "9208b373c0a08a265fa0d7493a6529e331065271"
+  },
+  "preflight": {
+    "state": "PASS",
+    "report": "PREFLIGHT.json",
+    "exact_candidate_shallow_depth": 4
+  },
+  "s106_location_replay": {
+    "state": "PASS",
+    "report": "LOCATION-REPLAY.json",
+    "properties_retained": 9986,
+    "groups": 14,
+    "location_records": 18,
+    "exact_ids": 2,
+    "historical_files_changed": false,
+    "recovers_after_measurements": false
+  },
+  "checks_unchanged": {
+    "std": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+    "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "roots": 35,
+    "groups": 14,
+    "rows_cfg_domain_unwind_checks_oracles_companions": "UNCHANGED"
+  },
+  "intermediate_failures": [
+    {
+      "test": "test_checkout_depth_policy_in_every_job",
+      "failures": 4,
+      "reason": "Negative sensitivity list still included newly valid depth4; changed to reject0,1,2,3,5. Final suite passes."
+    }
+  ],
+  "independent_review": {
+    "state": "PASS_WITH_LIMITATIONS",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "spec": "review-spec.json",
+    "packet_metadata": "review-packet-metadata.json",
+    "candidate_commit": "9208b373c0a08a265fa0d7493a6529e331065271",
+    "report": "REVIEW.json",
+    "open_findings": 0,
+    "resolved_findings": 2
+  },
+  "metadata_extension": {
+    "state": "CAPTURE_AVAILABLE_PINNED_FIELDS_WITH_EXPLICIT_UNKNOWN_GAPS",
+    "requirements": "W11-MISSING-FOR-S1-07.md",
+    "requirements_sha256": "48dba27cacf1933770e4ec61c257a24318456ce5096cac949f9ad886887e3589",
+    "collector": "binding_metadata.py",
+    "limits": {
+      "native_bytes": 8388608,
+      "native_files": 64
+    },
+    "compiler_instance_impl_substitution_expansion_property_MIR_edges": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+    "binding_admission": "PENDING_OFFLINE_W11",
+    "native_missing_or_nonunique": "UNKNOWN"
+  },
+  "forbidden_actions": {
+    "push": "NOT_RUN",
+    "CI": "NOT_RUN",
+    "publication": "NOT_RUN",
+    "ledger_changes": "NONE",
+    "local_cargo_rustc_Kani_CBMC": "NOT_RUN",
+    "raw_verifier_logs": "NOT_READ"
+  },
+  "qualified_acceptance": "PENDING_OFFLINE_W11",
+  "proof_credit": "NONE",
+  "g0_parent_at_package_commit": "ddf0bc7abaa6a9cae378df25d837db2def005066"
+}

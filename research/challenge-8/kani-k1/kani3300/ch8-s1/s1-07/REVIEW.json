@@ -1,0 +1,51 @@
+{
+  "schema": "ch8-s1-07-independent-review-v1",
+  "verdict": "PASS_WITH_LIMITATIONS",
+  "reviewer": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "agent": "/root/s107_review",
+    "nested_delegation": false
+  },
+  "baseline_commit": "b25dd39a46ba90b167500997d546a5f2f5bd8f3b",
+  "candidate_commit": "9208b373c0a08a265fa0d7493a6529e331065271",
+  "packet_sha256": "d659fdfb4553efc141a39cba2de3ad3d20ed7cb5a948b88cb812840b77a02dba",
+  "spec_sha256": "ad259e3558cbda437896681fdd8976d6681d458543f6c52d9f567163781f2e37",
+  "packet_check": "PASS_PACKET_VALID_NOT_REVIEWED",
+  "open_findings": [],
+  "resolved_findings": [
+    {
+      "candidate": "7230b875a99a51d6836f9908fb92ac11698b061f",
+      "severity": "P2",
+      "finding": "Missing/unmatched native metadata could leave COMPLETE/RECORDED despite empty native refs.",
+      "fix": "Zero/nonunique exact selector+crate matches become capture errors/UNKNOWN; collector independently rederives refs from retained bytes and requires exactly1 per row.",
+      "resolved_in": "9208b373c0a08a265fa0d7493a6529e331065271"
+    },
+    {
+      "candidate": "7230b875a99a51d6836f9908fb92ac11698b061f",
+      "severity": "LOW",
+      "finding": "Invalid UTF8 native payload bytes/digest omitted.",
+      "fix": "Base64 preserves original bytes and raw digest/length; state INCOMPLETE/UNKNOWN.",
+      "resolved_in": "9208b373c0a08a265fa0d7493a6529e331065271"
+    }
+  ],
+  "scope": [
+    "protected runner child shutdown/snapshot finalization/original errors",
+    "exact location-only decoder/collector/receipts",
+    "depth4 shallow/workflow preflight",
+    "same-invocation native metadata retention and manifest",
+    "partial-export pack preservation and P2 fix",
+    "v5 declared dependencies"
+  ],
+  "validation": {
+    "final_suite_rerun_by_reviewer": false,
+    "final_suite_main_agent": "59 PASS; VALIDATION.json"
+  },
+  "limitations": [
+    "Pinned-producer-unavailable compiler-instance/selected impl/substitutions/contract-expansion/property-MIR bindings remain UNKNOWN",
+    "Offline w11 admission not performed by this review",
+    "Actual CI/proof validation NOT_RUN"
+  ],
+  "proof_credit": "NONE",
+  "dispatch_authorized": false
+}

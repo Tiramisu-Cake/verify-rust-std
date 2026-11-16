@@ -1,0 +1,37 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-s1-07-w13",
+  "baseline_commit": "b25dd39a46ba90b167500997d546a5f2f5bd8f3b",
+  "candidate_commit": "9208b373c0a08a265fa0d7493a6529e331065271",
+  "defect": "Same-run binary-after measurements absent when rich/export processing fails; exact coordinator location exception needs consistent decoder/collector/receipt representation.",
+  "applicability": "S1-07 runner-only preparation with w11 metadata field list now available; exact std/tool/35 roots/14 groups/domain/checks unchanged; no dispatch. Delta from reviewed 3ddf adds bounded native metadata retention, fresh target namespace, manifest/collector checks, snapshot phase/required/missing fields, partial-export pack preservation.",
+  "invariants": [
+    "Preserve original exit and exception, rich inventory and source/variant cleanup; snapshot errors separate; missing/drift => UNKNOWN.",
+    "Location-only exception is restricted to exact two IDs, known rows, unreachable/SUCCESS/unreachable code/original display; null locations retained; admission belongs to offline w11.",
+    "No source/tool/domain/check reduction, proof credit NONE; no CI, push, publication, ledger, local compiler/verifier or raw logs."
+  ],
+  "controls": [
+    "Synthetic success/error/timeout/partial/missing/null/wrong-type/NOT_RUN/source-stage-target-mismatch/snapshot-error; YAML/shallow/preflight regressions.",
+    "Independent revalidation of snapshots and exact location exception receipts by collector.",
+    "Exact S1-07 control->b25->40b->0aac shallow graph: depth4 in all jobs, real file:// clone preflight; workflow includes test_s107.",
+    "Native metadata partial/null/wrong-type/missing/cap/capture errors; stale adjacent target metadata excluded; original exceptions/exits retained; invalid UTF-8/partial export remains INCOMPLETE but later rich/receipts retained.",
+    "Review P2 fix: zero/nonunique native selector+crate refs fail capture UNKNOWN; collector rederives from retained native bytes, validates digests, and requires exactly1 exact record per selected row. Invalid native UTF8 retained base64 with raw digest/bytes; errors remain INCOMPLETE."
+  ],
+  "dependencies": [
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/pack_evidence.py",
+    "ch8-s1-control/test_package.py",
+    "ch8-s1-control/test_s105.py",
+    ".github/workflows/ch8-s1.yml",
+    "kani_metadata/src/lib.rs",
+    "kani_metadata/src/harness.rs",
+    "kani-driver/src/call_cargo.rs",
+    "kani-driver/src/project.rs",
+    "kani-driver/src/session.rs"
+  ],
+  "known_limitations": [
+    "Pinned producer0aac native JSON lacks compiler-instance/DefPathHash/crate-disambiguator/substitutions/selected impl/clause/expansion/property-to-MIR edges; these remain explicit UNKNOWN. Invocation UUID/fresh target-dir is operational correlation only.",
+    "Native metadata cap 8MiB/64 files and existing artifact caps unchanged; actual CI compilation/proof validation NOT_RUN; offline admission w11."
+  ],
+  "prior_reviews": []
+}

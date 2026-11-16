@@ -1,0 +1,1346 @@
+From 9208b373c0a08a265fa0d7493a6529e331065271 Mon Sep 17 00:00:00 2001
+From: Tiramisu-Cake <igkharin@gmail.com>
+Date: Mon, 16 Nov 2026 20:28:42 +0300
+Subject: [PATCH] CH8 S1-07: finalize binary snapshots before rich validation
+ [skip ci]
+
+---
+ .github/workflows/ch8-s1.yml       |  16 +-
+ ch8-s1-control/CI-REQUEST.json     |  34 +--
+ ch8-s1-control/binding_metadata.py | 121 ++++++++++
+ ch8-s1-control/check_package.py    |   5 +-
+ ch8-s1-control/collect.py          |  91 +++++++-
+ ch8-s1-control/pack_evidence.py    |  19 +-
+ ch8-s1-control/rich_evidence.py    |  44 +++-
+ ch8-s1-control/runner.py           | 207 ++++++++++++++---
+ ch8-s1-control/test_package.py     |   3 +-
+ ch8-s1-control/test_runner.py      |  12 +-
+ ch8-s1-control/test_s107.py        | 354 +++++++++++++++++++++++++++++
+ 11 files changed, 833 insertions(+), 73 deletions(-)
+ create mode 100644 ch8-s1-control/binding_metadata.py
+ create mode 100644 ch8-s1-control/test_s107.py
+
+diff --git a/.github/workflows/ch8-s1.yml b/.github/workflows/ch8-s1.yml
+index 977f904c3..035532e78 100644
+--- a/.github/workflows/ch8-s1.yml
++++ b/.github/workflows/ch8-s1.yml
+@@ -33,7 +33,7 @@ jobs:
+       with:
+         ref: ${{ github.sha }}
+         path: control
+-        fetch-depth: 3
++        fetch-depth: 4
+         persist-credentials: false
+     - name: Validate control and synthetic wrapper
+       timeout-minutes: 1
+@@ -42,7 +42,7 @@ jobs:
+         PYTHONDONTWRITEBYTECODE: '1'
+       run: 'python3 check_package.py control --repo ..
+ 
+-        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py
++        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py test_s107.py
+ 
+         '
+     - name: Read immutable export pins
+@@ -142,7 +142,7 @@ jobs:
+       with:
+         ref: ${{ github.sha }}
+         path: control
+-        fetch-depth: 3
++        fetch-depth: 4
+         persist-credentials: false
+     - name: Validate control and synthetic wrapper
+       timeout-minutes: 1
+@@ -151,7 +151,7 @@ jobs:
+         PYTHONDONTWRITEBYTECODE: '1'
+       run: 'python3 check_package.py control --repo ..
+ 
+-        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py
++        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py test_s107.py
+ 
+         '
+     - name: Read immutable export pins
+@@ -251,7 +251,7 @@ jobs:
+       with:
+         ref: ${{ github.sha }}
+         path: control
+-        fetch-depth: 3
++        fetch-depth: 4
+         persist-credentials: false
+     - name: Validate control and synthetic wrapper
+       timeout-minutes: 1
+@@ -260,7 +260,7 @@ jobs:
+         PYTHONDONTWRITEBYTECODE: '1'
+       run: 'python3 check_package.py control --repo ..
+ 
+-        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py
++        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py test_s107.py
+ 
+         '
+     - name: Read immutable export pins
+@@ -367,7 +367,7 @@ jobs:
+       with:
+         ref: ${{ github.sha }}
+         path: control
+-        fetch-depth: 3
++        fetch-depth: 4
+         persist-credentials: false
+     - name: Validate control and synthetic wrapper
+       timeout-minutes: 1
+@@ -376,7 +376,7 @@ jobs:
+         PYTHONDONTWRITEBYTECODE: '1'
+       run: 'python3 check_package.py control --repo ..
+ 
+-        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py
++        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py test_s107.py
+ 
+         '
+     - name: Read immutable export pins
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index 994b576df..623749930 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -1,5 +1,5 @@
+ {
+-  "schema": "ch8-s1-05-ready-v1",
++  "schema": "ch8-s1-07-ready-v1",
+   "status": "READY",
+   "authorization": "PREPARATION_ONLY_NO_DISPATCH_OWNER_GO_REQUIRED",
+   "std_sha": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+@@ -1235,20 +1235,22 @@
+     }
+   ],
+   "ci_payload_sha256": {
+-    ".github/workflows/ch8-s1.yml": "eebf582b1c96cef1972a5b07a39bc1a3c5684d5d932b33b848abfa29514dd254",
++    ".github/workflows/ch8-s1.yml": "2f51f3793567fb000337ae384375dbc0622729d57193236e80763a5d4f1cea38",
+     "ch8-s1-control/activation-default.patch": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+     "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+-    "ch8-s1-control/check_package.py": "6d87bdc922af8dcd750512fcccf6b1cb2ff97f554e3fa6b352257980b60b7139",
+-    "ch8-s1-control/collect.py": "e5127d7fd1982eaac300cf1a0abe4897c28751aaae3bd914b3de8a9492f17dee",
++    "ch8-s1-control/check_package.py": "092be5eb1c4862a3081445a53cf2f129d0c419c3f130a81da761de11472a81e5",
++    "ch8-s1-control/collect.py": "bb9170a58af1e0cfcb93d9758730265f2ae78b019c7a0a9b50d348cca45cd6e7",
+     "ch8-s1-control/negative_oracle.py": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c",
+-    "ch8-s1-control/runner.py": "d3010c4f629bcba93ef88820915fabebdca36b88110296e1d21fc61220ab1374",
+-    "ch8-s1-control/test_package.py": "f1a05ece77d37b657701d0b173e364a1ac6e3f02f61fd6c8dc426f9c18de7cc2",
+-    "ch8-s1-control/test_runner.py": "b8de6214486b13460d6bf30d65da48a762b5ac0c0e086f2a34e5f3a1cfd22632",
++    "ch8-s1-control/runner.py": "8c35580085d490ae42053d8064b3a35a21ad457d9c80440f595efe095ab8edb7",
++    "ch8-s1-control/test_package.py": "ab1dac733bf15fe43e7b62fa66f384ce8ef8c6c8910045262e227b21d1dd44c7",
++    "ch8-s1-control/test_runner.py": "d8e9e479c4dbf21178f6d28b0e68bbddf6defe8d8ffc2e003fa31bb5e838c55a",
+     "ch8-s1-control/test_s104.py": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+     "ch8-s1-control/fixtures/s104-rich-fragment.json": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc",
+-    "ch8-s1-control/pack_evidence.py": "5343a2e17bb71baa06b74413ae3ff6adc8b678c91af7e343e018e7ad7001b408",
+-    "ch8-s1-control/rich_evidence.py": "60833d357aae37877842b6cb7278bd9098dcfec81291aa2164c2203802099882",
+-    "ch8-s1-control/test_s105.py": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e"
++    "ch8-s1-control/pack_evidence.py": "833004929291e3a6a96011c8579852fce7520e5dea6abd3af2c7611675619e8b",
++    "ch8-s1-control/rich_evidence.py": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
++    "ch8-s1-control/test_s105.py": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e",
++    "ch8-s1-control/test_s107.py": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0",
++    "ch8-s1-control/binding_metadata.py": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030"
+   },
+   "budgets": {
+     "jobs": 1,
+@@ -1325,6 +1327,7 @@
+     "ch8-s1-control/CI-REQUEST.json",
+     "ch8-s1-control/activation-default.patch",
+     "ch8-s1-control/activation-override.patch",
++    "ch8-s1-control/binding_metadata.py",
+     "ch8-s1-control/check_package.py",
+     "ch8-s1-control/collect.py",
+     "ch8-s1-control/fixtures/s104-rich-fragment.json",
+@@ -1335,7 +1338,8 @@
+     "ch8-s1-control/test_package.py",
+     "ch8-s1-control/test_runner.py",
+     "ch8-s1-control/test_s104.py",
+-    "ch8-s1-control/test_s105.py"
++    "ch8-s1-control/test_s105.py",
++    "ch8-s1-control/test_s107.py"
+   ],
+   "source_bindings": {
+     "stable_default_cell": {
+@@ -1925,7 +1929,7 @@
+     "phase_seconds": 8100,
+     "group_wall_seconds": "compile900 + sum(root600) + cleanup10; per job group partition only"
+   },
+-  "control_parent": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
++  "control_parent": "b25dd39a46ba90b167500997d546a5f2f5bd8f3b",
+   "legacy_symbolic_rows": [
+     {
+       "id": "freeze_copy_u8",
+@@ -2383,5 +2387,9 @@
+     "uncompressed_cap_per_group": 33554432,
+     "aggregate_compressed_cap": 117440512,
+     "raw_stdout_uploaded": false
+-  }
++  },
++  "binary_snapshot_policy": "Fixed kani-driver/kani-compiler/CBMC before and protected after child shutdown; independent of export/rich validation; missing/drift/error => UNKNOWN",
++  "location_exception_policy": "S1-07_EXACT_STOCK_UNREACHABLE_LOCATION_ONLY_V1: exact 18 row/variant observations, 2 IDs, class/description/SUCCESS/original display; null sites retained; offline w11 admission",
++  "binding_metadata_policy": "Same-invocation fresh target namespace; bounded exact native kani-metadata JSON bytes plus export/rich/compile manifest and input/config/source/variant/binary hashes; runner UUID is not compiler-instance identity. Missing compiler-instance/impl/substitution/clause/expansion/property-MIR edges remain UNKNOWN for offline w11.",
++  "binding_metadata_requirements_sha256": "48dba27cacf1933770e4ec61c257a24318456ce5096cac949f9ad886887e3589"
+ }
+diff --git a/ch8-s1-control/binding_metadata.py b/ch8-s1-control/binding_metadata.py
+new file mode 100644
+index 000000000..ab3d66efb
+--- /dev/null
++++ b/ch8-s1-control/binding_metadata.py
+@@ -0,0 +1,121 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Bounded same-invocation metadata retention, without inferred proof bindings."""
++import base64
++import hashlib
++import json
++from pathlib import Path
++
++NATIVE_BYTES_CAP = 8 * 1024 * 1024
++NATIVE_FILES_CAP = 64
++UNKNOWN = 'UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER'
++
++
++def digest(data):
++    return hashlib.sha256(data).hexdigest()
++
++
++def capture(dest, target, request, group, receipt):
++    """Only read native metadata in this invocation's fresh target directory.
++
++    The generated invocation key is not a rustc compilation/instance identity.
++    Native bytes and export/property records are retained for offline w11; no
++    terminal-name, ordinal, source-callsite or wrapper-name inference is made.
++    """
++    entries=[];errors=[];total=0;attempted=0;native_harnesses=[]
++    if target is not None and target.is_dir():
++        for path in target.rglob('*.kani-metadata.json'):
++            if attempted >= NATIVE_FILES_CAP:
++                errors.append('native metadata file count cap');break
++            attempted+=1
++            try:
++                if path.is_symlink() or target.resolve() not in path.resolve().parents:
++                    raise ValueError('native metadata path outside invocation directory')
++                size=path.stat().st_size
++                if total+size > NATIVE_BYTES_CAP:
++                    raise ValueError('native metadata byte cap')
++                with path.open('rb') as stream:
++                    data=stream.read(NATIVE_BYTES_CAP-total+1)
++                if total+len(data)>NATIVE_BYTES_CAP:
++                    raise ValueError('native metadata byte cap')
++                total+=len(data)
++                try:
++                    text=data.decode('utf-8');encoding='utf-8'
++                    value=json.loads(text)
++                    state='CAPTURED' if isinstance(value,dict) else 'WRONG_TYPE'
++                except UnicodeError:
++                    text=base64.b64encode(data).decode('ascii');encoding='base64'
++                    state='INVALID_UTF8'
++                except ValueError:
++                    state='INVALID_OR_PARTIAL'
++                if state!='CAPTURED':errors.append(str(path.relative_to(target))+': '+state)
++                # Encapsulate even invalid/partial JSON as exact text. Never
++                # silently discard suffixes, placeholders or producer fields.
++                entries.append({'path':str(path.relative_to(target)),'bytes':len(data),
++                                'sha256':digest(data),'state':state,'text':text,'encoding':encoding})
++                if state=='CAPTURED':
++                    for key in ('proof_harnesses','test_harnesses'):
++                        harnesses=value.get(key,[])
++                        if not isinstance(harnesses,list):
++                            errors.append(str(path.relative_to(target))+': '+key+' wrong type')
++                            continue
++                        for index,harness in enumerate(harnesses):
++                            if isinstance(harness,dict):
++                                native_harnesses.append({'metadata_path':str(path.relative_to(target)),
++                                    'pointer':'/'+key+'/'+str(index),'name':harness.get('pretty_name'),
++                                    'crate':harness.get('crate_name')})
++            except (OSError,ValueError,UnicodeError) as exc:
++                errors.append(str(path)+': '+type(exc).__name__+': '+str(exc))
++    artifacts=[]
++    for name in ('export.json','properties.json','compile/receipt.json'):
++        path=dest/name
++        if path.is_file():
++            hasher=hashlib.sha256();size=0
++            with path.open('rb') as stream:
++                for block in iter(lambda:stream.read(1024*1024),b''):
++                    hasher.update(block);size+=len(block)
++            artifacts.append({'path':name,'bytes':size,'sha256':hasher.hexdigest()})
++        else:artifacts.append({'path':name,'state':'MISSING','bytes':None,'sha256':None})
++    gaps={key:UNKNOWN for key in ('compilation_id','harness_instance','resolved_target',
++          'contract_resolution','effective_contract_clauses','assertion_origin','property_origin',
++          'cover_predicate_and_expansion','target_wrapper_property_edges')}
++    rows=[]
++    for row in group['rows']:
++        crate=request.get('source_bindings',{}).get(row['id'],{}).get('crate')
++        matches=[x for x in native_harnesses if x['name']==row['selector'] and x['crate']==crate]
++        if len(matches)!=1:
++            errors.append(row['id']+': missing/nonunique exact native selector/crate record')
++        rows.append({'group_id':group['id'],'row_id':row['id'],'variant':row['variant'],
++                     'crate':crate,'harness':row['selector'],'mode':row['mode'],
++                     'native_harness_records':matches,
++                     'native_record_scope':'EXACT_SELECTOR_CRATE_WITHIN_INVOCATION_ONLY',
++                     'binding_gaps':gaps})
++    document={'schema':'ch8-s1-07-binding-metadata-v1',
++              'state':'INCOMPLETE' if errors else 'CAPTURED_AVAILABLE_FIELDS',
++              'invocation_id':receipt['invocation_id'],
++              'identity_scope':'RUNNER_INVOCATION_DIRECTORY_NOT_COMPILER_INSTANCE',
++              'compilation_id':None,'compiler_identity_status':UNKNOWN,
++              'group_id':group['id'],'variant':group['variant'],
++              'std_sha':receipt['std_sha'],'tool_sha':receipt['tool_sha'],
++              'request_sha256':receipt['request_sha256'],
++              'requirements_sha256':request.get('binding_metadata_requirements_sha256'),
++              'source_under_test':receipt.get('source_under_test'),
++              'source_bindings':{row['id']:request.get('source_bindings',{}).get(row['id']) for row in group['rows']},
++              'argv':receipt['argv'],'effective_cfg':receipt.get('effective_cfg'),
++              'unwind':group['unwind'],'expected_flags_and_checks':request.get('flags'),
++              'configuration_sha256':digest(json.dumps({'flags':request.get('flags'),
++                  'cfg':receipt.get('effective_cfg'),'argv':receipt['argv']},sort_keys=True).encode()),
++              'execution':receipt.get('execution'),'execution_exception':receipt.get('execution_exception'),
++              'original_exception':receipt.get('original_exception'),
++              'source_before':receipt.get('source_before'),'source_after':receipt.get('source_after'),
++              'binaries_before':receipt.get('tool_fingerprints_before'),
++              'binaries_after':receipt.get('tool_fingerprints_after'),
++              'artifacts':artifacts,'native_metadata':entries,
++              'native_metadata_state':'CAPTURED' if entries else 'MISSING_OR_NOT_PRODUCED',
++              'rows':rows,
++              'errors':errors,'qualified_acceptance':'PENDING_OFFLINE_W11','proof_credit':'NONE'}
++    data=(json.dumps(document,indent=2,sort_keys=True)+'\n').encode()
++    path=dest/'binding-metadata.json';path.write_bytes(data)
++    return {'path':path.name,'bytes':len(data),'sha256':digest(data),'state':document['state'],
++            'invocation_id':receipt['invocation_id'],'native_files':len(entries),
++            'native_bytes':total,'errors':errors,'binding_status':UNKNOWN,'proof_credit':'NONE'}
+diff --git a/ch8-s1-control/check_package.py b/ch8-s1-control/check_package.py
+index 8ef3054b2..aa1ca0c2c 100644
+--- a/ch8-s1-control/check_package.py
++++ b/ch8-s1-control/check_package.py
+@@ -10,9 +10,9 @@ import subprocess
+ import time
+ 
+ HERE = Path(__file__).resolve().parent
+-# Frozen graph: control -> control_parent -> tool_sha. Export/tool identity
++# Frozen graph: S1-07 control -> b25 control_parent -> 40b control -> tool_sha. Export/tool identity
+ # operations use only HEAD, its tree and the pinned commit; retain their depth 2.
+-CHECKOUT_DEPTHS = {'control': 3, 'export': 2, 'tool': 2}
++CHECKOUT_DEPTHS = {'control': 4, 'export': 2, 'tool': 2}
+ 
+ 
+ def load_yaml(text):
+@@ -140,6 +140,7 @@ def check_yaml(path):
+         assert steps[-1]['with']['path']=='${{ env.RECEIPT_ROOT }}/group-evidence.json.gz'
+         assert 'pack_evidence.py --root' in steps[-2]['run']
+         assert 'test_s105.py' in steps[2]['run']
++        assert 'test_s107.py' in steps[2]['run']
+     return {'yaml':'PASS','scalar_types':'NATIVE_LITERAL_PASS',
+             'runner_context':'STEP_ENV_ONLY','checkout_depth':dict(CHECKOUT_DEPTHS),
+             'layout':['control','export','tool'],'dispatch':'NOT_RUN'}
+diff --git a/ch8-s1-control/collect.py b/ch8-s1-control/collect.py
+index 1a0dfd643..c5fdc019f 100644
+--- a/ch8-s1-control/collect.py
++++ b/ch8-s1-control/collect.py
+@@ -1,6 +1,7 @@
+ #!/usr/bin/env python3
+ """Combine structured matrix receipts; never grants proof credit or opens logs."""
+ import argparse
++import base64
+ import gzip
+ import hashlib
+ from io import BytesIO
+@@ -11,7 +12,7 @@ from pathlib import Path
+ import runner as r
+ 
+ 
+-def read(path):
++def read_bytes(path):
+     if path.is_file():
+         if path.stat().st_size > r.ARTIFACT_CAP_BYTES:
+             raise r.RunnerError('oversize receipt')
+@@ -31,10 +32,19 @@ def read(path):
+         if doc.get('schema') != 'ch8-s1-05-artifact-v1' or doc.get('state') != 'PACKAGED':
+             raise r.RunnerError('incomplete compact artifact')
+         entry = doc['files'][str(path.relative_to(root))]
+-        data = entry['text'].encode('utf-8')
++        if entry.get('encoding','utf-8')=='utf-8':
++            data=entry['text'].encode('utf-8')
++        elif entry.get('encoding')=='base64':
++            data=base64.b64decode(entry['text'],validate=True)
++        else:
++            raise r.RunnerError('unknown compact entry encoding')
+         if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+             raise r.RunnerError('compact entry integrity mismatch')
+-    value = json.loads(data)
++    return data
++
++
++def read(path):
++    value = json.loads(read_bytes(path))
+     if not isinstance(value, dict):
+         raise r.RunnerError('receipt must be an object')
+     return value
+@@ -65,8 +75,75 @@ def collect(roots,request):
+             before,after=receipt.get('source_before'),receipt.get('source_after')
+             expected_source={**expected_identity,'changed_file_sha256':request['changed_file_sha256']}
+             intact=(receipt.get('request_sha256')==request_hash and before==expected_source and after==expected_source
+-                    and receipt.get('state')=='COMPLETE')
++                    and receipt.get('state')=='COMPLETE'
++                    and r.fingerprints_match(receipt.get('tool_fingerprints_before'),
++                                             receipt.get('tool_fingerprints_after'))
++                    and not receipt.get('snapshot_errors'))
++            if intact:
++                ref=receipt.get('binding_metadata')
++                if (not isinstance(ref,dict) or ref.get('state')!='CAPTURED_AVAILABLE_FIELDS'
++                        or ref.get('errors') or ref.get('invocation_id')!=receipt.get('invocation_id')):
++                    intact=False
+             if intact:
++                data=read_bytes(root/'groups'/gid/'binding-metadata.json')
++                metadata=json.loads(data)
++                if (len(data)!=ref.get('bytes') or hashlib.sha256(data).hexdigest()!=ref.get('sha256')
++                        or not isinstance(metadata,dict) or metadata.get('group_id')!=gid
++                        or metadata.get('invocation_id')!=receipt.get('invocation_id')
++                        or metadata.get('request_sha256')!=request_hash
++                        or metadata.get('variant')!=group['variant']
++                        or metadata.get('state')!='CAPTURED_AVAILABLE_FIELDS' or metadata.get('errors')
++                        or metadata.get('std_sha')!=request['std_sha'] or metadata.get('tool_sha')!=request['tool_sha']
++                        or metadata.get('argv')!=receipt.get('argv')
++                        or metadata.get('effective_cfg')!=receipt.get('effective_cfg')
++                        or metadata.get('source_under_test')!=receipt.get('source_under_test')
++                        or metadata.get('binaries_before')!=receipt.get('tool_fingerprints_before')
++                        or metadata.get('binaries_after')!=receipt.get('tool_fingerprints_after')):
++                    raise r.RunnerError('binding metadata identity/digest mismatch')
++                expected_rows=[(gid,row['id'],row['selector'],row['variant'],
++                                request['source_bindings'][row['id']]['crate'],row['mode'])
++                               for row in group['rows']]
++                actual_rows=[(x.get('group_id'),x.get('row_id'),x.get('harness'),x.get('variant'),
++                              x.get('crate'),x.get('mode'))
++                             for x in metadata.get('rows',[])]
++                if actual_rows!=expected_rows:
++                    raise r.RunnerError('binding metadata row mismatch')
++                native=metadata.get('native_metadata');native_refs=[]
++                if (metadata.get('native_metadata_state')!='CAPTURED' or
++                        not isinstance(native,list) or not native):
++                    raise r.RunnerError('missing native metadata inventory')
++                for entry in native:
++                    if (not isinstance(entry,dict) or entry.get('state')!='CAPTURED'
++                            or entry.get('encoding')!='utf-8' or not isinstance(entry.get('text'),str)):
++                        raise r.RunnerError('invalid native metadata entry')
++                    raw=entry['text'].encode('utf-8')
++                    if len(raw)!=entry.get('bytes') or hashlib.sha256(raw).hexdigest()!=entry.get('sha256'):
++                        raise r.RunnerError('native metadata digest mismatch')
++                    value=json.loads(raw)
++                    if not isinstance(value,dict):raise r.RunnerError('native metadata must be object')
++                    for key in ('proof_harnesses','test_harnesses'):
++                        harnesses=value.get(key,[])
++                        if not isinstance(harnesses,list):raise r.RunnerError('native harnesses wrong type')
++                        for index,harness in enumerate(harnesses):
++                            if isinstance(harness,dict):
++                                native_refs.append({'metadata_path':entry['path'],'pointer':'/'+key+'/'+str(index),
++                                    'name':harness.get('pretty_name'),'crate':harness.get('crate_name')})
++                for row in metadata['rows']:
++                    matches=[x for x in native_refs if x['name']==row['harness'] and x['crate']==row['crate']]
++                    if len(matches)!=1 or row.get('native_harness_records')!=matches:
++                        raise r.RunnerError('missing/nonunique native harness binding')
++                artifacts=metadata.get('artifacts')
++                if (not isinstance(artifacts,list) or len(artifacts)!=3
++                        or any(not isinstance(item,dict) for item in artifacts)
++                        or {item.get('path') for item in artifacts}!=
++                           {'export.json','properties.json','compile/receipt.json'}):
++                    raise r.RunnerError('binding metadata artifact inventory mismatch')
++                for item in artifacts:
++                    if item.get('path') not in ('export.json','properties.json','compile/receipt.json'):
++                        raise r.RunnerError('binding metadata artifact path mismatch')
++                    raw=read_bytes(root/'groups'/gid/item['path'])
++                    if len(raw)!=item.get('bytes') or hashlib.sha256(raw).hexdigest()!=item.get('sha256'):
++                        raise r.RunnerError('binding metadata artifact digest mismatch')
+                 stock=read(root/'groups'/gid/'export.json')
+                 rich=read(root/'groups'/gid/'properties.json')
+                 decoder=rich_evidence.RegularEvidence(receipt['selectors'], Path('/'))
+@@ -75,13 +152,17 @@ def collect(roots,request):
+                 if rich.get('state') != 'COMPLETE':
+                     raise r.RunnerError('incomplete rich inventory')
+                 decoder.validate(stock)
++                exceptions=decoder.location_exceptions()
++                if (rich.get('location_exceptions') != exceptions or
++                        receipt.get('location_exceptions') != exceptions):
++                    raise r.RunnerError('location exception receipt mismatch')
+             for row in group['rows']:
+                 observed=byid.get(row['id'])
+                 if (not isinstance(observed,dict) or observed.get('selector')!=row['selector']
+                         or observed.get('group')!=gid or observed.get('mode')!=row['mode']
+                         or observed.get('variant')!=row['variant']):
+                     raise r.RunnerError('matrix row identity mismatch')
+-                observations[row['id']]=observed if intact else {**observed,'outcome':'UNKNOWN','reason':'group source/completion mismatch'}
++                observations[row['id']]=observed if intact else {**observed,'outcome':'UNKNOWN','reason':'group source/completion/binary snapshot mismatch'}
+         seen.update(selected)
+     missing=[gid for gid in groups if gid not in seen]
+     unions=[r.aggregate_replacement_union(u,request['rows'],observations) for u in request['replacement_unions']]
+diff --git a/ch8-s1-control/pack_evidence.py b/ch8-s1-control/pack_evidence.py
+index b03133d4f..2b2703173 100644
+--- a/ch8-s1-control/pack_evidence.py
++++ b/ch8-s1-control/pack_evidence.py
+@@ -1,5 +1,6 @@
+ """One deterministic compact structured artifact per job. Never reads raw logs."""
+ import argparse
++import base64
+ import gzip
+ import hashlib
+ import json
+@@ -13,7 +14,7 @@ NAME = 'group-evidence.json.gz'
+ def pack(root):
+     files = {}
+     total = 0
+-    error = None
++    errors = []
+     try:
+         for path in sorted(root.rglob('*.json')):
+             if path.is_symlink():
+@@ -23,11 +24,21 @@ def pack(root):
+             if total > UNCOMPRESSED_CAP:
+                 raise ValueError('structured input cap')
+             data = path.read_bytes()
+-            json.loads(data)  # Reject partial/invalid JSON, preserve original bytes.
++            try:
++                json.loads(data)
++            except (ValueError, UnicodeError) as exc:
++                # Preserve the exact partial text and continue to receipts/rich
++                # inventory. The artifact remains INCOMPLETE and unqualified.
++                errors.append(str(path.relative_to(root)) + ': ' + str(exc))
++            try:
++                text=data.decode('utf-8');encoding='utf-8'
++            except UnicodeError:
++                text=base64.b64encode(data).decode('ascii');encoding='base64'
+             files[str(path.relative_to(root))] = {'sha256': hashlib.sha256(data).hexdigest(),
+-                                               'bytes': len(data), 'text': data.decode('utf-8')}
++                                               'bytes': len(data), 'text': text, 'encoding':encoding}
+     except (OSError, ValueError) as exc:
+-        error = str(exc)
++        errors.append(str(exc))
++    error = '; '.join(errors) if errors else None
+     doc = {'schema': 'ch8-s1-05-artifact-v1', 'state': 'INCOMPLETE' if error else 'PACKAGED',
+            'error': error, 'files': files, 'proof_credit': 'NONE'}
+     raw = json.dumps(doc, ensure_ascii=False, separators=(',', ':')).encode()
+diff --git a/ch8-s1-control/rich_evidence.py b/ch8-s1-control/rich_evidence.py
+index 500412dc5..f029656e5 100644
+--- a/ch8-s1-control/rich_evidence.py
++++ b/ch8-s1-control/rich_evidence.py
+@@ -14,6 +14,40 @@ CHECK_BUCKETS = ('failure', 'unreachable', 'undetermined', 'error', 'unknown', '
+ COVER_BUCKETS = ('satisfied', 'unsatisfiable', 'unreachable', 'undetermined', 'error', 'unknown', 'other')
+ 
+ 
++# Coordinator-authorized location-only exception. Exact same-row identities from
++# S1-06; no source site is reconstructed and offline admission remains pending.
++LOCATION_POLICY = 'S1-07_EXACT_STOCK_UNREACHABLE_LOCATION_ONLY_V1'
++_SMALLSORT = 'slice::sort::shared::smallsort::'
++_MODEL = _SMALLSORT + 'verify::sorting_model::'
++_LOCATION_U8 = (_SMALLSORT + 'small_sort_general_with_scratch::<u8, ' +
++                _MODEL + 'KeyLess<u8>>.unreachable.1')
++_LOCATION_NONCOPY = (_SMALLSORT + 'small_sort_general_with_scratch::<' + _MODEL +
++                     'NonCopyByte, ' + _MODEL + 'KeyLess<' + _MODEL +
++                     'NonCopyByte>>.unreachable.1')
++LOCATION_EXCEPTION_BINDINGS = {
++    _SMALLSORT + 'verify::sorting_entry_smoke::' + family + '_n' + str(n): pid
++    for family, pid in (('freeze_copy_u8', _LOCATION_U8),
++                        ('freeze_default_noncopy', _LOCATION_NONCOPY),
++                        ('stable_freeze_u8', _LOCATION_U8),
++                        ('unstable_freeze_u8', _LOCATION_U8))
++    for n in range(4)
++}
++LOCATION_EXCEPTION_BINDINGS[_SMALLSORT + 'verify::sorting_entry_controls::stable_freeze_activation'] = _LOCATION_U8
++
++
++
++def location_exception(harness, p):
++    pid = LOCATION_EXCEPTION_BINDINGS.get(harness)
++    if pid is None:
++        return False
++    function = pid.removesuffix('.unreachable.1')
++    return (p.get('id') == pid and p.get('display_id') == pid and
++            p.get('class') == 'unreachable' and p.get('status') == 'SUCCESS' and
++            p.get('description') == 'unreachable code' and
++            p.get('file') is None and p.get('line') is None and
++            p.get('location_display') == 'library/core/src/lib.rs:0:0 in function ' + function)
++
++
+ def require(ok, message):
+     if not ok:
+         raise ValueError(message)
+@@ -178,13 +212,21 @@ class RegularEvidence:
+         # merely because its decoder has no streaming missing_sites list.
+         require(all(isinstance(p.get('file'), str) and p['file'] and
+                     isinstance(p.get('line'), str) and re.fullmatch(r'[1-9][0-9]*', p['line'])
+-                    for records in self.records.values() for p in records),
++                    or location_exception(harness, p)
++                    for harness, records in self.records.items() for p in records),
+                 'rich metadata incomplete: file/line missing')
+         self.complete = True
+ 
++    def location_exceptions(self):
++        return [{'policy': LOCATION_POLICY, 'harness': name, 'property': dict(p),
++                 'scope': 'LOCATION_ONLY', 'qualified_acceptance': 'PENDING_OFFLINE_ACCEPTANCE'}
++                for name, records in self.records.items() for p in records
++                if location_exception(name, p)]
++
+     def document(self):
+         return {'schema': 'ch8-s1-05-rich-v1', 'state': 'COMPLETE' if self.complete else 'INCOMPLETE',
+                 'error': self.error, 'observed_stdout_bytes': self.bytes,
+                 'missing_sites': self.missing_sites,
++                'location_exceptions': self.location_exceptions(),
+                 'harnesses': [{'name': k, 'properties': v} for k, v in self.records.items()],
+                 'qualified_acceptance': 'PENDING_OFFLINE_ACCEPTANCE', 'proof_credit': 'NONE'}
+diff --git a/ch8-s1-control/runner.py b/ch8-s1-control/runner.py
+index 5706257b8..2ca4ef7f0 100644
+--- a/ch8-s1-control/runner.py
++++ b/ch8-s1-control/runner.py
+@@ -18,9 +18,11 @@ import subprocess
+ import sys
+ import threading
+ import time
++import uuid
+ from typing import Any
+ 
+ import rich_evidence
++import binding_metadata
+ 
+ HERE = Path(__file__).resolve().parent
+ REQUEST_PATH = HERE / "CI-REQUEST.json"
+@@ -548,24 +550,29 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+     except OSError as exc:
+         info.update(runner_error=f"exec failed: {exc}", elapsed_seconds=time.monotonic() - started)
+         if compile_monitor is not None:
+-            compile_monitor.finish(info, state)
++            try:
++                compile_monitor.finish(info, state)
++            except Exception as finish_exc:
++                info["runner_exception"] = {"type": type(finish_exc).__name__, "message": str(finish_exc)}
+         return info
+     threads = [threading.Thread(target=_read_pipe, args=(proc.stdout, out / "stdout.log", stdout_cap,
+                                                          state, lock, "stdout", capture_tail, rich_parser), daemon=True),
+                threading.Thread(target=_read_pipe, args=(proc.stderr, out / "stderr.log", stderr_cap,
+                                                          state, lock, "stderr", capture_tail), daemon=True)]
+-    for thread in threads: thread.start()
+     deadline = started + timeout
+     killed_for = None
+     external_signal: list[int] = []
+     previous_handlers = {}
++    cleanup_errors = []
+     def handle_external(signum, _frame):
+         external_signal.append(signum)
+         _kill_group(proc.pid)
+-    for sig in (signal.SIGTERM, signal.SIGINT):
+-        previous_handlers[sig] = signal.getsignal(sig)
+-        signal.signal(sig, handle_external)
+     try:
++        for thread in threads:
++            thread.start()
++        for sig in (signal.SIGTERM, signal.SIGINT):
++            previous_handlers[sig] = signal.getsignal(sig)
++            signal.signal(sig, handle_external)
+         while proc.poll() is None or any(thread.is_alive() for thread in threads):
+             rss = _group_rss_kib(proc.pid)
+             info["rss_peak_kib"] = max(info["rss_peak_kib"], rss)
+@@ -590,18 +597,47 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+             if time.monotonic() >= deadline:
+                 killed_for = "timeout"; info["timed_out"] = True; break
+             time.sleep(0.05)
++    except BaseException as exc:
++        info["runner_exception"] = {"type": type(exc).__name__, "message": str(exc)}
++        killed_for = "runner_exception"
+     finally:
++        if killed_for:
++            info["termination_reason"] = killed_for
++        # This boundary also covers monitor, sampling, signal-setup and thread
++        # failures. The caller snapshots binaries only after shutdown/reaping.
++        try:
++            _kill_group(proc.pid, 0 if info.get("runner_exception") else 5.0)
++        except Exception as exc:
++            cleanup_errors.append(f"kill: {type(exc).__name__}: {exc}")
++            try:
++                os.killpg(proc.pid, signal.SIGKILL)
++            except ProcessLookupError:
++                pass
++        try:
++            code = proc.wait(timeout=7)
++        except subprocess.TimeoutExpired:
++            os.killpg(proc.pid, signal.SIGKILL)
++            code = proc.wait()
++        info["original_exit_code"] = code
++        for thread in threads:
++            if thread.ident is not None:
++                thread.join(timeout=2)
++                if thread.is_alive():
++                    cleanup_errors.append("pipe reader did not stop")
+         for sig, handler in previous_handlers.items():
+-            signal.signal(sig, handler)
+-    if killed_for:
+-        info["termination_reason"] = killed_for
+-        _kill_group(proc.pid)
+-    try:
+-        code = proc.wait(timeout=7)
+-    except subprocess.TimeoutExpired:
+-        _kill_group(proc.pid, 0)
+-        code = proc.wait()
+-    for thread in threads: thread.join(timeout=2)
++            try:
++                signal.signal(sig, handler)
++            except Exception as exc:
++                cleanup_errors.append(f"restore signal: {type(exc).__name__}: {exc}")
++        shutdown_deadline = time.monotonic() + 2
++        while _group_has_live_members(proc.pid) and time.monotonic() < shutdown_deadline:
++            time.sleep(0.01)
++        info["child_shutdown_verified"] = not _group_has_live_members(proc.pid)
++        if not info["child_shutdown_verified"]:
++            cleanup_errors.append("process group still has live members")
++        if cleanup_errors:
++            info["cleanup_errors"] = cleanup_errors
++            info.setdefault("termination_reason", "child_cleanup_error")
+     info["original_exit_code"] = code
+     if code < 0:
+         info["signal"] = -code
+@@ -619,11 +655,19 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+         info["termination_reason"] = "stdout_cap"
+     elif state["stderr_cap"] and not info.get("termination_reason"):
+         info["termination_reason"] = "stderr_cap"
+-    if export_path is not None and export_path.exists() and export_path.stat().st_size > export_cap:
+-        info["termination_reason"] = "export_cap"
++    try:
++        if export_path is not None and export_path.exists() and export_path.stat().st_size > export_cap:
++            info["termination_reason"] = "export_cap"
++    except OSError as exc:
++        info.setdefault("runner_exception", {"type": type(exc).__name__, "message": str(exc)})
++        info.setdefault("termination_reason", "export_stat_error")
+     info["elapsed_seconds"] = round(time.monotonic() - started, 3)
+     if compile_monitor is not None:
+-        compile_monitor.finish(info, state)
++        try:
++            compile_monitor.finish(info, state)
++        except BaseException as exc:
++            info.setdefault("runner_exception", {"type": type(exc).__name__, "message": str(exc)})
++            info.setdefault("termination_reason", "compile_receipt_error")
+     return info
+ 
+ 
+@@ -764,19 +808,74 @@ def _write_json(path: Path, value: Any) -> None:
+ 
+ def binary_fingerprints(tool: Path, export: dict[str, Any]) -> dict[str, Any]:
+     candidates = {"kani_driver": tool / "target/kani/bin/kani-driver",
+-                  "kani_compiler": tool / "target/kani/bin/kani-compiler"}
++                  "kani_compiler": tool / "target/kani/bin/kani-compiler",
++                  "cbmc": None}
+     cbmc = shutil.which("cbmc")
+     if cbmc:
+         candidates["cbmc"] = Path(cbmc)
+     tools = export.get("tools") if isinstance(export, dict) else None
+     fingerprints = {}
+     for name, path in candidates.items():
+-        fingerprints[name] = {"path": str(path), "sha256": sha256(path) if path.is_file() else None}
++        item = {"path": str(path) if path is not None else None, "sha256": None}
++        try:
++            if path is not None and path.is_file():
++                item["sha256"] = sha256(path)
++        except Exception as exc:
++            item["error"] = f"{type(exc).__name__}: {exc}"
++        fingerprints[name] = item
+     required = all(fingerprints.get(key, {}).get("sha256") for key in ("kani_driver", "kani_compiler", "cbmc"))
+     return {"binaries": fingerprints, "required_hashes_present": required,
+             "reported_versions": tools if isinstance(tools, dict) else None}
+ 
+ 
++def snapshot_binaries(tool: Path, receipt: dict[str, Any], stage: str) -> dict[str, Any]:
++    """Fixed binaries are measured even without a parseable stock export.
++
++    Failure to measure one binary must neither hide the others nor replace the
++    child's original exit/exception. The receipt keeps these errors separately.
++    """
++    try:
++        snapshot = binary_fingerprints(tool, {})
++    except Exception as exc:
++        snapshot = {"binaries": {}, "required_hashes_present": False,
++                    "error": f"{type(exc).__name__}: {exc}"}
++    required = ["kani_driver", "kani_compiler", "cbmc"]
++    missing = [name for name in required if not snapshot["binaries"].get(name, {}).get("sha256")]
++    snapshot = dict(snapshot)
++    snapshot.update(required_binaries=required, missing_binaries=missing,
++                    phase="BEFORE_CHILD" if stage == "before" else "AFTER_CHILD_SHUTDOWN",
++                    snapshot_completed=True,
++                    state="COMPLETE" if not missing and not snapshot.get("error") else "INCOMPLETE")
++    receipt["tool_fingerprints_" + stage] = snapshot
++    errors = receipt.setdefault("snapshot_errors", [])
++    if snapshot.get("error"):
++        errors.append({"stage": stage, "error": snapshot["error"]})
++    for name, item in snapshot["binaries"].items():
++        if item.get("error") or not item.get("sha256"):
++            errors.append({"stage": stage, "binary": name,
++                           "error": item.get("error", "required binary missing")})
++    return snapshot
++
++
++def fingerprints_match(before, after):
++    for snapshot in (before, after):
++        if (not isinstance(snapshot, dict) or snapshot.get("required_hashes_present") is not True
++                or snapshot.get("error") or not isinstance(snapshot.get("binaries"), dict)):
++            return False
++        for name in ("kani_driver", "kani_compiler", "cbmc"):
++            item = snapshot["binaries"].get(name)
++            if (not isinstance(item, dict) or item.get("error") or
++                    not isinstance(item.get("path"), str) or not item["path"] or
++                    not isinstance(item.get("sha256"), str) or
++                    re.fullmatch(r"[0-9a-f]{64}", item["sha256"]) is None):
++                return False
++    return before["binaries"] == after["binaries"]
++
++
++def capture_binding_metadata(dest, target, request, group, receipt):
++    return binding_metadata.capture(dest, target, request, group, receipt)
++
++
+ def _bounded_log(path: Path, total_bytes: int | None) -> dict[str, Any]:
+     """Inline bounded head/tail of the bounded capture, including omissions."""
+     if not path.is_file():
+@@ -857,6 +956,7 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+                 "per_root_rss_kib": None, "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+                 "proof_credit": "NONE"} for row in group["rows"]]
+     receipt = {"schema": "ch8-s1-group-v1", "state": "IN_PROGRESS", "group": group["id"],
++               "invocation_id": uuid.uuid4().hex,
+                "argv": argv, "selectors": selectors, "variant": group["variant"],
+                "unwind": group["unwind"], "proof_credit": "NONE",
+                "compile_limit_seconds": COMPILE_SECONDS,
+@@ -864,6 +964,7 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+                "std_sha": STD_SHA, "tool_sha": TOOL_SHA,
+                "request_sha256": sha256(REQUEST_PATH)}
+     patch = None
++    metadata_target = None
+     fatal = None
+     rich = rich_evidence.RegularEvidence(selectors, std.resolve())
+     monitor = CompileMonitor(dest / "compile/receipt.json", export, selectors)
+@@ -873,7 +974,7 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+             _write_json(out / result["id"] / "receipt.json", result)
+         source_before = verify_source(std, tool, request)
+         receipt["source_before"] = source_before
+-        before = binary_fingerprints(tool, {})
++        before = snapshot_binaries(tool, receipt, "before")
+         if not before["required_hashes_present"]:
+             raise RunnerError("missing required tool binary hash")
+         memory = group_memory_budget()
+@@ -883,7 +984,13 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+                        "variant": group["variant"], "file_sha256": {**request["changed_file_sha256"], **variant_files},
+                        "patch_sha256": sha256(patch) if patch is not None else None})
+         child_env = ci_env(std)
++        # Fresh namespace prevents old/native-cache metadata from being labelled
++        # as this invocation. This is a runner key, not a compiler instance ID.
++        metadata_target = Path(child_env["CARGO_TARGET_DIR"]) / receipt["invocation_id"]
++        metadata_target.mkdir(parents=True, exist_ok=False)
++        child_env["CARGO_TARGET_DIR"] = str(metadata_target)
+         receipt["cargo_target_dir"] = child_env["CARGO_TARGET_DIR"]
++        receipt["effective_cfg"] = child_env["RUSTFLAGS"]
+         remaining = phase_deadline-time.monotonic()-PHASE_CLEANUP_MARGIN
+         if remaining <= 0:
+             raise RunnerError("phase_seconds_cap_before_group")
+@@ -894,11 +1001,22 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+         for stream in ("stdout", "stderr"):
+             (dest / (stream+".log")).write_bytes(b"")
+         _write_json(dest / "receipt.json", receipt)
+-        invocation = execute(argv, std.resolve(), dest, timeout,
+-                             rss_cap_kib=memory["group_cap_kib"], stdout_cap=STDOUT_CAP_BYTES,
+-                             stderr_cap=STDERR_CAP_BYTES, export_path=export, export_cap=EXPORT_CAP_BYTES,
+-                             env=child_env, capture_tail=True, compile_monitor=monitor, rich_parser=rich)
+-        receipt["execution"] = invocation
++        try:
++            invocation = execute(argv, std.resolve(), dest, timeout,
++                                 rss_cap_kib=memory["group_cap_kib"], stdout_cap=STDOUT_CAP_BYTES,
++                                 stderr_cap=STDERR_CAP_BYTES, export_path=export, export_cap=EXPORT_CAP_BYTES,
++                                 env=child_env, capture_tail=True, compile_monitor=monitor, rich_parser=rich)
++            receipt["execution"] = invocation
++        except BaseException as exc:
++            receipt["execution_exception"] = {"type": type(exc).__name__, "message": str(exc)}
++            raise
++        finally:
++            # execute owns child shutdown/reaping. No export parsing or rich
++            # validation may precede this protected same-invocation snapshot.
++            snapshot_binaries(tool, receipt, "after")
++            _write_json(dest / "receipt.json", receipt)
++        if invocation.get("runner_exception") or invocation.get("runner_error"):
++            raise RunnerError("group_execution_error")
+         # Synthetic execution substitutes must also supply a bound compile receipt.
+         if monitor.receipt["state"] != "COMPLETE":
+             raise RunnerError("compilation_not_complete")
+@@ -920,12 +1038,8 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+         rich.validate(raw)
+         _write_json(dest / "properties.json", rich.document())
+         receipt["rich_evidence_sha256"] = sha256(dest / "properties.json")
+-        after = binary_fingerprints(tool, raw)
+-        receipt["tool_fingerprints_after"] = after
+-        if (not after["required_hashes_present"] or
+-                {k:v.get("sha256") for k,v in before["binaries"].items()} !=
+-                {k:v.get("sha256") for k,v in after["binaries"].items()}):
+-            raise RunnerError("tool_binary_drift")
++        # Version strings are source-reported metadata, never identity hashes.
++        receipt["reported_tool_versions"] = raw.get("tools")
+         receipt["export_sha256"] = sha256(export)
+         for row, result in zip(group["rows"], results):
+             parsed = parse_export(export, row, source_binding=request["source_bindings"][row["id"]],
+@@ -944,10 +1058,17 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+                           diagnostics=f"groups/{group['id']}")
+     except BaseException as exc:
+         fatal = f"{type(exc).__name__}: {exc}"
+-        receipt.update(state="FAILED", reason=fatal)
++        receipt.update(state="FAILED", reason=fatal,
++                       original_exception={"type": type(exc).__name__, "message": str(exc)})
+         for result in results:
+             result.update(status="UNKNOWN", outcome="UNKNOWN", reason=fatal)
+     finally:
++        if not fingerprints_match(receipt.get("tool_fingerprints_before"),
++                                  receipt.get("tool_fingerprints_after")):
++            receipt["binary_identity"] = "UNKNOWN"
++            fatal = (fatal + "; " if fatal else "") + "tool_binary_missing_drift_or_snapshot_error"
++        else:
++            receipt["binary_identity"] = "MATCH"
+         if patch is not None:
+             try:
+                 subprocess.run(["git", "-C", str(std), "apply", "--reverse", "--check", str(patch)], check=True)
+@@ -961,16 +1082,28 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+                 raise RunnerError("source_identity_drift")
+         except Exception as exc:
+             fatal = (fatal + "; " if fatal else "") + f"source_drift: {exc}"
++        execution = receipt.get("execution", {})
++        if monitor.receipt["state"] == "IN_PROGRESS":
++            try:
++                monitor.finish({**execution, "runner_error": fatal or "NO_COMPLETION"}, {})
++            except Exception as exc:
++                receipt["compile_receipt_error"] = f"{type(exc).__name__}: {exc}"
++                fatal = (fatal + "; " if fatal else "") + "compile_receipt_error: " + receipt["compile_receipt_error"]
++        _write_json(dest / "properties.json", rich.document())
++        receipt["location_exceptions"] = rich.location_exceptions()
++        try:
++            receipt["binding_metadata"] = capture_binding_metadata(dest, metadata_target, request, group, receipt)
++            if receipt["binding_metadata"]["errors"]:
++                fatal = (fatal + "; " if fatal else "") + "binding_metadata_capture_incomplete"
++        except Exception as exc:
++            receipt["binding_metadata_error"] = f"{type(exc).__name__}: {exc}"
++            fatal = (fatal + "; " if fatal else "") + "binding_metadata_capture_error: " + receipt["binding_metadata_error"]
+         if fatal:
+             receipt.update(state="FAILED", reason=fatal)
+             for result in results:
+                 result.update(outcome="UNKNOWN", reason=fatal)
+         else:
+             receipt["state"] = "COMPLETE"
+-        execution = receipt.get("execution", {})
+-        if monitor.receipt["state"] == "IN_PROGRESS":
+-            monitor.finish({**execution, "runner_error": fatal or "NO_COMPLETION"}, {})
+-        _write_json(dest / "properties.json", rich.document())
+         for stream in ("stdout", "stderr"):
+             receipt[stream] = _bounded_log(dest / (stream+".log"), execution.get(stream+"_bytes"))
+         receipt["compilation"] = "compile/receipt.json"
+diff --git a/ch8-s1-control/test_package.py b/ch8-s1-control/test_package.py
+index b49029287..3d6cbc5ca 100644
+--- a/ch8-s1-control/test_package.py
++++ b/ch8-s1-control/test_package.py
+@@ -132,7 +132,7 @@ class PackageTests(unittest.TestCase):
+                     if not step.get('uses','').startswith('actions/checkout@'):
+                         continue
+                     checkout=step['with']['path']
+-                    for depth in ([0,1,2,4] if checkout=='control' else [0,1,3]):
++                    for depth in ([0,1,2,3,5] if checkout=='control' else [0,1,3]):
+                         bad=copy.deepcopy(doc)
+                         bad['jobs'][job_name]['steps'][index]['with']['fetch-depth']=depth
+                         path.write_text(fast_dump(bad,sort_keys=False))
+@@ -161,6 +161,7 @@ class PackageTests(unittest.TestCase):
+             older=commit(origin,'older')
+             tool_sha=commit(origin,'tool');git(origin,'branch','tool',tool_sha)
+             tool_tree=git(origin,'rev-parse','HEAD^{tree}')
++            commit(origin,'prior control')
+             parent=commit(origin,'parent');git(origin,'branch','export',parent)
+             std_tree=git(origin,'rev-parse','HEAD^{tree}')
+             here=origin/'ch8-s1-control';here.mkdir()
+diff --git a/ch8-s1-control/test_runner.py b/ch8-s1-control/test_runner.py
+index 4d60a6bcf..9280004bf 100644
+--- a/ch8-s1-control/test_runner.py
++++ b/ch8-s1-control/test_runner.py
+@@ -420,7 +420,8 @@ class GroupTests(unittest.TestCase):
+     def run_mock_batch(self, root, request, *, case='success'):
+         import copy
+         std=root/'std';std.mkdir();tool=root/'tool';out=root/'out'
+-        fp={'required_hashes_present':True,'binaries':{'driver':{'sha256':'a'}},'reported_versions':None}
++        fp={'required_hashes_present':True,'binaries':{name:{'path':name,'sha256':'a'*64}
++            for name in ('kani_driver','kani_compiler','cbmc')},'reported_versions':None}
+         calls=[]
+         def execute(argv,cwd,dest,timeout,**kw):
+             selectors=[argv[i+1] for i,a in enumerate(argv) if a=='--harness']
+@@ -436,6 +437,12 @@ class GroupTests(unittest.TestCase):
+             kw['compile_monitor'].poll(0.01,{})
+             final=batch_export(rows,request['source_bindings'])
+             feed_regular(kw['rich_parser'], final)
++            native=Path(kw['env']['CARGO_TARGET_DIR'])/'debug/deps/core.kani-metadata.json'
++            native.parent.mkdir(parents=True,exist_ok=True)
++            native.write_text(json.dumps({'crate_name':'core','proof_harnesses':[
++                {'pretty_name':h['name'],'crate_name':h['crate_name'],
++                 'attributes':h['attributes'],'contract':h['contract']}
++                for h in final['harnesses']]}))
+             if case=='exception':raise OSError('synthetic execution exception')
+             if case=='partial':final={'run_state':'PARTIAL'}
+             if case=='null':final=None
+@@ -527,7 +534,8 @@ class GroupTests(unittest.TestCase):
+         request={'rows':[r],'source_bindings':{r['id']:binding(r)},'changed_file_sha256':{},'variants':{}}
+         with tempfile.TemporaryDirectory() as d:
+             root=Path(d);std=root/'std';std.mkdir();out=root/'out';patchfile=root/'overlay.patch';patchfile.write_text('synthetic overlay')
+-            fp={'required_hashes_present':True,'binaries':{}}
++            fp={'required_hashes_present':True,'binaries':{name:{'path':name,'sha256':'a'*64}
++                for name in ('kani_driver','kani_compiler','cbmc')}}
+             def execute(argv,cwd,dest,timeout,**kw):
+                 value=batch_export([r]);kw['export_path'].write_text(json.dumps(value));kw['compile_monitor'].poll(0.01,{})
+                 return {'original_exit_code':0,'signal':None,'rss_peak_kib':1,'elapsed_seconds':0.02}
+diff --git a/ch8-s1-control/test_s107.py b/ch8-s1-control/test_s107.py
+new file mode 100644
+index 000000000..bb08cb0b9
+--- /dev/null
++++ b/ch8-s1-control/test_s107.py
+@@ -0,0 +1,354 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""S1-07 synthetic finalization/location regressions; no compiler or verifier."""
++import copy
++import base64
++import json
++from pathlib import Path
++import subprocess
++import sys
++import tempfile
++import time
++import unittest
++from unittest import mock
++
++import collect
++import binding_metadata
++import pack_evidence
++import gzip
++import rich_evidence as rich
++import runner as r
++import test_runner as runner_tests
++from test_runner import row, binding, batch_export, feed_regular, render_regular
++from test_s105 import stock_for
++
++
++class FinalizationTests(unittest.TestCase):
++    def run_case(self, root, case='success', snapshot='success'):
++        std=root/'std'; std.mkdir(); tool=root/'tool'; out=root/'out'
++        selected=row(); request={'rows':[selected], 'changed_file_sha256':{},
++                               'source_bindings':{selected['id']:binding(selected)}, 'variants':{}}
++        group=r.group_rows(request['rows'])[0]
++        events=[]
++        fp={'required_hashes_present':True, 'binaries':{
++            name:{'path':name,'sha256':'a'*64} for name in ('kani_driver','kani_compiler','cbmc')}}
++        def fingerprint(tool, export):
++            self.assertEqual(export,{})
++            stage='before' if not events else 'after'
++            events.append(stage)
++            if stage=='after':
++                self.assertIn('child_stopped', events)
++                if snapshot=='error': raise OSError('synthetic snapshot error')
++                changed=copy.deepcopy(fp)
++                if snapshot=='missing':
++                    changed['binaries']['cbmc']['sha256']=None
++                    changed['required_hashes_present']=False
++                if snapshot=='drift':changed['binaries']['cbmc']['sha256']='b'*64
++                return changed
++            return copy.deepcopy(fp)
++        def execute(argv, cwd, dest, timeout, **kw):
++            events.append('child_started')
++            data=batch_export([selected],request['source_bindings'])
++            kw['export_path'].write_text(json.dumps(data))
++            kw['compile_monitor'].poll(0.01,{})
++            feed_regular(kw['rich_parser'],data)
++            native=Path(kw['env']['CARGO_TARGET_DIR'])/'debug/deps/core.kani-metadata.json'
++            native.parent.mkdir(parents=True,exist_ok=True)
++            native.write_text(json.dumps({'crate_name':'core','proof_harnesses':[
++                {'pretty_name':selected['selector'],'crate_name':'core','mangled_name':'observed_wrapper',
++                 'attributes':data['harnesses'][0]['attributes'],'contract':data['harnesses'][0]['contract']}]}))
++            (Path(kw['env']['CARGO_TARGET_DIR']).parent/'stale.kani-metadata.json').write_text('{"stale":true}')
++            events.append('child_stopped')
++            if case=='exception':raise OSError('original execution exception')
++            if case=='partial':data={'run_state':'PARTIAL'}
++            if case=='null':data=None
++            if case=='wrong_type':data=[]
++            if case=='NOT_RUN':data['harnesses'][0]['outcome']={'kind':'NOT_RUN'}
++            if case=='target_mismatch':data['harnesses'][0]['attributes']['kind']['ProofForContract']['target_fn']='wrong'
++            if case=='source_mismatch':data['harnesses'][0]['file']='wrong.rs'
++            if case=='stage_mismatch':data['run_state']='INCOMPLETE'
++            if case=='missing':kw['export_path'].unlink()
++            else:kw['export_path'].write_text(json.dumps(data))
++            code=42 if case=='error' else 1 if case=='NOT_RUN' else 0
++            return {'original_exit_code':code,'signal':None,'rss_peak_kib':1,'elapsed_seconds':0.02,
++                    'timed_out':case=='timeout', 'termination_reason':'timeout' if case=='timeout' else None}
++        validate=rich.RegularEvidence.validate
++        def validating(parser, stock):
++            events.append('rich_validation')
++            self.assertIn('after',events)
++            if case=='rich_error':raise ValueError('original rich error')
++            return validate(parser,stock)
++        with mock.patch.object(r,'binary_fingerprints',side_effect=fingerprint), \
++             mock.patch.object(r,'verify_source',return_value={}), \
++             mock.patch.object(r,'group_memory_budget',return_value={'group_cap_kib':1024}), \
++             mock.patch.object(r,'_run_variant',return_value=(None,{})), \
++             mock.patch.object(r,'execute',side_effect=execute), \
++             mock.patch.object(rich.RegularEvidence,'validate',validating):
++            rows,fatal=r._run_group(std,tool,out,request,group,time.monotonic()+5000)
++        dest=out/'groups'/group['id']
++        return rows,fatal,json.loads((dest/'receipt.json').read_text()),json.loads((dest/'properties.json').read_text()),events
++
++    def test_snapshot_before_validation_for_all_termination_and_export_shapes(self):
++        for case in ('success','error','timeout','exception','rich_error','partial','missing','null',
++                     'wrong_type','NOT_RUN','source_mismatch','stage_mismatch','target_mismatch'):
++            with self.subTest(case=case),tempfile.TemporaryDirectory() as tmp:
++                rows,fatal,receipt,properties,events=self.run_case(Path(tmp),case)
++                self.assertEqual(events[:4],['before','child_started','child_stopped','after'])
++                self.assertEqual(receipt['binary_identity'],'MATCH')
++                self.assertEqual(receipt['snapshot_errors'],[])
++                self.assertEqual(receipt['tool_fingerprints_after']['phase'],'AFTER_CHILD_SHUTDOWN')
++                self.assertTrue(receipt['tool_fingerprints_after']['snapshot_completed'])
++                self.assertEqual(receipt['tool_fingerprints_after']['missing_binaries'],[])
++                self.assertEqual(receipt['binding_metadata']['native_files'],1)
++                self.assertEqual(len(properties['harnesses'][0]['properties']),6)
++                if case=='success':
++                    self.assertIsNone(fatal); self.assertEqual(rows[0]['outcome'],'RECORDED')
++                else:self.assertEqual(rows[0]['outcome'],'UNKNOWN')
++                if case=='exception':
++                    self.assertEqual(receipt['execution_exception']['message'],'original execution exception')
++                    self.assertEqual(receipt['original_exception']['type'],'OSError')
++                else:self.assertEqual(receipt['execution']['original_exit_code'],42 if case=='error' else 1 if case=='NOT_RUN' else 0)
++
++    def test_snapshot_error_missing_and_drift_cannot_hide_original_failure(self):
++        for case in ('success','error','exception','rich_error'):
++            for snapshot in ('error','missing','drift'):
++                with self.subTest(case=case,snapshot=snapshot),tempfile.TemporaryDirectory() as tmp:
++                    rows,fatal,receipt,properties,_=self.run_case(Path(tmp),case,snapshot)
++                    self.assertEqual(rows[0]['outcome'],'UNKNOWN')
++                    self.assertEqual(receipt['binary_identity'],'UNKNOWN')
++                    self.assertIn('tool_binary_missing_drift_or_snapshot_error',fatal)
++                    self.assertEqual(len(properties['harnesses'][0]['properties']),6)
++                    if snapshot!='drift':self.assertEqual(receipt['snapshot_errors'][0]['stage'],'after')
++                    if case=='exception':self.assertIn('original execution exception',receipt['reason'])
++                    if case=='rich_error':self.assertIn('original rich error',receipt['reason'])
++                    if case=='error':self.assertEqual(receipt['execution']['original_exit_code'],42)
++
++    def test_native_metadata_manifest_and_unavailable_instance_edges_survive_error(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            _,_,receipt,_,_=self.run_case(Path(tmp),'exception')
++            path=Path(tmp)/'out/groups/production-u4/binding-metadata.json'
++            data=path.read_bytes();metadata=json.loads(data)
++            self.assertEqual(receipt['binding_metadata']['sha256'],binding_metadata.digest(data))
++            self.assertEqual(receipt['binding_metadata']['bytes'],len(data))
++            self.assertEqual(metadata['execution_exception']['message'],'original execution exception')
++            self.assertEqual(metadata['invocation_id'],receipt['invocation_id'])
++            self.assertIsNone(metadata['compilation_id'])
++            self.assertEqual(metadata['rows'][0]['binding_gaps']['resolved_target'],binding_metadata.UNKNOWN)
++            self.assertEqual(len(metadata['rows'][0]['native_harness_records']),1)
++            for entry in metadata['native_metadata']:
++                raw=entry['text'].encode()
++                self.assertEqual(entry['sha256'],binding_metadata.digest(raw))
++                self.assertEqual(entry['bytes'],len(raw))
++
++    def test_metadata_capture_failure_keeps_original_exit_exception_and_rich_records(self):
++        with tempfile.TemporaryDirectory() as tmp,mock.patch.object(r,'capture_binding_metadata',side_effect=OSError('metadata capture failed')):
++            rows,fatal,receipt,properties,_=self.run_case(Path(tmp),'error')
++            self.assertEqual(receipt['execution']['original_exit_code'],42)
++            self.assertIn('group_exit_export_mismatch',receipt['original_exception']['message'])
++            self.assertIn('metadata capture failed',receipt['binding_metadata_error'])
++            self.assertEqual(rows[0]['outcome'],'UNKNOWN')
++            self.assertEqual(len(properties['harnesses'][0]['properties']),6)
++
++    def test_native_partial_null_wrong_type_missing_and_cap_are_explicit(self):
++        for case in ('partial','null','wrong_type','missing','cap','unmatched','duplicate','invalid_utf8'):
++            with self.subTest(case=case),tempfile.TemporaryDirectory() as tmp:
++                def capture(dest,target,request,group,receipt):
++                    native=next(target.rglob('*.kani-metadata.json'))
++                    if case=='partial':native.write_text('{')
++                    if case=='null':native.write_text('null')
++                    if case=='wrong_type':native.write_text('{"proof_harnesses":null}')
++                    if case=='missing':native.unlink()
++                    if case=='invalid_utf8':native.write_bytes(b'\xff{')
++                    if case in ('unmatched','duplicate'):
++                        value=json.loads(native.read_text())
++                        if case=='unmatched':value['proof_harnesses'][0]['pretty_name']='foreign'
++                        else:value['proof_harnesses']*=2
++                        native.write_text(json.dumps(value))
++                    with mock.patch.object(binding_metadata,'NATIVE_BYTES_CAP',1 if case=='cap' else 8*1024*1024):
++                        return binding_metadata.capture(dest,target,request,group,receipt)
++                with mock.patch.object(r,'capture_binding_metadata',side_effect=capture):
++                    rows,_,receipt,_,_=self.run_case(Path(tmp))
++                metadata=json.loads((Path(tmp)/'out/groups/production-u4/binding-metadata.json').read_text())
++                self.assertEqual(metadata['compiler_identity_status'],binding_metadata.UNKNOWN)
++                self.assertEqual(rows[0]['outcome'],'UNKNOWN')
++                self.assertTrue(receipt['binding_metadata']['errors'])
++                if case=='missing':
++                    self.assertEqual(metadata['native_metadata_state'],'MISSING_OR_NOT_PRODUCED')
++                    self.assertEqual(receipt['binding_metadata']['native_files'],0)
++                if case=='invalid_utf8':
++                    entry=metadata['native_metadata'][0]
++                    raw=base64.b64decode(entry['text'],validate=True)
++                    self.assertEqual(raw,b'\xff{')
++                    self.assertEqual(entry['sha256'],binding_metadata.digest(raw))
++                    self.assertEqual(entry['bytes'],len(raw))
++
++    def test_partial_export_pack_retains_later_rich_and_metadata_without_completion(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root=Path(tmp)
++            (root/'export.json').write_text('{')
++            for name in ('properties.json','receipt.json','binding-metadata.json'):
++                (root/name).write_text(json.dumps({'retained':name}))
++            packed=pack_evidence.pack(root)
++            self.assertEqual(packed['state'],'INCOMPLETE')
++            doc=json.loads(gzip.decompress((root/pack_evidence.NAME).read_bytes()))
++            self.assertEqual(set(doc['files']),{'export.json','properties.json','receipt.json','binding-metadata.json'})
++            self.assertEqual(doc['files']['export.json']['text'],'{')
++            (root/'export.json').write_bytes(b'\xff{')
++            self.assertEqual(pack_evidence.pack(root)['state'],'INCOMPLETE')
++            doc=json.loads(gzip.decompress((root/pack_evidence.NAME).read_bytes()))
++            self.assertIn('properties.json',doc['files'])
++            self.assertEqual(doc['files']['export.json']['encoding'],'base64')
++
++    def test_individual_hash_error_keeps_other_required_measurements_without_export(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            tool=Path(tmp)
++            for name in ('kani-driver','kani-compiler'):
++                path=tool/'target/kani/bin'/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(name.encode())
++            cbmc=tool/'cbmc';cbmc.write_bytes(b'cbmc')
++            original=r.sha256
++            def hashing(path):
++                if path.name=='kani-driver':raise OSError('driver unavailable')
++                return original(path)
++            with mock.patch.object(r.shutil,'which',return_value=str(cbmc)),mock.patch.object(r,'sha256',side_effect=hashing):
++                receipt={};fp=r.snapshot_binaries(tool,receipt,'after')
++            self.assertFalse(fp['required_hashes_present'])
++            self.assertIsNone(fp['binaries']['kani_driver']['sha256'])
++            for name in ('kani_compiler','cbmc'):self.assertEqual(len(fp['binaries'][name]['sha256']),64)
++            self.assertIn('driver unavailable',receipt['snapshot_errors'][0]['error'])
++
++    def test_monitor_exception_reaps_synthetic_child_and_keeps_original_exit(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            monitor=mock.Mock();monitor.poll.side_effect=OSError('original monitor failure')
++            started=[];popen=subprocess.Popen
++            def spawning(*args,**kw):
++                proc=popen(*args,**kw);started.append(proc);return proc
++            with mock.patch.object(r.subprocess,'Popen',side_effect=spawning):
++                result=r.execute([sys.executable,'-c','import time; time.sleep(20)'],
++                                 Path(tmp),Path(tmp)/'exec',5,compile_monitor=monitor)
++            self.assertEqual(result['runner_exception']['message'],'original monitor failure')
++            self.assertIsNotNone(result['original_exit_code'])
++            self.assertEqual(started[0].poll(),result['original_exit_code'])
++            self.assertFalse(r._group_has_live_members(started[0].pid))
++
++    def test_snapshot_flags_cannot_replace_required_paths_and_hashes(self):
++        valid={'required_hashes_present':True,'binaries':{
++            name:{'path':name,'sha256':'a'*64} for name in ('kani_driver','kani_compiler','cbmc')}}
++        self.assertTrue(r.fingerprints_match(valid,copy.deepcopy(valid)))
++        for value in (None,[],{}, {'required_hashes_present':True,'binaries':{}},
++                      {**valid,'required_hashes_present':1}):
++            self.assertFalse(r.fingerprints_match(valid,value))
++        for field,value in (('path',None),('path',''),('sha256',None),('sha256','wrong'),('error','error')):
++            changed=copy.deepcopy(valid);changed['binaries']['cbmc'][field]=value
++            self.assertFalse(r.fingerprints_match(changed,changed))
++
++
++class LocationTests(unittest.TestCase):
++    def document(self, name, pid):
++        p={'id':pid,'display_id':pid,'class':'unreachable','description':'unreachable code',
++           'status':'SUCCESS','file':None,'line':None,
++           'location_display':'library/core/src/lib.rs:0:0 in function '+pid.removesuffix('.unreachable.1')}
++        stock=stock_for([p]);stock['harnesses'][0]['name']=name
++        parser=rich.RegularEvidence([name],Path('/std'))
++        emitted={**p,'file':'library/core/src/lib.rs','line':'0:0 in function '+pid.removesuffix('.unreachable.1')}
++        parser.feed(render_regular([(name,[emitted])]))
++        parser.finish();parser.validate(stock)
++        return parser,stock
++
++    def test_exact_two_ids_and_all_authorized_rows_keep_nullable_site_and_receipt(self):
++        self.assertEqual(len(set(rich.LOCATION_EXCEPTION_BINDINGS.values())),2)
++        self.assertEqual(len(rich.LOCATION_EXCEPTION_BINDINGS),17)
++        for name,pid in rich.LOCATION_EXCEPTION_BINDINGS.items():
++            parser,stock=self.document(name,pid)
++            doc=parser.document();self.assertEqual(doc['state'],'COMPLETE')
++            p=doc['harnesses'][0]['properties'][0]
++            self.assertIsNone(p['file']);self.assertIsNone(p['line'])
++            self.assertEqual(doc['location_exceptions'][0]['property'],p)
++            self.assertEqual(doc['qualified_acceptance'],'PENDING_OFFLINE_ACCEPTANCE')
++            replay=rich.RegularEvidence([name],Path('/'));replay.records=parser.records;replay.finished=True
++            replay.validate(stock);self.assertEqual(replay.location_exceptions(),doc['location_exceptions'])
++
++    def test_every_changed_exception_field_and_foreign_harness_fail_closed(self):
++        name,pid=next(iter(rich.LOCATION_EXCEPTION_BINDINGS.items()))
++        parser,stock=self.document(name,pid)
++        for field,value in (('id',pid+'x'),('display_id',pid+'x'),('class','assertion'),
++                            ('status','UNREACHABLE'),('description','different'),('file','lib.rs'),
++                            ('line','0'),('location_display','lib.rs:0:0'),('location_display',None)):
++            replay=rich.RegularEvidence([name],Path('/'));replay.records=copy.deepcopy(parser.records);replay.finished=True
++            replay.records[name][0][field]=value
++            with self.subTest(field=field,value=value),self.assertRaises(ValueError):replay.validate(stock)
++        replay=rich.RegularEvidence(['foreign'],Path('/'));replay.records={'foreign':parser.records[name]};replay.finished=True
++        stock['harnesses'][0]['name']='foreign'
++        with self.assertRaises(ValueError):replay.validate(stock)
++
++    def test_collector_rechecks_snapshots_and_exact_exception_receipts(self):
++        request=r.load_request()
++        helper=runner_tests.GroupTests('test_all35_rows_fourteen_invocations_record_only_without_oracle_classification')
++        with tempfile.TemporaryDirectory() as tmp:
++            original=runner_tests.feed_regular
++            def with_nullable_sites(parser,stock):
++                original(parser,stock)
++                entries=[]
++                for name,props in parser.records.items():
++                    props=copy.deepcopy(props)
++                    if name in rich.LOCATION_EXCEPTION_BINDINGS:
++                        pid=rich.LOCATION_EXCEPTION_BINDINGS[name]
++                        p=next(p for p in props if p['status']=='SUCCESS')
++                        p.update(id=pid,**{'class':'unreachable'},description='unreachable code',
++                                 file='library/core/src/lib.rs',
++                                 line='0:0 in function '+pid.removesuffix('.unreachable.1'))
++                    entries.append((name,props))
++                # Decode the actual synthetic display, rather than inserting a
++                # previously accepted exception into the collector's records.
++                replacement=rich.RegularEvidence(parser.selectors,parser.cwd)
++                replacement.feed(render_regular(entries));replacement.finish()
++                parser.__dict__.update(replacement.__dict__)
++            with mock.patch.object(runner_tests,'feed_regular',side_effect=with_nullable_sites):
++                code,_,_,out=helper.run_mock_batch(Path(tmp),request)
++            self.assertEqual(code,0)
++            source={k:request[k] for k in ('std_sha','std_tree','tool_sha','tool_tree','changed_file_sha256')}
++            for group in request['execution_groups']:
++                path=out/'groups'/group['id']/'receipt.json'
++                receipt=json.loads(path.read_text());receipt.update(source_before=source,source_after=source)
++                path.write_text(json.dumps(receipt))
++            result=collect.collect([out],request)
++            self.assertTrue(all(x['outcome']=='RECORDED' for x in result['rows']))
++            self.assertEqual(result['proof_credit'],'NONE')
++            group=request['execution_groups'][0];path=out/'groups'/group['id']/'receipt.json'
++            baseline=json.loads(path.read_text())
++            for mutation in ('missing','null','wrong_type','drift','snapshot_error'):
++                receipt=copy.deepcopy(baseline)
++                if mutation=='missing':receipt.pop('tool_fingerprints_after')
++                if mutation=='null':receipt['tool_fingerprints_after']=None
++                if mutation=='wrong_type':receipt['tool_fingerprints_after']=[]
++                if mutation=='drift':receipt['tool_fingerprints_after']['binaries']['cbmc']={'sha256':'changed'}
++                if mutation=='snapshot_error':receipt['snapshot_errors']=[{'stage':'after','error':'error'}]
++                path.write_text(json.dumps(receipt))
++                result=collect.collect([out],request);byid={x['id']:x for x in result['rows']}
++                self.assertTrue(all(byid[rid]['outcome']=='UNKNOWN' for rid in group['row_ids']))
++            receipt=copy.deepcopy(baseline);receipt['location_exceptions']=[{'policy':'forged'}]
++            path.write_text(json.dumps(receipt))
++            with self.assertRaisesRegex(r.RunnerError,'location exception receipt mismatch'):collect.collect([out],request)
++            receipt=copy.deepcopy(baseline);receipt['binding_metadata']['sha256']='wrong'
++            path.write_text(json.dumps(receipt))
++            with self.assertRaisesRegex(r.RunnerError,'binding metadata identity/digest mismatch'):collect.collect([out],request)
++            native_path=path.parent/'binding-metadata.json'
++            original=json.loads(native_path.read_text())
++            for case in ('missing','unmatched','duplicate','wrong_ref','entry_digest'):
++                metadata=copy.deepcopy(original)
++                if case=='missing':metadata['native_metadata']=[]
++                if case=='duplicate':metadata['native_metadata']*=2
++                if case=='wrong_ref':metadata['rows'][0]['native_harness_records']=[]
++                if case=='entry_digest':metadata['native_metadata'][0]['sha256']='wrong'
++                if case=='unmatched':
++                    entry=metadata['native_metadata'][0];value=json.loads(entry['text'])
++                    value['proof_harnesses'][0]['pretty_name']='foreign';entry['text']=json.dumps(value)
++                    raw=entry['text'].encode();entry.update(bytes=len(raw),sha256=binding_metadata.digest(raw))
++                raw=json.dumps(metadata).encode();native_path.write_bytes(raw)
++                receipt=copy.deepcopy(baseline)
++                receipt['binding_metadata'].update(bytes=len(raw),sha256=binding_metadata.digest(raw))
++                path.write_text(json.dumps(receipt))
++                with self.subTest(native=case),self.assertRaisesRegex(r.RunnerError,'native'):
++                    collect.collect([out],request)
++
++
++if __name__=='__main__':unittest.main()
+-- 
+2.43.0
+
