@@ -1842,10 +1842,10 @@ index 486105cd0..000000000
 -            [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
 diff --git a/ch8-5151-control/CI-REQUEST.json b/ch8-5151-control/CI-REQUEST.json
 new file mode 100644
-index 000000000..4976cb476
+index 000000000..b30f36939
 --- /dev/null
 +++ b/ch8-5151-control/CI-REQUEST.json
-@@ -0,0 +1,89 @@
+@@ -0,0 +1,110 @@
 +{
 +  "activation": {
 +    "control_commit_message_suffix": "[skip ci]",
@@ -1877,6 +1877,15 @@ index 000000000..4976cb476
 +    "retries": 0,
 +    "row_seconds": 60
 +  },
++  "compiler_configuration": {
++    "compile_flags": [
++      "--edition",
++      "2021"
++    ],
++    "edition": "2021",
++    "test_header": "// compile-flags: --edition 2021",
++    "transport": "per-harness RUSTFLAGS"
++  },
 +  "control_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
 +  "control_repository": "Tiramisu-Cake/kani",
 +  "dispatch_authorized": false,
@@ -1896,19 +1905,19 @@ index 000000000..4976cb476
 +  ],
 +  "payload_sha256": {
 +    ".github/workflows/ch8-5151.yml": "69f77d4f5c00dc0e521a1cf624d2130ae525153ca3ea716300e8a89e87040e84",
-+    "ch8-5151-control/HANDOFF.md": "8065c0845ae250488b5853da5413e1f68075fea4e0a8145df3451dd311d5b5e3",
++    "ch8-5151-control/HANDOFF.md": "e4a87c6db2ca183927402906b0c4f31f7f30371a7230d3a2dcdba7ca107657ed",
 +    "ch8-5151-control/ORACLES.md": "a192b1e1c53067d6cdb07e56c65ea7bba182451140166d912d86516c25cf6993",
-+    "ch8-5151-control/PACKAGE.md": "af091d1ec7cf1edc34c30dae2564cfe6e83bb5dc84f0f333d030b34f1c120a82",
-+    "ch8-5151-control/check_package.py": "15fda0e5cc5fa75cf195bfd8abf95a6ca3305d3568524041574a4227c7caf66e",
-+    "ch8-5151-control/rows.json": "0adec0016d1891013a564ae174cf34fc384427bfb85893c3909008158c1e5bc9",
-+    "ch8-5151-control/runner.py": "c43ac4decbe9b0e2b28c78b892ef3c681f48b110fe70251842e5a2177f35d425",
-+    "ch8-5151-control/test_runner.py": "8238d5792320164a9920a1e9c906356b01ed2786af8844a5eb9c428b2b2ca7cd",
++    "ch8-5151-control/PACKAGE.md": "40407eac957ffddb6757efabd2d6b7a5bf996a90e7fa20e0f3538d72e3176301",
++    "ch8-5151-control/check_package.py": "1b741c13dfe11c3e2ce52e6f2ad3f44d9233288475dcf27f0fe3bae17bc08f80",
++    "ch8-5151-control/rows.json": "d4eb216d7dd864071d2e1c45cc270f16f647e1d636757109584e221a82da50de",
++    "ch8-5151-control/runner.py": "0cc2c2660f176b8c82d304f64e229d4dcdf2bc51554ac6472396ba52a9aab9c9",
++    "ch8-5151-control/test_runner.py": "5b4bcdfca5ccd479e509e7371221b8ff46d3c3fe44932293e75ec1b210f61244",
 +    "tests/expected/uninit/issue-5151/initialized-slot.expected": "deb74bc3e432216ac6aa5ccdc12fcd79544634c60727d2838e5a1cbd5c410f55",
-+    "tests/expected/uninit/issue-5151/initialized-slot.rs": "e3dc76718ab9426ab19ecbedd05a713d8b33cba1319315ca35f546f4b9c36711",
++    "tests/expected/uninit/issue-5151/initialized-slot.rs": "4ae2f6cbda607c45754d133d66c7ed2654aa342bdca253bd292ee4fa05bb1982",
 +    "tests/expected/uninit/issue-5151/original-empty-drop.expected": "44b7f93792c645277e6d474d747e0cd98eb208e0abd18ec26ad770bd9c585afa",
-+    "tests/expected/uninit/issue-5151/original-empty-drop.rs": "aba3d48a695478583354f937d9a41d894cc0c4a548dbcee7181752248cd5d2cf",
++    "tests/expected/uninit/issue-5151/original-empty-drop.rs": "51d9d5dae9e1f2a362747fbd8f834ad0aef9c66898fb7b440ab52a969271ccad",
 +    "tests/expected/uninit/issue-5151/read-in-drop.expected": "885c3cd269ee77010c74240d94b214474c0f0f344435532cf097ac6e205f95e3",
-+    "tests/expected/uninit/issue-5151/read-in-drop.rs": "013e89594258bd63f10c85c39b25d4252cc479ba04da7652352084b9f7df6848"
++    "tests/expected/uninit/issue-5151/read-in-drop.rs": "6a2c23d01cb269f3e8e0e1358b0a2fe9a0edebf7702e235a098dfdc16ddf71b6"
 +  },
 +  "pins": {
 +    "prototype": {
@@ -1923,10 +1932,22 @@ index 000000000..4976cb476
 +    }
 +  },
 +  "planned_dispatch_count": 0,
++  "previous_run": {
++    "diagnostic": "error[E0433]: cannot find core in the crate root",
++    "edition": "2015",
++    "id": 43878900159,
++    "proof_credit": "NONE",
++    "provenance": "USER_REPORTED",
++    "result": "UNKNOWN",
++    "rows": 6,
++    "stage": "COMPILATION_FAILED",
++    "trigger_prefix": "dbfb4d8bd8"
++  },
 +  "proof_credit": "NONE",
-+  "rows_sha256": "0adec0016d1891013a564ae174cf34fc384427bfb85893c3909008158c1e5bc9",
++  "rows_sha256": "d4eb216d7dd864071d2e1c45cc270f16f647e1d636757109584e221a82da50de",
 +  "schema": "ch8-5151-control-request-v1",
 +  "status": "READY",
++  "supersedes_control": "0a9e3bdb8a029815ccf205541b1fc09acf8808f9",
 +  "task": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/TASK-CH8-5151-REPRO-W13.md",
 +  "toolchain": {
 +    "cbmc": "6.11.0",
@@ -1937,10 +1958,10 @@ index 000000000..4976cb476
 +}
 diff --git a/ch8-5151-control/HANDOFF.md b/ch8-5151-control/HANDOFF.md
 new file mode 100644
-index 000000000..3f4e11b82
+index 000000000..f41c56d1a
 --- /dev/null
 +++ b/ch8-5151-control/HANDOFF.md
-@@ -0,0 +1,11 @@
+@@ -0,0 +1,19 @@
 +# Handoff
 +
 +Control parent: `0aac16ef62da9e9d5645782d458593e5d78143ba`.
@@ -1952,6 +1973,14 @@ index 000000000..3f4e11b82
 +The six proof invocations are three exact harnesses per pin. The stock matrix row is an unsupported-layout oracle; the prototype row gates initialized-slot success and read-in-drop failure. The original empty Drop row is diagnostic and preserves either completed prototype outcome as an observation. No local Rust, Cargo, Kani, or CBMC tool was run for this package. Static Python and workflow checks are the only local validation.
 +
 +CI artifacts retain per-row command, cwd, source and tool identities before/after, versions, process exit and timeout data, bounded stdout/stderr, and JSON export when produced. Runtime proof credit remains `NONE`.
++
++Edition correction for owner-reported run 43878900159 (trigger dbfb4d8bd8):
++all three fixtures declare `// compile-flags: --edition 2021`; their standalone
++commands receive the same flags through `RUSTFLAGS`. The issue body remains
++byte-identical after the test header. The new candidate remains NOT_RUN.
++Compiletest parses the compiler flags and forwards them through RUSTFLAGS;
++the standalone driver passes them to rustc. Python tests verify that transport
++using Python subprocesses, without invoking a Rust tool.
 diff --git a/ch8-5151-control/ORACLES.md b/ch8-5151-control/ORACLES.md
 new file mode 100644
 index 000000000..1a977fdc4
@@ -1967,10 +1996,10 @@ index 000000000..1a977fdc4
 +`original-empty-drop` accepts a fully validated `SUCCESS` or `UNINIT_FAILURE` observation. The expected semantic target is recorded as `UNINIT_FAILURE`; a validated success means this empty Drop body did not expose the invalid drop. `read-in-drop` supplies the strict negative criterion. No observation establishes runtime proof credit.
 diff --git a/ch8-5151-control/PACKAGE.md b/ch8-5151-control/PACKAGE.md
 new file mode 100644
-index 000000000..9e0041719
+index 000000000..14f205fc5
 --- /dev/null
 +++ b/ch8-5151-control/PACKAGE.md
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,39 @@
 +# Kani issue 5151 bounded reproduction
 +
 +This package compares the issue 5151 example and two focused controls on stock Kani and the pinned C2 prototype. Each tool checkout is independent of this control checkout and must match the repository, commit, tree, and clean tracked state recorded in `CI-REQUEST.json`.
@@ -1994,12 +2023,28 @@ index 000000000..9e0041719
 +The workflow uses Ubuntu 24.04, a 55 minute job cap, one matrix job at a time, no retry, a 1800 second tool build cap, and a 60 second cap per exact harness invocation. It invokes the pinned checkout's `.github/actions/setup` and runs `cargo build-dev -- --release` only in the workflow. Captured tool versions, command, working directory, tool identities before and after, frozen source hashes, exit status, error excerpts, timeout state, and bounded JSON export are stored with the receipts.
 +
 +Preparation authorizes no push, workflow run, publication, or ledger update. The control commit uses `[skip ci]`. A separately approved activation creates a same-tree sibling commit on `uninit-ci/ch8-5151-*`; the workflow verifies the sibling's tree equals its `[skip ci]` parent, and that parent's parent is the pinned stock commit. The workflow has no `workflow_dispatch` trigger.
++
++## Rust edition
++
++Each test declares `// compile-flags: --edition 2021`. Compiletest parses the
++header in `tools/compiletest/src/header.rs` and sets `RUSTFLAGS` in
++`tools/compiletest/src/runtest.rs::run_kani`. The standalone driver forwards
++`RUSTFLAGS` to rustc in `kani-driver/src/call_single_file.rs`. The regression
++script supplies no default edition, and the standalone invocation requires
++these explicit compiler flags for `use core::...`. The runner passes
++`RUSTFLAGS="--edition 2021"` for every row and records it in the process data.
++The issue body, imports, array elements and drop operations are preserved.
++
++The owner reports that run 43878900159, trigger dbfb4d8bd8, returned six UNKNOWN
++rows with E0433 at the `core` import. The corrected package has not run in CI.
++Python regression checks exercise the subprocess environment, matching source
++headers, rejection of a missing edition, and preservation of E0433 as UNKNOWN.
 diff --git a/ch8-5151-control/check_package.py b/ch8-5151-control/check_package.py
 new file mode 100644
-index 000000000..db356e38b
+index 000000000..877c09a3c
 --- /dev/null
 +++ b/ch8-5151-control/check_package.py
-@@ -0,0 +1,58 @@
+@@ -0,0 +1,60 @@
 +#!/usr/bin/env python3
 +# Copyright Kani Contributors
 +# SPDX-License-Identifier: Apache-2.0 OR MIT
@@ -2036,8 +2081,10 @@ index 000000000..db356e38b
 +    assert digest(HERE / 'rows.json') == REQUEST['rows_sha256']
 +    for row in rows:
 +        assert row['flags'] == ['-Z', 'uninit-checks']
++        assert row['compile_flags'] == ['--edition', '2021']
 +        source = ROOT / row['file']
 +        assert source.is_file() and payload[row['file']] == digest(source)
++        assert '// compile-flags: --edition 2021' in source.read_text().splitlines()[:5]
 +    original = (ROOT / rows[1]['file']).read_text()
 +    for phrase in ('struct D(u8);', 'impl Drop for D { fn drop(&mut self) {} }',
 +                   'fn drop_uninit_in_array()', '// slot 1 uninit'):
@@ -2060,21 +2107,64 @@ index 000000000..db356e38b
 +if __name__ == '__main__': main()
 diff --git a/ch8-5151-control/rows.json b/ch8-5151-control/rows.json
 new file mode 100644
-index 000000000..152e5caa3
+index 000000000..52c21219e
 --- /dev/null
 +++ b/ch8-5151-control/rows.json
-@@ -0,0 +1,5 @@
+@@ -0,0 +1,48 @@
 +[
-+  {"id":"initialized-slot","file":"tests/expected/uninit/issue-5151/initialized-slot.rs","harness":"drop_initialized_slot","expected_stock":"UNSUPPORTED_UNION","expected_prototype":"SUCCESS","flags":["-Z","uninit-checks"]},
-+  {"id":"original-empty-drop","file":"tests/expected/uninit/issue-5151/original-empty-drop.rs","harness":"drop_uninit_in_array","expected_stock":"UNSUPPORTED_UNION","expected_prototype":"COMPLETED_WITHOUT_UNSUPPORTED","semantic_target":"UNINIT_FAILURE","flags":["-Z","uninit-checks"]},
-+  {"id":"read-in-drop","file":"tests/expected/uninit/issue-5151/read-in-drop.rs","harness":"read_in_drop_of_uninit_slot","expected_stock":"UNSUPPORTED_UNION","expected_prototype":"UNINIT_FAILURE","flags":["-Z","uninit-checks"]}
++  {
++    "id": "initialized-slot",
++    "file": "tests/expected/uninit/issue-5151/initialized-slot.rs",
++    "harness": "drop_initialized_slot",
++    "expected_stock": "UNSUPPORTED_UNION",
++    "expected_prototype": "SUCCESS",
++    "flags": [
++      "-Z",
++      "uninit-checks"
++    ],
++    "compile_flags": [
++      "--edition",
++      "2021"
++    ]
++  },
++  {
++    "id": "original-empty-drop",
++    "file": "tests/expected/uninit/issue-5151/original-empty-drop.rs",
++    "harness": "drop_uninit_in_array",
++    "expected_stock": "UNSUPPORTED_UNION",
++    "expected_prototype": "COMPLETED_WITHOUT_UNSUPPORTED",
++    "semantic_target": "UNINIT_FAILURE",
++    "flags": [
++      "-Z",
++      "uninit-checks"
++    ],
++    "compile_flags": [
++      "--edition",
++      "2021"
++    ]
++  },
++  {
++    "id": "read-in-drop",
++    "file": "tests/expected/uninit/issue-5151/read-in-drop.rs",
++    "harness": "read_in_drop_of_uninit_slot",
++    "expected_stock": "UNSUPPORTED_UNION",
++    "expected_prototype": "UNINIT_FAILURE",
++    "flags": [
++      "-Z",
++      "uninit-checks"
++    ],
++    "compile_flags": [
++      "--edition",
++      "2021"
++    ]
++  }
 +]
 diff --git a/ch8-5151-control/runner.py b/ch8-5151-control/runner.py
 new file mode 100644
-index 000000000..8c52874ff
+index 000000000..b773acd80
 --- /dev/null
 +++ b/ch8-5151-control/runner.py
-@@ -0,0 +1,344 @@
+@@ -0,0 +1,360 @@
 +#!/usr/bin/env python3
 +# Copyright Kani Contributors
 +# SPDX-License-Identifier: Apache-2.0 OR MIT
@@ -2142,15 +2232,30 @@ index 000000000..8c52874ff
 +        ('rustc', ['rustc', '--version']), ('cbmc', ['cbmc', '--version']))}
 +
 +
-+def bounded_run(argv, cwd, out, timeout):
++def harness_environment(row):
++    if row.get('compile_flags') != ['--edition', '2021']:
++        raise ValueError('harness requires the pinned Rust 2021 compiler flags')
++    env = os.environ.copy()
++    env['RUSTFLAGS'] = ' '.join(row['compile_flags'])
++    return env
++
++
++def run_harness(argv, cwd, out, row):
++    return bounded_run(argv, cwd, out, ROW_SECONDS, env=harness_environment(row))
++
++
++def bounded_run(argv, cwd, out, timeout, env=None):
 +    out.mkdir(parents=True, exist_ok=True)
 +    record = {'command': argv, 'cwd': str(cwd.resolve()), 'exit_code': None, 'timed_out': False,
 +              'timeout_seconds': timeout, 'started': True}
++    if env is not None:
++        record['compiler_environment'] = {'RUSTFLAGS': env.get('RUSTFLAGS', '')}
 +    started = time.monotonic()
 +    stdout_path, stderr_path = out / 'stdout.spool', out / 'stderr.spool'
 +    with stdout_path.open('wb') as stdout_file, stderr_path.open('wb') as stderr_file:
 +        try:
-+            proc = subprocess.Popen(argv, cwd=cwd, stdout=stdout_file, stderr=stderr_file, start_new_session=True)
++            proc = subprocess.Popen(argv, cwd=cwd, stdout=stdout_file, stderr=stderr_file,
++                                    start_new_session=True, env=env)
 +        except OSError as exc:
 +            record.update(runner_error=f'{type(exc).__name__}: {exc}', original_exit_code=None,
 +                          elapsed_seconds=round(time.monotonic() - started, 3),
@@ -2364,7 +2469,8 @@ index 000000000..8c52874ff
 +        source = ROOT / row['file']
 +        frozen_source_hash = request['payload_sha256'][row['file']]
 +        entry = {'id': row['id'], 'source': str(source.resolve()), 'source_sha256': sha(source),
-+                 'harness': row['harness'], 'flags': row['flags'], 'expected': row['expected_stock' if pin_name == 'stock' else 'expected_prototype'],
++                 'harness': row['harness'], 'flags': row['flags'], 'compile_flags': row['compile_flags'],
++                 'expected': row['expected_stock' if pin_name == 'stock' else 'expected_prototype'],
 +                 'frozen_source_sha256': frozen_source_hash, 'request_sha256': request_sha,
 +                 'pin': PINS[pin_name], 'tool_before': before, 'versions': build.get('versions_after_build', {}),
 +                 'proof_credit': 'NONE'}
@@ -2381,7 +2487,7 @@ index 000000000..8c52874ff
 +            entry.update(status='RUNNING')
 +            (slot / 'receipt.json').write_text(json.dumps(entry, indent=2) + '\n')
 +            receipts.append(entry); persist('RUNNING')
-+            run = bounded_run(argv, slot, slot, ROW_SECONDS)
++            run = run_harness(argv, slot, slot, row)
 +            entry['run'] = run
 +            if export.exists():
 +                export_size = export.stat().st_size
@@ -2421,10 +2527,10 @@ index 000000000..8c52874ff
 +        raise SystemExit(1)
 diff --git a/ch8-5151-control/test_runner.py b/ch8-5151-control/test_runner.py
 new file mode 100644
-index 000000000..4b08109d8
+index 000000000..50e651cf2
 --- /dev/null
 +++ b/ch8-5151-control/test_runner.py
-@@ -0,0 +1,155 @@
+@@ -0,0 +1,182 @@
 +# Copyright Kani Contributors
 +# SPDX-License-Identifier: Apache-2.0 OR MIT
 +import json
@@ -2435,6 +2541,7 @@ index 000000000..4b08109d8
 +import tempfile
 +import time
 +import unittest
++from unittest.mock import patch
 +
 +import runner
 +
@@ -2512,6 +2619,14 @@ index 000000000..4b08109d8
 +        observed = runner.status_from_export(self.export, self.row, self.source, self.run, 'stock')
 +        self.assertEqual(observed['outcome'], 'UNKNOWN')
 +
++    def test_core_import_compilation_error_is_unknown(self):
++        self.run['exit_code'] = 1
++        self.run['stderr_excerpt'] = 'error[E0433]: cannot find core in the crate root'
++        for pin in ('stock', 'prototype'):
++            with self.subTest(pin=pin):
++                observed = runner.status_from_export(self.export, self.row, self.source, self.run, pin)
++                self.assertEqual(observed['outcome'], 'UNKNOWN')
++
 +    def test_mixed_stock_diagnostic_and_fatal_error_is_unknown(self):
 +        self.run['exit_code'] = 1
 +        self.run['stderr_excerpt'] = runner.STOCK_UNSUPPORTED_DIAGNOSTIC + '\nerror: unrelated compiler error'
@@ -2551,6 +2666,24 @@ index 000000000..4b08109d8
 +    def setUp(self): self.temp = tempfile.TemporaryDirectory()
 +    def tearDown(self): self.temp.cleanup()
 +
++    def test_standalone_harness_receives_compiletest_edition(self):
++        root = Path(self.temp.name)
++        for row in runner.ROWS:
++            with self.subTest(row=row['id']):
++                source = runner.ROOT / row['file']
++                self.assertIn('// compile-flags: --edition 2021', source.read_text().splitlines()[:5])
++                with patch.dict(os.environ, {'RUSTFLAGS': '--edition 2015'}):
++                    record = runner.run_harness(
++                        [sys.executable, '-c', 'import os; print(os.environ["RUSTFLAGS"])'],
++                        root, root / row['id'], row)
++                self.assertEqual(record['original_exit_code'], 0)
++                self.assertEqual(record['stdout_excerpt'].strip(), '--edition 2021')
++                self.assertEqual(record['compiler_environment'], {'RUSTFLAGS': '--edition 2021'})
++
++    def test_standalone_harness_rejects_missing_edition(self):
++        with self.assertRaisesRegex(ValueError, 'Rust 2021'):
++            runner.harness_environment({'compile_flags': []})
++
 +    def test_spawn_error_is_receipted(self):
 +        out = Path(self.temp.name) / 'missing-command'
 +        record = runner.bounded_run([str(Path(self.temp.name) / 'does-not-exist')], Path(self.temp.name), out, 1)
@@ -2589,12 +2722,13 @@ index 000000000..01a90d50b
 +Complete - 1 successfully verified harnesses, 0 failures, 1 total.
 diff --git a/tests/expected/uninit/issue-5151/initialized-slot.rs b/tests/expected/uninit/issue-5151/initialized-slot.rs
 new file mode 100644
-index 000000000..bb48cb8ad
+index 000000000..5335906ae
 --- /dev/null
 +++ b/tests/expected/uninit/issue-5151/initialized-slot.rs
-@@ -0,0 +1,18 @@
+@@ -0,0 +1,19 @@
 +// Copyright Kani Contributors
 +// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
 +// kani-flags: -Z uninit-checks
 +
 +use core::mem::MaybeUninit;
@@ -2621,12 +2755,13 @@ index 000000000..788284d8d
 +Complete -
 diff --git a/tests/expected/uninit/issue-5151/original-empty-drop.rs b/tests/expected/uninit/issue-5151/original-empty-drop.rs
 new file mode 100644
-index 000000000..26e2704ac
+index 000000000..5c96cb725
 --- /dev/null
 +++ b/tests/expected/uninit/issue-5151/original-empty-drop.rs
-@@ -0,0 +1,14 @@
+@@ -0,0 +1,15 @@
 +// Copyright Kani Contributors
 +// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
 +// kani-flags: -Z uninit-checks
 +
 +use core::mem::MaybeUninit;
@@ -2651,12 +2786,13 @@ index 000000000..a78d914db
 +Complete - 0 successfully verified harnesses, 1 failures, 1 total.
 diff --git a/tests/expected/uninit/issue-5151/read-in-drop.rs b/tests/expected/uninit/issue-5151/read-in-drop.rs
 new file mode 100644
-index 000000000..33b14cb2d
+index 000000000..c40fcf6d6
 --- /dev/null
 +++ b/tests/expected/uninit/issue-5151/read-in-drop.rs
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,24 @@
 +// Copyright Kani Contributors
 +// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
 +// kani-flags: -Z uninit-checks
 +
 +use core::mem::MaybeUninit;

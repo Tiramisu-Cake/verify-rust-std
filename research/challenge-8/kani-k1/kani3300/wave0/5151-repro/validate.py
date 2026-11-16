@@ -57,6 +57,10 @@ def validate(control):
     assert len(test_files) == 6
     for path in test_files:
         assert (HERE / test_directory / path.name).read_bytes() == path.read_bytes(), path
+    rows = json.loads((control / 'ch8-5151-control/rows.json').read_text())
+    for row in rows:
+        assert row['compile_flags'] == ['--edition', '2021']
+        assert '// compile-flags: --edition 2021' in (control / row['file']).read_text().splitlines()[:5]
     original = (HERE / test_directory / 'original-empty-drop.rs').read_text()
     issue_code = original[original.index('use core::mem::MaybeUninit;'):]
     source = json.loads((HERE / 'SOURCES.json').read_text())
@@ -77,6 +81,7 @@ def validate(control):
         'state': 'PASS_STATIC_ONLY', 'control_sha': identity['sha'],
         'control_tree': identity['tree'], 'patch_reconstruction': 'EXACT_TREE_MATCH',
         'test_files_identical': len(test_files), 'original_issue_body': 'BYTE_IDENTICAL',
+        'standalone_edition': '2021; compiletest flags transported through RUSTFLAGS',
         'source_candidates': len(candidates), 'static_harness_ids': len(ids),
         'runtime': 'NOT_RUN', 'proof_obligations_closed': 0,
     }

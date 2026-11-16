@@ -28,5 +28,29 @@
       "sha": "8e299aa6243bc5f06a29c51e98aafa9564478220",
       "tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb"
     }
+  },
+  "standalone_compilation": {
+    "edition": "2021",
+    "header": "// compile-flags: --edition 2021",
+    "environment": {
+      "RUSTFLAGS": "--edition 2021"
+    },
+    "source_pin": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "source_paths": [
+      "tools/compiletest/src/header.rs",
+      "tools/compiletest/src/runtest.rs",
+      "tools/compiletest/src/main.rs",
+      "kani-driver/src/call_single_file.rs",
+      "scripts/kani-regression.sh",
+      "tests/expected/panic/arg-error/test.rs"
+    ],
+    "source_sha256": {
+      "tools/compiletest/src/header.rs": "9ea266041cff8aaeee82f5270431f0c5f10e1ffa11ce4fd544ac733ab7dbc6e7",
+      "tools/compiletest/src/runtest.rs": "7ab3d25a027144d8b4b669990793d8f76b980d7a9f9ed59130af8a95749797a4",
+      "tools/compiletest/src/main.rs": "9e15ceb4c5dc7bc505081d3ec2be8a4af8bdb8fdf0cd0e5ffcbc137ea36dc412",
+      "kani-driver/src/call_single_file.rs": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+      "scripts/kani-regression.sh": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+      "tests/expected/panic/arg-error/test.rs": "14ee9c858f0a4aa632701e750204231e302d4ef6160d3c60576b1dcb31bd0ef6"
+    }
   }
 }
