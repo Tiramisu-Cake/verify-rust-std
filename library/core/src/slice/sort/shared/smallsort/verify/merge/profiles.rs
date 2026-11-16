@@ -225,7 +225,7 @@ pub(crate) fn sort4_regions<T>(src: *const T, dst: *mut T) -> bool {
 }
 
 #[kani::requires(sort4_regions::<P::Elem>(src, dst))]
-#[kani::modifies(ptr::slice_from_raw_parts_mut(dst, 4))]
+#[kani::modifies(dst, dst.wrapping_add(1), dst.wrapping_add(2), dst.wrapping_add(3))]
 #[kani::ensures(|_| model_sorted::<P>(dst, 4))]
 #[kani::ensures(|_| model_count::<P>(src, 4) == model_count::<P>(dst, 4))]
 pub(crate) unsafe fn sort4_profile<P: Profile>(
@@ -310,6 +310,26 @@ pub(crate) unsafe fn merge_profile<P: Profile>(
     unsafe { bidirectional_merge(v, dst, &mut is_less) }
 }
 
+/// Exact four-element merge profile used by the bounded consumer below. The shared
+/// variable-length profile retains its full slice frame for lengths 2 through 32.
+#[kani::requires(
+    merge_regions::<P::Elem>(v, dst)
+        && merge_halves_sorted::<P>(v)
+)]
+#[kani::modifies(dst, dst.wrapping_add(1), dst.wrapping_add(2), dst.wrapping_add(3))]
+#[kani::ensures(|_| model_sorted::<P>(dst, 4))]
+#[kani::ensures(|_| model_count::<P>(v.as_ptr(), 4) == model_count::<P>(dst, 4))]
+pub(crate) unsafe fn merge4_profile<P: Profile>(
+    v: &[P::Elem; 4],
+    dst: *mut P::Elem,
+) where
+    P::Elem: FreezeMarker,
+{
+    let mut is_less = |a: &P::Elem, b: &P::Elem| P::cmp(a, b);
+    // SAFETY: fixtures initialize v and own dst; requires check exact len4 geometry.
+    unsafe { bidirectional_merge(v, dst, &mut is_less) }
+}
+
 // Matched summary consumers: the wrapper itself owns the closure expression, so a leaf and
 // its consumer instantiate the same P/Elem/closure even when the wrapper is replaced. These
 // roots require new qualification; no result for the former fn-pointer signature is reused.
@@ -338,7 +358,7 @@ where
     P::Model: kani::Arbitrary,
 {
     P::set_probe(kani::any());
-    let src: [P::Elem; 4] = kani::any();
+    let src: [P::Elem; 4] = [kani::any(), kani::any(), kani::any(), kani::any()];
     let before = model_count::<P>(src.as_ptr(), 4);
     let mut dst = MaybeUninit::<[P::Elem; 4]>::uninit();
     let out = dst.as_mut_ptr().cast::<P::Elem>();
@@ -390,7 +410,7 @@ fn profile_insert_consumer_u8_backing17() {
 }
 
 #[kani::proof]
-#[kani::stub_verified(merge_profile)]
+#[kani::stub_verified(merge4_profile)]
 #[kani::unwind(34)]
 fn profile_merge_consumer_u8_len4() {
     LtU8::set_probe(kani::any());
@@ -400,8 +420,8 @@ fn profile_merge_consumer_u8_len4() {
     let count = model_count::<LtU8>(src.as_ptr(), 4);
     let mut dst = MaybeUninit::<[u8; 4]>::uninit();
     let out = dst.as_mut_ptr().cast::<u8>();
-    // SAFETY: separate exact arrays and sorted halves, matching the len2-to4 leaf's len4 arm.
-    unsafe { merge_profile::<LtU8>(&src, out) };
+    // SAFETY: separate exact arrays and sorted halves, matching the exact len4 leaf.
+    unsafe { merge4_profile::<LtU8>(&src, out) };
     kani::assert(model_sorted::<LtU8>(out, 4), "static merge consumer ordered");
     kani::assert(count == model_count::<LtU8>(out, 4), "static merge consumer full values");
     kani::assert(src == before, "static merge source frame");

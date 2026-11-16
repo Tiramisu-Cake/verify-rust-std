@@ -17,6 +17,10 @@ fn arbitrary_less<T>(a: &T, b: &T) -> bool {
     answer
 }
 
+fn reading_comparator<T>() -> impl FnMut(&T, &T) -> bool {
+    |a, b| arbitrary_less::<T>(a, b)
+}
+
 fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
     let mut backing: [T; 32] = kani::any();
     let before = backing;
@@ -27,7 +31,8 @@ fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
     kani::assume(a < 32 - start && b < 32 - start);
     // SAFETY: both possibly equal relative positions are initialized writable elements
     // in this allocation, including when the base is an interior pointer.
-    unsafe { swap_if_less(backing.as_mut_ptr().add(start), a, b, &mut arbitrary_less::<T>) };
+    let mut cmp = reading_comparator::<T>();
+    unsafe { swap_if_less(backing.as_mut_ptr().add(start), a, b, &mut cmp) };
     for i in 0..32 {
         kani::assert(
             i == start + a || i == start + b || backing[i] == before[i],
@@ -92,8 +97,9 @@ fn swap_safety_u64_backing32() {
 #[kani::unwind(50)]
 fn unstable_network_safety_u8_n32_stubbed() {
     let mut backing: [u8; 32] = kani::any();
+    let mut cmp = reading_comparator::<u8>();
     kani::cover(backing.len() == 32, "network maximum length entered");
-    <u8 as UnstableSmallSortTypeImpl>::small_sort(&mut backing, &mut arbitrary_less::<u8>);
+    <u8 as UnstableSmallSortTypeImpl>::small_sort(&mut backing, &mut cmp);
     kani::cover(true, "network maximum length returns");
 }
 

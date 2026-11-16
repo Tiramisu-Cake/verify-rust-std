@@ -18,14 +18,18 @@ fn arbitrary_less<T>(a: &T, b: &T) -> bool {
     answer
 }
 
-// A coverage-only hook lets stubbed consumers omit unreachable callback covers while retaining
-// the same arbitrary_less::<u8> function-item type as their matching ordinary PFCs.
+// A coverage-only hook lets stubbed consumers omit unreachable callback covers. The shared
+// reading_comparator factory gives each matching leaf and consumer the same closure type.
 fn comparison_covers(answer: bool) {
     kani::cover(answer, "helper contract comparator true");
     kani::cover(!answer, "helper contract comparator false");
 }
 
 fn omit_comparison_covers(_answer: bool) {}
+
+fn reading_comparator<T>() -> impl FnMut(&T, &T) -> bool {
+    |a, b| arbitrary_less::<T>(a, b)
+}
 
 fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
     let mut v: [T; 4] = kani::any();
@@ -36,7 +40,8 @@ fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
     // SAFETY: both positions are initialized, aligned, readable and writable
     // and belong to this allocation.
     // Equality is allowed by the real helper's safety condition.
-    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut arbitrary_less::<T>) };
+    let mut cmp = reading_comparator::<T>();
+    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut cmp) };
     for i in 0..4 {
         kani::assert(i == a || i == b || v[i] == before[i], "helper contract swap frame");
     }
@@ -69,10 +74,11 @@ fn swap_safety_bytes17_backing4() {
 #[kani::stub_verified(swap_if_less)]
 fn rejects_swap_outside_backing_u8() {
     let mut v: [u8; 4] = kani::any();
+    let mut cmp = reading_comparator::<u8>();
     kani::cover(true, "helper contract invalid swap consumer reached");
     // Deliberate contract violation: b == 4 is one-past-end, so it cannot be dereferenced.
     // The verified stub must reject its requires before havoc or any real-body access.
-    unsafe { swap_if_less(v.as_mut_ptr(), 0, 4, &mut arbitrary_less::<u8>) };
+    unsafe { swap_if_less(v.as_mut_ptr(), 0, 4, &mut cmp) };
 }
 
 // These lengths finish after the network: insertion starts at the end and no merge runs.
@@ -80,7 +86,8 @@ fn rejects_swap_outside_backing_u8() {
 // a four-element proof is insufficient.
 fn exercise_unstable_network_u8<const N: usize>() {
     let mut v: [u8; N] = kani::any();
-    <u8 as super::super::UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut arbitrary_less::<u8>);
+    let mut cmp = reading_comparator::<u8>();
+    <u8 as super::super::UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
     kani::cover(true, "helper contract unstable network consumer returns");
 }
 
@@ -108,7 +115,8 @@ fn exercise_swap_u8_backing<const N: usize>() {
     let b: usize = kani::any();
     kani::assume(a < N && b < N);
     // SAFETY: both positions are initialized writable elements of this allocation.
-    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut arbitrary_less::<u8>) };
+    let mut cmp = reading_comparator::<u8>();
+    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut cmp) };
     for i in 0..N {
         kani::assert(i == a || i == b || v[i] == before[i], "helper contract swap frame");
     }
@@ -135,7 +143,8 @@ fn exercise_insertion_fixed<const N: usize>() {
     let mut v: [u64; N] = kani::any();
     let offset: usize = kani::any();
     kani::assume(offset != 0 && offset <= N);
-    insertion_sort_shift_left(&mut v, offset, &mut arbitrary_less::<u64>);
+    let mut cmp = reading_comparator::<u64>();
+    insertion_sort_shift_left(&mut v, offset, &mut cmp);
     kani::cover(offset == 1, "helper contract insertion offset one returns");
     kani::cover(offset == N, "helper contract insertion final offset returns");
     kani::cover(offset < N, "helper contract insertion below final offset returns");
@@ -164,7 +173,8 @@ fn insert_tail_safety_u64_tail1_to4_backing5() {
     let begin = v.as_mut_ptr();
     // SAFETY: begin < tail, and the inclusive region is initialized, readable and writable,
     // aligned and within this one allocation. No sorted-prefix premise is needed for safety.
-    unsafe { insert_tail(begin, begin.add(tail), &mut arbitrary_less::<u64>) };
+    let mut cmp = reading_comparator::<u64>();
+    unsafe { insert_tail(begin, begin.add(tail), &mut cmp) };
     for i in 0..5 {
         kani::assert(i <= tail || v[i] == before[i], "helper contract insert_tail frame");
     }
@@ -185,7 +195,8 @@ fn rejects_insert_tail_equal_begin_u64() {
     kani::cover(true, "helper contract invalid insert_tail consumer reached");
     // Deliberate contract violation: initialized pointers in one allocation, but tail == begin.
     // The stub must fail the begin < tail requires, before any real-body access.
-    unsafe { insert_tail(begin, begin, &mut arbitrary_less::<u64>) };
+    let mut cmp = reading_comparator::<u64>();
+    unsafe { insert_tail(begin, begin, &mut cmp) };
 }
 
 #[kani::proof_for_contract(sort4_stable)]
@@ -194,9 +205,10 @@ fn sort4_safety_u64() {
     let src: [u64; 4] = kani::any();
     let before = src;
     let mut dst = crate::mem::MaybeUninit::<[u64; 4]>::uninit();
+    let mut cmp = reading_comparator::<u64>();
     // SAFETY: four initialized source values and a distinct allocation writable for four
     // destination values. The destination need not be initialized before the call.
-    unsafe { sort4_stable(src.as_ptr(), dst.as_mut_ptr().cast(), &mut arbitrary_less::<u64>) };
+    unsafe { sort4_stable(src.as_ptr(), dst.as_mut_ptr().cast(), &mut cmp) };
     for i in 0..4 {
         kani::assert(src[i] == before[i], "helper contract sort4 source frame");
     }
@@ -221,9 +233,10 @@ fn exercise_merge_u64<const N: usize>() {
     let src: [u64; N] = kani::any();
     let before = src;
     let mut dst = crate::mem::MaybeUninit::<[u64; N]>::uninit();
+    let mut cmp = reading_comparator::<u64>();
     // SAFETY: N is 2 or 4 in these PFCs; src is an initialized Freeze u64 slice,
     // and a distinct destination allocation has space for exactly N values.
-    unsafe { bidirectional_merge(&src, dst.as_mut_ptr().cast(), &mut arbitrary_less::<u64>) };
+    unsafe { bidirectional_merge(&src, dst.as_mut_ptr().cast(), &mut cmp) };
     for i in 0..N {
         kani::assert(src[i] == before[i], "helper contract merge source frame");
     }
@@ -260,10 +273,11 @@ fn rejects_merge_overlapping_dst_u64() {
     let base = backing.as_mut_ptr();
     // SAFETY: source is the first two initialized values of this allocation.
     let src = unsafe { crate::slice::from_raw_parts(base as *const u64, 2) };
+    let mut cmp = reading_comparator::<u64>();
     kani::cover(true, "helper contract overlapping merge consumer reached");
     // Deliberate contract violation: dst[0..2] covers backing[1..3], so it is writable
     // and in bounds but overlaps source[0..2] at backing[1]. Only disjointness fails.
-    unsafe { bidirectional_merge(src, base.add(1), &mut arbitrary_less::<u64>) };
+    unsafe { bidirectional_merge(src, base.add(1), &mut cmp) };
 }
 
 // The order is lawful; only the captured counter lies outside the helper's write set.

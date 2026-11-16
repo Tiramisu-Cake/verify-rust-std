@@ -4,7 +4,10 @@
 
 pub(super) mod profiles;
 
-use profiles::{LtU8, LtU64, Profile, Sort4ReadB16, Sort4ReadU64, merge_profile, sort4_profile};
+use profiles::{
+    LtU8, LtU64, Profile, Sort4ReadB16, Sort4ReadU64, merge4_profile, merge_profile,
+    sort4_profile,
+};
 
 use super::super::{
     SMALL_SORT_GENERAL_SCRATCH_LEN, StableSmallSortTypeImpl, UnstableSmallSortTypeImpl,
@@ -153,11 +156,22 @@ where
     P::Model: kani::Arbitrary,
 {
     P::set_probe(kani::any());
-    let v: [P::Elem; 4] = kani::any();
+    let v: [P::Elem; 4] = [kani::any(), kani::any(), kani::any(), kani::any()];
     let mut dst = MaybeUninit::<[P::Elem; 4]>::uninit();
     // SAFETY: the profile contract is checked by the enclosing proof_for_contract harness.
     unsafe { sort4_profile::<P>(v.as_ptr(), dst.as_mut_ptr() as *mut P::Elem) };
     kani::cover(true, "four-element stable sort returns");
+}
+
+#[kani::proof_for_contract(profiles::merge4_profile)]
+#[kani::unwind(34)]
+fn profile_merge4_contract_u8_len4() {
+    LtU8::set_probe(kani::any());
+    let v: [u8; 4] = [kani::any(), kani::any(), kani::any(), kani::any()];
+    let mut dst = MaybeUninit::<[u8; 4]>::uninit();
+    // SAFETY: exact source and disjoint exact destination, matching len4 profile requires.
+    unsafe { merge4_profile::<LtU8>(&v, dst.as_mut_ptr().cast()) };
+    kani::cover(true, "four-element merge returns");
 }
 
 // Separate sort4 checks: ordered profile contract with the reading fixture order (a checked

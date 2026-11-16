@@ -905,8 +905,10 @@ fn swap_contract_fixed<P: Profile>()
 where
     P::Elem: ArbitraryValue,
 {
-    let mut v: [P::Elem; 2] =
-        crate::array::from_fn(|_| <P::Elem as ArbitraryValue>::arbitrary_value());
+    let mut v: [P::Elem; 2] = [
+        <P::Elem as ArbitraryValue>::arbitrary_value(),
+        <P::Elem as ArbitraryValue>::arbitrary_value(),
+    ];
     let reverse: bool = kani::any();
     let (a, b) = if reverse { (1, 0) } else { (0, 1) };
     let taken = P::cmp(&v[b], &v[a]);
