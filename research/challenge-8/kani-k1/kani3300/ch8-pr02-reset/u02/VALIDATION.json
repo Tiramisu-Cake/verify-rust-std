@@ -1,0 +1,27 @@
+{
+  "schema": "ch8-pr02-reset-u02-validation-v1",
+  "source_commit": "09a6d1cb2cba63e67e60aeefbd909d1f64849b76",
+  "ci_package_commit": "952ea771be3827a495a9c9f29ad6a015bd796fc7",
+  "whitespace": "PASS_GIT_DIFF_CHECK_ACTUAL_SOURCE_AND_PACKAGE",
+  "fixture_shell_syntax": "PASS",
+  "package_YAML_AST_embedded_python_output_binding": "PASS",
+  "source_structure_gate": "PASS_STATIC",
+  "compiler_diff_identical_to_U01": true,
+  "fixture_files_byte_and_mode_identical": 28,
+  "source_patch_PR02_SEL1": "PASS_ISOLATED_INDEX",
+  "synthetic_runner_tests": {
+    "existing_B": 5,
+    "new_A_receipts": 2,
+    "failed": 0,
+    "scope": "Python synthetic children only, no native compiler/verifier"
+  },
+  "compiler": "NOT_RUN",
+  "regressions": "NOT_RUN",
+  "emitted_model": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "push": "NOT_RUN",
+  "proof_credit": "NONE",
+  "ci_only_patch_exact_package_tree": "PASS_ISOLATED_INDEX",
+  "patch_text_note": "git apply reports nested patch context whitespace on ci-only.patch; exact tree reproduction PASS, no source whitespace edit",
+  "independent_review": "GO_PREPARATION_ONLY"
+}

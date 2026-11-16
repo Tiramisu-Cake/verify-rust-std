@@ -1,0 +1,943 @@
+{
+  "baseline_commit": "b4edbb18bc8a490197420aac0964a7d55b284380",
+  "candidate_commit": "952ea771be3827a495a9c9f29ad6a015bd796fc7",
+  "candidate_tree": "6635864584be3049f96e146cb548b348101b0064",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "1a82bbb81fd58115d8af979f0dc424ad78d2834f",
+        "mode": "100644",
+        "sha256": "c776f80fb84ff3d80be2eeaaa6fc7a6ec4e9f66fdce68f625eaeca587ef8dcaf"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "dcdd8a1d6bc7afa0b0900128b872853c7824b5b1",
+        "mode": "100644",
+        "sha256": "302e9c616d2302da9482fa65ff6c65cd77fde118833ceeb0239bc020ad894ed5"
+      },
+      "path": ".github/workflows/ch8-pr02-reset.yml",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "2511e3cdcb12d3adb971a355cdeaead1ffc9d302",
+        "mode": "100644",
+        "sha256": "3ddcb6e256303b72321c502dde6dc6bf69fe70e1f905f22a236c06225886ad91"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "f68bd4c9177b51c0a322234f5e20165b2eca72ae",
+        "mode": "100644",
+        "sha256": "0917d44eb664bd4896f554187e161ba05a9ba09edf95cf49ff3a91370703fa63"
+      },
+      "path": "CI-REQUEST.json",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "13bebc28459d8d81ac4e55f777b2cd4ed4cc5644",
+        "mode": "100644",
+        "sha256": "c37c1eaf7c150683f4c947536bd3675d2c71b4ed134d947e453d3bb559e81704"
+      },
+      "path": "scripts/ch8-pr02-reset/bounded_step.py",
+      "status": "added"
+    },
+    {
+      "baseline": {
+        "blob": "303160d4397755c9283f4f3a099cf57af4acf8cb",
+        "mode": "100755",
+        "sha256": "77dedb31d294bef9827b0b5b0f5fdd205c4489a553b9d1f4eaa8202f43777148"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "3dffc3df088b63e3d4798be045dd21e2d215880e",
+        "mode": "100755",
+        "sha256": "c39dc125f49f172f7dd6c55a7e8432a115afb19c73934b6aab6b8beaa5929f51"
+      },
+      "path": "scripts/ch8-pr02-reset/check_package.py",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "6699c99395f3a7954dbdd7685cac81d7b7af9446",
+        "mode": "100755",
+        "sha256": "72332fb23eb220c141187b9a483a5605900cc692d69e0917be570fd855617f5a"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "90e0f5da8759f70c446b70155f7c69d58be15481",
+        "mode": "100755",
+        "sha256": "fb6b4afb0ffbe014d1733c2a62df971e3838d175bd24f42e28fea178f8f88325"
+      },
+      "path": "scripts/ch8-pr02-reset/check_source_structure.py",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "ab4e6fde5f44ce64fe7d58d2f5943a868565395a",
+        "mode": "100644",
+        "sha256": "4793cd7f84d0701e5fe5ffe4ae2adbacdcd77ab40b2ff794f40748a5d53f97e6"
+      },
+      "path": "scripts/ch8-pr02-reset/finalize_arm_a.py",
+      "status": "added"
+    },
+    {
+      "baseline": {
+        "blob": "0472f7b145ad877e20d6fbaaeb344b3dad9af0d6",
+        "mode": "100644",
+        "sha256": "52173eb8126f00e7cc3285f4b7bd4941e42cec78a9e822588e7bc9cce23ec91a"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "c14290fb786c96d68780a40591d2585abde5a20e",
+        "mode": "100644",
+        "sha256": "d43f251e5694c9ca5f15ee20134f5035009223bdd1d50b9b79c1d0b30093e0cd"
+      },
+      "path": "scripts/ch8-pr02-reset/reset.patch",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "1cfd401de71f8857a70adc984eaf03999f6e01b6",
+        "mode": "100755",
+        "sha256": "b6fae87c3e1612f6676158dd392dbbc1efb669659519f33568c680fd08a74f7f"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "f143eb637d21af0cbc52d653a920bd258455e375",
+        "mode": "100755",
+        "sha256": "f91b837a6de2b81295167046128072d52dd14035466b2d2f8291b04966351740"
+      },
+      "path": "scripts/ch8-pr02-reset/run_arm_a.sh",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "a1dd04301e0968ba2f794a895063d1482eaddc47",
+        "mode": "100755",
+        "sha256": "dcc754885d30937cd3c50e3629b9cb7e301c060df4ad996cfd55ce7fead77034"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "7f142e4caa0ebf22fe44825517e591d81c682646",
+        "mode": "100755",
+        "sha256": "41d75a8c699c79fd94bb7bbdd4098a80fb582e3e6d716f5ca1827518d363f9f2"
+      },
+      "path": "scripts/ch8-pr02-reset/run_old_control.py",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "c13e5570375af742768cd9e25a3fbfd7fdc8e8de",
+        "mode": "100644",
+        "sha256": "9d79a3a9b9d2d560a46d73c470e96f1922200e81e74099a1a1d0ebc4e54852a5"
+      },
+      "path": "scripts/ch8-pr02-reset/test_arm_a_receipts.py",
+      "status": "added"
+    },
+    {
+      "baseline": {
+        "blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "mode": "100644",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/argument_seed/config.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "479be4c4bbbdaac83a300177d8a3bd28b15dad3a",
+        "mode": "100644",
+        "sha256": "6971bc6f59c3f536fadec9d0eee2d6f5b09204e74f2d44aec5a5e72004758423"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/argument_seed/expected",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "131595f3671f8bd2c6884b5fd45c8dc53cfcc038",
+        "mode": "100644",
+        "sha256": "7cf1881b211c46b816086e190c9e6b165c4421494c53e554cdfd46d37cbfca64"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/argument_seed/main.rs",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "0d0a1ebc89bc69992bf9dbced5b4ff0df79bdce6",
+        "mode": "100755",
+        "sha256": "f2c148c36483a257517e32e1ef10de9169337bcb4c0fe79f3d2af5977cadd91b"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/argument_seed/run.sh",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "mode": "100644",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/contract_seed/config.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "0a8c88f289b68e50b93dcf29acbefdff132c1243",
+        "mode": "100644",
+        "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/contract_seed/expected",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "586eef3ed922c0a5c2c0eb37482a6ca538973113",
+        "mode": "100644",
+        "sha256": "3a970577523e0c5c4b652c7437627a7f5fb400111e12b45adde5112afad199cd"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/contract_seed/main.rs",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "4d5616333ae8deab4f8de606760e1bd64012f9ef",
+        "mode": "100755",
+        "sha256": "08224e79cbac0b8283a903bd5065533f42321d9f5907e26215b79b8835267d77"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/contract_seed/run.sh",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "mode": "100644",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/initialized_read/config.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "0a8c88f289b68e50b93dcf29acbefdff132c1243",
+        "mode": "100644",
+        "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/initialized_read/expected",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "1a347d4dbc65a57638fce3653271226bd9656958",
+        "mode": "100644",
+        "sha256": "07ef2f58ed29019ffe83007dee3e08f28459f85c59713847f8013a28a6192837"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/initialized_read/main.rs",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "d03cc7f63a56f9e1ee9d95aaa1b9712b6cffc19e",
+        "mode": "100755",
+        "sha256": "a71322d2895511411d7807867cee2e42f4eda120057f28417a73cfd4a5c6f383"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/initialized_read/run.sh",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "mode": "100644",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/no_seed/config.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "0a8c88f289b68e50b93dcf29acbefdff132c1243",
+        "mode": "100644",
+        "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/no_seed/expected",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "66492f64f630215058839cda8fe8e8346424ce00",
+        "mode": "100644",
+        "sha256": "efcf52bb6e653ca78a59b0b8157514c6b3fb5fe9986c4be70df25466f2b6d471"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/no_seed/main.rs",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "fa2d0031390a0ea6676114ce472dfa59061fda3d",
+        "mode": "100755",
+        "sha256": "5bb6f63995b1e716d7e89b1f5eff65b82eda6e9eb63902838b722970fa64802e"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/no_seed/run.sh",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "mode": "100644",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/seed_only/config.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "0a8c88f289b68e50b93dcf29acbefdff132c1243",
+        "mode": "100644",
+        "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/seed_only/expected",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "0d8d74b0f5ffd7035029a52ab5dbd4937e7a8665",
+        "mode": "100644",
+        "sha256": "e11f8cd3788d7ac6debb2ab089cd60751a8c03046761923030277a837fde5404"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/seed_only/main.rs",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "e72ee17ef14489f6fc2cc551e0def85e00743647",
+        "mode": "100755",
+        "sha256": "0f2c9206b95087882f50b13adc1cb012f9ddd5b066ab862ae52f4b6a69c412d0"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/seed_only/run.sh",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "mode": "100644",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/uninit_off/config.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "0a8c88f289b68e50b93dcf29acbefdff132c1243",
+        "mode": "100644",
+        "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/uninit_off/expected",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "6a8982e6ef41cbd879d211dd9ef014da1061fcd0",
+        "mode": "100644",
+        "sha256": "492524571f780de0716c378f70e2a5ed84df31460b021d40d5bef5f88965c30b"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/uninit_off/main.rs",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "a272a351fd1eb534ccae0d74d1134284743116fb",
+        "mode": "100755",
+        "sha256": "fe5be1ab5fe7279fa45947c8ab216bb186dc3f4aaa75c0f94b01f1f7afee6ecc"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/uninit_off/run.sh",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "mode": "100644",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/uninit_read/config.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "658aaca0f517a92afa72d560fd5f2ea6a6f717f4",
+        "mode": "100644",
+        "sha256": "3a0e3c314782ac6b6ed331a6a0ebcc39f6408c510570e09a86476c96c28f4cf7"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/uninit_read/expected",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "afe7cc5cf046f7fda28740513491572393fa4417",
+        "mode": "100644",
+        "sha256": "925f3de4fac706ce29eb7b41b953ba9dc2a775cc8111f30627aaf4ce837fcc69"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/uninit_read/main.rs",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "1a1ffeedde8035faad8cfae3c6c40f36966845f7",
+        "mode": "100755",
+        "sha256": "fa7de964f6d82b8f08bd472a4927a249a52820f35e1ae66add217f25d623fe81"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "tests/script-based-pre/autoharness_entry_reset/uninit_read/run.sh",
+      "status": "deleted"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "mode": "100644",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_argument_seed/config.yml",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "479be4c4bbbdaac83a300177d8a3bd28b15dad3a",
+        "mode": "100644",
+        "sha256": "6971bc6f59c3f536fadec9d0eee2d6f5b09204e74f2d44aec5a5e72004758423"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_argument_seed/expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "131595f3671f8bd2c6884b5fd45c8dc53cfcc038",
+        "mode": "100644",
+        "sha256": "7cf1881b211c46b816086e190c9e6b165c4421494c53e554cdfd46d37cbfca64"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_argument_seed/main.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "0d0a1ebc89bc69992bf9dbced5b4ff0df79bdce6",
+        "mode": "100755",
+        "sha256": "f2c148c36483a257517e32e1ef10de9169337bcb4c0fe79f3d2af5977cadd91b"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_argument_seed/run.sh",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "mode": "100644",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_contract_seed/config.yml",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "0a8c88f289b68e50b93dcf29acbefdff132c1243",
+        "mode": "100644",
+        "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_contract_seed/expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "586eef3ed922c0a5c2c0eb37482a6ca538973113",
+        "mode": "100644",
+        "sha256": "3a970577523e0c5c4b652c7437627a7f5fb400111e12b45adde5112afad199cd"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_contract_seed/main.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "4d5616333ae8deab4f8de606760e1bd64012f9ef",
+        "mode": "100755",
+        "sha256": "08224e79cbac0b8283a903bd5065533f42321d9f5907e26215b79b8835267d77"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_contract_seed/run.sh",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "mode": "100644",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_initialized_read/config.yml",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "0a8c88f289b68e50b93dcf29acbefdff132c1243",
+        "mode": "100644",
+        "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_initialized_read/expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "1a347d4dbc65a57638fce3653271226bd9656958",
+        "mode": "100644",
+        "sha256": "07ef2f58ed29019ffe83007dee3e08f28459f85c59713847f8013a28a6192837"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_initialized_read/main.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "d03cc7f63a56f9e1ee9d95aaa1b9712b6cffc19e",
+        "mode": "100755",
+        "sha256": "a71322d2895511411d7807867cee2e42f4eda120057f28417a73cfd4a5c6f383"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_initialized_read/run.sh",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "mode": "100644",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_no_seed/config.yml",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "0a8c88f289b68e50b93dcf29acbefdff132c1243",
+        "mode": "100644",
+        "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_no_seed/expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "66492f64f630215058839cda8fe8e8346424ce00",
+        "mode": "100644",
+        "sha256": "efcf52bb6e653ca78a59b0b8157514c6b3fb5fe9986c4be70df25466f2b6d471"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_no_seed/main.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "fa2d0031390a0ea6676114ce472dfa59061fda3d",
+        "mode": "100755",
+        "sha256": "5bb6f63995b1e716d7e89b1f5eff65b82eda6e9eb63902838b722970fa64802e"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_no_seed/run.sh",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "mode": "100644",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_seed_only/config.yml",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "0a8c88f289b68e50b93dcf29acbefdff132c1243",
+        "mode": "100644",
+        "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_seed_only/expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "0d8d74b0f5ffd7035029a52ab5dbd4937e7a8665",
+        "mode": "100644",
+        "sha256": "e11f8cd3788d7ac6debb2ab089cd60751a8c03046761923030277a837fde5404"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_seed_only/main.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "e72ee17ef14489f6fc2cc551e0def85e00743647",
+        "mode": "100755",
+        "sha256": "0f2c9206b95087882f50b13adc1cb012f9ddd5b066ab862ae52f4b6a69c412d0"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_seed_only/run.sh",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "mode": "100644",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_off/config.yml",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "0a8c88f289b68e50b93dcf29acbefdff132c1243",
+        "mode": "100644",
+        "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_off/expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "6a8982e6ef41cbd879d211dd9ef014da1061fcd0",
+        "mode": "100644",
+        "sha256": "492524571f780de0716c378f70e2a5ed84df31460b021d40d5bef5f88965c30b"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_off/main.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "a272a351fd1eb534ccae0d74d1134284743116fb",
+        "mode": "100755",
+        "sha256": "fe5be1ab5fe7279fa45947c8ab216bb186dc3f4aaa75c0f94b01f1f7afee6ecc"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_off/run.sh",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "mode": "100644",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_read/config.yml",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "658aaca0f517a92afa72d560fd5f2ea6a6f717f4",
+        "mode": "100644",
+        "sha256": "3a0e3c314782ac6b6ed331a6a0ebcc39f6408c510570e09a86476c96c28f4cf7"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_read/expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "afe7cc5cf046f7fda28740513491572393fa4417",
+        "mode": "100644",
+        "sha256": "925f3de4fac706ce29eb7b41b953ba9dc2a775cc8111f30627aaf4ce837fcc69"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_read/main.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "1a1ffeedde8035faad8cfae3c6c40f36966845f7",
+        "mode": "100755",
+        "sha256": "fa7de964f6d82b8f08bd472a4927a249a52820f35e1ae66add217f25d623fe81"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_read/run.sh",
+      "status": "added"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "689afc7831f071f2f08ef82e6c342d716bb3b6f3",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+      "sha256": "e4e867eb8334624894705c065fd75c32a4171e3cc9c0c8ee46e6544cb68b960f",
+      "size": 115286
+    },
+    {
+      "blob": "db2466bbe8b834bfe57d8b295aa0a78bbb4a043d",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "sha256": "8dc76ebe25ce1e05db3a98613011ed3258280ef57c2be336ab84ed97f7f46ba8",
+      "size": 16993
+    },
+    {
+      "blob": "ae984c26e220b2fc689c7f16fecd970b7cbe0a20",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/body.rs",
+      "sha256": "930636ad1ab2290fb2b10f1970f2283f6e29c52de9a7b1696c7767c041a469d5",
+      "size": 26496
+    },
+    {
+      "blob": "94997512d78721fb09c6a94134a00c9a3a6be957",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/kani_functions.rs",
+      "sha256": "4fc4ef480440d05432e1f5b2245be83bd7c70b3cd547c57442c901457feb3ab4",
+      "size": 14997
+    },
+    {
+      "blob": "dbec042343bd430eb71a7c10af1bc0c328a2fdb6",
+      "member": "dependencies/0004.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "sha256": "26ab4fe3184b0558f95a023fee56a16ce2b12068c10165c5f0e6202bd3a6cd10",
+      "size": 34189
+    },
+    {
+      "blob": "779ba7a4666f62a75c75f186c8f7ce53ea71b587",
+      "member": "dependencies/0005.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "sha256": "9d6a4883c29c0ac042bf26a39eb86b5079f7bfded4ca81d6dfd11eac463ba587",
+      "size": 26566
+    },
+    {
+      "blob": "37b9da8d674afb814f5024a20b77350ad5f82fd8",
+      "member": "dependencies/0006.bin",
+      "mode": "100644",
+      "path": "library/kani_core/src/mem_init.rs",
+      "sha256": "88f260ddc5b315a32e64b0f6f396451373d2fb54f1a4898233508ebd81cd993c",
+      "size": 17920
+    },
+    {
+      "blob": "ebf620d9edc467760e96372cbf13ec28bc60763e",
+      "member": "dependencies/0007.bin",
+      "mode": "100644",
+      "path": "kani-driver/src/args/mod.rs",
+      "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+      "size": 59912
+    },
+    {
+      "blob": "4d1442b8dbe52db68ae629f48c79a77df41f3ebf",
+      "member": "dependencies/0008.bin",
+      "mode": "100644",
+      "path": "kani-driver/src/args/autoharness_args.rs",
+      "sha256": "c2a4afac17730af0b2fc15d24b8465cbe09d7f6df82562a029d55b21288dafa8",
+      "size": 16225
+    },
+    {
+      "blob": "d63c4bb7ac02c240cb1aa973fee9a711f246a710",
+      "member": "dependencies/0009.bin",
+      "mode": "100644",
+      "path": "kani-driver/src/autoharness/mod.rs",
+      "sha256": "5802be39929e79154c2fbf8e2b2b0fd9e05ae54c68f53d38f46b5a595daddcfa",
+      "size": 14542
+    },
+    {
+      "blob": "4438547071f5426caa8f0990fecfd727cf86352b",
+      "member": "dependencies/0010.bin",
+      "mode": "100644",
+      "path": "tools/compiletest/src/runtest.rs",
+      "sha256": "7ab3d25a027144d8b4b669990793d8f76b980d7a9f9ed59130af8a95749797a4",
+      "size": 29489
+    },
+    {
+      "blob": "7e781d3c6f853811cb39b29839ff4e452436ae2e",
+      "member": "dependencies/0011.bin",
+      "mode": "100644",
+      "path": ".github/actions/setup/action.yml",
+      "sha256": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+      "size": 1510
+    },
+    {
+      "blob": "6b1106e39d0e22a020ac7b5a2e4c5427a1b47391",
+      "member": "dependencies/0012.bin",
+      "mode": "100755",
+      "path": "scripts/kani",
+      "sha256": "28a81c48fd72627ed2449993730636bc830abeffeaea4d85d9297b2ec4393af2",
+      "size": 513
+    },
+    {
+      "blob": "51341393540c3884b48bc053a4e9170e259532ce",
+      "member": "dependencies/0013.bin",
+      "mode": "100755",
+      "path": "scripts/validate_json_export.py",
+      "sha256": "af2a207bafbe4fd66254d40a0c022bfa4b51a76a426aedfc9f27ed14388e8b7d",
+      "size": 13484
+    },
+    {
+      "blob": "cbd8f2f9b474d44d886d1eb348f20b109eda6fb8",
+      "member": "dependencies/0014.bin",
+      "mode": "100644",
+      "path": "tools/compiletest/src/common.rs",
+      "sha256": "97c6201dc6aff338b1615a2040cb0447a26c7524bea28dcc138139543a4de7ff",
+      "size": 6294
+    },
+    {
+      "blob": "24901f7cf98213cd76cfa3b200bb07f2c6a181b0",
+      "member": "dependencies/0015.bin",
+      "mode": "100644",
+      "path": "kani-driver/src/frontend/schema_utils.rs",
+      "sha256": "6cf7b1311b3ebfd6ec1ce61efb1875b33d067fc2a89d2e7d1ccf8bf6995b1a64",
+      "size": 107906
+    },
+    {
+      "blob": "0a624be6498327c8ed3f3b7429109eb3397f578c",
+      "member": "dependencies/0016.bin",
+      "mode": "100644",
+      "path": "kani-driver/src/sarif.rs",
+      "sha256": "8fcb54a329b9c47e82dfdfb4113f595233c9bb0cd54b53500a65e0a87bc62b77",
+      "size": 14028
+    },
+    {
+      "blob": "86c3341cd505db05f8593014307bf39e3ac62f66",
+      "member": "dependencies/0017.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/metadata.rs",
+      "sha256": "c0253feeab3b326236fff1fbf6be23c5a7b4cd58c118577923ed0a74c10ad36d",
+      "size": 8557
+    },
+    {
+      "blob": "d60c3bbc7f49117b04b083cbce7e0384167950dd",
+      "member": "dependencies/0018.bin",
+      "mode": "100644",
+      "path": "tools/compiletest/src/main.rs",
+      "sha256": "9e15ceb4c5dc7bc505081d3ec2be8a4af8bdb8fdf0cd0e5ffcbc137ea36dc412",
+      "size": 23324
+    },
+    {
+      "blob": "592515493eb431cdd5fbb9eeae08ef74128b47fc",
+      "member": "dependencies/0019.bin",
+      "mode": "100755",
+      "path": "scripts/ch8-pr02-reset/run_arm_b.py",
+      "sha256": "394e40784c5f0745ce292b3c2190a30749ae8694251387791e2b49224454b2e4",
+      "size": 10269
+    },
+    {
+      "blob": "5d0e713286412db2e28ee1e70f231a014a94cfb5",
+      "member": "dependencies/0020.bin",
+      "mode": "100644",
+      "path": "scripts/ch8-pr02-reset/test_runner.py",
+      "sha256": "27d21358f01c943cc1138bddae74803a07d25c84bc9571185f0d86e470b60dcd",
+      "size": 3969
+    }
+  ],
+  "diff_sha256": "88b49e10d046b04a11cddf5828d36e53fc5db8e3bb82b9d5a724a9337273c9f6",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-pr02-reset-u02/research/challenge-8/kani-k1/kani3300/ch8-pr02-reset/PACKAGE-REVIEW.md",
+      "sha256": "0cb98c35613d86d03288b4369c4339959071d4d8f98b39bc6e9cf93a00e4d64d"
+    }
+  ],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "433a361a102bd9eb74e63e214b79be6879738f2c74e1d374c751b32622bd3885",
+  "worktree": "/root/kani-fix-ch8-pr02-reset-u02-ci"
+}

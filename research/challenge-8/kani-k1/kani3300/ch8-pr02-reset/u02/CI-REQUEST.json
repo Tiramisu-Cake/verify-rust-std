@@ -1,0 +1,92 @@
+{
+  "schema": "ch8-pr02-reset-u02-ci-request-v1",
+  "status": "READY_COORDINATOR_REVIEW_SINGLE_ARM_A_RUN",
+  "runtime": "NOT_RUN",
+  "package_identity": "Bound externally by g0 CI-REQUEST.json and same-tree child workflow gate",
+  "source_fix": {
+    "commit": "09a6d1cb2cba63e67e60aeefbd909d1f64849b76",
+    "tree": "1068f57f0d094033b6b1cd59ba333e9bbd110c8c"
+  },
+  "expected_target": "x86_64-unknown-linux-gnu",
+  "pins": {
+    "pr02": {
+      "sha": "932fb8395a58f8c86c0d702ba2cae835823b2962",
+      "tree": "2c4d5ad4b72a7d07059f1461132a58da03f81ef9",
+      "patched_tree": "1068f57f0d094033b6b1cd59ba333e9bbd110c8c"
+    },
+    "sel1": {
+      "sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+      "tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
+      "patched_tree": "a7cd87889a186b91a89c0388af572dd27a85d696"
+    }
+  },
+  "patch": {
+    "path": "scripts/ch8-pr02-reset/reset.patch",
+    "sha256": "d43f251e5694c9ca5f15ee20134f5035009223bdd1d50b9b79c1d0b30093e0cd"
+  },
+  "fixtures": {
+    "issue-4854-autoharness.rs": "8a5b94bfb1af4eca980c1e20358ea66c9ecbc7f3df2b7e4d7b3af43c5c828bd2",
+    "issue-4854-explicit-proof-companion.rs": "7b8c87634051e6bb26ba0d0b0a42ebc5b5a8e01ab4878b5c6f227d5d346fc009"
+  },
+  "trigger": "uninit-ci/ch8-pr02-reset-*",
+  "workflow": ".github/workflows/ch8-pr02-reset.yml",
+  "arms": {
+    "A": "PR02+fix full gates and changed suites; unpatched PR02 old matched seed cases must fail closed with immutable reset absent fatal; U-02 top-level fixtures; always upload bounded receipts",
+    "B": "NOT_REPEATED: retain U-01 run 43777434715 SUCCESS; compiler diff and B inputs unchanged; see g0 RESULT-U01.md and COMPATIBILITY.json"
+  },
+  "static_model_gate": "PASS_REQUIRED: exact source checks for auto wrapper recognition, setup-before-instrumentation, Uninit ON guard, nondeterministic object/offset and false reset value; emitted wrapper/model evidence NOT_RUN",
+  "stock_workflows": "REMOVE_FROM_CI_ONLY_COMMIT; retain only this workflow under .github/workflows",
+  "limits": {
+    "job_timeout_minutes": 120,
+    "max_parallel": 1,
+    "cargo_build_jobs": 2,
+    "rust_test_threads": 2,
+    "retry": "NONE"
+  },
+  "retained_u01": {
+    "run_id": "43777434715",
+    "package": "b4edbb18bc8a490197420aac0964a7d55b284380",
+    "arm_b": "SUCCESS_REPORTED_BY_TASK",
+    "new_proof_credit": "NONE"
+  },
+  "ci_package": {
+    "commit": "952ea771be3827a495a9c9f29ad6a015bd796fc7",
+    "tree": "6635864584be3049f96e146cb548b348101b0064",
+    "parent": "b4edbb18bc8a490197420aac0964a7d55b284380",
+    "branch": "work/ch8-pr02-reset-u02-ci",
+    "worktree": "/root/kani-fix-ch8-pr02-reset-u02-ci",
+    "patch": "ci-only.patch",
+    "patch_sha256": "5c7ee3f6d5df41de31c7637ebebce7b6d264e8705d2f51077d7132c436194a47",
+    "source_delta_base": "09a6d1cb2cba63e67e60aeefbd909d1f64849b76"
+  },
+  "source_patch": {
+    "path": "source.patch",
+    "sha256": "d43f251e5694c9ca5f15ee20134f5035009223bdd1d50b9b79c1d0b30093e0cd"
+  },
+  "g0_input": "e3fce08411b8a222fc7e7b6d7e9969df3cbae407",
+  "source_worktree": {
+    "path": "/root/kani-fix-ch8-pr02-reset-u02-source",
+    "branch": "work/ch8-pr02-reset-u02-source",
+    "parent": "932fb8395a58f8c86c0d702ba2cae835823b2962"
+  },
+  "review": "REVIEW.md",
+  "portability_checks": "COMPATIBILITY.json",
+  "CI": "NOT_RUN",
+  "push": "NOT_RUN",
+  "publication": "NOT_RUN",
+  "ledger_changes": "NONE",
+  "Cloud_spend": 0,
+  "dispatch": "COORDINATOR_ONLY_PUSH_SAME_TREE_CHILD",
+  "attempts": 1,
+  "automatic_retry": false,
+  "assurance": "STATIC_AND_SYNTHETIC_ONLY_NO_NEW_PROOF_CREDIT",
+  "review_bindings": {
+    "candidate": "952ea771be3827a495a9c9f29ad6a015bd796fc7",
+    "review_sha256": "a6d41bce85838334f7195f9ee39b357e1b2ebfd60104ae4e7f1692d892fbf71f",
+    "packet_sha256": "fa5bd929ab2823ed61a22a661dd84d8a7bc2abe739fb323b78cfec66652dee2c",
+    "spec_sha256": "433a361a102bd9eb74e63e214b79be6879738f2c74e1d374c751b32622bd3885",
+    "recommendation": "GO_PREPARATION_ONLY",
+    "full_local_packet": "/root/ch8-pr02-reset-u02-review-packet",
+    "metadata": "REVIEW-PACKET.json"
+  }
+}
