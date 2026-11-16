@@ -1,0 +1,2982 @@
+{
+  "schema": "ch8-e01-intake-v1",
+  "run": 43783430196,
+  "input_g0": "56b4134b5a62b9fba6461afcc94afe6a41c650a3",
+  "control": "3219b3f220de568a69275618944dbe26bfe2917d",
+  "artifacts": {
+    "upstream": {
+      "id": 14188654722,
+      "sha256": "0fd0a3c15c54f012cfa86e7a1419f572d35ea985ef7f03db220e1189f5e73c44"
+    },
+    "sel1": {
+      "id": 14190061402,
+      "sha256": "b3fd3cfb3fe98a09d70cf4c5f705cdceed12eaa76e6dd8fa4d86ad35c2018d57"
+    }
+  },
+  "proof_credit": "NONE",
+  "rows": [
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_q_pointer_loop",
+      "check": "OFF",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_q_pointer_loop/off/receipt.json",
+      "receipt_sha256": "988e55ebe9525ed501b2cf89a79b01b89dcdcbc1481f4207611eabb12b13a87b",
+      "source_sha256": "a7b320bccc1d9c239aa80e104c0294107fa1cf1d82553f001d1ad385d029fc53",
+      "exit": 1,
+      "elapsed_seconds": 61.992,
+      "rss_peak_kib": 296564,
+      "runner_export_state": "UNBOUND_FAILURE",
+      "export_member": "rows/e_q_pointer_loop/off/export.json",
+      "export_sha256": "f806862de3d024d1e6fb22fbe3f53975a0ab3c16cb8f5f801f6ea23bedcb9c5e",
+      "verdict": "FAILURE",
+      "n_properties": 3129,
+      "n_failed": 8,
+      "failure_kind": "ERROR",
+      "failures": [
+        {
+          "id": "e_q_pointer_loop.loop_invariant_base.1",
+          "description": "Check invariant before entry for loop e_q_pointer_loop.0",
+          "class": "loop_invariant_base",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_pointer_loop.rs",
+          "line": "10",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_pointer_loop.loop_invariant_step.1",
+          "description": "Check invariant after step for loop e_q_pointer_loop.0",
+          "class": "loop_invariant_step",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_pointer_loop.rs",
+          "line": "10",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.230",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.487",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.744",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_pointer_loop::{closure#0}.pointer_dereference.236",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_pointer_loop::{closure#0}.pointer_dereference.493",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_pointer_loop::{closure#0}.pointer_dereference.750",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [],
+      "covers": {
+        "total": 1,
+        "satisfied": [
+          "e_q_pointer_loop.cover.1"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [
+        {
+          "message_prefix": "warning: ignoring exists\n  * type: bool\n  0: tuple\n      * type: \n      0: symbol\n          * type: unsignedbv\n              * #source_location: \n                * file: <built-in-additions>\n                * line: 1\n                * working_directory: /home/runner/work/_temp/ch8-e-upstream/rows/e_q_pointer_loop/off\n              * width: 64\n              * #typedef: __CPROVER_size_t\n              * #c_type: unsigned_long_int\n          * identif",
+          "truncated": true,
+          "original_chars": 117425
+        },
+        {
+          "message_prefix": "warning: ignoring exists\n  * type: bool\n  0: tuple\n      * type: \n      0: symbol\n          * type: unsignedbv\n              * #source_location: \n                * file: <built-in-additions>\n                * line: 1\n                * working_directory: /home/runner/work/_temp/ch8-e-upstream/rows/e_q_pointer_loop/off\n              * width: 64\n              * #typedef: __CPROVER_size_t\n              * #c_type: unsigned_long_int\n          * identif",
+          "truncated": true,
+          "original_chars": 117500
+        },
+        {
+          "message_prefix": "warning: ignoring exists\n  * type: bool\n  0: tuple\n      * type: \n      0: symbol\n          * type: unsignedbv\n              * #source_location: \n                * file: <built-in-additions>\n                * line: 1\n                * working_directory: /home/runner/work/_temp/ch8-e-upstream/rows/e_q_pointer_loop/off\n              * width: 64\n              * #typedef: __CPROVER_size_t\n              * #c_type: unsigned_long_int\n          * identif",
+          "truncated": true,
+          "original_chars": 117500
+        }
+      ],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "unexpected",
+      "reason": "positive predicate failed; backend ignored existential even outside loop",
+      "check_status_counts": {
+        "total": 3128,
+        "success": 271,
+        "failure": 8,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 2849,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "e_q_pointer_loop.loop_invariant_base.1",
+        "e_q_pointer_loop.loop_invariant_step.1",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.230",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.487",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.744",
+        "e_q_pointer_loop::{closure#0}.pointer_dereference.236",
+        "e_q_pointer_loop::{closure#0}.pointer_dereference.493",
+        "e_q_pointer_loop::{closure#0}.pointer_dereference.750"
+      ]
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_q_pointer_loop",
+      "check": "ON",
+      "expected": "FRONTEND_REJECTION",
+      "receipt_member": "rows/e_q_pointer_loop/on/receipt.json",
+      "receipt_sha256": "2c455f0c994ac3245094ac564532a9fff8acd24815a883c3f7d51e037a247ec9",
+      "source_sha256": "a7b320bccc1d9c239aa80e104c0294107fa1cf1d82553f001d1ad385d029fc53",
+      "exit": 1,
+      "elapsed_seconds": 0.056,
+      "rss_peak_kib": 660,
+      "runner_export_state": "FRONTEND_REJECTION_OBSERVATION",
+      "verdict": "NO_EXPORT",
+      "diagnostic": "quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks",
+      "diagnostic_member": "rows/e_q_pointer_loop/on/stderr.tail.log",
+      "diagnostic_sha256": "aefa069d4b00f376f32488fb7cc3843ab226a4f609df2bf3732578d4d9ae58f8",
+      "compiler_exit": 101,
+      "classification": "intended",
+      "reason": "exact frontend rejection before export"
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_q_false_pointer_loop",
+      "check": "OFF",
+      "expected": "ASSERTION_FAILURE",
+      "receipt_member": "rows/e_q_false_pointer_loop/off/receipt.json",
+      "receipt_sha256": "1e4672c9ba98b18c6b66a58cd8afccae4317862cdd04bb5a1d1b0a87d50ddee2",
+      "source_sha256": "6e65fb7abface3afae50846072b8b8946867ad4eccc8a739a8c2be816f82364c",
+      "exit": 1,
+      "elapsed_seconds": 61.9,
+      "rss_peak_kib": 278536,
+      "runner_export_state": "UNBOUND_FAILURE",
+      "export_member": "rows/e_q_false_pointer_loop/off/export.json",
+      "export_sha256": "9dbd7f83f452df7bb91178ec71d2ecbb03a7de584ba3914e099ff5e163d186c1",
+      "verdict": "FAILURE",
+      "n_properties": 3128,
+      "n_failed": 8,
+      "failure_kind": "ERROR",
+      "failures": [
+        {
+          "id": "e_q_false_pointer_loop.loop_invariant_base.1",
+          "description": "Check invariant before entry for loop e_q_false_pointer_loop.0",
+          "class": "loop_invariant_base",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_false_pointer_loop.rs",
+          "line": "11",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_false_pointer_loop.loop_invariant_step.1",
+          "description": "Check invariant after step for loop e_q_false_pointer_loop.0",
+          "class": "loop_invariant_step",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_false_pointer_loop.rs",
+          "line": "11",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.230",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.487",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.744",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_false_pointer_loop::{closure#0}.pointer_dereference.236",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_false_pointer_loop::{closure#0}.pointer_dereference.493",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_false_pointer_loop::{closure#0}.pointer_dereference.750",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [],
+      "covers": {
+        "total": 0,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [
+        {
+          "message_prefix": "warning: ignoring exists\n  * type: bool\n  0: tuple\n      * type: \n      0: symbol\n          * type: unsignedbv\n              * #source_location: \n                * file: <built-in-additions>\n                * line: 1\n                * working_directory: /home/runner/work/_temp/ch8-e-upstream/rows/e_q_false_pointer_loop/off\n              * width: 64\n              * #typedef: __CPROVER_size_t\n              * #c_type: unsigned_long_int\n          * i",
+          "truncated": true,
+          "original_chars": 118553
+        },
+        {
+          "message_prefix": "warning: ignoring exists\n  * type: bool\n  0: tuple\n      * type: \n      0: symbol\n          * type: unsignedbv\n              * #source_location: \n                * file: <built-in-additions>\n                * line: 1\n                * working_directory: /home/runner/work/_temp/ch8-e-upstream/rows/e_q_false_pointer_loop/off\n              * width: 64\n              * #typedef: __CPROVER_size_t\n              * #c_type: unsigned_long_int\n          * i",
+          "truncated": true,
+          "original_chars": 118628
+        },
+        {
+          "message_prefix": "warning: ignoring exists\n  * type: bool\n  0: tuple\n      * type: \n      0: symbol\n          * type: unsignedbv\n              * #source_location: \n                * file: <built-in-additions>\n                * line: 1\n                * working_directory: /home/runner/work/_temp/ch8-e-upstream/rows/e_q_false_pointer_loop/off\n              * width: 64\n              * #typedef: __CPROVER_size_t\n              * #c_type: unsigned_long_int\n          * i",
+          "truncated": true,
+          "original_chars": 118628
+        }
+      ],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "unexpected",
+      "reason": "backend ignored existential; false mutant failure not clean calibration",
+      "check_status_counts": {
+        "total": 3128,
+        "success": 271,
+        "failure": 8,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 2849,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "e_q_false_pointer_loop.loop_invariant_base.1",
+        "e_q_false_pointer_loop.loop_invariant_step.1",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.230",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.487",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.744",
+        "e_q_false_pointer_loop::{closure#0}.pointer_dereference.236",
+        "e_q_false_pointer_loop::{closure#0}.pointer_dereference.493",
+        "e_q_false_pointer_loop::{closure#0}.pointer_dereference.750"
+      ]
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_q_false_pointer_loop",
+      "check": "ON",
+      "expected": "FRONTEND_REJECTION",
+      "receipt_member": "rows/e_q_false_pointer_loop/on/receipt.json",
+      "receipt_sha256": "b7007c0aeeddc044bf5708e368166b3835d67517804a022da0edef674ef87cf9",
+      "source_sha256": "6e65fb7abface3afae50846072b8b8946867ad4eccc8a739a8c2be816f82364c",
+      "exit": 1,
+      "elapsed_seconds": 0.055,
+      "rss_peak_kib": 20,
+      "runner_export_state": "FRONTEND_REJECTION_OBSERVATION",
+      "verdict": "NO_EXPORT",
+      "diagnostic": "quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks",
+      "diagnostic_member": "rows/e_q_false_pointer_loop/on/stderr.tail.log",
+      "diagnostic_sha256": "f1f90f73cce0c18e4a5b9e3f10f9158806f39f3bb990e557f84b4cb61494525e",
+      "compiler_exit": 101,
+      "classification": "intended",
+      "reason": "exact frontend rejection before export"
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_q_isolated_witness",
+      "check": "OFF",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_q_isolated_witness/off/receipt.json",
+      "receipt_sha256": "7e353e80399da1c782d431d052bb9577189d781c9d789527dcda5caacc3f8213",
+      "source_sha256": "765c77554b19cec446ed009f9e2f4ca7f759b33f45d993e2893b9c8aa669b672",
+      "exit": 1,
+      "elapsed_seconds": 22.135,
+      "rss_peak_kib": 141700,
+      "runner_export_state": "UNBOUND_FAILURE",
+      "export_member": "rows/e_q_isolated_witness/off/export.json",
+      "export_sha256": "80ca06a1150b43c19fea645ab6cb0a8dbf9411c513351749eaee1f4826025957",
+      "verdict": "FAILURE",
+      "n_properties": 3085,
+      "n_failed": 7,
+      "failure_kind": "ERROR",
+      "failures": [
+        {
+          "id": "e_q_isolated_witness.assertion.1",
+          "description": "assertion failed: kani::exists!(|i in (0, 2)| unsafe { *p.add(i) == 2 })",
+          "class": "assertion",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_isolated_witness.rs",
+          "line": "7",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.230",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.487",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.744",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_isolated_witness.pointer_dereference.230",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_isolated_witness.pointer_dereference.487",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_isolated_witness.pointer_dereference.744",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [],
+      "covers": {
+        "total": 0,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [
+        {
+          "message_prefix": "warning: ignoring exists\n  * type: bool\n  0: tuple\n      * type: \n      0: symbol\n          * type: unsignedbv\n              * #source_location: \n                * file: <built-in-additions>\n                * line: 1\n                * working_directory: /home/runner/work/_temp/ch8-e-upstream/rows/e_q_isolated_witness/off\n              * width: 64\n              * #typedef: __CPROVER_size_t\n              * #c_type: unsigned_long_int\n          * ide",
+          "truncated": true,
+          "original_chars": 114439
+        }
+      ],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "unexpected",
+      "reason": "positive predicate failed; backend ignored existential even outside loop",
+      "check_status_counts": {
+        "total": 3085,
+        "success": 229,
+        "failure": 7,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 2849,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "e_q_isolated_witness.assertion.1",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.230",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.487",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.744",
+        "e_q_isolated_witness.pointer_dereference.230",
+        "e_q_isolated_witness.pointer_dereference.487",
+        "e_q_isolated_witness.pointer_dereference.744"
+      ]
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_q_isolated_witness",
+      "check": "ON",
+      "expected": "FRONTEND_REJECTION",
+      "receipt_member": "rows/e_q_isolated_witness/on/receipt.json",
+      "receipt_sha256": "e7cf955c1d1d6ed9ad582ad623c87ef7d34a9acbff16011492992c08d31ca6fe",
+      "source_sha256": "765c77554b19cec446ed009f9e2f4ca7f759b33f45d993e2893b9c8aa669b672",
+      "exit": 1,
+      "elapsed_seconds": 0.055,
+      "rss_peak_kib": 24,
+      "runner_export_state": "FRONTEND_REJECTION_OBSERVATION",
+      "verdict": "NO_EXPORT",
+      "diagnostic": "quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks",
+      "diagnostic_member": "rows/e_q_isolated_witness/on/stderr.tail.log",
+      "diagnostic_sha256": "c683b06b71965f6af87775ef931a396af167b61931942e9ee5912ad2e10f98b6",
+      "compiler_exit": 101,
+      "classification": "intended",
+      "reason": "exact frontend rejection before export"
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_q_scalar_invariant",
+      "check": "OFF",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_q_scalar_invariant/off/receipt.json",
+      "receipt_sha256": "aeb8d64ad969e4e07ff7259dc7e41b6171016469dad4291b68b51f8f87ad9d1b",
+      "source_sha256": "b332bcb84a9a6a91c1e6823491e0d954ff42ca1eb00fa45f8b4b39f5d3a58cf5",
+      "exit": 0,
+      "elapsed_seconds": 0.328,
+      "rss_peak_kib": 25504,
+      "runner_export_state": "VALIDATED_OBSERVATION",
+      "export_member": "rows/e_q_scalar_invariant/off/export.json",
+      "export_sha256": "a46c957e64e6c00dd79f58c25f98c2900fe2a77b4d315111611aff9dfe0ee2f5",
+      "verdict": "SUCCESS",
+      "n_properties": 66,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failures": [],
+      "unsupported": [],
+      "covers": {
+        "total": 1,
+        "satisfied": [
+          "e_q_scalar_invariant.cover.1"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "intended",
+      "reason": "export SUCCESS and source-bound return cover",
+      "check_status_counts": {
+        "total": 65,
+        "success": 65,
+        "failure": 0,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": []
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_q_scalar_invariant",
+      "check": "ON",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_q_scalar_invariant/on/receipt.json",
+      "receipt_sha256": "a402251c23f11519fe4247ca6f9d833f6f26edc44600059728c88c53028589d5",
+      "source_sha256": "b332bcb84a9a6a91c1e6823491e0d954ff42ca1eb00fa45f8b4b39f5d3a58cf5",
+      "exit": 0,
+      "elapsed_seconds": 0.552,
+      "rss_peak_kib": 45940,
+      "runner_export_state": "VALIDATED_OBSERVATION",
+      "export_member": "rows/e_q_scalar_invariant/on/export.json",
+      "export_sha256": "0922718b9818e76de3abfbd122dc92939f367cecfb31a435257b26aa3e967464",
+      "verdict": "SUCCESS",
+      "n_properties": 94,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failures": [],
+      "unsupported": [],
+      "covers": {
+        "total": 1,
+        "satisfied": [
+          "e_q_scalar_invariant.cover.1"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [
+        {
+          "message_prefix": "file /home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_scalar_invariant.rs line 11 column 37 function e_q_scalar_invariant::{closure#0}: call to '_RINvNtCs86zjduzGLhS_4kani8mem_init18is_ptr_initializedKj1_hECs3YkgmlmQlmV_20e_q_scalar_invariant': not enough arguments, inserting non-deterministic value",
+          "truncated": false,
+          "original_chars": null
+        },
+        {
+          "message_prefix": "file /home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_scalar_invariant.rs line 11 column 37 function e_q_scalar_invariant::{closure#0}: call to '_RINvNtCs86zjduzGLhS_4kani8mem_init18is_ptr_initializedKj1_hECs3YkgmlmQlmV_20e_q_scalar_invariant': not enough arguments, inserting non-deterministic value",
+          "truncated": false,
+          "original_chars": null
+        },
+        {
+          "message_prefix": "file /home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_scalar_invariant.rs line 11 column 37 function e_q_scalar_invariant::{closure#0}: call to '_RINvNtCs86zjduzGLhS_4kani8mem_init18is_ptr_initializedKj1_hECs3YkgmlmQlmV_20e_q_scalar_invariant': not enough arguments, inserting non-deterministic value",
+          "truncated": false,
+          "original_chars": null
+        }
+      ],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "intended",
+      "reason": "export SUCCESS and source-bound return cover; lowering warning: no independent initialization proof credit",
+      "check_status_counts": {
+        "total": 93,
+        "success": 93,
+        "failure": 0,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": []
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_s_unbounded_slice",
+      "check": "OFF",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_s_unbounded_slice/off/receipt.json",
+      "receipt_sha256": "7c92fec7465b0ca5a8a54079b38dc9dd95ff7c9aa592b2719c839eaa8efb5311",
+      "source_sha256": "918ca6109068245148d66cfaafc339b5eb0f3d72872c0c444c6213fe63173a4f",
+      "exit": 1,
+      "elapsed_seconds": 0.055,
+      "rss_peak_kib": 212,
+      "runner_export_state": "MISSING",
+      "verdict": "NO_EXPORT",
+      "diagnostic": "cannot find function `any_slice_mut_unbounded` in crate `kani`",
+      "diagnostic_member": "rows/e_s_unbounded_slice/off/stderr.tail.log",
+      "diagnostic_sha256": "3c6f29e490bf775ada93ce50b28f1b0e85eaac5e67dd26d504258e72ca06658b",
+      "compiler_exit": 101,
+      "classification": "setup",
+      "reason": "E0425: wrong API namespace; model not executed"
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_s_unbounded_slice",
+      "check": "ON",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_s_unbounded_slice/on/receipt.json",
+      "receipt_sha256": "72cf2c01241cf09cf029737e6282f7204407e287135c31fc72e50b029ea2aade",
+      "source_sha256": "918ca6109068245148d66cfaafc339b5eb0f3d72872c0c444c6213fe63173a4f",
+      "exit": 1,
+      "elapsed_seconds": 0.055,
+      "rss_peak_kib": 24,
+      "runner_export_state": "MISSING",
+      "verdict": "NO_EXPORT",
+      "diagnostic": "cannot find function `any_slice_mut_unbounded` in crate `kani`",
+      "diagnostic_member": "rows/e_s_unbounded_slice/on/stderr.tail.log",
+      "diagnostic_sha256": "3c6f29e490bf775ada93ce50b28f1b0e85eaac5e67dd26d504258e72ca06658b",
+      "compiler_exit": 101,
+      "classification": "setup",
+      "reason": "E0425: wrong API namespace; model not executed"
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_h_live_after_havoc",
+      "check": "OFF",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_h_live_after_havoc/off/receipt.json",
+      "receipt_sha256": "59314332fb24eade6f3dabbde0979e7e4519f74e92be90c8ad4518d14b3bf758",
+      "source_sha256": "762a9b7b42492e13ea52aac29a284959c8a7ca09cc4744694c9896e6a1b630c7",
+      "exit": 0,
+      "elapsed_seconds": 0.386,
+      "rss_peak_kib": 27104,
+      "runner_export_state": "VALIDATED_OBSERVATION",
+      "export_member": "rows/e_h_live_after_havoc/off/export.json",
+      "export_sha256": "bdbdc898a6ffa7bd4a7a91b1152ea77e5a79176a2b04eb6719bce35d07af1879",
+      "verdict": "SUCCESS",
+      "n_properties": 72,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failures": [],
+      "unsupported": [],
+      "covers": {
+        "total": 2,
+        "satisfied": [
+          "e_h_live_after_havoc.cover.1",
+          "e_h_live_after_havoc.cover.2"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "intended",
+      "reason": "export SUCCESS and body/read covers satisfied",
+      "check_status_counts": {
+        "total": 70,
+        "success": 70,
+        "failure": 0,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": []
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_h_live_after_havoc",
+      "check": "ON",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_h_live_after_havoc/on/receipt.json",
+      "receipt_sha256": "9c2a2773d9fdd69b18a2e29fb4f93af564eed1befbf244d0534057199be654b5",
+      "source_sha256": "762a9b7b42492e13ea52aac29a284959c8a7ca09cc4744694c9896e6a1b630c7",
+      "exit": 1,
+      "elapsed_seconds": 0.439,
+      "rss_peak_kib": 189868,
+      "runner_export_state": "COVER_INVENTORY_MISMATCH",
+      "export_member": "rows/e_h_live_after_havoc/on/export.json",
+      "export_sha256": "9d83a7ae04237250a9e2c86d6f13a7506fbdbc6b4d2fe21e53c0e99ade953fa3",
+      "verdict": "FAILURE",
+      "n_properties": 80,
+      "n_failed": 1,
+      "failure_kind": "OTHER",
+      "failures": [
+        {
+          "id": "e_h_live_after_havoc.unsupported_construct.1",
+          "description": "Checking memory initialization of type [std::mem::MaybeUninit<u8>; 2] is not supported. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_live_after_havoc.rs",
+          "line": "8",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [
+        {
+          "id": "e_h_live_after_havoc.unsupported_construct.1",
+          "description": "Checking memory initialization of type [std::mem::MaybeUninit<u8>; 2] is not supported. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_live_after_havoc.rs",
+          "line": "8",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_h_live_after_havoc.unsupported_construct.2",
+          "description": "Kani currently doesn't support checking memory initialization for pointers to `[std::mem::MaybeUninit<u8>; 2]. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_live_after_havoc.rs",
+          "line": "8",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "std::mem::MaybeUninit::<u8>::as_ptr.unsupported_construct.1",
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs",
+          "line": "619",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "core::slice::<impl [std::mem::MaybeUninit<u8>]>::as_mut_ptr.unsupported_construct.1",
+          "description": "Kani currently doesn't support checking memory initialization for pointers to `[std::mem::MaybeUninit<u8>]. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/mod.rs",
+          "line": "763",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "std::mem::MaybeUninit::<u8>::as_mut_ptr.unsupported_construct.1",
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs",
+          "line": "661",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "covers": {
+        "total": 2,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [
+          "e_h_live_after_havoc.cover.1",
+          "e_h_live_after_havoc.cover.2"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "setup",
+      "reason": "unsupported union/layout instrumentation blocks intended oracle",
+      "check_status_counts": {
+        "total": 78,
+        "success": 67,
+        "failure": 1,
+        "unreachable": 10,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "e_h_live_after_havoc.unsupported_construct.1"
+      ]
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_h_hole_inside_alias",
+      "check": "OFF",
+      "expected": "OBSERVE",
+      "receipt_member": "rows/e_h_hole_inside_alias/off/receipt.json",
+      "receipt_sha256": "dc740eebe59dc7e50fd61d82f666f1b358bd5646f8c9b9dd162244da44609078",
+      "source_sha256": "93e743ea9eb914a704d9bafed7a2335e47edea66bcd38fe9eb496cdf59921049",
+      "exit": 0,
+      "elapsed_seconds": 0.382,
+      "rss_peak_kib": 26564,
+      "runner_export_state": "VALIDATED_OBSERVATION",
+      "export_member": "rows/e_h_hole_inside_alias/off/export.json",
+      "export_sha256": "4d3df9296a9862167040f4bd722976bd85e5dcb6c5432fc152641041b4257c4e",
+      "verdict": "SUCCESS",
+      "n_properties": 72,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failures": [],
+      "unsupported": [],
+      "covers": {
+        "total": 2,
+        "satisfied": [
+          "e_h_hole_inside_alias.cover.1",
+          "e_h_hole_inside_alias.cover.2"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "intended",
+      "reason": "OBSERVE only, no initializedness oracle",
+      "check_status_counts": {
+        "total": 70,
+        "success": 70,
+        "failure": 0,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": []
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_h_hole_inside_alias",
+      "check": "ON",
+      "expected": "UNINIT_FAILURE",
+      "receipt_member": "rows/e_h_hole_inside_alias/on/receipt.json",
+      "receipt_sha256": "d0dc6e7f4287b9a5706753304d0f6fb23bd1003caa9da18950b8a8b76d5b4a36",
+      "source_sha256": "93e743ea9eb914a704d9bafed7a2335e47edea66bcd38fe9eb496cdf59921049",
+      "exit": 1,
+      "elapsed_seconds": 0.494,
+      "rss_peak_kib": 189676,
+      "runner_export_state": "COVER_INVENTORY_MISMATCH",
+      "export_member": "rows/e_h_hole_inside_alias/on/export.json",
+      "export_sha256": "787fadaaf88322ee4de52c377f72681c9e99cf545e55d4c812c67bc8411d8075",
+      "verdict": "FAILURE",
+      "n_properties": 87,
+      "n_failed": 1,
+      "failure_kind": "OTHER",
+      "failures": [
+        {
+          "id": "e_h_hole_inside_alias.unsupported_construct.1",
+          "description": "Checking memory initialization of type [std::mem::MaybeUninit<u8>; 2] is not supported. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_hole_inside_alias.rs",
+          "line": "8",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [
+        {
+          "id": "e_h_hole_inside_alias.unsupported_construct.1",
+          "description": "Checking memory initialization of type [std::mem::MaybeUninit<u8>; 2] is not supported. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_hole_inside_alias.rs",
+          "line": "8",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_h_hole_inside_alias.unsupported_construct.2",
+          "description": "Kani currently doesn't support checking memory initialization for pointers to `[std::mem::MaybeUninit<u8>; 2]. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_hole_inside_alias.rs",
+          "line": "8",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "std::mem::MaybeUninit::<u8>::as_ptr.unsupported_construct.1",
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs",
+          "line": "619",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "std::mem::MaybeUninit::<u8>::as_mut_ptr.unsupported_construct.1",
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs",
+          "line": "661",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "core::slice::<impl [std::mem::MaybeUninit<u8>]>::as_mut_ptr.unsupported_construct.1",
+          "description": "Kani currently doesn't support checking memory initialization for pointers to `[std::mem::MaybeUninit<u8>]. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/mod.rs",
+          "line": "763",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "covers": {
+        "total": 2,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [
+          "e_h_hole_inside_alias.cover.1",
+          "e_h_hole_inside_alias.cover.2"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "setup",
+      "reason": "unsupported union/layout instrumentation blocks intended oracle",
+      "check_status_counts": {
+        "total": 85,
+        "success": 71,
+        "failure": 1,
+        "unreachable": 13,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "e_h_hole_inside_alias.unsupported_construct.1"
+      ]
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_h_outside_false_alias",
+      "check": "OFF",
+      "expected": "OBSERVE",
+      "receipt_member": "rows/e_h_outside_false_alias/off/receipt.json",
+      "receipt_sha256": "aec6bb67d285246800f1f074e85c5fd0ad029508c655c1b14d26a8273a430c6e",
+      "source_sha256": "9144ea4df0ced8dc1a1c129a2cbde742d816afbb129268098fed1cc7b410a34c",
+      "exit": 0,
+      "elapsed_seconds": 0.383,
+      "rss_peak_kib": 26944,
+      "runner_export_state": "VALIDATED_OBSERVATION",
+      "export_member": "rows/e_h_outside_false_alias/off/export.json",
+      "export_sha256": "05f8d00990212a0e9eb73b0535e2aba644f257fa9adff28d705ee10456b7ce1f",
+      "verdict": "SUCCESS",
+      "n_properties": 82,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failures": [],
+      "unsupported": [],
+      "covers": {
+        "total": 3,
+        "satisfied": [
+          "e_h_outside_false_alias.cover.1",
+          "e_h_outside_false_alias.cover.2",
+          "e_h_outside_false_alias.cover.3"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "intended",
+      "reason": "OBSERVE only, no initializedness oracle",
+      "check_status_counts": {
+        "total": 79,
+        "success": 79,
+        "failure": 0,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": []
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_h_outside_false_alias",
+      "check": "ON",
+      "expected": "UNINIT_FAILURE",
+      "receipt_member": "rows/e_h_outside_false_alias/on/receipt.json",
+      "receipt_sha256": "871ba940f5adb4974fe47e2fad16437fb17c1407f1ade35859047ae452ffd8c4",
+      "source_sha256": "9144ea4df0ced8dc1a1c129a2cbde742d816afbb129268098fed1cc7b410a34c",
+      "exit": 1,
+      "elapsed_seconds": 0.496,
+      "rss_peak_kib": 189112,
+      "runner_export_state": "COVER_INVENTORY_MISMATCH",
+      "export_member": "rows/e_h_outside_false_alias/on/export.json",
+      "export_sha256": "b2be738fbd16684f98cb77abc01ef22334fb0c6197fffe7ef134701fd0a8c235",
+      "verdict": "FAILURE",
+      "n_properties": 101,
+      "n_failed": 1,
+      "failure_kind": "OTHER",
+      "failures": [
+        {
+          "id": "e_h_outside_false_alias.unsupported_construct.1",
+          "description": "Checking memory initialization of type [std::mem::MaybeUninit<u8>; 4] is not supported. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_outside_false_alias.rs",
+          "line": "8",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [
+        {
+          "id": "std::mem::MaybeUninit::<u8>::as_ptr.unsupported_construct.1",
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs",
+          "line": "619",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "e_h_outside_false_alias.unsupported_construct.1",
+          "description": "Checking memory initialization of type [std::mem::MaybeUninit<u8>; 4] is not supported. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_outside_false_alias.rs",
+          "line": "8",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_h_outside_false_alias.unsupported_construct.2",
+          "description": "Kani currently doesn't support checking memory initialization for pointers to `[std::mem::MaybeUninit<u8>; 4]. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_outside_false_alias.rs",
+          "line": "8",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "std::mem::MaybeUninit::<u8>::as_mut_ptr.unsupported_construct.1",
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs",
+          "line": "661",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "core::slice::<impl [std::mem::MaybeUninit<u8>]>::as_mut_ptr.unsupported_construct.1",
+          "description": "Kani currently doesn't support checking memory initialization for pointers to `[std::mem::MaybeUninit<u8>]. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/mod.rs",
+          "line": "763",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "covers": {
+        "total": 3,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [
+          "e_h_outside_false_alias.cover.1",
+          "e_h_outside_false_alias.cover.2",
+          "e_h_outside_false_alias.cover.3"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "setup",
+      "reason": "unsupported union/layout instrumentation blocks intended oracle",
+      "check_status_counts": {
+        "total": 98,
+        "success": 81,
+        "failure": 1,
+        "unreachable": 16,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "e_h_outside_false_alias.unsupported_construct.1"
+      ]
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_h_write_makes_readable",
+      "check": "OFF",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_h_write_makes_readable/off/receipt.json",
+      "receipt_sha256": "2851e4fa1932f7e6aaa7b90a312fd527c53ce7cdb2c856d9299b832be4a31e3c",
+      "source_sha256": "832de27430e7d9b30b29d09b5ad9fefd406b9323ae19c8a169b9a95fabc40501",
+      "exit": 0,
+      "elapsed_seconds": 0.327,
+      "rss_peak_kib": 24300,
+      "runner_export_state": "VALIDATED_OBSERVATION",
+      "export_member": "rows/e_h_write_makes_readable/off/export.json",
+      "export_sha256": "fb1e2332dba525ddae09cc5b4c89cf245fb5b44ea8deeb218502aa3622147014",
+      "verdict": "SUCCESS",
+      "n_properties": 69,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failures": [],
+      "unsupported": [],
+      "covers": {
+        "total": 1,
+        "satisfied": [
+          "e_h_write_then_read.cover.1"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "intended",
+      "reason": "export SUCCESS and body/read covers satisfied",
+      "check_status_counts": {
+        "total": 68,
+        "success": 68,
+        "failure": 0,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": []
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_h_write_makes_readable",
+      "check": "ON",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_h_write_makes_readable/on/receipt.json",
+      "receipt_sha256": "a8d69b13e6b3918818b7931cfd27a5937ba4a66ee1fcc736794faf3b9acd9e1f",
+      "source_sha256": "832de27430e7d9b30b29d09b5ad9fefd406b9323ae19c8a169b9a95fabc40501",
+      "exit": 1,
+      "elapsed_seconds": 0.44,
+      "rss_peak_kib": 187268,
+      "runner_export_state": "COVER_INVENTORY_MISMATCH",
+      "export_member": "rows/e_h_write_makes_readable/on/export.json",
+      "export_sha256": "6a454ef502c200d56dc0ffd4ec4834437992157dd29cb38921a3e9202996f4d3",
+      "verdict": "FAILURE",
+      "n_properties": 79,
+      "n_failed": 1,
+      "failure_kind": "OTHER",
+      "failures": [
+        {
+          "id": "e_h_write_then_read.unsupported_construct.1",
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_write_then_read.rs",
+          "line": "8",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [
+        {
+          "id": "e_h_write_then_read.unsupported_construct.1",
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_write_then_read.rs",
+          "line": "8",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "std::mem::MaybeUninit::<u8>::as_mut_ptr.unsupported_construct.1",
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs",
+          "line": "661",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "covers": {
+        "total": 1,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [
+          "e_h_write_then_read.cover.1"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "setup",
+      "reason": "unsupported union/layout instrumentation blocks intended oracle",
+      "check_status_counts": {
+        "total": 78,
+        "success": 63,
+        "failure": 1,
+        "unreachable": 14,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "e_h_write_then_read.unsupported_construct.1"
+      ]
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_h_copy_makes_readable",
+      "check": "OFF",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_h_copy_makes_readable/off/receipt.json",
+      "receipt_sha256": "281a5f5379f482564ce06157b591ecde6fecf94875042d34b5f9ec0d18be20d1",
+      "source_sha256": "a6e3bc77a76bc5de6cc73af0545740876375f5b6ea36f9d38bd66961ef45b12e",
+      "exit": 0,
+      "elapsed_seconds": 1.342,
+      "rss_peak_kib": 345424,
+      "runner_export_state": "INCONSISTENT_SUCCESS",
+      "export_member": "rows/e_h_copy_makes_readable/off/export.json",
+      "export_sha256": "9cbf4b4fb81b6184fc1fd6a574b41cc787a8c027b05d1a6605df09cf77c4ed03",
+      "verdict": "SUCCESS",
+      "n_properties": 88,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failures": [],
+      "unsupported": [
+        {
+          "id": "std::panic::Location::<'_>::caller.unsupported_construct.1",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "core::panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panicking.rs",
+          "line": "110",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "covers": {
+        "total": 1,
+        "satisfied": [
+          "e_h_copy_then_read.cover.1"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "intended",
+      "reason": "export SUCCESS and body/read covers satisfied; conservative runner rejects status-SUCCESS unsupported inventory",
+      "check_status_counts": {
+        "total": 87,
+        "success": 83,
+        "failure": 0,
+        "unreachable": 4,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": []
+    },
+    {
+      "pin": "upstream",
+      "artifact_id": 14188654722,
+      "row": "e_h_copy_makes_readable",
+      "check": "ON",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_h_copy_makes_readable/on/receipt.json",
+      "receipt_sha256": "37974341d720c7dc1e13b0faa33f1fdc386b670284019579f10ec4e02a2f655f",
+      "source_sha256": "a6e3bc77a76bc5de6cc73af0545740876375f5b6ea36f9d38bd66961ef45b12e",
+      "exit": 1,
+      "elapsed_seconds": 0.656,
+      "rss_peak_kib": 173736,
+      "runner_export_state": "COVER_INVENTORY_MISMATCH",
+      "export_member": "rows/e_h_copy_makes_readable/on/export.json",
+      "export_sha256": "b2262c04a3c3894469fa324fb2194193ab0055c2e1108f13c325516b024dfc89",
+      "verdict": "FAILURE",
+      "n_properties": 127,
+      "n_failed": 1,
+      "failure_kind": "OTHER",
+      "failures": [
+        {
+          "id": "e_h_copy_then_read.unsupported_construct.1",
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_copy_then_read.rs",
+          "line": "8",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [
+        {
+          "id": "std::mem::MaybeUninit::<u8>::as_mut_ptr.unsupported_construct.1",
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs",
+          "line": "661",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "std::mem::MaybeUninit::<u8>::as_ptr.unsupported_construct.1",
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs",
+          "line": "619",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "e_h_copy_then_read.unsupported_construct.1",
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_copy_then_read.rs",
+          "line": "8",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_h_copy_then_read.unsupported_construct.2",
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_copy_then_read.rs",
+          "line": "9",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "std::panic::Location::<'_>::caller.unsupported_construct.1",
+          "description": "Kani does not support reasoning about memory initialization of intrinsic `Unimplemented { name: \"caller_location\", issue_link: \"https://github.com/model-checking/kani/issues/374\" }`.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "std::panic::Location::<'_>::caller.unsupported_construct.2",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "std::intrinsics::unlikely.unsupported_construct.1",
+          "description": "Kani does not support reasoning about memory initialization of intrinsic `Unimplemented { name: \"cold_path\", issue_link: \"https://github.com/model-checking/kani/issues/new/choose\" }`.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/intrinsics/mod.rs",
+          "line": "716",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "core::panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panicking.rs",
+          "line": "110",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "covers": {
+        "total": 1,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [
+          "e_h_copy_then_read.cover.1"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "setup",
+      "reason": "unsupported union/layout instrumentation blocks intended oracle",
+      "check_status_counts": {
+        "total": 126,
+        "success": 99,
+        "failure": 1,
+        "unreachable": 26,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "e_h_copy_then_read.unsupported_construct.1"
+      ]
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_q_pointer_loop",
+      "check": "OFF",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_q_pointer_loop/off/receipt.json",
+      "receipt_sha256": "11c215e299102febdc45380ed24bbe697a02c13c9f2502f170f983f4c8aa674f",
+      "source_sha256": "a7b320bccc1d9c239aa80e104c0294107fa1cf1d82553f001d1ad385d029fc53",
+      "exit": 1,
+      "elapsed_seconds": 57.524,
+      "rss_peak_kib": 297404,
+      "runner_export_state": "UNBOUND_FAILURE",
+      "export_member": "rows/e_q_pointer_loop/off/export.json",
+      "export_sha256": "40c323863d7179d96a1990aed525aafc5e635f3f07b604a6d255f858ba1ef300",
+      "verdict": "FAILURE",
+      "n_properties": 3129,
+      "n_failed": 8,
+      "failure_kind": "ERROR",
+      "failures": [
+        {
+          "id": "e_q_pointer_loop.loop_invariant_base.1",
+          "description": "Check invariant before entry for loop e_q_pointer_loop.0",
+          "class": "loop_invariant_base",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_pointer_loop.rs",
+          "line": "10",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_pointer_loop.loop_invariant_step.1",
+          "description": "Check invariant after step for loop e_q_pointer_loop.0",
+          "class": "loop_invariant_step",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_pointer_loop.rs",
+          "line": "10",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.230",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.487",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.744",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_pointer_loop::{closure#0}.pointer_dereference.236",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_pointer_loop::{closure#0}.pointer_dereference.493",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_pointer_loop::{closure#0}.pointer_dereference.750",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [],
+      "covers": {
+        "total": 1,
+        "satisfied": [
+          "e_q_pointer_loop.cover.1"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [
+        {
+          "message_prefix": "warning: ignoring exists\n  * type: bool\n  0: tuple\n      * type: \n      0: symbol\n          * type: unsignedbv\n              * #source_location: \n                * file: <built-in-additions>\n                * line: 1\n                * working_directory: /home/runner/work/_temp/ch8-e-sel1/rows/e_q_pointer_loop/off\n              * width: 64\n              * #typedef: __CPROVER_size_t\n              * #c_type: unsigned_long_int\n          * identifier:",
+          "truncated": true,
+          "original_chars": 117129
+        },
+        {
+          "message_prefix": "warning: ignoring exists\n  * type: bool\n  0: tuple\n      * type: \n      0: symbol\n          * type: unsignedbv\n              * #source_location: \n                * file: <built-in-additions>\n                * line: 1\n                * working_directory: /home/runner/work/_temp/ch8-e-sel1/rows/e_q_pointer_loop/off\n              * width: 64\n              * #typedef: __CPROVER_size_t\n              * #c_type: unsigned_long_int\n          * identifier:",
+          "truncated": true,
+          "original_chars": 117204
+        },
+        {
+          "message_prefix": "warning: ignoring exists\n  * type: bool\n  0: tuple\n      * type: \n      0: symbol\n          * type: unsignedbv\n              * #source_location: \n                * file: <built-in-additions>\n                * line: 1\n                * working_directory: /home/runner/work/_temp/ch8-e-sel1/rows/e_q_pointer_loop/off\n              * width: 64\n              * #typedef: __CPROVER_size_t\n              * #c_type: unsigned_long_int\n          * identifier:",
+          "truncated": true,
+          "original_chars": 117204
+        }
+      ],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "unexpected",
+      "reason": "positive predicate failed; backend ignored existential even outside loop",
+      "check_status_counts": {
+        "total": 3128,
+        "success": 271,
+        "failure": 8,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 2849,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "e_q_pointer_loop.loop_invariant_base.1",
+        "e_q_pointer_loop.loop_invariant_step.1",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.230",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.487",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.744",
+        "e_q_pointer_loop::{closure#0}.pointer_dereference.236",
+        "e_q_pointer_loop::{closure#0}.pointer_dereference.493",
+        "e_q_pointer_loop::{closure#0}.pointer_dereference.750"
+      ]
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_q_pointer_loop",
+      "check": "ON",
+      "expected": "FRONTEND_REJECTION",
+      "receipt_member": "rows/e_q_pointer_loop/on/receipt.json",
+      "receipt_sha256": "ee2b0de98f47ad08e60cd7e2410450d2942bbd9db98f0f00834de2320b36e9ec",
+      "source_sha256": "a7b320bccc1d9c239aa80e104c0294107fa1cf1d82553f001d1ad385d029fc53",
+      "exit": 1,
+      "elapsed_seconds": 0.054,
+      "rss_peak_kib": 2108,
+      "runner_export_state": "FRONTEND_REJECTION_OBSERVATION",
+      "verdict": "NO_EXPORT",
+      "diagnostic": "quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks",
+      "diagnostic_member": "rows/e_q_pointer_loop/on/stderr.tail.log",
+      "diagnostic_sha256": "aefa069d4b00f376f32488fb7cc3843ab226a4f609df2bf3732578d4d9ae58f8",
+      "compiler_exit": 101,
+      "classification": "intended",
+      "reason": "exact frontend rejection before export"
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_q_false_pointer_loop",
+      "check": "OFF",
+      "expected": "ASSERTION_FAILURE",
+      "receipt_member": "rows/e_q_false_pointer_loop/off/receipt.json",
+      "receipt_sha256": "619e0274583bfc822c4b568269c7ac28cdb098379f3cd41a40b239d6eb717471",
+      "source_sha256": "6e65fb7abface3afae50846072b8b8946867ad4eccc8a739a8c2be816f82364c",
+      "exit": 1,
+      "elapsed_seconds": 56.733,
+      "rss_peak_kib": 279544,
+      "runner_export_state": "UNBOUND_FAILURE",
+      "export_member": "rows/e_q_false_pointer_loop/off/export.json",
+      "export_sha256": "f0f5f23b88663d31ea1f68332312ec22a1d6d9856778f65830fcd8e7cda6294b",
+      "verdict": "FAILURE",
+      "n_properties": 3128,
+      "n_failed": 8,
+      "failure_kind": "ERROR",
+      "failures": [
+        {
+          "id": "e_q_false_pointer_loop.loop_invariant_base.1",
+          "description": "Check invariant before entry for loop e_q_false_pointer_loop.0",
+          "class": "loop_invariant_base",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_false_pointer_loop.rs",
+          "line": "11",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_false_pointer_loop.loop_invariant_step.1",
+          "description": "Check invariant after step for loop e_q_false_pointer_loop.0",
+          "class": "loop_invariant_step",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_false_pointer_loop.rs",
+          "line": "11",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.230",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.487",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.744",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_false_pointer_loop::{closure#0}.pointer_dereference.236",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_false_pointer_loop::{closure#0}.pointer_dereference.493",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_false_pointer_loop::{closure#0}.pointer_dereference.750",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [],
+      "covers": {
+        "total": 0,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [
+        {
+          "message_prefix": "warning: ignoring exists\n  * type: bool\n  0: tuple\n      * type: \n      0: symbol\n          * type: unsignedbv\n              * #source_location: \n                * file: <built-in-additions>\n                * line: 1\n                * working_directory: /home/runner/work/_temp/ch8-e-sel1/rows/e_q_false_pointer_loop/off\n              * width: 64\n              * #typedef: __CPROVER_size_t\n              * #c_type: unsigned_long_int\n          * ident",
+          "truncated": true,
+          "original_chars": 118257
+        },
+        {
+          "message_prefix": "warning: ignoring exists\n  * type: bool\n  0: tuple\n      * type: \n      0: symbol\n          * type: unsignedbv\n              * #source_location: \n                * file: <built-in-additions>\n                * line: 1\n                * working_directory: /home/runner/work/_temp/ch8-e-sel1/rows/e_q_false_pointer_loop/off\n              * width: 64\n              * #typedef: __CPROVER_size_t\n              * #c_type: unsigned_long_int\n          * ident",
+          "truncated": true,
+          "original_chars": 118332
+        },
+        {
+          "message_prefix": "warning: ignoring exists\n  * type: bool\n  0: tuple\n      * type: \n      0: symbol\n          * type: unsignedbv\n              * #source_location: \n                * file: <built-in-additions>\n                * line: 1\n                * working_directory: /home/runner/work/_temp/ch8-e-sel1/rows/e_q_false_pointer_loop/off\n              * width: 64\n              * #typedef: __CPROVER_size_t\n              * #c_type: unsigned_long_int\n          * ident",
+          "truncated": true,
+          "original_chars": 118332
+        }
+      ],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "unexpected",
+      "reason": "backend ignored existential; false mutant failure not clean calibration",
+      "check_status_counts": {
+        "total": 3128,
+        "success": 271,
+        "failure": 8,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 2849,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "e_q_false_pointer_loop.loop_invariant_base.1",
+        "e_q_false_pointer_loop.loop_invariant_step.1",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.230",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.487",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.744",
+        "e_q_false_pointer_loop::{closure#0}.pointer_dereference.236",
+        "e_q_false_pointer_loop::{closure#0}.pointer_dereference.493",
+        "e_q_false_pointer_loop::{closure#0}.pointer_dereference.750"
+      ]
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_q_false_pointer_loop",
+      "check": "ON",
+      "expected": "FRONTEND_REJECTION",
+      "receipt_member": "rows/e_q_false_pointer_loop/on/receipt.json",
+      "receipt_sha256": "941839501e34f33e3895513f9acf90523343d5a83bc1850a47eeb3cf3be909fe",
+      "source_sha256": "6e65fb7abface3afae50846072b8b8946867ad4eccc8a739a8c2be816f82364c",
+      "exit": 1,
+      "elapsed_seconds": 0.054,
+      "rss_peak_kib": 8,
+      "runner_export_state": "FRONTEND_REJECTION_OBSERVATION",
+      "verdict": "NO_EXPORT",
+      "diagnostic": "quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks",
+      "diagnostic_member": "rows/e_q_false_pointer_loop/on/stderr.tail.log",
+      "diagnostic_sha256": "f1f90f73cce0c18e4a5b9e3f10f9158806f39f3bb990e557f84b4cb61494525e",
+      "compiler_exit": 101,
+      "classification": "intended",
+      "reason": "exact frontend rejection before export"
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_q_isolated_witness",
+      "check": "OFF",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_q_isolated_witness/off/receipt.json",
+      "receipt_sha256": "f00770c87868c173968eeae1eafe05dd398c9e57796a8cb66a5f7ad6cce00806",
+      "source_sha256": "765c77554b19cec446ed009f9e2f4ca7f759b33f45d993e2893b9c8aa669b672",
+      "exit": 1,
+      "elapsed_seconds": 20.558,
+      "rss_peak_kib": 142284,
+      "runner_export_state": "UNBOUND_FAILURE",
+      "export_member": "rows/e_q_isolated_witness/off/export.json",
+      "export_sha256": "2cecfd768936368df4bd44f8dc214f8d2feb4569dd41c49ea0c621df51ef3a11",
+      "verdict": "FAILURE",
+      "n_properties": 3085,
+      "n_failed": 7,
+      "failure_kind": "ERROR",
+      "failures": [
+        {
+          "id": "e_q_isolated_witness.assertion.1",
+          "description": "assertion failed: kani::exists!(|i in (0, 2)| unsafe { *p.add(i) == 2 })",
+          "class": "assertion",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_isolated_witness.rs",
+          "line": "7",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.230",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.487",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.744",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/models.rs",
+          "line": "204",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_isolated_witness.pointer_dereference.230",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_isolated_witness.pointer_dereference.487",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_q_isolated_witness.pointer_dereference.744",
+          "description": "dereference failure: pointer outside object bounds",
+          "class": "pointer_dereference",
+          "file": "library/kani_core/src/lib.rs",
+          "line": "238",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [],
+      "covers": {
+        "total": 0,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [
+        {
+          "message_prefix": "warning: ignoring exists\n  * type: bool\n  0: tuple\n      * type: \n      0: symbol\n          * type: unsignedbv\n              * #source_location: \n                * file: <built-in-additions>\n                * line: 1\n                * working_directory: /home/runner/work/_temp/ch8-e-sel1/rows/e_q_isolated_witness/off\n              * width: 64\n              * #typedef: __CPROVER_size_t\n              * #c_type: unsigned_long_int\n          * identif",
+          "truncated": true,
+          "original_chars": 114143
+        }
+      ],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "unexpected",
+      "reason": "positive predicate failed; backend ignored existential even outside loop",
+      "check_status_counts": {
+        "total": 3085,
+        "success": 229,
+        "failure": 7,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 2849,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "e_q_isolated_witness.assertion.1",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.230",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.487",
+        "<usize as kani::rustc_intrinsics::ToISize>::to_isize.pointer_dereference.744",
+        "e_q_isolated_witness.pointer_dereference.230",
+        "e_q_isolated_witness.pointer_dereference.487",
+        "e_q_isolated_witness.pointer_dereference.744"
+      ]
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_q_isolated_witness",
+      "check": "ON",
+      "expected": "FRONTEND_REJECTION",
+      "receipt_member": "rows/e_q_isolated_witness/on/receipt.json",
+      "receipt_sha256": "a26a21888761e4f1403fea4683f87674d62e579ff10e1753979c783eeb5fb5c7",
+      "source_sha256": "765c77554b19cec446ed009f9e2f4ca7f759b33f45d993e2893b9c8aa669b672",
+      "exit": 1,
+      "elapsed_seconds": 0.054,
+      "rss_peak_kib": 180,
+      "runner_export_state": "FRONTEND_REJECTION_OBSERVATION",
+      "verdict": "NO_EXPORT",
+      "diagnostic": "quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks",
+      "diagnostic_member": "rows/e_q_isolated_witness/on/stderr.tail.log",
+      "diagnostic_sha256": "c683b06b71965f6af87775ef931a396af167b61931942e9ee5912ad2e10f98b6",
+      "compiler_exit": 101,
+      "classification": "intended",
+      "reason": "exact frontend rejection before export"
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_q_scalar_invariant",
+      "check": "OFF",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_q_scalar_invariant/off/receipt.json",
+      "receipt_sha256": "a37e4a8012ea9eb892105a6b7e8ea1ea5c5e227eda2804757c2793db2f1f59ff",
+      "source_sha256": "b332bcb84a9a6a91c1e6823491e0d954ff42ca1eb00fa45f8b4b39f5d3a58cf5",
+      "exit": 0,
+      "elapsed_seconds": 0.325,
+      "rss_peak_kib": 23500,
+      "runner_export_state": "VALIDATED_OBSERVATION",
+      "export_member": "rows/e_q_scalar_invariant/off/export.json",
+      "export_sha256": "62df1f87f080183d35dfee330bbed57d4835940fa5dc9bf44d672aec22712af7",
+      "verdict": "SUCCESS",
+      "n_properties": 66,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failures": [],
+      "unsupported": [],
+      "covers": {
+        "total": 1,
+        "satisfied": [
+          "e_q_scalar_invariant.cover.1"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "intended",
+      "reason": "export SUCCESS and source-bound return cover",
+      "check_status_counts": {
+        "total": 65,
+        "success": 65,
+        "failure": 0,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": []
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_q_scalar_invariant",
+      "check": "ON",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_q_scalar_invariant/on/receipt.json",
+      "receipt_sha256": "e4e8492e50675d79d47bf4f40f2894606e71209ffdf59cccc3353fef30f171c8",
+      "source_sha256": "b332bcb84a9a6a91c1e6823491e0d954ff42ca1eb00fa45f8b4b39f5d3a58cf5",
+      "exit": 0,
+      "elapsed_seconds": 0.859,
+      "rss_peak_kib": 117384,
+      "runner_export_state": "VALIDATED_OBSERVATION",
+      "export_member": "rows/e_q_scalar_invariant/on/export.json",
+      "export_sha256": "a898771665314726889588201ad0eae5fcbea7a9740b5907c74d713911bde7eb",
+      "verdict": "SUCCESS",
+      "n_properties": 117,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failures": [],
+      "unsupported": [],
+      "covers": {
+        "total": 1,
+        "satisfied": [
+          "e_q_scalar_invariant.cover.1"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [
+        {
+          "message_prefix": "file /home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_scalar_invariant.rs line 11 column 37 function e_q_scalar_invariant::{closure#0}: call to '_RINvNtCs86zjduzGLhS_4kani8mem_init18is_ptr_initializedKj1_hECs3YkgmlmQlmV_20e_q_scalar_invariant': not enough arguments, inserting non-deterministic value",
+          "truncated": false,
+          "original_chars": null
+        },
+        {
+          "message_prefix": "file /home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_scalar_invariant.rs line 11 column 37 function e_q_scalar_invariant::{closure#0}: call to '_RINvNtCs86zjduzGLhS_4kani8mem_init18is_ptr_initializedKj1_hECs3YkgmlmQlmV_20e_q_scalar_invariant': not enough arguments, inserting non-deterministic value",
+          "truncated": false,
+          "original_chars": null
+        },
+        {
+          "message_prefix": "file /home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_q_scalar_invariant.rs line 11 column 37 function e_q_scalar_invariant::{closure#0}: call to '_RINvNtCs86zjduzGLhS_4kani8mem_init18is_ptr_initializedKj1_hECs3YkgmlmQlmV_20e_q_scalar_invariant': not enough arguments, inserting non-deterministic value",
+          "truncated": false,
+          "original_chars": null
+        }
+      ],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "intended",
+      "reason": "export SUCCESS and source-bound return cover; lowering warning: no independent initialization proof credit",
+      "check_status_counts": {
+        "total": 116,
+        "success": 116,
+        "failure": 0,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": []
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_s_unbounded_slice",
+      "check": "OFF",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_s_unbounded_slice/off/receipt.json",
+      "receipt_sha256": "a6174f0553ef75c6cc158f89df0ce12989ab3ee430d38e5bc09ef5e3c394cf96",
+      "source_sha256": "918ca6109068245148d66cfaafc339b5eb0f3d72872c0c444c6213fe63173a4f",
+      "exit": 1,
+      "elapsed_seconds": 0.054,
+      "rss_peak_kib": 428,
+      "runner_export_state": "MISSING",
+      "verdict": "NO_EXPORT",
+      "diagnostic": "cannot find function `any_slice_mut_unbounded` in crate `kani`",
+      "diagnostic_member": "rows/e_s_unbounded_slice/off/stderr.tail.log",
+      "diagnostic_sha256": "3c6f29e490bf775ada93ce50b28f1b0e85eaac5e67dd26d504258e72ca06658b",
+      "compiler_exit": 101,
+      "classification": "setup",
+      "reason": "E0425: wrong API namespace; model not executed"
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_s_unbounded_slice",
+      "check": "ON",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_s_unbounded_slice/on/receipt.json",
+      "receipt_sha256": "5c92332ca7975742eecc70133612a978c6b52cc52f0d5788bd6385943b65ea24",
+      "source_sha256": "918ca6109068245148d66cfaafc339b5eb0f3d72872c0c444c6213fe63173a4f",
+      "exit": 1,
+      "elapsed_seconds": 0.054,
+      "rss_peak_kib": 8,
+      "runner_export_state": "MISSING",
+      "verdict": "NO_EXPORT",
+      "diagnostic": "cannot find function `any_slice_mut_unbounded` in crate `kani`",
+      "diagnostic_member": "rows/e_s_unbounded_slice/on/stderr.tail.log",
+      "diagnostic_sha256": "3c6f29e490bf775ada93ce50b28f1b0e85eaac5e67dd26d504258e72ca06658b",
+      "compiler_exit": 101,
+      "classification": "setup",
+      "reason": "E0425: wrong API namespace; model not executed"
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_h_live_after_havoc",
+      "check": "OFF",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_h_live_after_havoc/off/receipt.json",
+      "receipt_sha256": "c626c4caf0325dd2ea0ed1fa2e2f0499bcab0affdb97cfae8eb6c68b32dfbf79",
+      "source_sha256": "762a9b7b42492e13ea52aac29a284959c8a7ca09cc4744694c9896e6a1b630c7",
+      "exit": 0,
+      "elapsed_seconds": 0.323,
+      "rss_peak_kib": 27972,
+      "runner_export_state": "VALIDATED_OBSERVATION",
+      "export_member": "rows/e_h_live_after_havoc/off/export.json",
+      "export_sha256": "c43cb996aba4e397d5d65f785133175c33966ae7e2351fd4bada2b49f426e366",
+      "verdict": "SUCCESS",
+      "n_properties": 72,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failures": [],
+      "unsupported": [],
+      "covers": {
+        "total": 2,
+        "satisfied": [
+          "e_h_live_after_havoc.cover.1",
+          "e_h_live_after_havoc.cover.2"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "intended",
+      "reason": "export SUCCESS and body/read covers satisfied",
+      "check_status_counts": {
+        "total": 70,
+        "success": 70,
+        "failure": 0,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": []
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_h_live_after_havoc",
+      "check": "ON",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_h_live_after_havoc/on/receipt.json",
+      "receipt_sha256": "a77bc4ba10fa885aed436e771af99861b21decc0b19d887765e85c3f8f504e1b",
+      "source_sha256": "762a9b7b42492e13ea52aac29a284959c8a7ca09cc4744694c9896e6a1b630c7",
+      "exit": 1,
+      "elapsed_seconds": 4.922,
+      "rss_peak_kib": 832680,
+      "runner_export_state": "UNBOUND_FAILURE",
+      "export_member": "rows/e_h_live_after_havoc/on/export.json",
+      "export_sha256": "d87a04d60014353f488b5a4e5e214400ffa25588006f8837d48821e455b70ce3",
+      "verdict": "FAILURE",
+      "n_properties": 249,
+      "n_failed": 2,
+      "failure_kind": "OTHER",
+      "failures": [
+        {
+          "id": "kani::mem_init::MemoryInitializationState::set::<8>.assigns.1",
+          "description": "Check that self->value is assignable",
+          "class": "assigns",
+          "file": "library/kani_core/src/mem_init.rs",
+          "line": "120",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "kani::mem_init::MemoryInitializationState::set::<1>.assigns.1",
+          "description": "Check that self->value is assignable",
+          "class": "assigns",
+          "file": "library/kani_core/src/mem_init.rs",
+          "line": "120",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [],
+      "covers": {
+        "total": 2,
+        "satisfied": [
+          "e_h_live_after_havoc.cover.1",
+          "e_h_live_after_havoc.cover.2"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "unexpected",
+      "reason": "shadow assigns failure",
+      "check_status_counts": {
+        "total": 247,
+        "success": 238,
+        "failure": 2,
+        "unreachable": 7,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "kani::mem_init::MemoryInitializationState::set::<8>.assigns.1",
+        "kani::mem_init::MemoryInitializationState::set::<1>.assigns.1"
+      ]
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_h_hole_inside_alias",
+      "check": "OFF",
+      "expected": "OBSERVE",
+      "receipt_member": "rows/e_h_hole_inside_alias/off/receipt.json",
+      "receipt_sha256": "60aac31e059f85844212301e77e02c23c0fc42a99a89f0c6535ad7a4b69854e0",
+      "source_sha256": "93e743ea9eb914a704d9bafed7a2335e47edea66bcd38fe9eb496cdf59921049",
+      "exit": 0,
+      "elapsed_seconds": 0.323,
+      "rss_peak_kib": 27800,
+      "runner_export_state": "VALIDATED_OBSERVATION",
+      "export_member": "rows/e_h_hole_inside_alias/off/export.json",
+      "export_sha256": "4f35421928d9cbb42082c9b3799107420c32dc62a3d5b1d2c0ecf0522697c8b6",
+      "verdict": "SUCCESS",
+      "n_properties": 72,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failures": [],
+      "unsupported": [],
+      "covers": {
+        "total": 2,
+        "satisfied": [
+          "e_h_hole_inside_alias.cover.1",
+          "e_h_hole_inside_alias.cover.2"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "intended",
+      "reason": "OBSERVE only, no initializedness oracle",
+      "check_status_counts": {
+        "total": 70,
+        "success": 70,
+        "failure": 0,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": []
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_h_hole_inside_alias",
+      "check": "ON",
+      "expected": "UNINIT_FAILURE",
+      "receipt_member": "rows/e_h_hole_inside_alias/on/receipt.json",
+      "receipt_sha256": "aa71f8699220733ec7bad58405e31b8dc21c310f813145bd22c7722bdc533407",
+      "source_sha256": "93e743ea9eb914a704d9bafed7a2335e47edea66bcd38fe9eb496cdf59921049",
+      "exit": 1,
+      "elapsed_seconds": 4.901,
+      "rss_peak_kib": 826720,
+      "runner_export_state": "UNBOUND_FAILURE",
+      "export_member": "rows/e_h_hole_inside_alias/on/export.json",
+      "export_sha256": "8d4df8e36c88769c285debe1b645d22537a8676935c4d085b170ec0543b94bdb",
+      "verdict": "FAILURE",
+      "n_properties": 249,
+      "n_failed": 4,
+      "failure_kind": "OTHER",
+      "failures": [
+        {
+          "id": "kani::mem_init::MemoryInitializationState::set::<8>.assigns.1",
+          "description": "Check that self->value is assignable",
+          "class": "assigns",
+          "file": "library/kani_core/src/mem_init.rs",
+          "line": "120",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "kani::mem_init::MemoryInitializationState::set::<1>.assigns.1",
+          "description": "Check that self->value is assignable",
+          "class": "assigns",
+          "file": "library/kani_core/src/mem_init.rs",
+          "line": "120",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_h_hole_inside_alias.safety_check.2",
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "class": "safety_check",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_hole_inside_alias.rs",
+          "line": "24",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_h_hole_inside_alias.safety_check.5",
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "class": "safety_check",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_hole_inside_alias.rs",
+          "line": "24",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [],
+      "covers": {
+        "total": 2,
+        "satisfied": [
+          "e_h_hole_inside_alias.cover.1",
+          "e_h_hole_inside_alias.cover.2"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "unexpected",
+      "reason": "shadow assigns failure; intended uninit-read also present, contaminated negative",
+      "check_status_counts": {
+        "total": 247,
+        "success": 236,
+        "failure": 4,
+        "unreachable": 7,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "kani::mem_init::MemoryInitializationState::set::<8>.assigns.1",
+        "kani::mem_init::MemoryInitializationState::set::<1>.assigns.1",
+        "e_h_hole_inside_alias.safety_check.2",
+        "e_h_hole_inside_alias.safety_check.5"
+      ]
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_h_outside_false_alias",
+      "check": "OFF",
+      "expected": "OBSERVE",
+      "receipt_member": "rows/e_h_outside_false_alias/off/receipt.json",
+      "receipt_sha256": "87b2f16e985be3b5ce2ff1e2d1687bf315f712bf6c8d5df1859640fdcc4575d0",
+      "source_sha256": "9144ea4df0ced8dc1a1c129a2cbde742d816afbb129268098fed1cc7b410a34c",
+      "exit": 0,
+      "elapsed_seconds": 0.376,
+      "rss_peak_kib": 29848,
+      "runner_export_state": "VALIDATED_OBSERVATION",
+      "export_member": "rows/e_h_outside_false_alias/off/export.json",
+      "export_sha256": "35ee6c7bff52371a014a85b1efc7c91ddfcb70225f15317e95aba5835b73384c",
+      "verdict": "SUCCESS",
+      "n_properties": 82,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failures": [],
+      "unsupported": [],
+      "covers": {
+        "total": 3,
+        "satisfied": [
+          "e_h_outside_false_alias.cover.1",
+          "e_h_outside_false_alias.cover.2",
+          "e_h_outside_false_alias.cover.3"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "intended",
+      "reason": "OBSERVE only, no initializedness oracle",
+      "check_status_counts": {
+        "total": 79,
+        "success": 79,
+        "failure": 0,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": []
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_h_outside_false_alias",
+      "check": "ON",
+      "expected": "UNINIT_FAILURE",
+      "receipt_member": "rows/e_h_outside_false_alias/on/receipt.json",
+      "receipt_sha256": "f0e8aa6726630ab815a38eeaea3f891723ff9438022d6ba941fbb031049202e0",
+      "source_sha256": "9144ea4df0ced8dc1a1c129a2cbde742d816afbb129268098fed1cc7b410a34c",
+      "exit": 1,
+      "elapsed_seconds": 12.247,
+      "rss_peak_kib": 2103648,
+      "runner_export_state": "UNBOUND_FAILURE",
+      "export_member": "rows/e_h_outside_false_alias/on/export.json",
+      "export_sha256": "44544921c180d528565e1eadca51a2edd6d852f10eb8840d8163e4c2ebead493",
+      "verdict": "FAILURE",
+      "n_properties": 267,
+      "n_failed": 4,
+      "failure_kind": "OTHER",
+      "failures": [
+        {
+          "id": "e_h_outside_false_alias.safety_check.7",
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "class": "safety_check",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_outside_false_alias.rs",
+          "line": "34",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "e_h_outside_false_alias.safety_check.10",
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "class": "safety_check",
+          "file": "/home/runner/work/kani/kani/control/ch8-e-control/fixtures/e_h_outside_false_alias.rs",
+          "line": "34",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "kani::mem_init::MemoryInitializationState::set::<1>.assigns.1",
+          "description": "Check that self->value is assignable",
+          "class": "assigns",
+          "file": "library/kani_core/src/mem_init.rs",
+          "line": "120",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "kani::mem_init::MemoryInitializationState::set::<8>.assigns.1",
+          "description": "Check that self->value is assignable",
+          "class": "assigns",
+          "file": "library/kani_core/src/mem_init.rs",
+          "line": "120",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [],
+      "covers": {
+        "total": 3,
+        "satisfied": [
+          "e_h_outside_false_alias.cover.1",
+          "e_h_outside_false_alias.cover.2",
+          "e_h_outside_false_alias.cover.3"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "unexpected",
+      "reason": "shadow assigns failure; intended uninit-read also present, contaminated negative",
+      "check_status_counts": {
+        "total": 264,
+        "success": 253,
+        "failure": 4,
+        "unreachable": 7,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "e_h_outside_false_alias.safety_check.7",
+        "e_h_outside_false_alias.safety_check.10",
+        "kani::mem_init::MemoryInitializationState::set::<1>.assigns.1",
+        "kani::mem_init::MemoryInitializationState::set::<8>.assigns.1"
+      ]
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_h_write_makes_readable",
+      "check": "OFF",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_h_write_makes_readable/off/receipt.json",
+      "receipt_sha256": "c9bff969dfce8a08b3a42629779adaf8c9879c7cbd1f97cf341f31f00466b239",
+      "source_sha256": "832de27430e7d9b30b29d09b5ad9fefd406b9323ae19c8a169b9a95fabc40501",
+      "exit": 0,
+      "elapsed_seconds": 0.324,
+      "rss_peak_kib": 28504,
+      "runner_export_state": "VALIDATED_OBSERVATION",
+      "export_member": "rows/e_h_write_makes_readable/off/export.json",
+      "export_sha256": "55219afb29e181038ab99692b27127cbf4926ba2cd2fb21c252943e40fff7e2b",
+      "verdict": "SUCCESS",
+      "n_properties": 69,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failures": [],
+      "unsupported": [],
+      "covers": {
+        "total": 1,
+        "satisfied": [
+          "e_h_write_then_read.cover.1"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "intended",
+      "reason": "export SUCCESS and body/read covers satisfied",
+      "check_status_counts": {
+        "total": 68,
+        "success": 68,
+        "failure": 0,
+        "unreachable": 0,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": []
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_h_write_makes_readable",
+      "check": "ON",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_h_write_makes_readable/on/receipt.json",
+      "receipt_sha256": "4a1614bada0a26bb2d8af30c0f9b8c718472393ec6c58fc0842e2165e3299435",
+      "source_sha256": "832de27430e7d9b30b29d09b5ad9fefd406b9323ae19c8a169b9a95fabc40501",
+      "exit": 1,
+      "elapsed_seconds": 2.148,
+      "rss_peak_kib": 375980,
+      "runner_export_state": "UNBOUND_FAILURE",
+      "export_member": "rows/e_h_write_makes_readable/on/export.json",
+      "export_sha256": "79702476c77b26f7eeb1503b3e68245f659c593a2da9cb3723fae819f412c285",
+      "verdict": "FAILURE",
+      "n_properties": 224,
+      "n_failed": 2,
+      "failure_kind": "OTHER",
+      "failures": [
+        {
+          "id": "kani::mem_init::MemoryInitializationState::set::<1>.assigns.1",
+          "description": "Check that self->value is assignable",
+          "class": "assigns",
+          "file": "library/kani_core/src/mem_init.rs",
+          "line": "120",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "kani::mem_init::MemoryInitializationState::set::<8>.assigns.1",
+          "description": "Check that self->value is assignable",
+          "class": "assigns",
+          "file": "library/kani_core/src/mem_init.rs",
+          "line": "120",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [],
+      "covers": {
+        "total": 1,
+        "satisfied": [
+          "e_h_write_then_read.cover.1"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "unexpected",
+      "reason": "shadow assigns failure",
+      "check_status_counts": {
+        "total": 223,
+        "success": 213,
+        "failure": 2,
+        "unreachable": 8,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "kani::mem_init::MemoryInitializationState::set::<1>.assigns.1",
+        "kani::mem_init::MemoryInitializationState::set::<8>.assigns.1"
+      ]
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_h_copy_makes_readable",
+      "check": "OFF",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_h_copy_makes_readable/off/receipt.json",
+      "receipt_sha256": "d5c762f7f6e0d952a620b6710606333b3b384184f71c5c538cd848ec7205f030",
+      "source_sha256": "a6e3bc77a76bc5de6cc73af0545740876375f5b6ea36f9d38bd66961ef45b12e",
+      "exit": 0,
+      "elapsed_seconds": 1.288,
+      "rss_peak_kib": 347564,
+      "runner_export_state": "INCONSISTENT_SUCCESS",
+      "export_member": "rows/e_h_copy_makes_readable/off/export.json",
+      "export_sha256": "bdb92eab63818812a9ae85dbd353a29b9228941a3fdd51aa1aebf0abe9bfe1ea",
+      "verdict": "SUCCESS",
+      "n_properties": 88,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failures": [],
+      "unsupported": [
+        {
+          "id": "std::panic::Location::<'_>::caller.unsupported_construct.1",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "core::panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panicking.rs",
+          "line": "110",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "covers": {
+        "total": 1,
+        "satisfied": [
+          "e_h_copy_then_read.cover.1"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "intended",
+      "reason": "export SUCCESS and body/read covers satisfied; conservative runner rejects status-SUCCESS unsupported inventory",
+      "check_status_counts": {
+        "total": 87,
+        "success": 83,
+        "failure": 0,
+        "unreachable": 4,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": []
+    },
+    {
+      "pin": "sel1",
+      "artifact_id": 14190061402,
+      "row": "e_h_copy_makes_readable",
+      "check": "ON",
+      "expected": "SUCCESS",
+      "receipt_member": "rows/e_h_copy_makes_readable/on/receipt.json",
+      "receipt_sha256": "d7f89ac7dd4245093b8504bc6f157d838d0e2aa76b4f1b3ce656b68b0fa8f337",
+      "source_sha256": "a6e3bc77a76bc5de6cc73af0545740876375f5b6ea36f9d38bd66961ef45b12e",
+      "exit": 1,
+      "elapsed_seconds": 7.3,
+      "rss_peak_kib": 1000768,
+      "runner_export_state": "UNBOUND_FAILURE",
+      "export_member": "rows/e_h_copy_makes_readable/on/export.json",
+      "export_sha256": "aa4a3588ceae1cc6c578c136af1441853e2185fba8caf614cba5d81414a0fb73",
+      "verdict": "FAILURE",
+      "n_properties": 270,
+      "n_failed": 5,
+      "failure_kind": "OTHER",
+      "failures": [
+        {
+          "id": "kani::mem_init::MemoryInitializationState::set::<8>.assigns.1",
+          "description": "Check that self->value is assignable",
+          "class": "assigns",
+          "file": "library/kani_core/src/mem_init.rs",
+          "line": "120",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assigns.1",
+          "description": "Check that self->tracked_object_id is assignable",
+          "class": "assigns",
+          "file": "library/kani_core/src/mem_init.rs",
+          "line": "170",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assigns.2",
+          "description": "Check that self->tracked_offset is assignable",
+          "class": "assigns",
+          "file": "library/kani_core/src/mem_init.rs",
+          "line": "171",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assigns.3",
+          "description": "Check that self->value is assignable",
+          "class": "assigns",
+          "file": "library/kani_core/src/mem_init.rs",
+          "line": "173",
+          "trace_available": true,
+          "status": "FAILURE"
+        },
+        {
+          "id": "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assigns.4",
+          "description": "Check that self->value is assignable",
+          "class": "assigns",
+          "file": "library/kani_core/src/mem_init.rs",
+          "line": "183",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported": [
+        {
+          "id": "core::panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panicking.rs",
+          "line": "110",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "std::panic::Location::<'_>::caller.unsupported_construct.1",
+          "description": "Kani does not support reasoning about memory initialization of intrinsic `Unimplemented { name: \"caller_location\", issue_link: \"https://github.com/model-checking/kani/issues/374\" }`.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "std::panic::Location::<'_>::caller.unsupported_construct.2",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "std::intrinsics::unlikely.unsupported_construct.1",
+          "description": "Kani does not support reasoning about memory initialization of intrinsic `Unimplemented { name: \"cold_path\", issue_link: \"https://github.com/model-checking/kani/issues/new/choose\" }`.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/intrinsics/mod.rs",
+          "line": "716",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "covers": {
+        "total": 1,
+        "satisfied": [
+          "e_h_copy_then_read.cover.1"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "warnings": [],
+      "tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "target": "x86_64-unknown-linux-gnu",
+      "classification": "unexpected",
+      "reason": "shadow assigns failure",
+      "check_status_counts": {
+        "total": 269,
+        "success": 254,
+        "failure": 5,
+        "unreachable": 10,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "check_failure_ids": [
+        "kani::mem_init::MemoryInitializationState::set::<8>.assigns.1",
+        "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assigns.1",
+        "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assigns.2",
+        "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assigns.3",
+        "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assigns.4"
+      ]
+    }
+  ]
+}
