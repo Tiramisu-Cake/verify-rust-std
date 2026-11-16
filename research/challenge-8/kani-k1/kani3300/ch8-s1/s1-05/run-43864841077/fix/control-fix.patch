@@ -1,0 +1,153 @@
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index 4477363db..994b576df 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -1241,14 +1241,14 @@
+     "ch8-s1-control/check_package.py": "6d87bdc922af8dcd750512fcccf6b1cb2ff97f554e3fa6b352257980b60b7139",
+     "ch8-s1-control/collect.py": "e5127d7fd1982eaac300cf1a0abe4897c28751aaae3bd914b3de8a9492f17dee",
+     "ch8-s1-control/negative_oracle.py": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c",
+-    "ch8-s1-control/runner.py": "2fa42923e473de782f5638acf85072ede411fc3bc19fe3cdb4dc02d136551a40",
++    "ch8-s1-control/runner.py": "d3010c4f629bcba93ef88820915fabebdca36b88110296e1d21fc61220ab1374",
+     "ch8-s1-control/test_package.py": "f1a05ece77d37b657701d0b173e364a1ac6e3f02f61fd6c8dc426f9c18de7cc2",
+     "ch8-s1-control/test_runner.py": "b8de6214486b13460d6bf30d65da48a762b5ac0c0e086f2a34e5f3a1cfd22632",
+     "ch8-s1-control/test_s104.py": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+     "ch8-s1-control/fixtures/s104-rich-fragment.json": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc",
+     "ch8-s1-control/pack_evidence.py": "5343a2e17bb71baa06b74413ae3ff6adc8b678c91af7e343e018e7ad7001b408",
+-    "ch8-s1-control/rich_evidence.py": "05a7db80e8f3a717094fe27e3a6e84d3049e5e4db74c4417aac057a8d62cc496",
+-    "ch8-s1-control/test_s105.py": "d59649236f5044f71b1b4af55f247dac066f1560271c7e89fc13a1cd8ec07be5"
++    "ch8-s1-control/rich_evidence.py": "60833d357aae37877842b6cb7278bd9098dcfec81291aa2164c2203802099882",
++    "ch8-s1-control/test_s105.py": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e"
+   },
+   "budgets": {
+     "jobs": 1,
+diff --git a/ch8-s1-control/rich_evidence.py b/ch8-s1-control/rich_evidence.py
+index 344bb7e18..500412dc5 100644
+--- a/ch8-s1-control/rich_evidence.py
++++ b/ch8-s1-control/rich_evidence.py
+@@ -57,6 +57,7 @@ class RegularEvidence:
+         self.buffer = ''; self.bytes = 0; self.current = None
+         self.records = {}; self.in_results = False; self.block = []
+         self.closed = set(); self.error = None; self.finished = False; self.complete = False
++        self.missing_sites = []
+ 
+     def feed(self, data):
+         self.bytes += len(data)
+@@ -113,28 +114,34 @@ class RegularEvidence:
+             return
+         text = '\n'.join(self.block).rstrip('\n')
+         self.block = []
+-        match = re.fullmatch(r'Check ([1-9][0-9]*): (.+)\n\t - Status: ([A-Z_]+)\n\t - Description: "([\s\S]*)"\n\t - Location: ([^\n]+)', text)
++        match = re.fullmatch(r'Check ([1-9][0-9]*): (.+)\n\t - Status: ([A-Z_]+)\n\t - Description: "([\s\S]*?)"(?:\n\t - Location: ([^\n]+))?', text)
+         require(match is not None, 'missing/malformed description or location')
+         ordinal, pid, status, desc, loc = match.groups()
+         require(int(ordinal) == len(self.records[self.current])+1, 'property ordinal gap')
+         require(bool(desc), 'missing description')
+         cls = re.fullmatch(r'(?:.*\.)?(NaN|[a-z_-]+)\.([0-9]+)', pid)
+         require(cls is not None, 'property class missing')
+-        site = loc.split(' in function ', 1)[0]
++        site = (loc or '').split(' in function ', 1)[0]
+         place = re.fullmatch(r'(.+?):([1-9][0-9]*)(?::([0-9]+))?', site)
+-        require(place is not None and place[1] != 'Unknown file', 'file/line missing')
++        bound_site = place is not None and place[1] != 'Unknown file'
++        if not bound_site:
++            # Stock SourceLocation legitimately omits fields. Keep the property
++            # and subsequent roots; never manufacture an admissible source site.
++            self.missing_sites.append({'harness': self.current, 'display_id': pid,
++                                       'location_display': loc, 'reason': 'file/line missing'})
+         display_id = pid
+         if cls[1] == 'missing_definition':
+             pid = pid.rsplit('.missing_definition.', 1)[0] + '.' + cls[2]
+         elif cls[1] == 'recursion' and cls[2] == '1':
+             pid = pid[:-2]
+             if pid == 'recursion': pid = '.recursion'
+-        file = os.path.normpath(str(self.cwd / place[1]))
++        file = os.path.normpath(str(self.cwd / place[1])) if bound_site else None
+         self.records[self.current].append({'id': pid, 'class': cls[1], 'description': desc,
+-                                         'file': file, 'line': place[2], 'status': status,
++                                         'file': file, 'line': place[2] if bound_site else None, 'status': status,
+                                          'location_display': loc, 'display_id': display_id})
+ 
+     def validate(self, stock):
++        self.complete = False
+         require(self.finished and self.error is None, 'regular stream invalid: ' + str(self.error))
+         require({h['name'] for h in stock['harnesses']} == set(self.records), 'regular/stock roots differ')
+         for h in stock['harnesses']:
+@@ -167,10 +174,17 @@ class RegularEvidence:
+                 actual = byid.get(p['id'])
+                 require(actual is not None and all(actual[k] == p[k] for k in
+                         ('id', 'class', 'description', 'file', 'line', 'status')), 'rich stock property mismatch')
++        # Also inspect saved records: collector replay must not bypass this gate
++        # merely because its decoder has no streaming missing_sites list.
++        require(all(isinstance(p.get('file'), str) and p['file'] and
++                    isinstance(p.get('line'), str) and re.fullmatch(r'[1-9][0-9]*', p['line'])
++                    for records in self.records.values() for p in records),
++                'rich metadata incomplete: file/line missing')
+         self.complete = True
+ 
+     def document(self):
+         return {'schema': 'ch8-s1-05-rich-v1', 'state': 'COMPLETE' if self.complete else 'INCOMPLETE',
+                 'error': self.error, 'observed_stdout_bytes': self.bytes,
++                'missing_sites': self.missing_sites,
+                 'harnesses': [{'name': k, 'properties': v} for k, v in self.records.items()],
+                 'qualified_acceptance': 'PENDING_OFFLINE_ACCEPTANCE', 'proof_credit': 'NONE'}
+diff --git a/ch8-s1-control/runner.py b/ch8-s1-control/runner.py
+index 026f2ac0c..5706257b8 100644
+--- a/ch8-s1-control/runner.py
++++ b/ch8-s1-control/runner.py
+@@ -1057,7 +1057,11 @@ def main(argv: list[str] | None = None) -> int:
+             print(json.dumps(verify_source(args.std, args.tool, request), sort_keys=True))
+         else:
+             group_ids = args.groups.split(",") if args.groups is not None else None
+-            return run_rows(args.std, args.tool, args.out, request, group_ids)
++            code = run_rows(args.std, args.tool, args.out, request, group_ids)
++            if code:
++                terminal = json.loads((args.out / 'receipt.json').read_text())
++                print('runner: ' + str(terminal.get('stop_reason') or terminal['state']), file=sys.stderr)
++            return code
+     except Exception as exc:
+         print(f"runner: {type(exc).__name__}: {exc}", file=sys.stderr)
+         return 2
+diff --git a/ch8-s1-control/test_s105.py b/ch8-s1-control/test_s105.py
+index 3ba86d266..2258e7d13 100644
+--- a/ch8-s1-control/test_s105.py
++++ b/ch8-s1-control/test_s105.py
+@@ -75,6 +75,39 @@ class RichTests(unittest.TestCase):
+         self.assertEqual(parser.records[FIXTURE['selector']][0]['status'],'UNKNOWN')
+         parser.validate(h)  # Saved normalized inventory must survive collector revalidation.
+ 
++    def test_missing_site_keeps_suffix_and_next_harness_but_never_completes(self):
++        props = FIXTURE['properties']
++        name = FIXTURE['selector']
++        other = name + '_second'
++        data = render_regular([(name, props), (other, props)])
++        original = ('\t - Location: '+props[0]['file']+':'+str(props[0]['line'])).encode()
++        stock = stock_for(props)
++        second = copy.deepcopy(stock['harnesses'][0]); second['name'] = other
++        stock['harnesses'].append(second)
++        for location in (b'\t - Location: Unknown file in function generated::check',
++                         b'\t - Location: source.rs', b'\t - Location: source.rs:0:0', b''):
++            with self.subTest(location=location):
++                parser = rich.RegularEvidence([name, other], Path('/std'))
++                parser.feed(data.replace(original, location, 1)); parser.finish()
++                self.assertIsNone(parser.error)
++                self.assertEqual(parser.closed, {name, other})
++                self.assertEqual([len(v) for v in parser.records.values()], [len(props), len(props)])
++                # This fixture's first property is an embedded failed/unsupported
++                # property, so its stock nullable fields must match the display.
++                changed = copy.deepcopy(stock)
++                pid = props[0]['id']
++                for p in changed['harnesses'][0]['failed_properties'] + changed['harnesses'][0]['unsupported_constructs']:
++                    if p['id'] == pid: p.update(file=None, line=None)
++                with self.assertRaises(ValueError): parser.validate(changed)
++                self.assertEqual(parser.document()['state'], 'INCOMPLETE')
++                self.assertEqual(len(parser.document()['missing_sites']), 1)
++                self.assertIsNone(parser.records[name][0]['file'])
++                # Rehydration, as performed by collect.py, cannot bless null sites.
++                replay = rich.RegularEvidence([name, other], Path('/std'))
++                replay.records = parser.records; replay.finished = True
++                with self.assertRaises(ValueError): replay.validate(changed)
++                self.assertFalse(replay.complete)
++
+     def test_pack_preserves_exact_json_bytes_and_excludes_raw_output(self):
+         with tempfile.TemporaryDirectory() as tmp:
+             root=Path(tmp);raw=b'{"state": "SYNTHETIC", "original_exit_code": 1}\n'

@@ -1,0 +1,33 @@
+{
+  "schema": "s105-intake-fix-validation-v1",
+  "control_sha": "b25dd39a46ba90b167500997d546a5f2f5bd8f3b",
+  "baseline_control": "8860d38558651f7cf2e292d57b06b378c6ad3b94",
+  "control_parent": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+  "python_regressions": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest test_s105.py test_runner.py test_s104.py test_package.py",
+    "tests": 47,
+    "seconds": 26.85,
+    "result": "PASS",
+    "scope": "SYNTHETIC_SERVICE_GIT_AND_YAML_ONLY"
+  },
+  "preflight": {
+    "check_package_control": "PASS",
+    "github_context": "SYNTHETIC_ENV_ONLY",
+    "single_parent": true,
+    "payload_hashes": "PASS",
+    "typed_yaml": "PASS",
+    "checkout_depth": 3,
+    "changed_paths": "PASS"
+  },
+  "new_regression": "Missing, function-only, file-only and zero-line location retains suffix and next harness; null site never completes even on collector replay. Existing malformed/partial/error/timeout/NOT_RUN/identity tests retained.",
+  "actual_stream_replay": "NOT_POSSIBLE_REJECTED_BLOCK_NOT_UPLOADED",
+  "proof_rerun": "NOT_RUN",
+  "ci": "NOT_RUN",
+  "proof_credit": "NONE",
+  "control_bundle": {
+    "prerequisite": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+    "verification_repository": "/root/kani-ch8-s1-05-intake-fix-w13",
+    "result": "PASS",
+    "note": "g0 is verify-rust-std, lacks Kani prerequisite by design"
+  }
+}

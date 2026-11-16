@@ -1,0 +1,30 @@
+{
+  "run": 43864841077,
+  "job": 133322075952,
+  "method": "gh job logs stream piped to rg -n -m 8 -B 1 -A 1; no raw log saved or opened in full",
+  "pattern": "runner.py run|Process completed|MATERIALIZED|compressed_bytes",
+  "observations": [
+    {
+      "line": 1528,
+      "time": "2026-11-16T13:22:01.1415574Z",
+      "text": "Run python3 control/ch8-s1-control/runner.py run --std export --tool tool --out \"$RECEIPT_ROOT\" --groups \"$S1_GROUP\""
+    },
+    {
+      "line": 1536,
+      "time": "2026-11-16T13:23:09.8171582Z",
+      "text": "Process completed with exit code 1."
+    },
+    {
+      "line": 1547,
+      "time": "2026-11-16T13:23:09.9158923Z",
+      "structured": {
+        "artifact": "group-evidence.json.gz",
+        "compressed_bytes": 17080,
+        "sha256": "2aa9da946a6a11b81e99701c5b92f4833a40d8723c7070b455f794f27a01159a",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 214451
+      }
+    }
+  ],
+  "limit": "Excerpt confirms runner boundary and payload hash, not rejected child property or source site."
+}

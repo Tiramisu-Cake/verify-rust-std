@@ -1,0 +1,42 @@
+{
+  "boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+  "elapsed_upper_bound_seconds": 35.989,
+  "group_execution": {
+    "elapsed_seconds": 281.126,
+    "original_exit_code": 0,
+    "output_bytes": 437262,
+    "output_truncated": false,
+    "rss_peak_gib": 2.5130615234375,
+    "rss_peak_kib": 2635136,
+    "rss_sample_period_seconds": 0.05,
+    "rss_status": "SAMPLED_PROCESS_GROUP",
+    "signal": null,
+    "stderr_bytes": 2493,
+    "stderr_truncated": false,
+    "stdout_bytes": 434769,
+    "stdout_truncated": false,
+    "timed_out": false
+  },
+  "limit_seconds": 900,
+  "marker_sha256": "564357b77fcc20eee26d82acc85a5d2f1040c39e689dd0c936b843b90db42858",
+  "observed_run_state": "INCOMPLETE",
+  "proof_credit": "NONE",
+  "request_sha256": "11ab687f8754b2cc057066f20ac28ccb8a7555232372552536209eb73f00d5ed",
+  "schema": "ch8-s1-compile-receipt-v1",
+  "scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+  "selectors": [
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n2",
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n3"
+  ],
+  "state": "COMPLETE",
+  "std_sha": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+  "stderr": {
+    "observed_bytes": 2493,
+    "scope": "PIPE_BYTES_OBSERVED_AT_SNAPSHOT_NOT_PER_HARNESS"
+  },
+  "stdout": {
+    "observed_bytes": 82221,
+    "scope": "PIPE_BYTES_OBSERVED_AT_SNAPSHOT_NOT_PER_HARNESS"
+  },
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+}

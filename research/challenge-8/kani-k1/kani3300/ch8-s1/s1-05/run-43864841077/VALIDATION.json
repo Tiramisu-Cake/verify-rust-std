@@ -1,0 +1,40 @@
+{
+  "schema": "s105-intake-validation-v1",
+  "entry_g0": "43c470084c",
+  "run": 43864841077,
+  "run_attempt": 1,
+  "executed_control": "8860d38558651f7cf2e292d57b06b378c6ad3b94",
+  "artifact_payloads": 14,
+  "artifact_group_partition": "EXACT14_NO_MISSING_OR_DUPLICATE",
+  "payload_member_byte_hashes": "PASS",
+  "stock_inventory_partitions": "PASS35",
+  "structured_preflight": "RECORDED_OBSERVATION35",
+  "source_before_after": "MATCHED_REQUEST14",
+  "variant_source_file_hashes": "MATCHED_REQUEST14",
+  "complete_group_binary_before_after": "MATCHED4",
+  "incomplete_group_binary_after": "UNKNOWN_NOT_REACHED10",
+  "original_runner_rows": {
+    "RECORDED": 9,
+    "UNKNOWN": 26
+  },
+  "rich_inventory": {
+    "complete_groups": 4,
+    "complete_rows": 9,
+    "stock_properties": 9986,
+    "retained_rich_properties": 2976
+  },
+  "proof_acceptance": "SEPARATE_ACCEPT_JSON",
+  "fix_validation": "fix/VALIDATION.json",
+  "fix_independent_review": "fix/REVIEW.md",
+  "raw_logs_full_read": false,
+  "new_ci_or_proof_execution": "NOT_RUN",
+  "proof_credit": "NONE",
+  "offline_acceptance_replay": {
+    "result": "PASS",
+    "qualified_rows": 0,
+    "exact_predeclared_negative_observations": 3,
+    "required_covers_exact_sat": 41,
+    "required_success_messages_exactly_bound": 4,
+    "pending_rows": 35
+  }
+}

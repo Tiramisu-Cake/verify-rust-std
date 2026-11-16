@@ -1,0 +1,2375 @@
+{
+  "error": "file/line missing",
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+      "properties": [
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut u8>::add::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut u8>::add::{closure#3}.unreachable.1",
+          "line": "991",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:991:5 in function ptr::mut_ptr::<impl *mut u8>::add::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "line": "841",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:841:29 in function slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "line": "841",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:841:29 in function slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "line": "841",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:841:42 in function slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "line": "841",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:841:42 in function slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "line": "808",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:808:29 in function slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "line": "808",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:808:29 in function slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "line": "808",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:808:42 in function slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "line": "808",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:808:42 in function slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "line": "875",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:875:1 in function slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "arithmetic_overflow",
+          "description": "attempt to compute `unchecked_sub` which would overflow",
+          "display_id": "num::<impl usize>::checked_sub.arithmetic_overflow.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+          "id": "num::<impl usize>::checked_sub.arithmetic_overflow.1",
+          "line": "1122",
+          "location_display": "library/core/src/num/uint_macros.rs:1122:31 in function num::<impl usize>::checked_sub",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut u8>::add::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut u8>::add::{closure#1}.unreachable.1",
+          "line": "991",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:991:5 in function ptr::mut_ptr::<impl *mut u8>::add::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to divide by zero",
+          "display_id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "line": "917",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:917:21 in function slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "arithmetic_overflow",
+          "description": "attempt to divide by zero",
+          "display_id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.arithmetic_overflow.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.arithmetic_overflow.1",
+          "line": "917",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:917:21 in function slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assume",
+          "description": "Rust intrinsic assumption failed",
+          "display_id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assume.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assume.1",
+          "line": "921",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:921:9 in function slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "line": "933",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:933:36 in function slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "line": "934",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:934:37 in function slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "line": "935",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:935:35 in function slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.unreachable.1",
+          "line": "937",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:937:18 in function slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to calculate the remainder with a divisor of zero",
+          "display_id": "num::<impl usize>::is_multiple_of.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+          "id": "num::<impl usize>::is_multiple_of.assertion.1",
+          "line": "3916",
+          "location_display": "library/core/src/num/uint_macros.rs:3916:22 in function num::<impl usize>::is_multiple_of",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "arithmetic_overflow",
+          "description": "attempt to calculate the remainder with a divisor of zero",
+          "display_id": "num::<impl usize>::is_multiple_of.arithmetic_overflow.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+          "id": "num::<impl usize>::is_multiple_of.arithmetic_overflow.1",
+          "line": "3916",
+          "location_display": "library/core/src/num/uint_macros.rs:3916:22 in function num::<impl usize>::is_multiple_of",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/non_null.rs",
+          "id": "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#3}.unreachable.1",
+          "line": "557",
+          "location_display": "library/core/src/ptr/non_null.rs:557:5 in function ptr::non_null::NonNull::<usize>::cast::<()>::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "ptr NULL or writable up to size",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.7",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.7",
+          "line": "805",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:805 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "CAR size is less than __CPROVER_max_malloc_size",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.8",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.8",
+          "line": "822",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:822 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "no offset bits overflow on CAR upper bound computation",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.9",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.9",
+          "line": "828",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:828 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unwind",
+          "description": "unwinding assertion loop 0",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.unwind.3",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.unwind.3",
+          "line": "837",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:837 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unwind",
+          "description": "unwinding assertion loop 0",
+          "display_id": "__CPROVER_contracts_write_set_record_deallocated.unwind.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_record_deallocated.unwind.1",
+          "line": "740",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:740 in function __CPROVER_contracts_write_set_record_deallocated",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "line": "710",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:710:1 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<usize as iter::range::Step>::forward_unchecked::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/iter/range.rs",
+          "id": "<usize as iter::range::Step>::forward_unchecked::{closure#0}.unreachable.1",
+          "line": "269",
+          "location_display": "library/core/src/iter/range.rs:269:9 in function <usize as iter::range::Step>::forward_unchecked::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assigns",
+          "description": "Check that array_copy((const void *)src_n, ...) is allowed by the assigns clause",
+          "display_id": "memmove.assigns.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-memmove>",
+          "id": "memmove.assigns.1",
+          "line": "33",
+          "location_display": "<builtin-library-memmove>:33 in function memmove",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assigns",
+          "description": "Check that array_replace((const void *)(unsigned char *)dest, ...) is allowed by the assigns clause",
+          "display_id": "memmove.assigns.2",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-memmove>",
+          "id": "memmove.assigns.2",
+          "line": "34",
+          "location_display": "<builtin-library-memmove>:34 in function memmove",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "ptr NULL or writable up to size",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.1",
+          "line": "805",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:805 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "CAR size is less than __CPROVER_max_malloc_size",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.2",
+          "line": "822",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:822 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "no offset bits overflow on CAR upper bound computation",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.3",
+          "line": "828",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:828 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unwind",
+          "description": "unwinding assertion loop 0",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.unwind.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.unwind.1",
+          "line": "837",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:837 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "line": "406",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:406:1 in function slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assigns",
+          "description": "Check that array_copy((const void *)src_n, ...) is allowed by the assigns clause",
+          "display_id": "memcpy.assigns.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-memcpy>",
+          "id": "memcpy.assigns.1",
+          "line": "46",
+          "location_display": "<builtin-library-memcpy>:46 in function memcpy",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assigns",
+          "description": "Check that array_replace((const void *)(unsigned char *)dst, ...) is allowed by the assigns clause",
+          "display_id": "memcpy.assigns.2",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-memcpy>",
+          "id": "memcpy.assigns.2",
+          "line": "47",
+          "location_display": "<builtin-library-memcpy>:47 in function memcpy",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ops::index_range::IndexRange::next_unchecked::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ops/index_range.rs",
+          "id": "ops::index_range::IndexRange::next_unchecked::{closure#2}.unreachable.1",
+          "line": "63",
+          "location_display": "library/core/src/ops/index_range.rs:63:5 in function ops::index_range::IndexRange::next_unchecked::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unsupported_construct",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "display_id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+          "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "line": "110",
+          "location_display": "library/core/src/panicking.rs:110:17 in function panicking::panic_nounwind_fmt::runtime",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assigns",
+          "description": "Check that self->start is assignable",
+          "display_id": "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.assigns.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/iter/range.rs",
+          "id": "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.assigns.1",
+          "line": "1140",
+          "location_display": "library/core/src/iter/range.rs:1140:13 in function <ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "line": "607",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:607:1 in function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::index::slice_index_fail::do_panic::runtime.assertion.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "slice::index::slice_index_fail::do_panic::runtime.assertion.4",
+          "line": "50",
+          "location_display": "library/core/src/slice/index.rs:50:9 in function slice::index::slice_index_fail::do_panic::runtime",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut u8>::add::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut u8>::add::{closure#0}.unreachable.1",
+          "line": "991",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:991:5 in function ptr::mut_ptr::<impl *mut u8>::add::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "line": "730",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:730:26 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "line": "730",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:730:26 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "line": "730",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:730:43 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "line": "730",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:730:43 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.5",
+          "line": "731",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:731:26 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.6",
+          "line": "731",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:731:26 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.7",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.7",
+          "line": "731",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:731:43 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.8",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.8",
+          "line": "731",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:731:43 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "line": "734",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:734:28 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "line": "735",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:735:28 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.9",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.9",
+          "line": "745",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:745:26 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.10",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.10",
+          "line": "745",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:745:26 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.11",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.11",
+          "line": "745",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:745:31 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.12",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.12",
+          "line": "745",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:745:31 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.13",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.13",
+          "line": "746",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:746:26 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.14",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.14",
+          "line": "746",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:746:26 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.15",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.15",
+          "line": "746",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:746:31 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.16",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.16",
+          "line": "746",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:746:31 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.17",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.17",
+          "line": "753",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:753:26 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.18",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.18",
+          "line": "753",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:753:26 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.19",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.19",
+          "line": "753",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:753:43 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.20",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.20",
+          "line": "753",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:753:43 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "line": "875",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:875:1 in function slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "line": "665",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:665:1 in function slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "ptr NULL or writable up to size",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.4",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.4",
+          "line": "805",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:805 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "CAR size is less than __CPROVER_max_malloc_size",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.5",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.5",
+          "line": "822",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:822 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "no offset bits overflow on CAR upper bound computation",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.6",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.6",
+          "line": "828",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:828 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unwind",
+          "description": "unwinding assertion loop 0",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.unwind.2",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.unwind.2",
+          "line": "837",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:837 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/non_null.rs",
+          "id": "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#1}.unreachable.1",
+          "line": "557",
+          "location_display": "library/core/src/ptr/non_null.rs:557:5 in function ptr::non_null::NonNull::<usize>::cast::<()>::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "line": "448",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:448:35 in function slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "line": "448",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:448:35 in function slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "line": "448",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:448:42 in function slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "line": "448",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:448:42 in function slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut T>::add::runtime_add_nowrap::runtime.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/intrinsics/mod.rs",
+          "id": "ptr::mut_ptr::<impl *mut T>::add::runtime_add_nowrap::runtime.unreachable.1",
+          "line": "2748",
+          "location_display": "library/core/src/intrinsics/mod.rs:2748:9 in function ptr::mut_ptr::<impl *mut T>::add::runtime_add_nowrap::runtime",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut u8>::add::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut u8>::add::{closure#2}.unreachable.1",
+          "line": "991",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:991:5 in function ptr::mut_ptr::<impl *mut u8>::add::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unsupported_construct",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "display_id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::mem::cbmc::same_allocation",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "line": "607",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:607:1 in function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "line": "631",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:631:21 in function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "line": "631",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:631:21 in function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "line": "631",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:631:29 in function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "line": "631",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:631:29 in function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.5",
+          "line": "656",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:656:31 in function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.6",
+          "line": "656",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:656:31 in function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "line": "174",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:174:51 in function <u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::raw::from_raw_parts::<'_, u8>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/raw.rs",
+          "id": "slice::raw::from_raw_parts::<'_, u8>.safety_check.1",
+          "line": "146",
+          "location_display": "library/core/src/slice/raw.rs:146:9 in function slice::raw::from_raw_parts::<'_, u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::raw::from_raw_parts::<'_, u8>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/raw.rs",
+          "id": "slice::raw::from_raw_parts::<'_, u8>.safety_check.2",
+          "line": "146",
+          "location_display": "library/core/src/slice/raw.rs:146:9 in function slice::raw::from_raw_parts::<'_, u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::index::slice_index_fail::do_panic::runtime.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "slice::index::slice_index_fail::do_panic::runtime.assertion.2",
+          "line": "59",
+          "location_display": "library/core/src/slice/index.rs:59:9 in function slice::index::slice_index_fail::do_panic::runtime",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut T>::sub::runtime_sub_nowrap::runtime.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/intrinsics/mod.rs",
+          "id": "ptr::mut_ptr::<impl *mut T>::sub::runtime_sub_nowrap::runtime.unreachable.1",
+          "line": "2748",
+          "location_display": "library/core/src/intrinsics/mod.rs:2748:9 in function ptr::mut_ptr::<impl *mut T>::sub::runtime_sub_nowrap::runtime",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "ptr::drop_in_place::<*const u8>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::drop_in_place::<*const u8>.safety_check.1",
+          "line": "851",
+          "location_display": "library/core/src/ptr/mod.rs:851:24 in function ptr::drop_in_place::<*const u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "ptr::drop_in_place::<*const u8>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::drop_in_place::<*const u8>.safety_check.2",
+          "line": "851",
+          "location_display": "library/core/src/ptr/mod.rs:851:24 in function ptr::drop_in_place::<*const u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "line": "710",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:710:1 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ops::index_range::IndexRange::next_unchecked::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ops/index_range.rs",
+          "id": "ops::index_range::IndexRange::next_unchecked::{closure#0}.unreachable.1",
+          "line": "63",
+          "location_display": "library/core/src/ops/index_range.rs:63:5 in function ops::index_range::IndexRange::next_unchecked::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "reached intrinsic::abort_immediate",
+          "display_id": "slice::sort::shared::smallsort::sort9_optimal::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort9_optimal::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "line": "478",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:478:9 in function slice::sort::shared::smallsort::sort9_optimal::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "line": "875",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:875:1 in function slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assigns",
+          "description": "Check that self->start is assignable",
+          "display_id": "ops::index_range::IndexRange::next_unchecked.assigns.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ops/index_range.rs",
+          "id": "ops::index_range::IndexRange::next_unchecked.assigns.1",
+          "line": "70",
+          "location_display": "library/core/src/ops/index_range.rs:70:9 in function ops::index_range::IndexRange::next_unchecked",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "assertion failed: self.start < self.end",
+          "display_id": "ops::index_range::IndexRange::next_unchecked.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ops/index_range.rs",
+          "id": "ops::index_range::IndexRange::next_unchecked.assertion.1",
+          "line": "66",
+          "location_display": "library/core/src/ops/index_range.rs:66:9 in function ops::index_range::IndexRange::next_unchecked",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::<impl [mem::maybe_uninit::MaybeUninit<usize>]>::get_unchecked::<usize>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/mod.rs",
+          "id": "slice::<impl [mem::maybe_uninit::MaybeUninit<usize>]>::get_unchecked::<usize>.safety_check.1",
+          "line": "663",
+          "location_display": "library/core/src/slice/mod.rs:663:18 in function slice::<impl [mem::maybe_uninit::MaybeUninit<usize>]>::get_unchecked::<usize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::<impl [mem::maybe_uninit::MaybeUninit<usize>]>::get_unchecked::<usize>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/mod.rs",
+          "id": "slice::<impl [mem::maybe_uninit::MaybeUninit<usize>]>::get_unchecked::<usize>.safety_check.2",
+          "line": "663",
+          "location_display": "library/core/src/slice/mod.rs:663:18 in function slice::<impl [mem::maybe_uninit::MaybeUninit<usize>]>::get_unchecked::<usize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "option::Option::<usize>::map::<usize, {closure@/home/runner/work/kani/kani/export/library/core/src/array/iter/iter_inner.rs:212:31: 212:36}>.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/option.rs",
+          "id": "option::Option::<usize>::map::<usize, {closure@/home/runner/work/kani/kani/export/library/core/src/array/iter/iter_inner.rs:212:31: 212:36}>.unreachable.1",
+          "line": "1164",
+          "location_display": "library/core/src/option.rs:1164:15 in function option::Option::<usize>::map::<usize, {closure@/home/runner/work/kani/kani/export/library/core/src/array/iter/iter_inner.rs:212:31: 212:36}>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assume",
+          "description": "Rust intrinsic assumption failed",
+          "display_id": "<usize as slice::index::SliceIndex<[mem::maybe_uninit::MaybeUninit<usize>]>>::get_unchecked.assume.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "<usize as slice::index::SliceIndex<[mem::maybe_uninit::MaybeUninit<usize>]>>::get_unchecked.assume.1",
+          "line": "218",
+          "location_display": "library/core/src/slice/index.rs:218:13 in function <usize as slice::index::SliceIndex<[mem::maybe_uninit::MaybeUninit<usize>]>>::get_unchecked",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.1",
+          "line": "119",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:119:49 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.2",
+          "line": "119",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:119:65 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.3",
+          "line": "120",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:120:22 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.4",
+          "line": "127",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:127:68 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.5",
+          "line": "127",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:127:75 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.6",
+          "line": "128",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:128:72 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.7",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.7",
+          "line": "130",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:130:60 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.8",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.8",
+          "line": "131",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:131:71 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.9",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.9",
+          "line": "134",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:134:67 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.10",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.10",
+          "line": "134",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:134:74 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.11",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.11",
+          "line": "137",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:137:38 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.12",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.12",
+          "line": "164",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:164:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.13",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.13",
+          "line": "164",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:164:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "cover",
+          "description": "S1_entry_N1_return",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.cover.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.cover.1",
+          "line": "164",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:164:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S1_entry_useful_return",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.cover.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.cover.2",
+          "line": "164",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:164:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.14",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.14",
+          "line": "164",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:164:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.15",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.15",
+          "line": "164",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:164:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.16",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.16",
+          "line": "164",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:164:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.17",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.17",
+          "line": "164",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:164:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.18",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.18",
+          "line": "164",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:164:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.19",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1.assertion.19",
+          "line": "164",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:164:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/models.rs",
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+          "line": "203",
+          "location_display": "library/kani_core/src/models.rs:203:17 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset value overflows isize",
+          "display_id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.safety_check.1",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "internal error: entered unreachable code",
+          "display_id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.assertion.1",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assigns",
+          "description": "Check that *var_1 is assignable",
+          "display_id": "kani::internal::reset_contract_clause_depth.assigns.1",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::reset_contract_clause_depth.assigns.1",
+          "line": "807",
+          "location_display": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "line": "174",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:174:51 in function <u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to multiply with overflow",
+          "display_id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "line": "183",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:183:16 in function <u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to multiply with overflow",
+          "display_id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "line": "186",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:186:19 in function <u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "safety_check",
+          "description": "`src` must be properly aligned",
+          "display_id": "ptr::copy_nonoverlapping::<u8>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::copy_nonoverlapping::<u8>.safety_check.1",
+          "line": "578",
+          "location_display": "library/core/src/ptr/mod.rs:578:14 in function ptr::copy_nonoverlapping::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "`dst` must be properly aligned",
+          "display_id": "ptr::copy_nonoverlapping::<u8>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::copy_nonoverlapping::<u8>.safety_check.2",
+          "line": "578",
+          "location_display": "library/core/src/ptr/mod.rs:578:14 in function ptr::copy_nonoverlapping::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "arithmetic_overflow",
+          "description": "copy_nonoverlapping: attempt to compute number in bytes which would overflow",
+          "display_id": "ptr::copy_nonoverlapping::<u8>.arithmetic_overflow.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::copy_nonoverlapping::<u8>.arithmetic_overflow.1",
+          "line": "578",
+          "location_display": "library/core/src/ptr/mod.rs:578:14 in function ptr::copy_nonoverlapping::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "line": "174",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:174:51 in function <u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:12 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:39 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:32 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "line": "100",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:100:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "line": "106",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:106:21 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "line": "111",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "line": "111",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:44 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "line": "112",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "line": "112",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:45 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "line": "113",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:113:13 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+          "line": "118",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:118:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "frees",
+          "description": "Check that ptr is freeable",
+          "display_id": "free.frees.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-free>",
+          "id": "free.frees.1",
+          "line": "43",
+          "location_display": "<builtin-library-free>:43 in function free",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "num::<impl usize>::unchecked_add::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+          "id": "num::<impl usize>::unchecked_add::{closure#2}.unreachable.1",
+          "line": "1026",
+          "location_display": "library/core/src/num/uint_macros.rs:1026:9 in function num::<impl usize>::unchecked_add::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "arithmetic_overflow",
+          "description": "attempt to compute `unchecked_sub` which would overflow",
+          "display_id": "ops::index_range::IndexRange::len.arithmetic_overflow.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ops/index_range.rs",
+          "id": "ops::index_range::IndexRange::len.arithmetic_overflow.1",
+          "line": "57",
+          "location_display": "library/core/src/ops/index_range.rs:57:18 in function ops::index_range::IndexRange::len",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "arithmetic_overflow",
+          "description": "attempt to compute `unchecked_add` which would overflow",
+          "display_id": "num::<impl usize>::unchecked_add.arithmetic_overflow.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+          "id": "num::<impl usize>::unchecked_add.arithmetic_overflow.1",
+          "line": "1039",
+          "location_display": "library/core/src/num/uint_macros.rs:1039:17 in function num::<impl usize>::unchecked_add",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<usize as iter::range::Step>::forward_unchecked::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/iter/range.rs",
+          "id": "<usize as iter::range::Step>::forward_unchecked::{closure#3}.unreachable.1",
+          "line": "269",
+          "location_display": "library/core/src/iter/range.rs:269:9 in function <usize as iter::range::Step>::forward_unchecked::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::non_null::NonNull::<usize>::as_ptr::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/non_null.rs",
+          "id": "ptr::non_null::NonNull::<usize>::as_ptr::{closure#1}.unreachable.1",
+          "line": "442",
+          "location_display": "library/core/src/ptr/non_null.rs:442:5 in function ptr::non_null::NonNull::<usize>::as_ptr::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "line": "174",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:174:51 in function <u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "`src` must be properly aligned",
+          "display_id": "ptr::copy::<u8>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::copy::<u8>.safety_check.1",
+          "line": "673",
+          "location_display": "library/core/src/ptr/mod.rs:673:9 in function ptr::copy::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "`dst` must be properly aligned",
+          "display_id": "ptr::copy::<u8>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::copy::<u8>.safety_check.2",
+          "line": "673",
+          "location_display": "library/core/src/ptr/mod.rs:673:9 in function ptr::copy::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "arithmetic_overflow",
+          "description": "copy: attempt to compute number in bytes which would overflow",
+          "display_id": "ptr::copy::<u8>.arithmetic_overflow.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::copy::<u8>.arithmetic_overflow.1",
+          "line": "673",
+          "location_display": "library/core/src/ptr/mod.rs:673:9 in function ptr::copy::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::const_ptr::<impl *const u8>::add::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/const_ptr.rs",
+          "id": "ptr::const_ptr::<impl *const u8>::add::{closure#2}.unreachable.1",
+          "line": "886",
+          "location_display": "library/core/src/ptr/const_ptr.rs:886:5 in function ptr::const_ptr::<impl *const u8>::add::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "line": "710",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:710:1 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "arithmetic_overflow",
+          "description": "attempt to compute `unchecked_sub` which would overflow",
+          "display_id": "ptr::mut_ptr::<impl *mut u8>::sub.arithmetic_overflow.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut u8>::sub.arithmetic_overflow.1",
+          "line": "1166",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:1166:47 in function ptr::mut_ptr::<impl *mut u8>::sub",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset in bytes overflows isize",
+          "display_id": "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.1",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<u8, *mut u8, isize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset result address must equal original pointer address plus offset",
+          "display_id": "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.2",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<u8, *mut u8, isize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset result and original pointer must point to the same allocation",
+          "display_id": "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.3",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<u8, *mut u8, isize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "ptr NULL or writable up to size",
+          "display_id": "__CPROVER_contracts_car_set_insert.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_car_set_insert.assertion.1",
+          "line": "174",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:174 in function __CPROVER_contracts_car_set_insert",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "CAR size is less than __CPROVER_max_malloc_size",
+          "display_id": "__CPROVER_contracts_car_set_insert.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_car_set_insert.assertion.2",
+          "line": "177",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:177 in function __CPROVER_contracts_car_set_insert",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "no offset bits overflow on CAR upper bound computation",
+          "display_id": "__CPROVER_contracts_car_set_insert.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_car_set_insert.assertion.3",
+          "line": "181",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:181 in function __CPROVER_contracts_car_set_insert",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "line": "665",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:665:1 in function slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "num::<impl usize>::unchecked_add::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+          "id": "num::<impl usize>::unchecked_add::{closure#1}.unreachable.1",
+          "line": "1026",
+          "location_display": "library/core/src/num/uint_macros.rs:1026:9 in function num::<impl usize>::unchecked_add::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to divide by zero",
+          "display_id": "ub_checks::is_valid_allocation_size.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ub_checks.rs",
+          "id": "ub_checks::is_valid_allocation_size.assertion.1",
+          "line": "148",
+          "location_display": "library/core/src/ub_checks.rs:148:54 in function ub_checks::is_valid_allocation_size",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "arithmetic_overflow",
+          "description": "attempt to divide by zero",
+          "display_id": "ub_checks::is_valid_allocation_size.arithmetic_overflow.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ub_checks.rs",
+          "id": "ub_checks::is_valid_allocation_size.arithmetic_overflow.1",
+          "line": "148",
+          "location_display": "library/core/src/ub_checks.rs:148:54 in function ub_checks::is_valid_allocation_size",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "line": "108",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:108:51 in function <u8 as slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "line": "108",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:108:51 in function <u8 as slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "line": "406",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:406:1 in function slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::non_null::NonNull::<usize>::as_ptr::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/non_null.rs",
+          "id": "ptr::non_null::NonNull::<usize>::as_ptr::{closure#3}.unreachable.1",
+          "line": "442",
+          "location_display": "library/core/src/ptr/non_null.rs:442:5 in function ptr::non_null::NonNull::<usize>::as_ptr::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "single_top_level_call",
+          "description": "Only a single top-level call to function _RNCNCINvXs1_NtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsorthNtBa_25UnstableSmallSortTypeImpl10small_sortINtNtNtBa_6verify13sorting_model7KeyLesshEEs0_0s_0Bi_ when checking contract _RNCNCINvXs1_NtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsorthNtBa_25UnstableSmallSortTypeImpl10small_sortINtNtNtBa_6verify13sorting_model7KeyLesshEEs0_0s_0Bi_",
+          "display_id": "<u8 as core::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.single_top_level_call.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as core::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.single_top_level_call.1",
+          "line": "109",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:109:5 in function <u8 as core::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "no_alloc_dealloc_in_requires",
+          "description": "Check that requires do not allocate or deallocate memory",
+          "display_id": "<u8 as core::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.no_alloc_dealloc_in_requires.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as core::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.no_alloc_dealloc_in_requires.1",
+          "line": "109",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:109:5 in function <u8 as core::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "no_alloc_dealloc_in_ensures",
+          "description": "Check that ensures do not allocate or deallocate memory",
+          "display_id": "<u8 as core::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.no_alloc_dealloc_in_ensures.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as core::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.no_alloc_dealloc_in_ensures.1",
+          "line": "109",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:109:5 in function <u8 as core::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "no_recursive_call",
+          "description": "No recursive call to function _RNCNCINvXs1_NtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsorthNtBa_25UnstableSmallSortTypeImpl10small_sortINtNtNtBa_6verify13sorting_model7KeyLesshEEs0_0s_0Bi_ when checking contract _RNCNCINvXs1_NtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsorthNtBa_25UnstableSmallSortTypeImpl10small_sortINtNtNtBa_6verify13sorting_model7KeyLesshEEs0_0s_0Bi_",
+          "display_id": "<u8 as core::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.no_recursive_call.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as core::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.no_recursive_call.1",
+          "line": "109",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:109:5 in function <u8 as core::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ops::index_range::IndexRange::next_unchecked::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ops/index_range.rs",
+          "id": "ops::index_range::IndexRange::next_unchecked::{closure#3}.unreachable.1",
+          "line": "63",
+          "location_display": "library/core/src/ops/index_range.rs:63:5 in function ops::index_range::IndexRange::next_unchecked::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "line": "607",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:607:1 in function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "line": "607",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:607:1 in function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.unreachable.1",
+          "line": "419",
+          "location_display": "library/core/src/slice/index.rs:419:5 in function <ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.safety_check.1",
+          "line": "425",
+          "location_display": "library/core/src/slice/index.rs:425:22 in function <ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.safety_check.2",
+          "line": "425",
+          "location_display": "library/core/src/slice/index.rs:425:22 in function <ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::const_ptr::<impl *const u8>::add::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/const_ptr.rs",
+          "id": "ptr::const_ptr::<impl *const u8>::add::{closure#1}.unreachable.1",
+          "line": "886",
+          "location_display": "library/core/src/ptr/const_ptr.rs:886:5 in function ptr::const_ptr::<impl *const u8>::add::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\nverify::sorting_model::post::<T,\nF>(old(verify::sorting_model::snapshot::<T, F>(v)), v)",
+          "display_id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.1",
+          "line": "110",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:110:5 in function <u8 as slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<usize as iter::range::Step>::forward_unchecked::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/iter/range.rs",
+          "id": "<usize as iter::range::Step>::forward_unchecked::{closure#1}.unreachable.1",
+          "line": "269",
+          "location_display": "library/core/src/iter/range.rs:269:9 in function <usize as iter::range::Step>::forward_unchecked::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "kani::internal::exit_contract_clause.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::exit_contract_clause.assertion.1",
+          "line": "851",
+          "location_display": "library/kani_core/src/lib.rs:851:49 in function kani::internal::exit_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "line": "710",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:710:1 in function slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "reached intrinsic::abort_immediate",
+          "display_id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "line": "345",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:345:9 in function slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to divide by zero",
+          "display_id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "line": "350",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:350:21 in function slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "arithmetic_overflow",
+          "description": "attempt to divide by zero",
+          "display_id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.arithmetic_overflow.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.arithmetic_overflow.1",
+          "line": "350",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:350:21 in function slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "line": "381",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:381:76 in function slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "line": "665",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:665:1 in function slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to multiply with overflow",
+          "display_id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.1",
+          "line": "164",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:164:16 in function <u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to multiply with overflow",
+          "display_id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+          "line": "167",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:167:19 in function <u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut u8>::sub::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut u8>::sub::{closure#3}.unreachable.1",
+          "line": "1107",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:1107:5 in function ptr::mut_ptr::<impl *mut u8>::sub::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "line": "875",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:875:1 in function slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "num::<impl usize>::unchecked_add::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+          "id": "num::<impl usize>::unchecked_add::{closure#0}.unreachable.1",
+          "line": "1026",
+          "location_display": "library/core/src/num/uint_macros.rs:1026:9 in function num::<impl usize>::unchecked_add::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "reached intrinsic::abort_immediate",
+          "display_id": "slice::sort::shared::smallsort::sort13_optimal::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::sort13_optimal::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "line": "527",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:527:9 in function slice::sort::shared::smallsort::sort13_optimal::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "ptr::drop_in_place::<[usize]>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::drop_in_place::<[usize]>.safety_check.1",
+          "line": "851",
+          "location_display": "library/core/src/ptr/mod.rs:851:24 in function ptr::drop_in_place::<[usize]>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "ptr::drop_in_place::<[usize]>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::drop_in_place::<[usize]>.safety_check.2",
+          "line": "851",
+          "location_display": "library/core/src/ptr/mod.rs:851:24 in function ptr::drop_in_place::<[usize]>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "num::<impl usize>::abs_diff.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+          "id": "num::<impl usize>::abs_diff.assertion.1",
+          "line": "3222",
+          "location_display": "library/core/src/num/uint_macros.rs:3222:21 in function num::<impl usize>::abs_diff",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "num::<impl usize>::abs_diff.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+          "id": "num::<impl usize>::abs_diff.assertion.2",
+          "line": "3224",
+          "location_display": "library/core/src/num/uint_macros.rs:3224:21 in function num::<impl usize>::abs_diff",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut u8>::sub::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut u8>::sub::{closure#1}.unreachable.1",
+          "line": "1107",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:1107:5 in function ptr::mut_ptr::<impl *mut u8>::sub::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "ptr::drop_in_place::<array::iter::iter_inner::PolymorphicIter<[mem::maybe_uninit::MaybeUninit<usize>; 2]>>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::drop_in_place::<array::iter::iter_inner::PolymorphicIter<[mem::maybe_uninit::MaybeUninit<usize>; 2]>>.safety_check.1",
+          "line": "851",
+          "location_display": "library/core/src/ptr/mod.rs:851:24 in function ptr::drop_in_place::<array::iter::iter_inner::PolymorphicIter<[mem::maybe_uninit::MaybeUninit<usize>; 2]>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "ptr::drop_in_place::<array::iter::iter_inner::PolymorphicIter<[mem::maybe_uninit::MaybeUninit<usize>; 2]>>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::drop_in_place::<array::iter::iter_inner::PolymorphicIter<[mem::maybe_uninit::MaybeUninit<usize>; 2]>>.safety_check.2",
+          "line": "851",
+          "location_display": "library/core/src/ptr/mod.rs:851:24 in function ptr::drop_in_place::<array::iter::iter_inner::PolymorphicIter<[mem::maybe_uninit::MaybeUninit<usize>; 2]>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::const_ptr::<impl *const T>::add::runtime_add_nowrap::runtime.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/intrinsics/mod.rs",
+          "id": "ptr::const_ptr::<impl *const T>::add::runtime_add_nowrap::runtime.unreachable.1",
+          "line": "2748",
+          "location_display": "library/core/src/intrinsics/mod.rs:2748:9 in function ptr::const_ptr::<impl *const T>::add::runtime_add_nowrap::runtime",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "ptr::drop_in_place::<*mut u8>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::drop_in_place::<*mut u8>.safety_check.1",
+          "line": "851",
+          "location_display": "library/core/src/ptr/mod.rs:851:24 in function ptr::drop_in_place::<*mut u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "ptr::drop_in_place::<*mut u8>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::drop_in_place::<*mut u8>.safety_check.2",
+          "line": "851",
+          "location_display": "library/core/src/ptr/mod.rs:851:24 in function ptr::drop_in_place::<*mut u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "num::<impl usize>::unchecked_add::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+          "id": "num::<impl usize>::unchecked_add::{closure#3}.unreachable.1",
+          "line": "1026",
+          "location_display": "library/core/src/num/uint_macros.rs:1026:9 in function num::<impl usize>::unchecked_add::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "line": "406",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:406:1 in function slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/non_null.rs",
+          "id": "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#2}.unreachable.1",
+          "line": "557",
+          "location_display": "library/core/src/ptr/non_null.rs:557:5 in function ptr::non_null::NonNull::<usize>::cast::<()>::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.unreachable.1",
+          "line": "405",
+          "location_display": "library/core/src/slice/index.rs:405:5 in function <ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.safety_check.1",
+          "line": "411",
+          "location_display": "library/core/src/slice/index.rs:411:22 in function <ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.safety_check.2",
+          "line": "411",
+          "location_display": "library/core/src/slice/index.rs:411:22 in function <ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "line": "108",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:108:51 in function <u8 as slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset in bytes overflows isize",
+          "display_id": "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.1",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<u8, *const u8, usize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset result address must equal original pointer address plus offset",
+          "display_id": "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.2",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<u8, *const u8, usize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset result and original pointer must point to the same allocation",
+          "display_id": "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.3",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<u8, *const u8, usize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::index::slice_index_fail::do_panic::runtime.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "slice::index::slice_index_fail::do_panic::runtime.assertion.3",
+          "line": "69",
+          "location_display": "library/core/src/slice/index.rs:69:5 in function slice::index::slice_index_fail::do_panic::runtime",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut u8>::sub::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut u8>::sub::{closure#0}.unreachable.1",
+          "line": "1107",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:1107:5 in function ptr::mut_ptr::<impl *mut u8>::sub::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::non_null::NonNull::<usize>::as_ptr::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/non_null.rs",
+          "id": "ptr::non_null::NonNull::<usize>::as_ptr::{closure#0}.unreachable.1",
+          "line": "442",
+          "location_display": "library/core/src/ptr/non_null.rs:442:5 in function ptr::non_null::NonNull::<usize>::as_ptr::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::non_null::NonNull::<usize>::as_ptr::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/non_null.rs",
+          "id": "ptr::non_null::NonNull::<usize>::as_ptr::{closure#2}.unreachable.1",
+          "line": "442",
+          "location_display": "library/core/src/ptr/non_null.rs:442:5 in function ptr::non_null::NonNull::<usize>::as_ptr::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::raw::from_raw_parts_mut::<'_, mem::maybe_uninit::MaybeUninit<u8>>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/raw.rs",
+          "id": "slice::raw::from_raw_parts_mut::<'_, mem::maybe_uninit::MaybeUninit<u8>>.safety_check.1",
+          "line": "208",
+          "location_display": "library/core/src/slice/raw.rs:208:9 in function slice::raw::from_raw_parts_mut::<'_, mem::maybe_uninit::MaybeUninit<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::raw::from_raw_parts_mut::<'_, mem::maybe_uninit::MaybeUninit<u8>>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/raw.rs",
+          "id": "slice::raw::from_raw_parts_mut::<'_, mem::maybe_uninit::MaybeUninit<u8>>.safety_check.2",
+          "line": "208",
+          "location_display": "library/core/src/slice/raw.rs:208:9 in function slice::raw::from_raw_parts_mut::<'_, mem::maybe_uninit::MaybeUninit<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "reached intrinsic::abort_immediate",
+          "display_id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "line": "674",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:674:9 in function slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset in bytes overflows isize",
+          "display_id": "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.1",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<u8, *mut u8, usize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset result address must equal original pointer address plus offset",
+          "display_id": "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.2",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<u8, *mut u8, usize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset result and original pointer must point to the same allocation",
+          "display_id": "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.3",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<u8, *mut u8, usize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "line": "251",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:251:24 in function slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "reached intrinsic::abort_immediate",
+          "display_id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "line": "252",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:252:9 in function slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to divide by zero",
+          "display_id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "line": "256",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:256:21 in function slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "arithmetic_overflow",
+          "description": "attempt to divide by zero",
+          "display_id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.arithmetic_overflow.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.arithmetic_overflow.1",
+          "line": "256",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:256:21 in function slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "line": "268",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:268:34 in function slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+          "line": "291",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:291:67 in function slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+          "status": "UNREACHABLE"
+        }
+      ]
+    }
+  ],
+  "observed_stdout_bytes": 417804,
+  "proof_credit": "NONE",
+  "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+  "schema": "ch8-s1-05-rich-v1",
+  "state": "INCOMPLETE"
+}

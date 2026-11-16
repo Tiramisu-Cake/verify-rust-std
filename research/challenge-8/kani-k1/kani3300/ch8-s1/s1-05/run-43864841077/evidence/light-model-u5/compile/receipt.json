@@ -1,0 +1,43 @@
+{
+  "boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+  "elapsed_upper_bound_seconds": 29.411,
+  "group_execution": {
+    "elapsed_seconds": 38.116,
+    "original_exit_code": 0,
+    "output_bytes": 355442,
+    "output_truncated": false,
+    "rss_peak_gib": 2.5043792724609375,
+    "rss_peak_kib": 2626032,
+    "rss_sample_period_seconds": 0.05,
+    "rss_status": "SAMPLED_PROCESS_GROUP",
+    "signal": null,
+    "stderr_bytes": 2493,
+    "stderr_truncated": false,
+    "stdout_bytes": 352949,
+    "stdout_truncated": false,
+    "timed_out": false
+  },
+  "limit_seconds": 900,
+  "marker_sha256": "c0daf3d3fb0cc869382e8ed3283696785ae21354140e77fb353457155aa0a56e",
+  "observed_run_state": "INCOMPLETE",
+  "proof_credit": "NONE",
+  "request_sha256": "11ab687f8754b2cc057066f20ac28ccb8a7555232372552536209eb73f00d5ed",
+  "schema": "ch8-s1-compile-receipt-v1",
+  "scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+  "selectors": [
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3"
+  ],
+  "state": "COMPLETE",
+  "std_sha": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+  "stderr": {
+    "observed_bytes": 2493,
+    "scope": "PIPE_BYTES_OBSERVED_AT_SNAPSHOT_NOT_PER_HARNESS"
+  },
+  "stdout": {
+    "observed_bytes": 82221,
+    "scope": "PIPE_BYTES_OBSERVED_AT_SNAPSHOT_NOT_PER_HARNESS"
+  },
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+}

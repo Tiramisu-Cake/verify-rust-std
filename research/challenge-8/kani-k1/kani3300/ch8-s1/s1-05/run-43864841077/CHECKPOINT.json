@@ -1,0 +1,40 @@
+{
+  "schema": "s105-intake-checkpoint-v1",
+  "state": "COMPLETE_INTAKE_AND_OFFLINE_REVIEW",
+  "entry_g0": "43c470084c",
+  "run": 43864841077,
+  "executed_control": "8860d38558651f7cf2e292d57b06b378c6ad3b94",
+  "fix_control": "b25dd39a46ba90b167500997d546a5f2f5bd8f3b",
+  "claims": [
+    {
+      "claim": "14 artifacts /35 source-reported terminal harness verdicts",
+      "assurance": "STRUCTURED_SOURCE_REPORTED",
+      "evidence": "collected.json"
+    },
+    {
+      "claim": "Heavy child exits0; rich decoder failed file/line missing",
+      "assurance": "DIRECT_STRUCTURED_RECEIPTS_NOT_PROOF_CAUSALITY",
+      "evidence": "RESULT.md"
+    },
+    {
+      "claim": "Fix retains nullable metadata/suffix; completeness remains fail-closed;47 tests and independent static review passed",
+      "assurance": "STATIC_SYNTHETIC_ONLY",
+      "evidence": "fix/VALIDATION.json"
+    },
+    {
+      "claim": "Offline replay PASS;0 qualified,3 exact negative observations,41 exact SAT required covers",
+      "assurance": "OFFLINE_QUALIFICATION_REVIEW_NO_INDEPENDENT_PROOF",
+      "evidence": "accept/ACCEPT.json"
+    }
+  ],
+  "qualified_acceptance": "PENDING",
+  "proof_credit": "NONE",
+  "open": [
+    "10 groups /26 rows incomplete rich; exact rejected old location unavailable",
+    "31 required-success message bindings pending across complete groups",
+    "25 unknown unreachable roles;20 postcondition sites have negative-scenario applicability pending",
+    "3 PFC wrapper chains and activation-default companion rich inventory pending",
+    "Actual fix stream/proof rerun NOT_RUN"
+  ],
+  "next": "Separate authorization needed for publication/CI; nullable sites remain incomplete, use retained diagnostics to resolve source binding."
+}
