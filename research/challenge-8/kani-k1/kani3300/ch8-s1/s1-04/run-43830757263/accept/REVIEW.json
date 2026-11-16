@@ -1,0 +1,12 @@
+{
+  "schema": "ch8-s1-04-offline-review-v1",
+  "reviewer_model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "nested_delegation": false,
+  "scope": "Offline evidence and report-only classifier; no submit/control changes",
+  "evidence_finding": "Confirmed missing rich source records for successful/unreachable checks and covers; unsupported records do retain exact metadata",
+  "code_finding": "F1-F3 were hardcoded UNKNOWN with empty reasons despite exact predeclared oracle and no exceptions",
+  "resolution": "Separate ACCEPTED_NEGATIVE_OBSERVATION for F1-F3 only; positive admission and proof credit unchanged at zero/NONE",
+  "remaining_concrete_findings": [],
+  "assurance": "Independent bounded static review, no independent formal proof"
+}
