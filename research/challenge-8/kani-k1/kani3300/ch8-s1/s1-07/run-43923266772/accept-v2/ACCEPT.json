@@ -1,0 +1,46 @@
+{
+  "baseline_accept_sha256": "d9e7d7a7c7a19a2a00de494538bc385490a5e557f86e9f6c5a2bf959b74fe816",
+  "blocking_gates": [
+    {
+      "gate": "UNREACHABLE_ROW_ARGUMENTS",
+      "required": "187 exact records: source SHA/context/site/function/class/description/status and checked source-local justification",
+      "status": "NOT_REPLAYED"
+    },
+    {
+      "gate": "PFC_SOURCE_REPORTED_CHAIN",
+      "required": "22 rows: harness/type/trait/specialization/cfg, producer wrapper, raw/demangled symbol, diagnostics, clause/property and variant outcome bindings",
+      "status": "NOT_REPLAYED"
+    },
+    {
+      "gate": "SUCCESS_ROLE_BINDINGS",
+      "required": "Close only exact role\u2192property links; retain unresolved labels as PENDING",
+      "status": "NOT_REPLAYED"
+    },
+    {
+      "gate": "SYNTHETIC_FAIL_CLOSED_SUITE",
+      "required": "All mutations enumerated by task",
+      "status": "NOT_RUN"
+    }
+  ],
+  "claims": {
+    "historical_receipt_modified": false,
+    "new_proof_run": false,
+    "review_complete": false,
+    "source_rows_reclassified": false
+  },
+  "read_inputs": {
+    "research/challenge-8/kani-k1/ACCEPTANCE-POLICY-BATCH.md": "c7e4e8ca75748f3c68750e7983302edaf533b856eb8be1d3f9d7ea7cd671b21b",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v4/BINDING.md": "b6d01fe21595c7f61d95b816015664a28ecc645c1259454fc363872d2da60cdb",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/COORDINATOR-REVIEW-AFTER-S1-07.md": "a24d0079fa2e9b8b5a3150c0716c55ab522bb43cab8692b422c03043c3a0813f",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/CI-REQUEST.json": "6c483ce754cd8e99c01953bf4c40a145b10529d7990aa52c28ef32c00b980cd7",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept/ACCEPT.json": "d9e7d7a7c7a19a2a00de494538bc385490a5e557f86e9f6c5a2bf959b74fe816"
+  },
+  "result": "No acceptance claim. Existing receipt remains authoritative historical state; this file is a stop marker, not an acceptance receipt.",
+  "run": "43923266772",
+  "schema": "ch8-s1-07-accept-v2-offline-status-v1",
+  "state": "STOP_INCOMPLETE",
+  "std_sha": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+  "task_commit": "3215cedebe01e2a746bf2b9a2efe7ba82910553b",
+  "task_input": "82695068e4a9f02b3cf59eca01d961bd63442b44",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+}
