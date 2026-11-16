@@ -1,0 +1,85 @@
+diff --git a/ch8-e-control/CI-REQUEST.json b/ch8-e-control/CI-REQUEST.json
+index 953b038eb..fff2a8de4 100644
+--- a/ch8-e-control/CI-REQUEST.json
++++ b/ch8-e-control/CI-REQUEST.json
+@@ -29,6 +29,8 @@
+   "branch_prefix": "uninit-ci/ch8-e-ctl-",
+   "flags": {
+     "base": [
++      "-Z",
++      "unstable-options",
+       "-Z",
+       "loop-contracts",
+       "-Z",
+@@ -85,10 +87,10 @@
+     "ch8-e-control/fixtures/e_q_scalar_invariant.rs": "b332bcb84a9a6a91c1e6823491e0d954ff42ca1eb00fa45f8b4b39f5d3a58cf5",
+     "ch8-e-control/fixtures/e_s_unbounded_slice.rs": "918ca6109068245148d66cfaafc339b5eb0f3d72872c0c444c6213fe63173a4f",
+     "ch8-e-control/rows.json": "b20e030f43b3a316c20a1b4d0275c6c78c6022e48060e9fb83f556fa39ac9c86",
+-    "ch8-e-control/runner.py": "0322d2379292f1585a05f57b380edc57aee213a87723b7eb6359b4ecce9c1b0e",
++    "ch8-e-control/runner.py": "1a13ae8d11c3bac30081c5baff2138f69289a60e1615dc97806b4517c83c3d9a",
+     "ch8-e-control/test_package.py": "0d404bdc46f51b5f25223a12e2239005e9acd7fa10c635ff2aeb2b974234dae3",
+-    "ch8-e-control/test_runner.py": "e7a8d1c6794d1613dd4b877b5b1ef2fa5f36aff08ec0da3e767a0290b60390cc"
++    "ch8-e-control/test_runner.py": "8da00f2a54c5f17a5b18a2410b134a17c03a6caebb8fd265aaf3d8f1f77b10e8"
+   },
+-  "payload_manifest_sha256": "c4133076871c6228b780a33b3a7d77dba7357452acadfc061398680a1f0ecec6",
++  "payload_manifest_sha256": "4a7fd6ae382adaac379a561a0e60805cc74d3bc0e87d8c5ce42978d92cc7f2ec",
+   "activation": "Separate coordinator authorization: same-tree sibling without skip-ci and sole parent upstream0aac, fresh branch; never child of preparation commit."
+ }
+diff --git a/ch8-e-control/MANIFEST.sha256 b/ch8-e-control/MANIFEST.sha256
+index 6cdbbbbba..68277fcc9 100644
+--- a/ch8-e-control/MANIFEST.sha256
++++ b/ch8-e-control/MANIFEST.sha256
+@@ -12,6 +12,6 @@ a7b320bccc1d9c239aa80e104c0294107fa1cf1d82553f001d1ad385d029fc53  ch8-e-control/
+ b332bcb84a9a6a91c1e6823491e0d954ff42ca1eb00fa45f8b4b39f5d3a58cf5  ch8-e-control/fixtures/e_q_scalar_invariant.rs
+ 918ca6109068245148d66cfaafc339b5eb0f3d72872c0c444c6213fe63173a4f  ch8-e-control/fixtures/e_s_unbounded_slice.rs
+ b20e030f43b3a316c20a1b4d0275c6c78c6022e48060e9fb83f556fa39ac9c86  ch8-e-control/rows.json
+-0322d2379292f1585a05f57b380edc57aee213a87723b7eb6359b4ecce9c1b0e  ch8-e-control/runner.py
++1a13ae8d11c3bac30081c5baff2138f69289a60e1615dc97806b4517c83c3d9a  ch8-e-control/runner.py
+ 0d404bdc46f51b5f25223a12e2239005e9acd7fa10c635ff2aeb2b974234dae3  ch8-e-control/test_package.py
+-e7a8d1c6794d1613dd4b877b5b1ef2fa5f36aff08ec0da3e767a0290b60390cc  ch8-e-control/test_runner.py
++8da00f2a54c5f17a5b18a2410b134a17c03a6caebb8fd265aaf3d8f1f77b10e8  ch8-e-control/test_runner.py
+diff --git a/ch8-e-control/runner.py b/ch8-e-control/runner.py
+index 5a3c4206b..6ed19e0a8 100644
+--- a/ch8-e-control/runner.py
++++ b/ch8-e-control/runner.py
+@@ -415,7 +415,7 @@ def parse_export(path: Path, row: dict[str, Any], check: str, pin: str,
+             harness["attributes"]["kind"] != "Proof" or harness["attributes"]["stubs"] != []):
+         return {**result, "state": "CONFIGURATION_MISMATCH"}
+     features = value["enabled_unstable_features"]
+-    expected_features = {"loop-contracts", "quantifiers", "export-json"}
++    expected_features = {"unstable-options", "loop-contracts", "quantifiers", "export-json"}
+     if required_check: expected_features.add("uninit-checks")
+     if set(features) != expected_features:
+         return {**result, "state": "FEATURE_MISMATCH", "features": features}
+@@ -599,7 +599,7 @@ def run_rows(tool: Path, out: Path, pin: str) -> int:
+             persist("RUNNING", elapsed_seconds=round(time.monotonic()-started, 3))
+             export_path = (slot/"export.json").resolve()
+             argv = [str((tool.resolve()/"scripts/kani").resolve()), str(source), "--harness", row["harness"], "--exact",
+-                    "-Z", "loop-contracts", "-Z", "quantifiers"]
++                    "-Z", "unstable-options", "-Z", "loop-contracts", "-Z", "quantifiers"]
+             if check == "ON": argv += ["-Z", "uninit-checks"]
+             argv += ["-Z", "export-json", "--export-json", str(export_path), "--harness-timeout", "600s",
+                      "--jobs", "1", "--output-format=terse", "--cbmc-args", "--object-bits", "12"]
+diff --git a/ch8-e-control/test_runner.py b/ch8-e-control/test_runner.py
+index d8c6760a1..878d4079b 100644
+--- a/ch8-e-control/test_runner.py
++++ b/ch8-e-control/test_runner.py
+@@ -45,7 +45,7 @@ def valid_export(pin, source, harness="root", check="ON"):
+     hs = example(schema["harnesses"][0], defs)
+     value["harnesses"] = [hs]
+     value.update(schema_version="0.1.0", kani_commit=runner.PIN_DATA[pin]["sha"], kani_commit_dirty=False,
+-                 enabled_unstable_features=["loop-contracts", "quantifiers", "export-json"] + (["uninit-checks"] if check == "ON" else []),
++                 enabled_unstable_features=["unstable-options", "loop-contracts", "quantifiers", "export-json"] + (["uninit-checks"] if check == "ON" else []),
+                  harness_selection={"requested_filters": [harness], "exact": True, "unmatched_filters": [], "matched_count": 1},
+                  harness_timeout_s=600, run_state="COMPLETE")
+     value["outcome"] = {"kind": "COMPLETED"}
+@@ -228,6 +228,9 @@ class RunnerTests(unittest.TestCase):
+                     self.assertEqual(runner.run_rows(self.root/'tool', out, 'upstream'), 0)
+             record = json.loads((out/'rows/row1/on/receipt.json').read_text())
+             self.assertEqual(record['run']['original_exit_code'],0)
++            self.assertIn('unstable-options', record['argv'])
++            self.assertIn('--harness-timeout', record['argv'])
++            self.assertNotIn('verify-std', record['argv'])
+             self.assertEqual(record['status'],'ERROR' if broken else 'OBSERVED')
+             self.assertEqual(record['export']['outcome'],'UNKNOWN' if broken else 'SUCCESS')
+             self.assertTrue((out/'rows/row1/on/export.json').is_file())

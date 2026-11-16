@@ -1,0 +1,3740 @@
+diff --git a/.github/workflows/bench-compiler.yml b/.github/workflows/bench-compiler.yml
+deleted file mode 100644
+index 0b30110c6ad5c105444045a94c801d153dde2725..0000000000000000000000000000000000000000
+--- a/.github/workflows/bench-compiler.yml
++++ /dev/null
+@@ -1,148 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Run performance benchmarks comparing the compiler performance of two different Kani versions.
+-name: Kani Compiler Performance Benchmarks
+-permissions:
+-  contents: read
+-on:
+-  push:
+-    branches:
+-      - 'main'
+-  workflow_call:
+-
+-jobs:
+-  compile-timer-short:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Save push event HEAD and HEAD~ to environment variables
+-        if: ${{ github.event_name == 'push' }}
+-        run: |
+-          echo "NEW_REF=${{ github.event.after}}" | tee -a "$GITHUB_ENV"
+-          echo "OLD_REF=${{ github.event.before }}" | tee -a "$GITHUB_ENV"
+-      # Note: in reusable workflows, github.event_name and github.event are
+-      # those of the caller; when invoked from bench-pr.yml this is a
+-      # pull_request event.
+-      - name: Save pull request HEAD and base to environment variables
+-        if: ${{ github.event_name == 'pull_request' }}
+-        run: |
+-          echo "OLD_REF=${{ github.event.pull_request.base.sha }}" | tee -a "$GITHUB_ENV"
+-          echo "NEW_REF=${{ github.event.pull_request.head.sha }}" | tee -a "$GITHUB_ENV"
+-      - name: Check out Kani (old variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./old
+-          ref: ${{ env.OLD_REF }}
+-          fetch-depth: 2
+-
+-      - name: Check out Kani (new variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./new
+-          ref: ${{ env.NEW_REF }}
+-          fetch-depth: 1
+-
+-      - name: Set up Kani Dependencies (old variant)
+-        uses: ./old/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: old
+-
+-      - name: Set up Kani Dependencies (new variant)
+-        uses: ./new/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: new
+-
+-      - name: Copy benchmarks from new to old
+-        run: rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/
+-
+-      - name: Build `compile-timer` in old
+-        run: cd old/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in old
+-        run: cd old && cargo build-dev --release
+-
+-      - name: Build `compile-timer` in new
+-        run: cd new/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in new
+-        run: cd new && cargo build-dev --release
+-
+-      - name: Run `compile-timer` on old
+-        run: |
+-          export PATH="${{ github.workspace }}/old/scripts:$PATH"
+-          cd old/tests/perf && ../../target/release/compile-timer --out-path compile-times-old.json --ignore kani-lib --ignore display_trait --ignore s2n-quic
+-      - name: Run `compile-timer` on new
+-        run: |
+-          export PATH="${{ github.workspace }}/new/scripts:$PATH"
+-          cd new/tests/perf && ../../target/release/compile-timer --out-path compile-times-new.json --ignore kani-lib --ignore display_trait --ignore s2n-quic
+-      - name: Run analysis between the two
+-        run: ./new/target/release/compile-analyzer --path-pre old/tests/perf/compile-times-old.json --path-post new/tests/perf/compile-times-new.json --only-markdown --suite-name short >> "$GITHUB_STEP_SUMMARY"
+-
+-  compile-timer-long:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Save push event HEAD and HEAD~ to environment variables
+-        if: ${{ github.event_name == 'push' }}
+-        run: |
+-          echo "NEW_REF=${{ github.event.after}}" | tee -a "$GITHUB_ENV"
+-          echo "OLD_REF=${{ github.event.before }}" | tee -a "$GITHUB_ENV"
+-      # Note: in reusable workflows, github.event_name and github.event are
+-      # those of the caller; when invoked from bench-pr.yml this is a
+-      # pull_request event.
+-      - name: Save pull request HEAD and base to environment variables
+-        if: ${{ github.event_name == 'pull_request' }}
+-        run: |
+-          echo "OLD_REF=${{ github.event.pull_request.base.sha }}" | tee -a "$GITHUB_ENV"
+-          echo "NEW_REF=${{ github.event.pull_request.head.sha }}" | tee -a "$GITHUB_ENV"
+-      
+-      - name: Check out Kani (old variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./old
+-          ref: ${{ env.OLD_REF }}
+-          fetch-depth: 2
+-
+-      - name: Check out Kani (new variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./new
+-          ref: ${{ env.NEW_REF }}
+-          fetch-depth: 1
+-
+-      - name: Set up Kani Dependencies (old variant)
+-        uses: ./old/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: old
+-
+-      - name: Set up Kani Dependencies (new variant)
+-        uses: ./new/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: new
+-
+-      # Ensures that a PR changing the benchmarks will have the new benchmarks run 
+-      # for both commits.
+-      - name: Copy benchmarks from new to old
+-        run: rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/
+-
+-      - name: Build `compile-timer` in old
+-        run: cd old/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in old
+-        run: cd old && cargo build-dev --release
+-
+-      - name: Build `compile-timer` in new
+-        run: cd new/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in new
+-        run: cd new && cargo build-dev --release
+-
+-      - name: Run `compile-timer` on old
+-        run: |
+-          export PATH="${{ github.workspace }}/old/scripts:$PATH"
+-          cd old/tests/perf/s2n-quic && ../../../target/release/compile-timer --out-path compile-times-old.json --also-visit quic/s2n-quic-core --also-visit quic/s2n-quic-platform --also-visit common/s2n-codec --skip-current
+-      - name: Run `compile-timer` on new
+-        run: |
+-          export PATH="${{ github.workspace }}/new/scripts:$PATH"
+-          cd new/tests/perf/s2n-quic && ../../../target/release/compile-timer --out-path compile-times-new.json --also-visit quic/s2n-quic-core --also-visit quic/s2n-quic-platform --also-visit common/s2n-codec --skip-current
+-      - name: Run analysis between the two
+-        run: ./new/target/release/compile-analyzer --path-pre old/tests/perf/s2n-quic/compile-times-old.json --path-post new/tests/perf/s2n-quic/compile-times-new.json --only-markdown --suite-name long >> "$GITHUB_STEP_SUMMARY"
+diff --git a/.github/workflows/bench-e2e.yml b/.github/workflows/bench-e2e.yml
+deleted file mode 100644
+index bc2db84b52fbb6f0c0017a67e94934662c0d9689..0000000000000000000000000000000000000000
+--- a/.github/workflows/bench-e2e.yml
++++ /dev/null
+@@ -1,85 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Run performance benchmarks comparing two different Kani versions.
+-# This workflow takes much longer than other workflows, so we don't run it by default.
+-# This workflow will run when:
+-#  - Changes are pushed to 'main'.
+-#  - Triggered by another workflow
+-name: Kani End-To-End Performance Benchmarks
+-permissions:
+-  contents: read
+-on:
+-  push:
+-    branches:
+-      - 'main'
+-  workflow_call:
+-
+-jobs:
+-  perf-benchcomp:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Save push event HEAD and HEAD~ to environment variables
+-        if: ${{ github.event_name == 'push' }}
+-        run: |
+-          echo "NEW_REF=${{ github.event.after}}" | tee -a "$GITHUB_ENV"
+-          echo "OLD_REF=${{ github.event.before }}" | tee -a "$GITHUB_ENV"
+-
+-      # Note: in reusable workflows, github.event_name and github.event are
+-      # those of the caller; when invoked from bench-pr.yml this is a
+-      # pull_request event.
+-      - name: Save pull request HEAD and base to environment variables
+-        if: ${{ github.event_name == 'pull_request' }}
+-        run: |
+-          echo "OLD_REF=${{ github.event.pull_request.base.sha }}" | tee -a "$GITHUB_ENV"
+-          echo "NEW_REF=${{ github.event.pull_request.head.sha }}" | tee -a "$GITHUB_ENV"
+-
+-      - name: Check out Kani (old variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./old
+-          ref: ${{ env.OLD_REF }}
+-          fetch-depth: 2
+-
+-      - name: Check out Kani (new variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./new
+-          ref: ${{ env.NEW_REF }}
+-          fetch-depth: 1
+-
+-      - name: Set up Kani Dependencies (old variant)
+-        uses: ./old/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: old
+-
+-      - name: Set up Kani Dependencies (new variant)
+-        uses: ./new/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: new
+-
+-      - name: Copy benchmarks from new to old
+-        run: rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/
+-
+-      - name: Run benchcomp
+-        run: |
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            run
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            collate
+-
+-      - name: Perf Regression Results Table
+-        run: |
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            visualize --only dump_markdown_results_table >> "$GITHUB_STEP_SUMMARY"
+-
+-      - name: Run other visualizations
+-        run: |
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            visualize --except dump_markdown_results_table
+diff --git a/.github/workflows/bench-pr.yml b/.github/workflows/bench-pr.yml
+deleted file mode 100644
+index d68534a54ffb3ce2f15671e941c84fc57af0e741..0000000000000000000000000000000000000000
+--- a/.github/workflows/bench-pr.yml
++++ /dev/null
+@@ -1,40 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Run the performance benchmark workflows for pull requests that carry the
+-# corresponding Z-*BenchCI label (applied automatically by the labeler in
+-# extra_jobs.yml based on the changed files, or manually).
+-#
+-# This runs on `pull_request` (not `pull_request_target`) on purpose: the
+-# benchmark workflows build and execute the code proposed in the pull
+-# request, which must not happen in the trusted `pull_request_target`
+-# context (actions/checkout v6.1.0/v5.1.0/v4.4.0 refuse to do so; see
+-# https://github.blog/changelog/2026-06-18-safer-pull_request_target-defaults-for-github-actions-checkout/).
+-#
+-# Note on the `labeled` trigger: labels added by the auto-labeler do not
+-# re-trigger this workflow (events created with the default GITHUB_TOKEN
+-# never trigger new workflow runs), so on freshly opened pull requests the
+-# benchmarks only start with the next push to the pull request. Manually
+-# adding the label triggers them immediately.
+-
+-name: Kani Benchmarks
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-    types: [opened, synchronize, reopened, labeled]
+-
+-concurrency:
+-  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+-  cancel-in-progress: true
+-
+-jobs:
+-  end-to-end-bench:
+-    name: End-to-End Benchmarks
+-    if: ${{ contains(github.event.pull_request.labels.*.name, 'Z-EndToEndBenchCI') }}
+-    uses: ./.github/workflows/bench-e2e.yml
+-
+-  compiler-bench:
+-    name: Compiler Benchmarks
+-    if: ${{ contains(github.event.pull_request.labels.*.name, 'Z-CompilerBenchCI') }}
+-    uses: ./.github/workflows/bench-compiler.yml
+diff --git a/.github/workflows/cargo-update.yml b/.github/workflows/cargo-update.yml
+deleted file mode 100644
+index 1873a2ecdd83f97c37fb74b62a9e0c1d6b7728d7..0000000000000000000000000000000000000000
+--- a/.github/workflows/cargo-update.yml
++++ /dev/null
+@@ -1,51 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt cargo update
+-
+-on:
+-  schedule:
+-    - cron: "30 3 * * Mon" # Run this every Monday at 03:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  pull-requests: write
+-
+-jobs:
+-  create-cargo-update-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The cargo update action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Run cargo update
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          today=$(date +%Y-%m-%d)
+-          echo "today=$today" >> $GITHUB_ENV
+-          if ! git ls-remote --exit-code origin cargo-update-$today ; then
+-            cargo update
+-            cargo build-dev
+-            git diff
+-          fi
+-      - name: Create Pull Request
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade cargo dependencies to ${{ env.today }}
+-          branch: cargo-update-${{ env.today }}
+-          delete-branch: true
+-          title: 'Automatic cargo update to ${{ env.today }}'
+-          body: >
+-            Dependency upgrade resulting from `cargo update`.
+diff --git a/.github/workflows/cbmc-latest.yml b/.github/workflows/cbmc-latest.yml
+deleted file mode 100644
+index 223ec7f96ad8f3215216fc6b99a8337c650c8398..0000000000000000000000000000000000000000
+--- a/.github/workflows/cbmc-latest.yml
++++ /dev/null
+@@ -1,123 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# We use block scalar notation to allow us to add ":" to the workflow name.
+-name: >-
+-  Nightly: CBMC Latest
+-
+-permissions:
+-  contents: read
+-
+-on:
+-  schedule:
+-    - cron: "0 9 * * *" # Run this every day at 9 AM UTC (4 AM ET/1 AM PT)
+-  workflow_dispatch:    # Allow manual dispatching for a custom branch / tag.
+-
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  regression:
+-    runs-on: ${{ matrix.os }}
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, ubuntu-22.04, ubuntu-24.04]
+-    steps:
+-      - name: Checkout Kani under "kani"
+-        uses: actions/checkout@v6
+-        with:
+-          path: kani
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./kani/.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-          kani_dir: 'kani'
+-
+-      - name: Checkout CBMC under "cbmc"
+-        uses: actions/checkout@v6
+-        with:
+-          repository: diffblue/cbmc
+-          path: cbmc
+-
+-      - name: Build CBMC (Linux)
+-        if: ${{ startsWith(matrix.os, 'ubuntu') }}
+-        working-directory: ./cbmc
+-        run: |
+-          cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl="minisat2;cadical"
+-          cmake --build build -- -j 4
+-          # Prepend the bin directory to $PATH
+-          echo "${GITHUB_WORKSPACE}/cbmc/build/bin" >> $GITHUB_PATH
+-
+-      - name: Build CBMC (macOS)
+-        if: ${{ startsWith(matrix.os, 'macos') }}
+-        working-directory: ./cbmc
+-        run: |
+-          cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl="minisat2;cadical" -DCMAKE_CXX_COMPILER=$(which clang++)
+-          cmake --build build -- -j 4
+-          # Prepend the bin directory to $PATH
+-          echo "${GITHUB_WORKSPACE}/cbmc/build/bin" >> $GITHUB_PATH
+-
+-      - name: Execute Kani regressions
+-        working-directory: ./kani
+-        run: ./scripts/kani-regression.sh
+-
+-  perf:
+-    runs-on: ubuntu-24.04
+-    # The perf suite is memory-hungry: the s2n-quic harnesses solve large
+-    # formulas, and running them concurrently exhausts a standard runner, which
+-    # shows up as an unattributable SIGTERM (exit 143) or "the hosted runner
+-    # lost communication with the server" a few minutes into the step rather
+-    # than as a test failure. Run serially instead, as kani.yml does. That takes
+-    # ~45 min, so the 180-min step timeout leaves ample headroom, and the job
+-    # timeout sits above (step timeout) x (max_attempts) so a retry can land.
+-    timeout-minutes: 380
+-    steps:
+-      - name: Checkout Kani under "kani"
+-        uses: actions/checkout@v6
+-        with:
+-          path: kani
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./kani/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: 'kani'
+-
+-      - name: Build Kani using release mode
+-        working-directory: ./kani
+-        run: cargo build-dev -- --release
+-
+-      - name: Checkout CBMC under "cbmc"
+-        uses: actions/checkout@v6
+-        with:
+-          repository: diffblue/cbmc
+-          path: cbmc
+-
+-      - name: Build CBMC
+-        working-directory: ./cbmc
+-        run: |
+-          cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl="minisat2;cadical"
+-          cmake --build build -- -j 4
+-          # Prepend the bin directory to $PATH
+-          echo "${GITHUB_WORKSPACE}/cbmc/build/bin" >> $GITHUB_PATH
+-
+-      - name: Execute Kani performance tests
+-        # Run the suite serially and allow one retry, matching the perf job in
+-        # kani.yml. `working-directory` is not valid on a `uses` step, so the
+-        # command changes directory itself.
+-        uses: nick-fields/retry@v4
+-        with:
+-          timeout_minutes: 180
+-          max_attempts: 2
+-          command: cd kani && ./scripts/kani-perf.sh
+-        env:
+-          RUST_TEST_THREADS: 1
+-
+-      - name: Execute Kani performance ignored tests
+-        working-directory: ./kani
+-        continue-on-error: true
+-        run: cargo run -p compiletest -- --suite perf --mode cargo-kani-test ignore --ignored --no-fail-fast
+-        env:
+-          RUST_TEST_THREADS: 1
+diff --git a/.github/workflows/cbmc-update.yml b/.github/workflows/cbmc-update.yml
+deleted file mode 100644
+index 90eea8a06f2a4af9b3d65befcc8fa9487699a982..0000000000000000000000000000000000000000
+--- a/.github/workflows/cbmc-update.yml
++++ /dev/null
+@@ -1,91 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt CBMC update
+-
+-on:
+-  schedule:
+-    - cron: "30 4 * * Mon" # Run this every Monday at 04:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-cbmc-update-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The CBMC update action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Compare CBMC versions and determine next step
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          grep ^CBMC_VERSION kani-dependencies | sed 's/"//g' >> $GITHUB_ENV
+-          CBMC_LATEST=$(gh -R diffblue/cbmc release list | grep Latest | awk '{print $1}' | cut -f2 -d-)
+-          echo "CBMC_LATEST=$CBMC_LATEST" >> $GITHUB_ENV
+-          # check whether the version has changed at all
+-          if [ x$CBMC_LATEST = x$CBMC_VERSION ] ; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # check whether we already have an existing issue for a failing
+-          # upgrade
+-          elif gh issue list -S \
+-              "CBMC upgrade to $CBMC_LATEST failed" \
+-              --json number,title | grep title ; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # check whether we already have a branch (and thus: a PR) for a
+-          # successful upgrade
+-          elif ! git ls-remote --exit-code origin cbmc-$CBMC_LATEST ; then
+-            CBMC_LATEST_MAJOR=$(echo $CBMC_LATEST | cut -f1 -d.)
+-            CBMC_LATEST_MINOR=$(echo $CBMC_LATEST | cut -f2 -d.)
+-            sed -i "s/^CBMC_MAJOR=.*/CBMC_MAJOR=\"$CBMC_LATEST_MAJOR\"/" kani-dependencies
+-            sed -i "s/^CBMC_MINOR=.*/CBMC_MINOR=\"$CBMC_LATEST_MINOR\"/" kani-dependencies
+-            sed -i "s/^CBMC_VERSION=.*/CBMC_VERSION=\"$CBMC_LATEST\"/" kani-dependencies
+-            git diff
+-            # install the newer CBMC version
+-            ./scripts/setup/ubuntu/install_cbmc.sh
+-            if ! ./scripts/kani-regression.sh ; then
+-              echo "next_step=create_issue" >> $GITHUB_ENV
+-            else
+-              echo "next_step=create_pr" >> $GITHUB_ENV
+-            fi
+-          # we already have a PR, nothing to be done
+-          else
+-            echo "next_step=none" >> $GITHUB_ENV
+-          fi
+-
+-      - name: Create Pull Request
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }}
+-          branch: cbmc-${{ env.CBMC_LATEST }}
+-          delete-branch: true
+-          title: 'Automatic upgrade of CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }}'
+-          body: >
+-            Upgrade CBMC to its latest release.
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        uses: dacbd/create-issue-action@main
+-        with:
+-          token: ${{ github.token }}
+-          title: 'CBMC upgrade to ${{ env.CBMC_LATEST }} failed'
+-          body: >
+-            Updating CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }} failed.
+-
+-            The failed automated run
+-            [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+diff --git a/.github/workflows/ch8-e.yml b/.github/workflows/ch8-e.yml
+new file mode 100644
+index 0000000000000000000000000000000000000000..31d1c448142178663404181a2754aeb574ed5299
+--- /dev/null
++++ b/.github/workflows/ch8-e.yml
+@@ -0,0 +1,90 @@
++name: CH8 E isolated controls
++on:
++  push:
++    branches: ["uninit-ci/ch8-e-ctl-*"]
++permissions:
++  contents: read
++concurrency:
++  group: ch8-e-controls
++  cancel-in-progress: false
++jobs:
++  controls:
++    if: ${{ github.repository == 'Tiramisu-Cake/kani' && github.event_name == 'push' }}
++    runs-on: ubuntu-24.04
++    timeout-minutes: 120
++    strategy:
++      fail-fast: false
++      max-parallel: 1
++      matrix:
++        include:
++          - pin: upstream
++            repository: model-checking/kani
++            sha: 0aac16ef62da9e9d5645782d458593e5d78143ba
++          - pin: sel1
++            repository: Tiramisu-Cake/kani
++            sha: 14bc57fdb99960240c4944845a3d985c8af4dcf7
++    steps:
++      - name: Checkout control
++        timeout-minutes: 2
++        uses: actions/checkout@v6
++        with:
++          ref: ${{ github.sha }}
++          path: control
++          fetch-depth: 2
++          persist-credentials: false
++      - name: Check frozen package and synthetic controls
++        timeout-minutes: 2
++        working-directory: control/ch8-e-control
++        env:
++          PYTHONDONTWRITEBYTECODE: "1"
++        run: |
++          python3 check_package.py control
++          python3 -m unittest -v test_runner.py test_package.py
++      - name: Checkout exact tool
++        timeout-minutes: 3
++        uses: actions/checkout@v6
++        with:
++          repository: ${{ matrix.repository }}
++          ref: ${{ matrix.sha }}
++          path: tool
++          fetch-depth: 2
++          persist-credentials: false
++      - name: Setup exact tool
++        timeout-minutes: 15
++        uses: ./tool/.github/actions/setup
++        with:
++          os: ubuntu-24.04
++          kani_dir: tool
++      - name: Build exact tool once
++        timeout-minutes: 16
++        env:
++          RECEIPT_ROOT: ${{ runner.temp }}/ch8-e-${{ matrix.pin }}
++          PYTHONDONTWRITEBYTECODE: "1"
++        run: python3 control/ch8-e-control/runner.py build --tool tool --out "$RECEIPT_ROOT" --pin ${{ matrix.pin }}
++      - name: Run isolated single-file controls
++        timeout-minutes: 76
++        env:
++          RECEIPT_ROOT: ${{ runner.temp }}/ch8-e-${{ matrix.pin }}
++          PYTHONDONTWRITEBYTECODE: "1"
++        run: python3 control/ch8-e-control/runner.py run --tool tool --out "$RECEIPT_ROOT" --pin ${{ matrix.pin }}
++      - name: Preserve receipts and materialize NOT_RUN rows
++        if: always()
++        timeout-minutes: 2
++        env:
++          RECEIPT_ROOT: ${{ runner.temp }}/ch8-e-${{ matrix.pin }}
++          JOB_STATUS: ${{ job.status }}
++          PYTHONDONTWRITEBYTECODE: "1"
++        run: python3 control/ch8-e-control/runner.py fallback --out "$RECEIPT_ROOT" --pin ${{ matrix.pin }}
++      - name: Upload bounded evidence without build artifacts
++        if: always()
++        timeout-minutes: 3
++        uses: actions/upload-artifact@v4
++        env:
++          RECEIPT_ROOT: ${{ runner.temp }}/ch8-e-${{ matrix.pin }}
++        with:
++          name: ch8-e-${{ matrix.pin }}-${{ github.run_id }}-${{ github.run_attempt }}
++          path: |
++            ${{ env.RECEIPT_ROOT }}/
++            !${{ env.RECEIPT_ROOT }}/**/target/**
++          if-no-files-found: error
++          retention-days: 7
+diff --git a/.github/workflows/charon-update.yml b/.github/workflows/charon-update.yml
+deleted file mode 100644
+index 70ad28901c1a7cfe617b98d4d35099da35659894..0000000000000000000000000000000000000000
+--- a/.github/workflows/charon-update.yml
++++ /dev/null
+@@ -1,93 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt Charon update
+-
+-on:
+-  schedule:
+-    - cron: "30 4 * * Wed" # Run this every Wednesday at 04:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-charon-update-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The Charon update action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Update the Charon pin and determine next step
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: ./scripts/charon_update.sh
+-
+-      - name: Clean untracked files
+-        run: git clean -f
+-
+-      - name: Create Pull Request
+-        id: create_pr
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade Charon from ${{ env.current_charon }} to ${{ env.next_charon }}
+-          branch: charon-${{ env.next_charon }}
+-          delete-branch: true
+-          title: 'Automatic upgrade of Charon from ${{ env.current_charon }} to ${{ env.next_charon }}'
+-          body: |
+-            Update the Charon pin (used by the LLBC backend) from ${{ env.current_charon }} to its
+-            latest tag, ${{ env.next_charon }}. Only the `charon` submodule and `Cargo.lock` change.
+-            `kani-llbc-regression.sh` passed in the
+-            [automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+-
+-            ${{ env.charon_log }}
+-
+-      - name: Point the open failure issue to the PR
+-        if: ${{ steps.create_pr.outputs.pull-request-number && env.failure_issue != '' }}
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-          PR_NUMBER: ${{ steps.create_pr.outputs.pull-request-number }}
+-        run: |
+-          gh issue comment "$failure_issue" --body \
+-            "Charon $next_charon passes the LLBC regression: see #$PR_NUMBER."
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        uses: dacbd/create-issue-action@main
+-        with:
+-          token: ${{ github.token }}
+-          # Keep in sync with `failure_title` in scripts/charon_update.sh.
+-          title: 'Automatic Charon upgrade failed'
+-          body: |
+-            Updating Charon from ${{ env.current_charon }} to ${{ env.next_charon }} requires
+-            source changes: `kani-llbc-regression.sh` failed in the
+-            [automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+-
+-            This issue stays open across Charon tags: later failing attempts add a comment here
+-            rather than filing a new issue. Close it once the pin is updated.
+-
+-            ${{ env.charon_log }}
+-
+-      - name: Comment on the open failure issue
+-        if: ${{ env.next_step == 'comment_issue' }}
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-          BODY: |
+-            Updating Charon from ${{ env.current_charon }} to ${{ env.next_charon }} failed as well:
+-            [automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+-
+-            ${{ env.charon_log }}
+-        run: gh issue comment "$failure_issue" --body "$BODY"
+diff --git a/.github/workflows/deny.yml b/.github/workflows/deny.yml
+deleted file mode 100644
+index c54ce6bbcb075df881984f714589011c4b88d5e4..0000000000000000000000000000000000000000
+--- a/.github/workflows/deny.yml
++++ /dev/null
+@@ -1,30 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# 1. Checks licenses for allowed license.
+-# 2. Checks Rust-Sec registry for security advisories.
+-
+-name: Cargo Deny
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    # Run on changes to branches but not tags.
+-    branches:
+-      - '**'
+-
+-jobs:
+-  audit:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - uses: actions/checkout@v6
+-        with:
+-          submodules: recursive
+-      - uses: EmbarkStudios/cargo-deny-action@v2
+-        env:
+-          RUSTUP_TOOLCHAIN: stable
+-        with:
+-          arguments: --all-features --workspace
+-          command-arguments: -s
+diff --git a/.github/workflows/extra_jobs.yml b/.github/workflows/extra_jobs.yml
+deleted file mode 100644
+index 157c5b2d967e8b9fcfddf8943c29495f0ac5e2fa..0000000000000000000000000000000000000000
+--- a/.github/workflows/extra_jobs.yml
++++ /dev/null
+@@ -1,51 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Workflow that execute jobs based on the files that were changed or some label configuration.
+-#
+-# The first job in this workflow will auto label the PR, while the following jobs will conditionally
+-# run according to the auto-label result.
+-#
+-# This workflow runs on `pull_request_target` because the labeler needs extra write permission.
+-# Thus, we keep this job minimal, and the only actions used are from the same verified publisher.
+-#
+-# Other jobs should not require extra permissions, so be careful when adding new jobs to not propagate write
+-# permissions.
+-#
+-# Note that this also means that the workflow version run is the one currently in `main`,
+-# not the one from the PR. This is only relevant if a PR is changing this workflow.
+-#
+-# See https://github.com/actions/labeler?tab=readme-ov-file#recommended-permissions for more details.
+-
+-name: Kani Extra
+-permissions:
+-  contents: read
+-on:
+-  pull_request_target:
+-  merge_group:
+-
+-jobs:
+-  # Keep this job minimal since it requires extra permission
+-  auto-label:
+-    name: Auto Label
+-    permissions:
+-      pull-requests: write
+-    outputs:
+-      all-labels: ${{ steps.labeler.outputs.all-labels }}
+-      new-labels: ${{ steps.labeler.outputs.new-labels }}
+-    runs-on: ubuntu-latest
+-    steps:
+-    - name: Checkout Kani
+-      uses: actions/checkout@v6
+-
+-    - name: Label PR
+-      id: labeler
+-      uses: actions/labeler@v7
+-      with:
+-        dot: true
+-
+-  # Note: the label-gated benchmark workflows (bench-pr.yml) used to be
+-  # invoked from here, but they build and run the code proposed in the pull
+-  # request, which must not happen in this workflow's trusted
+-  # `pull_request_target` context. They now trigger on `pull_request`
+-  # events directly.
+diff --git a/.github/workflows/format-check.yml b/.github/workflows/format-check.yml
+deleted file mode 100644
+index 9d21eeb4569234292401f90c66c833f6960f06fb..0000000000000000000000000000000000000000
+--- a/.github/workflows/format-check.yml
++++ /dev/null
+@@ -1,60 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-name: Kani Format Check
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    # Not just any push, as that includes tags.
+-    # We don't want to re-trigger this workflow when tagging an existing commit.
+-    branches:
+-      - '**'
+-
+-jobs:
+-  format-check:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Execute copyright check
+-        run: ./scripts/ci/run-copyright-check.sh
+-
+-      # Ignore failures here for now until we can pindown a version.
+-      - name: Check C code formatting
+-        continue-on-error: true
+-        run: ./scripts/run-clang-format.sh -d
+-
+-      - name: Check Python code formatting
+-        run: |
+-          pip3 install --upgrade autopep8
+-          ./scripts/run-autopep8.sh
+-
+-  clippy-check:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: 'Install jq for parsing.'
+-        run: |
+-          sudo apt-get install -y jq
+-
+-      - name: 'Run Clippy'
+-        run: |
+-          cargo clippy --workspace --tests -- -D warnings
+-          RUSTFLAGS="--cfg=kani_sysroot" cargo clippy --workspace -- -D warnings
+-
+-      - name: 'Print Clippy Statistics'
+-        run: |
+-          rm .cargo/config.toml
+-          (cargo clippy --all --message-format=json 2>/dev/null  | \
+-          jq 'select(.message!=null) | .message.code.code' | grep -v '^null$' | \
+-          sort | uniq -c) || true
+diff --git a/.github/workflows/kani.yml b/.github/workflows/kani.yml
+deleted file mode 100644
+index 3e34d8ac3c0844d9ac9409790e7cb0a669381dad..0000000000000000000000000000000000000000
+--- a/.github/workflows/kani.yml
++++ /dev/null
+@@ -1,136 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-name: Kani CI
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    # Not just any push, as that includes tags.
+-    # We don't want to re-trigger this workflow when tagging an existing commit.
+-    branches:
+-      - '**'
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  regression:
+-    runs-on: ${{ matrix.os }}
+-    permissions:
+-      contents: read
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, ubuntu-22.04, ubuntu-24.04, macos-15, ubuntu-24.04-arm]
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-
+-      - name: Execute Kani regression
+-        run: ./scripts/kani-regression.sh
+-
+-  benchcomp-tests:
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: read
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Install benchcomp dependencies
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install -y python3-pip
+-          pushd tools/benchcomp && pip3 install -r requirements.txt
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: Build Kani using release mode
+-        run: cargo build-dev -- --release
+-
+-      - name: Run benchcomp unit and regression tests
+-        run: pushd tools/benchcomp && PATH=$(realpath ../../scripts):$PATH test/run
+-
+-  perf:
+-    runs-on: ubuntu-24.04
+-    # The full perf suite runs in ~45 min (matching main): most cases finish in
+-    # seconds; the heaviest, s2n-quic-core, runs 34 harnesses in ~1500s. The
+-    # per-test guardrail in scripts/kani-perf.sh (2400s) sits above that. The
+-    # 180-min step timeout leaves ample headroom over that realistic runtime,
+-    # and the job timeout sits above (step timeout) x (max_attempts) so a retry
+-    # can still land.
+-    timeout-minutes: 380
+-    permissions:
+-      contents: read
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: Execute Kani performance tests
+-        # Retry on infra-driven failures (spot preemption / runner shutdown).
+-        # The script itself bounds per-test wall time, so functional regressions
+-        # surface as normal test failures and are not retried indefinitely.
+-        uses: nick-fields/retry@v4
+-        with:
+-          timeout_minutes: 180
+-          max_attempts: 2
+-          command: ./scripts/kani-perf.sh
+-        env:
+-          RUST_TEST_THREADS: 1
+-
+-  llbc-regression:
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: read
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: Build Kani with Charon
+-        run: cargo build-dev -- --features cprover --features llbc
+-
+-      - name: Run tests
+-        run: ./scripts/kani-llbc-regression.sh
+-
+-  documentation:
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: write
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-        with:
+-          submodules: recursive
+-
+-      - name: Install book dependencies
+-        run: ./scripts/setup/ubuntu/install_doc_deps.sh
+-
+-      # On one OS only, build the documentation, too.
+-      - name: Build Documentation
+-        run: ./scripts/build-docs.sh
+-
+-      # When we're pushed to main branch, only then actually publish the docs.
+-      - name: Publish Documentation
+-        if: ${{ github.event_name == 'push' && startsWith('refs/heads/main', github.ref) }}
+-        uses: JamesIves/github-pages-deploy-action@v4
+-        with:
+-          branch: gh-pages
+-          folder: docs/book/
+-          single-commit: true
+diff --git a/.github/workflows/release.yml b/.github/workflows/release.yml
+deleted file mode 100644
+index f10833e3035641a9893e1f5171b0b86864ef5b0e..0000000000000000000000000000000000000000
+--- a/.github/workflows/release.yml
++++ /dev/null
+@@ -1,394 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# This workflow will build, and, optionally, release Kani bundles in this order.
+-#
+-# The release will create a draft release and upload the bundles to it, and it will only run when we push a new
+-# release tag (i.e.: tag named `kani-*`).
+-name: Release Bundle
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    branches:
+-      - 'main'
+-    tags:
+-      - kani-*
+-
+-env:
+-  RUST_BACKTRACE: 1
+-  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+-
+-jobs:
+-  build_bundle_macos_x86_64:
+-    name: BuildBundle-MacOs-x86_64
+-    runs-on: macos-15-intel
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: macos-15-intel
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: x86_64-apple-darwin
+-
+-  build_bundle_macos_aarch64:
+-    name: BuildBundle-MacOs-aarch64
+-    runs-on: macos-15
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: macos-15
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: aarch64-apple-darwin
+-
+-  build_bundle_linux_x86_64:
+-    name: BuildBundle-Linux-x86_64
+-    runs-on: ubuntu-22.04
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: x86_64-unknown-linux-gnu
+-
+-  build_bundle_linux_aarch64:
+-    name: BuildBundle-Linux-aarch64
+-    runs-on: ubuntu-24.04-arm
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04-arm
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: aarch64-unknown-linux-gnu
+-
+-  test-use-local-toolchain:
+-    name: TestLocalToolchain
+-    needs: [build_bundle_macos_x86_64, build_bundle_macos_aarch64, build_bundle_linux_x86_64, build_bundle_linux_aarch64]
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, macos-15, ubuntu-22.04, ubuntu-24.04, ubuntu-24.04-arm]
+-        include:
+-        - os: macos-15-intel
+-          rust_target: x86_64-apple-darwin
+-          prev_job: ${{ needs.build_bundle_macos_x86_64.outputs }}
+-        - os: macos-15
+-          rust_target: aarch64-apple-darwin
+-          prev_job: ${{ needs.build_bundle_macos_aarch64.outputs }}
+-        - os: ubuntu-22.04
+-          rust_target: x86_64-unknown-linux-gnu
+-          prev_job: ${{ needs.build_bundle_linux_x86_64.outputs }}
+-        - os: ubuntu-24.04
+-          rust_target: x86_64-unknown-linux-gnu
+-          prev_job: ${{ needs.build_bundle_linux_x86_64.outputs }}
+-        - os: ubuntu-24.04-arm
+-          rust_target: aarch64-unknown-linux-gnu
+-          prev_job: ${{ needs.build_bundle_linux_aarch64.outputs }}
+-    runs-on: ${{ matrix.os }}
+-    steps:
+-      - name: Download bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.bundle }}
+-
+-      - name: Download kani-verifier crate
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.package }}
+-
+-      - name: Check download
+-        run: |
+-          ls -lh .
+-
+-      - name: Get toolchain version used to setup kani
+-        run: |
+-          tar zxvf ${{ matrix.prev_job.bundle }}
+-          DATE=$(cat ./kani-${{ matrix.prev_job.version }}/rust-toolchain-version | cut -d'-' -f2,3,4)
+-          echo "Nightly date: $DATE"
+-          echo "DATE=$DATE" >> $GITHUB_ENV
+-
+-      - name: Install Kani from path
+-        run: |
+-          tar zxvf ${{ matrix.prev_job.package }}
+-          cargo install --locked --path kani-verifier-${{ matrix.prev_job.crate_version }}
+-
+-      - name: Create a custom toolchain directory
+-        run: mkdir -p ${{ github.workspace }}/../custom_toolchain
+-
+-      - name: Fetch the nightly tarball
+-        run: |
+-          echo "Downloading Rust toolchain from rust server."
+-          curl --proto '=https' --tlsv1.2 -O https://static.rust-lang.org/dist/$DATE/rust-nightly-${{ matrix.rust_target }}.tar.gz
+-          tar -xzf rust-nightly-${{ matrix.rust_target }}.tar.gz
+-          ./rust-nightly-${{ matrix.rust_target }}/install.sh --prefix=${{ github.workspace }}/../custom_toolchain
+-
+-      - name: Ensure installation is correct
+-        run: |
+-          cargo kani setup --use-local-bundle ./${{ matrix.prev_job.bundle }} --use-local-toolchain ${{ github.workspace }}/../custom_toolchain/
+-
+-      - name: Ensure that the rustup toolchain is not present
+-        run: |
+-          if [ ! -e "~/.rustup/toolchains/" ]; then
+-            echo "Default toolchain file does not exist. Proceeding with running tests."
+-          else
+-            echo "::error::Default toolchain exists despite not installing."
+-            exit 1
+-          fi
+-
+-      - name: Checkout tests
+-        uses: actions/checkout@v6
+-
+-      - name: Move rust-toolchain file to outside kani
+-        run: |
+-          mkdir -p ${{ github.workspace }}/../post-setup-tests
+-          cp -r tests/cargo-ui ${{ github.workspace }}/../post-setup-tests
+-          cp -r tests/kani/Assert ${{ github.workspace }}/../post-setup-tests
+-          ls ${{ github.workspace }}/../post-setup-tests
+-
+-      - name: Run cargo-kani tests after moving
+-        run: |
+-          for dir in supported-lib-types/rlib multiple-harnesses verbose; do
+-            >&2 echo "Running test $dir"
+-            pushd ${{ github.workspace }}/../post-setup-tests/cargo-ui/$dir
+-            cargo kani
+-            popd
+-          done
+-
+-      - name: Check --help and --version
+-        run: |
+-          >&2 echo "Running cargo kani --help and --version"
+-          pushd ${{ github.workspace }}/../post-setup-tests/Assert
+-          cargo kani --help && cargo kani --version
+-          popd
+-
+-      - name: Run standalone kani test
+-        run: |
+-          >&2 echo "Running test on file bool_ref"
+-          pushd ${{ github.workspace }}/../post-setup-tests/Assert
+-          kani bool_ref.rs
+-          popd
+-
+-  test_bundle:
+-    name: TestBundle
+-    needs: [build_bundle_macos_x86_64, build_bundle_macos_aarch64, build_bundle_linux_x86_64, build_bundle_linux_aarch64]
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, macos-15, ubuntu-22.04, ubuntu-24.04, ubuntu-24.04-arm]
+-        include:
+-          # Stores the output of the previous job conditional to the OS
+-          - prev_job: ${{ needs.build_bundle_linux_x86_64.outputs }}
+-          - os: macos-15-intel
+-            prev_job: ${{ needs.build_bundle_macos_x86_64.outputs }}
+-          - os: macos-15
+-            prev_job: ${{ needs.build_bundle_macos_aarch64.outputs }}
+-          - os: ubuntu-24.04-arm
+-            prev_job: ${{ needs.build_bundle_linux_aarch64.outputs }}
+-    runs-on: ${{ matrix.os }}
+-    steps:
+-      - name: Download bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.bundle }}
+-
+-      - name: Download kani-verifier crate
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.package }}
+-
+-      - name: Check download
+-        run: |
+-          ls -lh .
+-
+-      - name: Install from bundle
+-        run: |
+-          tar zxvf ${{ matrix.prev_job.package }}
+-          cargo install --locked --path kani-verifier-${{ matrix.prev_job.crate_version }}
+-          cargo kani setup --use-local-bundle ./${{ matrix.prev_job.bundle }}
+-
+-      - name: Checkout tests
+-        uses: actions/checkout@v6
+-
+-      - name: Run tests
+-        # TODO: Customize compiletest to run custom kani. For now, just run a few cargo kani tests.
+-        run: |
+-          for dir in simple-lib build-rs-works simple-kissat; do
+-            >&2 echo "Running test $dir"
+-            pushd tests/cargo-kani/$dir
+-            cargo kani
+-            popd
+-          done
+-
+-  kani_release:
+-    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/kani-') }}
+-    name: Release
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: write
+-    needs: [build_bundle_macos_x86_64, build_bundle_macos_aarch64, build_bundle_linux_x86_64, build_bundle_linux_aarch64, test_bundle]
+-    outputs:
+-      version: ${{ steps.versioning.outputs.version }}
+-      upload_url: ${{ steps.create_release.outputs.upload_url }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Get version
+-        run: |
+-          # pkgid is something like file:///home/ubuntu/kani#kani-verifier:0.1.0
+-          echo "CRATE_VERSION=$(cargo pkgid | cut -d@ -f2)" >> $GITHUB_ENV
+-          # GITHUB_REF is something like refs/tags/kani-0.1.0
+-          echo "TAG_VERSION=$(echo ${{ github.ref }} | cut -d "-" -f 2)" >> $GITHUB_ENV
+-
+-      - name: Check Version
+-        id: versioning
+-        run: |
+-          # Validate git tag & Cargo.toml are in sync on version number
+-          if [[ ${{ env.CRATE_VERSION }} != ${{ env.TAG_VERSION }} ]]; then
+-            echo "Git tag ${{env.TAG_VERSION}} did not match crate version ${{env.CRATE_VERSION}}"
+-            exit 1
+-          fi
+-          echo "version=${{ env.TAG_VERSION }}" >> $GITHUB_OUTPUT
+-
+-      - name: Download MacOS bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_macos_x86_64.outputs.bundle }}
+-
+-      - name: Download MacOS ARM bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_macos_aarch64.outputs.bundle }}
+-
+-      - name: Download Linux bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_linux_x86_64.outputs.bundle }}
+-
+-      - name: Download Linux Arm bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_linux_aarch64.outputs.bundle }}
+-
+-      - name: Create release
+-        id: create_release
+-        uses: ncipollo/release-action@v1.21.0
+-        env:
+-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+-        with:
+-          name: kani-${{ env.TAG_VERSION }}
+-          tag: kani-${{ env.TAG_VERSION }}
+-          artifacts: "${{ needs.build_bundle_linux_x86_64.outputs.bundle }},${{ needs.build_bundle_linux_aarch64.outputs.bundle }},${{ needs.build_bundle_macos_x86_64.outputs.bundle }},${{ needs.build_bundle_macos_aarch64.outputs.bundle }}"
+-          body: |
+-            Kani Rust verifier release bundle version ${{ env.TAG_VERSION }}.
+-          draft: true
+-
+-  package_docker:
+-    name: Package Docker
+-    needs: kani_release
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: write
+-      packages: write
+-    env:
+-      os: ubuntu-24.04
+-      target: x86_64-unknown-linux-gnu
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: 'Build release bundle'
+-        run: |
+-          cargo bundle
+-          cargo package -p kani-verifier
+-
+-      - name: 'Login to GitHub Container Registry'
+-        uses: docker/login-action@v4
+-        with:
+-          registry: ghcr.io
+-          username: ${{ github.repository_owner }}
+-          password: ${{ secrets.GITHUB_TOKEN }}
+-
+-      - name: 'Set lower case owner name. Needed for docker push.'
+-        run: |
+-          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+-        env:
+-          OWNER: '${{ github.repository_owner }}'
+-
+-      - name: Build and push
+-        uses: docker/build-push-action@v7
+-        with:
+-          context: .
+-          file: scripts/ci/Dockerfile.bundle-release-24-04
+-          push: true
+-          github-token: ${{ secrets.GITHUB_TOKEN }}
+-          tags: |
+-            ghcr.io/${{ env.OWNER_LC }}/kani-${{ env.os }}:${{ needs.kani_release.outputs.version }}
+-            ghcr.io/${{ env.OWNER_LC }}/kani-${{ env.os }}:latest
+-          labels: |
+-            org.opencontainers.image.source=${{ github.repositoryUrl }}
+-            org.opencontainers.image.version=${{ needs.kani_release.outputs.version }}
+-            org.opencontainers.image.licenses=Apache-2.0 OR MIT
+-
+-      # This check will not work until #1655 is completed.
+-      # - name: Check action and image is updated.
+-      #   uses: ./.
+-      #   with:
+-      #     command: |
+-      #       [[ "$(cargo kani --version)" == 'cargo-kani ${{ needs.Release.outputs.version }}' ]]
+diff --git a/.github/workflows/slow-tests.yml b/.github/workflows/slow-tests.yml
+deleted file mode 100644
+index 54952f59bd844273d208a75e62c571c48079d154..0000000000000000000000000000000000000000
+--- a/.github/workflows/slow-tests.yml
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# We use block scalar notation to allow us to add ":" to the workflow name.
+-name: >-
+-  Nightly: Slow tests
+-
+-permissions:
+-  contents: read
+-
+-on:
+-  schedule:
+-    - cron: "30 5 * * *" # Run this every day at 05:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  regression:
+-    runs-on: ${{ matrix.os }}
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, ubuntu-22.04, ubuntu-24.04]
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-
+-      - name: Build Kani
+-        run: cargo build-dev
+-
+-      - name: Run Kani's slow tests
+-        run: ./scripts/kani-slow-tests.sh
+diff --git a/.github/workflows/toolchain-upgrade.yml b/.github/workflows/toolchain-upgrade.yml
+deleted file mode 100644
+index 55bcdda98ad65718c01b82da993cc5baccbeceb3..0000000000000000000000000000000000000000
+--- a/.github/workflows/toolchain-upgrade.yml
++++ /dev/null
+@@ -1,93 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt toolchain update
+-
+-on:
+-  schedule:
+-    - cron: "30 2 * * *" # Run this every day at 02:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-toolchain-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The toolchain upgrade action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Update toolchain config
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          source scripts/toolchain_update.sh
+-
+-      - name: Clean untracked files
+-        run: git clean -f
+-
+-      - name: Create Pull Request
+-        id: create_pr
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade Rust toolchain to nightly-${{ env.next_toolchain_date }}
+-          branch: toolchain-${{ env.next_toolchain_date }}
+-          delete-branch: true
+-          title: 'Automatic toolchain upgrade to nightly-${{ env.next_toolchain_date }}'
+-          body: >
+-            Update Rust toolchain from nightly-${{ env.current_toolchain_date }} to
+-            nightly-${{ env.next_toolchain_date }} without any other source changes.
+-
+-      - name: Add debugging hints
+-        if: ${{ steps.create_pr.outputs.pull-request-number }}
+-        uses: actions/github-script@v9
+-        with:
+-          script: |
+-            github.rest.issues.createComment({
+-              issue_number: ${{ steps.create_pr.outputs.pull-request-number }},
+-              owner: context.repo.owner,
+-              repo: context.repo.repo,
+-              body: `This is an automatically generated pull request. If any of the CI checks fail,
+-                manual intervention is required. In such a case, review the changes at
+-                https://github.com/rust-lang/rust from
+-                https://github.com/rust-lang/rust/commit/${{ env.current_toolchain_hash }} up to
+-                https://github.com/rust-lang/rust/commit/${{ env.next_toolchain_hash }}. The log
+-                for this commit range is:
+-
+-                ` + process.env.git_log
+-            })
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        uses: dacbd/create-issue-action@main
+-        with:
+-          token: ${{ github.token }}
+-          title: 'Toolchain upgrade to nightly-${{ env.next_toolchain_date }} failed'
+-          body: >
+-            Updating Rust toolchain from nightly-${{ env.current_toolchain_date }} to
+-            nightly-${{ env.next_toolchain_date }} requires source changes.
+-
+-            The failed automated run
+-            [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+-
+-            Please review the changes at
+-            https://github.com/rust-lang/rust from
+-            https://github.com/rust-lang/rust/commit/${{ env.current_toolchain_hash }} up to
+-            https://github.com/rust-lang/rust/commit/${{ env.next_toolchain_hash }}. The log
+-            for this commit range is:
+-
+-            ${{ env.git_log }}
+diff --git a/.github/workflows/verify-std-check.yml b/.github/workflows/verify-std-check.yml
+deleted file mode 100644
+index be07976f48e50269fceca068c7c71dd6428b3498..0000000000000000000000000000000000000000
+--- a/.github/workflows/verify-std-check.yml
++++ /dev/null
+@@ -1,103 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# This workflow will try to build and run the `verify-rust-std` repository.
+-#
+-# This check should be optional, but it has been added to help provide
+-# visibility to when a PR may break the `verify-rust-std` repository.
+-#
+-# We expect toolchain updates to potentially break this workflow in cases where
+-# the version tracked in the `verify-rust-std` is not compatible with newer
+-# versions of the Rust toolchain.
+-#
+-# Changes unrelated to the toolchain should match the current status of main.
+-
+-name: Check Std Verification
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  workflow_call:
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  verify-std:
+-    runs-on: ${{ matrix.os }}
+-    strategy:
+-      matrix:
+-        # Kani does not support windows.
+-        os: [ ubuntu-22.04, macos-15 ]
+-    steps:
+-      - name: Checkout Library
+-        uses: actions/checkout@v6
+-        with:
+-          repository: model-checking/verify-rust-std
+-          path: verify-rust-std
+-          submodules: true
+-
+-      - name: Checkout `Kani`
+-        uses: actions/checkout@v6
+-        with:
+-          path: kani
+-          fetch-depth: 0
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./kani/.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-          kani_dir: kani
+-
+-      - name: Build Kani
+-        working-directory: kani
+-        run: |
+-          cargo build-dev
+-          echo "$(pwd)/scripts" >> $GITHUB_PATH
+-
+-      - name: Run verification with HEAD
+-        id: check-head
+-        working-directory: verify-rust-std
+-        continue-on-error: true
+-        run: |
+-          kani verify-std -Z unstable-options ./library --target-dir ${{ runner.temp }} -Z function-contracts \
+-            -Z mem-predicates -Z loop-contracts --cbmc-args --object-bits 12
+-
+-      # If the head failed, check if it's a new failure.
+-      - name: Checkout BASE
+-        working-directory: kani
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        run: |
+-          BASE_REF=${{ github.event.pull_request.base.sha }}
+-          git checkout ${BASE_REF}
+-
+-      - name: Setup Kani Dependencies BASE
+-        uses: ./kani/.github/actions/setup
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        with:
+-          os: ${{ matrix.os }}
+-          kani_dir: kani
+-
+-      - name: Build Kani BASE
+-        working-directory: kani
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        run: |
+-          cargo build-dev
+-
+-      - name: Run verification with BASE
+-        id: check-base
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        working-directory: verify-rust-std
+-        continue-on-error: true
+-        run: |
+-          kani verify-std -Z unstable-options ./library --target-dir ${{ runner.temp }} -Z function-contracts \
+-            -Z mem-predicates -Z loop-contracts --cbmc-args --object-bits 12
+-
+-      - name: Compare PR results
+-        if: steps.check-head.outcome != 'success' && steps.check-head.outcome != steps.check-base.outcome
+-        run: |
+-          echo "New failure introduced by this change"
+-          echo "HEAD: ${{ steps.check-head.outcome }}"
+-          echo "BASE: ${{ steps.check-base.outcome }}"
+-          exit 1
+-
+diff --git a/.github/workflows/z3-update.yml b/.github/workflows/z3-update.yml
+deleted file mode 100644
+index 486105cd0bd8f8337b0ea31f7ee2bd8f48addb53..0000000000000000000000000000000000000000
+--- a/.github/workflows/z3-update.yml
++++ /dev/null
+@@ -1,86 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# Opens a PR that bumps `Z3_VERSION` in `kani-dependencies` when Z3 publishes a release. Only the
+-# macOS setup installs that release (Ubuntu uses the distribution's package), so the PR's macOS CI
+-# jobs are what test it; this job only checks that the release has the macOS binaries the setup
+-# script downloads.
+-name: Attempt Z3 update
+-
+-on:
+-  schedule:
+-    - cron: "45 4 * * Mon" # Run this every Monday at 04:45 UTC
+-  workflow_dispatch:
+-
+-permissions:
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-z3-update-pr:
+-    # Restricted to the main repository so that forks do not open update PRs.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Compare Z3 versions and determine next step
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          source kani-dependencies
+-          echo "Z3_VERSION=$Z3_VERSION" >> $GITHUB_ENV
+-          # The latest release that is not a pre-release (Z3 also publishes nightly builds).
+-          Z3_LATEST=$(gh release view -R Z3Prover/z3 --json tagName --jq .tagName | sed 's/^z3-//')
+-          echo "Z3_LATEST=$Z3_LATEST" >> $GITHUB_ENV
+-          assets=$(gh release view -R Z3Prover/z3 "z3-$Z3_LATEST" --json assets --jq '.assets[].name')
+-          # How many open issues already report a failed upgrade to this version. This is its own
+-          # command, not part of the `elif` below, so that a failing `gh` call fails the step
+-          # instead of reading as "no issue".
+-          failure_issues=$(gh issue list -S "Z3 upgrade to $Z3_LATEST failed" --json title --jq length)
+-          if [ "x$Z3_LATEST" = "x$Z3_VERSION" ]; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # A PR or a failure issue for this version already exists.
+-          elif git ls-remote --exit-code origin "z3-$Z3_LATEST" > /dev/null || \
+-              [ "$failure_issues" -gt 0 ]; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # `scripts/setup/macos/install_deps.sh` downloads these two archives.
+-          elif ! echo "$assets" | grep -qx "z3-$Z3_LATEST-arm64-osx-13.3.zip" || \
+-              ! echo "$assets" | grep -qx "z3-$Z3_LATEST-x64-osx-13.3.zip"; then
+-            echo "next_step=create_issue" >> $GITHUB_ENV
+-          else
+-            sed -i "s/^Z3_VERSION=.*/Z3_VERSION=\"$Z3_LATEST\"/" kani-dependencies
+-            git diff
+-            echo "next_step=create_pr" >> $GITHUB_ENV
+-          fi
+-
+-      - name: Create Pull Request
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade Z3 from ${{ env.Z3_VERSION }} to ${{ env.Z3_LATEST }}
+-          branch: z3-${{ env.Z3_LATEST }}
+-          delete-branch: true
+-          title: 'Automatic upgrade of Z3 from ${{ env.Z3_VERSION }} to ${{ env.Z3_LATEST }}'
+-          body: >
+-            Upgrade the Z3 release that the macOS CI jobs install to its latest version. The macOS
+-            regression jobs on this PR are what test it.
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        # Pinned to the commit of v2.0.0, the latest release. `main` has only README changes
+-        # since, and an unpinned third-party action could change under this token.
+-        uses: dacbd/create-issue-action@cdb57ab6ff8862aa09fee2be6ba77a59581921c2 # v2.0.0
+-        with:
+-          token: ${{ github.token }}
+-          title: 'Z3 upgrade to ${{ env.Z3_LATEST }} failed'
+-          body: >
+-            Z3 ${{ env.Z3_LATEST }} does not have the `arm64-osx-13.3` and `x64-osx-13.3` archives
+-            that `scripts/setup/macos/install_deps.sh` downloads, so the pin in `kani-dependencies`
+-            stays at ${{ env.Z3_VERSION }}. Update the asset names in that script, then bump
+-            `Z3_VERSION`.
+-
+-            The automated run
+-            [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+diff --git a/ch8-e-control/CI-REQUEST.json b/ch8-e-control/CI-REQUEST.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..953b038eb9a45de7d4b3e716f6bf94f2dcb4bbe5
+--- /dev/null
++++ b/ch8-e-control/CI-REQUEST.json
+@@ -0,0 +1,94 @@
++{
++  "schema": "ch8-e-controls-ci-request-v1",
++  "status": "READY",
++  "task": "TASK-CH8-E-CONTROLS-W15.md",
++  "input_g0": "7d8ddd22f40a64053de7de13fb23a3f3303bc07a",
++  "bucket": "E",
++  "item": 1,
++  "attempt": 1,
++  "planned_dispatch_count": 1,
++  "dispatch_authorized": false,
++  "push_performed": false,
++  "ci_performed": false,
++  "proof_status": "ALL_NOT_RUN",
++  "proof_credit": "NONE",
++  "pins": {
++    "upstream": {
++      "repository": "model-checking/kani",
++      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
++      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
++    },
++    "sel1": {
++      "repository": "Tiramisu-Cake/kani",
++      "sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
++      "tree": "1efb6e4dfa69d346df8e23741d11839b1932403d"
++    }
++  },
++  "control_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
++  "control_repository": "Tiramisu-Cake/kani",
++  "branch_prefix": "uninit-ci/ch8-e-ctl-",
++  "flags": {
++    "base": [
++      "-Z",
++      "loop-contracts",
++      "-Z",
++      "quantifiers",
++      "-Z",
++      "export-json",
++      "--harness-timeout",
++      "600s",
++      "--jobs",
++      "1",
++      "--exact",
++      "--cbmc-args",
++      "--object-bits",
++      "12"
++    ],
++    "on_adds": [
++      "-Z",
++      "uninit-checks"
++    ],
++    "default_checks_preserved": true,
++    "std_build": false,
++    "unwind_override": false
++  },
++  "caps": {
++    "row_envelope_seconds": 660,
++    "harness_seconds": 600,
++    "run_phase_seconds_per_pin": 4500,
++    "tool_build_seconds": 900,
++    "job_minutes_per_pin": 120,
++    "process_group_rss_bytes": 6442450944,
++    "stdout_head_bytes": 1048576,
++    "stderr_head_bytes": 1048576,
++    "tail_bytes_per_stream": 4096,
++    "export_bytes": 8388608
++  },
++  "identity_limits": {
++    "target": "EXPORTED_AT_RUNTIME",
++    "solver": "DEFAULT_EXPORTED_AT_RUNTIME",
++    "mir_opt": "NOT_OVERRIDDEN_NOT_INDEPENDENTLY_BOUND"
++  },
++  "rows_sha256": "b20e030f43b3a316c20a1b4d0275c6c78c6022e48060e9fb83f556fa39ac9c86",
++  "payload_sha256": {
++    ".github/workflows/ch8-e.yml": "0aa8bd83c41edfdeb8a973d9392145f7ca46101cd8be52c5822d9884ef893f92",
++    "ch8-e-control/ORACLES.md": "018eedc408f121a92fc90aee8899f1ae4be7694074869e8a9c3daf6c23dbf8cb",
++    "ch8-e-control/check_package.py": "ec68ae16709756aa450c5c5f41df5dc88e361669c8ecb4f0080ee7c2c07fdf50",
++    "ch8-e-control/fixtures/e_h_copy_then_read.rs": "a6e3bc77a76bc5de6cc73af0545740876375f5b6ea36f9d38bd66961ef45b12e",
++    "ch8-e-control/fixtures/e_h_hole_inside_alias.rs": "93e743ea9eb914a704d9bafed7a2335e47edea66bcd38fe9eb496cdf59921049",
++    "ch8-e-control/fixtures/e_h_live_after_havoc.rs": "762a9b7b42492e13ea52aac29a284959c8a7ca09cc4744694c9896e6a1b630c7",
++    "ch8-e-control/fixtures/e_h_outside_false_alias.rs": "9144ea4df0ced8dc1a1c129a2cbde742d816afbb129268098fed1cc7b410a34c",
++    "ch8-e-control/fixtures/e_h_write_then_read.rs": "832de27430e7d9b30b29d09b5ad9fefd406b9323ae19c8a169b9a95fabc40501",
++    "ch8-e-control/fixtures/e_q_false_pointer_loop.rs": "6e65fb7abface3afae50846072b8b8946867ad4eccc8a739a8c2be816f82364c",
++    "ch8-e-control/fixtures/e_q_isolated_witness.rs": "765c77554b19cec446ed009f9e2f4ca7f759b33f45d993e2893b9c8aa669b672",
++    "ch8-e-control/fixtures/e_q_pointer_loop.rs": "a7b320bccc1d9c239aa80e104c0294107fa1cf1d82553f001d1ad385d029fc53",
++    "ch8-e-control/fixtures/e_q_scalar_invariant.rs": "b332bcb84a9a6a91c1e6823491e0d954ff42ca1eb00fa45f8b4b39f5d3a58cf5",
++    "ch8-e-control/fixtures/e_s_unbounded_slice.rs": "918ca6109068245148d66cfaafc339b5eb0f3d72872c0c444c6213fe63173a4f",
++    "ch8-e-control/rows.json": "b20e030f43b3a316c20a1b4d0275c6c78c6022e48060e9fb83f556fa39ac9c86",
++    "ch8-e-control/runner.py": "0322d2379292f1585a05f57b380edc57aee213a87723b7eb6359b4ecce9c1b0e",
++    "ch8-e-control/test_package.py": "0d404bdc46f51b5f25223a12e2239005e9acd7fa10c635ff2aeb2b974234dae3",
++    "ch8-e-control/test_runner.py": "e7a8d1c6794d1613dd4b877b5b1ef2fa5f36aff08ec0da3e767a0290b60390cc"
++  },
++  "payload_manifest_sha256": "c4133076871c6228b780a33b3a7d77dba7357452acadfc061398680a1f0ecec6",
++  "activation": "Separate coordinator authorization: same-tree sibling without skip-ci and sole parent upstream0aac, fresh branch; never child of preparation commit."
++}
+diff --git a/ch8-e-control/MANIFEST.sha256 b/ch8-e-control/MANIFEST.sha256
+new file mode 100644
+index 0000000000000000000000000000000000000000..6cdbbbbbad3b07be9aa67c0550da3e90b7b4f303
+--- /dev/null
++++ b/ch8-e-control/MANIFEST.sha256
+@@ -0,0 +1,17 @@
++0aa8bd83c41edfdeb8a973d9392145f7ca46101cd8be52c5822d9884ef893f92  .github/workflows/ch8-e.yml
++018eedc408f121a92fc90aee8899f1ae4be7694074869e8a9c3daf6c23dbf8cb  ch8-e-control/ORACLES.md
++ec68ae16709756aa450c5c5f41df5dc88e361669c8ecb4f0080ee7c2c07fdf50  ch8-e-control/check_package.py
++a6e3bc77a76bc5de6cc73af0545740876375f5b6ea36f9d38bd66961ef45b12e  ch8-e-control/fixtures/e_h_copy_then_read.rs
++93e743ea9eb914a704d9bafed7a2335e47edea66bcd38fe9eb496cdf59921049  ch8-e-control/fixtures/e_h_hole_inside_alias.rs
++762a9b7b42492e13ea52aac29a284959c8a7ca09cc4744694c9896e6a1b630c7  ch8-e-control/fixtures/e_h_live_after_havoc.rs
++9144ea4df0ced8dc1a1c129a2cbde742d816afbb129268098fed1cc7b410a34c  ch8-e-control/fixtures/e_h_outside_false_alias.rs
++832de27430e7d9b30b29d09b5ad9fefd406b9323ae19c8a169b9a95fabc40501  ch8-e-control/fixtures/e_h_write_then_read.rs
++6e65fb7abface3afae50846072b8b8946867ad4eccc8a739a8c2be816f82364c  ch8-e-control/fixtures/e_q_false_pointer_loop.rs
++765c77554b19cec446ed009f9e2f4ca7f759b33f45d993e2893b9c8aa669b672  ch8-e-control/fixtures/e_q_isolated_witness.rs
++a7b320bccc1d9c239aa80e104c0294107fa1cf1d82553f001d1ad385d029fc53  ch8-e-control/fixtures/e_q_pointer_loop.rs
++b332bcb84a9a6a91c1e6823491e0d954ff42ca1eb00fa45f8b4b39f5d3a58cf5  ch8-e-control/fixtures/e_q_scalar_invariant.rs
++918ca6109068245148d66cfaafc339b5eb0f3d72872c0c444c6213fe63173a4f  ch8-e-control/fixtures/e_s_unbounded_slice.rs
++b20e030f43b3a316c20a1b4d0275c6c78c6022e48060e9fb83f556fa39ac9c86  ch8-e-control/rows.json
++0322d2379292f1585a05f57b380edc57aee213a87723b7eb6359b4ecce9c1b0e  ch8-e-control/runner.py
++0d404bdc46f51b5f25223a12e2239005e9acd7fa10c635ff2aeb2b974234dae3  ch8-e-control/test_package.py
++e7a8d1c6794d1613dd4b877b5b1ef2fa5f36aff08ec0da3e767a0290b60390cc  ch8-e-control/test_runner.py
+diff --git a/ch8-e-control/ORACLES.md b/ch8-e-control/ORACLES.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..225c2cf5481717baf7efbdeb85f628e7d9b6c4f5
+--- /dev/null
++++ b/ch8-e-control/ORACLES.md
+@@ -0,0 +1,61 @@
++# E controls: fixture and oracle notes
++
++These are isolated, single-harness diagnostic roots for the E prep stage. They are
++source artifacts only; they have not been compiled or run. Cover labels are proposed
++reachability oracles, not measured results. The Kani implementation
++reference is pinned to U `0aac16ef62da9e9d5645782d458593e5d78143ba` as identified
++in the stage design. Companion rows are intended for matched S/ON and S/OFF runs;
++E-Q's ON refusal is expected from the pinned frontend guard, not a measured result.
++
++## E-Q — quantified pointer gate and scalar alternative
++
++`e_q_isolated_witness.rs` isolates the pointer dereference in an existential
++predicate. `e_q_pointer_loop.rs` adds the exact bounded loop-contract shape with
++explicit invariant, modifies, and decreases. The matched false mutant uses the
++same pointer predicate with a value absent from `[1, 2]`; OFF must fail the
++invariant base so a dropped or unconstrained predicate cannot masquerade as a
++pass. The ON oracle for these three roots is the pinned diagnostic:
++
++> quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks
++
++`e_q_scalar_invariant.rs` reads one pointer directly in an ordinary scalar loop
++invariant and post-loop assertion. It has no quantified expression and checks
++that the fallback form works with the ON safety checks active. Constant two-byte
++storage is only a diagnostic witness, not an arbitrary-length property.
++
++## E-S — uncapped storage generation
++
++`e_s_unbounded_slice.rs` calls the alloc-enabled `kani::any_slice_mut_unbounded::<u8>()`
++model directly. It imposes no length assumption or cap. It performs a direct raw
++read from an arbitrary valid index and covers an interior zero-valued read and
++`len > 32`; a return cover follows the read. It has no loop or frame, so this root
++isolates storage generation and read validity. It does not prove the actual core
++insertion routine or a generic-T validity/init summary.
++
++## E-H — initialization shadow and aliases
++
++Each H root is independent and uses a small raw slice frame over `MaybeUninit<u8>`
++payload bytes. No fixture invokes `can_dereference`, sets initialization shadow
++state, or supplies a modeled initialization summary.
++
++- `e_h_live_after_havoc.rs` has the loop write live byte 0 inside the two-byte frame,
++  then reads fixed initialized byte 1 through an alias created before the loop.
++  ON success is the positive preservation control; the body and read-result covers
++  witness the transition and the post-loop read.
++- `e_h_hole_inside_alias.rs` writes byte 0 but leaves byte 1 unwritten inside the
++  frame, then directly dereferences its pre-existing alias. The required ON outcome
++  is an uninitialized-read safety check at that exact source line. OFF is `OBSERVE`,
++  not evidence about initializedness.
++- `e_h_outside_false_alias.rs` writes byte 0, checks an initialized sentinel alias
++  outside the frame, then directly dereferences the unwritten byte just outside
++  the frame. The ON uninitialized-read failure is the expected preservation of
++  its false bit; OFF is `OBSERVE` only.
++- `e_h_write_then_read.rs` and `e_h_copy_then_read.rs` exercise actual raw write
++  and non-overlapping copy operations inside the loop body, each followed there
++  by an immediate read. ON success checks that the operation makes the destination
++  readable without relying on post-havoc initialization assumptions.
++
++For H negatives, a failure only counts if it is the specified uninitialized-read
++check. An assigns failure, compile failure, timeout, or unrelated assertion is not
++the intended oracle. Cover reachability and all root outcomes remain unmeasured
++until the separately authorized stage.
+diff --git a/ch8-e-control/check_package.py b/ch8-e-control/check_package.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..60003794374966dc7429500550467ea6ae7cf5bb
+--- /dev/null
++++ b/ch8-e-control/check_package.py
+@@ -0,0 +1,136 @@
++#!/usr/bin/env python3
++"""Static frozen-package checks. No compiler, CI submission or publication."""
++import argparse
++import hashlib
++import json
++import os
++from pathlib import Path
++import re
++import subprocess
++
++HERE = Path(__file__).resolve().parent
++ROOT = HERE.parent
++PINS = {
++    'upstream': {'repository': 'model-checking/kani', 'sha': '0aac16ef62da9e9d5645782d458593e5d78143ba',
++                 'tree': '9d8bc9312bf955ef126d32b819b3cd0ed105ed2b'},
++    'sel1': {'repository': 'Tiramisu-Cake/kani', 'sha': '14bc57fdb99960240c4944845a3d985c8af4dcf7',
++             'tree': '1efb6e4dfa69d346df8e23741d11839b1932403d'},
++}
++
++
++def digest(path):
++    return hashlib.sha256(path.read_bytes()).hexdigest()
++
++
++def git(*args):
++    return subprocess.check_output(['git', '-C', str(ROOT), *args], text=True).strip()
++
++
++def yaml_check(path):
++    import yaml
++    doc = yaml.load(path.read_text(), Loader=yaml.BaseLoader)
++    assert set(doc['on']) == {'push'}
++    assert doc['on']['push']['branches'] == ['uninit-ci/ch8-e-ctl-*']
++    assert doc['permissions'] == {'contents': 'read'}
++    assert doc['concurrency']['cancel-in-progress'] == 'false'
++    assert set(doc['jobs']) == {'controls'}
++    job = doc['jobs']['controls']
++    assert job['runs-on'] == 'ubuntu-24.04'
++    assert int(job['timeout-minutes']) == 120
++    assert "github.repository == 'Tiramisu-Cake/kani'" in job['if']
++    assert "github.event_name == 'push'" in job['if']
++    assert job['strategy']['fail-fast'] == 'false'
++    assert job['strategy']['max-parallel'] == '1'
++    assert job['strategy']['matrix']['include'] == [
++        {'pin': p, 'repository': v['repository'], 'sha': v['sha']} for p, v in PINS.items()]
++    # runner context is unavailable in several job-level expression locations.
++    assert not re.search(r'\$\{\{\s*runner\.', json.dumps({k:v for k,v in job.items() if k != 'steps'}))
++    steps = job['steps']
++    for s in steps:
++        assert not re.search(r'\$\{\{\s*runner\.', json.dumps({k:v for k,v in s.items() if k != 'env'}))
++        assert 0 < int(s['timeout-minutes']) <= 76
++    checkouts = [s['with'] for s in steps if s.get('uses', '').startswith('actions/checkout@')]
++    assert len(checkouts) == 2
++    assert [s['path'] for s in checkouts] == ['control', 'tool']
++    assert checkouts[0]['ref'] == '${{ github.sha }}'
++    assert checkouts[1]['ref'] == '${{ matrix.sha }}'
++    assert checkouts[1]['repository'] == '${{ matrix.repository }}'
++    assert all(int(s['fetch-depth']) >= 2 and s['persist-credentials'] == 'false' for s in checkouts)
++    assert [s.get('if') for s in steps[-2:]] == ['always()', 'always()']
++    assert steps[-1]['with']['path'].splitlines() == [
++        '${{ env.RECEIPT_ROOT }}/', '!${{ env.RECEIPT_ROOT }}/**/target/**']
++    assert steps[-1]['with']['if-no-files-found'] == 'error'
++    commands = '\n'.join(s.get('run', '') for s in steps)
++    assert 'verify-std' not in commands
++    assert 'runner.py build --tool tool --out "$RECEIPT_ROOT" --pin ${{ matrix.pin }}' in commands
++    assert 'runner.py run --tool tool --out "$RECEIPT_ROOT" --pin ${{ matrix.pin }}' in commands
++    return {'yaml': 'PASS', 'runner_context': 'STEP_ENV_ONLY', 'matrix_pins': list(PINS)}
++
++
++def static_check():
++    req = json.loads((HERE/'CI-REQUEST.json').read_text())
++    assert req['status'] == 'READY' and req['pins'] == PINS
++    assert req['attempt'] == 1 and req['bucket'] == 'E' and req['item'] == 1
++    assert req['dispatch_authorized'] is False and req['proof_credit'] == 'NONE'
++    assert req['rows_sha256'] == digest(HERE/'rows.json')
++    rows = json.loads((HERE/'rows.json').read_text())
++    assert isinstance(rows, list) and rows
++    ids = set()
++    for row in rows:
++        assert isinstance(row, dict) and re.fullmatch('[a-z][a-z0-9_]*', row['id'])
++        assert row['id'] not in ids
++        ids.add(row['id'])
++        path = HERE / row['file']
++        assert path.resolve().is_relative_to((HERE/'fixtures').resolve())
++        assert path.suffix == '.rs' and path.is_file()
++        assert re.fullmatch('[a-z][a-z0-9_]*', row['harness'])
++        assert row['checks'] and set(row['checks']) <= {'ON', 'OFF'}
++        assert set(row['expected_by_check']) == set(row['checks'])
++        assert all(v in {'SUCCESS', 'FRONTEND_REJECTION', 'UNINIT_FAILURE', 'ASSERTION_FAILURE', 'OBSERVE'}
++                   for v in row['expected_by_check'].values())
++        assert isinstance(row['required_covers'], list)
++        text = path.read_text()
++        assert text.count('#[kani::proof]') == 1
++        assert 'fn '+row['harness']+'(' in text
++        assert all(label in text for label in row['required_covers'])
++        assert 'kani::unwind' not in text
++    mapping = req['payload_sha256']
++    expected = {str(p.relative_to(ROOT)) for p in HERE.rglob('*') if p.is_file()
++                and p.name not in {'CI-REQUEST.json', 'MANIFEST.sha256'} and '__pycache__' not in p.parts}
++    expected.add('.github/workflows/ch8-e.yml')
++    assert set(mapping) == expected, (set(mapping) ^ expected)
++    for rel, sha in mapping.items():
++        assert digest(ROOT/rel) == sha, rel
++    manifest = ''.join(f'{sha}  {rel}\n' for rel, sha in sorted(mapping.items()))
++    assert (HERE/'MANIFEST.sha256').read_text() == manifest
++    assert req['payload_manifest_sha256'] == digest(HERE/'MANIFEST.sha256')
++    yaml_check(ROOT/'.github/workflows/ch8-e.yml')
++    assert sorted(p.name for p in (ROOT/'.github/workflows').iterdir() if p.is_file()) == ['ch8-e.yml']
++    return {'static': 'PASS', 'source_files': len(rows), 'invocations_per_pin': sum(len(r['checks']) for r in rows),
++            'proof_status': 'ALL_NOT_RUN', 'credit': 'NONE'}
++
++
++def control_check():
++    result = static_check()
++    for key, value in {'GITHUB_REPOSITORY': 'Tiramisu-Cake/kani', 'GITHUB_EVENT_NAME': 'push',
++                       'GITHUB_RUN_ATTEMPT': '1'}.items():
++        assert os.environ.get(key) == value, key
++    assert os.environ.get('GITHUB_REF', '').startswith('refs/heads/uninit-ci/ch8-e-ctl-')
++    sha = os.environ['GITHUB_SHA']
++    assert git('rev-parse', 'HEAD') == sha
++    assert git('rev-list', '--parents', '-n', '1', 'HEAD').split() == [sha, PINS['upstream']['sha']]
++    assert not git('status', '--porcelain=v1', '--untracked-files=no')
++    changed = git('diff', '--name-only', 'HEAD^', 'HEAD').splitlines()
++    assert changed and all(p.startswith(('ch8-e-control/', '.github/workflows/')) for p in changed)
++    assert git('ls-tree', '-r', '--name-only', 'HEAD', '.github/workflows').splitlines() == ['.github/workflows/ch8-e.yml']
++    assert not (ROOT.parent/'Cargo.toml').exists()
++    result['control_sha'] = sha
++    return result
++
++
++if __name__ == '__main__':
++    parser = argparse.ArgumentParser()
++    parser.add_argument('command', choices=['static', 'yaml', 'control'])
++    args = parser.parse_args()
++    result = yaml_check(ROOT/'.github/workflows/ch8-e.yml') if args.command == 'yaml' else control_check() if args.command == 'control' else static_check()
++    print(json.dumps(result, sort_keys=True))
+diff --git a/ch8-e-control/fixtures/e_h_copy_then_read.rs b/ch8-e-control/fixtures/e_h_copy_then_read.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..c9ea495a34c9c414132bbbd28948217d8e127049
+--- /dev/null
++++ b/ch8-e-control/fixtures/e_h_copy_then_read.rs
+@@ -0,0 +1,25 @@
++#![feature(stmt_expr_attributes)]
++#![feature(proc_macro_hygiene)]
++
++use std::mem::MaybeUninit;
++
++#[kani::proof]
++fn e_h_copy_then_read() {
++    let source = MaybeUninit::new(53u8);
++    let mut destination = MaybeUninit::<u8>::uninit();
++    let source_ptr = source.as_ptr();
++    let destination_ptr = destination.as_mut_ptr();
++    let frame = std::ptr::slice_from_raw_parts_mut(destination_ptr, 1);
++    let mut remaining = 1usize;
++
++    #[kani::loop_invariant(remaining <= 1)]
++    #[kani::loop_modifies(&remaining, frame)]
++    #[kani::loop_decreases(remaining)]
++    while remaining != 0 {
++        kani::cover(remaining == 1, "E-H copy loop body reached");
++        unsafe { std::ptr::copy_nonoverlapping(source_ptr, destination_ptr, 1) };
++        let copied = unsafe { destination_ptr.read() };
++        assert_eq!(copied, 53);
++        remaining -= 1;
++    }
++}
+diff --git a/ch8-e-control/fixtures/e_h_hole_inside_alias.rs b/ch8-e-control/fixtures/e_h_hole_inside_alias.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..bc77ceec61e99fede93fb59ef8fed9392dba841d
+--- /dev/null
++++ b/ch8-e-control/fixtures/e_h_hole_inside_alias.rs
+@@ -0,0 +1,26 @@
++#![feature(stmt_expr_attributes)]
++#![feature(proc_macro_hygiene)]
++
++use std::mem::MaybeUninit;
++
++#[kani::proof]
++fn e_h_hole_inside_alias() {
++    let mut region = [MaybeUninit::new(17u8), MaybeUninit::uninit()];
++    let alias_to_hole = region[1].as_ptr();
++    let live_ptr = region[0].as_mut_ptr();
++    let frame = std::ptr::slice_from_raw_parts_mut(region.as_mut_ptr().cast::<u8>(), 2);
++    let mut remaining = 1usize;
++
++    #[kani::loop_invariant(remaining <= 1)]
++    #[kani::loop_modifies(&remaining, frame)]
++    #[kani::loop_decreases(remaining)]
++    while remaining != 0 {
++        kani::cover(remaining == 1, "E-H hole loop body reached");
++        unsafe { live_ptr.write(41) };
++        remaining -= 1;
++    }
++
++    // Expected ON uninit failure through a pre-existing raw alias.
++    let value = unsafe { *alias_to_hole };
++    kani::cover(value == 0, "E-H hole alias read result");
++}
+diff --git a/ch8-e-control/fixtures/e_h_live_after_havoc.rs b/ch8-e-control/fixtures/e_h_live_after_havoc.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..bfa8fb4b030d9cdf3624014ccb7835a6c185961f
+--- /dev/null
++++ b/ch8-e-control/fixtures/e_h_live_after_havoc.rs
+@@ -0,0 +1,25 @@
++#![feature(stmt_expr_attributes)]
++#![feature(proc_macro_hygiene)]
++
++use std::mem::MaybeUninit;
++
++#[kani::proof]
++fn e_h_live_after_havoc() {
++    let mut region = [MaybeUninit::new(17u8), MaybeUninit::new(23u8)];
++    let alias_to_fixed_witness = region[1].as_ptr();
++    let live_ptr = region[0].as_mut_ptr();
++    let frame = std::ptr::slice_from_raw_parts_mut(region.as_mut_ptr().cast::<u8>(), 2);
++    let mut remaining = 1usize;
++
++    #[kani::loop_invariant(remaining <= 1)]
++    #[kani::loop_modifies(&remaining, frame)]
++    #[kani::loop_decreases(remaining)]
++    while remaining != 0 {
++        kani::cover(remaining == 1, "E-H live loop body reached");
++        unsafe { live_ptr.write(41) };
++        remaining -= 1;
++    }
++
++    let fixed_value = unsafe { *alias_to_fixed_witness };
++    kani::cover(fixed_value == 23, "E-H fixed initialized witness read");
++}
+diff --git a/ch8-e-control/fixtures/e_h_outside_false_alias.rs b/ch8-e-control/fixtures/e_h_outside_false_alias.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..a91eb86a61ff013ba0e761a1f4f61233013a683b
+--- /dev/null
++++ b/ch8-e-control/fixtures/e_h_outside_false_alias.rs
+@@ -0,0 +1,36 @@
++#![feature(stmt_expr_attributes)]
++#![feature(proc_macro_hygiene)]
++
++use std::mem::MaybeUninit;
++
++#[kani::proof]
++fn e_h_outside_false_alias() {
++    let mut region = [
++        MaybeUninit::new(17u8),
++        MaybeUninit::new(23u8),
++        MaybeUninit::uninit(),
++        MaybeUninit::new(77u8),
++    ];
++    let alias_outside_frame = region[2].as_ptr();
++    let alias_to_sentinel = region[3].as_ptr();
++    let live_ptr = region[0].as_mut_ptr();
++    let frame = std::ptr::slice_from_raw_parts_mut(region.as_mut_ptr().cast::<u8>(), 2);
++    let mut remaining = 1usize;
++
++    #[kani::loop_invariant(remaining <= 1)]
++    #[kani::loop_modifies(&remaining, frame)]
++    #[kani::loop_decreases(remaining)]
++    while remaining != 0 {
++        kani::cover(remaining == 1, "E-H outside-frame loop body reached");
++        unsafe { live_ptr.write(41) };
++        remaining -= 1;
++    }
++
++    let sentinel = unsafe { *alias_to_sentinel };
++    assert_eq!(sentinel, 77);
++    kani::cover(sentinel == 77, "E-H outside sentinel preserved");
++
++    // Expected ON uninit failure through a pre-existing raw alias.
++    let false_value = unsafe { *alias_outside_frame };
++    kani::cover(false_value == 0, "E-H outside false alias read result");
++}
+diff --git a/ch8-e-control/fixtures/e_h_write_then_read.rs b/ch8-e-control/fixtures/e_h_write_then_read.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..15fa7af06ad75c55bade8a9a9605525762dd67cd
+--- /dev/null
++++ b/ch8-e-control/fixtures/e_h_write_then_read.rs
+@@ -0,0 +1,23 @@
++#![feature(stmt_expr_attributes)]
++#![feature(proc_macro_hygiene)]
++
++use std::mem::MaybeUninit;
++
++#[kani::proof]
++fn e_h_write_then_read() {
++    let mut destination = MaybeUninit::<u8>::uninit();
++    let destination_ptr = destination.as_mut_ptr();
++    let frame = std::ptr::slice_from_raw_parts_mut(destination_ptr, 1);
++    let mut remaining = 1usize;
++
++    #[kani::loop_invariant(remaining <= 1)]
++    #[kani::loop_modifies(&remaining, frame)]
++    #[kani::loop_decreases(remaining)]
++    while remaining != 0 {
++        kani::cover(remaining == 1, "E-H write loop body reached");
++        unsafe { destination_ptr.write(41) };
++        let written = unsafe { destination_ptr.read() };
++        assert_eq!(written, 41);
++        remaining -= 1;
++    }
++}
+diff --git a/ch8-e-control/fixtures/e_q_false_pointer_loop.rs b/ch8-e-control/fixtures/e_q_false_pointer_loop.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..bfee27c55e58ecd7fe6699326410a24fe70877d3
+--- /dev/null
++++ b/ch8-e-control/fixtures/e_q_false_pointer_loop.rs
+@@ -0,0 +1,17 @@
++#![feature(stmt_expr_attributes)]
++#![feature(proc_macro_hygiene)]
++
++#[kani::proof]
++fn e_q_false_pointer_loop() {
++    let values = [1u8, 2];
++    let p = values.as_ptr();
++    let mut remaining: usize = 1;
++
++    // Deliberately false on the concrete base state; OFF must fail this invariant.
++    #[kani::loop_invariant(kani::exists!(|i in (0, 2)| unsafe { *p.add(i) == 3 }))]
++    #[kani::loop_modifies(&remaining)]
++    #[kani::loop_decreases(remaining)]
++    while remaining != 0 {
++        remaining -= 1;
++    }
++}
+diff --git a/ch8-e-control/fixtures/e_q_isolated_witness.rs b/ch8-e-control/fixtures/e_q_isolated_witness.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..84b826d5bb76f3321abb78592eed0065b3de9a3c
+--- /dev/null
++++ b/ch8-e-control/fixtures/e_q_isolated_witness.rs
+@@ -0,0 +1,8 @@
++#![feature(proc_macro_hygiene)]
++
++#[kani::proof]
++fn e_q_isolated_witness() {
++    let values = [1u8, 2];
++    let p = values.as_ptr();
++    assert!(kani::exists!(|i in (0, 2)| unsafe { *p.add(i) == 2 }));
++}
+diff --git a/ch8-e-control/fixtures/e_q_pointer_loop.rs b/ch8-e-control/fixtures/e_q_pointer_loop.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..74c1c9c39fde6574a10ac443a2d7a25a32d48637
+--- /dev/null
++++ b/ch8-e-control/fixtures/e_q_pointer_loop.rs
+@@ -0,0 +1,18 @@
++#![feature(stmt_expr_attributes)]
++#![feature(proc_macro_hygiene)]
++
++#[kani::proof]
++fn e_q_pointer_loop() {
++    let values = [1u8, 2];
++    let p = values.as_ptr();
++    let mut remaining: usize = 1;
++
++    #[kani::loop_invariant(kani::exists!(|i in (0, 2)| unsafe { *p.add(i) == 2 }))]
++    #[kani::loop_modifies(&remaining)]
++    #[kani::loop_decreases(remaining)]
++    while remaining != 0 {
++        remaining -= 1;
++    }
++
++    kani::cover(remaining == 0, "E-Q pointer loop returns");
++}
+diff --git a/ch8-e-control/fixtures/e_q_scalar_invariant.rs b/ch8-e-control/fixtures/e_q_scalar_invariant.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..75d8db68aee2a75a378887514719744f394f6490
+--- /dev/null
++++ b/ch8-e-control/fixtures/e_q_scalar_invariant.rs
+@@ -0,0 +1,20 @@
++#![feature(stmt_expr_attributes)]
++#![feature(proc_macro_hygiene)]
++
++#[kani::proof]
++fn e_q_scalar_invariant() {
++    let values = [1u8, 2];
++    let p = values.as_ptr();
++    let mut remaining: usize = 1;
++
++    // The raw read is a scalar predicate outside any quantifier.
++    #[kani::loop_invariant(unsafe { *p == 1 })]
++    #[kani::loop_modifies(&remaining)]
++    #[kani::loop_decreases(remaining)]
++    while remaining != 0 {
++        remaining -= 1;
++    }
++
++    assert_eq!(unsafe { *p }, 1);
++    kani::cover(remaining == 0, "E-Q scalar loop returns");
++}
+diff --git a/ch8-e-control/fixtures/e_s_unbounded_slice.rs b/ch8-e-control/fixtures/e_s_unbounded_slice.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..6f7b4972ca6bc27970d8c14461bacee333d6d7d4
+--- /dev/null
++++ b/ch8-e-control/fixtures/e_s_unbounded_slice.rs
+@@ -0,0 +1,18 @@
++#![feature(proc_macro_hygiene)]
++
++#[kani::proof]
++fn e_s_unbounded_slice() {
++    // Optional alloc-enabled Kani model; deliberately no length cap or bounded Vec model.
++    let slice = kani::any_slice_mut_unbounded::<u8>();
++    let len = slice.len();
++
++    // A legal read before any loop isolates generated storage and read validity.
++    if len != 0 {
++        let index: usize = kani::any();
++        kani::assume(index < len);
++        let value = unsafe { *slice.as_ptr().add(index) };
++        kani::cover(index > 0 && index < len - 1 && value == 0, "E-S interior zero read");
++    }
++    kani::cover(len > 32, "E-S length above 32");
++    kani::cover(len <= isize::MAX as usize, "E-S storage call returns");
++}
+diff --git a/ch8-e-control/rows.json b/ch8-e-control/rows.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..5de8eb5f973d7a5a6b8b243cc9597a677fe1fdb7
+--- /dev/null
++++ b/ch8-e-control/rows.json
+@@ -0,0 +1,203 @@
++[
++  {
++    "id": "e_q_pointer_loop",
++    "file": "fixtures/e_q_pointer_loop.rs",
++    "harness": "e_q_pointer_loop",
++    "checks": [
++      "ON",
++      "OFF"
++    ],
++    "expected_by_check": {
++      "ON": "FRONTEND_REJECTION",
++      "OFF": "SUCCESS"
++    },
++    "oracle": "ON must reject the raw-pointer dereference inside the existential loop invariant with the pinned quantifier safety-check guard. OFF must retain the quantified predicate strongly enough for the positive witness and return cover to pass.",
++    "required_covers": [
++      "E-Q pointer loop returns"
++    ],
++    "failure_description": "ON exact diagnostic: quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks.",
++    "frontend_diagnostic": "quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks"
++  },
++  {
++    "id": "e_q_false_pointer_loop",
++    "file": "fixtures/e_q_false_pointer_loop.rs",
++    "harness": "e_q_false_pointer_loop",
++    "checks": [
++      "ON",
++      "OFF"
++    ],
++    "expected_by_check": {
++      "ON": "FRONTEND_REJECTION",
++      "OFF": "ASSERTION_FAILURE"
++    },
++    "oracle": "ON has the same frontend guard as the positive pointer predicate. OFF must fail the false existential at the loop invariant base; any unrelated failure or success means the predicate cannot serve as this control.",
++    "required_covers": [],
++    "failure_description": "OFF failure must identify the false loop invariant/base assertion for exists i in 0..2, *p.add(i)==3; ON exact diagnostic is the quantifier safety-check guard.",
++    "frontend_diagnostic": "quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks",
++    "failure_match": {
++      "class": "loop_invariant_base",
++      "description_regex": "^Check invariant before entry for loop e_q_false_pointer_loop\\.0$",
++      "file": "fixtures/e_q_false_pointer_loop.rs",
++      "line": 11
++    }
++  },
++  {
++    "id": "e_q_isolated_witness",
++    "file": "fixtures/e_q_isolated_witness.rs",
++    "harness": "e_q_isolated_witness",
++    "checks": [
++      "ON",
++      "OFF"
++    ],
++    "expected_by_check": {
++      "ON": "FRONTEND_REJECTION",
++      "OFF": "SUCCESS"
++    },
++    "oracle": "The isolated existential raw-pointer witness must be rejected by the ON guard and pass OFF. This separates predicate lowering from loop-contract lowering.",
++    "required_covers": [],
++    "failure_description": "ON exact diagnostic: quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks.",
++    "frontend_diagnostic": "quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks"
++  },
++  {
++    "id": "e_q_scalar_invariant",
++    "file": "fixtures/e_q_scalar_invariant.rs",
++    "harness": "e_q_scalar_invariant",
++    "checks": [
++      "ON",
++      "OFF"
++    ],
++    "expected_by_check": {
++      "ON": "SUCCESS",
++      "OFF": "SUCCESS"
++    },
++    "oracle": "A directly evaluated scalar raw read outside any quantifier remains valid with ON and OFF. Require the loop return cover and final assertion; this is the alternative to the unsupported quantified pointer invariant.",
++    "required_covers": [
++      "E-Q scalar loop returns"
++    ],
++    "failure_description": "Any ON frontend rejection here is not the quantifier-predicate guard and is a separate blocker."
++  },
++  {
++    "id": "e_s_unbounded_slice",
++    "file": "fixtures/e_s_unbounded_slice.rs",
++    "harness": "e_s_unbounded_slice",
++    "checks": [
++      "ON",
++      "OFF"
++    ],
++    "expected_by_check": {
++      "ON": "SUCCESS",
++      "OFF": "SUCCESS"
++    },
++    "oracle": "Alloc-enabled any_slice_mut_unbounded::<u8> must support a direct legal symbolic-index read before any loop, with no imposed CAP. ON must pass with uninit checks. Confirm all three reachable covers, especially len>32 and the value-dependent interior-zero read. This is a storage-generation/read control only; no loop or frame is present.",
++    "required_covers": [
++      "E-S interior zero read",
++      "E-S length above 32",
++      "E-S storage call returns"
++    ],
++    "failure_description": "If len>32 is unreachable or the model is unavailable for the selected target, storage binding is not established; do not replace the model with a capped generator."
++  },
++  {
++    "id": "e_h_live_after_havoc",
++    "file": "fixtures/e_h_live_after_havoc.rs",
++    "harness": "e_h_live_after_havoc",
++    "checks": [
++      "ON",
++      "OFF"
++    ],
++    "expected_by_check": {
++      "ON": "SUCCESS",
++      "OFF": "SUCCESS"
++    },
++    "oracle": "The loop actually writes declared live byte 0 inside a two-byte frame. After abstraction, read initialized fixed witness byte 1 through a pre-existing alias and cover its value. ON success checks the witness remains readable after havoc; require both covers.",
++    "required_covers": [
++      "E-H live loop body reached",
++      "E-H fixed initialized witness read"
++    ],
++    "failure_description": "An ON uninit failure on alias.read is evidence that initialization was not preserved through this frame/havoc control."
++  },
++  {
++    "id": "e_h_hole_inside_alias",
++    "file": "fixtures/e_h_hole_inside_alias.rs",
++    "harness": "e_h_hole_inside_alias",
++    "checks": [
++      "ON",
++      "OFF"
++    ],
++    "expected_by_check": {
++      "ON": "UNINIT_FAILURE",
++      "OFF": "OBSERVE"
++    },
++    "oracle": "The loop actually writes live byte 0 inside a two-byte frame; byte 1 is an unwritten hole inside that frame and is read through a pre-existing alias after abstraction. ON must fail at the exact alias read with an uninitialized-read check. OFF is OBSERVE only.",
++    "required_covers": [
++      "E-H hole loop body reached"
++    ],
++    "failure_description": "Must match the uninitialized-read safety check for the direct raw dereference *alias_to_hole on line 24, not an assigns or unrelated failure.",
++    "failure_match": {
++      "class": "safety_check",
++      "description_regex": "^Undefined Behavior: Reading from an uninitialized pointer of type `(?:u8|\\*const u8)`$",
++      "file": "fixtures/e_h_hole_inside_alias.rs",
++      "line": 24
++    }
++  },
++  {
++    "id": "e_h_outside_false_alias",
++    "file": "fixtures/e_h_outside_false_alias.rs",
++    "harness": "e_h_outside_false_alias",
++    "checks": [
++      "ON",
++      "OFF"
++    ],
++    "expected_by_check": {
++      "ON": "UNINIT_FAILURE",
++      "OFF": "OBSERVE"
++    },
++    "oracle": "The loop actually writes live byte 0 inside a two-byte frame. The initialized sentinel at index 3 is outside the frame and must retain value 77 through its alias; index 2 is an unwritten false bit outside the frame and ON must report its uninitialized read through an alias. OFF is OBSERVE only.",
++    "required_covers": [
++      "E-H outside-frame loop body reached",
++      "E-H outside sentinel preserved"
++    ],
++    "failure_description": "Must match the uninitialized-read safety check for the direct raw dereference *alias_outside_frame on line 34; the outside sentinel assertion and cover must pass first.",
++    "failure_match": {
++      "class": "safety_check",
++      "description_regex": "^Undefined Behavior: Reading from an uninitialized pointer of type `(?:u8|\\*const u8)`$",
++      "file": "fixtures/e_h_outside_false_alias.rs",
++      "line": 34
++    }
++  },
++  {
++    "id": "e_h_write_makes_readable",
++    "file": "fixtures/e_h_write_then_read.rs",
++    "harness": "e_h_write_then_read",
++    "checks": [
++      "ON",
++      "OFF"
++    ],
++    "expected_by_check": {
++      "ON": "SUCCESS",
++      "OFF": "SUCCESS"
++    },
++    "oracle": "On the reachable loop-body transition, an actual raw write to the destination must make its immediate raw read legal under ON; OFF companion confirms the ordinary value path. Require body cover and assertion.",
++    "required_covers": [
++      "E-H write loop body reached"
++    ],
++    "failure_description": "Any ON uninit failure on the read immediately after destination_ptr.write(41) means the actual write did not establish readable shadow state."
++  },
++  {
++    "id": "e_h_copy_makes_readable",
++    "file": "fixtures/e_h_copy_then_read.rs",
++    "harness": "e_h_copy_then_read",
++    "checks": [
++      "ON",
++      "OFF"
++    ],
++    "expected_by_check": {
++      "ON": "SUCCESS",
++      "OFF": "SUCCESS"
++    },
++    "oracle": "Copy one initialized u8 from a distinct source into the destination inside the loop body; ON must permit the immediate raw read after the actual copy, and the copied value assertion must pass. Require body cover.",
++    "required_covers": [
++      "E-H copy loop body reached"
++    ],
++    "failure_description": "Any ON uninit failure on the read immediately after copy_nonoverlapping, or source/destination safety failure, means the copy control did not establish the intended readable destination."
++  }
++]
+diff --git a/ch8-e-control/runner.py b/ch8-e-control/runner.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..5a3c4206b39cdda4d1bc2d31c24e0d4df29f9d41
+--- /dev/null
++++ b/ch8-e-control/runner.py
+@@ -0,0 +1,712 @@
++#!/usr/bin/env python3
++"""Bounded, prep-only runner for the Challenge 8 E single-file controls.
++
++Receipts describe tool observations. Exported harness IDs do not establish
++source-level cover binding or proof credit.
++"""
++from __future__ import annotations
++
++import argparse
++import hashlib
++import json
++import os
++from pathlib import Path
++import re
++import shutil
++import signal
++import subprocess
++import sys
++import threading
++import time
++from typing import Any
++
++HERE = Path(__file__).resolve().parent
++REPO = HERE.parent
++REQUEST = HERE / "CI-REQUEST.json"
++ROWS = HERE / "rows.json"
++PIN_DATA = {
++    "upstream": {"sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
++                 "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
++                 "repository": "model-checking/kani"},
++    "sel1": {"sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
++             "tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
++             "repository": "Tiramisu-Cake/kani"},
++}
++RSS_CAP_KIB = 6 * 1024 * 1024
++LOG_CAP = 1024 * 1024
++LOG_TAIL = 4096
++EXPORT_CAP = 8 * 1024 * 1024
++BUILD_SECONDS = 900
++ROW_SECONDS = 660
++PHASE_SECONDS = 75 * 60
++
++
++class RunnerError(RuntimeError):
++    pass
++
++
++def sha256(path: Path) -> str:
++    h = hashlib.sha256()
++    with path.open("rb") as stream:
++        for block in iter(lambda: stream.read(1024 * 1024), b""):
++            h.update(block)
++    return h.hexdigest()
++
++
++def git(repo: Path, *args: str) -> str:
++    p = subprocess.run(["git", "-C", str(repo), *args], stdout=subprocess.PIPE,
++                       stderr=subprocess.PIPE, check=True, text=True)
++    return p.stdout.strip()
++
++
++def _guard_env() -> dict[str, str]:
++    env = os.environ.copy()
++    if env.get("GITHUB_REPOSITORY") != "Tiramisu-Cake/kani":
++        raise RunnerError("GITHUB_REPOSITORY must be Tiramisu-Cake/kani")
++    if env.get("GITHUB_EVENT_NAME") != "push":
++        raise RunnerError("GITHUB_EVENT_NAME must be push")
++    if not env.get("GITHUB_REF", "").startswith("refs/heads/uninit-ci/ch8-e-ctl-"):
++        raise RunnerError("GITHUB_REF is outside the E control branch family")
++    if env.get("GITHUB_RUN_ATTEMPT") != "1":
++        raise RunnerError("GITHUB_RUN_ATTEMPT must be 1")
++    for key in ("KANI_ATTEMPT", "SMALLSORT_ATTEMPT"):
++        if key in env and env[key] != "1":
++            raise RunnerError(f"refusing {key} other than attempt 1")
++    for key in ("RUSTFLAGS", "CARGO_ENCODED_RUSTFLAGS", "KANI_FLAGS", "KANI_OPTS"):
++        if env.get(key, "").strip():
++            raise RunnerError(f"refusing inherited {key}")
++    env["KANI_ATTEMPT"] = "1"
++    return env
++
++
++def load_request(pin: str) -> tuple[dict[str, Any], str]:
++    try:
++        raw = REQUEST.read_bytes()
++        value = json.loads(raw)
++    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
++        raise RunnerError(f"cannot read CI request: {exc}") from exc
++    if not isinstance(value, dict) or value.get("status") != "READY":
++        raise RunnerError("CI request is not READY")
++    if value.get("attempt") != 1 or value.get("bucket") != "E" or value.get("item") != 1:
++        raise RunnerError("request is not attempt 1, bucket E, item 1")
++    pins = value.get("pins")
++    expected = PIN_DATA[pin]
++    if not isinstance(pins, dict) or not isinstance(pins.get(pin), dict):
++        raise RunnerError(f"request missing selected pin {pin}")
++    if pins[pin].get("sha") != expected["sha"] or pins[pin].get("tree") != expected["tree"]:
++        raise RunnerError(f"request selected pin mismatch: {pin}")
++    if pins[pin].get("repository") != expected["repository"]:
++        raise RunnerError(f"request repository mismatch for pin {pin}")
++    payload = value.get("payload_sha256")
++    if not isinstance(payload, dict) or any(not isinstance(k, str) or not isinstance(v, str)
++                                            for k, v in payload.items()):
++        raise RunnerError("request payload_sha256 must map paths to hashes")
++    caps = value.get("caps")
++    wanted_caps = {"row_envelope_seconds": ROW_SECONDS, "harness_seconds": 600,
++                   "run_phase_seconds_per_pin": PHASE_SECONDS, "tool_build_seconds": BUILD_SECONDS,
++                   "process_group_rss_bytes": RSS_CAP_KIB * 1024,
++                   "stdout_head_bytes": LOG_CAP, "stderr_head_bytes": LOG_CAP,
++                   "tail_bytes_per_stream": LOG_TAIL, "export_bytes": EXPORT_CAP}
++    if not isinstance(caps, dict) or any(caps.get(key) != val for key, val in wanted_caps.items()):
++        raise RunnerError("request caps do not match runner limits")
++    rows_hash = value.get("rows_sha256")
++    if not isinstance(rows_hash, str) or not re.fullmatch(r"[0-9a-f]{64}", rows_hash):
++        raise RunnerError("request rows_sha256 is missing or malformed")
++    return value, hashlib.sha256(raw).hexdigest()
++
++
++def verify_tool(tool: Path, pin: str) -> dict[str, str]:
++    tool = tool.resolve()
++    if tool.name != "tool" or tool.parent != HERE.parent.parent.resolve():
++        raise RunnerError("tool must be the sibling 'tool' directory beside ch8-e-control")
++    wanted = PIN_DATA[pin]
++    try:
++        actual_sha = git(tool, "rev-parse", "HEAD")
++        actual_tree = git(tool, "rev-parse", "HEAD^{tree}")
++        kind = git(tool, "cat-file", "-t", wanted["sha"])
++        dirty = git(tool, "status", "--porcelain=v1", "--untracked-files=no")
++    except (OSError, subprocess.CalledProcessError) as exc:
++        raise RunnerError(f"cannot inspect pinned tool checkout: {exc}") from exc
++    if actual_sha != wanted["sha"] or actual_tree != wanted["tree"] or kind != "commit":
++        raise RunnerError(f"tool {pin} SHA/tree drift or pinned commit unavailable")
++    if dirty:
++        raise RunnerError("tool tracked state is not clean")
++    return {"pin": pin, "sha": actual_sha, "tree": actual_tree}
++
++
++def _payload_file_hash(payload: dict[str, str], rel: str) -> str | None:
++    for key in (rel, f"ch8-e-control/{rel}"):
++        if key in payload:
++            return payload[key]
++    return None
++
++
++def load_rows(request: dict[str, Any]) -> tuple[list[dict[str, Any]], str]:
++    try:
++        raw = ROWS.read_bytes()
++    except OSError as exc:
++        raise RunnerError(f"cannot read rows.json: {exc}") from exc
++    if hashlib.sha256(raw).hexdigest() != request["rows_sha256"]:
++        raise RunnerError("rows.json SHA does not match CI request")
++    try:
++        rows = json.loads(raw)
++    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
++        raise RunnerError(f"invalid rows.json: {exc}") from exc
++    if not isinstance(rows, list) or not rows:
++        raise RunnerError("rows.json must be a non-empty array")
++    seen: set[str] = set()
++    payload = request["payload_sha256"]
++    for row in rows:
++        if not isinstance(row, dict):
++            raise RunnerError("row must be an object")
++        rid, rel, harness = row.get("id"), row.get("file"), row.get("harness")
++        checks = row.get("checks")
++        if not isinstance(rid, str) or not rid or rid in seen:
++            raise RunnerError("missing or duplicate row id")
++        seen.add(rid)
++        if not isinstance(rel, str) or not rel or Path(rel).is_absolute() or ".." in Path(rel).parts:
++            raise RunnerError(f"invalid relative source file for {rid}")
++        source = (HERE / rel).resolve()
++        if HERE.resolve() not in source.parents or not source.is_file():
++            raise RunnerError(f"source file missing or outside control tree for {rid}")
++        expected_sha = _payload_file_hash(payload, rel)
++        if expected_sha is None or not re.fullmatch(r"[0-9a-f]{64}", expected_sha) or sha256(source) != expected_sha:
++            raise RunnerError(f"source payload SHA mismatch for {rid}")
++        if not isinstance(harness, str) or not harness or "\x00" in harness:
++            raise RunnerError(f"invalid harness name for {rid}")
++        if not isinstance(checks, list) or not checks or any(x not in ("ON", "OFF") for x in checks) or len(set(checks)) != len(checks):
++            raise RunnerError(f"invalid checks for {rid}")
++        expected = row.get("expected_by_check")
++        if not isinstance(expected, dict) or any(c not in expected for c in checks):
++            raise RunnerError(f"expected_by_check missing check for {rid}")
++        if not isinstance(row.get("oracle"), (str, dict, list)):
++            raise RunnerError(f"missing oracle for {rid}")
++        covers = row.get("required_covers")
++        if not isinstance(covers, list) or any(not isinstance(x, str) or not x for x in covers):
++            raise RunnerError(f"invalid required_covers for {rid}")
++        if "failure_description" in row and not isinstance(row["failure_description"], str):
++            raise RunnerError(f"invalid failure_description for {rid}")
++    return rows, hashlib.sha256(raw).hexdigest()
++
++
++def _read_pipe(pipe, head: Path, tail_path: Path, cap: int,
++               state: dict[str, Any], lock: threading.Lock, key: str) -> None:
++    tail = bytearray()
++    with head.open("wb") as output:
++        while True:
++            data = pipe.read(65536)
++            if not data:
++                break
++            with lock:
++                tail.extend(data)
++                if len(tail) > LOG_TAIL:
++                    del tail[:-LOG_TAIL]
++                room = max(0, cap - state[key + "_kept"])
++                if len(data) > room:
++                    state[key + "_cap"] = True
++                state[key + "_kept"] += min(room, len(data))
++                state[key + "_bytes"] += len(data)
++            if room:
++                output.write(data[:room])
++    pipe.close()
++    tail_path.write_bytes(tail)
++
++
++def _group_rss_kib(pgid: int) -> int:
++    total = 0
++    for entry in Path("/proc").iterdir():
++        if not entry.name.isdigit():
++            continue
++        try:
++            stat = (entry / "stat").read_text()
++            fields = stat[stat.rfind(")") + 2:].split()
++            if int(fields[2]) == pgid:
++                for line in (entry / "status").read_text().splitlines():
++                    if line.startswith("VmRSS:"):
++                        total += int(line.split()[1]); break
++        except (OSError, ValueError, IndexError):
++            pass
++    return total
++
++
++def _kill_group(pgid: int, grace: float = 3.0) -> None:
++    try:
++        os.killpg(pgid, signal.SIGTERM)
++    except ProcessLookupError:
++        return
++    until = time.monotonic() + grace
++    while time.monotonic() < until:
++        try:
++            os.killpg(pgid, 0)
++        except ProcessLookupError:
++            return
++        time.sleep(.05)
++    try:
++        os.killpg(pgid, signal.SIGKILL)
++    except ProcessLookupError:
++        pass
++
++
++def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
++            env: dict[str, str] | None = None, export_path: Path | None = None) -> dict[str, Any]:
++    out.mkdir(parents=True, exist_ok=True)
++    info: dict[str, Any] = {"argv": argv, "cwd": str(cwd.resolve()), "original_exit_code": None,
++                            "signal": None, "timed_out": False, "rss_peak_kib": 0,
++                            "output_truncated": False, "output_bytes": 0}
++    state = {k: 0 for k in ("stdout_kept", "stderr_kept", "stdout_bytes", "stderr_bytes")}
++    state.update(stdout_cap=False, stderr_cap=False)
++    lock = threading.Lock()
++    start = time.monotonic()
++    try:
++        proc = subprocess.Popen(argv, cwd=cwd, env=env, stdout=subprocess.PIPE,
++                                stderr=subprocess.PIPE, start_new_session=True, bufsize=0)
++    except OSError as exc:
++        info.update(runner_error=f"exec failed: {exc}", elapsed_seconds=round(time.monotonic()-start, 3))
++        return info
++    readers = [threading.Thread(target=_read_pipe, args=(proc.stdout, out/"stdout.log", out/"stdout.tail.log", LOG_CAP, state, lock, "stdout"), daemon=True),
++               threading.Thread(target=_read_pipe, args=(proc.stderr, out/"stderr.log", out/"stderr.tail.log", LOG_CAP, state, lock, "stderr"), daemon=True)]
++    for t in readers: t.start()
++    deadline = start + timeout
++    reason = None
++    external_signal: list[int] = []
++    previous_handlers = {}
++    def handle_signal(signum, _frame):
++        external_signal.append(signum)
++        _kill_group(proc.pid)
++    for sig in (signal.SIGTERM, signal.SIGINT):
++        previous_handlers[sig] = signal.getsignal(sig)
++        signal.signal(sig, handle_signal)
++    while proc.poll() is None or any(t.is_alive() for t in readers):
++        info["rss_peak_kib"] = max(info["rss_peak_kib"], _group_rss_kib(proc.pid))
++        with lock:
++            if state["stdout_cap"]: reason = "stdout_cap"
++            elif state["stderr_cap"]: reason = "stderr_cap"
++        if export_path is not None:
++            try:
++                if export_path.exists() and export_path.stat().st_size > EXPORT_CAP:
++                    reason = "export_cap"
++            except OSError:
++                pass
++        if info["rss_peak_kib"] > RSS_CAP_KIB: reason = "rss_cap"
++        if time.monotonic() >= deadline:
++            info["timed_out"] = True; reason = reason or "timeout"
++        if reason:
++            info["termination_reason"] = reason
++            _kill_group(proc.pid)
++            break
++        time.sleep(.05)
++    for sig, handler in previous_handlers.items():
++        signal.signal(sig, handler)
++    if proc.poll() is None:
++        _kill_group(proc.pid, 0)
++    code = proc.wait()
++    for t in readers: t.join(timeout=2)
++    info["original_exit_code"] = code
++    if code < 0: info["signal"] = -code
++    if external_signal:
++        info["interrupted_by_signal"] = external_signal[-1]
++        info["termination_reason"] = "external_signal"
++    info["stdout_truncated"], info["stderr_truncated"] = state["stdout_cap"], state["stderr_cap"]
++    info["output_truncated"] = state["stdout_cap"] or state["stderr_cap"]
++    info["output_bytes"] = state["stdout_bytes"] + state["stderr_bytes"]
++    info["elapsed_seconds"] = round(time.monotonic() - start, 3)
++    info["rss_cap_kib"] = RSS_CAP_KIB
++    return info
++
++
++def cap_export_snapshot(path: Path) -> dict[str, Any]:
++    """Bound retained JSON artifacts even if the tool atomically emits a large file."""
++    try:
++        size = path.stat().st_size
++        if size <= EXPORT_CAP:
++            return {"size_bytes": size, "truncated": False}
++        snapshot = path.with_name(path.name + ".oversize-head")
++        with path.open("rb") as src, snapshot.open("wb") as dst:
++            remaining = EXPORT_CAP
++            while remaining:
++                block = src.read(min(1024 * 1024, remaining))
++                if not block: break
++                dst.write(block); remaining -= len(block)
++        path.unlink()
++        return {"size_bytes": size, "truncated": True, "snapshot_path": str(snapshot)}
++    except OSError as exc:
++        return {"snapshot_error": f"{type(exc).__name__}: {exc}"}
++
++
++def _schema_validate(value: Any) -> list[str]:
++    """Use the checked-in RFC 0015 validator and exact schema template."""
++    import importlib.util
++    script = REPO / "scripts" / "validate_json_export.py"
++    schema_path = REPO / "tests/json-handler/schema-validation/kani_json_schema.json"
++    try:
++        spec = importlib.util.spec_from_file_location("kani_json_export_validator", script)
++        if spec is None or spec.loader is None: return ["validator unavailable"]
++        module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
++        schema = json.loads(schema_path.read_text(encoding="utf-8"))
++        return module.validate_document(value, schema)
++    except Exception as exc:
++        return [f"schema validation unavailable: {exc}"]
++
++
++def parse_export(path: Path, row: dict[str, Any], check: str, pin: str,
++                 source: Path, run: dict[str, Any], max_bytes: int = EXPORT_CAP) -> dict[str, Any]:
++    result = {"outcome": "UNKNOWN", "state": "UNKNOWN", "proof_credit": "NONE",
++              "cover_source_binding": "PENDING_SOURCE_REVIEW"}
++    if (run.get("timed_out") or run.get("output_truncated") or run.get("termination_reason") or
++            run.get("runner_error") or run.get("original_exit_code") is None):
++        result.update(state="EXECUTION_INCOMPLETE", reason=run.get("termination_reason"))
++        return result
++    try:
++        size = path.stat().st_size
++        if size > max_bytes: return {**result, "state": "OVERSIZE", "size_bytes": size}
++        value = json.loads(path.read_bytes())
++    except FileNotFoundError:
++        return {**result, "state": "MISSING"}
++    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
++        return {**result, "state": "INVALID_OR_PARTIAL", "error": str(exc)}
++    if value is None: return {**result, "state": "NULL"}
++    if not isinstance(value, dict): return {**result, "state": "WRONG_TOP_LEVEL_TYPE"}
++    errors = _schema_validate(value)
++    if errors: return {**result, "state": "SCHEMA_INVALID", "schema_errors": errors[:20]}
++    if value.get("schema_version") != "0.1.0" or value.get("run_state") != "COMPLETE":
++        return {**result, "state": "INCOMPLETE_EXPORT"}
++    if value.get("kani_commit") != PIN_DATA[pin]["sha"] or value.get("kani_commit_dirty") is not False:
++        return {**result, "state": "TOOL_PIN_MISMATCH"}
++    selection = value.get("harness_selection", {})
++    if (selection.get("requested_filters") != [row["harness"]] or selection.get("exact") is not True or
++            selection.get("unmatched_filters") != [] or selection.get("matched_count") != 1):
++        return {**result, "state": "SELECTION_MISMATCH"}
++    if len(value.get("harnesses", [])) != 1:
++        return {**result, "state": "SELECTION_MISMATCH"}
++    harness = value["harnesses"][0]
++    if harness["name"] != row["harness"]:
++        return {**result, "state": "SELECTION_MISMATCH"}
++    try:
++        source_text = source.read_text(encoding="utf-8")
++    except (OSError, UnicodeDecodeError):
++        return {**result, "state": "SOURCE_UNREADABLE"}
++    declared_loop_contract = re.search(r"(?m)^\s*#\s*\[\s*kani::loop_invariant\b", source_text) is not None
++    attrs = harness["attributes"]
++    if (harness["has_loop_contracts"] is not declared_loop_contract or
++            harness["is_automatically_generated"] is not False or attrs["should_panic"] is not False or
++            harness["contract"] is not None or attrs["verified_stubs"] != []):
++        return {**result, "state": "HARNESS_METADATA_MISMATCH"}
++    if (value["summary"]["total"] != 1 or
++            value["summary"]["successful"] != int(harness["outcome"]["kind"] == "COMPLETED" and harness["outcome"].get("verdict") == "SUCCESS") or
++            value["summary"]["failed"] != int(harness["outcome"]["kind"] == "COMPLETED" and harness["outcome"].get("verdict") == "FAILURE") or
++            value["summary"]["checks_total"] != harness["checks"]["total"] or
++            value["summary"]["checks_success"] != harness["checks"]["success"] or
++            value["summary"]["covers_total"] != harness["covers"]["total"] or
++            value["summary"]["covers_satisfied"] != len(harness["covers"]["satisfied"])):
++        return {**result, "state": "SUMMARY_MISMATCH"}
++    reported_file = Path(harness["file"])
++    if not reported_file.is_absolute(): reported_file = (run["cwd"] and Path(run["cwd"]) / reported_file)
++    if reported_file.resolve() != source.resolve():
++        return {**result, "state": "SOURCE_FILE_MISMATCH", "reported_file": harness["file"]}
++    if not isinstance(value.get("tools", {}).get("kani"), str):
++        return {**result, "state": "MISSING_TOOL_VERSION"}
++    config = value["configuration"]
++    required_check = check == "ON"
++    config_checks = config["checks"]
++    if (config_checks.get("assert_contracts") is not True or
++            any(config_checks.get(k) is not True for k in ("memory_safety", "overflow", "unwinding", "undefined_function")) or
++            config_checks.get("prove_safety_only") is not False or
++            config.get("cbmc_args") != ["--object-bits", "12"] or
++            harness["attributes"]["kind"] != "Proof" or harness["attributes"]["stubs"] != []):
++        return {**result, "state": "CONFIGURATION_MISMATCH"}
++    features = value["enabled_unstable_features"]
++    expected_features = {"loop-contracts", "quantifiers", "export-json"}
++    if required_check: expected_features.add("uninit-checks")
++    if set(features) != expected_features:
++        return {**result, "state": "FEATURE_MISMATCH", "features": features}
++    timeout = value.get("harness_timeout_s")
++    if type(timeout) not in (int, float) or timeout != 600:
++        return {**result, "state": "TIMEOUT_CONFIGURATION_MISMATCH"}
++    expected = row["expected_by_check"][check]
++    outcome = harness["outcome"]
++    checks, covers = harness["checks"], harness["covers"]
++    required_covers = row["required_covers"]
++    cover_ids = covers["satisfied"]
++    if (covers["total"] != len(cover_ids) or len(set(cover_ids)) != len(cover_ids) or
++            len(cover_ids) < len(required_covers) or
++            any(covers[k] for k in ("unsatisfiable", "unreachable", "undetermined", "error", "unknown", "other"))):
++        return {**result, "state": "COVER_INVENTORY_MISMATCH", "satisfied_cover_ids": cover_ids}
++    if outcome["kind"] == "COMPLETED" and outcome.get("verdict") == "SUCCESS":
++        complete_checks = (checks["success"] == checks["total"] and checks["failure"] == [] and
++                           checks["total"] > 0 and
++                           all(checks[k] == [] for k in ("unreachable", "undetermined", "error", "unknown", "other")))
++        if (harness.get("failure_kind") != "NONE" or harness["n_failed"] != 0 or not complete_checks or
++                harness["unsupported_constructs"] or harness["n_properties"] != checks["total"] + covers["total"]):
++            return {**result, "state": "INCONSISTENT_SUCCESS"}
++        if run.get("original_exit_code") != 0 or run.get("signal") is not None:
++            return {**result, "state": "PROCESS_EXIT_MISMATCH"}
++        observed = "SUCCESS"
++        if expected == "OBSERVE": observed = "OBSERVE"
++        classified = observed if expected == observed else "UNEXPECTED"
++        return {**result, "state": "VALIDATED_OBSERVATION", "outcome": classified,
++                "observed": observed, "expected": expected, "satisfied_cover_ids": cover_ids,
++                "cover_description_binding": "PENDING_SOURCE_REVIEW"}
++    if outcome["kind"] == "COMPLETED" and outcome.get("verdict") == "FAILURE":
++        if type(run.get("original_exit_code")) is not int or run["original_exit_code"] <= 0 or run.get("signal") is not None:
++            return {**result, "state": "PROCESS_EXIT_MISMATCH"}
++        failed = harness["failed_properties"]
++        ids = checks["failure"]
++        if (not failed or {p["id"] for p in failed} != set(ids) or harness["n_failed"] != len(failed) or
++                harness["n_properties"] != checks["total"] + covers["total"] or harness["unsupported_constructs"] or
++                checks["success"] + len(failed) != checks["total"] or
++                any(checks[k] for k in ("unreachable", "undetermined", "error", "unknown", "other"))):
++            return {**result, "state": "UNBOUND_FAILURE"}
++        matcher = row.get("failure_match")
++        if not isinstance(matcher, dict):
++            return {**result, "state": "UNBOUND_FAILURE"}
++        wanted_class = matcher.get("class")
++        pattern = matcher.get("description_regex")
++        try: regex = re.compile(pattern) if isinstance(pattern, str) else None
++        except re.error: regex = None
++        locations = matcher.get("locations")
++        if not isinstance(locations, list):
++            locations = [{"file": matcher.get("file"), "line": matcher.get("line")}]
++        def row_location(location: dict[str, Any]) -> tuple[str, str] | None:
++            file_value, line_value = location.get("file"), location.get("line")
++            if not isinstance(file_value, str) or not isinstance(line_value, (str, int)):
++                return None
++            file_path = Path(file_value)
++            if not file_path.is_absolute(): file_path = HERE / file_path
++            return (str(file_path.resolve()), str(line_value))
++        wanted_locations = {item for loc in locations if isinstance(loc, dict) and (item := row_location(loc))}
++        def source_bound(prop: dict[str, Any]) -> bool:
++            file_value = prop.get("file")
++            line_value = prop.get("line")
++            if not isinstance(file_value, str) or not isinstance(line_value, str) or not line_value.isdigit():
++                return False
++            reported = Path(file_value)
++            if not reported.is_absolute():
++                from_cwd = (Path(run["cwd"]) / reported).resolve()
++                reported = from_cwd if from_cwd == source.resolve() else (HERE / reported).resolve()
++            return (reported.resolve() == source.resolve() and
++                    (str(reported.resolve()), line_value) in wanted_locations and
++                    p_class_matches(prop.get("class"), wanted_class) and regex is not None and
++                    isinstance(prop.get("description"), str) and regex.fullmatch(prop["description"]) is not None)
++        bound = bool(wanted_locations) and isinstance(wanted_class, str) and regex is not None and all(source_bound(p) for p in failed)
++        named = None
++        if bound:
++            sample_desc = " ".join(p["description"] for p in failed).lower()
++            if ("uninitialized" in sample_desc or "uninit" in str(row.get("oracle", "")).lower() or
++                    str(wanted_class).lower() == "safety_check" and "undefined behavior" in sample_desc):
++                named = "UNINIT_FAILURE"
++            else:
++                named = "ASSERTION_FAILURE"
++        if named:
++            return {**result, "state": "NAMED_FAILURE_OBSERVATION",
++                    "outcome": named if expected == named else "UNEXPECTED", "observed": named,
++                    "expected": expected,
++                    "failure_ids": ids, "failure_descriptions": [p["description"] for p in failed]}
++    return {**result, "state": "UNCLASSIFIED_EXPORT_OUTCOME"}
++
++
++def _diag_matches(row: dict[str, Any], run: dict[str, Any], outdir: Path) -> bool:
++    expected = row.get("frontend_diagnostic", row.get("failure_description"))
++    if not isinstance(expected, str) or not expected or type(run.get("original_exit_code")) is not int or run["original_exit_code"] <= 0 or run.get("signal") is not None: return False
++    if run.get("timed_out") or run.get("output_truncated") or run.get("termination_reason"): return False
++    try:
++        data = (outdir/"stdout.log").read_bytes() + (outdir/"stderr.log").read_bytes()
++        text = data.decode("utf-8")
++    except (OSError, UnicodeDecodeError): return False
++    clean = re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", text)
++    return any(line.strip() in (expected, "error: " + expected) for line in clean.splitlines())
++
++
++def p_class_matches(actual: Any, expected: str) -> bool:
++    return isinstance(actual, str) and actual == expected
++
++
++def build(tool: Path, out: Path, pin: str) -> int:
++    started = time.monotonic()
++    receipt = out / "build.json"
++    run = None
++    try:
++        request, request_sha = load_request(pin)
++        binding = verify_tool(tool, pin)
++        env = _guard_env()
++        argv = ["cargo", "build-dev", "--", "--release"]
++        run = execute(argv, tool.resolve(), out/"build", BUILD_SECONDS, env)
++        final_binding = verify_tool(tool, pin)
++        record = {"status": "COMPLETE" if run.get("original_exit_code") == 0 and not run.get("runner_error") and not run.get("termination_reason") else "FAILED",
++                  "pin": pin, "tool": binding, "tool_after": final_binding, "request_sha256": request_sha,
++                  "attempt": request["attempt"], "argv": argv, "cwd": str(tool.resolve()), "run": run,
++                  "elapsed_seconds": round(time.monotonic()-started, 3)}
++    except Exception as exc:
++        record = {"status": "FAILED", "pin": pin, "error": f"{type(exc).__name__}: {exc}",
++                  "elapsed_seconds": round(time.monotonic()-started, 3)}
++        if run is not None: record["run"] = run
++    out.mkdir(parents=True, exist_ok=True)
++    receipt.write_text(json.dumps(record, indent=2, sort_keys=True)+"\n", encoding="utf-8")
++    return 0 if record["status"] == "COMPLETE" else 1
++
++
++def run_rows(tool: Path, out: Path, pin: str) -> int:
++    started = time.monotonic()
++    try:
++        request, request_sha = load_request(pin)
++        binding = verify_tool(tool, pin)
++        rows, rows_sha = load_rows(request)
++        build_receipt_path = out / "build.json"
++        build_receipt = json.loads(build_receipt_path.read_text(encoding="utf-8"))
++        if (not isinstance(build_receipt, dict) or build_receipt.get("status") != "COMPLETE" or
++                build_receipt.get("pin") != pin or build_receipt.get("request_sha256") != request_sha or
++                build_receipt.get("tool") != binding or
++                not isinstance(build_receipt.get("run"), dict) or
++                build_receipt["run"].get("original_exit_code") != 0 or
++                build_receipt["run"].get("termination_reason") or build_receipt["run"].get("runner_error")):
++            raise RunnerError("matching successful build receipt is required")
++        env = _guard_env()
++    except Exception as exc:
++        out.mkdir(parents=True, exist_ok=True)
++        (out/"run.json").write_text(json.dumps({"status":"FAILED","error":f"{type(exc).__name__}: {exc}"}, indent=2)+"\n")
++        return 1
++    receipts = []
++    out.mkdir(parents=True, exist_ok=True)
++    status_path = out/"run.json"
++    def persist(status: str, **extra: Any) -> None:
++        status_path.write_text(json.dumps({"status": status, "pin": pin, "tool": binding,
++                                           "request_sha256": request_sha, "rows_sha256": rows_sha,
++                                           "phase_cap_seconds": PHASE_SECONDS, "receipts": receipts,
++                                           "proof_credit": "NONE", **extra}, indent=2, sort_keys=True)+"\n",
++                               encoding="utf-8")
++    persist("RUNNING")
++    for row in rows:
++        source = (HERE / row["file"]).resolve()
++        expected_file_sha = _payload_file_hash(request["payload_sha256"], row["file"])
++        for check in row["checks"]:
++            current_file_sha = sha256(source)
++            elapsed = time.monotonic() - started
++            remaining = PHASE_SECONDS - elapsed
++            entry = {"id": row["id"], "file": str(source), "file_sha256": current_file_sha, "harness": row["harness"], "check": check,
++                     "expected": row["expected_by_check"][check], "pin": pin, "tool": binding,
++                     "request_sha256": request_sha, "rows_sha256": rows_sha, "attempt": 1}
++            if current_file_sha != expected_file_sha:
++                entry.update(status="NOT_RUN", reason="source SHA drift after request validation")
++                receipts.append(entry); persist("RUNNING", elapsed_seconds=round(time.monotonic()-started, 3)); continue
++            if remaining <= 0 or remaining < ROW_SECONDS + 30:
++                entry.update(status="NOT_RUN", reason="insufficient phase envelope")
++                receipts.append(entry); persist("RUNNING", elapsed_seconds=round(time.monotonic()-started, 3)); continue
++            slot = out/"rows"/row["id"]/check.lower()
++            slot.mkdir(parents=True, exist_ok=True)
++            row_receipt_path = slot/"receipt.json"
++            entry.update(status="RUNNING", cwd=str(slot.resolve()))
++            row_receipt_path.write_text(json.dumps(entry, indent=2, sort_keys=True)+"\n", encoding="utf-8")
++            receipts.append(entry)
++            persist("RUNNING", elapsed_seconds=round(time.monotonic()-started, 3))
++            export_path = (slot/"export.json").resolve()
++            argv = [str((tool.resolve()/"scripts/kani").resolve()), str(source), "--harness", row["harness"], "--exact",
++                    "-Z", "loop-contracts", "-Z", "quantifiers"]
++            if check == "ON": argv += ["-Z", "uninit-checks"]
++            argv += ["-Z", "export-json", "--export-json", str(export_path), "--harness-timeout", "600s",
++                     "--jobs", "1", "--output-format=terse", "--cbmc-args", "--object-bits", "12"]
++            try:
++                run = execute(argv, slot.resolve(), slot, min(ROW_SECONDS, int(remaining)), env, export_path)
++                entry.update(status="EXECUTED", cwd=run["cwd"], argv=argv, run=run,
++                             export_path=str(export_path))
++                row_receipt_path.write_text(json.dumps(entry, indent=2, sort_keys=True)+"\n", encoding="utf-8")
++                entry["export_snapshot"] = cap_export_snapshot(export_path)
++                parsed = ({**entry["export_snapshot"], "state":"OVERSIZE", "outcome":"UNKNOWN", "proof_credit":"NONE"}
++                          if entry["export_snapshot"].get("truncated") else
++                          parse_export(export_path, row, check, pin, source, run))
++                if (type(run.get("original_exit_code")) is int and run["original_exit_code"] > 0 and run.get("signal") is None and
++                        not run.get("runner_error") and parsed.get("outcome") == "UNKNOWN" and _diag_matches(row, run, slot)):
++                    label = "FRONTEND_REJECTION"
++                    expected = row["expected_by_check"][check]
++                    parsed.update(state="FRONTEND_REJECTION_OBSERVATION",
++                                  outcome=label if expected == label else "UNEXPECTED", observed=label,
++                                  expected=expected, diagnostic_exact_match=True)
++                entry.update(status="OBSERVED", cwd=run["cwd"], argv=argv, run=run, export=parsed,
++                             export_path=str(export_path))
++            except Exception as exc:
++                entry.update(status="ERROR", error=f"{type(exc).__name__}: {exc}",
++                             export={"state": "RUNNER_EXCEPTION", "outcome": "UNKNOWN", "proof_credit": "NONE"})
++            row_receipt_path.write_text(json.dumps(entry, indent=2, sort_keys=True)+"\n", encoding="utf-8")
++            persist("RUNNING", elapsed_seconds=round(time.monotonic()-started, 3))
++            if entry.get("run", {}).get("interrupted_by_signal"):
++                persist("INTERRUPTED", elapsed_seconds=round(time.monotonic()-started, 3))
++                return 1
++    final_tool = verify_tool(tool, pin)
++    persist("COMPLETE", tool=final_tool, elapsed_seconds=round(time.monotonic()-started, 3))
++    return 0
++
++
++def fallback(out: Path, pin: str) -> int:
++    out.mkdir(parents=True, exist_ok=True)
++    request, request_sha = load_request(pin)
++    rows, rows_sha = load_rows(request)
++    path = out/"run.json"
++    try:
++        existing = json.loads(path.read_text(encoding="utf-8"))
++    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
++        existing = {}
++    original_rows = existing.get("receipts") if isinstance(existing, dict) else None
++    original_rows = original_rows if isinstance(original_rows, list) else []
++    known = {(x.get("id"), x.get("check")): x for x in original_rows if isinstance(x, dict)
++             and isinstance(x.get("id"), str) and isinstance(x.get("check"), str)}
++    # A terminated aggregate write must not hide a completed per-row receipt.
++    for row in rows:
++        for check in row["checks"]:
++            slot = out/"rows"/row["id"]/check.lower()/"receipt.json"
++            try:
++                record = json.loads(slot.read_bytes())
++                if (isinstance(record, dict) and record.get("id") == row["id"] and
++                        record.get("check") == check):
++                    known[(row["id"], check)] = record
++            except (OSError, UnicodeDecodeError, json.JSONDecodeError):
++                pass
++    present = set(known)
++    missing = []
++    for row in rows:
++        for check in row["checks"]:
++            if (row["id"], check) in present: continue
++            source = HERE/row["file"]
++            missing.append({"id": row["id"], "file": str(source.resolve()), "file_sha256": sha256(source),
++                            "harness": row["harness"], "check": check, "expected": row["expected_by_check"][check],
++                            "pin": pin, "request_sha256": request_sha, "rows_sha256": rows_sha,
++                            "attempt": 1, "status": "NOT_RUN", "reason": "fallback synthesized missing receipt"})
++    (out/"missing-not-run.json").write_text(json.dumps({"status":"FALLBACK_MISSING_ONLY", "pin":pin,
++        "request_sha256":request_sha, "rows_sha256":rows_sha, "receipts":missing,
++        "proof_credit":"NONE"}, indent=2, sort_keys=True)+"\n", encoding="utf-8")
++    cleanup = []
++    try:
++        targets = sorted((p for p in out.rglob("target") if p.is_dir() and
++                          out.resolve() in p.resolve().parents), key=lambda p: len(p.parts), reverse=True)
++        for target in targets:
++            if not target.is_symlink():
++                shutil.rmtree(target)
++        cleanup.append({"status":"REMOVED_OR_ABSENT", "targets":[str(p) for p in targets]})
++    except OSError as exc:
++        cleanup.append({"status":"ERROR", "error":f"{type(exc).__name__}: {exc}"})
++    except RunnerError as exc:
++        cleanup.append({"status":"SKIPPED", "error":str(exc)})
++    (out/"job-status.json").write_text(json.dumps({"status":"FALLBACK", "pin":pin,
++        "preserved_run_status":existing.get("status") if isinstance(existing,dict) else None,
++        "preserved_build_receipt":(out/"build.json").exists(), "missing_receipt_file":"missing-not-run.json",
++        "incomplete_receipts":[{"id": x.get("id"), "check": x.get("check"), "original_status": x.get("status"),
++                                "outcome":"UNKNOWN"} for x in known.values()
++                               if x.get("status") not in ("OBSERVED", "NOT_RUN", "ERROR")],
++        "target_cleanup":cleanup, "proof_credit":"NONE"}, indent=2, sort_keys=True)+"\n", encoding="utf-8")
++    return 0
++
++
++def main(argv: list[str] | None = None) -> int:
++    parser = argparse.ArgumentParser(description=__doc__)
++    sub = parser.add_subparsers(dest="command", required=True)
++    p = sub.add_parser("build"); p.add_argument("--tool", required=True, type=Path); p.add_argument("--out", required=True, type=Path); p.add_argument("--pin", required=True, choices=PIN_DATA)
++    p = sub.add_parser("run"); p.add_argument("--tool", required=True, type=Path); p.add_argument("--out", required=True, type=Path); p.add_argument("--pin", required=True, choices=PIN_DATA)
++    p = sub.add_parser("fallback"); p.add_argument("--out", required=True, type=Path); p.add_argument("--pin", required=True, choices=PIN_DATA)
++    args = parser.parse_args(argv)
++    if args.command == "build": return build(args.tool, args.out, args.pin)
++    if args.command == "run": return run_rows(args.tool, args.out, args.pin)
++    try: return fallback(args.out, args.pin)
++    except Exception as exc:
++        print(f"fallback failed: {type(exc).__name__}: {exc}", file=sys.stderr)
++        return 1
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/ch8-e-control/test_package.py b/ch8-e-control/test_package.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..8be6956b33a27c03cd66bd56171cc0e9d0f4113a
+--- /dev/null
++++ b/ch8-e-control/test_package.py
+@@ -0,0 +1,71 @@
++"""Synthetic package guards; never launches Rust or a verifier."""
++import copy
++import os
++from unittest.mock import patch
++from pathlib import Path
++import tempfile
++import unittest
++import yaml
++import check_package as c
++
++
++class PackageTests(unittest.TestCase):
++    def setUp(self):
++        self.doc = yaml.load((c.ROOT/'.github/workflows/ch8-e.yml').read_text(), Loader=yaml.BaseLoader)
++
++    def check(self, doc):
++        with tempfile.TemporaryDirectory() as td:
++            p = Path(td)/'workflow.yml'
++            p.write_text(yaml.dump(doc, sort_keys=False))
++            return c.yaml_check(p)
++
++    def test_good(self):
++        self.assertEqual(self.check(self.doc)['yaml'], 'PASS')
++
++    def test_bad_variants(self):
++        for kind in ('runner_job', 'runner_non_env_step', 'depth', 'pin', 'attempt_host', 'trigger', 'target', 'parallel', 'missing_companion'):
++            d = copy.deepcopy(self.doc)
++            job = d['jobs']['controls']
++            if kind == 'runner_job': job['env'] = {'BAD': '${{ runner.temp }}'}
++            elif kind == 'runner_non_env_step': job['steps'][0]['working-directory'] = '${{ runner.temp }}'
++            elif kind == 'depth': job['steps'][0]['with']['fetch-depth'] = '1'
++            elif kind == 'pin': job['strategy']['matrix']['include'][1]['sha'] = 'HEAD'
++            elif kind == 'attempt_host': job['if'] = 'true'
++            elif kind == 'trigger': d['on']['workflow_dispatch'] = {}
++            elif kind == 'target': job['steps'][-1]['with']['path'] = '${{ env.RECEIPT_ROOT }}/'
++            elif kind == 'parallel': job['strategy']['max-parallel'] = '2'
++            elif kind == 'missing_companion': job['strategy']['matrix']['include'].pop()
++            with self.subTest(kind=kind), self.assertRaises(AssertionError): self.check(d)
++
++    def test_runtime_control_identity_guards(self):
++        sha = '1'*40
++        env = {'GITHUB_REPOSITORY': 'Tiramisu-Cake/kani', 'GITHUB_EVENT_NAME': 'push',
++               'GITHUB_RUN_ATTEMPT': '1', 'GITHUB_REF': 'refs/heads/uninit-ci/ch8-e-ctl-test',
++               'GITHUB_SHA': sha}
++        parent = c.PINS['upstream']['sha']
++        good = {('rev-parse', 'HEAD'): sha,
++                ('rev-list', '--parents', '-n', '1', 'HEAD'): sha+' '+parent,
++                ('status', '--porcelain=v1', '--untracked-files=no'): '',
++                ('diff', '--name-only', 'HEAD^', 'HEAD'): 'ch8-e-control/runner.py',
++                ('ls-tree', '-r', '--name-only', 'HEAD', '.github/workflows'): '.github/workflows/ch8-e.yml'}
++        cases = ['good', 'attempt', 'repository', 'event', 'branch', 'sha', 'parent', 'merge', 'dirty', 'scope', 'stock']
++        with tempfile.TemporaryDirectory() as td:
++            for kind in cases:
++                e, g = env.copy(), good.copy()
++                if kind == 'attempt': e['GITHUB_RUN_ATTEMPT'] = '2'
++                elif kind == 'repository': e['GITHUB_REPOSITORY'] = 'model-checking/kani'
++                elif kind == 'event': e['GITHUB_EVENT_NAME'] = 'workflow_dispatch'
++                elif kind == 'branch': e['GITHUB_REF'] = 'refs/heads/main'
++                elif kind == 'sha': g[('rev-parse', 'HEAD')] = '2'*40
++                elif kind == 'parent': g[('rev-list', '--parents', '-n', '1', 'HEAD')] = sha+' '+'2'*40
++                elif kind == 'merge': g[('rev-list', '--parents', '-n', '1', 'HEAD')] += ' '+'3'*40
++                elif kind == 'dirty': g[('status', '--porcelain=v1', '--untracked-files=no')] = ' M runner.py'
++                elif kind == 'scope': g[('diff', '--name-only', 'HEAD^', 'HEAD')] = 'library/kani/src/arbitrary.rs'
++                elif kind == 'stock': g[('ls-tree', '-r', '--name-only', 'HEAD', '.github/workflows')] += '\n.github/workflows/kani.yml'
++                with self.subTest(kind=kind), patch.dict(os.environ, e, clear=True), patch.object(c, 'ROOT', Path(td)/'control'), patch.object(c, 'static_check', return_value={}), patch.object(c, 'git', side_effect=lambda *args: g[args]):
++                    if kind == 'good': self.assertEqual(c.control_check()['control_sha'], sha)
++                    else:
++                        with self.assertRaises(AssertionError): c.control_check()
++
++
++if __name__ == '__main__': unittest.main()
+diff --git a/ch8-e-control/test_runner.py b/ch8-e-control/test_runner.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..d8c6760a1f11357132cc2fd19b1f58305c7c1972
+--- /dev/null
++++ b/ch8-e-control/test_runner.py
+@@ -0,0 +1,308 @@
++"""Synthetic-only tests for the bounded E runner; no Kani or compiler is invoked."""
++from __future__ import annotations
++
++import importlib.util
++import json
++import os
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++from unittest.mock import patch
++from contextlib import ExitStack
++
++RUNNER_PATH = Path(__file__).with_name("runner.py")
++spec = importlib.util.spec_from_file_location("e_runner", RUNNER_PATH)
++runner = importlib.util.module_from_spec(spec)
++assert spec and spec.loader
++spec.loader.exec_module(runner)
++
++
++def example(specification, defs):
++    if isinstance(specification, list):
++        return []
++    if isinstance(specification, dict):
++        return {k: example(v, defs) for k, v in specification.items() if not k.startswith("_")}
++    if specification.startswith("ref:"):
++        return example(defs[specification[4:]], defs)
++    if specification.endswith("?"):
++        return None
++    if specification == "string": return "value"
++    if specification == "integer": return 0
++    if specification == "number": return 0
++    if specification == "boolean": return False
++    if specification.startswith("enum:"): return specification[5:].split("|")[0]
++    if specification.startswith("pattern:"): return "2026-01-02T03:04:05Z"
++    if specification == "named:attribute_kind": return "Proof"
++    if specification == "named:solver": return "solver"
++    raise AssertionError(specification)
++
++
++def valid_export(pin, source, harness="root", check="ON"):
++    schema = json.loads((runner.REPO / "tests/json-handler/schema-validation/kani_json_schema.json").read_text())
++    defs = schema["_defs"]
++    value = {k: example(v, defs) for k, v in schema.items() if not k.startswith("_")}
++    hs = example(schema["harnesses"][0], defs)
++    value["harnesses"] = [hs]
++    value.update(schema_version="0.1.0", kani_commit=runner.PIN_DATA[pin]["sha"], kani_commit_dirty=False,
++                 enabled_unstable_features=["loop-contracts", "quantifiers", "export-json"] + (["uninit-checks"] if check == "ON" else []),
++                 harness_selection={"requested_filters": [harness], "exact": True, "unmatched_filters": [], "matched_count": 1},
++                 harness_timeout_s=600, run_state="COMPLETE")
++    value["outcome"] = {"kind": "COMPLETED"}
++    value["tools"] = {"kani": "kani", "rustc": "rustc", "cbmc": "cbmc"}
++    for field in ("memory_safety", "overflow", "unwinding", "undefined_function", "assert_contracts"):
++        value["configuration"]["checks"][field] = True
++    value["configuration"]["checks"]["prove_safety_only"] = False
++    value["configuration"]["cbmc_args"] = ["--object-bits", "12"]
++    hs.update(name=harness, file=str(source.resolve()), line=1, has_loop_contracts=False,
++              outcome={"kind": "COMPLETED", "verdict": "SUCCESS"}, failure_kind="NONE",
++              n_properties=0, n_failed=0)
++    hs["contract"] = None
++    hs["attributes"]["kind"] = "Proof"
++    hs["attributes"]["should_panic"] = False
++    hs["checks"].update(total=1, success=1)
++    hs["n_properties"] = 1
++    hs["covers"].update(total=0, satisfied=[])
++    value["summary"].update(total=1, successful=1, failed=0, checks_total=1, checks_success=1,
++                            covers_total=0, covers_satisfied=0)
++    return value
++
++
++class RunnerTests(unittest.TestCase):
++    def setUp(self):
++        self.temp = tempfile.TemporaryDirectory()
++        self.root = Path(self.temp.name)
++        self.source = self.root / "fixture.rs"
++        self.source.write_text("fn root() {}\n")
++        self.row = {"id": "row1", "file": "fixture.rs", "harness": "root", "checks": ["ON"],
++                    "expected_by_check": {"ON": "SUCCESS"}, "oracle": "expected success", "required_covers": []}
++
++    def tearDown(self): self.temp.cleanup()
++
++    def parse(self, value, pin="upstream", run=None, source=None, row=None):
++        path = self.root / "export.json"
++        path.write_text(json.dumps(value))
++        return runner.parse_export(path, row or self.row, "ON", pin, source or self.source,
++                                   run or {"cwd": str(self.root), "original_exit_code": 0})
++
++    def test_success_synthetic_export(self):
++        parsed = self.parse(valid_export("upstream", self.source))
++        self.assertEqual(parsed["outcome"], "SUCCESS")
++        self.assertEqual(parsed["proof_credit"], "NONE")
++        self.assertEqual(parsed["cover_description_binding"], "PENDING_SOURCE_REVIEW")
++
++    def test_off_success_is_observation_without_initialization_credit(self):
++        value = valid_export("upstream", self.source, check="OFF")
++        parsed = runner.parse_export(self._write(value), self.row | {"expected_by_check": {"OFF": "OBSERVE"}},
++                                     "OFF", "upstream", self.source,
++                                     {"cwd": str(self.root), "original_exit_code": 0})
++        self.assertEqual(parsed["outcome"], "OBSERVE")
++        self.assertEqual(parsed["proof_credit"], "NONE")
++
++    def _write(self, value):
++        path = self.root / "export.json"
++        path.write_text(json.dumps(value)); return path
++
++    def test_missing_null_wrong_type_partial(self):
++        base = {"cwd": str(self.root), "original_exit_code": 0}
++        p = self.root / "none.json"
++        self.assertEqual(runner.parse_export(p, self.row, "ON", "upstream", self.source, base)["state"], "MISSING")
++        for raw, expected in (("null", "NULL"), ("[]", "WRONG_TOP_LEVEL_TYPE"), ("{", "INVALID_OR_PARTIAL")):
++            p.write_text(raw)
++            self.assertEqual(runner.parse_export(p, self.row, "ON", "upstream", self.source, base)["state"], expected)
++
++    def test_schema_missing_and_wrong_type_stay_unknown(self):
++        value = valid_export("upstream", self.source)
++        del value["summary"]["total"]
++        self.assertEqual(self.parse(value)["outcome"], "UNKNOWN")
++        value = valid_export("upstream", self.source)
++        value["configuration"]["checks"]["assert_contracts"] = "false"
++        self.assertEqual(self.parse(value)["outcome"], "UNKNOWN")
++
++    def test_pin_source_and_stage_mismatch(self):
++        value = valid_export("sel1", self.source)
++        self.assertEqual(self.parse(value, pin="upstream")["state"], "TOOL_PIN_MISMATCH")
++        value = valid_export("upstream", self.source)
++        value["harnesses"][0]["file"] = str(self.root / "elsewhere.rs")
++        self.assertEqual(self.parse(value)["state"], "SOURCE_FILE_MISMATCH")
++
++    def test_timeout_and_truncation_prevent_export_acceptance(self):
++        path = self._write(valid_export("upstream", self.source))
++        for run in ({"timed_out": True}, {"output_truncated": True}, {"termination_reason": "rss_cap"}):
++            self.assertEqual(runner.parse_export(path, self.row, "ON", "upstream", self.source, run)["state"], "EXECUTION_INCOMPLETE")
++
++    def test_expected_outcome_mismatch_is_not_pass(self):
++        row = self.row | {"expected_by_check": {"ON": "ASSERTION_FAILURE"}}
++        parsed = self.parse(valid_export("upstream", self.source), row=row)
++        self.assertEqual(parsed["outcome"], "UNEXPECTED")
++
++    def test_named_uninit_failure_requires_matching_class_description_file_and_line(self):
++        value = valid_export("upstream", self.source)
++        harness = value["harnesses"][0]
++        harness["outcome"] = {"kind": "COMPLETED", "verdict": "FAILURE"}
++        harness["has_loop_contracts"] = False
++        harness["failure_kind"] = "OTHER"
++        harness["n_properties"] = 1; harness["n_failed"] = 1
++        harness["checks"].update(total=1, success=0, failure=["property-1"])
++        harness["failed_properties"] = [{"id":"property-1", "class":"safety_check",
++            "description":"Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
++            "file":str(self.source.resolve()), "line":"1", "trace_available":False, "status":"FAILURE"}]
++        value["summary"].update(successful=0, failed=1, checks_total=1, checks_success=0)
++        row = self.row | {"expected_by_check":{"ON":"UNINIT_FAILURE"},
++            "failure_match":{"class":"safety_check", "description_regex":r"^Undefined Behavior: Reading from an uninitialized pointer of type `(?:u8|\*const u8)`$",
++                             "file":str(self.source.resolve()), "line":1}, "oracle":"UNINIT_FAILURE"}
++        path = self._write(value)
++        run = {"cwd":str(self.root), "original_exit_code":1}
++        parsed = runner.parse_export(path, row, "ON", "upstream", self.source, run)
++        self.assertEqual(parsed["outcome"], "UNINIT_FAILURE")
++        harness["failed_properties"][0]["line"] = "2"
++        path.write_text(json.dumps(value))
++        self.assertEqual(runner.parse_export(path, row, "ON", "upstream", self.source, run)["outcome"], "UNKNOWN")
++
++    def test_frontend_diagnostic_requires_exact_error_line_and_positive_exit(self):
++        row = self.row | {"frontend_diagnostic":"pinned diagnostic"}
++        out = self.root/"diag"; out.mkdir()
++        (out/"stdout.log").write_text("error: pinned diagnostic\n")
++        (out/"stderr.log").write_text("")
++        good = {"original_exit_code":1,"signal":None,"cwd":str(self.root)}
++        self.assertTrue(runner._diag_matches(row, good, out))
++        (out/"stdout.log").write_text("prefix pinned diagnostic suffix\n")
++        self.assertFalse(runner._diag_matches(row, good, out))
++        self.assertFalse(runner._diag_matches(row, good | {"signal":9}, out))
++
++    def test_synthetic_process_captures_original_exit_and_bounded_logs(self):
++        out = self.root / "proc"
++        clean = runner.execute([sys.executable, "-c", "import sys; print('ok'); sys.exit(7)"], self.root, self.root/'clean', 20)
++        self.assertEqual(clean["original_exit_code"], 7)
++        code = "import sys;sys.stdout.write('x'*1200000);sys.stdout.flush();sys.exit(7)"
++        run = runner.execute([sys.executable, "-c", code], self.root, out, 20)
++        self.assertIsInstance(run["original_exit_code"], int)
++        self.assertTrue(run["stdout_truncated"])
++        self.assertLessEqual((out/"stdout.log").stat().st_size, runner.LOG_CAP)
++        self.assertLessEqual((out/"stdout.tail.log").stat().st_size, runner.LOG_TAIL)
++        self.assertGreater(run["output_bytes"], runner.LOG_CAP)
++        self.assertLessEqual(run["output_bytes"], 1200000)
++
++    def test_synthetic_timeout_and_partial_export(self):
++        out = self.root / "timeout"
++        run = runner.execute([sys.executable, "-c", "import time;time.sleep(10)"], self.root, out, 1)
++        self.assertTrue(run["timed_out"])
++        p = self.root/"partial.json"; p.write_text('{"schema_version":')
++        parsed = runner.parse_export(p, self.row, "ON", "upstream", self.source,
++                                     {"cwd": str(self.root), "original_exit_code": 0})
++        self.assertEqual(parsed["state"], "INVALID_OR_PARTIAL")
++
++    def test_request_pin_mismatch(self):
++        old = runner.REQUEST
++        try:
++            request = {"status":"READY", "attempt":1,"bucket":"E","item":1,
++                       "pins":{"upstream":{"sha":"wrong","tree":"wrong","repository":"Tiramisu-Cake/kani"}},
++                       "payload_sha256":{},"rows_sha256":"a"*64}
++            path = self.root/"request.json"; path.write_text(json.dumps(request)); runner.REQUEST = path
++            with self.assertRaises(runner.RunnerError): runner.load_request("upstream")
++        finally: runner.REQUEST = old
++
++    def context(self, out):
++        request = {"payload_sha256": {"fixture.rs": runner.sha256(self.source)}}
++        binding = {"pin":"upstream", **{k:runner.PIN_DATA["upstream"][k] for k in ("sha","tree")}}
++        out.mkdir(exist_ok=True)
++        (out/'build.json').write_text(json.dumps({"status":"COMPLETE", "pin":"upstream",
++            "request_sha256":"request-sha", "tool":binding, "run":{"original_exit_code":0}}))
++        stack = ExitStack()
++        stack.enter_context(patch.object(runner, 'HERE', self.root))
++        stack.enter_context(patch.object(runner, 'load_request', return_value=(request,'request-sha')))
++        stack.enter_context(patch.object(runner, 'load_rows', return_value=([self.row],'rows-sha')))
++        stack.enter_context(patch.object(runner, 'verify_tool', return_value=binding))
++        stack.enter_context(patch.object(runner, '_guard_env', return_value={}))
++        return stack
++
++    def fake_execute(self, argv, cwd, out, timeout, env=None, export_path=None):
++        export_path.write_text(json.dumps(valid_export('upstream', self.source)))
++        return {'cwd':str(cwd), 'original_exit_code':0, 'argv':argv, 'signal':None}
++
++    def test_incremental_receipt_and_parser_exception_preserve_exit_snapshot(self):
++        for broken in (False, True):
++            out = self.root/('broken' if broken else 'success')
++            with self.context(out), patch.object(runner, 'execute', side_effect=self.fake_execute):
++                with patch.object(runner, 'parse_export', side_effect=RuntimeError('synthetic parse exception')) if broken else ExitStack():
++                    self.assertEqual(runner.run_rows(self.root/'tool', out, 'upstream'), 0)
++            record = json.loads((out/'rows/row1/on/receipt.json').read_text())
++            self.assertEqual(record['run']['original_exit_code'],0)
++            self.assertEqual(record['status'],'ERROR' if broken else 'OBSERVED')
++            self.assertEqual(record['export']['outcome'],'UNKNOWN' if broken else 'SUCCESS')
++            self.assertTrue((out/'rows/row1/on/export.json').is_file())
++            if broken: self.assertIn('synthetic parse exception', record['error'])
++
++    def test_no_envelope_creates_explicit_not_run_without_execution(self):
++        out = self.root/'budget'
++        with self.context(out), patch.object(runner, 'PHASE_SECONDS',0), patch.object(runner, 'execute') as execute:
++            self.assertEqual(runner.run_rows(self.root/'tool',out,'upstream'),0)
++            execute.assert_not_called()
++        self.assertEqual(json.loads((out/'run.json').read_text())['receipts'][0]['status'],'NOT_RUN')
++
++    def test_wrong_build_binding_never_executes(self):
++        for bad in (None, [], {'status':'FAILED'}, {'status':'COMPLETE','pin':'upstream','request_sha256':'other'}):
++            out=self.root/'build-mismatch'
++            with self.context(out), patch.object(runner,'execute') as execute:
++                (out/'build.json').write_text(json.dumps(bad))
++                self.assertEqual(runner.run_rows(self.root/'tool',out,'upstream'),1)
++                execute.assert_not_called()
++
++    def test_build_identity_exception_preserves_original_exit(self):
++        out=self.root/'build-fail'
++        with self.context(out), patch.object(runner,'execute',return_value={'original_exit_code':8,'cwd':str(self.root)}), patch.object(runner,'verify_tool',side_effect=[{},runner.RunnerError('synthetic drift')]):
++            self.assertEqual(runner.build(self.root/'tool',out,'upstream'),1)
++        record=json.loads((out/'build.json').read_text())
++        self.assertEqual(record['run']['original_exit_code'],8)
++        self.assertIn('synthetic drift',record['error'])
++
++    def test_fallback_preserves_originals_for_missing_null_partial_wrong_type(self):
++        for index, raw in enumerate((None, 'null', '[]', '{', '{"receipts":null}', '{"status":"FAILED","receipts":[]}')):
++            out=self.root/('fallback'+str(index))
++            with self.context(out):
++                path=out/'run.json'
++                if raw is not None: path.write_text(raw)
++                (out/'target').mkdir()
++                (out/'target/build.bin').write_bytes(b'not evidence')
++                build_before=(out/'build.json').read_bytes()
++                self.assertEqual(runner.fallback(out,'upstream'),0)
++                self.assertFalse((out/'target').exists())
++                self.assertEqual((out/'build.json').read_bytes(),build_before)
++                if raw is not None: self.assertEqual(path.read_text(),raw)
++                else: self.assertFalse(path.exists())
++                missing=json.loads((out/'missing-not-run.json').read_text())['receipts']
++                self.assertEqual(missing[0]['status'],'NOT_RUN')
++
++    def test_fallback_keeps_completed_slot_when_aggregate_partial_and_records_cleanup_error(self):
++        out=self.root/'slot-fallback'
++        with self.context(out):
++            (out/'run.json').write_text('{')
++            slot=out/'rows/row1/on'; slot.mkdir(parents=True)
++            original=json.dumps({'id':'row1','check':'ON','status':'OBSERVED','run':{'original_exit_code':9}})
++            (slot/'receipt.json').write_text(original)
++            (out/'target').mkdir()
++            with patch.object(runner.shutil,'rmtree',side_effect=OSError('synthetic cleanup failure')):
++                self.assertEqual(runner.fallback(out,'upstream'),0)
++            self.assertEqual((slot/'receipt.json').read_text(),original)
++            self.assertEqual(json.loads((out/'missing-not-run.json').read_text())['receipts'],[])
++            job=json.loads((out/'job-status.json').read_text())
++            self.assertIn('synthetic cleanup failure',job['target_cleanup'][0]['error'])
++
++    def test_missing_binary_exception_preserved(self):
++        result=runner.execute([str(self.root/'missing-synthetic-executable')],self.root,self.root/'missing-exec',1)
++        self.assertIsNone(result['original_exit_code'])
++        self.assertIn('exec failed',result['runner_error'])
++
++    def test_signaled_success_and_disabled_checks_do_not_pass(self):
++        value=valid_export('upstream',self.source)
++        self.assertEqual(self.parse(value,run={'cwd':str(self.root),'original_exit_code':7})['outcome'],'UNKNOWN')
++        self.assertEqual(self.parse(value,run={'cwd':str(self.root),'original_exit_code':-9,'signal':9})['outcome'],'UNKNOWN')
++        value['configuration']['checks']['memory_safety']=False
++        self.assertEqual(self.parse(value)['outcome'],'UNKNOWN')
++        value=valid_export('upstream',self.source)
++        value['harnesses'][0]['checks']=None
++        self.assertEqual(self.parse(value)['outcome'],'UNKNOWN')
++
++
++if __name__ == "__main__":
++    unittest.main()

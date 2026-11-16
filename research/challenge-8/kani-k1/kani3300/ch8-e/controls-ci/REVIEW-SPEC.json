@@ -1,0 +1,36 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-e-ctl-w15",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "97d7592df3249cd6b697d2e3bcbe36153f80a0e7",
+  "defect": "Prepare independent E-Q/E-S/E-H single-file controls and strict bounded CI observation runner; no std builds.",
+  "applicability": "TASK-CH8-E-CONTROLS-W15.md, input g0 7d8ddd22f40a64053de7de13fb23a3f3303bc07a. Design/controls in g0 ch8-e. Prepare only, one stage.",
+  "invariants": [
+    "No tool/model/production Rust change, no push/CI/publication/ledger/local cargo/rustc/Kani/CBMC. Sole control parent upstream0aac, changes only workflow and ch8-e-control, stock workflows removed, skip-ci commit.",
+    "One push-only dispatch, bucket E item1 attempt1; two exact tool pins in matrix, ON/OFF companions default checks intact, independent roots isolate compile errors.",
+    "E-Q must bind exact diagnostic or named false invariant base; E-S no constant CAP or loop mixing, read before loops; E-H actual live-byte writes, inside initialized witness/hole, outside false bit and initialized sentinel, real write/copy without unchecked shadow summaries.",
+    "Exact source/tool/request/selection/config identities, cwd normalization and sibling control/tool layout; runner context step env only, fetch depth>=2.",
+    "600s harness,660s invocation,6GiB process group,75min phase/pin,120min job/pin,one build/pin,no retries. Retain original exit/exception/signal and partial export/head+tail, do not count unrelated failure as negative.",
+    "UNKNOWN/NOT_RUN preserved for setup/missing/null/wrong-type/timeout/resource/partial/mismatch; covers IDs need source runtime correlation, no proof credit; fallback preserves original receipts and excludes target artifacts."
+  ],
+  "controls": [
+    "Synthetic success/error/timeout/partial/missing/null/wrong-type/explicit NOT_RUN/source-stage-target mismatch, original exits/exception preservation, cover/named negative binding, host/ref/attempt/pin/hash guards, YAML/actionlint."
+  ],
+  "dependencies": [
+    ".github/actions/setup/action.yml",
+    "scripts/kani",
+    "scripts/validate_json_export.py",
+    "tests/json-handler/schema-validation/kani_json_schema.json",
+    "kani-driver/src/frontend/schema_utils.rs",
+    "kani-driver/src/call_single_file.rs",
+    "library/kani/src/arbitrary.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+    "tests/ui/quantifier-safety-checks/exists_ptr_add_uninit.expected"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "No runtime proof/compiler outcome measured, all40 invocations NOT_RUN, old STOP E remains. Exact generated check/cover/runtime binding and actual core storage bridge remain unestablished.",
+    "SEL1 tool source is separately pinned14bc57fdb99960240c4944845a3d985c8af4dcf7/tree1efb6e4dfa69d346df8e23741d11839b1932403d. Export schema_utils/validator/template are byte-identical to upstream.",
+    "Full worst-case sweep not guaranteed: phase envelope stops unstarted rows as NOT_RUN. Solver/MIR option precise stage and per-process timing not independently bound."
+  ]
+}
