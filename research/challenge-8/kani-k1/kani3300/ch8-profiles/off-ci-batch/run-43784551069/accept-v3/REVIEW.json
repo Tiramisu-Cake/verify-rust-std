@@ -1,0 +1,33 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "verdict": "GO",
+  "candidate_commit": "6cad5ca196d3e68ecc50f52a89bea5f2dddc66f2",
+  "candidate_tree": "b5274aea54ef1357191ae72b909c84ce6248eecd",
+  "spec_sha256": "a7a512ee3db2662cf34e9db490f255d8df6a7d4458cde7c038043a6aa10251aa",
+  "packet_sha256": "eedcc1c00742160d2381b62753e8bd6e36472ec355d8b301be8dbbbe2c197e78",
+  "replay_accept_json_sha256": "947e1bb9c615d61007fc97ada6a732c098fd69c5d9085268fe5310999b0d4396",
+  "validation": {
+    "candidate_blobs_match_pinned_candidate": true,
+    "synthetic_tests": "25 passed",
+    "independent_zip_replay": "byte-identical to accept-v3/ACCEPT.json",
+    "replay_summary": {
+      "rows": 62,
+      "stdout_bound_complete": 62,
+      "unreachable_exact_id_status_matches": 1710,
+      "accepted": 19,
+      "pending": 43,
+      "unknown": 0
+    },
+    "reviewed": [
+      "runner marker, split compilation receipt, truncation flags, byte counts/caps, exact IDs/statuses and complete Check sequence",
+      "literal multiline/raw-quote descriptions and terminal success/failure parsing",
+      "source-site arithmetic rules, including model_sorted/model_count, target arithmetic and separate ptr_offset_from::<()> ZST rules",
+      "mandatory post/frame/relation/required-section handling and retained wrapper, negative-oracle, and consumer-leaf gates"
+    ]
+  },
+  "findings": [],
+  "limitations": [
+    "Per-row stdout and JSON remain source-reported observations; no independent compiler or verifier execution and no proof credit are established.",
+    "The 43 generated-wrapper bindings, one predeclared frame oracle, and five matching-leaf consumer gates remain PENDING as recorded by the candidate."
+  ]
+}

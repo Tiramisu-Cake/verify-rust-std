@@ -109,8 +109,8 @@ leaf и сохраняют MATCHING_LEAF_NOT_ACCEPTED. Эти gates по stdout 
 25 новых synthetic tests и 31 прежний policy test PASS. Проверены flags/caps,
 missing/null/wrong-type, foreign/duplicate marker, partial block, exact IDs/statuses,
 multiline/raw quotes, required-role BLOCK, неизвестная роль, сохранение wrapper и
-consumer gates. Независимое Luna HIGH review фиксируется в REVIEW.json после
-проверки exact candidate и повторного offline replay. Это только Python/Git/ZIP
-analysis, без compiler/verifier execution.
+consumer gates. Независимое Luna HIGH review: GO, без замечаний (REVIEW.json). Reviewer проверил
+exact candidate и повторил offline replay: ACCEPT.json совпал побайтно. Это только
+Python/Git/ZIP analysis, без compiler/verifier execution.
 
 Push / CI / публикаций / ledger writes / local cargo-rustc-Kani-CBMC: 0.

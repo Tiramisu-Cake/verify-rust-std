@@ -26,9 +26,14 @@ PYTHONDONTWRITEBYTECODE=1 python3 reclassify_v3.py \
   --output /tmp/prof-off-accept-v3-reproduced.json
 ```
 
-25 новых synthetic tests + 31 прежний policy test PASS. Review metadata и exact
-candidate identities сохраняются рядом после независимого Luna HIGH review;
-generated ACCEPT.json проверяется отдельным exact replay/hash из-за размера diff.
+25 новых synthetic tests + 31 прежний policy test PASS. Independent Luna HIGH
+review GO, без замечаний; REVIEW.json и REVIEW-IDENTITIES.json фиксируют exact
+candidate `6cad5ca196d3e68ecc50f52a89bea5f2dddc66f2` и packet/spec identities.
+Reviewer повторил offline replay; generated ACCEPT.json совпал побайтно, SHA256
+`947e1bb9c615d61007fc97ada6a732c098fd69c5d9085268fe5310999b0d4396`.
+Пакет source-only исключает параллельные задачи g0 и большой generated receipt;
+semantic files равны delivery commit `199f34743b483dc9f4e0476870d37ea136768312`.
+Последние doc-правки только фиксируют завершённое review и форматируют таблицу.
 Containing g0 commit указан последней строкой ответа READY.
 
 Дальнейший шаг требует отдельного задания: exact generated-wrapper specialization

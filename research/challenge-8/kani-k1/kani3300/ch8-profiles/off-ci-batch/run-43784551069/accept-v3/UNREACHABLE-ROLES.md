@@ -24,10 +24,10 @@ entry guard и последующее zero-size arithmetic (10 occurrences, дв
 
 | Семейство | Function pattern | File:line | Роль | Occurrences | Причина |
 |---|---|---|---|---:|---|
-| required-postcondition | `.*smallsort.*` | `library/core/src/slice/sort/shared/smallsort(?:/.*|.rs):*` | postcondition | 0 | Explicit mandatory target/wrapper obligation; it must execute in the declared scenario. |
-| required-frame | `.*smallsort.*` | `library/core/src/slice/sort/shared/smallsort(?:/.*|.rs):*` | frame | 0 | Explicit mandatory target/wrapper obligation; it must execute in the declared scenario. |
-| required-relation | `.*smallsort.*` | `library/core/src/slice/sort/shared/smallsort(?:/.*|.rs):*` | relation | 0 | Explicit mandatory target/wrapper obligation; it must execute in the declared scenario. |
-| required-required_section | `.*smallsort.*` | `library/core/src/slice/sort/shared/smallsort(?:/.*|.rs):*` | required_section | 0 | Explicit mandatory target/wrapper obligation; it must execute in the declared scenario. |
+| required-postcondition | `.*smallsort.*` | `library/core/src/slice/sort/shared/smallsort(?:/.*&#124;.rs):*` | postcondition | 0 | Explicit mandatory target/wrapper obligation; it must execute in the declared scenario. |
+| required-frame | `.*smallsort.*` | `library/core/src/slice/sort/shared/smallsort(?:/.*&#124;.rs):*` | frame | 0 | Explicit mandatory target/wrapper obligation; it must execute in the declared scenario. |
+| required-relation | `.*smallsort.*` | `library/core/src/slice/sort/shared/smallsort(?:/.*&#124;.rs):*` | relation | 0 | Explicit mandatory target/wrapper obligation; it must execute in the declared scenario. |
+| required-required_section | `.*smallsort.*` | `library/core/src/slice/sort/shared/smallsort(?:/.*&#124;.rs):*` | required_section | 0 | Explicit mandatory target/wrapper obligation; it must execute in the declared scenario. |
 | fmt-static-shift | `fmt::Arguments::<'_>::from_str` | `library/core/src/fmt/mod.rs:820` | defensive_branch | 53 | Formatting error guard, not a sorting/frame/relation obligation. Static panic messages use shift count 1; no invalid shift is in the declared bounded scenario. |
 | alignment-sub | `ptr::const_ptr::<impl \*const \(\)>::is_aligned_to` | `library/core/src/ptr/const_ptr.rs:1479` | defensive_branch | 53 | align - 1 follows the power-of-two check, which excludes zero; unreachable subtraction-error branch is defensive. |
 | usize-abs-diff | `num::<impl usize>::abs_diff` | `library/core/src/num/uint_macros.rs:3222,3224` | defensive_branch | 100 | Both subtractions are selected by operand ordering; the underflow error branch is impossible. |

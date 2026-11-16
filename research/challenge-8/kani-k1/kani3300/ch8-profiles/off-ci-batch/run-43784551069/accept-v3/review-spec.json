@@ -1,0 +1,33 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-g0",
+  "baseline_commit": "28a11b9b7af6d76c951df6518323af4a72b84919",
+  "candidate_commit": "6cad5ca196d3e68ecc50f52a89bea5f2dddc66f2",
+  "defect": "Implement the assigned acceptance-v3 stage: bind per-row regular Kani stdout with runner split receipts and classify exact unreachable IDs using explicit role families.",
+  "applicability": "Isolated source-only review commit contains exactly the seven acceptance-v3 semantic files from delivery 199f34743b; other concurrent g0 tasks excluded. Generated ACCEPT.json excluded due diff limit: independently replay the pinned ZIP and compare the current accept-v3/ACCEPT.json. No proof conclusions from author.",
+  "invariants": [
+    "Historical v2/runner/source/tool/receipts/ledgers remain unchanged. No push/CI/publication/ledger/compiler/verifier execution.",
+    "No nested delegation. Review role rules against pinned source; preserve mandatory post/frame/relation/section and unresolved roles.",
+    "Keep original full target/wrapper, cover, negative oracle and post-leaf consumer policy gates. Source-reported bounded observations; proof credit NONE."
+  ],
+  "controls": [
+    "Receipt truncation/size-vs-cap checks; exact marker and group membership/split compilation receipt.",
+    "Exact ID/status, duplicates, complete Check sequence and terminal verdict; regular-output multiline/raw quotes.",
+    "Required assertions block; unknown family remains UNKNOWN; arithmetic source-site exemption must not become helper-wide.",
+    "Review separate unit ZST offset family and all target/model arithmetic families; no retrospective frame oracle binding."
+  ],
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-CH8-PROF-OFF-ACCEPT3-W11.md",
+    "research/challenge-8/kani-k1/ACCEPTANCE-POLICY-BATCH.md",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/classifier_v2.py",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/reclassify_v2.py",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/SOURCE-MAP.json",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/TOOL-SOURCES.json",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/UNSUPPORTED-LINKS.json"
+  ],
+  "known_limitations": [
+    "Regular stdout and JSON are source-reported same-run observations, not independent compiler execution.",
+    "Exact generated-wrapper/frame oracle bindings may remain PENDING; this stage does not infer them."
+  ],
+  "prior_reviews": []
+}
