@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "candidate": "64ec781bc119279ccc4365aa831d2a9d0a792fee",
+  "synthetic_tests": 33,
+  "checks": [
+    "Python synthetic unittest suite",
+    "Python static compilation",
+    "actionlint -shellcheck= workflow",
+    "git diff --check",
+    "frozen semantic request comparison with cdd3c6d041",
+    "payload integrity digests"
+  ],
+  "unchanged_semantic_keys": [
+    "rows",
+    "std_sha",
+    "std_tree",
+    "tool_sha",
+    "tool_tree",
+    "changed_file_sha256",
+    "flags",
+    "base_std_sha",
+    "variants"
+  ],
+  "assurance": "STATIC_SYNTHETIC_ONLY",
+  "runtime_proof": "NOT_RUN",
+  "workflow_sha256": "8f3eb8994d9746014136541dd968c3c7420d83f6cb3b72bf3cd76ff474cd1662",
+  "files": {
+    "ch8-c-control/CI-REQUEST.json": "99fc2e0b642f436f5a2b669817d4225aee045138ffc9417858796b2921732091",
+    "ch8-c-control/MANIFEST.sha256": "ef2422faf3cbafb1aee0e8e315fd8aa4b3d284fc4b0f21f1bb1538941338fade",
+    "ch8-c-control/check_package.py": "56d159658ef124e6307ce73cbe4690ed64feed4b5237c1ec7cb41301bc0dd5dd",
+    "ch8-c-control/runner.py": "a361cb0ab355464c8f733cd6ef64866591e9797a4a31c3d54f353e737dbbfe5d",
+    "ch8-c-control/test_package.py": "0f65798662bc073c5ba5ce21c4061217b49623ebf79de5e7ad57260418b1e577",
+    "ch8-c-control/test_runner.py": "9f985973e27cfc29a876ccd5147e5e80fa0fc5b834e0e0699cb743baa0791c10"
+  }
+}

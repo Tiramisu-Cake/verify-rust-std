@@ -1,0 +1,17 @@
+# Independent review request: revised C controls batch runner
+
+Review local C candidate `64ec781bc119279ccc4365aa831d2a9d0a792fee` (tree `33e95dc779cefde33132f8e265d9588b9d905b14`), parent `d095a7eeca5c56d1664f852c54161c720a2991cc`, in `/root/kani-ch8-c-ctl-w14-pprime`. Coordinator requirement input is g0 `82cc48368e`. Do not push, dispatch, run Rust/Kani/CBMC, change the frozen source/oracles/classes, or grant proof credit.
+
+Review changes in `.github/workflows/ch8-c.yml`, `ch8-c-control/runner.py`, `check_package.py`, `test_runner.py`, `test_package.py`, `CI-REQUEST.json`, and `MANIFEST.sha256`. Report findings first with severity and file/line, then residual limitations.
+
+Review checks:
+
+1. Confirm `inventory` is offline and derives selector/expected-target rows only from the frozen request; it does not invoke Kani global list or represent expected targets as observed bindings. Confirm PFC target is checked from each exported `harnesses[]` entry against its row target, with nonempty stock-schema `contract.contracted_function_name`; both PFC and Original harnesses must be manual and in crate `core`.
+2. Validate stale group exports cannot satisfy compile detection. Check the pinned Kani INCOMPLETE marker point is after std compilation and before checking harnesses; check marker target triple, tool identity, harness timeout and exact requested selectors. Review compile receipt persistence, marker SHA retention, immutable bounded stream head/tail snapshots (4 KiB each), and pre-read size caps for marker/export JSON.
+3. Check batch grouping and flags: seven unwind-8 roots in one invocation and the unwind-12 row in another; repeated `--harness`, `--exact`, one export, jobs 1, timeout 600s. Verify group caps sum row budgets plus compile cap. Confirm 112-minute run step and 150-minute job cover the 6,600-second group envelope plus setup/reserve.
+4. Challenge terminal export validation: required top-level `outcome={kind:COMPLETED}`, target `x86_64-unknown-linux-gnu`, non-boolean numeric timeout 600, exact full checks dictionary with boolean types, coverage disabled, exact CBMC args, exact enabled unstable features, and source/tool identity. Check no zero-check vacuity; every failure ID/property is well-shaped, unique, status FAILURE, and reconciled without silently filtering malformed entries.
+5. Verify exact PFC target matching, contracted function shape, manual/core bindings, unwind, checks/covers, failure class/description/source locations, and contract-versus-Original mode checks. Confirm all frozen selectors/source hashes/row oracles remain unchanged.
+6. Group exit must derive from terminal harness outcomes (all SUCCESS => 0; any FAILURE/TIMEOUT/OOM/CRASHED => 1). Wrong exit and process termination/cap/signal must keep the group and aggregate incomplete, even if a final export exists, while preserving valid row diagnostics with `complete=false`. Confirm all post-spawn exceptional paths kill/reap/join, preserve exit/signal/error receipts, and kill remaining descendants after normal completion.
+7. Review source P′ base identity, variant cleanup, tool fingerprints, dynamic RSS cap and honest group-only attribution. Confirm local validation is synthetic only, with no build/proof/CI claim.
+
+Final exact structured review packet: `review-packet-terminal/`, spec `review-spec-terminal.json`. Runtime is NOT_RUN; expected source targets and derived global summary are not independent proof evidence.

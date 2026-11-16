@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "synthetic_tests": 17,
+  "checks": [
+    "17 Python unittest tests",
+    "static_check.py YAML/AST/identity/trigger/artifact envelope",
+    "actionlint -shellcheck=",
+    "git diff --check",
+    "frozen roots.json byte identity against4d7e34383a"
+  ],
+  "compiler_runs": 0,
+  "runtime_proof": "NOT_RUN",
+  "source_claims": "No new runtime or independent proof evidence.",
+  "workflow_sha256": "e6ada71adc3201491341c8a05d56ff22aaafda426dc18cfe4c501a765c460df6",
+  "files": {
+    "scripts/ch8-b-census/CI-REQUEST.json": "9486eb31dd1512ab44e44d2e9bf5cac6897b2fd4af7d56a765b591ae5ae5c565",
+    "scripts/ch8-b-census/README.md": "cbb6038ce6007ed7558a51e80295678bca544ad857cd1f98c645504bc137f00b",
+    "scripts/ch8-b-census/census.py": "64c1c207152bfb9e8e4a4b667c57df9be0175e68858d515520db834651931bfc",
+    "scripts/ch8-b-census/roots.json": "7dee264da4c0afecb75e55b962520a1f14d5ef569a9bd1ca51ad70d206f78a85",
+    "scripts/ch8-b-census/static_check.py": "e63f62c362590bb56c01c8de4cee97e7b2efe96e419eaacd1742d90acb50f911",
+    "scripts/ch8-b-census/test_census.py": "c2c8f16c373920b04e00e43332e0d4622e6861d21a448d192cb2b7d9577d4345"
+  }
+}

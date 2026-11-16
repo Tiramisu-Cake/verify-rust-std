@@ -1,0 +1,46 @@
+{
+  "schema": "ch8-b-batch-handoff-v1",
+  "status": "READY_PACKAGE_NOT_RUN",
+  "g0_input": "82cc48368e1e3aec544975831bc9595d26f5781d",
+  "control_worktree": "/root/kani-ch8-b-pprime-w14",
+  "control_branch": "uninit-ci/ch8-b-pprime-w14",
+  "baseline_control": "4d7e34383a3af504a261228fdee59e6c7093e633",
+  "control_sha": "99dbb2157bdb4f0322bcb3677f4ee51991de2f28",
+  "control_tree": "10421f334c1a90b723dde5378678b0439f862125",
+  "std": {
+    "repository": "Tiramisu-Cake/verify-rust-std",
+    "sha": "c5ff36ff433692140605891f646043f991db05de",
+    "tree": "1302063846873aa300f8bac64fe09e8a3ed1280f"
+  },
+  "kani": {
+    "repository": "model-checking/kani",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+  },
+  "request_sha256": "9486eb31dd1512ab44e44d2e9bf5cac6897b2fd4af7d56a765b591ae5ae5c565",
+  "manifest_sha256": "7dee264da4c0afecb75e55b962520a1f14d5ef569a9bd1ca51ad70d206f78a85",
+  "rows": 235,
+  "groups": 1,
+  "group_seconds": 143100,
+  "compile_seconds": 2100,
+  "harness_seconds": 600,
+  "jobs": 1,
+  "host_job_minutes": 210,
+  "global_inventory": "NONE",
+  "per_root_rss": "UNKNOWN",
+  "assurance": "STATIC_SYNTHETIC_ONLY",
+  "runtime_proof": "ALL235_NOT_RUN",
+  "proof_credit": "NONE",
+  "dispatch_authorized": false,
+  "accounting": {
+    "pushes": 0,
+    "CI": 0,
+    "ledger_writes": 0,
+    "local_compiler_runs": 0
+  },
+  "review": "REVIEW.md",
+  "containing_g0_commit": "Commit containing this packet; no self-referential SHA.",
+  "review_sha256": "7524e57b3353239d9b71daaa88f80a6204d3c31a87213cc3073f0e5c8af8a4f9",
+  "review_packet": "review-packet",
+  "review_spec": "review-spec.json"
+}

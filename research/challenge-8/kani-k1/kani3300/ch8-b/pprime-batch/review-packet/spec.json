@@ -1,0 +1,25 @@
+{
+  "applicability": "Direct user preparation-only B batch stage; g0 input82cc48368e. No nested delegation; no push/CI/ledger/local cargo/rustc/Kani/CBMC.",
+  "baseline_commit": "4d7e34383a3af504a261228fdee59e6c7093e633",
+  "candidate_commit": "99dbb2157bdb4f0322bcb3677f4ee51991de2f28",
+  "controls": [
+    "17 isolated Python synthetic tests; static_check.py; /tmp/kani3300-d0-ci-tools/actionlint -shellcheck= workflow; git diff --check. Reviewer may run static/synthetic only."
+  ],
+  "defect": "Per-root selection changes Cargo fingerprints and recompiles std. Review single equal-flag batch invocation, per-root binding/verdict, separate compile/preparation cap/receipt, resource/unknown semantics.",
+  "dependencies": [],
+  "invariants": [
+    "Frozen roots.json235 selectors, manifest/oracles/classes unchanged; pristine tool0aac16ef and P-prime stdc5ff36ff.",
+    "All235 roots one group; repeated exact selectors, Kani jobs1/harness timeout600s, one export. No per-root/warmup invocations.",
+    "Group cap2100+235*600; sample group RSS<=min(12GiB,avail-2GiB); per-root RSS UNKNOWN.",
+    "Only structured bound per-harness outcomes assign row classes. Unknown/missing/duplicate/wrong type/timeout and source/target mismatches do not pass; preserve failures/covers/original exits."
+  ],
+  "known_limitations": [
+    "Actual proof/compiler NOT_RUN, no independent credit.",
+    "Existing210min host-job ceiling may interrupt theoretical143100s group budget; produces PARTIAL.",
+    "Compile marker boundary sampled after preparation; not independent compiler-internal timing.",
+    "B contract structure retained as source metadata, no expected target oracle in frozen manifest."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-b-pprime-w14"
+}

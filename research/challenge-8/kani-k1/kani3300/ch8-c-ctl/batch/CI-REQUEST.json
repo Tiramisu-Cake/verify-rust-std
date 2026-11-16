@@ -1,0 +1,69 @@
+{
+  "schema": "ch8-c-batch-handoff-v1",
+  "status": "READY_PACKAGE_NOT_RUN",
+  "g0_input": "82cc48368e1e3aec544975831bc9595d26f5781d",
+  "baseline_control": "cdd3c6d04112cc1b1e1a80a850389236647bc849",
+  "control_worktree": "/root/kani-ch8-c-ctl-w14-pprime",
+  "control_branch": "uninit-ci/ch8-c-ctl-w14-pprime",
+  "control_sha": "64ec781bc119279ccc4365aa831d2a9d0a792fee",
+  "control_tree": "33e95dc779cefde33132f8e265d9588b9d905b14",
+  "std_sha": "d073585946093071b696eada41b8c8cac18362a7",
+  "std_tree": "e8e9fa63b59ff886077e938d40cffe7ce8c12d42",
+  "std_base": "c5ff36ff433692140605891f646043f991db05de",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+  "request_sha256": "99fc2e0b642f436f5a2b669817d4225aee045138ffc9417858796b2921732091",
+  "source_file_sha256": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "cda65f8214b25d522a3fce607b824e7960e9f1fef999ee350d44e7952cb24a6a",
+    "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs": "c2fb42a47e7c14a630412e5e1cd44d60f524484e265f78b170d230413c0d0f1b"
+  },
+  "rows_sha256": "2ede55302623a2b53ef2efc9a21a0646f1189012252322eeb0785e56a5733059",
+  "payload_manifest_sha256": "ef2422faf3cbafb1aee0e8e315fd8aa4b3d284fc4b0f21f1bb1538941338fade",
+  "rows": 8,
+  "groups": [
+    {
+      "unwind": 8,
+      "rows": 7,
+      "seconds": 5100
+    },
+    {
+      "unwind": 12,
+      "rows": 1,
+      "seconds": 1500
+    }
+  ],
+  "compile_seconds_per_group": 900,
+  "harness_seconds": 600,
+  "jobs": 1,
+  "per_root_rss": "UNKNOWN",
+  "global_inventory": "NONE; offline frozen request seed only",
+  "budgets": {
+    "phase_seconds": 6720,
+    "rss_kib": 6291456,
+    "stdout_bytes": 1048576,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456,
+    "row_seconds": 600,
+    "setup_seconds": 1800,
+    "reserve_seconds": 300,
+    "run_step_seconds": 6720,
+    "group_seconds": 6600,
+    "job_seconds": 9000
+  },
+  "runtime_proof": "ALL8_NOT_RUN",
+  "proof_credit": "NONE",
+  "dispatch_authorized": false,
+  "review": "REVIEW.md",
+  "review_sha256": "a1bb03b45d77a5db38a0584d33ffd8b5616930046352f37f89ab5c5b25b4560e",
+  "accounting": {
+    "pushes": 0,
+    "CI": 0,
+    "ledger_writes": 0,
+    "local_compiler_runs": 0
+  },
+  "activation": "Separate coordinator authorization; same-tree sibling with sole parent tool0aac, no skip marker. Local preparation commit chain must not be activated as child.",
+  "containing_g0_commit": "Commit containing this packet; no self-referential SHA.",
+  "review_packet": "review-packet-terminal",
+  "review_spec": "review-spec-terminal.json"
+}

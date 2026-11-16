@@ -1,0 +1,749 @@
+diff --git a/.github/workflows/ch8-b-census.yml b/.github/workflows/ch8-b-census.yml
+index c4edb15bc460c7c99ea816969442e435eab53e00..c3fdd4c2b001c15ee58dc5f779dca99bb3f62a9a 100644
+--- a/.github/workflows/ch8-b-census.yml
++++ b/.github/workflows/ch8-b-census.yml
+@@ -13,11 +13,6 @@ jobs:
+     if: ${{ github.repository == 'Tiramisu-Cake/kani' }}
+     runs-on: ubuntu-24.04
+     timeout-minutes: 210
+-    strategy:
+-      fail-fast: false
+-      max-parallel: 1
+-      matrix:
+-        shard: [2, 4]
+     steps:
+       - name: Checkout CI control
+         uses: actions/checkout@v6
+@@ -29,7 +24,6 @@ jobs:
+       - name: Bind coordinator trigger and seed NOT_RUN receipts
+         env:
+           RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
+-          SHARD: ${{ matrix.shard }}
+         run: |
+           python3 - <<'PYCODE'
+           import os, subprocess
+@@ -42,7 +36,7 @@ jobs:
+           assert '[skip ci]' in git('show','-s','--format=%B','HEAD^1')
+           Path(os.environ['RECEIPTS']).mkdir(parents=True,exist_ok=True)
+           PYCODE
+-          python3 control/scripts/ch8-b-census/census.py seed --shard "$SHARD" --out "$RECEIPTS"
++          python3 control/scripts/ch8-b-census/census.py seed --out "$RECEIPTS"
+       - name: Synthetic service preflight
+         working-directory: control/scripts/ch8-b-census
+         env:
+@@ -81,25 +75,22 @@ jobs:
+           RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
+         run: python3 control/scripts/ch8-b-census/census.py build --out "$RECEIPTS" --export export
+       - name: Census ordinary roots once
+-        timeout-minutes: 122
+         env:
+           RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
+-          SHARD: ${{ matrix.shard }}
+-        run: python3 control/scripts/ch8-b-census/census.py run --shard "$SHARD" --out "$RECEIPTS" --export export --std std
++        run: python3 control/scripts/ch8-b-census/census.py run --out "$RECEIPTS" --export export --std std
+       - name: Finalize complete or PARTIAL census
+         if: always()
+         env:
+           RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
+-          SHARD: ${{ matrix.shard }}
+           JOB_STATUS: ${{ job.status }}
+-        run: python3 control/scripts/ch8-b-census/census.py finalize --shard "$SHARD" --out "$RECEIPTS" --job-status "$JOB_STATUS"
++        run: python3 control/scripts/ch8-b-census/census.py finalize --out "$RECEIPTS" --job-status "$JOB_STATUS"
+       - name: Upload bounded curated receipts
+         if: always()
+         uses: actions/upload-artifact@v4
+         env:
+           RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
+         with:
+-          name: ch8-b-census-shard-${{ matrix.shard }}-${{ github.run_id }}-${{ github.run_attempt }}
++          name: ch8-b-census-batch-${{ github.run_id }}-${{ github.run_attempt }}
+           path: ${{ env.RECEIPTS }}/*.json
+           if-no-files-found: error
+           retention-days: 7
+diff --git a/scripts/ch8-b-census/CI-REQUEST.json b/scripts/ch8-b-census/CI-REQUEST.json
+index 00a0910a64dd220491f3f95c2531ffbf1bbf989b..9971f7f620526eff90743494afa6493456c5b30e 100644
+--- a/scripts/ch8-b-census/CI-REQUEST.json
++++ b/scripts/ch8-b-census/CI-REQUEST.json
+@@ -41,21 +41,21 @@
+   "transport_features": [
+     "export-json"
+   ],
+-  "jobs": 2,
++  "jobs": 1,
+   "os": "ubuntu-24.04",
+   "target": "x86_64-unknown-linux-gnu",
+   "max_parallel_shards": 1,
+   "job_minutes": 210,
+   "stage_seconds": {
+     "build": 2100,
+-    "verify": 7200
++    "verify": 143100
+   },
+   "root_seconds": 600,
+   "root_rss_bytes": 6442450944,
+   "aggregate_rss_bytes": 12884901888,
+   "os_reserve_bytes": 2147483648,
+-  "stdout_cap_bytes": 2097152,
+-  "export_cap_bytes": 262144,
++  "stdout_cap_bytes": 67108864,
++  "export_cap_bytes": 16777216,
+   "artifact_cap_bytes": 134217728,
+   "cfg_on": false,
+   "autoharness": false,
+@@ -68,10 +68,13 @@
+     "Historic4-way shard membership retained, empty1/3 omitted. Ubuntu-only diagnostic, not cross-OS/R8 qualification.",
+     "Transport export-json preserves reached checks/covers; no semantic flags beyond organizer set plus valid-value-checks.",
+     "No intentional invalid-value root in the ordinary235. Such a failure is unexpected unless independently source-qualified; no name-based oracle.",
+-    "Per-root invocations with2 slots and separate reusable target directories. Shard membership retained, scheduling is bounded census scheduling, not historical cost comparability."
++    "Single batch invocation for all235 equal-flag roots; historic shard membership retained only in row metadata. Kani jobs1. Group cap=compile2100s+235x600s; host job210min can still yield PARTIAL."
+   ],
+-  "aggregate_job_minutes": 420,
++  "aggregate_job_minutes": 210,
+   "per_root_jobs": 1,
+   "diagnostic_transport": "-Z export-json --export-json <path>; stock structured report only, no additional verification behavior",
+-  "global_inventory": "NONE; direct exact per-root verify-std; does not call scripts/run-kani.sh"
++  "global_inventory": "NONE; one direct exact multi-harness verify-std group; does not call scripts/run-kani.sh",
++  "compile_seconds": 2100,
++  "group_count": 1,
++  "rss_attribution": "group peak; per-root UNKNOWN (no precise cbmc attribution)"
+ }
+diff --git a/scripts/ch8-b-census/README.md b/scripts/ch8-b-census/README.md
+index 04a0bbbf363645b3fddeac631ee5bcde6ac3fb35..f255e0bf3c328b2f7b05ab4e4f4795b5053d5664 100644
+--- a/scripts/ch8-b-census/README.md
++++ b/scripts/ch8-b-census/README.md
+@@ -1,77 +1,71 @@
+-# B P-prime diagnostic census — preparation only
++# B P-prime batch census — preparation only
+ 
+-Coordinator request: one B dispatch (lane cap3; item1 cap18; combined cap32),
+-not reserved or charged here. No retry. User authorization is package preparation;
+-coordinator alone reviews current ledger/slots, reserves, publishes and creates the
+-same-tree non-skip trigger on `uninit-ci/ch8-b-census-*`. Package commits use `[skip ci]`.
+-The kani-host control contains only this workflow. The separate pristine upstream
+-export keeps all compiler/model sources and upstream workflows unchanged.
+-Never push this work branch as a trigger. No Cloud or compiler patch is included.
++Input control `4d7e34383a3af504a261228fdee59e6c7093e633`; coordinator batch note
++at g0 `82cc48368e`. No publication, dispatch, CI, ledger or local compiler execution.
++Only the coordinator can authorize a future run and create its same-tree trigger.
++The isolated Kani-host control retains only this workflow; pristine Kani/compiler/models
++remain `model-checking/kani@0aac16ef62da9e9d5645782d458593e5d78143ba`.
++P-prime std remains `c5ff36ff433692140605891f646043f991db05de`.
+ 
+-Inputs: unchanged std `c5ff36ff433692140605891f646043f991db05de`, pristine Kani
+-`0aac16ef62da9e9d5645782d458593e5d78143ba`, worker14 inventory from g0
+-`904bc1e4583800a8152cbe5296bfc48c56b8643e`. All235 roots retained;
+-183 in historic shard2 and52 in shard4. Shards1/3 contain zero SmallSort roots.
+-Ubuntu24.04 only. This diagnostic does not qualify macOS, R8 costs, or B2 proof.
++`roots.json` is byte-identical: all235 selectors, classes and invalid-value oracles.
++Historical shard2=183/shard4=52 fields remain row metadata. All roots have identical
++flags/cfg/RUSTFLAGS, so there is ONE `verify-std ./library` invocation,235 `--harness`
++selectors, `--exact`, `--jobs=1`, `--harness-timeout 600s`, and one export-json path.
++No list/metrics/global inventory, cfg controls, autoharness, uninit-checks, unwind
++override, check suppression, compiler/model/runtime patch or retries are added.
++The organizer feature set plus valid-value-checks and export-json stays unchanged.
+ 
+-The organizer semantic flags are copied from pinned std `scripts/run-kani.sh`:
+-`-Z unstable-options -Z function-contracts -Z mem-predicates -Z float-lib -Z c-ffi
+--Z loop-contracts -Z quantifiers -Z stubbing --no-assert-contracts`, CBMC
+-`--object-bits 12`. Add exactly the diagnostic `-Z valid-value-checks`.
+-`-Z export-json --export-json PATH` is report transport through the unchanged stock
+-exporter; it does not add a proof premise/check. Use exact full root selectors and
+-terse text as in the organizer runner. No default-unwind override, check suppression,
+-uninit-checks, std autoharness, cfg-on controls, patch or model change.
++The group uses fresh target/export scratch outside the three sibling checkouts
++control/export/std. Std compilation is entered once through this invocation;
++there is no compile-only warmup and no root-specific rebuild invocation.
++A2100s compile/preparation cap lasts until the fresh stock export marker appears.
++Pinned Kani writes this marker in `main.rs::verify_project` after project construction
++and selection, before `check_all_harnesses`. This is a sampled stage boundary,
++not independent proof of compiler-internal work. `std-compile.json` records the
++boundary, elapsed time, cap, bounded4096-byte head/tail, truncation and failure.
++It is persisted before spawn and on the marker boundary so a later runner loss
++still retains the completed preparation receipt. Prefix/tail attribution has0.1s
++sampling granularity and may include boundary-adjacent output.
+ 
+-Two root invocations per shard run concurrently, each `--jobs=1`, with separate
+-reusable target directories. This preserves the Ubuntu organizer jobs2 upper bound
+-and historic shard membership, while keeping an independent receipt for each root
+-if compilation fails. It changes scheduling and is not a matched cost measurement.
+-Each invocation has a600s outer wall cap (including compile) and stock600s harness
+-timeout. No shortened last-root envelope. Each shard verification stage<=7200s,
+-build<=2100s, setup<=25min; job<=210min, max-parallel shards1, total<=420 runner-min.
+-Root process-tree summed RSS<=6GiB; aggregate concurrently observed process-tree
+-RSS<=min(12GiB, available-at-stage minus2GiB), tightened before invocation.
+-Sampling0.1s can overshoot; RSS sums shared pages and is not PSS or kernel enforcement.
+-Kernel OOM/runner loss remains PARTIAL, never success. `/proc` figures are bytes.
++Kani enforces600s per harness. The wrapper group cap is2100+235*600=143100s.
++The existing host job210min ceiling remains an independent scheduling bound;
++it can cut the group short, yielding PARTIAL with no invented row successes.
++It is not a promise that the sum of all worst-case harness budgets fits one host job.
++Setup<=25min, tool build<=2100s, one job; original420 runner-min maximum becomes210.
++Group RSS cap<=min(12GiB, available minus2GiB), sampled0.1s; no process is started
++without the reserve. Group process-tree RSS sums shared pages and can overshoot
++between samples. Precise per-harness attribution is unavailable: every root RSS
++is explicitly UNKNOWN, with group peak recorded separately. No6GiB per-root
++measurement or enforcement is claimed in this fallback.
+ 
+-The three checkouts are siblings `control/`, `export/`, `std/`. Build cwd is pristine
+-`export`; verify cwd is pristine `std` and library path `./library`. Target/export
+-scratch is in runner temp, outside all Cargo workspaces. All checkout depths>=2;
+-`runner.*` expressions appear only in step env. Setup is the exact export's action.
+-Only a same-tree child of the `[skip ci]` package on attempt1 is accepted.
++A16MiB group export is split into per-root structured receipts. Selection must
++match the whole group exactly, with no unmatched filters, unique core/manual
++harness names, correct tool/target/features/checks and harness_timeout_s=600.
++Each selected entry preserves `contract` (null or validated stock structure),
++its own outcome/verdict/checks/covers/failed_properties/warnings. B has no separate
++expected target oracle: the retained contract is source-reported metadata, not
++independently established target binding. Group exit0/1 is checked against the
++whole group's outcomes; a successful root can coexist with a failing/timed-out
++neighbour and group exit1. Missing/duplicate/wrong-name/automatic/ill-typed entries
++cannot pass. A completed root in a valid PARTIAL export can retain its diagnostic
++class; missing rows and the overall census remain PARTIAL.
+ 
+-Every shard seeds all expected NOT_RUN receipts before setup. Each attempted root
+-records actual argv/cwd, exit/signal/exception, wall/RSS/output caps and full stock
+-checks/covers/failures/warnings when a bounded, bound export is available. Root export
+-cap256KiB; output cap2MiB with4096-byte diagnostic tail. Oversize/malformed/missing
+-exports cannot become PASS. No raw logs, target trees, evidence archives or binaries
+-are uploaded. Curated JSON upper bound<128MiB per shard (static checked).
+-All source SHA/tree/clean checks and binary SHA256 are recorded before/after execution.
++Classification is unchanged: PASS; copy Unsupported; casts; other Unsupported;
++intended invalid-value failure; compile-resource-not-run. Mixed failures retain
++all classes/properties; precedence remains catchall, other Unsupported, casts,
++copy Unsupported, intended failure. Unknown/undetermined properties make the
++row incomplete, preserving observed failure families. Ordinary235 have no
++source-qualified intentional invalid-value oracle; names never imply intent.
++STOP B design boundaries from the original package remain binding.
+ 
+-Classification: PASS; copy Unsupported; casts; other Unsupported; intended invalid-value
+-failure; compile-resource-not-run. Mixed failures retain every observed class/property;
+-primary order is catchall, other Unsupported, casts, copy Unsupported, intended failure.
+-All completed unsupported properties are diagnostics, never proof acceptance.
+-Unknown/undetermined property buckets make the census PARTIAL while preserving observed
+-failure families. The catchall includes unexpected assertions/invalid-value failures
+-and requires review; its reason is never an assertion that compilation failed.
+-There is no source-qualified intentional invalid-value root among ordinary235;
+-all manifest oracles are false. Do not infer intent from a name or classify an unexpected
+-validity failure as intended. A future canary needs separate scope/GO and an explicit oracle.
++Original exits/signals/exceptions and bounded4096-byte output head/tail are in
++`group.json`; total output cap64MiB. Only curated JSON is uploaded (<128MiB bound),
++with source/tree/clean and binary hashes before/after. Missing, malformed, oversized,
++INCOMPLETE, NOT_RUN, timeout/crash/resource/output-cut exports never create PASS.
++Raw output, target, archives and binaries are not uploaded. All runtime proof
++results here remain NOT_RUN; diagnostic completion gives no independent B1/B2 credit.
+ 
+-Overall COMPLETE requires both shard summaries COMPLETE, exactly183+52 unique bound
+-receipts, post-source checks and no failure of setup/upload. Any missing shard/root,
+-time/resource/output cut, runner loss, unknown schema/identity or unclassified failure
+-means PARTIAL. Do not fill remaining rows with PASS. Workflow success is diagnostic
+-execution completeness, not all-root PASS or independent correctness credit.
+-
+-STOP B from plan§8 remains binding: Unknown treated as NoConstraints, rejection of legal
+-delayed raw copy, premature uninitialized read, lost intentional validity check, a new
+-shadow model, or overlap with active upstream design requires STOP/design note. This
+-package implements no compiler fast path or canary and cannot claim those gates passed.
+-
+-Offline validation (no rustc/Cargo/Kani/CBMC):
++Offline validation only:
+ 
+ ```sh
+ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/ch8-b-census -v
+@@ -79,14 +73,3 @@ PYTHONDONTWRITEBYTECODE=1 python3 scripts/ch8-b-census/static_check.py
+ actionlint -shellcheck= .github/workflows/ch8-b-census.yml
+ git diff --check
+ ```
+-
+-Coordinator handoff: bind CI package SHA/tree, g0 report SHA, exact request SHA256,
+-manifest SHA256 and review before reserving the next B run. Create the trigger only after GO.
+-No reservation, trigger, push or CI was performed by worker14.
+-
+-Global inventory: NONE. The runner never invokes `kani list` or `run-kani.sh`;
+-it calls `verify-std --harness SELECTOR --exact` directly for each frozen root.
+-Worker13 list receipts are therefore not imported: there is no list phase to cap.
+-Compilation of each selected invocation remains charged to its unchanged 600s cap.
+-The P-prime source/module audit is in the g0 pprime handoff; this is static source
+-identity, not independently observed compiler harness binding.
+diff --git a/scripts/ch8-b-census/census.py b/scripts/ch8-b-census/census.py
+index 53b7083cf06ea6f4ec1536dc77a86276c922a286..9a56bb3b806d9fae1523384f3963a61b9b4542b5 100644
+--- a/scripts/ch8-b-census/census.py
++++ b/scripts/ch8-b-census/census.py
+@@ -2,7 +2,6 @@
+ # SPDX-License-Identifier: Apache-2.0 OR MIT
+ """CI-only census; local use is limited to static/synthetic checks."""
+ import argparse
+-import concurrent.futures
+ import hashlib
+ import json
+ import os
+@@ -44,7 +43,7 @@ def load():
+     assert {s: sum(r['shard'] == s for r in roots) for s in range(1, 5)} == {1: 0, 2: 183, 3: 0, 4: 52}
+     assert all(r['selector'] == PREFIX + r['root'] and r['intended_invalid_value'] is False for r in roots)
+     assert req['organizer_features'] == ['function-contracts', 'mem-predicates', 'float-lib', 'c-ffi', 'loop-contracts', 'quantifiers', 'stubbing']
+-    assert req['jobs'] == 2 and req['object_bits'] == 12
++    assert req['jobs'] == 1 and req['object_bits'] == 12
+     assert req['cfg_on'] is False and req['autoharness'] is False and req['uninit_checks'] is False
+     return req, roots
+ 
+@@ -99,20 +98,48 @@ def kill_group(pid):
+         pass
+ 
+ 
+-def guarded(argv, cwd, seconds, req):
++def available_bytes():
++    return next(int(line.split()[1])*1024 for line in Path('/proc/meminfo').read_text().splitlines()
++                if line.startswith('MemAvailable:'))
++
++
++def guarded(argv, cwd, seconds, req, export_marker=None, compile_receipt=None):
+     """Drain bounded output and monitor all invocation process groups; keep actual exit/signal."""
+     started = time.monotonic()
+     if Path('/proc/meminfo').is_file():
+-        available = next(int(l.split()[1])*1024 for l in Path('/proc/meminfo').read_text().splitlines() if l.startswith('MemAvailable:'))
+-        req = dict(req, aggregate_rss_bytes=min(req['aggregate_rss_bytes'], max(1, available-req['os_reserve_bytes'])))
++        available = available_bytes()
++        req = dict(req, aggregate_rss_bytes=min(req['aggregate_rss_bytes'], available-req['os_reserve_bytes']))
+     receipt = {'argv': argv, 'cwd': str(cwd), 'exit': None, 'signal': None,
+                'stop': None, 'peak_rss_bytes': 0, 'peak_aggregate_rss_bytes': 0,
+-               'stdout_bytes': 0, 'diagnostic_tail': '', 'exception': None}
++               'stdout_bytes': 0, 'diagnostic_head': '', 'diagnostic_tail': '', 'exception': None,
++               'compile': {'status': 'NOT_RUN', 'limit_s': req.get('compile_seconds'),
++                           'boundary': 'fresh export marker after compile and selection',
++                           'wall_s': None, 'diagnostic_head': '', 'diagnostic_tail': ''}}
++    compile_done = export_marker is None
++    compile_head, compile_tail, head = bytearray(), bytearray(), bytearray()
++    compile_bytes = 0
++    def save_compile():
++        receipt['compile'].update(diagnostic_head=compile_head.decode(errors='replace'),
++                                  diagnostic_tail=compile_tail.decode(errors='replace'), stdout_bytes=compile_bytes,
++                                  diagnostic_truncated=compile_bytes > len(compile_head)+len(compile_tail))
++        if compile_receipt is not None:
++            write(compile_receipt, receipt['compile'])
++    if export_marker is not None:
++        receipt['compile']['status'] = 'IN_PROGRESS'
++        save_compile()
++    if req['aggregate_rss_bytes'] <= 0:
++        receipt.update(stop='MEMORY_UNAVAILABLE', wall_s=time.monotonic()-started)
++        receipt['compile'].update(status='NOT_RUN', reason='no RAM after OS reserve')
++        save_compile()
++        return receipt
+     try:
+         proc = subprocess.Popen(argv, cwd=cwd, env=clean_env(), stdout=subprocess.PIPE,
+                                 stderr=subprocess.STDOUT, start_new_session=True)
+     except Exception as exc:
+         receipt.update(stop='SPAWN_ERROR', exception=repr(exc), wall_s=time.monotonic() - started)
++        if export_marker is not None:
++            receipt['compile'].update(status='SPAWN_ERROR', wall_s=receipt['wall_s'], exception=repr(exc))
++            save_compile()
+         return receipt
+     with LOCK:
+         GROUPS.add(proc.pid)
+@@ -121,20 +148,31 @@ def guarded(argv, cwd, seconds, req):
+     sel.register(proc.stdout, selectors.EVENT_READ)
+     try:
+         while proc.poll() is None or sel.get_map():
++            if not compile_done and Path(export_marker).exists():
++                compile_done = True
++                receipt['compile'].update(status='MARKER_OBSERVED', wall_s=time.monotonic()-started)
++                save_compile()
+             for key, _ in sel.select(0.1):
+                 chunk = os.read(key.fd, 65536)
+                 if not chunk:
+                     sel.unregister(key.fileobj)
+                 else:
+                     receipt['stdout_bytes'] += len(chunk)
++                    head.extend(chunk[:max(0, 4096-len(head))])
+                     tail.extend(chunk)
+                     del tail[:-4096]
++                    if not compile_done:
++                        compile_bytes += len(chunk)
++                        compile_head.extend(chunk[:max(0, 4096-len(compile_head))])
++                        compile_tail.extend(chunk)
++                        del compile_tail[:-4096]
+             with LOCK:
+                 values = rss_groups(GROUPS)
+             rss, total = values.get(proc.pid, 0), sum(values.values())
+             receipt['peak_rss_bytes'] = max(receipt['peak_rss_bytes'], rss)
+             receipt['peak_aggregate_rss_bytes'] = max(receipt['peak_aggregate_rss_bytes'], total)
+-            why = ('TIMEOUT' if time.monotonic() - started > seconds else
++            why = ('COMPILE_TIMEOUT' if not compile_done and time.monotonic()-started > req['compile_seconds'] else
++                   'TIMEOUT' if time.monotonic() - started > seconds else
+                    'RSS_LIMIT' if rss > req['root_rss_bytes'] or total > req['aggregate_rss_bytes'] else
+                    'OUTPUT_LIMIT' if receipt['stdout_bytes'] > req['stdout_cap_bytes'] else None)
+             if why and receipt['stop'] is None:
+@@ -155,16 +193,27 @@ def guarded(argv, cwd, seconds, req):
+         sel.close()
+         proc.stdout.close()
+     receipt['wall_s'] = time.monotonic() - started
++    receipt['diagnostic_head'] = head.decode(errors='replace')
+     receipt['diagnostic_tail'] = tail.decode(errors='replace')
++    if export_marker is not None:
++        # This boundary establishes stage timing only; classify validates export identities.
++        if not compile_done and Path(export_marker).exists():
++            compile_done = True
++            receipt['compile'].update(status='MARKER_OBSERVED', wall_s=receipt['wall_s'])
++        if not compile_done:
++            receipt['compile'].update(status='INCOMPLETE', wall_s=receipt['wall_s'])
++        save_compile()
+     receipt['diagnostic_tail_truncated'] = receipt['stdout_bytes'] > len(tail)
+     return receipt
+ 
+ 
+-def argv_for(req, row, binary, target, export):
++def argv_for(req, rows, binary, target, export):
+     argv = [str(binary), 'verify-std', '-Z', 'unstable-options', './library']
+     for feature in req['organizer_features'] + ['valid-value-checks', 'export-json']:
+         argv += ['-Z', feature]
+-    return argv + ['--no-assert-contracts', '--harness', row['selector'], '--exact', '--jobs=1',
++    for row in rows:
++        argv += ['--harness', row['selector']]
++    return argv + ['--no-assert-contracts', '--exact', '--jobs=1',
+                    '--harness-timeout', '600s', '--target-dir', str(target), '--export-json', str(export),
+                    '--output-format=terse', '--cbmc-args', '--object-bits', '12']
+ 
+@@ -173,11 +222,13 @@ def unknown(reason):
+     return {'classification': CATCHALL, 'complete': False, 'reason': reason, 'observed_classes': []}
+ 
+ 
+-def classify(data, row, execution, req):
++def classify(data, row, execution, req, rows=None):
+     """Only complete, exactly bound structured results can receive a scientific class."""
+     retained = {}
++    rows = [row] if rows is None else rows
+     try:
+         assert isinstance(data, dict) and data['schema_version'] == '0.1.0', 'schema'
++        assert isinstance(data['configuration'], dict), 'configuration-type'
+         assert data['kani_commit'] == KANI and data['kani_commit_dirty'] is False, 'tool'
+         assert data['target'] == req['target'], 'target'
+         assert data['enabled_unstable_features'] == sorted(req['organizer_features'] + ['unstable-options', 'valid-value-checks', 'export-json']), 'features'
+@@ -189,12 +240,30 @@ def classify(data, row, execution, req):
+         assert cfg['checks'] == expected and cfg['cbmc_args'] == ['--object-bits', '12'] and cfg['coverage_enabled'] is False, 'checks'
+         selection = data['harness_selection']
+         assert isinstance(selection, dict) and type(selection.get('matched_count')) is int and type(selection.get('exact')) is bool, 'selection-types'
+-        assert selection == dict(requested_filters=[row['selector']], exact=True, unmatched_filters=[], matched_count=1), 'selection'
+-        assert data['run_state'] == 'COMPLETE' and data['outcome'] == {'kind': 'COMPLETED'}, 'run-state'
++        filters = [r['selector'] for r in rows]
++        assert selection == dict(requested_filters=filters, exact=True, unmatched_filters=[], matched_count=len(rows)), 'selection'
++        assert type(data['harness_timeout_s']) in (int, float) and data['harness_timeout_s'] == 600, 'harness-timeout'
++        assert data['run_state'] in ('COMPLETE', 'PARTIAL') and data['outcome'] == {'kind': 'COMPLETED'}, 'run-state'
+         hs = data['harnesses']
+-        assert isinstance(hs, list) and len(hs) == 1, 'harness-count'
+-        h = hs[0]
+-        assert h['name'] == row['selector'] and h['crate_name'] == 'core' and h['is_automatically_generated'] is False, 'harness-binding'
++        assert isinstance(hs, list) and all(isinstance(h, dict) for h in hs), 'harness-array'
++        names = [h['name'] for h in hs]
++        assert all(isinstance(n, str) for n in names) and len(set(names)) == len(names), 'duplicate-harness'
++        assert set(names) <= set(filters), 'unexpected-harness'
++        assert (len(hs) == len(rows)) == (data['run_state'] == 'COMPLETE'), 'run-state-count'
++        selected = [h for h in hs if h['name'] == row['selector']]
++        assert len(selected) == 1, 'missing-harness'
++        h = selected[0]
++        assert h['crate_name'] == 'core' and h['is_automatically_generated'] is False, 'harness-binding'
++        contract = h['contract']
++        assert contract is None or (isinstance(contract, dict)
++            and set(contract) == {'contracted_function_name', 'recursion_tracker'}
++            and isinstance(contract['contracted_function_name'], str) and contract['contracted_function_name']
++            and (contract['recursion_tracker'] is None or isinstance(contract['recursion_tracker'], str))), 'contract'
++        retained['harness'] = h
++        # A failing/timed-out neighbour determines group exit; the selected row uses its own verdict.
++        assert all(isinstance(x.get('outcome'), dict) for x in hs), 'outcome-types'
++        all_success = data['run_state'] == 'COMPLETE' and all(x['outcome'] == {'kind':'COMPLETED','verdict':'SUCCESS'} for x in hs)
++        assert type(execution['exit']) is int and execution['exit'] == (0 if all_success else 1), 'exit-verdict'
+         assert h['outcome']['kind'] == 'COMPLETED', 'harness-not-completed'
+         retained['harness'] = h
+         checks, covers = h['checks'], h['covers']
+@@ -237,7 +306,6 @@ def classify(data, row, execution, req):
+         verdict = h['outcome']['verdict']
+         assert verdict in ('SUCCESS', 'FAILURE'), 'verdict'
+         assert verdict == ('FAILURE' if failed else 'SUCCESS'), 'verdict-properties'
+-        assert execution['exit'] == (1 if failed else 0), 'exit-verdict'
+         assert execution['stop'] is None, 'wrapper-stop'
+         if not classes:
+             result = {'classification': 'PASS', 'complete': True, 'reason': 'bound completed verdict', 'observed_classes': ['PASS']}
+@@ -279,44 +347,36 @@ def run_census(args, req, roots):
+     seed(out, roots)
+     before_binaries = json.loads((out/'binary-hashes.json').read_text())
+     assert before_binaries == binary_hashes(export), 'binary changed between build and census'
+-    available = next(int(l.split()[1]) * 1024 for l in Path('/proc/meminfo').read_text().splitlines() if l.startswith('MemAvailable:'))
++    available = available_bytes()
+     req = dict(req, aggregate_rss_bytes=min(req['aggregate_rss_bytes'], available - req['os_reserve_bytes']))
+     assert req['aggregate_rss_bytes'] > 0, 'no RAM after OS reserve'
+     write(out / 'binding.json', dict(binding, available_bytes=available, aggregate_cap_bytes=req['aggregate_rss_bytes'], request_sha256=digest(HERE/'CI-REQUEST.json'), inventory_sha256=digest(HERE/'roots.json')))
+-    deadline = time.monotonic() + req['stage_seconds']['verify']
+-    slots = [roots[i::req['jobs']] for i in range(req['jobs'])]
+-
+-    def lane(slot, rows):
+-        target = out.parent / ('target-shard-%s-slot-%s' % (args.shard, slot))
+-        for row in rows:
+-            remaining = deadline - time.monotonic()
+-            if remaining < req['root_seconds'] + 5:
+-                break  # Keep full root envelope; all untouched receipts remain NOT_RUN.
+-            if sum(p.stat().st_size for p in out.glob('*.json')) > req['artifact_cap_bytes'] - req['export_cap_bytes']:
+-                break
+-            raw = target.parent / ('export-%03d.json' % row['id'])
+-            assert not raw.exists(), 'stale export'
+-            argv = argv_for(req, row, export/'scripts/kani', target, raw)
+-            execution = guarded(argv, std, req['root_seconds'], req)
+-            receipt = initial(row)
+-            receipt['runtime_proof_status'] = 'ATTEMPTED'
+-            receipt['execution'] = execution
+-            if raw.exists() and raw.stat().st_size <= req['export_cap_bytes']:
+-                receipt['export_sha256'] = digest(raw)
+-                try:
+-                    result = classify(json.loads(raw.read_text()), row, execution, req)
+-                except (ValueError, OSError) as exc:
+-                    result = unknown('INVALID_EXPORT: ' + repr(exc))
+-                receipt.update(result)
+-            else:
+-                receipt.update(unknown('MISSING_OR_OVERSIZE_EXPORT'))
+-            if raw.exists():
+-                raw.unlink()  # Only curated bounded receipts are uploaded; no target/raw logs/archives.
+-            write(out / ('root-%03d.json' % row['id']), receipt)
+-    with concurrent.futures.ThreadPoolExecutor(max_workers=req['jobs']) as pool:
+-        futures = [pool.submit(lane, i, r) for i, r in enumerate(slots)]
+-        for f in futures:
+-            f.result()
++    # All frozen B roots share flags/cfg/RUSTFLAGS: exactly one group across historical shards.
++    target, raw = out.parent/'target-b-group', out.parent/'export-b-group.json'
++    assert not raw.exists() and not target.exists(), 'fresh group scratch required'
++    group_seconds = req['compile_seconds'] + sum(req['root_seconds'] for _ in roots)
++    argv = argv_for(req, roots, export/'scripts/kani', target, raw)
++    execution = guarded(argv, std, group_seconds, dict(req, root_rss_bytes=req['aggregate_rss_bytes']), raw, out/'std-compile.json')
++    write(out/'group.json', dict(execution, group_seconds=group_seconds,
++        selectors=[r['selector'] for r in roots], per_root_rss_bytes='UNKNOWN',
++        rss_attribution='group process-tree peak only; no reliable per-harness attribution'))
++    write(out/'std-compile.json', execution['compile'])
++    data, export_sha, error = None, None, 'MISSING_OR_OVERSIZE_EXPORT'
++    if raw.exists() and raw.stat().st_size <= req['export_cap_bytes']:
++        export_sha = digest(raw)
++        try:
++            data = json.loads(raw.read_text())
++            error = None
++        except (ValueError, OSError) as exc:
++            error = 'INVALID_EXPORT: ' + repr(exc)
++    for row in roots:
++        receipt = initial(row)
++        receipt.update(runtime_proof_status='ATTEMPTED', group_receipt='group.json',
++                       export_sha256=export_sha, per_root_rss_bytes='UNKNOWN')
++        receipt.update(unknown(error) if error else classify(data, row, execution, req, roots))
++        write(out / ('root-%03d.json' % row['id']), receipt)
++    if raw.exists():
++        raw.unlink()  # Curated per-root structured results and bounded group receipts only.
+     after_binaries = binary_hashes(export)
+     write(out/'post-binary-hashes.json', after_binaries)
+     assert before_binaries == after_binaries, 'binary changed during census'
+@@ -341,14 +401,12 @@ def finalize(out, roots, status):
+ def main():
+     parser = argparse.ArgumentParser()
+     parser.add_argument('action', choices=['seed', 'run', 'finalize', 'bind', 'build'])
+-    parser.add_argument('--shard', type=int, choices=[2,4], default=2)
+     parser.add_argument('--out', required=True)
+     parser.add_argument('--std')
+     parser.add_argument('--export')
+     parser.add_argument('--job-status', default='unknown')
+     args = parser.parse_args()
+     req, roots = load()
+-    roots = [r for r in roots if r['shard'] == args.shard]
+     out = Path(args.out).resolve()
+     if args.action == 'seed':
+         seed(out, roots)
+diff --git a/scripts/ch8-b-census/static_check.py b/scripts/ch8-b-census/static_check.py
+index 22d598be3875af2cc5206d8f18c021c76579e337..640f85307a01cc79080bf4e0831eda5a6de7a3a1 100644
+--- a/scripts/ch8-b-census/static_check.py
++++ b/scripts/ch8-b-census/static_check.py
+@@ -35,7 +35,7 @@ assert matched==['ch8-b-census.yml'], 'extra workflow push triggers: '+repr(matc
+ job=w['jobs']['census']
+ assert job['timeout-minutes']==req['job_minutes']==210
+ assert job['runs-on']==req['os']
+-assert job['strategy']=={'fail-fast':False,'max-parallel':1,'matrix':{'shard':[2,4]}}
++assert 'strategy' not in job
+ steps=job['steps']
+ for step in steps:
+     if step.get('uses','').startswith('actions/checkout@'):
+@@ -52,8 +52,8 @@ assert [s['with']['path'] for s in steps if s.get('uses','').startswith('actions
+ assert next(s for s in steps if s.get('uses')=='./export/.github/actions/setup')['with']['kani_dir']=='export'
+ assert not any(p.exists() for p in (ROOT/'control',ROOT/'export',ROOT/'std')), 'nested workspace'
+ for p in census.HERE.glob('*.py'): ast.parse(p.read_text())
+-# Protocol upper bound; two writers cannot exceed it even at the per-root export cap.
+-assert 235*(req['export_cap_bytes']+32768)+1024**2 < req['artifact_cap_bytes']
++# Group harness data appears once across rows; group selection identity is repeated per row.
++assert 2*req['export_cap_bytes']+235*(32768+sum(len(r['selector'])+4 for r in roots))+1024**2 < req['artifact_cap_bytes']
+ result = ({'status':'PASS','roots':235,'shards':req['inventory']['shards'],
+     'checks':['YAML parse','runner context','checkout depth','trigger','cwd prefixes','no nested workspace','Python AST','artifact envelope'],
+     'workflow_sha256':hashlib.sha256(WORKFLOW.read_bytes()).hexdigest()})
+@@ -62,10 +62,12 @@ by_path={s['with']['path']:s['with'] for s in steps if s.get('uses','').startswi
+ assert by_path['std']['ref']==req['std']['sha']
+ assert by_path['export']['ref']==req['kani']['sha']
+ assert by_path['export']['repository']==req['kani']['repository']=='model-checking/kani'
++assert req['jobs']==req['per_root_jobs']==1 and req['group_count']==1
++assert req['stage_seconds']['verify']==req['compile_seconds']+235*req['root_seconds']
+ assert req['root_seconds']==600 and req['root_rss_bytes']==6*1024**3
+ # Only direct selected verification and bounded build are invocation entry points.
+ tree=ast.parse((census.HERE/'census.py').read_text())
+ assert not any(isinstance(n,ast.Constant) and n.value in ('list','metrics','run-kani.sh') for n in ast.walk(tree))
+-assert census.argv_for(req,roots[0],Path('/tool/scripts/kani'),Path('/target'),Path('/export.json'))[1]=='verify-std'
++assert census.argv_for(req,roots,Path('/tool/scripts/kani'),Path('/target'),Path('/export.json'))[1]=='verify-std'
+ 
+ print(json.dumps(result))
+diff --git a/scripts/ch8-b-census/test_census.py b/scripts/ch8-b-census/test_census.py
+index 67db336de9cd52e49e1a724aed1ded157b7cfe6b..8a7712b7ae175b366dee783fcf8ceb9026706ada 100644
+--- a/scripts/ch8-b-census/test_census.py
++++ b/scripts/ch8-b-census/test_census.py
+@@ -14,17 +14,20 @@ import census as c
+ 
+ class CensusTests(unittest.TestCase):
+     def setUp(self):
++        memory = patch.object(c, 'available_bytes', return_value=16*1024**3)
++        memory.start()
++        self.addCleanup(memory.stop)
+         self.req, roots = c.load()
+         self.row = roots[0]
+         self.execution = {'exit':0, 'stop':None}
+         self.data = dict(schema_version='0.1.0', kani_commit=c.KANI, kani_commit_dirty=False,
+-            target=self.req['target'], run_state='COMPLETE', outcome={'kind':'COMPLETED'},
++            target=self.req['target'], harness_timeout_s=600, run_state='COMPLETE', outcome={'kind':'COMPLETED'},
+             enabled_unstable_features=sorted(self.req['organizer_features']+['unstable-options','valid-value-checks','export-json']),
+             configuration={'checks':dict(memory_safety=True,overflow=True,unwinding=True,undefined_function=True,
+                 assertion_reach_checks=True,ignore_global_asm=False,extra_pointer_checks=False,assert_contracts=False,prove_safety_only=False),
+                 'cbmc_args':['--object-bits','12'],'coverage_enabled':False},
+             harness_selection=dict(requested_filters=[self.row['selector']],exact=True,unmatched_filters=[],matched_count=1),
+-            harnesses=[dict(name=self.row['selector'],crate_name='core',is_automatically_generated=False,
++            harnesses=[dict(contract=None,name=self.row['selector'],crate_name='core',is_automatically_generated=False,
+                 outcome={'kind':'COMPLETED','verdict':'SUCCESS'},n_properties=2,n_failed=0,failed_properties=[],unsupported_constructs=[],
+                 checks=dict(total=1,success=1,failure=[],unreachable=[],undetermined=[],error=[],unknown=[],other=[]),
+                 covers=dict(total=1,satisfied=['read-cover'],unsatisfiable=[],unreachable=[],undetermined=[],error=[],unknown=[],other=[]))])
+@@ -165,13 +168,13 @@ class CensusTests(unittest.TestCase):
+         tree = ast.parse(Path(c.__file__).read_text())
+         literals = [n.value for n in ast.walk(tree) if isinstance(n, ast.Constant) and isinstance(n.value, str)]
+         self.assertFalse(set(literals) & {'list', 'metrics', 'run-kani.sh'})
+-        argv = c.argv_for(self.req, self.row, Path('/tool/scripts/kani'), Path('/target'), Path('/out'))
++        argv = c.argv_for(self.req, [self.row], Path('/tool/scripts/kani'), Path('/target'), Path('/out'))
+         self.assertEqual(argv[1], 'verify-std')
+         self.assertEqual(argv[argv.index('--harness') + 1], self.row['selector'])
+         self.assertIn('--exact', argv)
+ 
+     def test_argv_has_only_frozen_semantics_and_no_cfg(self):
+-        argv=c.argv_for(self.req,self.row,Path('/export/scripts/kani'),Path('/target'),Path('/out.json'))
++        argv=c.argv_for(self.req,[self.row],Path('/export/scripts/kani'),Path('/target'),Path('/out.json'))
+         self.assertEqual(argv[-3:],['--cbmc-args','--object-bits','12'])
+         self.assertNotIn('--default-unwind',argv)
+         self.assertNotIn('autoharness',argv)
+@@ -179,6 +182,118 @@ class CensusTests(unittest.TestCase):
+             env=c.clean_env()
+             self.assertNotIn('RUSTFLAGS',env); self.assertNotIn('KANI_FLAGS',env)
+ 
++    def batch_fixture(self):
++        _, rows = c.load()
++        rows = copy.deepcopy(rows[:2])
++        data = copy.deepcopy(self.data)
++        other = copy.deepcopy(data['harnesses'][0])
++        other['name'] = rows[1]['selector']
++        data['harnesses'].append(other)
++        data['harness_selection'].update(requested_filters=[r['selector'] for r in rows], matched_count=2)
++        return rows, data
++
++    def test_batch_mixed_failure_timeout_reordered_partial_and_binding(self):
++        rows, data = self.batch_fixture()
++        h = data['harnesses'][1]
++        p = dict(id='p.1', description="Kani currently doesn't support checking validity of `copy_nonoverlapping` for `u8`",
++                 **{'class':'unsupported_construct'}, status='FAILURE')
++        h.update(outcome={'kind':'COMPLETED','verdict':'FAILURE'},n_failed=1,failed_properties=[p],unsupported_constructs=[p])
++        h['checks'].update(success=0,failure=['p.1'])
++        execution = dict(exit=1,stop=None)
++        data['harnesses'].reverse()  # Results order is source order, not selector order.
++        self.assertEqual(c.classify(data, rows[0], execution, self.req, rows)['classification'], 'PASS')
++        self.assertEqual(c.classify(data, rows[1], execution, self.req, rows)['classification'], 'copy Unsupported')
++        h['outcome'] = {'kind':'TIMEOUT'}
++        self.assertTrue(c.classify(data, rows[0], execution, self.req, rows)['complete'])
++        self.assertFalse(c.classify(data, rows[1], execution, self.req, rows)['complete'])
++        data['harnesses'].remove(h); data['run_state']='PARTIAL'
++        self.assertTrue(c.classify(data, rows[0], execution, self.req, rows)['complete'])
++        self.assertFalse(c.classify(data, rows[1], execution, self.req, rows)['complete'])
++        data['harnesses'].append(copy.deepcopy(data['harnesses'][0]))
++        self.assertFalse(c.classify(data, rows[0], execution, self.req, rows)['complete'])
++        for value in (None, {}, [], False):
++            altered=copy.deepcopy(self.data); altered['harnesses'][0]['contract']=value
++            result=c.classify(altered,self.row,self.execution,self.req)
++            self.assertEqual(result['complete'],value is None)
++        self.data['harness_timeout_s']=60
++        self.assertFalse(self.classify()['complete'])
++
++    def test_one_group_for_all235_argv_and_orchestration_error_exports(self):
++        from types import SimpleNamespace
++        rows, data = self.batch_fixture()
++        _, allrows = c.load()
++        argv=c.argv_for(self.req,allrows,Path('/bin/kani'),Path('/target'),Path('/export'))
++        self.assertEqual(argv.count('verify-std'),1)
++        self.assertEqual(argv.count('--harness'),235)
++        self.assertEqual(argv.count('--export-json'),1)
++        self.assertEqual(argv[argv.index('--harness-timeout')+1],'600s')
++        for case in ('valid','missing','null','malformed','wrong-type','oversize','exception'):
++            with self.subTest(case=case), tempfile.TemporaryDirectory() as td:
++                root=Path(td); out=root/'receipts'; out.mkdir()
++                (out/'binary-hashes.json').write_text('{}')
++                args=SimpleNamespace(out=str(out),std=str(root/'std'),export=str(root/'export'))
++                def fake_guard(argv,cwd,seconds,req,marker,compile_receipt):
++                    self.assertEqual(seconds,req['compile_seconds']+2*600)
++                    self.assertEqual(req['root_rss_bytes'],req['aggregate_rss_bytes'])
++                    self.assertEqual(argv.count('--harness'),2)
++                    if case=='valid': marker.write_text(json.dumps(data))
++                    elif case=='null': marker.write_text('null')
++                    elif case=='wrong-type': marker.write_text('[]')
++                    elif case=='malformed': marker.write_text('{')
++                    elif case=='oversize': marker.write_text('x'*(req['export_cap_bytes']+1))
++                    return dict(exit=None if case=='exception' else 0,stop='SPAWN_ERROR' if case=='exception' else None,
++                                exception='fixture' if case=='exception' else None,compile={'status':'fixture'})
++                with patch.dict(os.environ,{'GITHUB_ACTIONS':'true'}), patch.object(c,'bind',return_value={}), \
++                     patch.object(c,'binary_hashes',return_value={}), patch.object(c,'guarded',side_effect=fake_guard) as guard:
++                    c.run_census(args,self.req,rows)
++                self.assertEqual(guard.call_count,1)
++                self.assertTrue((out/'group.json').exists())
++                self.assertTrue((out/'std-compile.json').exists())
++                receipts=[json.loads((out/('root-%03d.json'%r['id'])).read_text()) for r in rows]
++                self.assertTrue(all(r['complete']==(case=='valid') for r in receipts))
++                self.assertTrue(all(r['per_root_rss_bytes']=='UNKNOWN' for r in receipts))
++                self.assertFalse((root/'export-b-group.json').exists())
++
++    def test_compile_separate_cap_marker_receipt_and_group_timeout(self):
++        with tempfile.TemporaryDirectory() as td:
++            root=Path(td); marker=root/'marker.json'; receipt=root/'compile.json'
++            req=dict(self.req,compile_seconds=.12)
++            def run(code, seconds=2):
++                return c.guarded([sys.executable,'-c',code],root,seconds,req,marker,receipt)
++            timed=run('import time; print("compile",flush=True); time.sleep(3)')
++            self.assertEqual(timed['stop'],'COMPILE_TIMEOUT')
++            self.assertEqual(timed['compile']['status'],'INCOMPLETE')
++            self.assertIn('compile',timed['compile']['diagnostic_head'])
++            self.assertEqual(json.loads(receipt.read_text()),timed['compile'])
++            code='from pathlib import Path; import time; print("compile",flush=True); Path("marker.json").write_text("{}"); time.sleep(.4)'
++            done=run(code)
++            self.assertEqual(done['exit'],0)
++            self.assertEqual(done['compile']['status'],'MARKER_OBSERVED')
++            self.assertIsNone(done['stop'])
++            marker.unlink()
++            group=run(code, .2)
++            self.assertEqual(group['stop'],'TIMEOUT')
++            self.assertEqual(group['compile']['status'],'MARKER_OBSERVED')
++            self.assertLessEqual(len(group['compile']['diagnostic_head'].encode()),4096)
++
++    def test_no_memory_and_wrapper_exception_preserve_original_state(self):
++        with tempfile.TemporaryDirectory() as td:
++            root=Path(td)
++            with patch.object(c,'available_bytes',return_value=1024), patch.object(c.subprocess,'Popen') as spawn:
++                result=c.guarded([sys.executable,'-c','pass'],root,1,self.req)
++                self.assertEqual(result['stop'],'MEMORY_UNAVAILABLE')
++                self.assertIsNone(result['exit'])
++                spawn.assert_not_called()
++            with patch.object(c,'rss_groups',side_effect=RuntimeError('sampling fixture')):
++                result=c.guarded([sys.executable,'-c','import time; time.sleep(3)'],root,1,self.req)
++                self.assertEqual(result['stop'],'WRAPPER_EXCEPTION')
++                self.assertIn('sampling fixture',result['exception'])
++                self.assertEqual(result['exit'],-9)
++            for values in (['bad'],[self.req['std']['sha'],'bad'],
++                           [self.req['std']['sha'],self.req['std']['tree'],' M library/core/src/lib.rs']):
++                with patch.object(c,'git',side_effect=values):
++                    with self.assertRaises(AssertionError): c.bind(root,self.req['std'])
++
+ 
+ if __name__=='__main__':
+     unittest.main()
