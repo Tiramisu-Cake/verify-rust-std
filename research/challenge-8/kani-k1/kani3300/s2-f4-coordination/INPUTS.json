@@ -1,0 +1,89 @@
+{
+  "schema": "ch8-s2-f4-coordination-v1",
+  "prepared_from_g0": "bd2216c2482a19f8639906acfef2b8ee7396d55a",
+  "authority": "Owner GO now for three parallel preparation stages and independent review; prior plan-only/quota-reset wait superseded; dispatch only separate coordinator GO after APPROVE.",
+  "verification_kind": "CORRECTNESS",
+  "runtime": "Fresh tmux sessions, current pane model/effort unchanged, no nested delegation",
+  "stop": "ONLY_REAL_BLOCKER_WITH_EVIDENCE; volume/context/not-enough-time is not a blocker; finish independent authorized work when one input is missing",
+  "S1": {
+    "admission_g0": "d8a407fb28c95144bfef06391b610813409dfaa2",
+    "candidate_g0": "3c40a15d37890c8b5ef7ba49308e81279a494b05",
+    "review_g0": "c4e619d9668eeea860bda1de1790665357a6e399",
+    "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "source_tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+    "source_worktree": "/root/verify-rust-std-ch8-s1-08-w13",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "control_reference": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+    "accepted_scope": "bounded source-reported smokeN0..3 only; no16/32 or fit600 credit"
+  },
+  "S2": {
+    "writer13": "kani3300/ch8-s2/batch/ plus isolated new source/control",
+    "writer11": "kani3300/ch8-s2/merge-pilot/ only; offline mathematical/Python diagnostic pilot",
+    "review14": "kani3300/ch8-s2/review-batch/",
+    "proof_profile": "u8/default KeyLess, organizer flags, no ord-panic stub; assumed semantic summaries diagnostic-only",
+    "future_workflow_runs": 1,
+    "current_item2_used": 9,
+    "item2_cap": 14,
+    "prospective_item2_after_accepted_S2_run": 10,
+    "hard_caps": {
+      "harness_s": 600,
+      "compile_s": 900,
+      "group_RSS_GiB": 12,
+      "headroom_GiB": 2,
+      "phase_max_s": 8100,
+      "job_max_s": 10800,
+      "preferred_serial_jobs": 1
+    },
+    "cost_target": "single-root aggregate driver+backend RSS<=6GiB; measured, not inferred from group peak",
+    "plan": "PLAN-CH8-ITEM2-SORTING-v2.md sections5-6"
+  },
+  "F4": {
+    "writer15": "kani3300/wave0/f4-confirm/ plus isolated new main-based tests/control",
+    "review14": "kani3300/wave0/f4-confirm-review/",
+    "historical_run_id": 43882466907,
+    "historical_attempt": 1,
+    "historical_repository": "Tiramisu-Cake/kani",
+    "expected_compact_artifact": "confirm-main-43882466907-1",
+    "historical_stock_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "historical_control_sha": "2e889f7571971aea658f537eed59aeaa5a9c1594",
+    "historical_control_tree": "ae662405b164116a769103a8b7801b93e0b5157b",
+    "historical_worktree": "/root/kani-confirm-main-w15",
+    "historical_package": "kani3300/wave0/confirm-main/",
+    "upstream_main_sha": "TO_BE_RESOLVED_READ_ONLY_AND_FROZEN_BY_W15; historical0aac is separate",
+    "item1_used": 26,
+    "item1_cap": 28,
+    "authorized_stage_budgets": [
+      "one main confirmation run after review and coordinator GO",
+      "one full standard CI future PR after its own review and coordinator GO"
+    ],
+    "future_confirmation_charge": 27,
+    "future_full_PR_CI_charge": 28,
+    "scope_now": "diagnosis/source trace/minimal reproducer and confirmation package; not full future PR implementation/CI",
+    "historical_trigger_sha": "d7e0c6bea97a8be9b00f0f1c325fa852c382531f"
+  },
+  "shared_rules": {
+    "only_compact_structured_artifacts": true,
+    "old_evidence_source_control_immutable": true,
+    "no_raw_full_logs_or_archives_or_cloud_bypass": true,
+    "no_local_cargo_rustc_Kani_CBMC_rustfmt_full_runner": true,
+    "no_push_CI_rerun_cancel_reservation_budget_ledger_publication": true,
+    "git_stage": "exact own paths only; no add-A/reset/rebase",
+    "git_author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "git_commit": "[skip ci]",
+    "disk": "shared Git objects; no copying build/target or duplicate artifact archives"
+  },
+  "review_activation": "Each committed ready package goes to fresh14 independently with exact full pins; do not wait for other package; localized repairs to original owner then immutable delta review.",
+  "dispatch": "NOT_AUTHORIZED_BY_PREPARATION_OR_REVIEW; coordinator separate GO required",
+  "accounting_reference_only": {
+    "ledger_g0": "bd2216c2482a19f8639906acfef2b8ee7396d55a",
+    "item1_used": 26,
+    "item1_cap": 28,
+    "item2_used": 9,
+    "item2_cap": 14,
+    "total_used": 35,
+    "total_cap": 42,
+    "dispatches_executed_here": 0,
+    "reservation_ledger_changes": false
+  }
+}
