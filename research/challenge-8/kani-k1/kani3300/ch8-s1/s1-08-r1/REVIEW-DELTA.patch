@@ -1,0 +1,1900 @@
+diff --git a/.github/workflows/ch8-s1.yml b/.github/workflows/ch8-s1.yml
+index be19373a8..f0f8cb82f 100644
+--- a/.github/workflows/ch8-s1.yml
++++ b/.github/workflows/ch8-s1.yml
+@@ -42,7 +42,7 @@ jobs:
+         PYTHONDONTWRITEBYTECODE: '1'
+       run: 'python3 check_package.py control --repo ..
+ 
+-        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py test_s107.py test_s108.py
++        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py test_s107.py test_s108.py test_s108r1.py
+ 
+         '
+     - name: Read immutable export pins
+@@ -151,7 +151,7 @@ jobs:
+         PYTHONDONTWRITEBYTECODE: '1'
+       run: 'python3 check_package.py control --repo ..
+ 
+-        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py test_s107.py test_s108.py
++        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py test_s107.py test_s108.py test_s108r1.py
+ 
+         '
+     - name: Read immutable export pins
+@@ -260,7 +260,7 @@ jobs:
+         PYTHONDONTWRITEBYTECODE: '1'
+       run: 'python3 check_package.py control --repo ..
+ 
+-        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py test_s107.py test_s108.py
++        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py test_s107.py test_s108.py test_s108r1.py
+ 
+         '
+     - name: Read immutable export pins
+@@ -376,7 +376,7 @@ jobs:
+         PYTHONDONTWRITEBYTECODE: '1'
+       run: 'python3 check_package.py control --repo ..
+ 
+-        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py test_s107.py test_s108.py
++        python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py test_s107.py test_s108.py test_s108r1.py
+ 
+         '
+     - name: Read immutable export pins
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index 38e66d9a0..f3df41855 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -1,5 +1,5 @@
+ {
+-  "schema": "ch8-s1-08-ready-v1",
++  "schema": "ch8-s1-08-r1-ready-v1",
+   "status": "READY",
+   "authorization": "PREPARATION_ONLY_NO_DISPATCH_OWNER_GO_REQUIRED",
+   "std_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+@@ -255,7 +255,7 @@
+       "oracle": {
+         "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
+         "group": "production-u34",
+-        "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:100:32: 100:48}>.assertion.1",
++        "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:95:32: 95:48}>.assertion.1",
+         "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+         "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+         "line": 90,
+@@ -291,7 +291,7 @@
+       "oracle": {
+         "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
+         "group": "production-u34",
+-        "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:106:21: 106:37}>.assertion.1",
++        "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:101:21: 101:37}>.assertion.1",
+         "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+         "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+         "line": 90,
+@@ -1235,10 +1235,10 @@
+     }
+   ],
+   "ci_payload_sha256": {
+-    ".github/workflows/ch8-s1.yml": "5eb77317055d8ee3823be1c0cc2761ae4235e9492699fa295b42f204173548c1",
++    ".github/workflows/ch8-s1.yml": "ad28b417fa4331692641ad0356dc0702f20405cf56674085f71ca210342e06ed",
+     "ch8-s1-control/activation-default.patch": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+     "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+-    "ch8-s1-control/check_package.py": "ff21dc5b3a92c5cce76e129125e4efd5b96a4bb4a98bfc2fcfd7ba457385ad1b",
++    "ch8-s1-control/check_package.py": "745e6277b7725c91645c4164508743ca719a0ca5a3b21453741b44b5fa56101a",
+     "ch8-s1-control/collect.py": "bb9170a58af1e0cfcb93d9758730265f2ae78b019c7a0a9b50d348cca45cd6e7",
+     "ch8-s1-control/negative_oracle.py": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c",
+     "ch8-s1-control/runner.py": "dc1d0ac264dd1db327f6bbc531489962352ec5a383ae02dbe436530e9354e867",
+@@ -1251,9 +1251,14 @@
+     "ch8-s1-control/test_s105.py": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e",
+     "ch8-s1-control/test_s107.py": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0",
+     "ch8-s1-control/binding_metadata.py": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030",
++    "ch8-s1-control/ORACLE-SOURCES.json": "69bf8d8494094a079a6ac3422ab90f30b7b5093b53e91ee6ce393a043538eaa2",
+     "ch8-s1-control/ROLE-MAP.json": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
++    "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
++    "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
++    "ch8-s1-control/oracle_source.py": "75a9a665b7a9fc1c64cd51c1c8d281fd323f22411aee83c017d08f37a27f20ce",
+     "ch8-s1-control/s108_package.py": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237",
+-    "ch8-s1-control/test_s108.py": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854"
++    "ch8-s1-control/test_s108.py": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854",
++    "ch8-s1-control/test_s108r1.py": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03"
+   },
+   "budgets": {
+     "jobs": 1,
+@@ -1328,6 +1333,7 @@
+     ".github/workflows/verify-std-check.yml",
+     ".github/workflows/z3-update.yml",
+     "ch8-s1-control/CI-REQUEST.json",
++    "ch8-s1-control/ORACLE-SOURCES.json",
+     "ch8-s1-control/ROLE-MAP.json",
+     "ch8-s1-control/activation-default.patch",
+     "ch8-s1-control/activation-override.patch",
+@@ -1335,7 +1341,10 @@
+     "ch8-s1-control/check_package.py",
+     "ch8-s1-control/collect.py",
+     "ch8-s1-control/fixtures/s104-rich-fragment.json",
++    "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
++    "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+     "ch8-s1-control/negative_oracle.py",
++    "ch8-s1-control/oracle_source.py",
+     "ch8-s1-control/pack_evidence.py",
+     "ch8-s1-control/rich_evidence.py",
+     "ch8-s1-control/runner.py",
+@@ -1345,7 +1354,8 @@
+     "ch8-s1-control/test_s104.py",
+     "ch8-s1-control/test_s105.py",
+     "ch8-s1-control/test_s107.py",
+-    "ch8-s1-control/test_s108.py"
++    "ch8-s1-control/test_s108.py",
++    "ch8-s1-control/test_s108r1.py"
+   ],
+   "source_bindings": {
+     "stable_default_cell": {
+diff --git a/ch8-s1-control/ORACLE-SOURCES.json b/ch8-s1-control/ORACLE-SOURCES.json
+new file mode 100644
+index 000000000..7e6fdb596
+--- /dev/null
++++ b/ch8-s1-control/ORACLE-SOURCES.json
+@@ -0,0 +1,286 @@
++{
++  "schema": "ch8-s1-08-r1-oracle-source-v1",
++  "std_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
++  "std_tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
++  "logical_reference_control": "9ccd882ef2460fbc97400594e7e3dfc884a4a997",
++  "assurance": "STATIC_SOURCE_EXPECTATIONS; no new verifier/exporter results or failure-driven ID selection",
++  "sources": {
++    "production": {
++      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
++      "library/core/src/slice/sort/shared/smallsort.rs": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651"
++    },
++    "activation-default": {
++      "library/core/src/slice/sort/shared/smallsort.rs": "ad516502d4783df0379ea3f48805c408b5bcde3ec064432476610080e3ecd0bb"
++    },
++    "activation-override": {
++      "library/core/src/slice/sort/shared/smallsort.rs": "90f20bce619de5535e633fc97f4a9dfd46715dc48e54912f5d1c9029984b131f"
++    }
++  },
++  "oracles": {
++    "activation_descending_rejected": {
++      "variant": "production",
++      "mode": "Original",
++      "oracle_without_id": {
++        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
++        "group": "production-u34",
++        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++        "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++        "line": 90,
++        "class": "assertion",
++        "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
++        "source_line": "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
++        "assertion_context": [
++          "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
++          "}",
++          ""
++        ],
++        "intended_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
++        "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
++        "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching"
++      },
++      "property_id_template": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:{source_closure_span}}>.assertion.1",
++      "closure_root": "activation_descending_rejected",
++      "assertion_text": "assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");"
++    },
++    "activation_effectful_rejected": {
++      "variant": "production",
++      "mode": "Original",
++      "oracle_without_id": {
++        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
++        "group": "production-u34",
++        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++        "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++        "line": 90,
++        "class": "assertion",
++        "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
++        "source_line": "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
++        "assertion_context": [
++          "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
++          "}",
++          ""
++        ],
++        "intended_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
++        "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
++        "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching"
++      },
++      "property_id_template": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:{source_closure_span}}>.assertion.1",
++      "closure_root": "activation_effectful_rejected",
++      "assertion_text": "assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");"
++    },
++    "activation_unsupported_type_rejected": {
++      "variant": "production",
++      "mode": "Original",
++      "oracle_without_id": {
++        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_unsupported_type_rejected",
++        "group": "production-u34",
++        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++        "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++        "line": 90,
++        "class": "assertion",
++        "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
++        "source_line": "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
++        "assertion_context": [
++          "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
++          "}",
++          ""
++        ],
++        "intended_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
++        "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
++        "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching"
++      },
++      "property_id_template": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<mem::maybe_uninit::MaybeUninit<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<mem::maybe_uninit::MaybeUninit<u8>>>.assertion.1",
++      "closure_root": null,
++      "assertion_text": "assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");"
++    },
++    "order_corruption_rejected": {
++      "variant": "production",
++      "mode": "Original",
++      "oracle_without_id": {
++        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
++        "group": "production-u4",
++        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++        "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++        "line": 136,
++        "class": "assertion",
++        "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
++        "source_line": "    assert!(post::<u8, KeyLess<u8>>(before, &[values[1], values[0]]),",
++        "assertion_context": [
++          "    assert!(post::<u8, KeyLess<u8>>(before, &[values[1], values[0]]),",
++          "        \"S1_ORDER_CORRUPTION_ACCEPTED\");",
++          "}"
++        ],
++        "intended_message": "S1_ORDER_CORRUPTION_ACCEPTED",
++        "export_sha256": "5e9b3be21f70c341a42e5d75d1c32d4d15a646a10a9fb1fe1ccade22459dc485",
++        "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching"
++      },
++      "property_id_template": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.3",
++      "closure_root": null,
++      "assertion_text": "assert!(post::<u8, KeyLess<u8>>(before, &[values[1], values[0]]),\n        \"S1_ORDER_CORRUPTION_ACCEPTED\");"
++    },
++    "count_corruption_rejected": {
++      "variant": "production",
++      "mode": "Original",
++      "oracle_without_id": {
++        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
++        "group": "production-u4",
++        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++        "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++        "line": 147,
++        "class": "assertion",
++        "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
++        "source_line": "    assert!(post::<u8, KeyLess<u8>>(before, &corrupt),",
++        "assertion_context": [
++          "    assert!(post::<u8, KeyLess<u8>>(before, &corrupt),",
++          "        \"S1_COUNT_CORRUPTION_ACCEPTED\");",
++          "}"
++        ],
++        "intended_message": "S1_COUNT_CORRUPTION_ACCEPTED",
++        "export_sha256": "5e9b3be21f70c341a42e5d75d1c32d4d15a646a10a9fb1fe1ccade22459dc485",
++        "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching"
++      },
++      "property_id_template": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.5",
++      "closure_root": null,
++      "assertion_text": "assert!(post::<u8, KeyLess<u8>>(before, &corrupt),\n        \"S1_COUNT_CORRUPTION_ACCEPTED\");"
++    },
++    "invalid_snapshot_rejected": {
++      "variant": "production",
++      "mode": "Original",
++      "oracle_without_id": {
++        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected",
++        "group": "production-u34",
++        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++        "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++        "line": 176,
++        "class": "assertion",
++        "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
++        "source_line": "    assert!(post::<u8, KeyLess<u8>>(invalid, &[]), \"S1_ACTIVE_INVALID_TOKEN_ACCEPTED\");",
++        "assertion_context": [
++          "    assert!(post::<u8, KeyLess<u8>>(invalid, &[]), \"S1_ACTIVE_INVALID_TOKEN_ACCEPTED\");",
++          "}"
++        ],
++        "intended_message": "S1_ACTIVE_INVALID_TOKEN_ACCEPTED",
++        "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
++        "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching"
++      },
++      "property_id_template": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected.assertion.1",
++      "closure_root": null,
++      "assertion_text": "assert!(post::<u8, KeyLess<u8>>(invalid, &[]), \"S1_ACTIVE_INVALID_TOKEN_ACCEPTED\");"
++    },
++    "activation-default": {
++      "variant": "activation-default",
++      "mode": "PFC",
++      "oracle_without_id": {
++        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
++        "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\n{ const S1_ATTACHMENT_DEFAULT: bool = false; S1_ATTACHMENT_DEFAULT }",
++        "file": "library/core/src/slice/sort/shared/smallsort.rs",
++        "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
++        "line": 41,
++        "class": "assertion",
++        "status": "FAILURE",
++        "source_sha256": "ad516502d4783df0379ea3f48805c408b5bcde3ec064432476610080e3ecd0bb",
++        "source_line": "    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::ensures(|_| !verify::sorting_model::enabled::<T, F>() || { const S1_ATTACHMENT_DEFAULT: bool = false; S1_ATTACHMENT_DEFAULT }))]",
++        "require_only_this_failure": true,
++        "proposal": {
++          "status": "PROPOSED_NEXT_PACKAGE_ONLY; NOT_CURRENT_DETECTION",
++          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
++          "mode": "PFC",
++          "target": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort",
++          "variant": "activation-default",
++          "variant_spec": {
++            "patch": "activation-default.patch",
++            "sha256": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
++            "changed_file_sha256": {
++              "library/core/src/slice/sort/shared/smallsort.rs": "ad516502d4783df0379ea3f48805c408b5bcde3ec064432476610080e3ecd0bb"
++            },
++            "marker": "S1_ATTACHMENT_DEFAULT",
++            "method": "Stable default Cell"
++          },
++          "property": {
++            "id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.assertion.1",
++            "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\n{ const S1_ATTACHMENT_DEFAULT: bool = false; S1_ATTACHMENT_DEFAULT }",
++            "class": "assertion",
++            "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
++            "line": "41",
++            "trace_available": true,
++            "status": "FAILURE"
++          },
++          "require_only_this_failure": true,
++          "requires": [
++            "Freeze and independently review before next dispatch",
++            "Bind exact check/modifies wrapper to this target/type/source/tool/config",
++            "Include same-pin unmutated positive companion and reachable return covers",
++            "Record mutant-return cover as expected UNREACHABLE after false ensures; not positive vacuity evidence"
++          ]
++        },
++        "companion": "stable_default_activation-legal",
++        "companion_required_cover_messages": [
++          "S1_actual_default_companion_return"
++        ],
++        "companion_required_status": "SATISFIED",
++        "mutant_return_cover_status": "UNREACHABLE_EXPECTED_NO_POSITIVE_CREDIT",
++        "wrapper_binding": "EXACT_SOURCE_CONTRACT_AND_SITE_FROZEN; SAME_RUN_RICH_PROPERTY_CORRELATION_REQUIRED_OFFLINE"
++      },
++      "property_id_template": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.assertion.1",
++      "closure_root": null,
++      "assertion_text": "#[cfg_attr(all(kani, kani_smallsort_sorting), kani::ensures(|_| !verify::sorting_model::enabled::<T, F>() || { const S1_ATTACHMENT_DEFAULT: bool = false; S1_ATTACHMENT_DEFAULT }))]"
++    },
++    "activation-override": {
++      "variant": "activation-override",
++      "mode": "PFC",
++      "oracle_without_id": {
++        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
++        "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\n{ const S1_ATTACHMENT_OVERRIDE: bool = false; S1_ATTACHMENT_OVERRIDE }",
++        "file": "library/core/src/slice/sort/shared/smallsort.rs",
++        "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
++        "line": 63,
++        "class": "assertion",
++        "status": "FAILURE",
++        "source_sha256": "90f20bce619de5535e633fc97f4a9dfd46715dc48e54912f5d1c9029984b131f",
++        "source_line": "    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::ensures(|_| !verify::sorting_model::enabled::<T, F>() || { const S1_ATTACHMENT_OVERRIDE: bool = false; S1_ATTACHMENT_OVERRIDE }))]",
++        "require_only_this_failure": true,
++        "proposal": {
++          "status": "PROPOSED_NEXT_PACKAGE_ONLY; NOT_CURRENT_DETECTION",
++          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
++          "mode": "PFC",
++          "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
++          "variant": "activation-override",
++          "variant_spec": {
++            "patch": "activation-override.patch",
++            "sha256": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
++            "changed_file_sha256": {
++              "library/core/src/slice/sort/shared/smallsort.rs": "90f20bce619de5535e633fc97f4a9dfd46715dc48e54912f5d1c9029984b131f"
++            },
++            "marker": "S1_ATTACHMENT_OVERRIDE",
++            "method": "Stable Freeze u8 override"
++          },
++          "property": {
++            "id": "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.2",
++            "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\n{ const S1_ATTACHMENT_OVERRIDE: bool = false; S1_ATTACHMENT_OVERRIDE }",
++            "class": "assertion",
++            "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
++            "line": "63",
++            "trace_available": true,
++            "status": "FAILURE"
++          },
++          "require_only_this_failure": true,
++          "requires": [
++            "Freeze and independently review before next dispatch",
++            "Bind exact check/modifies wrapper to this target/type/source/tool/config",
++            "Include same-pin unmutated positive companion and reachable return covers",
++            "Record mutant-return cover as expected UNREACHABLE after false ensures; not positive vacuity evidence"
++          ]
++        },
++        "companion": "stable_freeze_activation-legal",
++        "companion_required_cover_messages": [
++          "S1_actual_override_companion_return"
++        ],
++        "companion_required_status": "SATISFIED",
++        "mutant_return_cover_status": "UNREACHABLE_EXPECTED_NO_POSITIVE_CREDIT",
++        "wrapper_binding": "EXACT_SOURCE_CONTRACT_AND_SITE_FROZEN; SAME_RUN_RICH_PROPERTY_CORRELATION_REQUIRED_OFFLINE"
++      },
++      "property_id_template": "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.2",
++      "closure_root": null,
++      "assertion_text": "#[cfg_attr(all(kani, kani_smallsort_sorting), kani::ensures(|_| !verify::sorting_model::enabled::<T, F>() || { const S1_ATTACHMENT_OVERRIDE: bool = false; S1_ATTACHMENT_OVERRIDE }))]"
++    }
++  }
++}
+diff --git a/ch8-s1-control/check_package.py b/ch8-s1-control/check_package.py
+index 01335e1c0..219103cdf 100644
+--- a/ch8-s1-control/check_package.py
++++ b/ch8-s1-control/check_package.py
+@@ -142,6 +142,7 @@ def check_yaml(path):
+         assert 'test_s105.py' in steps[2]['run']
+         assert 'test_s107.py' in steps[2]['run']
+         assert 'test_s108.py' in steps[2]['run']
++        assert 'test_s108r1.py' in steps[2]['run']
+     return {'yaml':'PASS','scalar_types':'NATIVE_LITERAL_PASS',
+             'runner_context':'STEP_ENV_ONLY','checkout_depth':dict(CHECKOUT_DEPTHS),
+             'layout':['control','export','tool'],'dispatch':'NOT_RUN'}
+diff --git a/ch8-s1-control/fixtures/s108r1-smallsort.rs.txt b/ch8-s1-control/fixtures/s108r1-smallsort.rs.txt
+new file mode 100644
+index 000000000..4587a72c5
+--- /dev/null
++++ b/ch8-s1-control/fixtures/s108r1-smallsort.rs.txt
+@@ -0,0 +1,992 @@
++//! This module contains a variety of sort implementations that are optimized for small lengths.
++
++#[cfg(kani)]
++use crate::kani;
++use crate::mem::{self, ManuallyDrop, MaybeUninit};
++use crate::slice::sort::shared::FreezeMarker;
++use crate::{hint, intrinsics, ptr, slice};
++
++// It's important to differentiate between SMALL_SORT_THRESHOLD performance for
++// small slices and small-sort performance sorting small sub-slices as part of
++// the main quicksort loop. For the former, testing showed that the
++// representative benchmarks for real-world performance are cold CPU state and
++// not single-size hot benchmarks. For the latter the CPU will call them many
++// times, so hot benchmarks are fine and more realistic. And it's worth it to
++// optimize sorting small sub-slices with more sophisticated solutions than
++// insertion sort.
++
++/// Using a trait allows us to specialize on `Freeze` which in turn allows us to make safe
++/// abstractions.
++pub(crate) trait StableSmallSortTypeImpl: Sized {
++    /// For which input length <= return value of this function, is it valid to call `small_sort`.
++    fn small_sort_threshold() -> usize;
++
++    /// Sorts `v` using strategies optimized for small sizes.
++    fn small_sort<F: FnMut(&Self, &Self) -> bool>(
++        v: &mut [Self],
++        scratch: &mut [MaybeUninit<Self>],
++        is_less: &mut F,
++    );
++}
++
++impl<T> StableSmallSortTypeImpl for T {
++    #[inline(always)]
++    default fn small_sort_threshold() -> usize {
++        // Optimal number of comparisons, and good perf.
++        SMALL_SORT_FALLBACK_THRESHOLD
++    }
++
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::requires(v.len() <= <T as StableSmallSortTypeImpl>::small_sort_threshold()))]
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::modifies(v))]
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::ensures(|_| !verify::sorting_model::enabled::<T, F>() || verify::sorting_model::post::<T, F>(old(verify::sorting_model::snapshot::<T, F>(v)), v)))]
++    #[inline(always)]
++    default fn small_sort<F: FnMut(&T, &T) -> bool>(
++        v: &mut [T],
++        _scratch: &mut [MaybeUninit<T>],
++        is_less: &mut F,
++    ) {
++        if v.len() >= 2 {
++            insertion_sort_shift_left(v, 1, is_less);
++        }
++    }
++}
++
++impl<T: FreezeMarker> StableSmallSortTypeImpl for T {
++    #[inline(always)]
++    fn small_sort_threshold() -> usize {
++        SMALL_SORT_GENERAL_THRESHOLD
++    }
++
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::requires(v.len() <= <T as StableSmallSortTypeImpl>::small_sort_threshold()))]
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::requires(v.len() < 2 || scratch.len() >= v.len() + 16))]
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::modifies(v, scratch))]
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::ensures(|_| !verify::sorting_model::enabled::<T, F>() || verify::sorting_model::post::<T, F>(old(verify::sorting_model::snapshot::<T, F>(v)), v)))]
++    #[inline(always)]
++    fn small_sort<F: FnMut(&T, &T) -> bool>(
++        v: &mut [T],
++        scratch: &mut [MaybeUninit<T>],
++        is_less: &mut F,
++    ) {
++        small_sort_general_with_scratch(v, scratch, is_less);
++    }
++}
++
++/// Using a trait allows us to specialize on `Freeze` which in turn allows us to make safe
++/// abstractions.
++pub(crate) trait UnstableSmallSortTypeImpl: Sized {
++    /// For which input length <= return value of this function, is it valid to call `small_sort`.
++    fn small_sort_threshold() -> usize;
++
++    /// Sorts `v` using strategies optimized for small sizes.
++    fn small_sort<F: FnMut(&Self, &Self) -> bool>(v: &mut [Self], is_less: &mut F);
++}
++
++impl<T> UnstableSmallSortTypeImpl for T {
++    #[inline(always)]
++    default fn small_sort_threshold() -> usize {
++        SMALL_SORT_FALLBACK_THRESHOLD
++    }
++
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::requires(v.len() <= <T as UnstableSmallSortTypeImpl>::small_sort_threshold()))]
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::modifies(v))]
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::ensures(|_| !verify::sorting_model::enabled::<T, F>() || verify::sorting_model::post::<T, F>(old(verify::sorting_model::snapshot::<T, F>(v)), v)))]
++    #[inline(always)]
++    default fn small_sort<F>(v: &mut [T], is_less: &mut F)
++    where
++        F: FnMut(&T, &T) -> bool,
++    {
++        small_sort_fallback(v, is_less);
++    }
++}
++
++impl<T: FreezeMarker> UnstableSmallSortTypeImpl for T {
++    #[inline(always)]
++    fn small_sort_threshold() -> usize {
++        <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()
++    }
++
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::requires(v.len() <= <T as UnstableSmallSortTypeImpl>::small_sort_threshold()))]
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::modifies(v))]
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::ensures(|_| !verify::sorting_model::enabled::<T, F>() || verify::sorting_model::post::<T, F>(old(verify::sorting_model::snapshot::<T, F>(v)), v)))]
++    #[inline(always)]
++    fn small_sort<F>(v: &mut [T], is_less: &mut F)
++    where
++        F: FnMut(&T, &T) -> bool,
++    {
++        <T as UnstableSmallSortFreezeTypeImpl>::small_sort(v, is_less);
++    }
++}
++
++/// FIXME(const_trait_impl) use original ipnsort approach with choose_unstable_small_sort,
++/// as found here <https://github.com/Voultapher/sort-research-rs/blob/438fad5d0495f65d4b72aa87f0b62fc96611dff3/ipnsort/src/smallsort.rs#L83C10-L83C36>.
++pub(crate) trait UnstableSmallSortFreezeTypeImpl: Sized + FreezeMarker {
++    fn small_sort_threshold() -> usize;
++
++    fn small_sort<F: FnMut(&Self, &Self) -> bool>(v: &mut [Self], is_less: &mut F);
++}
++
++impl<T: FreezeMarker> UnstableSmallSortFreezeTypeImpl for T {
++    #[inline(always)]
++    default fn small_sort_threshold() -> usize {
++        if (size_of::<T>() * SMALL_SORT_GENERAL_SCRATCH_LEN) <= MAX_STACK_ARRAY_SIZE {
++            SMALL_SORT_GENERAL_THRESHOLD
++        } else {
++            SMALL_SORT_FALLBACK_THRESHOLD
++        }
++    }
++
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::requires(v.len() <= <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()))]
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::modifies(v))]
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::ensures(|_| !verify::sorting_model::enabled::<T, F>() || verify::sorting_model::post::<T, F>(old(verify::sorting_model::snapshot::<T, F>(v)), v)))]
++    #[inline(always)]
++    default fn small_sort<F>(v: &mut [T], is_less: &mut F)
++    where
++        F: FnMut(&T, &T) -> bool,
++    {
++        if (size_of::<T>() * SMALL_SORT_GENERAL_SCRATCH_LEN) <= MAX_STACK_ARRAY_SIZE {
++            small_sort_general(v, is_less);
++        } else {
++            small_sort_fallback(v, is_less);
++        }
++    }
++}
++
++/// SAFETY: Only used for run-time optimization heuristic.
++#[unsafe(rustc_allow_lifetime_dependent_specialization)]
++trait CopyMarker {}
++
++impl<T: Copy> CopyMarker for T {}
++
++impl<T: FreezeMarker + CopyMarker> UnstableSmallSortFreezeTypeImpl for T {
++    #[inline(always)]
++    fn small_sort_threshold() -> usize {
++        if has_efficient_in_place_swap::<T>()
++            && (size_of::<T>() * SMALL_SORT_NETWORK_SCRATCH_LEN) <= MAX_STACK_ARRAY_SIZE
++        {
++            SMALL_SORT_NETWORK_THRESHOLD
++        } else if (size_of::<T>() * SMALL_SORT_GENERAL_SCRATCH_LEN) <= MAX_STACK_ARRAY_SIZE {
++            SMALL_SORT_GENERAL_THRESHOLD
++        } else {
++            SMALL_SORT_FALLBACK_THRESHOLD
++        }
++    }
++
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::requires(v.len() <= <T as UnstableSmallSortFreezeTypeImpl>::small_sort_threshold()))]
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::modifies(v))]
++    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::ensures(|_| !verify::sorting_model::enabled::<T, F>() || verify::sorting_model::post::<T, F>(old(verify::sorting_model::snapshot::<T, F>(v)), v)))]
++    #[inline(always)]
++    fn small_sort<F>(v: &mut [T], is_less: &mut F)
++    where
++        F: FnMut(&T, &T) -> bool,
++    {
++        if has_efficient_in_place_swap::<T>()
++            && (size_of::<T>() * SMALL_SORT_NETWORK_SCRATCH_LEN) <= MAX_STACK_ARRAY_SIZE
++        {
++            small_sort_network(v, is_less);
++        } else if (size_of::<T>() * SMALL_SORT_GENERAL_SCRATCH_LEN) <= MAX_STACK_ARRAY_SIZE {
++            small_sort_general(v, is_less);
++        } else {
++            small_sort_fallback(v, is_less);
++        }
++    }
++}
++
++/// Optimal number of comparisons, and good perf.
++const SMALL_SORT_FALLBACK_THRESHOLD: usize = 16;
++
++/// From a comparison perspective 20 was ~2% more efficient for fully random input, but for
++/// wall-clock performance choosing 32 yielded better performance overall.
++///
++/// SAFETY: If you change this value, you have to adjust [`small_sort_general`] !
++const SMALL_SORT_GENERAL_THRESHOLD: usize = 32;
++
++/// [`small_sort_general`] uses [`sort8_stable`] as primitive and does a kind of ping-pong merge,
++/// where the output of the first two [`sort8_stable`] calls is stored at the end of the scratch
++/// buffer. This simplifies panic handling and avoids additional copies. This affects the required
++/// scratch buffer size.
++///
++/// SAFETY: If you change this value, you have to adjust [`small_sort_general`] !
++pub(crate) const SMALL_SORT_GENERAL_SCRATCH_LEN: usize = SMALL_SORT_GENERAL_THRESHOLD + 16;
++
++/// SAFETY: If you change this value, you have to adjust [`small_sort_network`] !
++const SMALL_SORT_NETWORK_THRESHOLD: usize = 32;
++const SMALL_SORT_NETWORK_SCRATCH_LEN: usize = SMALL_SORT_NETWORK_THRESHOLD;
++
++/// Using a stack array, could cause a stack overflow if the type `T` is very large. To be
++/// conservative we limit the usage of small-sorts that require a stack array to types that fit
++/// within this limit.
++const MAX_STACK_ARRAY_SIZE: usize = 4096;
++
++fn small_sort_fallback<T, F: FnMut(&T, &T) -> bool>(v: &mut [T], is_less: &mut F) {
++    if v.len() >= 2 {
++        insertion_sort_shift_left(v, 1, is_less);
++    }
++}
++
++fn small_sort_general<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(v: &mut [T], is_less: &mut F) {
++    let mut stack_array = MaybeUninit::<[T; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit();
++
++    // SAFETY: The memory is backed by `stack_array`, and the operation is safe as long as the len
++    // is the same.
++    let scratch = unsafe {
++        slice::from_raw_parts_mut(
++            stack_array.as_mut_ptr() as *mut MaybeUninit<T>,
++            SMALL_SORT_GENERAL_SCRATCH_LEN,
++        )
++    };
++
++    small_sort_general_with_scratch(v, scratch, is_less);
++}
++
++fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
++    v: &mut [T],
++    scratch: &mut [MaybeUninit<T>],
++    is_less: &mut F,
++) {
++    let len = v.len();
++    if len < 2 {
++        return;
++    }
++
++    if scratch.len() < len + 16 {
++        intrinsics::abort_immediate();
++    }
++
++    let v_base = v.as_mut_ptr();
++    let len_div_2 = len / 2;
++
++    // SAFETY: See individual comments.
++    unsafe {
++        let scratch_base = scratch.as_mut_ptr() as *mut T;
++
++        let presorted_len = if const { size_of::<T>() <= 16 } && len >= 16 {
++            // SAFETY: scratch_base is valid and has enough space.
++            sort8_stable(v_base, scratch_base, scratch_base.add(len), is_less);
++            sort8_stable(
++                v_base.add(len_div_2),
++                scratch_base.add(len_div_2),
++                scratch_base.add(len + 8),
++                is_less,
++            );
++
++            8
++        } else if len >= 8 {
++            // SAFETY: scratch_base is valid and has enough space.
++            sort4_stable(v_base, scratch_base, is_less);
++            sort4_stable(v_base.add(len_div_2), scratch_base.add(len_div_2), is_less);
++
++            4
++        } else {
++            ptr::copy_nonoverlapping(v_base, scratch_base, 1);
++            ptr::copy_nonoverlapping(v_base.add(len_div_2), scratch_base.add(len_div_2), 1);
++
++            1
++        };
++
++        for offset in [0, len_div_2] {
++            // SAFETY: at this point dst is initialized with presorted_len elements.
++            // We extend this to desired_len, src is valid for desired_len elements.
++            let src = v_base.add(offset);
++            let dst = scratch_base.add(offset);
++            let desired_len = if offset == 0 { len_div_2 } else { len - len_div_2 };
++
++            for i in presorted_len..desired_len {
++                ptr::copy_nonoverlapping(src.add(i), dst.add(i), 1);
++                insert_tail(dst, dst.add(i), is_less);
++            }
++        }
++
++        // SAFETY: see comment in `CopyOnDrop::drop`.
++        let drop_guard = CopyOnDrop { src: scratch_base, dst: v_base, len };
++
++        // SAFETY: at this point scratch_base is fully initialized, allowing us
++        // to use it as the source of our merge back into the original array.
++        // If a panic occurs we ensure the original array is restored to a valid
++        // permutation of the input through drop_guard. This technique is similar
++        // to ping-pong merging.
++        bidirectional_merge(
++            slice::from_raw_parts(drop_guard.src, drop_guard.len),
++            drop_guard.dst,
++            is_less,
++        );
++        mem::forget(drop_guard);
++    }
++}
++
++struct CopyOnDrop<T> {
++    src: *const T,
++    dst: *mut T,
++    len: usize,
++}
++
++impl<T> Drop for CopyOnDrop<T> {
++    fn drop(&mut self) {
++        // SAFETY: `src` must contain `len` initialized elements, and dst must
++        // be valid to write `len` elements.
++        unsafe {
++            ptr::copy_nonoverlapping(self.src, self.dst, self.len);
++        }
++    }
++}
++
++fn small_sort_network<T, F>(v: &mut [T], is_less: &mut F)
++where
++    T: FreezeMarker,
++    F: FnMut(&T, &T) -> bool,
++{
++    // This implementation is tuned to be efficient for integer types.
++
++    let len = v.len();
++    if len < 2 {
++        return;
++    }
++
++    if len > SMALL_SORT_NETWORK_SCRATCH_LEN {
++        intrinsics::abort_immediate();
++    }
++
++    let mut stack_array = MaybeUninit::<[T; SMALL_SORT_NETWORK_SCRATCH_LEN]>::uninit();
++
++    let len_div_2 = len / 2;
++    let no_merge = len < 18;
++
++    let v_base = v.as_mut_ptr();
++    let initial_region_len = if no_merge { len } else { len_div_2 };
++    // SAFETY: Both possible values of `initial_region_len` are in-bounds.
++    let mut region = unsafe { slice::from_raw_parts_mut(v_base, initial_region_len) };
++
++    // Avoid compiler unrolling, we *really* don't want that to happen here for binary-size reasons.
++    loop {
++        let presorted_len = if region.len() >= 13 {
++            sort13_optimal(region, is_less);
++            13
++        } else if region.len() >= 9 {
++            sort9_optimal(region, is_less);
++            9
++        } else {
++            1
++        };
++
++        insertion_sort_shift_left(region, presorted_len, is_less);
++
++        if no_merge {
++            return;
++        }
++
++        if region.as_ptr() != v_base {
++            break;
++        }
++
++        // SAFETY: The right side of `v` based on `len_div_2` is guaranteed in-bounds.
++        unsafe { region = slice::from_raw_parts_mut(v_base.add(len_div_2), len - len_div_2) };
++    }
++
++    // SAFETY: We checked that T is Freeze and thus observation safe.
++    // Should is_less panic v was not modified in parity_merge and retains it's original input.
++    // scratch and v must not alias and scratch has v.len() space.
++    unsafe {
++        let scratch_base = stack_array.as_mut_ptr() as *mut T;
++        bidirectional_merge(slice::from_raw_parts_mut(v_base, len), scratch_base, is_less);
++        ptr::copy_nonoverlapping(scratch_base, v_base, len);
++    }
++}
++
++/// Swap two values in the slice pointed to by `v_base` at the position `a_pos` and `b_pos` if the
++/// value at position `b_pos` is less than the one at position `a_pos`.
++///
++/// Purposefully not marked `#[inline]`, despite us wanting it to be inlined for integers like
++/// types. `is_less` could be a huge function and we want to give the compiler an option to
++/// not inline this function. For the same reasons that this function is very perf critical
++/// it should be in the same module as the functions that use it.
++// Kani's write sets below list only element or destination memory; they cannot express
++// the footprint of an arbitrary FnMut. These contracts and stub_verified uses require
++// comparators that write nowhere else, and only the proved element, comparator, and
++// allocation domains listed in verify.rs. One successful contract proof does not justify
++// a new consumer.
++#[safety::requires(
++    a_pos.checked_mul(size_of::<T>()).is_some_and(|offset| {
++        offset <= isize::MAX as usize
++            && (v_base as isize).checked_add(offset as isize).is_some()
++            && ptr::byte_offset_does_not_wrap(v_base, offset as isize)
++    })
++)]
++#[safety::requires(
++    b_pos.checked_mul(size_of::<T>()).is_some_and(|offset| {
++        offset <= isize::MAX as usize
++            && (v_base as isize).checked_add(offset as isize).is_some()
++            && ptr::byte_offset_does_not_wrap(v_base, offset as isize)
++    })
++)]
++#[safety::requires(
++    crate::ub_checks::same_allocation(v_base, v_base.wrapping_add(a_pos))
++        && crate::ub_checks::same_allocation(v_base, v_base.wrapping_add(b_pos))
++)]
++#[safety::requires(
++    crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))
++        && crate::ub_checks::can_write(v_base.wrapping_add(a_pos))
++)]
++#[safety::requires(
++    crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))
++        && crate::ub_checks::can_write(v_base.wrapping_add(b_pos))
++)]
++#[cfg_attr(kani, crate::kani::modifies(v_base.wrapping_add(a_pos), v_base.wrapping_add(b_pos)))]
++unsafe fn swap_if_less<T, F>(v_base: *mut T, a_pos: usize, b_pos: usize, is_less: &mut F)
++where
++    F: FnMut(&T, &T) -> bool,
++{
++    // SAFETY: the caller must guarantee that `a_pos` and `b_pos` each added to `v_base` yield valid
++    // pointers into `v_base`, and are properly aligned, and part of the same allocation.
++    unsafe {
++        let v_a = v_base.add(a_pos);
++        let v_b = v_base.add(b_pos);
++
++        // PANIC SAFETY: if is_less panics, no scratch memory was created and the slice should still be
++        // in a well defined state, without duplicates.
++
++        // Important to only swap if it is more and not if it is equal. is_less should return false for
++        // equal, so we don't swap.
++        let should_swap = is_less(&*v_b, &*v_a);
++
++        // This is a branchless version of swap if.
++        // The equivalent code with a branch would be:
++        //
++        // if should_swap {
++        //     ptr::swap(v_a, v_b, 1);
++        // }
++
++        // The goal is to generate cmov instructions here.
++        let v_a_swap = hint::select_unpredictable(should_swap, v_b, v_a);
++        let v_b_swap = hint::select_unpredictable(should_swap, v_a, v_b);
++
++        let v_b_swap_tmp = ManuallyDrop::new(ptr::read(v_b_swap));
++        ptr::copy(v_a_swap, v_a, 1);
++        ptr::copy_nonoverlapping(&*v_b_swap_tmp, v_b, 1);
++    }
++}
++
++/// Sorts the first 9 elements of `v` with a fast fixed function.
++///
++/// Should `is_less` generate substantial amounts of code the compiler can choose to not inline
++/// `swap_if_less`. If the code of a sort impl changes so as to call this function in multiple
++/// places, `#[inline(never)]` is recommended to keep binary-size in check. The current design of
++/// `small_sort_network` makes sure to only call this once.
++fn sort9_optimal<T, F>(v: &mut [T], is_less: &mut F)
++where
++    F: FnMut(&T, &T) -> bool,
++{
++    if v.len() < 9 {
++        intrinsics::abort_immediate();
++    }
++
++    let v_base = v.as_mut_ptr();
++
++    // Optimal sorting network see:
++    // https://bertdobbelaere.github.io/sorting_networks.html.
++
++    // SAFETY: We checked the len.
++    unsafe {
++        swap_if_less(v_base, 0, 3, is_less);
++        swap_if_less(v_base, 1, 7, is_less);
++        swap_if_less(v_base, 2, 5, is_less);
++        swap_if_less(v_base, 4, 8, is_less);
++        swap_if_less(v_base, 0, 7, is_less);
++        swap_if_less(v_base, 2, 4, is_less);
++        swap_if_less(v_base, 3, 8, is_less);
++        swap_if_less(v_base, 5, 6, is_less);
++        swap_if_less(v_base, 0, 2, is_less);
++        swap_if_less(v_base, 1, 3, is_less);
++        swap_if_less(v_base, 4, 5, is_less);
++        swap_if_less(v_base, 7, 8, is_less);
++        swap_if_less(v_base, 1, 4, is_less);
++        swap_if_less(v_base, 3, 6, is_less);
++        swap_if_less(v_base, 5, 7, is_less);
++        swap_if_less(v_base, 0, 1, is_less);
++        swap_if_less(v_base, 2, 4, is_less);
++        swap_if_less(v_base, 3, 5, is_less);
++        swap_if_less(v_base, 6, 8, is_less);
++        swap_if_less(v_base, 2, 3, is_less);
++        swap_if_less(v_base, 4, 5, is_less);
++        swap_if_less(v_base, 6, 7, is_less);
++        swap_if_less(v_base, 1, 2, is_less);
++        swap_if_less(v_base, 3, 4, is_less);
++        swap_if_less(v_base, 5, 6, is_less);
++    }
++}
++
++/// Sorts the first 13 elements of `v` with a fast fixed function.
++///
++/// Should `is_less` generate substantial amounts of code the compiler can choose to not inline
++/// `swap_if_less`. If the code of a sort impl changes so as to call this function in multiple
++/// places, `#[inline(never)]` is recommended to keep binary-size in check. The current design of
++/// `small_sort_network` makes sure to only call this once.
++fn sort13_optimal<T, F>(v: &mut [T], is_less: &mut F)
++where
++    F: FnMut(&T, &T) -> bool,
++{
++    if v.len() < 13 {
++        intrinsics::abort_immediate();
++    }
++
++    let v_base = v.as_mut_ptr();
++
++    // Optimal sorting network see:
++    // https://bertdobbelaere.github.io/sorting_networks.html.
++
++    // SAFETY: We checked the len.
++    unsafe {
++        swap_if_less(v_base, 0, 12, is_less);
++        swap_if_less(v_base, 1, 10, is_less);
++        swap_if_less(v_base, 2, 9, is_less);
++        swap_if_less(v_base, 3, 7, is_less);
++        swap_if_less(v_base, 5, 11, is_less);
++        swap_if_less(v_base, 6, 8, is_less);
++        swap_if_less(v_base, 1, 6, is_less);
++        swap_if_less(v_base, 2, 3, is_less);
++        swap_if_less(v_base, 4, 11, is_less);
++        swap_if_less(v_base, 7, 9, is_less);
++        swap_if_less(v_base, 8, 10, is_less);
++        swap_if_less(v_base, 0, 4, is_less);
++        swap_if_less(v_base, 1, 2, is_less);
++        swap_if_less(v_base, 3, 6, is_less);
++        swap_if_less(v_base, 7, 8, is_less);
++        swap_if_less(v_base, 9, 10, is_less);
++        swap_if_less(v_base, 11, 12, is_less);
++        swap_if_less(v_base, 4, 6, is_less);
++        swap_if_less(v_base, 5, 9, is_less);
++        swap_if_less(v_base, 8, 11, is_less);
++        swap_if_less(v_base, 10, 12, is_less);
++        swap_if_less(v_base, 0, 5, is_less);
++        swap_if_less(v_base, 3, 8, is_less);
++        swap_if_less(v_base, 4, 7, is_less);
++        swap_if_less(v_base, 6, 11, is_less);
++        swap_if_less(v_base, 9, 10, is_less);
++        swap_if_less(v_base, 0, 1, is_less);
++        swap_if_less(v_base, 2, 5, is_less);
++        swap_if_less(v_base, 6, 9, is_less);
++        swap_if_less(v_base, 7, 8, is_less);
++        swap_if_less(v_base, 10, 11, is_less);
++        swap_if_less(v_base, 1, 3, is_less);
++        swap_if_less(v_base, 2, 4, is_less);
++        swap_if_less(v_base, 5, 6, is_less);
++        swap_if_less(v_base, 9, 10, is_less);
++        swap_if_less(v_base, 1, 2, is_less);
++        swap_if_less(v_base, 3, 4, is_less);
++        swap_if_less(v_base, 5, 7, is_less);
++        swap_if_less(v_base, 6, 8, is_less);
++        swap_if_less(v_base, 2, 3, is_less);
++        swap_if_less(v_base, 4, 5, is_less);
++        swap_if_less(v_base, 6, 7, is_less);
++        swap_if_less(v_base, 8, 9, is_less);
++        swap_if_less(v_base, 3, 4, is_less);
++        swap_if_less(v_base, 5, 6, is_less);
++    }
++}
++
++// Contract-only geometry. Return zero for invalid inputs, including equal pointers, so the
++// modifies expression stays total even in a consumer that deliberately violates requires.
++#[cfg(kani)]
++fn insert_tail_contract_len<T>(begin: *mut T, tail: *mut T) -> usize {
++    let elem_size = size_of::<T>();
++    if elem_size == 0 || begin >= tail || !crate::ub_checks::same_allocation(begin, tail) {
++        return 0;
++    }
++    let Some(bytes) = (tail as usize).checked_sub(begin as usize) else {
++        return 0;
++    };
++    if bytes > isize::MAX as usize || bytes % elem_size != 0 {
++        return 0;
++    }
++    (bytes / elem_size).saturating_add(1)
++}
++
++/// Sorts range [begin, tail] assuming [begin, tail) is already sorted.
++///
++/// # Safety
++/// begin < tail and p must be valid and initialized for all begin <= p <= tail.
++// The Kani callback frame and domain restrictions above swap_if_less also apply here.
++#[safety::requires(
++    begin < tail
++        && insert_tail_contract_len(begin, tail) > 1
++        && crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(
++            begin,
++            insert_tail_contract_len(begin, tail),
++        ))
++        && crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(
++            begin,
++            insert_tail_contract_len(begin, tail),
++        ))
++)]
++#[cfg_attr(
++    kani,
++    crate::kani::modifies(ptr::slice_from_raw_parts_mut(
++        begin,
++        insert_tail_contract_len(begin, tail)
++    ))
++)]
++unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {
++    // SAFETY: see individual comments.
++    unsafe {
++        // SAFETY: in-bounds as tail > begin.
++        let mut sift = tail.sub(1);
++        if !is_less(&*tail, &*sift) {
++            return;
++        }
++
++        // SAFETY: after this read tail is never read from again, as we only ever
++        // read from sift, sift < tail and we only ever decrease sift. Thus this is
++        // effectively a move, not a copy. Should a panic occur, or we have found
++        // the correct insertion position, gap_guard ensures the element is moved
++        // back into the array.
++        let tmp = ManuallyDrop::new(tail.read());
++        let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };
++
++        loop {
++            // SAFETY: we move sift into the gap (which is valid), and point the
++            // gap guard destination at sift, ensuring that if a panic occurs the
++            // gap is once again filled.
++            ptr::copy_nonoverlapping(sift, gap_guard.dst, 1);
++            gap_guard.dst = sift;
++
++            if sift == begin {
++                break;
++            }
++
++            // SAFETY: we checked that sift != begin, thus this is in-bounds.
++            sift = sift.sub(1);
++            if !is_less(&tmp, &*sift) {
++                break;
++            }
++        }
++    }
++}
++
++/// Sort `v` assuming `v[..offset]` is already sorted.
++// The Kani callback frame and domain restrictions above swap_if_less also apply here.
++#[safety::requires(offset != 0 && offset <= v.len())]
++#[cfg_attr(kani, crate::kani::modifies(v))]
++pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
++    v: &mut [T],
++    offset: usize,
++    is_less: &mut F,
++) {
++    let len = v.len();
++    if offset == 0 || offset > len {
++        intrinsics::abort_immediate();
++    }
++
++    // SAFETY: see individual comments.
++    unsafe {
++        // We write this basic loop directly using pointers, as when we use a
++        // for loop LLVM likes to unroll this loop which we do not want.
++        // SAFETY: v_end is the one-past-end pointer, and we checked that
++        // offset <= len, thus tail is also in-bounds.
++        let v_base = v.as_mut_ptr();
++        let v_end = v_base.add(len);
++        let mut tail = v_base.add(offset);
++        while tail != v_end {
++            // SAFETY: v_base and tail are both valid pointers to elements, and
++            // v_base < tail since we checked offset != 0.
++            insert_tail(v_base, tail, is_less);
++
++            // SAFETY: we checked that tail is not yet the one-past-end pointer.
++            tail = tail.add(1);
++        }
++    }
++}
++
++#[cfg(kani)]
++fn sort4_contract_regions_disjoint<T>(src: *const T, dst: *mut T) -> bool {
++    let Some(bytes) = size_of::<T>().checked_mul(4) else {
++        return false;
++    };
++    bytes == 0
++        || !crate::ub_checks::same_allocation(src, dst)
++        || (src as usize).abs_diff(dst as usize) >= bytes
++}
++
++/// SAFETY: The caller MUST guarantee that `v_base` is valid for 4 reads and
++/// `dst` is valid for 4 writes. The result will be stored in `dst[0..4]`.
++// The Kani callback frame and domain restrictions above swap_if_less also apply here.
++#[safety::requires(
++    crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(v_base, 4))
++        && crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst, 4))
++        && sort4_contract_regions_disjoint(v_base, dst)
++)]
++#[cfg_attr(kani, crate::kani::modifies(ptr::slice_from_raw_parts_mut(dst, 4)))]
++pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>(
++    v_base: *const T,
++    dst: *mut T,
++    is_less: &mut F,
++) {
++    // By limiting select to picking pointers, we are guaranteed good cmov code-gen
++    // regardless of type T's size. Further this only does 5 instead of 6
++    // comparisons compared to a stable transposition 4 element sorting-network,
++    // and always copies each element exactly once.
++
++    // SAFETY: all pointers have offset at most 3 from v_base and dst, and are
++    // thus in-bounds by the precondition.
++    unsafe {
++        // Stably create two pairs a <= b and c <= d.
++        let c1 = is_less(&*v_base.add(1), &*v_base);
++        let c2 = is_less(&*v_base.add(3), &*v_base.add(2));
++        let a = v_base.add(c1 as usize);
++        let b = v_base.add(!c1 as usize);
++        let c = v_base.add(2 + c2 as usize);
++        let d = v_base.add(2 + (!c2 as usize));
++
++        // Compare (a, c) and (b, d) to identify max/min. We're left with two
++        // unknown elements, but because we are a stable sort we must know which
++        // one is leftmost and which one is rightmost.
++        // c3, c4 | min max unknown_left unknown_right
++        //  0,  0 |  a   d    b         c
++        //  0,  1 |  a   b    c         d
++        //  1,  0 |  c   d    a         b
++        //  1,  1 |  c   b    a         d
++        let c3 = is_less(&*c, &*a);
++        let c4 = is_less(&*d, &*b);
++        let min = hint::select_unpredictable(c3, c, a);
++        let max = hint::select_unpredictable(c4, b, d);
++        let unknown_left = hint::select_unpredictable(c3, a, hint::select_unpredictable(c4, c, b));
++        let unknown_right = hint::select_unpredictable(c4, d, hint::select_unpredictable(c3, b, c));
++
++        // Sort the last two unknown elements.
++        let c5 = is_less(&*unknown_right, &*unknown_left);
++        let lo = hint::select_unpredictable(c5, unknown_right, unknown_left);
++        let hi = hint::select_unpredictable(c5, unknown_left, unknown_right);
++
++        ptr::copy_nonoverlapping(min, dst, 1);
++        ptr::copy_nonoverlapping(lo, dst.add(1), 1);
++        ptr::copy_nonoverlapping(hi, dst.add(2), 1);
++        ptr::copy_nonoverlapping(max, dst.add(3), 1);
++    }
++}
++
++/// SAFETY: The caller MUST guarantee that `v_base` is valid for 8 reads and
++/// writes, `scratch_base` and `dst` MUST be valid for 8 writes. The result will
++/// be stored in `dst[0..8]`.
++unsafe fn sort8_stable<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
++    v_base: *mut T,
++    dst: *mut T,
++    scratch_base: *mut T,
++    is_less: &mut F,
++) {
++    // SAFETY: these pointers are all in-bounds by the precondition of our function.
++    unsafe {
++        sort4_stable(v_base, scratch_base, is_less);
++        sort4_stable(v_base.add(4), scratch_base.add(4), is_less);
++    }
++
++    // SAFETY: scratch_base[0..8] is now initialized, allowing us to merge back
++    // into dst.
++    unsafe {
++        bidirectional_merge(slice::from_raw_parts(scratch_base, 8), dst, is_less);
++    }
++}
++
++#[inline(always)]
++unsafe fn merge_up<T, F: FnMut(&T, &T) -> bool>(
++    mut left_src: *const T,
++    mut right_src: *const T,
++    mut dst: *mut T,
++    is_less: &mut F,
++) -> (*const T, *const T, *mut T) {
++    // This is a branchless merge utility function.
++    // The equivalent code with a branch would be:
++    //
++    // if !is_less(&*right_src, &*left_src) {
++    //     ptr::copy_nonoverlapping(left_src, dst, 1);
++    //     left_src = left_src.add(1);
++    // } else {
++    //     ptr::copy_nonoverlapping(right_src, dst, 1);
++    //     right_src = right_src.add(1);
++    // }
++    // dst = dst.add(1);
++
++    // SAFETY: The caller must guarantee that `left_src`, `right_src` are valid
++    // to read and `dst` is valid to write, while not aliasing.
++    unsafe {
++        let is_l = !is_less(&*right_src, &*left_src);
++        let src = if is_l { left_src } else { right_src };
++        ptr::copy_nonoverlapping(src, dst, 1);
++        right_src = right_src.add(!is_l as usize);
++        left_src = left_src.add(is_l as usize);
++        dst = dst.add(1);
++    }
++
++    (left_src, right_src, dst)
++}
++
++#[inline(always)]
++unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
++    mut left_src: *const T,
++    mut right_src: *const T,
++    mut dst: *mut T,
++    is_less: &mut F,
++) -> (*const T, *const T, *mut T) {
++    // This is a branchless merge utility function.
++    // The equivalent code with a branch would be:
++    //
++    // if !is_less(&*right_src, &*left_src) {
++    //     ptr::copy_nonoverlapping(right_src, dst, 1);
++    //     right_src = right_src.wrapping_sub(1);
++    // } else {
++    //     ptr::copy_nonoverlapping(left_src, dst, 1);
++    //     left_src = left_src.wrapping_sub(1);
++    // }
++    // dst = dst.sub(1);
++
++    // SAFETY: The caller must guarantee that `left_src`, `right_src` are valid
++    // to read and `dst` is valid to write, while not aliasing.
++    unsafe {
++        let is_l = !is_less(&*right_src, &*left_src);
++        let src = if is_l { right_src } else { left_src };
++        ptr::copy_nonoverlapping(src, dst, 1);
++        right_src = right_src.wrapping_sub(is_l as usize);
++        left_src = left_src.wrapping_sub(!is_l as usize);
++        dst = dst.sub(1);
++    }
++
++    (left_src, right_src, dst)
++}
++
++#[cfg(kani)]
++fn merge_contract_regions_disjoint<T>(src: *const T, dst: *mut T, len: usize) -> bool {
++    let Some(bytes) = size_of::<T>().checked_mul(len) else {
++        return false;
++    };
++    bytes == 0
++        || !crate::ub_checks::same_allocation(src, dst)
++        || (src as usize).abs_diff(dst as usize) >= bytes
++}
++
++/// Merge v assuming v[..len / 2] and v[len / 2..] are sorted.
++///
++/// Original idea for bi-directional merging by Igor van den Hoven (quadsort),
++/// adapted to only use merge up and down. In contrast to the original
++/// parity_merge function, it performs 2 writes instead of 4 per iteration.
++///
++/// # Safety
++/// The caller must guarantee that `dst` is valid for v.len() writes.
++/// Also `v.as_ptr()` and `dst` must not alias and v.len() must be >= 2.
++///
++/// Note that T must be Freeze, the comparison function is evaluated on outdated
++/// temporary 'copies' that may not end up in the final array.
++// The Kani callback frame and domain restrictions above swap_if_less also apply here.
++#[safety::requires(v.len() >= 2)]
++#[safety::requires(crate::ub_checks::can_dereference(v as *const [T]))]
++#[safety::requires(crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst, v.len())))]
++#[safety::requires(merge_contract_regions_disjoint(v.as_ptr(), dst, v.len()))]
++#[cfg_attr(kani, crate::kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
++unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
++    v: &[T],
++    dst: *mut T,
++    is_less: &mut F,
++) {
++    // It helps to visualize the merge:
++    //
++    // Initial:
++    //
++    //  |dst (in dst)
++    //  |left               |right
++    //  v                   v
++    // [xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]
++    //                     ^                   ^
++    //                     |left_rev           |right_rev
++    //                                         |dst_rev (in dst)
++    //
++    // After:
++    //
++    //                      |dst (in dst)
++    //        |left         |           |right
++    //        v             v           v
++    // [xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]
++    //       ^             ^           ^
++    //       |left_rev     |           |right_rev
++    //                     |dst_rev (in dst)
++    //
++    // In each iteration one of left or right moves up one position, and one of
++    // left_rev or right_rev moves down one position, whereas dst always moves
++    // up one position and dst_rev always moves down one position. Assuming
++    // the input was sorted and the comparison function is correctly implemented
++    // at the end we will have left == left_rev + 1, and right == right_rev + 1,
++    // fully consuming the input having written it to dst.
++
++    let len = v.len();
++    let src = v.as_ptr();
++
++    let len_div_2 = len / 2;
++
++    // SAFETY: The caller has to ensure that len >= 2.
++    unsafe {
++        intrinsics::assume(len_div_2 != 0); // This can avoid useless code-gen.
++    }
++
++    // SAFETY: no matter what the result of the user-provided comparison function
++    // is, all 4 read pointers will always be in-bounds. Writing `dst` and `dst_rev`
++    // will always be in bounds if the caller guarantees that `dst` is valid for
++    // `v.len()` writes.
++    unsafe {
++        let mut left = src;
++        let mut right = src.add(len_div_2);
++        let mut dst = dst;
++
++        let mut left_rev = src.add(len_div_2 - 1);
++        let mut right_rev = src.add(len - 1);
++        let mut dst_rev = dst.add(len - 1);
++
++        for _ in 0..len_div_2 {
++            (left, right, dst) = merge_up(left, right, dst, is_less);
++            (left_rev, right_rev, dst_rev) = merge_down(left_rev, right_rev, dst_rev, is_less);
++        }
++
++        let left_end = left_rev.wrapping_add(1);
++        let right_end = right_rev.wrapping_add(1);
++
++        // Odd length, so one element is left unconsumed in the input.
++        if !len.is_multiple_of(2) {
++            let left_nonempty = left < left_end;
++            let last_src = if left_nonempty { left } else { right };
++            ptr::copy_nonoverlapping(last_src, dst, 1);
++            left = left.add(left_nonempty as usize);
++            right = right.add((!left_nonempty) as usize);
++        }
++
++        // We now should have consumed the full input exactly once. This can only fail if the
++        // user-provided comparison function fails to implement a strict weak ordering. In that case
++        // we panic and never access the inconsistent state in dst.
++        if left != left_end || right != right_end {
++            panic_on_ord_violation();
++        }
++    }
++}
++
++#[cfg_attr(not(panic = "immediate-abort"), inline(never), cold)]
++#[cfg_attr(panic = "immediate-abort", inline)]
++fn panic_on_ord_violation() -> ! {
++    // This is indicative of a logic bug in the user-provided comparison function or Ord
++    // implementation. They are expected to implement a total order as explained in the Ord
++    // documentation.
++    //
++    // By panicking we inform the user, that they have a logic bug in their program. If a strict
++    // weak ordering is not given, the concept of comparison based sorting cannot yield a sorted
++    // result. E.g.: a < b < c < a
++    //
++    // The Ord documentation requires users to implement a total order. Arguably that's
++    // unnecessarily strict in the context of sorting. Issues only arise if the weaker requirement
++    // of a strict weak ordering is violated.
++    //
++    // The panic message talks about a total order because that's what the Ord documentation talks
++    // about and requires, so as to not confuse users.
++    panic!("user-provided comparison function does not correctly implement a total order");
++}
++
++#[must_use]
++pub(crate) const fn has_efficient_in_place_swap<T>() -> bool {
++    // Heuristic that holds true on all tested 64-bit capable architectures.
++    size_of::<T>() <= 8 // size_of::<u64>()
++}
++
++// Bounded SmallSort verification; harnesses are isolated from ordinary Rust builds.
++#[cfg(kani)]
++#[unstable(feature = "kani", issue = "none")]
++mod verify;
+diff --git a/ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt b/ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt
+new file mode 100644
+index 000000000..798c98cc6
+--- /dev/null
++++ b/ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt
+@@ -0,0 +1,177 @@
++//! Opt-in model controls; register only with sorting AND controls cfgs.
++//! These roots test the checker, not the six real SmallSort method contracts.
++
++use super::sorting_model::{KeyLess, NonCopyByte, enabled, post, snapshot};
++use crate::cell::Cell;
++use crate::kani;
++use crate::mem::{MaybeUninit, align_of, needs_drop, size_of};
++
++fn byte(value: u8) -> u8 { value }
++
++// Independent, tiny fixture constructor, not a replacement for actual sort proofs.
++fn sorted_prefix(mut values: [u8; 3], len: usize) -> [u8; 3] {
++    let mut i = 1;
++    while i < len {
++        let mut j = i;
++        while j > 0 && values[j] < values[j - 1] {
++            values.swap(j, j - 1);
++            j -= 1;
++        }
++        i += 1;
++    }
++    values
++}
++
++macro_rules! positive {
++    ($name:ident, $ty:ty, $new:path) => {
++        #[kani::proof]
++        #[kani::unwind(5)]
++        fn $name() {
++            let input: [u8; 3] = kani::any();
++            let len: usize = kani::any();
++            kani::assume(len <= 3);
++            let values = [$new(input[0]), $new(input[1]), $new(input[2])];
++            kani::assert(enabled::<$ty, KeyLess<$ty>>(), concat!(stringify!($name), "::model_enabled"));
++            let before = snapshot::<$ty, KeyLess<$ty>>(&values[..len]);
++            let mut ordered = true;
++            let mut i = 1;
++            while i < len {
++                ordered = ordered && input[i - 1] <= input[i];
++                i += 1;
++            }
++            kani::assert(post::<$ty, KeyLess<$ty>>(before, &values[..len]) == ordered, concat!(stringify!($name), "::identity_checker"));
++            let sorted = sorted_prefix(input, len);
++            let output = [$new(sorted[0]), $new(sorted[1]), $new(sorted[2])];
++            kani::assert(post::<$ty, KeyLess<$ty>>(before, &output[..len]), concat!(stringify!($name), "::constructed_sorted_permutation"));
++            let mut less = KeyLess::<$ty>::new();
++            kani::assert(less(&values[0], &values[1]) == (input[0] < input[1]), concat!(stringify!($name), "::fnmut_two_projections"));
++            kani::assert(FnOnce::call_once(KeyLess::<$ty>::new(), (&values[1], &values[0]))
++                == (input[1] < input[0]), concat!(stringify!($name), "::fnonce_two_projections"));
++            kani::assert(size_of::<$ty>() == 1 && align_of::<$ty>() == 1, concat!(stringify!($name), "::element_layout"));
++            kani::assert(size_of::<KeyLess<$ty>>() == 0 && !needs_drop::<$ty>(), concat!(stringify!($name), "::comparator_zst_element_no_drop"));
++            kani::cover(len == 0, "S1_model_N0_return");
++            kani::cover(len == 1, "S1_model_N1_return");
++            kani::cover(len == 2, "S1_model_N2_return");
++            kani::cover(len == 3, "S1_model_N3_return");
++            kani::cover(len == 3 && input[0] == input[1], "S1_duplicate_return");
++            kani::cover(len == 3 && input[0] > input[1], "S1_unsorted_input_return");
++        }
++    };
++}
++positive!(model_u8_n0_3, u8, byte);
++positive!(model_cell_n0_3, Cell<u8>, Cell::new);
++positive!(model_noncopy_n0_3, NonCopyByte, NonCopyByte::new);
++
++fn inactive<T, F>(values: &[T], _comparator: &F) {
++    assert!(!enabled::<T, F>(), "S1_INACTIVE_PAIR");
++    let invalid = snapshot::<T, F>(values);
++    assert!(post::<T, F>(invalid, values), "S1_INACTIVE_GUARDED_NO_CLAIM");
++    assert!(!post::<u8, KeyLess<u8>>(invalid, &[]), "S1_INACTIVE_TOKEN_INVALID");
++}
++
++#[kani::proof]
++fn inactive_pairs_read_free() {
++    let values: [u8; 2] = kani::any();
++    inactive(&values, &|a: &u8, b: &u8| a > b);
++    let mut touched = false;
++    {
++        let effectful = |a: &u8, b: &u8| { touched = true; a < b };
++        inactive(&values, &effectful);
++    }
++    assert!(!touched, "S1_INACTIVE_NEVER_CALLS_COMPARATOR");
++    // The reference is valid: MaybeUninit itself is initialized, its payload is not.
++    // No invalid Rust reference or reference to an uninitialized u8 is constructed.
++    let storage = [MaybeUninit::<u8>::uninit(); 2];
++    inactive(&storage, &KeyLess::<MaybeUninit<u8>>::new());
++    kani::cover(true, "S1_inactive_legal_storage_return");
++}
++
++fn require_active<T, F>(_values: &[T], _comparator: &F) {
++    assert!(enabled::<T, F>(), "S1_ACTIVATION_UNSUPPORTED_PAIR");
++}
++
++#[kani::proof]
++fn activation_descending_rejected() {
++    require_active(&[0u8, 1], &|a: &u8, b: &u8| a > b);
++}
++
++#[kani::proof]
++fn activation_effectful_rejected() {
++    let mut touched = false;
++    let effectful = |a: &u8, b: &u8| { touched = true; a < b };
++    require_active(&[0u8, 1], &effectful);
++}
++
++#[kani::proof]
++fn activation_unsupported_type_rejected() {
++    let storage = [MaybeUninit::<u8>::uninit(); 2];
++    require_active(&storage, &KeyLess::<MaybeUninit<u8>>::new());
++}
++
++fn strict_pair() -> [u8; 2] {
++    let a: u8 = kani::any();
++    let b: u8 = kani::any();
++    kani::assume(a < b);
++    [a, b]
++}
++
++#[kani::proof]
++#[kani::unwind(4)]
++fn corruption_companion() {
++    let values = strict_pair();
++    let before = snapshot::<u8, KeyLess<u8>>(&values);
++    assert!(post::<u8, KeyLess<u8>>(before, &values), "S1_CORRUPTION_LEGAL_COMPANION");
++    assert!(!post::<u8, KeyLess<u8>>(before, &[values[1], values[0]]),
++        "S1_ORDER_REJECTED_WITH_COUNTS_PRESERVED");
++    assert!(!post::<u8, KeyLess<u8>>(before, &[values[0], values[0]]),
++        "S1_COUNTS_REJECTED_WITH_ORDER_PRESERVED");
++    kani::cover(true, "S1_corruption_companion_return");
++}
++
++#[kani::proof]
++#[kani::unwind(4)]
++fn order_corruption_rejected() {
++    let values = strict_pair();
++    let before = snapshot::<u8, KeyLess<u8>>(&values);
++    assert!(post::<u8, KeyLess<u8>>(before, &[values[1], values[0]]),
++        "S1_ORDER_CORRUPTION_ACCEPTED");
++}
++
++#[kani::proof]
++#[kani::unwind(4)]
++fn count_corruption_rejected() {
++    let values = strict_pair();
++    let corrupt = [values[0], values[0]];
++    assert!(corrupt[0] <= corrupt[1], "S1_COUNT_FIXTURE_STAYS_SORTED");
++    let before = snapshot::<u8, KeyLess<u8>>(&values);
++    assert!(post::<u8, KeyLess<u8>>(before, &corrupt),
++        "S1_COUNT_CORRUPTION_ACCEPTED");
++}
++
++#[kani::proof]
++#[kani::unwind(34)]
++fn snapshot_guards_companion() {
++    let invalid = snapshot::<u8, ()>(&[]);
++    assert!(!post::<u8, KeyLess<u8>>(invalid, &[]), "S1_ACTIVE_INVALID_REJECTED");
++    let full = [7u8; 32];
++    let before = snapshot::<u8, KeyLess<u8>>(&full);
++    assert!(post::<u8, KeyLess<u8>>(before, &full), "S1_CAP32_IDENTITY");
++    assert!(!post::<u8, KeyLess<u8>>(before, &full[..31]), "S1_LENGTH_CHANGE_REJECTED");
++    let overflow = [7u8; 33];
++    let overflow_snapshot = snapshot::<u8, KeyLess<u8>>(&overflow);
++    assert!(!post::<u8, KeyLess<u8>>(overflow_snapshot, &[]), "S1_OVERFLOW_TOKEN_INVALID");
++    assert!(!post::<u8, KeyLess<u8>>(before, &overflow), "S1_OVERFLOW_OUTPUT_REJECTED");
++    // Mutating Cell after snapshot must not mutate the owned pre-state.
++    let cells = [Cell::new(1u8), Cell::new(2u8)];
++    let cell_before = snapshot::<Cell<u8>, KeyLess<Cell<u8>>>(&cells);
++    cells[1].set(1);
++    assert!(!post::<Cell<u8>, KeyLess<Cell<u8>>>(cell_before, &cells),
++        "S1_CELL_SNAPSHOT_OWNS_PRESTATE");
++    kani::cover(true, "S1_snapshot_guard_companion_return");
++}
++
++#[kani::proof]
++fn invalid_snapshot_rejected() {
++    let invalid = snapshot::<u8, ()>(&[]);
++    assert!(post::<u8, KeyLess<u8>>(invalid, &[]), "S1_ACTIVE_INVALID_TOKEN_ACCEPTED");
++}
+diff --git a/ch8-s1-control/oracle_source.py b/ch8-s1-control/oracle_source.py
+new file mode 100644
+index 000000000..1c570dcaf
+--- /dev/null
++++ b/ch8-s1-control/oracle_source.py
+@@ -0,0 +1,141 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Offline source-coordinate preflight for the eight frozen S1-08 oracles.
++
++Not imported by runner/collector/admission. Source-derived spans repair only
++closure type coordinates. Existing assertion ordinals are never rediscovered
++from failures; exact runtime matching in negative_oracle.py remains unchanged.
++"""
++import hashlib
++import re
++
++SOURCE_SHA = '99e8456d200fff1299ee5756279cddb23921dc65'
++CLOSURE_COORD = re.compile(r'(?P<file>\{closure@[^{}]+?):(?P<sl>\d+):(?P<sc>\d+): (?P<el>\d+):(?P<ec>\d+)(?=\})')
++
++
++def sha(data):
++    return hashlib.sha256(data).hexdigest()
++
++
++def masked(source):
++    # Preserve offsets/newlines, while preventing strings and comments from
++    # supplying syntax for the small frozen-source lexical checks below.
++    pattern = r'"(?:\\.|[^"\\])*"|//[^\n]*|/\*.*?\*/'
++    return re.sub(pattern, lambda m: ''.join('\n' if c=='\n' else ' ' for c in m[0]), source, flags=re.S)
++
++
++def balanced_end(code, start, opening='(', closing=')'):
++    assert code[start] == opening
++    depth=0
++    for i in range(start,len(code)):
++        if code[i]==opening: depth+=1
++        elif code[i]==closing:
++            depth-=1
++            if depth==0: return i+1
++    raise AssertionError('unbalanced frozen source')
++
++
++def function_body(source, name):
++    code=masked(source)
++    hits=list(re.finditer(r'(?m)^fn\s+'+re.escape(name)+r'\s*[<(]',code))
++    assert len(hits)==1, 'missing/duplicate source function'
++    lo=code.index('{',hits[0].end())
++    hi=balanced_end(code,lo,'{','}')
++    return lo,hi
++
++
++def closure_span(source, root):
++    lo,hi=function_body(source,root)
++    # These two frozen closures have explicit, one-line argument declarations.
++    # Accept no fallback shape and no ordinal/location guess on unknown syntax.
++    hits=list(re.finditer(r'\|[^|\n]*\|',masked(source)[lo:hi]))
++    assert len(hits)==1, 'expected one explicit closure argument span'
++    start=lo+hits[0].start();end=lo+hits[0].end()
++    line=source.count('\n',0,start)+1
++    line_start=source.rfind('\n',0,start)+1
++    line_end=source.find('\n',start)
++    line_text=source[line_start:line_end if line_end>=0 else len(source)]
++    assert line_text.isascii() and '\t' not in line_text, 'unsupported closure column encoding'
++    assert '\n' not in source[start:end]
++    return {'start_line':line,'start_column':start-line_start+1,
++            'end_line':line,'end_column':end-line_start+1,
++            'text':source[start:end]}
++
++
++def span_text(span):
++    return f"{span['start_line']}:{span['start_column']}: {span['end_line']}:{span['end_column']}"
++
++
++def repair_id(property_id, source, root):
++    hits=list(CLOSURE_COORD.finditer(property_id))
++    if not hits: return property_id
++    assert len(hits)==1, 'unknown multi-closure oracle shape'
++    m=hits[0];span=closure_span(source,root)
++    return property_id[:m.start('sl')]+span_text(span)+property_id[m.end('ec'):]
++
++
++def assertion_at(source, line):
++    lines=source.splitlines(keepends=True)
++    assert type(line) is int and 1<=line<=len(lines)
++    offset=sum(len(x) for x in lines[:line-1])
++    code=masked(source)
++    starts=list(re.finditer(r'assert!\s*\(',code[offset:offset+len(lines[line-1])]))
++    if starts:
++        assert len(starts)==1
++        start=offset+starts[0].start();opening=code.index('(',start)
++        end=balanced_end(code,opening)
++        return source[start:end]+';'
++    # Activation mutants are existing false ensures clauses, not Rust assert!.
++    stripped=lines[line-1].strip()
++    assert stripped.startswith('#[cfg_attr(') and 'kani::ensures(' in stripped
++    return stripped
++
++
++def validate(request, sources, baselines):
++    """Check full declared IDs against independently pinned source bytes.
++
++    sources maps (variant, repo-relative path) to exact bytes. The caller must
++    obtain actual bytes from the pinned Git tree/overlay; tests use hash-checked
++    copies of those same files. A coherent request/hash/ID shift cannot override
++    the canonical source digests in the frozen baseline manifest.
++    """
++    assert request['std_sha']==baselines['std_sha']==SOURCE_SHA, 'wrong pinned source'
++    assert request['std_tree']==baselines['std_tree'], 'wrong source tree'
++    negatives=[r for r in request['rows'] if r.get('oracle') is not None]
++    assert len(negatives)==8 and {r['id'] for r in negatives}==set(baselines['oracles']), 'negative inventory'
++    checked=[]
++    for row in negatives:
++        b=baselines['oracles'][row['id']];o=row['oracle']
++        assert row['expected']=='DETECTED' and o['class']=='assertion'
++        assert {k:v for k,v in o.items() if k!='property_id'}==b['oracle_without_id'], 'logical oracle/context drift'
++        assert row['variant']==b['variant'] and row['mode']==b['mode']
++        assert row['selector']==o['selector']==b['oracle_without_id']['selector']
++        key=(row['variant'],o['file']);data=sources[key]
++        canonical=baselines['sources'][row['variant']][o['file']]
++        assert sha(data)==o['source_sha256']==canonical, 'canonical source hash mismatch'
++        effective=request['changed_file_sha256'] if row['variant']=='production' else {
++            **request['changed_file_sha256'],**request['variants'][row['variant']]['changed_file_sha256']}
++        assert effective[o['file']]==canonical, 'source-under-test mismatch'
++        source=data.decode('utf-8');lines=source.splitlines();line=o['line']
++        assert lines[line-1]==o['source_line'], 'assertion anchor'
++        if 'assertion_context' in o:
++            assert lines[line-1:line-1+len(o['assertion_context'])]==o['assertion_context'], 'assertion context'
++        assert assertion_at(source,line)==b['assertion_text'], 'intended assertion expression/clause'
++        template=b['property_id_template']
++        if b['closure_root'] is not None:
++            assert b['closure_root']==row['selector'].rsplit('::',1)[-1]
++            span=closure_span(source,b['closure_root'])
++            expected=template.replace('{source_closure_span}',span_text(span))
++            match=list(CLOSURE_COORD.finditer(expected))
++            assert len(match)==1 and match[0]['file']=='{closure@'+o['export_file']
++        else:
++            assert '{source_closure_span}' not in template
++            expected=template;span=None
++        assert o['property_id']==expected, 'stale/wrong full oracle ID'
++        if 'proposal' in o:
++            assert o['proposal']['property']['id']==expected
++            assert o['status']=='FAILURE' and o['require_only_this_failure'] is True
++        checked.append({'row_id':row['id'],'property_id':expected,'closure_span':span,
++                        'source_sha256':canonical,'assertion_line':line,
++                        'status':'SOURCE_DERIVED_EXPECTATION_NOT_OBSERVED','sole_failure':'EXACT_MATCHER_UNCHANGED'})
++    return checked
+diff --git a/ch8-s1-control/test_s108r1.py b/ch8-s1-control/test_s108r1.py
+new file mode 100644
+index 000000000..99403b464
+--- /dev/null
++++ b/ch8-s1-control/test_s108r1.py
+@@ -0,0 +1,135 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Pinned source extraction and exact negative-ID regression; no real verifier."""
++import copy
++import json
++from pathlib import Path
++import subprocess
++import tempfile
++import unittest
++
++import negative_oracle
++import oracle_source as s
++
++HERE=Path(__file__).resolve().parent
++MODEL='library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs'
++SMALLSORT='library/core/src/slice/sort/shared/smallsort.rs'
++
++
++def fixture_sources():
++    sources={('production',rel):(HERE/'fixtures'/('s108r1-'+Path(rel).name+'.txt')).read_bytes()
++             for rel in (MODEL,SMALLSORT)}
++    with tempfile.TemporaryDirectory() as tmp:
++        repo=Path(tmp);subprocess.run(['git','init','-q',str(repo)],check=True)
++        path=repo/SMALLSORT;path.parent.mkdir(parents=True);path.write_bytes(sources['production',SMALLSORT])
++        def git(*args):return subprocess.check_output(['git','-C',str(repo),*args])
++        for variant in ('activation-default','activation-override'):
++            git('read-tree','--empty');git('add','--',SMALLSORT)
++            git('apply','--cached','--check',str(HERE/(variant+'.patch')))
++            git('apply','--cached',str(HERE/(variant+'.patch')))
++            sources[variant,SMALLSORT]=git('show',':'+SMALLSORT)
++    return sources
++
++
++def harness(oracle):
++    pid=oracle['property_id']
++    return {'name':oracle['selector'],'outcome':{'kind':'COMPLETED','verdict':'FAILURE'},
++        'n_failed':1,'n_properties':1,'checks':{'total':1,'success':0,'failure':[pid],
++            'unreachable':[],'undetermined':[],'error':[],'unknown':[],'other':[]},
++        'covers':{'total':0,'satisfied':[],'unsatisfiable':[],'unreachable':[],
++            'undetermined':[],'error':[],'unknown':[],'other':[]},'unsupported_constructs':[],
++        'failed_properties':[{'id':pid,'file':oracle['export_file'],'line':str(oracle['line']),
++                              'class':'assertion','status':'FAILURE'}]}
++
++
++class OracleSourceTests(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        cls.request=json.loads((HERE/'CI-REQUEST.json').read_bytes())
++        cls.baselines=json.loads((HERE/'ORACLE-SOURCES.json').read_bytes())
++        cls.sources=fixture_sources()
++
++    def test_all_eight_declared_oracles_from_source(self):
++        checked=s.validate(self.request,self.sources,self.baselines)
++        self.assertEqual(len(checked),8)
++        self.assertEqual(sum(x['closure_span'] is not None for x in checked),2)
++        for row in self.request['rows']:
++            if row.get('oracle'):
++                self.assertTrue(negative_oracle.matches(harness(row['oracle']),row['oracle']))
++        source=self.sources['production',MODEL].decode()
++        for root in ('activation_descending_rejected','activation_effectful_rejected'):
++            span=s.closure_span(source,root)
++            line=source.splitlines()[span['start_line']-1]
++            self.assertEqual(line[span['start_column']-1:span['end_column']-1],span['text'])
++            self.assertEqual(span['text'],'|a: &u8, b: &u8|')
++
++    def test_original_stale_lines_columns_and_id_tail_rejected(self):
++        for rid,stale_line in [('activation_descending_rejected',100),('activation_effectful_rejected',106)]:
++            for change in ('old-lines','start-column','end-column','wrong-source-path','wrong-ordinal'):
++                bad=copy.deepcopy(self.request)
++                o=next(r['oracle'] for r in bad['rows'] if r['id']==rid)
++                m=s.CLOSURE_COORD.search(o['property_id'])
++                if change=='old-lines':
++                    coords=f"{stale_line}:{m['sc']}: {stale_line}:{m['ec']}"
++                    o['property_id']=o['property_id'][:m.start('sl')]+coords+o['property_id'][m.end('ec'):]
++                elif change=='wrong-source-path':o['property_id']=o['property_id'].replace('export/library/','wrong/library/')
++                elif change=='wrong-ordinal':o['property_id']=o['property_id'].removesuffix('.assertion.1')+'.assertion.2'
++                else:
++                    group='sc' if change=='start-column' else 'ec'
++                    o['property_id']=o['property_id'][:m.start(group)]+str(int(m[group])+1)+o['property_id'][m.end(group):]
++                # Coherent observed/declared wrong IDs still fail source preflight.
++                self.assertTrue(negative_oracle.matches(harness(o),o))
++                with self.subTest(row=rid,mutation=change),self.assertRaises(AssertionError):
++                    s.validate(bad,self.sources,self.baselines)
++                actual=next(r['oracle'] for r in self.request['rows'] if r['id']==rid)
++                self.assertFalse(negative_oracle.matches(harness(o),actual))
++
++    def test_coherent_shifted_source_hash_context_and_id_rejected(self):
++        bad=copy.deepcopy(self.request);sources=self.sources.copy();baseline=copy.deepcopy(self.baselines)
++        source=sources['production',MODEL].decode()
++        shifted=source.replace('#[kani::proof]\nfn activation_descending_rejected()',
++            '\n'*5+'#[kani::proof]\nfn activation_descending_rejected()',1)
++        self.assertNotEqual(source,shifted)
++        sources['production',MODEL]=shifted.encode();digest=s.sha(shifted.encode())
++        bad['changed_file_sha256'][MODEL]=digest
++        for row in bad['rows']:
++            o=row.get('oracle')
++            if not o or o['file']!=MODEL:continue
++            if o['line']>93:o['line']+=5
++            o['source_sha256']=digest
++            o['property_id']=s.repair_id(o['property_id'],shifted,row['selector'].rsplit('::',1)[-1])
++            # Update redundant metadata too; independent canonical source pins stay.
++            baseline['oracles'][row['id']]['oracle_without_id']={k:v for k,v in o.items() if k!='property_id'}
++        for binding in bad['source_bindings'].values():
++            if binding['file']==MODEL:binding['sha256']=digest
++        with self.assertRaisesRegex(AssertionError,'canonical source hash mismatch'):
++            s.validate(bad,sources,baseline)
++        shifted=source.replace('    require_active(&[0u8, 1], &|','       require_active(&[0u8, 1], &|',1)
++        original=s.closure_span(source,'activation_descending_rejected')
++        moved=s.closure_span(shifted,'activation_descending_rejected')
++        self.assertEqual(moved['start_column'],original['start_column']+3)
++        self.assertEqual(moved['end_column'],original['end_column']+3)
++
++    def test_all_oracle_context_identity_class_status_and_sole_failure_fail_closed(self):
++        for row in self.request['rows']:
++            if not row.get('oracle'):continue
++            for field,value in [('property_id',row['oracle']['property_id']+'.wrong'),
++                    ('source_line','assert!(true);'),('source_sha256','0'*64),('line',1),
++                    ('class','cover'),('selector','wrong-root')]:
++                bad=copy.deepcopy(self.request);o=next(x['oracle'] for x in bad['rows'] if x['id']==row['id']);o[field]=value
++                with self.subTest(row=row['id'],field=field),self.assertRaises(AssertionError):
++                    s.validate(bad,self.sources,self.baselines)
++            o=row['oracle'];h=harness(o)
++            for mutate in [lambda x:x['failed_properties'][0].update(status='SUCCESS'),
++                    lambda x:x['failed_properties'][0].update(line='1'),
++                    lambda x:x['checks'].update(failure=[o['property_id'],'second.assertion.1']),
++                    lambda x:x.update(n_failed=2),lambda x:x.update(name='wrong-root'),
++                    lambda x:x.update(outcome={'kind':'COMPLETED','verdict':'SUCCESS'})]:
++                wrong=copy.deepcopy(h);mutate(wrong)
++                self.assertFalse(negative_oracle.matches(wrong,o))
++        for missing in (None,{},[]):
++            bad=copy.deepcopy(self.request);next(r for r in bad['rows'] if r.get('oracle'))['oracle']=missing
++            with self.assertRaises((AssertionError,TypeError,KeyError)):s.validate(bad,self.sources,self.baselines)
++
++
++if __name__=='__main__':unittest.main()

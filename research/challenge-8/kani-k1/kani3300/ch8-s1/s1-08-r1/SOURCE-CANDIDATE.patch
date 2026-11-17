@@ -1,0 +1,124 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs
+index 8ae08599ad..3bf43cd930 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs
+@@ -39,29 +39,24 @@ macro_rules! smoke {
+             kani::assume(n <= 3);
+             let mut backing = [$new(0xa5), $new(input[0]), $new(input[1]),
+                 $new(input[2]), $new(0x5a)];
+-            assert!(enabled::<$ty, KeyLess<$ty>>(), "S1_ENTRY_MODEL_ENABLED");
+-            assert!(<$ty as $trait>::small_sort_threshold() == $threshold,
+-                "S1_EXACT_TRAIT_THRESHOLD");
+-            assert!(size_of::<$ty>() == 1 && size_of::<KeyLess<$ty>>() == 0,
+-                "S1_ENTRY_TYPE_LAYOUT");
++            kani::assert(enabled::<$ty, KeyLess<$ty>>(), concat!(stringify!($name), "::model_enabled"));
++            kani::assert(<$ty as $trait>::small_sort_threshold() == $threshold, concat!(stringify!($name), "::s1_exact_trait_threshold"));
++            kani::assert(size_of::<$ty>() == 1 && size_of::<KeyLess<$ty>>() == 0, concat!(stringify!($name), "::type_layout"));
+             let left = snapshot::<$ty, KeyLess<$ty>>(&backing[..1]);
+             let right = snapshot::<$ty, KeyLess<$ty>>(&backing[n + 1..n + 2]);
+             let before = snapshot::<$ty, KeyLess<$ty>>(&backing[1..n + 1]);
+             let mut less = KeyLess::<$ty>::new();
+             invoke!($route, $ty, $trait, &mut backing[1..n + 1], n, &mut less);
+-            assert!(post::<$ty, KeyLess<$ty>>(before, &backing[1..n + 1]),
+-                "S1_ENTRY_POST_INDEPENDENT_CALLER");
+-            assert!(post::<$ty, KeyLess<$ty>>(left, &backing[..1]), "S1_LEFT_CANARY");
+-            assert!(post::<$ty, KeyLess<$ty>>(right, &backing[n + 1..n + 2]),
+-                "S1_RIGHT_CANARY");
++            kani::assert(post::<$ty, KeyLess<$ty>>(before, &backing[1..n + 1]), concat!(stringify!($name), "::post_independent_caller"));
++            kani::assert(post::<$ty, KeyLess<$ty>>(left, &backing[..1]), concat!(stringify!($name), "::left_canary"));
++            kani::assert(post::<$ty, KeyLess<$ty>>(right, &backing[n + 1..n + 2]), concat!(stringify!($name), "::right_canary"));
+             if n == 1 {
+                 let expected = [$new(input[0])];
+-                assert!(post::<$ty, KeyLess<$ty>>(
+-                    snapshot::<$ty, KeyLess<$ty>>(&expected), &backing[1..2]),
+-                    "S1_N1_VALUE_UNCHANGED");
++                kani::assert(post::<$ty, KeyLess<$ty>>(
++                    snapshot::<$ty, KeyLess<$ty>>(&expected), &backing[1..2]), concat!(stringify!($name), "::n1_value_unchanged"));
+             }
+             if n == 0 {
+-                assert!(post::<$ty, KeyLess<$ty>>(before, &[]), "S1_N0_EMPTY_UNCHANGED");
++                kani::assert(post::<$ty, KeyLess<$ty>>(before, &[]), concat!(stringify!($name), "::n0_empty_unchanged"));
+             }
+             kani::cover(n == 0, "S1_entry_N0_return");
+             kani::cover(n == 1, "S1_entry_N1_return");
+@@ -118,29 +113,24 @@ macro_rules! smoke_exact_n {
+             let n: usize = $exact_n;
+             let mut backing = [$new(0xa5), $new(input[0]), $new(input[1]),
+                 $new(input[2]), $new(0x5a)];
+-            assert!(enabled::<$type, KeyLess<$type>>(), "S1_ENTRY_MODEL_ENABLED");
+-            assert!(<$type as $trait>::small_sort_threshold() == $threshold,
+-                "S1_EXACT_TRAIT_THRESHOLD");
+-            assert!(size_of::<$type>() == 1 && size_of::<KeyLess<$type>>() == 0,
+-                "S1_ENTRY_TYPE_LAYOUT");
++            kani::assert(enabled::<$type, KeyLess<$type>>(), concat!(stringify!($name), "::model_enabled"));
++            kani::assert(<$type as $trait>::small_sort_threshold() == $threshold, concat!(stringify!($name), "::s1_exact_trait_threshold"));
++            kani::assert(size_of::<$type>() == 1 && size_of::<KeyLess<$type>>() == 0, concat!(stringify!($name), "::type_layout"));
+             let left = snapshot::<$type, KeyLess<$type>>(&backing[..1]);
+             let right = snapshot::<$type, KeyLess<$type>>(&backing[n + 1..n + 2]);
+             let before = snapshot::<$type, KeyLess<$type>>(&backing[1..n + 1]);
+             let mut less = KeyLess::<$type>::new();
+             invoke!($route, $type, $trait, &mut backing[1..n + 1], n, &mut less);
+-            assert!(post::<$type, KeyLess<$type>>(before, &backing[1..n + 1]),
+-                "S1_ENTRY_POST_INDEPENDENT_CALLER");
+-            assert!(post::<$type, KeyLess<$type>>(left, &backing[..1]), "S1_LEFT_CANARY");
+-            assert!(post::<$type, KeyLess<$type>>(right, &backing[n + 1..n + 2]),
+-                "S1_RIGHT_CANARY");
++            kani::assert(post::<$type, KeyLess<$type>>(before, &backing[1..n + 1]), concat!(stringify!($name), "::post_independent_caller"));
++            kani::assert(post::<$type, KeyLess<$type>>(left, &backing[..1]), concat!(stringify!($name), "::left_canary"));
++            kani::assert(post::<$type, KeyLess<$type>>(right, &backing[n + 1..n + 2]), concat!(stringify!($name), "::right_canary"));
+             if $exact_n == 1 {
+                 let expected = [$new(input[0])];
+-                assert!(post::<$type, KeyLess<$type>>(
+-                    snapshot::<$type, KeyLess<$type>>(&expected), &backing[1..2]),
+-                    "S1_N1_VALUE_UNCHANGED");
++                kani::assert(post::<$type, KeyLess<$type>>(
++                    snapshot::<$type, KeyLess<$type>>(&expected), &backing[1..2]), concat!(stringify!($name), "::n1_value_unchanged"));
+             }
+             if $exact_n == 0 {
+-                assert!(post::<$type, KeyLess<$type>>(before, &[]), "S1_N0_EMPTY_UNCHANGED");
++                kani::assert(post::<$type, KeyLess<$type>>(before, &[]), concat!(stringify!($name), "::n0_empty_unchanged"));
+             }
+             exact_n_covers!($exact_n, input);
+             kani::cover(true, "S1_entry_useful_return");
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs
+index 9b050c150f..798c98cc6b 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs
+@@ -31,7 +31,7 @@ macro_rules! positive {
+             let len: usize = kani::any();
+             kani::assume(len <= 3);
+             let values = [$new(input[0]), $new(input[1]), $new(input[2])];
+-            assert!(enabled::<$ty, KeyLess<$ty>>(), "S1_MODEL_ENABLED");
++            kani::assert(enabled::<$ty, KeyLess<$ty>>(), concat!(stringify!($name), "::model_enabled"));
+             let before = snapshot::<$ty, KeyLess<$ty>>(&values[..len]);
+             let mut ordered = true;
+             let mut i = 1;
+@@ -39,21 +39,16 @@ macro_rules! positive {
+                 ordered = ordered && input[i - 1] <= input[i];
+                 i += 1;
+             }
+-            assert!(post::<$ty, KeyLess<$ty>>(before, &values[..len]) == ordered,
+-                "S1_IDENTITY_CHECKER");
++            kani::assert(post::<$ty, KeyLess<$ty>>(before, &values[..len]) == ordered, concat!(stringify!($name), "::identity_checker"));
+             let sorted = sorted_prefix(input, len);
+             let output = [$new(sorted[0]), $new(sorted[1]), $new(sorted[2])];
+-            assert!(post::<$ty, KeyLess<$ty>>(before, &output[..len]),
+-                "S1_CONSTRUCTED_SORTED_PERMUTATION");
++            kani::assert(post::<$ty, KeyLess<$ty>>(before, &output[..len]), concat!(stringify!($name), "::constructed_sorted_permutation"));
+             let mut less = KeyLess::<$ty>::new();
+-            assert!(less(&values[0], &values[1]) == (input[0] < input[1]),
+-                "S1_FNMUT_TWO_PROJECTIONS");
+-            assert!(FnOnce::call_once(KeyLess::<$ty>::new(), (&values[1], &values[0]))
+-                == (input[1] < input[0]), "S1_FNONCE_TWO_PROJECTIONS");
+-            assert!(size_of::<$ty>() == 1 && align_of::<$ty>() == 1,
+-                "S1_ELEMENT_LAYOUT");
+-            assert!(size_of::<KeyLess<$ty>>() == 0 && !needs_drop::<$ty>(),
+-                "S1_COMPARATOR_ZST_ELEMENT_NO_DROP");
++            kani::assert(less(&values[0], &values[1]) == (input[0] < input[1]), concat!(stringify!($name), "::fnmut_two_projections"));
++            kani::assert(FnOnce::call_once(KeyLess::<$ty>::new(), (&values[1], &values[0]))
++                == (input[1] < input[0]), concat!(stringify!($name), "::fnonce_two_projections"));
++            kani::assert(size_of::<$ty>() == 1 && align_of::<$ty>() == 1, concat!(stringify!($name), "::element_layout"));
++            kani::assert(size_of::<KeyLess<$ty>>() == 0 && !needs_drop::<$ty>(), concat!(stringify!($name), "::comparator_zst_element_no_drop"));
+             kani::cover(len == 0, "S1_model_N0_return");
+             kani::cover(len == 1, "S1_model_N1_return");
+             kani::cover(len == 2, "S1_model_N2_return");

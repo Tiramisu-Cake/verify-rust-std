@@ -1,0 +1,88 @@
+{
+  "schema": "ch8-s1-08-r1-validation-v1",
+  "status": "PASS",
+  "completed_at": "2026-11-17T13:25:32.900218+00:00",
+  "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+  "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+  "embedded_request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+  "role_map_sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
+  "review": "PENDING_DELTA_W14",
+  "reports": {
+    "STATIC-VALIDATION.json": {
+      "status": "PASS",
+      "sha256": "02ed05f87102762dbca37ff1a4622ddecaeb7073f882e0d9bcb2722122e48042"
+    },
+    "SOURCE-VALIDATION.json": {
+      "status": "PASS",
+      "sha256": "42d2b59db3a405f8e2a1bd07e44b03b086cb5d4991d251204af885763b26bea8"
+    },
+    "DELTA-VALIDATION.json": {
+      "status": "PASS",
+      "sha256": "0fedc8f799b7942a6bff76ec708a01738bc48e3cb812f1af2eb911cf300bc31a"
+    },
+    "ARTIFACT-VALIDATION.json": {
+      "status": "PASS",
+      "sha256": "a3959d6652355a728f9b20884ed672d4c61dfecee7007d348ac7b79199c0650c"
+    },
+    "ORACLE-REPAIR.json": {
+      "status": "PASS",
+      "sha256": "9c0407dfce0bd5e59b1884291cbb6f937f4c6e75615640094ced860cf3b8ba14"
+    }
+  },
+  "synthetic_suite": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -q test_runner.py test_package.py test_s104.py test_s105.py test_s107.py test_s108.py test_s108r1.py",
+    "cwd": "/root/kani-ch8-s1-08-fix-w13/ch8-s1-control",
+    "exit_code": 0,
+    "tests_run": 67,
+    "seconds": 53.592,
+    "result": "OK",
+    "code_payload": "Same exact bytes committed as7c41333; no control edits after tests",
+    "expected_stderr": "fatal: bad object from intentional too-shallow Git negative fixture; suite exits0",
+    "scope": "Small static/synthetic/Git-fixture tests; no actual compiler/verifier/full runner"
+  },
+  "source_oracle_checks": {
+    "declared": 8,
+    "ids_repaired": 2,
+    "complete_other_oracles_unchanged": 6,
+    "span_extraction": "Current pinned source plus comparison to old5be source",
+    "regression": "Old100/106, wrong columns/path/ordinal, coherent shifted source/hash/ID, contexts/status/extra-failure all reject",
+    "source_fixtures": "Exact pinned Git bytes; existing overlays reapplied in isolated indexes",
+    "matcher": "UNCHANGED_FULL_EXACT_ID_LOCATION_FAILURE_SOLE_FAILURE"
+  },
+  "committed_control_preflight": {
+    "status": "PASS",
+    "sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+    "parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+    "environment": "SYNTHETIC_GITHUB_ENV_LOCAL_READ_ONLY; no event submitted",
+    "payload_yaml_shallow_clean_tree_changed_paths": "PASS"
+  },
+  "invariants": {
+    "roots": 35,
+    "ordered_groups": 14,
+    "required_roles": 127,
+    "new_labels": 111,
+    "preserved_semantic_bindings": 16,
+    "required_covers": 113,
+    "negative_oracles": 8,
+    "max_parallel": 1,
+    "control_depth": 5,
+    "export_tool_depth": 2,
+    "source": "UNCHANGED99e",
+    "role_map": "BYTE_IDENTICAL_TO_FROZEN_S1-08",
+    "old_frozen_source_control_package": "UNCHANGED",
+    "domain_flags_checks_unwind_caps_companions_pipeline": "UNCHANGED"
+  },
+  "patches": "SOURCE_CONTROL_AND_REVIEW_DELTA_EXACT_TREE_MATCH",
+  "preliminary_invocation_note": "Initial new-test creation/invocation used a wrong working directory and wrote no files; corrected before the successful8-test target and67-test suite",
+  "whitespace": {
+    "control_diff_check": "PASS",
+    "g0_non_patch_diff_check": "PASS",
+    "patches": "Retain Git single-space empty context lines; exact patch tree reconstruction passed"
+  },
+  "compiler_rustfmt_runtime_actual_exporter_decoder_verifier": "NOT_RUN",
+  "new_observed_exporter_verifier_failure_results_used": false,
+  "ci_push_publication_ledger_budget_reservation": "NOT_RUN",
+  "admission": "OFFLINE_PENDING",
+  "independent_proof_credit": "NONE",
+  "B1_B2": "NONE"
+}

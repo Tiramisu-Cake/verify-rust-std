@@ -1,0 +1,89 @@
+{
+  "status": "PASS",
+  "old_control": "9ccd882ef2460fbc97400594e7e3dfc884a4a997",
+  "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+  "changes": [
+    {
+      "row_id": "activation_descending_rejected",
+      "old_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:100:32: 100:48}>.assertion.1",
+      "new_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:95:32: 95:48}>.assertion.1",
+      "old_source_commit": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+      "source_commit": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "old_span": {
+        "start_line": 100,
+        "start_column": 32,
+        "end_line": 100,
+        "end_column": 48,
+        "text": "|a: &u8, b: &u8|"
+      },
+      "new_span": {
+        "start_line": 95,
+        "start_column": 32,
+        "end_line": 95,
+        "end_column": 48,
+        "text": "|a: &u8, b: &u8|"
+      },
+      "logical_expression": "UNCHANGED_ENABLED_ASSERTION_AT_CURRENT_LINE90",
+      "kind": "SOURCE_COORDINATE_REPAIR_ONLY",
+      "compiler_exporter_verifier": "NOT_RUN"
+    },
+    {
+      "row_id": "activation_effectful_rejected",
+      "old_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:106:21: 106:37}>.assertion.1",
+      "new_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:101:21: 101:37}>.assertion.1",
+      "old_source_commit": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+      "source_commit": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "old_span": {
+        "start_line": 106,
+        "start_column": 21,
+        "end_line": 106,
+        "end_column": 37,
+        "text": "|a: &u8, b: &u8|"
+      },
+      "new_span": {
+        "start_line": 101,
+        "start_column": 21,
+        "end_line": 101,
+        "end_column": 37,
+        "text": "|a: &u8, b: &u8|"
+      },
+      "logical_expression": "UNCHANGED_ENABLED_ASSERTION_AT_CURRENT_LINE90",
+      "kind": "SOURCE_COORDINATE_REPAIR_ONLY",
+      "compiler_exporter_verifier": "NOT_RUN"
+    }
+  ],
+  "other_six": [
+    {
+      "row_id": "activation_unsupported_type_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<mem::maybe_uninit::MaybeUninit<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<mem::maybe_uninit::MaybeUninit<u8>>>.assertion.1",
+      "status": "UNCHANGED_FULL_ORACLE_AND_ROW"
+    },
+    {
+      "row_id": "order_corruption_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.3",
+      "status": "UNCHANGED_FULL_ORACLE_AND_ROW"
+    },
+    {
+      "row_id": "count_corruption_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.5",
+      "status": "UNCHANGED_FULL_ORACLE_AND_ROW"
+    },
+    {
+      "row_id": "invalid_snapshot_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected.assertion.1",
+      "status": "UNCHANGED_FULL_ORACLE_AND_ROW"
+    },
+    {
+      "row_id": "activation-default",
+      "property_id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.assertion.1",
+      "status": "UNCHANGED_FULL_ORACLE_AND_ROW"
+    },
+    {
+      "row_id": "activation-override",
+      "property_id": "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.2",
+      "status": "UNCHANGED_FULL_ORACLE_AND_ROW"
+    }
+  ],
+  "failure_results_used": false,
+  "exact_matcher": "UNCHANGED_NO_WILDCARDS_NO_SUFFIX_MATCH"
+}

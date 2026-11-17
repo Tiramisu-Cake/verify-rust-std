@@ -1,0 +1,231 @@
+{
+  "status": "PASS",
+  "checked_at": "2026-11-17T13:22:07.608544+00:00",
+  "std_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+  "std_tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+  "control_parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+  "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+  "role_map_sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
+  "source_equivalence": "PASS_ALL_NON_DIAGNOSTIC_TOKENS_IN_ORDER",
+  "scope": "23 macro assertion sites; negative functions/operands/control flow/covers/types/domain preserved",
+  "role_map": {
+    "required": 127,
+    "new_labels": 111,
+    "preserved_semantic_bindings": 16
+  },
+  "all_source_expansion_roots": 25,
+  "all_source_labels": 197,
+  "supplemental_applicability_sites": 54,
+  "required_covers": 113,
+  "negatives": [
+    {
+      "id": "activation_descending_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:95:32: 95:48}>.assertion.1",
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "line": 90,
+      "oracle_identity": "SAME_LOGICAL_ORACLE_SOURCE_COORDINATES_REPAIRED",
+      "coordinates": "SOURCE_DERIVED_ONLY"
+    },
+    {
+      "id": "activation_effectful_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:101:21: 101:37}>.assertion.1",
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "line": 90,
+      "oracle_identity": "SAME_LOGICAL_ORACLE_SOURCE_COORDINATES_REPAIRED",
+      "coordinates": "SOURCE_DERIVED_ONLY"
+    },
+    {
+      "id": "activation_unsupported_type_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<mem::maybe_uninit::MaybeUninit<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<mem::maybe_uninit::MaybeUninit<u8>>>.assertion.1",
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "line": 90,
+      "oracle_identity": "SAME_LOGICAL_ORACLE_SOURCE_COORDINATES_REPAIRED",
+      "coordinates": "SOURCE_DERIVED_ONLY"
+    },
+    {
+      "id": "order_corruption_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.3",
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "line": 136,
+      "oracle_identity": "SAME_LOGICAL_ORACLE_SOURCE_COORDINATES_REPAIRED",
+      "coordinates": "SOURCE_DERIVED_ONLY"
+    },
+    {
+      "id": "count_corruption_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.5",
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "line": 147,
+      "oracle_identity": "SAME_LOGICAL_ORACLE_SOURCE_COORDINATES_REPAIRED",
+      "coordinates": "SOURCE_DERIVED_ONLY"
+    },
+    {
+      "id": "invalid_snapshot_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected.assertion.1",
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "line": 176,
+      "oracle_identity": "SAME_LOGICAL_ORACLE_SOURCE_COORDINATES_REPAIRED",
+      "coordinates": "SOURCE_DERIVED_ONLY"
+    },
+    {
+      "id": "activation-default",
+      "property_id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.assertion.1",
+      "source_sha256": "ad516502d4783df0379ea3f48805c408b5bcde3ec064432476610080e3ecd0bb",
+      "line": 41,
+      "oracle_identity": "SAME_LOGICAL_ORACLE_SOURCE_COORDINATES_REPAIRED",
+      "coordinates": "SOURCE_DERIVED_ONLY"
+    },
+    {
+      "id": "activation-override",
+      "property_id": "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.2",
+      "source_sha256": "90f20bce619de5535e633fc97f4a9dfd46715dc48e54912f5d1c9029984b131f",
+      "line": 63,
+      "oracle_identity": "SAME_LOGICAL_ORACLE_SOURCE_COORDINATES_REPAIRED",
+      "coordinates": "SOURCE_DERIVED_ONLY"
+    }
+  ],
+  "source_derived_oracle_preflight": [
+    {
+      "row_id": "activation_descending_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:95:32: 95:48}>.assertion.1",
+      "closure_span": {
+        "start_line": 95,
+        "start_column": 32,
+        "end_line": 95,
+        "end_column": 48,
+        "text": "|a: &u8, b: &u8|"
+      },
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "assertion_line": 90,
+      "status": "SOURCE_DERIVED_EXPECTATION_NOT_OBSERVED",
+      "sole_failure": "EXACT_MATCHER_UNCHANGED"
+    },
+    {
+      "row_id": "activation_effectful_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:101:21: 101:37}>.assertion.1",
+      "closure_span": {
+        "start_line": 101,
+        "start_column": 21,
+        "end_line": 101,
+        "end_column": 37,
+        "text": "|a: &u8, b: &u8|"
+      },
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "assertion_line": 90,
+      "status": "SOURCE_DERIVED_EXPECTATION_NOT_OBSERVED",
+      "sole_failure": "EXACT_MATCHER_UNCHANGED"
+    },
+    {
+      "row_id": "activation_unsupported_type_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<mem::maybe_uninit::MaybeUninit<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<mem::maybe_uninit::MaybeUninit<u8>>>.assertion.1",
+      "closure_span": null,
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "assertion_line": 90,
+      "status": "SOURCE_DERIVED_EXPECTATION_NOT_OBSERVED",
+      "sole_failure": "EXACT_MATCHER_UNCHANGED"
+    },
+    {
+      "row_id": "order_corruption_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.3",
+      "closure_span": null,
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "assertion_line": 136,
+      "status": "SOURCE_DERIVED_EXPECTATION_NOT_OBSERVED",
+      "sole_failure": "EXACT_MATCHER_UNCHANGED"
+    },
+    {
+      "row_id": "count_corruption_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.5",
+      "closure_span": null,
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "assertion_line": 147,
+      "status": "SOURCE_DERIVED_EXPECTATION_NOT_OBSERVED",
+      "sole_failure": "EXACT_MATCHER_UNCHANGED"
+    },
+    {
+      "row_id": "invalid_snapshot_rejected",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected.assertion.1",
+      "closure_span": null,
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "assertion_line": 176,
+      "status": "SOURCE_DERIVED_EXPECTATION_NOT_OBSERVED",
+      "sole_failure": "EXACT_MATCHER_UNCHANGED"
+    },
+    {
+      "row_id": "activation-default",
+      "property_id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.assertion.1",
+      "closure_span": null,
+      "source_sha256": "ad516502d4783df0379ea3f48805c408b5bcde3ec064432476610080e3ecd0bb",
+      "assertion_line": 41,
+      "status": "SOURCE_DERIVED_EXPECTATION_NOT_OBSERVED",
+      "sole_failure": "EXACT_MATCHER_UNCHANGED"
+    },
+    {
+      "row_id": "activation-override",
+      "property_id": "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.2",
+      "closure_span": null,
+      "source_sha256": "90f20bce619de5535e633fc97f4a9dfd46715dc48e54912f5d1c9029984b131f",
+      "assertion_line": 63,
+      "status": "SOURCE_DERIVED_EXPECTATION_NOT_OBSERVED",
+      "sole_failure": "EXACT_MATCHER_UNCHANGED"
+    }
+  ],
+  "variants": [
+    {
+      "id": "activation-default",
+      "new_base": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "apply_cached": "PASS",
+      "patch_sha256": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+      "source_under_test_sha256": {
+        "library/core/Cargo.toml": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb",
+        "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+        "library/core/src/slice/sort/shared/smallsort.rs": "ad516502d4783df0379ea3f48805c408b5bcde3ec064432476610080e3ecd0bb",
+        "library/core/src/slice/sort/shared/smallsort/verify.rs": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+        "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+      }
+    },
+    {
+      "id": "activation-override",
+      "new_base": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "apply_cached": "PASS",
+      "patch_sha256": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+      "source_under_test_sha256": {
+        "library/core/Cargo.toml": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb",
+        "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+        "library/core/src/slice/sort/shared/smallsort.rs": "90f20bce619de5535e633fc97f4a9dfd46715dc48e54912f5d1c9029984b131f",
+        "library/core/src/slice/sort/shared/smallsort/verify.rs": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+        "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+      }
+    }
+  ],
+  "yaml_preflight": {
+    "yaml": "PASS",
+    "scalar_types": "NATIVE_LITERAL_PASS",
+    "runner_context": "STEP_ENV_ONLY",
+    "checkout_depth": {
+      "control": 5,
+      "export": 2,
+      "tool": 2
+    },
+    "layout": [
+      "control",
+      "export",
+      "tool"
+    ],
+    "dispatch": "NOT_RUN"
+  },
+  "runner_export_decoder_native_capture_snapshot_location_semantics": "UNCHANGED",
+  "group_order_flags_checks_caps_unwind_preflight": "UNCHANGED_EXCEPT_REQUIRED_CONTROL_DEPTH_5",
+  "compiler_rustfmt_runtime_verifier": "NOT_RUN",
+  "admission": "OFFLINE_PENDING",
+  "independent_review": "PENDING_DELTA_W14",
+  "ci_push_publication_ledger": "NOT_RUN",
+  "proof_credit": "NONE"
+}

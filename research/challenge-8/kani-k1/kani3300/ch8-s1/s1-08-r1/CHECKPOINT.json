@@ -1,0 +1,117 @@
+{
+  "schema": "ch8-s1-08-r1-checkpoint-v1",
+  "status": "READY_FOR_REVIEW",
+  "review": "PENDING_DELTA_W14",
+  "updated_at": "2026-11-17T13:25:32.900218+00:00",
+  "task": "TASK-CH8-S1-08-REVIEW-FIX-W13.md",
+  "task_commit": "4ccfdcc0246b962f95674d323468526bc9b76353",
+  "T0": "2026-11-17T12:49:24.556Z",
+  "continuation_clock_observed_at": "2026-11-17T13:12:48Z",
+  "window": {
+    "main_minutes": 120,
+    "finishing_minutes": 30,
+    "main_deadline": "2026-11-17T14:49:24.556Z",
+    "absolute_deadline": "2026-11-17T15:19:24.556Z",
+    "T0_changed": false
+  },
+  "budget": {
+    "Cloud_CI": "NOT_AUTHORIZED",
+    "reservation": "NONE"
+  },
+  "identities": {
+    "schema": "ch8-s1-08-r1-identities-v1",
+    "status": "READY_FOR_REVIEW",
+    "task_commit": "4ccfdcc0246b962f95674d323468526bc9b76353",
+    "entry_g0": "4ccfdcc0246b962f95674d323468526bc9b76353",
+    "source": {
+      "worktree": "/root/verify-rust-std-ch8-s1-08-w13",
+      "sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "parent": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+      "tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+      "files": {
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+      }
+    },
+    "control": {
+      "worktree": "/root/kani-ch8-s1-08-fix-w13",
+      "sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+      "parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+      "tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+      "embedded_request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+      "role_map_sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d"
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "change": "NONE"
+    },
+    "previous_frozen_candidate": {
+      "source": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "control": "9ccd882ef2460fbc97400594e7e3dfc884a4a997",
+      "package": "8ea1c1d370f4076eb6ed4aeaa0a96898499ce580",
+      "immutable": true
+    },
+    "admission": "OFFLINE_PENDING",
+    "independent_review": "PENDING_DELTA_W14",
+    "compiler_runtime": "NOT_RUN",
+    "ci_push_publication_ledger": "NOT_RUN"
+  },
+  "confirmed_finding": {
+    "kind": "Stale source-coordinate components in2 prospective negative IDs",
+    "descending": "100:32–100:48 ->95:32–95:48",
+    "effectful": "106:21–106:37 ->101:21–101:37",
+    "basis": "Pinned source99e, old5be source, pinned producer naming/full-ID matcher; no new results"
+  },
+  "claims": [
+    {
+      "claim": "Corrected sibling control with exact coordinate-only ID changes",
+      "assurance": "STATIC_SOURCE_EXPECTATIONS_NOT_OBSERVED_OUTPUT",
+      "report": "ORACLE-REPAIR.json"
+    },
+    {
+      "claim": "All8 oracles checked; other6 unchanged; full matcher and sole failure semantics unchanged",
+      "assurance": "ACTUAL_PINNED_SOURCE_AND_SYNTHETIC_GIT_FIXTURES",
+      "report": "VALIDATION.json"
+    },
+    {
+      "claim": "Old frozen source/control/package immutable; all3 patches reconstruct exact trees",
+      "assurance": "LOCAL_GIT_AND_HASH_CHECKS",
+      "reports": [
+        "DELTA-VALIDATION.json",
+        "ARTIFACT-VALIDATION.json"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "choice": "New sibling over9208, not amend/descendant of9ccd",
+      "reason": "Task requires immutable review target and existing depth5"
+    },
+    {
+      "choice": "Derive closure argument coordinates; keep exact full ID and ordinal",
+      "reason": "Source shift only; no FAILURE-driven selection or relaxed matching"
+    },
+    {
+      "choice": "Source preflight remains offline, with actual Git-source comparison and synthetic fixtures",
+      "reason": "No admission classifier in runner; coherent metadata cannot replace canonical source pins"
+    }
+  ],
+  "open": [
+    {
+      "item": "Same W14 reviews committed delta",
+      "state": "PENDING_DELTA_W14"
+    },
+    {
+      "item": "Future compatible compiler/runtime evidence and offline admission",
+      "state": "NOT_RUN_NO_DISPATCH_AUTHORITY"
+    }
+  ],
+  "additional_concrete_findings_received": [],
+  "blocker": null,
+  "closure_reason": "Assigned coordinate repairs, regression and complete corrected package finished",
+  "next_step": "Coordinator transfers committed delta to same W14; no GO claimed",
+  "external_actions": "NONE",
+  "subagents": "NONE",
+  "model_effort": "UNCHANGED"
+}

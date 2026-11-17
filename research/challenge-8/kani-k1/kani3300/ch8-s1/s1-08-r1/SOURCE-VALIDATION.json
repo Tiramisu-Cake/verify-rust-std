@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "source_equivalence": {
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": {
+      "smoke": 8,
+      "smoke_exact_n": 8
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": {
+      "positive": 7
+    }
+  },
+  "complete_changed_paths": [
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs"
+  ],
+  "scope": "23 assertion sites; all non-diagnostic tokens preserved",
+  "reviewed_base_equals_executed_control_tree": true,
+  "compiler_runtime": "NOT_RUN"
+}
