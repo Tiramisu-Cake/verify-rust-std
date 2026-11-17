@@ -1,0 +1,38 @@
+{
+  "schema": "s1-08-coordinator-checks-v1",
+  "checked_at_utc": "2026-11-17T13:30:34.689368+00:00",
+  "checks": {
+    "source": {
+      "sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+      "parent": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+      "clean": true
+    },
+    "control": {
+      "sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+      "tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+      "parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+      "clean": true
+    },
+    "CI-REQUEST.json": {
+      "bytes_match_payload": true,
+      "sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e"
+    },
+    "ROLE-MAP.json": {
+      "bytes_match_payload": true,
+      "sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d"
+    },
+    "old_control_unchanged": true
+  },
+  "scope": "READ_ONLY_PIN_TREE_PARENT_CLEAN_AND_PAYLOAD_BYTES; NOT_COMPILER_OR_REVIEW",
+  "finalized_at_utc": "2026-11-17T13:42:31.233630+00:00",
+  "reviewed_identity_comparison": "PASS",
+  "immutable_review_commit": "e14db2d0dd0f45a0cf9067c198911b38bca83012",
+  "review_verdicts": {
+    "composer": "APPROVE",
+    "repaired_package": "APPROVE",
+    "W14-S108-01": "CLOSED"
+  },
+  "prepared_trigger_record_sha256": "465a8708fdc63a4b41e90e911640b3a0a54ee47d84d9a558ec0b64fec6440911",
+  "future_proof_evidence": "NOT_RUN"
+}
