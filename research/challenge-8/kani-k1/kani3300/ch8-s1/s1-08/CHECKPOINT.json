@@ -1,0 +1,101 @@
+{
+  "schema": "ch8-s1-08-checkpoint-v1",
+  "status": "READY_FOR_REVIEW",
+  "updated_at": "2026-11-17T13:03:33.588126+00:00",
+  "task_commit": "2f3ede5ff46ace1c2058f01f8ecda06799674b57",
+  "T0": "2026-11-17T12:49:24.556Z",
+  "T0_basis": "Current Codex session_meta timestamp; previous idle session not inherited",
+  "window": {
+    "main_minutes": 120,
+    "finishing_minutes": 30,
+    "main_deadline": "2026-11-17T14:49:24.556Z",
+    "absolute_deadline": "2026-11-17T15:19:24.556Z"
+  },
+  "budget": {
+    "cloud": "NONE",
+    "reservation": "NOT_MADE",
+    "CI": "NOT_AUTHORIZED"
+  },
+  "identities": {
+    "schema": "ch8-s1-08-identities-v1",
+    "status": "READY_FOR_REVIEW",
+    "task_commit": "2f3ede5ff46ace1c2058f01f8ecda06799674b57",
+    "entry_g0": "2f3ede5ff46ace1c2058f01f8ecda06799674b57",
+    "source": {
+      "worktree": "/root/verify-rust-std-ch8-s1-08-w13",
+      "sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "parent": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+      "tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+      "files": {
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+      }
+    },
+    "control": {
+      "worktree": "/root/kani-ch8-s1-08-w13",
+      "sha": "9ccd882ef2460fbc97400594e7e3dfc884a4a997",
+      "parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+      "tree": "499871749fe40d714dc70fbafb2fd00f37ed64dd",
+      "embedded_request_sha256": "a9c8f7459625cf0868735cf52f4a2b375b6e024b4fda4b45d215138c3e3fde6f",
+      "role_map_sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d"
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "change": "NONE"
+    },
+    "admission": "OFFLINE_PENDING",
+    "independent_review": "NOT_RUN_W14_NEXT",
+    "compiler_runtime": "NOT_RUN",
+    "ci_push_publication_ledger": "NOT_RUN"
+  },
+  "claims": [
+    {
+      "claim": "Complete control and ROLE-MAP package implemented",
+      "assurance": "STATIC_GIT_AND_SYNTHETIC_ONLY",
+      "validation": "VALIDATION.json"
+    },
+    {
+      "claim": "127 obligations/113 covers/8 negative oracles retained; no source correction necessary",
+      "assurance": "PINNED_SOURCE_LEXICAL_AND_VARIANT_INDEX_CHECKS",
+      "validation": "STATIC-VALIDATION.json"
+    }
+  ],
+  "decisions": [
+    {
+      "choice": "Preserve source99e without additional commit",
+      "reason": "All23 permitted rewrite sites match baseline operands/order; no concrete source error found"
+    },
+    {
+      "choice": "Control shallow depth5",
+      "reason": "New direct child of9208 requires five commits to retain stock0aac endpoint diff"
+    },
+    {
+      "choice": "No in-runner role classifier; preserve semantic sets",
+      "reason": "Task confines admission offline; exact source instance sets remain multi-ID"
+    },
+    {
+      "choice": "Record expectations, not guessed property ordinals",
+      "reason": "Compiler/runtime/CI are NOT_RUN"
+    }
+  ],
+  "open": [
+    {
+      "item": "Independent W14 review",
+      "state": "NOT_RUN_NEXT_STAGE"
+    },
+    {
+      "item": "Fresh compatible compiler/runtime evidence and offline admission",
+      "state": "NOT_RUN_NO_DISPATCH_AUTHORITY"
+    },
+    {
+      "item": "Source-origin/AST/MIR provenance and general Challenge8 theorem",
+      "state": "NOT_ESTABLISHED_BY_THIS_PACKAGE"
+    }
+  ],
+  "blocker": null,
+  "closure_reason": "Assigned local candidate package and requested checks complete",
+  "next_step": "Independent W14 review of exact committed candidate; coordinator decides subsequent GO",
+  "external_actions": "NONE",
+  "subagents": "NONE; current main model unchanged"
+}

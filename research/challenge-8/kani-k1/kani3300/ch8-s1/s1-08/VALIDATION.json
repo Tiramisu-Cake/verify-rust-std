@@ -1,0 +1,70 @@
+{
+  "schema": "ch8-s1-08-validation-v1",
+  "status": "PASS",
+  "completed_at": "2026-11-17T13:03:33.588126+00:00",
+  "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+  "control_sha": "9ccd882ef2460fbc97400594e7e3dfc884a4a997",
+  "embedded_request_sha256": "a9c8f7459625cf0868735cf52f4a2b375b6e024b4fda4b45d215138c3e3fde6f",
+  "source_equivalence": "23 sites; exact remaining lexical tokens/control flow/covers/negative bodies",
+  "role_map": {
+    "required": 127,
+    "new_labels": 111,
+    "preserved_semantic_bindings": 16
+  },
+  "required_covers": 113,
+  "predeclared_negatives": 8,
+  "all_defined_roots": 25,
+  "all_static_labels": 197,
+  "scheduled_rows": 35,
+  "ordered_groups": 14,
+  "synthetic_suite": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -q test_runner.py test_package.py test_s104.py test_s105.py test_s107.py test_s108.py",
+    "cwd": "/root/kani-ch8-s1-08-w13/ch8-s1-control",
+    "exit_code": 0,
+    "tests_run": 63,
+    "seconds": 40.866,
+    "result": "OK",
+    "candidate_sha": "9ccd882ef2460fbc97400594e7e3dfc884a4a997",
+    "expected_stderr": "One fatal: bad object diagnostic is the intentional too-shallow Git negative fixture; unittest exits 0.",
+    "assurance": "SMALL_STATIC_SYNTHETIC_GIT_FIXTURE_TESTS; NO_REAL_TOOLCHAIN_OR_FULL_RUNNER"
+  },
+  "committed_control_preflight": {
+    "status": "PASS",
+    "control_sha": "9ccd882ef2460fbc97400594e7e3dfc884a4a997",
+    "environment": "SYNTHETIC_GITHUB_ENV_LOCAL_READ_ONLY; NO_EVENT_SUBMITTED",
+    "parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+    "payload_yaml_changed_paths_clean_tree": "PASS"
+  },
+  "static_validation": {
+    "path": "STATIC-VALIDATION.json",
+    "sha256": "178acfde77e263a249114c4bde5b84298fb2c8582ae66a6ef08a45183532a262",
+    "result": "PASS"
+  },
+  "artifact_validation": {
+    "path": "ARTIFACT-VALIDATION.json",
+    "sha256": "e0e2d1d5626d8249a8cfc010a0c50159337dc2f79b8d0c56fce2e7676528ac88",
+    "result": "PASS"
+  },
+  "source_validation": {
+    "path": "SOURCE-VALIDATION.json",
+    "sha256": "42d2b59db3a405f8e2a1bd07e44b03b086cb5d4991d251204af885763b26bea8",
+    "result": "PASS"
+  },
+  "producers": {
+    "path": "PRODUCER-SOURCE.json",
+    "sha256": "cfe0e5052c7049e8a22b2494c592a390091e3c14d3c3bacd06e0c6e94050f519",
+    "assurance": "STATIC_SOURCE"
+  },
+  "compiler_rustfmt_runtime_actual_export_decoder_verifier": "NOT_RUN",
+  "s108_observed_messages_property_ids": "NOT_RUN",
+  "independent_review": "NOT_RUN_W14_NEXT",
+  "admission": "OFFLINE_PENDING",
+  "ci_push_publication_ledger_budget_reservation": "NOT_RUN",
+  "independent_proof_credit": "NONE",
+  "B1_B2": "NONE",
+  "whitespace": {
+    "source_control_diff_check": "PASS",
+    "g0_non_patch_diff_check": "PASS",
+    "patch_artifacts": "Git-generated single-space empty context lines retained; exact candidate-tree reconstruction PASS"
+  }
+}
