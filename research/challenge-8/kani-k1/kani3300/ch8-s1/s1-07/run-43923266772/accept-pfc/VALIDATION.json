@@ -1,0 +1,70 @@
+{
+  "B1_credit": "NONE",
+  "B2_credit": "NONE",
+  "CI_dispatches": 0,
+  "admission_root_recomputed": false,
+  "assurance": "BOUNDED_SOURCE_REPORTED_PROFILES_V4_TRUST_PINNED_STOCK_COMPILER",
+  "compiler_verifier_commands": 0,
+  "completed_at_utc": "2026-11-17T13:03:10.743098+00:00",
+  "files_sha256": {
+    "HANDOFF.md": "da678dd6bb17d1caaaa1e91bf617da63f6d2cc80ed7b49b4587252e9e29d5468",
+    "PFC.json": "bc7d87074c655f250563274eae072cfa2482a2514dc71fafe5ffd893a7f77479",
+    "PFC.md": "a7749593409c2c2c2ccd297f3b78a470327be9b558031ac72b09313a2ab5261d",
+    "replay.py": "3c1b8443ebc138ab087adce59ce8ff95e24ee38cf18e31538414b1b561b9b30c",
+    "test_replay.py": "a41891431ccac6ff00d3e4580c49b8bc0da32d5e47b3bdf884960134a6cbe17a"
+  },
+  "first_clock_observed_utc": "2026-11-17T12:51:54+00:00",
+  "independent_proof_credit": "NONE",
+  "ledger_writes": 0,
+  "pushes": 0,
+  "replay": {
+    "byte_identical": true,
+    "observations": [
+      {
+        "replay": "MATCH",
+        "sha256": "bc7d87074c655f250563274eae072cfa2482a2514dc71fafe5ffd893a7f77479",
+        "totals": {
+          "bound": 22,
+          "chains": 22,
+          "pending": 0
+        }
+      },
+      {
+        "replay": "MATCH",
+        "sha256": "bc7d87074c655f250563274eae072cfa2482a2514dc71fafe5ffd893a7f77479",
+        "totals": {
+          "bound": 22,
+          "chains": 22,
+          "pending": 0
+        }
+      }
+    ],
+    "runs": 2
+  },
+  "review": "SEPARATE_W14_STAGE_PENDING_PER_TASK",
+  "schema": "s1-07-pfc-component-validation-v1",
+  "source_tool_control_modified": false,
+  "task_commit": "2f3ede5ff46ace1c2058f01f8ecda06799674b57",
+  "tests": {
+    "by_class": {
+      "ContractMutations": 176,
+      "Positive": 8,
+      "RelationMutations": 30,
+      "VariantMutations": 14
+    },
+    "command": "python3 -B -m unittest discover -s /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc -p test_replay.py",
+    "errors": 0,
+    "failures": 0,
+    "negative_mutation_cases": 220,
+    "positive_cases": 8,
+    "run": 228,
+    "semantic_mutations_below_hash_and_inventory_gates": 176,
+    "skipped": 0
+  },
+  "totals": {
+    "bound": 22,
+    "chains": 22,
+    "pending": 0
+  },
+  "validation_seconds": 21.949
+}
