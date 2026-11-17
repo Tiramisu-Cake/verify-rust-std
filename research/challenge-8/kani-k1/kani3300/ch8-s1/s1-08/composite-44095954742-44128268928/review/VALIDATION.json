@@ -1,0 +1,440 @@
+{
+  "accounting_reference_only": {
+    "item2": "9/14",
+    "modified": false,
+    "total": "35/40"
+  },
+  "actual_U_coverage": 439,
+  "actual_default_read_only_replay": {
+    "replay": "MATCH",
+    "sha256": "76addef689c8808658be0bc85619b413d279ce9d692e4199822ea2284e2b97c2",
+    "totals": {
+      "PFC_bound": 22,
+      "U_allowed": 439,
+      "U_decisions": {
+        "ALLOWED_EXPECTED_BRANCH_UNREACHABLE": 198,
+        "ALLOWED_EXPECTED_NEGATIVE_POST_FAILURE_RETURN_COVER": 2,
+        "ALLOWED_GENERATED_SAFETY_APPLICABILITY": 187,
+        "ALLOWED_NON_OVERFLOWING_TYPE_SIZE_GUARD": 28,
+        "ALLOWED_NON_SELECTED_SPECIALIZATION_BRANCH": 24
+      },
+      "U_records": 439,
+      "companions": 8,
+      "companions_qualified": 8,
+      "exact_role_labels": 111,
+      "location_exceptions": 18,
+      "negative_oracles": 8,
+      "original_rows": 33,
+      "properties_reconciled": 9986,
+      "required_SAT_covers": 113,
+      "required_roles": 127,
+      "retry_rows": 2,
+      "rows": 35,
+      "rows_qualified": 35,
+      "semantic_bindings": 16,
+      "supplemental_sites": 54,
+      "unions": 4,
+      "unions_qualified": 4,
+      "unsupported_success_guards": 76
+    },
+    "verdict": "QUALIFIED_BOUNDED_SOURCE_REPORTED_COMPOSITE_CANDIDATE"
+  },
+  "author_new_mutations_independently_replayed": [
+    {
+      "gate": "terminal origin identity:retry",
+      "mutation": "foreign_run",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "terminal origin identity:retry",
+      "mutation": "foreign_attempt",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "terminal origin identity:retry",
+      "mutation": "foreign_head",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "foreign group request",
+      "mutation": "foreign_request",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "request canonical identity:retry",
+      "mutation": "changed_semantic_input",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "request canonical identity:retry",
+      "mutation": "changed_type",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "request canonical identity:retry",
+      "mutation": "wrong_cell_timeout",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "duplicate/missing id",
+      "mutation": "duplicate_row",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "collector declared rows",
+      "mutation": "foreign_row",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "whole group inventory",
+      "mutation": "half_group",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "incomplete group:retry:cell-u34",
+      "mutation": "failed_group_healthy_root",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "foreign/unknown row:unstable_default_cell",
+      "mutation": "old_unknown_cell_splice",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "COMPATIBILITY_PENDING",
+      "mutation": "changed_protected_binary_across_origins",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "snapshot/shutdown",
+      "mutation": "changed_protected_binary_after",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "COMPATIBILITY_PENDING",
+      "mutation": "changed_solver_checks",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "REQUIRED_ROLE_PENDING",
+      "mutation": "role_missing",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "REQUIRED_ROLE_PENDING",
+      "mutation": "role_duplicate",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "REQUIRED_ROLE_PENDING",
+      "mutation": "role_wrong_source",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "REQUIRED_ROLE_PENDING",
+      "mutation": "role_wrong_root",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "REQUIRED_ROLE_PENDING",
+      "mutation": "role_wrong_status",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "component role coverage",
+      "mutation": "dropped_exact_role",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component role coverage",
+      "mutation": "dropped_semantic_set",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component origin namespace",
+      "mutation": "foreign_component_origin",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component U coverage",
+      "mutation": "dropped_U",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component U consumption hash",
+      "mutation": "changed_U_source_hash",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component U coverage",
+      "mutation": "changed_U_origin",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component pending gate consumption",
+      "mutation": "dropped_pending_gate",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component PFC coverage/hash",
+      "mutation": "dropped_PFC",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component PFC coverage/hash",
+      "mutation": "changed_PFC_concrete_type",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component cover coverage",
+      "mutation": "dropped_cover",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component negative coverage",
+      "mutation": "dropped_negative",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component stale oracle",
+      "mutation": "stale_oracle_span95",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component stale oracle",
+      "mutation": "stale_oracle_span101",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "companion coverage",
+      "mutation": "broken_companion",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "companion/union gate consumption",
+      "mutation": "broken_union",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "companion/union gate consumption",
+      "mutation": "union_unqualified_member",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "COMPANION_QUALIFICATION_PENDING",
+      "mutation": "transitive_companion_pending",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "SAME_RUN_PINS_PENDING",
+      "mutation": "unexpected_cross_origin_companion",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "TRANSITIVE_PENDING",
+      "mutation": "least_fixed_point_cycle_no_seed",
+      "verdict": "DISCRIMINATED"
+    }
+  ],
+  "candidate_and_inputs_unchanged": true,
+  "candidate_commit": "3c40a15d37890c8b5ef7ba49308e81279a494b05",
+  "candidate_raw_sha256": {
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/ACCEPT.json": "76addef689c8808658be0bc85619b413d279ce9d692e4199822ea2284e2b97c2",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/ACCEPTANCE.md": "bfc4aaf1041f9c6586735847ccc5e4275abb2813eea649092d52f2dbe578a568",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/COMPATIBILITY.json": "348707c3505c18d14122c55329c33d8c290805c56ea92e0fc1469eaf60aec310",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/HANDOFF.md": "512e0a2d3ec60da166738d77f420942b7d5209113caae5242dd1bb10b498c382",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/INPUTS.json": "3191ea3ad753f2c5057413aae775aceb36db3895277829772d3443d5e7ed517e",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/MUTATIONS.json": "def6b7bd6301fb60b0fda1095f58f4271516baf7c30afc527f3c4daa96a5b23a",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/ORIGIN-MAP.json": "392adc446d438cd611959cd3149b16becd183776c9e2cf64fd07c22682bc2663",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/VALIDATION.json": "d3a99c304eb257be0e50addd4154409a19cc63d9a7a9f7a3764271f87ea06a1a",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/replay.py": "3c9bf943a43b12e65faa3f517cddb6548c4566735f9fc77813c166b1031ad0eb",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/test_replay.py": "95065731119820ab8d41143b510a8a3a719f09db2d256ec6b0813b3122a5e789"
+  },
+  "collector_hash_distinctions": {
+    "original": {
+      "canonical_request_sha256": "90633a7244e97f5aa681d6c2b4fd9833bca8c779debc4379c5755f27c89eb511",
+      "canonical_sanitized_json_sha256": "4127788abab56ce4ef676011795958fe78da14ac59480546cdddb839afd467c7",
+      "raw_file_sha256": "4127788abab56ce4ef676011795958fe78da14ac59480546cdddb839afd467c7",
+      "raw_request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e"
+    },
+    "retry": {
+      "canonical_request_sha256": "aed203bd26a0c1271162bb420231a8400d9245d44c8fec2027885ca51a9737c3",
+      "canonical_sanitized_json_sha256": "aa38693f74683b68aa96febdc7bfdd6c451e57e66192e5d024b3e44cb3028adc",
+      "raw_file_sha256": "75641495239a3c201296224ed0eac864c9c0798370080df7a1efa290a341a9f9",
+      "raw_request_sha256": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8"
+    }
+  },
+  "compatibility_gates": {
+    "actual_configuration_solver_checks_equal": true,
+    "all_other_semantic_request_fields_equal": true,
+    "cell_actual_semantics_reviewed_equal": true,
+    "exact_reviewed_control_delta": true,
+    "exact_reviewed_request_delta": true,
+    "full_rows_equal_except_cell_timeout": true,
+    "only_reviewed_delta_fields": true,
+    "protected_binary_digest_version_all_origins": true,
+    "role_map_equal": true
+  },
+  "derived_qualified_row_ids": [
+    "activation-default",
+    "activation-override",
+    "activation_descending_rejected",
+    "activation_effectful_rejected",
+    "activation_unsupported_type_rejected",
+    "corruption_companion",
+    "count_corruption_rejected",
+    "freeze_copy_u8_n0",
+    "freeze_copy_u8_n1",
+    "freeze_copy_u8_n2",
+    "freeze_copy_u8_n3",
+    "freeze_default_noncopy_n0",
+    "freeze_default_noncopy_n1",
+    "freeze_default_noncopy_n2",
+    "freeze_default_noncopy_n3",
+    "inactive_pairs_read_free",
+    "invalid_snapshot_rejected",
+    "model_cell_n0_3",
+    "model_noncopy_n0_3",
+    "model_u8_n0_3",
+    "order_corruption_rejected",
+    "ordinary-bridge",
+    "snapshot_guards_companion",
+    "stable_default_activation-legal",
+    "stable_default_cell",
+    "stable_freeze_activation-legal",
+    "stable_freeze_u8_n0",
+    "stable_freeze_u8_n1",
+    "stable_freeze_u8_n2",
+    "stable_freeze_u8_n3",
+    "unstable_default_cell",
+    "unstable_freeze_u8_n0",
+    "unstable_freeze_u8_n1",
+    "unstable_freeze_u8_n2",
+    "unstable_freeze_u8_n3"
+  ],
+  "derived_qualified_rows": 35,
+  "execution": "OFFLINE_STRUCTURED_ONLY; NO_SUBAGENTS_CI_VERIFIER_COMPILER_FULL_RUNNER_PUSH_LEDGER",
+  "independent_compiler_AST_MIR_B1_B2_general_credit": "NONE",
+  "manifest_inputs_checked": 194,
+  "new_U128_records": 12,
+  "origin_component_totals": {
+    "44095954742/1": {
+      "PFC": 20,
+      "U_checks": 429,
+      "U_covers": 2,
+      "negatives": 8,
+      "properties": 9384,
+      "required_SAT_covers": 91,
+      "required_roles": 117,
+      "rows": 33
+    },
+    "44128268928/1": {
+      "PFC": 2,
+      "U_checks": 8,
+      "properties": 602,
+      "required_SAT_covers": 22,
+      "required_roles": 10,
+      "rows": 2
+    }
+  },
+  "review_task_commit": "65353172b301b5ce1aafb7030adfa0686fe86c2e",
+  "reviewer_targeted_checks": [
+    {
+      "case": "multiline_48_49_actual_source_and_property",
+      "result": "DISCRIMINATED",
+      "status": "PASS"
+    },
+    {
+      "case": "multiline_truncated_source_site",
+      "reason": "role source site",
+      "result": "REJECTED",
+      "status": "PASS"
+    },
+    {
+      "case": "multiline_wrong_site_hash",
+      "reason": "role source site",
+      "result": "REJECTED",
+      "status": "PASS"
+    },
+    {
+      "case": "multiline_foreign_property_line",
+      "result": "DISCRIMINATED",
+      "status": "PASS"
+    },
+    {
+      "case": "positive_actual_operations_after_assume_before_covers",
+      "result": "DISCRIMINATED",
+      "status": "PASS"
+    },
+    {
+      "case": "positive_missing_assumption",
+      "result": "DISCRIMINATED",
+      "status": "PASS"
+    },
+    {
+      "case": "positive_cover_before_operation",
+      "result": "DISCRIMINATED",
+      "status": "PASS"
+    },
+    {
+      "case": "N1_guard_actual_N0_U128",
+      "result": "DISCRIMINATED",
+      "status": "PASS"
+    },
+    {
+      "case": "N1_guard_applicable_N1_stays_unresolved",
+      "result": "DISCRIMINATED",
+      "status": "PASS"
+    },
+    {
+      "case": "N1_guard_source_inversion",
+      "reason": "fresh N1 safety guard source",
+      "result": "REJECTED",
+      "status": "PASS"
+    },
+    {
+      "case": "N1_guard_old137_exception_not_reused",
+      "result": "DISCRIMINATED",
+      "status": "PASS"
+    },
+    {
+      "case": "mandatory_role_U_blocked",
+      "result": "DISCRIMINATED",
+      "status": "PASS"
+    },
+    {
+      "case": "mandatory_assigns_U_blocked",
+      "result": "DISCRIMINATED",
+      "status": "PASS"
+    },
+    {
+      "case": "mandatory_frees_U_blocked",
+      "result": "DISCRIMINATED",
+      "status": "PASS"
+    },
+    {
+      "case": "mandatory_actual_PFC_ensures_U_rejected",
+      "reason": "ensures clause status",
+      "result": "REJECTED",
+      "status": "PASS"
+    },
+    {
+      "case": "compatibility_actual_configuration",
+      "result": "DISCRIMINATED",
+      "status": "PASS"
+    },
+    {
+      "case": "compatibility_actual_target",
+      "result": "DISCRIMINATED",
+      "status": "PASS"
+    },
+    {
+      "case": "compatibility_actual_enabled_unstable_features",
+      "result": "DISCRIMINATED",
+      "status": "PASS"
+    }
+  ],
+  "schema": "s108-composite-independent-review-validation-v1",
+  "status": "PASS",
+  "unchanged_upstream_tests_repeated": 0
+}

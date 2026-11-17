@@ -1,0 +1,253 @@
+{
+  "B1_credit": "NONE",
+  "B2_credit": "NONE",
+  "U_applicability": {
+    "actual_checks": 437,
+    "actual_covers": 2,
+    "actual_records": 439,
+    "historical_property_IDs_or_qualifications_imported": false,
+    "mandatory_assertions_are_not_exempted": "PASS",
+    "new_N1_branch_U128_records": 12,
+    "origin_binding_is_separate_from_applicability": true
+  },
+  "accounting_reference_only": {
+    "item2": "9/14",
+    "modified": false,
+    "total": "35/40"
+  },
+  "authority": "Current explicit user/coordinator issuance; current pane model; localized repairs through completion; no subagents/CI/rerun/push/ledger",
+  "candidate_accept_path": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/ACCEPT.json",
+  "candidate_accept_raw_sha256": "76addef689c8808658be0bc85619b413d279ce9d692e4199822ea2284e2b97c2",
+  "candidate_and_inputs_unchanged": true,
+  "candidate_commit": "3c40a15d37890c8b5ef7ba49308e81279a494b05",
+  "candidate_file_raw_hashes": {
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/ACCEPT.json": "76addef689c8808658be0bc85619b413d279ce9d692e4199822ea2284e2b97c2",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/ACCEPTANCE.md": "bfc4aaf1041f9c6586735847ccc5e4275abb2813eea649092d52f2dbe578a568",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/COMPATIBILITY.json": "348707c3505c18d14122c55329c33d8c290805c56ea92e0fc1469eaf60aec310",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/HANDOFF.md": "512e0a2d3ec60da166738d77f420942b7d5209113caae5242dd1bb10b498c382",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/INPUTS.json": "3191ea3ad753f2c5057413aae775aceb36db3895277829772d3443d5e7ed517e",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/MUTATIONS.json": "def6b7bd6301fb60b0fda1095f58f4271516baf7c30afc527f3c4daa96a5b23a",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/ORIGIN-MAP.json": "392adc446d438cd611959cd3149b16becd183776c9e2cf64fd07c22682bc2663",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/VALIDATION.json": "d3a99c304eb257be0e50addd4154409a19cc63d9a7a9f7a3764271f87ea06a1a",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/replay.py": "3c9bf943a43b12e65faa3f517cddb6548c4566735f9fc77813c166b1031ad0eb",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/test_replay.py": "95065731119820ab8d41143b510a8a3a719f09db2d256ec6b0813b3122a5e789"
+  },
+  "concrete_findings": [],
+  "derived_row_qualification": {
+    "activation-default": "QUALIFIED",
+    "activation-override": "QUALIFIED",
+    "activation_descending_rejected": "QUALIFIED",
+    "activation_effectful_rejected": "QUALIFIED",
+    "activation_unsupported_type_rejected": "QUALIFIED",
+    "corruption_companion": "QUALIFIED",
+    "count_corruption_rejected": "QUALIFIED",
+    "freeze_copy_u8_n0": "QUALIFIED",
+    "freeze_copy_u8_n1": "QUALIFIED",
+    "freeze_copy_u8_n2": "QUALIFIED",
+    "freeze_copy_u8_n3": "QUALIFIED",
+    "freeze_default_noncopy_n0": "QUALIFIED",
+    "freeze_default_noncopy_n1": "QUALIFIED",
+    "freeze_default_noncopy_n2": "QUALIFIED",
+    "freeze_default_noncopy_n3": "QUALIFIED",
+    "inactive_pairs_read_free": "QUALIFIED",
+    "invalid_snapshot_rejected": "QUALIFIED",
+    "model_cell_n0_3": "QUALIFIED",
+    "model_noncopy_n0_3": "QUALIFIED",
+    "model_u8_n0_3": "QUALIFIED",
+    "order_corruption_rejected": "QUALIFIED",
+    "ordinary-bridge": "QUALIFIED",
+    "snapshot_guards_companion": "QUALIFIED",
+    "stable_default_activation-legal": "QUALIFIED",
+    "stable_default_cell": "QUALIFIED",
+    "stable_freeze_activation-legal": "QUALIFIED",
+    "stable_freeze_u8_n0": "QUALIFIED",
+    "stable_freeze_u8_n1": "QUALIFIED",
+    "stable_freeze_u8_n2": "QUALIFIED",
+    "stable_freeze_u8_n3": "QUALIFIED",
+    "unstable_default_cell": "QUALIFIED",
+    "unstable_freeze_u8_n0": "QUALIFIED",
+    "unstable_freeze_u8_n1": "QUALIFIED",
+    "unstable_freeze_u8_n2": "QUALIFIED",
+    "unstable_freeze_u8_n3": "QUALIFIED"
+  },
+  "derived_totals": {
+    "PFC_bound": 22,
+    "U_allowed": 439,
+    "U_decisions": {
+      "ALLOWED_EXPECTED_BRANCH_UNREACHABLE": 198,
+      "ALLOWED_EXPECTED_NEGATIVE_POST_FAILURE_RETURN_COVER": 2,
+      "ALLOWED_GENERATED_SAFETY_APPLICABILITY": 187,
+      "ALLOWED_NON_OVERFLOWING_TYPE_SIZE_GUARD": 28,
+      "ALLOWED_NON_SELECTED_SPECIALIZATION_BRANCH": 24
+    },
+    "U_records": 439,
+    "companions": 8,
+    "companions_qualified": 8,
+    "exact_role_labels": 111,
+    "location_exceptions": 18,
+    "negative_oracles": 8,
+    "original_rows": 33,
+    "properties_reconciled": 9986,
+    "required_SAT_covers": 113,
+    "required_roles": 127,
+    "retry_rows": 2,
+    "rows": 35,
+    "rows_qualified": 35,
+    "semantic_bindings": 16,
+    "supplemental_sites": 54,
+    "unions": 4,
+    "unions_qualified": 4,
+    "unsupported_success_guards": 76
+  },
+  "exact_dependency_manifest": {
+    "committed_input_files": 194,
+    "path": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/INPUTS.json",
+    "raw_sha256": "3191ea3ad753f2c5057413aae775aceb36db3895277829772d3443d5e7ed517e"
+  },
+  "execution": "OFFLINE_STRUCTURED_ONLY; NO_SUBAGENTS_CI_VERIFIER_COMPILER_FULL_RUNNER_PUSH_LEDGER",
+  "final_admission_handling": "Independent review APPROVE for exact bounded composite candidate; author candidate files remain immutable. No execution/CI/credit expansion.",
+  "gates": {
+    "N1_guard_U128_actual_applicability_adapter": "PASS",
+    "actual_required_SAT_covers": "PASS",
+    "canonical_json_and_raw_file_hashes_distinguished": "PASS",
+    "compatibility": {
+      "actual_configuration_solver_checks_equal": true,
+      "all_other_semantic_request_fields_equal": true,
+      "cell_actual_semantics_reviewed_equal": true,
+      "exact_reviewed_control_delta": true,
+      "exact_reviewed_request_delta": true,
+      "full_rows_equal_except_cell_timeout": true,
+      "only_reviewed_delta_fields": true,
+      "protected_binary_digest_version_all_origins": true,
+      "role_map_equal": true
+    },
+    "exact_committed_candidate_and_194_inputs": "PASS",
+    "exact_fresh_U_coverage_and_premises": "PASS",
+    "fixed_atomic_origin_partition_33_plus_2": "PASS",
+    "fresh_role_obligations_111_labels_16_semantic_bindings_sets": "PASS",
+    "full_Profiles_v4_PFC_chains": "PASS",
+    "labelled_multiline_source_adapter": "PASS",
+    "mandatory_relation_frame_ensures_U_blocked": "PASS",
+    "old_UNKNOWN_cell_excluded_from_qualification": "PASS",
+    "origin_specific_role_U_PFC_cover_oracle_native_binding": "PASS",
+    "positive_macro_actual_operation_order_adapter": "PASS",
+    "same_origin_companions_and_N0_3_union_all_members": "PASS",
+    "separate_actual_read_only_collectors": "PASS",
+    "sole_FAILURE_negatives_closure_spans95_101": "PASS",
+    "transitive_least_fixed_point": "PASS"
+  },
+  "general_proof_credit": "NONE",
+  "hash_representations": {
+    "original": {
+      "canonical_request_sha256": "90633a7244e97f5aa681d6c2b4fd9833bca8c779debc4379c5755f27c89eb511",
+      "canonical_sanitized_json_sha256": "4127788abab56ce4ef676011795958fe78da14ac59480546cdddb839afd467c7",
+      "raw_file_sha256": "4127788abab56ce4ef676011795958fe78da14ac59480546cdddb839afd467c7",
+      "raw_request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e"
+    },
+    "retry": {
+      "canonical_request_sha256": "aed203bd26a0c1271162bb420231a8400d9245d44c8fec2027885ca51a9737c3",
+      "canonical_sanitized_json_sha256": "aa38693f74683b68aa96febdc7bfdd6c451e57e66192e5d024b3e44cb3028adc",
+      "raw_file_sha256": "75641495239a3c201296224ed0eac864c9c0798370080df7a1efa290a341a9f9",
+      "raw_request_sha256": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8"
+    }
+  },
+  "independent_compiler_AST_MIR_credit": "NONE",
+  "intakes": {
+    "original": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+    "retry": "0beb690dfa99e4524de71b2ffc311fe7d7556cc1"
+  },
+  "lost_claims": [
+    "Single successful14-of14 same-run matrix",
+    "One common control/request/invocation or simultaneous global snapshot",
+    "Uniform600s profile and600s cell fit",
+    "Measured full-matrix runtime/phase or ordinary organizer-CI budget fit",
+    "Causal effect of labels/kani::assert"
+  ],
+  "origin_component_totals": {
+    "44095954742/1": {
+      "PFC": 20,
+      "U_checks": 429,
+      "U_covers": 2,
+      "negatives": 8,
+      "properties": 9384,
+      "required_SAT_covers": 91,
+      "required_roles": 117,
+      "rows": 33
+    },
+    "44128268928/1": {
+      "PFC": 2,
+      "U_checks": 8,
+      "properties": 602,
+      "required_SAT_covers": 22,
+      "required_roles": 10,
+      "rows": 2
+    }
+  },
+  "origin_map": {
+    "path": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/ORIGIN-MAP.json",
+    "raw_sha256": "392adc446d438cd611959cd3149b16becd183776c9e2cf64fd07c22682bc2663"
+  },
+  "origin_pins": {
+    "original": {
+      "attempt": 1,
+      "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+      "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+      "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+      "repository": "Tiramisu-Cake/kani",
+      "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+      "run_id": 44095954742,
+      "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+    },
+    "retry": {
+      "attempt": 1,
+      "control_sha": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+      "control_tree": "2c4475bf17bb0354e9b204e19c652549c263f90f",
+      "intake_commit": "0beb690dfa99e4524de71b2ffc311fe7d7556cc1",
+      "repository": "Tiramisu-Cake/kani",
+      "request_sha256": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8",
+      "run_id": 44128268928,
+      "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "trigger_sha": "4336dfed5af21660b9ac82907107be839ce13977"
+    }
+  },
+  "original_run_status": "FAILED_IMMUTABLE",
+  "repair_routing": {
+    "adapter_acceptance_owner": 11,
+    "author_code_modified": false,
+    "intake_owner": 13,
+    "required": false,
+    "route": "coordinator only"
+  },
+  "review_task_commit": "65353172b301b5ce1aafb7030adfa0686fe86c2e",
+  "rule_reuse": {
+    "assurance": "Exact pinned helper bytes, fresh source99e and own-origin structured evidence; existing reviewed policy guarantees reused",
+    "broad_unchanged_tests_repeated": 0,
+    "new_compiler_audit": false,
+    "unchanged_reused_rules": [
+      "inventory/snapshot/negative_oracle",
+      "native records/pointers",
+      "U classify/check_premises and source-domain rules",
+      "PFC concrete source/type/trait/impl/native/contract/oracle",
+      "semantic source-case navigation",
+      "least-fixed-point qualify"
+    ]
+  },
+  "schema": "s108-composite-independent-review-v1",
+  "scope": "S1 smoke N0..3; exact initialized fixture geometry; bounded source-reported Profiles-v4/per-site-U composite",
+  "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "validation": {
+    "author_new_mutations": 39,
+    "initial_reviewer_fixture_failure": "StopIteration from looking for class postcondition; fixed reviewer fixture to actual PFC ensures assertion ID. Final validation PASS; candidate unchanged.",
+    "path": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/review/VALIDATION.json",
+    "raw_sha256": "5f9b7fa8447d20dee1d53112d99db5be7eae68c0c45a782c8ad745247732ef78",
+    "reproducer": "python3 -I -B research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/review/validate_review.py",
+    "reviewer_targeted_controls": 18,
+    "status": "PASS",
+    "validator_raw_sha256": "1023034cd0245ebccfb65b7fc64c9537eb88ea60f5a105d51a02a3c7b242a391"
+  },
+  "verdict": "APPROVE"
+}
