@@ -1,0 +1,40 @@
+{
+  "schema": "ch8-s2-batch3probes-identities-v1",
+  "entry_g0": "9856043dab21de8346b68196fa91929b96331293",
+  "task_id": "task9856043dab21de8346b68196fa91929b96331293",
+  "shared_INPUTS_sha256": "980c513826dcb1b38470278910dbb21707826f80d7bb362dbbf6e860f71436ad",
+  "shared_INPUTS": "research/challenge-8/kani-k1/kani3300/s2-f4-coordination/INPUTS.json",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-batch-w13",
+    "sha": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "tree": "2b305686df9758381cfc5d07e195ba05d6b87637",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "files": {
+      "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+      "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "library/core/src/slice/sort/shared/smallsort.rs": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "37125e0d65bbce0b70fc6626960cbf0c17dab3d2d07675c183cf15407a37c850",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+    }
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s2-batch-w13",
+    "sha": "fc058c97335e4a064c7827b8534b3af2f7460bc3",
+    "tree": "829f2a6ce410b366101bd413a268e825627e3780",
+    "base": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+    "stock_base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "request_sha256": "eccd05f859b0c5982d6eea23fa0d2e209a9099e3cbc6fdfc883b6e2ad826ac23",
+    "workflow_sha256": "0f0dbfc57b0db8d138ba74d91d64aaa23e27ad8ff39960994a0261da4ac91f9f"
+  },
+  "tool": {
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "change": "NONE"
+  },
+  "qualification": "NOT_RUN",
+  "proof_credit": "NONE",
+  "review": "NOT_RUN_W14_NEXT"
+}

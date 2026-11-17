@@ -1,0 +1,321 @@
+{
+  "schema": "ch8-s2-assumption-map-v1",
+  "source_sha": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "profile": "u8/default KeyLess<u8>; organizer/default checks; no ord-panic stub; no extra-UB credit",
+  "all_summary_qualification": "NOT_RUN; actual callee same candidate only; no prior safety/frame proof accepted as semantics",
+  "expected_inventory": {
+    "actual_body_attempt": [
+      "merge32_real"
+    ],
+    "diagnostic_assumed": [
+      "sort13_assumed",
+      "general32_assumed"
+    ],
+    "qualification_attempt": [
+      "swap_pfc"
+    ],
+    "model_diagnostic": [
+      "summary_witness"
+    ],
+    "negative_controls": [
+      "merge_order_corrupt",
+      "merge_count_corrupt",
+      "checker_count_corrupt",
+      "checker_order_corrupt",
+      "sort13_weak",
+      "general32_weak"
+    ]
+  },
+  "stubs": [
+    {
+      "consumer": "sort13_assumed",
+      "actual_callee": "swap_if_less::<u8,KeyLess<u8>>",
+      "mechanism": "kani::stub_verified; semantic ensures attached to actual function",
+      "status": "DIAGNOSTIC_ASSUMED",
+      "qualification_source": "same-head swap_pfc, NOT_RUN; immutable committed exact-pair facade from 24e12a1e98d9dd8de4f272f3d4a6fb489ade5894 is source design, not proof",
+      "T": "u8",
+      "F": "KeyLess<u8>, closed ZST, pure full-byte <",
+      "allocation": "one initialized [u8;15], base index1, active prefix13 with canaries0/14",
+      "offsets": "a,b in0..12; actual45 pairs below; PFC arbitrary pairs incl coincident/reverse",
+      "pairs": [
+        [
+          0,
+          12
+        ],
+        [
+          1,
+          10
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          5,
+          11
+        ],
+        [
+          6,
+          8
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          11
+        ],
+        [
+          7,
+          9
+        ],
+        [
+          8,
+          10
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          6
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          9,
+          10
+        ],
+        [
+          11,
+          12
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          5,
+          9
+        ],
+        [
+          8,
+          11
+        ],
+        [
+          10,
+          12
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          9,
+          10
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          6,
+          9
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          9,
+          10
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          6,
+          8
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          8,
+          9
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "initialization": "both positions initialized before old capture; all15 initialized in fixture",
+      "frame": "exactly base[a],base[b]; comparator has no external writes",
+      "semantic_post": "exact conditional old_b<old_a transfer of both full bytes, including a=b",
+      "probe_domain": "all full byte values, no query ghost; caller full sortedness and complete multiset",
+      "nonvacuity": [
+        "summary_witness pair transfer",
+        "S2_SORT13_UNSORTED",
+        "S2_SORT13_DUPLICATE",
+        "S2_SORT13_NONCONSTANT",
+        "S2_SORT13_USEFUL_RETURN"
+      ],
+      "weak_control": "sort13_weak uses frame-compatible identity swap; expected S2_NEG_SORT13_WEAK"
+    },
+    {
+      "consumer": "general32_assumed",
+      "actual_callee": "sort8_stable::<u8,KeyLess<u8>>",
+      "mechanism": "kani::stub_verified; new diagnostic requires/modifies/ensures on actual callee",
+      "status": "DIAGNOSTIC_ASSUMED",
+      "qualification_source": "NONE; full leaf proof explicitly deferred to S3",
+      "T": "u8",
+      "F": "KeyLess<u8>",
+      "allocation": "source [u8;34] v[1..33]; separate actual stack scratch48; dst and temporary share scratch allocation, disjoint spans",
+      "offsets": [
+        {
+          "src": 1,
+          "dst_scratch": 0,
+          "temporary_scratch": 32,
+          "len": 8
+        },
+        {
+          "src": 17,
+          "dst_scratch": 16,
+          "temporary_scratch": 40,
+          "len": 8
+        }
+      ],
+      "initialization": "source initialized8; dst/temp writable uninitialized MaybeUninit8, no pre-read; dst initialized on useful normal return; caller does not read temp",
+      "frame": "dst8 and temporary8 only; original source and scratch gaps outside frame preserved",
+      "semantic_post": "dst sorted plus full multiset of old source8; scratch contents unconstrained",
+      "probe_domain": "all8 full bytes; no single-query replacement",
+      "nonvacuity": "constructive summary_witness n8 and actual consumer return covers"
+    },
+    {
+      "consumer": "general32_assumed",
+      "actual_callee": "insert_tail::<u8,KeyLess<u8>>",
+      "mechanism": "kani::stub_verified; existing total geometry/modifies retained; diagnostic prefix requires and semantic ensures",
+      "status": "DIAGNOSTIC_ASSUMED",
+      "qualification_source": "NONE; no safety/frame-only transfer",
+      "T": "u8",
+      "F": "KeyLess<u8>",
+      "allocation": "actual initialized prefixes in same scratch48 allocation",
+      "offsets": "begin0 and16; tail=begin+p for p8..15; contract guard permits p1..16 but only used p8..15 are requested; no qualification of wider domain",
+      "initialization": "sorted initialized prefix p plus just-copied initialized tail byte; no unused scratch reads",
+      "frame": "inclusive [begin,tail], length p+1; surrounding scratch untouched",
+      "semantic_post": "prefix p sorted requires; inclusive span sorted/full multiset of old inclusive span; total pointer geometry before reads",
+      "probe_domain": "full bytes length9..16 in this consumer; no key-only or fixed-query theorem",
+      "nonvacuity": "constructive summary_witness n9..16 and actual consumer useful return"
+    },
+    {
+      "consumer": "general32_assumed",
+      "actual_callee": "bidirectional_merge::<u8,KeyLess<u8>>",
+      "mechanism": "kani::stub_verified; existing safety/frame retained; diagnostic halves premise and full-value post",
+      "status": "DIAGNOSTIC_ASSUMED",
+      "qualification_source": "merge32_real is a separate body attempt, NOT_RUN, and uses separate src32/MUdst34; it does NOT qualify general caller geometry",
+      "T": "u8",
+      "F": "KeyLess<u8>",
+      "allocation": "initialized scratch[0..32] to distinct v[1..33] in initialized backing34; no overlap",
+      "offsets": "src scratch0 len32; dst v1 len32",
+      "initialization": "source32 fully initialized, both halves sorted after insertion; dst writable initialized32",
+      "frame": "dst32 only; input scratch32 and original v canaries0/33 preserved",
+      "semantic_post": "halves ordered; output32 sorted and full old input multiset; no panic stub/cut",
+      "probe_domain": "all32 full bytes; no single-query substitution",
+      "nonvacuity": "constructive summary_witness n32 and S2_GENERAL32_UNSORTED/DUPLICATE/NONCONSTANT/USEFUL_RETURN",
+      "weak_control": "general32_weak replaces only merge with frame-compatible copy on [2;16]++[1;16], retains assumed sort8/insert; expected S2_NEG_GENERAL32_WEAK"
+    }
+  ],
+  "actual_merge32": {
+    "root": "merge32_real",
+    "stubs": [],
+    "callee": "actual bidirectional_merge and actual merge_up/merge_down",
+    "input": "arbitrary initialized [u8;32], halves16 ordered",
+    "output": "distinct uninitialized MU[u8;34] interior1..33; guards0/33",
+    "checker": "S1 snapshot/post CAP32, full sortedness and all input-value counts, not one query",
+    "frame": "source unchanged; destination guards unchanged",
+    "nonvacuity": "left-first/right-first/tie/nonconstant/useful-return exact covers",
+    "controls": [
+      "merge_order_corrupt",
+      "merge_count_corrupt",
+      "checker_order_corrupt",
+      "checker_count_corrupt"
+    ],
+    "assurance": "source-preserving body attempt, no observed result; not B1/B2 or R8 credit"
+  },
+  "satisfiability": "For each initialized finite byte input, a sorted permutation exists. Constructive ghost insertion witness has no semantic assumptions and covers lengths8..16/32 plus exact swap. Consumer return covers remain mandatory. All witness/cover results NOT_RUN, not an established compiler/proof result.",
+  "negative_controls": "Outside formal/diagnostic positive inventory; require exact source-derived expected ID .assertion.1, file/line/class/status/sole failure and same-invocation rich record. IDs unobserved; mismatch remains UNKNOWN.",
+  "ordinary_inventory": "All S2 modules/attrs gated by kani_smallsort_s2_assumed + kani_smallsort_sorting + kani; no new ordinary root registration.",
+  "runtime_sort_algorithm": "UNCHANGED",
+  "proof_credit": "NONE"
+}

@@ -1,0 +1,226 @@
+{
+  "schema": "ch8-s2-static-validation-v1",
+  "status": "STATIC_PASS",
+  "identities": {
+    "schema": "ch8-s2-batch3probes-identities-v1",
+    "entry_g0": "9856043dab21de8346b68196fa91929b96331293",
+    "task_id": "task9856043dab21de8346b68196fa91929b96331293",
+    "shared_INPUTS_sha256": "980c513826dcb1b38470278910dbb21707826f80d7bb362dbbf6e860f71436ad",
+    "shared_INPUTS": "research/challenge-8/kani-k1/kani3300/s2-f4-coordination/INPUTS.json",
+    "source": {
+      "worktree": "/root/verify-rust-std-ch8-s2-batch-w13",
+      "sha": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "tree": "2b305686df9758381cfc5d07e195ba05d6b87637",
+      "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "files": {
+        "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+        "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+        "library/core/src/slice/sort/shared/smallsort.rs": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0",
+        "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "37125e0d65bbce0b70fc6626960cbf0c17dab3d2d07675c183cf15407a37c850",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+        "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+      }
+    },
+    "control": {
+      "worktree": "/root/kani-ch8-s2-batch-w13",
+      "sha": "fc058c97335e4a064c7827b8534b3af2f7460bc3",
+      "tree": "829f2a6ce410b366101bd413a268e825627e3780",
+      "base": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+      "stock_base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "request_sha256": "eccd05f859b0c5982d6eea23fa0d2e209a9099e3cbc6fdfc883b6e2ad826ac23",
+      "workflow_sha256": "0f0dbfc57b0db8d138ba74d91d64aaa23e27ad8ff39960994a0261da4ac91f9f"
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "change": "NONE"
+    },
+    "qualification": "NOT_RUN",
+    "proof_credit": "NONE",
+    "review": "NOT_RUN_W14_NEXT"
+  },
+  "source_check": {
+    "std_sha": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "std_tree": "2b305686df9758381cfc5d07e195ba05d6b87637",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "changed_file_sha256": {
+      "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+      "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "library/core/src/slice/sort/shared/smallsort.rs": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "37125e0d65bbce0b70fc6626960cbf0c17dab3d2d07675c183cf15407a37c850",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+    }
+  },
+  "preflight": {
+    "control_sha": "fc058c97335e4a064c7827b8534b3af2f7460bc3",
+    "status": "STATIC_PASS",
+    "proof_credit": "NONE"
+  },
+  "workflow": {
+    "jobs": 1,
+    "serial": true,
+    "max_runner_minutes": 180,
+    "step_timeout_sum_minutes": 177,
+    "checkout_depths": {
+      "control": 7,
+      "export": 4,
+      "tool": 2
+    }
+  },
+  "patch_replay": [
+    {
+      "patch": "SOURCE-CANDIDATE.patch",
+      "sha256": "56be5223bbdc339b05f19e1cba32b5c1dfcaee4ca5faa9ab1d727412742c24a6",
+      "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "replayed_tree": "2b305686df9758381cfc5d07e195ba05d6b87637",
+      "state": "EXACT_TREE_MATCH"
+    },
+    {
+      "patch": "CONTROL-DELTA.patch",
+      "sha256": "1142fbf798c01bd3271b21f683b12e9fa2e11c2c41645d8af8b3834d04604f26",
+      "base": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+      "replayed_tree": "829f2a6ce410b366101bd413a268e825627e3780",
+      "state": "EXACT_TREE_MATCH"
+    },
+    {
+      "patch": "CONTROL-CANDIDATE.patch",
+      "sha256": "d73ce15f7ef70817896d077aff72e6864f90c9b6acc1a0d6dab281625f1b39dd",
+      "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "replayed_tree": "829f2a6ce410b366101bd413a268e825627e3780",
+      "state": "EXACT_TREE_MATCH"
+    }
+  ],
+  "actual_shallow_ancestry": [
+    {
+      "head": "fc058c97335e4a064c7827b8534b3af2f7460bc3",
+      "depth": 7,
+      "boundary": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "endpoint": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "retained_chain": [
+        "fc058c97335e4a064c7827b8534b3af2f7460bc3",
+        "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+        "9208b373c0a08a265fa0d7493a6529e331065271",
+        "b25dd39a46ba90b167500997d546a5f2f5bd8f3b",
+        "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+        "0aac16ef62da9e9d5645782d458593e5d78143ba"
+      ],
+      "endpoint_diff_paths": [
+        ".github/workflows/bench-compiler.yml",
+        ".github/workflows/bench-e2e.yml",
+        ".github/workflows/bench-pr.yml",
+        ".github/workflows/cargo-update.yml",
+        ".github/workflows/cbmc-latest.yml",
+        ".github/workflows/cbmc-update.yml",
+        ".github/workflows/ch8-s2.yml",
+        ".github/workflows/charon-update.yml",
+        ".github/workflows/deny.yml",
+        ".github/workflows/extra_jobs.yml",
+        ".github/workflows/format-check.yml",
+        ".github/workflows/kani.yml",
+        ".github/workflows/release.yml",
+        ".github/workflows/slow-tests.yml",
+        ".github/workflows/toolchain-upgrade.yml",
+        ".github/workflows/verify-std-check.yml",
+        ".github/workflows/z3-update.yml",
+        "ch8-s1-control/CI-REQUEST.json",
+        "ch8-s1-control/ORACLE-SOURCES.json",
+        "ch8-s1-control/ROLE-MAP.json",
+        "ch8-s1-control/S2-SOURCE.json",
+        "ch8-s1-control/activation-default.patch",
+        "ch8-s1-control/activation-override.patch",
+        "ch8-s1-control/binding_metadata.py",
+        "ch8-s1-control/check_package.py",
+        "ch8-s1-control/collect.py",
+        "ch8-s1-control/fixtures/s104-rich-fragment.json",
+        "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
+        "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+        "ch8-s1-control/negative_oracle.py",
+        "ch8-s1-control/oracle_source.py",
+        "ch8-s1-control/pack_evidence.py",
+        "ch8-s1-control/rich_evidence.py",
+        "ch8-s1-control/runner.py",
+        "ch8-s1-control/s108_package.py",
+        "ch8-s1-control/s2_policy.py",
+        "ch8-s1-control/test_package.py",
+        "ch8-s1-control/test_runner.py",
+        "ch8-s1-control/test_s104.py",
+        "ch8-s1-control/test_s105.py",
+        "ch8-s1-control/test_s107.py",
+        "ch8-s1-control/test_s108.py",
+        "ch8-s1-control/test_s108r1.py",
+        "ch8-s1-control/test_s2.py"
+      ],
+      "state": "PASS_REAL_GIT_SHALLOW_METADATA_SHARED_OBJECTS"
+    },
+    {
+      "head": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "depth": 4,
+      "boundary": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "endpoint": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "retained_chain": [
+        "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+        "55dc6ca6cd055bb5bb6b8570d86cf55cc62fcc19",
+        "4092c170cb7615d9a1bee3178ac877126d6e8058",
+        "99e8456d200fff1299ee5756279cddb23921dc65"
+      ],
+      "endpoint_diff_paths": [
+        "library/core/Cargo.toml",
+        "library/core/src/slice/sort/shared/smallsort.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs"
+      ],
+      "state": "PASS_REAL_GIT_SHALLOW_METADATA_SHARED_OBJECTS"
+    },
+    {
+      "head": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "depth": 2,
+      "boundary": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+      "endpoint": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "retained_chain": [
+        "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+      ],
+      "endpoint_diff_paths": [],
+      "state": "PASS_REAL_GIT_SHALLOW_METADATA_SHARED_OBJECTS"
+    }
+  ],
+  "python_ast_files": [
+    "binding_metadata.py",
+    "check_package.py",
+    "collect.py",
+    "negative_oracle.py",
+    "oracle_source.py",
+    "pack_evidence.py",
+    "rich_evidence.py",
+    "runner.py",
+    "s108_package.py",
+    "s2_policy.py",
+    "test_package.py",
+    "test_runner.py",
+    "test_s104.py",
+    "test_s105.py",
+    "test_s107.py",
+    "test_s108.py",
+    "test_s108r1.py",
+    "test_s2.py"
+  ],
+  "whitespace": "PASS",
+  "frozen_S1_source": "UNCHANGED_CLEAN",
+  "runtime_smallsort_algorithm": "EXACT_BASE_BYTES_AFTER_REMOVING_8_OPT_IN_ATTRIBUTES",
+  "controls": "43 tests passed in final synthetic suite; test_runner.py test_s107.FinalizationTests test_s2.py",
+  "local_compiler_solver_full_runner": "NOT_RUN",
+  "compile_body_caller_controls_cost_results": "NOT_RUN",
+  "independent_review": "NOT_RUN_W14_NEXT",
+  "B1_B2_independent_credit": "NONE",
+  "dispatch_push_reservation_ledger": "NOT_RUN",
+  "patch_data_whitespace": "Exact context/deleted-line bytes preserved; local *.patch -whitespace; actual source/control Git diff --check passed"
+}
