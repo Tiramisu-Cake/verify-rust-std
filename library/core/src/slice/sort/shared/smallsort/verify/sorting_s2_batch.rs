@@ -1,7 +1,7 @@
 //! Three cost probes. Assumed consumers are DIAGNOSTIC_ASSUMED, never proof credit.
 use super::super::{bidirectional_merge, sort13_optimal, small_sort_general,
     swap_if_less, sort8_stable, insert_tail};
-use super::sorting_model::{KeyLess, snapshot, post};
+use super::sorting_model::{KeyLess, snapshot, post, enabled};
 use super::{sorting_s2_span as span, sorting_s2_swap as pair};
 use crate::{kani, mem::MaybeUninit, ptr};
 
@@ -26,6 +26,7 @@ fn merge() -> ([u8;32],[u8;32]) {
 #[kani::proof]
 #[kani::unwind(34)]
 fn merge32_real() {
+    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), "S2_ACTIVE_MERGE32_REAL");
     let (src,out) = merge();
     assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), "S2_MERGE32_SORTED_FULL_COUNT");
     kani::cover(src[0] > src[16], "S2_MERGE_RIGHT_FIRST");
@@ -38,6 +39,7 @@ fn merge32_real() {
 #[kani::stub_verified(swap_if_less)]
 #[kani::unwind(34)]
 fn sort13_assumed() {
+    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), "S2_ACTIVE_SORT13_ASSUMED");
     let mut v: [u8;15] = kani::any();
     let before = v;
     sort13_optimal(&mut v[1..14],&mut KeyLess::<u8>::new());
@@ -54,6 +56,7 @@ fn sort13_assumed() {
 #[kani::stub_verified(bidirectional_merge)]
 #[kani::unwind(34)]
 fn general32_assumed() {
+    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), "S2_ACTIVE_GENERAL32_ASSUMED");
     let mut v: [u8;34] = kani::any();
     let before = v;
     small_sort_general(&mut v[1..33],&mut KeyLess::<u8>::new());
@@ -68,6 +71,7 @@ fn general32_assumed() {
 #[kani::proof_for_contract(swap_if_less)]
 #[kani::unwind(34)]
 fn swap_pfc() {
+    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), "S2_ACTIVE_SWAP_PFC");
     let mut v: [u8;15] = kani::any();
     let before = v;
     let a: usize = kani::any(); let b: usize = kani::any();
@@ -95,6 +99,7 @@ fn witness(input: &[u8]) {
 #[kani::proof]
 #[kani::unwind(34)]
 fn summary_witness() {
+    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), "S2_ACTIVE_SUMMARY_WITNESS");
     let input: [u8;32] = kani::any();
     // sort8; each insert-tail p8..15; final merge32. This witness is stronger
     // than the corresponding sorted-prefix/halves premises and shares full values.
