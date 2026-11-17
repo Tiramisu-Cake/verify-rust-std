@@ -48,6 +48,7 @@ check-cfg = [
     'cfg(kani_smallsort_controls)',
     # Opt-in sorting contracts and mechanism smoke; distinct from ordinary roots.
     'cfg(kani_smallsort_sorting)',
+    'cfg(kani_smallsort_s2_assumed)',
     'cfg(flux)',
     'cfg(rapx)',
     # Prevents use of a static variable for providing platform specific RawOsError

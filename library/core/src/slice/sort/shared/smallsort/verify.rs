@@ -88,3 +88,11 @@ mod sorting_entry_smoke;
 mod sorting_model_controls;
 #[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_controls))]
 mod sorting_entry_controls;
+
+// S2 cost experiment: every module is explicitly opt-in, separate from S1.
+#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed))]
+pub(super) mod sorting_s2_swap;
+#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed))]
+pub(super) mod sorting_s2_span;
+#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed))]
+pub(super) mod sorting_s2_batch;
