@@ -1,0 +1,1017 @@
+{
+  "error": null,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+      "properties": [
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.1",
+          "line": "85",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:85:28 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.2",
+          "line": "85",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:85:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.3",
+          "line": "86",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:86:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to shift left with overflow",
+          "display_id": "fmt::Arguments::<'_>::from_str.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/fmt/mod.rs",
+          "id": "fmt::Arguments::<'_>::from_str.assertion.1",
+          "line": "820",
+          "location_display": "library/core/src/fmt/mod.rs:820:38 in function fmt::Arguments::<'_>::from_str",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.1",
+          "line": "144",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:144:20 in function slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.2",
+          "line": "144",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:144:31 in function slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.3",
+          "line": "145",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:145:13 in function slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.4",
+          "line": "145",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:145:27 in function slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.5",
+          "line": "147",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:147:5 in function slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "status": "FAILURE"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.6",
+          "line": "145",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:145:5 in function slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:12 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:39 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:32 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "line": "100",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:100:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "line": "106",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:106:21 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "line": "111",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "line": "111",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:44 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "line": "112",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "line": "112",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:45 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "line": "113",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:113:13 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+          "line": "118",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:118:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.1",
+          "line": "106",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:106:21 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.2",
+          "line": "111",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.array_bounds.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.array_bounds.1",
+          "line": "85",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:85:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.array_bounds.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.array_bounds.1",
+          "line": "144",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:144:20 in function slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.array_bounds.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.array_bounds.2",
+          "line": "144",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:144:31 in function slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.array_bounds.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.array_bounds.3",
+          "line": "145",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:145:13 in function slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.array_bounds.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.array_bounds.4",
+          "line": "145",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:145:27 in function slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.1",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.2",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.3",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.4",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.5",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.6",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+      "properties": [
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.1",
+          "line": "85",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:85:28 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.2",
+          "line": "85",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:85:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.3",
+          "line": "86",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:86:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.1",
+          "line": "136",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:136:47 in function slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.2",
+          "line": "136",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:136:58 in function slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.3",
+          "line": "136",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:136:5 in function slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+          "status": "FAILURE"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:12 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:39 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:32 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "line": "100",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:100:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "line": "106",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:106:21 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "line": "111",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "line": "111",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:44 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "line": "112",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "line": "112",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:45 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "line": "113",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:113:13 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+          "line": "118",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:118:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to shift left with overflow",
+          "display_id": "fmt::Arguments::<'_>::from_str.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/fmt/mod.rs",
+          "id": "fmt::Arguments::<'_>::from_str.assertion.1",
+          "line": "820",
+          "location_display": "library/core/src/fmt/mod.rs:820:38 in function fmt::Arguments::<'_>::from_str",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.1",
+          "line": "106",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:106:21 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.2",
+          "line": "111",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.array_bounds.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.array_bounds.1",
+          "line": "85",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:85:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.array_bounds.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.array_bounds.1",
+          "line": "136",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:136:47 in function slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.array_bounds.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.array_bounds.2",
+          "line": "136",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:136:58 in function slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.1",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.2",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.3",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.4",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.5",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.6",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+      "properties": [
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:12 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:39 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:32 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "line": "100",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:100:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "line": "106",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:106:21 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "line": "111",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "line": "111",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:44 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "line": "112",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "line": "112",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:45 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "line": "113",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:113:13 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+          "line": "118",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:118:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to shift left with overflow",
+          "display_id": "fmt::Arguments::<'_>::from_str.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/fmt/mod.rs",
+          "id": "fmt::Arguments::<'_>::from_str.assertion.1",
+          "line": "820",
+          "location_display": "library/core/src/fmt/mod.rs:820:38 in function fmt::Arguments::<'_>::from_str",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.1",
+          "line": "85",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:85:28 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.2",
+          "line": "85",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:85:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.3",
+          "line": "86",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:86:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.assertion.1",
+          "line": "124",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:124:48 in function slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.assertion.2",
+          "line": "124",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:124:59 in function slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.assertion.3",
+          "line": "124",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:124:5 in function slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.assertion.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.assertion.4",
+          "line": "126",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:126:48 in function slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.assertion.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.assertion.5",
+          "line": "126",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:126:59 in function slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.assertion.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.assertion.6",
+          "line": "126",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:126:5 in function slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "cover",
+          "description": "S1_corruption_companion_return",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.cover.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.cover.1",
+          "line": "128",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:128:5 in function slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.assertion.7",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.assertion.7",
+          "line": "123",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:123:5 in function slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.1",
+          "line": "106",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:106:21 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.2",
+          "line": "111",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.array_bounds.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.array_bounds.1",
+          "line": "85",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:85:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.array_bounds.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.array_bounds.1",
+          "line": "124",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:124:48 in function slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.array_bounds.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.array_bounds.2",
+          "line": "124",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:124:59 in function slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.array_bounds.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.array_bounds.3",
+          "line": "126",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:126:48 in function slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.array_bounds.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.array_bounds.4",
+          "line": "126",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:126:59 in function slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.1",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.2",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.3",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.4",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.5",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.6",
+          "line": "36",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:36:29 in function <u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value",
+          "status": "SUCCESS"
+        }
+      ]
+    }
+  ],
+  "location_exceptions": [],
+  "missing_sites": [],
+  "observed_stdout_bytes": 141588,
+  "proof_credit": "NONE",
+  "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+  "schema": "ch8-s1-05-rich-v1",
+  "state": "COMPLETE"
+}

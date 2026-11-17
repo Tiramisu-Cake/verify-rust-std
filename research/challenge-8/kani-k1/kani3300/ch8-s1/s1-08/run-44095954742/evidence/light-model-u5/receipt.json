@@ -1,0 +1,217 @@
+{
+  "argv": [
+    "/home/runner/work/kani/kani/tool/scripts/kani",
+    "verify-std",
+    "-Z",
+    "unstable-options",
+    "-Z",
+    "function-contracts",
+    "-Z",
+    "mem-predicates",
+    "-Z",
+    "float-lib",
+    "-Z",
+    "c-ffi",
+    "-Z",
+    "loop-contracts",
+    "-Z",
+    "quantifiers",
+    "-Z",
+    "stubbing",
+    "--no-assert-contracts",
+    "--jobs=1",
+    "--harness-timeout",
+    "600s",
+    "--harness",
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
+    "--harness",
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
+    "--harness",
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3",
+    "--exact",
+    "--default-unwind",
+    "5",
+    "-Z",
+    "export-json",
+    "--export-json",
+    "/home/runner/work/_temp/ch8-s1-receipts/groups/light-model-u5/export.json",
+    "--output-format=regular",
+    "/home/runner/work/kani/kani/export/library",
+    "--cbmc-args",
+    "--object-bits",
+    "12"
+  ],
+  "binary_identity": "MATCH",
+  "binding_metadata": {
+    "binding_status": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+    "bytes": 208555,
+    "errors": [],
+    "invocation_id": "c5e31fa59db44973818550da3f4e92c9",
+    "native_bytes": 175830,
+    "native_files": 23,
+    "path": "binding-metadata.json",
+    "proof_credit": "NONE",
+    "sha256": "075b99c38b09c9bd0748685871dfe0c64b415f603a1ce6ffa1e2c3f09716649b",
+    "state": "CAPTURED_AVAILABLE_FIELDS"
+  },
+  "cargo_target_dir": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/c5e31fa59db44973818550da3f4e92c9",
+  "compilation": "compile/receipt.json",
+  "compile_limit_seconds": 900,
+  "effective_cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls",
+  "execution": {
+    "child_shutdown_verified": true,
+    "elapsed_seconds": 41.312,
+    "original_exit_code": 0,
+    "output_bytes": 352009,
+    "output_truncated": false,
+    "rss_peak_gib": 2.5551986694335938,
+    "rss_peak_kib": 2679320,
+    "rss_sample_period_seconds": 0.05,
+    "rss_status": "SAMPLED_PROCESS_GROUP",
+    "signal": null,
+    "stderr_bytes": 2493,
+    "stderr_truncated": false,
+    "stdout_bytes": 349516,
+    "stdout_truncated": false,
+    "timed_out": false
+  },
+  "export_sha256": "8a018be1602ad637b7ddcc372a7eb6a5e7977c7af5d348ab445e577c105c98da",
+  "group": "light-model-u5",
+  "group_budget_seconds": 2700,
+  "invocation_id": "c5e31fa59db44973818550da3f4e92c9",
+  "location_exceptions": [],
+  "memory": {
+    "available_kib": 14891148,
+    "group_cap_kib": 12582912,
+    "mem_available_kib": 14891148,
+    "per_root_cap_kib": 6291456,
+    "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+    "reserve_kib": 2097152
+  },
+  "phase_limited": false,
+  "proof_credit": "NONE",
+  "reported_tool_versions": {
+    "cbmc": "6.11.0 (cbmc-6.11.0)",
+    "kani": "0.68.0",
+    "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+  },
+  "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+  "rich_evidence_sha256": "14d7381d9a16fcaa2c1b719c50d86ef2e8e773e24d492f3773ab4cbf22281566",
+  "schema": "ch8-s1-group-v1",
+  "selectors": [
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3"
+  ],
+  "snapshot_errors": [],
+  "source_after": {
+    "changed_file_sha256": {
+      "library/core/Cargo.toml": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb",
+      "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "library/core/src/slice/sort/shared/smallsort.rs": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+    },
+    "std_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "std_tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+  },
+  "source_before": {
+    "changed_file_sha256": {
+      "library/core/Cargo.toml": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb",
+      "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "library/core/src/slice/sort/shared/smallsort.rs": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+    },
+    "std_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "std_tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+  },
+  "source_under_test": {
+    "base_std_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "file_sha256": {
+      "library/core/Cargo.toml": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb",
+      "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "library/core/src/slice/sort/shared/smallsort.rs": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+    },
+    "patch_sha256": null,
+    "variant": "production"
+  },
+  "state": "COMPLETE",
+  "std_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+  "timeout_seconds": 2700,
+  "tool_fingerprints_after": {
+    "binaries": {
+      "cbmc": {
+        "path": "/usr/bin/cbmc",
+        "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+      },
+      "kani_compiler": {
+        "path": "tool/target/kani/bin/kani-compiler",
+        "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+      },
+      "kani_driver": {
+        "path": "tool/target/kani/bin/kani-driver",
+        "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      }
+    },
+    "missing_binaries": [],
+    "phase": "AFTER_CHILD_SHUTDOWN",
+    "reported_versions": null,
+    "required_binaries": [
+      "kani_driver",
+      "kani_compiler",
+      "cbmc"
+    ],
+    "required_hashes_present": true,
+    "snapshot_completed": true,
+    "state": "COMPLETE"
+  },
+  "tool_fingerprints_before": {
+    "binaries": {
+      "cbmc": {
+        "path": "/usr/bin/cbmc",
+        "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+      },
+      "kani_compiler": {
+        "path": "tool/target/kani/bin/kani-compiler",
+        "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+      },
+      "kani_driver": {
+        "path": "tool/target/kani/bin/kani-driver",
+        "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      }
+    },
+    "missing_binaries": [],
+    "phase": "BEFORE_CHILD",
+    "reported_versions": null,
+    "required_binaries": [
+      "kani_driver",
+      "kani_compiler",
+      "cbmc"
+    ],
+    "required_hashes_present": true,
+    "snapshot_completed": true,
+    "state": "COMPLETE"
+  },
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "unwind": 5,
+  "variant": "production"
+}

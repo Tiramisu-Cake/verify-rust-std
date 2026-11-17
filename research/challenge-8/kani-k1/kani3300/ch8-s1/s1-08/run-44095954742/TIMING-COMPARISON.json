@@ -1,0 +1,2628 @@
+{
+  "attempts": [
+    1,
+    1
+  ],
+  "cohorts": {
+    "INTENDED_FAILURE_FAILURE": {
+      "comparable_completed_pairs": 8,
+      "known_ratios": 8,
+      "ratio_geomean": 1.080848680293382,
+      "ratio_max": 1.5566368634225487,
+      "ratio_median": 0.9922545798447753,
+      "ratio_min": 0.6889035018461642,
+      "rows": 8,
+      "s107_completed_seconds_sum": 16.136187606,
+      "s108_completed_seconds_sum": 12.098830907
+    },
+    "SUCCESS_SUCCESS": {
+      "comparable_completed_pairs": 26,
+      "known_ratios": 26,
+      "ratio_geomean": 1.059286194849347,
+      "ratio_max": 1.612180417934866,
+      "ratio_median": 1.0088935729512705,
+      "ratio_min": 0.5859681008808685,
+      "rows": 26,
+      "s107_completed_seconds_sum": 1022.887017342,
+      "s108_completed_seconds_sum": 1137.944697993
+    },
+    "TIMEOUT_CENSORED": {
+      "comparable_completed_pairs": 0,
+      "known_ratios": 0,
+      "ratio_geomean": null,
+      "ratio_max": null,
+      "ratio_median": null,
+      "ratio_min": null,
+      "rows": 1,
+      "s107_completed_seconds_sum": null,
+      "s108_completed_seconds_sum": null
+    }
+  },
+  "evidence_sha256": {
+    "../../s1-07/run-43923266772/evidence/activation-default-u34/export.json": "4312600ba357bee2b9bc6846f38f53a2b9592ee1178c997870dee7dffe6e0e5b",
+    "../../s1-07/run-43923266772/evidence/activation-default-u34/receipt.json": "19c691d582f266ca4a645a90f817150bb9ed13c2146a6eeb83aabaebf9658d07",
+    "../../s1-07/run-43923266772/evidence/activation-override-u34/export.json": "846f14bef0d85b9fb9adee93f8c80b7959fc78422c0c2dda8fc2cf57cc02cd25",
+    "../../s1-07/run-43923266772/evidence/activation-override-u34/receipt.json": "8c3c6608f743afb12e22acd7d8139f58ca32ca880de37168afb5c0d6dc47aef7",
+    "../../s1-07/run-43923266772/evidence/cell-u34/export.json": "d07da9d3380e4452cd57036863ee2336951dc31eb7542107a5e3223685c2739d",
+    "../../s1-07/run-43923266772/evidence/cell-u34/receipt.json": "0643b04d4ed978ae1c2cb5ba5cb3d526b85bc50da63798bfbde615bf5f8f98aa",
+    "../../s1-07/run-43923266772/evidence/freeze_copy_u8-n01-u34/export.json": "b6082f8e2a8a98ed24108a2cb6ccd26deeed1d7278e2fa9df4174bdbe9802bab",
+    "../../s1-07/run-43923266772/evidence/freeze_copy_u8-n01-u34/receipt.json": "810a7621e6b66dd584e624fffd65c44361848f6f3272af362658fa63e4fdda01",
+    "../../s1-07/run-43923266772/evidence/freeze_copy_u8-n23-u34/export.json": "bd10b9504d2e28babc0a42eeacc923fbcbebecd9a6b0ed80e8661343c3879e11",
+    "../../s1-07/run-43923266772/evidence/freeze_copy_u8-n23-u34/receipt.json": "6f5527a32aebe15bd751c09319cf875d22f8ddb13e0161cc6d142bc7ba2c43af",
+    "../../s1-07/run-43923266772/evidence/freeze_default_noncopy-n01-u34/export.json": "26593bc294fca88b105f41cd4210c138c796fe6215d3488a15397e573883625a",
+    "../../s1-07/run-43923266772/evidence/freeze_default_noncopy-n01-u34/receipt.json": "33f967d8ab747476dbad59ad3395b346134d251fa8109b8280a7dbb5fcf28f4c",
+    "../../s1-07/run-43923266772/evidence/freeze_default_noncopy-n23-u34/export.json": "8cd99c87a5d78d6694279b629cacdfbb64e0009fff1e2375e1b70864725ae654",
+    "../../s1-07/run-43923266772/evidence/freeze_default_noncopy-n23-u34/receipt.json": "214c4b9fdab256b14c8bff2750a3b9990f5aa22341531e887b5a844062d7477b",
+    "../../s1-07/run-43923266772/evidence/light-controls-u34/export.json": "3284595176f857294d600004cf710536adc69442280b25a5dbe8cfc37b4c9c62",
+    "../../s1-07/run-43923266772/evidence/light-controls-u34/receipt.json": "82b9cc0ffdafedbde9f247b1a790f175ecc6985562287f21dfb557579a7664d7",
+    "../../s1-07/run-43923266772/evidence/light-corruption-u4/export.json": "f0fcc6bc29b8c16fbcdd43d5cdb53a7ca4053f26a62550cf072a8aa868e5ccce",
+    "../../s1-07/run-43923266772/evidence/light-corruption-u4/receipt.json": "65984cd3714bb3a75fcb181e55d70eab5db2862ca743a13696d70cfe28b57102",
+    "../../s1-07/run-43923266772/evidence/light-model-u5/export.json": "9cb123d1851eba71fa31b5600066028fbc3fe8b11d60cfe1837851b0d7d77562",
+    "../../s1-07/run-43923266772/evidence/light-model-u5/receipt.json": "5db84969ce381f5079740d80201c17301c3b640bb12a1c6cad86df4777412b68",
+    "../../s1-07/run-43923266772/evidence/stable_freeze_u8-n01-u34/export.json": "06e966810df33c6eacaff83eb8e91341f7cbda9dba685fc1056763e1b3b59ec4",
+    "../../s1-07/run-43923266772/evidence/stable_freeze_u8-n01-u34/receipt.json": "02085531cf43c3f875b53717e6dd9534bc9f736dc7b761a4b01cd3d00d449d23",
+    "../../s1-07/run-43923266772/evidence/stable_freeze_u8-n23-u34/export.json": "b540ab847ce79b3ac0542e6bb60a4f370d659772e5e34162e950893740308beb",
+    "../../s1-07/run-43923266772/evidence/stable_freeze_u8-n23-u34/receipt.json": "3853696b98d792bdc280a44b40fca49edc7d19b684d3500c97a31418ea93dd0f",
+    "../../s1-07/run-43923266772/evidence/unstable_freeze_u8-n01-u34/export.json": "4391e2f864ecef6e5584611ab8e81e8d7ec08d48d9902f97cb56195f1c99d45f",
+    "../../s1-07/run-43923266772/evidence/unstable_freeze_u8-n01-u34/receipt.json": "55653af13ff615898fd4be0d2c81701135332905b55fded795b803c3e15140b1",
+    "../../s1-07/run-43923266772/evidence/unstable_freeze_u8-n23-u34/export.json": "b38e35fdf952d06a9b43b715689e97185abb9c1707e68490d407ed255ef8c388",
+    "../../s1-07/run-43923266772/evidence/unstable_freeze_u8-n23-u34/receipt.json": "1ff08ad967771550c623f47f093ee3fc64a1a5cca507e2a9af26fdad32311e5c",
+    "cell-diagnostic/structured/export.json": "12c91613bc586314b6168def0abc9913c1d10fd61b6a9271477700887ea26696",
+    "cell-diagnostic/structured/receipt.json": "508e6262780511b381986a5ff5ebb8174278940771b34e7ade780d173ba35f9c",
+    "evidence/activation-default-u34/export.json": "cdd52c2c33c35f68678627d88208a6641e814fb26de4a6b5b60186ba3061f6bc",
+    "evidence/activation-default-u34/receipt.json": "2ea25f2a5dedde0eb6cc235b289ef7ca6beb5ea6244ecf9ac058c413091c23c4",
+    "evidence/activation-override-u34/export.json": "78cebb8c25b700cb6b4087d7be7dcee00e0fffbe94a366d44f876e48a33a2a7c",
+    "evidence/activation-override-u34/receipt.json": "56c41b0e07157aa0f210c68f31f174af6ce95194d864be2eb5dcb61c6c2fcf60",
+    "evidence/freeze_copy_u8-n01-u34/export.json": "81757671e7e72c6de7fd022b9f489dc064256849f586ef6a9f1ef4221d9690ec",
+    "evidence/freeze_copy_u8-n01-u34/receipt.json": "1e4f4ed9672ce9b9ba8ff06ff2b45e070d8e8aed49d4bc9cb5bb09e14b383a90",
+    "evidence/freeze_copy_u8-n23-u34/export.json": "5b70cc9cd80f49583ef3a8c18b9b6ff2d72b14b57be3d5e6dc1364f02bcb84ac",
+    "evidence/freeze_copy_u8-n23-u34/receipt.json": "ab37685449bf8835a7d72d78f011d8884f99c6b3dd332bae3e7db82ce404b23c",
+    "evidence/freeze_default_noncopy-n01-u34/export.json": "9fa8100b103df3f762c93a8e01974ab3b8e028d7072b3cbd2d85609b70549a2f",
+    "evidence/freeze_default_noncopy-n01-u34/receipt.json": "dc489ab6d9d91f665d446a90bd3855245a1e791881f38d15b10823c0838489bd",
+    "evidence/freeze_default_noncopy-n23-u34/export.json": "c89df1abb1101f1f63c8f0092a213ea8d0398a227119e654e512ec1f665d8c82",
+    "evidence/freeze_default_noncopy-n23-u34/receipt.json": "db1d2499dcea1b2888ca225cf4a82e94f32d495c02d601aabb2a49c598cbf542",
+    "evidence/light-controls-u34/export.json": "7674e6341c8c6c419efee96b196a5ef0ec5c41340b9ff4579c427cc2c0921099",
+    "evidence/light-controls-u34/receipt.json": "3994df2e6574c54bf6741a0441127d871938495a23a629ababe342733926d76a",
+    "evidence/light-corruption-u4/export.json": "f65c15c1ffc763338786ca8203e72cc1182800e08afa2cd274ef3f9f5df3c5e2",
+    "evidence/light-corruption-u4/receipt.json": "d4c4941d38d4d69b050020a6c8e367b54b906aeb60365ebb2c2435d4224e9557",
+    "evidence/light-model-u5/export.json": "8a018be1602ad637b7ddcc372a7eb6a5e7977c7af5d348ab445e577c105c98da",
+    "evidence/light-model-u5/receipt.json": "97f34357dbf084f81e015246053dbba3e45cfc9bfb34cf806078546f43bd175f",
+    "evidence/stable_freeze_u8-n01-u34/export.json": "c713875401e103ab1d7ffb0f55c945296ffd2052db0c948e29d3155ebda6402b",
+    "evidence/stable_freeze_u8-n01-u34/receipt.json": "7ed1d8b7bd1cd14f1e8749410f5f54ef43770a36e676b2063dfa3660edf0c105",
+    "evidence/stable_freeze_u8-n23-u34/export.json": "bf648f2c11db8e8345883677e3dc0a5b1032826a6a613e4d4e991e741e30133c",
+    "evidence/stable_freeze_u8-n23-u34/receipt.json": "f586b2c3abf217bcea9947c57c11dac007ce6cf7408040ee591e440573d74225",
+    "evidence/unstable_freeze_u8-n01-u34/export.json": "187b0cd4000bafcc78837a00364c75438e7fd88f5c61d4b31a5c0bf7b1eb7b7d",
+    "evidence/unstable_freeze_u8-n01-u34/receipt.json": "8dfcc13b8c3cac19b727d34674ff4ae5782945779bd1a040506fd4249dff3445",
+    "evidence/unstable_freeze_u8-n23-u34/export.json": "e8dfcb56f86778caefdc3ff3ee87404da478cc3cec87be7c4e1c34188b606b0f",
+    "evidence/unstable_freeze_u8-n23-u34/receipt.json": "436f34585b9c4df116c6f1493dd137ff18aea24ed94b2a2e028d1db426498786"
+  },
+  "field": "harness.resources.verification_time_s",
+  "future_retry": "EXCLUDED; no retry evidence read",
+  "interpretation": "Descriptive stock producer measurements; not pure solver time; group/job/compile wall never substituted. No causal claim for kani::assert or labels.",
+  "missing_values": "UNKNOWN/null; never zero",
+  "rows": [
+    {
+      "censoring": {
+        "completion_time_ratio_lower_bound": 1.633720479221477,
+        "interpretation": "Conditional lower bound if verification eventually completes; no exact slowdown",
+        "observed_s107_elapsed_s": 367.259887864,
+        "observed_s108_elapsed_s": 600.03111242,
+        "s108_cutoff_s": 600
+      },
+      "cohort": "TIMEOUT_CENSORED",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": null,
+      "delta_s": null,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/cell-u34/export.json",
+        "cell-diagnostic/structured/export.json",
+        "../../s1-07/run-43923266772/evidence/cell-u34/receipt.json",
+        "cell-diagnostic/structured/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "cell-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": "symbolic0..3",
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "stable_default_cell",
+        "mode": "PFC",
+        "required_cover_count": 11,
+        "required_cover_messages": [
+          "S1_entry_N0_return",
+          "S1_entry_N1_return",
+          "S1_entry_N2_return",
+          "S1_entry_N3_return",
+          "S1_entry_N2_reversed_return",
+          "S1_entry_N2_duplicate_return",
+          "S1_entry_N2_ascending_return",
+          "S1_entry_N3_reversed_return",
+          "S1_entry_N3_duplicate_return",
+          "S1_entry_N3_ascending_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+        "target": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort",
+        "threshold": 16,
+        "timeout_seconds": 600,
+        "type": "Cell<u8>",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "CENSORED",
+      "row_id": "stable_default_cell",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 367.259887864,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "DIAGNOSTIC_FAILED_GROUP_NOT_ADMITTED",
+      "s108_outcome": {
+        "kind": "TIMEOUT"
+      },
+      "s108_raw_verification_time_s": 600.03111242,
+      "s108_required_messages": [
+        "stable_default_cell::model_enabled",
+        "stable_default_cell::s1_exact_trait_threshold",
+        "stable_default_cell::post_independent_caller",
+        "stable_default_cell::left_canary",
+        "stable_default_cell::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.612180417934866,
+      "delta_s": 225.77356080799996,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/cell-u34/export.json",
+        "cell-diagnostic/structured/export.json",
+        "../../s1-07/run-43923266772/evidence/cell-u34/receipt.json",
+        "cell-diagnostic/structured/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "cell-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": "symbolic0..3",
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "unstable_default_cell",
+        "mode": "PFC",
+        "required_cover_count": 11,
+        "required_cover_messages": [
+          "S1_entry_N0_return",
+          "S1_entry_N1_return",
+          "S1_entry_N2_return",
+          "S1_entry_N3_return",
+          "S1_entry_N2_reversed_return",
+          "S1_entry_N2_duplicate_return",
+          "S1_entry_N2_ascending_return",
+          "S1_entry_N3_reversed_return",
+          "S1_entry_N3_duplicate_return",
+          "S1_entry_N3_ascending_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+        "target": "<Cell<u8> as UnstableSmallSortTypeImpl>::small_sort",
+        "threshold": 16,
+        "timeout_seconds": 600,
+        "type": "Cell<u8>",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "unstable_default_cell",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 368.802323945,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "DIAGNOSTIC_FAILED_GROUP_NOT_ADMITTED",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 594.575884753,
+      "s108_required_messages": [
+        "unstable_default_cell::model_enabled",
+        "unstable_default_cell::s1_exact_trait_threshold",
+        "unstable_default_cell::post_independent_caller",
+        "unstable_default_cell::left_canary",
+        "unstable_default_cell::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.0226378828585934,
+      "delta_s": 0.044496361000000206,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-model-u5/export.json",
+        "evidence/light-model-u5/export.json",
+        "../../s1-07/run-43923266772/evidence/light-model-u5/receipt.json",
+        "evidence/light-model-u5/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-model-u5",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "model_u8_n0_3",
+        "mode": "Original",
+        "required_cover_count": 6,
+        "required_cover_messages": [
+          "S1_model_N0_return",
+          "S1_model_N1_return",
+          "S1_model_N2_return",
+          "S1_model_N3_return",
+          "S1_duplicate_return",
+          "S1_unsorted_input_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 5,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2700,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2700,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "model_u8_n0_3",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 1.965570777,
+      "s107_required_messages": [
+        "S1_MODEL_ENABLED",
+        "S1_IDENTITY_CHECKER",
+        "S1_CONSTRUCTED_SORTED_PERMUTATION",
+        "S1_FNMUT_TWO_PROJECTIONS",
+        "S1_FNONCE_TWO_PROJECTIONS",
+        "S1_ELEMENT_LAYOUT",
+        "S1_COMPARATOR_ZST_ELEMENT_NO_DROP"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 2.010067138,
+      "s108_required_messages": [
+        "model_u8_n0_3::model_enabled",
+        "model_u8_n0_3::identity_checker",
+        "model_u8_n0_3::constructed_sorted_permutation",
+        "model_u8_n0_3::fnmut_two_projections",
+        "model_u8_n0_3::fnonce_two_projections",
+        "model_u8_n0_3::element_layout",
+        "model_u8_n0_3::comparator_zst_element_no_drop"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.9810792358857204,
+      "delta_s": -0.04107182200000015,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-model-u5/export.json",
+        "evidence/light-model-u5/export.json",
+        "../../s1-07/run-43923266772/evidence/light-model-u5/receipt.json",
+        "evidence/light-model-u5/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-model-u5",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "model_cell_n0_3",
+        "mode": "Original",
+        "required_cover_count": 6,
+        "required_cover_messages": [
+          "S1_model_N0_return",
+          "S1_model_N1_return",
+          "S1_model_N2_return",
+          "S1_model_N3_return",
+          "S1_duplicate_return",
+          "S1_unsorted_input_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 5,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2700,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2700,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "model_cell_n0_3",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 2.170727448,
+      "s107_required_messages": [
+        "S1_MODEL_ENABLED",
+        "S1_IDENTITY_CHECKER",
+        "S1_CONSTRUCTED_SORTED_PERMUTATION",
+        "S1_FNMUT_TWO_PROJECTIONS",
+        "S1_FNONCE_TWO_PROJECTIONS",
+        "S1_ELEMENT_LAYOUT",
+        "S1_COMPARATOR_ZST_ELEMENT_NO_DROP"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 2.129655626,
+      "s108_required_messages": [
+        "model_cell_n0_3::model_enabled",
+        "model_cell_n0_3::identity_checker",
+        "model_cell_n0_3::constructed_sorted_permutation",
+        "model_cell_n0_3::fnmut_two_projections",
+        "model_cell_n0_3::fnonce_two_projections",
+        "model_cell_n0_3::element_layout",
+        "model_cell_n0_3::comparator_zst_element_no_drop"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.9385381601295646,
+      "delta_s": -0.13085078200000022,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-model-u5/export.json",
+        "evidence/light-model-u5/export.json",
+        "../../s1-07/run-43923266772/evidence/light-model-u5/receipt.json",
+        "evidence/light-model-u5/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-model-u5",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "model_noncopy_n0_3",
+        "mode": "Original",
+        "required_cover_count": 6,
+        "required_cover_messages": [
+          "S1_model_N0_return",
+          "S1_model_N1_return",
+          "S1_model_N2_return",
+          "S1_model_N3_return",
+          "S1_duplicate_return",
+          "S1_unsorted_input_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 5,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2700,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2700,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "model_noncopy_n0_3",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 2.128976,
+      "s107_required_messages": [
+        "S1_MODEL_ENABLED",
+        "S1_IDENTITY_CHECKER",
+        "S1_CONSTRUCTED_SORTED_PERMUTATION",
+        "S1_FNMUT_TWO_PROJECTIONS",
+        "S1_FNONCE_TWO_PROJECTIONS",
+        "S1_ELEMENT_LAYOUT",
+        "S1_COMPARATOR_ZST_ELEMENT_NO_DROP"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 1.998125218,
+      "s108_required_messages": [
+        "model_noncopy_n0_3::model_enabled",
+        "model_noncopy_n0_3::identity_checker",
+        "model_noncopy_n0_3::constructed_sorted_permutation",
+        "model_noncopy_n0_3::fnmut_two_projections",
+        "model_noncopy_n0_3::fnonce_two_projections",
+        "model_noncopy_n0_3::element_layout",
+        "model_noncopy_n0_3::comparator_zst_element_no_drop"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.9827367865493973,
+      "delta_s": -0.0011641810000000002,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/export.json",
+        "evidence/light-controls-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/receipt.json",
+        "evidence/light-controls-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-controls-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "inactive_pairs_read_free",
+        "mode": "Original",
+        "required_cover_count": 1,
+        "required_cover_messages": [
+          "S1_inactive_legal_storage_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::inactive_pairs_read_free",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::inactive_pairs_read_free",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 6300,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 6300,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "inactive_pairs_read_free",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 0.067437097,
+      "s107_required_messages": [
+        "S1_INACTIVE_PAIR",
+        "S1_INACTIVE_GUARDED_NO_CLAIM",
+        "S1_INACTIVE_TOKEN_INVALID",
+        "S1_INACTIVE_NEVER_CALLS_COMPARATOR"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 0.066272916,
+      "s108_required_messages": [
+        "S1_INACTIVE_PAIR",
+        "S1_INACTIVE_GUARDED_NO_CLAIM",
+        "S1_INACTIVE_TOKEN_INVALID",
+        "S1_INACTIVE_NEVER_CALLS_COMPARATOR"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "INTENDED_FAILURE_FAILURE",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.9829783316571465,
+      "delta_s": -0.0002570060000000006,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/export.json",
+        "evidence/light-controls-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/receipt.json",
+        "evidence/light-controls-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-controls-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": "inactive_pairs_read_free",
+        "expected": "DETECTED",
+        "failure_description": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+        "id": "activation_descending_rejected",
+        "mode": "Original",
+        "required_cover_count": 0,
+        "required_cover_messages": [],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 6300,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 6300,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "activation_descending_rejected",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s107_raw_verification_time_s": 0.015098755,
+      "s107_required_messages": [],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s108_raw_verification_time_s": 0.014841749,
+      "s108_required_messages": []
+    },
+    {
+      "censoring": null,
+      "cohort": "INTENDED_FAILURE_FAILURE",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.001530828032404,
+      "delta_s": 2.3284000000000152e-05,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/export.json",
+        "evidence/light-controls-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/receipt.json",
+        "evidence/light-controls-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-controls-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": "inactive_pairs_read_free",
+        "expected": "DETECTED",
+        "failure_description": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+        "id": "activation_effectful_rejected",
+        "mode": "Original",
+        "required_cover_count": 0,
+        "required_cover_messages": [],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 6300,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 6300,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "activation_effectful_rejected",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s107_raw_verification_time_s": 0.015210069,
+      "s107_required_messages": [],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s108_raw_verification_time_s": 0.015233353,
+      "s108_required_messages": []
+    },
+    {
+      "censoring": null,
+      "cohort": "INTENDED_FAILURE_FAILURE",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.9703192303474181,
+      "delta_s": -0.0005123100000000019,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/export.json",
+        "evidence/light-controls-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/receipt.json",
+        "evidence/light-controls-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-controls-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": "inactive_pairs_read_free",
+        "expected": "DETECTED",
+        "failure_description": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+        "id": "activation_unsupported_type_rejected",
+        "mode": "Original",
+        "required_cover_count": 0,
+        "required_cover_messages": [],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_unsupported_type_rejected",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::activation_unsupported_type_rejected",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 6300,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 6300,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "activation_unsupported_type_rejected",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s107_raw_verification_time_s": 0.017260671,
+      "s107_required_messages": [],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s108_raw_verification_time_s": 0.016748361,
+      "s108_required_messages": []
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.3591734061304792,
+      "delta_s": 0.057834317000000024,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-corruption-u4/export.json",
+        "evidence/light-corruption-u4/export.json",
+        "../../s1-07/run-43923266772/evidence/light-corruption-u4/receipt.json",
+        "evidence/light-corruption-u4/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-corruption-u4",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "corruption_companion",
+        "mode": "Original",
+        "required_cover_count": 1,
+        "required_cover_messages": [
+          "S1_corruption_companion_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 4,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2700,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2700,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "corruption_companion",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 0.161020599,
+      "s107_required_messages": [
+        "S1_CORRUPTION_LEGAL_COMPANION",
+        "S1_ORDER_REJECTED_WITH_COUNTS_PRESERVED",
+        "S1_COUNTS_REJECTED_WITH_ORDER_PRESERVED"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 0.218854916,
+      "s108_required_messages": [
+        "S1_CORRUPTION_LEGAL_COMPANION",
+        "S1_ORDER_REJECTED_WITH_COUNTS_PRESERVED",
+        "S1_COUNTS_REJECTED_WITH_ORDER_PRESERVED"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "INTENDED_FAILURE_FAILURE",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.5566368634225487,
+      "delta_s": 0.03567118500000001,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-corruption-u4/export.json",
+        "evidence/light-corruption-u4/export.json",
+        "../../s1-07/run-43923266772/evidence/light-corruption-u4/receipt.json",
+        "evidence/light-corruption-u4/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-corruption-u4",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": "corruption_companion",
+        "expected": "DETECTED",
+        "failure_description": "S1_ORDER_CORRUPTION_ACCEPTED",
+        "id": "order_corruption_rejected",
+        "mode": "Original",
+        "required_cover_count": 0,
+        "required_cover_messages": [],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 4,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2700,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2700,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "order_corruption_rejected",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s107_raw_verification_time_s": 0.064083404,
+      "s107_required_messages": [],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s108_raw_verification_time_s": 0.099754589,
+      "s108_required_messages": []
+    },
+    {
+      "censoring": null,
+      "cohort": "INTENDED_FAILURE_FAILURE",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.516771491622052,
+      "delta_s": 0.048112723999999996,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-corruption-u4/export.json",
+        "evidence/light-corruption-u4/export.json",
+        "../../s1-07/run-43923266772/evidence/light-corruption-u4/receipt.json",
+        "evidence/light-corruption-u4/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-corruption-u4",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": "corruption_companion",
+        "expected": "DETECTED",
+        "failure_description": "S1_COUNT_CORRUPTION_ACCEPTED",
+        "id": "count_corruption_rejected",
+        "mode": "Original",
+        "required_cover_count": 0,
+        "required_cover_messages": [],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 4,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2700,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2700,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "count_corruption_rejected",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s107_raw_verification_time_s": 0.093102512,
+      "s107_required_messages": [
+        "S1_COUNT_FIXTURE_STAYS_SORTED"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s108_raw_verification_time_s": 0.141215236,
+      "s108_required_messages": [
+        "S1_COUNT_FIXTURE_STAYS_SORTED"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.0010181618058231,
+      "delta_s": 0.005347828000000554,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/export.json",
+        "evidence/light-controls-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/receipt.json",
+        "evidence/light-controls-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-controls-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "snapshot_guards_companion",
+        "mode": "Original",
+        "required_cover_count": 1,
+        "required_cover_messages": [
+          "S1_snapshot_guard_companion_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::snapshot_guards_companion",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::snapshot_guards_companion",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 6300,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 6300,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "snapshot_guards_companion",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 5.252434308,
+      "s107_required_messages": [
+        "S1_ACTIVE_INVALID_REJECTED",
+        "S1_CAP32_IDENTITY",
+        "S1_LENGTH_CHANGE_REJECTED",
+        "S1_OVERFLOW_TOKEN_INVALID",
+        "S1_OVERFLOW_OUTPUT_REJECTED",
+        "S1_CELL_SNAPSHOT_OWNS_PRESTATE"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 5.257782136,
+      "s108_required_messages": [
+        "S1_ACTIVE_INVALID_REJECTED",
+        "S1_CAP32_IDENTITY",
+        "S1_LENGTH_CHANGE_REJECTED",
+        "S1_OVERFLOW_TOKEN_INVALID",
+        "S1_OVERFLOW_OUTPUT_REJECTED",
+        "S1_CELL_SNAPSHOT_OWNS_PRESTATE"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "INTENDED_FAILURE_FAILURE",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.9529839840092722,
+      "delta_s": -0.0013511300000000025,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/export.json",
+        "evidence/light-controls-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/receipt.json",
+        "evidence/light-controls-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-controls-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": "snapshot_guards_companion",
+        "expected": "DETECTED",
+        "failure_description": "S1_ACTIVE_INVALID_TOKEN_ACCEPTED",
+        "id": "invalid_snapshot_rejected",
+        "mode": "Original",
+        "required_cover_count": 0,
+        "required_cover_messages": [],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 6300,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 6300,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "invalid_snapshot_rejected",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s107_raw_verification_time_s": 0.028737654,
+      "s107_required_messages": [],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s108_raw_verification_time_s": 0.027386524,
+      "s108_required_messages": []
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.0017811894791664,
+      "delta_s": 0.011004450999999804,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/export.json",
+        "evidence/light-controls-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/receipt.json",
+        "evidence/light-controls-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-controls-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "stable_default_activation-legal",
+        "mode": "PFC",
+        "required_cover_count": 1,
+        "required_cover_messages": [
+          "S1_actual_default_companion_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 6300,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 6300,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "stable_default_activation-legal",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 6.1781473160000004,
+      "s107_required_messages": [
+        "S1_ACTUAL_DEFAULT_ENABLED"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 6.189151767,
+      "s108_required_messages": [
+        "S1_ACTUAL_DEFAULT_ENABLED"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.9993556309406673,
+      "delta_s": -0.0226667049999989,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/export.json",
+        "evidence/light-controls-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/receipt.json",
+        "evidence/light-controls-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-controls-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "stable_freeze_activation-legal",
+        "mode": "PFC",
+        "required_cover_count": 1,
+        "required_cover_messages": [
+          "S1_actual_override_companion_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 6300,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 6300,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "stable_freeze_activation-legal",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 35.176588124,
+      "s107_required_messages": [
+        "S1_ACTUAL_OVERRIDE_ENABLED"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 35.153921419,
+      "s108_required_messages": [
+        "S1_ACTUAL_OVERRIDE_ENABLED"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "INTENDED_FAILURE_FAILURE",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.257896201097595,
+      "delta_s": 0.37539523500000005,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/activation-default-u34/export.json",
+        "evidence/activation-default-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/activation-default-u34/receipt.json",
+        "evidence/activation-default-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "activation-default-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": "stable_default_activation-legal",
+        "expected": "DETECTED",
+        "failure_description": "S1_ATTACHMENT_DEFAULT",
+        "id": "activation-default",
+        "mode": "PFC",
+        "required_cover_count": 0,
+        "required_cover_messages": [],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 34,
+        "variant": "activation-default"
+      },
+      "limits": {
+        "s107_group_s": 1500,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 1500,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "activation-default",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s107_raw_verification_time_s": 1.455605912,
+      "s107_required_messages": [],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s108_raw_verification_time_s": 1.831001147,
+      "s108_required_messages": []
+    },
+    {
+      "censoring": null,
+      "cohort": "INTENDED_FAILURE_FAILURE",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.6889035018461642,
+      "delta_s": -4.494438681,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/activation-override-u34/export.json",
+        "evidence/activation-override-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/activation-override-u34/receipt.json",
+        "evidence/activation-override-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "activation-override-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": "stable_freeze_activation-legal",
+        "expected": "DETECTED",
+        "failure_description": "S1_ATTACHMENT_OVERRIDE",
+        "id": "activation-override",
+        "mode": "PFC",
+        "required_cover_count": 0,
+        "required_cover_messages": [],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 34,
+        "variant": "activation-override"
+      },
+      "limits": {
+        "s107_group_s": 1500,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 1500,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "activation-override",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s107_raw_verification_time_s": 14.447088629,
+      "s107_required_messages": [],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "s108_raw_verification_time_s": 9.952649948,
+      "s108_required_messages": []
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.0160059564233743,
+      "delta_s": 0.0007955759999999992,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/export.json",
+        "evidence/light-controls-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/light-controls-u34/receipt.json",
+        "evidence/light-controls-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "light-controls-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": null,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "ordinary-bridge",
+        "mode": "Original",
+        "required_cover_count": 12,
+        "required_cover_messages": [
+          "efficient swap predicate for u8",
+          "efficient swap predicate for u16",
+          "efficient swap predicate for u64",
+          "efficient swap predicate for u128",
+          "efficient swap predicate for [u8; 9]",
+          "efficient swap predicate for [u8; 16]",
+          "efficient swap predicate for [u8; 17]",
+          "efficient swap predicate for [u8; 85]",
+          "efficient swap predicate for [u8; 86]",
+          "efficient swap predicate for SwapDrop",
+          "efficient swap predicate for crate::cell::Cell<i32>",
+          "efficient swap predicate for ()"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
+        "target": null,
+        "threshold": null,
+        "timeout_seconds": 600,
+        "type": null,
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 6300,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 6300,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "ordinary-bridge",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 0.049704996,
+      "s107_required_messages": [],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 0.050500572,
+      "s108_required_messages": []
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.3050404526695096,
+      "delta_s": 0.30328144300000004,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/freeze_copy_u8-n01-u34/export.json",
+        "evidence/freeze_copy_u8-n01-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/freeze_copy_u8-n01-u34/receipt.json",
+        "evidence/freeze_copy_u8-n01-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "freeze_copy_u8-n01-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 0,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "freeze_copy_u8_n0",
+        "mode": "PFC",
+        "required_cover_count": 2,
+        "required_cover_messages": [
+          "S1_entry_N0_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n0",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n0",
+        "target": "<u8 as UnstableSmallSortFreezeTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "u8",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "freeze_copy_u8_n0",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 0.99423352,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 1.297514963,
+      "s108_required_messages": [
+        "freeze_copy_u8_n0::model_enabled",
+        "freeze_copy_u8_n0::s1_exact_trait_threshold",
+        "freeze_copy_u8_n0::post_independent_caller",
+        "freeze_copy_u8_n0::left_canary",
+        "freeze_copy_u8_n0::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.2827233507701794,
+      "delta_s": 0.3397671689999999,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/freeze_copy_u8-n01-u34/export.json",
+        "evidence/freeze_copy_u8-n01-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/freeze_copy_u8-n01-u34/receipt.json",
+        "evidence/freeze_copy_u8-n01-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "freeze_copy_u8-n01-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 1,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "freeze_copy_u8_n1",
+        "mode": "PFC",
+        "required_cover_count": 2,
+        "required_cover_messages": [
+          "S1_entry_N1_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n1",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n1",
+        "target": "<u8 as UnstableSmallSortFreezeTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "u8",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "freeze_copy_u8_n1",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 1.2017655,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 1.541532669,
+      "s108_required_messages": [
+        "freeze_copy_u8_n1::model_enabled",
+        "freeze_copy_u8_n1::s1_exact_trait_threshold",
+        "freeze_copy_u8_n1::post_independent_caller",
+        "freeze_copy_u8_n1::left_canary",
+        "freeze_copy_u8_n1::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.1172630995853985,
+      "delta_s": 1.6658596249999995,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/freeze_copy_u8-n23-u34/export.json",
+        "evidence/freeze_copy_u8-n23-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/freeze_copy_u8-n23-u34/receipt.json",
+        "evidence/freeze_copy_u8-n23-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "freeze_copy_u8-n23-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 2,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "freeze_copy_u8_n2",
+        "mode": "PFC",
+        "required_cover_count": 5,
+        "required_cover_messages": [
+          "S1_entry_N2_return",
+          "S1_entry_N2_reversed_return",
+          "S1_entry_N2_duplicate_return",
+          "S1_entry_N2_ascending_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n2",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n2",
+        "target": "<u8 as UnstableSmallSortFreezeTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "u8",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "freeze_copy_u8_n2",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 14.206170832,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 15.872030457,
+      "s108_required_messages": [
+        "freeze_copy_u8_n2::model_enabled",
+        "freeze_copy_u8_n2::s1_exact_trait_threshold",
+        "freeze_copy_u8_n2::post_independent_caller",
+        "freeze_copy_u8_n2::left_canary",
+        "freeze_copy_u8_n2::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.9964571946778121,
+      "delta_s": -0.13425712100000453,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/freeze_copy_u8-n23-u34/export.json",
+        "evidence/freeze_copy_u8-n23-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/freeze_copy_u8-n23-u34/receipt.json",
+        "evidence/freeze_copy_u8-n23-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "freeze_copy_u8-n23-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 3,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "freeze_copy_u8_n3",
+        "mode": "PFC",
+        "required_cover_count": 5,
+        "required_cover_messages": [
+          "S1_entry_N3_return",
+          "S1_entry_N3_reversed_return",
+          "S1_entry_N3_duplicate_return",
+          "S1_entry_N3_ascending_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n3",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n3",
+        "target": "<u8 as UnstableSmallSortFreezeTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "u8",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "freeze_copy_u8_n3",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 37.895709414,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 37.761452293,
+      "s108_required_messages": [
+        "freeze_copy_u8_n3::model_enabled",
+        "freeze_copy_u8_n3::s1_exact_trait_threshold",
+        "freeze_copy_u8_n3::post_independent_caller",
+        "freeze_copy_u8_n3::left_canary",
+        "freeze_copy_u8_n3::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.0911342478467494,
+      "delta_s": 0.08699300199999993,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/freeze_default_noncopy-n01-u34/export.json",
+        "evidence/freeze_default_noncopy-n01-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/freeze_default_noncopy-n01-u34/receipt.json",
+        "evidence/freeze_default_noncopy-n01-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "freeze_default_noncopy-n01-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 0,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "freeze_default_noncopy_n0",
+        "mode": "PFC",
+        "required_cover_count": 2,
+        "required_cover_messages": [
+          "S1_entry_N0_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n0",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n0",
+        "target": "<NonCopyByte as UnstableSmallSortFreezeTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "NonCopyByte",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "freeze_default_noncopy_n0",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 0.954558841,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 1.041551843,
+      "s108_required_messages": [
+        "freeze_default_noncopy_n0::model_enabled",
+        "freeze_default_noncopy_n0::s1_exact_trait_threshold",
+        "freeze_default_noncopy_n0::post_independent_caller",
+        "freeze_default_noncopy_n0::left_canary",
+        "freeze_default_noncopy_n0::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.179929571909629,
+      "delta_s": 0.19165765400000012,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/freeze_default_noncopy-n01-u34/export.json",
+        "evidence/freeze_default_noncopy-n01-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/freeze_default_noncopy-n01-u34/receipt.json",
+        "evidence/freeze_default_noncopy-n01-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "freeze_default_noncopy-n01-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 1,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "freeze_default_noncopy_n1",
+        "mode": "PFC",
+        "required_cover_count": 2,
+        "required_cover_messages": [
+          "S1_entry_N1_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n1",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n1",
+        "target": "<NonCopyByte as UnstableSmallSortFreezeTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "NonCopyByte",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "freeze_default_noncopy_n1",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 1.065181515,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 1.256839169,
+      "s108_required_messages": [
+        "freeze_default_noncopy_n1::model_enabled",
+        "freeze_default_noncopy_n1::s1_exact_trait_threshold",
+        "freeze_default_noncopy_n1::post_independent_caller",
+        "freeze_default_noncopy_n1::left_canary",
+        "freeze_default_noncopy_n1::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.6292671788709501,
+      "delta_s": -35.02746059999999,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/freeze_default_noncopy-n23-u34/export.json",
+        "evidence/freeze_default_noncopy-n23-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/freeze_default_noncopy-n23-u34/receipt.json",
+        "evidence/freeze_default_noncopy-n23-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "freeze_default_noncopy-n23-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 2,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "freeze_default_noncopy_n2",
+        "mode": "PFC",
+        "required_cover_count": 5,
+        "required_cover_messages": [
+          "S1_entry_N2_return",
+          "S1_entry_N2_reversed_return",
+          "S1_entry_N2_duplicate_return",
+          "S1_entry_N2_ascending_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n2",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n2",
+        "target": "<NonCopyByte as UnstableSmallSortFreezeTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "NonCopyByte",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "freeze_default_noncopy_n2",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 94.481682235,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 59.454221635,
+      "s108_required_messages": [
+        "freeze_default_noncopy_n2::model_enabled",
+        "freeze_default_noncopy_n2::s1_exact_trait_threshold",
+        "freeze_default_noncopy_n2::post_independent_caller",
+        "freeze_default_noncopy_n2::left_canary",
+        "freeze_default_noncopy_n2::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.5859681008808685,
+      "delta_s": -70.18887691699999,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/freeze_default_noncopy-n23-u34/export.json",
+        "evidence/freeze_default_noncopy-n23-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/freeze_default_noncopy-n23-u34/receipt.json",
+        "evidence/freeze_default_noncopy-n23-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "freeze_default_noncopy-n23-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 3,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "freeze_default_noncopy_n3",
+        "mode": "PFC",
+        "required_cover_count": 5,
+        "required_cover_messages": [
+          "S1_entry_N3_return",
+          "S1_entry_N3_reversed_return",
+          "S1_entry_N3_duplicate_return",
+          "S1_entry_N3_ascending_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n3",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n3",
+        "target": "<NonCopyByte as UnstableSmallSortFreezeTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "NonCopyByte",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "freeze_default_noncopy_n3",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 169.525287946,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 99.336411029,
+      "s108_required_messages": [
+        "freeze_default_noncopy_n3::model_enabled",
+        "freeze_default_noncopy_n3::s1_exact_trait_threshold",
+        "freeze_default_noncopy_n3::post_independent_caller",
+        "freeze_default_noncopy_n3::left_canary",
+        "freeze_default_noncopy_n3::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.4000558188828593,
+      "delta_s": 0.38863384,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/stable_freeze_u8-n01-u34/export.json",
+        "evidence/stable_freeze_u8-n01-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/stable_freeze_u8-n01-u34/receipt.json",
+        "evidence/stable_freeze_u8-n01-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "stable_freeze_u8-n01-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 0,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "stable_freeze_u8_n0",
+        "mode": "PFC",
+        "required_cover_count": 2,
+        "required_cover_messages": [
+          "S1_entry_N0_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0",
+        "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "u8",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "stable_freeze_u8_n0",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 0.971449037,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 1.360082877,
+      "s108_required_messages": [
+        "stable_freeze_u8_n0::model_enabled",
+        "stable_freeze_u8_n0::s1_exact_trait_threshold",
+        "stable_freeze_u8_n0::post_independent_caller",
+        "stable_freeze_u8_n0::left_canary",
+        "stable_freeze_u8_n0::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.4306484713861962,
+      "delta_s": 0.4736215370000001,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/stable_freeze_u8-n01-u34/export.json",
+        "evidence/stable_freeze_u8-n01-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/stable_freeze_u8-n01-u34/receipt.json",
+        "evidence/stable_freeze_u8-n01-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "stable_freeze_u8-n01-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 1,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "stable_freeze_u8_n1",
+        "mode": "PFC",
+        "required_cover_count": 2,
+        "required_cover_messages": [
+          "S1_entry_N1_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n1",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n1",
+        "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "u8",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "stable_freeze_u8_n1",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 1.099786876,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 1.5734084130000001,
+      "s108_required_messages": [
+        "stable_freeze_u8_n1::model_enabled",
+        "stable_freeze_u8_n1::s1_exact_trait_threshold",
+        "stable_freeze_u8_n1::post_independent_caller",
+        "stable_freeze_u8_n1::left_canary",
+        "stable_freeze_u8_n1::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.948666337140182,
+      "delta_s": -4.060805391999992,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/stable_freeze_u8-n23-u34/export.json",
+        "evidence/stable_freeze_u8-n23-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/stable_freeze_u8-n23-u34/receipt.json",
+        "evidence/stable_freeze_u8-n23-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "stable_freeze_u8-n23-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 2,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "stable_freeze_u8_n2",
+        "mode": "PFC",
+        "required_cover_count": 5,
+        "required_cover_messages": [
+          "S1_entry_N2_return",
+          "S1_entry_N2_reversed_return",
+          "S1_entry_N2_duplicate_return",
+          "S1_entry_N2_ascending_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n2",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n2",
+        "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "u8",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "stable_freeze_u8_n2",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 79.106090736,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 75.045285344,
+      "s108_required_messages": [
+        "stable_freeze_u8_n2::model_enabled",
+        "stable_freeze_u8_n2::s1_exact_trait_threshold",
+        "stable_freeze_u8_n2::post_independent_caller",
+        "stable_freeze_u8_n2::left_canary",
+        "stable_freeze_u8_n2::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.9581351840753289,
+      "delta_s": -5.899339612999995,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/stable_freeze_u8-n23-u34/export.json",
+        "evidence/stable_freeze_u8-n23-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/stable_freeze_u8-n23-u34/receipt.json",
+        "evidence/stable_freeze_u8-n23-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "stable_freeze_u8-n23-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 3,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "stable_freeze_u8_n3",
+        "mode": "PFC",
+        "required_cover_count": 5,
+        "required_cover_messages": [
+          "S1_entry_N3_return",
+          "S1_entry_N3_reversed_return",
+          "S1_entry_N3_duplicate_return",
+          "S1_entry_N3_ascending_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n3",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n3",
+        "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "u8",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "stable_freeze_u8_n3",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 140.914022496,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 135.014682883,
+      "s108_required_messages": [
+        "stable_freeze_u8_n3::model_enabled",
+        "stable_freeze_u8_n3::s1_exact_trait_threshold",
+        "stable_freeze_u8_n3::post_independent_caller",
+        "stable_freeze_u8_n3::left_canary",
+        "stable_freeze_u8_n3::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.241996561932937,
+      "delta_s": 0.2867661039999998,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/unstable_freeze_u8-n01-u34/export.json",
+        "evidence/unstable_freeze_u8-n01-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/unstable_freeze_u8-n01-u34/receipt.json",
+        "evidence/unstable_freeze_u8-n01-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "unstable_freeze_u8-n01-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 0,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "unstable_freeze_u8_n0",
+        "mode": "PFC",
+        "required_cover_count": 2,
+        "required_cover_messages": [
+          "S1_entry_N0_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n0",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n0",
+        "target": "<u8 as UnstableSmallSortTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "u8",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "unstable_freeze_u8_n0",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 1.185000736,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 1.47176684,
+      "s108_required_messages": [
+        "unstable_freeze_u8_n0::model_enabled",
+        "unstable_freeze_u8_n0::s1_exact_trait_threshold",
+        "unstable_freeze_u8_n0::post_independent_caller",
+        "unstable_freeze_u8_n0::left_canary",
+        "unstable_freeze_u8_n0::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.9988574729259597,
+      "delta_s": -0.0014881680000000674,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/unstable_freeze_u8-n01-u34/export.json",
+        "evidence/unstable_freeze_u8-n01-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/unstable_freeze_u8-n01-u34/receipt.json",
+        "evidence/unstable_freeze_u8-n01-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "unstable_freeze_u8-n01-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 1,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "unstable_freeze_u8_n1",
+        "mode": "PFC",
+        "required_cover_count": 2,
+        "required_cover_messages": [
+          "S1_entry_N1_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+        "target": "<u8 as UnstableSmallSortTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "u8",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "unstable_freeze_u8_n1",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 1.302523182,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 1.301035014,
+      "s108_required_messages": [
+        "unstable_freeze_u8_n1::model_enabled",
+        "unstable_freeze_u8_n1::s1_exact_trait_threshold",
+        "unstable_freeze_u8_n1::post_independent_caller",
+        "unstable_freeze_u8_n1::left_canary",
+        "unstable_freeze_u8_n1::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 1.100039150629877,
+      "delta_s": 1.544054533999999,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/unstable_freeze_u8-n23-u34/export.json",
+        "evidence/unstable_freeze_u8-n23-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/unstable_freeze_u8-n23-u34/receipt.json",
+        "evidence/unstable_freeze_u8-n23-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "unstable_freeze_u8-n23-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 2,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "unstable_freeze_u8_n2",
+        "mode": "PFC",
+        "required_cover_count": 5,
+        "required_cover_messages": [
+          "S1_entry_N2_return",
+          "S1_entry_N2_reversed_return",
+          "S1_entry_N2_duplicate_return",
+          "S1_entry_N2_ascending_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n2",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n2",
+        "target": "<u8 as UnstableSmallSortTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "u8",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "unstable_freeze_u8_n2",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 15.434502635,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 16.978557169,
+      "s108_required_messages": [
+        "unstable_freeze_u8_n2::model_enabled",
+        "unstable_freeze_u8_n2::s1_exact_trait_threshold",
+        "unstable_freeze_u8_n2::post_independent_caller",
+        "unstable_freeze_u8_n2::left_canary",
+        "unstable_freeze_u8_n2::right_canary"
+      ]
+    },
+    {
+      "censoring": null,
+      "cohort": "SUCCESS_SUCCESS",
+      "compatible": true,
+      "completed_ratio_s108_over_s107": 0.985022896804838,
+      "delta_s": -0.6080122969999948,
+      "evidence_refs": [
+        "../../s1-07/run-43923266772/evidence/unstable_freeze_u8-n23-u34/export.json",
+        "evidence/unstable_freeze_u8-n23-u34/export.json",
+        "../../s1-07/run-43923266772/evidence/unstable_freeze_u8-n23-u34/receipt.json",
+        "evidence/unstable_freeze_u8-n23-u34/receipt.json"
+      ],
+      "expected_source_delta": {
+        "kind": "REVIEWED_LABEL_ONLY_5be_TO_99e",
+        "s107": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+        "s108": "99e8456d200fff1299ee5756279cddb23921dc65"
+      },
+      "group": "unstable_freeze_u8-n23-u34",
+      "incompatible_dimensions": {},
+      "join_key": {
+        "N": 3,
+        "companion": null,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "id": "unstable_freeze_u8_n3",
+        "mode": "PFC",
+        "required_cover_count": 5,
+        "required_cover_messages": [
+          "S1_entry_N3_return",
+          "S1_entry_N3_reversed_return",
+          "S1_entry_N3_duplicate_return",
+          "S1_entry_N3_ascending_return",
+          "S1_entry_useful_return"
+        ],
+        "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n3",
+        "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n3",
+        "target": "<u8 as UnstableSmallSortTypeImpl>::small_sort",
+        "threshold": 32,
+        "timeout_seconds": 600,
+        "type": "u8",
+        "unwind": 34,
+        "variant": "production"
+      },
+      "limits": {
+        "s107_group_s": 2100,
+        "s107_per_harness_s": 600,
+        "s108_group_s": 2100,
+        "s108_per_harness_s": 600
+      },
+      "ratio_status": "KNOWN",
+      "row_id": "unstable_freeze_u8_n3",
+      "s107_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s107_raw_verification_time_s": 40.596121231,
+      "s107_required_messages": [
+        "S1_ENTRY_MODEL_ENABLED",
+        "S1_EXACT_TRAIT_THRESHOLD",
+        "S1_ENTRY_POST_INDEPENDENT_CALLER",
+        "S1_LEFT_CANARY",
+        "S1_RIGHT_CANARY"
+      ],
+      "s108_evidence_scope": "COMPLETE_GROUP_PENDING_OFFLINE",
+      "s108_outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "s108_raw_verification_time_s": 39.988108934,
+      "s108_required_messages": [
+        "unstable_freeze_u8_n3::model_enabled",
+        "unstable_freeze_u8_n3::s1_exact_trait_threshold",
+        "unstable_freeze_u8_n3::post_independent_caller",
+        "unstable_freeze_u8_n3::left_canary",
+        "unstable_freeze_u8_n3::right_canary"
+      ]
+    }
+  ],
+  "s107_run": 43923266772,
+  "s108_run": 44095954742,
+  "schema": "s108-timing-comparison-v1",
+  "source_delta": "Reviewed assertion labels and source positions disclosed; all other domain/config dimensions checked separately",
+  "unpaired": []
+}
