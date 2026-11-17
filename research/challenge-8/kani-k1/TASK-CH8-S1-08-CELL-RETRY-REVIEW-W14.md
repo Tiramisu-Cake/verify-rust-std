@@ -19,6 +19,8 @@ base reviewed7c41333f9b/source99e/tool0aac, исходный review e14db2d0dd �
   в этом пакете и не превращается в accepted/complete. Resource change не требует нового proof premise.
 - Payload/preflight/YAML/actual shallow ancestry согласованы; meaningful targeted mutations и static delta
   checks проверить, без compiler/rustfmt/solver/full runner. Не повторять broad неизменённые U/PFC/source audits.
+  Прежние обязательные preflight/error/timeout/partial/snapshot controls не должны исчезнуть из-за single-group
+  scheduling; необходимые adaptations должны сохранять проверяемые гарантии, не подменять тесты skipped/PASS.
 - 1200s evidence не доказывает fit600s или причинность labels. Retry не автоматически становится частью same-run
   S1-08 acceptance: origin/profile и последующая композиция должны быть явны. No dispatch/reservation сейчас;
   conditional charge9/14 только после нового GO и принятого run, auto-rerun нет.
