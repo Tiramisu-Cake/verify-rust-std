@@ -1,0 +1,90 @@
+{
+  "schema": "ch8-s2-go-request-v1",
+  "status": "READY_FOR_COORDINATOR_GO",
+  "review_g0": "0468ccf26c879a03ca83b1d5955be5e860c2b442",
+  "review_verdict": "APPROVE",
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "S2-W14-N1; routed original13 future cleanup; exact approved pins unchanged"
+  ],
+  "package_g0": "ae8f7b2feb739fd51fe72063d4aa71fe36b90790",
+  "source_sha": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+  "source_tree": "2b305686df9758381cfc5d07e195ba05d6b87637",
+  "stock_tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "stock_tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+  "control_sha": "fc058c97335e4a064c7827b8534b3af2f7460bc3",
+  "control_tree": "829f2a6ce410b366101bd413a268e825627e3780",
+  "trigger": {
+    "prepared": false,
+    "required_tree": "829f2a6ce410b366101bd413a268e825627e3780",
+    "required_single_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "topology": "same-tree sibling preserving reviewed parent",
+    "repository": "Tiramisu-Cake/kani",
+    "branch_pattern": "uninit-ci/ch8-s2-batch3probes-*",
+    "checkout_depths": {
+      "control": 7,
+      "source": 4,
+      "tool": 2
+    }
+  },
+  "request_sha256": "eccd05f859b0c5982d6eea23fa0d2e209a9099e3cbc6fdfc883b6e2ad826ac23",
+  "workflow_sha256": "0f0dbfc57b0db8d138ba74d91d64aaa23e27ad8ff39960994a0261da4ac91f9f",
+  "scope": {
+    "groups": [
+      "s2-batch3probes-u34"
+    ],
+    "rows": [
+      "swap_pfc",
+      "summary_witness",
+      "merge32_real",
+      "sort13_assumed",
+      "general32_assumed",
+      "merge_order_corrupt",
+      "merge_count_corrupt",
+      "checker_count_corrupt",
+      "checker_order_corrupt",
+      "sort13_weak",
+      "general32_weak"
+    ],
+    "diagnostic_assumed": [
+      "sort13_assumed",
+      "general32_assumed"
+    ],
+    "root_backend_timeout_s": 600,
+    "compile_s": 900,
+    "sum_root_caps_s": 6600,
+    "group_child_cap_s": 7500,
+    "phase_cap_s": 8100,
+    "job_minutes": 180,
+    "jobs": 1,
+    "max_parallel": 1,
+    "group_RSS_GiB": 12,
+    "headroom_GiB": 2
+  },
+  "measurement_limits": [
+    "Separate body/model/checker/driver wall unavailable",
+    "Per-root aggregate RSS and6GiB target UNKNOWN",
+    "Sampled comm peaks nonsimultaneous",
+    "No fit600/S3/proof credit inferred"
+  ],
+  "runtime": "NOT_RUN",
+  "proof_credit": "NONE",
+  "accounting_reference_only": {
+    "ledger_g0": "e3087aee6850f2fd62705aeb3103549ee0563ddc",
+    "item2_current": 9,
+    "item2_cap": 14,
+    "future_S2_charge": 10,
+    "item1_current": 27,
+    "item1_cap": 28,
+    "total_current": 36,
+    "total_cap": 42
+  },
+  "actions": {
+    "source_publication": false,
+    "trigger_preparation_publication": false,
+    "reservation": false,
+    "CI_dispatch": false,
+    "ledger_budget_change": false,
+    "automatic_rerun": false
+  }
+}
