@@ -1,0 +1,636 @@
+{
+  "admission_inputs": [
+    "accept/ACCEPT.json",
+    "accept-u/U.json",
+    "accept-pfc/PFC.json"
+  ],
+  "components": {
+    "accept": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+    "accept-pfc": "013f288ca5111c0587e087567d2ec4182856be1d",
+    "accept-u": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338"
+  },
+  "excluded_from_admission": [
+    "S1-07 accept-v2 stop-marker",
+    "S1-08 labels/ROLE-MAP",
+    "uncommitted source/control files"
+  ],
+  "files": {
+    "research/challenge-8/kani-k1/ACCEPTANCE-POLICY-BATCH.md": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "c7e4e8ca75748f3c68750e7983302edaf533b856eb8be1d3f9d7ea7cd671b21b"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/COORDINATOR-REVIEW-AFTER-S1-07.md": {
+      "commit": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+      "sha256": "a24d0079fa2e9b8b5a3150c0716c55ab522bb43cab8692b422c03043c3a0813f"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/PLAN-S1-AFTER-06.md": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "a8fd56357b93fcc86a340618d026d478f278f751bfd8812d5075e4bf6f927343"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-06/run-43889560779/STOCK-ROLE.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "2115142d65fc7f74d84c1aca2bbcce0bf552390374fb37b80d63a408faf79cbe"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-06/run-43889560779/accept-v2/LOCATION-POLICY.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "625ab48683875ecbf29378d55e6d16a082e682b4090b7452f110e2733dc855a5"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-06/run-43889560779/accept-v2/pfc.py": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "f4fd9bffb4e909ef4fa855a4b40842707d648cad1e22e0c528e8a6651bdcd9a6"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-06/run-43889560779/accept-v2/replay.py": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "20475a83d2a9642a53f27bb0abb9773acd5bc797df831f9156dfca462c26cd8c"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-06/run-43889560779/accept-v2/semantic.py": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "407b6a21067c63f25c193327caf230be69e8431653da9721dc32417074b7443c"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-06/run-43889560779/accept-v2/test_replay.py": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "0a5f7ae252081c6db770c1ca85a1049e3be6bce805b0625148ee17b5c60585d1"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-06/run-43889560779/accept-v2/unreachable.py": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "22a0478c16335be615a7834e2296cabe65474f64aa0b8972650b45c58fd68898"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-06/run-43889560779/accept/ACCEPT.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "75380f1a67e02a85a8e61dec47d31a532fca5396965c98377a6b8983769a31ec"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/CI-REQUEST.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "6c483ce754cd8e99c01953bf4c40a145b10529d7990aa52c28ef32c00b980cd7"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/COMPARISON-S1-06.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "48a277b5603e922ea63888de603c85bffc90930946ec83c8808f040eed9b6cb4"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/HANDOFF.md": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "f08b00f555a999124b118a1c694f7bc052b9c34f16d175621a8cc7778119b5df"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/LOCATION-EXCEPTIONS.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "8c594278719f3bd82a67dc25fd25a044bef82aa846521a25c5a14a3814f3ceff"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/PROVENANCE.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "63fb7dc4b5caf8cbc717de24f5eb46e974b42fabae78b2938f96b0127ca05b66"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/RESULT.md": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "8818f4d046730f73cdfe59ec9fba545ad79c5b9baf94ad37870f14bf01ac35d1"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/TOTALS.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "51cad0a69c1734f7436178453c5129a97419acca3c19e44494481015ed54fb36"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/VALIDATION.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "760f3c87c07b6828e934d106335de0cb2fe21623f53e87cf0ab887548f1ddbb9"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/W11-INPUTS.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "a9278731d88137575511fc9e0f49b4a04743a28ad92b7879194bd0e1c94c0040"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc/HANDOFF.md": {
+      "commit": "013f288ca5111c0587e087567d2ec4182856be1d",
+      "sha256": "da678dd6bb17d1caaaa1e91bf617da63f6d2cc80ed7b49b4587252e9e29d5468"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc/PFC.json": {
+      "commit": "013f288ca5111c0587e087567d2ec4182856be1d",
+      "sha256": "bc7d87074c655f250563274eae072cfa2482a2514dc71fafe5ffd893a7f77479"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc/PFC.md": {
+      "commit": "013f288ca5111c0587e087567d2ec4182856be1d",
+      "sha256": "a7749593409c2c2c2ccd297f3b78a470327be9b558031ac72b09313a2ab5261d"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc/VALIDATION.json": {
+      "commit": "013f288ca5111c0587e087567d2ec4182856be1d",
+      "sha256": "c94704cd457cd2a46090bc55c0c1561b7888cbe6da55e55e3f5ef9d199248a05"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc/replay.py": {
+      "commit": "013f288ca5111c0587e087567d2ec4182856be1d",
+      "sha256": "3c1b8443ebc138ab087adce59ce8ff95e24ee38cf18e31538414b1b561b9b30c"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc/test_replay.py": {
+      "commit": "013f288ca5111c0587e087567d2ec4182856be1d",
+      "sha256": "a41891431ccac6ff00d3e4580c49b8bc0da32d5e47b3bdf884960134a6cbe17a"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/HANDOFF.md": {
+      "commit": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+      "sha256": "738fad773420524528fb6ff80c96f4f46e2f4690fc965e911ba993127caba667"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/INPUTS.json": {
+      "commit": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+      "sha256": "c62222e2c8b51982f2b7df3c570543042423242bfd0ed37df9856f6248ebf89b"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/U.json": {
+      "commit": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+      "sha256": "fb422b5a641892c161ddcc0e82e654dd083ac495bfe2777c813250818db4965d"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/U.md": {
+      "commit": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+      "sha256": "208925eef4842cb5075b88314065851b78f60ca8ae8e415e17922ba43cd42fbe"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/VALIDATION.json": {
+      "commit": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+      "sha256": "8caa253eaa2a06e0b12aa53cb25ce1c662635e81988f648c0b593e7c1af1723a"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/replay.py": {
+      "commit": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+      "sha256": "36783a2c0c66fe2279e5331dfc81abea2ba7751795aef173d9fdf25e728bcfe4"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/test_replay.py": {
+      "commit": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+      "sha256": "13f55fe866132c46ff82e0902b6a7ecd361e46f9a8a3d5c86e207d8d82f2b443"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-v2/ACCEPT.json": {
+      "commit": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+      "sha256": "dadb319d8251e10c46371c1abddd25b11d4fd6d7b025060614fd0aa59f38047a"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-v2/ACCEPTANCE.md": {
+      "commit": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+      "sha256": "6c06b52026db9b6a0b8498f04c6065b57ac9568d7991b1ba53327f9137af7727"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-v2/HANDOFF.md": {
+      "commit": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+      "sha256": "c135b3631d8bbbbc1be36d377441ef050dd79e44149fdc06f56a5e19e5b467ea"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-v2/VALIDATION.json": {
+      "commit": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+      "sha256": "858c2d4fe010a0365bace6c535838873bc936d13ae04fe5de8f356295543f76f"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-v2/replay.py": {
+      "commit": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+      "sha256": "486724ca76d7d1a8fa8eda6802ad68970e4d412b44fbd5f7a5f7d36659f8aa8f"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept/ACCEPT.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "d9e7d7a7c7a19a2a00de494538bc385490a5e557f86e9f6c5a2bf959b74fe816"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept/ACCEPTANCE.md": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "b30b24e5739c51b4a2909cd1529004e469304ca92e2aa64a9e66506d66c5c469"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept/INPUTS.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "75282e3da02aaf7aa7f985a5a88b2a81a669ba033c3ef849445fad45510ed2b5"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept/POLICY-OPTIONS.md": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "b45935409b13e09530b1626381c5d70a0e23203f57196967deda28b9d37d9c80"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept/VALIDATION.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "4bde0abe063bcd16ffcfdcc9dae60bfb54c51b89ecaa39525cb5842290d5f960"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept/native.py": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "14aede28fef0308a7b48ed24d67273ba5431993d9eda5d31f7d5e5fe850ac291"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept/pfc.py": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "0a5a10d4d26a730f99ad9b99ef77af4ae216ce77d5e90793f7c339c08c033827"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept/replay.py": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "4699495fb618d81a40c435250e9acc7876931b8f0bc1c84db48863f7db5d0e85"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept/semantic.py": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "c686a9824967e3d6ff9036ef3627dcfc071906a58fb7e36f762dfebcbcfebf8a"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept/test_replay.py": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "50da0c57941c3304116c5a12b4cc38da276de7cc13b5466fd2da2bf3d53775c9"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "4c75c9d034936a9254b205cca612d7d062399720bc61e1ef37ea8ffedf5d7a04"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-activation-default-u34/group-evidence.json.gz": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "42486deeacc31216e23003fb154ae865862a7525d229ee60d28ffe1fad098388"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-activation-default-u34/zip-integrity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "5ea5fd3692d7823531846a8bf5b0cfd5c7dfa19b669becfb52084d6c6ac33c73"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-activation-override-u34/group-evidence.json.gz": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "06e0f1deb8bf49def8bd59ae8a9f163ce1de51bd380dc77b16817dcc386ff498"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-activation-override-u34/zip-integrity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "c5d2580393075aacf1937b70201ec5c4b11b6219566732d2b08d692455d0eaf9"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-cell-u34/group-evidence.json.gz": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "84dbf76757583bf264af8f67bf41a6273b02f794bab41ba364d2a72b7234eb6f"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-cell-u34/zip-integrity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "e8260cbd5c38c9e3f9aaa86030bff15442f271f061598dcb4c8ef115d9b087e0"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-freeze_copy_u8-n01-u34/group-evidence.json.gz": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "74d4e55383322118741f69920943198fb007ae1724e014eefcffd97585535f8b"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-freeze_copy_u8-n01-u34/zip-integrity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "23b90444307e29e1182915a2c37a378e38c0e8dc91b885f60ccc995000c1085a"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-freeze_copy_u8-n23-u34/group-evidence.json.gz": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "2c7b2cae61f3e72036f1422b3d959b25259cb8b6070f134d7e781c75f2d331e2"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-freeze_copy_u8-n23-u34/zip-integrity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "9c5cd45f610a72643dc89cc3e51bca6f2456ccdbea7c7215346a5684c0bea54d"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-freeze_default_noncopy-n01-u34/group-evidence.json.gz": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "b4bea5c39e3623b0d2a055c60ffa40e0f479908843d630afe1ef289220ab7325"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-freeze_default_noncopy-n01-u34/zip-integrity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "0c33dd10887d44a9cea4744567f6978976bded7527a6d94794a58413f931f713"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-freeze_default_noncopy-n23-u34/group-evidence.json.gz": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "fe57fda10ce4d52878ffc2aeb0ff795aceea9fafccc84eef7e203291256d35aa"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-freeze_default_noncopy-n23-u34/zip-integrity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "a9391271a2b64c22da22481b311c6dde10b555d5d195d654c01ddeb83782664a"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-light-controls-u34/group-evidence.json.gz": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "453fd29dbb9b8ecb75b7abe3b0a25b390f72565a23bbbe710f23a385b0641d09"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-light-controls-u34/zip-integrity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "1403525e05d734c3149d59775c6a3a4f452fae525a1fa6612d294dbae7c05b91"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-light-corruption-u4/group-evidence.json.gz": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "51467901ad6433dbce51b969e23875ae861870f9350725adb0bba57f0490ee98"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-light-corruption-u4/zip-integrity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "5b2f137ccf16b2676c1651f0c45ded32f1a1331d50d45a3295606753c537dec4"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-light-model-u5/group-evidence.json.gz": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "61abfc128bb6f6b729f932663b4bc63bd9be41fb6e2e0b880e4f30beed512b94"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-light-model-u5/zip-integrity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "678db9fc3d79b009c66b0127a4b4617113b9e94cb126f9ec339777b347cdfb86"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-stable_freeze_u8-n01-u34/group-evidence.json.gz": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "5d6c2036e6593fa231713219b7cafc644acf99789a481c2d2fbdec613ca25710"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-stable_freeze_u8-n01-u34/zip-integrity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "59a248c6eac8a222aaaa696147973a03595c7c0d26bd9c6e4c6674ed5a17b16e"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-stable_freeze_u8-n23-u34/group-evidence.json.gz": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "2a727b332e93e34931bcfc17e25fb909ad57739fb341462d51f68e5e732509cd"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-stable_freeze_u8-n23-u34/zip-integrity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "7ad12ad60af4f19bfc18ae31fb01c4b40964d5a978cf51003e398d8749521900"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-unstable_freeze_u8-n01-u34/group-evidence.json.gz": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "9e4c0b293c973360f9ad78e0f948eb77130bf93f925068b3bd53d62ca2c920a2"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-unstable_freeze_u8-n01-u34/zip-integrity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "0623dda8b0808e336917f28cd082c7cf36b9aaa20ddf7ee508ffc805469c6fe0"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-unstable_freeze_u8-n23-u34/group-evidence.json.gz": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "2cb016d471b9608f32c65594a9a3eae626e71676938fd3a1a8f3ba127c71ac45"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/artifacts/ch8-s1-05-43923266772-1-unstable_freeze_u8-n23-u34/zip-integrity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "c92a6fe7fee88c8d06a756152ced4606475aad25be7663a1d74f86a7afde21ce"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/collected.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "208a4b1d4e3a694e24118673680e278d4705ec481e5fc8a84b31a5482b5885f1"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/activation-default-u34/binding-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "ad4782d647b97ea294edc4f85821a974fe066189d04ba493dadea94b18c22169"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/activation-default-u34/compile/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "5d2130da2eef61e1900c99f3f0b076c1e14bcd7d9aadd52725282ac8e350c0dc"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/activation-default-u34/export.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "4312600ba357bee2b9bc6846f38f53a2b9592ee1178c997870dee7dffe6e0e5b"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/activation-default-u34/properties.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "07c2e6ea446361ca20d9062bec7735ed58884ef48bf58a74bc8a7ed2430769ab"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/activation-default-u34/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "19c691d582f266ca4a645a90f817150bb9ed13c2146a6eeb83aabaebf9658d07"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/activation-override-u34/binding-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "d8f54cce1ce697b5caba8d8343d75d39885d32fb898a9fcd6607ae2538fb1d6d"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/activation-override-u34/compile/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "1f3993a797d012cb9895463c493a9dfba5c442efdc0d6e52ea81da64f5843dbe"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/activation-override-u34/export.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "846f14bef0d85b9fb9adee93f8c80b7959fc78422c0c2dda8fc2cf57cc02cd25"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/activation-override-u34/properties.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "af0e69f3da77e6cf09c9ac378f704181897e8d7d2464ae73dd241595917ce83a"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/activation-override-u34/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "8c3c6608f743afb12e22acd7d8139f58ca32ca880de37168afb5c0d6dc47aef7"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/cell-u34/binding-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "53e91aa983b56e2cb89fdcc21c009ffd854bfa3b815fe8ce131aa17f8b646536"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/cell-u34/compile/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "a2838aa03310efeeeb8632c5b7998d3cee312fc802c2307a0d5b0f7474dab8dd"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/cell-u34/export.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "d07da9d3380e4452cd57036863ee2336951dc31eb7542107a5e3223685c2739d"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/cell-u34/properties.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "dc040d2a2d9a267bf67115595d10a124b1156b65d6a893943057a80c49d82940"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/cell-u34/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "0643b04d4ed978ae1c2cb5ba5cb3d526b85bc50da63798bfbde615bf5f8f98aa"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_copy_u8-n01-u34/binding-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "67faf5e6ad473a11a546677077f565510534823948d6996f3b87d85776806feb"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_copy_u8-n01-u34/compile/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "85e3a452247483153553cace7f03b02d91083545cc739faefed592212d43db3e"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_copy_u8-n01-u34/export.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "b6082f8e2a8a98ed24108a2cb6ccd26deeed1d7278e2fa9df4174bdbe9802bab"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_copy_u8-n01-u34/properties.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "7c190762ada679935af044a057ccd705f900ed524907c509c4d7fefcdb8c70c8"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_copy_u8-n01-u34/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "810a7621e6b66dd584e624fffd65c44361848f6f3272af362658fa63e4fdda01"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_copy_u8-n23-u34/binding-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "b420803dde318c0172ef2ea648d2a4650646475b9a9103262f474a011c21a599"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_copy_u8-n23-u34/compile/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "adefd3a76878983116713c10ecfd67b1ec02696a839f5386f0188e8b4c4815df"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_copy_u8-n23-u34/export.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "bd10b9504d2e28babc0a42eeacc923fbcbebecd9a6b0ed80e8661343c3879e11"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_copy_u8-n23-u34/properties.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "ef648f4b457da685db9cd06da04b1341cc4cec2fecd500a11d1a4f76e9a03fff"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_copy_u8-n23-u34/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "6f5527a32aebe15bd751c09319cf875d22f8ddb13e0161cc6d142bc7ba2c43af"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_default_noncopy-n01-u34/binding-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "3f3f7bf3a6af0427d073ae0efdce10f5d5ec7a3d45bd579628c06799f2c83aa6"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_default_noncopy-n01-u34/compile/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "dd3e11470abfd75bcb31b2b48d544d7dacf26e083d52620acf4958f23a346a8e"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_default_noncopy-n01-u34/export.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "26593bc294fca88b105f41cd4210c138c796fe6215d3488a15397e573883625a"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_default_noncopy-n01-u34/properties.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "c4284c72346497f0f97ff568864787a43901adf12e0535b4142146395c8df7a9"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_default_noncopy-n01-u34/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "33f967d8ab747476dbad59ad3395b346134d251fa8109b8280a7dbb5fcf28f4c"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_default_noncopy-n23-u34/binding-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "bc40d9913d7df91cb2b30a4c49225c341f53d707c8b97d5412979b6823d5dc0c"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_default_noncopy-n23-u34/compile/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "4a143160f254268ad4d13b6889e99a2cdfd7476d439b0d2cfe21bc76cdb0b912"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_default_noncopy-n23-u34/export.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "8cd99c87a5d78d6694279b629cacdfbb64e0009fff1e2375e1b70864725ae654"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_default_noncopy-n23-u34/properties.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "b5e2a574b14cb434800577628f429ec634b1f472a673aebedf9015f6c31e9684"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/freeze_default_noncopy-n23-u34/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "214c4b9fdab256b14c8bff2750a3b9990f5aa22341531e887b5a844062d7477b"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-controls-u34/binding-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "1f39307208e16283c2b3c45f69f5c65edcb2f762d3dee903045a732603bb3578"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-controls-u34/compile/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "8db995d29986734fdc8ded802da6bbd4f9cacc386cc3847c1994a2d24f5a245e"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-controls-u34/export.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "3284595176f857294d600004cf710536adc69442280b25a5dbe8cfc37b4c9c62"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-controls-u34/properties.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "a92a4b501c58916f9a9beaffd287d2d93aa892f8de9dc3ede128835ce10229be"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-controls-u34/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "82b9cc0ffdafedbde9f247b1a790f175ecc6985562287f21dfb557579a7664d7"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-corruption-u4/binding-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "9a36745087d0bee58a1ef03e6cc2bb3e41c461b9412466fcd6c0e43dd7423cea"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-corruption-u4/compile/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "81831d855b3f991e17643fa12e1f65473ff231c75796a241bc8955089f093b4c"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-corruption-u4/export.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "f0fcc6bc29b8c16fbcdd43d5cdb53a7ca4053f26a62550cf072a8aa868e5ccce"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-corruption-u4/properties.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "b05409982a69635da16de9fc95d799a9a3450330d76dccc7429552912a3a82fa"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-corruption-u4/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "65984cd3714bb3a75fcb181e55d70eab5db2862ca743a13696d70cfe28b57102"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-model-u5/binding-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "2c5740320cbcb5fd90bfd1419c16358b52a904617fc90ca7633616763fa3ac6a"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-model-u5/compile/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "1945a34d5977f08dc735aeed03cc3c117dc5df1dbf8b0a928b7f2e81aba318e9"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-model-u5/export.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "9cb123d1851eba71fa31b5600066028fbc3fe8b11d60cfe1837851b0d7d77562"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-model-u5/properties.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "f0ec5d38de99426ef6c605a44bf7e3eac6c6d05a31409a27532b22617e432ac5"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/light-model-u5/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "5db84969ce381f5079740d80201c17301c3b640bb12a1c6cad86df4777412b68"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/stable_freeze_u8-n01-u34/binding-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "4a2d3db5f2cd41c8db9c5270ddecf6f1598f054bf0bb0895b31a9d434c044e8a"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/stable_freeze_u8-n01-u34/compile/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "2197cd59baa64e3df5ebd0452f1e3df2b8cb689192fce4b7e4fdad795e107458"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/stable_freeze_u8-n01-u34/export.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "06e966810df33c6eacaff83eb8e91341f7cbda9dba685fc1056763e1b3b59ec4"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/stable_freeze_u8-n01-u34/properties.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "24998f32819f5f0c37a353cc87913c32e2c68cc0db1716935afa27c01c2e4bb6"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/stable_freeze_u8-n01-u34/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "02085531cf43c3f875b53717e6dd9534bc9f736dc7b761a4b01cd3d00d449d23"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/stable_freeze_u8-n23-u34/binding-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "b1848dbea6543825b5e4f5205c17afb96702ac5ee95c3872797ba301901549b6"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/stable_freeze_u8-n23-u34/compile/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "a9283cc054ef3233835179c73a675bc51153110daf7d3e2fd8683f7a6dcd1e11"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/stable_freeze_u8-n23-u34/export.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "b540ab847ce79b3ac0542e6bb60a4f370d659772e5e34162e950893740308beb"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/stable_freeze_u8-n23-u34/properties.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "34a30dcaf7ee48631076c62718b7114c4e13816623b0630ab53b79b7dbcec777"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/stable_freeze_u8-n23-u34/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "3853696b98d792bdc280a44b40fca49edc7d19b684d3500c97a31418ea93dd0f"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/unstable_freeze_u8-n01-u34/binding-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "3b7d81f87de432ffcad8c724205ded3f258ab4d5497f72c5aadaf64bac6f20fe"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/unstable_freeze_u8-n01-u34/compile/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "c39faca5709177ef7f820ba6ef745ef1155ece1f6b41198fdf61f96ca988fcfe"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/unstable_freeze_u8-n01-u34/export.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "4391e2f864ecef6e5584611ab8e81e8d7ec08d48d9902f97cb56195f1c99d45f"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/unstable_freeze_u8-n01-u34/properties.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "27ce76698bff7e2d788aabde76bb1b7b084eace365fd27d7a34f8812caae4fb5"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/unstable_freeze_u8-n01-u34/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "55653af13ff615898fd4be0d2c81701135332905b55fded795b803c3e15140b1"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/unstable_freeze_u8-n23-u34/binding-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "cb5fca799f66b561dcea6674c52e1b94c9a9e7349973f494cff73739dfba8d82"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/unstable_freeze_u8-n23-u34/compile/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "fa8104119ba03609c8de74c37a8ec23e167b607d96952381a79e68390be92169"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/unstable_freeze_u8-n23-u34/export.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "b38e35fdf952d06a9b43b715689e97185abb9c1707e68490d407ed255ef8c388"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/unstable_freeze_u8-n23-u34/properties.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "cd338edf8e4f8cbe3f17706321ff90720cd118d154a777797838a2dcb1b12165"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/evidence/unstable_freeze_u8-n23-u34/receipt.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "1ff08ad967771550c623f47f093ee3fc64a1a5cca507e2a9af26fdad32311e5c"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/intake.py": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "071d5d9a3c5856b03ff5092665737e50c5bab6ae13c4d7b0cb006c3767c136b9"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/jobs-metadata.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "bb8846c0b4ce3043b842b027d6e111956737debd6d227c21126bee3cd1244405"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/run-identity.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "c589ab782edb64729e09086d0550c9ae3789bb47246cbf75b8f300a4cdc883b5"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/runner-collected.json": {
+      "commit": "b84003a4fdb2416d0742b21a5151b0d32d047d35",
+      "sha256": "790b7ac68df9fa109e727864bd227c80bc62d67eea130a5bf2698f707784fc00"
+    }
+  },
+  "schema": "s1-07-composition-inputs-v1",
+  "task_commit": "831f87be704575dee4ace8f834312b5c95d43f99",
+  "upstream_U_integrity_only_stop_marker_files": [
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-v2/ACCEPT.json",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-v2/ACCEPTANCE.md",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-v2/HANDOFF.md",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-v2/VALIDATION.json",
+    "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-v2/replay.py"
+  ]
+}

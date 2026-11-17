@@ -1,0 +1,141 @@
+{
+  "computed_totals": {
+    "U_consumed": 187,
+    "U_remaining": 0,
+    "companions_qualified": 8,
+    "exception_distinct_IDs": 2,
+    "groups": 14,
+    "inventory_reconciled_groups": 14,
+    "location_only_exceptions": 18,
+    "missing_binary_after_groups": 0,
+    "native_exact_harness_records": 35,
+    "native_manual_target_definition_links": 22,
+    "native_metadata_files_verified": 322,
+    "pending_gate_rows": {
+      "REQUIRED_SUCCESS_SEMANTIC_BINDING": 21
+    },
+    "pfc_source_bound": 22,
+    "predeclared_exact_sole_failure_negatives": 8,
+    "profiles_v4_pfc_bound": 22,
+    "profiles_v4_pfc_pending": 0,
+    "proof_credit": "NONE",
+    "properties_reconciled": 9986,
+    "replacement_unions": 4,
+    "required_success_bindings": {
+      "covers_exact_property": 113,
+      "covers_semantic_source_role_order": 113,
+      "domain_completeness_claim": false,
+      "gaps": 111,
+      "proof_credit": "NONE",
+      "required_covers": 113,
+      "required_success_messages": 127,
+      "source_case_cover_counts": {
+        "DIRECT_CONTROL_OR_COMPANION": 5,
+        "ENTRY_EXACT_N_MACRO": 56,
+        "ENTRY_SMOKE_MACRO": 22,
+        "MODEL_CONTROLS_POSITIVE": 18,
+        "ORDINARY_BRIDGE_CHECK_MACRO": 12
+      },
+      "success_exact_semantic": 16,
+      "success_pending_with_candidates": 111
+    },
+    "rows": 35,
+    "rows_qualified": 14,
+    "source_success": 27,
+    "successful_mir_unreachable_guard_checks": 1276,
+    "unions_qualified": 0,
+    "unreachable_checks_analyzed": 413,
+    "unreachable_covers_analyzed": 2,
+    "unreachable_decisions": {
+      "ALLOWED_EXPECTED_BRANCH_UNREACHABLE": 174,
+      "ALLOWED_EXPECTED_NEGATIVE_POST_FAILURE_RETURN_COVER": 2,
+      "ALLOWED_GENERATED_SAFETY_APPLICABILITY": 187,
+      "ALLOWED_NON_OVERFLOWING_TYPE_SIZE_GUARD": 28,
+      "ALLOWED_NON_SELECTED_SPECIALIZATION_BRANCH": 24
+    },
+    "unsupported_success_guards_exactly_linked": 76
+  },
+  "file_sha256": {
+    "ACCEPT.json": "8c7dc04c049b574cb1e2afe7a14eaacf6bcd608281db8fbeda8e026d4123fbba",
+    "ACCEPTANCE.md": "794b499aecdba5bb0c27f8cc5e604dd2902a0a1fa2b243a045de22b62710a1df",
+    "HANDOFF.md": "892bde8b3fb2527dc3094ff6bfe13c48dcc490e7e96a8ab74d07e40638295d92",
+    "INPUTS.json": "dad405ab891a3c88871a7e39ecaa17f8abaa43794de80e0cbd0ff96a78b46315",
+    "replay.py": "493e93094675ef79ef921475f5fb5829b62e1bc2e6bbdba506e3c3f91bd46c2a",
+    "test_replay.py": "120ad9558752cd8bf12d3ad40796685e3d914166ebeccbb012df487a4f862582"
+  },
+  "independent_proof_credit": "NONE",
+  "mutation_coverage": [
+    "partial/missing/foreign/duplicate/wrong-status U coverage",
+    "U source/evidence hashes and assurance below outer digests",
+    "missing/incomplete PFC chains and contract edges below outer digests",
+    "PFC source hashes/row/group/harness/variant/status",
+    "run/request/source/tool/control/schema/assurance namespaces",
+    "source SUCCESS with actual unresolved success roles",
+    "positive SUCCESS versus predeclared negative expected FAILURE",
+    "named companion missing/foreign-run/pins/unqualified",
+    "transitive dependency chain, cycle, self-cycle and dependent",
+    "pending member union and exact membership/domain",
+    "file hash and committed identity",
+    "preservation of original evidence, U statuses, 111/16/113 bindings, negative oracles",
+    "effective per-row/global U decisions agree; historical rationale retained separately"
+  ],
+  "not_run": [
+    "CI",
+    "push",
+    "publication",
+    "ledger changes",
+    "cargo",
+    "rustc",
+    "Kani",
+    "CBMC",
+    "raw logs/archive extraction"
+  ],
+  "replay": {
+    "accept_v3": "EXACT_BYTE_MATCH",
+    "accept_v3_sha256": "8c7dc04c049b574cb1e2afe7a14eaacf6bcd608281db8fbeda8e026d4123fbba",
+    "committed_input_files": 152,
+    "default_read_only_snapshot": "PASS_BYTES_AND_MTIMES_UNCHANGED",
+    "snapshot_files": 159,
+    "upstream_PFC": "EXACT_READ_ONLY_MATCH",
+    "upstream_U": "EXACT_READ_ONLY_MATCH",
+    "upstream_accept": "EXACT_READ_ONLY_MATCH"
+  },
+  "result": "PASS",
+  "review": {
+    "CI_GO": false,
+    "W14_composer": "PENDING",
+    "W14_input_components": "PENDING"
+  },
+  "schema": "s1-07-composer-validation-v1",
+  "suites": [
+    {
+      "command": "python3 -B test_replay.py -v",
+      "directory": "../accept",
+      "result": "PASS",
+      "tests": 28
+    },
+    {
+      "command": "python3 -B test_replay.py -v",
+      "directory": "../accept-u",
+      "result": "PASS",
+      "tests": 13
+    },
+    {
+      "command": "python3 -B test_replay.py -v",
+      "directory": "../accept-pfc",
+      "result": "PASS",
+      "tests": 228
+    },
+    {
+      "command": "python3 -B test_replay.py -q",
+      "directory": ".",
+      "elapsed_seconds": 62.686,
+      "result": "PASS",
+      "tests": 27
+    }
+  ],
+  "task_commit": "831f87be704575dee4ace8f834312b5c95d43f99",
+  "tests_total": 296,
+  "upstream_U_stop_marker_hashes": "INTEGRITY_ONLY_NOT_ADMISSION",
+  "validated_at": "2026-11-17T13:25:22.907226+00:00"
+}
