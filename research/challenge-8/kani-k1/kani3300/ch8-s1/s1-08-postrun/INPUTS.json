@@ -1,0 +1,85 @@
+{
+  "schema": "s1-08-postrun-task-inputs-v1",
+  "status": "PREPARED_NOT_ISSUED",
+  "entry_g0": "1937a7dd220427bce044d1a3cbd52177241a410f",
+  "runtime": "Codex current pane model/effort; no nested delegation",
+  "run": {
+    "repository": "Tiramisu-Cake/kani",
+    "id": 44095954742,
+    "attempt": 1,
+    "url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44095954742",
+    "expected_head_sha": "21592884db439389364b416dea1515bfa9d8018e",
+    "branch": "uninit-ci/ch8-s1k-j",
+    "reviewed_control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+    "tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+    "parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+    "source_remote_branch": "experiment/ch8-s1-08-pprime-20261117"
+  },
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s1-08-w13",
+    "sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "parent": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+    "tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+    "files": {
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+    }
+  },
+  "tool": {
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "change": "NONE"
+  },
+  "request": {
+    "embedded_path": "../s1-08-r1/EMBEDDED-CI-REQUEST.json",
+    "embedded_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+    "envelope_path": "../s1-08-r1/CI-REQUEST.json",
+    "envelope_sha256": "5e6d786acdb25ecdfab213275f1b40fdd4f2229c5adfef9b03206c5263d13f15",
+    "role_map_path": "../s1-08-r1/ROLE-MAP.json",
+    "role_map_sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d"
+  },
+  "policy": {
+    "path": "../../../S1-ACCEPTANCE-DECISION-2026-11-17.md",
+    "sha256": "14bc6712211665d5d3a7ebb2dbad2bed68ec9e73c0b3ab6a4327df1e6a4356ec",
+    "gate": "U_PER_SITE; PFC_PROFILES_V4_SOURCE_REPORTED; FRESH_EXACT_ROLE_LABELS",
+    "independent_proof_credit": "NONE"
+  },
+  "review_commit": "e14db2d0dd0f45a0cf9067c198911b38bca83012",
+  "reference_receipt": "../s1-07/run-43923266772/accept-v3/",
+  "reference_components": [
+    "../s1-07/run-43923266772/accept-u/",
+    "../s1-07/run-43923266772/accept-pfc/"
+  ],
+  "output_run_dir": "../s1-08/run-44095954742/",
+  "expected": {
+    "rows": 35,
+    "groups": 14,
+    "source_verdicts_if_unchanged": {
+      "SUCCESS": 27,
+      "predeclared_negative_FAILURE": 8
+    },
+    "required_success_roles": 127,
+    "new_role_labels": 111,
+    "preserved_semantic_bindings": 16,
+    "required_SAT_covers": 113,
+    "PFC_rows": 22,
+    "replacement_unions": 4,
+    "property_count": "NOT_FIXED; reconcile fresh full stock/rich inventory, no 9986 quota",
+    "U_count": "NOT_FIXED; no 187/413 quota",
+    "location_exception_observations": "NOT_FIXED; match exact approved tuple policy only"
+  },
+  "activation": {
+    "intake": "ONLY_AFTER_TERMINAL_RUN_44095954742_ATTEMPT_1_AND_COORDINATOR_ISSUE",
+    "acceptance": "ONLY_AFTER_TERMINAL_RUN_AND_COMMITTED_INTAKE_HANDOFF_AND_COORDINATOR_ISSUE",
+    "task_preparation_does_not_issue_workers": true
+  },
+  "accounting": {
+    "ledger_commit": "1937a7dd220427bce044d1a3cbd52177241a410f",
+    "item2_used": 8,
+    "item2_cap": 14,
+    "total_used": 34,
+    "total_cap": 40,
+    "new_dispatches_authorized": 0,
+    "ledger_edits_authorized": false
+  }
+}
