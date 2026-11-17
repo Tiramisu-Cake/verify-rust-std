@@ -1,0 +1,75 @@
+{
+  "schema": "ch8-s1-08-cell-retry-independent-review-v1",
+  "completed_at_utc": "2026-11-17T16:22:56.150731+00:00",
+  "reviewer": "Current Codex pane model/effort; no subagents",
+  "task": "TASK-CH8-S1-08-CELL-RETRY-REVIEW-W14.md; exact pins supplied in user message supersede prepared header",
+  "verdict": "CHANGES_REQUIRED",
+  "reviewed_pins": {
+    "package_g0": "9f4c37c894e7fecee0f59321ba66b65309a87606",
+    "package_tree": "3e964c171448429d0ea5ff46aa1207025bfc8327",
+    "control": "da8c766f957c576eafa44bccfba2c45490cef6d1",
+    "control_tree": "a0e21f185de757c05397cf32547153325012469f",
+    "control_parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+    "delta_base": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+    "delta_base_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+    "source": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "source_tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+    "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "embedded_request_sha256": "7a2cdc282a76e36bfee611c3987471c6eb70b76ff314f2f7785906cb0badaf5c",
+    "role_map_sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d"
+  },
+  "findings": [
+    {
+      "id": "W14-CELL-RETRY-01",
+      "priority": "P2",
+      "status": "OPEN",
+      "title": "Restore fallback preservation/interruption controls in cell-only preflight",
+      "location": {
+        "file": "ch8-s1-control/test_cell_retry.py",
+        "line": 129
+      },
+      "related_locations": [
+        {
+          "file": "ch8-s1-control/test_cell_retry.py",
+          "line": 82
+        },
+        {
+          "file": ".github/workflows/ch8-s1.yml",
+          "line": 43
+        }
+      ],
+      "problem": "The new workflow drops test_package.py from the executed preflight. Its nested replacement selects only control guards and build-wrapper tests. The new fallback test covers an empty output, but neither captured row/compile receipt preservation nor mid-run interruption, terminal preservation and output bounds. The prior fallback controls therefore disappear despite the task requirement to retain their guarantees.",
+      "removed_controls": [
+        "test_package.PackageTests.test_fallback_terminal_after_setup_failure_and_mid_run_interruption",
+        "test_package.PackageTests.test_fallback_preserves_receipt_materializes_tail_and_bounds"
+      ],
+      "evidence": "In-memory mutation of fallback: replace its sole `if not receipt.exists():` with `if True:`. All 17 exact new workflow tests pass, while a captured cell receipt loses original_exit=42 (becomes null, status NOT_RUN). The former base7c preservation test passes on base7c fallback and rejects the same mutation at test_package.py:337 (KeyError original_exit_code).",
+      "impact": "Preflight no longer detects loss of original outcomes in its always-run fallback after setup failure or interruption. This is a regression in required controls, not an observed corruption by the unmodified candidate.",
+      "requested_change": "Original owner should adapt and execute the two former fallback controls for the exact cell pair. Preserve completed/captured receipts and original exit/signal/exception data, interrupt only in-progress rows/group/compile receipts, retain interrupted terminal context, and cover artifact bounds. Include a discriminating overwrite mutation below payload hash gates. Keep exact cell scope and existing runtime/decoder policy.",
+      "routing": "Return through coordinator to original W13 owner; reviewer did not modify author code."
+    }
+  ],
+  "confirmed": [
+    "Exact six-file delta from7c; 21 unchanged control payload files including decoder, native capture, snapshots, locations, collector/admission and source fixtures.",
+    "Only exact production/PFC/Cell<u8>/symbolic0..3/unwind34 cell pair can execute, including omitted CLI --groups.",
+    "Actual argv1200/request/parser/receipt agreement, wrong600 rejection, compile900 + 2*1200 =3300 child plus10 cleanup; phase8100, job10800, setup1800 and reserve900 unchanged.",
+    "One job/max-parallel1; fork concurrency/cancel-in-progress=false retained.",
+    "Both patches reproduce exact control tree; manifest22, request/ROLE-MAP mirrors, payload and source/tool hashes match.",
+    "Actual file:// shallow5/2/2 control/source preflights pass; depth2 fails tool endpoint with128.",
+    "17 exact workflow tests pass, including isolated process, error, timeout, partial, source identity, native metadata and protected snapshots. Missing RESULTS/TIMEOUT remain UNKNOWN."
+  ],
+  "limits": {
+    "assurance": "PINNED_STATIC_AND_ISOLATED_SYNTHETIC_ONLY",
+    "dispatch_GO": false,
+    "runtime_proof": "NOT_RUN",
+    "independent_B1_B2_credit": "NONE",
+    "admission": "NOT_GRANTED",
+    "subagents": "NONE",
+    "CI_rerun_cancel_push_publication": "NOT_RUN",
+    "ledger_reservation": "UNTOUCHED",
+    "intake11": "NOT_WAITED_FOR; parallel work preserved",
+    "historical_artifacts": "UNMODIFIED"
+  },
+  "next_step": "Coordinator returns localized finding to W13 owner; review fixed bounded delta. Any retry decision remains coordinator-only after terminal S1-08 and intake."
+}
