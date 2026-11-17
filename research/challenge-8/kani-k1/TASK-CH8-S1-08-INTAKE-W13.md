@@ -29,6 +29,9 @@ std99e8456d20, stock tool0aac, embedded request77ae1113…1431c7e. Длинны�
    точный row/selector+variant/mode/type/N/unwind/flags/domain key, оба source outcomes, raw `resources.verification_time_s`,
    limits, delta и отношение S108/S107 при сопоставимости. Проверять request/config, не сводить одноимённые production
    и mutant roots. Missing/null/NOT_RUN не превращать в0; несовместимые/непарные rows явно перечислить.
+   Разрешённый source delta5be→99e — уже reviewed assertion labels; source SHA и expected message differences
+   раскрывать, но не считать все pairs несовместимыми из-за этого ожидаемого delta. Остальной logical domain/config
+   должен совпасть. SUCCESS/SUCCESS, intended FAILURE/FAILURE и changed-verdict pairs не смешивать в summaries.
    TIMEOUT — цензурированное наблюдение: показать observed elapsed/limit и нижнюю границу отдельно, не точный slowdown
    завершённой верификации; ratio completed→completed отделить от TIMEOUT/FAILURE. Не использовать job/group/compile
    wall вместо per-harness field и не объявлять это чистым solver time. Контекст runner/config и source label delta
