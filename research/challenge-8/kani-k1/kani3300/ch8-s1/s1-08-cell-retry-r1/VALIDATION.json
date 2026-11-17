@@ -1,0 +1,85 @@
+{
+  "status": "PASS",
+  "candidate": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+  "repair": {
+    "status": "PASS",
+    "paths": [
+      "ch8-s1-control/CI-REQUEST.json",
+      "ch8-s1-control/test_cell_retry.py",
+      "ch8-s1-control/test_package.py"
+    ],
+    "runtime": "UNCHANGED",
+    "mutation": "REJECTED_BY_BOTH_CONTROLS",
+    "historical_artifacts": "EXACT_COMMITTED_BYTES_UNCHANGED"
+  },
+  "static": {
+    "status": "PASS",
+    "whitelist": [
+      ".github/workflows/ch8-s1.yml",
+      "ch8-s1-control/CI-REQUEST.json",
+      "ch8-s1-control/cell_retry_profile.py",
+      "ch8-s1-control/check_package.py",
+      "ch8-s1-control/runner.py",
+      "ch8-s1-control/test_cell_retry.py",
+      "ch8-s1-control/test_package.py"
+    ],
+    "request_delta_count": 26,
+    "immutable_payload_files": 20,
+    "functions": {
+      "ch8-s1-control/runner.py": [
+        "_run_group",
+        "_selection_matches",
+        "build_argv",
+        "load_request",
+        "select_groups"
+      ],
+      "ch8-s1-control/check_package.py": [
+        "check_yaml",
+        "fallback"
+      ]
+    },
+    "yaml": "PASS",
+    "payload": "PASS"
+  },
+  "shallow": {
+    "status": "PASS",
+    "depths": {
+      "control": 5,
+      "export": 2,
+      "tool": 2
+    },
+    "actual_preflight": "PASS",
+    "negative_depth2_exit": 128
+  },
+  "artifacts": {
+    "status": "PASS",
+    "patches": "EXACT_TREE_MATCH",
+    "mirrors": "EXACT_BYTES"
+  },
+  "tests": {
+    "status": "PASS",
+    "candidate": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+    "exit": 0,
+    "top_level_tests": 18,
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_cell_retry.py test_s108.py test_s108r1.py",
+    "test_payload_sha256": {
+      "ch8-s1-control/test_package.py": "2673c3698622dd30a72ef1cd79f145748de9521df9bff997f1da2d9cf885e36a",
+      "ch8-s1-control/test_runner.py": "d8e9e479c4dbf21178f6d28b0e68bbddf6defe8d8ffc2e003fa31bb5e838c55a",
+      "ch8-s1-control/test_s104.py": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+      "ch8-s1-control/test_s105.py": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e",
+      "ch8-s1-control/test_s107.py": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0",
+      "ch8-s1-control/test_s108.py": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854",
+      "ch8-s1-control/test_s108r1.py": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03",
+      "ch8-s1-control/test_cell_retry.py": "c338e2dcb6b5ce5b9869f941aea1d92302e77c0a6959bb1ba276e2cba470b016"
+    },
+    "scope": "small static and isolated synthetic subprocess/service tests; no compiler/verifier/full runner",
+    "development_note": "Initial targeted command used incorrect cwd for adding the mutation test; corrected. Both adapted controls and final exact preflight pass."
+  },
+  "review": "PENDING_W14",
+  "dispatch": "NOT_RUN",
+  "reservation": "NOT_RESERVED",
+  "proof_credit": "NONE",
+  "missing_RESULTS_parser": "UNCHANGED",
+  "runtime_compiler_solver": "NOT_RUN",
+  "historical_ledgers": "UNTOUCHED"
+}

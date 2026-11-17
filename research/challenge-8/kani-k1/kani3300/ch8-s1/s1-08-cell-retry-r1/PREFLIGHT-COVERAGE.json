@@ -1,0 +1,43 @@
+{
+  "status": "PRESERVED_WITH_CELL_PROFILE_ADAPTATIONS",
+  "tests": [
+    "test_cell_retry.py",
+    "test_s108.py",
+    "test_s108r1.py"
+  ],
+  "reused": [
+    "test_runner.ExportTests",
+    "test_runner.ExecutionTests",
+    "test_runner.CompileTests",
+    "test_runner.NoListBindingTests",
+    "test_runner.RequestTests source/flags checks",
+    "test_runner.GroupTests memory budget",
+    "test_package.PackageTests control guards/build errors and both adapted cell fallback controls",
+    "test_s105.RichTests except full matrix fixture",
+    "test_s107.FinalizationTests standalone pack/hash/monitor/snapshot checks",
+    "test_s107.LocationTests exact exceptions/mutations"
+  ],
+  "adapted_full_matrix_cases": "exact cell pair run_rows/_run_group synthetic service; all other33 NOT_SELECTED; fallback only2",
+  "preserved_cases": [
+    "success",
+    "error42",
+    "exception",
+    "timeout",
+    "TIMEOUT",
+    "partial",
+    "missing",
+    "null",
+    "wrong-type",
+    "NOT_RUN",
+    "source/target/stage mismatch",
+    "post-source drift",
+    "snapshot error/missing/drift",
+    "native partial/null/wrong-type/missing/unmatched/duplicate/invalidUTF8",
+    "metadata capture exception",
+    "wrong600",
+    "missing RESULTS",
+    "actual file:// shallow depth5 plus negative2"
+  ],
+  "unchanged_runtime_checks": "original exit/exception; protected after-shutdown snapshot; cfg/source/inventory/timeout/mode gates; native and rich evidence retained",
+  "broad_unchanged_proof_audits": "NOT_REPEATED; only2 original fallback methods adapted; original runtime unchanged"
+}

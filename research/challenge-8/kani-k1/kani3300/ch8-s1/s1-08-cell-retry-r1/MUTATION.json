@@ -1,0 +1,28 @@
+{
+  "status": "PASS_MUTATION_REJECTED",
+  "mutation": "sole if not receipt.exists(): -> if True:",
+  "placement": "in-memory fallback function only, below payload hash gates; no preflight hash failure",
+  "controls_run": 2,
+  "failed_controls": [
+    "test_package.PackageTests.test_fallback_terminal_after_setup_failure_and_mid_run_interruption",
+    "test_package.PackageTests.test_fallback_preserves_receipt_materializes_tail_and_bounds"
+  ],
+  "failure_assertions": [
+    "None != 42",
+    "None != 42"
+  ],
+  "errors": 0,
+  "skipped": 0,
+  "observed": {
+    "original_exit_before": 42,
+    "original_exit_after": null,
+    "status_after": "NOT_RUN"
+  },
+  "original_function_sha256": "ae6a0de6ea6255c8cfc5a7e36931f8a49dcc31243b7487d8f3ec4f477e3df1c8",
+  "mutant_function_sha256": "47bd40ee9efd1f57354e1f6d3e70e721ae293f7d2e0e1a34e72734a3b4347028",
+  "on_disk_fallback_module_sha256": "045f044ffc8e58572035a1526b0f76ab8379e65fe83cb4fd8376ed4d58804905",
+  "on_disk_files_changed": false,
+  "candidate": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+  "review": "ec48e6d59b552da2a9aa8d985478bf259c950073",
+  "finding": "W14-CELL-RETRY-01"
+}

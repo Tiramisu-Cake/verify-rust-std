@@ -1,0 +1,29 @@
+{
+  "setup_seconds": 1800,
+  "compile_child_seconds": 900,
+  "root_seconds": [
+    1200,
+    1200
+  ],
+  "group_child_seconds": 3300,
+  "group_cleanup_seconds": 10,
+  "group_with_cleanup_seconds": 3310,
+  "phase_seconds": 8100,
+  "phase_slack_after_group_and_cleanup_seconds": 4790,
+  "job_seconds": 10800,
+  "job_reserve_seconds": 900,
+  "setup_plus_phase_plus_reserve_seconds": 10800,
+  "workflow_step_caps_minutes": {
+    "build": 15,
+    "runner": 135,
+    "fallback": 2,
+    "upload": 13
+  },
+  "setup_budget": "absolute30min; existing build wrapper uses min900s, remaining setup budget; overlapping step caps",
+  "rss": "min12GiB, available-2GiB; unchanged; group peak is not per-root attribution",
+  "phase_and_job_increase": "NONE_NEEDED",
+  "row_seconds600": "reference-only legacy default for33 nonselected rows",
+  "cell_row_seconds": 1200,
+  "proof_time_reduced_for_window": false,
+  "inherited_phase_deadline_guard": "unchanged; full3300 child+10 cleanup fits8100 phase from start"
+}
