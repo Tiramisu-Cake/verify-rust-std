@@ -1,5 +1,8 @@
 W14: **U APPROVE; PFC APPROVE; S1-08 CHANGES_REQUIRED**. Composer w11 NOT_REVIEWED.
 
+Продолжение после утверждения policy: FOLLOWUP.md / FOLLOWUP-VALIDATION.json.
+Дополнительных concrete findings нет; original verdicts прежние, repair не принят.
+
 Координатору → original S1-08 owner: finding **W14-S108-01 (P2/MEDIUM)**,
 `s1-08/EMBEDDED-CI-REQUEST.json:258,294` / control `CI-REQUEST.json:258,294`.
 Source `99e8456d...` переносит negative closure spans 100→95 и 106→101;

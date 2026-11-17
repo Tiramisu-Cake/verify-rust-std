@@ -1,0 +1,2069 @@
+{
+  "schema": "w14-original-scope-followup-v1",
+  "policy": {
+    "commit": "7d7b7c67a1",
+    "path": "research/challenge-8/kani-k1/S1-ACCEPTANCE-DECISION-2026-11-17.md",
+    "sha256": "14bc6712211665d5d3a7ebb2dbad2bed68ec9e73c0b3ab6a4327df1e6a4356ec",
+    "compatible_with_original_review_assurance": true
+  },
+  "frozen_original_source": "99e8456d200fff1299ee5756279cddb23921dc65",
+  "frozen_original_control": "9ccd882ef2460fbc97400594e7e3dfc884a4a997",
+  "inherited_U_checks": 226,
+  "inherited_negative_return_covers": 2,
+  "inherited_U_contains_required_post_frame_relation_assertions": false,
+  "inherited_sites": [
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "734",
+      "function": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+      "description": "attempt to add with overflow",
+      "records": [
+        {
+          "row": "activation-override",
+          "group": "activation-override-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_activation-legal",
+          "group": "light-controls-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n3",
+          "group": "stable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n2",
+          "group": "stable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n2",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n3",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "735",
+      "function": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+      "description": "attempt to add with overflow",
+      "records": [
+        {
+          "row": "activation-override",
+          "group": "activation-override-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_activation-legal",
+          "group": "light-controls-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n3",
+          "group": "stable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n2",
+          "group": "stable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n2",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n3",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "268",
+      "function": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+      "description": "attempt to add with overflow",
+      "records": [
+        {
+          "row": "activation-override",
+          "group": "activation-override-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_activation-legal",
+          "group": "light-controls-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n3",
+          "group": "stable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n2",
+          "group": "stable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n2",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n3",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "186",
+      "function": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}",
+      "description": "attempt to multiply with overflow",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.assertion.2",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "line": "97",
+      "function": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "line": "97",
+      "function": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "description": "attempt to subtract with overflow",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "line": "100",
+      "function": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "description": "attempt to add with overflow",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "251",
+      "function": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+      "description": "attempt to add with overflow",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n2",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n3",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "256",
+      "function": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+      "description": "attempt to divide by zero",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n2",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n3",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "291",
+      "function": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+      "description": "attempt to subtract with overflow",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n2",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n3",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "917",
+      "function": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+      "description": "attempt to divide by zero",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n2",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n3",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "933",
+      "function": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+      "description": "attempt to subtract with overflow",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n2",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n3",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "934",
+      "function": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+      "description": "attempt to subtract with overflow",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n2",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n3",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "935",
+      "function": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+      "description": "attempt to subtract with overflow",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n2",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n3",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "line": "137",
+      "function": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n0",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n0.assertion.11",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "167",
+      "function": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold",
+      "description": "attempt to multiply with overflow",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n2",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n3",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "183",
+      "function": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+      "description": "attempt to multiply with overflow",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "186",
+      "function": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+      "description": "attempt to multiply with overflow",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n2",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n3",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "350",
+      "function": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+      "description": "attempt to divide by zero",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "381",
+      "function": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>",
+      "description": "attempt to subtract with overflow",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n0",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n1",
+          "group": "freeze_copy_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n1",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n2",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "unstable_freeze_u8_n3",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "line": "137",
+      "function": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n3",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n3",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n3.assertion.11",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "line": "137",
+      "function": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n2",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "records": [
+        {
+          "row": "freeze_copy_u8_n2",
+          "group": "freeze_copy_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n2.assertion.11",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "734",
+      "function": "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>",
+      "description": "attempt to add with overflow",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n2",
+          "group": "freeze_default_noncopy-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n3",
+          "group": "freeze_default_noncopy-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "735",
+      "function": "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>",
+      "description": "attempt to add with overflow",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n2",
+          "group": "freeze_default_noncopy-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n3",
+          "group": "freeze_default_noncopy-n23-u34",
+          "id": "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.2",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "917",
+      "function": "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>",
+      "description": "attempt to divide by zero",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "933",
+      "function": "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>",
+      "description": "attempt to subtract with overflow",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.2",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "934",
+      "function": "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>",
+      "description": "attempt to subtract with overflow",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.3",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "935",
+      "function": "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>",
+      "description": "attempt to subtract with overflow",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.4",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "146",
+      "function": "<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>",
+      "description": "attempt to multiply with overflow",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n2",
+          "group": "freeze_default_noncopy-n23-u34",
+          "id": "<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n3",
+          "group": "freeze_default_noncopy-n23-u34",
+          "id": "<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "line": "97",
+      "function": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.3",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "line": "97",
+      "function": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>",
+      "description": "attempt to subtract with overflow",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.2",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "line": "100",
+      "function": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>",
+      "description": "attempt to add with overflow",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.4",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "251",
+      "function": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>",
+      "description": "attempt to add with overflow",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "256",
+      "function": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>",
+      "description": "attempt to divide by zero",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.3",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.3",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "268",
+      "function": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>",
+      "description": "attempt to add with overflow",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n2",
+          "group": "freeze_default_noncopy-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.4",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n3",
+          "group": "freeze_default_noncopy-n23-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.4",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "291",
+      "function": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>",
+      "description": "attempt to subtract with overflow",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n1",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.5",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.5",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "line": "137",
+      "function": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n0",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n0",
+          "group": "freeze_default_noncopy-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n0.assertion.11",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "line": "137",
+      "function": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n2",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n2",
+          "group": "freeze_default_noncopy-n23-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n2.assertion.11",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "line": "137",
+      "function": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n3",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "records": [
+        {
+          "row": "freeze_default_noncopy_n3",
+          "group": "freeze_default_noncopy-n23-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n3.assertion.11",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": "61",
+      "function": "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}",
+      "description": "attempt to add with overflow",
+      "records": [
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.1",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "line": "23",
+      "function": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0",
+      "description": "attempt to add with overflow",
+      "records": [
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0.assertion.7",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "line": "137",
+      "function": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "records": [
+        {
+          "row": "stable_freeze_u8_n0",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0.assertion.13",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "line": "23",
+      "function": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n1",
+      "description": "attempt to add with overflow",
+      "records": [
+        {
+          "row": "stable_freeze_u8_n1",
+          "group": "stable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n1.assertion.7",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "line": "137",
+      "function": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n3",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "records": [
+        {
+          "row": "stable_freeze_u8_n3",
+          "group": "stable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n3.assertion.13",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "line": "137",
+      "function": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n2",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "records": [
+        {
+          "row": "stable_freeze_u8_n2",
+          "group": "stable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n2.assertion.13",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "line": "137",
+      "function": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n0",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "records": [
+        {
+          "row": "unstable_freeze_u8_n0",
+          "group": "unstable_freeze_u8-n01-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n0.assertion.11",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "line": "137",
+      "function": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n2",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "records": [
+        {
+          "row": "unstable_freeze_u8_n2",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n2.assertion.11",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "line": "137",
+      "function": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n3",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "records": [
+        {
+          "row": "unstable_freeze_u8_n3",
+          "group": "unstable_freeze_u8-n23-u34",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n3.assertion.11",
+          "status": "UNREACHABLE"
+        }
+      ]
+    }
+  ],
+  "all_eight_original_negative_source_oracles": [
+    {
+      "row": "activation_descending_rejected",
+      "variant": "production",
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "assertion_line": 90,
+      "source_hash_line_context_class": "PASS",
+      "known_stale_closure_span": true,
+      "runtime_failure_ID_status": "NOT_OBSERVED_ON_S1_08"
+    },
+    {
+      "row": "activation_effectful_rejected",
+      "variant": "production",
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "assertion_line": 90,
+      "source_hash_line_context_class": "PASS",
+      "known_stale_closure_span": true,
+      "runtime_failure_ID_status": "NOT_OBSERVED_ON_S1_08"
+    },
+    {
+      "row": "activation_unsupported_type_rejected",
+      "variant": "production",
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "assertion_line": 90,
+      "source_hash_line_context_class": "PASS",
+      "known_stale_closure_span": false,
+      "runtime_failure_ID_status": "NOT_OBSERVED_ON_S1_08"
+    },
+    {
+      "row": "order_corruption_rejected",
+      "variant": "production",
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "assertion_line": 136,
+      "source_hash_line_context_class": "PASS",
+      "known_stale_closure_span": false,
+      "runtime_failure_ID_status": "NOT_OBSERVED_ON_S1_08"
+    },
+    {
+      "row": "count_corruption_rejected",
+      "variant": "production",
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "assertion_line": 147,
+      "source_hash_line_context_class": "PASS",
+      "known_stale_closure_span": false,
+      "runtime_failure_ID_status": "NOT_OBSERVED_ON_S1_08"
+    },
+    {
+      "row": "invalid_snapshot_rejected",
+      "variant": "production",
+      "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "assertion_line": 176,
+      "source_hash_line_context_class": "PASS",
+      "known_stale_closure_span": false,
+      "runtime_failure_ID_status": "NOT_OBSERVED_ON_S1_08"
+    },
+    {
+      "row": "activation-default",
+      "variant": "activation-default",
+      "source_sha256": "ad516502d4783df0379ea3f48805c408b5bcde3ec064432476610080e3ecd0bb",
+      "assertion_line": 41,
+      "source_hash_line_context_class": "PASS",
+      "known_stale_closure_span": false,
+      "runtime_failure_ID_status": "NOT_OBSERVED_ON_S1_08"
+    },
+    {
+      "row": "activation-override",
+      "variant": "activation-override",
+      "source_sha256": "90f20bce619de5535e633fc97f4a9dfd46715dc48e54912f5d1c9029984b131f",
+      "assertion_line": 63,
+      "source_hash_line_context_class": "PASS",
+      "known_stale_closure_span": false,
+      "runtime_failure_ID_status": "NOT_OBSERVED_ON_S1_08"
+    }
+  ],
+  "additional_pinned_producer_anchors": [
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/shared.rs",
+      "file_sha256": "a8df9244d86742adaf1bdfd991d1b6882962a6797b764d6824306f02024360e7",
+      "start_line": 22,
+      "end_line": 89,
+      "role": "requires precede old-state remembers",
+      "lines": [
+        "/// Splits `stmts` into (preconditions, rest).",
+        "/// For example, ContractMode::SimpleCheck assumes preconditions, so given this sequence of statements:",
+        "/// ```ignore",
+        "/// kani::assume(.. precondition_1);",
+        "/// kani::assume(.. precondition_2);",
+        "/// let _wrapper_arg = (ptr as * const _,);",
+        "/// ...",
+        "/// ```",
+        "/// This function would return the two kani::assume statements in the former slice",
+        "/// and the remaining statements in the latter.",
+        "/// The flow for ContractMode::Replace is the same, except preconditions are asserted rather than assumed.",
+        "///",
+        "/// The caller can use the returned tuple to insert remembers statements after `preconditions` and before `rest`.",
+        "/// Inserting the remembers statements after `preconditions` ensures that they are bound by the preconditions.",
+        "/// To understand why this is important, take the following example:",
+        "/// ```ignore",
+        "/// #[kani::requires(x < u32::MAX)]",
+        "/// #[kani::ensures(|result| old(x + 1) == *result)]",
+        "/// fn add_one(x: u32) -> u32 {...}",
+        "/// ```",
+        "/// If the `old(x + 1)` statement didn't respect the precondition's upper bound on `x`, Kani would encounter an integer overflow.",
+        "///",
+        "/// Inserting the remembers statements before `rest` ensures that they are declared before the original function executes,",
+        "/// so that they will store historical, pre-computation values as intended.",
+        "pub fn split_for_remembers(stmts: &[Stmt], contract_mode: ContractMode) -> (&[Stmt], &[Stmt]) {",
+        "    let mut pos = 0;",
+        "",
+        "    let check_str = match contract_mode {",
+        "        ContractMode::SimpleCheck => \"assume\",",
+        "        ContractMode::Replace | ContractMode::Assert => \"assert\",",
+        "    };",
+        "",
+        "    for stmt in stmts {",
+        "        if stmt_is_precondition(stmt, check_str) {",
+        "            pos += 1;",
+        "        }",
+        "    }",
+        "    stmts.split_at(pos)",
+        "}",
+        "",
+        "/// Is `expr` a call to `kani::assume` / `kani::assert` (per `check_str`)?",
+        "fn is_kani_check_call(expr: &Expr, check_str: &str) -> bool {",
+        "    if let Expr::Call(ExprCall { func, .. }) = expr",
+        "        && let Expr::Path(ExprPath { path: Path { segments, .. }, .. }) = func.as_ref()",
+        "    {",
+        "        let first_two_idents =",
+        "            segments.iter().take(2).map(|sgmt| sgmt.ident.to_string()).collect::<Vec<_>>();",
+        "        first_two_idents == vec![\"kani\", check_str]",
+        "    } else {",
+        "        false",
+        "    }",
+        "}",
+        "",
+        "/// Whether `stmt` is a precondition statement that [`split_for_remembers`] must",
+        "/// place remembers after. Preconditions are emitted either as a bare",
+        "/// `kani::assume(..)` / `kani::assert(..)` call statement, or wrapped in a",
+        "/// clause-depth bracket (see `helpers::bracket_clause_stmt`), i.e.",
+        "/// `{ let __kani_clause_guard = ..; kani::assume(#cond); }`. Both forms must be",
+        "/// recognized, otherwise remembers get inserted before the precondition and",
+        "/// `old(..)` expressions are evaluated without the precondition's constraints.",
+        "fn stmt_is_precondition(stmt: &Stmt, check_str: &str) -> bool {",
+        "    match stmt {",
+        "        Stmt::Expr(Expr::Block(ExprBlock { block, .. }), _) => {",
+        "            block.stmts.iter().any(|inner| stmt_is_precondition(inner, check_str))",
+        "        }",
+        "        Stmt::Expr(expr, _) => is_kani_check_call(expr, check_str),",
+        "        _ => false,",
+        "    }"
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/shared.rs",
+      "file_sha256": "a8df9244d86742adaf1bdfd991d1b6882962a6797b764d6824306f02024360e7",
+      "start_line": 138,
+      "end_line": 158,
+      "role": "owned old expression evaluated and cloned before body",
+      "lines": [
+        "/// When a `#[kani::ensures(|result|expr)]` is expanded, this function is called on with `build_ensures(|result|expr)`.",
+        "/// This function goes through the expr and extracts out all the `old` expressions and creates a sequence",
+        "/// of statements that instantiate these expressions as `let remember_kani_internal_x = old_expr;`",
+        "/// where x is a unique hash. This is returned as the first return parameter. The second",
+        "/// return parameter is the expression formed by passing in the result variable into the input closure.",
+        "pub fn build_ensures(data: &ExprClosure) -> (TokenStream2, Expr) {",
+        "    let mut remembers_exprs = HashMap::new();",
+        "    let mut vis = OldVisitor { t: OldLifter::new(), remembers_exprs: &mut remembers_exprs };",
+        "    let expr = &mut data.clone();",
+        "    vis.visit_expr_closure_mut(expr);",
+        "",
+        "    let remembers_stmts: TokenStream2 =",
+        "        remembers_exprs.iter().fold(quote!(), |collect, (ident, expr)| {",
+        "            let bracketed =",
+        "                crate::sysroot::contracts::helpers::bracket_clause_expr(quote!((#expr).clone()));",
+        "            quote!(let #ident = #bracketed; #collect)",
+        "        });",
+        "",
+        "    let result: Ident = Ident::new(INTERNAL_RESULT_IDENT, Span::call_site());",
+        "    (remembers_stmts, Expr::Verbatim(quote!(kani::internal::apply_closure(#expr, &#result))))",
+        "}"
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+      "file_sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+      "start_line": 127,
+      "end_line": 238,
+      "role": "slice modifies region length and concrete byte type geometry",
+      "lines": [
+        "    /// Convert the Kani level contract into a CBMC level contract by creating a",
+        "    /// CBMC lambda.",
+        "    fn codegen_modifies_contract(",
+        "        &mut self,",
+        "        goto_annotated_fn_name: &str,",
+        "        modifies: Instance,",
+        "        loc: Location,",
+        "    ) -> FunctionContract {",
+        "        let goto_annotated_fn_typ = self",
+        "            .symbol_table",
+        "            .lookup(goto_annotated_fn_name)",
+        "            .unwrap_or_else(|| panic!(\"Function '{goto_annotated_fn_name}' is not declared\"))",
+        "            .typ",
+        "            .clone();",
+        "",
+        "        // Find the memory-initialization shadow-memory static. It is tagged with the",
+        "        // `KaniMemoryInitializationState` `fn_marker` (a `#[rustc_diagnostic_item]`",
+        "        // can no longer be applied to statics). Its goto symbol is named after the",
+        "        // static's mangled name, matching `codegen_static`.",
+        "        let shadow_memory_assign = {",
+        "            let mut crates = rustc_public::find_crates(\"kani\");",
+        "            if crates.is_empty() {",
+        "                // In case we are using `kani_core`.",
+        "                crates.extend(rustc_public::find_crates(\"core\"));",
+        "            }",
+        "            crates",
+        "                .into_iter()",
+        "                .flat_map(|krate| krate.statics())",
+        "                .find(|static_def| {",
+        "                    crate::kani_middle::attributes::fn_marker(*static_def).as_deref()",
+        "                        == Some(\"KaniMemoryInitializationState\")",
+        "                })",
+        "                .map(|static_def| Instance::from(static_def).mangled_name())",
+        "                .and_then(|shadow_memory_table| {",
+        "                    self.symbol_table.lookup(&shadow_memory_table).cloned()",
+        "                })",
+        "                .map(|shadow_memory_symbol| {",
+        "                    vec![Lambda::as_contract_for(",
+        "                        &goto_annotated_fn_typ,",
+        "                        None,",
+        "                        shadow_memory_symbol.to_expr(),",
+        "                    )]",
+        "                })",
+        "                .unwrap_or_default()",
+        "        };",
+        "",
+        "        // The last argument is a tuple with addresses that can be modified.",
+        "        let modifies_local = Local::from(modifies.fn_abi().unwrap().args.len());",
+        "        let modifies_ty = self.local_ty_stable(modifies_local);",
+        "        let modifies_args =",
+        "            self.codegen_place_stable(&modifies_local.into(), loc).unwrap().goto_expr;",
+        "        let TyKind::RigidTy(RigidTy::Tuple(modifies_tys)) = modifies_ty.kind() else {",
+        "            unreachable!(\"found {:?}\", modifies_ty.kind())",
+        "        };",
+        "",
+        "        for ty in &modifies_tys {",
+        "            assert!(ty.kind().is_any_ptr(), \"Expected pointer, but found {ty}\");",
+        "        }",
+        "",
+        "        let assigns: Vec<_> = modifies_tys",
+        "            .into_iter()",
+        "            // do not attempt to dereference (and assign) a ZST",
+        "            .filter(|ty| !self.is_zst_stable(pointee_type_stable(*ty).unwrap()))",
+        "            .enumerate()",
+        "            .map(|(idx, ty)| {",
+        "                let ptr = modifies_args.clone().member(idx.to_string(), &self.symbol_table);",
+        "                if self.is_fat_pointer_stable(ty) {",
+        "                    let unref = match ty.kind() {",
+        "                        TyKind::RigidTy(RigidTy::RawPtr(pointee_ty, _)) => pointee_ty,",
+        "                        kind => unreachable!(\"Expected a raw pointer, but found {:?}\", kind),",
+        "                    };",
+        "                    // The pointee spans `len` elements for slices and `str`, and the size the",
+        "                    // vtable records for trait objects.",
+        "                    let len = || ptr.clone().member(\"len\", &self.symbol_table);",
+        "                    let size = match unref.kind() {",
+        "                        TyKind::RigidTy(RigidTy::Slice(elt_type)) => {",
+        "                            let elt_size = elt_type.layout().unwrap().shape().size.bytes();",
+        "                            len().mul(Expr::size_constant(",
+        "                                elt_size.try_into().unwrap(),",
+        "                                &self.symbol_table,",
+        "                            ))",
+        "                        }",
+        "                        TyKind::RigidTy(RigidTy::Str) => len(),",
+        "                        TyKind::RigidTy(RigidTy::Dynamic(..)) => ptr",
+        "                            .clone()",
+        "                            .member(\"vtable\", &self.symbol_table)",
+        "                            .dereference()",
+        "                            .member(typ::VTABLE_SIZE_FIELD, &self.symbol_table),",
+        "                        // For adt, see https://rust-lang.zulipchat.com/#narrow/stream/182449-t-compiler.2Fhelp",
+        "                        TyKind::RigidTy(RigidTy::Adt(..)) => {",
+        "                            todo!(\"Adt fat pointers not implemented\")",
+        "                        }",
+        "                        kind => unreachable!(\"Generating a fat pointer to {:?}\", kind),",
+        "                    };",
+        "                    Lambda::as_contract_for(",
+        "                        &goto_annotated_fn_typ,",
+        "                        None,",
+        "                        self.codegen_object_upto(ptr.member(\"data\", &self.symbol_table), size),",
+        "                    )",
+        "                } else {",
+        "                    Lambda::as_contract_for(&goto_annotated_fn_typ, None, ptr.dereference())",
+        "                }",
+        "            })",
+        "            .chain(shadow_memory_assign)",
+        "            .collect();",
+        "",
+        "        FunctionContract::new(assigns)",
+        "    }",
+        "",
+        "    /// Convert the contract to a CBMC contract, then attach it to `instance`.",
+        "    /// `instance` must have previously been declared.",
+        "    ///"
+      ]
+    }
+  ],
+  "additional_concrete_findings": [],
+  "prior_finding": "W14-S108-01 REMAINS_OPEN_ON_ORIGINAL_PINS",
+  "repair_candidate": "NOT_READ_NOT_REVIEWED_NOT_ACCEPTED",
+  "composer": "NOT_REVIEWED_NO_EXACT_COMMITTED_DELTA_ISSUED",
+  "compiler_full_runner_CI_push_ledger": "NOT_RUN",
+  "new_proof_credit": "NONE"
+}
