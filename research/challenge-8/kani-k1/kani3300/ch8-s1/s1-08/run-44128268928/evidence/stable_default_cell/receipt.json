@@ -1,0 +1,169 @@
+{
+  "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+  "diagnostics": "groups/cell-u34",
+  "export": {
+    "expected_target_fn": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort",
+    "harness": {
+      "attributes": {
+        "kind": {
+          "ProofForContract": {
+            "target_fn": "< Cell<u8> as StableSmallSortTypeImpl > :: small_sort"
+          }
+        },
+        "should_panic": false,
+        "solver": null,
+        "stubs": [],
+        "unwind_value": 34,
+        "verified_stubs": []
+      },
+      "checks": {
+        "error": [],
+        "failure": [],
+        "other": [],
+        "success": 286,
+        "total": 290,
+        "undetermined": [],
+        "unknown": [],
+        "unreachable": [
+          "fmt::Arguments::<'_>::from_str.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.2",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+        ]
+      },
+      "contract": {
+        "contracted_function_name": "_RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_",
+        "recursion_tracker": null
+      },
+      "covers": {
+        "error": [],
+        "other": [],
+        "satisfied": [
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.1",
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.2",
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.3",
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.4",
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.5",
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.6",
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.7",
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.8",
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.9",
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.10",
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.11"
+        ],
+        "total": 11,
+        "undetermined": [],
+        "unknown": [],
+        "unreachable": [],
+        "unsatisfiable": []
+      },
+      "crate_name": "core",
+      "failed_properties": [],
+      "failure_kind": "NONE",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "generated_concrete_test": false,
+      "has_loop_contracts": false,
+      "is_automatically_generated": false,
+      "is_bounded": false,
+      "line": 36,
+      "n_failed": 0,
+      "n_properties": 301,
+      "name": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+      "outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "resolved_solver": "cadical",
+      "resolved_unwind": 34,
+      "resources": {
+        "verification_time_s": 617.99016114
+      },
+      "unsupported_constructs": [
+        {
+          "class": "unsupported_construct",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+          "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "line": "110",
+          "status": "SUCCESS",
+          "trace_available": false
+        },
+        {
+          "class": "unsupported_construct",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+          "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "line": "185",
+          "status": "SUCCESS",
+          "trace_available": false
+        },
+        {
+          "class": "unsupported_construct",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "line": "358",
+          "status": "SUCCESS",
+          "trace_available": false
+        }
+      ],
+      "warnings": [],
+      "warnings_truncated": 0
+    },
+    "outcome": "RECORDED",
+    "proof_credit": "NONE",
+    "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+    "reported_contracted_function_name": "_RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_",
+    "reported_outcome": {
+      "kind": "COMPLETED",
+      "verdict": "SUCCESS"
+    },
+    "selected_mode": {
+      "ProofForContract": {
+        "target_fn": "< Cell<u8> as StableSmallSortTypeImpl > :: small_sort"
+      }
+    },
+    "selected_root": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+    "source_binding": {
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "locations": [
+        {
+          "line": 141,
+          "source": "smoke!(stable_default_cell, Cell<u8>, Cell::new, StableSmallSortTypeImpl, 16, stable_empty);"
+        },
+        {
+          "line": 36,
+          "source": "        fn $name() {"
+        }
+      ],
+      "mode": "PFC",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+      "sha256": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+      "target": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort"
+    },
+    "state": "RECORDED_OBSERVATION"
+  },
+  "group": "cell-u34",
+  "group_export_sha256": "c1683bda1f965a14fdae955a26846152095bfdd84fbccf9c46513c3e3caa5b91",
+  "group_original_exit": 0,
+  "group_rss_cap_kib": 12582912,
+  "group_rss_peak_kib": 8174308,
+  "id": "stable_default_cell",
+  "mode": "PFC",
+  "original_exit": null,
+  "original_exit_scope": "PER_ROOT_DRIVER_EXIT_UNAVAILABLE_IN_BATCH",
+  "outcome": "RECORDED",
+  "per_root_rss_kib": null,
+  "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+  "proof_credit": "NONE",
+  "rich_evidence": "groups/cell-u34/properties.json",
+  "rich_evidence_sha256": "b0dda7a2ee78c59ffa3e12d23c6e583b336e2eb7bb14bc1748356cefd2f8c747",
+  "root_timeout_seconds": 1200,
+  "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+  "signal": null,
+  "status": "OBSERVED",
+  "timeout_scope": "STOCK_KANI_CBMC_TIMEOUT_NOT_FULL_INSTRUMENTATION_WALL",
+  "variant": "production",
+  "verification_time_s": 617.99016114
+}

@@ -1,0 +1,3824 @@
+{
+  "actual_semantic_configuration": {
+    "argv_except_timeout": {
+      "equal": true,
+      "old": [
+        "/home/runner/work/kani/kani/tool/scripts/kani",
+        "verify-std",
+        "-Z",
+        "unstable-options",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "mem-predicates",
+        "-Z",
+        "float-lib",
+        "-Z",
+        "c-ffi",
+        "-Z",
+        "loop-contracts",
+        "-Z",
+        "quantifiers",
+        "-Z",
+        "stubbing",
+        "--no-assert-contracts",
+        "--jobs=1",
+        "--harness-timeout",
+        "600s",
+        "--harness",
+        "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+        "--harness",
+        "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+        "--exact",
+        "--default-unwind",
+        "34",
+        "-Z",
+        "export-json",
+        "--export-json",
+        "/home/runner/work/_temp/ch8-s1-receipts/groups/cell-u34/export.json",
+        "--output-format=regular",
+        "/home/runner/work/kani/kani/export/library",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ],
+      "retry": [
+        "/home/runner/work/kani/kani/tool/scripts/kani",
+        "verify-std",
+        "-Z",
+        "unstable-options",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "mem-predicates",
+        "-Z",
+        "float-lib",
+        "-Z",
+        "c-ffi",
+        "-Z",
+        "loop-contracts",
+        "-Z",
+        "quantifiers",
+        "-Z",
+        "stubbing",
+        "--no-assert-contracts",
+        "--jobs=1",
+        "--harness-timeout",
+        "1200s",
+        "--harness",
+        "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+        "--harness",
+        "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+        "--exact",
+        "--default-unwind",
+        "34",
+        "-Z",
+        "export-json",
+        "--export-json",
+        "/home/runner/work/_temp/ch8-s1-receipts/groups/cell-u34/export.json",
+        "--output-format=regular",
+        "/home/runner/work/kani/kani/export/library",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ]
+    },
+    "export.configuration": {
+      "equal": true,
+      "old": {
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "checks": {
+          "assert_contracts": false,
+          "assertion_reach_checks": true,
+          "extra_pointer_checks": false,
+          "ignore_global_asm": false,
+          "memory_safety": true,
+          "overflow": true,
+          "prove_safety_only": false,
+          "undefined_function": true,
+          "unwinding": true
+        },
+        "coverage_enabled": false
+      },
+      "retry": {
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "checks": {
+          "assert_contracts": false,
+          "assertion_reach_checks": true,
+          "extra_pointer_checks": false,
+          "ignore_global_asm": false,
+          "memory_safety": true,
+          "overflow": true,
+          "prove_safety_only": false,
+          "undefined_function": true,
+          "unwinding": true
+        },
+        "coverage_enabled": false
+      }
+    },
+    "export.enabled_unstable_features": {
+      "equal": true,
+      "old": [
+        "c-ffi",
+        "export-json",
+        "float-lib",
+        "function-contracts",
+        "loop-contracts",
+        "mem-predicates",
+        "quantifiers",
+        "stubbing",
+        "unstable-options"
+      ],
+      "retry": [
+        "c-ffi",
+        "export-json",
+        "float-lib",
+        "function-contracts",
+        "loop-contracts",
+        "mem-predicates",
+        "quantifiers",
+        "stubbing",
+        "unstable-options"
+      ]
+    },
+    "export.harness_selection": {
+      "equal": true,
+      "old": {
+        "exact": true,
+        "matched_count": 2,
+        "requested_filters": [
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell"
+        ],
+        "unmatched_filters": []
+      },
+      "retry": {
+        "exact": true,
+        "matched_count": 2,
+        "requested_filters": [
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell"
+        ],
+        "unmatched_filters": []
+      }
+    },
+    "export.kani_commit": {
+      "equal": true,
+      "old": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "retry": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+    },
+    "export.kani_commit_dirty": {
+      "equal": true,
+      "old": false,
+      "retry": false
+    },
+    "export.target": {
+      "equal": true,
+      "old": "x86_64-unknown-linux-gnu",
+      "retry": "x86_64-unknown-linux-gnu"
+    },
+    "export.tools": {
+      "equal": true,
+      "old": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "retry": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      }
+    },
+    "group.effective_cfg": {
+      "equal": true,
+      "old": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls",
+      "retry": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls"
+    },
+    "group.selectors": {
+      "equal": true,
+      "old": [
+        "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+        "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell"
+      ],
+      "retry": [
+        "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+        "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell"
+      ]
+    },
+    "group.source_under_test": {
+      "equal": true,
+      "old": {
+        "base_std_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+        "file_sha256": {
+          "library/core/Cargo.toml": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "patch_sha256": null,
+        "variant": "production"
+      },
+      "retry": {
+        "base_std_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+        "file_sha256": {
+          "library/core/Cargo.toml": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "patch_sha256": null,
+        "variant": "production"
+      }
+    },
+    "group.unwind": {
+      "equal": true,
+      "old": 34,
+      "retry": 34
+    },
+    "group.variant": {
+      "equal": true,
+      "old": "production",
+      "retry": "production"
+    },
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.attributes": {
+      "equal": true,
+      "old": {
+        "kind": {
+          "ProofForContract": {
+            "target_fn": "< Cell<u8> as StableSmallSortTypeImpl > :: small_sort"
+          }
+        },
+        "should_panic": false,
+        "solver": null,
+        "stubs": [],
+        "unwind_value": 34,
+        "verified_stubs": []
+      },
+      "retry": {
+        "kind": {
+          "ProofForContract": {
+            "target_fn": "< Cell<u8> as StableSmallSortTypeImpl > :: small_sort"
+          }
+        },
+        "should_panic": false,
+        "solver": null,
+        "stubs": [],
+        "unwind_value": 34,
+        "verified_stubs": []
+      }
+    },
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.contract": {
+      "equal": true,
+      "old": {
+        "contracted_function_name": "_RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_",
+        "recursion_tracker": null
+      },
+      "retry": {
+        "contracted_function_name": "_RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_",
+        "recursion_tracker": null
+      }
+    },
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.crate_name": {
+      "equal": true,
+      "old": "core",
+      "retry": "core"
+    },
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.is_bounded": {
+      "equal": true,
+      "old": false,
+      "retry": false
+    },
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.resolved_solver": {
+      "equal": true,
+      "old": "cadical",
+      "retry": "cadical"
+    },
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.resolved_unwind": {
+      "equal": true,
+      "old": 34,
+      "retry": 34
+    },
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.attributes": {
+      "equal": true,
+      "old": {
+        "kind": {
+          "ProofForContract": {
+            "target_fn": "< Cell<u8> as UnstableSmallSortTypeImpl > :: small_sort"
+          }
+        },
+        "should_panic": false,
+        "solver": null,
+        "stubs": [],
+        "unwind_value": 34,
+        "verified_stubs": []
+      },
+      "retry": {
+        "kind": {
+          "ProofForContract": {
+            "target_fn": "< Cell<u8> as UnstableSmallSortTypeImpl > :: small_sort"
+          }
+        },
+        "should_panic": false,
+        "solver": null,
+        "stubs": [],
+        "unwind_value": 34,
+        "verified_stubs": []
+      }
+    },
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.contract": {
+      "equal": true,
+      "old": {
+        "contracted_function_name": "_RNCNCINvXs0_NtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBi_4cell4CellhENtBa_25UnstableSmallSortTypeImpl10small_sortINtNtNtBa_6verify13sorting_model7KeyLessB13_EEs0_0s_0Bi_",
+        "recursion_tracker": null
+      },
+      "retry": {
+        "contracted_function_name": "_RNCNCINvXs0_NtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBi_4cell4CellhENtBa_25UnstableSmallSortTypeImpl10small_sortINtNtNtBa_6verify13sorting_model7KeyLessB13_EEs0_0s_0Bi_",
+        "recursion_tracker": null
+      }
+    },
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.crate_name": {
+      "equal": true,
+      "old": "core",
+      "retry": "core"
+    },
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.is_bounded": {
+      "equal": true,
+      "old": false,
+      "retry": false
+    },
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.resolved_solver": {
+      "equal": true,
+      "old": "cadical",
+      "retry": "cadical"
+    },
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.resolved_unwind": {
+      "equal": true,
+      "old": 34,
+      "retry": 34
+    }
+  },
+  "allowed_deltas": [
+    "cell timeout600 to1200",
+    "derived child3300/envelope3310 and selected scheduling/artifact metadata",
+    "preflight/tests and associated payload hashes"
+  ],
+  "composite_acceptance": "NOT_CREATED",
+  "control_byte_invariance": [
+    {
+      "old_sha256": "69bf8d8494094a079a6ac3422ab90f30b7b5093b53e91ee6ce393a043538eaa2",
+      "path": "ch8-s1-control/ORACLE-SOURCES.json",
+      "retry_sha256": "69bf8d8494094a079a6ac3422ab90f30b7b5093b53e91ee6ce393a043538eaa2"
+    },
+    {
+      "old_sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
+      "path": "ch8-s1-control/ROLE-MAP.json",
+      "retry_sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d"
+    },
+    {
+      "old_sha256": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+      "path": "ch8-s1-control/activation-default.patch",
+      "retry_sha256": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3"
+    },
+    {
+      "old_sha256": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+      "path": "ch8-s1-control/activation-override.patch",
+      "retry_sha256": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356"
+    },
+    {
+      "old_sha256": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030",
+      "path": "ch8-s1-control/binding_metadata.py",
+      "retry_sha256": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030"
+    },
+    {
+      "old_sha256": "bb9170a58af1e0cfcb93d9758730265f2ae78b019c7a0a9b50d348cca45cd6e7",
+      "path": "ch8-s1-control/collect.py",
+      "retry_sha256": "bb9170a58af1e0cfcb93d9758730265f2ae78b019c7a0a9b50d348cca45cd6e7"
+    },
+    {
+      "old_sha256": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc",
+      "path": "ch8-s1-control/fixtures/s104-rich-fragment.json",
+      "retry_sha256": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc"
+    },
+    {
+      "old_sha256": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+      "path": "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
+      "retry_sha256": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651"
+    },
+    {
+      "old_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "path": "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+      "retry_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+    },
+    {
+      "old_sha256": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c",
+      "path": "ch8-s1-control/negative_oracle.py",
+      "retry_sha256": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c"
+    },
+    {
+      "old_sha256": "75a9a665b7a9fc1c64cd51c1c8d281fd323f22411aee83c017d08f37a27f20ce",
+      "path": "ch8-s1-control/oracle_source.py",
+      "retry_sha256": "75a9a665b7a9fc1c64cd51c1c8d281fd323f22411aee83c017d08f37a27f20ce"
+    },
+    {
+      "old_sha256": "833004929291e3a6a96011c8579852fce7520e5dea6abd3af2c7611675619e8b",
+      "path": "ch8-s1-control/pack_evidence.py",
+      "retry_sha256": "833004929291e3a6a96011c8579852fce7520e5dea6abd3af2c7611675619e8b"
+    },
+    {
+      "old_sha256": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+      "path": "ch8-s1-control/rich_evidence.py",
+      "retry_sha256": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139"
+    },
+    {
+      "old_sha256": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237",
+      "path": "ch8-s1-control/s108_package.py",
+      "retry_sha256": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237"
+    },
+    {
+      "old_sha256": "d8e9e479c4dbf21178f6d28b0e68bbddf6defe8d8ffc2e003fa31bb5e838c55a",
+      "path": "ch8-s1-control/test_runner.py",
+      "retry_sha256": "d8e9e479c4dbf21178f6d28b0e68bbddf6defe8d8ffc2e003fa31bb5e838c55a"
+    },
+    {
+      "old_sha256": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+      "path": "ch8-s1-control/test_s104.py",
+      "retry_sha256": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d"
+    },
+    {
+      "old_sha256": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e",
+      "path": "ch8-s1-control/test_s105.py",
+      "retry_sha256": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e"
+    },
+    {
+      "old_sha256": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0",
+      "path": "ch8-s1-control/test_s107.py",
+      "retry_sha256": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0"
+    },
+    {
+      "old_sha256": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854",
+      "path": "ch8-s1-control/test_s108.py",
+      "retry_sha256": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854"
+    },
+    {
+      "old_sha256": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03",
+      "path": "ch8-s1-control/test_s108r1.py",
+      "retry_sha256": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03"
+    }
+  ],
+  "control_changed_paths": [
+    {
+      "old_sha256": "ad28b417fa4331692641ad0356dc0702f20405cf56674085f71ca210342e06ed",
+      "path": ".github/workflows/ch8-s1.yml",
+      "retry_sha256": "3886bf8e9edc7edc06207a274391c3d3cced42a08951ffc28cb0432dc4568494"
+    },
+    {
+      "old_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+      "path": "ch8-s1-control/CI-REQUEST.json",
+      "retry_sha256": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8"
+    },
+    {
+      "old_sha256": null,
+      "path": "ch8-s1-control/cell_retry_profile.py",
+      "retry_sha256": "c05ed67047832f808b1b22df9d0822d49eb9519e50cdab710db65238ffb97511"
+    },
+    {
+      "old_sha256": "745e6277b7725c91645c4164508743ca719a0ca5a3b21453741b44b5fa56101a",
+      "path": "ch8-s1-control/check_package.py",
+      "retry_sha256": "045f044ffc8e58572035a1526b0f76ab8379e65fe83cb4fd8376ed4d58804905"
+    },
+    {
+      "old_sha256": "dc1d0ac264dd1db327f6bbc531489962352ec5a383ae02dbe436530e9354e867",
+      "path": "ch8-s1-control/runner.py",
+      "retry_sha256": "4902328df07bb9c28bc667ba522542cb61d7825639d806ca8b949789b027336f"
+    },
+    {
+      "old_sha256": null,
+      "path": "ch8-s1-control/test_cell_retry.py",
+      "retry_sha256": "c338e2dcb6b5ce5b9869f941aea1d92302e77c0a6959bb1ba276e2cba470b016"
+    },
+    {
+      "old_sha256": "70f00d0726b7011db8a02339c1b031bda49b4af3c2f7e881b68d06b7663b5ca7",
+      "path": "ch8-s1-control/test_package.py",
+      "retry_sha256": "2673c3698622dd30a72ef1cd79f145748de9521df9bff997f1da2d9cf885e36a"
+    }
+  ],
+  "equal_request_fields": [
+    "authorization",
+    "base_std_sha",
+    "binary_snapshot_policy",
+    "binding_metadata_policy",
+    "binding_metadata_requirements_sha256",
+    "changed_file_sha256",
+    "control_parent",
+    "execution_groups",
+    "flags",
+    "legacy_symbolic_rows",
+    "location_exception_policy",
+    "model_interface_sha256",
+    "model_source_sha",
+    "pre_dispatch_gate",
+    "property_binding",
+    "replacement_unions",
+    "role_map",
+    "selector_binding",
+    "source_bindings",
+    "status",
+    "std_sha",
+    "std_tree",
+    "tool_sha",
+    "tool_tree",
+    "variants"
+  ],
+  "gates": {
+    "ROLE_MAP_equal": true,
+    "actual_semantic_config_solver_equal": true,
+    "all_other_request_fields_equal": true,
+    "only_reviewed_control_paths_changed": true,
+    "only_reviewed_request_delta_keys": true,
+    "protected_binaries_all_13_origins_equal": true,
+    "semantic_rows_equal_except_selected_600_to_1200": true
+  },
+  "independent_proof_credit": "NONE",
+  "protected_binaries_across_origins": [
+    {
+      "binary_identity_equal": true,
+      "export": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/activation-default-u34/export.json",
+        "sha256": "cdd52c2c33c35f68678627d88208a6641e814fb26de4a6b5b60186ba3061f6bc"
+      },
+      "group": "activation-default-u34",
+      "old_after_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_before_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "receipt": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/activation-default-u34/receipt.json",
+        "sha256": "2ea25f2a5dedde0eb6cc235b289ef7ca6beb5ea6244ecf9ac058c413091c23c4"
+      },
+      "retry_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "retry_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "version_identity_equal": true
+    },
+    {
+      "binary_identity_equal": true,
+      "export": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/activation-override-u34/export.json",
+        "sha256": "78cebb8c25b700cb6b4087d7be7dcee00e0fffbe94a366d44f876e48a33a2a7c"
+      },
+      "group": "activation-override-u34",
+      "old_after_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_before_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "receipt": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/activation-override-u34/receipt.json",
+        "sha256": "56c41b0e07157aa0f210c68f31f174af6ce95194d864be2eb5dcb61c6c2fcf60"
+      },
+      "retry_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "retry_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "version_identity_equal": true
+    },
+    {
+      "binary_identity_equal": true,
+      "export": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/freeze_copy_u8-n01-u34/export.json",
+        "sha256": "81757671e7e72c6de7fd022b9f489dc064256849f586ef6a9f1ef4221d9690ec"
+      },
+      "group": "freeze_copy_u8-n01-u34",
+      "old_after_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_before_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "receipt": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/freeze_copy_u8-n01-u34/receipt.json",
+        "sha256": "1e4f4ed9672ce9b9ba8ff06ff2b45e070d8e8aed49d4bc9cb5bb09e14b383a90"
+      },
+      "retry_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "retry_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "version_identity_equal": true
+    },
+    {
+      "binary_identity_equal": true,
+      "export": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/freeze_copy_u8-n23-u34/export.json",
+        "sha256": "5b70cc9cd80f49583ef3a8c18b9b6ff2d72b14b57be3d5e6dc1364f02bcb84ac"
+      },
+      "group": "freeze_copy_u8-n23-u34",
+      "old_after_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_before_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "receipt": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/freeze_copy_u8-n23-u34/receipt.json",
+        "sha256": "ab37685449bf8835a7d72d78f011d8884f99c6b3dd332bae3e7db82ce404b23c"
+      },
+      "retry_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "retry_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "version_identity_equal": true
+    },
+    {
+      "binary_identity_equal": true,
+      "export": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/freeze_default_noncopy-n01-u34/export.json",
+        "sha256": "9fa8100b103df3f762c93a8e01974ab3b8e028d7072b3cbd2d85609b70549a2f"
+      },
+      "group": "freeze_default_noncopy-n01-u34",
+      "old_after_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_before_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "receipt": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/freeze_default_noncopy-n01-u34/receipt.json",
+        "sha256": "dc489ab6d9d91f665d446a90bd3855245a1e791881f38d15b10823c0838489bd"
+      },
+      "retry_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "retry_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "version_identity_equal": true
+    },
+    {
+      "binary_identity_equal": true,
+      "export": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/freeze_default_noncopy-n23-u34/export.json",
+        "sha256": "c89df1abb1101f1f63c8f0092a213ea8d0398a227119e654e512ec1f665d8c82"
+      },
+      "group": "freeze_default_noncopy-n23-u34",
+      "old_after_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_before_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "receipt": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/freeze_default_noncopy-n23-u34/receipt.json",
+        "sha256": "db1d2499dcea1b2888ca225cf4a82e94f32d495c02d601aabb2a49c598cbf542"
+      },
+      "retry_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "retry_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "version_identity_equal": true
+    },
+    {
+      "binary_identity_equal": true,
+      "export": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/light-controls-u34/export.json",
+        "sha256": "7674e6341c8c6c419efee96b196a5ef0ec5c41340b9ff4579c427cc2c0921099"
+      },
+      "group": "light-controls-u34",
+      "old_after_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_before_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "receipt": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/light-controls-u34/receipt.json",
+        "sha256": "3994df2e6574c54bf6741a0441127d871938495a23a629ababe342733926d76a"
+      },
+      "retry_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "retry_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "version_identity_equal": true
+    },
+    {
+      "binary_identity_equal": true,
+      "export": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/light-corruption-u4/export.json",
+        "sha256": "f65c15c1ffc763338786ca8203e72cc1182800e08afa2cd274ef3f9f5df3c5e2"
+      },
+      "group": "light-corruption-u4",
+      "old_after_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_before_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "receipt": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/light-corruption-u4/receipt.json",
+        "sha256": "d4c4941d38d4d69b050020a6c8e367b54b906aeb60365ebb2c2435d4224e9557"
+      },
+      "retry_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "retry_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "version_identity_equal": true
+    },
+    {
+      "binary_identity_equal": true,
+      "export": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/light-model-u5/export.json",
+        "sha256": "8a018be1602ad637b7ddcc372a7eb6a5e7977c7af5d348ab445e577c105c98da"
+      },
+      "group": "light-model-u5",
+      "old_after_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_before_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "receipt": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/light-model-u5/receipt.json",
+        "sha256": "97f34357dbf084f81e015246053dbba3e45cfc9bfb34cf806078546f43bd175f"
+      },
+      "retry_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "retry_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "version_identity_equal": true
+    },
+    {
+      "binary_identity_equal": true,
+      "export": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/stable_freeze_u8-n01-u34/export.json",
+        "sha256": "c713875401e103ab1d7ffb0f55c945296ffd2052db0c948e29d3155ebda6402b"
+      },
+      "group": "stable_freeze_u8-n01-u34",
+      "old_after_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_before_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "receipt": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/stable_freeze_u8-n01-u34/receipt.json",
+        "sha256": "7ed1d8b7bd1cd14f1e8749410f5f54ef43770a36e676b2063dfa3660edf0c105"
+      },
+      "retry_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "retry_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "version_identity_equal": true
+    },
+    {
+      "binary_identity_equal": true,
+      "export": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/stable_freeze_u8-n23-u34/export.json",
+        "sha256": "bf648f2c11db8e8345883677e3dc0a5b1032826a6a613e4d4e991e741e30133c"
+      },
+      "group": "stable_freeze_u8-n23-u34",
+      "old_after_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_before_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "receipt": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/stable_freeze_u8-n23-u34/receipt.json",
+        "sha256": "f586b2c3abf217bcea9947c57c11dac007ce6cf7408040ee591e440573d74225"
+      },
+      "retry_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "retry_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "version_identity_equal": true
+    },
+    {
+      "binary_identity_equal": true,
+      "export": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/unstable_freeze_u8-n01-u34/export.json",
+        "sha256": "187b0cd4000bafcc78837a00364c75438e7fd88f5c61d4b31a5c0bf7b1eb7b7d"
+      },
+      "group": "unstable_freeze_u8-n01-u34",
+      "old_after_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_before_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "receipt": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/unstable_freeze_u8-n01-u34/receipt.json",
+        "sha256": "8dfcc13b8c3cac19b727d34674ff4ae5782945779bd1a040506fd4249dff3445"
+      },
+      "retry_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "retry_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "version_identity_equal": true
+    },
+    {
+      "binary_identity_equal": true,
+      "export": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/unstable_freeze_u8-n23-u34/export.json",
+        "sha256": "e8dfcb56f86778caefdc3ff3ee87404da478cc3cec87be7c4e1c34188b606b0f"
+      },
+      "group": "unstable_freeze_u8-n23-u34",
+      "old_after_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_before_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "old_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "receipt": {
+        "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "path": "../run-44095954742/evidence/unstable_freeze_u8-n23-u34/receipt.json",
+        "sha256": "436f34585b9c4df116c6f1493dd137ff18aea24ed94b2a2e028d1db426498786"
+      },
+      "retry_sha256": {
+        "cbmc": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+        "kani_compiler": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+        "kani_driver": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "retry_tools": {
+        "cbmc": "6.11.0 (cbmc-6.11.0)",
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+      },
+      "version_identity_equal": true
+    }
+  ],
+  "qualification": "PENDING_OFFLINE",
+  "request_delta": {
+    "artifact_policy": {
+      "old": {
+        "aggregate_compressed_cap": 117440512,
+        "compressed_cap_per_group": 8388608,
+        "file": "group-evidence.json.gz",
+        "files_per_group": 1,
+        "groups": 14,
+        "raw_stdout_uploaded": false,
+        "uncompressed_cap_per_group": 33554432
+      },
+      "retry": {
+        "aggregate_compressed_cap": 8388608,
+        "compressed_cap_per_group": 8388608,
+        "file": "group-evidence.json.gz",
+        "files_per_group": 1,
+        "groups": 1,
+        "raw_stdout_uploaded": false,
+        "uncompressed_cap_per_group": 33554432
+      }
+    },
+    "batch_policy": {
+      "old": {
+        "compile_boundary": "Stock initial export marker after std_project, before verification;900s cap in same process",
+        "group_by": [
+          "explicit execution_groups"
+        ],
+        "group_rss_cap": "min(12GiB,available-2GiB); cgroup headroom considered",
+        "group_wall_seconds": "compile900 + sum(root600) + cleanup10; per job group partition only",
+        "harness_timeout": "600s",
+        "jobs": 1,
+        "per_root_rss": "UNKNOWN; group process peak is not per-root RSS",
+        "phase_seconds": 8100
+      },
+      "retry": {
+        "compile_boundary": "Stock initial export marker after std_project, before verification;900s cap in same process",
+        "group_by": [
+          "explicit execution_groups"
+        ],
+        "group_rss_cap": "min(12GiB,available-2GiB); cgroup headroom considered",
+        "group_wall_seconds": "compile900 + 2*root1200 =3300 child; cleanup10; envelope3310; phase8100 unchanged",
+        "harness_timeout": "1200s; selected cell pair only; reference other rows600s",
+        "jobs": 1,
+        "per_root_rss": "UNKNOWN; group process peak is not per-root RSS",
+        "phase_seconds": 8100
+      }
+    },
+    "budgets": {
+      "old": {
+        "artifact_bytes": 268435456,
+        "compile_seconds": 900,
+        "export_bytes": 8388608,
+        "group_rss_max_kib": 12582912,
+        "jobs": 1,
+        "max_parallel": 1,
+        "memory_reserve_kib": 2097152,
+        "phase_seconds": 8100,
+        "planned_compile_seconds_per_group": 30,
+        "planned_rows_seconds": 21000,
+        "projected_group_count": 14,
+        "reserve_seconds": 900,
+        "row_seconds": 600,
+        "rss_cap_kib": 6291456,
+        "rss_kib": 6291456,
+        "setup_seconds": 1800,
+        "stderr_bytes": 1048576,
+        "stdout_bytes": 16777216,
+        "workflow_minutes": 180
+      },
+      "retry": {
+        "artifact_bytes": 268435456,
+        "cell_row_seconds": 1200,
+        "compile_seconds": 900,
+        "export_bytes": 8388608,
+        "group_child_seconds": 3300,
+        "group_cleanup_seconds": 10,
+        "group_envelope_seconds": 3310,
+        "group_rss_max_kib": 12582912,
+        "jobs": 1,
+        "max_parallel": 1,
+        "memory_reserve_kib": 2097152,
+        "phase_seconds": 8100,
+        "planned_compile_seconds_per_group": 30,
+        "planned_rows_seconds": 2400,
+        "projected_group_count": 1,
+        "reserve_seconds": 900,
+        "row_seconds": 600,
+        "rss_cap_kib": 6291456,
+        "rss_kib": 6291456,
+        "setup_seconds": 1800,
+        "stderr_bytes": 1048576,
+        "stdout_bytes": 16777216,
+        "workflow_minutes": 180
+      }
+    },
+    "ci_changed_paths": {
+      "old": [
+        ".github/workflows/bench-compiler.yml",
+        ".github/workflows/bench-e2e.yml",
+        ".github/workflows/bench-pr.yml",
+        ".github/workflows/cargo-update.yml",
+        ".github/workflows/cbmc-latest.yml",
+        ".github/workflows/cbmc-update.yml",
+        ".github/workflows/ch8-s1.yml",
+        ".github/workflows/charon-update.yml",
+        ".github/workflows/deny.yml",
+        ".github/workflows/extra_jobs.yml",
+        ".github/workflows/format-check.yml",
+        ".github/workflows/kani.yml",
+        ".github/workflows/release.yml",
+        ".github/workflows/slow-tests.yml",
+        ".github/workflows/toolchain-upgrade.yml",
+        ".github/workflows/verify-std-check.yml",
+        ".github/workflows/z3-update.yml",
+        "ch8-s1-control/CI-REQUEST.json",
+        "ch8-s1-control/ORACLE-SOURCES.json",
+        "ch8-s1-control/ROLE-MAP.json",
+        "ch8-s1-control/activation-default.patch",
+        "ch8-s1-control/activation-override.patch",
+        "ch8-s1-control/binding_metadata.py",
+        "ch8-s1-control/check_package.py",
+        "ch8-s1-control/collect.py",
+        "ch8-s1-control/fixtures/s104-rich-fragment.json",
+        "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
+        "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+        "ch8-s1-control/negative_oracle.py",
+        "ch8-s1-control/oracle_source.py",
+        "ch8-s1-control/pack_evidence.py",
+        "ch8-s1-control/rich_evidence.py",
+        "ch8-s1-control/runner.py",
+        "ch8-s1-control/s108_package.py",
+        "ch8-s1-control/test_package.py",
+        "ch8-s1-control/test_runner.py",
+        "ch8-s1-control/test_s104.py",
+        "ch8-s1-control/test_s105.py",
+        "ch8-s1-control/test_s107.py",
+        "ch8-s1-control/test_s108.py",
+        "ch8-s1-control/test_s108r1.py"
+      ],
+      "retry": [
+        ".github/workflows/bench-compiler.yml",
+        ".github/workflows/bench-e2e.yml",
+        ".github/workflows/bench-pr.yml",
+        ".github/workflows/cargo-update.yml",
+        ".github/workflows/cbmc-latest.yml",
+        ".github/workflows/cbmc-update.yml",
+        ".github/workflows/ch8-s1.yml",
+        ".github/workflows/charon-update.yml",
+        ".github/workflows/deny.yml",
+        ".github/workflows/extra_jobs.yml",
+        ".github/workflows/format-check.yml",
+        ".github/workflows/kani.yml",
+        ".github/workflows/release.yml",
+        ".github/workflows/slow-tests.yml",
+        ".github/workflows/toolchain-upgrade.yml",
+        ".github/workflows/verify-std-check.yml",
+        ".github/workflows/z3-update.yml",
+        "ch8-s1-control/CI-REQUEST.json",
+        "ch8-s1-control/ORACLE-SOURCES.json",
+        "ch8-s1-control/ROLE-MAP.json",
+        "ch8-s1-control/activation-default.patch",
+        "ch8-s1-control/activation-override.patch",
+        "ch8-s1-control/binding_metadata.py",
+        "ch8-s1-control/cell_retry_profile.py",
+        "ch8-s1-control/check_package.py",
+        "ch8-s1-control/collect.py",
+        "ch8-s1-control/fixtures/s104-rich-fragment.json",
+        "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
+        "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+        "ch8-s1-control/negative_oracle.py",
+        "ch8-s1-control/oracle_source.py",
+        "ch8-s1-control/pack_evidence.py",
+        "ch8-s1-control/rich_evidence.py",
+        "ch8-s1-control/runner.py",
+        "ch8-s1-control/s108_package.py",
+        "ch8-s1-control/test_cell_retry.py",
+        "ch8-s1-control/test_package.py",
+        "ch8-s1-control/test_runner.py",
+        "ch8-s1-control/test_s104.py",
+        "ch8-s1-control/test_s105.py",
+        "ch8-s1-control/test_s107.py",
+        "ch8-s1-control/test_s108.py",
+        "ch8-s1-control/test_s108r1.py"
+      ]
+    },
+    "ci_payload_sha256": {
+      "old": {
+        ".github/workflows/ch8-s1.yml": "ad28b417fa4331692641ad0356dc0702f20405cf56674085f71ca210342e06ed",
+        "ch8-s1-control/ORACLE-SOURCES.json": "69bf8d8494094a079a6ac3422ab90f30b7b5093b53e91ee6ce393a043538eaa2",
+        "ch8-s1-control/ROLE-MAP.json": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
+        "ch8-s1-control/activation-default.patch": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+        "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+        "ch8-s1-control/binding_metadata.py": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030",
+        "ch8-s1-control/check_package.py": "745e6277b7725c91645c4164508743ca719a0ca5a3b21453741b44b5fa56101a",
+        "ch8-s1-control/collect.py": "bb9170a58af1e0cfcb93d9758730265f2ae78b019c7a0a9b50d348cca45cd6e7",
+        "ch8-s1-control/fixtures/s104-rich-fragment.json": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc",
+        "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+        "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+        "ch8-s1-control/negative_oracle.py": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c",
+        "ch8-s1-control/oracle_source.py": "75a9a665b7a9fc1c64cd51c1c8d281fd323f22411aee83c017d08f37a27f20ce",
+        "ch8-s1-control/pack_evidence.py": "833004929291e3a6a96011c8579852fce7520e5dea6abd3af2c7611675619e8b",
+        "ch8-s1-control/rich_evidence.py": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+        "ch8-s1-control/runner.py": "dc1d0ac264dd1db327f6bbc531489962352ec5a383ae02dbe436530e9354e867",
+        "ch8-s1-control/s108_package.py": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237",
+        "ch8-s1-control/test_package.py": "70f00d0726b7011db8a02339c1b031bda49b4af3c2f7e881b68d06b7663b5ca7",
+        "ch8-s1-control/test_runner.py": "d8e9e479c4dbf21178f6d28b0e68bbddf6defe8d8ffc2e003fa31bb5e838c55a",
+        "ch8-s1-control/test_s104.py": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+        "ch8-s1-control/test_s105.py": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e",
+        "ch8-s1-control/test_s107.py": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0",
+        "ch8-s1-control/test_s108.py": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854",
+        "ch8-s1-control/test_s108r1.py": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03"
+      },
+      "retry": {
+        ".github/workflows/ch8-s1.yml": "3886bf8e9edc7edc06207a274391c3d3cced42a08951ffc28cb0432dc4568494",
+        "ch8-s1-control/ORACLE-SOURCES.json": "69bf8d8494094a079a6ac3422ab90f30b7b5093b53e91ee6ce393a043538eaa2",
+        "ch8-s1-control/ROLE-MAP.json": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
+        "ch8-s1-control/activation-default.patch": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+        "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+        "ch8-s1-control/binding_metadata.py": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030",
+        "ch8-s1-control/cell_retry_profile.py": "c05ed67047832f808b1b22df9d0822d49eb9519e50cdab710db65238ffb97511",
+        "ch8-s1-control/check_package.py": "045f044ffc8e58572035a1526b0f76ab8379e65fe83cb4fd8376ed4d58804905",
+        "ch8-s1-control/collect.py": "bb9170a58af1e0cfcb93d9758730265f2ae78b019c7a0a9b50d348cca45cd6e7",
+        "ch8-s1-control/fixtures/s104-rich-fragment.json": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc",
+        "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+        "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+        "ch8-s1-control/negative_oracle.py": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c",
+        "ch8-s1-control/oracle_source.py": "75a9a665b7a9fc1c64cd51c1c8d281fd323f22411aee83c017d08f37a27f20ce",
+        "ch8-s1-control/pack_evidence.py": "833004929291e3a6a96011c8579852fce7520e5dea6abd3af2c7611675619e8b",
+        "ch8-s1-control/rich_evidence.py": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+        "ch8-s1-control/runner.py": "4902328df07bb9c28bc667ba522542cb61d7825639d806ca8b949789b027336f",
+        "ch8-s1-control/s108_package.py": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237",
+        "ch8-s1-control/test_cell_retry.py": "c338e2dcb6b5ce5b9869f941aea1d92302e77c0a6959bb1ba276e2cba470b016",
+        "ch8-s1-control/test_package.py": "2673c3698622dd30a72ef1cd79f145748de9521df9bff997f1da2d9cf885e36a",
+        "ch8-s1-control/test_runner.py": "d8e9e479c4dbf21178f6d28b0e68bbddf6defe8d8ffc2e003fa31bb5e838c55a",
+        "ch8-s1-control/test_s104.py": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+        "ch8-s1-control/test_s105.py": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e",
+        "ch8-s1-control/test_s107.py": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0",
+        "ch8-s1-control/test_s108.py": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854",
+        "ch8-s1-control/test_s108r1.py": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03"
+      }
+    },
+    "execution_scope": {
+      "old": null,
+      "retry": {
+        "declared_reference_groups": 14,
+        "declared_reference_rows": 35,
+        "profile": "cell-retry1200-v1",
+        "selected_groups": [
+          "cell-u34"
+        ],
+        "selected_row_ids": [
+          "stable_default_cell",
+          "unstable_default_cell"
+        ],
+        "selectors": [
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell"
+        ]
+      }
+    },
+    "reservations": {
+      "old": {
+        "S1-08": "NOT_RESERVED; preparation only; no dispatch/push/ledger"
+      },
+      "retry": {
+        "S1-08-cell-retry": "NOT_RESERVED; NOT_RUN; preparation/review only; coordinator decision after terminal run and intake"
+      }
+    },
+    "rows": {
+      "old": [
+        {
+          "N": "symbolic0..3",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "stable_default_cell",
+          "mode": "PFC",
+          "planned_seconds": 180,
+          "required_cover_count": 11,
+          "required_cover_messages": [
+            "S1_entry_N0_return",
+            "S1_entry_N1_return",
+            "S1_entry_N2_return",
+            "S1_entry_N3_return",
+            "S1_entry_N2_reversed_return",
+            "S1_entry_N2_duplicate_return",
+            "S1_entry_N2_ascending_return",
+            "S1_entry_N3_reversed_return",
+            "S1_entry_N3_duplicate_return",
+            "S1_entry_N3_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "stable_default_cell::model_enabled",
+            "stable_default_cell::s1_exact_trait_threshold",
+            "stable_default_cell::post_independent_caller",
+            "stable_default_cell::left_canary",
+            "stable_default_cell::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+          "state": "NOT_RUN",
+          "target": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort",
+          "threshold": 16,
+          "timeout_seconds": 600,
+          "type": "Cell<u8>",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": "symbolic0..3",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "unstable_default_cell",
+          "mode": "PFC",
+          "planned_seconds": 180,
+          "required_cover_count": 11,
+          "required_cover_messages": [
+            "S1_entry_N0_return",
+            "S1_entry_N1_return",
+            "S1_entry_N2_return",
+            "S1_entry_N3_return",
+            "S1_entry_N2_reversed_return",
+            "S1_entry_N2_duplicate_return",
+            "S1_entry_N2_ascending_return",
+            "S1_entry_N3_reversed_return",
+            "S1_entry_N3_duplicate_return",
+            "S1_entry_N3_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "unstable_default_cell::model_enabled",
+            "unstable_default_cell::s1_exact_trait_threshold",
+            "unstable_default_cell::post_independent_caller",
+            "unstable_default_cell::left_canary",
+            "unstable_default_cell::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+          "state": "NOT_RUN",
+          "target": "<Cell<u8> as UnstableSmallSortTypeImpl>::small_sort",
+          "threshold": 16,
+          "timeout_seconds": 600,
+          "type": "Cell<u8>",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "companion": null,
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "model_u8_n0_3",
+          "mode": "Original",
+          "planned_seconds": 120,
+          "required_cover_count": 6,
+          "required_cover_messages": [
+            "S1_model_N0_return",
+            "S1_model_N1_return",
+            "S1_model_N2_return",
+            "S1_model_N3_return",
+            "S1_duplicate_return",
+            "S1_unsorted_input_return"
+          ],
+          "required_success_messages": [
+            "model_u8_n0_3::model_enabled",
+            "model_u8_n0_3::identity_checker",
+            "model_u8_n0_3::constructed_sorted_permutation",
+            "model_u8_n0_3::fnmut_two_projections",
+            "model_u8_n0_3::fnonce_two_projections",
+            "model_u8_n0_3::element_layout",
+            "model_u8_n0_3::comparator_zst_element_no_drop"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 5,
+          "variant": "production"
+        },
+        {
+          "companion": null,
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "model_cell_n0_3",
+          "mode": "Original",
+          "planned_seconds": 120,
+          "required_cover_count": 6,
+          "required_cover_messages": [
+            "S1_model_N0_return",
+            "S1_model_N1_return",
+            "S1_model_N2_return",
+            "S1_model_N3_return",
+            "S1_duplicate_return",
+            "S1_unsorted_input_return"
+          ],
+          "required_success_messages": [
+            "model_cell_n0_3::model_enabled",
+            "model_cell_n0_3::identity_checker",
+            "model_cell_n0_3::constructed_sorted_permutation",
+            "model_cell_n0_3::fnmut_two_projections",
+            "model_cell_n0_3::fnonce_two_projections",
+            "model_cell_n0_3::element_layout",
+            "model_cell_n0_3::comparator_zst_element_no_drop"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 5,
+          "variant": "production"
+        },
+        {
+          "companion": null,
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "model_noncopy_n0_3",
+          "mode": "Original",
+          "planned_seconds": 120,
+          "required_cover_count": 6,
+          "required_cover_messages": [
+            "S1_model_N0_return",
+            "S1_model_N1_return",
+            "S1_model_N2_return",
+            "S1_model_N3_return",
+            "S1_duplicate_return",
+            "S1_unsorted_input_return"
+          ],
+          "required_success_messages": [
+            "model_noncopy_n0_3::model_enabled",
+            "model_noncopy_n0_3::identity_checker",
+            "model_noncopy_n0_3::constructed_sorted_permutation",
+            "model_noncopy_n0_3::fnmut_two_projections",
+            "model_noncopy_n0_3::fnonce_two_projections",
+            "model_noncopy_n0_3::element_layout",
+            "model_noncopy_n0_3::comparator_zst_element_no_drop"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 5,
+          "variant": "production"
+        },
+        {
+          "companion": null,
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "inactive_pairs_read_free",
+          "mode": "Original",
+          "planned_seconds": 120,
+          "required_cover_count": 1,
+          "required_cover_messages": [
+            "S1_inactive_legal_storage_return"
+          ],
+          "required_success_messages": [
+            "S1_INACTIVE_PAIR",
+            "S1_INACTIVE_GUARDED_NO_CLAIM",
+            "S1_INACTIVE_TOKEN_INVALID",
+            "S1_INACTIVE_NEVER_CALLS_COMPARATOR"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::inactive_pairs_read_free",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::inactive_pairs_read_free",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "companion": "inactive_pairs_read_free",
+          "expected": "DETECTED",
+          "failure_description": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+          "id": "activation_descending_rejected",
+          "mode": "Original",
+          "oracle": {
+            "assertion_context": [
+              "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+              "}",
+              ""
+            ],
+            "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching",
+            "class": "assertion",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "group": "production-u34",
+            "intended_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+            "line": 90,
+            "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:95:32: 95:48}>.assertion.1",
+            "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
+            "source_line": "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+            "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+          },
+          "planned_seconds": 60,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "companion": "inactive_pairs_read_free",
+          "expected": "DETECTED",
+          "failure_description": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+          "id": "activation_effectful_rejected",
+          "mode": "Original",
+          "oracle": {
+            "assertion_context": [
+              "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+              "}",
+              ""
+            ],
+            "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching",
+            "class": "assertion",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "group": "production-u34",
+            "intended_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+            "line": 90,
+            "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:101:21: 101:37}>.assertion.1",
+            "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
+            "source_line": "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+            "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+          },
+          "planned_seconds": 60,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "companion": "inactive_pairs_read_free",
+          "expected": "DETECTED",
+          "failure_description": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+          "id": "activation_unsupported_type_rejected",
+          "mode": "Original",
+          "oracle": {
+            "assertion_context": [
+              "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+              "}",
+              ""
+            ],
+            "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching",
+            "class": "assertion",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "group": "production-u34",
+            "intended_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+            "line": 90,
+            "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<mem::maybe_uninit::MaybeUninit<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<mem::maybe_uninit::MaybeUninit<u8>>>.assertion.1",
+            "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_unsupported_type_rejected",
+            "source_line": "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+            "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+          },
+          "planned_seconds": 60,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_unsupported_type_rejected",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::activation_unsupported_type_rejected",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "companion": null,
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "corruption_companion",
+          "mode": "Original",
+          "planned_seconds": 120,
+          "required_cover_count": 1,
+          "required_cover_messages": [
+            "S1_corruption_companion_return"
+          ],
+          "required_success_messages": [
+            "S1_CORRUPTION_LEGAL_COMPANION",
+            "S1_ORDER_REJECTED_WITH_COUNTS_PRESERVED",
+            "S1_COUNTS_REJECTED_WITH_ORDER_PRESERVED"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 4,
+          "variant": "production"
+        },
+        {
+          "companion": "corruption_companion",
+          "expected": "DETECTED",
+          "failure_description": "S1_ORDER_CORRUPTION_ACCEPTED",
+          "id": "order_corruption_rejected",
+          "mode": "Original",
+          "oracle": {
+            "assertion_context": [
+              "    assert!(post::<u8, KeyLess<u8>>(before, &[values[1], values[0]]),",
+              "        \"S1_ORDER_CORRUPTION_ACCEPTED\");",
+              "}"
+            ],
+            "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching",
+            "class": "assertion",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "export_sha256": "5e9b3be21f70c341a42e5d75d1c32d4d15a646a10a9fb1fe1ccade22459dc485",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "group": "production-u4",
+            "intended_message": "S1_ORDER_CORRUPTION_ACCEPTED",
+            "line": 136,
+            "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.3",
+            "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+            "source_line": "    assert!(post::<u8, KeyLess<u8>>(before, &[values[1], values[0]]),",
+            "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+          },
+          "planned_seconds": 60,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 4,
+          "variant": "production"
+        },
+        {
+          "companion": "corruption_companion",
+          "expected": "DETECTED",
+          "failure_description": "S1_COUNT_CORRUPTION_ACCEPTED",
+          "id": "count_corruption_rejected",
+          "mode": "Original",
+          "oracle": {
+            "assertion_context": [
+              "    assert!(post::<u8, KeyLess<u8>>(before, &corrupt),",
+              "        \"S1_COUNT_CORRUPTION_ACCEPTED\");",
+              "}"
+            ],
+            "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching",
+            "class": "assertion",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "export_sha256": "5e9b3be21f70c341a42e5d75d1c32d4d15a646a10a9fb1fe1ccade22459dc485",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "group": "production-u4",
+            "intended_message": "S1_COUNT_CORRUPTION_ACCEPTED",
+            "line": 147,
+            "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.5",
+            "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+            "source_line": "    assert!(post::<u8, KeyLess<u8>>(before, &corrupt),",
+            "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+          },
+          "planned_seconds": 60,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [
+            "S1_COUNT_FIXTURE_STAYS_SORTED"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 4,
+          "variant": "production"
+        },
+        {
+          "companion": null,
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "snapshot_guards_companion",
+          "mode": "Original",
+          "planned_seconds": 120,
+          "required_cover_count": 1,
+          "required_cover_messages": [
+            "S1_snapshot_guard_companion_return"
+          ],
+          "required_success_messages": [
+            "S1_ACTIVE_INVALID_REJECTED",
+            "S1_CAP32_IDENTITY",
+            "S1_LENGTH_CHANGE_REJECTED",
+            "S1_OVERFLOW_TOKEN_INVALID",
+            "S1_OVERFLOW_OUTPUT_REJECTED",
+            "S1_CELL_SNAPSHOT_OWNS_PRESTATE"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::snapshot_guards_companion",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::snapshot_guards_companion",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "companion": "snapshot_guards_companion",
+          "expected": "DETECTED",
+          "failure_description": "S1_ACTIVE_INVALID_TOKEN_ACCEPTED",
+          "id": "invalid_snapshot_rejected",
+          "mode": "Original",
+          "oracle": {
+            "assertion_context": [
+              "    assert!(post::<u8, KeyLess<u8>>(invalid, &[]), \"S1_ACTIVE_INVALID_TOKEN_ACCEPTED\");",
+              "}"
+            ],
+            "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching",
+            "class": "assertion",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "group": "production-u34",
+            "intended_message": "S1_ACTIVE_INVALID_TOKEN_ACCEPTED",
+            "line": 176,
+            "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected.assertion.1",
+            "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected",
+            "source_line": "    assert!(post::<u8, KeyLess<u8>>(invalid, &[]), \"S1_ACTIVE_INVALID_TOKEN_ACCEPTED\");",
+            "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+          },
+          "planned_seconds": 60,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "stable_default_activation-legal",
+          "mode": "PFC",
+          "planned_seconds": 120,
+          "required_cover_count": 1,
+          "required_cover_messages": [
+            "S1_actual_default_companion_return"
+          ],
+          "required_success_messages": [
+            "S1_ACTUAL_DEFAULT_ENABLED"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "stable_freeze_activation-legal",
+          "mode": "PFC",
+          "planned_seconds": 120,
+          "required_cover_count": 1,
+          "required_cover_messages": [
+            "S1_actual_override_companion_return"
+          ],
+          "required_success_messages": [
+            "S1_ACTUAL_OVERRIDE_ENABLED"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "companion": "stable_default_activation-legal",
+          "expected": "DETECTED",
+          "failure_description": "S1_ATTACHMENT_DEFAULT",
+          "id": "activation-default",
+          "mode": "PFC",
+          "oracle": {
+            "class": "assertion",
+            "companion": "stable_default_activation-legal",
+            "companion_required_cover_messages": [
+              "S1_actual_default_companion_return"
+            ],
+            "companion_required_status": "SATISFIED",
+            "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\n{ const S1_ATTACHMENT_DEFAULT: bool = false; S1_ATTACHMENT_DEFAULT }",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+            "file": "library/core/src/slice/sort/shared/smallsort.rs",
+            "line": 41,
+            "mutant_return_cover_status": "UNREACHABLE_EXPECTED_NO_POSITIVE_CREDIT",
+            "property_id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.assertion.1",
+            "proposal": {
+              "mode": "PFC",
+              "property": {
+                "class": "assertion",
+                "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\n{ const S1_ATTACHMENT_DEFAULT: bool = false; S1_ATTACHMENT_DEFAULT }",
+                "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+                "id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.assertion.1",
+                "line": "41",
+                "status": "FAILURE",
+                "trace_available": true
+              },
+              "require_only_this_failure": true,
+              "requires": [
+                "Freeze and independently review before next dispatch",
+                "Bind exact check/modifies wrapper to this target/type/source/tool/config",
+                "Include same-pin unmutated positive companion and reachable return covers",
+                "Record mutant-return cover as expected UNREACHABLE after false ensures; not positive vacuity evidence"
+              ],
+              "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+              "status": "PROPOSED_NEXT_PACKAGE_ONLY; NOT_CURRENT_DETECTION",
+              "target": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort",
+              "variant": "activation-default",
+              "variant_spec": {
+                "changed_file_sha256": {
+                  "library/core/src/slice/sort/shared/smallsort.rs": "ad516502d4783df0379ea3f48805c408b5bcde3ec064432476610080e3ecd0bb"
+                },
+                "marker": "S1_ATTACHMENT_DEFAULT",
+                "method": "Stable default Cell",
+                "patch": "activation-default.patch",
+                "sha256": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3"
+              }
+            },
+            "require_only_this_failure": true,
+            "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+            "source_line": "    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::ensures(|_| !verify::sorting_model::enabled::<T, F>() || { const S1_ATTACHMENT_DEFAULT: bool = false; S1_ATTACHMENT_DEFAULT }))]",
+            "source_sha256": "ad516502d4783df0379ea3f48805c408b5bcde3ec064432476610080e3ecd0bb",
+            "status": "FAILURE",
+            "wrapper_binding": "EXACT_SOURCE_CONTRACT_AND_SITE_FROZEN; SAME_RUN_RICH_PROPERTY_CORRELATION_REQUIRED_OFFLINE"
+          },
+          "oracle_status": "PREDECLARED_FOR_S1-05_ONLY; OFFLINE_QUALIFICATION_REQUIRED",
+          "planned_seconds": 120,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "activation-default"
+        },
+        {
+          "companion": "stable_freeze_activation-legal",
+          "expected": "DETECTED",
+          "failure_description": "S1_ATTACHMENT_OVERRIDE",
+          "id": "activation-override",
+          "mode": "PFC",
+          "oracle": {
+            "class": "assertion",
+            "companion": "stable_freeze_activation-legal",
+            "companion_required_cover_messages": [
+              "S1_actual_override_companion_return"
+            ],
+            "companion_required_status": "SATISFIED",
+            "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\n{ const S1_ATTACHMENT_OVERRIDE: bool = false; S1_ATTACHMENT_OVERRIDE }",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+            "file": "library/core/src/slice/sort/shared/smallsort.rs",
+            "line": 63,
+            "mutant_return_cover_status": "UNREACHABLE_EXPECTED_NO_POSITIVE_CREDIT",
+            "property_id": "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.2",
+            "proposal": {
+              "mode": "PFC",
+              "property": {
+                "class": "assertion",
+                "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\n{ const S1_ATTACHMENT_OVERRIDE: bool = false; S1_ATTACHMENT_OVERRIDE }",
+                "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+                "id": "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.2",
+                "line": "63",
+                "status": "FAILURE",
+                "trace_available": true
+              },
+              "require_only_this_failure": true,
+              "requires": [
+                "Freeze and independently review before next dispatch",
+                "Bind exact check/modifies wrapper to this target/type/source/tool/config",
+                "Include same-pin unmutated positive companion and reachable return covers",
+                "Record mutant-return cover as expected UNREACHABLE after false ensures; not positive vacuity evidence"
+              ],
+              "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+              "status": "PROPOSED_NEXT_PACKAGE_ONLY; NOT_CURRENT_DETECTION",
+              "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
+              "variant": "activation-override",
+              "variant_spec": {
+                "changed_file_sha256": {
+                  "library/core/src/slice/sort/shared/smallsort.rs": "90f20bce619de5535e633fc97f4a9dfd46715dc48e54912f5d1c9029984b131f"
+                },
+                "marker": "S1_ATTACHMENT_OVERRIDE",
+                "method": "Stable Freeze u8 override",
+                "patch": "activation-override.patch",
+                "sha256": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356"
+              }
+            },
+            "require_only_this_failure": true,
+            "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+            "source_line": "    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::ensures(|_| !verify::sorting_model::enabled::<T, F>() || { const S1_ATTACHMENT_OVERRIDE: bool = false; S1_ATTACHMENT_OVERRIDE }))]",
+            "source_sha256": "90f20bce619de5535e633fc97f4a9dfd46715dc48e54912f5d1c9029984b131f",
+            "status": "FAILURE",
+            "wrapper_binding": "EXACT_SOURCE_CONTRACT_AND_SITE_FROZEN; SAME_RUN_RICH_PROPERTY_CORRELATION_REQUIRED_OFFLINE"
+          },
+          "oracle_status": "PREDECLARED_FOR_S1-05_ONLY; OFFLINE_QUALIFICATION_REQUIRED",
+          "planned_seconds": 120,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "activation-override"
+        },
+        {
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "ordinary-bridge",
+          "mode": "Original",
+          "note": "Old ordinary root unchanged; one bridge for new stock pin only.",
+          "planned_seconds": 120,
+          "required_cover_count": 12,
+          "required_cover_messages": [
+            "efficient swap predicate for u8",
+            "efficient swap predicate for u16",
+            "efficient swap predicate for u64",
+            "efficient swap predicate for u128",
+            "efficient swap predicate for [u8; 9]",
+            "efficient swap predicate for [u8; 16]",
+            "efficient swap predicate for [u8; 17]",
+            "efficient swap predicate for [u8; 85]",
+            "efficient swap predicate for [u8; 86]",
+            "efficient swap predicate for SwapDrop",
+            "efficient swap predicate for crate::cell::Cell<i32>",
+            "efficient swap predicate for ()"
+          ],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 0,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_copy_u8_n0",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_copy_u8",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N0_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_copy_u8_n0::model_enabled",
+            "freeze_copy_u8_n0::s1_exact_trait_threshold",
+            "freeze_copy_u8_n0::post_independent_caller",
+            "freeze_copy_u8_n0::left_canary",
+            "freeze_copy_u8_n0::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n0",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n0",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 1,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_copy_u8_n1",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_copy_u8",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N1_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_copy_u8_n1::model_enabled",
+            "freeze_copy_u8_n1::s1_exact_trait_threshold",
+            "freeze_copy_u8_n1::post_independent_caller",
+            "freeze_copy_u8_n1::left_canary",
+            "freeze_copy_u8_n1::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n1",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n1",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 2,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_copy_u8_n2",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_copy_u8",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N2_return",
+            "S1_entry_N2_reversed_return",
+            "S1_entry_N2_duplicate_return",
+            "S1_entry_N2_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_copy_u8_n2::model_enabled",
+            "freeze_copy_u8_n2::s1_exact_trait_threshold",
+            "freeze_copy_u8_n2::post_independent_caller",
+            "freeze_copy_u8_n2::left_canary",
+            "freeze_copy_u8_n2::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n2",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n2",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 3,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_copy_u8_n3",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_copy_u8",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N3_return",
+            "S1_entry_N3_reversed_return",
+            "S1_entry_N3_duplicate_return",
+            "S1_entry_N3_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_copy_u8_n3::model_enabled",
+            "freeze_copy_u8_n3::s1_exact_trait_threshold",
+            "freeze_copy_u8_n3::post_independent_caller",
+            "freeze_copy_u8_n3::left_canary",
+            "freeze_copy_u8_n3::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n3",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n3",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 0,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_default_noncopy_n0",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_default_noncopy",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N0_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_default_noncopy_n0::model_enabled",
+            "freeze_default_noncopy_n0::s1_exact_trait_threshold",
+            "freeze_default_noncopy_n0::post_independent_caller",
+            "freeze_default_noncopy_n0::left_canary",
+            "freeze_default_noncopy_n0::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n0",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n0",
+          "state": "NOT_RUN",
+          "target": "<NonCopyByte as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "NonCopyByte",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 1,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_default_noncopy_n1",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_default_noncopy",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N1_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_default_noncopy_n1::model_enabled",
+            "freeze_default_noncopy_n1::s1_exact_trait_threshold",
+            "freeze_default_noncopy_n1::post_independent_caller",
+            "freeze_default_noncopy_n1::left_canary",
+            "freeze_default_noncopy_n1::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n1",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n1",
+          "state": "NOT_RUN",
+          "target": "<NonCopyByte as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "NonCopyByte",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 2,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_default_noncopy_n2",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_default_noncopy",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N2_return",
+            "S1_entry_N2_reversed_return",
+            "S1_entry_N2_duplicate_return",
+            "S1_entry_N2_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_default_noncopy_n2::model_enabled",
+            "freeze_default_noncopy_n2::s1_exact_trait_threshold",
+            "freeze_default_noncopy_n2::post_independent_caller",
+            "freeze_default_noncopy_n2::left_canary",
+            "freeze_default_noncopy_n2::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n2",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n2",
+          "state": "NOT_RUN",
+          "target": "<NonCopyByte as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "NonCopyByte",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 3,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_default_noncopy_n3",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_default_noncopy",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N3_return",
+            "S1_entry_N3_reversed_return",
+            "S1_entry_N3_duplicate_return",
+            "S1_entry_N3_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_default_noncopy_n3::model_enabled",
+            "freeze_default_noncopy_n3::s1_exact_trait_threshold",
+            "freeze_default_noncopy_n3::post_independent_caller",
+            "freeze_default_noncopy_n3::left_canary",
+            "freeze_default_noncopy_n3::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n3",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n3",
+          "state": "NOT_RUN",
+          "target": "<NonCopyByte as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "NonCopyByte",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 0,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "stable_freeze_u8_n0",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "stable_freeze_u8",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N0_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "stable_freeze_u8_n0::model_enabled",
+            "stable_freeze_u8_n0::s1_exact_trait_threshold",
+            "stable_freeze_u8_n0::post_independent_caller",
+            "stable_freeze_u8_n0::left_canary",
+            "stable_freeze_u8_n0::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0",
+          "state": "NOT_RUN",
+          "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 1,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "stable_freeze_u8_n1",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "stable_freeze_u8",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N1_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "stable_freeze_u8_n1::model_enabled",
+            "stable_freeze_u8_n1::s1_exact_trait_threshold",
+            "stable_freeze_u8_n1::post_independent_caller",
+            "stable_freeze_u8_n1::left_canary",
+            "stable_freeze_u8_n1::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n1",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n1",
+          "state": "NOT_RUN",
+          "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 2,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "stable_freeze_u8_n2",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "stable_freeze_u8",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N2_return",
+            "S1_entry_N2_reversed_return",
+            "S1_entry_N2_duplicate_return",
+            "S1_entry_N2_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "stable_freeze_u8_n2::model_enabled",
+            "stable_freeze_u8_n2::s1_exact_trait_threshold",
+            "stable_freeze_u8_n2::post_independent_caller",
+            "stable_freeze_u8_n2::left_canary",
+            "stable_freeze_u8_n2::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n2",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n2",
+          "state": "NOT_RUN",
+          "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 3,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "stable_freeze_u8_n3",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "stable_freeze_u8",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N3_return",
+            "S1_entry_N3_reversed_return",
+            "S1_entry_N3_duplicate_return",
+            "S1_entry_N3_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "stable_freeze_u8_n3::model_enabled",
+            "stable_freeze_u8_n3::s1_exact_trait_threshold",
+            "stable_freeze_u8_n3::post_independent_caller",
+            "stable_freeze_u8_n3::left_canary",
+            "stable_freeze_u8_n3::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n3",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n3",
+          "state": "NOT_RUN",
+          "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 0,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "unstable_freeze_u8_n0",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "unstable_freeze_u8",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N0_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "unstable_freeze_u8_n0::model_enabled",
+            "unstable_freeze_u8_n0::s1_exact_trait_threshold",
+            "unstable_freeze_u8_n0::post_independent_caller",
+            "unstable_freeze_u8_n0::left_canary",
+            "unstable_freeze_u8_n0::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n0",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n0",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 1,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "unstable_freeze_u8_n1",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "unstable_freeze_u8",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N1_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "unstable_freeze_u8_n1::model_enabled",
+            "unstable_freeze_u8_n1::s1_exact_trait_threshold",
+            "unstable_freeze_u8_n1::post_independent_caller",
+            "unstable_freeze_u8_n1::left_canary",
+            "unstable_freeze_u8_n1::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 2,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "unstable_freeze_u8_n2",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "unstable_freeze_u8",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N2_return",
+            "S1_entry_N2_reversed_return",
+            "S1_entry_N2_duplicate_return",
+            "S1_entry_N2_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "unstable_freeze_u8_n2::model_enabled",
+            "unstable_freeze_u8_n2::s1_exact_trait_threshold",
+            "unstable_freeze_u8_n2::post_independent_caller",
+            "unstable_freeze_u8_n2::left_canary",
+            "unstable_freeze_u8_n2::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n2",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n2",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 3,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "unstable_freeze_u8_n3",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "unstable_freeze_u8",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N3_return",
+            "S1_entry_N3_reversed_return",
+            "S1_entry_N3_duplicate_return",
+            "S1_entry_N3_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "unstable_freeze_u8_n3::model_enabled",
+            "unstable_freeze_u8_n3::s1_exact_trait_threshold",
+            "unstable_freeze_u8_n3::post_independent_caller",
+            "unstable_freeze_u8_n3::left_canary",
+            "unstable_freeze_u8_n3::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n3",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n3",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        }
+      ],
+      "retry": [
+        {
+          "N": "symbolic0..3",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "stable_default_cell",
+          "mode": "PFC",
+          "planned_seconds": 180,
+          "required_cover_count": 11,
+          "required_cover_messages": [
+            "S1_entry_N0_return",
+            "S1_entry_N1_return",
+            "S1_entry_N2_return",
+            "S1_entry_N3_return",
+            "S1_entry_N2_reversed_return",
+            "S1_entry_N2_duplicate_return",
+            "S1_entry_N2_ascending_return",
+            "S1_entry_N3_reversed_return",
+            "S1_entry_N3_duplicate_return",
+            "S1_entry_N3_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "stable_default_cell::model_enabled",
+            "stable_default_cell::s1_exact_trait_threshold",
+            "stable_default_cell::post_independent_caller",
+            "stable_default_cell::left_canary",
+            "stable_default_cell::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+          "state": "NOT_RUN",
+          "target": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort",
+          "threshold": 16,
+          "timeout_seconds": 1200,
+          "type": "Cell<u8>",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": "symbolic0..3",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "unstable_default_cell",
+          "mode": "PFC",
+          "planned_seconds": 180,
+          "required_cover_count": 11,
+          "required_cover_messages": [
+            "S1_entry_N0_return",
+            "S1_entry_N1_return",
+            "S1_entry_N2_return",
+            "S1_entry_N3_return",
+            "S1_entry_N2_reversed_return",
+            "S1_entry_N2_duplicate_return",
+            "S1_entry_N2_ascending_return",
+            "S1_entry_N3_reversed_return",
+            "S1_entry_N3_duplicate_return",
+            "S1_entry_N3_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "unstable_default_cell::model_enabled",
+            "unstable_default_cell::s1_exact_trait_threshold",
+            "unstable_default_cell::post_independent_caller",
+            "unstable_default_cell::left_canary",
+            "unstable_default_cell::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+          "state": "NOT_RUN",
+          "target": "<Cell<u8> as UnstableSmallSortTypeImpl>::small_sort",
+          "threshold": 16,
+          "timeout_seconds": 1200,
+          "type": "Cell<u8>",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "companion": null,
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "model_u8_n0_3",
+          "mode": "Original",
+          "planned_seconds": 120,
+          "required_cover_count": 6,
+          "required_cover_messages": [
+            "S1_model_N0_return",
+            "S1_model_N1_return",
+            "S1_model_N2_return",
+            "S1_model_N3_return",
+            "S1_duplicate_return",
+            "S1_unsorted_input_return"
+          ],
+          "required_success_messages": [
+            "model_u8_n0_3::model_enabled",
+            "model_u8_n0_3::identity_checker",
+            "model_u8_n0_3::constructed_sorted_permutation",
+            "model_u8_n0_3::fnmut_two_projections",
+            "model_u8_n0_3::fnonce_two_projections",
+            "model_u8_n0_3::element_layout",
+            "model_u8_n0_3::comparator_zst_element_no_drop"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 5,
+          "variant": "production"
+        },
+        {
+          "companion": null,
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "model_cell_n0_3",
+          "mode": "Original",
+          "planned_seconds": 120,
+          "required_cover_count": 6,
+          "required_cover_messages": [
+            "S1_model_N0_return",
+            "S1_model_N1_return",
+            "S1_model_N2_return",
+            "S1_model_N3_return",
+            "S1_duplicate_return",
+            "S1_unsorted_input_return"
+          ],
+          "required_success_messages": [
+            "model_cell_n0_3::model_enabled",
+            "model_cell_n0_3::identity_checker",
+            "model_cell_n0_3::constructed_sorted_permutation",
+            "model_cell_n0_3::fnmut_two_projections",
+            "model_cell_n0_3::fnonce_two_projections",
+            "model_cell_n0_3::element_layout",
+            "model_cell_n0_3::comparator_zst_element_no_drop"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 5,
+          "variant": "production"
+        },
+        {
+          "companion": null,
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "model_noncopy_n0_3",
+          "mode": "Original",
+          "planned_seconds": 120,
+          "required_cover_count": 6,
+          "required_cover_messages": [
+            "S1_model_N0_return",
+            "S1_model_N1_return",
+            "S1_model_N2_return",
+            "S1_model_N3_return",
+            "S1_duplicate_return",
+            "S1_unsorted_input_return"
+          ],
+          "required_success_messages": [
+            "model_noncopy_n0_3::model_enabled",
+            "model_noncopy_n0_3::identity_checker",
+            "model_noncopy_n0_3::constructed_sorted_permutation",
+            "model_noncopy_n0_3::fnmut_two_projections",
+            "model_noncopy_n0_3::fnonce_two_projections",
+            "model_noncopy_n0_3::element_layout",
+            "model_noncopy_n0_3::comparator_zst_element_no_drop"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 5,
+          "variant": "production"
+        },
+        {
+          "companion": null,
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "inactive_pairs_read_free",
+          "mode": "Original",
+          "planned_seconds": 120,
+          "required_cover_count": 1,
+          "required_cover_messages": [
+            "S1_inactive_legal_storage_return"
+          ],
+          "required_success_messages": [
+            "S1_INACTIVE_PAIR",
+            "S1_INACTIVE_GUARDED_NO_CLAIM",
+            "S1_INACTIVE_TOKEN_INVALID",
+            "S1_INACTIVE_NEVER_CALLS_COMPARATOR"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::inactive_pairs_read_free",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::inactive_pairs_read_free",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "companion": "inactive_pairs_read_free",
+          "expected": "DETECTED",
+          "failure_description": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+          "id": "activation_descending_rejected",
+          "mode": "Original",
+          "oracle": {
+            "assertion_context": [
+              "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+              "}",
+              ""
+            ],
+            "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching",
+            "class": "assertion",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "group": "production-u34",
+            "intended_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+            "line": 90,
+            "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:95:32: 95:48}>.assertion.1",
+            "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
+            "source_line": "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+            "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+          },
+          "planned_seconds": 60,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "companion": "inactive_pairs_read_free",
+          "expected": "DETECTED",
+          "failure_description": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+          "id": "activation_effectful_rejected",
+          "mode": "Original",
+          "oracle": {
+            "assertion_context": [
+              "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+              "}",
+              ""
+            ],
+            "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching",
+            "class": "assertion",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "group": "production-u34",
+            "intended_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+            "line": 90,
+            "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:101:21: 101:37}>.assertion.1",
+            "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
+            "source_line": "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+            "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+          },
+          "planned_seconds": 60,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "companion": "inactive_pairs_read_free",
+          "expected": "DETECTED",
+          "failure_description": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+          "id": "activation_unsupported_type_rejected",
+          "mode": "Original",
+          "oracle": {
+            "assertion_context": [
+              "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+              "}",
+              ""
+            ],
+            "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching",
+            "class": "assertion",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "group": "production-u34",
+            "intended_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+            "line": 90,
+            "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<mem::maybe_uninit::MaybeUninit<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<mem::maybe_uninit::MaybeUninit<u8>>>.assertion.1",
+            "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_unsupported_type_rejected",
+            "source_line": "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+            "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+          },
+          "planned_seconds": 60,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_unsupported_type_rejected",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::activation_unsupported_type_rejected",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "companion": null,
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "corruption_companion",
+          "mode": "Original",
+          "planned_seconds": 120,
+          "required_cover_count": 1,
+          "required_cover_messages": [
+            "S1_corruption_companion_return"
+          ],
+          "required_success_messages": [
+            "S1_CORRUPTION_LEGAL_COMPANION",
+            "S1_ORDER_REJECTED_WITH_COUNTS_PRESERVED",
+            "S1_COUNTS_REJECTED_WITH_ORDER_PRESERVED"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 4,
+          "variant": "production"
+        },
+        {
+          "companion": "corruption_companion",
+          "expected": "DETECTED",
+          "failure_description": "S1_ORDER_CORRUPTION_ACCEPTED",
+          "id": "order_corruption_rejected",
+          "mode": "Original",
+          "oracle": {
+            "assertion_context": [
+              "    assert!(post::<u8, KeyLess<u8>>(before, &[values[1], values[0]]),",
+              "        \"S1_ORDER_CORRUPTION_ACCEPTED\");",
+              "}"
+            ],
+            "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching",
+            "class": "assertion",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "export_sha256": "5e9b3be21f70c341a42e5d75d1c32d4d15a646a10a9fb1fe1ccade22459dc485",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "group": "production-u4",
+            "intended_message": "S1_ORDER_CORRUPTION_ACCEPTED",
+            "line": 136,
+            "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.3",
+            "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+            "source_line": "    assert!(post::<u8, KeyLess<u8>>(before, &[values[1], values[0]]),",
+            "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+          },
+          "planned_seconds": 60,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 4,
+          "variant": "production"
+        },
+        {
+          "companion": "corruption_companion",
+          "expected": "DETECTED",
+          "failure_description": "S1_COUNT_CORRUPTION_ACCEPTED",
+          "id": "count_corruption_rejected",
+          "mode": "Original",
+          "oracle": {
+            "assertion_context": [
+              "    assert!(post::<u8, KeyLess<u8>>(before, &corrupt),",
+              "        \"S1_COUNT_CORRUPTION_ACCEPTED\");",
+              "}"
+            ],
+            "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching",
+            "class": "assertion",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "export_sha256": "5e9b3be21f70c341a42e5d75d1c32d4d15a646a10a9fb1fe1ccade22459dc485",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "group": "production-u4",
+            "intended_message": "S1_COUNT_CORRUPTION_ACCEPTED",
+            "line": 147,
+            "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.5",
+            "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+            "source_line": "    assert!(post::<u8, KeyLess<u8>>(before, &corrupt),",
+            "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+          },
+          "planned_seconds": 60,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [
+            "S1_COUNT_FIXTURE_STAYS_SORTED"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 4,
+          "variant": "production"
+        },
+        {
+          "companion": null,
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "snapshot_guards_companion",
+          "mode": "Original",
+          "planned_seconds": 120,
+          "required_cover_count": 1,
+          "required_cover_messages": [
+            "S1_snapshot_guard_companion_return"
+          ],
+          "required_success_messages": [
+            "S1_ACTIVE_INVALID_REJECTED",
+            "S1_CAP32_IDENTITY",
+            "S1_LENGTH_CHANGE_REJECTED",
+            "S1_OVERFLOW_TOKEN_INVALID",
+            "S1_OVERFLOW_OUTPUT_REJECTED",
+            "S1_CELL_SNAPSHOT_OWNS_PRESTATE"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::snapshot_guards_companion",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::snapshot_guards_companion",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "companion": "snapshot_guards_companion",
+          "expected": "DETECTED",
+          "failure_description": "S1_ACTIVE_INVALID_TOKEN_ACCEPTED",
+          "id": "invalid_snapshot_rejected",
+          "mode": "Original",
+          "oracle": {
+            "assertion_context": [
+              "    assert!(post::<u8, KeyLess<u8>>(invalid, &[]), \"S1_ACTIVE_INVALID_TOKEN_ACCEPTED\");",
+              "}"
+            ],
+            "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching",
+            "class": "assertion",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+            "group": "production-u34",
+            "intended_message": "S1_ACTIVE_INVALID_TOKEN_ACCEPTED",
+            "line": 176,
+            "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected.assertion.1",
+            "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected",
+            "source_line": "    assert!(post::<u8, KeyLess<u8>>(invalid, &[]), \"S1_ACTIVE_INVALID_TOKEN_ACCEPTED\");",
+            "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+          },
+          "planned_seconds": 60,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "stable_default_activation-legal",
+          "mode": "PFC",
+          "planned_seconds": 120,
+          "required_cover_count": 1,
+          "required_cover_messages": [
+            "S1_actual_default_companion_return"
+          ],
+          "required_success_messages": [
+            "S1_ACTUAL_DEFAULT_ENABLED"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "stable_freeze_activation-legal",
+          "mode": "PFC",
+          "planned_seconds": 120,
+          "required_cover_count": 1,
+          "required_cover_messages": [
+            "S1_actual_override_companion_return"
+          ],
+          "required_success_messages": [
+            "S1_ACTUAL_OVERRIDE_ENABLED"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "companion": "stable_default_activation-legal",
+          "expected": "DETECTED",
+          "failure_description": "S1_ATTACHMENT_DEFAULT",
+          "id": "activation-default",
+          "mode": "PFC",
+          "oracle": {
+            "class": "assertion",
+            "companion": "stable_default_activation-legal",
+            "companion_required_cover_messages": [
+              "S1_actual_default_companion_return"
+            ],
+            "companion_required_status": "SATISFIED",
+            "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\n{ const S1_ATTACHMENT_DEFAULT: bool = false; S1_ATTACHMENT_DEFAULT }",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+            "file": "library/core/src/slice/sort/shared/smallsort.rs",
+            "line": 41,
+            "mutant_return_cover_status": "UNREACHABLE_EXPECTED_NO_POSITIVE_CREDIT",
+            "property_id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.assertion.1",
+            "proposal": {
+              "mode": "PFC",
+              "property": {
+                "class": "assertion",
+                "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\n{ const S1_ATTACHMENT_DEFAULT: bool = false; S1_ATTACHMENT_DEFAULT }",
+                "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+                "id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.assertion.1",
+                "line": "41",
+                "status": "FAILURE",
+                "trace_available": true
+              },
+              "require_only_this_failure": true,
+              "requires": [
+                "Freeze and independently review before next dispatch",
+                "Bind exact check/modifies wrapper to this target/type/source/tool/config",
+                "Include same-pin unmutated positive companion and reachable return covers",
+                "Record mutant-return cover as expected UNREACHABLE after false ensures; not positive vacuity evidence"
+              ],
+              "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+              "status": "PROPOSED_NEXT_PACKAGE_ONLY; NOT_CURRENT_DETECTION",
+              "target": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort",
+              "variant": "activation-default",
+              "variant_spec": {
+                "changed_file_sha256": {
+                  "library/core/src/slice/sort/shared/smallsort.rs": "ad516502d4783df0379ea3f48805c408b5bcde3ec064432476610080e3ecd0bb"
+                },
+                "marker": "S1_ATTACHMENT_DEFAULT",
+                "method": "Stable default Cell",
+                "patch": "activation-default.patch",
+                "sha256": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3"
+              }
+            },
+            "require_only_this_failure": true,
+            "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+            "source_line": "    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::ensures(|_| !verify::sorting_model::enabled::<T, F>() || { const S1_ATTACHMENT_DEFAULT: bool = false; S1_ATTACHMENT_DEFAULT }))]",
+            "source_sha256": "ad516502d4783df0379ea3f48805c408b5bcde3ec064432476610080e3ecd0bb",
+            "status": "FAILURE",
+            "wrapper_binding": "EXACT_SOURCE_CONTRACT_AND_SITE_FROZEN; SAME_RUN_RICH_PROPERTY_CORRELATION_REQUIRED_OFFLINE"
+          },
+          "oracle_status": "PREDECLARED_FOR_S1-05_ONLY; OFFLINE_QUALIFICATION_REQUIRED",
+          "planned_seconds": 120,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "activation-default"
+        },
+        {
+          "companion": "stable_freeze_activation-legal",
+          "expected": "DETECTED",
+          "failure_description": "S1_ATTACHMENT_OVERRIDE",
+          "id": "activation-override",
+          "mode": "PFC",
+          "oracle": {
+            "class": "assertion",
+            "companion": "stable_freeze_activation-legal",
+            "companion_required_cover_messages": [
+              "S1_actual_override_companion_return"
+            ],
+            "companion_required_status": "SATISFIED",
+            "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\n{ const S1_ATTACHMENT_OVERRIDE: bool = false; S1_ATTACHMENT_OVERRIDE }",
+            "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+            "file": "library/core/src/slice/sort/shared/smallsort.rs",
+            "line": 63,
+            "mutant_return_cover_status": "UNREACHABLE_EXPECTED_NO_POSITIVE_CREDIT",
+            "property_id": "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.2",
+            "proposal": {
+              "mode": "PFC",
+              "property": {
+                "class": "assertion",
+                "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\n{ const S1_ATTACHMENT_OVERRIDE: bool = false; S1_ATTACHMENT_OVERRIDE }",
+                "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+                "id": "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.2",
+                "line": "63",
+                "status": "FAILURE",
+                "trace_available": true
+              },
+              "require_only_this_failure": true,
+              "requires": [
+                "Freeze and independently review before next dispatch",
+                "Bind exact check/modifies wrapper to this target/type/source/tool/config",
+                "Include same-pin unmutated positive companion and reachable return covers",
+                "Record mutant-return cover as expected UNREACHABLE after false ensures; not positive vacuity evidence"
+              ],
+              "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+              "status": "PROPOSED_NEXT_PACKAGE_ONLY; NOT_CURRENT_DETECTION",
+              "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
+              "variant": "activation-override",
+              "variant_spec": {
+                "changed_file_sha256": {
+                  "library/core/src/slice/sort/shared/smallsort.rs": "90f20bce619de5535e633fc97f4a9dfd46715dc48e54912f5d1c9029984b131f"
+                },
+                "marker": "S1_ATTACHMENT_OVERRIDE",
+                "method": "Stable Freeze u8 override",
+                "patch": "activation-override.patch",
+                "sha256": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356"
+              }
+            },
+            "require_only_this_failure": true,
+            "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+            "source_line": "    #[cfg_attr(all(kani, kani_smallsort_sorting), kani::ensures(|_| !verify::sorting_model::enabled::<T, F>() || { const S1_ATTACHMENT_OVERRIDE: bool = false; S1_ATTACHMENT_OVERRIDE }))]",
+            "source_sha256": "90f20bce619de5535e633fc97f4a9dfd46715dc48e54912f5d1c9029984b131f",
+            "status": "FAILURE",
+            "wrapper_binding": "EXACT_SOURCE_CONTRACT_AND_SITE_FROZEN; SAME_RUN_RICH_PROPERTY_CORRELATION_REQUIRED_OFFLINE"
+          },
+          "oracle_status": "PREDECLARED_FOR_S1-05_ONLY; OFFLINE_QUALIFICATION_REQUIRED",
+          "planned_seconds": 120,
+          "required_cover_count": 0,
+          "required_cover_messages": [],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "activation-override"
+        },
+        {
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "ordinary-bridge",
+          "mode": "Original",
+          "note": "Old ordinary root unchanged; one bridge for new stock pin only.",
+          "planned_seconds": 120,
+          "required_cover_count": 12,
+          "required_cover_messages": [
+            "efficient swap predicate for u8",
+            "efficient swap predicate for u16",
+            "efficient swap predicate for u64",
+            "efficient swap predicate for u128",
+            "efficient swap predicate for [u8; 9]",
+            "efficient swap predicate for [u8; 16]",
+            "efficient swap predicate for [u8; 17]",
+            "efficient swap predicate for [u8; 85]",
+            "efficient swap predicate for [u8; 86]",
+            "efficient swap predicate for SwapDrop",
+            "efficient swap predicate for crate::cell::Cell<i32>",
+            "efficient swap predicate for ()"
+          ],
+          "required_success_messages": [],
+          "selector": "slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
+          "state": "NOT_RUN",
+          "timeout_seconds": 600,
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 0,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_copy_u8_n0",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_copy_u8",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N0_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_copy_u8_n0::model_enabled",
+            "freeze_copy_u8_n0::s1_exact_trait_threshold",
+            "freeze_copy_u8_n0::post_independent_caller",
+            "freeze_copy_u8_n0::left_canary",
+            "freeze_copy_u8_n0::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n0",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n0",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 1,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_copy_u8_n1",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_copy_u8",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N1_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_copy_u8_n1::model_enabled",
+            "freeze_copy_u8_n1::s1_exact_trait_threshold",
+            "freeze_copy_u8_n1::post_independent_caller",
+            "freeze_copy_u8_n1::left_canary",
+            "freeze_copy_u8_n1::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n1",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n1",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 2,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_copy_u8_n2",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_copy_u8",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N2_return",
+            "S1_entry_N2_reversed_return",
+            "S1_entry_N2_duplicate_return",
+            "S1_entry_N2_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_copy_u8_n2::model_enabled",
+            "freeze_copy_u8_n2::s1_exact_trait_threshold",
+            "freeze_copy_u8_n2::post_independent_caller",
+            "freeze_copy_u8_n2::left_canary",
+            "freeze_copy_u8_n2::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n2",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n2",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 3,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_copy_u8_n3",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_copy_u8",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N3_return",
+            "S1_entry_N3_reversed_return",
+            "S1_entry_N3_duplicate_return",
+            "S1_entry_N3_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_copy_u8_n3::model_enabled",
+            "freeze_copy_u8_n3::s1_exact_trait_threshold",
+            "freeze_copy_u8_n3::post_independent_caller",
+            "freeze_copy_u8_n3::left_canary",
+            "freeze_copy_u8_n3::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n3",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n3",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 0,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_default_noncopy_n0",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_default_noncopy",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N0_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_default_noncopy_n0::model_enabled",
+            "freeze_default_noncopy_n0::s1_exact_trait_threshold",
+            "freeze_default_noncopy_n0::post_independent_caller",
+            "freeze_default_noncopy_n0::left_canary",
+            "freeze_default_noncopy_n0::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n0",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n0",
+          "state": "NOT_RUN",
+          "target": "<NonCopyByte as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "NonCopyByte",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 1,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_default_noncopy_n1",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_default_noncopy",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N1_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_default_noncopy_n1::model_enabled",
+            "freeze_default_noncopy_n1::s1_exact_trait_threshold",
+            "freeze_default_noncopy_n1::post_independent_caller",
+            "freeze_default_noncopy_n1::left_canary",
+            "freeze_default_noncopy_n1::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n1",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n1",
+          "state": "NOT_RUN",
+          "target": "<NonCopyByte as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "NonCopyByte",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 2,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_default_noncopy_n2",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_default_noncopy",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N2_return",
+            "S1_entry_N2_reversed_return",
+            "S1_entry_N2_duplicate_return",
+            "S1_entry_N2_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_default_noncopy_n2::model_enabled",
+            "freeze_default_noncopy_n2::s1_exact_trait_threshold",
+            "freeze_default_noncopy_n2::post_independent_caller",
+            "freeze_default_noncopy_n2::left_canary",
+            "freeze_default_noncopy_n2::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n2",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n2",
+          "state": "NOT_RUN",
+          "target": "<NonCopyByte as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "NonCopyByte",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 3,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "freeze_default_noncopy_n3",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "freeze_default_noncopy",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N3_return",
+            "S1_entry_N3_reversed_return",
+            "S1_entry_N3_duplicate_return",
+            "S1_entry_N3_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "freeze_default_noncopy_n3::model_enabled",
+            "freeze_default_noncopy_n3::s1_exact_trait_threshold",
+            "freeze_default_noncopy_n3::post_independent_caller",
+            "freeze_default_noncopy_n3::left_canary",
+            "freeze_default_noncopy_n3::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n3",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n3",
+          "state": "NOT_RUN",
+          "target": "<NonCopyByte as UnstableSmallSortFreezeTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "NonCopyByte",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 0,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "stable_freeze_u8_n0",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "stable_freeze_u8",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N0_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "stable_freeze_u8_n0::model_enabled",
+            "stable_freeze_u8_n0::s1_exact_trait_threshold",
+            "stable_freeze_u8_n0::post_independent_caller",
+            "stable_freeze_u8_n0::left_canary",
+            "stable_freeze_u8_n0::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0",
+          "state": "NOT_RUN",
+          "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 1,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "stable_freeze_u8_n1",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "stable_freeze_u8",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N1_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "stable_freeze_u8_n1::model_enabled",
+            "stable_freeze_u8_n1::s1_exact_trait_threshold",
+            "stable_freeze_u8_n1::post_independent_caller",
+            "stable_freeze_u8_n1::left_canary",
+            "stable_freeze_u8_n1::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n1",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n1",
+          "state": "NOT_RUN",
+          "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 2,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "stable_freeze_u8_n2",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "stable_freeze_u8",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N2_return",
+            "S1_entry_N2_reversed_return",
+            "S1_entry_N2_duplicate_return",
+            "S1_entry_N2_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "stable_freeze_u8_n2::model_enabled",
+            "stable_freeze_u8_n2::s1_exact_trait_threshold",
+            "stable_freeze_u8_n2::post_independent_caller",
+            "stable_freeze_u8_n2::left_canary",
+            "stable_freeze_u8_n2::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n2",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n2",
+          "state": "NOT_RUN",
+          "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 3,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "stable_freeze_u8_n3",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "stable_freeze_u8",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N3_return",
+            "S1_entry_N3_reversed_return",
+            "S1_entry_N3_duplicate_return",
+            "S1_entry_N3_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "stable_freeze_u8_n3::model_enabled",
+            "stable_freeze_u8_n3::s1_exact_trait_threshold",
+            "stable_freeze_u8_n3::post_independent_caller",
+            "stable_freeze_u8_n3::left_canary",
+            "stable_freeze_u8_n3::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n3",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n3",
+          "state": "NOT_RUN",
+          "target": "<u8 as StableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 0,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "unstable_freeze_u8_n0",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "unstable_freeze_u8",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N0_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "unstable_freeze_u8_n0::model_enabled",
+            "unstable_freeze_u8_n0::s1_exact_trait_threshold",
+            "unstable_freeze_u8_n0::post_independent_caller",
+            "unstable_freeze_u8_n0::left_canary",
+            "unstable_freeze_u8_n0::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n0",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n0",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 1,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "unstable_freeze_u8_n1",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "unstable_freeze_u8",
+          "required_cover_count": 2,
+          "required_cover_messages": [
+            "S1_entry_N1_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "unstable_freeze_u8_n1::model_enabled",
+            "unstable_freeze_u8_n1::s1_exact_trait_threshold",
+            "unstable_freeze_u8_n1::post_independent_caller",
+            "unstable_freeze_u8_n1::left_canary",
+            "unstable_freeze_u8_n1::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 2,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "unstable_freeze_u8_n2",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "unstable_freeze_u8",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N2_return",
+            "S1_entry_N2_reversed_return",
+            "S1_entry_N2_duplicate_return",
+            "S1_entry_N2_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "unstable_freeze_u8_n2::model_enabled",
+            "unstable_freeze_u8_n2::s1_exact_trait_threshold",
+            "unstable_freeze_u8_n2::post_independent_caller",
+            "unstable_freeze_u8_n2::left_canary",
+            "unstable_freeze_u8_n2::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n2",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n2",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        },
+        {
+          "N": 3,
+          "cover_binding": "UNBOUND until independent exported ID/message correlation",
+          "expected": "SUCCESS",
+          "failure_description": null,
+          "id": "unstable_freeze_u8_n3",
+          "mode": "PFC",
+          "planned_seconds": 600,
+          "replacement_of": "unstable_freeze_u8",
+          "required_cover_count": 5,
+          "required_cover_messages": [
+            "S1_entry_N3_return",
+            "S1_entry_N3_reversed_return",
+            "S1_entry_N3_duplicate_return",
+            "S1_entry_N3_ascending_return",
+            "S1_entry_useful_return"
+          ],
+          "required_success_messages": [
+            "unstable_freeze_u8_n3::model_enabled",
+            "unstable_freeze_u8_n3::s1_exact_trait_threshold",
+            "unstable_freeze_u8_n3::post_independent_caller",
+            "unstable_freeze_u8_n3::left_canary",
+            "unstable_freeze_u8_n3::right_canary"
+          ],
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n3",
+          "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n3",
+          "state": "NOT_RUN",
+          "target": "<u8 as UnstableSmallSortTypeImpl>::small_sort",
+          "threshold": 32,
+          "timeout_seconds": 600,
+          "type": "u8",
+          "unwind": 34,
+          "variant": "production"
+        }
+      ]
+    },
+    "schema": {
+      "old": "ch8-s1-08-r1-ready-v1",
+      "retry": "ch8-s1-08-cell-retry-ready-v1"
+    },
+    "workflow_stages": {
+      "old": {
+        "s1_activation": [
+          "activation-default-u34",
+          "activation-override-u34"
+        ],
+        "s1_cell": [
+          "cell-u34"
+        ],
+        "s1_heavy": [
+          "freeze_copy_u8-n01-u34",
+          "freeze_copy_u8-n23-u34",
+          "freeze_default_noncopy-n01-u34",
+          "freeze_default_noncopy-n23-u34",
+          "stable_freeze_u8-n01-u34",
+          "stable_freeze_u8-n23-u34",
+          "unstable_freeze_u8-n01-u34",
+          "unstable_freeze_u8-n23-u34"
+        ],
+        "s1_light": [
+          "light-model-u5",
+          "light-corruption-u4",
+          "light-controls-u34"
+        ]
+      },
+      "retry": {
+        "s1_cell": [
+          "cell-u34"
+        ]
+      }
+    }
+  },
+  "review_guarantee_transfer": {
+    "refs": [
+      {
+        "g0_commit": "86c0b15f2f3ade2074e746eaccede68c8a291cbb",
+        "path": "../../s1-08-cell-retry-review-r1/REVIEW.json",
+        "sha256": "d0c7c19884708012e6209a539ad915a50804fc1a2513e78a236cbbb7f124e425"
+      },
+      {
+        "g0_commit": "86c0b15f2f3ade2074e746eaccede68c8a291cbb",
+        "path": "../../s1-08-cell-retry-review-r1/VALIDATION.json",
+        "sha256": "db8a6560b20be951a29c2f9906c8f7854aece6ce34fbcd394907b8fa3013a0fd"
+      },
+      {
+        "g0_commit": "86c0b15f2f3ade2074e746eaccede68c8a291cbb",
+        "path": "../../s1-08-cell-retry-review-r1/REVIEW.md",
+        "sha256": "a55c73525a8e64414efcafde7530feec2948717a677decd79ba900af804cb2df"
+      }
+    ],
+    "review_g0": "86c0b15f2f3ade2074e746eaccede68c8a291cbb",
+    "scope": "Reviewed runtime scheduling/timeout/test changes; unchanged decoder/native/snapshot/location/flags/ROLE-MAP by byte invariance; no new compiler audit"
+  },
+  "row_delta": [
+    {
+      "fields": {
+        "timeout_seconds": {
+          "old": 600,
+          "retry": 1200
+        }
+      },
+      "id": "stable_default_cell"
+    },
+    {
+      "fields": {
+        "timeout_seconds": {
+          "old": 600,
+          "retry": 1200
+        }
+      },
+      "id": "unstable_default_cell"
+    }
+  ],
+  "schema": "s108-retry-compatibility-v1",
+  "status": "PASS_FOR_NEXT_STAGE",
+  "unknown_fields": {
+    "compilation_id": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+    "compiler_identity_status": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+    "independent_AST_MIR_contract_binding": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER"
+  }
+}

@@ -1,0 +1,3043 @@
+{
+  "fit600": "NOT_ESTABLISHED",
+  "group_execution": {
+    "child_shutdown_verified": true,
+    "elapsed_seconds": 1147.782,
+    "original_exit_code": 0,
+    "output_bytes": 2957010,
+    "output_truncated": false,
+    "rss_peak_gib": 7.795627593994141,
+    "rss_peak_kib": 8174308,
+    "rss_sample_period_seconds": 0.05,
+    "rss_status": "SAMPLED_PROCESS_GROUP",
+    "signal": null,
+    "stderr_bytes": 2493,
+    "stderr_truncated": false,
+    "stdout_bytes": 2954517,
+    "stdout_truncated": false,
+    "timed_out": false
+  },
+  "label_causality": "NOT_ESTABLISHED",
+  "measured_composite_runtime": null,
+  "origin_deltas": [
+    {
+      "baseline": "s107",
+      "baseline_trigger": "b37f6f75c5b7b77e84297cd7104f9c0868502fd4",
+      "complete_request_field_delta": [
+        {
+          "baseline": 117440512,
+          "pointer": "/artifact_policy/aggregate_compressed_cap",
+          "retry": 8388608
+        },
+        {
+          "baseline": 14,
+          "pointer": "/artifact_policy/groups",
+          "retry": 1
+        },
+        {
+          "baseline": "compile900 + sum(root600) + cleanup10; per job group partition only",
+          "pointer": "/batch_policy/group_wall_seconds",
+          "retry": "compile900 + 2*root1200 =3300 child; cleanup10; envelope3310; phase8100 unchanged"
+        },
+        {
+          "baseline": "600s",
+          "pointer": "/batch_policy/harness_timeout",
+          "retry": "1200s; selected cell pair only; reference other rows600s"
+        },
+        {
+          "baseline": null,
+          "pointer": "/budgets/cell_row_seconds",
+          "retry": 1200
+        },
+        {
+          "baseline": null,
+          "pointer": "/budgets/group_child_seconds",
+          "retry": 3300
+        },
+        {
+          "baseline": null,
+          "pointer": "/budgets/group_cleanup_seconds",
+          "retry": 10
+        },
+        {
+          "baseline": null,
+          "pointer": "/budgets/group_envelope_seconds",
+          "retry": 3310
+        },
+        {
+          "baseline": 21000,
+          "pointer": "/budgets/planned_rows_seconds",
+          "retry": 2400
+        },
+        {
+          "baseline": 14,
+          "pointer": "/budgets/projected_group_count",
+          "retry": 1
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/changed_file_sha256/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/changed_file_sha256/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": [
+            ".github/workflows/bench-compiler.yml",
+            ".github/workflows/bench-e2e.yml",
+            ".github/workflows/bench-pr.yml",
+            ".github/workflows/cargo-update.yml",
+            ".github/workflows/cbmc-latest.yml",
+            ".github/workflows/cbmc-update.yml",
+            ".github/workflows/ch8-s1.yml",
+            ".github/workflows/charon-update.yml",
+            ".github/workflows/deny.yml",
+            ".github/workflows/extra_jobs.yml",
+            ".github/workflows/format-check.yml",
+            ".github/workflows/kani.yml",
+            ".github/workflows/release.yml",
+            ".github/workflows/slow-tests.yml",
+            ".github/workflows/toolchain-upgrade.yml",
+            ".github/workflows/verify-std-check.yml",
+            ".github/workflows/z3-update.yml",
+            "ch8-s1-control/CI-REQUEST.json",
+            "ch8-s1-control/activation-default.patch",
+            "ch8-s1-control/activation-override.patch",
+            "ch8-s1-control/binding_metadata.py",
+            "ch8-s1-control/check_package.py",
+            "ch8-s1-control/collect.py",
+            "ch8-s1-control/fixtures/s104-rich-fragment.json",
+            "ch8-s1-control/negative_oracle.py",
+            "ch8-s1-control/pack_evidence.py",
+            "ch8-s1-control/rich_evidence.py",
+            "ch8-s1-control/runner.py",
+            "ch8-s1-control/test_package.py",
+            "ch8-s1-control/test_runner.py",
+            "ch8-s1-control/test_s104.py",
+            "ch8-s1-control/test_s105.py",
+            "ch8-s1-control/test_s107.py"
+          ],
+          "pointer": "/ci_changed_paths",
+          "retry": [
+            ".github/workflows/bench-compiler.yml",
+            ".github/workflows/bench-e2e.yml",
+            ".github/workflows/bench-pr.yml",
+            ".github/workflows/cargo-update.yml",
+            ".github/workflows/cbmc-latest.yml",
+            ".github/workflows/cbmc-update.yml",
+            ".github/workflows/ch8-s1.yml",
+            ".github/workflows/charon-update.yml",
+            ".github/workflows/deny.yml",
+            ".github/workflows/extra_jobs.yml",
+            ".github/workflows/format-check.yml",
+            ".github/workflows/kani.yml",
+            ".github/workflows/release.yml",
+            ".github/workflows/slow-tests.yml",
+            ".github/workflows/toolchain-upgrade.yml",
+            ".github/workflows/verify-std-check.yml",
+            ".github/workflows/z3-update.yml",
+            "ch8-s1-control/CI-REQUEST.json",
+            "ch8-s1-control/ORACLE-SOURCES.json",
+            "ch8-s1-control/ROLE-MAP.json",
+            "ch8-s1-control/activation-default.patch",
+            "ch8-s1-control/activation-override.patch",
+            "ch8-s1-control/binding_metadata.py",
+            "ch8-s1-control/cell_retry_profile.py",
+            "ch8-s1-control/check_package.py",
+            "ch8-s1-control/collect.py",
+            "ch8-s1-control/fixtures/s104-rich-fragment.json",
+            "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
+            "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+            "ch8-s1-control/negative_oracle.py",
+            "ch8-s1-control/oracle_source.py",
+            "ch8-s1-control/pack_evidence.py",
+            "ch8-s1-control/rich_evidence.py",
+            "ch8-s1-control/runner.py",
+            "ch8-s1-control/s108_package.py",
+            "ch8-s1-control/test_cell_retry.py",
+            "ch8-s1-control/test_package.py",
+            "ch8-s1-control/test_runner.py",
+            "ch8-s1-control/test_s104.py",
+            "ch8-s1-control/test_s105.py",
+            "ch8-s1-control/test_s107.py",
+            "ch8-s1-control/test_s108.py",
+            "ch8-s1-control/test_s108r1.py"
+          ]
+        },
+        {
+          "baseline": "2f51f3793567fb000337ae384375dbc0622729d57193236e80763a5d4f1cea38",
+          "pointer": "/ci_payload_sha256/.github/workflows/ch8-s1.yml",
+          "retry": "3886bf8e9edc7edc06207a274391c3d3cced42a08951ffc28cb0432dc4568494"
+        },
+        {
+          "baseline": null,
+          "pointer": "/ci_payload_sha256/ch8-s1-control/ORACLE-SOURCES.json",
+          "retry": "69bf8d8494094a079a6ac3422ab90f30b7b5093b53e91ee6ce393a043538eaa2"
+        },
+        {
+          "baseline": null,
+          "pointer": "/ci_payload_sha256/ch8-s1-control/ROLE-MAP.json",
+          "retry": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d"
+        },
+        {
+          "baseline": null,
+          "pointer": "/ci_payload_sha256/ch8-s1-control/cell_retry_profile.py",
+          "retry": "c05ed67047832f808b1b22df9d0822d49eb9519e50cdab710db65238ffb97511"
+        },
+        {
+          "baseline": "092be5eb1c4862a3081445a53cf2f129d0c419c3f130a81da761de11472a81e5",
+          "pointer": "/ci_payload_sha256/ch8-s1-control/check_package.py",
+          "retry": "045f044ffc8e58572035a1526b0f76ab8379e65fe83cb4fd8376ed4d58804905"
+        },
+        {
+          "baseline": null,
+          "pointer": "/ci_payload_sha256/ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
+          "retry": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651"
+        },
+        {
+          "baseline": null,
+          "pointer": "/ci_payload_sha256/ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": null,
+          "pointer": "/ci_payload_sha256/ch8-s1-control/oracle_source.py",
+          "retry": "75a9a665b7a9fc1c64cd51c1c8d281fd323f22411aee83c017d08f37a27f20ce"
+        },
+        {
+          "baseline": "8c35580085d490ae42053d8064b3a35a21ad457d9c80440f595efe095ab8edb7",
+          "pointer": "/ci_payload_sha256/ch8-s1-control/runner.py",
+          "retry": "4902328df07bb9c28bc667ba522542cb61d7825639d806ca8b949789b027336f"
+        },
+        {
+          "baseline": null,
+          "pointer": "/ci_payload_sha256/ch8-s1-control/s108_package.py",
+          "retry": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237"
+        },
+        {
+          "baseline": null,
+          "pointer": "/ci_payload_sha256/ch8-s1-control/test_cell_retry.py",
+          "retry": "c338e2dcb6b5ce5b9869f941aea1d92302e77c0a6959bb1ba276e2cba470b016"
+        },
+        {
+          "baseline": "ab1dac733bf15fe43e7b62fa66f384ce8ef8c6c8910045262e227b21d1dd44c7",
+          "pointer": "/ci_payload_sha256/ch8-s1-control/test_package.py",
+          "retry": "2673c3698622dd30a72ef1cd79f145748de9521df9bff997f1da2d9cf885e36a"
+        },
+        {
+          "baseline": null,
+          "pointer": "/ci_payload_sha256/ch8-s1-control/test_s108.py",
+          "retry": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854"
+        },
+        {
+          "baseline": null,
+          "pointer": "/ci_payload_sha256/ch8-s1-control/test_s108r1.py",
+          "retry": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03"
+        },
+        {
+          "baseline": "b25dd39a46ba90b167500997d546a5f2f5bd8f3b",
+          "pointer": "/control_parent",
+          "retry": "9208b373c0a08a265fa0d7493a6529e331065271"
+        },
+        {
+          "baseline": null,
+          "pointer": "/execution_scope",
+          "retry": {
+            "declared_reference_groups": 14,
+            "declared_reference_rows": 35,
+            "profile": "cell-retry1200-v1",
+            "selected_groups": [
+              "cell-u34"
+            ],
+            "selected_row_ids": [
+              "stable_default_cell",
+              "unstable_default_cell"
+            ],
+            "selectors": [
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell"
+            ]
+          }
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/legacy_symbolic_rows/0/required_success_messages/0",
+          "retry": "freeze_copy_u8::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/legacy_symbolic_rows/0/required_success_messages/1",
+          "retry": "freeze_copy_u8::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/legacy_symbolic_rows/0/required_success_messages/2",
+          "retry": "freeze_copy_u8::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/legacy_symbolic_rows/0/required_success_messages/3",
+          "retry": "freeze_copy_u8::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/legacy_symbolic_rows/0/required_success_messages/4",
+          "retry": "freeze_copy_u8::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/legacy_symbolic_rows/1/required_success_messages/0",
+          "retry": "freeze_default_noncopy::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/legacy_symbolic_rows/1/required_success_messages/1",
+          "retry": "freeze_default_noncopy::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/legacy_symbolic_rows/1/required_success_messages/2",
+          "retry": "freeze_default_noncopy::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/legacy_symbolic_rows/1/required_success_messages/3",
+          "retry": "freeze_default_noncopy::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/legacy_symbolic_rows/1/required_success_messages/4",
+          "retry": "freeze_default_noncopy::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/legacy_symbolic_rows/2/required_success_messages/0",
+          "retry": "stable_freeze_u8::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/legacy_symbolic_rows/2/required_success_messages/1",
+          "retry": "stable_freeze_u8::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/legacy_symbolic_rows/2/required_success_messages/2",
+          "retry": "stable_freeze_u8::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/legacy_symbolic_rows/2/required_success_messages/3",
+          "retry": "stable_freeze_u8::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/legacy_symbolic_rows/2/required_success_messages/4",
+          "retry": "stable_freeze_u8::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/legacy_symbolic_rows/3/required_success_messages/0",
+          "retry": "unstable_freeze_u8::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/legacy_symbolic_rows/3/required_success_messages/1",
+          "retry": "unstable_freeze_u8::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/legacy_symbolic_rows/3/required_success_messages/2",
+          "retry": "unstable_freeze_u8::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/legacy_symbolic_rows/3/required_success_messages/3",
+          "retry": "unstable_freeze_u8::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/legacy_symbolic_rows/3/required_success_messages/4",
+          "retry": "unstable_freeze_u8::right_canary"
+        },
+        {
+          "baseline": "All four same-pin PFC cases; every required success and exported cover binding; no partial-union acceptance",
+          "pointer": "/replacement_unions/0/qualification",
+          "retry": "All four same-pin PFC cases; each member exact root/role labels and required exported covers; no partial-union acceptance; offline admission"
+        },
+        {
+          "baseline": [
+            "S1_ENTRY_MODEL_ENABLED",
+            "S1_EXACT_TRAIT_THRESHOLD",
+            "S1_ENTRY_POST_INDEPENDENT_CALLER",
+            "S1_LEFT_CANARY",
+            "S1_RIGHT_CANARY"
+          ],
+          "pointer": "/replacement_unions/0/required_success_messages",
+          "retry": [
+            "freeze_copy_u8_n0::model_enabled",
+            "freeze_copy_u8_n0::s1_exact_trait_threshold",
+            "freeze_copy_u8_n0::post_independent_caller",
+            "freeze_copy_u8_n0::left_canary",
+            "freeze_copy_u8_n0::right_canary",
+            "freeze_copy_u8_n1::model_enabled",
+            "freeze_copy_u8_n1::s1_exact_trait_threshold",
+            "freeze_copy_u8_n1::post_independent_caller",
+            "freeze_copy_u8_n1::left_canary",
+            "freeze_copy_u8_n1::right_canary",
+            "freeze_copy_u8_n2::model_enabled",
+            "freeze_copy_u8_n2::s1_exact_trait_threshold",
+            "freeze_copy_u8_n2::post_independent_caller",
+            "freeze_copy_u8_n2::left_canary",
+            "freeze_copy_u8_n2::right_canary",
+            "freeze_copy_u8_n3::model_enabled",
+            "freeze_copy_u8_n3::s1_exact_trait_threshold",
+            "freeze_copy_u8_n3::post_independent_caller",
+            "freeze_copy_u8_n3::left_canary",
+            "freeze_copy_u8_n3::right_canary"
+          ]
+        },
+        {
+          "baseline": null,
+          "pointer": "/replacement_unions/0/required_success_roles",
+          "retry": [
+            "model_enabled",
+            "s1_exact_trait_threshold",
+            "post_independent_caller",
+            "left_canary",
+            "right_canary"
+          ]
+        },
+        {
+          "baseline": "All four same-pin PFC cases; every required success and exported cover binding; no partial-union acceptance",
+          "pointer": "/replacement_unions/1/qualification",
+          "retry": "All four same-pin PFC cases; each member exact root/role labels and required exported covers; no partial-union acceptance; offline admission"
+        },
+        {
+          "baseline": [
+            "S1_ENTRY_MODEL_ENABLED",
+            "S1_EXACT_TRAIT_THRESHOLD",
+            "S1_ENTRY_POST_INDEPENDENT_CALLER",
+            "S1_LEFT_CANARY",
+            "S1_RIGHT_CANARY"
+          ],
+          "pointer": "/replacement_unions/1/required_success_messages",
+          "retry": [
+            "freeze_default_noncopy_n0::model_enabled",
+            "freeze_default_noncopy_n0::s1_exact_trait_threshold",
+            "freeze_default_noncopy_n0::post_independent_caller",
+            "freeze_default_noncopy_n0::left_canary",
+            "freeze_default_noncopy_n0::right_canary",
+            "freeze_default_noncopy_n1::model_enabled",
+            "freeze_default_noncopy_n1::s1_exact_trait_threshold",
+            "freeze_default_noncopy_n1::post_independent_caller",
+            "freeze_default_noncopy_n1::left_canary",
+            "freeze_default_noncopy_n1::right_canary",
+            "freeze_default_noncopy_n2::model_enabled",
+            "freeze_default_noncopy_n2::s1_exact_trait_threshold",
+            "freeze_default_noncopy_n2::post_independent_caller",
+            "freeze_default_noncopy_n2::left_canary",
+            "freeze_default_noncopy_n2::right_canary",
+            "freeze_default_noncopy_n3::model_enabled",
+            "freeze_default_noncopy_n3::s1_exact_trait_threshold",
+            "freeze_default_noncopy_n3::post_independent_caller",
+            "freeze_default_noncopy_n3::left_canary",
+            "freeze_default_noncopy_n3::right_canary"
+          ]
+        },
+        {
+          "baseline": null,
+          "pointer": "/replacement_unions/1/required_success_roles",
+          "retry": [
+            "model_enabled",
+            "s1_exact_trait_threshold",
+            "post_independent_caller",
+            "left_canary",
+            "right_canary"
+          ]
+        },
+        {
+          "baseline": "All four same-pin PFC cases; every required success and exported cover binding; no partial-union acceptance",
+          "pointer": "/replacement_unions/2/qualification",
+          "retry": "All four same-pin PFC cases; each member exact root/role labels and required exported covers; no partial-union acceptance; offline admission"
+        },
+        {
+          "baseline": [
+            "S1_ENTRY_MODEL_ENABLED",
+            "S1_EXACT_TRAIT_THRESHOLD",
+            "S1_ENTRY_POST_INDEPENDENT_CALLER",
+            "S1_LEFT_CANARY",
+            "S1_RIGHT_CANARY"
+          ],
+          "pointer": "/replacement_unions/2/required_success_messages",
+          "retry": [
+            "stable_freeze_u8_n0::model_enabled",
+            "stable_freeze_u8_n0::s1_exact_trait_threshold",
+            "stable_freeze_u8_n0::post_independent_caller",
+            "stable_freeze_u8_n0::left_canary",
+            "stable_freeze_u8_n0::right_canary",
+            "stable_freeze_u8_n1::model_enabled",
+            "stable_freeze_u8_n1::s1_exact_trait_threshold",
+            "stable_freeze_u8_n1::post_independent_caller",
+            "stable_freeze_u8_n1::left_canary",
+            "stable_freeze_u8_n1::right_canary",
+            "stable_freeze_u8_n2::model_enabled",
+            "stable_freeze_u8_n2::s1_exact_trait_threshold",
+            "stable_freeze_u8_n2::post_independent_caller",
+            "stable_freeze_u8_n2::left_canary",
+            "stable_freeze_u8_n2::right_canary",
+            "stable_freeze_u8_n3::model_enabled",
+            "stable_freeze_u8_n3::s1_exact_trait_threshold",
+            "stable_freeze_u8_n3::post_independent_caller",
+            "stable_freeze_u8_n3::left_canary",
+            "stable_freeze_u8_n3::right_canary"
+          ]
+        },
+        {
+          "baseline": null,
+          "pointer": "/replacement_unions/2/required_success_roles",
+          "retry": [
+            "model_enabled",
+            "s1_exact_trait_threshold",
+            "post_independent_caller",
+            "left_canary",
+            "right_canary"
+          ]
+        },
+        {
+          "baseline": "All four same-pin PFC cases; every required success and exported cover binding; no partial-union acceptance",
+          "pointer": "/replacement_unions/3/qualification",
+          "retry": "All four same-pin PFC cases; each member exact root/role labels and required exported covers; no partial-union acceptance; offline admission"
+        },
+        {
+          "baseline": [
+            "S1_ENTRY_MODEL_ENABLED",
+            "S1_EXACT_TRAIT_THRESHOLD",
+            "S1_ENTRY_POST_INDEPENDENT_CALLER",
+            "S1_LEFT_CANARY",
+            "S1_RIGHT_CANARY"
+          ],
+          "pointer": "/replacement_unions/3/required_success_messages",
+          "retry": [
+            "unstable_freeze_u8_n0::model_enabled",
+            "unstable_freeze_u8_n0::s1_exact_trait_threshold",
+            "unstable_freeze_u8_n0::post_independent_caller",
+            "unstable_freeze_u8_n0::left_canary",
+            "unstable_freeze_u8_n0::right_canary",
+            "unstable_freeze_u8_n1::model_enabled",
+            "unstable_freeze_u8_n1::s1_exact_trait_threshold",
+            "unstable_freeze_u8_n1::post_independent_caller",
+            "unstable_freeze_u8_n1::left_canary",
+            "unstable_freeze_u8_n1::right_canary",
+            "unstable_freeze_u8_n2::model_enabled",
+            "unstable_freeze_u8_n2::s1_exact_trait_threshold",
+            "unstable_freeze_u8_n2::post_independent_caller",
+            "unstable_freeze_u8_n2::left_canary",
+            "unstable_freeze_u8_n2::right_canary",
+            "unstable_freeze_u8_n3::model_enabled",
+            "unstable_freeze_u8_n3::s1_exact_trait_threshold",
+            "unstable_freeze_u8_n3::post_independent_caller",
+            "unstable_freeze_u8_n3::left_canary",
+            "unstable_freeze_u8_n3::right_canary"
+          ]
+        },
+        {
+          "baseline": null,
+          "pointer": "/replacement_unions/3/required_success_roles",
+          "retry": [
+            "model_enabled",
+            "s1_exact_trait_threshold",
+            "post_independent_caller",
+            "left_canary",
+            "right_canary"
+          ]
+        },
+        {
+          "baseline": "NOT_RESERVED; preparation only; no dispatch/push/ledger",
+          "pointer": "/reservations/S1-05",
+          "retry": null
+        },
+        {
+          "baseline": null,
+          "pointer": "/reservations/S1-08-cell-retry",
+          "retry": "NOT_RESERVED; NOT_RUN; preparation/review only; coordinator decision after terminal run and intake"
+        },
+        {
+          "baseline": null,
+          "pointer": "/role_map",
+          "retry": {
+            "admission": "OFFLINE_ONLY",
+            "new_labels": 111,
+            "observed_s108_messages": "NOT_RUN",
+            "path": "ROLE-MAP.json",
+            "preserved_semantic_bindings": 16,
+            "required_success_bindings": 127,
+            "sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d"
+          }
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/0/required_success_messages/0",
+          "retry": "stable_default_cell::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/0/required_success_messages/1",
+          "retry": "stable_default_cell::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/0/required_success_messages/2",
+          "retry": "stable_default_cell::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/0/required_success_messages/3",
+          "retry": "stable_default_cell::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/0/required_success_messages/4",
+          "retry": "stable_default_cell::right_canary"
+        },
+        {
+          "baseline": 600,
+          "pointer": "/rows/0/timeout_seconds",
+          "retry": 1200
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/1/required_success_messages/0",
+          "retry": "unstable_default_cell::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/1/required_success_messages/1",
+          "retry": "unstable_default_cell::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/1/required_success_messages/2",
+          "retry": "unstable_default_cell::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/1/required_success_messages/3",
+          "retry": "unstable_default_cell::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/1/required_success_messages/4",
+          "retry": "unstable_default_cell::right_canary"
+        },
+        {
+          "baseline": 600,
+          "pointer": "/rows/1/timeout_seconds",
+          "retry": 1200
+        },
+        {
+          "baseline": "S1_MODEL_ENABLED",
+          "pointer": "/rows/2/required_success_messages/0",
+          "retry": "model_u8_n0_3::model_enabled"
+        },
+        {
+          "baseline": "S1_IDENTITY_CHECKER",
+          "pointer": "/rows/2/required_success_messages/1",
+          "retry": "model_u8_n0_3::identity_checker"
+        },
+        {
+          "baseline": "S1_CONSTRUCTED_SORTED_PERMUTATION",
+          "pointer": "/rows/2/required_success_messages/2",
+          "retry": "model_u8_n0_3::constructed_sorted_permutation"
+        },
+        {
+          "baseline": "S1_FNMUT_TWO_PROJECTIONS",
+          "pointer": "/rows/2/required_success_messages/3",
+          "retry": "model_u8_n0_3::fnmut_two_projections"
+        },
+        {
+          "baseline": "S1_FNONCE_TWO_PROJECTIONS",
+          "pointer": "/rows/2/required_success_messages/4",
+          "retry": "model_u8_n0_3::fnonce_two_projections"
+        },
+        {
+          "baseline": "S1_ELEMENT_LAYOUT",
+          "pointer": "/rows/2/required_success_messages/5",
+          "retry": "model_u8_n0_3::element_layout"
+        },
+        {
+          "baseline": "S1_COMPARATOR_ZST_ELEMENT_NO_DROP",
+          "pointer": "/rows/2/required_success_messages/6",
+          "retry": "model_u8_n0_3::comparator_zst_element_no_drop"
+        },
+        {
+          "baseline": "S1_MODEL_ENABLED",
+          "pointer": "/rows/3/required_success_messages/0",
+          "retry": "model_cell_n0_3::model_enabled"
+        },
+        {
+          "baseline": "S1_IDENTITY_CHECKER",
+          "pointer": "/rows/3/required_success_messages/1",
+          "retry": "model_cell_n0_3::identity_checker"
+        },
+        {
+          "baseline": "S1_CONSTRUCTED_SORTED_PERMUTATION",
+          "pointer": "/rows/3/required_success_messages/2",
+          "retry": "model_cell_n0_3::constructed_sorted_permutation"
+        },
+        {
+          "baseline": "S1_FNMUT_TWO_PROJECTIONS",
+          "pointer": "/rows/3/required_success_messages/3",
+          "retry": "model_cell_n0_3::fnmut_two_projections"
+        },
+        {
+          "baseline": "S1_FNONCE_TWO_PROJECTIONS",
+          "pointer": "/rows/3/required_success_messages/4",
+          "retry": "model_cell_n0_3::fnonce_two_projections"
+        },
+        {
+          "baseline": "S1_ELEMENT_LAYOUT",
+          "pointer": "/rows/3/required_success_messages/5",
+          "retry": "model_cell_n0_3::element_layout"
+        },
+        {
+          "baseline": "S1_COMPARATOR_ZST_ELEMENT_NO_DROP",
+          "pointer": "/rows/3/required_success_messages/6",
+          "retry": "model_cell_n0_3::comparator_zst_element_no_drop"
+        },
+        {
+          "baseline": "S1_MODEL_ENABLED",
+          "pointer": "/rows/4/required_success_messages/0",
+          "retry": "model_noncopy_n0_3::model_enabled"
+        },
+        {
+          "baseline": "S1_IDENTITY_CHECKER",
+          "pointer": "/rows/4/required_success_messages/1",
+          "retry": "model_noncopy_n0_3::identity_checker"
+        },
+        {
+          "baseline": "S1_CONSTRUCTED_SORTED_PERMUTATION",
+          "pointer": "/rows/4/required_success_messages/2",
+          "retry": "model_noncopy_n0_3::constructed_sorted_permutation"
+        },
+        {
+          "baseline": "S1_FNMUT_TWO_PROJECTIONS",
+          "pointer": "/rows/4/required_success_messages/3",
+          "retry": "model_noncopy_n0_3::fnmut_two_projections"
+        },
+        {
+          "baseline": "S1_FNONCE_TWO_PROJECTIONS",
+          "pointer": "/rows/4/required_success_messages/4",
+          "retry": "model_noncopy_n0_3::fnonce_two_projections"
+        },
+        {
+          "baseline": "S1_ELEMENT_LAYOUT",
+          "pointer": "/rows/4/required_success_messages/5",
+          "retry": "model_noncopy_n0_3::element_layout"
+        },
+        {
+          "baseline": "S1_COMPARATOR_ZST_ELEMENT_NO_DROP",
+          "pointer": "/rows/4/required_success_messages/6",
+          "retry": "model_noncopy_n0_3::comparator_zst_element_no_drop"
+        },
+        {
+          "baseline": 95,
+          "pointer": "/rows/6/oracle/line",
+          "retry": 90
+        },
+        {
+          "baseline": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:100:32: 100:48}>.assertion.1",
+          "pointer": "/rows/6/oracle/property_id",
+          "retry": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:95:32: 95:48}>.assertion.1"
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/rows/6/oracle/source_sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 95,
+          "pointer": "/rows/7/oracle/line",
+          "retry": 90
+        },
+        {
+          "baseline": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:106:21: 106:37}>.assertion.1",
+          "pointer": "/rows/7/oracle/property_id",
+          "retry": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:101:21: 101:37}>.assertion.1"
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/rows/7/oracle/source_sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 95,
+          "pointer": "/rows/8/oracle/line",
+          "retry": 90
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/rows/8/oracle/source_sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 141,
+          "pointer": "/rows/10/oracle/line",
+          "retry": 136
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/rows/10/oracle/source_sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 152,
+          "pointer": "/rows/11/oracle/line",
+          "retry": 147
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/rows/11/oracle/source_sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 181,
+          "pointer": "/rows/13/oracle/line",
+          "retry": 176
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/rows/13/oracle/source_sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/19/required_success_messages/0",
+          "retry": "freeze_copy_u8_n0::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/19/required_success_messages/1",
+          "retry": "freeze_copy_u8_n0::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/19/required_success_messages/2",
+          "retry": "freeze_copy_u8_n0::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/19/required_success_messages/3",
+          "retry": "freeze_copy_u8_n0::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/19/required_success_messages/4",
+          "retry": "freeze_copy_u8_n0::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/20/required_success_messages/0",
+          "retry": "freeze_copy_u8_n1::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/20/required_success_messages/1",
+          "retry": "freeze_copy_u8_n1::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/20/required_success_messages/2",
+          "retry": "freeze_copy_u8_n1::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/20/required_success_messages/3",
+          "retry": "freeze_copy_u8_n1::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/20/required_success_messages/4",
+          "retry": "freeze_copy_u8_n1::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/21/required_success_messages/0",
+          "retry": "freeze_copy_u8_n2::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/21/required_success_messages/1",
+          "retry": "freeze_copy_u8_n2::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/21/required_success_messages/2",
+          "retry": "freeze_copy_u8_n2::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/21/required_success_messages/3",
+          "retry": "freeze_copy_u8_n2::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/21/required_success_messages/4",
+          "retry": "freeze_copy_u8_n2::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/22/required_success_messages/0",
+          "retry": "freeze_copy_u8_n3::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/22/required_success_messages/1",
+          "retry": "freeze_copy_u8_n3::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/22/required_success_messages/2",
+          "retry": "freeze_copy_u8_n3::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/22/required_success_messages/3",
+          "retry": "freeze_copy_u8_n3::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/22/required_success_messages/4",
+          "retry": "freeze_copy_u8_n3::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/23/required_success_messages/0",
+          "retry": "freeze_default_noncopy_n0::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/23/required_success_messages/1",
+          "retry": "freeze_default_noncopy_n0::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/23/required_success_messages/2",
+          "retry": "freeze_default_noncopy_n0::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/23/required_success_messages/3",
+          "retry": "freeze_default_noncopy_n0::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/23/required_success_messages/4",
+          "retry": "freeze_default_noncopy_n0::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/24/required_success_messages/0",
+          "retry": "freeze_default_noncopy_n1::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/24/required_success_messages/1",
+          "retry": "freeze_default_noncopy_n1::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/24/required_success_messages/2",
+          "retry": "freeze_default_noncopy_n1::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/24/required_success_messages/3",
+          "retry": "freeze_default_noncopy_n1::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/24/required_success_messages/4",
+          "retry": "freeze_default_noncopy_n1::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/25/required_success_messages/0",
+          "retry": "freeze_default_noncopy_n2::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/25/required_success_messages/1",
+          "retry": "freeze_default_noncopy_n2::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/25/required_success_messages/2",
+          "retry": "freeze_default_noncopy_n2::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/25/required_success_messages/3",
+          "retry": "freeze_default_noncopy_n2::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/25/required_success_messages/4",
+          "retry": "freeze_default_noncopy_n2::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/26/required_success_messages/0",
+          "retry": "freeze_default_noncopy_n3::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/26/required_success_messages/1",
+          "retry": "freeze_default_noncopy_n3::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/26/required_success_messages/2",
+          "retry": "freeze_default_noncopy_n3::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/26/required_success_messages/3",
+          "retry": "freeze_default_noncopy_n3::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/26/required_success_messages/4",
+          "retry": "freeze_default_noncopy_n3::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/27/required_success_messages/0",
+          "retry": "stable_freeze_u8_n0::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/27/required_success_messages/1",
+          "retry": "stable_freeze_u8_n0::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/27/required_success_messages/2",
+          "retry": "stable_freeze_u8_n0::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/27/required_success_messages/3",
+          "retry": "stable_freeze_u8_n0::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/27/required_success_messages/4",
+          "retry": "stable_freeze_u8_n0::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/28/required_success_messages/0",
+          "retry": "stable_freeze_u8_n1::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/28/required_success_messages/1",
+          "retry": "stable_freeze_u8_n1::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/28/required_success_messages/2",
+          "retry": "stable_freeze_u8_n1::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/28/required_success_messages/3",
+          "retry": "stable_freeze_u8_n1::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/28/required_success_messages/4",
+          "retry": "stable_freeze_u8_n1::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/29/required_success_messages/0",
+          "retry": "stable_freeze_u8_n2::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/29/required_success_messages/1",
+          "retry": "stable_freeze_u8_n2::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/29/required_success_messages/2",
+          "retry": "stable_freeze_u8_n2::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/29/required_success_messages/3",
+          "retry": "stable_freeze_u8_n2::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/29/required_success_messages/4",
+          "retry": "stable_freeze_u8_n2::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/30/required_success_messages/0",
+          "retry": "stable_freeze_u8_n3::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/30/required_success_messages/1",
+          "retry": "stable_freeze_u8_n3::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/30/required_success_messages/2",
+          "retry": "stable_freeze_u8_n3::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/30/required_success_messages/3",
+          "retry": "stable_freeze_u8_n3::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/30/required_success_messages/4",
+          "retry": "stable_freeze_u8_n3::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/31/required_success_messages/0",
+          "retry": "unstable_freeze_u8_n0::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/31/required_success_messages/1",
+          "retry": "unstable_freeze_u8_n0::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/31/required_success_messages/2",
+          "retry": "unstable_freeze_u8_n0::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/31/required_success_messages/3",
+          "retry": "unstable_freeze_u8_n0::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/31/required_success_messages/4",
+          "retry": "unstable_freeze_u8_n0::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/32/required_success_messages/0",
+          "retry": "unstable_freeze_u8_n1::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/32/required_success_messages/1",
+          "retry": "unstable_freeze_u8_n1::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/32/required_success_messages/2",
+          "retry": "unstable_freeze_u8_n1::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/32/required_success_messages/3",
+          "retry": "unstable_freeze_u8_n1::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/32/required_success_messages/4",
+          "retry": "unstable_freeze_u8_n1::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/33/required_success_messages/0",
+          "retry": "unstable_freeze_u8_n2::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/33/required_success_messages/1",
+          "retry": "unstable_freeze_u8_n2::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/33/required_success_messages/2",
+          "retry": "unstable_freeze_u8_n2::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/33/required_success_messages/3",
+          "retry": "unstable_freeze_u8_n2::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/33/required_success_messages/4",
+          "retry": "unstable_freeze_u8_n2::right_canary"
+        },
+        {
+          "baseline": "S1_ENTRY_MODEL_ENABLED",
+          "pointer": "/rows/34/required_success_messages/0",
+          "retry": "unstable_freeze_u8_n3::model_enabled"
+        },
+        {
+          "baseline": "S1_EXACT_TRAIT_THRESHOLD",
+          "pointer": "/rows/34/required_success_messages/1",
+          "retry": "unstable_freeze_u8_n3::s1_exact_trait_threshold"
+        },
+        {
+          "baseline": "S1_ENTRY_POST_INDEPENDENT_CALLER",
+          "pointer": "/rows/34/required_success_messages/2",
+          "retry": "unstable_freeze_u8_n3::post_independent_caller"
+        },
+        {
+          "baseline": "S1_LEFT_CANARY",
+          "pointer": "/rows/34/required_success_messages/3",
+          "retry": "unstable_freeze_u8_n3::left_canary"
+        },
+        {
+          "baseline": "S1_RIGHT_CANARY",
+          "pointer": "/rows/34/required_success_messages/4",
+          "retry": "unstable_freeze_u8_n3::right_canary"
+        },
+        {
+          "baseline": "ch8-s1-07-ready-v1",
+          "pointer": "/schema",
+          "retry": "ch8-s1-08-cell-retry-ready-v1"
+        },
+        {
+          "baseline": 99,
+          "pointer": "/source_bindings/activation_descending_rejected/locations/0/line",
+          "retry": 94
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/source_bindings/activation_descending_rejected/sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 104,
+          "pointer": "/source_bindings/activation_effectful_rejected/locations/0/line",
+          "retry": 99
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/source_bindings/activation_effectful_rejected/sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 111,
+          "pointer": "/source_bindings/activation_unsupported_type_rejected/locations/0/line",
+          "retry": 106
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/source_bindings/activation_unsupported_type_rejected/sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 125,
+          "pointer": "/source_bindings/corruption_companion/locations/0/line",
+          "retry": 120
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/source_bindings/corruption_companion/sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 147,
+          "pointer": "/source_bindings/count_corruption_rejected/locations/0/line",
+          "retry": 142
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/source_bindings/count_corruption_rejected/sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 175,
+          "pointer": "/source_bindings/freeze_copy_u8_n0/locations/0/line",
+          "retry": 165
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/freeze_copy_u8_n0/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/freeze_copy_u8_n0/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 176,
+          "pointer": "/source_bindings/freeze_copy_u8_n1/locations/0/line",
+          "retry": 166
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/freeze_copy_u8_n1/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/freeze_copy_u8_n1/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 177,
+          "pointer": "/source_bindings/freeze_copy_u8_n2/locations/0/line",
+          "retry": 167
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/freeze_copy_u8_n2/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/freeze_copy_u8_n2/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 178,
+          "pointer": "/source_bindings/freeze_copy_u8_n3/locations/0/line",
+          "retry": 168
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/freeze_copy_u8_n3/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/freeze_copy_u8_n3/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 167,
+          "pointer": "/source_bindings/freeze_default_noncopy_n0/locations/0/line",
+          "retry": 157
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/freeze_default_noncopy_n0/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/freeze_default_noncopy_n0/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 169,
+          "pointer": "/source_bindings/freeze_default_noncopy_n1/locations/0/line",
+          "retry": 159
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/freeze_default_noncopy_n1/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/freeze_default_noncopy_n1/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 171,
+          "pointer": "/source_bindings/freeze_default_noncopy_n2/locations/0/line",
+          "retry": 161
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/freeze_default_noncopy_n2/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/freeze_default_noncopy_n2/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 173,
+          "pointer": "/source_bindings/freeze_default_noncopy_n3/locations/0/line",
+          "retry": 163
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/freeze_default_noncopy_n3/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/freeze_default_noncopy_n3/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 78,
+          "pointer": "/source_bindings/inactive_pairs_read_free/locations/0/line",
+          "retry": 73
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/source_bindings/inactive_pairs_read_free/sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 179,
+          "pointer": "/source_bindings/invalid_snapshot_rejected/locations/0/line",
+          "retry": 174
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/source_bindings/invalid_snapshot_rejected/sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 67,
+          "pointer": "/source_bindings/model_cell_n0_3/locations/0/line",
+          "retry": 62
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/source_bindings/model_cell_n0_3/sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 68,
+          "pointer": "/source_bindings/model_noncopy_n0_3/locations/0/line",
+          "retry": 63
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/source_bindings/model_noncopy_n0_3/sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 66,
+          "pointer": "/source_bindings/model_u8_n0_3/locations/0/line",
+          "retry": 61
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/source_bindings/model_u8_n0_3/sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 138,
+          "pointer": "/source_bindings/order_corruption_rejected/locations/0/line",
+          "retry": 133
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/source_bindings/order_corruption_rejected/sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 158,
+          "pointer": "/source_bindings/snapshot_guards_companion/locations/0/line",
+          "retry": 153
+        },
+        {
+          "baseline": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "pointer": "/source_bindings/snapshot_guards_companion/sha256",
+          "retry": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+        },
+        {
+          "baseline": 151,
+          "pointer": "/source_bindings/stable_default_cell/locations/0/line",
+          "retry": 141
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/stable_default_cell/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 159,
+          "pointer": "/source_bindings/stable_freeze_u8_n0/locations/0/line",
+          "retry": 149
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/stable_freeze_u8_n0/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/stable_freeze_u8_n0/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 160,
+          "pointer": "/source_bindings/stable_freeze_u8_n1/locations/0/line",
+          "retry": 150
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/stable_freeze_u8_n1/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/stable_freeze_u8_n1/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 161,
+          "pointer": "/source_bindings/stable_freeze_u8_n2/locations/0/line",
+          "retry": 151
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/stable_freeze_u8_n2/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/stable_freeze_u8_n2/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 162,
+          "pointer": "/source_bindings/stable_freeze_u8_n3/locations/0/line",
+          "retry": 152
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/stable_freeze_u8_n3/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/stable_freeze_u8_n3/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 153,
+          "pointer": "/source_bindings/unstable_default_cell/locations/0/line",
+          "retry": 143
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/unstable_default_cell/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 163,
+          "pointer": "/source_bindings/unstable_freeze_u8_n0/locations/0/line",
+          "retry": 153
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/unstable_freeze_u8_n0/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/unstable_freeze_u8_n0/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 164,
+          "pointer": "/source_bindings/unstable_freeze_u8_n1/locations/0/line",
+          "retry": 154
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/unstable_freeze_u8_n1/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/unstable_freeze_u8_n1/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 165,
+          "pointer": "/source_bindings/unstable_freeze_u8_n2/locations/0/line",
+          "retry": 155
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/unstable_freeze_u8_n2/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/unstable_freeze_u8_n2/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": 166,
+          "pointer": "/source_bindings/unstable_freeze_u8_n3/locations/0/line",
+          "retry": 156
+        },
+        {
+          "baseline": 116,
+          "pointer": "/source_bindings/unstable_freeze_u8_n3/locations/1/line",
+          "retry": 111
+        },
+        {
+          "baseline": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "pointer": "/source_bindings/unstable_freeze_u8_n3/sha256",
+          "retry": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f"
+        },
+        {
+          "baseline": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+          "pointer": "/std_sha",
+          "retry": "99e8456d200fff1299ee5756279cddb23921dc65"
+        },
+        {
+          "baseline": "a9caaa953d579641ecc6a4b84b5c16fa1d23563b",
+          "pointer": "/std_tree",
+          "retry": "b769b084f9982cbcb166229b29b6bd2bff136c51"
+        },
+        {
+          "baseline": [
+            "activation-default-u34",
+            "activation-override-u34"
+          ],
+          "pointer": "/workflow_stages/s1_activation",
+          "retry": null
+        },
+        {
+          "baseline": [
+            "freeze_copy_u8-n01-u34",
+            "freeze_copy_u8-n23-u34",
+            "freeze_default_noncopy-n01-u34",
+            "freeze_default_noncopy-n23-u34",
+            "stable_freeze_u8-n01-u34",
+            "stable_freeze_u8-n23-u34",
+            "unstable_freeze_u8-n01-u34",
+            "unstable_freeze_u8-n23-u34"
+          ],
+          "pointer": "/workflow_stages/s1_heavy",
+          "retry": null
+        },
+        {
+          "baseline": [
+            "light-model-u5",
+            "light-corruption-u4",
+            "light-controls-u34"
+          ],
+          "pointer": "/workflow_stages/s1_light",
+          "retry": null
+        }
+      ],
+      "control_changed_paths": [
+        ".github/workflows/ch8-s1.yml",
+        "ch8-s1-control/CI-REQUEST.json",
+        "ch8-s1-control/ORACLE-SOURCES.json",
+        "ch8-s1-control/ROLE-MAP.json",
+        "ch8-s1-control/cell_retry_profile.py",
+        "ch8-s1-control/check_package.py",
+        "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
+        "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+        "ch8-s1-control/oracle_source.py",
+        "ch8-s1-control/runner.py",
+        "ch8-s1-control/s108_package.py",
+        "ch8-s1-control/test_cell_retry.py",
+        "ch8-s1-control/test_package.py",
+        "ch8-s1-control/test_s108.py",
+        "ch8-s1-control/test_s108r1.py"
+      ],
+      "notes": "All request differences retained, including source/contract/label coordinates and payload hashes; no causal label claim.",
+      "retry_trigger": "4336dfed5af21660b9ac82907107be839ce13977"
+    },
+    {
+      "baseline": "s108_diagnostic929f",
+      "baseline_trigger": "21592884db439389364b416dea1515bfa9d8018e",
+      "complete_request_field_delta": [
+        {
+          "baseline": 117440512,
+          "pointer": "/artifact_policy/aggregate_compressed_cap",
+          "retry": 8388608
+        },
+        {
+          "baseline": 14,
+          "pointer": "/artifact_policy/groups",
+          "retry": 1
+        },
+        {
+          "baseline": "compile900 + sum(root600) + cleanup10; per job group partition only",
+          "pointer": "/batch_policy/group_wall_seconds",
+          "retry": "compile900 + 2*root1200 =3300 child; cleanup10; envelope3310; phase8100 unchanged"
+        },
+        {
+          "baseline": "600s",
+          "pointer": "/batch_policy/harness_timeout",
+          "retry": "1200s; selected cell pair only; reference other rows600s"
+        },
+        {
+          "baseline": null,
+          "pointer": "/budgets/cell_row_seconds",
+          "retry": 1200
+        },
+        {
+          "baseline": null,
+          "pointer": "/budgets/group_child_seconds",
+          "retry": 3300
+        },
+        {
+          "baseline": null,
+          "pointer": "/budgets/group_cleanup_seconds",
+          "retry": 10
+        },
+        {
+          "baseline": null,
+          "pointer": "/budgets/group_envelope_seconds",
+          "retry": 3310
+        },
+        {
+          "baseline": 21000,
+          "pointer": "/budgets/planned_rows_seconds",
+          "retry": 2400
+        },
+        {
+          "baseline": 14,
+          "pointer": "/budgets/projected_group_count",
+          "retry": 1
+        },
+        {
+          "baseline": [
+            ".github/workflows/bench-compiler.yml",
+            ".github/workflows/bench-e2e.yml",
+            ".github/workflows/bench-pr.yml",
+            ".github/workflows/cargo-update.yml",
+            ".github/workflows/cbmc-latest.yml",
+            ".github/workflows/cbmc-update.yml",
+            ".github/workflows/ch8-s1.yml",
+            ".github/workflows/charon-update.yml",
+            ".github/workflows/deny.yml",
+            ".github/workflows/extra_jobs.yml",
+            ".github/workflows/format-check.yml",
+            ".github/workflows/kani.yml",
+            ".github/workflows/release.yml",
+            ".github/workflows/slow-tests.yml",
+            ".github/workflows/toolchain-upgrade.yml",
+            ".github/workflows/verify-std-check.yml",
+            ".github/workflows/z3-update.yml",
+            "ch8-s1-control/CI-REQUEST.json",
+            "ch8-s1-control/ORACLE-SOURCES.json",
+            "ch8-s1-control/ROLE-MAP.json",
+            "ch8-s1-control/activation-default.patch",
+            "ch8-s1-control/activation-override.patch",
+            "ch8-s1-control/binding_metadata.py",
+            "ch8-s1-control/check_package.py",
+            "ch8-s1-control/collect.py",
+            "ch8-s1-control/fixtures/s104-rich-fragment.json",
+            "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
+            "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+            "ch8-s1-control/negative_oracle.py",
+            "ch8-s1-control/oracle_source.py",
+            "ch8-s1-control/pack_evidence.py",
+            "ch8-s1-control/rich_evidence.py",
+            "ch8-s1-control/runner.py",
+            "ch8-s1-control/s108_package.py",
+            "ch8-s1-control/test_package.py",
+            "ch8-s1-control/test_runner.py",
+            "ch8-s1-control/test_s104.py",
+            "ch8-s1-control/test_s105.py",
+            "ch8-s1-control/test_s107.py",
+            "ch8-s1-control/test_s108.py",
+            "ch8-s1-control/test_s108r1.py"
+          ],
+          "pointer": "/ci_changed_paths",
+          "retry": [
+            ".github/workflows/bench-compiler.yml",
+            ".github/workflows/bench-e2e.yml",
+            ".github/workflows/bench-pr.yml",
+            ".github/workflows/cargo-update.yml",
+            ".github/workflows/cbmc-latest.yml",
+            ".github/workflows/cbmc-update.yml",
+            ".github/workflows/ch8-s1.yml",
+            ".github/workflows/charon-update.yml",
+            ".github/workflows/deny.yml",
+            ".github/workflows/extra_jobs.yml",
+            ".github/workflows/format-check.yml",
+            ".github/workflows/kani.yml",
+            ".github/workflows/release.yml",
+            ".github/workflows/slow-tests.yml",
+            ".github/workflows/toolchain-upgrade.yml",
+            ".github/workflows/verify-std-check.yml",
+            ".github/workflows/z3-update.yml",
+            "ch8-s1-control/CI-REQUEST.json",
+            "ch8-s1-control/ORACLE-SOURCES.json",
+            "ch8-s1-control/ROLE-MAP.json",
+            "ch8-s1-control/activation-default.patch",
+            "ch8-s1-control/activation-override.patch",
+            "ch8-s1-control/binding_metadata.py",
+            "ch8-s1-control/cell_retry_profile.py",
+            "ch8-s1-control/check_package.py",
+            "ch8-s1-control/collect.py",
+            "ch8-s1-control/fixtures/s104-rich-fragment.json",
+            "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
+            "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+            "ch8-s1-control/negative_oracle.py",
+            "ch8-s1-control/oracle_source.py",
+            "ch8-s1-control/pack_evidence.py",
+            "ch8-s1-control/rich_evidence.py",
+            "ch8-s1-control/runner.py",
+            "ch8-s1-control/s108_package.py",
+            "ch8-s1-control/test_cell_retry.py",
+            "ch8-s1-control/test_package.py",
+            "ch8-s1-control/test_runner.py",
+            "ch8-s1-control/test_s104.py",
+            "ch8-s1-control/test_s105.py",
+            "ch8-s1-control/test_s107.py",
+            "ch8-s1-control/test_s108.py",
+            "ch8-s1-control/test_s108r1.py"
+          ]
+        },
+        {
+          "baseline": "ad28b417fa4331692641ad0356dc0702f20405cf56674085f71ca210342e06ed",
+          "pointer": "/ci_payload_sha256/.github/workflows/ch8-s1.yml",
+          "retry": "3886bf8e9edc7edc06207a274391c3d3cced42a08951ffc28cb0432dc4568494"
+        },
+        {
+          "baseline": null,
+          "pointer": "/ci_payload_sha256/ch8-s1-control/cell_retry_profile.py",
+          "retry": "c05ed67047832f808b1b22df9d0822d49eb9519e50cdab710db65238ffb97511"
+        },
+        {
+          "baseline": "745e6277b7725c91645c4164508743ca719a0ca5a3b21453741b44b5fa56101a",
+          "pointer": "/ci_payload_sha256/ch8-s1-control/check_package.py",
+          "retry": "045f044ffc8e58572035a1526b0f76ab8379e65fe83cb4fd8376ed4d58804905"
+        },
+        {
+          "baseline": "dc1d0ac264dd1db327f6bbc531489962352ec5a383ae02dbe436530e9354e867",
+          "pointer": "/ci_payload_sha256/ch8-s1-control/runner.py",
+          "retry": "4902328df07bb9c28bc667ba522542cb61d7825639d806ca8b949789b027336f"
+        },
+        {
+          "baseline": null,
+          "pointer": "/ci_payload_sha256/ch8-s1-control/test_cell_retry.py",
+          "retry": "c338e2dcb6b5ce5b9869f941aea1d92302e77c0a6959bb1ba276e2cba470b016"
+        },
+        {
+          "baseline": "70f00d0726b7011db8a02339c1b031bda49b4af3c2f7e881b68d06b7663b5ca7",
+          "pointer": "/ci_payload_sha256/ch8-s1-control/test_package.py",
+          "retry": "2673c3698622dd30a72ef1cd79f145748de9521df9bff997f1da2d9cf885e36a"
+        },
+        {
+          "baseline": null,
+          "pointer": "/execution_scope",
+          "retry": {
+            "declared_reference_groups": 14,
+            "declared_reference_rows": 35,
+            "profile": "cell-retry1200-v1",
+            "selected_groups": [
+              "cell-u34"
+            ],
+            "selected_row_ids": [
+              "stable_default_cell",
+              "unstable_default_cell"
+            ],
+            "selectors": [
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell"
+            ]
+          }
+        },
+        {
+          "baseline": "NOT_RESERVED; preparation only; no dispatch/push/ledger",
+          "pointer": "/reservations/S1-08",
+          "retry": null
+        },
+        {
+          "baseline": null,
+          "pointer": "/reservations/S1-08-cell-retry",
+          "retry": "NOT_RESERVED; NOT_RUN; preparation/review only; coordinator decision after terminal run and intake"
+        },
+        {
+          "baseline": 600,
+          "pointer": "/rows/0/timeout_seconds",
+          "retry": 1200
+        },
+        {
+          "baseline": 600,
+          "pointer": "/rows/1/timeout_seconds",
+          "retry": 1200
+        },
+        {
+          "baseline": "ch8-s1-08-r1-ready-v1",
+          "pointer": "/schema",
+          "retry": "ch8-s1-08-cell-retry-ready-v1"
+        },
+        {
+          "baseline": [
+            "activation-default-u34",
+            "activation-override-u34"
+          ],
+          "pointer": "/workflow_stages/s1_activation",
+          "retry": null
+        },
+        {
+          "baseline": [
+            "freeze_copy_u8-n01-u34",
+            "freeze_copy_u8-n23-u34",
+            "freeze_default_noncopy-n01-u34",
+            "freeze_default_noncopy-n23-u34",
+            "stable_freeze_u8-n01-u34",
+            "stable_freeze_u8-n23-u34",
+            "unstable_freeze_u8-n01-u34",
+            "unstable_freeze_u8-n23-u34"
+          ],
+          "pointer": "/workflow_stages/s1_heavy",
+          "retry": null
+        },
+        {
+          "baseline": [
+            "light-model-u5",
+            "light-corruption-u4",
+            "light-controls-u34"
+          ],
+          "pointer": "/workflow_stages/s1_light",
+          "retry": null
+        }
+      ],
+      "control_changed_paths": [
+        ".github/workflows/ch8-s1.yml",
+        "ch8-s1-control/CI-REQUEST.json",
+        "ch8-s1-control/cell_retry_profile.py",
+        "ch8-s1-control/check_package.py",
+        "ch8-s1-control/runner.py",
+        "ch8-s1-control/test_cell_retry.py",
+        "ch8-s1-control/test_package.py"
+      ],
+      "notes": "All request differences retained, including source/contract/label coordinates and payload hashes; no causal label claim.",
+      "retry_trigger": "4336dfed5af21660b9ac82907107be839ce13977"
+    }
+  ],
+  "per_root_process_metrics": "UNKNOWN_NO_SEPARATE_PROCESS_ATTRIBUTION",
+  "proof_credit": "NONE",
+  "rows": [
+    {
+      "comparisons": [
+        {
+          "actual_config_delta": {
+            "harness_timeout_s": {
+              "baseline": 600.0,
+              "retry": 1200.0
+            }
+          },
+          "baseline": "s107",
+          "baseline_limit_s": 600.0,
+          "baseline_outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "baseline_raw_verification_time_s": 367.259887864,
+          "causal_or_same_profile_ratio": null,
+          "censoring": null,
+          "cohort": "COMPLETED_COMPLETED",
+          "completed_descriptive_delta_s": 250.73027327600005,
+          "completed_descriptive_ratio_retry_over_baseline": 1.682705303686331,
+          "control_delta": {
+            "baseline": "b37f6f75c5b7b77e84297cd7104f9c0868502fd4",
+            "retry": "4336dfed5af21660b9ac82907107be839ce13977"
+          },
+          "group_argv_delta": {
+            "baseline": [
+              "/home/runner/work/kani/kani/tool/scripts/kani",
+              "verify-std",
+              "-Z",
+              "unstable-options",
+              "-Z",
+              "function-contracts",
+              "-Z",
+              "mem-predicates",
+              "-Z",
+              "float-lib",
+              "-Z",
+              "c-ffi",
+              "-Z",
+              "loop-contracts",
+              "-Z",
+              "quantifiers",
+              "-Z",
+              "stubbing",
+              "--no-assert-contracts",
+              "--jobs=1",
+              "--harness-timeout",
+              "600s",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+              "--exact",
+              "--default-unwind",
+              "34",
+              "-Z",
+              "export-json",
+              "--export-json",
+              "/home/runner/work/_temp/ch8-s1-receipts/groups/cell-u34/export.json",
+              "--output-format=regular",
+              "/home/runner/work/kani/kani/export/library",
+              "--cbmc-args",
+              "--object-bits",
+              "12"
+            ],
+            "retry": [
+              "/home/runner/work/kani/kani/tool/scripts/kani",
+              "verify-std",
+              "-Z",
+              "unstable-options",
+              "-Z",
+              "function-contracts",
+              "-Z",
+              "mem-predicates",
+              "-Z",
+              "float-lib",
+              "-Z",
+              "c-ffi",
+              "-Z",
+              "loop-contracts",
+              "-Z",
+              "quantifiers",
+              "-Z",
+              "stubbing",
+              "--no-assert-contracts",
+              "--jobs=1",
+              "--harness-timeout",
+              "1200s",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+              "--exact",
+              "--default-unwind",
+              "34",
+              "-Z",
+              "export-json",
+              "--export-json",
+              "/home/runner/work/_temp/ch8-s1-receipts/groups/cell-u34/export.json",
+              "--output-format=regular",
+              "/home/runner/work/kani/kani/export/library",
+              "--cbmc-args",
+              "--object-bits",
+              "12"
+            ]
+          },
+          "refs": [
+            {
+              "path": "../../s1-07/run-43923266772/evidence/cell-u34/export.json",
+              "sha256": "d07da9d3380e4452cd57036863ee2336951dc31eb7542107a5e3223685c2739d"
+            },
+            {
+              "path": "../../s1-07/run-43923266772/evidence/cell-u34/receipt.json",
+              "sha256": "0643b04d4ed978ae1c2cb5ba5cb3d526b85bc50da63798bfbde615bf5f8f98aa"
+            },
+            {
+              "path": "../../s1-07/run-43923266772/CI-REQUEST.json",
+              "sha256": "6c483ce754cd8e99c01953bf4c40a145b10529d7990aa52c28ef32c00b980cd7"
+            }
+          ],
+          "request_delta": {
+            "baseline": "6c483ce754cd8e99c01953bf4c40a145b10529d7990aa52c28ef32c00b980cd7",
+            "retry": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8"
+          },
+          "request_profile_delta": {
+            "batch_policy": {
+              "baseline": {
+                "compile_boundary": "Stock initial export marker after std_project, before verification;900s cap in same process",
+                "group_by": [
+                  "explicit execution_groups"
+                ],
+                "group_rss_cap": "min(12GiB,available-2GiB); cgroup headroom considered",
+                "group_wall_seconds": "compile900 + sum(root600) + cleanup10; per job group partition only",
+                "harness_timeout": "600s",
+                "jobs": 1,
+                "per_root_rss": "UNKNOWN; group process peak is not per-root RSS",
+                "phase_seconds": 8100
+              },
+              "retry": {
+                "compile_boundary": "Stock initial export marker after std_project, before verification;900s cap in same process",
+                "group_by": [
+                  "explicit execution_groups"
+                ],
+                "group_rss_cap": "min(12GiB,available-2GiB); cgroup headroom considered",
+                "group_wall_seconds": "compile900 + 2*root1200 =3300 child; cleanup10; envelope3310; phase8100 unchanged",
+                "harness_timeout": "1200s; selected cell pair only; reference other rows600s",
+                "jobs": 1,
+                "per_root_rss": "UNKNOWN; group process peak is not per-root RSS",
+                "phase_seconds": 8100
+              }
+            },
+            "budgets": {
+              "baseline": {
+                "artifact_bytes": 268435456,
+                "compile_seconds": 900,
+                "export_bytes": 8388608,
+                "group_rss_max_kib": 12582912,
+                "jobs": 1,
+                "max_parallel": 1,
+                "memory_reserve_kib": 2097152,
+                "phase_seconds": 8100,
+                "planned_compile_seconds_per_group": 30,
+                "planned_rows_seconds": 21000,
+                "projected_group_count": 14,
+                "reserve_seconds": 900,
+                "row_seconds": 600,
+                "rss_cap_kib": 6291456,
+                "rss_kib": 6291456,
+                "setup_seconds": 1800,
+                "stderr_bytes": 1048576,
+                "stdout_bytes": 16777216,
+                "workflow_minutes": 180
+              },
+              "retry": {
+                "artifact_bytes": 268435456,
+                "cell_row_seconds": 1200,
+                "compile_seconds": 900,
+                "export_bytes": 8388608,
+                "group_child_seconds": 3300,
+                "group_cleanup_seconds": 10,
+                "group_envelope_seconds": 3310,
+                "group_rss_max_kib": 12582912,
+                "jobs": 1,
+                "max_parallel": 1,
+                "memory_reserve_kib": 2097152,
+                "phase_seconds": 8100,
+                "planned_compile_seconds_per_group": 30,
+                "planned_rows_seconds": 2400,
+                "projected_group_count": 1,
+                "reserve_seconds": 900,
+                "row_seconds": 600,
+                "rss_cap_kib": 6291456,
+                "rss_kib": 6291456,
+                "setup_seconds": 1800,
+                "stderr_bytes": 1048576,
+                "stdout_bytes": 16777216,
+                "workflow_minutes": 180
+              }
+            },
+            "execution_scope": {
+              "baseline": null,
+              "retry": {
+                "declared_reference_groups": 14,
+                "declared_reference_rows": 35,
+                "profile": "cell-retry1200-v1",
+                "selected_groups": [
+                  "cell-u34"
+                ],
+                "selected_row_ids": [
+                  "stable_default_cell",
+                  "unstable_default_cell"
+                ],
+                "selectors": [
+                  "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+                  "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell"
+                ]
+              }
+            },
+            "workflow_stages": {
+              "baseline": {
+                "s1_activation": [
+                  "activation-default-u34",
+                  "activation-override-u34"
+                ],
+                "s1_cell": [
+                  "cell-u34"
+                ],
+                "s1_heavy": [
+                  "freeze_copy_u8-n01-u34",
+                  "freeze_copy_u8-n23-u34",
+                  "freeze_default_noncopy-n01-u34",
+                  "freeze_default_noncopy-n23-u34",
+                  "stable_freeze_u8-n01-u34",
+                  "stable_freeze_u8-n23-u34",
+                  "unstable_freeze_u8-n01-u34",
+                  "unstable_freeze_u8-n23-u34"
+                ],
+                "s1_light": [
+                  "light-model-u5",
+                  "light-corruption-u4",
+                  "light-controls-u34"
+                ]
+              },
+              "retry": {
+                "s1_cell": [
+                  "cell-u34"
+                ]
+              }
+            }
+          },
+          "retry_limit_s": 1200.0,
+          "retry_outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "retry_raw_verification_time_s": 617.99016114,
+          "row_delta": {
+            "required_success_messages": {
+              "baseline": [
+                "S1_ENTRY_MODEL_ENABLED",
+                "S1_EXACT_TRAIT_THRESHOLD",
+                "S1_ENTRY_POST_INDEPENDENT_CALLER",
+                "S1_LEFT_CANARY",
+                "S1_RIGHT_CANARY"
+              ],
+              "retry": [
+                "stable_default_cell::model_enabled",
+                "stable_default_cell::s1_exact_trait_threshold",
+                "stable_default_cell::post_independent_caller",
+                "stable_default_cell::left_canary",
+                "stable_default_cell::right_canary"
+              ]
+            },
+            "timeout_seconds": {
+              "baseline": 600,
+              "retry": 1200
+            }
+          },
+          "source_delta": {
+            "baseline": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+            "retry": "99e8456d200fff1299ee5756279cddb23921dc65"
+          }
+        },
+        {
+          "actual_config_delta": {
+            "harness_timeout_s": {
+              "baseline": 600.0,
+              "retry": 1200.0
+            }
+          },
+          "baseline": "s108_diagnostic929f",
+          "baseline_limit_s": 600.0,
+          "baseline_outcome": {
+            "kind": "TIMEOUT"
+          },
+          "baseline_raw_verification_time_s": 600.03111242,
+          "causal_or_same_profile_ratio": null,
+          "censoring": {
+            "baseline_completion_time_s": null,
+            "baseline_cutoff_s": 600,
+            "baseline_reported_elapsed_s": 600.03111242,
+            "interpretation": "Right-censored old observation; no exact slowdown or fit600 inference"
+          },
+          "cohort": "BASELINE_TIMEOUT_CENSORED",
+          "completed_descriptive_delta_s": null,
+          "completed_descriptive_ratio_retry_over_baseline": null,
+          "control_delta": {
+            "baseline": "21592884db439389364b416dea1515bfa9d8018e",
+            "retry": "4336dfed5af21660b9ac82907107be839ce13977"
+          },
+          "group_argv_delta": {
+            "baseline": [
+              "/home/runner/work/kani/kani/tool/scripts/kani",
+              "verify-std",
+              "-Z",
+              "unstable-options",
+              "-Z",
+              "function-contracts",
+              "-Z",
+              "mem-predicates",
+              "-Z",
+              "float-lib",
+              "-Z",
+              "c-ffi",
+              "-Z",
+              "loop-contracts",
+              "-Z",
+              "quantifiers",
+              "-Z",
+              "stubbing",
+              "--no-assert-contracts",
+              "--jobs=1",
+              "--harness-timeout",
+              "600s",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+              "--exact",
+              "--default-unwind",
+              "34",
+              "-Z",
+              "export-json",
+              "--export-json",
+              "/home/runner/work/_temp/ch8-s1-receipts/groups/cell-u34/export.json",
+              "--output-format=regular",
+              "/home/runner/work/kani/kani/export/library",
+              "--cbmc-args",
+              "--object-bits",
+              "12"
+            ],
+            "retry": [
+              "/home/runner/work/kani/kani/tool/scripts/kani",
+              "verify-std",
+              "-Z",
+              "unstable-options",
+              "-Z",
+              "function-contracts",
+              "-Z",
+              "mem-predicates",
+              "-Z",
+              "float-lib",
+              "-Z",
+              "c-ffi",
+              "-Z",
+              "loop-contracts",
+              "-Z",
+              "quantifiers",
+              "-Z",
+              "stubbing",
+              "--no-assert-contracts",
+              "--jobs=1",
+              "--harness-timeout",
+              "1200s",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+              "--exact",
+              "--default-unwind",
+              "34",
+              "-Z",
+              "export-json",
+              "--export-json",
+              "/home/runner/work/_temp/ch8-s1-receipts/groups/cell-u34/export.json",
+              "--output-format=regular",
+              "/home/runner/work/kani/kani/export/library",
+              "--cbmc-args",
+              "--object-bits",
+              "12"
+            ]
+          },
+          "refs": [
+            {
+              "path": "../run-44095954742/cell-diagnostic/structured/export.json",
+              "sha256": "12c91613bc586314b6168def0abc9913c1d10fd61b6a9271477700887ea26696"
+            },
+            {
+              "path": "../run-44095954742/cell-diagnostic/structured/receipt.json",
+              "sha256": "508e6262780511b381986a5ff5ebb8174278940771b34e7ade780d173ba35f9c"
+            },
+            {
+              "path": "../run-44095954742/CI-REQUEST.json",
+              "sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e"
+            }
+          ],
+          "request_delta": {
+            "baseline": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+            "retry": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8"
+          },
+          "request_profile_delta": {
+            "batch_policy": {
+              "baseline": {
+                "compile_boundary": "Stock initial export marker after std_project, before verification;900s cap in same process",
+                "group_by": [
+                  "explicit execution_groups"
+                ],
+                "group_rss_cap": "min(12GiB,available-2GiB); cgroup headroom considered",
+                "group_wall_seconds": "compile900 + sum(root600) + cleanup10; per job group partition only",
+                "harness_timeout": "600s",
+                "jobs": 1,
+                "per_root_rss": "UNKNOWN; group process peak is not per-root RSS",
+                "phase_seconds": 8100
+              },
+              "retry": {
+                "compile_boundary": "Stock initial export marker after std_project, before verification;900s cap in same process",
+                "group_by": [
+                  "explicit execution_groups"
+                ],
+                "group_rss_cap": "min(12GiB,available-2GiB); cgroup headroom considered",
+                "group_wall_seconds": "compile900 + 2*root1200 =3300 child; cleanup10; envelope3310; phase8100 unchanged",
+                "harness_timeout": "1200s; selected cell pair only; reference other rows600s",
+                "jobs": 1,
+                "per_root_rss": "UNKNOWN; group process peak is not per-root RSS",
+                "phase_seconds": 8100
+              }
+            },
+            "budgets": {
+              "baseline": {
+                "artifact_bytes": 268435456,
+                "compile_seconds": 900,
+                "export_bytes": 8388608,
+                "group_rss_max_kib": 12582912,
+                "jobs": 1,
+                "max_parallel": 1,
+                "memory_reserve_kib": 2097152,
+                "phase_seconds": 8100,
+                "planned_compile_seconds_per_group": 30,
+                "planned_rows_seconds": 21000,
+                "projected_group_count": 14,
+                "reserve_seconds": 900,
+                "row_seconds": 600,
+                "rss_cap_kib": 6291456,
+                "rss_kib": 6291456,
+                "setup_seconds": 1800,
+                "stderr_bytes": 1048576,
+                "stdout_bytes": 16777216,
+                "workflow_minutes": 180
+              },
+              "retry": {
+                "artifact_bytes": 268435456,
+                "cell_row_seconds": 1200,
+                "compile_seconds": 900,
+                "export_bytes": 8388608,
+                "group_child_seconds": 3300,
+                "group_cleanup_seconds": 10,
+                "group_envelope_seconds": 3310,
+                "group_rss_max_kib": 12582912,
+                "jobs": 1,
+                "max_parallel": 1,
+                "memory_reserve_kib": 2097152,
+                "phase_seconds": 8100,
+                "planned_compile_seconds_per_group": 30,
+                "planned_rows_seconds": 2400,
+                "projected_group_count": 1,
+                "reserve_seconds": 900,
+                "row_seconds": 600,
+                "rss_cap_kib": 6291456,
+                "rss_kib": 6291456,
+                "setup_seconds": 1800,
+                "stderr_bytes": 1048576,
+                "stdout_bytes": 16777216,
+                "workflow_minutes": 180
+              }
+            },
+            "execution_scope": {
+              "baseline": null,
+              "retry": {
+                "declared_reference_groups": 14,
+                "declared_reference_rows": 35,
+                "profile": "cell-retry1200-v1",
+                "selected_groups": [
+                  "cell-u34"
+                ],
+                "selected_row_ids": [
+                  "stable_default_cell",
+                  "unstable_default_cell"
+                ],
+                "selectors": [
+                  "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+                  "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell"
+                ]
+              }
+            },
+            "workflow_stages": {
+              "baseline": {
+                "s1_activation": [
+                  "activation-default-u34",
+                  "activation-override-u34"
+                ],
+                "s1_cell": [
+                  "cell-u34"
+                ],
+                "s1_heavy": [
+                  "freeze_copy_u8-n01-u34",
+                  "freeze_copy_u8-n23-u34",
+                  "freeze_default_noncopy-n01-u34",
+                  "freeze_default_noncopy-n23-u34",
+                  "stable_freeze_u8-n01-u34",
+                  "stable_freeze_u8-n23-u34",
+                  "unstable_freeze_u8-n01-u34",
+                  "unstable_freeze_u8-n23-u34"
+                ],
+                "s1_light": [
+                  "light-model-u5",
+                  "light-corruption-u4",
+                  "light-controls-u34"
+                ]
+              },
+              "retry": {
+                "s1_cell": [
+                  "cell-u34"
+                ]
+              }
+            }
+          },
+          "retry_limit_s": 1200.0,
+          "retry_outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "retry_raw_verification_time_s": 617.99016114,
+          "row_delta": {
+            "timeout_seconds": {
+              "baseline": 600,
+              "retry": 1200
+            }
+          },
+          "source_delta": {
+            "baseline": "99e8456d200fff1299ee5756279cddb23921dc65",
+            "retry": "99e8456d200fff1299ee5756279cddb23921dc65"
+          }
+        }
+      ],
+      "row_id": "stable_default_cell"
+    },
+    {
+      "comparisons": [
+        {
+          "actual_config_delta": {
+            "harness_timeout_s": {
+              "baseline": 600.0,
+              "retry": 1200.0
+            }
+          },
+          "baseline": "s107",
+          "baseline_limit_s": 600.0,
+          "baseline_outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "baseline_raw_verification_time_s": 368.802323945,
+          "causal_or_same_profile_ratio": null,
+          "censoring": null,
+          "cohort": "COMPLETED_COMPLETED",
+          "completed_descriptive_delta_s": 116.48754951399997,
+          "completed_descriptive_ratio_retry_over_baseline": 1.3158536211701635,
+          "control_delta": {
+            "baseline": "b37f6f75c5b7b77e84297cd7104f9c0868502fd4",
+            "retry": "4336dfed5af21660b9ac82907107be839ce13977"
+          },
+          "group_argv_delta": {
+            "baseline": [
+              "/home/runner/work/kani/kani/tool/scripts/kani",
+              "verify-std",
+              "-Z",
+              "unstable-options",
+              "-Z",
+              "function-contracts",
+              "-Z",
+              "mem-predicates",
+              "-Z",
+              "float-lib",
+              "-Z",
+              "c-ffi",
+              "-Z",
+              "loop-contracts",
+              "-Z",
+              "quantifiers",
+              "-Z",
+              "stubbing",
+              "--no-assert-contracts",
+              "--jobs=1",
+              "--harness-timeout",
+              "600s",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+              "--exact",
+              "--default-unwind",
+              "34",
+              "-Z",
+              "export-json",
+              "--export-json",
+              "/home/runner/work/_temp/ch8-s1-receipts/groups/cell-u34/export.json",
+              "--output-format=regular",
+              "/home/runner/work/kani/kani/export/library",
+              "--cbmc-args",
+              "--object-bits",
+              "12"
+            ],
+            "retry": [
+              "/home/runner/work/kani/kani/tool/scripts/kani",
+              "verify-std",
+              "-Z",
+              "unstable-options",
+              "-Z",
+              "function-contracts",
+              "-Z",
+              "mem-predicates",
+              "-Z",
+              "float-lib",
+              "-Z",
+              "c-ffi",
+              "-Z",
+              "loop-contracts",
+              "-Z",
+              "quantifiers",
+              "-Z",
+              "stubbing",
+              "--no-assert-contracts",
+              "--jobs=1",
+              "--harness-timeout",
+              "1200s",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+              "--exact",
+              "--default-unwind",
+              "34",
+              "-Z",
+              "export-json",
+              "--export-json",
+              "/home/runner/work/_temp/ch8-s1-receipts/groups/cell-u34/export.json",
+              "--output-format=regular",
+              "/home/runner/work/kani/kani/export/library",
+              "--cbmc-args",
+              "--object-bits",
+              "12"
+            ]
+          },
+          "refs": [
+            {
+              "path": "../../s1-07/run-43923266772/evidence/cell-u34/export.json",
+              "sha256": "d07da9d3380e4452cd57036863ee2336951dc31eb7542107a5e3223685c2739d"
+            },
+            {
+              "path": "../../s1-07/run-43923266772/evidence/cell-u34/receipt.json",
+              "sha256": "0643b04d4ed978ae1c2cb5ba5cb3d526b85bc50da63798bfbde615bf5f8f98aa"
+            },
+            {
+              "path": "../../s1-07/run-43923266772/CI-REQUEST.json",
+              "sha256": "6c483ce754cd8e99c01953bf4c40a145b10529d7990aa52c28ef32c00b980cd7"
+            }
+          ],
+          "request_delta": {
+            "baseline": "6c483ce754cd8e99c01953bf4c40a145b10529d7990aa52c28ef32c00b980cd7",
+            "retry": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8"
+          },
+          "request_profile_delta": {
+            "batch_policy": {
+              "baseline": {
+                "compile_boundary": "Stock initial export marker after std_project, before verification;900s cap in same process",
+                "group_by": [
+                  "explicit execution_groups"
+                ],
+                "group_rss_cap": "min(12GiB,available-2GiB); cgroup headroom considered",
+                "group_wall_seconds": "compile900 + sum(root600) + cleanup10; per job group partition only",
+                "harness_timeout": "600s",
+                "jobs": 1,
+                "per_root_rss": "UNKNOWN; group process peak is not per-root RSS",
+                "phase_seconds": 8100
+              },
+              "retry": {
+                "compile_boundary": "Stock initial export marker after std_project, before verification;900s cap in same process",
+                "group_by": [
+                  "explicit execution_groups"
+                ],
+                "group_rss_cap": "min(12GiB,available-2GiB); cgroup headroom considered",
+                "group_wall_seconds": "compile900 + 2*root1200 =3300 child; cleanup10; envelope3310; phase8100 unchanged",
+                "harness_timeout": "1200s; selected cell pair only; reference other rows600s",
+                "jobs": 1,
+                "per_root_rss": "UNKNOWN; group process peak is not per-root RSS",
+                "phase_seconds": 8100
+              }
+            },
+            "budgets": {
+              "baseline": {
+                "artifact_bytes": 268435456,
+                "compile_seconds": 900,
+                "export_bytes": 8388608,
+                "group_rss_max_kib": 12582912,
+                "jobs": 1,
+                "max_parallel": 1,
+                "memory_reserve_kib": 2097152,
+                "phase_seconds": 8100,
+                "planned_compile_seconds_per_group": 30,
+                "planned_rows_seconds": 21000,
+                "projected_group_count": 14,
+                "reserve_seconds": 900,
+                "row_seconds": 600,
+                "rss_cap_kib": 6291456,
+                "rss_kib": 6291456,
+                "setup_seconds": 1800,
+                "stderr_bytes": 1048576,
+                "stdout_bytes": 16777216,
+                "workflow_minutes": 180
+              },
+              "retry": {
+                "artifact_bytes": 268435456,
+                "cell_row_seconds": 1200,
+                "compile_seconds": 900,
+                "export_bytes": 8388608,
+                "group_child_seconds": 3300,
+                "group_cleanup_seconds": 10,
+                "group_envelope_seconds": 3310,
+                "group_rss_max_kib": 12582912,
+                "jobs": 1,
+                "max_parallel": 1,
+                "memory_reserve_kib": 2097152,
+                "phase_seconds": 8100,
+                "planned_compile_seconds_per_group": 30,
+                "planned_rows_seconds": 2400,
+                "projected_group_count": 1,
+                "reserve_seconds": 900,
+                "row_seconds": 600,
+                "rss_cap_kib": 6291456,
+                "rss_kib": 6291456,
+                "setup_seconds": 1800,
+                "stderr_bytes": 1048576,
+                "stdout_bytes": 16777216,
+                "workflow_minutes": 180
+              }
+            },
+            "execution_scope": {
+              "baseline": null,
+              "retry": {
+                "declared_reference_groups": 14,
+                "declared_reference_rows": 35,
+                "profile": "cell-retry1200-v1",
+                "selected_groups": [
+                  "cell-u34"
+                ],
+                "selected_row_ids": [
+                  "stable_default_cell",
+                  "unstable_default_cell"
+                ],
+                "selectors": [
+                  "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+                  "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell"
+                ]
+              }
+            },
+            "workflow_stages": {
+              "baseline": {
+                "s1_activation": [
+                  "activation-default-u34",
+                  "activation-override-u34"
+                ],
+                "s1_cell": [
+                  "cell-u34"
+                ],
+                "s1_heavy": [
+                  "freeze_copy_u8-n01-u34",
+                  "freeze_copy_u8-n23-u34",
+                  "freeze_default_noncopy-n01-u34",
+                  "freeze_default_noncopy-n23-u34",
+                  "stable_freeze_u8-n01-u34",
+                  "stable_freeze_u8-n23-u34",
+                  "unstable_freeze_u8-n01-u34",
+                  "unstable_freeze_u8-n23-u34"
+                ],
+                "s1_light": [
+                  "light-model-u5",
+                  "light-corruption-u4",
+                  "light-controls-u34"
+                ]
+              },
+              "retry": {
+                "s1_cell": [
+                  "cell-u34"
+                ]
+              }
+            }
+          },
+          "retry_limit_s": 1200.0,
+          "retry_outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "retry_raw_verification_time_s": 485.289873459,
+          "row_delta": {
+            "required_success_messages": {
+              "baseline": [
+                "S1_ENTRY_MODEL_ENABLED",
+                "S1_EXACT_TRAIT_THRESHOLD",
+                "S1_ENTRY_POST_INDEPENDENT_CALLER",
+                "S1_LEFT_CANARY",
+                "S1_RIGHT_CANARY"
+              ],
+              "retry": [
+                "unstable_default_cell::model_enabled",
+                "unstable_default_cell::s1_exact_trait_threshold",
+                "unstable_default_cell::post_independent_caller",
+                "unstable_default_cell::left_canary",
+                "unstable_default_cell::right_canary"
+              ]
+            },
+            "timeout_seconds": {
+              "baseline": 600,
+              "retry": 1200
+            }
+          },
+          "source_delta": {
+            "baseline": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+            "retry": "99e8456d200fff1299ee5756279cddb23921dc65"
+          }
+        },
+        {
+          "actual_config_delta": {
+            "harness_timeout_s": {
+              "baseline": 600.0,
+              "retry": 1200.0
+            }
+          },
+          "baseline": "s108_diagnostic929f",
+          "baseline_limit_s": 600.0,
+          "baseline_outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "baseline_raw_verification_time_s": 594.575884753,
+          "causal_or_same_profile_ratio": null,
+          "censoring": null,
+          "cohort": "COMPLETED_COMPLETED",
+          "completed_descriptive_delta_s": -109.28601129399999,
+          "completed_descriptive_ratio_retry_over_baseline": 0.8161950154783021,
+          "control_delta": {
+            "baseline": "21592884db439389364b416dea1515bfa9d8018e",
+            "retry": "4336dfed5af21660b9ac82907107be839ce13977"
+          },
+          "group_argv_delta": {
+            "baseline": [
+              "/home/runner/work/kani/kani/tool/scripts/kani",
+              "verify-std",
+              "-Z",
+              "unstable-options",
+              "-Z",
+              "function-contracts",
+              "-Z",
+              "mem-predicates",
+              "-Z",
+              "float-lib",
+              "-Z",
+              "c-ffi",
+              "-Z",
+              "loop-contracts",
+              "-Z",
+              "quantifiers",
+              "-Z",
+              "stubbing",
+              "--no-assert-contracts",
+              "--jobs=1",
+              "--harness-timeout",
+              "600s",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+              "--exact",
+              "--default-unwind",
+              "34",
+              "-Z",
+              "export-json",
+              "--export-json",
+              "/home/runner/work/_temp/ch8-s1-receipts/groups/cell-u34/export.json",
+              "--output-format=regular",
+              "/home/runner/work/kani/kani/export/library",
+              "--cbmc-args",
+              "--object-bits",
+              "12"
+            ],
+            "retry": [
+              "/home/runner/work/kani/kani/tool/scripts/kani",
+              "verify-std",
+              "-Z",
+              "unstable-options",
+              "-Z",
+              "function-contracts",
+              "-Z",
+              "mem-predicates",
+              "-Z",
+              "float-lib",
+              "-Z",
+              "c-ffi",
+              "-Z",
+              "loop-contracts",
+              "-Z",
+              "quantifiers",
+              "-Z",
+              "stubbing",
+              "--no-assert-contracts",
+              "--jobs=1",
+              "--harness-timeout",
+              "1200s",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+              "--harness",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+              "--exact",
+              "--default-unwind",
+              "34",
+              "-Z",
+              "export-json",
+              "--export-json",
+              "/home/runner/work/_temp/ch8-s1-receipts/groups/cell-u34/export.json",
+              "--output-format=regular",
+              "/home/runner/work/kani/kani/export/library",
+              "--cbmc-args",
+              "--object-bits",
+              "12"
+            ]
+          },
+          "refs": [
+            {
+              "path": "../run-44095954742/cell-diagnostic/structured/export.json",
+              "sha256": "12c91613bc586314b6168def0abc9913c1d10fd61b6a9271477700887ea26696"
+            },
+            {
+              "path": "../run-44095954742/cell-diagnostic/structured/receipt.json",
+              "sha256": "508e6262780511b381986a5ff5ebb8174278940771b34e7ade780d173ba35f9c"
+            },
+            {
+              "path": "../run-44095954742/CI-REQUEST.json",
+              "sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e"
+            }
+          ],
+          "request_delta": {
+            "baseline": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+            "retry": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8"
+          },
+          "request_profile_delta": {
+            "batch_policy": {
+              "baseline": {
+                "compile_boundary": "Stock initial export marker after std_project, before verification;900s cap in same process",
+                "group_by": [
+                  "explicit execution_groups"
+                ],
+                "group_rss_cap": "min(12GiB,available-2GiB); cgroup headroom considered",
+                "group_wall_seconds": "compile900 + sum(root600) + cleanup10; per job group partition only",
+                "harness_timeout": "600s",
+                "jobs": 1,
+                "per_root_rss": "UNKNOWN; group process peak is not per-root RSS",
+                "phase_seconds": 8100
+              },
+              "retry": {
+                "compile_boundary": "Stock initial export marker after std_project, before verification;900s cap in same process",
+                "group_by": [
+                  "explicit execution_groups"
+                ],
+                "group_rss_cap": "min(12GiB,available-2GiB); cgroup headroom considered",
+                "group_wall_seconds": "compile900 + 2*root1200 =3300 child; cleanup10; envelope3310; phase8100 unchanged",
+                "harness_timeout": "1200s; selected cell pair only; reference other rows600s",
+                "jobs": 1,
+                "per_root_rss": "UNKNOWN; group process peak is not per-root RSS",
+                "phase_seconds": 8100
+              }
+            },
+            "budgets": {
+              "baseline": {
+                "artifact_bytes": 268435456,
+                "compile_seconds": 900,
+                "export_bytes": 8388608,
+                "group_rss_max_kib": 12582912,
+                "jobs": 1,
+                "max_parallel": 1,
+                "memory_reserve_kib": 2097152,
+                "phase_seconds": 8100,
+                "planned_compile_seconds_per_group": 30,
+                "planned_rows_seconds": 21000,
+                "projected_group_count": 14,
+                "reserve_seconds": 900,
+                "row_seconds": 600,
+                "rss_cap_kib": 6291456,
+                "rss_kib": 6291456,
+                "setup_seconds": 1800,
+                "stderr_bytes": 1048576,
+                "stdout_bytes": 16777216,
+                "workflow_minutes": 180
+              },
+              "retry": {
+                "artifact_bytes": 268435456,
+                "cell_row_seconds": 1200,
+                "compile_seconds": 900,
+                "export_bytes": 8388608,
+                "group_child_seconds": 3300,
+                "group_cleanup_seconds": 10,
+                "group_envelope_seconds": 3310,
+                "group_rss_max_kib": 12582912,
+                "jobs": 1,
+                "max_parallel": 1,
+                "memory_reserve_kib": 2097152,
+                "phase_seconds": 8100,
+                "planned_compile_seconds_per_group": 30,
+                "planned_rows_seconds": 2400,
+                "projected_group_count": 1,
+                "reserve_seconds": 900,
+                "row_seconds": 600,
+                "rss_cap_kib": 6291456,
+                "rss_kib": 6291456,
+                "setup_seconds": 1800,
+                "stderr_bytes": 1048576,
+                "stdout_bytes": 16777216,
+                "workflow_minutes": 180
+              }
+            },
+            "execution_scope": {
+              "baseline": null,
+              "retry": {
+                "declared_reference_groups": 14,
+                "declared_reference_rows": 35,
+                "profile": "cell-retry1200-v1",
+                "selected_groups": [
+                  "cell-u34"
+                ],
+                "selected_row_ids": [
+                  "stable_default_cell",
+                  "unstable_default_cell"
+                ],
+                "selectors": [
+                  "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+                  "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell"
+                ]
+              }
+            },
+            "workflow_stages": {
+              "baseline": {
+                "s1_activation": [
+                  "activation-default-u34",
+                  "activation-override-u34"
+                ],
+                "s1_cell": [
+                  "cell-u34"
+                ],
+                "s1_heavy": [
+                  "freeze_copy_u8-n01-u34",
+                  "freeze_copy_u8-n23-u34",
+                  "freeze_default_noncopy-n01-u34",
+                  "freeze_default_noncopy-n23-u34",
+                  "stable_freeze_u8-n01-u34",
+                  "stable_freeze_u8-n23-u34",
+                  "unstable_freeze_u8-n01-u34",
+                  "unstable_freeze_u8-n23-u34"
+                ],
+                "s1_light": [
+                  "light-model-u5",
+                  "light-corruption-u4",
+                  "light-controls-u34"
+                ]
+              },
+              "retry": {
+                "s1_cell": [
+                  "cell-u34"
+                ]
+              }
+            }
+          },
+          "retry_limit_s": 1200.0,
+          "retry_outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "retry_raw_verification_time_s": 485.289873459,
+          "row_delta": {
+            "timeout_seconds": {
+              "baseline": 600,
+              "retry": 1200
+            }
+          },
+          "source_delta": {
+            "baseline": "99e8456d200fff1299ee5756279cddb23921dc65",
+            "retry": "99e8456d200fff1299ee5756279cddb23921dc65"
+          }
+        }
+      ],
+      "row_id": "unstable_default_cell"
+    }
+  ],
+  "schema": "s108-cell-two-row-timing-v1",
+  "scope": "Separate two-row descriptive comparison; old35pairs immutable"
+}

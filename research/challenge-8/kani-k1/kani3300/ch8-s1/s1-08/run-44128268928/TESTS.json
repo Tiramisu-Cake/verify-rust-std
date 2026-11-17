@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "tests": 8,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "actual_elapsed_seconds": 0.298,
+  "scope": "Narrow selected group/origin/timeout/incomplete/missing RESULTS/truncated inventory boundary; no full runner or compiler executed",
+  "command": "PYTHONDONTWRITEBYTECODE=1 python -m unittest discover -s research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44128268928 -p test_replay.py -v",
+  "cases": [
+    "exact selected pair and 13 missing reference groups",
+    "foreign request rejected by exact collector",
+    "duplicate group rejected by exact collector",
+    "one-row incomplete splice rejected",
+    "failed group remains UNKNOWN under exact collector",
+    "wrong timeout or request or partial origin rejected",
+    "TIMEOUT/missing RESULTS not promoted to SUCCESS",
+    "truncated full inventory rejected"
+  ]
+}

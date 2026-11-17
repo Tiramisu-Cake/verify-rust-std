@@ -1,0 +1,110 @@
+{
+  "compact_uncompressed_bytes": 807720,
+  "download": "One selected compact artifact only; ZIP digest/bytes verified before opening members; ZIP not retained",
+  "embedded_members": {
+    "groups/cell-u34/binding-metadata.json": {
+      "bytes": 206249,
+      "encoding": "utf-8",
+      "sha256": "1c6ab2799c5de2ad60343718c250b93c1abb8e89bec92858bd6a2f44e24a161c"
+    },
+    "groups/cell-u34/compile/receipt.json": {
+      "bytes": 9983,
+      "encoding": "utf-8",
+      "sha256": "31281c9027dd0d68da6e99bc800f96ae1ffbaa879e6e915b6f4a41cdd00e6cce"
+    },
+    "groups/cell-u34/export.json": {
+      "bytes": 11033,
+      "encoding": "utf-8",
+      "sha256": "c1683bda1f965a14fdae955a26846152095bfdd84fbccf9c46513c3e3caa5b91"
+    },
+    "groups/cell-u34/properties.json": {
+      "bytes": 430451,
+      "encoding": "utf-8",
+      "sha256": "b0dda7a2ee78c59ffa3e12d23c6e583b336e2eb7bb14bc1748356cefd2f8c747"
+    },
+    "groups/cell-u34/receipt.json": {
+      "bytes": 16878,
+      "encoding": "utf-8",
+      "sha256": "d08f8fe700a86aa53d9d0b29e5443b4c2af8300d4ce3ab3108e7c5e4ea48aace"
+    },
+    "job-status.json": {
+      "bytes": 174,
+      "encoding": "utf-8",
+      "sha256": "2bdc83f216080689c34c9bc45a86a4b5b98fe7701e7421194807ed2f2327470b"
+    },
+    "receipt.json": {
+      "bytes": 47164,
+      "encoding": "utf-8",
+      "sha256": "1bdbf3f5cb3ba69023aa64ca95d8f107a0707ed713af3dd21972f65645659423"
+    },
+    "setup/receipt.json": {
+      "bytes": 481,
+      "encoding": "utf-8",
+      "sha256": "ab0756f1a96e685784dee16a1306dc6a4687d6b8762a8653968ddf989ae82cec"
+    },
+    "stable_default_cell/receipt.json": {
+      "bytes": 14741,
+      "encoding": "utf-8",
+      "sha256": "616971a6ef72de135243e9e2a1f3bf1176d4e5652b05bdca7da3ccf9f952bf69"
+    },
+    "unstable_default_cell/receipt.json": {
+      "bytes": 14793,
+      "encoding": "utf-8",
+      "sha256": "c79d590a1c1313b2874747dce2c1b593a5fe0da20547ddea6f4a212a1dff5c56"
+    }
+  },
+  "exceptions": {
+    "execution_exception": null,
+    "field_presence": {
+      "execution_exception": false,
+      "original_exception": false
+    },
+    "note": "Absent group exception fields remain absent in original; null here is a presence-qualified projection",
+    "original_exception": null
+  },
+  "helper_reuse": {
+    "g0_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+    "path": "../run-44095954742/intake.py",
+    "sha256": "d5f629aa580ed0d1b400d103565d6b3d13ee482a35a77ad8a9268fd0c7fc3cbb"
+  },
+  "metadata_source": "GitHub connected read-only GET tools; exact attempt1 run + jobs/artifact metadata",
+  "native_bytes": 175510,
+  "native_files": 23,
+  "origin": {
+    "artifact_digest": "sha256:71d8804bd7668bd938bd7d972ce2c12a9efda3781373188d285492224b60f1ce",
+    "artifact_id": 14351510490,
+    "artifact_name": "ch8-s1-05-44128268928-1-cell-u34",
+    "attempt": 1,
+    "control_tree": "2c4475bf17bb0354e9b204e19c652549c263f90f",
+    "group": "cell-u34",
+    "invocation_id": "4233d8914e4c41db85be0a5283715324",
+    "parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+    "repository": "Tiramisu-Cake/kani",
+    "request_sha256": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8",
+    "reviewed_control_sha": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+    "run_id": 44128268928,
+    "std_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "trigger_sha": "4336dfed5af21660b9ac82907107be839ce13977"
+  },
+  "original_evidence": "Read-only refs only; no old artifact download; no mixed collector",
+  "projection_policy": "stock/rich/native exact bytes; receipt projections remove only stdout/stderr previews. Exact compact original retained.",
+  "proof_credit": "NONE",
+  "qualification": "PENDING_OFFLINE",
+  "replay": "Unmodified trigger collector with own request and one selected artifact only",
+  "zip_attestation": {
+    "bytes": 50140,
+    "github_digest_match": true,
+    "payload_sha256": "b40a5f2a8285eedae799e0b7a3a5542192a966b33260e1dbb4c10d12fb8a0c1c",
+    "sha256": "71d8804bd7668bd938bd7d972ce2c12a9efda3781373188d285492224b60f1ce",
+    "zip_members": [
+      {
+        "bytes": 50511,
+        "compressed_bytes": 49982,
+        "crc32": 4104727576,
+        "name": "group-evidence.json.gz"
+      }
+    ],
+    "zip_retained": false
+  }
+}

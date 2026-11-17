@@ -1,0 +1,628 @@
+{
+  "missing_groups": [
+    "light-model-u5",
+    "light-corruption-u4",
+    "light-controls-u34",
+    "activation-default-u34",
+    "activation-override-u34",
+    "freeze_copy_u8-n01-u34",
+    "freeze_copy_u8-n23-u34",
+    "freeze_default_noncopy-n01-u34",
+    "freeze_default_noncopy-n23-u34",
+    "stable_freeze_u8-n01-u34",
+    "stable_freeze_u8-n23-u34",
+    "unstable_freeze_u8-n01-u34",
+    "unstable_freeze_u8-n23-u34"
+  ],
+  "proof_credit": "NONE",
+  "qualified_acceptance": "PENDING_INDEPENDENT_BINDING_AND_EXCEPTION_REVIEW",
+  "replacement_unions": [
+    {
+      "eligible_for_review": false,
+      "id": "freeze_copy_u8",
+      "member_row_ids": [
+        "freeze_copy_u8_n0",
+        "freeze_copy_u8_n1",
+        "freeze_copy_u8_n2",
+        "freeze_copy_u8_n3"
+      ],
+      "proof_credit": "NONE",
+      "state": "PENDING_OFFLINE_ACCEPTANCE"
+    },
+    {
+      "eligible_for_review": false,
+      "id": "freeze_default_noncopy",
+      "member_row_ids": [
+        "freeze_default_noncopy_n0",
+        "freeze_default_noncopy_n1",
+        "freeze_default_noncopy_n2",
+        "freeze_default_noncopy_n3"
+      ],
+      "proof_credit": "NONE",
+      "state": "PENDING_OFFLINE_ACCEPTANCE"
+    },
+    {
+      "eligible_for_review": false,
+      "id": "stable_freeze_u8",
+      "member_row_ids": [
+        "stable_freeze_u8_n0",
+        "stable_freeze_u8_n1",
+        "stable_freeze_u8_n2",
+        "stable_freeze_u8_n3"
+      ],
+      "proof_credit": "NONE",
+      "state": "PENDING_OFFLINE_ACCEPTANCE"
+    },
+    {
+      "eligible_for_review": false,
+      "id": "unstable_freeze_u8",
+      "member_row_ids": [
+        "unstable_freeze_u8_n0",
+        "unstable_freeze_u8_n1",
+        "unstable_freeze_u8_n2",
+        "unstable_freeze_u8_n3"
+      ],
+      "proof_credit": "NONE",
+      "state": "PENDING_OFFLINE_ACCEPTANCE"
+    }
+  ],
+  "request_sha256": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8",
+  "rows": [
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "diagnostics": "groups/cell-u34",
+      "export": {
+        "expected_target_fn": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort",
+        "harness": {
+          "attributes": {
+            "kind": {
+              "ProofForContract": {
+                "target_fn": "< Cell<u8> as StableSmallSortTypeImpl > :: small_sort"
+              }
+            },
+            "should_panic": false,
+            "solver": null,
+            "stubs": [],
+            "unwind_value": 34,
+            "verified_stubs": []
+          },
+          "checks": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 286,
+            "total": 290,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+            ]
+          },
+          "contract": {
+            "contracted_function_name": "_RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_",
+            "recursion_tracker": null
+          },
+          "covers": {
+            "error": [],
+            "other": [],
+            "satisfied": [
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.1",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.2",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.3",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.4",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.5",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.6",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.7",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.8",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.9",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.10",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.11"
+            ],
+            "total": 11,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [],
+            "unsatisfiable": []
+          },
+          "crate_name": "core",
+          "failed_properties": [],
+          "failure_kind": "NONE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "generated_concrete_test": false,
+          "has_loop_contracts": false,
+          "is_automatically_generated": false,
+          "is_bounded": false,
+          "line": 36,
+          "n_failed": 0,
+          "n_properties": 301,
+          "name": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+          "outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "resolved_solver": "cadical",
+          "resolved_unwind": 34,
+          "resources": {
+            "verification_time_s": 617.99016114
+          },
+          "unsupported_constructs": [
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "warnings": [],
+          "warnings_truncated": 0
+        },
+        "outcome": "RECORDED",
+        "proof_credit": "NONE",
+        "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+        "reported_contracted_function_name": "_RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_",
+        "reported_outcome": {
+          "kind": "COMPLETED",
+          "verdict": "SUCCESS"
+        },
+        "selected_mode": {
+          "ProofForContract": {
+            "target_fn": "< Cell<u8> as StableSmallSortTypeImpl > :: small_sort"
+          }
+        },
+        "selected_root": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+        "source_binding": {
+          "crate": "core",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "locations": [
+            {
+              "line": 141,
+              "source": "smoke!(stable_default_cell, Cell<u8>, Cell::new, StableSmallSortTypeImpl, 16, stable_empty);"
+            },
+            {
+              "line": 36,
+              "source": "        fn $name() {"
+            }
+          ],
+          "mode": "PFC",
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+          "sha256": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+          "target": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort"
+        },
+        "state": "RECORDED_OBSERVATION"
+      },
+      "group": "cell-u34",
+      "group_export_sha256": "c1683bda1f965a14fdae955a26846152095bfdd84fbccf9c46513c3e3caa5b91",
+      "group_original_exit": 0,
+      "group_rss_cap_kib": 12582912,
+      "group_rss_peak_kib": 8174308,
+      "id": "stable_default_cell",
+      "mode": "PFC",
+      "original_exit": null,
+      "original_exit_scope": "PER_ROOT_DRIVER_EXIT_UNAVAILABLE_IN_BATCH",
+      "outcome": "RECORDED",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "rich_evidence": "groups/cell-u34/properties.json",
+      "rich_evidence_sha256": "b0dda7a2ee78c59ffa3e12d23c6e583b336e2eb7bb14bc1748356cefd2f8c747",
+      "root_timeout_seconds": 1200,
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+      "signal": null,
+      "status": "OBSERVED",
+      "stderr": {
+        "capture_layout": "HEAD_THEN_TAIL",
+        "capture_omitted_bytes": 0,
+        "captured_bytes": 2493,
+        "head": "warning: Cargo.toml: `package.edition` is unspecified, defaulting to `2015` while the latest is `2024`\nwarning: `dummy` (manifest) generated 1 warning\n    Updating crates.io index\n Downloading crates ...\n  Downloaded proc-macro-error-attr v1.0.4\n  Downloaded proc-macro-error v1.0.4\n  Downloaded unicode-ident v1.0.24\n  Downloaded syn v1.0.109\n   Compiling proc-macro2 v1.0.107\n   Compiling unicode-ident v1.0.24\n   Compiling version_check v0.9.5\n   Compiling quote v1.0.47\n   Compiling syn v1.0.109\n   Compiling safety v0.1.0 (/home/runner/work/kani/kani/export/library/contracts/safety)\n   Compiling compiler_builtins v0.1.160 (/home/runner/work/kani/kani/export/library/compiler-builtins/compiler-builtins)\n   Compiling proc-macro-error-attr v1.0.4\n   Compiling proc-macro-error v1.0.4\n   Compiling libc v0.2.191\n   Compiling object v0.39.1\n   Compiling std v0.0.0 (/home/runner/work/kani/kani/export/library/std)\n   Compiling syn v2.0.119\n   Compiling core v0.0.0 (/home/runner/work/kani/kani/export/library/core)\n   Compiling rustc-std-workspace-core v1.99.0 (/home/runner/work/kani/kani/export/library/rustc-std-workspace-core)\n   Compiling alloc v0.0.0 (/home/runner/work/kani/kani/export/library/alloc)\n   Compiling adler2 v2.0.1\n   Compiling memchr v2.8.3\n   Compiling cfg-if v1.0.4\n   Compiling rustc-demangle v0.1.28\n   Compiling rustc-literal-escaper v0.0.8\n   Compiling unwind v0.0.0 (/home/runner/work/kani/kani/export/library/unwind)\n   Compiling rustc-std-workspace-alloc v1.99.0 (/home/runner/work/kani/kani/export/library/rustc-std-workspace-alloc)\n   Compiling panic_unwind v0.0.0 (/home/runner/work/kani/kani/export/library/panic_unwind)\n   Compiling panic_abort v0.0.0 (/home/runner/work/kani/kani/export/library/panic_abort)\n   Compiling gimli v0.34.0\n   Compiling std_detect v0.1.5 (/home/runner/work/kani/kani/export/library/std_detect)\n   Compiling miniz_oxide v0.9.1\n   Compiling hashbrown v0.17.1\n   Compiling addr2line v0.27.1\n   Compiling proc_macro v0.0.0 (/home/runner/work/kani/kani/export/library/proc_macro)\n   Com",
+        "original_bytes": 2493,
+        "path": "stderr.log",
+        "preview_omitted_bytes": 0,
+        "sha256": "96995e94718e62bd48ee544dcb7003a8d3a1646140892242a4c64bdd4a8ed46c",
+        "state": "CAPTURED",
+        "tail": "piling dummy v0.1.0 (/home/runner/work/kani/kani/export/target/kani_verify_std)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 29.91s\nwarning: the following packages contain code that will be rejected by a future version of Rust: core v0.0.0 (/home/runner/work/kani/kani/export/library/core)\nnote: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`\n"
+      },
+      "stdout": {
+        "capture_layout": "HEAD_THEN_TAIL",
+        "capture_omitted_bytes": 2888981,
+        "captured_bytes": 65536,
+        "head": "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.11.0\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:88:12\n   |\n88 | #![feature(asm_experimental_arch)]\n   |            ^^^^^^^^^^^^^^^^^^^^^\n   |\n   = note: requested on the command line with `--force-warn unstable-features`\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:89:12\n   |\n89 | #![feature(byte_str_internals)]\n   |            ^^^^^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:90:12\n   |\n90 | #![feature(cfg_target_has_reliable_f16_f128)]\n   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:91:12\n   |\n91 | #![feature(const_carrying_mul_add)]\n   |            ^^^^^^^^^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:92:12\n   |\n92 | #![feature(const_cmp)]\n   |            ^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:93:12\n   |\n93 | #![feature(const_destruct)]\n   |            ^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:94:12\n   |\n94 | #![feature(const_eval_select)]\n   |            ^^^^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:95:12\n   |\n95 | #![feature(const_select_unpredictable)]\n   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:96:12\n   |\n96 | #![feature(core_intrinsics)]\n   |            ^^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:97:12\n   |\n97 | #![feature(coverage_attribute)]\n   |            ^^^^^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  -",
+        "original_bytes": 2954517,
+        "path": "stdout.log",
+        "preview_omitted_bytes": 61440,
+        "sha256": "8995cd7c7391b3dd06df56fb007ee511057bb549ca59f1a950d47a1aab973b4d",
+        "state": "CAPTURED",
+        "tail": "inter_dereference.7\n\t - Status: SUCCESS\n\t - Description: \"dereference failure: pointer NULL\"\n\t - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause\n\nCheck 296: kani::internal::exit_contract_clause.pointer_dereference.8\n\t - Status: SUCCESS\n\t - Description: \"dereference failure: pointer invalid\"\n\t - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause\n\nCheck 297: kani::internal::exit_contract_clause.pointer_dereference.9\n\t - Status: SUCCESS\n\t - Description: \"dereference failure: deallocated dynamic object\"\n\t - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause\n\nCheck 298: kani::internal::exit_contract_clause.pointer_dereference.10\n\t - Status: SUCCESS\n\t - Description: \"dereference failure: dead object\"\n\t - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause\n\nCheck 299: kani::internal::exit_contract_clause.pointer_dereference.11\n\t - Status: SUCCESS\n\t - Description: \"dereference failure: pointer outside object bounds\"\n\t - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause\n\nCheck 300: kani::internal::exit_contract_clause.pointer_dereference.12\n\t - Status: SUCCESS\n\t - Description: \"dereference failure: invalid integer address\"\n\t - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause\n\nCheck 301: slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.unwind.0\n\t - Status: SUCCESS\n\t - Description: \"unwinding assertion loop 0\"\n\t - Location: library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:96:5 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>\n\n\nSUMMARY:\n ** 0 of 290 failed (4 unreachable)\n\n ** 11 of 11 cover properties satisfied\n\n\nVERIFICATION:- SUCCESSFUL\nVerification Time: 617.9902s\n\nManual Harness Summary:\nComplete - 2 successfully verified harnesses, 0 failures, 2 total.\n"
+      },
+      "timeout_scope": "STOCK_KANI_CBMC_TIMEOUT_NOT_FULL_INSTRUMENTATION_WALL",
+      "variant": "production",
+      "verification_time_s": 617.99016114
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "diagnostics": "groups/cell-u34",
+      "export": {
+        "expected_target_fn": "<Cell<u8> as UnstableSmallSortTypeImpl>::small_sort",
+        "harness": {
+          "attributes": {
+            "kind": {
+              "ProofForContract": {
+                "target_fn": "< Cell<u8> as UnstableSmallSortTypeImpl > :: small_sort"
+              }
+            },
+            "should_panic": false,
+            "solver": null,
+            "stubs": [],
+            "unwind_value": 34,
+            "verified_stubs": []
+          },
+          "checks": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 286,
+            "total": 290,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2"
+            ]
+          },
+          "contract": {
+            "contracted_function_name": "_RNCNCINvXs0_NtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBi_4cell4CellhENtBa_25UnstableSmallSortTypeImpl10small_sortINtNtNtBa_6verify13sorting_model7KeyLessB13_EEs0_0s_0Bi_",
+            "recursion_tracker": null
+          },
+          "covers": {
+            "error": [],
+            "other": [],
+            "satisfied": [
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.1",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.2",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.3",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.4",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.5",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.6",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.7",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.8",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.9",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.10",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.11"
+            ],
+            "total": 11,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [],
+            "unsatisfiable": []
+          },
+          "crate_name": "core",
+          "failed_properties": [],
+          "failure_kind": "NONE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "generated_concrete_test": false,
+          "has_loop_contracts": false,
+          "is_automatically_generated": false,
+          "is_bounded": false,
+          "line": 36,
+          "n_failed": 0,
+          "n_properties": 301,
+          "name": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+          "outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "resolved_solver": "cadical",
+          "resolved_unwind": 34,
+          "resources": {
+            "verification_time_s": 485.289873459
+          },
+          "unsupported_constructs": [
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "warnings": [],
+          "warnings_truncated": 0
+        },
+        "outcome": "RECORDED",
+        "proof_credit": "NONE",
+        "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+        "reported_contracted_function_name": "_RNCNCINvXs0_NtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBi_4cell4CellhENtBa_25UnstableSmallSortTypeImpl10small_sortINtNtNtBa_6verify13sorting_model7KeyLessB13_EEs0_0s_0Bi_",
+        "reported_outcome": {
+          "kind": "COMPLETED",
+          "verdict": "SUCCESS"
+        },
+        "selected_mode": {
+          "ProofForContract": {
+            "target_fn": "< Cell<u8> as UnstableSmallSortTypeImpl > :: small_sort"
+          }
+        },
+        "selected_root": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+        "source_binding": {
+          "crate": "core",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "locations": [
+            {
+              "line": 143,
+              "source": "smoke!(unstable_default_cell, Cell<u8>, Cell::new, UnstableSmallSortTypeImpl, 16, unstable);"
+            },
+            {
+              "line": 36,
+              "source": "        fn $name() {"
+            }
+          ],
+          "mode": "PFC",
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+          "sha256": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+          "target": "<Cell<u8> as UnstableSmallSortTypeImpl>::small_sort"
+        },
+        "state": "RECORDED_OBSERVATION"
+      },
+      "group": "cell-u34",
+      "group_export_sha256": "c1683bda1f965a14fdae955a26846152095bfdd84fbccf9c46513c3e3caa5b91",
+      "group_original_exit": 0,
+      "group_rss_cap_kib": 12582912,
+      "group_rss_peak_kib": 8174308,
+      "id": "unstable_default_cell",
+      "mode": "PFC",
+      "original_exit": null,
+      "original_exit_scope": "PER_ROOT_DRIVER_EXIT_UNAVAILABLE_IN_BATCH",
+      "outcome": "RECORDED",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "rich_evidence": "groups/cell-u34/properties.json",
+      "rich_evidence_sha256": "b0dda7a2ee78c59ffa3e12d23c6e583b336e2eb7bb14bc1748356cefd2f8c747",
+      "root_timeout_seconds": 1200,
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "signal": null,
+      "status": "OBSERVED",
+      "stderr": {
+        "capture_layout": "HEAD_THEN_TAIL",
+        "capture_omitted_bytes": 0,
+        "captured_bytes": 2493,
+        "head": "warning: Cargo.toml: `package.edition` is unspecified, defaulting to `2015` while the latest is `2024`\nwarning: `dummy` (manifest) generated 1 warning\n    Updating crates.io index\n Downloading crates ...\n  Downloaded proc-macro-error-attr v1.0.4\n  Downloaded proc-macro-error v1.0.4\n  Downloaded unicode-ident v1.0.24\n  Downloaded syn v1.0.109\n   Compiling proc-macro2 v1.0.107\n   Compiling unicode-ident v1.0.24\n   Compiling version_check v0.9.5\n   Compiling quote v1.0.47\n   Compiling syn v1.0.109\n   Compiling safety v0.1.0 (/home/runner/work/kani/kani/export/library/contracts/safety)\n   Compiling compiler_builtins v0.1.160 (/home/runner/work/kani/kani/export/library/compiler-builtins/compiler-builtins)\n   Compiling proc-macro-error-attr v1.0.4\n   Compiling proc-macro-error v1.0.4\n   Compiling libc v0.2.191\n   Compiling object v0.39.1\n   Compiling std v0.0.0 (/home/runner/work/kani/kani/export/library/std)\n   Compiling syn v2.0.119\n   Compiling core v0.0.0 (/home/runner/work/kani/kani/export/library/core)\n   Compiling rustc-std-workspace-core v1.99.0 (/home/runner/work/kani/kani/export/library/rustc-std-workspace-core)\n   Compiling alloc v0.0.0 (/home/runner/work/kani/kani/export/library/alloc)\n   Compiling adler2 v2.0.1\n   Compiling memchr v2.8.3\n   Compiling cfg-if v1.0.4\n   Compiling rustc-demangle v0.1.28\n   Compiling rustc-literal-escaper v0.0.8\n   Compiling unwind v0.0.0 (/home/runner/work/kani/kani/export/library/unwind)\n   Compiling rustc-std-workspace-alloc v1.99.0 (/home/runner/work/kani/kani/export/library/rustc-std-workspace-alloc)\n   Compiling panic_unwind v0.0.0 (/home/runner/work/kani/kani/export/library/panic_unwind)\n   Compiling panic_abort v0.0.0 (/home/runner/work/kani/kani/export/library/panic_abort)\n   Compiling gimli v0.34.0\n   Compiling std_detect v0.1.5 (/home/runner/work/kani/kani/export/library/std_detect)\n   Compiling miniz_oxide v0.9.1\n   Compiling hashbrown v0.17.1\n   Compiling addr2line v0.27.1\n   Compiling proc_macro v0.0.0 (/home/runner/work/kani/kani/export/library/proc_macro)\n   Com",
+        "original_bytes": 2493,
+        "path": "stderr.log",
+        "preview_omitted_bytes": 0,
+        "sha256": "96995e94718e62bd48ee544dcb7003a8d3a1646140892242a4c64bdd4a8ed46c",
+        "state": "CAPTURED",
+        "tail": "piling dummy v0.1.0 (/home/runner/work/kani/kani/export/target/kani_verify_std)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 29.91s\nwarning: the following packages contain code that will be rejected by a future version of Rust: core v0.0.0 (/home/runner/work/kani/kani/export/library/core)\nnote: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`\n"
+      },
+      "stdout": {
+        "capture_layout": "HEAD_THEN_TAIL",
+        "capture_omitted_bytes": 2888981,
+        "captured_bytes": 65536,
+        "head": "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.11.0\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:88:12\n   |\n88 | #![feature(asm_experimental_arch)]\n   |            ^^^^^^^^^^^^^^^^^^^^^\n   |\n   = note: requested on the command line with `--force-warn unstable-features`\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:89:12\n   |\n89 | #![feature(byte_str_internals)]\n   |            ^^^^^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:90:12\n   |\n90 | #![feature(cfg_target_has_reliable_f16_f128)]\n   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:91:12\n   |\n91 | #![feature(const_carrying_mul_add)]\n   |            ^^^^^^^^^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:92:12\n   |\n92 | #![feature(const_cmp)]\n   |            ^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:93:12\n   |\n93 | #![feature(const_destruct)]\n   |            ^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:94:12\n   |\n94 | #![feature(const_eval_select)]\n   |            ^^^^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:95:12\n   |\n95 | #![feature(const_select_unpredictable)]\n   |            ^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:96:12\n   |\n96 | #![feature(core_intrinsics)]\n   |            ^^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  --> /home/runner/work/kani/kani/export/library/core/src/lib.rs:97:12\n   |\n97 | #![feature(coverage_attribute)]\n   |            ^^^^^^^^^^^^^^^^^^\n\nwarning: use of an unstable feature\n  -",
+        "original_bytes": 2954517,
+        "path": "stdout.log",
+        "preview_omitted_bytes": 61440,
+        "sha256": "8995cd7c7391b3dd06df56fb007ee511057bb549ca59f1a950d47a1aab973b4d",
+        "state": "CAPTURED",
+        "tail": "inter_dereference.7\n\t - Status: SUCCESS\n\t - Description: \"dereference failure: pointer NULL\"\n\t - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause\n\nCheck 296: kani::internal::exit_contract_clause.pointer_dereference.8\n\t - Status: SUCCESS\n\t - Description: \"dereference failure: pointer invalid\"\n\t - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause\n\nCheck 297: kani::internal::exit_contract_clause.pointer_dereference.9\n\t - Status: SUCCESS\n\t - Description: \"dereference failure: deallocated dynamic object\"\n\t - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause\n\nCheck 298: kani::internal::exit_contract_clause.pointer_dereference.10\n\t - Status: SUCCESS\n\t - Description: \"dereference failure: dead object\"\n\t - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause\n\nCheck 299: kani::internal::exit_contract_clause.pointer_dereference.11\n\t - Status: SUCCESS\n\t - Description: \"dereference failure: pointer outside object bounds\"\n\t - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause\n\nCheck 300: kani::internal::exit_contract_clause.pointer_dereference.12\n\t - Status: SUCCESS\n\t - Description: \"dereference failure: invalid integer address\"\n\t - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause\n\nCheck 301: slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.unwind.0\n\t - Status: SUCCESS\n\t - Description: \"unwinding assertion loop 0\"\n\t - Location: library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:96:5 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>\n\n\nSUMMARY:\n ** 0 of 290 failed (4 unreachable)\n\n ** 11 of 11 cover properties satisfied\n\n\nVERIFICATION:- SUCCESSFUL\nVerification Time: 617.9902s\n\nManual Harness Summary:\nComplete - 2 successfully verified harnesses, 0 failures, 2 total.\n"
+      },
+      "timeout_scope": "STOCK_KANI_CBMC_TIMEOUT_NOT_FULL_INSTRUMENTATION_WALL",
+      "variant": "production",
+      "verification_time_s": 485.289873459
+    },
+    {
+      "id": "model_u8_n0_3",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "model_cell_n0_3",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "model_noncopy_n0_3",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "inactive_pairs_read_free",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "activation_descending_rejected",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "activation_effectful_rejected",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "activation_unsupported_type_rejected",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "corruption_companion",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "order_corruption_rejected",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "count_corruption_rejected",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "snapshot_guards_companion",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "invalid_snapshot_rejected",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "stable_default_activation-legal",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "stable_freeze_activation-legal",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "activation-default",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "activation-override",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "ordinary-bridge",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "freeze_copy_u8_n0",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "freeze_copy_u8_n1",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "freeze_copy_u8_n2",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "freeze_copy_u8_n3",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "freeze_default_noncopy_n0",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "freeze_default_noncopy_n1",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "freeze_default_noncopy_n2",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "freeze_default_noncopy_n3",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "stable_freeze_u8_n0",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "stable_freeze_u8_n1",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "stable_freeze_u8_n2",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "stable_freeze_u8_n3",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "unstable_freeze_u8_n0",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "unstable_freeze_u8_n1",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "unstable_freeze_u8_n2",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "unstable_freeze_u8_n3",
+      "outcome": "UNKNOWN",
+      "status": "NOT_RUN"
+    }
+  ],
+  "state": "INCOMPLETE_MATRIX",
+  "std_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+  "std_tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+}
