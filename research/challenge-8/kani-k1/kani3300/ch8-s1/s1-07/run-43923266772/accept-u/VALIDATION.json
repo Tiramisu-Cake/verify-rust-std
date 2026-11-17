@@ -1,0 +1,61 @@
+{
+  "artifacts_sha256": {
+    "INPUTS.json": "c62222e2c8b51982f2b7df3c570543042423242bfd0ed37df9856f6248ebf89b",
+    "U.json": "fb422b5a641892c161ddcc0e82e654dd083ac495bfe2777c813250818db4965d",
+    "U.md": "208925eef4842cb5075b88314065851b78f60ca8ae8e415e17922ba43cd42fbe",
+    "replay.py": "36783a2c0c66fe2279e5331dfc81abea2ba7751795aef173d9fdf25e728bcfe4",
+    "test_replay.py": "13f55fe866132c46ff82e0902b6a7ecd361e46f9a8a3d5c86e207d8d82f2b443"
+  },
+  "checks": {
+    "all_record_metadata_mutations": 1496,
+    "coherent_foreign_function_site_mutations": 2,
+    "deterministic_exact_replay": "PASS",
+    "input_preservation_checks": "PASS",
+    "integrity_mutations": 4,
+    "namespace_mutations_after_test_rehash": 26,
+    "output_tampering_mutations": 7,
+    "pinned_width_mutations": 6,
+    "scope_diff_check": "PASS",
+    "source_anchor_and_blob_checks": "PASS",
+    "source_premise_mutations_without_digest_gate": 24,
+    "test_duration_seconds": 40.565,
+    "test_methods": 13,
+    "total_rejected_mutations": 1565,
+    "unit_tests": "PASS"
+  },
+  "commands": [
+    "python3 -B research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/replay.py",
+    "python3 -B -m unittest discover -s research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u -p 'test_*.py' -v"
+  ],
+  "execution": {
+    "CI": false,
+    "PFC_analysis": false,
+    "delegation": false,
+    "ledger_changes": false,
+    "local_compiler_verifier": false,
+    "model_changed": false,
+    "push": false,
+    "qualified_recount": false,
+    "raw_logs_archives": false,
+    "source_labels": false
+  },
+  "proof_credit": "NONE; generated safety-check applicability only",
+  "result": {
+    "UNKNOWN": 0,
+    "existing_allowed_checks_read_only": 226,
+    "families": {
+      "abs_diff": 50,
+      "active_post": 54,
+      "alignment": 25,
+      "allocation": 18,
+      "fmt": 28,
+      "multiple": 12
+    },
+    "justified": 187,
+    "negative_return_covers_read_only": 2,
+    "processed": 187
+  },
+  "schema": "ch8-s1-07-u-validation-v1",
+  "task_commit": "2f3ede5ff46ace1c2058f01f8ecda06799674b57",
+  "validated_at_utc": "2026-11-17T12:59:57.133823+00:00"
+}
