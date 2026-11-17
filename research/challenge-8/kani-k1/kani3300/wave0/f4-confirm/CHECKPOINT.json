@@ -1,0 +1,46 @@
+{
+  "CI_REQUEST_sha256": "2d6a573807ae873b0d1c02522eaf25ae39a5a1552076f1bc734a28c842c0eb60",
+  "SOURCES_sha256": "7157f24cee8de8a864632616392bfea02c2691d943f5f7d25a1d1080a46b5751",
+  "authorized_preparation": "COMPLETE",
+  "blocker": null,
+  "claims": [
+    {
+      "assurance": "SOURCE_REPORTED_COMPACT_ARTIFACT",
+      "claim": "Historical six runs exited 1 without exports; exact underlying cargo-kani diagnostic UNKNOWN",
+      "evidence": "DIAGNOSIS.json"
+    },
+    {
+      "assurance": "STATIC_SOURCE_TRACE",
+      "claim": "Main source retains delayed-instrumented bodies in a transformer shared across harnesses",
+      "evidence": "SOURCE-TRACE.md"
+    },
+    {
+      "assurance": "STATIC_AND_SYNTHETIC_ONLY",
+      "claim": "Test/control/runner/request prepared with no compiler fix; static/synthetic and actual shallow ancestry checks PASS",
+      "evidence": "VALIDATION.json"
+    }
+  ],
+  "control": "1ec3318f5e2c39afb701aa7a5578d4ea0a721224",
+  "control_tree": "34a402bd4ebbabf3ec611327097475c8cb46cfba",
+  "dispatch_push_ledger_messages": false,
+  "historical_missing_data": "exact underlying six-run cargo-kani error, observed per-run argv/environment and tool hashes; not a blocker to completed preparation",
+  "ledger_reference": {
+    "commit": "bd2216c2482a19f8639906acfef2b8ee7396d55a",
+    "item1_cap": 28,
+    "item1_used": 26,
+    "modified": false
+  },
+  "main": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "next_step": "review14 reads committed f4-confirm package and exact identities; no messages sent from this stage",
+  "open": [
+    "review14 independent review",
+    "separate coordinator GO for one main confirmation",
+    "separate future PR candidate/review/GO for full standard CI",
+    "runtime manifestation, generated check identities and actual compilation order remain unobserved"
+  ],
+  "runtime": "NOT_RUN",
+  "schema": "ch8-f4-preparation-checkpoint-v1",
+  "status": "READY_FOR_W14_REVIEW",
+  "subagents": false,
+  "task": "task9856043dab21de8346b68196fa91929b96331293"
+}

@@ -1,0 +1,414 @@
+{
+  "accounting_reference_only": {
+    "future_full_PR_CI_charge": 28,
+    "future_main_confirmation_charge": 27,
+    "item1_cap": 28,
+    "item1_used": 26,
+    "ledger_change": false,
+    "ledger_g0": "bd2216c2482a19f8639906acfef2b8ee7396d55a",
+    "reservation": false
+  },
+  "artifacts": {
+    "count": 1,
+    "format": "compact structured source/build/native per-harness identities, classifications, bounded stderr head+tail, stdout-then-stderr digest; native streams and exports temporary and discarded",
+    "members": [
+      "result.json"
+    ],
+    "name": "f4-confirm-${github.run_id}-${github.run_attempt}",
+    "raw_logs_or_archives": "NOT_REQUESTED",
+    "retention_days": 7
+  },
+  "authority_now": "PREPARATION_ONLY; no push/dispatch/rerun/cancel/reservation/ledger/message/PR",
+  "caps": {
+    "automatic_retries": 0,
+    "build_seconds": 900,
+    "diagnostic_line_chars": 500,
+    "export_bytes_per_native": 2097152,
+    "job_minutes": 90,
+    "max_checks_per_harness": 256,
+    "native_invocations": 7,
+    "native_seconds": 120,
+    "probe_step_minutes": 16,
+    "setup_minutes": 30,
+    "stderr_head_bytes": 4096,
+    "stderr_head_lines": 18,
+    "stderr_tail_bytes": 8192,
+    "stderr_tail_lines": 8,
+    "stdout_inventory_bytes_per_native": 2097152
+  },
+  "commands": {
+    "build_collector": [
+      "python3",
+      "tests/script-based-pre/delayed-shared-body/runner.py",
+      "build"
+    ],
+    "confirmation": [
+      "python3",
+      "tests/script-based-pre/delayed-shared-body/runner.py",
+      "run"
+    ],
+    "finish": [
+      "python3",
+      "tests/script-based-pre/delayed-shared-body/runner.py",
+      "finish"
+    ],
+    "native_build_argv": [
+      "cargo",
+      "build-dev"
+    ],
+    "service_controls": [
+      "python3",
+      "tests/script-based-pre/delayed-shared-body/check_service.py"
+    ],
+    "six_runs": [
+      {
+        "argv": [
+          "${REPO}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${REPO}/tests/script-based-pre/delayed-shared-body/Cargo.toml",
+          "--lib",
+          "--exact",
+          "-j1",
+          "-Z",
+          "ghost-state",
+          "-Z",
+          "uninit-checks",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/delayed_first-delayed_alone.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/delayed_first-delayed_alone-target",
+          "--features",
+          "delayed-first",
+          "--harness",
+          "delayed_harness"
+        ],
+        "expected_harnesses": [
+          "delayed_harness"
+        ],
+        "expected_native_exit_if_consistent": 1,
+        "label": "delayed_first/delayed_alone"
+      },
+      {
+        "argv": [
+          "${REPO}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${REPO}/tests/script-based-pre/delayed-shared-body/Cargo.toml",
+          "--lib",
+          "--exact",
+          "-j1",
+          "-Z",
+          "ghost-state",
+          "-Z",
+          "uninit-checks",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/delayed_first-control_alone.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/delayed_first-control_alone-target",
+          "--features",
+          "delayed-first",
+          "--harness",
+          "initialized_control_harness"
+        ],
+        "expected_harnesses": [
+          "initialized_control_harness"
+        ],
+        "expected_native_exit_if_consistent": 0,
+        "label": "delayed_first/control_alone"
+      },
+      {
+        "argv": [
+          "${REPO}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${REPO}/tests/script-based-pre/delayed-shared-body/Cargo.toml",
+          "--lib",
+          "--exact",
+          "-j1",
+          "-Z",
+          "ghost-state",
+          "-Z",
+          "uninit-checks",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/delayed_first-paired.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/delayed_first-paired-target",
+          "--features",
+          "delayed-first",
+          "--harness",
+          "delayed_harness",
+          "--harness",
+          "initialized_control_harness"
+        ],
+        "expected_harnesses": [
+          "delayed_harness",
+          "initialized_control_harness"
+        ],
+        "expected_native_exit_if_consistent": 1,
+        "label": "delayed_first/paired"
+      },
+      {
+        "argv": [
+          "${REPO}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${REPO}/tests/script-based-pre/delayed-shared-body/Cargo.toml",
+          "--lib",
+          "--exact",
+          "-j1",
+          "-Z",
+          "ghost-state",
+          "-Z",
+          "uninit-checks",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/control_first-delayed_alone.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/control_first-delayed_alone-target",
+          "--harness",
+          "delayed_harness"
+        ],
+        "expected_harnesses": [
+          "delayed_harness"
+        ],
+        "expected_native_exit_if_consistent": 1,
+        "label": "control_first/delayed_alone"
+      },
+      {
+        "argv": [
+          "${REPO}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${REPO}/tests/script-based-pre/delayed-shared-body/Cargo.toml",
+          "--lib",
+          "--exact",
+          "-j1",
+          "-Z",
+          "ghost-state",
+          "-Z",
+          "uninit-checks",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/control_first-control_alone.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/control_first-control_alone-target",
+          "--harness",
+          "initialized_control_harness"
+        ],
+        "expected_harnesses": [
+          "initialized_control_harness"
+        ],
+        "expected_native_exit_if_consistent": 0,
+        "label": "control_first/control_alone"
+      },
+      {
+        "argv": [
+          "${REPO}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${REPO}/tests/script-based-pre/delayed-shared-body/Cargo.toml",
+          "--lib",
+          "--exact",
+          "-j1",
+          "-Z",
+          "ghost-state",
+          "-Z",
+          "uninit-checks",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/control_first-paired.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/control_first-paired-target",
+          "--harness",
+          "delayed_harness",
+          "--harness",
+          "initialized_control_harness"
+        ],
+        "expected_harnesses": [
+          "delayed_harness",
+          "initialized_control_harness"
+        ],
+        "expected_native_exit_if_consistent": 1,
+        "label": "control_first/paired"
+      }
+    ],
+    "source_preflight": [
+      "python3",
+      "tests/script-based-pre/delayed-shared-body/runner.py",
+      "before"
+    ],
+    "standalone_control_argv": [
+      "${REPO}/scripts/kani",
+      "${REPO}/tests/script-based-pre/delayed-shared-body/control.rs",
+      "--exact",
+      "--harness",
+      "uninitialized_control",
+      "-j1",
+      "-Z",
+      "ghost-state",
+      "-Z",
+      "uninit-checks",
+      "-Z",
+      "export-json",
+      "--export-json",
+      "${SCRATCH}/uninitialized-control.json",
+      "--output-format=regular",
+      "--target-dir",
+      "${SCRATCH}/control-target"
+    ]
+  },
+  "control": {
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "branch": "w15/f4-confirm-main-20261117",
+    "commit": "1ec3318f5e2c39afb701aa7a5578d4ea0a721224",
+    "git_common_dir": "/root/kani-fix-3300-c2-s5/.git",
+    "message": "Prepare shared function initialization confirmation on main [skip ci]",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "patch_sha256": "f12efef2d407976fa9fbe326711304923340b2fc95c38829773ccdf08b2000e0",
+    "published": false,
+    "tree": "34a402bd4ebbabf3ec611327097475c8cb46cfba",
+    "worktree": "/root/kani-f4-confirm-w15"
+  },
+  "environment": {
+    "cargo_fixture_edition": "2021 from dependency-free Cargo.toml; explicit workspace",
+    "evidence_dir": "${{ github.workspace }}/f4-confirm-evidence",
+    "native": {
+      "CARGO_BUILD_TARGET": null,
+      "CARGO_ENCODED_RUSTFLAGS": null,
+      "CARGO_TARGET_DIR": null,
+      "KANIFLAGS": "",
+      "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true",
+      "KANI_LOG": "",
+      "NO_COLOR": "1",
+      "RUSTFLAGS": "",
+      "RUST_BACKTRACE": "0"
+    },
+    "source_of_exact_runtime_argv": "each native record in result.json; paths interpolated by producer at runtime",
+    "standalone_override": {
+      "RUSTFLAGS": "--edition=2021"
+    }
+  },
+  "future_authorizations": {
+    "full_PR_CI": "separate future candidate, standard workflows, review and separate coordinator GO; implementation and run NOT_PREPARED/NOT_RUN in this stage",
+    "main_confirmation": "review14 APPROVE plus separate coordinator GO, publication/one same-tree trigger or dispatch explicitly authorized then; no retry included"
+  },
+  "g0_task_input": "9856043dab21de8346b68196fa91929b96331293",
+  "main": {
+    "commit": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "compiler_fix": "NONE",
+    "frozen_ref": "refs/w15-f4/main-20261117",
+    "remote": "https://github.com/model-checking/kani.git",
+    "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786"
+  },
+  "oracles": {
+    "DEFECT_ABSENT_FOR_TEST": "All seven native invocations and controls complete and each paired harness preserves its singleton verdict and semantic property multiset. Order coverage remains UNKNOWN; scope is the observed test invocations.",
+    "DEFECT_PRESENT": "All seven native invocations complete; independent uninit control and both singleton controls match; at least one paired per-harness verdict or semantic property multiset differs. Paired failures must remain uninitialized-memory safety checks at the shared read. Aggregate pair exit is insufficient.",
+    "INCONCLUSIVE": "Any missing/unsupported schema/PARTIAL/NOT_RUN/null/type/source/target/selection/configuration/check mismatch, reachable or unresolved unsupported construct, timeout/spawn/signal/build error, failed singleton control, unexpected failure class/site, incomplete property identities, or native exit disagreement. The native reason/exit/signal remains separate.",
+    "order_coverage": "UNKNOWN; no compiler diagnostic patch or order inference from names, exports or verification stdout",
+    "paired_consistent": {
+      "delayed_harness": "FAILURE at shared read, same property composition as singleton",
+      "initialized_control_harness": "SUCCESS, same property composition as singleton",
+      "native_exit": 1
+    },
+    "property_identities": "Exact native SUCCESS/FAILURE/UNREACHABLE ids, descriptions, locations, statuses and multiplicities retained per harness, cross-checked against export partitions/failures. Ordinal suffixes only are removed in semantic comparison; exact ids remain in result. Runtime-generated ids/counts are NOT_RUN and are not guessed in advance.",
+    "singleton_delayed": {
+      "exit": 1,
+      "failed_check": {
+        "class": "safety_check",
+        "description_prefix": "Undefined Behavior: Reading from an uninitialized pointer",
+        "file_suffix": "src/lib.rs",
+        "line": "12"
+      },
+      "name": "delayed_harness",
+      "outcome": "FAILURE"
+    },
+    "singleton_initialized": {
+      "exit": 0,
+      "name": "initialized_control_harness",
+      "outcome": "SUCCESS",
+      "required_SUCCESS_description": "assertion failed: result == 7"
+    },
+    "successful_unsupported_class_checks": "SUCCESS/UNREACHABLE entries bound to the full native inventory are legitimate checks; actual reachable/unknown unsupported constructs are UNKNOWN.",
+    "uninitialized_control": {
+      "all_other_failures": "INCONCLUSIVE",
+      "exit": 1,
+      "failed_check": {
+        "class": "safety_check",
+        "description_prefix": "Undefined Behavior: Reading from an uninitialized pointer",
+        "file_suffix": "control.rs",
+        "line": "16"
+      },
+      "name": "uninitialized_control",
+      "outcome": "FAILURE"
+    }
+  },
+  "profile": {
+    "cbmc": "6.11.0",
+    "path": ".github/f4-confirm/profile.json",
+    "runtime_tool_paths_hashes": "NOT_RUN; producer records resolved PATH cargo/rustc/cbmc and built kani-driver/kani-compiler hashes; export records native tool versions",
+    "rust_toolchain": "nightly-2026-11-12",
+    "sha256": "2e6a6cf8ba9b698c95a857bddfc7dd6e5c98391f6c66062f915a8784022e0568",
+    "source_sha256": {
+      ".cargo/config.toml": "8a7317c9b5e38ee2e842086a154e99f9bae4e2bc1118cae9e5b7cd5ee7c3547c",
+      ".github/actions/setup/action.yml": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+      "Cargo.lock": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+      "Cargo.toml": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
+      "kani-dependencies": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+      "rust-toolchain.toml": "d40d66a452e934c9cedede2844b920d48ff217565c81b4e47311bb346c960d93",
+      "scripts/cargo-kani": "a0fca4b405bedc008d4f1fd3a5b03c097b190896c633a301badef846e8560291",
+      "scripts/kani": "28a81c48fd72627ed2449993730636bc830abeffeaea4d85d9297b2ec4393af2",
+      "tests/script-based-pre/delayed-shared-body/Cargo.toml": "cf02a2b65e63502da1cd590218e7871e3fe3980a9e89aa41b3df391a70be0bac",
+      "tests/script-based-pre/delayed-shared-body/check_service.py": "699647720e0efc02266fcbe1770dfb090bd29815dbb481f10dbbca550217e1e3",
+      "tests/script-based-pre/delayed-shared-body/config.yml": "f6ac7ffc9bfa654dd81c7263d1af76a0e989860d4f001e89aede0881fa09be33",
+      "tests/script-based-pre/delayed-shared-body/control.rs": "95c37703c78422dcac06033d423fa4c5a0ab0975475e97f80bfe901b42f811a6",
+      "tests/script-based-pre/delayed-shared-body/expected": "2b8c15ce1b11cded02c3cb9470e763fc4c49a959af21d36f20e4cd476eb381f4",
+      "tests/script-based-pre/delayed-shared-body/runner.py": "e7fbeca0426db9acf39012fb6ae66c022357e6ad7a97fa83ad650b4166cdd50a",
+      "tests/script-based-pre/delayed-shared-body/service.py": "6208d04c8566acaf137bcfea71139bac260dca321d86f3da2caf70d16575c32c",
+      "tests/script-based-pre/delayed-shared-body/src/lib.rs": "70dd61fec47556d11fd158f50bc5729c6fcfbe0170f43a8be788d6d2612431c9",
+      "tests/script-based-pre/delayed-shared-body/test.sh": "68cd3cf3fada96e1dbae81cc7e45de0767b68137984a93f2927339d8ac202957",
+      "tests/script-based-pre/delayed-shared-body/workflow_checks.py": "0909f66c75ad155cdf13ab3327372c630fe648ec65aec6353a8845f6eee07583"
+    }
+  },
+  "prohibited_actions_executed": [],
+  "review14": "kani3300/wave0/f4-confirm-review/; separate fresh review, no agent started here",
+  "runtime": "NOT_RUN",
+  "schema": "ch8-f4-main-confirm-ci-request-v1",
+  "status": "READY_FOR_W14_REVIEW",
+  "task": "task9856043dab21de8346b68196fa91929b96331293",
+  "validation": {
+    "diagnosis_sha256": "3c02fe749eb0b102c5c78a14fe7aba7bc3eb82e089c912db4977fbae75340d10",
+    "path": "VALIDATION.json",
+    "sha256": "cf812477c3715bc5495ecc7ac53172c17ec59553ef73ecf9fc6d20eca3030c7a",
+    "source_manifest_sha256": "7157f24cee8de8a864632616392bfea02c2691d943f5f7d25a1d1080a46b5751",
+    "source_trace_sha256": "aefda860bd294df3f16aba3d714a1e73c7a598daa138970ffdd4d039a39b9c21"
+  },
+  "verification_kind": "CORRECTNESS",
+  "workflow": {
+    "checkout_action": "d23441a48e516b6c34aea4fa41551a30e30af803",
+    "fetch_depth": 3,
+    "file": ".github/workflows/f4-confirm.yml",
+    "runner": "ubuntu-24.04",
+    "sha256": "baa1f93cdffd248c75f23a59ac010f328fa3081fe21c8f1b590a9b989fa89b78",
+    "source_gate": "direct one-parent child of exact main, or one same-tree one-parent child of control; reject insufficient ancestry and source mutation",
+    "stock_workflows": "deleted in isolated confirmation control to bound workflow count; future upstream PR starts from main with standard workflows",
+    "target": "x86_64-unknown-linux-gnu",
+    "trigger_branch_pattern": "f4-confirm-ci/**",
+    "upload_action": "ea165f8d65b6e75b540449e92b4886f43607fa02"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "CI": "NOT_RUN",
+  "actual_shallow_control_preflight": {
+    "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "control": "1ec3318f5e2c39afb701aa7a5578d4ea0a721224",
+    "head": "1ec3318f5e2c39afb701aa7a5578d4ea0a721224",
+    "objects": "temporary checkout using shared reference objects; removed after check",
+    "problems": [],
+    "profile_sha256": "2e6a6cf8ba9b698c95a857bddfc7dd6e5c98391f6c66062f915a8784022e0568",
+    "shallow": "true",
+    "tree": "34a402bd4ebbabf3ec611327097475c8cb46cfba"
+  },
+  "assurance": "STATIC_AND_SYNTHETIC_ONLY",
+  "control": "1ec3318f5e2c39afb701aa7a5578d4ea0a721224",
+  "control_tree": "34a402bd4ebbabf3ec611327097475c8cb46cfba",
+  "control_worktree": "CLEAN",
+  "git_diff_check": "PASS",
+  "ledger_changes": "NONE",
+  "local_cargo_rustc_Kani_CBMC_rustfmt_full_runner": "NOT_RUN",
+  "main": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "old_worktree": "CLEAN",
+  "patch_artifact_whitespace": "control.patch preserves two trailing-whitespace lines deleted from upstream workflow files; scoped .gitattributes disables whitespace interpretation for this data artifact; actual control source diff passes git diff --check",
+  "patch_replay": {
+    "patch_sha256": "f12efef2d407976fa9fbe326711304923340b2fc95c38829773ccdf08b2000e0",
+    "result_tree": "34a402bd4ebbabf3ec611327097475c8cb46cfba",
+    "status": "PASS"
+  },
+  "profile_hashes": "PASS",
+  "python_ast": "PASS",
+  "runtime": "NOT_RUN",
+  "schema": "ch8-f4-static-validation-v1",
+  "service_controls": {
+    "checks": [
+      "complete success/failure, per-harness property identities and partition",
+      "successful unsupported checks accepted; reachable/unresolved rejected",
+      "native exits/signals, timeout, spawn, missing/null/type/PARTIAL/NOT_RUN",
+      "target/source/selection mismatch, disabled checks, missing assertion",
+      "six-run partial and paired false-negative/false-positive/composition cases",
+      "all six invocations continue after control/build failures with native diagnostics",
+      "argv, edition, sanitized environment, bounded head/tail stderr",
+      "depth-three control/trigger ancestry accepted; depth-two and source mutations rejected",
+      "workflow contexts and artifact path"
+    ],
+    "scope": "STATIC_AND_SYNTHETIC",
+    "status": "PASS",
+    "workflow_expressions": [
+      {
+        "expression": "github.workspace",
+        "key": "jobs.confirm.env.F4_EVIDENCE_DIR",
+        "line": 23
+      },
+      {
+        "expression": "always()",
+        "key": "jobs.confirm.steps.if",
+        "line": 48
+      },
+      {
+        "expression": "job.status",
+        "key": "jobs.confirm.steps.env.F4_JOB_STATUS",
+        "line": 50
+      },
+      {
+        "expression": "always()",
+        "key": "jobs.confirm.steps.if",
+        "line": 53
+      },
+      {
+        "expression": "github.run_id",
+        "key": "jobs.confirm.steps.with.name",
+        "line": 56
+      },
+      {
+        "expression": "github.run_attempt",
+        "key": "jobs.confirm.steps.with.name",
+        "line": 56
+      },
+      {
+        "expression": "env.F4_EVIDENCE_DIR",
+        "key": "jobs.confirm.steps.with.path",
+        "line": 57
+      }
+    ]
+  },
+  "shell_syntax": "PASS",
+  "source_copies": "PASS",
+  "yaml": "PASS"
+}
