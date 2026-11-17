@@ -1,0 +1,114 @@
+{
+  "CI_dispatches": 0,
+  "Kani": "NOT_RUN",
+  "S3_qualification": "NONE",
+  "diagnostics": {
+    "CAP32_fixtures_all_lengths": 372,
+    "live_loop_heads_with_exhausted_half": 233,
+    "negative_controls": {
+      "C5_len4_probe0": {
+        "rejects": [
+          "barriers",
+          "endpoints",
+          "full_counts",
+          "consumed_counts",
+          "rank_output"
+        ],
+        "weak_accepts": true
+      },
+      "duplicate_value": {
+        "order_accepts": true,
+        "rejects": [
+          "full_counts"
+        ]
+      },
+      "lost_value_weak_order_probe0": {
+        "order_accepts": true,
+        "probe0_accepts": true,
+        "rejects": [
+          "full_counts",
+          "rank_output"
+        ]
+      },
+      "odd_skip_counter": {
+        "rejects": [
+          "ord_panic_unreachable"
+        ]
+      },
+      "odd_skip_write": {
+        "rejects": [
+          "initialized"
+        ]
+      },
+      "odd_wrong_source": {
+        "rejects": [
+          "order",
+          "full_counts"
+        ]
+      },
+      "source_clobber": {
+        "rejects": [
+          "frame_init"
+        ]
+      },
+      "unguarded_k0_read": {
+        "caught": true
+      },
+      "unguarded_reverse_sentinel": {
+        "caught": true
+      },
+      "unwritten_poison_definedness": {
+        "guarded_predicates_pass": true
+      },
+      "weak_count_without_order": {
+        "full_counts_accepts": true,
+        "rejects": [
+          "order"
+        ]
+      },
+      "wrong_down_tie": {
+        "rejects": [
+          "geometry",
+          "ord_panic_unreachable"
+        ],
+        "value_posts_accept": true
+      },
+      "wrong_frame": {
+        "rejects": [
+          "frame_init",
+          "frame"
+        ],
+        "semantic_posts_accept": true
+      }
+    },
+    "odd_left_cases": 78,
+    "odd_right_cases": 150,
+    "small_alphabet_pair_transitions": 1869,
+    "small_alphabet_sorted_half_inputs": 598
+  },
+  "geometry": {
+    "adjacent_positive_accepted": true,
+    "overlap_negative_rejected": true,
+    "pointer_proof": "NOT_RUN",
+    "sort8_distinct_same_allocation_pairs": 34
+  },
+  "package_sha256": {
+    "HANDOFF.md": "a910660e0c853ee7ca7508cb912b8540db0f40dcb3e78ceab63a86f347c116b2",
+    "INVARIANT.md": "3eac31401edd95da6ec24662043f91527d8df1a176e234512d87db93afc8c926",
+    "VALIDATION.md": "e2e4e901a7fd7fc5093385d30f93887b31b406d7e5cdbc7a61fbc705925b0d34",
+    "pilot.py": "a983d6cc67cf78f0d9096999698b123d2968d1d2646fd8fc9b7fc661e5d227fd",
+    "source-map.json": "022fb4cbe40a7d15cedc76c9d98dead2c033fa5b43b744b961c768e0bd6bba4f",
+    "test_pilot.py": "a520d34b8a5387cf0f43c07986ab821172855137f380f13e5441a58d769e78d1"
+  },
+  "proof_credit": "NONE",
+  "result": "PASS_DIAGNOSTIC_ONLY",
+  "schema": "ch8-s2-merge-pilot-validation-v1",
+  "source": {
+    "blob": "4587a72c51325a25cca1c20138a6ee1d1aa2233f",
+    "commit": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "exact_site_checks": 30,
+    "sha256": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+    "tree": "b769b084f9982cbcb166229b29b6bd2bff136c51"
+  },
+  "task": "task9856043dab21de8346b68196fa91929b96331293"
+}
