@@ -1,0 +1,235 @@
+{
+  "assurance": "STATIC_STRUCTURED_SYNTHETIC_ONLY",
+  "baseline_totals": {
+    "PFC_bound": 22,
+    "U_allowed": 439,
+    "U_decisions": {
+      "ALLOWED_EXPECTED_BRANCH_UNREACHABLE": 198,
+      "ALLOWED_EXPECTED_NEGATIVE_POST_FAILURE_RETURN_COVER": 2,
+      "ALLOWED_GENERATED_SAFETY_APPLICABILITY": 187,
+      "ALLOWED_NON_OVERFLOWING_TYPE_SIZE_GUARD": 28,
+      "ALLOWED_NON_SELECTED_SPECIALIZATION_BRANCH": 24
+    },
+    "U_records": 439,
+    "companions": 8,
+    "companions_qualified": 8,
+    "exact_role_labels": 111,
+    "location_exceptions": 18,
+    "negative_oracles": 8,
+    "original_rows": 33,
+    "properties_reconciled": 9986,
+    "required_SAT_covers": 113,
+    "required_roles": 127,
+    "retry_rows": 2,
+    "rows": 35,
+    "rows_qualified": 35,
+    "semantic_bindings": 16,
+    "supplemental_sites": 54,
+    "unions": 4,
+    "unions_qualified": 4,
+    "unsupported_success_guards": 76
+  },
+  "duration_seconds": 19.51,
+  "independent_review": "PENDING",
+  "receipts": [
+    {
+      "gate": "terminal origin identity:retry",
+      "mutation": "foreign_run",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "terminal origin identity:retry",
+      "mutation": "foreign_attempt",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "terminal origin identity:retry",
+      "mutation": "foreign_head",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "foreign group request",
+      "mutation": "foreign_request",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "request canonical identity:retry",
+      "mutation": "changed_semantic_input",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "request canonical identity:retry",
+      "mutation": "changed_type",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "request canonical identity:retry",
+      "mutation": "wrong_cell_timeout",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "duplicate/missing id",
+      "mutation": "duplicate_row",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "collector declared rows",
+      "mutation": "foreign_row",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "whole group inventory",
+      "mutation": "half_group",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "incomplete group:retry:cell-u34",
+      "mutation": "failed_group_healthy_root",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "foreign/unknown row:unstable_default_cell",
+      "mutation": "old_unknown_cell_splice",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "COMPATIBILITY_PENDING",
+      "mutation": "changed_protected_binary_across_origins",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "snapshot/shutdown",
+      "mutation": "changed_protected_binary_after",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "COMPATIBILITY_PENDING",
+      "mutation": "changed_solver_checks",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "REQUIRED_ROLE_PENDING",
+      "mutation": "role_missing",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "REQUIRED_ROLE_PENDING",
+      "mutation": "role_duplicate",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "REQUIRED_ROLE_PENDING",
+      "mutation": "role_wrong_source",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "REQUIRED_ROLE_PENDING",
+      "mutation": "role_wrong_root",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "REQUIRED_ROLE_PENDING",
+      "mutation": "role_wrong_status",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "component role coverage",
+      "mutation": "dropped_exact_role",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component role coverage",
+      "mutation": "dropped_semantic_set",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component origin namespace",
+      "mutation": "foreign_component_origin",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component U coverage",
+      "mutation": "dropped_U",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component U consumption hash",
+      "mutation": "changed_U_source_hash",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component U coverage",
+      "mutation": "changed_U_origin",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component pending gate consumption",
+      "mutation": "dropped_pending_gate",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component PFC coverage/hash",
+      "mutation": "dropped_PFC",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component PFC coverage/hash",
+      "mutation": "changed_PFC_concrete_type",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component cover coverage",
+      "mutation": "dropped_cover",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component negative coverage",
+      "mutation": "dropped_negative",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component stale oracle",
+      "mutation": "stale_oracle_span95",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "component stale oracle",
+      "mutation": "stale_oracle_span101",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "companion coverage",
+      "mutation": "broken_companion",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "companion/union gate consumption",
+      "mutation": "broken_union",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "companion/union gate consumption",
+      "mutation": "union_unqualified_member",
+      "verdict": "REJECTED"
+    },
+    {
+      "gate": "COMPANION_QUALIFICATION_PENDING",
+      "mutation": "transitive_companion_pending",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "SAME_RUN_PINS_PENDING",
+      "mutation": "unexpected_cross_origin_companion",
+      "verdict": "DISCRIMINATED"
+    },
+    {
+      "gate": "TRANSITIVE_PENDING",
+      "mutation": "least_fixed_point_cycle_no_seed",
+      "verdict": "DISCRIMINATED"
+    }
+  ],
+  "reuse": "Reviewed inventory/U premises/PFC source-native-contract/oracle/least-fixed-point rules; targeted adapter deltas only",
+  "schema": "s108-composite-targeted-mutations-v1",
+  "status": "PASS",
+  "tests": 39
+}

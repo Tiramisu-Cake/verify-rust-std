@@ -1,0 +1,1348 @@
+{
+  "origins": {
+    "original": {
+      "collector": {
+        "attempt": 1,
+        "collector": "EXACT_READ_ONLY_MATCH",
+        "collector_receipt_sha256": "4127788abab56ce4ef676011795958fe78da14ac59480546cdddb839afd467c7",
+        "immutable_receipt": {
+          "commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+          "path": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44095954742/runner-collected.json",
+          "sha256": "4127788abab56ce4ef676011795958fe78da14ac59480546cdddb839afd467c7"
+        },
+        "missing_groups": [
+          "cell-u34"
+        ],
+        "origin": "original",
+        "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+        "run_id": 44095954742,
+        "selected_rows": 33
+      },
+      "groups": {
+        "activation-default-u34": {
+          "artifact": {
+            "digest": "sha256:812d38310f06b9a6c1bb623f09c94dddd89755c4bd9397fc54d359c7b067786e",
+            "id": 14336242351,
+            "name": "ch8-s1-05-44095954742-1-activation-default-u34"
+          },
+          "attempt": 1,
+          "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+          "group": "activation-default-u34",
+          "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+          "invocation_id": "597db122b2084c709350e145c7d82309",
+          "original_member_hashes": {
+            "activation-default/receipt.json": {
+              "bytes": 15692,
+              "sha256": "a65fe757d411c1dc4ca1afec3769261c43423a6b4c1ba3e52ba604eb756e7d73"
+            },
+            "groups/activation-default-u34/binding-metadata.json": {
+              "bytes": 202702,
+              "sha256": "b5aee8170207e2960bcfc01a14871e0c2d59319b24e4a6560eb2bd78902335e0"
+            },
+            "groups/activation-default-u34/compile/receipt.json": {
+              "bytes": 9899,
+              "sha256": "a7183ac4306c816af067411edc3cccf56885cd17c88213eedc5e781712354275"
+            },
+            "groups/activation-default-u34/export.json": {
+              "bytes": 7264,
+              "sha256": "cdd52c2c33c35f68678627d88208a6641e814fb26de4a6b5b60186ba3061f6bc"
+            },
+            "groups/activation-default-u34/properties.json": {
+              "bytes": 122708,
+              "sha256": "4b96b006d9f43d8e8ea0179b6db6ca9439513465a5051c8512562e3302edf9e9"
+            },
+            "groups/activation-default-u34/receipt.json": {
+              "bytes": 16785,
+              "sha256": "d403b5e82be1a1ae973969c52ffef2005730ebc58c1d642511dfe804415840b6"
+            },
+            "job-status.json": {
+              "bytes": 174,
+              "sha256": "7be2762f0101fc3c9ebbab4f83289a8eb7820f3f132ba8494258a09d95388bf5"
+            },
+            "receipt.json": {
+              "bytes": 32978,
+              "sha256": "ac5bb555a1d2e2c0f0aeabb25414351eb6a5e66549a36e806dd8ef1585ad42dd"
+            },
+            "setup/receipt.json": {
+              "bytes": 483,
+              "sha256": "5da1eeb57e6eb4a3bfeee9b397e6a85c50f5989d5c83844e3a6b5068317aed60"
+            }
+          },
+          "projection_hashes": {
+            "binding-metadata.json": "b5aee8170207e2960bcfc01a14871e0c2d59319b24e4a6560eb2bd78902335e0",
+            "compile/receipt.json": "5d23467cafb4d7cffe3b8ba42f00eca773368b56a9375073d3a790924eb45047",
+            "export.json": "cdd52c2c33c35f68678627d88208a6641e814fb26de4a6b5b60186ba3061f6bc",
+            "properties.json": "4b96b006d9f43d8e8ea0179b6db6ca9439513465a5051c8512562e3302edf9e9",
+            "receipt.json": "2ea25f2a5dedde0eb6cc235b289ef7ca6beb5ea6244ecf9ac058c413091c23c4"
+          },
+          "projection_root": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44095954742/evidence/activation-default-u34",
+          "repository": "Tiramisu-Cake/kani",
+          "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+          "run_id": 44095954742,
+          "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "state": "COMPLETE",
+          "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+        },
+        "activation-override-u34": {
+          "artifact": {
+            "digest": "sha256:3ecb8f52e092d83a2c1ada840a9d98e94229f8e30c689998b6e9bb5ce1615a12",
+            "id": 14336812438,
+            "name": "ch8-s1-05-44095954742-1-activation-override-u34"
+          },
+          "attempt": 1,
+          "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+          "group": "activation-override-u34",
+          "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+          "invocation_id": "4f81698620cd4f1bae6a8cf212596598",
+          "original_member_hashes": {
+            "activation-override/receipt.json": {
+              "bytes": 15963,
+              "sha256": "04d469b1dbdb13c0b69a8e386b3148cd196d0f7d64b60a167cb09907e9c67e65"
+            },
+            "groups/activation-override-u34/binding-metadata.json": {
+              "bytes": 202670,
+              "sha256": "8d54a1bf76f0f84a67be97d21a6f070f65a0b83d41684fcf96e077104ca5fb54"
+            },
+            "groups/activation-override-u34/compile/receipt.json": {
+              "bytes": 9898,
+              "sha256": "29d2103eec8322cf75af820078f3269e5232073e3df9c9ce49467d435011fde7"
+            },
+            "groups/activation-override-u34/export.json": {
+              "bytes": 7570,
+              "sha256": "78cebb8c25b700cb6b4087d7be7dcee00e0fffbe94a366d44f876e48a33a2a7c"
+            },
+            "groups/activation-override-u34/properties.json": {
+              "bytes": 245763,
+              "sha256": "b79d6c705103005455fdc363ee176f9608a5f0dba888ba0a128edd14d2dcee36"
+            },
+            "groups/activation-override-u34/receipt.json": {
+              "bytes": 17801,
+              "sha256": "ddfa655fc0343fb03ab4aaf81faf2eba58bbd520b72e658df64af733ea9e681c"
+            },
+            "job-status.json": {
+              "bytes": 174,
+              "sha256": "7be2762f0101fc3c9ebbab4f83289a8eb7820f3f132ba8494258a09d95388bf5"
+            },
+            "receipt.json": {
+              "bytes": 33264,
+              "sha256": "19511fe4353e45eb8fce010ed50de4a8f38937cc294ef60b57479138e43043bd"
+            },
+            "setup/receipt.json": {
+              "bytes": 484,
+              "sha256": "5c7988509b77fadd0528f124b678fa672242b4052c92407c0f5c12c2a89a7478"
+            }
+          },
+          "projection_hashes": {
+            "binding-metadata.json": "8d54a1bf76f0f84a67be97d21a6f070f65a0b83d41684fcf96e077104ca5fb54",
+            "compile/receipt.json": "0cf31b3b92260c824fe6e246ebff7b3e3be286cb74d634439253eb96e2e558b2",
+            "export.json": "78cebb8c25b700cb6b4087d7be7dcee00e0fffbe94a366d44f876e48a33a2a7c",
+            "properties.json": "b79d6c705103005455fdc363ee176f9608a5f0dba888ba0a128edd14d2dcee36",
+            "receipt.json": "56c41b0e07157aa0f210c68f31f174af6ce95194d864be2eb5dcb61c6c2fcf60"
+          },
+          "projection_root": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44095954742/evidence/activation-override-u34",
+          "repository": "Tiramisu-Cake/kani",
+          "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+          "run_id": 44095954742,
+          "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "state": "COMPLETE",
+          "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+        },
+        "freeze_copy_u8-n01-u34": {
+          "artifact": {
+            "digest": "sha256:7d8d4075b988f94709fcc1420b1ba80797a39d2e1d13fd7497014663a8b01fb6",
+            "id": 14340340214,
+            "name": "ch8-s1-05-44095954742-1-freeze_copy_u8-n01-u34"
+          },
+          "attempt": 1,
+          "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+          "group": "freeze_copy_u8-n01-u34",
+          "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+          "invocation_id": "fef95b635f16477b926e1a84b91e0d1b",
+          "original_member_hashes": {
+            "freeze_copy_u8_n0/receipt.json": {
+              "bytes": 17083,
+              "sha256": "8814bbd655827d1bf38f469569f14ef17e02e80b0c3e75336acb73daf034d97c"
+            },
+            "freeze_copy_u8_n1/receipt.json": {
+              "bytes": 16978,
+              "sha256": "51777518f294221696af00ed647585fdff1bf88a67d7b5b6b62cc00a5b60de3f"
+            },
+            "groups/freeze_copy_u8-n01-u34/binding-metadata.json": {
+              "bytes": 206233,
+              "sha256": "392511d88d4409cc5a80c93edf8c63db4e11e97c5a34ce0fa8af016172837252"
+            },
+            "groups/freeze_copy_u8-n01-u34/compile/receipt.json": {
+              "bytes": 9973,
+              "sha256": "bf07c64b69c84c588579b7807a379f37a0828a917f0dd972f3ab9dd68d392e07"
+            },
+            "groups/freeze_copy_u8-n01-u34/export.json": {
+              "bytes": 15509,
+              "sha256": "81757671e7e72c6de7fd022b9f489dc064256849f586ef6a9f1ef4221d9690ec"
+            },
+            "groups/freeze_copy_u8-n01-u34/properties.json": {
+              "bytes": 647080,
+              "sha256": "273bf6164c855dd0f20ef97e7b460323cad723e61e2892f3ea773e67b88f14f6"
+            },
+            "groups/freeze_copy_u8-n01-u34/receipt.json": {
+              "bytes": 18891,
+              "sha256": "1199242efeb401b813b0c19837d3a9d4b587345f51096c645fb7cb52b15ff5e6"
+            },
+            "job-status.json": {
+              "bytes": 174,
+              "sha256": "7be2762f0101fc3c9ebbab4f83289a8eb7820f3f132ba8494258a09d95388bf5"
+            },
+            "receipt.json": {
+              "bytes": 51803,
+              "sha256": "f781b23f0f6b2af587da919139f2a8d576f77b3e60a740863406d6115dc24253"
+            },
+            "setup/receipt.json": {
+              "bytes": 483,
+              "sha256": "fadae7de3a80608ea61f75383f71eb6b0b13d007202e4ce36f565205628434db"
+            }
+          },
+          "projection_hashes": {
+            "binding-metadata.json": "392511d88d4409cc5a80c93edf8c63db4e11e97c5a34ce0fa8af016172837252",
+            "compile/receipt.json": "0f49a5483df6bf40e929bdf8cafc64e2a747b6af19d1d37c579ee7f85568362f",
+            "export.json": "81757671e7e72c6de7fd022b9f489dc064256849f586ef6a9f1ef4221d9690ec",
+            "properties.json": "273bf6164c855dd0f20ef97e7b460323cad723e61e2892f3ea773e67b88f14f6",
+            "receipt.json": "1e4f4ed9672ce9b9ba8ff06ff2b45e070d8e8aed49d4bc9cb5bb09e14b383a90"
+          },
+          "projection_root": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44095954742/evidence/freeze_copy_u8-n01-u34",
+          "repository": "Tiramisu-Cake/kani",
+          "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+          "run_id": 44095954742,
+          "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "state": "COMPLETE",
+          "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+        },
+        "freeze_copy_u8-n23-u34": {
+          "artifact": {
+            "digest": "sha256:206305bf1f6c67b27a69885dc66630c930586547341cfb8dbf07d8307eb44e8b",
+            "id": 14340411480,
+            "name": "ch8-s1-05-44095954742-1-freeze_copy_u8-n23-u34"
+          },
+          "attempt": 1,
+          "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+          "group": "freeze_copy_u8-n23-u34",
+          "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+          "invocation_id": "9536e3b3327e4012b1f1f08f36886079",
+          "original_member_hashes": {
+            "freeze_copy_u8_n2/receipt.json": {
+              "bytes": 16948,
+              "sha256": "d74fbe59bd8f2e3405e9e9faf749bdfd9d4596a26e84a00287c70164d4e6ab30"
+            },
+            "freeze_copy_u8_n3/receipt.json": {
+              "bytes": 16948,
+              "sha256": "06e1c6237a4eb64e2eecba3685683a17df2f546967745aaff70a02f7ee431582"
+            },
+            "groups/freeze_copy_u8-n23-u34/binding-metadata.json": {
+              "bytes": 206233,
+              "sha256": "397224bedcd7a5c208d7be2b7a659db61a64b60f5d9015f0608c167624debbcd"
+            },
+            "groups/freeze_copy_u8-n23-u34/compile/receipt.json": {
+              "bytes": 9973,
+              "sha256": "b33841a7e767187e79f0783e8922b5a08adada0ff76075a28cce92429fab4d71"
+            },
+            "groups/freeze_copy_u8-n23-u34/export.json": {
+              "bytes": 15342,
+              "sha256": "5b70cc9cd80f49583ef3a8c18b9b6ff2d72b14b57be3d5e6dc1364f02bcb84ac"
+            },
+            "groups/freeze_copy_u8-n23-u34/properties.json": {
+              "bytes": 682508,
+              "sha256": "eb254189f47bd99ce1bf10bea9c396edc305f1bdb0725fc67464361a3296ee06"
+            },
+            "groups/freeze_copy_u8-n23-u34/receipt.json": {
+              "bytes": 18891,
+              "sha256": "b9ce2c54a257e7488a5bbd2f089ae5ee8d6b9d081353e623dcf921880b4ffd9f"
+            },
+            "job-status.json": {
+              "bytes": 174,
+              "sha256": "7be2762f0101fc3c9ebbab4f83289a8eb7820f3f132ba8494258a09d95388bf5"
+            },
+            "receipt.json": {
+              "bytes": 51635,
+              "sha256": "29d614ed11a3ed3317e4f86b7cbc68f7245ff82a0a1ecd5c3b3b82ed90e255e8"
+            },
+            "setup/receipt.json": {
+              "bytes": 483,
+              "sha256": "3178e3224cc9edbc575f54c21e0b4d23911bbb16a1383562f0cb31f935974ee0"
+            }
+          },
+          "projection_hashes": {
+            "binding-metadata.json": "397224bedcd7a5c208d7be2b7a659db61a64b60f5d9015f0608c167624debbcd",
+            "compile/receipt.json": "2420aa627a101758bd9c08d4beb8a1c2b1a7d6ece356185a9086c52fd728d178",
+            "export.json": "5b70cc9cd80f49583ef3a8c18b9b6ff2d72b14b57be3d5e6dc1364f02bcb84ac",
+            "properties.json": "eb254189f47bd99ce1bf10bea9c396edc305f1bdb0725fc67464361a3296ee06",
+            "receipt.json": "ab37685449bf8835a7d72d78f011d8884f99c6b3dd332bae3e7db82ce404b23c"
+          },
+          "projection_root": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44095954742/evidence/freeze_copy_u8-n23-u34",
+          "repository": "Tiramisu-Cake/kani",
+          "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+          "run_id": 44095954742,
+          "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "state": "COMPLETE",
+          "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+        },
+        "freeze_default_noncopy-n01-u34": {
+          "artifact": {
+            "digest": "sha256:db62c7a751c1a423096b33158b9b0fa687eaf14f52fe5bddbcd4f558b212cfaa",
+            "id": 14340722293,
+            "name": "ch8-s1-05-44095954742-1-freeze_default_noncopy-n01-u34"
+          },
+          "attempt": 1,
+          "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+          "group": "freeze_default_noncopy-n01-u34",
+          "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+          "invocation_id": "734bb8de42724bb691531dd476f91da6",
+          "original_member_hashes": {
+            "freeze_default_noncopy_n0/receipt.json": {
+              "bytes": 18096,
+              "sha256": "7b1663c2018572cd936a95df74cf50ae714930cee110878fe654ad7808884dff"
+            },
+            "freeze_default_noncopy_n1/receipt.json": {
+              "bytes": 17983,
+              "sha256": "ce32d2fe6362fba3ab3d0792818136e9aaea09f75fcb867eee69a503a21e0bfc"
+            },
+            "groups/freeze_default_noncopy-n01-u34/binding-metadata.json": {
+              "bytes": 206444,
+              "sha256": "940097f113a65450c08a92e1aebdcd41ecf4e6a0496af75cd9eab6508f73267a"
+            },
+            "groups/freeze_default_noncopy-n01-u34/compile/receipt.json": {
+              "bytes": 9990,
+              "sha256": "cc0b3bea5c5769ab0566220c0d321fefd9b8c7e8d2f81fcbf0c7f0e88bf56444"
+            },
+            "groups/freeze_default_noncopy-n01-u34/export.json": {
+              "bytes": 17379,
+              "sha256": "9fa8100b103df3f762c93a8e01974ab3b8e028d7072b3cbd2d85609b70549a2f"
+            },
+            "groups/freeze_default_noncopy-n01-u34/properties.json": {
+              "bytes": 722110,
+              "sha256": "f456e14a8414c5bf9ee1f5e46dfbdbd9f459b2d11532d76792dc637230b626a0"
+            },
+            "groups/freeze_default_noncopy-n01-u34/receipt.json": {
+              "bytes": 19724,
+              "sha256": "a153f2662b14c2b3cdb5bc3396cd9cd94c7a30e42417c3736900fc6a448647fa"
+            },
+            "job-status.json": {
+              "bytes": 174,
+              "sha256": "7be2762f0101fc3c9ebbab4f83289a8eb7820f3f132ba8494258a09d95388bf5"
+            },
+            "receipt.json": {
+              "bytes": 53741,
+              "sha256": "6facefd73bf3274dfd709c7a1826b33c6ac1ff8d68b87ae2c87a887f18289fa1"
+            },
+            "setup/receipt.json": {
+              "bytes": 484,
+              "sha256": "3addc759b5aa1ac4d47d3462aa1a886d8a57f9e11581681963289b7d7d8aa24f"
+            }
+          },
+          "projection_hashes": {
+            "binding-metadata.json": "940097f113a65450c08a92e1aebdcd41ecf4e6a0496af75cd9eab6508f73267a",
+            "compile/receipt.json": "4b75745387bf33f59d1001f30ceeb59fd4d8f3a922787eb76c58312e4dd95680",
+            "export.json": "9fa8100b103df3f762c93a8e01974ab3b8e028d7072b3cbd2d85609b70549a2f",
+            "properties.json": "f456e14a8414c5bf9ee1f5e46dfbdbd9f459b2d11532d76792dc637230b626a0",
+            "receipt.json": "dc489ab6d9d91f665d446a90bd3855245a1e791881f38d15b10823c0838489bd"
+          },
+          "projection_root": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44095954742/evidence/freeze_default_noncopy-n01-u34",
+          "repository": "Tiramisu-Cake/kani",
+          "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+          "run_id": 44095954742,
+          "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "state": "COMPLETE",
+          "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+        },
+        "freeze_default_noncopy-n23-u34": {
+          "artifact": {
+            "digest": "sha256:83eba770af08a3d602d4c94503157d1e111b96bd2509a23a1ab7aeb40449974f",
+            "id": 14340733854,
+            "name": "ch8-s1-05-44095954742-1-freeze_default_noncopy-n23-u34"
+          },
+          "attempt": 1,
+          "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+          "group": "freeze_default_noncopy-n23-u34",
+          "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+          "invocation_id": "360d61bc782d4354886ffe43a0f8012d",
+          "original_member_hashes": {
+            "freeze_default_noncopy_n2/receipt.json": {
+              "bytes": 15839,
+              "sha256": "23dfa1f26c0727cb0500880f0930b0e5196eaa157d82dd2ad1611eeec53dfa69"
+            },
+            "freeze_default_noncopy_n3/receipt.json": {
+              "bytes": 15839,
+              "sha256": "bcad89e3673078fa40d40fdd81216060c6b05527e5c22c4df4d7ec721f451354"
+            },
+            "groups/freeze_default_noncopy-n23-u34/binding-metadata.json": {
+              "bytes": 206445,
+              "sha256": "c892d82ed1d37b6a88ff825a6391633e508e05a0ed49df010c50144d6828f705"
+            },
+            "groups/freeze_default_noncopy-n23-u34/compile/receipt.json": {
+              "bytes": 9991,
+              "sha256": "5bc4e44f03aec421478e4a305586bcaa4776eb09eccd512c608e375a459b9187"
+            },
+            "groups/freeze_default_noncopy-n23-u34/export.json": {
+              "bytes": 12979,
+              "sha256": "c89df1abb1101f1f63c8f0092a213ea8d0398a227119e654e512ec1f665d8c82"
+            },
+            "groups/freeze_default_noncopy-n23-u34/properties.json": {
+              "bytes": 758586,
+              "sha256": "6b00d61115340a4877834f703096d15aa93c9507d80bcc9d446429ce5e0b269d"
+            },
+            "groups/freeze_default_noncopy-n23-u34/receipt.json": {
+              "bytes": 19725,
+              "sha256": "a258ad072bd972ef94877288d13e4ea4318a62a56c2b2f684815718595105e60"
+            },
+            "job-status.json": {
+              "bytes": 174,
+              "sha256": "7be2762f0101fc3c9ebbab4f83289a8eb7820f3f132ba8494258a09d95388bf5"
+            },
+            "receipt.json": {
+              "bytes": 49281,
+              "sha256": "8370187e5bb34a1ae518643f047f6d6b546884fedd80cacff130110246031070"
+            },
+            "setup/receipt.json": {
+              "bytes": 483,
+              "sha256": "98b775c5df3e54ce7cd50b8315c4e8e9aa5ccb9af63107a28ebf20d25bb7966c"
+            }
+          },
+          "projection_hashes": {
+            "binding-metadata.json": "c892d82ed1d37b6a88ff825a6391633e508e05a0ed49df010c50144d6828f705",
+            "compile/receipt.json": "e75c87c89e6c43496c0eb439bbc412cdc3b3daad313864b16b65327e4f9d5c6e",
+            "export.json": "c89df1abb1101f1f63c8f0092a213ea8d0398a227119e654e512ec1f665d8c82",
+            "properties.json": "6b00d61115340a4877834f703096d15aa93c9507d80bcc9d446429ce5e0b269d",
+            "receipt.json": "db1d2499dcea1b2888ca225cf4a82e94f32d495c02d601aabb2a49c598cbf542"
+          },
+          "projection_root": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44095954742/evidence/freeze_default_noncopy-n23-u34",
+          "repository": "Tiramisu-Cake/kani",
+          "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+          "run_id": 44095954742,
+          "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "state": "COMPLETE",
+          "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+        },
+        "light-controls-u34": {
+          "artifact": {
+            "digest": "sha256:f8fc51fd5d12f5b6f8bf6f4fe622089b4ea69c78c6d5cc1c2266811c2667e56e",
+            "id": 14335362656,
+            "name": "ch8-s1-05-44095954742-1-light-controls-u34"
+          },
+          "attempt": 1,
+          "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+          "group": "light-controls-u34",
+          "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+          "invocation_id": "317874cb8092496c81fd5541e7acb476",
+          "original_member_hashes": {
+            "activation_descending_rejected/receipt.json": {
+              "bytes": 11965,
+              "sha256": "f23cb7cc0155d43c074dde14fbee219c1fd9a7998f244bd7ffa9ad205b4c6753"
+            },
+            "activation_effectful_rejected/receipt.json": {
+              "bytes": 11963,
+              "sha256": "b31cb9846660f4efcd12035ac9f3f9d10bc83d34c6b556cb32d17f419940ba0d"
+            },
+            "activation_unsupported_type_rejected/receipt.json": {
+              "bytes": 11993,
+              "sha256": "f1fa46b60126bbad656c114d6dc252d854d7ae7b9ea78501c49b315d896ebe3e"
+            },
+            "groups/light-controls-u34/binding-metadata.json": {
+              "bytes": 228192,
+              "sha256": "cd0928263cd7ffdd8aa1686815668e0bbc97d5f4c6b44731150f378bbd2d88ee"
+            },
+            "groups/light-controls-u34/compile/receipt.json": {
+              "bytes": 10687,
+              "sha256": "e9e0903e1977b54198cf1044c48624011bdf9884358d0b20c133e1ec65bf2124"
+            },
+            "groups/light-controls-u34/export.json": {
+              "bytes": 28180,
+              "sha256": "7674e6341c8c6c419efee96b196a5ef0ec5c41340b9ff4579c427cc2c0921099"
+            },
+            "groups/light-controls-u34/properties.json": {
+              "bytes": 541089,
+              "sha256": "ea96d00adb96a5137fa1e62490d00683fae1ffb57b66dae2d7ee4d201383fa13"
+            },
+            "groups/light-controls-u34/receipt.json": {
+              "bytes": 19406,
+              "sha256": "228be8a112b024989e84b8b1cac25c0f4779e44560cf348c56d6283a48df9ad2"
+            },
+            "inactive_pairs_read_free/receipt.json": {
+              "bytes": 12288,
+              "sha256": "fa3caacbd3dfe55658850289f4b8c73d4d4bcf8c2f6598ce0417d11e3ae5a918"
+            },
+            "invalid_snapshot_rejected/receipt.json": {
+              "bytes": 12764,
+              "sha256": "ee06ddd3838e6a0b9e97c2e238baaba8c007a64adf389fb7a274f2f3c6f285c9"
+            },
+            "job-status.json": {
+              "bytes": 174,
+              "sha256": "7be2762f0101fc3c9ebbab4f83289a8eb7820f3f132ba8494258a09d95388bf5"
+            },
+            "ordinary-bridge/receipt.json": {
+              "bytes": 12247,
+              "sha256": "17b5b73b10fb01411a8cd0d5f8ed1bf446625b4c0b1db68e9eb149749ac7043d"
+            },
+            "receipt.json": {
+              "bytes": 131191,
+              "sha256": "bdfd4dfe61182ec0a9fb7598a01b8765286b8bf31ac78dbcc9d194c23e051200"
+            },
+            "setup/receipt.json": {
+              "bytes": 483,
+              "sha256": "e7b8ede81c71b1e1534144a7922a0ecfaac4f38184542a9c22ce32feacb952bd"
+            },
+            "snapshot_guards_companion/receipt.json": {
+              "bytes": 11740,
+              "sha256": "1b3f6226bcda4c7cfdad61237a138ddc0b34a7871251257bd7e62b8cd46ee4ed"
+            },
+            "stable_default_activation-legal/receipt.json": {
+              "bytes": 13620,
+              "sha256": "55e761d27726ab7f135ef2fc47a6856b02e2d4f0bcaef6b01690c4870de59148"
+            },
+            "stable_freeze_activation-legal/receipt.json": {
+              "bytes": 14063,
+              "sha256": "71595fe921cea06f3b183065f4ed3d83900212320ad60a5efaba6ca1c50a42be"
+            }
+          },
+          "projection_hashes": {
+            "binding-metadata.json": "cd0928263cd7ffdd8aa1686815668e0bbc97d5f4c6b44731150f378bbd2d88ee",
+            "compile/receipt.json": "64ce0782b662e72dcac418a894affaad3168e0c880578b39ca7704d2b50a6974",
+            "export.json": "7674e6341c8c6c419efee96b196a5ef0ec5c41340b9ff4579c427cc2c0921099",
+            "properties.json": "ea96d00adb96a5137fa1e62490d00683fae1ffb57b66dae2d7ee4d201383fa13",
+            "receipt.json": "3994df2e6574c54bf6741a0441127d871938495a23a629ababe342733926d76a"
+          },
+          "projection_root": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44095954742/evidence/light-controls-u34",
+          "repository": "Tiramisu-Cake/kani",
+          "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+          "run_id": 44095954742,
+          "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "state": "COMPLETE",
+          "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+        },
+        "light-corruption-u4": {
+          "artifact": {
+            "digest": "sha256:3af86117237a9602f99e7b8aa49b34f573d8ec94d54cb93480ec62632b83bee3",
+            "id": 14335016925,
+            "name": "ch8-s1-05-44095954742-1-light-corruption-u4"
+          },
+          "attempt": 1,
+          "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+          "group": "light-corruption-u4",
+          "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+          "invocation_id": "9c1fd3820cad4e3698dc7749be997cf3",
+          "original_member_hashes": {
+            "corruption_companion/receipt.json": {
+              "bytes": 11185,
+              "sha256": "0acd0c1e2267234e410819eaa4875e23c749bfe5c3b3c826a4908f54968f3a55"
+            },
+            "count_corruption_rejected/receipt.json": {
+              "bytes": 11787,
+              "sha256": "9b2aa1dded77903771668eb9c846f87ffded566359b38df6c25b0ca42d811331"
+            },
+            "groups/light-corruption-u4/binding-metadata.json": {
+              "bytes": 208492,
+              "sha256": "d8e4de9134ed9ad40d1f8ae3a1ce11c1c6fff91bcbda857c169013589464c3d4"
+            },
+            "groups/light-corruption-u4/compile/receipt.json": {
+              "bytes": 10088,
+              "sha256": "40dce6804081dd390bd9f5b2165f0b83076c677974a16b0d6d7f4dd43cb74e75"
+            },
+            "groups/light-corruption-u4/export.json": {
+              "bytes": 8498,
+              "sha256": "f65c15c1ffc763338786ca8203e72cc1182800e08afa2cd274ef3f9f5df3c5e2"
+            },
+            "groups/light-corruption-u4/properties.json": {
+              "bytes": 74906,
+              "sha256": "c7739c210e5f3f083f8143625bffb664e89d9243cab76e10e2f8c689c0593274"
+            },
+            "groups/light-corruption-u4/receipt.json": {
+              "bytes": 17098,
+              "sha256": "8894cb1b1f070ed343d4c3cdffe5af25662db8c4718321858160ca45f8640a02"
+            },
+            "job-status.json": {
+              "bytes": 174,
+              "sha256": "7be2762f0101fc3c9ebbab4f83289a8eb7820f3f132ba8494258a09d95388bf5"
+            },
+            "order_corruption_rejected/receipt.json": {
+              "bytes": 12474,
+              "sha256": "3870a7b34505ac028d8e55a7c6f5b6a6e1a45bbb0de1966c78c31de90927eea6"
+            },
+            "receipt.json": {
+              "bytes": 52808,
+              "sha256": "596e99e71bd08e24c379644ee13b799a0dc538c2bc422ef63732d782de79694f"
+            },
+            "setup/receipt.json": {
+              "bytes": 484,
+              "sha256": "bbfb702cb4a3a3e1f15f9a8020e16800b0ed0c6d9d1e249e0568ccf04fee3feb"
+            }
+          },
+          "projection_hashes": {
+            "binding-metadata.json": "d8e4de9134ed9ad40d1f8ae3a1ce11c1c6fff91bcbda857c169013589464c3d4",
+            "compile/receipt.json": "71393264902246e574d2d5668275485041a8949b14158caa591ba9fd2e77dffe",
+            "export.json": "f65c15c1ffc763338786ca8203e72cc1182800e08afa2cd274ef3f9f5df3c5e2",
+            "properties.json": "c7739c210e5f3f083f8143625bffb664e89d9243cab76e10e2f8c689c0593274",
+            "receipt.json": "d4c4941d38d4d69b050020a6c8e367b54b906aeb60365ebb2c2435d4224e9557"
+          },
+          "projection_root": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44095954742/evidence/light-corruption-u4",
+          "repository": "Tiramisu-Cake/kani",
+          "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+          "run_id": 44095954742,
+          "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "state": "COMPLETE",
+          "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+        },
+        "light-model-u5": {
+          "artifact": {
+            "digest": "sha256:aa18cecc67926d1114f9fa7751750cea9acf8193316addc11a6ce31c313f652e",
+            "id": 14335100117,
+            "name": "ch8-s1-05-44095954742-1-light-model-u5"
+          },
+          "attempt": 1,
+          "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+          "group": "light-model-u5",
+          "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+          "invocation_id": "c5e31fa59db44973818550da3f4e92c9",
+          "original_member_hashes": {
+            "groups/light-model-u5/binding-metadata.json": {
+              "bytes": 208555,
+              "sha256": "075b99c38b09c9bd0748685871dfe0c64b415f603a1ce6ffa1e2c3f09716649b"
+            },
+            "groups/light-model-u5/compile/receipt.json": {
+              "bytes": 10064,
+              "sha256": "35a26f0eabfb6ba68b58d2ee8b64bfe4bd73cd91a0bf19e3035fbbd6e75adc13"
+            },
+            "groups/light-model-u5/export.json": {
+              "bytes": 13046,
+              "sha256": "8a018be1602ad637b7ddcc372a7eb6a5e7977c7af5d348ab445e577c105c98da"
+            },
+            "groups/light-model-u5/properties.json": {
+              "bytes": 295528,
+              "sha256": "14d7381d9a16fcaa2c1b719c50d86ef2e8e773e24d492f3773ab4cbf22281566"
+            },
+            "groups/light-model-u5/receipt.json": {
+              "bytes": 17039,
+              "sha256": "f5ddd36c50a0cd42443edbd07074259dc1420a2a61741c7a7c27dbbf85ca3415"
+            },
+            "job-status.json": {
+              "bytes": 174,
+              "sha256": "7be2762f0101fc3c9ebbab4f83289a8eb7820f3f132ba8494258a09d95388bf5"
+            },
+            "model_cell_n0_3/receipt.json": {
+              "bytes": 13389,
+              "sha256": "e2de3fd7963891afb6ce81dac221e55d6337535d7612c322f1eb3a4480262479"
+            },
+            "model_noncopy_n0_3/receipt.json": {
+              "bytes": 13435,
+              "sha256": "2fe25edddd7b131017545708abee51fc8a51b6dd4f0f52e6eae2a8f086a0f596"
+            },
+            "model_u8_n0_3/receipt.json": {
+              "bytes": 13354,
+              "sha256": "d686b78085594ad951b07eb5cc43582f1ecc5656aa60e67fd2023fdba1c39cd9"
+            },
+            "receipt.json": {
+              "bytes": 57969,
+              "sha256": "b2918d3896d2bf1f680fcea5321337875571144d38fd618e738965f45f4f555b"
+            },
+            "setup/receipt.json": {
+              "bytes": 483,
+              "sha256": "cdd1102049c0ccaa8a877c9434a74fb9d294a3859c8bd5c05b0f46d2e123f05e"
+            }
+          },
+          "projection_hashes": {
+            "binding-metadata.json": "075b99c38b09c9bd0748685871dfe0c64b415f603a1ce6ffa1e2c3f09716649b",
+            "compile/receipt.json": "3ca738fc5820352b61a63eb59938712125756b85ba0737a7d7c878e60472cf31",
+            "export.json": "8a018be1602ad637b7ddcc372a7eb6a5e7977c7af5d348ab445e577c105c98da",
+            "properties.json": "14d7381d9a16fcaa2c1b719c50d86ef2e8e773e24d492f3773ab4cbf22281566",
+            "receipt.json": "97f34357dbf084f81e015246053dbba3e45cfc9bfb34cf806078546f43bd175f"
+          },
+          "projection_root": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44095954742/evidence/light-model-u5",
+          "repository": "Tiramisu-Cake/kani",
+          "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+          "run_id": 44095954742,
+          "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "state": "COMPLETE",
+          "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+        },
+        "stable_freeze_u8-n01-u34": {
+          "artifact": {
+            "digest": "sha256:be4e24dc6a6770731873defc55b3f36ff2dc5dea5aa23a93942dd375dd6d13f0",
+            "id": 14342481608,
+            "name": "ch8-s1-05-44095954742-1-stable_freeze_u8-n01-u34"
+          },
+          "attempt": 1,
+          "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+          "group": "stable_freeze_u8-n01-u34",
+          "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+          "invocation_id": "3eb2cada3e9749f490fd296e8f6f7867",
+          "original_member_hashes": {
+            "groups/stable_freeze_u8-n01-u34/binding-metadata.json": {
+              "bytes": 206228,
+              "sha256": "e803cac264363d2f2186db4a8d3f12052298dd97a69d2eea1c95e0ff2923fe42"
+            },
+            "groups/stable_freeze_u8-n01-u34/compile/receipt.json": {
+              "bytes": 9978,
+              "sha256": "29ab573fd2f08c54adca2418cba5914719a37339d185372a28359c57044ddc5e"
+            },
+            "groups/stable_freeze_u8-n01-u34/export.json": {
+              "bytes": 14122,
+              "sha256": "c713875401e103ab1d7ffb0f55c945296ffd2052db0c948e29d3155ebda6402b"
+            },
+            "groups/stable_freeze_u8-n01-u34/properties.json": {
+              "bytes": 603998,
+              "sha256": "50041f54c461994a2d1ea50659d7d62b6801fe9f6c882ffc243c671cdd842a47"
+            },
+            "groups/stable_freeze_u8-n01-u34/receipt.json": {
+              "bytes": 18908,
+              "sha256": "fd244ef4825f4fffaeeed0c2a022a71477a5d9c4909f475022e01d6026e9a8e3"
+            },
+            "job-status.json": {
+              "bytes": 174,
+              "sha256": "7be2762f0101fc3c9ebbab4f83289a8eb7820f3f132ba8494258a09d95388bf5"
+            },
+            "receipt.json": {
+              "bytes": 50339,
+              "sha256": "1a61d32a45cd6a1e5bde8a56cc34a25637dd0567d8d809f0d170a9dc23ba4e73"
+            },
+            "setup/receipt.json": {
+              "bytes": 482,
+              "sha256": "04ea119153dbc1efe9d3a1edfc1c9419cd40b034cb7acc3a3d586857e5542876"
+            },
+            "stable_freeze_u8_n0/receipt.json": {
+              "bytes": 16366,
+              "sha256": "3cfd265f547512f993ea29baa048e44490ff7fff953f0aafb50d252d623d6d05"
+            },
+            "stable_freeze_u8_n1/receipt.json": {
+              "bytes": 16273,
+              "sha256": "1578de715196dd0be0ef62edc212a6f6fdc717c8e2dc344c93c5a0e194a7c496"
+            }
+          },
+          "projection_hashes": {
+            "binding-metadata.json": "e803cac264363d2f2186db4a8d3f12052298dd97a69d2eea1c95e0ff2923fe42",
+            "compile/receipt.json": "67f29540758fea4c8c8d962dfbd539ae74a466d22bffc5853037a92f18589221",
+            "export.json": "c713875401e103ab1d7ffb0f55c945296ffd2052db0c948e29d3155ebda6402b",
+            "properties.json": "50041f54c461994a2d1ea50659d7d62b6801fe9f6c882ffc243c671cdd842a47",
+            "receipt.json": "7ed1d8b7bd1cd14f1e8749410f5f54ef43770a36e676b2063dfa3660edf0c105"
+          },
+          "projection_root": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44095954742/evidence/stable_freeze_u8-n01-u34",
+          "repository": "Tiramisu-Cake/kani",
+          "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+          "run_id": 44095954742,
+          "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "state": "COMPLETE",
+          "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+        },
+        "stable_freeze_u8-n23-u34": {
+          "artifact": {
+            "digest": "sha256:39681904cbb42d76abd9b4bd856af63be9b0bfea5dbe24ffd6b285e0c2e13f80",
+            "id": 14343866265,
+            "name": "ch8-s1-05-44095954742-1-stable_freeze_u8-n23-u34"
+          },
+          "attempt": 1,
+          "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+          "group": "stable_freeze_u8-n23-u34",
+          "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+          "invocation_id": "6ca3871e6684413cb68b94d0ae6a69f4",
+          "original_member_hashes": {
+            "groups/stable_freeze_u8-n23-u34/binding-metadata.json": {
+              "bytes": 206229,
+              "sha256": "b39dd25db59bf20acf3031a38bf66b5b4d17cde748397a1be601d617a8c42da5"
+            },
+            "groups/stable_freeze_u8-n23-u34/compile/receipt.json": {
+              "bytes": 9979,
+              "sha256": "54c2e9eb10b12b43215ff670e41ef76583d6770b8a97ef87d86a3c7701c0d1c1"
+            },
+            "groups/stable_freeze_u8-n23-u34/export.json": {
+              "bytes": 11384,
+              "sha256": "bf648f2c11db8e8345883677e3dc0a5b1032826a6a613e4d4e991e741e30133c"
+            },
+            "groups/stable_freeze_u8-n23-u34/properties.json": {
+              "bytes": 639630,
+              "sha256": "ab942f17e2e01be0bcd174fb8a8a23ab4c63a17a77d22e98d6ca6fd1da51b239"
+            },
+            "groups/stable_freeze_u8-n23-u34/receipt.json": {
+              "bytes": 18909,
+              "sha256": "5c8ee38ef772efee1e0275114b27b0331862166d3ff03d5bf893076dc145529d"
+            },
+            "job-status.json": {
+              "bytes": 174,
+              "sha256": "7be2762f0101fc3c9ebbab4f83289a8eb7820f3f132ba8494258a09d95388bf5"
+            },
+            "receipt.json": {
+              "bytes": 47519,
+              "sha256": "1e4da1415a373e11889d6991323468fa858da98c3b14944fea5496667e256138"
+            },
+            "setup/receipt.json": {
+              "bytes": 481,
+              "sha256": "3beaf3c6a4753b815e32c06281bcd39ab38467a5f86e050d8c21e86e75089ef1"
+            },
+            "stable_freeze_u8_n2/receipt.json": {
+              "bytes": 14946,
+              "sha256": "759bd2df133f8b37030b74e603590ff25fc479f6e1c3583c7ad6866631993f69"
+            },
+            "stable_freeze_u8_n3/receipt.json": {
+              "bytes": 14948,
+              "sha256": "6eb52b5b6352694222321d205daae494a20e993fdabd1e07087ebb4617c6a507"
+            }
+          },
+          "projection_hashes": {
+            "binding-metadata.json": "b39dd25db59bf20acf3031a38bf66b5b4d17cde748397a1be601d617a8c42da5",
+            "compile/receipt.json": "5d0dff57b0e6386a97daeb1e61659153112c3850eb6c436ab4b5e8b2d72b8d17",
+            "export.json": "bf648f2c11db8e8345883677e3dc0a5b1032826a6a613e4d4e991e741e30133c",
+            "properties.json": "ab942f17e2e01be0bcd174fb8a8a23ab4c63a17a77d22e98d6ca6fd1da51b239",
+            "receipt.json": "f586b2c3abf217bcea9947c57c11dac007ce6cf7408040ee591e440573d74225"
+          },
+          "projection_root": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44095954742/evidence/stable_freeze_u8-n23-u34",
+          "repository": "Tiramisu-Cake/kani",
+          "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+          "run_id": 44095954742,
+          "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "state": "COMPLETE",
+          "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+        },
+        "unstable_freeze_u8-n01-u34": {
+          "artifact": {
+            "digest": "sha256:2adccfed30776d69c8620a988a724e6e38ce1ee710eb89a961534756392aa5fc",
+            "id": 14342848517,
+            "name": "ch8-s1-05-44095954742-1-unstable_freeze_u8-n01-u34"
+          },
+          "attempt": 1,
+          "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+          "group": "unstable_freeze_u8-n01-u34",
+          "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+          "invocation_id": "627fb408b81143c4a7f65b95e2deffe3",
+          "original_member_hashes": {
+            "groups/unstable_freeze_u8-n01-u34/binding-metadata.json": {
+              "bytes": 206280,
+              "sha256": "b815a0af5498be8e397ff7de1eddb2814cc5ac22894129be0f04788d03dda867"
+            },
+            "groups/unstable_freeze_u8-n01-u34/compile/receipt.json": {
+              "bytes": 9980,
+              "sha256": "4ee4171e876916a58463d3c1d0ebf31dc6e554f5fd3c8b6eefa62802e2d5b728"
+            },
+            "groups/unstable_freeze_u8-n01-u34/export.json": {
+              "bytes": 14760,
+              "sha256": "187b0cd4000bafcc78837a00364c75438e7fd88f5c61d4b31a5c0bf7b1eb7b7d"
+            },
+            "groups/unstable_freeze_u8-n01-u34/properties.json": {
+              "bytes": 650448,
+              "sha256": "f17246f8ce10f5b94d3fd4dc9037cd6c1a08d3a43991bedbe6dc80a6ddfd4211"
+            },
+            "groups/unstable_freeze_u8-n01-u34/receipt.json": {
+              "bytes": 18922,
+              "sha256": "984c1e1daae8299415aeb41c6b494842b948da5fa8d8f372b99848b3d60414b9"
+            },
+            "job-status.json": {
+              "bytes": 174,
+              "sha256": "7be2762f0101fc3c9ebbab4f83289a8eb7820f3f132ba8494258a09d95388bf5"
+            },
+            "receipt.json": {
+              "bytes": 51013,
+              "sha256": "735c6d216858f40c013941fbb5efaa41212819e1a47980022d699bbdcc191493"
+            },
+            "setup/receipt.json": {
+              "bytes": 484,
+              "sha256": "14872bd4467c99b3f9e6ba253fef05d62e755b2016c5d66dd094987ae08cdbc3"
+            },
+            "unstable_freeze_u8_n0/receipt.json": {
+              "bytes": 16707,
+              "sha256": "579e6360c80f1e06c0115033f7e2c55b4786b52deca8097251cca5157adcd2b1"
+            },
+            "unstable_freeze_u8_n1/receipt.json": {
+              "bytes": 16600,
+              "sha256": "aee34e7fbcaf617200772b82bf5774145c55950bcd5f3d2be6599d012e5b3fdb"
+            }
+          },
+          "projection_hashes": {
+            "binding-metadata.json": "b815a0af5498be8e397ff7de1eddb2814cc5ac22894129be0f04788d03dda867",
+            "compile/receipt.json": "0ee6d8aa8c773e8fa242a4ebde806dae8b36cd7bca65bdc7e11c4f0eea4a59f8",
+            "export.json": "187b0cd4000bafcc78837a00364c75438e7fd88f5c61d4b31a5c0bf7b1eb7b7d",
+            "properties.json": "f17246f8ce10f5b94d3fd4dc9037cd6c1a08d3a43991bedbe6dc80a6ddfd4211",
+            "receipt.json": "8dfcc13b8c3cac19b727d34674ff4ae5782945779bd1a040506fd4249dff3445"
+          },
+          "projection_root": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44095954742/evidence/unstable_freeze_u8-n01-u34",
+          "repository": "Tiramisu-Cake/kani",
+          "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+          "run_id": 44095954742,
+          "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "state": "COMPLETE",
+          "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+        },
+        "unstable_freeze_u8-n23-u34": {
+          "artifact": {
+            "digest": "sha256:e1f0a03b1d6a655b9331e48a9c47cbe07259e2000398bb49fb5936d759a4353e",
+            "id": 14345235591,
+            "name": "ch8-s1-05-44095954742-1-unstable_freeze_u8-n23-u34"
+          },
+          "attempt": 1,
+          "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+          "group": "unstable_freeze_u8-n23-u34",
+          "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+          "invocation_id": "b4d435fa32c4473fac3708992b4b966f",
+          "original_member_hashes": {
+            "groups/unstable_freeze_u8-n23-u34/binding-metadata.json": {
+              "bytes": 206283,
+              "sha256": "8bd0aad5b74711c6bc10b1b08aad5827ceb0107d460701c5f1ecd10480248afb"
+            },
+            "groups/unstable_freeze_u8-n23-u34/compile/receipt.json": {
+              "bytes": 9982,
+              "sha256": "43425cec4ab768324e1a95079088d531d2c70dfbd8d103bc04da30f7664103d9"
+            },
+            "groups/unstable_freeze_u8-n23-u34/export.json": {
+              "bytes": 14632,
+              "sha256": "e8dfcb56f86778caefdc3ff3ee87404da478cc3cec87be7c4e1c34188b606b0f"
+            },
+            "groups/unstable_freeze_u8-n23-u34/properties.json": {
+              "bytes": 686428,
+              "sha256": "4967126edd31e41659b84acf8a0b91a98e9c99953fab8ecb451b594135f80812"
+            },
+            "groups/unstable_freeze_u8-n23-u34/receipt.json": {
+              "bytes": 18925,
+              "sha256": "1e714595a2e044fa0e23a9afa3d6e49e4fbb37a9ddf22804f97166fe109931b5"
+            },
+            "job-status.json": {
+              "bytes": 174,
+              "sha256": "7be2762f0101fc3c9ebbab4f83289a8eb7820f3f132ba8494258a09d95388bf5"
+            },
+            "receipt.json": {
+              "bytes": 50883,
+              "sha256": "8f81d72fc2795aa5095f892ecff7af21d8b5482cc35a5d3dcb20e84a09a0bb25"
+            },
+            "setup/receipt.json": {
+              "bytes": 483,
+              "sha256": "b5ef82bedf332a0610fd1ee64c38f54c24b07d0687ccdd185368e727d1be32d0"
+            },
+            "unstable_freeze_u8_n2/receipt.json": {
+              "bytes": 16590,
+              "sha256": "f63283cfe327e4e8b3fbd50835edd29f8031ce5f618f66de668da01a6171439c"
+            },
+            "unstable_freeze_u8_n3/receipt.json": {
+              "bytes": 16590,
+              "sha256": "eb86480efa213b238929cef0ce0c5df0add70e220abb559bc0fdf76cb4db3a68"
+            }
+          },
+          "projection_hashes": {
+            "binding-metadata.json": "8bd0aad5b74711c6bc10b1b08aad5827ceb0107d460701c5f1ecd10480248afb",
+            "compile/receipt.json": "39d67a30e8f3a6978e2da8d266184080746b83f41784389a6e4a1d16e675e216",
+            "export.json": "e8dfcb56f86778caefdc3ff3ee87404da478cc3cec87be7c4e1c34188b606b0f",
+            "properties.json": "4967126edd31e41659b84acf8a0b91a98e9c99953fab8ecb451b594135f80812",
+            "receipt.json": "436f34585b9c4df116c6f1493dd137ff18aea24ed94b2a2e028d1db426498786"
+          },
+          "projection_root": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44095954742/evidence/unstable_freeze_u8-n23-u34",
+          "repository": "Tiramisu-Cake/kani",
+          "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+          "run_id": 44095954742,
+          "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "state": "COMPLETE",
+          "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+        }
+      },
+      "identity": {
+        "attempt": 1,
+        "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+        "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+        "intake_commit": "6d300f3ab9801c808612b562588af06e0f7b4ff9",
+        "repository": "Tiramisu-Cake/kani",
+        "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+        "run_id": 44095954742,
+        "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "trigger_sha": "21592884db439389364b416dea1515bfa9d8018e"
+      }
+    },
+    "retry": {
+      "collector": {
+        "attempt": 1,
+        "collector": "EXACT_READ_ONLY_MATCH",
+        "collector_receipt_sha256": "aa38693f74683b68aa96febdc7bfdd6c451e57e66192e5d024b3e44cb3028adc",
+        "immutable_receipt": {
+          "commit": "0beb690dfa99e4524de71b2ffc311fe7d7556cc1",
+          "path": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44128268928/collector-exact.json",
+          "sha256": "75641495239a3c201296224ed0eac864c9c0798370080df7a1efa290a341a9f9"
+        },
+        "missing_groups": [
+          "light-model-u5",
+          "light-corruption-u4",
+          "light-controls-u34",
+          "activation-default-u34",
+          "activation-override-u34",
+          "freeze_copy_u8-n01-u34",
+          "freeze_copy_u8-n23-u34",
+          "freeze_default_noncopy-n01-u34",
+          "freeze_default_noncopy-n23-u34",
+          "stable_freeze_u8-n01-u34",
+          "stable_freeze_u8-n23-u34",
+          "unstable_freeze_u8-n01-u34",
+          "unstable_freeze_u8-n23-u34"
+        ],
+        "origin": "retry",
+        "request_sha256": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8",
+        "run_id": 44128268928,
+        "selected_rows": 2
+      },
+      "groups": {
+        "cell-u34": {
+          "artifact": {
+            "digest": "sha256:71d8804bd7668bd938bd7d972ce2c12a9efda3781373188d285492224b60f1ce",
+            "id": 14351510490,
+            "name": "ch8-s1-05-44128268928-1-cell-u34"
+          },
+          "attempt": 1,
+          "control_sha": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+          "control_tree": "2c4475bf17bb0354e9b204e19c652549c263f90f",
+          "group": "cell-u34",
+          "intake_commit": "0beb690dfa99e4524de71b2ffc311fe7d7556cc1",
+          "invocation_id": "4233d8914e4c41db85be0a5283715324",
+          "original_member_hashes": {
+            "groups/cell-u34/binding-metadata.json": {
+              "bytes": 206249,
+              "encoding": "utf-8",
+              "sha256": "1c6ab2799c5de2ad60343718c250b93c1abb8e89bec92858bd6a2f44e24a161c"
+            },
+            "groups/cell-u34/compile/receipt.json": {
+              "bytes": 9983,
+              "encoding": "utf-8",
+              "sha256": "31281c9027dd0d68da6e99bc800f96ae1ffbaa879e6e915b6f4a41cdd00e6cce"
+            },
+            "groups/cell-u34/export.json": {
+              "bytes": 11033,
+              "encoding": "utf-8",
+              "sha256": "c1683bda1f965a14fdae955a26846152095bfdd84fbccf9c46513c3e3caa5b91"
+            },
+            "groups/cell-u34/properties.json": {
+              "bytes": 430451,
+              "encoding": "utf-8",
+              "sha256": "b0dda7a2ee78c59ffa3e12d23c6e583b336e2eb7bb14bc1748356cefd2f8c747"
+            },
+            "groups/cell-u34/receipt.json": {
+              "bytes": 16878,
+              "encoding": "utf-8",
+              "sha256": "d08f8fe700a86aa53d9d0b29e5443b4c2af8300d4ce3ab3108e7c5e4ea48aace"
+            },
+            "job-status.json": {
+              "bytes": 174,
+              "encoding": "utf-8",
+              "sha256": "2bdc83f216080689c34c9bc45a86a4b5b98fe7701e7421194807ed2f2327470b"
+            },
+            "receipt.json": {
+              "bytes": 47164,
+              "encoding": "utf-8",
+              "sha256": "1bdbf3f5cb3ba69023aa64ca95d8f107a0707ed713af3dd21972f65645659423"
+            },
+            "setup/receipt.json": {
+              "bytes": 481,
+              "encoding": "utf-8",
+              "sha256": "ab0756f1a96e685784dee16a1306dc6a4687d6b8762a8653968ddf989ae82cec"
+            },
+            "stable_default_cell/receipt.json": {
+              "bytes": 14741,
+              "encoding": "utf-8",
+              "sha256": "616971a6ef72de135243e9e2a1f3bf1176d4e5652b05bdca7da3ccf9f952bf69"
+            },
+            "unstable_default_cell/receipt.json": {
+              "bytes": 14793,
+              "encoding": "utf-8",
+              "sha256": "c79d590a1c1313b2874747dce2c1b593a5fe0da20547ddea6f4a212a1dff5c56"
+            }
+          },
+          "projection_hashes": {
+            "binding-metadata.json": "1c6ab2799c5de2ad60343718c250b93c1abb8e89bec92858bd6a2f44e24a161c",
+            "compile/receipt.json": "50a819ae0c50169d83e4466daa7af71945275e92392d8f550f0ead756f552877",
+            "export.json": "c1683bda1f965a14fdae955a26846152095bfdd84fbccf9c46513c3e3caa5b91",
+            "properties.json": "b0dda7a2ee78c59ffa3e12d23c6e583b336e2eb7bb14bc1748356cefd2f8c747",
+            "receipt.json": "ef5668ed3e99a5a9f4fe2686352093829a92e0fa8ee2cc468bd75d9e10e40884"
+          },
+          "projection_root": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/run-44128268928/evidence/groups/cell-u34",
+          "repository": "Tiramisu-Cake/kani",
+          "request_sha256": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8",
+          "run_id": 44128268928,
+          "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "state": "COMPLETE",
+          "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "trigger_sha": "4336dfed5af21660b9ac82907107be839ce13977"
+        }
+      },
+      "identity": {
+        "attempt": 1,
+        "control_sha": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+        "control_tree": "2c4475bf17bb0354e9b204e19c652549c263f90f",
+        "intake_commit": "0beb690dfa99e4524de71b2ffc311fe7d7556cc1",
+        "repository": "Tiramisu-Cake/kani",
+        "request_sha256": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8",
+        "run_id": 44128268928,
+        "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "trigger_sha": "4336dfed5af21660b9ac82907107be839ce13977"
+      }
+    }
+  },
+  "rows": {
+    "activation-default": {
+      "group": "activation-default-u34",
+      "group_origin_sha256": "dafbcae0c11e94162e321f25920715bea07c776cd6118f7b943c172f9e597baa",
+      "group_pointer": "/origins/original/groups/activation-default-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "activation-override": {
+      "group": "activation-override-u34",
+      "group_origin_sha256": "836d00b7978d4de3073dc6dbda1f47ecb9aba0e35437950883b1cd0cdfaabda9",
+      "group_pointer": "/origins/original/groups/activation-override-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "activation_descending_rejected": {
+      "group": "light-controls-u34",
+      "group_origin_sha256": "8b68a0de4a4f1ef509d401d25b4dd581ff4e680df770805177396f3c9a2f1cf5",
+      "group_pointer": "/origins/original/groups/light-controls-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "activation_effectful_rejected": {
+      "group": "light-controls-u34",
+      "group_origin_sha256": "8b68a0de4a4f1ef509d401d25b4dd581ff4e680df770805177396f3c9a2f1cf5",
+      "group_pointer": "/origins/original/groups/light-controls-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "activation_unsupported_type_rejected": {
+      "group": "light-controls-u34",
+      "group_origin_sha256": "8b68a0de4a4f1ef509d401d25b4dd581ff4e680df770805177396f3c9a2f1cf5",
+      "group_pointer": "/origins/original/groups/light-controls-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "corruption_companion": {
+      "group": "light-corruption-u4",
+      "group_origin_sha256": "68c87690d45e4d7abe8f5b3a155c5a34caf11bcd2fac0b94ecef8f507a618f95",
+      "group_pointer": "/origins/original/groups/light-corruption-u4",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "count_corruption_rejected": {
+      "group": "light-corruption-u4",
+      "group_origin_sha256": "68c87690d45e4d7abe8f5b3a155c5a34caf11bcd2fac0b94ecef8f507a618f95",
+      "group_pointer": "/origins/original/groups/light-corruption-u4",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "freeze_copy_u8_n0": {
+      "group": "freeze_copy_u8-n01-u34",
+      "group_origin_sha256": "e5df3f6d4aed70c17dc290fedb36639d7be578b74e4845c79e9992b318d36ba5",
+      "group_pointer": "/origins/original/groups/freeze_copy_u8-n01-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "freeze_copy_u8_n1": {
+      "group": "freeze_copy_u8-n01-u34",
+      "group_origin_sha256": "e5df3f6d4aed70c17dc290fedb36639d7be578b74e4845c79e9992b318d36ba5",
+      "group_pointer": "/origins/original/groups/freeze_copy_u8-n01-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "freeze_copy_u8_n2": {
+      "group": "freeze_copy_u8-n23-u34",
+      "group_origin_sha256": "cc81253111d3029b3a88a226c935e74d95f3800c7a8f63e3eeae6665f5742a92",
+      "group_pointer": "/origins/original/groups/freeze_copy_u8-n23-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "freeze_copy_u8_n3": {
+      "group": "freeze_copy_u8-n23-u34",
+      "group_origin_sha256": "cc81253111d3029b3a88a226c935e74d95f3800c7a8f63e3eeae6665f5742a92",
+      "group_pointer": "/origins/original/groups/freeze_copy_u8-n23-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "freeze_default_noncopy_n0": {
+      "group": "freeze_default_noncopy-n01-u34",
+      "group_origin_sha256": "74aba88e721e3989ef7d0f547a3b82b748724088d3570cae12290092e8bf5a97",
+      "group_pointer": "/origins/original/groups/freeze_default_noncopy-n01-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "freeze_default_noncopy_n1": {
+      "group": "freeze_default_noncopy-n01-u34",
+      "group_origin_sha256": "74aba88e721e3989ef7d0f547a3b82b748724088d3570cae12290092e8bf5a97",
+      "group_pointer": "/origins/original/groups/freeze_default_noncopy-n01-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "freeze_default_noncopy_n2": {
+      "group": "freeze_default_noncopy-n23-u34",
+      "group_origin_sha256": "e74829e940d699cc8cb9cffc6ffe5c3acf9ca26b733181bc55464f37edce807a",
+      "group_pointer": "/origins/original/groups/freeze_default_noncopy-n23-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "freeze_default_noncopy_n3": {
+      "group": "freeze_default_noncopy-n23-u34",
+      "group_origin_sha256": "e74829e940d699cc8cb9cffc6ffe5c3acf9ca26b733181bc55464f37edce807a",
+      "group_pointer": "/origins/original/groups/freeze_default_noncopy-n23-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "inactive_pairs_read_free": {
+      "group": "light-controls-u34",
+      "group_origin_sha256": "8b68a0de4a4f1ef509d401d25b4dd581ff4e680df770805177396f3c9a2f1cf5",
+      "group_pointer": "/origins/original/groups/light-controls-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "invalid_snapshot_rejected": {
+      "group": "light-controls-u34",
+      "group_origin_sha256": "8b68a0de4a4f1ef509d401d25b4dd581ff4e680df770805177396f3c9a2f1cf5",
+      "group_pointer": "/origins/original/groups/light-controls-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "model_cell_n0_3": {
+      "group": "light-model-u5",
+      "group_origin_sha256": "2456fbe52e210d08dab8e6c0419a070f397020a96618292013550fdc14c33854",
+      "group_pointer": "/origins/original/groups/light-model-u5",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "model_noncopy_n0_3": {
+      "group": "light-model-u5",
+      "group_origin_sha256": "2456fbe52e210d08dab8e6c0419a070f397020a96618292013550fdc14c33854",
+      "group_pointer": "/origins/original/groups/light-model-u5",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "model_u8_n0_3": {
+      "group": "light-model-u5",
+      "group_origin_sha256": "2456fbe52e210d08dab8e6c0419a070f397020a96618292013550fdc14c33854",
+      "group_pointer": "/origins/original/groups/light-model-u5",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "order_corruption_rejected": {
+      "group": "light-corruption-u4",
+      "group_origin_sha256": "68c87690d45e4d7abe8f5b3a155c5a34caf11bcd2fac0b94ecef8f507a618f95",
+      "group_pointer": "/origins/original/groups/light-corruption-u4",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "ordinary-bridge": {
+      "group": "light-controls-u34",
+      "group_origin_sha256": "8b68a0de4a4f1ef509d401d25b4dd581ff4e680df770805177396f3c9a2f1cf5",
+      "group_pointer": "/origins/original/groups/light-controls-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "snapshot_guards_companion": {
+      "group": "light-controls-u34",
+      "group_origin_sha256": "8b68a0de4a4f1ef509d401d25b4dd581ff4e680df770805177396f3c9a2f1cf5",
+      "group_pointer": "/origins/original/groups/light-controls-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "stable_default_activation-legal": {
+      "group": "light-controls-u34",
+      "group_origin_sha256": "8b68a0de4a4f1ef509d401d25b4dd581ff4e680df770805177396f3c9a2f1cf5",
+      "group_pointer": "/origins/original/groups/light-controls-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "stable_default_cell": {
+      "group": "cell-u34",
+      "group_origin_sha256": "91136f3c5bab8f4cee57c74b6c03ef16e0017a880d5ad61a8c446a8172d5759d",
+      "group_pointer": "/origins/retry/groups/cell-u34",
+      "origin": "retry",
+      "origin_key": "44128268928/1"
+    },
+    "stable_freeze_activation-legal": {
+      "group": "light-controls-u34",
+      "group_origin_sha256": "8b68a0de4a4f1ef509d401d25b4dd581ff4e680df770805177396f3c9a2f1cf5",
+      "group_pointer": "/origins/original/groups/light-controls-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "stable_freeze_u8_n0": {
+      "group": "stable_freeze_u8-n01-u34",
+      "group_origin_sha256": "0b236052d5ede4dd00ffdb0a75e851992c77a149b99afe3d286bf311feadca40",
+      "group_pointer": "/origins/original/groups/stable_freeze_u8-n01-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "stable_freeze_u8_n1": {
+      "group": "stable_freeze_u8-n01-u34",
+      "group_origin_sha256": "0b236052d5ede4dd00ffdb0a75e851992c77a149b99afe3d286bf311feadca40",
+      "group_pointer": "/origins/original/groups/stable_freeze_u8-n01-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "stable_freeze_u8_n2": {
+      "group": "stable_freeze_u8-n23-u34",
+      "group_origin_sha256": "86170846b632024f6778969c3099836bdc296f9848328413c8135ba107d35cf0",
+      "group_pointer": "/origins/original/groups/stable_freeze_u8-n23-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "stable_freeze_u8_n3": {
+      "group": "stable_freeze_u8-n23-u34",
+      "group_origin_sha256": "86170846b632024f6778969c3099836bdc296f9848328413c8135ba107d35cf0",
+      "group_pointer": "/origins/original/groups/stable_freeze_u8-n23-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "unstable_default_cell": {
+      "group": "cell-u34",
+      "group_origin_sha256": "91136f3c5bab8f4cee57c74b6c03ef16e0017a880d5ad61a8c446a8172d5759d",
+      "group_pointer": "/origins/retry/groups/cell-u34",
+      "origin": "retry",
+      "origin_key": "44128268928/1"
+    },
+    "unstable_freeze_u8_n0": {
+      "group": "unstable_freeze_u8-n01-u34",
+      "group_origin_sha256": "d823806915bfff4a47344cda6e8ceec446c75d34a58b00e12ce20ac2b07259e0",
+      "group_pointer": "/origins/original/groups/unstable_freeze_u8-n01-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "unstable_freeze_u8_n1": {
+      "group": "unstable_freeze_u8-n01-u34",
+      "group_origin_sha256": "d823806915bfff4a47344cda6e8ceec446c75d34a58b00e12ce20ac2b07259e0",
+      "group_pointer": "/origins/original/groups/unstable_freeze_u8-n01-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "unstable_freeze_u8_n2": {
+      "group": "unstable_freeze_u8-n23-u34",
+      "group_origin_sha256": "d912ba5d05e4844fefc901ff1190def250c3261782dab0adc0e3f1de73f52d5c",
+      "group_pointer": "/origins/original/groups/unstable_freeze_u8-n23-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    },
+    "unstable_freeze_u8_n3": {
+      "group": "unstable_freeze_u8-n23-u34",
+      "group_origin_sha256": "d912ba5d05e4844fefc901ff1190def250c3261782dab0adc0e3f1de73f52d5c",
+      "group_pointer": "/origins/original/groups/unstable_freeze_u8-n23-u34",
+      "origin": "original",
+      "origin_key": "44095954742/1"
+    }
+  },
+  "schema": "s108-composite-origin-map-v1"
+}
