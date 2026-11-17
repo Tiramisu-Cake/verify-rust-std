@@ -81,23 +81,30 @@ fn swap_pfc() {
     kani::cover(a == 12 && b == 0 && before[13] <= before[1], "S2_SWAP_REVERSE");
     kani::cover(true, "S2_SWAP_USEFUL_RETURN");
 }
-// Constructive witness for every arbitrary byte multiset, not an assumed sort oracle.
-// Runtime algorithm remains untouched. This harness sorts its own ghost fixture.
+// Constructive witness over each summary length, with no assumed sorting oracle.
+// This sorts only a ghost fixture; all actual runtime bodies remain unchanged.
+fn witness(input: &[u8]) {
+    let mut output = [0u8;32];
+    output[..input.len()].copy_from_slice(input);
+    for i in 1..input.len() {
+        let mut j = i;
+        while j > 0 && output[j] < output[j-1] { output.swap(j,j-1); j -= 1; }
+    }
+    assert!(span::post::<u8,KeyLess<u8>>(span::capture::<u8,KeyLess<u8>>(input.as_ptr(),input.len()),output.as_ptr(),input.len()), "S2_SUMMARY_WITNESS_FULL_COUNT");
+}
 #[kani::proof]
 #[kani::unwind(34)]
 fn summary_witness() {
     let input: [u8;32] = kani::any();
-    let mut output = input;
-    for i in 1..32 {
-        let mut j = i;
-        while j > 0 && output[j] < output[j-1] { output.swap(j,j-1); j -= 1; }
-    }
-    assert!(span::post::<u8,KeyLess<u8>>(span::capture::<u8,KeyLess<u8>>(input.as_ptr(),32),output.as_ptr(),32), "S2_SUMMARY_WITNESS_FULL_COUNT");
+    // sort8; each insert-tail p8..15; final merge32. This witness is stronger
+    // than the corresponding sorted-prefix/halves premises and shares full values.
+    for n in 8..17 { witness(&input[..n]); }
+    witness(&input);
     let pairpre = pair::capture::<u8,KeyLess<u8>>(input.as_ptr(),0,1);
     let outpair = if input[1] < input[0] { [input[1],input[0]] } else { [input[0],input[1]] };
     assert!(pair::post::<u8,KeyLess<u8>>(pairpre,outpair.as_ptr(),0,1), "S2_PAIR_WITNESS");
     kani::cover(input[0] > input[31], "S2_WITNESS_UNSORTED");
-    kani::cover(output[0] < output[31], "S2_WITNESS_NONCONSTANT");
+    kani::cover(input[0] != input[31], "S2_WITNESS_NONCONSTANT");
     kani::cover(true, "S2_WITNESS_USEFUL_RETURN");
 }
 #[kani::proof]
