@@ -183,3 +183,47 @@ C-01 held (superseded): C controls (std `d073585946` on P′, control `cdd3c6d04
 | 2026-11-17 ~13:55Z | S1-08 | S1 (item 2) | std `99e8456d20` (parent `5be85699b8`; role labels via `kani::assert` in positive smoke!/positive!, published as `experiment/ch8-s1-08-pprime-20261117`); reviewed control `7c41333f9b` (w14 delta APPROVE `e14db2d0dd`) → sibling `21592884db` (same tree `7ba8030690`, parent `9208b373c0`) on `uninit-ci/ch8-s1k-j`; GO request g0 `0e3cb41d9b`; owner policy 2026-11-17 | 44095954742 (attempt 1) | Distinct role labels for 111 success messages; U per-site, PFC source-reported (Profiles v4). One attempt, no auto-rerun. |
 | 2026-11-17 ~16:45Z | S1-08 cell retry r1 | S1 (item 2) | std `99e8456d20` (unchanged, already published); reviewed control `e27ec119ee` (cell-u34 only, 2 roots, per-harness 1200 s; w14 APPROVE `86c0b15f2f`, package `6b51a4df02`) → sibling `4336dfed5a` (same tree `2c4475bf17`, parent `9208b373c0`) on `uninit-ci/ch8-s1k-k`; cause: `stable_default_cell` CBMC TIMEOUT at 600 s in 44095954742 (diag `929f21bb1f`), intake `6d300f3ab9` median timing ratio 1.009, cell 1.61 | 44128268928 (attempt 1) | Targeted retry of the only incomplete group; cross-run composition needs a separate decision. One attempt, no auto-rerun. |
 Item 1 used: 26 of 26 (A1 3, B 2, U 3, Profiles 4, E 2, C 2, Issue-MRE 2; owner +6 on 2026-11-16 for wave 0: confirm-main, F1 full CI, #5151 repro/#649, reserve; owner +2 on 2026-11-16 for F3 standalone PR: 2 used — full stock CI 43912461616 on b69f484e8c (new tests failed: `// edition: 2021` header → `--edition= 2021`), then 43920609175 on f99713506f (header fix); quick uninit-ci skipped). Item 2 used: 9 of 14 (S1 9; S1-04 a/b charged 0). Total 35 of 40.
+
+
+## S1 admission — 2026-11-17
+
+Coordinator records **ADMITTED_BOUNDED_SOURCE_REPORTED_S1_COMPOSITE**,35/35 QUALIFIED,
+following the owner's confirmation and independent W14 APPROVE
+`c4e619d9668eeea860bda1de1790665357a6e399` (no concrete findings).
+Exact accepted candidate: `3c40a15d37890c8b5ef7ba49308e81279a494b05`,
+[kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/ACCEPTANCE.md](kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/ACCEPTANCE.md).
+Independent review:
+[review/REVIEW.md](kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/review/REVIEW.md).
+ACCEPT.json raw SHA256: `76addef689c8808658be0bc85619b413d279ce9d692e4199822ea2284e2b97c2`.
+Coordinator checked all10 candidate hashes against the review and all5 committed review files.
+
+Fixed evidence origins, preserved without rewriting historical outcomes:
+
+- Run44095954742/attempt1:13 complete groups/33 rows, intake
+  `6d300f3ab9801c808612b562588af06e0f7b4ff9`; original cell remains incomplete/UNKNOWN.
+- Run44128268928/attempt1:complete atomic cell-u34/2 rows, intake
+  `0beb690dfa99e4524de71b2ffc311fe7d7556cc1`; trigger
+  `4336dfed5af21660b9ac82907107be839ce13977`, tree
+  `2c4475bf17bb0354e9b204e19c652549c263f90f`.
+- Common std `99e8456d200fff1299ee5756279cddb23921dc65`, stock Kani
+  `0aac16ef62da9e9d5645782d458593e5d78143ba`; separate requests77ae/3e61 and origin namespaces.
+
+Admitted gates:127 fresh required obligations(111labels+16semantic bindings/sets),
+113 required SAT covers,439 reviewed U records(437checks+2covers),22 Profiles-v4 PFC
+chains,8 exact negatives,8 same-run companions,4 complete N0..3 unions; compatibility
+PASS. Read-only replay MATCH,39 author mutations and18 independent reviewer controls PASS.
+Scope is **S1 smoke N0..3**, selected concrete type/comparator/fixture instances,
+U per-site/source-local and trusted stock-producer source-reported PFC policy.
+This closes the S1/P1 mechanism gate on the selected six implementation bodies;
+full functional coverage of lengths16/32 is not established. Independent compiler/
+AST/MIR/B1/B2/general theorem credit remains NONE.
+
+Original run remains FAILED. This is a reviewed composite, not a single successful
+14-of14 workflow or uniform600s profile. Retry cell uses1200s; observed stable617.990s,
+unstable485.290s. Fit600, aggregate matrix runtime/organizer CI fit and label causality
+are unestablished. Published PR#752 and its source/tool pins are unchanged by admission.
+
+**Accounting unchanged:** item2 **9/14**, total **35/40**, remaining5 fork attempts.
+Admission/review costs0 additional dispatches; this note changes no reservation,
+budget or historical run record. Owner requested planning only after S1: no new tasks,
+CI/rerun/cancel/push/publication. Codex limit23% until2026-11-18 13:34 (owner report).
