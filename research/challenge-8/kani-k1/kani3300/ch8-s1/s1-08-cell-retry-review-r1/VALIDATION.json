@@ -1,0 +1,286 @@
+{
+  "schema": "ch8-s1-08-cell-retry-r1-delta-validation-v1",
+  "status": "PASS",
+  "old_pins": {
+    "package_g0": "9f4c37c894e7fecee0f59321ba66b65309a87606",
+    "package_tree": "3e964c171448429d0ea5ff46aa1207025bfc8327",
+    "control": "da8c766f957c576eafa44bccfba2c45490cef6d1",
+    "control_tree": "a0e21f185de757c05397cf32547153325012469f",
+    "request_sha256": "7a2cdc282a76e36bfee611c3987471c6eb70b76ff314f2f7785906cb0badaf5c",
+    "review_g0": "ec48e6d59b552da2a9aa8d985478bf259c950073",
+    "historical_verdict": "CHANGES_REQUIRED; finding OPEN in historical review; unchanged"
+  },
+  "new_reviewed_pins": {
+    "package_g0": "6b51a4df0273843f661e9f81d9645a99a491d378",
+    "package_tree": "f105155bda15adf6cbc695e72bc27895617c07e6",
+    "control": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+    "control_tree": "2c4475bf17bb0354e9b204e19c652549c263f90f",
+    "request_sha256": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8"
+  },
+  "common_unchanged_pins": {
+    "parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+    "review_base": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+    "source": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "source_tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+    "stock_tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "role_map_sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d"
+  },
+  "mechanical_checks": {
+    "ARTIFACT-VALIDATION.json": {
+      "status": "PASS",
+      "patches": [
+        {
+          "file": "REVIEW-DELTA.patch",
+          "base": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "candidate": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+          "sha256": "42ca6f72a4331277c5b620e3c22274cc66edae3c14a02a723a51b56c4c4f3a46",
+          "reconstructed_tree": "2c4475bf17bb0354e9b204e19c652549c263f90f",
+          "result": "EXACT_TREE_MATCH"
+        },
+        {
+          "file": "REPAIR-DELTA.patch",
+          "base": "da8c766f957c576eafa44bccfba2c45490cef6d1",
+          "candidate": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+          "sha256": "13c35d10e30eeacde5342291d9f8e008e118a072e419da8244df53334bc57d46",
+          "reconstructed_tree": "2c4475bf17bb0354e9b204e19c652549c263f90f",
+          "result": "EXACT_TREE_MATCH"
+        },
+        {
+          "file": "CONTROL-CANDIDATE.patch",
+          "base": "9208b373c0a08a265fa0d7493a6529e331065271",
+          "candidate": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+          "sha256": "d909b247f6dfaa93077f193ea362d6595d8a50f0b1fffa4fa227598456313cf2",
+          "reconstructed_tree": "2c4475bf17bb0354e9b204e19c652549c263f90f",
+          "result": "EXACT_TREE_MATCH"
+        }
+      ],
+      "mirrored_payloads": "EXACT_BYTES"
+    },
+    "artifacts": {
+      "status": "PASS",
+      "patches": "EXACT_TREE_MATCH",
+      "mirrors": "EXACT_BYTES"
+    },
+    "SHALLOW-VALIDATION.json": {
+      "status": "PASS",
+      "transport": "file:// actual pinned repositories; no alternates",
+      "control": {
+        "sha": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+        "tree": "2c4475bf17bb0354e9b204e19c652549c263f90f",
+        "depth": 5,
+        "actual_commits": 5,
+        "shallow": true,
+        "alternates": false
+      },
+      "export": {
+        "sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+        "tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+        "depth": 2,
+        "actual_commits": 2,
+        "shallow": true,
+        "alternates": false
+      },
+      "tool": {
+        "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+        "depth": 2,
+        "actual_commits": 2,
+        "shallow": true,
+        "alternates": false
+      },
+      "control_preflight": {
+        "control_parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+        "control_sha": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+        "status": "PASS",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+      },
+      "source_preflight": {
+        "changed_file_sha256": {
+          "library/core/Cargo.toml": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "std_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+        "std_tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+      },
+      "tool_endpoint_diff_paths": 43,
+      "negative_depth2": {
+        "exit": 128,
+        "HEAD_parent_present": true,
+        "tool_endpoint_unavailable": true
+      }
+    },
+    "shallow": {
+      "status": "PASS",
+      "depths": {
+        "control": 5,
+        "export": 2,
+        "tool": 2
+      },
+      "actual_preflight": "PASS",
+      "negative_depth2_exit": 128
+    },
+    "bounded_delta": {
+      "status": "PASS",
+      "changed_paths": [
+        "ch8-s1-control/CI-REQUEST.json",
+        "ch8-s1-control/test_cell_retry.py",
+        "ch8-s1-control/test_package.py"
+      ],
+      "request_delta": "ONLY_TWO_TEST_PAYLOAD_HASHES",
+      "payload_delta": {
+        "ch8-s1-control/test_cell_retry.py": {
+          "before": "a0ad31169ef6244887ef68ec24b10283107e74cbb2047aac1f90ad3573bc3a62",
+          "after": "c338e2dcb6b5ce5b9869f941aea1d92302e77c0a6959bb1ba276e2cba470b016"
+        },
+        "ch8-s1-control/test_package.py": {
+          "before": "70f00d0726b7011db8a02339c1b031bda49b4af3c2f7e881b68d06b7663b5ca7",
+          "after": "2673c3698622dd30a72ef1cd79f145748de9521df9bff997f1da2d9cf885e36a"
+        }
+      },
+      "unchanged_file_sha256": {
+        ".github/workflows/ch8-s1.yml": "3886bf8e9edc7edc06207a274391c3d3cced42a08951ffc28cb0432dc4568494",
+        "ch8-s1-control/ORACLE-SOURCES.json": "69bf8d8494094a079a6ac3422ab90f30b7b5093b53e91ee6ce393a043538eaa2",
+        "ch8-s1-control/ROLE-MAP.json": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
+        "ch8-s1-control/activation-default.patch": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+        "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+        "ch8-s1-control/binding_metadata.py": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030",
+        "ch8-s1-control/cell_retry_profile.py": "c05ed67047832f808b1b22df9d0822d49eb9519e50cdab710db65238ffb97511",
+        "ch8-s1-control/check_package.py": "045f044ffc8e58572035a1526b0f76ab8379e65fe83cb4fd8376ed4d58804905",
+        "ch8-s1-control/collect.py": "bb9170a58af1e0cfcb93d9758730265f2ae78b019c7a0a9b50d348cca45cd6e7",
+        "ch8-s1-control/fixtures/s104-rich-fragment.json": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc",
+        "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+        "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+        "ch8-s1-control/negative_oracle.py": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c",
+        "ch8-s1-control/oracle_source.py": "75a9a665b7a9fc1c64cd51c1c8d281fd323f22411aee83c017d08f37a27f20ce",
+        "ch8-s1-control/pack_evidence.py": "833004929291e3a6a96011c8579852fce7520e5dea6abd3af2c7611675619e8b",
+        "ch8-s1-control/rich_evidence.py": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+        "ch8-s1-control/runner.py": "4902328df07bb9c28bc667ba522542cb61d7825639d806ca8b949789b027336f",
+        "ch8-s1-control/s108_package.py": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237",
+        "ch8-s1-control/test_runner.py": "d8e9e479c4dbf21178f6d28b0e68bbddf6defe8d8ffc2e003fa31bb5e838c55a",
+        "ch8-s1-control/test_s104.py": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+        "ch8-s1-control/test_s105.py": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e",
+        "ch8-s1-control/test_s107.py": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0",
+        "ch8-s1-control/test_s108.py": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854",
+        "ch8-s1-control/test_s108r1.py": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03"
+      },
+      "runtime_workflow_fallback_profile": "BYTE_IDENTICAL_TO_DA8",
+      "source_tool_pins_hashes": "PASS",
+      "package_g0": "6b51a4df0273843f661e9f81d9645a99a491d378",
+      "package_tree": "f105155bda15adf6cbc695e72bc27895617c07e6",
+      "package_files": 27,
+      "manifest_entries": 26,
+      "request_sha256": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8",
+      "historical_trees_unchanged": {
+        "s1-08-cell-retry": "ffca6571a40f3ef9f515b87d1f12221115fb258c",
+        "s1-08-cell-retry-review": "709c88fad4407421ee170735eef679386dba0225"
+      }
+    }
+  },
+  "exact_workflow_preflight": {
+    "suite": "exact workflow test_cell_retry.py test_s108.py test_s108r1.py",
+    "top_level_tests": 18,
+    "skipped": 0,
+    "passed": true,
+    "fallback_controls_observed": [
+      {
+        "id": "test_package.PackageTests.test_fallback_terminal_after_setup_failure_and_mid_run_interruption",
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "id": "test_package.PackageTests.test_fallback_preserves_receipt_materializes_tail_and_bounds",
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "id": "test_package.PackageTests.test_fallback_terminal_after_setup_failure_and_mid_run_interruption",
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "id": "test_package.PackageTests.test_fallback_preserves_receipt_materializes_tail_and_bounds",
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ],
+    "interpretation": "Each real control runs once successfully in nested service preflight and once as an expected failing overwrite mutation; no skipped or substituted control."
+  },
+  "independent_mutation": {
+    "status": "PASS_MUTATION_REJECTED_INDEPENDENTLY",
+    "method": "Reviewer independently compiled the sole conditional replacement into an in-memory fallback; no payload/hash mutation and no author mutation helper call.",
+    "mutation": "if not receipt.exists(): -> if True:",
+    "tests_run": 2,
+    "failures": [
+      {
+        "test": "test_package.PackageTests.test_fallback_terminal_after_setup_failure_and_mid_run_interruption",
+        "traceback": "Traceback (most recent call last):\n  File \"/root/kani-ch8-s1-08-cell-retry-fix-w13/ch8-s1-control/test_package.py\", line 313, in test_fallback_terminal_after_setup_failure_and_mid_run_interruption\n    self.assertEqual(observed.get('original_exit'),42)\nAssertionError: None != 42\n"
+      },
+      {
+        "test": "test_package.PackageTests.test_fallback_preserves_receipt_materializes_tail_and_bounds",
+        "traceback": "Traceback (most recent call last):\n  File \"/root/kani-ch8-s1-08-cell-retry-fix-w13/ch8-s1-control/test_package.py\", line 376, in test_fallback_preserves_receipt_materializes_tail_and_bounds\n    self.assertEqual(json.loads((done/'receipt.json').read_text()).get('original_exit'),42)\nAssertionError: None != 42\n"
+      }
+    ],
+    "errors": 0,
+    "skipped": 0,
+    "fixture_observations": [
+      {
+        "function": "original",
+        "original_exit_before": 42,
+        "original_exit_after": 42,
+        "signal_after": 15,
+        "byte_preserved": true
+      },
+      {
+        "function": "overwrite_mutant",
+        "original_exit_before": 42,
+        "original_exit_after": null,
+        "signal_after": null,
+        "byte_preserved": false
+      }
+    ],
+    "on_disk_module_sha256": "045f044ffc8e58572035a1526b0f76ab8379e65fe83cb4fd8376ed4d58804905",
+    "on_disk_unchanged": true
+  },
+  "method": "Complete localized source/test diff inspected independently. Reviewer performed own committed-byte/hash/three-path invariance checks. Existing artifact/shallow mechanical helper rerun with write() redirected to memory; no old package files rewritten. Author repair_checks/static broad audit and author mutation helper were not separately used as review evidence. Required workflow naturally executes its mutation regression; a separate reviewer implementation independently reproduces the mutant.",
+  "repeated_checks": [
+    "Inspected complete da8→e27 three-file delta; only two request test-payload SHA256 values changed.",
+    "Checked exact g0 committed bytes for all27 package files and26 manifest entries, current control HEAD/tree/single parent, all payload digests and source/tool pins/hashes.",
+    "Reconstructed exact2c4475bf tree from three pinned patches: parent9208, reviewed7c and repair baseda8. Mirrored request/ROLE-MAP bytes agree.",
+    "Executed exact workflow Python suite (test_cell_retry.py test_s108.py test_s108r1.py):18 top-level tests PASS in7.227s, no skips.",
+    "Instrumented unittest execution: both adapted fallback controls really execute successfully in service preflight, and each separately fails as intended during its mutation test; no errors/skips.",
+    "Independently reproduced in-memory overwrite mutation without invoking author mutation helper; both controls reject original_exit loss with None !=42. An independent fixture preserves exact row bytes/exit42/signal15 on real fallback, loses exit/signal under mutant.",
+    "Ran actual file:// shallow Git fixtures5/2/2 and control/source identity preflights, no alternates; depth2 negative rejects missing tool endpoint with exit128.",
+    "Compared historical old package/review Git subtree IDs with exact immutable commits; no history rewritten."
+  ],
+  "carried_guarantees": [
+    "Fail-closed execution of exactly cell-u34, production/PFC/Cell<u8>/symbolic0..3/unwind34 and its two original selectors, including omitted --groups. Full35-row/14-group inventory remains reference only.",
+    "Actual argv1200/parser/receipt/request timeout agreement, wrong600 rejection, child900+2*1200=3300 and cleanup10, phase8100/job10800/setup1800/reserve900. RSS12GiB/headroom2GiB unchanged.",
+    "One job/max-parallel1, fork concurrency/cancel-in-progress=false; no automatic rerun.",
+    "Source/tool/solver/checks/flags/unwind/domain/conditions/assumptions/covers/labels/oracles/variants/ROLE-MAP, decoder/native capture/export/snapshots/location/admission policies unchanged from reviewed da8.",
+    "Missing RESULTS/TIMEOUT/partial remain UNKNOWN; retry does not introduce same-run acceptance/composition."
+  ],
+  "limits": {
+    "review_is_GO": false,
+    "compiler_verifier_full_runner_CI_rerun_cancel_push": "NOT_RUN",
+    "subagents": "NONE; same reviewer pane/model/effort",
+    "proof_admission_independent_B1_B2_credit": "NONE",
+    "intake6d300f3ab9801c808612b562588af06e0f7b4ff9": "OUT_OF_SCOPE_NOT_REVIEWED; no acceptance issued",
+    "ledger_reservation_budget": "UNCHANGED; current8/14, prospective9/14 not reserved/authorized",
+    "historical_review_candidates": "IMMUTABLE; old CHANGES_REQUIRED not rewritten",
+    "timing": "1200s evidence does not establish fit600 or ordinary cost budget; label causality UNKNOWN; future cross-run composition separate"
+  }
+}

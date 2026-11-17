@@ -1,0 +1,77 @@
+{
+  "schema": "ch8-s1-08-cell-retry-r1-independent-delta-review-v1",
+  "task_g0": "f78f5d469096202eb7295c9f81a29d1d23fd8714",
+  "completed_at_utc": "2026-11-17T16:37:27.136056+00:00",
+  "reviewer": "Same Codex pane/model/effort; no delegation",
+  "verdict": "APPROVE",
+  "old_pins": {
+    "package_g0": "9f4c37c894e7fecee0f59321ba66b65309a87606",
+    "package_tree": "3e964c171448429d0ea5ff46aa1207025bfc8327",
+    "control": "da8c766f957c576eafa44bccfba2c45490cef6d1",
+    "control_tree": "a0e21f185de757c05397cf32547153325012469f",
+    "request_sha256": "7a2cdc282a76e36bfee611c3987471c6eb70b76ff314f2f7785906cb0badaf5c",
+    "review_g0": "ec48e6d59b552da2a9aa8d985478bf259c950073",
+    "historical_verdict": "CHANGES_REQUIRED; finding OPEN in historical review; unchanged"
+  },
+  "new_reviewed_pins": {
+    "package_g0": "6b51a4df0273843f661e9f81d9645a99a491d378",
+    "package_tree": "f105155bda15adf6cbc695e72bc27895617c07e6",
+    "control": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+    "control_tree": "2c4475bf17bb0354e9b204e19c652549c263f90f",
+    "request_sha256": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8"
+  },
+  "common_unchanged_pins": {
+    "parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+    "review_base": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+    "source": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "source_tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+    "stock_tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "role_map_sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d"
+  },
+  "findings": [
+    {
+      "id": "W14-CELL-RETRY-01",
+      "priority": "P2",
+      "status": "CLOSED",
+      "applies_only_to": {
+        "package_g0": "6b51a4df0273843f661e9f81d9645a99a491d378",
+        "package_tree": "f105155bda15adf6cbc695e72bc27895617c07e6",
+        "control": "e27ec119eeac798d43d6bc056a449fa7576a5e94",
+        "control_tree": "2c4475bf17bb0354e9b204e19c652549c263f90f",
+        "request_sha256": "3e61b78c0f527ea5966ca33ff5d05ad354c1846ae995ce320f361ae795f6f2d8"
+      },
+      "basis": "Both former fallback controls are adapted to the exact cell pair and executed through existing workflow test_cell_retry service preflight. They retain captured/completed row/group/compile receipt bytes and original outcomes, interrupt only in-progress material, preserve terminal context and enforce small synthetic artifact bounds. Independent overwrite mutation is detected by both controls below payload hash gates.",
+      "historical_review": "Old ec48 finding stays OPEN in its immutable record; closure applies to r1 exact pins only."
+    }
+  ],
+  "new_findings": [],
+  "actually_repeated_checks": [
+    "Inspected complete da8→e27 three-file delta; only two request test-payload SHA256 values changed.",
+    "Checked exact g0 committed bytes for all27 package files and26 manifest entries, current control HEAD/tree/single parent, all payload digests and source/tool pins/hashes.",
+    "Reconstructed exact2c4475bf tree from three pinned patches: parent9208, reviewed7c and repair baseda8. Mirrored request/ROLE-MAP bytes agree.",
+    "Executed exact workflow Python suite (test_cell_retry.py test_s108.py test_s108r1.py):18 top-level tests PASS in7.227s, no skips.",
+    "Instrumented unittest execution: both adapted fallback controls really execute successfully in service preflight, and each separately fails as intended during its mutation test; no errors/skips.",
+    "Independently reproduced in-memory overwrite mutation without invoking author mutation helper; both controls reject original_exit loss with None !=42. An independent fixture preserves exact row bytes/exit42/signal15 on real fallback, loses exit/signal under mutant.",
+    "Ran actual file:// shallow Git fixtures5/2/2 and control/source identity preflights, no alternates; depth2 negative rejects missing tool endpoint with exit128.",
+    "Compared historical old package/review Git subtree IDs with exact immutable commits; no history rewritten."
+  ],
+  "guarantees_carried_from_ec48_by_byte_invariance": [
+    "Fail-closed execution of exactly cell-u34, production/PFC/Cell<u8>/symbolic0..3/unwind34 and its two original selectors, including omitted --groups. Full35-row/14-group inventory remains reference only.",
+    "Actual argv1200/parser/receipt/request timeout agreement, wrong600 rejection, child900+2*1200=3300 and cleanup10, phase8100/job10800/setup1800/reserve900. RSS12GiB/headroom2GiB unchanged.",
+    "One job/max-parallel1, fork concurrency/cancel-in-progress=false; no automatic rerun.",
+    "Source/tool/solver/checks/flags/unwind/domain/conditions/assumptions/covers/labels/oracles/variants/ROLE-MAP, decoder/native capture/export/snapshots/location/admission policies unchanged from reviewed da8.",
+    "Missing RESULTS/TIMEOUT/partial remain UNKNOWN; retry does not introduce same-run acceptance/composition."
+  ],
+  "limits": {
+    "review_is_GO": false,
+    "compiler_verifier_full_runner_CI_rerun_cancel_push": "NOT_RUN",
+    "subagents": "NONE; same reviewer pane/model/effort",
+    "proof_admission_independent_B1_B2_credit": "NONE",
+    "intake6d300f3ab9801c808612b562588af06e0f7b4ff9": "OUT_OF_SCOPE_NOT_REVIEWED; no acceptance issued",
+    "ledger_reservation_budget": "UNCHANGED; current8/14, prospective9/14 not reserved/authorized",
+    "historical_review_candidates": "IMMUTABLE; old CHANGES_REQUIRED not rewritten",
+    "timing": "1200s evidence does not establish fit600 or ordinary cost budget; label causality UNKNOWN; future cross-run composition separate"
+  },
+  "next_step": "Coordinator decides any retry dispatch after APPROVE and intake; review itself gives no GO."
+}
