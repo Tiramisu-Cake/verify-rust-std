@@ -1,0 +1,163 @@
+{
+  "CI_push_ledger_subagents": false,
+  "actual_compilation_order": "UNKNOWN",
+  "assurance": "STATIC_AND_SYNTHETIC_ONLY",
+  "candidate_g0": "1bd7d58e6cafc64c36c4012651751c038d3e9c64",
+  "checks": [
+    {
+      "details": {
+        "committed_package_files": 25,
+        "control": "1ec3318f5e2c39afb701aa7a5578d4ea0a721224",
+        "main": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+        "source_files": 12,
+        "source_trace_hashes": "both revisions match",
+        "tree": "34a402bd4ebbabf3ec611327097475c8cb46cfba"
+      },
+      "name": "exact_bytes_and_pins",
+      "status": "PASS"
+    },
+    {
+      "details": {
+        "isolated_index_and_objects": true,
+        "tree": "34a402bd4ebbabf3ec611327097475c8cb46cfba"
+      },
+      "name": "patch_reconstruction",
+      "status": "PASS"
+    },
+    {
+      "details": {
+        "checks": [
+          "complete success/failure, per-harness property identities and partition",
+          "successful unsupported checks accepted; reachable/unresolved rejected",
+          "native exits/signals, timeout, spawn, missing/null/type/PARTIAL/NOT_RUN",
+          "target/source/selection mismatch, disabled checks, missing assertion",
+          "six-run partial and paired false-negative/false-positive/composition cases",
+          "all six invocations continue after control/build failures with native diagnostics",
+          "argv, edition, sanitized environment, bounded head/tail stderr",
+          "depth-three control/trigger ancestry accepted; depth-two and source mutations rejected",
+          "workflow contexts and artifact path"
+        ],
+        "scope": "STATIC_AND_SYNTHETIC",
+        "status": "PASS",
+        "workflow_expressions": [
+          {
+            "expression": "github.workspace",
+            "key": "jobs.confirm.env.F4_EVIDENCE_DIR",
+            "line": 23
+          },
+          {
+            "expression": "always()",
+            "key": "jobs.confirm.steps.if",
+            "line": 48
+          },
+          {
+            "expression": "job.status",
+            "key": "jobs.confirm.steps.env.F4_JOB_STATUS",
+            "line": 50
+          },
+          {
+            "expression": "always()",
+            "key": "jobs.confirm.steps.if",
+            "line": 53
+          },
+          {
+            "expression": "github.run_id",
+            "key": "jobs.confirm.steps.with.name",
+            "line": 56
+          },
+          {
+            "expression": "github.run_attempt",
+            "key": "jobs.confirm.steps.with.name",
+            "line": 56
+          },
+          {
+            "expression": "env.F4_EVIDENCE_DIR",
+            "key": "jobs.confirm.steps.with.path",
+            "line": 57
+          }
+        ]
+      },
+      "name": "syntax_workflow_caps_and_author_service_controls",
+      "status": "PASS"
+    },
+    {
+      "details": {
+        "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+        "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+        "changes": [
+          "A\t.github/f4-confirm/profile.json",
+          "D\t.github/workflows/bench-compiler.yml",
+          "D\t.github/workflows/bench-e2e.yml",
+          "D\t.github/workflows/bench-pr.yml",
+          "D\t.github/workflows/cargo-update.yml",
+          "D\t.github/workflows/cbmc-latest.yml",
+          "D\t.github/workflows/cbmc-update.yml",
+          "D\t.github/workflows/charon-update.yml",
+          "D\t.github/workflows/deny.yml",
+          "D\t.github/workflows/extra_jobs.yml",
+          "A\t.github/workflows/f4-confirm.yml",
+          "D\t.github/workflows/format-check.yml",
+          "D\t.github/workflows/kani.yml",
+          "D\t.github/workflows/release.yml",
+          "D\t.github/workflows/slow-tests.yml",
+          "D\t.github/workflows/toolchain-upgrade.yml",
+          "D\t.github/workflows/verify-std-check.yml",
+          "D\t.github/workflows/z3-update.yml",
+          "A\ttests/script-based-pre/delayed-shared-body/Cargo.toml",
+          "A\ttests/script-based-pre/delayed-shared-body/check_service.py",
+          "A\ttests/script-based-pre/delayed-shared-body/config.yml",
+          "A\ttests/script-based-pre/delayed-shared-body/control.rs",
+          "A\ttests/script-based-pre/delayed-shared-body/expected",
+          "A\ttests/script-based-pre/delayed-shared-body/runner.py",
+          "A\ttests/script-based-pre/delayed-shared-body/service.py",
+          "A\ttests/script-based-pre/delayed-shared-body/src/lib.rs",
+          "A\ttests/script-based-pre/delayed-shared-body/test.sh",
+          "A\ttests/script-based-pre/delayed-shared-body/workflow_checks.py"
+        ],
+        "control": "1ec3318f5e2c39afb701aa7a5578d4ea0a721224",
+        "head": "1ec3318f5e2c39afb701aa7a5578d4ea0a721224",
+        "problems": [],
+        "profile_sha256": "2e6a6cf8ba9b698c95a857bddfc7dd6e5c98391f6c66062f915a8784022e0568",
+        "shallow": "true",
+        "source_sha256": {
+          ".cargo/config.toml": "8a7317c9b5e38ee2e842086a154e99f9bae4e2bc1118cae9e5b7cd5ee7c3547c",
+          ".github/actions/setup/action.yml": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+          "Cargo.lock": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+          "Cargo.toml": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
+          "kani-dependencies": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "rust-toolchain.toml": "d40d66a452e934c9cedede2844b920d48ff217565c81b4e47311bb346c960d93",
+          "scripts/cargo-kani": "a0fca4b405bedc008d4f1fd3a5b03c097b190896c633a301badef846e8560291",
+          "scripts/kani": "28a81c48fd72627ed2449993730636bc830abeffeaea4d85d9297b2ec4393af2",
+          "tests/script-based-pre/delayed-shared-body/Cargo.toml": "cf02a2b65e63502da1cd590218e7871e3fe3980a9e89aa41b3df391a70be0bac",
+          "tests/script-based-pre/delayed-shared-body/check_service.py": "699647720e0efc02266fcbe1770dfb090bd29815dbb481f10dbbca550217e1e3",
+          "tests/script-based-pre/delayed-shared-body/config.yml": "f6ac7ffc9bfa654dd81c7263d1af76a0e989860d4f001e89aede0881fa09be33",
+          "tests/script-based-pre/delayed-shared-body/control.rs": "95c37703c78422dcac06033d423fa4c5a0ab0975475e97f80bfe901b42f811a6",
+          "tests/script-based-pre/delayed-shared-body/expected": "2b8c15ce1b11cded02c3cb9470e763fc4c49a959af21d36f20e4cd476eb381f4",
+          "tests/script-based-pre/delayed-shared-body/runner.py": "e7fbeca0426db9acf39012fb6ae66c022357e6ad7a97fa83ad650b4166cdd50a",
+          "tests/script-based-pre/delayed-shared-body/service.py": "6208d04c8566acaf137bcfea71139bac260dca321d86f3da2caf70d16575c32c",
+          "tests/script-based-pre/delayed-shared-body/src/lib.rs": "70dd61fec47556d11fd158f50bc5729c6fcfbe0170f43a8be788d6d2612431c9",
+          "tests/script-based-pre/delayed-shared-body/test.sh": "68cd3cf3fada96e1dbae81cc7e45de0767b68137984a93f2927339d8ac202957",
+          "tests/script-based-pre/delayed-shared-body/workflow_checks.py": "0909f66c75ad155cdf13ab3327372c630fe648ec65aec6353a8845f6eee07583"
+        },
+        "tools": {},
+        "tree": "34a402bd4ebbabf3ec611327097475c8cb46cfba"
+      },
+      "name": "actual_depth_three_control_preflight",
+      "status": "PASS"
+    },
+    {
+      "details": [
+        "matching UNREACHABLE unsupported-class accepted",
+        "45KiB stderr preserves first and final diagnostics plus exit 73",
+        "TIMEOUT/SPAWN_ERROR/NOT_RUN stay UNKNOWN with native records intact",
+        "post-run source-stage mismatch forces INCONCLUSIVE"
+      ],
+      "name": "independent_extra_error_paths",
+      "status": "PASS"
+    }
+  ],
+  "compiler_verifier_full_runner": "NOT_RUN",
+  "runtime": "NOT_RUN",
+  "schema": "ch8-f4-independent-validation-v1",
+  "status": "PASS"
+}

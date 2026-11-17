@@ -1,0 +1,116 @@
+{
+  "accounting": {
+    "future_full_PR_CI": 28,
+    "item1_cap": 28,
+    "item1_used": 26,
+    "prospective_confirmation": 27,
+    "reservation_or_ledger_changes": false
+  },
+  "actions": {
+    "CI": false,
+    "author_code_changes": false,
+    "compiler_verifier_full_runner": "NOT_RUN",
+    "ledger": false,
+    "messages_to_others": false,
+    "pane_model_changed": false,
+    "push": false,
+    "subagents": false
+  },
+  "assessment": [
+    {
+      "area": "historical diagnosis",
+      "conclusion": "Six exit-1/no-export records are source-reported compact evidence. Exact underlying Cargo error, original executable bindings and signals remain UNKNOWN. Removing the kani path dependency is a source-supported setup hypothesis, not causal proof. The compact archive was not retrieved again during review.",
+      "evidence": "DIAGNOSIS.json/md; pinned old producer source hashes",
+      "status": "ACCEPTED_WITH_EXPLICIT_UNKNOWN"
+    },
+    {
+      "area": "fixture and cache applicability",
+      "conclusion": "Aligned u64-to-repr(C) padded assignment supplies different byte layouts to delayed target analysis; the shared reference read is a plausible observable target. Manual empty stub/contract configurations share a codegen unit and Instance-keyed transformer. Selected singleton harnesses are filtered before grouping. Runtime relevance and absolute minimality remain unobserved.",
+      "evidence": "src/lib.rs:4-40; initial_target_visitor.rs:69-93; delayed_ub/mod.rs:72-146; transform/mod.rs:152-180,202-203; compiler_interface.rs:406-448; codegen_units.rs:86-96,245-274",
+      "status": "STATIC_PASS"
+    },
+    {
+      "area": "Cargo/sysroot/edition dispatch",
+      "conclusion": "Absolute cargo-kani kani dispatch reaches Cargo mode; dependency-free explicit workspace obtains Kani through LibConfig injected sysroot/extern. Cargo edition is 2021; standalone control uses RUSTFLAGS edition 2021; inherited encoded/target overrides are removed. The Kani assert_eq override generates the requested assertion description. Actual execution is NOT_RUN.",
+      "evidence": "runner.py:208-226,318-330; scripts/cargo-kani; main.rs:239-255; call_cargo.rs:160-241; call_single_file.rs:17-41,180-185,298-304; library/std/src/lib.rs:145-150",
+      "status": "STATIC_PASS"
+    },
+    {
+      "area": "unsupported class and per-harness oracles",
+      "conclusion": "SUCCESS/UNREACHABLE unsupported-class entries must match native property identity/status/description; reachable or unresolved statuses stay UNKNOWN. Complete selected inventory, counts, partitions, failures and native exits are checked. Raw-padding and singleton failure class/site controls precede comparison. Semantic multisets retain function/class, status, description, location and multiplicity, removing only generated ordinal suffixes. Aggregate pair exit is insufficient.",
+      "evidence": "schema_utils.rs:757-784; cbmc_property_renderer.rs:295-347; runner.py:119-204,253-289; check_service.py",
+      "status": "STATIC_AND_SYNTHETIC_PASS"
+    },
+    {
+      "area": "native errors and bounded capture",
+      "conclusion": "Native exit and signal, timeout/spawn state and head plus tail diagnostics survive absent exports. All six probes continue after native control/probe failure. A failed shared build prevents the workflow run step; finish inserts seven explicit NOT_RUN slots. Post-run source mismatch forces INCONCLUSIVE.",
+      "evidence": "service.py:39-92; runner.py:229-250,292-358; VALIDATION.json",
+      "status": "STATIC_AND_SYNTHETIC_PASS"
+    },
+    {
+      "area": "payload/preflight/shallow/caps",
+      "conclusion": "All 25 package files match candidate bytes; 12 payload files and modes match control, all manifest/profile/trace hashes match. Isolated patch replay yields exact control tree. Real depth-three checkout of exact control passes; author tests exercise same-tree trigger and reject depth two and source mutations. One job/build/seven probes/no retries and declared native/parser/diagnostic/time caps agree.",
+      "evidence": "SOURCES.json; control.patch; profile.json; f4-confirm.yml; VALIDATION.json",
+      "status": "STATIC_AND_SYNTHETIC_PASS"
+    }
+  ],
+  "candidate_g0": "1bd7d58e6cafc64c36c4012651751c038d3e9c64",
+  "control": {
+    "commit": "1ec3318f5e2c39afb701aa7a5578d4ea0a721224",
+    "compiler_fix": "ABSENT",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "tree": "34a402bd4ebbabf3ec611327097475c8cb46cfba",
+    "worktree": "/root/kani-f4-confirm-w15"
+  },
+  "dispatch_authorized": false,
+  "findings": [],
+  "handoff": {
+    "localized_findings_owner": "original15 via coordinator if immutable delta requires repairs",
+    "next": "Separate coordinator GO required for publication/one main confirmation; future full PR CI is separate candidate/review/GO.",
+    "recipient": "coordinator in current dialogue",
+    "required_changes": []
+  },
+  "input_sha256": {
+    ".gitattributes": "51eabe57a7fed1c3446bcf014b7ca966cca3242ec37132c06dfa87236a6c52a5",
+    "CHECKPOINT.json": "c8b8d8c2c29f7415a5031c6c3e9fa3fe8056edb6d7479441e2750429738fd92a",
+    "CI-REQUEST.json": "2d6a573807ae873b0d1c02522eaf25ae39a5a1552076f1bc734a28c842c0eb60",
+    "CI-REQUEST.md": "8821dfc12c595712dccef4e694c5f77e6936d108086b8eab9bba8be53268e33e",
+    "DIAGNOSIS.json": "3c02fe749eb0b102c5c78a14fe7aba7bc3eb82e089c912db4977fbae75340d10",
+    "DIAGNOSIS.md": "50499572790e6f0d28e72699b54f845288e1344c09d606d56f49ca505f736d87",
+    "HANDOFF.md": "dcd5ab4f9b07d9333d440999e00ae13823384869de953554d09aa65ed27a3796",
+    "SOURCE-TRACE.json": "aefda860bd294df3f16aba3d714a1e73c7a598daa138970ffdd4d039a39b9c21",
+    "SOURCE-TRACE.md": "b9dbc625c8d8b52f3738ebad2ee68d627461ebf59f31a0a292d5601b4b8e65fe",
+    "SOURCES.json": "7157f24cee8de8a864632616392bfea02c2691d943f5f7d25a1d1080a46b5751",
+    "VALIDATION.json": "cf812477c3715bc5495ecc7ac53172c17ec59553ef73ecf9fc6d20eca3030c7a",
+    "VALIDATION.md": "e6a3f8c1023356231addac3218be5738d49bdbc749a25a77c269af75cf591463",
+    "control.patch": "f12efef2d407976fa9fbe326711304923340b2fc95c38829773ccdf08b2000e0"
+  },
+  "limitations": {
+    "actual_compilation_order": "UNKNOWN",
+    "both_order_directions_covered": "UNKNOWN",
+    "defect_causality": "NOT_ESTABLISHED",
+    "generated_runtime_inventory": "NOT_RUN",
+    "historical_artifact_assurance": "SOURCE_REPORTED_COMPACT_ARTIFACT; no fresh archive verification",
+    "historical_exact_cargo_error": "UNKNOWN",
+    "proof_credit": "NONE",
+    "runtime": "NOT_RUN"
+  },
+  "main": {
+    "commit": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786"
+  },
+  "output": "research/challenge-8/kani-k1/kani3300/wave0/f4-confirm-review/",
+  "package": "research/challenge-8/kani-k1/kani3300/wave0/f4-confirm/",
+  "review_parent_g0": "ae8f7b2feb739fd51fe72063d4aa71fe36b90790",
+  "schema": "ch8-f4-independent-review-v1",
+  "scope": "F4 confirmation preparation only; S2 and future full PR CI excluded",
+  "task": "task9856043dab21de8346b68196fa91929b96331293",
+  "validation": {
+    "cwd": "/root/kani-f4-confirm-w15",
+    "path": "VALIDATION.json",
+    "reproduce": "PYTHONDONTWRITEBYTECODE=1 python3 /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/f4-confirm-review/validate_review.py",
+    "sha256": "cad236151a752b659d96d9bb96be4ed9bb5277149068d0ff72ebc2a74b1fa981",
+    "status": "PASS"
+  },
+  "verdict": "APPROVE"
+}
