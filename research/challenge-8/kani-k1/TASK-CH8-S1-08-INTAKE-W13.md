@@ -25,9 +25,18 @@ std99e8456d20, stock tool0aac, embedded request77ae1113…1431c7e. Длинны�
    не admission.16 старых semantic bindings/sets требуют свежей проверки, не переносить historical IDs.
    Сравнить с S1-07 verdicts/groups и объяснить deltas; **9986 properties,187 U и18 location occurrences
    не являются обязательными числами нового run**. Exception — только approved exact tuple policy.
+4. Добавить **TIMING-COMPARISON.json/md** по всем общим harness S1-07/run43923266772 и S1-08/run44095954742:
+   точный row/selector+variant/mode/type/N/unwind/flags/domain key, оба source outcomes, raw `resources.verification_time_s`,
+   limits, delta и отношение S108/S107 при сопоставимости. Проверять request/config, не сводить одноимённые production
+   и mutant roots. Missing/null/NOT_RUN не превращать в0; несовместимые/непарные rows явно перечислить.
+   TIMEOUT — цензурированное наблюдение: показать observed elapsed/limit и нижнюю границу отдельно, не точный slowdown
+   завершённой верификации; ratio completed→completed отделить от TIMEOUT/FAILURE. Не использовать job/group/compile
+   wall вместо per-harness field и не объявлять это чистым solver time. Контекст runner/config и source label delta
+   раскрыть; корреляция около1.6x не доказывает причинность kani::assert. Писать сравнение прямо в существующий intake,
+   не отдельную новую кампанию или broad audit. Не ждать и не подмешивать будущий targeted retry1200s.
 
 Write scope g0: только `kani3300/ch8-s1/s1-08/run-44095954742/`, без вложенного `accept/`.
-Выход: RESULT.md, collected.json, HANDOFF.md, INPUTS/manifest + replay/validation и компактные projections
+Выход: RESULT.md, collected.json, TIMING-COMPARISON.json/md, HANDOFF.md, INPUTS/manifest + replay/validation и компактные projections
 по примеру S1-07. Не дублировать native/artifacts вне необходимого intake; ZIP — временный transport,
 в g0 только structured payload/provenance как в S1-07. Replay/identity/hash/inventory checks один раз;
 новые tests лишь для реально изменённого intake adapter. Не запускать заново старые broad suites.

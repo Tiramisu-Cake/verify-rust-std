@@ -81,5 +81,22 @@
     "total_cap": 40,
     "new_dispatches_authorized": 0,
     "ledger_edits_authorized": false
+  },
+  "timing_comparison": {
+    "baseline_run": 43923266772,
+    "baseline_attempt": 1,
+    "baseline_source_sha": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+    "baseline_request_path": "../s1-07/CI-REQUEST.json",
+    "baseline_evidence_path": "../s1-07/run-43923266772/evidence/",
+    "field": "harness.resources.verification_time_s",
+    "outputs": [
+      "TIMING-COMPARISON.json",
+      "TIMING-COMPARISON.md"
+    ],
+    "join": "exact row/selector plus variant/mode/type/N/unwind/config/domain; reject incompatible joins",
+    "timeout": "CENSORED; observed time and cutoff bound separate from completed/completed ratio",
+    "missing": "UNKNOWN, never zero",
+    "causality": "DESCRIPTIVE_ONLY; no kani::assert causality established",
+    "future_targeted_retry": "EXCLUDED_FROM_THIS_S1_08_COMPARISON"
   }
 }
