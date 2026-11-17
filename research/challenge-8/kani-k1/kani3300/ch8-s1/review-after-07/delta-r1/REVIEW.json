@@ -1,0 +1,89 @@
+{
+  "schema": "w14-delta-r1-review-v1",
+  "task_commit": "6437eae7c85936886dd109d8a2080b237e1f8968",
+  "continued_review_commits": [
+    "31890312f97a51009aacbb08a6cddf88cb151a8d",
+    "7058b4f7c4d65d0dda600026c9d62738f9f95f7a"
+  ],
+  "entry_g0": "7058b4f7c4d65d0dda600026c9d62738f9f95f7a",
+  "first_delta_clock_utc": "2026-11-17T13:28:37Z",
+  "completed_at_utc": "2026-11-17T13:35:57.017004+00:00",
+  "reviewer": "Same Codex pane/model/effort; no delegation",
+  "verdicts": {
+    "composer": {
+      "verdict": "APPROVE",
+      "commit": "0a97c61cce9f6fca1acc9ab35509e314012b7bfa",
+      "assurance": "BOUNDED_SOURCE_REPORTED_PROFILES_V4_TRUST_PINNED_STOCK_COMPILER; reviewed per-site U arguments unchanged",
+      "admission_state": "PENDING",
+      "success_roles_pending": 111,
+      "rows_with_success_gate": 21,
+      "rows_qualified": 14,
+      "rows_total": 35,
+      "companions_qualified": 8,
+      "unions_qualified": 0,
+      "unions_total": 4,
+      "CI_GO": false
+    },
+    "repaired_package": {
+      "verdict": "APPROVE",
+      "package_commit": "d5dcb0fa5db210116101f440048a4f1fae7c2d20",
+      "source_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "source_tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+      "control_sha": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+      "control_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+      "control_parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+      "stock_tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "embedded_request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+      "assurance": "PINNED_STATIC_SOURCE_AND_CONTROL_EQUIVALENCE; SOURCE_DERIVED_ORACLE_EXPECTATIONS; SYNTHETIC_MATCHER_AND_GIT_FIXTURES_ONLY",
+      "fresh_compatible_evidence": "REQUIRED_NOT_OBSERVED",
+      "dispatch_GO": false
+    }
+  },
+  "prior_findings": [
+    {
+      "id": "W14-S108-01",
+      "status": "CLOSED",
+      "applies_only_to_fixed_control": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+      "source": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "evidence_pointer": "VALIDATION.json#/repair/repair_cases",
+      "new_spans": {
+        "activation_descending_rejected": "95:32-95:48",
+        "activation_effectful_rejected": "101:21-101:37"
+      },
+      "basis": "Independent extraction from exact named source roots; new full IDs match spans; other six complete rows/oracles unchanged; original matcher unchanged; both stale cross-matches rejected; source-coordinate and coherent-shift regressions passed.",
+      "runtime_ID_observation": "NOT_RUN",
+      "old_candidate": "Original9ccd/8ea remains immutable and its historical CHANGES_REQUIRED verdict is not rewritten."
+    }
+  ],
+  "new_findings": [],
+  "validation": {
+    "composer_structured_replay": "EXACT_BYTE_MATCH_TWICE",
+    "independent_gate_derivation": "MATCH",
+    "composer_semantic_mutation_tests": 27,
+    "composer_mutation_mode": "Pure compose/qualify on independently pinned structured inputs; no upstream load/replays or archive reads",
+    "repair_regression_tests": 4,
+    "read_only_actual_control_preflight": "PASS_WITH_SYNTHETIC_GITHUB_CONTEXT",
+    "source_oracles_checked": 8,
+    "patch_tree_reconstructions": 3,
+    "old_candidates_and_components_immutable": true,
+    "structured_manifest_files_verified": 138,
+    "archive_references_checked_as_Git_tree_identity_without_content_read": 14,
+    "complete_U_PFC_audits": "NOT_REPEATED_UNCHANGED_INPUTS"
+  },
+  "limits": {
+    "compiler_rustfmt_exporter_verifier_runtime": "NOT_RUN",
+    "full_runner_CI_push_publication_ledger": "NOT_RUN",
+    "independent_AST_MIR_compiler_origin": "NOT_CLAIMED",
+    "independent_B1_B2_general_proof_credit": "NONE",
+    "admission": "NOT_GRANTED",
+    "dispatch_GO": false
+  },
+  "evidence": [
+    "REVIEW.md",
+    "VALIDATION.json",
+    "validate_delta_review.py",
+    "HANDOFF.md"
+  ],
+  "write_scope": "research/challenge-8/kani-k1/kani3300/ch8-s1/review-after-07/delta-r1/",
+  "closure_reason": "Both issued committed deltas reviewed; prior finding closed on fixed pins, composition gates and mutation behavior validated, no further concrete findings. Package ready for coordinator GO handoff; no dispatch performed."
+}
