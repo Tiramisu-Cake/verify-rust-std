@@ -1,0 +1,578 @@
+{
+  "schema": "w14-independent-review-validation-v1",
+  "identities": {
+    "components": {
+      "s1-07/run-43923266772/accept-u": {
+        "commit": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+        "files": {
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/HANDOFF.md": "738fad773420524528fb6ff80c96f4f46e2f4690fc965e911ba993127caba667",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/INPUTS.json": "c62222e2c8b51982f2b7df3c570543042423242bfd0ed37df9856f6248ebf89b",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/U.json": "fb422b5a641892c161ddcc0e82e654dd083ac495bfe2777c813250818db4965d",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/U.md": "208925eef4842cb5075b88314065851b78f60ca8ae8e415e17922ba43cd42fbe",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/VALIDATION.json": "8caa253eaa2a06e0b12aa53cb25ce1c662635e81988f648c0b593e7c1af1723a",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/replay.py": "36783a2c0c66fe2279e5331dfc81abea2ba7751795aef173d9fdf25e728bcfe4",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u/test_replay.py": "13f55fe866132c46ff82e0902b6a7ecd361e46f9a8a3d5c86e207d8d82f2b443"
+        }
+      },
+      "s1-07/run-43923266772/accept-pfc": {
+        "commit": "013f288ca5111c0587e087567d2ec4182856be1d",
+        "files": {
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc/HANDOFF.md": "da678dd6bb17d1caaaa1e91bf617da63f6d2cc80ed7b49b4587252e9e29d5468",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc/PFC.json": "bc7d87074c655f250563274eae072cfa2482a2514dc71fafe5ffd893a7f77479",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc/PFC.md": "a7749593409c2c2c2ccd297f3b78a470327be9b558031ac72b09313a2ab5261d",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc/VALIDATION.json": "c94704cd457cd2a46090bc55c0c1561b7888cbe6da55e55e3f5ef9d199248a05",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc/replay.py": "3c1b8443ebc138ab087adce59ce8ff95e24ee38cf18e31538414b1b561b9b30c",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc/test_replay.py": "a41891431ccac6ff00d3e4580c49b8bc0da32d5e47b3bdf884960134a6cbe17a"
+        }
+      },
+      "s1-08": {
+        "commit": "8ea1c1d370f4076eb6ed4aeaa0a96898499ce580",
+        "files": {
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/ARTIFACT-VALIDATION.json": "e0e2d1d5626d8249a8cfc010a0c50159337dc2f79b8d0c56fce2e7676528ac88",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/CHECKPOINT.json": "1ab242cb7e9ce82f3842bde5bf5b80fd70d241ac0495f388e3a048d813ac0a02",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/CI-REQUEST.json": "374780eb1cabb5c57adab382d350f898a821b062e54d97ce626b83e7d394ea9a",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/CI-REQUEST.md": "5153e98e8a40534b349947eee1b610ecf6e166136e7c4e3ac294e5475561aa90",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/CONTROL-CANDIDATE.patch": "0bd8937b6b533b55316c418529b1cff631a9f904625c9edda88d94b00f118cc3",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/CURRENT-TASK.md": "ba25711732100d53c534ea54dfd4047ed7866fd258b10870a7d41c0775469641",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/EMBEDDED-CI-REQUEST.json": "a9c8f7459625cf0868735cf52f4a2b375b6e024b4fda4b45d215138c3e3fde6f",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/HANDOFF.md": "d4f2578015602311b8ea5f60821e6e33fc23ed289e6872e3873e38bcfec52e9f",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/IDENTITIES.json": "d8c184fc10d65d52d2291dd35b35753f83374f4a40ff97b42d31bbe2dd1e1fef",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/MANIFEST.sha256": "2071034af67a896c3dc39993a07006df6eff443572bf9f885692c98c78c8d8fa",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/PATCHES.json": "713482079fc46831c85943d9fc0e6213a2b8dca95169e5c1a6a9c02b84a6aee1",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/PRODUCER-SOURCE.json": "cfe0e5052c7049e8a22b2494c592a390091e3c14d3c3bacd06e0c6e94050f519",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/ROLE-MAP.json": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/SEMANTICS.md": "61e10d49170ce980ee3bda168fa934df4aa71c0da3c7c0e80afe1e9e289a7852",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/SOURCE-CANDIDATE.patch": "a3724f93494796c3b91cf93b5060fb19d3e0f4e9563395497f46b2d6d607d033",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/SOURCE-VALIDATION.json": "42d2b59db3a405f8e2a1bd07e44b03b086cb5d4991d251204af885763b26bea8",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/STATIC-VALIDATION.json": "178acfde77e263a249114c4bde5b84298fb2c8582ae66a6ef08a45183532a262",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/VALIDATION.json": "b6151d416870ae1d4f03035a175b2d27085c20b57ca6d3237165964c765840d8",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/finalize_package.py": "60f607b26aec889d0ad6af45f7d19134054b360d7e833a0b5420cc85a2c14a75",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/prepare_package.py": "f3b7585fa01d7c5a1f0d640736ff92a9128743d2d04c3f37f3ed57b0ed82e13c",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/verify_artifacts.py": "752f384815a5a47b11ce432269fa44039686f5cb697d871ed0cc63e2ece18109",
+          "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/verify_package.py": "50911e4b30fa1c19405874a463abe742c2669ea110447c1c974ef545ef75ffa3"
+        }
+      }
+    },
+    "control_ancestry_depth_5": [
+      "9ccd882ef2460fbc97400594e7e3dfc884a4a997",
+      "9208b373c0a08a265fa0d7493a6529e331065271",
+      "b25dd39a46ba90b167500997d546a5f2f5bd8f3b",
+      "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+      "0aac16ef62da9e9d5645782d458593e5d78143ba"
+    ],
+    "reviewed_parent_tree_equals_executed_s107": true
+  },
+  "U": {
+    "same_run_unreachable_inventory": "EXACT",
+    "reviewed_new_safety_records": 187,
+    "families": {
+      "fmt": 28,
+      "abs_diff": 50,
+      "alignment": 25,
+      "active_post": 54,
+      "allocation": 18,
+      "multiple": 12
+    },
+    "active_post_counter_induction_transitions": 11968,
+    "sorting_relation_credit": "NONE"
+  },
+  "PFC": {
+    "chains": [
+      {
+        "id": "activation-default",
+        "type": "Cell<u8>",
+        "trait": "StableSmallSortTypeImpl",
+        "impl_header": "impl<T> StableSmallSortTypeImpl for T {",
+        "ensures_line": 41,
+        "native_sha256": "05cc99fa776393e1aee18a7ffe0ed81fea4f92940a51b27e04cd89bae7f592fe",
+        "native_pointer": "/proof_harnesses/0"
+      },
+      {
+        "id": "activation-override",
+        "type": "u8",
+        "trait": "StableSmallSortTypeImpl",
+        "impl_header": "impl<T: FreezeMarker> StableSmallSortTypeImpl for T {",
+        "ensures_line": 63,
+        "native_sha256": "b4b290945c5cb859b25a1c483e201b5025311646d502470709951e97fa83bac9",
+        "native_pointer": "/proof_harnesses/0"
+      },
+      {
+        "id": "freeze_copy_u8_n0",
+        "type": "u8",
+        "trait": "UnstableSmallSortFreezeTypeImpl",
+        "impl_header": "impl<T: FreezeMarker + CopyMarker> UnstableSmallSortFreezeTypeImpl for T {",
+        "ensures_line": 176,
+        "native_sha256": "6199fc21f16c10c062091f0e08067998f702eadeeb8035e2ecd279e116c12bbb",
+        "native_pointer": "/proof_harnesses/0"
+      },
+      {
+        "id": "freeze_copy_u8_n1",
+        "type": "u8",
+        "trait": "UnstableSmallSortFreezeTypeImpl",
+        "impl_header": "impl<T: FreezeMarker + CopyMarker> UnstableSmallSortFreezeTypeImpl for T {",
+        "ensures_line": 176,
+        "native_sha256": "6199fc21f16c10c062091f0e08067998f702eadeeb8035e2ecd279e116c12bbb",
+        "native_pointer": "/proof_harnesses/1"
+      },
+      {
+        "id": "freeze_copy_u8_n2",
+        "type": "u8",
+        "trait": "UnstableSmallSortFreezeTypeImpl",
+        "impl_header": "impl<T: FreezeMarker + CopyMarker> UnstableSmallSortFreezeTypeImpl for T {",
+        "ensures_line": 176,
+        "native_sha256": "d62fcee0c245c66a8edd26ecedc840234e6b8683bfa33faf8eb66767824afb7d",
+        "native_pointer": "/proof_harnesses/1"
+      },
+      {
+        "id": "freeze_copy_u8_n3",
+        "type": "u8",
+        "trait": "UnstableSmallSortFreezeTypeImpl",
+        "impl_header": "impl<T: FreezeMarker + CopyMarker> UnstableSmallSortFreezeTypeImpl for T {",
+        "ensures_line": 176,
+        "native_sha256": "d62fcee0c245c66a8edd26ecedc840234e6b8683bfa33faf8eb66767824afb7d",
+        "native_pointer": "/proof_harnesses/0"
+      },
+      {
+        "id": "freeze_default_noncopy_n0",
+        "type": "NonCopyByte",
+        "trait": "UnstableSmallSortFreezeTypeImpl",
+        "impl_header": "impl<T: FreezeMarker> UnstableSmallSortFreezeTypeImpl for T {",
+        "ensures_line": 140,
+        "native_sha256": "587440108d4a53d948e1bd49d3e65517da1f9c1b7a22b95b9572677f1c61f71a",
+        "native_pointer": "/proof_harnesses/1"
+      },
+      {
+        "id": "freeze_default_noncopy_n1",
+        "type": "NonCopyByte",
+        "trait": "UnstableSmallSortFreezeTypeImpl",
+        "impl_header": "impl<T: FreezeMarker> UnstableSmallSortFreezeTypeImpl for T {",
+        "ensures_line": 140,
+        "native_sha256": "587440108d4a53d948e1bd49d3e65517da1f9c1b7a22b95b9572677f1c61f71a",
+        "native_pointer": "/proof_harnesses/0"
+      },
+      {
+        "id": "freeze_default_noncopy_n2",
+        "type": "NonCopyByte",
+        "trait": "UnstableSmallSortFreezeTypeImpl",
+        "impl_header": "impl<T: FreezeMarker> UnstableSmallSortFreezeTypeImpl for T {",
+        "ensures_line": 140,
+        "native_sha256": "ebe83ef09dc965bec307c6565d542f3452aa19c7623dffbaffa11bf3a809099b",
+        "native_pointer": "/proof_harnesses/0"
+      },
+      {
+        "id": "freeze_default_noncopy_n3",
+        "type": "NonCopyByte",
+        "trait": "UnstableSmallSortFreezeTypeImpl",
+        "impl_header": "impl<T: FreezeMarker> UnstableSmallSortFreezeTypeImpl for T {",
+        "ensures_line": 140,
+        "native_sha256": "ebe83ef09dc965bec307c6565d542f3452aa19c7623dffbaffa11bf3a809099b",
+        "native_pointer": "/proof_harnesses/1"
+      },
+      {
+        "id": "stable_default_activation-legal",
+        "type": "Cell<u8>",
+        "trait": "StableSmallSortTypeImpl",
+        "impl_header": "impl<T> StableSmallSortTypeImpl for T {",
+        "ensures_line": 41,
+        "native_sha256": "99184a16d7fda4884471f30c98288a07ee7582d5aee499ccc6964b1ee9c9c5ec",
+        "native_pointer": "/proof_harnesses/2"
+      },
+      {
+        "id": "stable_default_cell",
+        "type": "Cell<u8>",
+        "trait": "StableSmallSortTypeImpl",
+        "impl_header": "impl<T> StableSmallSortTypeImpl for T {",
+        "ensures_line": 41,
+        "native_sha256": "9749ca5f5160ebc96325d16106dfccba59d2637a2032a946993a280be3280f4b",
+        "native_pointer": "/proof_harnesses/1"
+      },
+      {
+        "id": "stable_freeze_activation-legal",
+        "type": "u8",
+        "trait": "StableSmallSortTypeImpl",
+        "impl_header": "impl<T: FreezeMarker> StableSmallSortTypeImpl for T {",
+        "ensures_line": 63,
+        "native_sha256": "99184a16d7fda4884471f30c98288a07ee7582d5aee499ccc6964b1ee9c9c5ec",
+        "native_pointer": "/proof_harnesses/8"
+      },
+      {
+        "id": "stable_freeze_u8_n0",
+        "type": "u8",
+        "trait": "StableSmallSortTypeImpl",
+        "impl_header": "impl<T: FreezeMarker> StableSmallSortTypeImpl for T {",
+        "ensures_line": 63,
+        "native_sha256": "e22222de5b39dd431851ac11e21a4309929c026ac1b28c63c2cfa069403b558f",
+        "native_pointer": "/proof_harnesses/0"
+      },
+      {
+        "id": "stable_freeze_u8_n1",
+        "type": "u8",
+        "trait": "StableSmallSortTypeImpl",
+        "impl_header": "impl<T: FreezeMarker> StableSmallSortTypeImpl for T {",
+        "ensures_line": 63,
+        "native_sha256": "e22222de5b39dd431851ac11e21a4309929c026ac1b28c63c2cfa069403b558f",
+        "native_pointer": "/proof_harnesses/1"
+      },
+      {
+        "id": "stable_freeze_u8_n2",
+        "type": "u8",
+        "trait": "StableSmallSortTypeImpl",
+        "impl_header": "impl<T: FreezeMarker> StableSmallSortTypeImpl for T {",
+        "ensures_line": 63,
+        "native_sha256": "7c15260426dfbf23800eaf1363f1f400b3444973465d94e1f53e579fa136f0ce",
+        "native_pointer": "/proof_harnesses/1"
+      },
+      {
+        "id": "stable_freeze_u8_n3",
+        "type": "u8",
+        "trait": "StableSmallSortTypeImpl",
+        "impl_header": "impl<T: FreezeMarker> StableSmallSortTypeImpl for T {",
+        "ensures_line": 63,
+        "native_sha256": "7c15260426dfbf23800eaf1363f1f400b3444973465d94e1f53e579fa136f0ce",
+        "native_pointer": "/proof_harnesses/0"
+      },
+      {
+        "id": "unstable_default_cell",
+        "type": "Cell<u8>",
+        "trait": "UnstableSmallSortTypeImpl",
+        "impl_header": "impl<T> UnstableSmallSortTypeImpl for T {",
+        "ensures_line": 92,
+        "native_sha256": "9749ca5f5160ebc96325d16106dfccba59d2637a2032a946993a280be3280f4b",
+        "native_pointer": "/proof_harnesses/0"
+      },
+      {
+        "id": "unstable_freeze_u8_n0",
+        "type": "u8",
+        "trait": "UnstableSmallSortTypeImpl",
+        "impl_header": "impl<T: FreezeMarker> UnstableSmallSortTypeImpl for T {",
+        "ensures_line": 110,
+        "native_sha256": "fea75793b408138d955853941149d4b3984509122989172cad5332dc0aebf043",
+        "native_pointer": "/proof_harnesses/0"
+      },
+      {
+        "id": "unstable_freeze_u8_n1",
+        "type": "u8",
+        "trait": "UnstableSmallSortTypeImpl",
+        "impl_header": "impl<T: FreezeMarker> UnstableSmallSortTypeImpl for T {",
+        "ensures_line": 110,
+        "native_sha256": "fea75793b408138d955853941149d4b3984509122989172cad5332dc0aebf043",
+        "native_pointer": "/proof_harnesses/1"
+      },
+      {
+        "id": "unstable_freeze_u8_n2",
+        "type": "u8",
+        "trait": "UnstableSmallSortTypeImpl",
+        "impl_header": "impl<T: FreezeMarker> UnstableSmallSortTypeImpl for T {",
+        "ensures_line": 110,
+        "native_sha256": "55776a38b394ba064db79c017b544fe48b024e0de90f838e60f7763685379aa6",
+        "native_pointer": "/proof_harnesses/0"
+      },
+      {
+        "id": "unstable_freeze_u8_n3",
+        "type": "u8",
+        "trait": "UnstableSmallSortTypeImpl",
+        "impl_header": "impl<T: FreezeMarker> UnstableSmallSortTypeImpl for T {",
+        "ensures_line": 110,
+        "native_sha256": "55776a38b394ba064db79c017b544fe48b024e0de90f838e60f7763685379aa6",
+        "native_pointer": "/proof_harnesses/1"
+      }
+    ],
+    "producer_anchors_sha256_checked": 11,
+    "assurance": "BOUNDED_SOURCE_REPORTED_PROFILES_V4_TRUST_PINNED_STOCK_COMPILER",
+    "independent_AST_MIR_provenance": "NOT_CLAIMED",
+    "proof_credit": "NONE"
+  },
+  "S1_08": {
+    "independent_token_comparison": {
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": {
+        "calls": 16,
+        "operand_and_order_tokens": "EXACT",
+        "all_other_tokens_including_negatives_and_covers": "EXACT"
+      },
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": {
+        "calls": 7,
+        "operand_and_order_tokens": "EXACT",
+        "all_other_tokens_including_negatives_and_covers": "EXACT"
+      }
+    },
+    "author_static_check_replayed_read_only": {
+      "status": "PASS",
+      "checked_at": "2026-11-17T13:17:01.894765+00:00",
+      "std_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "std_tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+      "control_parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+      "request_sha256": "a9c8f7459625cf0868735cf52f4a2b375b6e024b4fda4b45d215138c3e3fde6f",
+      "role_map_sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
+      "source_equivalence": "PASS_ALL_NON_DIAGNOSTIC_TOKENS_IN_ORDER",
+      "scope": "23 macro assertion sites; negative functions/operands/control flow/covers/types/domain preserved",
+      "role_map": {
+        "required": 127,
+        "new_labels": 111,
+        "preserved_semantic_bindings": 16
+      },
+      "all_source_expansion_roots": 25,
+      "all_source_labels": 197,
+      "supplemental_applicability_sites": 54,
+      "required_covers": 113,
+      "negatives": [
+        {
+          "id": "activation_descending_rejected",
+          "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:100:32: 100:48}>.assertion.1",
+          "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+          "line": 90,
+          "oracle_identity": "UNCHANGED_PREDECLARED",
+          "coordinates": "RELOCATED_ONLY"
+        },
+        {
+          "id": "activation_effectful_rejected",
+          "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:106:21: 106:37}>.assertion.1",
+          "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+          "line": 90,
+          "oracle_identity": "UNCHANGED_PREDECLARED",
+          "coordinates": "RELOCATED_ONLY"
+        },
+        {
+          "id": "activation_unsupported_type_rejected",
+          "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<mem::maybe_uninit::MaybeUninit<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<mem::maybe_uninit::MaybeUninit<u8>>>.assertion.1",
+          "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+          "line": 90,
+          "oracle_identity": "UNCHANGED_PREDECLARED",
+          "coordinates": "RELOCATED_ONLY"
+        },
+        {
+          "id": "order_corruption_rejected",
+          "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.3",
+          "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+          "line": 136,
+          "oracle_identity": "UNCHANGED_PREDECLARED",
+          "coordinates": "RELOCATED_ONLY"
+        },
+        {
+          "id": "count_corruption_rejected",
+          "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.5",
+          "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+          "line": 147,
+          "oracle_identity": "UNCHANGED_PREDECLARED",
+          "coordinates": "RELOCATED_ONLY"
+        },
+        {
+          "id": "invalid_snapshot_rejected",
+          "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected.assertion.1",
+          "source_sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+          "line": 176,
+          "oracle_identity": "UNCHANGED_PREDECLARED",
+          "coordinates": "RELOCATED_ONLY"
+        },
+        {
+          "id": "activation-default",
+          "property_id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.assertion.1",
+          "source_sha256": "ad516502d4783df0379ea3f48805c408b5bcde3ec064432476610080e3ecd0bb",
+          "line": 41,
+          "oracle_identity": "UNCHANGED_PREDECLARED",
+          "coordinates": "RELOCATED_ONLY"
+        },
+        {
+          "id": "activation-override",
+          "property_id": "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.2",
+          "source_sha256": "90f20bce619de5535e633fc97f4a9dfd46715dc48e54912f5d1c9029984b131f",
+          "line": 63,
+          "oracle_identity": "UNCHANGED_PREDECLARED",
+          "coordinates": "RELOCATED_ONLY"
+        }
+      ],
+      "variants": [
+        {
+          "id": "activation-default",
+          "new_base": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "apply_cached": "PASS",
+          "patch_sha256": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+          "source_under_test_sha256": {
+            "library/core/Cargo.toml": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb",
+            "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+            "library/core/src/slice/sort/shared/smallsort.rs": "ad516502d4783df0379ea3f48805c408b5bcde3ec064432476610080e3ecd0bb",
+            "library/core/src/slice/sort/shared/smallsort/verify.rs": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958",
+            "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+            "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+            "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+            "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+            "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+          }
+        },
+        {
+          "id": "activation-override",
+          "new_base": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "apply_cached": "PASS",
+          "patch_sha256": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+          "source_under_test_sha256": {
+            "library/core/Cargo.toml": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb",
+            "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+            "library/core/src/slice/sort/shared/smallsort.rs": "90f20bce619de5535e633fc97f4a9dfd46715dc48e54912f5d1c9029984b131f",
+            "library/core/src/slice/sort/shared/smallsort/verify.rs": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958",
+            "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+            "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+            "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+            "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+            "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+          }
+        }
+      ],
+      "yaml_preflight": {
+        "yaml": "PASS",
+        "scalar_types": "NATIVE_LITERAL_PASS",
+        "runner_context": "STEP_ENV_ONLY",
+        "checkout_depth": {
+          "control": 5,
+          "export": 2,
+          "tool": 2
+        },
+        "layout": [
+          "control",
+          "export",
+          "tool"
+        ],
+        "dispatch": "NOT_RUN"
+      },
+      "runner_export_decoder_native_capture_snapshot_location_semantics": "UNCHANGED",
+      "group_order_flags_checks_caps_unwind_preflight": "UNCHANGED_EXCEPT_REQUIRED_CONTROL_DEPTH_5",
+      "compiler_rustfmt_runtime_verifier": "NOT_RUN",
+      "admission": "OFFLINE_PENDING",
+      "independent_review": "NOT_RUN_W14_NEXT",
+      "ci_push_publication_ledger": "NOT_RUN",
+      "proof_credit": "NONE"
+    },
+    "artifact_reconstruction_replayed_read_only": {
+      "status": "PASS",
+      "patch_reconstruction": [
+        {
+          "patch": "SOURCE-CANDIDATE.patch",
+          "base": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+          "candidate": "99e8456d200fff1299ee5756279cddb23921dc65",
+          "tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+          "sha256": "a3724f93494796c3b91cf93b5060fb19d3e0f4e9563395497f46b2d6d607d033",
+          "reconstruction": "EXACT_TREE_MATCH"
+        },
+        {
+          "patch": "CONTROL-CANDIDATE.patch",
+          "base": "9208b373c0a08a265fa0d7493a6529e331065271",
+          "candidate": "9ccd882ef2460fbc97400594e7e3dfc884a4a997",
+          "tree": "499871749fe40d714dc70fbafb2fd00f37ed64dd",
+          "sha256": "0bd8937b6b533b55316c418529b1cff631a9f904625c9edda88d94b00f118cc3",
+          "reconstruction": "EXACT_TREE_MATCH"
+        }
+      ],
+      "mirrored_payloads": "EXACT_BYTES",
+      "dispatch": "NOT_RUN",
+      "proof_credit": "NONE"
+    },
+    "package_manifest_verified_files": [
+      "ARTIFACT-VALIDATION.json",
+      "CHECKPOINT.json",
+      "CI-REQUEST.json",
+      "CI-REQUEST.md",
+      "CONTROL-CANDIDATE.patch",
+      "CURRENT-TASK.md",
+      "EMBEDDED-CI-REQUEST.json",
+      "HANDOFF.md",
+      "IDENTITIES.json",
+      "PATCHES.json",
+      "PRODUCER-SOURCE.json",
+      "ROLE-MAP.json",
+      "SEMANTICS.md",
+      "SOURCE-CANDIDATE.patch",
+      "SOURCE-VALIDATION.json",
+      "STATIC-VALIDATION.json",
+      "VALIDATION.json",
+      "finalize_package.py",
+      "prepare_package.py",
+      "verify_artifacts.py",
+      "verify_package.py"
+    ],
+    "producer_sha256_checked": [
+      {
+        "revision": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "path": "library/kani_core/src/lib.rs",
+        "sha256": "fd4936db12f998df2419b9e6240f9171643f8287654840596ea2db40cfd76bc0"
+      },
+      {
+        "revision": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "sha256": "ad73c82580f8f9ba3528ce9b6b371c6a4f717443e31a86b1fad6bad0a2c80d64"
+      },
+      {
+        "revision": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs",
+        "sha256": "0a4db90716504402fae801e39481d1afabb18b2b8b6e8d65a4c68ed4ef56c1c6"
+      },
+      {
+        "revision": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+        "sha256": "c0a2b93a624cf4d5310f9fd61561bb1c3b92c1260da9fd6cf7ef9a363f009f8b"
+      },
+      {
+        "revision": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/utils/utils.rs",
+        "sha256": "ee5b0c53645a7882d233ccd2d6e4646e2f773c32c90bd3f3ea93b6ebf0e8af7c"
+      },
+      {
+        "revision": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/span.rs",
+        "sha256": "25db6195de7fa40298becf88680b1007806fee3442e8d73163319c9a6aa401bd"
+      },
+      {
+        "revision": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "path": "kani-driver/src/cbmc_property_renderer.rs",
+        "sha256": "f2f6be1b2a2e29e340e17c5859fa5a0f5c7d90bacb9287d082af23d442737c42"
+      },
+      {
+        "revision": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "path": "kani-driver/src/args/mod.rs",
+        "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e"
+      },
+      {
+        "revision": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "path": "kani-driver/src/call_single_file.rs",
+        "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996"
+      },
+      {
+        "revision": "99e8456d200fff1299ee5756279cddb23921dc65",
+        "path": "library/core/src/macros/mod.rs",
+        "sha256": "af6f7c1c71eef0923e1f4128729e744e2ca6b6c9954245cc8b87e5c579713f66"
+      }
+    ],
+    "required_bindings": 127,
+    "future_labels": 111,
+    "preserved_semantic_bindings": 16,
+    "runtime_observations": "NOT_RUN"
+  },
+  "finding_reproducer": {
+    "finding": "W14-S108-01",
+    "reproducer": "STATIC_SOURCE_COORDINATES_AND_SYNTHETIC_MATCHER_ONLY",
+    "compiler_observation": "NOT_RUN",
+    "cases": [
+      {
+        "row": "activation_descending_rejected",
+        "old_closure_line": 100,
+        "new_closure_line": 95,
+        "exact_old_new_closure_text": "    require_active(&[0u8, 1], &|a: &u8, b: &u8| a > b);",
+        "new_text_at_stale_line": "    let mut touched = false;",
+        "committed_oracle_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:100:32: 100:48}>.assertion.1",
+        "synthetic_relocated_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:95:32: 95:48}>.assertion.1",
+        "committed_oracle_matches_relocated_synthetic": false,
+        "refreshed_oracle_matches_same_synthetic": true
+      },
+      {
+        "row": "activation_effectful_rejected",
+        "old_closure_line": 106,
+        "new_closure_line": 101,
+        "exact_old_new_closure_text": "    let effectful = |a: &u8, b: &u8| { touched = true; a < b };",
+        "new_text_at_stale_line": "fn activation_unsupported_type_rejected() {",
+        "committed_oracle_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:106:21: 106:37}>.assertion.1",
+        "synthetic_relocated_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:101:21: 101:37}>.assertion.1",
+        "committed_oracle_matches_relocated_synthetic": false,
+        "refreshed_oracle_matches_same_synthetic": true
+      }
+    ]
+  },
+  "compiler_rustfmt_full_runner_CI_push_ledger": "NOT_RUN",
+  "independent_B1_B2_credit": "NONE"
+}

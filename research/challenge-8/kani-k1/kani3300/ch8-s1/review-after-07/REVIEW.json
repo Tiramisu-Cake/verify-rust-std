@@ -1,0 +1,133 @@
+{
+  "schema": "w14-independent-review-v1",
+  "task_commit": "831f87be704575dee4ace8f834312b5c95d43f99",
+  "runtime": "Codex current pane; no model change or delegation",
+  "first_recorded_clock_utc": "2026-11-17T13:08:21Z",
+  "completed_at_utc": "2026-11-17T13:20:16.098525+00:00",
+  "entry_g0": "831f87be704575dee4ace8f834312b5c95d43f99",
+  "frozen_inputs": {
+    "U": "16e36c4a2c244bb23ae71c80e5aa6db5f95e5338",
+    "PFC": "013f288ca5111c0587e087567d2ec4182856be1d",
+    "S1_08_package": "8ea1c1d370f4076eb6ed4aeaa0a96898499ce580",
+    "source": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "source_parent": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+    "control": "9ccd882ef2460fbc97400594e7e3dfc884a4a997",
+    "control_parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+    "stock_tool": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "gates": {
+    "U": {
+      "verdict": "APPROVE",
+      "reviewed_records": 187,
+      "assurance": "PINNED_SOURCE_LOCAL_SAFETY_ARGUMENT; SOURCE_REPORTED_EXACT_CHECK_IDENTITIES",
+      "sorting_relation_credit": "NONE",
+      "independent_compiler_origin": "NOT_CLAIMED"
+    },
+    "PFC": {
+      "verdict": "APPROVE",
+      "reviewed_chains": 22,
+      "selected_impls": 6,
+      "assurance": "BOUNDED_SOURCE_REPORTED_PROFILES_V4_TRUST_PINNED_STOCK_COMPILER",
+      "requires": "ASSUMED_BY_CHECK_MODE",
+      "ensures": "ASSERTED_EXACT_SOURCE_CLAUSE",
+      "modifies": "SOLE_DFCC_CONTRACT_ENFORCED",
+      "independent_AST_MIR_DefId_instance_provenance": "NOT_REQUIRED_AND_NOT_CLAIMED"
+    },
+    "S1_08": {
+      "verdict": "CHANGES_REQUIRED",
+      "source_assertion_transformation": "APPROVE_BOUNDED_STATIC_EQUIVALENCE",
+      "artifact_identity": "PASS_EXACT_PINS_AND_TREES",
+      "negative_oracles": "TWO_STALE_SOURCE_DERIVED_CLOSURE_SPANS",
+      "role_mappings": {
+        "required": 127,
+        "future_labels": 111,
+        "preserved_semantic_bindings": 16,
+        "supplemental_sites": 54,
+        "future_observations": "NOT_RUN"
+      },
+      "findings": [
+        "W14-S108-01"
+      ]
+    },
+    "composer_w11": {
+      "verdict": "NOT_REVIEWED",
+      "reason": "No exact committed composer delta issued for this bounded review; unfinished/shared accept-v3 files not opened."
+    }
+  },
+  "findings": [
+    {
+      "id": "W14-S108-01",
+      "severity": "MEDIUM",
+      "priority": "P2",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/EMBEDDED-CI-REQUEST.json",
+      "lines": [
+        258,
+        294
+      ],
+      "control_path": "/root/kani-ch8-s1-08-w13/ch8-s1-control/CI-REQUEST.json",
+      "generator_path": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/prepare_package.py",
+      "generator_line": 79,
+      "validation_gap_path": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/verify_package.py",
+      "validation_gap_line": 87,
+      "title": "Mandatory negative oracle IDs retain old closure source coordinates after source relocation",
+      "impact": "Correct failures of the relocated generic instances cannot satisfy the committed exact-ID oracle. Fail-closed mandatory control loss; no false proof acceptance established.",
+      "evidence": [
+        {
+          "row": "activation_descending_rejected",
+          "old_closure_line": 100,
+          "new_closure_line": 95,
+          "exact_old_new_closure_text": "    require_active(&[0u8, 1], &|a: &u8, b: &u8| a > b);",
+          "new_text_at_stale_line": "    let mut touched = false;",
+          "committed_oracle_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:100:32: 100:48}>.assertion.1",
+          "synthetic_relocated_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:95:32: 95:48}>.assertion.1",
+          "committed_oracle_matches_relocated_synthetic": false,
+          "refreshed_oracle_matches_same_synthetic": true
+        },
+        {
+          "row": "activation_effectful_rejected",
+          "old_closure_line": 106,
+          "new_closure_line": 101,
+          "exact_old_new_closure_text": "    let effectful = |a: &u8, b: &u8| { touched = true; a < b };",
+          "new_text_at_stale_line": "fn activation_unsupported_type_rejected() {",
+          "committed_oracle_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:106:21: 106:37}>.assertion.1",
+          "synthetic_relocated_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:101:21: 101:37}>.assertion.1",
+          "committed_oracle_matches_relocated_synthetic": false,
+          "refreshed_oracle_matches_same_synthetic": true
+        }
+      ],
+      "reproducer": "PYTHONDONTWRITEBYTECODE=1 python3 validate_review.py",
+      "assurance": "Exact source coordinate mismatch and synthetic matcher replay. S1-08 compiler output NOT_RUN; relocated fixture IDs are synthetic expectations, not observed IDs.",
+      "minimal_fix": "Rebind both exact negative IDs to new source instances, or preserve original closure spans. Regenerate request/control/payload/patch pins and add source-span regression. Do not weaken exact oracles. Return committed delta to same reviewer.",
+      "handoff": "Coordinator should route localized finding to original S1-08 owner; reviewer changed no author code."
+    }
+  ],
+  "evidence": {
+    "independent_validation": "VALIDATION.json",
+    "checks": "CHECKS.json",
+    "explanation": "REVIEW.md",
+    "anchors": "ANCHORS.json"
+  },
+  "not_run": {
+    "source_control_runtime": true,
+    "compiler": true,
+    "rustfmt": true,
+    "exporter_decoder_actual_runtime": true,
+    "verifier": true,
+    "full_runner": true,
+    "CI": true,
+    "push": true,
+    "ledger": true,
+    "subagents": true
+  },
+  "proof_credit": {
+    "independent": "NONE",
+    "B1": "NONE",
+    "B2": "NONE",
+    "general_Challenge8_theorem": "NONE",
+    "admission": "NOT_GRANTED",
+    "dispatch_GO": false
+  },
+  "write_scope": "research/challenge-8/kani-k1/kani3300/ch8-s1/review-after-07/",
+  "shared_workspace": "Other task commits/untracked accept-v3 and s1-08-r1 appeared during review; not inspected as candidates, changed or staged.",
+  "closure_reason": "All three exact frozen components reviewed and bounded validation completed; localized required change handed off. No additional composer/delta input issued; no wait or scope-size stop."
+}

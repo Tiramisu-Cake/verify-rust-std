@@ -1,0 +1,102 @@
+{
+  "schema": "w14-check-observations-v1",
+  "checks": [
+    {
+      "name": "U read-only replay",
+      "cwd": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 replay.py",
+      "exit_code": 0,
+      "result": {
+        "replay": "PASS",
+        "processed": 187,
+        "unknown": 0
+      }
+    },
+    {
+      "name": "U component mutations",
+      "cwd": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-u",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -q test_replay.py",
+      "exit_code": 0,
+      "result": {
+        "tests": 13,
+        "elapsed_seconds": 47.208,
+        "status": "OK"
+      },
+      "meaning": "Includes direct semantic premise/classify calls and coherent rehash mutations below outer hash gates."
+    },
+    {
+      "name": "PFC read-only replay",
+      "cwd": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 replay.py",
+      "exit_code": 0,
+      "result": {
+        "replay": "MATCH",
+        "chains": 22,
+        "bound": 22,
+        "pending": 0,
+        "PFC_sha256": "bc7d87074c655f250563274eae072cfa2482a2514dc71fafe5ffd893a7f77479"
+      }
+    },
+    {
+      "name": "PFC component mutations",
+      "cwd": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept-pfc",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -q test_replay.py",
+      "exit_code": 0,
+      "result": {
+        "tests": 228,
+        "elapsed_seconds": 29.473,
+        "status": "OK"
+      },
+      "meaning": "Contract/native/source/variant semantic mutations; not merely digest rejection."
+    },
+    {
+      "name": "S1-08 targeted interface fixtures",
+      "cwd": "/root/kani-ch8-s1-08-w13/ch8-s1-control",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -q test_s108.py",
+      "exit_code": 0,
+      "result": {
+        "tests": 4,
+        "elapsed_seconds": 0.304,
+        "status": "OK"
+      }
+    },
+    {
+      "name": "S1-08 shallow and finalization regressions",
+      "cwd": "/root/kani-ch8-s1-08-w13/ch8-s1-control",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -q test_package.PackageTests.test_every_checkout_shallow_clone_runs_real_identity_operations test_s107.FinalizationTests.test_snapshot_before_validation_for_all_termination_and_export_shapes test_s107.FinalizationTests.test_snapshot_error_missing_and_drift_cannot_hide_original_failure test_s107.FinalizationTests.test_native_partial_null_wrong_type_missing_and_cap_are_explicit",
+      "exit_code": 0,
+      "result": {
+        "tests": 4,
+        "elapsed_seconds": 1.963,
+        "status": "OK"
+      },
+      "meaning": "Real temporary file:// shallow clones; mocked execution covers success/error/timeout/partial/missing/null/wrong-type/NOT_RUN/source-stage-target mismatches; snapshot error/missing/drift and native capture shapes. Expected fatal bad object from negative shallow case is caught by test."
+    },
+    {
+      "name": "Independent identity/token/inventory/relations and finding replay",
+      "cwd": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s1/review-after-07",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 validate_review.py",
+      "exit_code": 0,
+      "result": {
+        "validation": "PASS",
+        "finding_reproduced": "W14-S108-01",
+        "U_records": 187,
+        "PFC_chains": 22,
+        "runtime": "NOT_RUN"
+      }
+    }
+  ],
+  "corrected_review_command_errors": [
+    {
+      "command": "python3 -m unittest -q test_s108.py test_package.PackageTests.test_shallow_checkout_depth_and_identity_operations",
+      "exit_code": 1,
+      "reason": "Incorrect test selector, AttributeError; four S108 tests passed. Correct existing shallow method subsequently run successfully; S108 test module rerun alone successfully."
+    },
+    {
+      "command": "python3 validate_review.py (initial reviewer-script draft)",
+      "exit_code": 1,
+      "reason": "Reviewer token canonicalizer initially attempted to normalize unchanged pre-existing S1_SCRATCH_PREFIX_VALID kani::assert; corrected to compare that call verbatim. Final independent validation passed."
+    }
+  ],
+  "limits": "These are observed static/synthetic test executions, not sorting proof, compiler runtime, B1/B2, admission or CI evidence."
+}
