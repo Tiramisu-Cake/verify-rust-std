@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "candidate": "da8c766f957c576eafa44bccfba2c45490cef6d1",
+  "exit": 0,
+  "top_level_tests": 17,
+  "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_cell_retry.py test_s108.py test_s108r1.py",
+  "test_payload_sha256": {
+    "ch8-s1-control/test_package.py": "70f00d0726b7011db8a02339c1b031bda49b4af3c2f7e881b68d06b7663b5ca7",
+    "ch8-s1-control/test_runner.py": "d8e9e479c4dbf21178f6d28b0e68bbddf6defe8d8ffc2e003fa31bb5e838c55a",
+    "ch8-s1-control/test_s104.py": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+    "ch8-s1-control/test_s105.py": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e",
+    "ch8-s1-control/test_s107.py": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0",
+    "ch8-s1-control/test_s108.py": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854",
+    "ch8-s1-control/test_s108r1.py": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03",
+    "ch8-s1-control/test_cell_retry.py": "a0ad31169ef6244887ef68ec24b10283107e74cbb2047aac1f90ad3573bc3a62"
+  },
+  "scope": "small static and isolated synthetic subprocess/service tests; no compiler/verifier/full runner",
+  "initial_development_failures": "fixture path error; no-op mutation; matrix-wide reused fixture; missing synthetic finish. Fixed before frozen candidate; no gate weakened."
+}

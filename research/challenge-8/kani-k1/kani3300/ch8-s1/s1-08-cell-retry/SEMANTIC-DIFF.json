@@ -1,0 +1,286 @@
+{
+  "status": "PASS",
+  "base": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+  "candidate": "da8c766f957c576eafa44bccfba2c45490cef6d1",
+  "whitelist": [
+    ".github/workflows/ch8-s1.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/cell_retry_profile.py",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/runner.py",
+    "ch8-s1-control/test_cell_retry.py"
+  ],
+  "json_changes": [
+    {
+      "pointer": "/artifact_policy/aggregate_compressed_cap",
+      "before": 117440512,
+      "after": 8388608
+    },
+    {
+      "pointer": "/artifact_policy/groups",
+      "before": 14,
+      "after": 1
+    },
+    {
+      "pointer": "/batch_policy/group_wall_seconds",
+      "before": "compile900 + sum(root600) + cleanup10; per job group partition only",
+      "after": "compile900 + 2*root1200 =3300 child; cleanup10; envelope3310; phase8100 unchanged"
+    },
+    {
+      "pointer": "/batch_policy/harness_timeout",
+      "before": "600s",
+      "after": "1200s; selected cell pair only; reference other rows600s"
+    },
+    {
+      "pointer": "/budgets/cell_row_seconds",
+      "added": 1200
+    },
+    {
+      "pointer": "/budgets/group_child_seconds",
+      "added": 3300
+    },
+    {
+      "pointer": "/budgets/group_cleanup_seconds",
+      "added": 10
+    },
+    {
+      "pointer": "/budgets/group_envelope_seconds",
+      "added": 3310
+    },
+    {
+      "pointer": "/budgets/planned_rows_seconds",
+      "before": 21000,
+      "after": 2400
+    },
+    {
+      "pointer": "/budgets/projected_group_count",
+      "before": 14,
+      "after": 1
+    },
+    {
+      "pointer": "/ci_changed_paths",
+      "before": [
+        ".github/workflows/bench-compiler.yml",
+        ".github/workflows/bench-e2e.yml",
+        ".github/workflows/bench-pr.yml",
+        ".github/workflows/cargo-update.yml",
+        ".github/workflows/cbmc-latest.yml",
+        ".github/workflows/cbmc-update.yml",
+        ".github/workflows/ch8-s1.yml",
+        ".github/workflows/charon-update.yml",
+        ".github/workflows/deny.yml",
+        ".github/workflows/extra_jobs.yml",
+        ".github/workflows/format-check.yml",
+        ".github/workflows/kani.yml",
+        ".github/workflows/release.yml",
+        ".github/workflows/slow-tests.yml",
+        ".github/workflows/toolchain-upgrade.yml",
+        ".github/workflows/verify-std-check.yml",
+        ".github/workflows/z3-update.yml",
+        "ch8-s1-control/CI-REQUEST.json",
+        "ch8-s1-control/ORACLE-SOURCES.json",
+        "ch8-s1-control/ROLE-MAP.json",
+        "ch8-s1-control/activation-default.patch",
+        "ch8-s1-control/activation-override.patch",
+        "ch8-s1-control/binding_metadata.py",
+        "ch8-s1-control/check_package.py",
+        "ch8-s1-control/collect.py",
+        "ch8-s1-control/fixtures/s104-rich-fragment.json",
+        "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
+        "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+        "ch8-s1-control/negative_oracle.py",
+        "ch8-s1-control/oracle_source.py",
+        "ch8-s1-control/pack_evidence.py",
+        "ch8-s1-control/rich_evidence.py",
+        "ch8-s1-control/runner.py",
+        "ch8-s1-control/s108_package.py",
+        "ch8-s1-control/test_package.py",
+        "ch8-s1-control/test_runner.py",
+        "ch8-s1-control/test_s104.py",
+        "ch8-s1-control/test_s105.py",
+        "ch8-s1-control/test_s107.py",
+        "ch8-s1-control/test_s108.py",
+        "ch8-s1-control/test_s108r1.py"
+      ],
+      "after": [
+        ".github/workflows/bench-compiler.yml",
+        ".github/workflows/bench-e2e.yml",
+        ".github/workflows/bench-pr.yml",
+        ".github/workflows/cargo-update.yml",
+        ".github/workflows/cbmc-latest.yml",
+        ".github/workflows/cbmc-update.yml",
+        ".github/workflows/ch8-s1.yml",
+        ".github/workflows/charon-update.yml",
+        ".github/workflows/deny.yml",
+        ".github/workflows/extra_jobs.yml",
+        ".github/workflows/format-check.yml",
+        ".github/workflows/kani.yml",
+        ".github/workflows/release.yml",
+        ".github/workflows/slow-tests.yml",
+        ".github/workflows/toolchain-upgrade.yml",
+        ".github/workflows/verify-std-check.yml",
+        ".github/workflows/z3-update.yml",
+        "ch8-s1-control/CI-REQUEST.json",
+        "ch8-s1-control/ORACLE-SOURCES.json",
+        "ch8-s1-control/ROLE-MAP.json",
+        "ch8-s1-control/activation-default.patch",
+        "ch8-s1-control/activation-override.patch",
+        "ch8-s1-control/binding_metadata.py",
+        "ch8-s1-control/cell_retry_profile.py",
+        "ch8-s1-control/check_package.py",
+        "ch8-s1-control/collect.py",
+        "ch8-s1-control/fixtures/s104-rich-fragment.json",
+        "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
+        "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+        "ch8-s1-control/negative_oracle.py",
+        "ch8-s1-control/oracle_source.py",
+        "ch8-s1-control/pack_evidence.py",
+        "ch8-s1-control/rich_evidence.py",
+        "ch8-s1-control/runner.py",
+        "ch8-s1-control/s108_package.py",
+        "ch8-s1-control/test_cell_retry.py",
+        "ch8-s1-control/test_package.py",
+        "ch8-s1-control/test_runner.py",
+        "ch8-s1-control/test_s104.py",
+        "ch8-s1-control/test_s105.py",
+        "ch8-s1-control/test_s107.py",
+        "ch8-s1-control/test_s108.py",
+        "ch8-s1-control/test_s108r1.py"
+      ]
+    },
+    {
+      "pointer": "/ci_payload_sha256/.github~1workflows~1ch8-s1.yml",
+      "before": "ad28b417fa4331692641ad0356dc0702f20405cf56674085f71ca210342e06ed",
+      "after": "3886bf8e9edc7edc06207a274391c3d3cced42a08951ffc28cb0432dc4568494"
+    },
+    {
+      "pointer": "/ci_payload_sha256/ch8-s1-control~1cell_retry_profile.py",
+      "added": "c05ed67047832f808b1b22df9d0822d49eb9519e50cdab710db65238ffb97511"
+    },
+    {
+      "pointer": "/ci_payload_sha256/ch8-s1-control~1check_package.py",
+      "before": "745e6277b7725c91645c4164508743ca719a0ca5a3b21453741b44b5fa56101a",
+      "after": "045f044ffc8e58572035a1526b0f76ab8379e65fe83cb4fd8376ed4d58804905"
+    },
+    {
+      "pointer": "/ci_payload_sha256/ch8-s1-control~1runner.py",
+      "before": "dc1d0ac264dd1db327f6bbc531489962352ec5a383ae02dbe436530e9354e867",
+      "after": "4902328df07bb9c28bc667ba522542cb61d7825639d806ca8b949789b027336f"
+    },
+    {
+      "pointer": "/ci_payload_sha256/ch8-s1-control~1test_cell_retry.py",
+      "added": "a0ad31169ef6244887ef68ec24b10283107e74cbb2047aac1f90ad3573bc3a62"
+    },
+    {
+      "pointer": "/execution_scope",
+      "added": {
+        "profile": "cell-retry1200-v1",
+        "declared_reference_groups": 14,
+        "declared_reference_rows": 35,
+        "selected_groups": [
+          "cell-u34"
+        ],
+        "selected_row_ids": [
+          "stable_default_cell",
+          "unstable_default_cell"
+        ],
+        "selectors": [
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+          "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell"
+        ]
+      }
+    },
+    {
+      "pointer": "/reservations/S1-08",
+      "removed": "NOT_RESERVED; preparation only; no dispatch/push/ledger"
+    },
+    {
+      "pointer": "/reservations/S1-08-cell-retry",
+      "added": "NOT_RESERVED; NOT_RUN; preparation/review only; coordinator decision after terminal run and intake"
+    },
+    {
+      "pointer": "/rows/0/timeout_seconds",
+      "before": 600,
+      "after": 1200
+    },
+    {
+      "pointer": "/rows/1/timeout_seconds",
+      "before": 600,
+      "after": 1200
+    },
+    {
+      "pointer": "/schema",
+      "before": "ch8-s1-08-r1-ready-v1",
+      "after": "ch8-s1-08-cell-retry-ready-v1"
+    },
+    {
+      "pointer": "/workflow_stages/s1_activation",
+      "removed": [
+        "activation-default-u34",
+        "activation-override-u34"
+      ]
+    },
+    {
+      "pointer": "/workflow_stages/s1_heavy",
+      "removed": [
+        "freeze_copy_u8-n01-u34",
+        "freeze_copy_u8-n23-u34",
+        "freeze_default_noncopy-n01-u34",
+        "freeze_default_noncopy-n23-u34",
+        "stable_freeze_u8-n01-u34",
+        "stable_freeze_u8-n23-u34",
+        "unstable_freeze_u8-n01-u34",
+        "unstable_freeze_u8-n23-u34"
+      ]
+    },
+    {
+      "pointer": "/workflow_stages/s1_light",
+      "removed": [
+        "light-model-u5",
+        "light-corruption-u4",
+        "light-controls-u34"
+      ]
+    }
+  ],
+  "changed_functions": {
+    "ch8-s1-control/runner.py": [
+      "_run_group",
+      "_selection_matches",
+      "build_argv",
+      "load_request",
+      "select_groups"
+    ],
+    "ch8-s1-control/check_package.py": [
+      "check_yaml",
+      "fallback"
+    ]
+  },
+  "unchanged_payload_sha256": {
+    "ch8-s1-control/ORACLE-SOURCES.json": "69bf8d8494094a079a6ac3422ab90f30b7b5093b53e91ee6ce393a043538eaa2",
+    "ch8-s1-control/ROLE-MAP.json": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
+    "ch8-s1-control/activation-default.patch": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+    "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+    "ch8-s1-control/binding_metadata.py": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030",
+    "ch8-s1-control/collect.py": "bb9170a58af1e0cfcb93d9758730265f2ae78b019c7a0a9b50d348cca45cd6e7",
+    "ch8-s1-control/fixtures/s104-rich-fragment.json": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc",
+    "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+    "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+    "ch8-s1-control/negative_oracle.py": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c",
+    "ch8-s1-control/oracle_source.py": "75a9a665b7a9fc1c64cd51c1c8d281fd323f22411aee83c017d08f37a27f20ce",
+    "ch8-s1-control/pack_evidence.py": "833004929291e3a6a96011c8579852fce7520e5dea6abd3af2c7611675619e8b",
+    "ch8-s1-control/rich_evidence.py": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+    "ch8-s1-control/s108_package.py": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237",
+    "ch8-s1-control/test_package.py": "70f00d0726b7011db8a02339c1b031bda49b4af3c2f7e881b68d06b7663b5ca7",
+    "ch8-s1-control/test_runner.py": "d8e9e479c4dbf21178f6d28b0e68bbddf6defe8d8ffc2e003fa31bb5e838c55a",
+    "ch8-s1-control/test_s104.py": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+    "ch8-s1-control/test_s105.py": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e",
+    "ch8-s1-control/test_s107.py": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0",
+    "ch8-s1-control/test_s108.py": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854",
+    "ch8-s1-control/test_s108r1.py": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03"
+  },
+  "yaml": "EXACT_BASE_CELL_JOB_MINUS_NEEDS_PLUS_TARGETED_TESTS_AND_NAME",
+  "source_and_tool": "EXACT_UNCHANGED_COMMITS_AND_TREES",
+  "proof_runtime_delta": "TWO_CELL_TIMEOUTS600_TO1200_ONLY",
+  "decoder_missing_RESULTS": "UNCHANGED_FAIL_CLOSED",
+  "proof_credit": "NONE"
+}

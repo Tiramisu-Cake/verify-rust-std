@@ -1,0 +1,102 @@
+{
+  "schema": "ch8-s1-08-cell-retry-checkpoint-v1",
+  "status": "READY_FOR_W14_REVIEW",
+  "task_commit": "49f2363e09b63b433ef84cb2b6cbaf1a05112386",
+  "updated_at": "2026-11-17T16:13:10.498439+00:00",
+  "identities": {
+    "schema": "ch8-s1-08-cell-retry-identities-v1",
+    "status": "READY_FOR_W14_REVIEW",
+    "task_commit": "49f2363e09b63b433ef84cb2b6cbaf1a05112386",
+    "entry_g0": "929f21bb1ff386d5ad1a132795e5299c68e5d4e5",
+    "workspace_g0_before_packet": "721f4fddf53173517a74dc6ca7fad0eb260ec22d",
+    "source": {
+      "worktree": "/root/verify-rust-std-ch8-s1-08-w13",
+      "sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "tree": "b769b084f9982cbcb166229b29b6bd2bff136c51",
+      "changed_file_sha256": {
+        "library/core/Cargo.toml": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb",
+        "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+        "library/core/src/slice/sort/shared/smallsort.rs": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+        "library/core/src/slice/sort/shared/smallsort/verify.rs": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+        "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+      },
+      "publication": "ALREADY_PUBLISHED_UNCHANGED_NO_REPUBLISH"
+    },
+    "control": {
+      "worktree": "/root/kani-ch8-s1-08-cell-retry-w13",
+      "sha": "da8c766f957c576eafa44bccfba2c45490cef6d1",
+      "tree": "a0e21f185de757c05397cf32547153325012469f",
+      "parent": "9208b373c0a08a265fa0d7493a6529e331065271",
+      "review_base": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+      "review_base_tree": "7ba8030690596cb491d1ae4f44e32805aa25931e",
+      "embedded_request_sha256": "7a2cdc282a76e36bfee611c3987471c6eb70b76ff314f2f7785906cb0badaf5c",
+      "role_map_sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
+      "dispatch_authorized": false,
+      "published": false
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "change": "NONE_STOCK"
+    },
+    "review": "PENDING_W14",
+    "runtime": "NOT_RUN",
+    "reservation": "NOT_RESERVED",
+    "current_charge": "8/14",
+    "conditional_future_charge": "item2 9/14 only after separately authorized accepted run",
+    "proof_credit": "NONE"
+  },
+  "selected_groups": [
+    "cell-u34"
+  ],
+  "selected_row_ids": [
+    "stable_default_cell",
+    "unstable_default_cell"
+  ],
+  "timeout_seconds": 1200,
+  "group_child_seconds": 3300,
+  "cleanup_seconds": 10,
+  "phase_seconds": 8100,
+  "job_seconds": 10800,
+  "validation": "PASS_STATIC_SYNTHETIC_ACTUAL_SHALLOW_GIT",
+  "review": "PENDING_W14",
+  "reservation": "NOT_RESERVED",
+  "execution": "NOT_RUN",
+  "current_item2_charge": "8/14",
+  "conditional_future_item2_charge": "9/14 after new GO and accepted run",
+  "source_publication": "ALREADY_PUBLISHED_UNCHANGED_NO_REPUBLISH",
+  "external_actions": "NONE",
+  "subagents": "NONE",
+  "old_incomplete_cell_acceptance": "NOT_ISSUED",
+  "proof_credit": "NONE",
+  "blocker": null,
+  "next_step": "Coordinator issues independent w14 review; any retry decision after terminal44095954742 and intake",
+  "claims": [
+    {
+      "claim": "Only exact cell pair can execute, omitted --groups included",
+      "assurance": "STATIC_AND_SYNTHETIC"
+    },
+    {
+      "claim": "Actual argv/request/parser/receipts1200; full3300+10 envelope fits unchanged caps",
+      "assurance": "STATIC_AND_SYNTHETIC"
+    },
+    {
+      "claim": "All proof semantics and decoder/raw/native/snapshots unchanged except scheduling/timeouts/receipts",
+      "assurance": "PINNED_DIFF_HASHES_AND_AST"
+    },
+    {
+      "claim": "Depth5 contains exact tool endpoint; source2/tool2 preflight passes",
+      "assurance": "ACTUAL_FILE_TRANSPORT_SHALLOW_GIT"
+    }
+  ],
+  "limitations": [
+    "No runtime/proof evidence",
+    "No fit600 or ordinary cost qualification",
+    "No label causality",
+    "No same-run composition; future admission separately by coordinator"
+  ]
+}
