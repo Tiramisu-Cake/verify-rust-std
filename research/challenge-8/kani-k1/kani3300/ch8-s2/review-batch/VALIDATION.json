@@ -1,0 +1,92 @@
+{
+  "schema": "ch8-s2-w14-validation-v1",
+  "state": "PASS_STATIC_SYNTHETIC_ONLY",
+  "inputs": {
+    "task_id": "task9856043dab21de8346b68196fa91929b96331293",
+    "candidate_g0": "ae8f7b2feb739fd51fe72063d4aa71fe36b90790",
+    "package": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch/",
+    "source_sha": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "source_tree": "2b305686df9758381cfc5d07e195ba05d6b87637",
+    "source_base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "control_sha": "fc058c97335e4a064c7827b8534b3af2f7460bc3",
+    "control_tree": "829f2a6ce410b366101bd413a268e825627e3780",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "request_sha256": "eccd05f859b0c5982d6eea23fa0d2e209a9099e3cbc6fdfc883b6e2ad826ac23",
+    "workflow_sha256": "0f0dbfc57b0db8d138ba74d91d64aaa23e27ad8ff39960994a0261da4ac91f9f",
+    "pilot_g0": "c8e4ab764d58bd8b684b660d92c62374530623d4",
+    "shared_INPUTS_sha256": "980c513826dcb1b38470278910dbb21707826f80d7bb362dbbf6e860f71436ad"
+  },
+  "checks": [
+    {
+      "name": "exact candidate bytes / independent static and sampler controls",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 research/challenge-8/kani-k1/kani3300/ch8-s2/review-batch/review_checks.py",
+      "exit_code": 0,
+      "artifact": "independent-checks.json",
+      "verified": [
+        "18 batch files equal pinned g0 blobs, including .gitattributes;7 pilot files equal pinned commit",
+        "Source/control HEADs clean at exact pins; source diff only6 paths;3 new modules;8 attrs stripped yield byte-exact99e smallsort",
+        "All45 actual sort13 pairs match assumption map; all11 roots equal request inventory",
+        "Exact request digest; grouped argv11 exact selectors,600s backend timeout,no-assert-contracts,jobs1,no fail-fast",
+        "7500s group,7560s workflow step,8100s internal phase,177min literal steps,180min job,12GiB/2GiB",
+        "Independent fake /proc sampler driver11/backend23/compiler37/other41 KiB, total112; foreign group/missing/malformed process excluded"
+      ]
+    },
+    {
+      "name": "candidate package preflight",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 research/challenge-8/kani-k1/kani3300/ch8-s2/batch/validate_package.py",
+      "exit_code": 0,
+      "artifact": "package-validation.json",
+      "verified": [
+        "Source/tool and file SHA bindings, payload hashes, YAML native scalar types",
+        "Source patch/base99e, control delta/base7c413 and full control patch/base0aac replay to exact trees",
+        "Real candidate commit graph with separate shallow metadata/shared objects at7/4/2",
+        "Python AST, source/control whitespace, frozen S1 clean; manifest verified"
+      ]
+    },
+    {
+      "name": "mandatory runner/service/error/selection suite",
+      "cwd": "/root/kani-ch8-s2-batch-w13/ch8-s1-control",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_runner.py test_s107.FinalizationTests test_s2.py",
+      "exit_code": 0,
+      "tests": 43,
+      "test_elapsed_seconds": 5.764,
+      "verified": [
+        "success,error,signal,timeout,spawn and monitor exceptions,output/export/memory caps,child shutdown",
+        "missing/partial/null/wrong-type/NOT_RUN and missing RESULTS fail closed",
+        "source/stage/target/config/selector mismatch,group partition,full remaining inventory retained",
+        "before/after binary snapshots and original exits/exceptions on every protected finalization path",
+        "native exact/partial/missing/cap records retained,binding gaps explicit,compact error evidence",
+        "Useful-return covers and semantic messages,exact negative ID/file/line/class/status/sole failure",
+        "Assumed inventory cannot migrate into formal inventory; no proof-credit promotion"
+      ]
+    },
+    {
+      "name": "offline merge pilot",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 research/challenge-8/kani-k1/kani3300/ch8-s2/merge-pilot/test_pilot.py --source-repo /root/verify-rust-std-ch8-s1-08-w13",
+      "exit_code": 0,
+      "result": "PASS_DIAGNOSTIC_ONLY",
+      "exact_source_sites": 30,
+      "small_alphabet_inputs": 598,
+      "paired_transitions": 1869,
+      "CAP32_fixtures": 372,
+      "exhausted_half_heads": 233,
+      "odd_left": 78,
+      "odd_right": 150,
+      "same_allocation_offset_pairs": 34,
+      "verified": [
+        "C5 n4 source[1,9,2,10],output9/2,probe0 weak acceptance; guarded endpoints/full counts/order/ranks reject",
+        "k0/sentinel/undefined-slot guards,loss/duplication/order/frame/source-clobber/odd mutations",
+        "Rank strengthening tracks tie identity and actual up/down comparison directions; mathematical sketch only"
+      ]
+    }
+  ],
+  "compiler_verifier_full_runner": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "proof_credit": "NONE",
+  "artifact_sha256": {
+    "package-validation.json": "a332603f14d32cdcd6f42701e7d4714dc647251d0f23633a002f576366e7ceca",
+    "independent-checks.json": "789f491d9e78ecaba95c3f3ce5301193274aabf2ed0c37781423b37d11279831",
+    "review_checks.py": "11b068e582293b45547eb2f54cbb95e93b15c3df012a0188e841f4ac84c24ffa"
+  }
+}

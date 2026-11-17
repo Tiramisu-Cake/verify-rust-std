@@ -1,0 +1,76 @@
+{
+  "schema": "ch8-s2-w14-independent-review-v1",
+  "scope": "S2_ONLY",
+  "verdict": "APPROVE",
+  "approval_scope": "Exact committed preparation package for one future bounded diagnostic cost collection, subject to separate coordinator GO; no result acceptance or proof qualification.",
+  "inputs": {
+    "task_id": "task9856043dab21de8346b68196fa91929b96331293",
+    "candidate_g0": "ae8f7b2feb739fd51fe72063d4aa71fe36b90790",
+    "package": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch/",
+    "source_sha": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "source_tree": "2b305686df9758381cfc5d07e195ba05d6b87637",
+    "source_base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "control_sha": "fc058c97335e4a064c7827b8534b3af2f7460bc3",
+    "control_tree": "829f2a6ce410b366101bd413a268e825627e3780",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "request_sha256": "eccd05f859b0c5982d6eea23fa0d2e209a9099e3cbc6fdfc883b6e2ad826ac23",
+    "workflow_sha256": "0f0dbfc57b0db8d138ba74d91d64aaa23e27ad8ff39960994a0261da4ac91f9f",
+    "pilot_g0": "c8e4ab764d58bd8b684b660d92c62374530623d4",
+    "shared_INPUTS_sha256": "980c513826dcb1b38470278910dbb21707826f80d7bb362dbbf6e860f71436ad"
+  },
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    {
+      "id": "S2-W14-N1",
+      "priority": "P3",
+      "blocking": false,
+      "owner": "original13 via coordinator",
+      "package": "batch",
+      "location": "CI-REQUEST.json:555,561; mirrored control/ch8-s1-control/CI-REQUEST.json",
+      "title": "Unused planning fields retain S1 row/group totals",
+      "evidence": {
+        "planned_rows_seconds": 21000,
+        "projected_group_count": 14,
+        "actual_rows": 11,
+        "actual_groups": 1,
+        "actual_sum_root_caps_s": 6600,
+        "actual_group_cap_s": 7500
+      },
+      "impact": "Contradictory planning metadata only. No Python consumer of either key; executable runner computes900+11*600 and single-job YAML stays under180min. No dispatch, cap, or proof-credit change.",
+      "requested_action": "In a future separately committed package delta, remove these obsolete fields or derive6600 and1; coordinate with original13. Not required to approve this exact bounded observation package."
+    }
+  ],
+  "pilot_verdict": "PASS_DIAGNOSTIC_ONLY; no finding for original11; K0-K8 remain NOT_RUN",
+  "validation": "VALIDATION.json",
+  "checks_artifact": "independent-checks.json",
+  "package_preflight_artifact": "package-validation.json",
+  "limitations": [
+    "No local compiler/verifier/full runner, no workflow execution; actual compile/probes/PFC/witness/covers/controls/cost results NOT_RUN.",
+    "sort13_assumed and general32_assumed remain DIAGNOSTIC_ASSUMED, excluded from formal_expected_inventory. swap_pfc is an attempt, not qualification.",
+    "600s is stock backend timeout; full per-root instrumentation wall is UNKNOWN. Group wall is capped independently.",
+    "RSS is sampled process-group RSS; comm categories have independent, nonsimultaneous peaks. Per-root driver/backend/aggregate RSS and6GiB target remain UNKNOWN.",
+    "Separate body/model/checker/summary and driver wall phases are unavailable from unchanged stock producer.",
+    "Native exact selector/crate records within a fresh invocation are retained; compiler-instance, resolved contract/property-origin edges remain UNKNOWN.",
+    "Offline Python enumeration and source-site mapping do not establish actual-code induction, pointer safety, B1/B2, S3 qualification, or fit600."
+  ],
+  "proof_credit": "NONE",
+  "independently_closed_proof_obligations": 0,
+  "runtime_model": "CURRENT_UNCHANGED",
+  "subagents": 0,
+  "external_actions": {
+    "CI": 0,
+    "push": 0,
+    "cancel": 0,
+    "reservation": 0,
+    "ledger_changes": 0,
+    "publication": 0
+  },
+  "accounting_reference": {
+    "S2_item2_used": 9,
+    "S2_item2_cap": 14,
+    "future_charge_only_after_separate_GO": 10,
+    "F4": "OUT_OF_SCOPE; owner reports run44177926794, item1 27/28, total36/42; not audited or changed"
+  },
+  "handoff": "HANDOFF.md"
+}
