@@ -1,0 +1,126 @@
+{
+  "schema": "ch8-s1-08-cell-diagnostic-v1",
+  "status": "READY",
+  "proof_credit": "NONE",
+  "qualified_acceptance": "NOT_ISSUED",
+  "selected_harnesses": [
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+    "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell"
+  ],
+  "missing_RESULTS": {
+    "harness": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+    "assurance": "CONFIRMED_ARTIFACT_AND_PINNED_RENDERER",
+    "export_outcome": {
+      "kind": "TIMEOUT"
+    },
+    "rich_properties": 0,
+    "n_properties": null,
+    "meaning": "not a zero-property success; property inventory unavailable after timeout"
+  },
+  "present_RESULTS": {
+    "harness": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+    "assurance": "CONFIRMED_RICH_PARSED_RECORDS_AND_PREVIEW_SUMMARY",
+    "observed_properties": 301,
+    "export_outcome": {
+      "kind": "COMPLETED",
+      "verdict": "SUCCESS"
+    },
+    "credit": "SOURCE_REPORTED_ONLY_NOT_ACCEPTED"
+  },
+  "primary_cause": {
+    "status": "CONFIRMED",
+    "kind": "STOCK_KANI_PER_HARNESS_CBMC_TIMEOUT",
+    "limit_s": 600,
+    "verification_time_s": 600.03111242,
+    "evidence": "structured/export.json /harnesses/0/outcome; source call_cbmc.rs:220-253 timeout branch kills CBMC and sets ExitStatus::Timeout; renderer Err path has no RESULTS",
+    "original_cbmc_os_exit": "UNKNOWN_NOT_CAPTURED",
+    "original_cbmc_os_signal": "UNKNOWN_NOT_CAPTURED",
+    "solver_subphase_at_timeout": "UNKNOWN",
+    "why_timeout_relative_to_previous_run": "UNKNOWN_NO_COMPARABLE_RUNTIME_EVIDENCE_READ"
+  },
+  "secondary_cause": {
+    "status": "CONFIRMED",
+    "kind": "REGULAR_EVIDENCE_COMPLETENESS_GATE",
+    "error": "ValueError: regular stream invalid: missing regular harness RESULTS",
+    "explanation": "rich_evidence.finish requires closed RESULTS for every selected root even when stock export reports TIMEOUT; validate raises before row parse_export; both row outcomes remain UNKNOWN",
+    "parser_format_or_labels_error": "NO_EVIDENCE; reported error is missing closed RESULTS, not unexpected property or malformed message"
+  },
+  "original_group_execution": {
+    "child_shutdown_verified": true,
+    "elapsed_seconds": 1240.444,
+    "original_exit_code": 1,
+    "output_bytes": 2848296,
+    "output_truncated": false,
+    "rss_peak_gib": 7.217380523681641,
+    "rss_peak_kib": 7567972,
+    "rss_sample_period_seconds": 0.05,
+    "rss_status": "SAMPLED_PROCESS_GROUP",
+    "signal": null,
+    "stderr_bytes": 2493,
+    "stderr_truncated": false,
+    "stdout_bytes": 2845803,
+    "stdout_truncated": false,
+    "timed_out": false
+  },
+  "limits": {
+    "compile_s": 900,
+    "group_s": 2100,
+    "group_rss_cap_kib": 12582912,
+    "phase_limited": false,
+    "group_termination_reason": null,
+    "per_root_rss": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION"
+  },
+  "timings_seconds": {
+    "job_elapsed": 1605.0,
+    "runner_step_elapsed_from_job_metadata": 1240,
+    "group_child_wall": 1240.444,
+    "phase_elapsed": 1240.659,
+    "compile_initial_export_upper_bound": 34.145,
+    "compile_dev_profile_stderr": 32.97,
+    "export_wall_after_compilation": 1206.213504452,
+    "stable_cbmc_verification": 600.03111242,
+    "unstable_cbmc_verification": 594.575884753,
+    "pure_solver_time": "UNKNOWN"
+  },
+  "states_preserved": {
+    "artifact": "PACKAGED",
+    "artifact_error": null,
+    "compile": "COMPLETE",
+    "compile_marker_run_state": "INCOMPLETE",
+    "export_run_state": "COMPLETE",
+    "export_outcome": {
+      "kind": "COMPLETED"
+    },
+    "rich": "INCOMPLETE",
+    "rich_error": "missing regular harness RESULTS",
+    "group": "FAILED",
+    "row_receipt_statuses": [
+      "UNKNOWN",
+      "UNKNOWN"
+    ],
+    "native": "CAPTURED",
+    "binding": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER"
+  },
+  "labels_hypothesis": {
+    "message_extraction_or_renderer_failure": {
+      "status": "REFUTED_AS_PRIMARY_CAUSE_FOR_THIS_CELL",
+      "basis": "compile COMPLETE and both roots in native metadata; unstable eight per-root labels are parsed SUCCESS property descriptions; stable stock outcome explicitly TIMEOUT; timeout renderer intentionally omits RESULTS",
+      "stable_label_output": "UNKNOWN_NO_STABLE_RESULTS; no stable property verdict inferred"
+    },
+    "labels_or_assert_to_kani_assert_change_caused_runtime_increase": {
+      "status": "UNKNOWN",
+      "basis": "no controlled comparison, no stable property inventory, no solver-phase timings; elapsed correlation/property count cannot establish causation"
+    },
+    "inference": {
+      "status": "INFERRED",
+      "claim": "~20m40s group is explained by serial ~600s timeout + ~594.6s other verification + ~34.1s compile and instrumentation overhead; exact pure solver contribution unavailable"
+    }
+  },
+  "log_access": {
+    "performed": false,
+    "lines_retained": 0,
+    "bytes_retained": 0,
+    "reason": "task step3 conditional not needed: compact export identifies exact timeout and pinned source explains absent RESULTS; bounded previews are sufficient; no job log fetched"
+  },
+  "next_step": "Coordinator decides whether to authorize a targeted stable_default_cell retry with adequate CBMC/group budgets. Separately consider a future reviewed decoder change preserving explicit TIMEOUT and UNKNOWN inventories; no fix or retry executed."
+}

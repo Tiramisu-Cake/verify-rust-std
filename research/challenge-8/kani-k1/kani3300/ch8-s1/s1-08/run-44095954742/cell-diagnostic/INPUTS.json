@@ -1,0 +1,105 @@
+{
+  "task": "TASK-CH8-S1-08-CELL-DIAG-W13.md",
+  "task_commit": "36af5e7e79bc998fa33bfd838826a1ad05bba015",
+  "repository": "Tiramisu-Cake/kani",
+  "run_id": 44095954742,
+  "attempt": 1,
+  "job_id": 134105615173,
+  "group": "cell-u34",
+  "head_sha": "21592884db439389364b416dea1515bfa9d8018e",
+  "std_sha": "99e8456d200fff1299ee5756279cddb23921dc65",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "request_path": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08-r1/EMBEDDED-CI-REQUEST.json",
+  "request_sha256": "77ae11136368b592f044da3f881408c87453d9bf5f28c3fd1a5eb0fcc1431c7e",
+  "selected_rows": [
+    {
+      "id": "stable_default_cell",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+      "mode": "PFC",
+      "variant": "production",
+      "target": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort",
+      "type": "Cell<u8>",
+      "N": "symbolic0..3",
+      "threshold": 16,
+      "unwind": 34,
+      "expected": "SUCCESS",
+      "failure_description": null,
+      "required_cover_count": 11,
+      "required_success_messages": [
+        "stable_default_cell::model_enabled",
+        "stable_default_cell::s1_exact_trait_threshold",
+        "stable_default_cell::post_independent_caller",
+        "stable_default_cell::left_canary",
+        "stable_default_cell::right_canary"
+      ],
+      "timeout_seconds": 600,
+      "planned_seconds": 180,
+      "state": "NOT_RUN",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+      "required_cover_messages": [
+        "S1_entry_N0_return",
+        "S1_entry_N1_return",
+        "S1_entry_N2_return",
+        "S1_entry_N3_return",
+        "S1_entry_N2_reversed_return",
+        "S1_entry_N2_duplicate_return",
+        "S1_entry_N2_ascending_return",
+        "S1_entry_N3_reversed_return",
+        "S1_entry_N3_duplicate_return",
+        "S1_entry_N3_ascending_return",
+        "S1_entry_useful_return"
+      ]
+    },
+    {
+      "id": "unstable_default_cell",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "mode": "PFC",
+      "variant": "production",
+      "target": "<Cell<u8> as UnstableSmallSortTypeImpl>::small_sort",
+      "type": "Cell<u8>",
+      "N": "symbolic0..3",
+      "threshold": 16,
+      "unwind": 34,
+      "expected": "SUCCESS",
+      "failure_description": null,
+      "required_cover_count": 11,
+      "required_success_messages": [
+        "unstable_default_cell::model_enabled",
+        "unstable_default_cell::s1_exact_trait_threshold",
+        "unstable_default_cell::post_independent_caller",
+        "unstable_default_cell::left_canary",
+        "unstable_default_cell::right_canary"
+      ],
+      "timeout_seconds": 600,
+      "planned_seconds": 180,
+      "state": "NOT_RUN",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "required_cover_messages": [
+        "S1_entry_N0_return",
+        "S1_entry_N1_return",
+        "S1_entry_N2_return",
+        "S1_entry_N3_return",
+        "S1_entry_N2_reversed_return",
+        "S1_entry_N2_duplicate_return",
+        "S1_entry_N2_ascending_return",
+        "S1_entry_N3_reversed_return",
+        "S1_entry_N3_duplicate_return",
+        "S1_entry_N3_ascending_return",
+        "S1_entry_useful_return"
+      ]
+    }
+  ],
+  "execution_group": [
+    {
+      "id": "cell-u34",
+      "row_ids": [
+        "stable_default_cell",
+        "unstable_default_cell"
+      ],
+      "order": 6,
+      "variant": "production",
+      "unwind": 34
+    }
+  ],
+  "authority": "ONE_OFF_OFFLINE_CELL_DIAGNOSTIC_ONLY; NO_DISPATCH; NO_ACCEPTANCE"
+}

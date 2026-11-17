@@ -1,0 +1,107 @@
+{
+  "source_member": "groups/cell-u34/properties.json",
+  "source_sha256": "fbb3d326ecef8fc11fa7ef5cf3a85881ff83a0bbb963f41e30340448348d922f",
+  "coverage": "metadata, per-harness observed property count, eight unstable labels only; other property records omitted",
+  "metadata": {
+    "error": "missing regular harness RESULTS",
+    "location_exceptions": [],
+    "missing_sites": [],
+    "observed_stdout_bytes": 2845803,
+    "proof_credit": "NONE",
+    "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+    "schema": "ch8-s1-05-rich-v1",
+    "state": "INCOMPLETE"
+  },
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+      "observed_property_count": 0
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "observed_property_count": 301
+    }
+  ],
+  "label_properties": [
+    {
+      "class": "assertion",
+      "description": "unstable_default_cell::model_enabled",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.4",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.4",
+      "line": "143",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:143:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "status": "SUCCESS"
+    },
+    {
+      "class": "assertion",
+      "description": "unstable_default_cell::s1_exact_trait_threshold",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.5",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.5",
+      "line": "143",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:143:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "status": "SUCCESS"
+    },
+    {
+      "class": "assertion",
+      "description": "unstable_default_cell::type_layout",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.6",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.6",
+      "line": "143",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:143:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "status": "SUCCESS"
+    },
+    {
+      "class": "assertion",
+      "description": "unstable_default_cell::post_independent_caller",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.12",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.12",
+      "line": "143",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:143:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "status": "SUCCESS"
+    },
+    {
+      "class": "assertion",
+      "description": "unstable_default_cell::left_canary",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.13",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.13",
+      "line": "143",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:143:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "status": "SUCCESS"
+    },
+    {
+      "class": "assertion",
+      "description": "unstable_default_cell::right_canary",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.16",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.16",
+      "line": "143",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:143:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "status": "SUCCESS"
+    },
+    {
+      "class": "assertion",
+      "description": "unstable_default_cell::n1_value_unchanged",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.18",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.18",
+      "line": "143",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:143:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "status": "SUCCESS"
+    },
+    {
+      "class": "assertion",
+      "description": "unstable_default_cell::n0_empty_unchanged",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.19",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.assertion.19",
+      "line": "143",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs:143:1 in function slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "status": "SUCCESS"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "coverage": "complete two row receipts except duplicate shared stdout/stderr; original shared previews retained in structured/receipt.json",
+  "rows": [
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "cell-u34",
+      "group_original_exit": 1,
+      "group_rss_peak_kib": 7567972,
+      "id": "stable_default_cell",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "ValueError: regular stream invalid: missing regular harness RESULTS",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "cell-u34",
+      "group_original_exit": 1,
+      "group_rss_peak_kib": 7567972,
+      "id": "unstable_default_cell",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "ValueError: regular stream invalid: missing regular harness RESULTS",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    }
+  ]
+}

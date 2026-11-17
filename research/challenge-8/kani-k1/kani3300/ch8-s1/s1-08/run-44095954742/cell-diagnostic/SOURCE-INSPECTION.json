@@ -1,0 +1,140 @@
+{
+  "assurance": "STATIC_PINNED_SOURCE_READ_ONLY; NOT_COMPILED_OR_REPLAYED",
+  "trigger_control_matches_reviewed_files": true,
+  "sources": [
+    {
+      "repository_worktree": "/root/kani-ch8-s1-08-fix-w13",
+      "commit": "21592884db439389364b416dea1515bfa9d8018e",
+      "file": "ch8-s1-control/rich_evidence.py",
+      "file_bytes": 12313,
+      "file_sha256": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+      "excerpts": [
+        {
+          "first_line": 87,
+          "last_line": 146,
+          "text": "class RegularEvidence:\n    def __init__(self, selectors, cwd):\n        self.selectors, self.cwd = selectors, Path(cwd)\n        self.decoder = codecs.getincrementaldecoder('utf-8')('strict')\n        self.buffer = ''; self.bytes = 0; self.current = None\n        self.records = {}; self.in_results = False; self.block = []\n        self.closed = set(); self.error = None; self.finished = False; self.complete = False\n        self.missing_sites = []\n\n    def feed(self, data):\n        self.bytes += len(data)\n        if self.error:\n            return\n        try:\n            require(not self.finished and self.bytes <= MAX_BYTES, 'regular stream exceeds limit or already closed')\n            self.buffer += self.decoder.decode(data)\n            while '\\n' in self.buffer:\n                line, self.buffer = self.buffer.split('\\n', 1)\n                self._line(line)\n            require(len(self.buffer.encode()) <= MAX_RECORD_BYTES, 'regular line exceeds limit')\n        except (ValueError, UnicodeError) as exc:\n            self.error = str(exc)\n\n    def finish(self):\n        if self.finished:\n            return\n        self.finished = True\n        if self.error:\n            return\n        try:\n            self.buffer += self.decoder.decode(b'', final=True)\n            if self.buffer:\n                self._line(self.buffer)\n            require(not self.in_results and not self.block, 'partial regular RESULTS')\n            require(set(self.records) == set(self.selectors) == self.closed, 'missing regular harness RESULTS')\n        except (ValueError, UnicodeError) as exc:\n            self.error = str(exc)\n\n    def _line(self, line):\n        if self.in_results:\n            if line == 'SUMMARY:':\n                self._record(); self.in_results = False; self.closed.add(self.current)\n            elif line.startswith('Check '):\n                self._record(); self.block = [line]\n            elif self.block:\n                self.block.append(line)\n                require(sum(len(x.encode())+1 for x in self.block) <= MAX_RECORD_BYTES, 'property block exceeds limit')\n            else:\n                require(not line.strip(), 'unexpected RESULTS line')\n            return\n        marker = re.fullmatch(r'Checking harness (.+)\\.\\.\\.', line)\n        if marker:\n            self.current = marker[1]\n            require(self.current in self.selectors and self.current not in self.records, 'unexpected/duplicate harness marker')\n            self.records[self.current] = []\n        elif line == 'RESULTS:':\n            require(self.current is not None and self.current not in self.closed, 'orphan/duplicate RESULTS')\n            self.in_results = True\n\n    def _record(self):\n"
+        },
+        {
+          "first_line": 177,
+          "last_line": 181,
+          "text": "    def validate(self, stock):\n        self.complete = False\n        require(self.finished and self.error is None, 'regular stream invalid: ' + str(self.error))\n        require({h['name'] for h in stock['harnesses']} == set(self.records), 'regular/stock roots differ')\n        for h in stock['harnesses']:\n"
+        },
+        {
+          "first_line": 226,
+          "last_line": 234,
+          "text": "    def document(self):\n        return {'schema': 'ch8-s1-05-rich-v1', 'state': 'COMPLETE' if self.complete else 'INCOMPLETE',\n                'error': self.error, 'observed_stdout_bytes': self.bytes,\n                'missing_sites': self.missing_sites,\n                'location_exceptions': self.location_exceptions(),\n                'harnesses': [{'name': k, 'properties': v} for k, v in self.records.items()],\n                'qualified_acceptance': 'PENDING_OFFLINE_ACCEPTANCE', 'proof_credit': 'NONE'}\n"
+        }
+      ]
+    },
+    {
+      "repository_worktree": "/root/kani-ch8-s1-08-fix-w13",
+      "commit": "21592884db439389364b416dea1515bfa9d8018e",
+      "file": "ch8-s1-control/runner.py",
+      "file_bytes": 64612,
+      "file_sha256": "dc1d0ac264dd1db327f6bbc531489962352ec5a383ae02dbe436530e9354e867",
+      "excerpts": [
+        {
+          "first_line": 325,
+          "last_line": 337,
+          "text": "def build_argv(std: Path, tool: Path, selectors: list[str], unwind: int, export: Path) -> list[str]:\n    if not selectors or len(set(selectors)) != len(selectors):\n        raise RunnerError(\"nonempty unique exact group selectors required\")\n    argv = [str((tool.resolve() / \"scripts/kani\")), \"verify-std\", \"-Z\", \"unstable-options\"]\n    for feature in UNSTABLE:\n        argv += [\"-Z\", feature]\n    argv += [\"--no-assert-contracts\", \"--jobs=1\", \"--harness-timeout\", \"600s\"]\n    for selector in selectors:\n        argv += [\"--harness\", selector]\n    argv += [\"--exact\", \"--default-unwind\", str(unwind), \"-Z\", \"export-json\",\n             \"--export-json\", str(export.resolve()), \"--output-format=regular\", str((std.resolve() / \"library\")),\n             \"--cbmc-args\", \"--object-bits\", \"12\"]\n    return argv\n"
+        },
+        {
+          "first_line": 1012,
+          "last_line": 1067,
+          "text": "            raise\n        finally:\n            # execute owns child shutdown/reaping. No export parsing or rich\n            # validation may precede this protected same-invocation snapshot.\n            snapshot_binaries(tool, receipt, \"after\")\n            _write_json(dest / \"receipt.json\", receipt)\n        if invocation.get(\"runner_exception\") or invocation.get(\"runner_error\"):\n            raise RunnerError(\"group_execution_error\")\n        # Synthetic execution substitutes must also supply a bound compile receipt.\n        if monitor.receipt[\"state\"] != \"COMPLETE\":\n            raise RunnerError(\"compilation_not_complete\")\n        if (invocation.get(\"termination_reason\") or invocation.get(\"timed_out\") or\n                invocation.get(\"signal\") or invocation.get(\"stdout_truncated\") or invocation.get(\"stderr_truncated\")):\n            raise RunnerError(\"group_execution_interrupted_or_capped\")\n        raw = json.loads(export.read_text()) if export.is_file() and export.stat().st_size <= EXPORT_CAP_BYTES else None\n        if not _selection_matches(raw, selectors):\n            raise RunnerError(\"invalid_group_export\")\n        harnesses = raw.get(\"harnesses\")\n        if (not isinstance(harnesses, list) or len(harnesses) != len(selectors) or\n                any(not isinstance(h, dict) or not isinstance(h.get(\"name\"), str) for h in harnesses) or\n                len({h[\"name\"] for h in harnesses}) != len(selectors) or\n                {h[\"name\"] for h in harnesses} != set(selectors)):\n            raise RunnerError(\"invalid_group_harness_inventory\")\n        all_success = all(h.get(\"outcome\") == {\"kind\": \"COMPLETED\", \"verdict\": \"SUCCESS\"} for h in harnesses)\n        if invocation.get(\"original_exit_code\") != (0 if all_success else 1):\n            raise RunnerError(\"group_exit_export_mismatch\")\n        rich.validate(raw)\n        _write_json(dest / \"properties.json\", rich.document())\n        receipt[\"rich_evidence_sha256\"] = sha256(dest / \"properties.json\")\n        # Version strings are source-reported metadata, never identity hashes.\n        receipt[\"reported_tool_versions\"] = raw.get(\"tools\")\n        receipt[\"export_sha256\"] = sha256(export)\n        for row, result in zip(group[\"rows\"], results):\n            parsed = parse_export(export, row, source_binding=request[\"source_bindings\"][row[\"id\"]],\n                                  std=std.resolve(), group_selectors=selectors)\n            result.update(status=\"OBSERVED\", outcome=parsed[\"outcome\"], export=parsed,\n                          group_export_sha256=receipt[\"export_sha256\"],\n                          rich_evidence=\"groups/\" + group[\"id\"] + \"/properties.json\",\n                          rich_evidence_sha256=receipt[\"rich_evidence_sha256\"],\n                          verification_time_s=parsed.get(\"harness\", {}).get(\"resources\", {}).get(\"verification_time_s\"),\n                          group_original_exit=invocation.get(\"original_exit_code\"),\n                          original_exit=None, original_exit_scope=\"PER_ROOT_DRIVER_EXIT_UNAVAILABLE_IN_BATCH\",\n                          signal=invocation.get(\"signal\"), group_rss_peak_kib=invocation.get(\"rss_peak_kib\"),\n                          group_rss_cap_kib=memory[\"group_cap_kib\"],\n                          root_timeout_seconds=MAX_ROW_SECONDS,\n                          timeout_scope=\"STOCK_KANI_CBMC_TIMEOUT_NOT_FULL_INSTRUMENTATION_WALL\",\n                          diagnostics=f\"groups/{group['id']}\")\n    except BaseException as exc:\n        fatal = f\"{type(exc).__name__}: {exc}\"\n        receipt.update(state=\"FAILED\", reason=fatal,\n                       original_exception={\"type\": type(exc).__name__, \"message\": str(exc)})\n        for result in results:\n            result.update(status=\"UNKNOWN\", outcome=\"UNKNOWN\", reason=fatal)\n    finally:\n        if not fingerprints_match(receipt.get(\"tool_fingerprints_before\"),\n                                  receipt.get(\"tool_fingerprints_after\")):\n"
+        }
+      ]
+    },
+    {
+      "repository_worktree": "/root/kani-ch8-s1-08-fix-w13",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "file": "kani-driver/src/call_cbmc.rs",
+      "file_bytes": 52425,
+      "file_sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+      "excerpts": [
+        {
+          "first_line": 220,
+          "last_line": 253,
+          "text": "                self.args.log_file.as_ref(),\n            )\n        });\n\n        let res = if let Some(timeout) = self.args.harness_timeout {\n            tokio::time::timeout(timeout.into(), process_cbmc_output(&mut cbmc_process, filter))\n                .await\n        } else {\n            Ok(process_cbmc_output(&mut cbmc_process, filter).await)\n        };\n\n        let mut result = if let Ok(output) = res {\n            // The timeout wasn't reached\n            VerificationResult::from(output?, harness.attributes.should_panic, start_time)\n        } else {\n            // An error occurs if the timeout was reached\n\n            // Kill the process\n            cbmc_process.kill().await?;\n\n            VerificationResult {\n                status: VerificationStatus::Failure,\n                failed_properties: FailedProperties::None,\n                results: Err(ExitStatus::Timeout),\n                runtime: start_time.elapsed(),\n                generated_concrete_test: false,\n                ignored_quantifiers: 0,\n                coverage_results: None,\n                warnings: Vec::new(),\n                warnings_truncated: 0,\n            }\n        };\n        (result.warnings, result.warnings_truncated) =\n            std::mem::take(&mut *captured_warnings.lock().unwrap()).into_parts();\n"
+        },
+        {
+          "first_line": 583,
+          "last_line": 602,
+          "text": "\n    pub fn render(&self, output_format: &OutputFormat, should_panic: bool) -> String {\n        match &self.results {\n            Ok(results) => {\n                let status = self.status;\n                let failed_properties = self.failed_properties;\n                let show_checks = matches!(output_format, OutputFormat::Regular);\n\n                let mut result = if let Some(cov_results) = &self.coverage_results {\n                    format_coverage(\n                        results,\n                        cov_results,\n                        status,\n                        should_panic,\n                        failed_properties,\n                        show_checks,\n                    )\n                } else {\n                    format_result(results, status, should_panic, failed_properties, show_checks)\n                };\n"
+        },
+        {
+          "first_line": 619,
+          "last_line": 650,
+          "text": "            }\n            Err(exit_status) => {\n                let verification_result = console::style(\"FAILED\").red();\n                let (header, explanation) = match exit_status {\n                    ExitStatus::OutOfMemory => (\n                        String::from(\"CBMC failed\"),\n                        \"CBMC appears to have run out of memory. You may want to rerun your proof in \\\n                    an environment with additional memory or use stubbing to reduce the size of the \\\n                    code the verifier reasons about.\\n\",\n                    ),\n                    ExitStatus::Timeout => (\n                        String::from(\"CBMC failed\"),\n                        \"CBMC timed out. You may want to rerun your proof with a larger timeout \\\n                    or use stubbing to reduce the size of the code the verifier reasons about.\\n\",\n                    ),\n                    ExitStatus::IncompleteResults(exit_status) => (\n                        format!(\n                            \"CBMC did not finish reporting its results (exit status {exit_status})\"\n                        ),\n                        \"CBMC's output ended before its overall verification status, so the \\\n                    results it reported may be incomplete and were not used.\\n\",\n                    ),\n                    ExitStatus::Other(exit_status) => {\n                        (format!(\"CBMC failed with status {exit_status}\"), \"\")\n                    }\n                };\n                format!(\n                    \"\\n{header}\\n\\\n                    VERIFICATION:- {verification_result}\\n\\\n                    {explanation}\",\n                )\n            }\n"
+        }
+      ]
+    },
+    {
+      "repository_worktree": "/root/kani-ch8-s1-08-fix-w13",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "file": "kani-driver/src/cbmc_property_renderer.rs",
+      "file_bytes": 35408,
+      "file_sha256": "f2f6be1b2a2e29e340e17c5859fa5a0f5c7d90bacb9287d082af23d442737c42",
+      "excerpts": [
+        {
+          "first_line": 274,
+          "last_line": 295,
+          "text": "pub fn format_result(\n    properties: &Vec<Property>,\n    status: VerificationStatus,\n    should_panic: bool,\n    failed_properties: FailedProperties,\n    show_checks: bool,\n) -> String {\n    let mut result_str = String::new();\n    let mut number_checks_failed = 0;\n    let mut number_checks_unreachable = 0;\n    let mut number_checks_undetermined = 0;\n    let mut failed_tests: Vec<&Property> = vec![];\n\n    // cover checks\n    let mut number_covers_satisfied = 0;\n    let mut number_covers_undetermined = 0;\n    let mut number_covers_unreachable = 0;\n    let mut number_covers_unsatisfiable = 0;\n\n    if show_checks {\n        result_str.push_str(\"\\nRESULTS:\\n\");\n    }\n"
+        }
+      ]
+    },
+    {
+      "repository_worktree": "/root/kani-ch8-s1-08-fix-w13",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "file": "kani-driver/src/frontend/schema_utils.rs",
+      "file_bytes": 107906,
+      "file_sha256": "6cf7b1311b3ebfd6ec1ce61efb1875b33d067fc2a89d2e7d1ccf8bf6995b1a64",
+      "excerpts": [
+        {
+          "first_line": 425,
+          "last_line": 431,
+          "text": "    fn from(status: &ExitStatus) -> Self {\n        match status {\n            ExitStatus::Timeout => Outcome::Timeout,\n            ExitStatus::OutOfMemory => Outcome::OutOfMemory,\n            ExitStatus::IncompleteResults(code) => Outcome::Crashed {\n                code: Some(*code),\n                message: Some(format!(\n"
+        }
+      ]
+    },
+    {
+      "repository_worktree": "/root/kani-ch8-s1-08-fix-w13",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "file": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+      "file_bytes": 66660,
+      "file_sha256": "ad73c82580f8f9ba3528ce9b6b371c6a4f717443e31a86b1fad6bad0a2c80d64",
+      "excerpts": [
+        {
+          "first_line": 65,
+          "last_line": 89,
+          "text": "/// Extracts a string message from a constant `Expr` produced by one of Kani's\n/// hooks (e.g. `kani::cover`, `kani::assert`, `kani::check`, ...).\n///\n/// The message argument to these functions is typed as `&'static str`, but\n/// nothing prevents a user from passing an expression that is not a string\n/// literal (e.g. a `const` computed via some indirection). In that case,\n/// `extract_const_message` cannot recover the string contents. Rather than\n/// panicking (which used to cause an internal compiler error), emit a clean,\n/// spanned, user-facing error and abort compilation.\n///\n/// `construct` should be the user-facing name of the Kani construct being\n/// codegen'd (e.g. `\"cover\"`, `\"assert\"`), and is only used for the error\n/// message.\nfn extract_msg_or_err(gcx: &GotocCtx, msg_expr: &Expr, span: Span, construct: &str) -> String {\n    gcx.extract_const_message(msg_expr).unwrap_or_else(|| {\n        utils::span_err(gcx.tcx, span, format!(\"`{construct}` message must be a string literal\"));\n        gcx.tcx.dcx().abort_if_errors();\n        // `span_err` above emits a hard error, which `abort_if_errors` is guaranteed to\n        // observe and turn into a fatal error, unwinding before we get here.\n        unreachable!(\n            \"rustc should have aborted after the `{construct}` message error emitted above; \\\n             reaching this point means that error was never counted by the diagnostic context\"\n        )\n    })\n}\n"
+        },
+        {
+          "first_line": 171,
+          "last_line": 190,
+          "text": "    }\n\n    fn handle(\n        &self,\n        gcx: &mut GotocCtx,\n        _instance: Instance,\n        mut fargs: Vec<Expr>,\n        _assign_to: &Place,\n        target: Option<BasicBlockIdx>,\n        span: Span,\n    ) -> Stmt {\n        assert_eq!(fargs.len(), 2);\n        let cond = fargs.remove(0).cast_to(Type::bool());\n        let msg = fargs.remove(0);\n        let msg = extract_msg_or_err(gcx, &msg, span, \"assert\");\n        let target = target.unwrap();\n        let caller_loc = gcx.codegen_caller_span_stable(span);\n\n        let (msg, reach_stmt) = gcx.codegen_reachability_check(msg, span);\n\n"
+        }
+      ]
+    },
+    {
+      "repository_worktree": "/root/verify-rust-std-ch8-s1-08-w13",
+      "commit": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "file_bytes": 10102,
+      "file_sha256": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+      "excerpts": [
+        {
+          "first_line": 32,
+          "last_line": 62,
+          "text": "macro_rules! smoke {\n    ($name:ident, $ty:ty, $new:path, $trait:ident, $threshold:literal, $route:ident) => {\n        #[kani::proof_for_contract(<$ty as $trait>::small_sort)]\n        #[kani::unwind(34)]\n        fn $name() {\n            let input: [u8; 3] = kani::any();\n            let n: usize = kani::any();\n            kani::assume(n <= 3);\n            let mut backing = [$new(0xa5), $new(input[0]), $new(input[1]),\n                $new(input[2]), $new(0x5a)];\n            kani::assert(enabled::<$ty, KeyLess<$ty>>(), concat!(stringify!($name), \"::model_enabled\"));\n            kani::assert(<$ty as $trait>::small_sort_threshold() == $threshold, concat!(stringify!($name), \"::s1_exact_trait_threshold\"));\n            kani::assert(size_of::<$ty>() == 1 && size_of::<KeyLess<$ty>>() == 0, concat!(stringify!($name), \"::type_layout\"));\n            let left = snapshot::<$ty, KeyLess<$ty>>(&backing[..1]);\n            let right = snapshot::<$ty, KeyLess<$ty>>(&backing[n + 1..n + 2]);\n            let before = snapshot::<$ty, KeyLess<$ty>>(&backing[1..n + 1]);\n            let mut less = KeyLess::<$ty>::new();\n            invoke!($route, $ty, $trait, &mut backing[1..n + 1], n, &mut less);\n            kani::assert(post::<$ty, KeyLess<$ty>>(before, &backing[1..n + 1]), concat!(stringify!($name), \"::post_independent_caller\"));\n            kani::assert(post::<$ty, KeyLess<$ty>>(left, &backing[..1]), concat!(stringify!($name), \"::left_canary\"));\n            kani::assert(post::<$ty, KeyLess<$ty>>(right, &backing[n + 1..n + 2]), concat!(stringify!($name), \"::right_canary\"));\n            if n == 1 {\n                let expected = [$new(input[0])];\n                kani::assert(post::<$ty, KeyLess<$ty>>(\n                    snapshot::<$ty, KeyLess<$ty>>(&expected), &backing[1..2]), concat!(stringify!($name), \"::n1_value_unchanged\"));\n            }\n            if n == 0 {\n                kani::assert(post::<$ty, KeyLess<$ty>>(before, &[]), concat!(stringify!($name), \"::n0_empty_unchanged\"));\n            }\n            kani::cover(n == 0, \"S1_entry_N0_return\");\n            kani::cover(n == 1, \"S1_entry_N1_return\");\n"
+        },
+        {
+          "first_line": 139,
+          "last_line": 145,
+          "text": "}\n\nsmoke!(stable_default_cell, Cell<u8>, Cell::new, StableSmallSortTypeImpl, 16, stable_empty);\nsmoke!(stable_freeze_u8, u8, byte, StableSmallSortTypeImpl, 32, stable_general);\nsmoke!(unstable_default_cell, Cell<u8>, Cell::new, UnstableSmallSortTypeImpl, 16, unstable);\nsmoke!(unstable_freeze_u8, u8, byte, UnstableSmallSortTypeImpl, 32, unstable);\nsmoke!(freeze_default_noncopy, NonCopyByte, NonCopyByte::new,\n"
+        }
+      ]
+    }
+  ],
+  "source_delta_scope": "5be85699b8826e3286c0bf89efb9affefac0acb5..99e8456d200fff1299ee5756279cddb23921dc65 switches assert! to kani::assert with per-root concat!(stringify!) messages; no causal runtime comparison performed"
+}

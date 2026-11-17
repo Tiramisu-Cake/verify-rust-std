@@ -1,0 +1,304 @@
+{
+  "source_member": "groups/cell-u34/binding-metadata.json",
+  "source_sha256": "8e0f4e0901feeaeb504361849e5647886fddf1ff3cac78760794481b87ab625b",
+  "coverage": "same-invocation native selector records, original binding gaps and all native member identities; non-selected native contents omitted",
+  "state": "CAPTURED_AVAILABLE_FIELDS",
+  "native_metadata_state": "CAPTURED",
+  "invocation_id": "bc9b2351fc824b1d9a9969ce1dc9aed3",
+  "original_exception": {
+    "message": "regular stream invalid: missing regular harness RESULTS",
+    "type": "ValueError"
+  },
+  "execution_exception": null,
+  "errors": [],
+  "rows": [
+    {
+      "binding_gaps": {
+        "assertion_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "compilation_id": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "contract_resolution": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "cover_predicate_and_expansion": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "effective_contract_clauses": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "harness_instance": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "property_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "resolved_target": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "target_wrapper_property_edges": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER"
+      },
+      "crate": "core",
+      "group_id": "cell-u34",
+      "harness": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+      "mode": "PFC",
+      "native_harness_records": [
+        {
+          "crate": "core",
+          "metadata_path": "x86_64-unknown-linux-gnu/debug/build/core/6d542f00f7e351fd/out/core-6d542f00f7e351fd.kani-metadata.json",
+          "name": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+          "pointer": "/proof_harnesses/0"
+        }
+      ],
+      "native_record_scope": "EXACT_SELECTOR_CRATE_WITHIN_INVOCATION_ONLY",
+      "row_id": "stable_default_cell",
+      "variant": "production"
+    },
+    {
+      "binding_gaps": {
+        "assertion_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "compilation_id": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "contract_resolution": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "cover_predicate_and_expansion": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "effective_contract_clauses": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "harness_instance": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "property_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "resolved_target": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "target_wrapper_property_edges": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER"
+      },
+      "crate": "core",
+      "group_id": "cell-u34",
+      "harness": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "mode": "PFC",
+      "native_harness_records": [
+        {
+          "crate": "core",
+          "metadata_path": "x86_64-unknown-linux-gnu/debug/build/core/6d542f00f7e351fd/out/core-6d542f00f7e351fd.kani-metadata.json",
+          "name": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+          "pointer": "/proof_harnesses/1"
+        }
+      ],
+      "native_record_scope": "EXACT_SELECTOR_CRATE_WITHIN_INVOCATION_ONLY",
+      "row_id": "unstable_default_cell",
+      "variant": "production"
+    }
+  ],
+  "native_inventory": [
+    {
+      "bytes": 138,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/object/e129784d139dcb81/out/object-e129784d139dcb81.kani-metadata.json",
+      "sha256": "be81afa5bbc3170d2ef8c1f6e4d9ef9139d4c5bd10fbeff0b676358ab3665d0b",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 157,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/rustc-std-workspace-alloc/2ba1f0a7ad31d943/out/rustc_std_workspace_alloc-2ba1f0a7ad31d943.kani-metadata.json",
+      "sha256": "eda1dd554637ec7fc551a80c35297ecb6642798b38cb9aff2d0be2ac581a8d55",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 142,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/proc_macro/6e0b314ab748cd8f/out/proc_macro-6e0b314ab748cd8f.kani-metadata.json",
+      "sha256": "db74a72246486abac3d9d8eb2e84e01551f1e4fabeeb6b97400fd4ce490b7c32",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 146,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/rustc-demangle/5f39bb25280e310f/out/rustc_demangle-5f39bb25280e310f.kani-metadata.json",
+      "sha256": "a12f7c0a6912b0d752b71cb80db749de704fe086ef285c0d81fc4af64aa3ebf0",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 1596,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/std/da397dbe99582bea/out/std-da397dbe99582bea.kani-metadata.json",
+      "sha256": "b5178ad6bcd993d8026b5c443c481cc524abf20f84e05d293b3ff236cfca6548",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 156,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/rustc-std-workspace-core/c94dee5af379cea4/out/rustc_std_workspace_core-c94dee5af379cea4.kani-metadata.json",
+      "sha256": "b2d566c6cf6f7f245952162fa71dbe180cee754ccdb8a6c796d2cacffcfad6cf",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 138,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/cfg-if/b38b3400a52b15f9/out/cfg_if-b38b3400a52b15f9.kani-metadata.json",
+      "sha256": "0c2203c1bd38a6e9bec9ebb170ae4f3612d3e0609771c5a98d623e4c94921513",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 137,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/gimli/7719fd062e95235a/out/gimli-7719fd062e95235a.kani-metadata.json",
+      "sha256": "ff139894b796ca46e6849ff0da0f3605a1705bd265cc16a355adab3bfbca97e8",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 136,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/libc/d5d7faff6965ee66/out/libc-d5d7faff6965ee66.kani-metadata.json",
+      "sha256": "2585aa158e2a1dd52b73d050b9f5eecb5468476a98cae09581043fa2d703bb3f",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 143,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/miniz_oxide/50d4ae78b61b13c9/out/miniz_oxide-50d4ae78b61b13c9.kani-metadata.json",
+      "sha256": "e351714b56c157ce2ab811ace0bb5055c4a42a88526c9bbfeb9065752519d055",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 771,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/alloc/6230948ae14bc27a/out/alloc-6230948ae14bc27a.kani-metadata.json",
+      "sha256": "820cfbed5d8b4ce22923a67721c8278002c4d46f5341c9ebd0d90e20b0a65b16",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 141,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/addr2line/b6279de2df99768b/out/addr2line-b6279de2df99768b.kani-metadata.json",
+      "sha256": "a45a4fb9a7c6f78f39e3cf60e2e6611b2f78e102eb08e691a29aa4d25278133d",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 138,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/adler2/ccbad7d226052e0a/out/adler2-ccbad7d226052e0a.kani-metadata.json",
+      "sha256": "084366f7a10624d76c984aa38b09f8367a4d373a57bffe9695368405a471d081",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 143,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/panic_abort/20aa9af45b401ef3/out/panic_abort-20aa9af45b401ef3.kani-metadata.json",
+      "sha256": "52cf39187e5dffb7ea00887f418f4d6148c6a5e3d5b669ba4cb546a819e59f84",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 170286,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/core/6d542f00f7e351fd/out/core-6d542f00f7e351fd.kani-metadata.json",
+      "sha256": "0657872cc1d6ca58e7055eb5c92bc63bf5fa18c4b9578737f624ac0f838e8005",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 144,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/panic_unwind/5d2be6f5f3aa9590/out/panic_unwind-5d2be6f5f3aa9590.kani-metadata.json",
+      "sha256": "0a87df98d572592d4f418707d3088df0ddf7050b0f1a7dc71466caa927738af1",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 138,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/unwind/a1a6a7295007ae08/out/unwind-a1a6a7295007ae08.kani-metadata.json",
+      "sha256": "647162def7ef01275ca2b7f34fe656b771ffbfd9ab19835875ac170674c5247e",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 137,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/dummy/cba79b8aa7cb5a69/out/dummy-cba79b8aa7cb5a69.kani-metadata.json",
+      "sha256": "e5a0307b3534f34ea4dd07249261a42de83f4bb4517214f781661eba3bd7d189",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 142,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/std_detect/186f05adeb79b596/out/std_detect-186f05adeb79b596.kani-metadata.json",
+      "sha256": "71be456d26e2f4713cb09ea6af34657dd3a2974b4e084f281a6909bb229337f8",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 138,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/memchr/888c2e0c0b50f59e/out/memchr-888c2e0c0b50f59e.kani-metadata.json",
+      "sha256": "ccdc7ad7b5b1d1c2823d4322f8458e25b48aef560ab57752dd70370faa6f9d28",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 141,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/hashbrown/05cae53507c13e17/out/hashbrown-05cae53507c13e17.kani-metadata.json",
+      "sha256": "c9f2597c2366e93a50d22220828300aeba0633d50ea27e68a0250cc28c29ae57",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 153,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/rustc-literal-escaper/5f67f42dfc2978e2/out/rustc_literal_escaper-5f67f42dfc2978e2.kani-metadata.json",
+      "sha256": "b3ab3c540a397156c2fc49c577dc3220f4b8d8468954ead5d7cfe1c5f4f4bc2e",
+      "state": "CAPTURED"
+    },
+    {
+      "bytes": 149,
+      "encoding": "utf-8",
+      "path": "x86_64-unknown-linux-gnu/debug/build/compiler_builtins/b9880d936956bc04/out/compiler_builtins-b9880d936956bc04.kani-metadata.json",
+      "sha256": "8f127b99b5ab052f954da17a093eb4072710cfcbfb5824ddfb8e86ea2e129c62",
+      "state": "CAPTURED"
+    }
+  ],
+  "selected_native": [
+    {
+      "path": "x86_64-unknown-linux-gnu/debug/build/core/6d542f00f7e351fd/out/core-6d542f00f7e351fd.kani-metadata.json",
+      "pointer": "/proof_harnesses/0",
+      "record": {
+        "pretty_name": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+        "mangled_name": "_RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify19sorting_entry_smoke19stable_default_cell",
+        "crate_name": "core",
+        "original_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+        "original_start_line": 36,
+        "original_end_line": 75,
+        "goto_file": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/bc9b2351fc824b1d9a9969ce1dc9aed3/x86_64-unknown-linux-gnu/debug/build/core/6d542f00f7e351fd/out/core-6d542f00f7e351fd__RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify19sorting_entry_smoke19stable_default_cell.symtab.out",
+        "attributes": {
+          "kind": {
+            "ProofForContract": {
+              "target_fn": "< Cell<u8> as StableSmallSortTypeImpl > :: small_sort"
+            }
+          },
+          "should_panic": false,
+          "solver": null,
+          "unwind_value": 34,
+          "stubs": [],
+          "verified_stubs": []
+        },
+        "contract": {
+          "contracted_function_name": "_RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_",
+          "recursion_tracker": null
+        },
+        "has_loop_contracts": false,
+        "is_automatically_generated": false,
+        "is_bounded": false,
+        "is_ctor_based": false
+      }
+    },
+    {
+      "path": "x86_64-unknown-linux-gnu/debug/build/core/6d542f00f7e351fd/out/core-6d542f00f7e351fd.kani-metadata.json",
+      "pointer": "/proof_harnesses/1",
+      "record": {
+        "pretty_name": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+        "mangled_name": "_RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify19sorting_entry_smoke21unstable_default_cell",
+        "crate_name": "core",
+        "original_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+        "original_start_line": 36,
+        "original_end_line": 75,
+        "goto_file": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/bc9b2351fc824b1d9a9969ce1dc9aed3/x86_64-unknown-linux-gnu/debug/build/core/6d542f00f7e351fd/out/core-6d542f00f7e351fd__RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify19sorting_entry_smoke21unstable_default_cell.symtab.out",
+        "attributes": {
+          "kind": {
+            "ProofForContract": {
+              "target_fn": "< Cell<u8> as UnstableSmallSortTypeImpl > :: small_sort"
+            }
+          },
+          "should_panic": false,
+          "solver": null,
+          "unwind_value": 34,
+          "stubs": [],
+          "verified_stubs": []
+        },
+        "contract": {
+          "contracted_function_name": "_RNCNCINvXs0_NtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBi_4cell4CellhENtBa_25UnstableSmallSortTypeImpl10small_sortINtNtNtBa_6verify13sorting_model7KeyLessB13_EEs0_0s_0Bi_",
+          "recursion_tracker": null
+        },
+        "has_loop_contracts": false,
+        "is_automatically_generated": false,
+        "is_bounded": false,
+        "is_ctor_based": false
+      }
+    }
+  ],
+  "proof_credit": "NONE"
+}
