@@ -1,0 +1,272 @@
+{
+  "status": "PASS",
+  "scope": "STATIC_CI_PLAN_DELTA_ONLY",
+  "package_commit": "9743a4a1d073e5c1591a1a20ab4756140241d57e",
+  "source": "cab66681c912a3e5ee01a106faaeee5237ca0232",
+  "tree": "8585336ed35a14fe0fc157a7ca4e0d52075c0e49",
+  "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "package_files_checked": {
+    "CHECKPOINT.json": "9d23b7a678358a83124234b20acd4e1731da242390ae7851b154baebefe8e561",
+    "CI-REQUEST.json": "7a1117c9806f2af86ff7304233885748d209ed367089bdd41778efe7d0cb0739",
+    "CI-REQUEST.md": "65f036dd8318d548990d9509d8b2b61e493f63a30a16a80d969ac8035c7d1c02",
+    "HANDOFF.md": "3c17bd19559f7b555c7bce8bf1782e85c8a62961c1d7c7eaad7344410a3d43b7",
+    "MANIFEST.json": "c57195cc504243914f3de7192c56d3310f22fcab65b6692882451e21c816d9c3",
+    "METADATA.diff": "2a856b2ddb273177636454146ac48c0557f57f0c3ce88d91b36b1751cf5e2898",
+    "VALIDATION.json": "5afdb897d7ea261dc82552811ca7deb90d7bd67b3cbdc79dbd7f4eec2b12d087",
+    "VALIDATION.md": "9e76b42af5c65a41f7ceecb4e2097f6808b23a95b5ede05661005f34162d899c",
+    "validate_plan.py": "4bd054c2fc2dfb7caedf353a214bf8806c536f15dbb715a3aa3f51d13c0fa8eb"
+  },
+  "historical_files_unchanged": {
+    "f4-fix": 14,
+    "f4-fix-review": 8
+  },
+  "source_files_checked": 9,
+  "preserved_workflow_count": 16,
+  "applicable_pr_workflows": [
+    "kani.yml",
+    "format-check.yml",
+    "deny.yml",
+    "verify-std-check.yml",
+    "extra_jobs.yml",
+    "bench-pr.yml",
+    "release.yml"
+  ],
+  "release_build_count": 4,
+  "expanded_test_matrices": {
+    "test-use-local-toolchain": [
+      {
+        "os": "macos-15-intel",
+        "rust_target": "x86_64-apple-darwin",
+        "prev_job": "${{ needs.build_bundle_macos_x86_64.outputs }}"
+      },
+      {
+        "os": "macos-15",
+        "rust_target": "aarch64-apple-darwin",
+        "prev_job": "${{ needs.build_bundle_macos_aarch64.outputs }}"
+      },
+      {
+        "os": "ubuntu-22.04",
+        "rust_target": "x86_64-unknown-linux-gnu",
+        "prev_job": "${{ needs.build_bundle_linux_x86_64.outputs }}"
+      },
+      {
+        "os": "ubuntu-24.04",
+        "rust_target": "x86_64-unknown-linux-gnu",
+        "prev_job": "${{ needs.build_bundle_linux_x86_64.outputs }}"
+      },
+      {
+        "os": "ubuntu-24.04-arm",
+        "rust_target": "aarch64-unknown-linux-gnu",
+        "prev_job": "${{ needs.build_bundle_linux_aarch64.outputs }}"
+      }
+    ],
+    "test_bundle": [
+      {
+        "os": "macos-15-intel",
+        "prev_job": "${{ needs.build_bundle_macos_x86_64.outputs }}"
+      },
+      {
+        "os": "macos-15",
+        "prev_job": "${{ needs.build_bundle_macos_aarch64.outputs }}"
+      },
+      {
+        "os": "ubuntu-22.04",
+        "prev_job": "${{ needs.build_bundle_linux_x86_64.outputs }}"
+      },
+      {
+        "os": "ubuntu-24.04",
+        "prev_job": "${{ needs.build_bundle_linux_x86_64.outputs }}"
+      },
+      {
+        "os": "ubuntu-24.04-arm",
+        "prev_job": "${{ needs.build_bundle_linux_aarch64.outputs }}"
+      }
+    ]
+  },
+  "release_required_instances": [
+    {
+      "job_id": "build_bundle_macos_x86_64",
+      "os": "macos-15-intel"
+    },
+    {
+      "job_id": "build_bundle_macos_aarch64",
+      "os": "macos-15"
+    },
+    {
+      "job_id": "build_bundle_linux_x86_64",
+      "os": "ubuntu-22.04"
+    },
+    {
+      "job_id": "build_bundle_linux_aarch64",
+      "os": "ubuntu-24.04-arm"
+    },
+    {
+      "job_id": "test-use-local-toolchain",
+      "os": "macos-15-intel"
+    },
+    {
+      "job_id": "test-use-local-toolchain",
+      "os": "macos-15"
+    },
+    {
+      "job_id": "test-use-local-toolchain",
+      "os": "ubuntu-22.04"
+    },
+    {
+      "job_id": "test-use-local-toolchain",
+      "os": "ubuntu-24.04"
+    },
+    {
+      "job_id": "test-use-local-toolchain",
+      "os": "ubuntu-24.04-arm"
+    },
+    {
+      "job_id": "test_bundle",
+      "os": "macos-15-intel"
+    },
+    {
+      "job_id": "test_bundle",
+      "os": "macos-15"
+    },
+    {
+      "job_id": "test_bundle",
+      "os": "ubuntu-22.04"
+    },
+    {
+      "job_id": "test_bundle",
+      "os": "ubuntu-24.04"
+    },
+    {
+      "job_id": "test_bundle",
+      "os": "ubuntu-24.04-arm"
+    }
+  ],
+  "release_required_instance_count": 14,
+  "author_replay_matches_committed_validation": true,
+  "author_rejected_mutation_count": 41,
+  "author_manifest_replay": "PASS: exact package hashes and immutable old748/cbfd references",
+  "independent_omission_mutations_rejected": [
+    {
+      "kind": "workflow",
+      "identity": "kani.yml"
+    },
+    {
+      "kind": "workflow",
+      "identity": "format-check.yml"
+    },
+    {
+      "kind": "workflow",
+      "identity": "deny.yml"
+    },
+    {
+      "kind": "workflow",
+      "identity": "verify-std-check.yml"
+    },
+    {
+      "kind": "workflow",
+      "identity": "extra_jobs.yml"
+    },
+    {
+      "kind": "workflow",
+      "identity": "bench-pr.yml"
+    },
+    {
+      "kind": "workflow",
+      "identity": "release.yml"
+    },
+    {
+      "kind": "build",
+      "identity": "build_bundle_macos_x86_64"
+    },
+    {
+      "kind": "build",
+      "identity": "build_bundle_macos_aarch64"
+    },
+    {
+      "kind": "build",
+      "identity": "build_bundle_linux_x86_64"
+    },
+    {
+      "kind": "build",
+      "identity": "build_bundle_linux_aarch64"
+    },
+    {
+      "kind": "os",
+      "identity": [
+        "test-use-local-toolchain",
+        "macos-15-intel"
+      ]
+    },
+    {
+      "kind": "os",
+      "identity": [
+        "test-use-local-toolchain",
+        "macos-15"
+      ]
+    },
+    {
+      "kind": "os",
+      "identity": [
+        "test-use-local-toolchain",
+        "ubuntu-22.04"
+      ]
+    },
+    {
+      "kind": "os",
+      "identity": [
+        "test-use-local-toolchain",
+        "ubuntu-24.04"
+      ]
+    },
+    {
+      "kind": "os",
+      "identity": [
+        "test-use-local-toolchain",
+        "ubuntu-24.04-arm"
+      ]
+    },
+    {
+      "kind": "os",
+      "identity": [
+        "test_bundle",
+        "macos-15-intel"
+      ]
+    },
+    {
+      "kind": "os",
+      "identity": [
+        "test_bundle",
+        "macos-15"
+      ]
+    },
+    {
+      "kind": "os",
+      "identity": [
+        "test_bundle",
+        "ubuntu-22.04"
+      ]
+    },
+    {
+      "kind": "os",
+      "identity": [
+        "test_bundle",
+        "ubuntu-24.04"
+      ]
+    },
+    {
+      "kind": "os",
+      "identity": [
+        "test_bundle",
+        "ubuntu-24.04-arm"
+      ]
+    }
+  ],
+  "independent_omission_mutation_count": 21,
+  "compiler_build": "NOT_RUN",
+  "fixed_runtime": "NOT_RUN",
+  "full_ci": "NOT_RUN",
+  "performance": "NOT_RUN",
+  "proof_credit": "NONE",
+  "attempts_consumed": 0,
+  "ledger_modified": false
+}

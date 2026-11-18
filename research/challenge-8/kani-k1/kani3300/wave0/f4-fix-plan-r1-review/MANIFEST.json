@@ -1,0 +1,40 @@
+{
+  "schema": "ch8-f4-ci-plan-delta-review-manifest-v1",
+  "task": "task4817b5ddf0c1526432b9c7fa3b16a9ba81a85bb7",
+  "verdict": "APPROVE",
+  "finding": "F4-R14-1",
+  "finding_status": "CLOSED",
+  "package_commit": "9743a4a1d073e5c1591a1a20ab4756140241d57e",
+  "old_package_commit": "7485bbb27a72dd463d4a9628c8627689d30e7e56",
+  "prior_review_commit": "cbfd888f274a0666f09af79d98ef4b8b8061f497",
+  "source": "cab66681c912a3e5ee01a106faaeee5237ca0232",
+  "tree": "8585336ed35a14fe0fc157a7ca4e0d52075c0e49",
+  "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+  "input_package_sha256": {
+    "CHECKPOINT.json": "9d23b7a678358a83124234b20acd4e1731da242390ae7851b154baebefe8e561",
+    "CI-REQUEST.json": "7a1117c9806f2af86ff7304233885748d209ed367089bdd41778efe7d0cb0739",
+    "CI-REQUEST.md": "65f036dd8318d548990d9509d8b2b61e493f63a30a16a80d969ac8035c7d1c02",
+    "HANDOFF.md": "3c17bd19559f7b555c7bce8bf1782e85c8a62961c1d7c7eaad7344410a3d43b7",
+    "MANIFEST.json": "c57195cc504243914f3de7192c56d3310f22fcab65b6692882451e21c816d9c3",
+    "METADATA.diff": "2a856b2ddb273177636454146ac48c0557f57f0c3ce88d91b36b1751cf5e2898",
+    "VALIDATION.json": "5afdb897d7ea261dc82552811ca7deb90d7bd67b3cbdc79dbd7f4eec2b12d087",
+    "VALIDATION.md": "9e76b42af5c65a41f7ceecb4e2097f6808b23a95b5ede05661005f34162d899c",
+    "validate_plan.py": "4bd054c2fc2dfb7caedf353a214bf8806c536f15dbb715a3aa3f51d13c0fa8eb"
+  },
+  "output_sha256": {
+    "HANDOFF.md": "a61372bd85bfe0558dd1ad9bf310d19b4317283a265da6600d62587ed1a1c344",
+    "REVIEW.json": "bfd4133c6746b82623429542e9b0c666e158244bfedf3a31bd8b32791090f763",
+    "REVIEW.md": "7f69580b8d60a103aa76cf7a8592f9c3ae1900117d32401ccd815fb79bbd0de4",
+    "VALIDATION.json": "8d0cada25dfd17805c42a5d063df96c03aca5279a546ac04cb427582ff608996",
+    "VALIDATION.md": "899e9fabacce8e90633da16755a797332894e7890ded52249423f69dfcf37087",
+    "validate_review.py": "583703fbd971f7a02cf35bba47826e3a94f346f5eae71b56952293f5387a517f"
+  },
+  "self_identity": "MANIFEST.json bound by enclosing Git commit; no recursive self-hash.",
+  "source_assurance": "Prior cbfd static source conclusions inherited by byte invariance; no repeated full compiler review.",
+  "runtime": "NOT_RUN",
+  "full_ci": "NOT_RUN",
+  "proof_credit": "NONE",
+  "attempts_consumed": 0,
+  "ledger_modified": false
+}

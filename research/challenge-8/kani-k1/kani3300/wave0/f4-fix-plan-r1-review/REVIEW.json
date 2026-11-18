@@ -1,0 +1,93 @@
+{
+  "schema": "ch8-f4-ci-plan-delta-review-v1",
+  "task": "task4817b5ddf0c1526432b9c7fa3b16a9ba81a85bb7",
+  "issuance": "User GO coordinator 12:06; supersedes PREPARED_NOT_ISSUED template marker",
+  "verdict": "APPROVE",
+  "scope": "CI_PLAN_DELTA_ONLY_F4-R14-1",
+  "package_commit": "9743a4a1d073e5c1591a1a20ab4756140241d57e",
+  "package_path": "research/challenge-8/kani-k1/kani3300/wave0/f4-fix-plan-r1",
+  "old_package_commit": "7485bbb27a72dd463d4a9628c8627689d30e7e56",
+  "prior_review_commit": "cbfd888f274a0666f09af79d98ef4b8b8061f497",
+  "source": "cab66681c912a3e5ee01a106faaeee5237ca0232",
+  "tree": "8585336ed35a14fe0fc157a7ca4e0d52075c0e49",
+  "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+  "source_worktree": "/root/kani-f4-fix-w15",
+  "source_branch": "w15/f4-fix-main",
+  "findings": [
+    {
+      "id": "F4-R14-1",
+      "priority": "P2",
+      "status": "CLOSED",
+      "blocking": false,
+      "owner": "original15",
+      "title": "Standard PR CI plan now includes release.yml and all 14 bundle build/test instances",
+      "resolution": "Exact seven-workflow/native-event inventory; four actual bundle build job IDs/platforms/runners; full five-OS test_bundle and test-use-local-toolchain matrices, needs/artifact routing, explicit 14-instance list; only tag release/dependent Docker intentionally skip.",
+      "evidence": [
+        "CI-REQUEST.json#/standard_pr_workflows",
+        "CI-REQUEST.json#/release_pr_coverage",
+        "CI-REQUEST.md:45",
+        "VALIDATION.json"
+      ],
+      "closure_scope": "Plan completeness only; no runtime or full-CI acceptance."
+    }
+  ],
+  "new_blocking_findings": [],
+  "source_conclusions": {
+    "disposition": "INHERITED_BY_BYTE_INVARIANCE",
+    "reference": "cbfd888f274a0666f09af79d98ef4b8b8061f497",
+    "assessment": "No blocking source-code finding in prior review; source/compiler/tests/workflows/scripts unchanged. Full compiler lifecycle review and old source tests were not repeated.",
+    "performance_risk": "Prior unmeasured per-harness warmed-cache clone cost remains; full perf and both compiler/e2e benchmarks required before runtime acceptance.",
+    "compilation_order": "UNKNOWN",
+    "runtime_cache_causality": "UNKNOWN"
+  },
+  "operational_gate_assessment": {
+    "binding": "PASS: reviewed source/tree, same-tree trigger, exact final PR branch HEAD/tree, base, event, workflow/run/attempt/job identities; newer HEAD requires binding recheck.",
+    "checkout": "PASS: actual checkout SHA/tree distinct from branch HEAD/run head; frozen-base merge tree must equal reviewed tree, otherwise delta review; reusable benchmarks compare actual PR head/base; branch pushes bind trigger HEAD.",
+    "native_events": "PASS: seven exact native event definitions match frozen YAML, no workflow_dispatch; feature-push alone cannot establish full PR coverage.",
+    "labels": "PASS: both Z-EndToEndBenchCI and Z-CompilerBenchCI; eligible native event after labels, GITHUB_TOKEN auto-label race, owner choreography/accounting; required benchmark skips/cancellations block acceptance.",
+    "skip_ci": "PASS: source subject has [skip ci]; future same-tree no-skip trigger and PR HEAD; inspect every pushed-range commit before claiming push execution.",
+    "native_outcomes": "PASS: retain every required matrix result and native continue-on-error; verify-std head failure survives base comparison; auto-label is trusted-base metadata, docs publishing may skip outside main push.",
+    "authorization": "PASS: exact review approval precedes separate owner publication command and full-CI GO/accounting; item1 reference 27/28, prospective final 28/28 unspent; S2r1 outside scope."
+  },
+  "validation": {
+    "result": "PASS",
+    "evidence": "VALIDATION.json",
+    "exact_committed_package_files": 9,
+    "preserved_standard_workflows": 16,
+    "applicable_pr_workflows": 7,
+    "required_release_pr_instances": 14,
+    "author_mutations_rejected": 41,
+    "reviewer_independent_omission_mutations_rejected": 21,
+    "assurance": "Static parsing, immutable Git identities, hashes, in-memory plan mutations; no native execution."
+  },
+  "compiler_build": "NOT_RUN",
+  "fixed_runtime": "NOT_RUN",
+  "main_new_test_runtime": "NOT_RUN",
+  "full_standard_ci": "NOT_RUN",
+  "performance": "NOT_RUN",
+  "proof_credit": "NONE",
+  "actions": {
+    "author_code_edits": false,
+    "author_package_edits": false,
+    "old_history_edits": false,
+    "subagents": false,
+    "model_fast_change": false,
+    "local_compiler": false,
+    "verifier": false,
+    "full_runner": false,
+    "ci": false,
+    "push": false,
+    "pr": false,
+    "publication": false,
+    "labels_events": false,
+    "ledger": false,
+    "reservation": false,
+    "external_messages": false
+  },
+  "attempts_consumed": 0,
+  "item1_used_reference": 27,
+  "item1_cap_reference": 28,
+  "ledger_modified": false,
+  "next": "Coordinator prepares separate full-standard-CI GO-request on exact future final PR-head, prospective last item1 28/28. Dispatch/publication require separate owner GO; this APPROVE authorizes neither."
+}
