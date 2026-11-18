@@ -1,0 +1,71 @@
+{
+  "control": "cb63033ffcde918f4341146e56373476b8eeb569",
+  "collector_state": "SELECTED_OBSERVATIONS_PENDING_REVIEW_FULL_INVENTORY_INCOMPLETE",
+  "global_stop": false,
+  "global_stops": [],
+  "selected_missing_groups": [],
+  "completed_prefix": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "s3_swap_u8_geometry",
+    "s3_sort4_u8_separate",
+    "s3_sort4_u8_same_alloc",
+    "s3_insert_tail_u8_rel16",
+    "s3_merge8_u8_separate",
+    "s3_merge8_u8_same_alloc",
+    "sort13_weak"
+  ],
+  "local_upload_equal": true,
+  "all_seal_digests_verified_by_frozen_reader": true,
+  "rows": [
+    {
+      "id": "checker_order_corrupt",
+      "status": "OBSERVED",
+      "outcome": "RECORDED"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "status": "OBSERVED",
+      "outcome": "RECORDED"
+    },
+    {
+      "id": "s3_swap_u8_geometry",
+      "status": "OBSERVED",
+      "outcome": "RECORDED"
+    },
+    {
+      "id": "s3_sort4_u8_separate",
+      "status": "OBSERVED",
+      "outcome": "RECORDED"
+    },
+    {
+      "id": "s3_sort4_u8_same_alloc",
+      "status": "UNKNOWN",
+      "outcome": "UNKNOWN",
+      "reason": "group source/completion/binary snapshot mismatch"
+    },
+    {
+      "id": "s3_insert_tail_u8_rel16",
+      "status": "UNKNOWN",
+      "outcome": "UNKNOWN",
+      "reason": "group source/completion/binary snapshot mismatch"
+    },
+    {
+      "id": "s3_merge8_u8_separate",
+      "status": "OBSERVED",
+      "outcome": "RECORDED"
+    },
+    {
+      "id": "s3_merge8_u8_same_alloc",
+      "status": "UNKNOWN",
+      "outcome": "UNKNOWN",
+      "reason": "group source/completion/binary snapshot mismatch"
+    },
+    {
+      "id": "sort13_weak",
+      "status": "OBSERVED",
+      "outcome": "RECORDED"
+    }
+  ],
+  "scope": "Completion seals preserve observations and UNKNOWNs; not qualification/admission."
+}

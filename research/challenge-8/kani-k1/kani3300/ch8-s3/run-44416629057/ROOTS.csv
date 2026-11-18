@@ -1,0 +1,10 @@
+id,rank,mode,unwind,native_verdict,canonical_status,canonical_outcome,group_state,original_exit,signal,worker_exit,sealed
+checker_order_corrupt,1,Original,34,FAILURE,OBSERVED,RECORDED,COMPLETE,1,,0,True
+checker_count_corrupt,2,Original,34,FAILURE,OBSERVED,RECORDED,COMPLETE,1,,0,True
+s3_swap_u8_geometry,3,PFC,36,SUCCESS,OBSERVED,RECORDED,COMPLETE,0,,0,True
+s3_sort4_u8_separate,4,PFC,8,SUCCESS,OBSERVED,RECORDED,COMPLETE,0,,0,True
+s3_sort4_u8_same_alloc,5,PFC,50,SUCCESS,UNKNOWN,UNKNOWN,FAILED,0,,0,True
+s3_insert_tail_u8_rel16,6,PFC,36,UNKNOWN,UNKNOWN,UNKNOWN,FAILED,-15,15,0,True
+s3_merge8_u8_separate,7,PFC,12,SUCCESS,OBSERVED,RECORDED,COMPLETE,0,,0,True
+s3_merge8_u8_same_alloc,8,PFC,50,UNKNOWN,UNKNOWN,UNKNOWN,FAILED,-15,15,0,True
+sort13_weak,9,Original,34,FAILURE,OBSERVED,RECORDED,COMPLETE,1,,0,True

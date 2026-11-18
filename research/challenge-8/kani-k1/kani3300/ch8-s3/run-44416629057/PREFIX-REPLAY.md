@@ -1,0 +1,7 @@
+# Portable completed-prefix replay
+
+Exact cb63033ffcde918f4341146e56373476b8eeb569 source readers verify all nine completion seals, their structured-file hashes and prefix order. A fresh path containing only group-evidence.json.gz produces exactly the same collector object as the materialized133 structured members: `SELECTED_OBSERVATIONS_PENDING_REVIEW_FULL_INVENTORY_INCOMPLETE`, global_stop=false, selected_missing_groups=[]. Three canonical UNKNOWN rows remain UNKNOWN: sort4same metadata failure, insert_tail RSS stop, merge8same timeout. Completion seals establish durable observations and continuation, not successful qualification.
+
+Every selected invocation has a distinct target namespace, exact singleton argv/selector/native start, requested cfg/unwind, exact request/source/tool/compile binding and verified containment. All five recorded inventories (baseline E0, controller pre, worker BEFORE, worker AFTER, controller post) have equal canonical absolute paths and recorded SHA256s for each binary. No controller recovery or recorded error suppression was used. E1..E9 contexts are preserved in INVENTORY.json. Physical inode/device/realpath identity and unobserved intermediate bytes remain UNKNOWN.
+
+Frozen protected-reader mutation rejects an altered worker binary hash. Authentic evidence bytes stay unchanged. sort4same reader replay independently reproduces the metadata rejection. VALIDATION.json records all targeted checks. No full runner, compiler or solver was run.
