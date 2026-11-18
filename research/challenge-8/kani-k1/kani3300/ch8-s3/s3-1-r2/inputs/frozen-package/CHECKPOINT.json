@@ -1,0 +1,38 @@
+{
+  "status": "READY_FOR_SAME14_DELTA",
+  "runtime": "CURRENT13; unchanged high/FastOFF; no reset/subagents/model changes",
+  "task": "cd90cf0bde2d7658a2dfe690dd2887bdd72aefb6",
+  "control": {
+    "worktree": "/root/kani-ch8-s3-1-r1-control-w13",
+    "sha": "fc29b93b1e333b73e55e2872701c80d9927f3b02",
+    "tree": "c0368fa64ab474e4f64861aedd75a8f2639b1c29",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s3-1-final-w13",
+    "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+    "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "validation": "182PASS; once actual final Validate490.471224626s margin2.2019640414655x",
+  "closed_author_findings": [
+    "R14-02 implementation/targeted validation",
+    "R14-01 implementation/targeted validation"
+  ],
+  "open": [
+    "SAME14 independent delta disposition",
+    "root GO only after accepted review",
+    "native compile/proof/fit and CI NOT_RUN"
+  ],
+  "next": "SAME14 delta using REVIEW14-DELTA-REQUEST.md; no CI/push/ledger action",
+  "proof_credit": 0,
+  "proof_obligations_closed": 0,
+  "budget_action": "NONE; current11/17,total41/48",
+  "closure_reason": "Authorized localized offline repair completed and validated; next required stage is SAME14 independent delta. No optional S3-2 expansion."
+}

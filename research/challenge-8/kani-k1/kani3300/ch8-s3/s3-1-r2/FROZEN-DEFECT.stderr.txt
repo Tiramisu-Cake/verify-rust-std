@@ -1,0 +1,15 @@
+test_workflow_relative_entry_real_writer_and_portable_replay (test_s3_paths.RealPathWriterTests.test_workflow_relative_entry_real_writer_and_portable_replay) ... FAIL
+
+======================================================================
+FAIL: test_workflow_relative_entry_real_writer_and_portable_replay (test_s3_paths.RealPathWriterTests.test_workflow_relative_entry_real_writer_and_portable_replay)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmpz0r8bjfw/ch8-s1-control/test_s3_paths.py", line 110, in test_workflow_relative_entry_real_writer_and_portable_replay
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,0,terminal['stop_reason']);self.equal_captures(fix)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : GlobalFailure: worker protected/provenance evidence rejected: recorded worker binary drift: before
+
+----------------------------------------------------------------------
+Ran 1 test in 0.397s
+
+FAILED (failures=1)

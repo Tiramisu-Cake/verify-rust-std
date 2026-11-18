@@ -1,0 +1,28 @@
+{
+  "records": [
+    {
+      "file": "PRECURSOR-1.stderr.txt",
+      "state": "FAILED",
+      "reason": "17 fixture assertions: native memory preflight correctly refused below2GiB headroom; no production change; fixed synthetic resource telemetry"
+    },
+    {
+      "file": "PRECURSOR-2.stderr.txt",
+      "state": "9PASS",
+      "elapsed_seconds": 36.705,
+      "scope": "before adding actual killed worker test and workflow command extraction"
+    },
+    {
+      "file": "PRECURSOR-KILLED.stderr.txt",
+      "state": "1PASS",
+      "scope": "actual forked Python worker SIGKILL before native callback"
+    },
+    {
+      "file": "TARGETED.json",
+      "state": "20PASS_AND_FROZEN_EXPECTED_FAILURE",
+      "scope": "exact final test bytes before control freeze"
+    }
+  ],
+  "initial_shell_typo": "First heredoc used child-relative path in child cwd; no test file written. Corrected immediately; no production effect.",
+  "final_validate_execution_count": 1,
+  "native": "NOT_RUN"
+}

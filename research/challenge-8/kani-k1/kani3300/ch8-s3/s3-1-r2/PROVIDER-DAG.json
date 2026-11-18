@@ -1,0 +1,74 @@
+{
+  "source_sha": "513341f41ce53833a279571401c924bdddddb6c8",
+  "selected_actual_providers": {
+    "s3_swap_u8_geometry": "swap_if_less",
+    "s3_sort4_u8_separate": "sort4_stable",
+    "s3_sort4_u8_same_alloc": "sort4_stable",
+    "s3_insert_tail_u8_rel16": "insert_tail",
+    "s3_merge8_u8_separate": "bidirectional_merge",
+    "s3_merge8_u8_same_alloc": "bidirectional_merge"
+  },
+  "edges": [
+    {
+      "from": "s3_swap_u8_geometry",
+      "to": "swap_if_less",
+      "kind": "ACTUAL_PFC_BODY_NO_VERIFIED_STUB",
+      "qualified": false
+    },
+    {
+      "from": "s3_sort4_u8_separate",
+      "to": "sort4_stable",
+      "kind": "ACTUAL_PFC_BODY_NO_VERIFIED_STUB",
+      "qualified": false
+    },
+    {
+      "from": "s3_sort4_u8_same_alloc",
+      "to": "sort4_stable",
+      "kind": "ACTUAL_PFC_BODY_NO_VERIFIED_STUB",
+      "qualified": false
+    },
+    {
+      "from": "s3_insert_tail_u8_rel16",
+      "to": "insert_tail",
+      "kind": "ACTUAL_PFC_BODY_NO_VERIFIED_STUB",
+      "qualified": false
+    },
+    {
+      "from": "s3_merge8_u8_separate",
+      "to": "bidirectional_merge",
+      "kind": "ACTUAL_PFC_BODY_NO_VERIFIED_STUB",
+      "qualified": false
+    },
+    {
+      "from": "s3_merge8_u8_same_alloc",
+      "to": "bidirectional_merge",
+      "kind": "ACTUAL_PFC_BODY_NO_VERIFIED_STUB",
+      "qualified": false
+    }
+  ],
+  "semantic_dependencies": [
+    "actual KeyLess full-byte comparison",
+    "sorting_model snapshot/order/full-value multiplicity",
+    "sorting_s2_swap exact conditional transfer",
+    "sorting_s2_span guarded capture/post/ordered"
+  ],
+  "ordinary_stub_selected": {
+    "sort13_weak": {
+      "target": "s2_swap_seam",
+      "replacement": "weak_swap",
+      "target_uncontracted": true,
+      "source_copy": "sort13_fault_network -> actual sort13_optimal modulo seam/name renames"
+    }
+  },
+  "assumed_consumer_edges_selected": [],
+  "registration_only_unselected": "sort8_registration_only is same-cfg lookup only, not provider qualification",
+  "next_proofs": [
+    "sort8 actual composition (same backing/init state/locality needed)",
+    "sort9/sort13 actual networks",
+    "merge2..32 all odd/even lengths and allocation matrices/invariant",
+    "general full thresholds and scratch/guard/init composition"
+  ],
+  "native": "NOT_RUN",
+  "qualified_leaves": [],
+  "proof_credit": "NONE"
+}

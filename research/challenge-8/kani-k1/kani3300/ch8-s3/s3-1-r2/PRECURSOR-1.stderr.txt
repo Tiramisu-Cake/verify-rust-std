@@ -1,0 +1,259 @@
+test_absolute_parent_cwd_and_directory_symlink_inputs (test_s3_paths.RealPathWriterTests.test_absolute_parent_cwd_and_directory_symlink_inputs) ... 
+  test_absolute_parent_cwd_and_directory_symlink_inputs (test_s3_paths.RealPathWriterTests.test_absolute_parent_cwd_and_directory_symlink_inputs) (arg='ABSOLUTE') ... FAIL
+  test_absolute_parent_cwd_and_directory_symlink_inputs (test_s3_paths.RealPathWriterTests.test_absolute_parent_cwd_and_directory_symlink_inputs) (arg='./tool') ... FAIL
+  test_absolute_parent_cwd_and_directory_symlink_inputs (test_s3_paths.RealPathWriterTests.test_absolute_parent_cwd_and_directory_symlink_inputs) (arg='nested/../tool') ... FAIL
+  test_absolute_parent_cwd_and_directory_symlink_inputs (test_s3_paths.RealPathWriterTests.test_absolute_parent_cwd_and_directory_symlink_inputs) (arg='alias') ... FAIL
+test_all_states_recorded_drift_cannot_use_controller_recovery (test_s3_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery) ... 
+  test_all_states_recorded_drift_cannot_use_controller_recovery (test_s3_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery) (state='COMPLETE') ... FAIL
+  test_all_states_recorded_drift_cannot_use_controller_recovery (test_s3_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery) (state='FAILED') ... FAIL
+  test_all_states_recorded_drift_cannot_use_controller_recovery (test_s3_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery) (state='IN_PROGRESS') ... FAIL
+  test_all_states_recorded_drift_cannot_use_controller_recovery (test_s3_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery) (state='INTERRUPTED') ... FAIL
+  test_all_states_recorded_drift_cannot_use_controller_recovery (test_s3_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery) (state=None) ... FAIL
+  test_all_states_recorded_drift_cannot_use_controller_recovery (test_s3_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery) (state='UNKNOWN') ... FAIL
+test_genuine_absent_after_interruption_and_original_exit_preserved (test_s3_paths.RealPathWriterTests.test_genuine_absent_after_interruption_and_original_exit_preserved) ... FAIL
+test_missing_binary_and_real_read_error_fail_closed (test_s3_paths.RealPathWriterTests.test_missing_binary_and_real_read_error_fail_closed) ... 
+  test_missing_binary_and_real_read_error_fail_closed (test_s3_paths.RealPathWriterTests.test_missing_binary_and_real_read_error_fail_closed) (case='missing') ... FAIL
+  test_missing_binary_and_real_read_error_fail_closed (test_s3_paths.RealPathWriterTests.test_missing_binary_and_real_read_error_fail_closed) (case='read_error') ... FAIL
+test_real_hash_mutation_global_stop_and_portable_prefix (test_s3_paths.RealPathWriterTests.test_real_hash_mutation_global_stop_and_portable_prefix) ... FAIL
+test_real_writer_malformed_missing_error_and_state_tamper_reject (test_s3_paths.RealPathWriterTests.test_real_writer_malformed_missing_error_and_state_tamper_reject) ... FAIL
+test_unrepaired_relative_controller_absolute_worker_shape (test_s3_paths.RealPathWriterTests.test_unrepaired_relative_controller_absolute_worker_shape) ... ok
+test_workflow_relative_entry_real_writer_and_portable_replay (test_s3_paths.RealPathWriterTests.test_workflow_relative_entry_real_writer_and_portable_replay) ... FAIL
+test_wrong_directory_with_same_bytes_still_rejects (test_s3_paths.RealPathWriterTests.test_wrong_directory_with_same_bytes_still_rejects) ... FAIL
+
+======================================================================
+FAIL: test_absolute_parent_cwd_and_directory_symlink_inputs (test_s3_paths.RealPathWriterTests.test_absolute_parent_cwd_and_directory_symlink_inputs) (arg='ABSOLUTE')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 113, in test_absolute_parent_cwd_and_directory_symlink_inputs
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,0,terminal['stop_reason']);self.equal_captures(fix)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : GlobalFailure: worker protected/provenance evidence rejected: worker binary capture absent without verified interruption
+
+======================================================================
+FAIL: test_absolute_parent_cwd_and_directory_symlink_inputs (test_s3_paths.RealPathWriterTests.test_absolute_parent_cwd_and_directory_symlink_inputs) (arg='./tool')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 113, in test_absolute_parent_cwd_and_directory_symlink_inputs
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,0,terminal['stop_reason']);self.equal_captures(fix)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : GlobalFailure: worker protected/provenance evidence rejected: worker binary capture absent without verified interruption
+
+======================================================================
+FAIL: test_absolute_parent_cwd_and_directory_symlink_inputs (test_s3_paths.RealPathWriterTests.test_absolute_parent_cwd_and_directory_symlink_inputs) (arg='nested/../tool')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 113, in test_absolute_parent_cwd_and_directory_symlink_inputs
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,0,terminal['stop_reason']);self.equal_captures(fix)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : GlobalFailure: worker protected/provenance evidence rejected: worker binary capture absent without verified interruption
+
+======================================================================
+FAIL: test_absolute_parent_cwd_and_directory_symlink_inputs (test_s3_paths.RealPathWriterTests.test_absolute_parent_cwd_and_directory_symlink_inputs) (arg='alias')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 113, in test_absolute_parent_cwd_and_directory_symlink_inputs
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,0,terminal['stop_reason']);self.equal_captures(fix)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : GlobalFailure: worker protected/provenance evidence rejected: worker binary capture absent without verified interruption
+
+======================================================================
+FAIL: test_all_states_recorded_drift_cannot_use_controller_recovery (test_s3_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery) (state='COMPLETE')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 166, in test_all_states_recorded_drift_cannot_use_controller_recovery
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,1);self.prefix(fix,terminal)
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 131, in prefix
+    self.assertEqual(terminal['s3_campaign']['completed'],list(c.p.ORDER[:2]));self.assertEqual(fix[6],list(c.p.ORDER[:3]))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['checker_order_corrupt', 'checker_count_corrupt']
+
+Second list contains 2 additional elements.
+First extra element 0:
+'checker_order_corrupt'
+
+- []
++ ['checker_order_corrupt', 'checker_count_corrupt']
+
+======================================================================
+FAIL: test_all_states_recorded_drift_cannot_use_controller_recovery (test_s3_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery) (state='FAILED')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 166, in test_all_states_recorded_drift_cannot_use_controller_recovery
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,1);self.prefix(fix,terminal)
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 131, in prefix
+    self.assertEqual(terminal['s3_campaign']['completed'],list(c.p.ORDER[:2]));self.assertEqual(fix[6],list(c.p.ORDER[:3]))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['checker_order_corrupt', 'checker_count_corrupt']
+
+Second list contains 2 additional elements.
+First extra element 0:
+'checker_order_corrupt'
+
+- []
++ ['checker_order_corrupt', 'checker_count_corrupt']
+
+======================================================================
+FAIL: test_all_states_recorded_drift_cannot_use_controller_recovery (test_s3_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery) (state='IN_PROGRESS')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 166, in test_all_states_recorded_drift_cannot_use_controller_recovery
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,1);self.prefix(fix,terminal)
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 131, in prefix
+    self.assertEqual(terminal['s3_campaign']['completed'],list(c.p.ORDER[:2]));self.assertEqual(fix[6],list(c.p.ORDER[:3]))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['checker_order_corrupt', 'checker_count_corrupt']
+
+Second list contains 2 additional elements.
+First extra element 0:
+'checker_order_corrupt'
+
+- []
++ ['checker_order_corrupt', 'checker_count_corrupt']
+
+======================================================================
+FAIL: test_all_states_recorded_drift_cannot_use_controller_recovery (test_s3_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery) (state='INTERRUPTED')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 166, in test_all_states_recorded_drift_cannot_use_controller_recovery
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,1);self.prefix(fix,terminal)
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 131, in prefix
+    self.assertEqual(terminal['s3_campaign']['completed'],list(c.p.ORDER[:2]));self.assertEqual(fix[6],list(c.p.ORDER[:3]))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['checker_order_corrupt', 'checker_count_corrupt']
+
+Second list contains 2 additional elements.
+First extra element 0:
+'checker_order_corrupt'
+
+- []
++ ['checker_order_corrupt', 'checker_count_corrupt']
+
+======================================================================
+FAIL: test_all_states_recorded_drift_cannot_use_controller_recovery (test_s3_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery) (state=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 166, in test_all_states_recorded_drift_cannot_use_controller_recovery
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,1);self.prefix(fix,terminal)
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 131, in prefix
+    self.assertEqual(terminal['s3_campaign']['completed'],list(c.p.ORDER[:2]));self.assertEqual(fix[6],list(c.p.ORDER[:3]))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['checker_order_corrupt', 'checker_count_corrupt']
+
+Second list contains 2 additional elements.
+First extra element 0:
+'checker_order_corrupt'
+
+- []
++ ['checker_order_corrupt', 'checker_count_corrupt']
+
+======================================================================
+FAIL: test_all_states_recorded_drift_cannot_use_controller_recovery (test_s3_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery) (state='UNKNOWN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 166, in test_all_states_recorded_drift_cannot_use_controller_recovery
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,1);self.prefix(fix,terminal)
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 131, in prefix
+    self.assertEqual(terminal['s3_campaign']['completed'],list(c.p.ORDER[:2]));self.assertEqual(fix[6],list(c.p.ORDER[:3]))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['checker_order_corrupt', 'checker_count_corrupt']
+
+Second list contains 2 additional elements.
+First extra element 0:
+'checker_order_corrupt'
+
+- []
++ ['checker_order_corrupt', 'checker_count_corrupt']
+
+======================================================================
+FAIL: test_genuine_absent_after_interruption_and_original_exit_preserved (test_s3_paths.RealPathWriterTests.test_genuine_absent_after_interruption_and_original_exit_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 186, in test_genuine_absent_after_interruption_and_original_exit_preserved
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,1);self.assertIsNone(terminal['stop_reason']);self.equal_captures(fix)
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'GlobalFailure: worker protected/provenance evidence rejected: worker binary capture absent without verified interruption' is not None
+
+======================================================================
+FAIL: test_missing_binary_and_real_read_error_fail_closed (test_s3_paths.RealPathWriterTests.test_missing_binary_and_real_read_error_fail_closed) (case='missing')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 155, in test_missing_binary_and_real_read_error_fail_closed
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,1);self.assertTrue(terminal['stop_reason']);self.prefix(fix,terminal)
+                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 131, in prefix
+    self.assertEqual(terminal['s3_campaign']['completed'],list(c.p.ORDER[:2]));self.assertEqual(fix[6],list(c.p.ORDER[:3]))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['checker_order_corrupt', 'checker_count_corrupt']
+
+Second list contains 2 additional elements.
+First extra element 0:
+'checker_order_corrupt'
+
+- []
++ ['checker_order_corrupt', 'checker_count_corrupt']
+
+======================================================================
+FAIL: test_missing_binary_and_real_read_error_fail_closed (test_s3_paths.RealPathWriterTests.test_missing_binary_and_real_read_error_fail_closed) (case='read_error')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 155, in test_missing_binary_and_real_read_error_fail_closed
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,1);self.assertTrue(terminal['stop_reason']);self.prefix(fix,terminal)
+                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 131, in prefix
+    self.assertEqual(terminal['s3_campaign']['completed'],list(c.p.ORDER[:2]));self.assertEqual(fix[6],list(c.p.ORDER[:3]))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['checker_order_corrupt', 'checker_count_corrupt']
+
+Second list contains 2 additional elements.
+First extra element 0:
+'checker_order_corrupt'
+
+- []
++ ['checker_order_corrupt', 'checker_count_corrupt']
+
+======================================================================
+FAIL: test_real_hash_mutation_global_stop_and_portable_prefix (test_s3_paths.RealPathWriterTests.test_real_hash_mutation_global_stop_and_portable_prefix)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 138, in test_real_hash_mutation_global_stop_and_portable_prefix
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,1);self.assertIn('binary drift',terminal['stop_reason']);self.prefix(fix,terminal)
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'binary drift' not found in 'GlobalFailure: worker protected/provenance evidence rejected: worker binary capture absent without verified interruption'
+
+======================================================================
+FAIL: test_real_writer_malformed_missing_error_and_state_tamper_reject (test_s3_paths.RealPathWriterTests.test_real_writer_malformed_missing_error_and_state_tamper_reject)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 173, in test_real_writer_malformed_missing_error_and_state_tamper_reject
+    self.assertEqual(self.run_fixture(fix)[0],0);rid=c.p.ORDER[0];out=fix[3];req=fix[4]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_workflow_relative_entry_real_writer_and_portable_replay (test_s3_paths.RealPathWriterTests.test_workflow_relative_entry_real_writer_and_portable_replay)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 105, in test_workflow_relative_entry_real_writer_and_portable_replay
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,0,terminal['stop_reason']);self.equal_captures(fix)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : GlobalFailure: worker protected/provenance evidence rejected: worker binary capture absent without verified interruption
+
+======================================================================
+FAIL: test_wrong_directory_with_same_bytes_still_rejects (test_s3_paths.RealPathWriterTests.test_wrong_directory_with_same_bytes_still_rejects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-r2-control-w13/ch8-s1-control/test_s3_paths.py", line 128, in test_wrong_directory_with_same_bytes_still_rejects
+    code,terminal=self.run_fixture(fix);self.assertEqual(code,1);self.assertIn('binary drift: before',terminal['stop_reason']);self.prefix(fix,terminal)
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'binary drift: before' not found in 'GlobalFailure: worker protected/provenance evidence rejected: worker binary capture absent without verified interruption'
+
+----------------------------------------------------------------------
+Ran 9 tests in 6.395s
+
+FAILED (failures=17)

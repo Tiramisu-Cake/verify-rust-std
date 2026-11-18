@@ -1,0 +1,159 @@
+{
+  "schema": "ch8-s3-domain-unwind-v1",
+  "source_sha": "513341f41ce53833a279571401c924bdddddb6c8",
+  "source_tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+  "type": "u8",
+  "comparator": "sorting_model::KeyLess<u8>, full-byte a<b, pure stateless PhantomData; no external writes",
+  "alphabet": "all independent0..255; no reduced alphabet assumption",
+  "claim": "bounded normal-return partial correctness, initialization of written output, precise modifies and full outside/source frame",
+  "roots": [
+    {
+      "root": "checker_order_corrupt",
+      "backing": 2,
+      "domain": "fixed input=[1,2], out=[2,1]; literal order-negative only",
+      "loops": {
+        "snapshot": 2,
+        "order": 1,
+        "count_outer": 2,
+        "count_inner": 2
+      },
+      "bound": 34,
+      "reason": "unchanged historical attr; conservative above2+1; no new backing loop"
+    },
+    {
+      "root": "checker_count_corrupt",
+      "backing": 32,
+      "domain": "fixed input=[1;32], output[31]=2; literal full-value-count negative",
+      "loops": {
+        "snapshot": 32,
+        "order": 31,
+        "count_outer": 32,
+        "count_inner": 32
+      },
+      "bound": 34
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "backing": 34,
+      "domain": "base0..20; independent a,b0..12 inclusive, equal and reversed allowed; all backing initialized arbitrary full bytes",
+      "loops": {
+        "arbitrary_array_init": 34,
+        "outside_frame": 34,
+        "actual_swap": 0,
+        "pair_capture_post": 0
+      },
+      "bound": 36
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "backing": {
+        "src": 6,
+        "dst": 6
+      },
+      "domain": "separate allocations; src[1..5] initialized arbitrary bytes; dst[1..5] initially uninitialized; fixed dst canaries0=a5,5=5a",
+      "loops": {
+        "source_array_init_and_frame": 6,
+        "snapshot": 4,
+        "order": 3,
+        "count_outer": 4,
+        "count_inner": 4,
+        "actual_sort4": 0
+      },
+      "bound": 8
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "backing": 48,
+      "domain": "one [MaybeUninit<u8>;48]; src,dst independently0..44, disjoint4-ranges; dst initially uninitialized, all outside dst initialized arbitrary bytes; arbitrary canary outside dst",
+      "loops": {
+        "arbitrary_array_init": 48,
+        "backing_initialization": 48,
+        "outside_frame": 48,
+        "source_frame": 4,
+        "snapshot": 4,
+        "order": 3,
+        "count_outer": 4,
+        "count_inner": 4,
+        "actual_sort4": 0
+      },
+      "bound": 50
+    },
+    {
+      "root": "s3_insert_tail_u8_rel16",
+      "backing": 34,
+      "domain": "begin1..16; relative tail1..16 (length2..17); all backing initialized full-byte; prefix[begin,begin+tail) sorted; remaining bytes unconstrained",
+      "loops": {
+        "array_init_and_frame": 34,
+        "prefix_order": 15,
+        "actual_sift": 16,
+        "gap_guard_drop": 0,
+        "capture": 17,
+        "order": 16,
+        "count_outer": 17,
+        "count_inner": 17
+      },
+      "bound": 36
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "backing": {
+        "src": 10,
+        "dst": 10
+      },
+      "domain": "distinct allocations; src[1..9] with sorted halves4/4, arbitrary bytes; dst[1..9] uninitialized and canaries0=a5,9=5a",
+      "loops": {
+        "source_array_init_and_frame": 10,
+        "halves_order": 3,
+        "actual_merge": 4,
+        "output_init_reads": 8,
+        "snapshot": 8,
+        "order": 7,
+        "count_outer": 8,
+        "count_inner": 8
+      },
+      "bound": 12
+    },
+    {
+      "root": "s3_merge8_u8_same_alloc",
+      "backing": 48,
+      "domain": "same allocation [MaybeUninit<u8>;48]; src,dst0..40 disjoint8-ranges; source sorted4/4; dst uninitialized, all outside dst initialized independent bytes; src32->dst0 and src40->dst16 explicit covers",
+      "loops": {
+        "arbitrary_array_init": 48,
+        "backing_initialization": 48,
+        "outside_frame": 48,
+        "source_frame": 8,
+        "halves_order": 3,
+        "actual_merge": 4,
+        "output_init_reads": 8,
+        "snapshot": 8,
+        "order": 7,
+        "count_outer": 8,
+        "count_inner": 8
+      },
+      "bound": 50
+    },
+    {
+      "root": "sort13_weak",
+      "backing": 13,
+      "domain": "unchanged descending12..0; faithful sort13 copy with ordinary no-op on uncontracted s2_swap_seam; literal negative only",
+      "loops": {
+        "snapshot": 13,
+        "order": 12,
+        "count_outer": 13,
+        "count_inner": 13,
+        "network_straight_line": 0
+      },
+      "bound": 34,
+      "reason": "unchanged historical attr; conservative above13+1"
+    }
+  ],
+  "bounds_rule": "Every finite source/helper/spec loop bounded by listed maxima. Nested multiplicity loops use per-loop bounds, not product; >=max+2 for new roots. Stock unwind checks retained; backend expansion/builtin behavior and actual fit NOT_RUN. No bound cut to fit runtime.",
+  "preserved_boundaries": [
+    "no general T/F, Cell/non-Copy, arbitrary callback, stability, termination or unwind/abort proof",
+    "swap34 and insert34 do not lift to other backing sizes",
+    "same-allocation48 proves declared outside-initialized case; scratch with arbitrary uninitialized outside, larger or differently sized allocations/locality remain OPEN",
+    "sort8 actual composition remains NOT_SELECTED; exact geometry covers do not supply missing init-state or locality proofs",
+    "no summary promoted or consumed by any selected positive root"
+  ],
+  "init_policy": "source initialized before every spec/old load; no destination typed read before actual call writes; stock can_dereference checks initialization/validity on its supported model; no extra-UB/combined-check campaign claimed"
+}
