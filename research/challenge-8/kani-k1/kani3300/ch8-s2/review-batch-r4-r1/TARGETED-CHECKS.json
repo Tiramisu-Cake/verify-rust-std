@@ -1,0 +1,400 @@
+{
+  "status": "STATIC_PASS",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "16aa3557742e1b8a8b64b3b3d49da23d988027f8"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r4-r1-w13",
+    "sha": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "tree": "9f7c903f2039e6a52b19f37c5f32fbd9cc86566f",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "db81e62d76cfa193b1d7fe8e8ebbecead7e20ef8",
+    "request_sha256": "9d165365933b6bc117311d7d52568f834bc2f083c2272800803a84883f286717",
+    "workflow_sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c"
+  },
+  "source_delta": "EXACT_ONE_IMPORT_LINE; all other source bytes identical to frozen r4",
+  "control_changed_paths": [
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/S2-SOURCE.json",
+    "ch8-s1-control/cfg_pfc.py",
+    "ch8-s1-control/fixtures/s2-r4-batch.rs.txt",
+    "ch8-s1-control/lexical_bindings.py",
+    "ch8-s1-control/ordinary_contracts.py",
+    "ch8-s1-control/runner.py",
+    "ch8-s1-control/s2_correspondence.py",
+    "ch8-s1-control/s2_policy.py",
+    "ch8-s1-control/test_cfg_pfc.py"
+  ],
+  "runner": "TWO_SOURCE_IDENTITY_LITERALS_ONLY",
+  "workflow": "BYTE_IDENTICAL",
+  "row_semantics_caps_cfg_model": "UNCHANGED_BY_BOUNDED_BYTE_DELTA",
+  "alias_cases": [
+    {
+      "case": "exact_review_s2_swap_seam",
+      "imports": "use crate::kani::stub as ordinary1;\nuse self::ordinary1 as ordinary2;\n",
+      "attribute": "ordinary2",
+      "only_removed_hash_maps": [
+        "ordinary_contract_source_sha256",
+        "cfg_pfc_source_sha256"
+      ],
+      "outcomes": {
+        "ordinary": {
+          "status": "STATIC_PASS",
+          "ordinary_count": 23,
+          "sort13_weak_records": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+              "target": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 146,
+              "scope": "FUNCTION",
+              "target_location": {
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+                "line": 183
+              },
+              "active_contract_attrs": [],
+              "status": "NO_ACTIVE_CONTRACT_ATTRS"
+            }
+          ],
+          "function_count": 0
+        },
+        "combined": {
+          "status": "STATIC_PASS",
+          "ordinary_count": 6,
+          "sort13_weak_records": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+              "target": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 146,
+              "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_swap",
+              "replacement_location": {
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+                "line": 144
+              }
+            }
+          ],
+          "function_count": 0
+        }
+      }
+    },
+    {
+      "case": "exact_review_swap_if_less",
+      "imports": "use crate::kani::stub as ordinary1;\nuse self::ordinary1 as ordinary2;\n",
+      "attribute": "ordinary2",
+      "only_removed_hash_maps": [
+        "ordinary_contract_source_sha256",
+        "cfg_pfc_source_sha256"
+      ],
+      "outcomes": {
+        "ordinary": {
+          "status": "REJECT",
+          "diagnostic": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:146 core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak: ordinary stub target core::slice::sort::shared::smallsort::swap_if_less has active contract attrs at library/core/src/slice/sort/shared/smallsort.rs:460: crate::kani::requires(a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos)));crate::kani::modifies(v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos));crate::kani::ensures(|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos))"
+        },
+        "combined": {
+          "status": "REJECT",
+          "diagnostic": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:146 core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak: ordinary stub target core::slice::sort::shared::smallsort::swap_if_less has active contract attrs at library/core/src/slice/sort/shared/smallsort.rs:460: crate::kani::requires(a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos)));crate::kani::modifies(v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos));crate::kani::ensures(|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos))"
+        }
+      }
+    },
+    {
+      "case": "three_level_s2_swap_seam",
+      "imports": "use crate::kani::stub as ordinary1;\nuse self::ordinary1 as ordinary2;\nuse self::ordinary2 as ordinary3;\n",
+      "attribute": "ordinary3",
+      "only_removed_hash_maps": [
+        "ordinary_contract_source_sha256",
+        "cfg_pfc_source_sha256"
+      ],
+      "outcomes": {
+        "ordinary": {
+          "status": "STATIC_PASS",
+          "ordinary_count": 23,
+          "sort13_weak_records": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+              "target": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 147,
+              "scope": "FUNCTION",
+              "target_location": {
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+                "line": 184
+              },
+              "active_contract_attrs": [],
+              "status": "NO_ACTIVE_CONTRACT_ATTRS"
+            }
+          ],
+          "function_count": 0
+        },
+        "combined": {
+          "status": "STATIC_PASS",
+          "ordinary_count": 6,
+          "sort13_weak_records": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+              "target": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 147,
+              "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_swap",
+              "replacement_location": {
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+                "line": 145
+              }
+            }
+          ],
+          "function_count": 0
+        }
+      }
+    },
+    {
+      "case": "three_level_swap_if_less",
+      "imports": "use crate::kani::stub as ordinary1;\nuse self::ordinary1 as ordinary2;\nuse self::ordinary2 as ordinary3;\n",
+      "attribute": "ordinary3",
+      "only_removed_hash_maps": [
+        "ordinary_contract_source_sha256",
+        "cfg_pfc_source_sha256"
+      ],
+      "outcomes": {
+        "ordinary": {
+          "status": "REJECT",
+          "diagnostic": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:147 core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak: ordinary stub target core::slice::sort::shared::smallsort::swap_if_less has active contract attrs at library/core/src/slice/sort/shared/smallsort.rs:460: crate::kani::requires(a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos)));crate::kani::modifies(v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos));crate::kani::ensures(|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos))"
+        },
+        "combined": {
+          "status": "REJECT",
+          "diagnostic": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:147 core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak: ordinary stub target core::slice::sort::shared::smallsort::swap_if_less has active contract attrs at library/core/src/slice/sort/shared/smallsort.rs:460: crate::kani::requires(a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos)));crate::kani::modifies(v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos));crate::kani::ensures(|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos))"
+        }
+      }
+    },
+    {
+      "case": "module_chain_s2_swap_seam",
+      "imports": "use crate::kani as k1;\nuse self::k1 as k2;\n",
+      "attribute": "k2::stub",
+      "only_removed_hash_maps": [
+        "ordinary_contract_source_sha256",
+        "cfg_pfc_source_sha256"
+      ],
+      "outcomes": {
+        "ordinary": {
+          "status": "STATIC_PASS",
+          "ordinary_count": 23,
+          "sort13_weak_records": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+              "target": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 146,
+              "scope": "FUNCTION",
+              "target_location": {
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+                "line": 183
+              },
+              "active_contract_attrs": [],
+              "status": "NO_ACTIVE_CONTRACT_ATTRS"
+            }
+          ],
+          "function_count": 0
+        },
+        "combined": {
+          "status": "STATIC_PASS",
+          "ordinary_count": 6,
+          "sort13_weak_records": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+              "target": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 146,
+              "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_swap",
+              "replacement_location": {
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+                "line": 144
+              }
+            }
+          ],
+          "function_count": 0
+        }
+      }
+    },
+    {
+      "case": "module_chain_swap_if_less",
+      "imports": "use crate::kani as k1;\nuse self::k1 as k2;\n",
+      "attribute": "k2::stub",
+      "only_removed_hash_maps": [
+        "ordinary_contract_source_sha256",
+        "cfg_pfc_source_sha256"
+      ],
+      "outcomes": {
+        "ordinary": {
+          "status": "REJECT",
+          "diagnostic": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:146 core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak: ordinary stub target core::slice::sort::shared::smallsort::swap_if_less has active contract attrs at library/core/src/slice/sort/shared/smallsort.rs:460: crate::kani::requires(a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos)));crate::kani::modifies(v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos));crate::kani::ensures(|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos))"
+        },
+        "combined": {
+          "status": "REJECT",
+          "diagnostic": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:146 core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak: ordinary stub target core::slice::sort::shared::smallsort::swap_if_less has active contract attrs at library/core/src/slice/sort/shared/smallsort.rs:460: crate::kani::requires(a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos)));crate::kani::modifies(v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos));crate::kani::ensures(|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos))"
+        }
+      }
+    },
+    {
+      "case": "cycle",
+      "imports": "use self::a2 as a1;\nuse self::a1 as a2;\n",
+      "only_removed_hash_maps": [
+        "ordinary_contract_source_sha256",
+        "cfg_pfc_source_sha256"
+      ],
+      "outcomes": {
+        "ordinary": {
+          "status": "REJECT",
+          "diagnostic": "cyclic alias: a1"
+        },
+        "combined": {
+          "status": "REJECT",
+          "diagnostic": "cyclic alias: a1"
+        }
+      }
+    },
+    {
+      "case": "ambiguous",
+      "imports": "use crate::kani::stub as a2;\nuse crate::kani::stub_verified as a2;\n",
+      "only_removed_hash_maps": [
+        "ordinary_contract_source_sha256",
+        "cfg_pfc_source_sha256"
+      ],
+      "outcomes": {
+        "ordinary": {
+          "status": "REJECT",
+          "diagnostic": "ordinary gate: ambiguous alias a2 in library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+        },
+        "combined": {
+          "status": "REJECT",
+          "diagnostic": "ordinary gate: ambiguous alias a2 in library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+        }
+      }
+    },
+    {
+      "case": "unresolved",
+      "imports": "use self::missing as a1;\nuse self::a1 as a2;\n",
+      "only_removed_hash_maps": [
+        "ordinary_contract_source_sha256",
+        "cfg_pfc_source_sha256"
+      ],
+      "outcomes": {
+        "ordinary": {
+          "status": "REJECT",
+          "diagnostic": "unresolved alias target: core::slice::sort::shared::smallsort::verify::sorting_s2_batch::missing"
+        },
+        "combined": {
+          "status": "REJECT",
+          "diagnostic": "unresolved alias target: core::slice::sort::shared::smallsort::verify::sorting_s2_batch::missing"
+        }
+      }
+    }
+  ],
+  "lexical_cases": [
+    {
+      "case": "final",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "outcome": {
+        "status": "STATIC_PASS",
+        "ordinary_count": 0,
+        "sort13_weak_records": [],
+        "function_count": 8
+      }
+    },
+    {
+      "case": "frozen_r4",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "outcome": {
+        "status": "REJECT",
+        "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort4_stable"
+      }
+    },
+    {
+      "case": "removed_import",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "outcome": {
+        "status": "REJECT",
+        "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort4_stable"
+      }
+    },
+    {
+      "case": "renamed_import",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "outcome": {
+        "status": "REJECT",
+        "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort4_stable"
+      }
+    },
+    {
+      "case": "wrong_target",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "outcome": {
+        "status": "REJECT",
+        "diagnostic": "name gate: relocated binding differs from original general_fault_scratch"
+      }
+    },
+    {
+      "case": "disabled_import",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "outcome": {
+        "status": "REJECT",
+        "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort4_stable"
+      }
+    },
+    {
+      "case": "qualified",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "outcome": {
+        "status": "STATIC_PASS",
+        "ordinary_count": 0,
+        "sort13_weak_records": [],
+        "function_count": 8
+      }
+    },
+    {
+      "case": "alias",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "outcome": {
+        "status": "STATIC_PASS",
+        "ordinary_count": 0,
+        "sort13_weak_records": [],
+        "function_count": 8
+      }
+    }
+  ],
+  "inventory_static_call_counts": {
+    "sort13_weak": 4,
+    "general32_weak": 4,
+    "sort8_registration_only": 5,
+    "s2_swap_seam": 1,
+    "s2_merge_seam": 1,
+    "sort13_fault_network": 46,
+    "general_fault_copy": 3,
+    "general_fault_scratch": 13
+  },
+  "static_call_occurrences": 77,
+  "contexts": 11,
+  "R14-01": "CLOSED_STATIC",
+  "R14-02": "CLOSED_STATIC",
+  "limits": "No expansion/type/method/MIR/native compile/causal repair; no proof credit"
+}

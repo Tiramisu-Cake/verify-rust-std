@@ -1,0 +1,352 @@
+{
+  "task_id": "taskcf40e805eb47a5f11efdf27a62b06caf2bc2adff",
+  "issued": "owner17:29; explicit /new supersedes task reuse-context instruction",
+  "package_commit": "474e0b4209554bdd69c4303410192d2d472af4a2",
+  "frozen_review": "f5dd71722f82ac59e37152927a5f4dd9eee6ea1a",
+  "pins": {
+    "schema": "ch8-s2-batch-r4-r1-pins-v1",
+    "task_id": "taskcf40e805eb47a5f11efdf27a62b06caf2bc2adff",
+    "entry_g0": "cf40e805eb47a5f11efdf27a62b06caf2bc2adff",
+    "source": {
+      "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+      "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+      "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "derivation_source": "16aa3557742e1b8a8b64b3b3d49da23d988027f8"
+    },
+    "control": {
+      "worktree": "/root/kani-ch8-s2-r4-r1-w13",
+      "sha": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+      "tree": "9f7c903f2039e6a52b19f37c5f32fbd9cc86566f",
+      "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "derivation_control": "db81e62d76cfa193b1d7fe8e8ebbecead7e20ef8",
+      "request_sha256": "9d165365933b6bc117311d7d52568f834bc2f083c2272800803a84883f286717",
+      "workflow_sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c"
+    },
+    "tool": {
+      "worktree": "/root/kani-upstream-ch8-s1",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    },
+    "checkout_depths": {
+      "control": 7,
+      "source": 5,
+      "tool": 2
+    },
+    "previous_package": "4e2801660d89d75a1357a420c78cd435159c35b3",
+    "frozen_diagnostic": "04c61ba50ae4d62caaf87ed84b90e84e958c184f",
+    "actual_causal_CI_unit": "UNKNOWN",
+    "review14": "PENDING_SAME14_DELTA_REVIEW",
+    "dispatch_authority": "NONE",
+    "native_compile": "NOT_RUN",
+    "causal_repair": "NOT_RUN",
+    "proof_credit": "NONE",
+    "package_commit": "git commit containing this file; excluded to avoid circular identity",
+    "frozen_review": "f5dd71722f82ac59e37152927a5f4dd9eee6ea1a",
+    "original_task": "043f659cb6ec8512fc0215aa52357369464f4cad"
+  },
+  "package_files": 60,
+  "package_hashes": [
+    {
+      "path": "CFG-PFC-MAP.json",
+      "sha256": "e37627922415739a42819cf5a35e76b0c99d075f34b8263522ab8db1a10c6336"
+    },
+    {
+      "path": "CHANGED-FILES.json",
+      "sha256": "5ab3908814bbcb1f4a58586ea2e3b351633587ffb8ab337a1e6e94bba78e8f89"
+    },
+    {
+      "path": "CHECKPOINT.json",
+      "sha256": "fb677856a30fb5b99ab2b410a4b27d84775d0defbeaa1ab1a0ce0e89b309b0b5"
+    },
+    {
+      "path": "CI-REQUEST.json",
+      "sha256": "9d165365933b6bc117311d7d52568f834bc2f083c2272800803a84883f286717"
+    },
+    {
+      "path": "CONTRACT-STACK-MAP.json",
+      "sha256": "63e111d9a8c6910adb2112e9c510383a42646f411c38dc786a98562ce970af10"
+    },
+    {
+      "path": "CONTROL-CANDIDATE.patch",
+      "sha256": "f2413d677d16587c973cd582d228c7ae39413f00ea345b85aa5405c7e45c7fcd"
+    },
+    {
+      "path": "CONTROL-DELTA-NUMSTAT.txt",
+      "sha256": "9f3273a45722bf73567d264285c6e0bd007e76ef917e4307c2f54bebfc43a0e3"
+    },
+    {
+      "path": "CONTROL-DELTA.patch",
+      "sha256": "68ca92b87b3669fa16ca40b05138ce15e9d8df1f10a19ad0cddd075125b8fe68"
+    },
+    {
+      "path": "CONTROL-PARENT.patch",
+      "sha256": "7ec21c6b54d598bec87426566b104fc84ae272626dceb99e515819f4305265e9"
+    },
+    {
+      "path": "CONTROL.json",
+      "sha256": "0b2868b81c64dbef6ca9a1dc80ec481071f262dda5cdd60855b6082fd4bdb989"
+    },
+    {
+      "path": "COPY-CORRESPONDENCE.json",
+      "sha256": "57b0ff879e3fb21db817d19f61e9227991197c676c14d8d4ac26bd0d7c79d7fe"
+    },
+    {
+      "path": "CURRENT-TASK.md",
+      "sha256": "93877907514ef1d7da643c63f26aaf13301cf63c26e5866f0bfb4c8db6695555"
+    },
+    {
+      "path": "ENVELOPE.json",
+      "sha256": "319e025193ef63f8768c8d1b8de63bf8492b9c32658644dcaceccf78dba51796"
+    },
+    {
+      "path": "FINDING-CLOSURE.json",
+      "sha256": "fa9fd0a2c35e7548404336f25d674fbc26c4eba5f6ccc505a13f70bfc91d70ee"
+    },
+    {
+      "path": "FINDING-CLOSURE.md",
+      "sha256": "e380f93b4b87cc848875ddaa2552666579f2d3f2c081f9e4322be71e5fbcffdf"
+    },
+    {
+      "path": "FULL-INVENTORIES.json",
+      "sha256": "40f712f59cc5dd2b2922e4764381531a4fa2eb6cfa1484e00a9d7dc8cce8ce96"
+    },
+    {
+      "path": "HANDOFF.md",
+      "sha256": "5055249553a5ab919bbff72fb9965d21f869ec291aa1177211dbf089352476d9"
+    },
+    {
+      "path": "IDENTITIES.json",
+      "sha256": "e7d467aa74271a76e136af075497d8154ff596c50125bf8634b266bba6bf161b"
+    },
+    {
+      "path": "INVENTORIES.txt",
+      "sha256": "749c32d99ba6ca28817983b7f49857146dd597fac27294ac6da06050f00d0d37"
+    },
+    {
+      "path": "MODEL-MAP.json",
+      "sha256": "1c4140274b8ae1d5f1011035c252df4d49077b0533cab97f0499c4d40c9841f0"
+    },
+    {
+      "path": "NAME-RESOLUTION-MAP.json",
+      "sha256": "e57f328fc7ccc2044d6112d6c5046e4a25c230b56ebcaec52f819ccecc187a81"
+    },
+    {
+      "path": "ORDINARY-STUB-CONTRACT-MAP.json",
+      "sha256": "87bb42ff81360aed5578e7705b22e75e2fb2c7ffcab420a1f07ab056d4ff2ef3"
+    },
+    {
+      "path": "PACKAGE-CONTENTS.json",
+      "sha256": "57bf9c14b80c2c646e3d953d9ab130332b1c312618dc93b40b8e35d4bca4728c"
+    },
+    {
+      "path": "PATCHES.json",
+      "sha256": "7709d94a6eaaf41d016bd80082263312e761e954f3d296cd530c77ae768e0135"
+    },
+    {
+      "path": "PINS.json",
+      "sha256": "e7d467aa74271a76e136af075497d8154ff596c50125bf8634b266bba6bf161b"
+    },
+    {
+      "path": "PREBUILD-SOURCE-PREFLIGHT.txt",
+      "sha256": "b0cde3f3de798f900d76bc48dde308197e9e04a24e5ad362d109c5024761f095"
+    },
+    {
+      "path": "QUALIFICATION-ASSUMPTIONS.json",
+      "sha256": "7d47c66608d60ed31519cd288bc545e4d3e932ecb6697dfc66354a94d8876b13"
+    },
+    {
+      "path": "REPAIR-REPLAYS.txt",
+      "sha256": "8c260c1258aa275905250b6b7dc8dbf693b778e029738e23975e86c748ecfa8c"
+    },
+    {
+      "path": "REVIEW14-REQUEST.md",
+      "sha256": "b2c538ec687145170f68a1b26b1be929e8db3ba5a73c71565a868d8f6fcf32cf"
+    },
+    {
+      "path": "ROOT-BINDINGS.json",
+      "sha256": "e3e26eda57863b86261de5adf0439a93e66fea7ea266be7f4816d76a1881753c"
+    },
+    {
+      "path": "RUNNER-INVARIANCE.json",
+      "sha256": "c8cc0d7a21d3f840f1a1eb4cb84c9650f91ac084c5be5a804d4fdfa90db5b081"
+    },
+    {
+      "path": "SOURCE-CANDIDATE.patch",
+      "sha256": "49820cfbf7c60757ed2be081a2a0edce324c0acd5ff5088ae3060ae50e586804"
+    },
+    {
+      "path": "SOURCE-DELTA-NUMSTAT.txt",
+      "sha256": "1a3a897e7d6db3ea542cbea0e2279a8de236fc18ace1f8f7e09e25081f96a24c"
+    },
+    {
+      "path": "SOURCE-DELTA.patch",
+      "sha256": "f6406a7b6255fbcf29a43abca010a1b00411bce4758d1f861552d03849939a04"
+    },
+    {
+      "path": "SOURCE-DIAGNOSTIC-REFERENCE.json",
+      "sha256": "3b052d84cdee288179fa937bb883cc55a63c6f623fb7c3cb0595e19bc63d78fc"
+    },
+    {
+      "path": "SOURCE-MAP.json",
+      "sha256": "e423122b2fd4d7d6f8dc2ea204e395762124c24074f4670ca3b094a0f0d292ce"
+    },
+    {
+      "path": "SOURCE-PARENT.patch",
+      "sha256": "565bae7e04491a3d5f38c90eeb5f5826843677b2bdf263ffaaf339753fb04b3c"
+    },
+    {
+      "path": "SOURCE.json",
+      "sha256": "abae422e4226a89d845cafcbaa0662bb02c6e2ff20626ddb09cd692bb616bfcc"
+    },
+    {
+      "path": "STATUS.md",
+      "sha256": "7e7eed131126547faa505ae8cecb61dda47c44688f71a643a5a22f159abf4abc"
+    },
+    {
+      "path": "TARGETED-TESTS.txt",
+      "sha256": "2ff2c67abdc44dfbc9c936fea18d0e9d2734777608803ce234e660ebf5d9940b"
+    },
+    {
+      "path": "TEST-PROVENANCE.json",
+      "sha256": "ae3afc2a9ee62a0c43e29455b92fe531f2df63ebccc2a40a2e5d0e3157344588"
+    },
+    {
+      "path": "VALIDATION.json",
+      "sha256": "9eae5331be52e591cc343f13efb0a98734e6c3baa9a39f0be6c905af6ae71008"
+    },
+    {
+      "path": "VALIDATION.md",
+      "sha256": "4ef1d2ec4300571158abf6fbd969e0d8a16ea18f170c76a03f211c71afc86a8f"
+    },
+    {
+      "path": "VALIDATOR.txt",
+      "sha256": "0d4112a161390e63405b9505e9a264833164106062e87de9b17c3de46b8fa5b7"
+    },
+    {
+      "path": "WORKFLOW.yml",
+      "sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c"
+    },
+    {
+      "path": "cfg_pfc.py",
+      "sha256": "e72ba0cff247613a3db7f4a5bd237cfeab64cb49d2410c61e85b3f80e91ecb11"
+    },
+    {
+      "path": "contract_stacks.py",
+      "sha256": "c4b0f92fe2ede42399f2743071e58380806e61339bfbc0d1beccbf6b2a11ea0d"
+    },
+    {
+      "path": "inventories.py",
+      "sha256": "6821e2468e3179d854deed84d10e8fab8b60d41553121ad5a2f9e706d8206e05"
+    },
+    {
+      "path": "lexical_bindings.py",
+      "sha256": "e248c33e4982c911510847f49af83fee5c0252967b0cb4975dca772273bb894c"
+    },
+    {
+      "path": "ordinary_contracts.py",
+      "sha256": "bdbdbe13fa2da6dae8d6dfb7a57a66caed1e52b6d93c1586e8effecaa16cb78e"
+    },
+    {
+      "path": "prepare_package.py",
+      "sha256": "e9793ee73b7375bf82eb1a895591295471640bcb29fa150913f6d1f05708717f"
+    },
+    {
+      "path": "record_tests.py",
+      "sha256": "dda5ccdb9ca74bd34dde384b6bf97c233e123c34485844d03ee10bf875b52fa3"
+    },
+    {
+      "path": "repair_checks.py",
+      "sha256": "e5ea9754300f58b66ac0c1d925446dd944a5f0eea6e2e797628ab6a23234e1ab"
+    },
+    {
+      "path": "reseal_control.py",
+      "sha256": "c68597431d726cdc850c2abd4968617c972e805b0b2838b99f160ce1aeb4ecdf"
+    },
+    {
+      "path": "s2_correspondence.py",
+      "sha256": "46f2cd69373b4ebd3a3395d455338aadff3d473df5df2734e1bd5d4d2432dd4f"
+    },
+    {
+      "path": "s2_policy.py",
+      "sha256": "a79e49c7d93707fce0ce809fea783ade9a884678c3d34a93fecad5c949dfe0db"
+    },
+    {
+      "path": "test_cfg_pfc.py",
+      "sha256": "96c7e07fd3d78cb6c6769a5c018d49b1f1e1d28eee39db6322cba63ea31a91ea"
+    },
+    {
+      "path": "validate_package.py",
+      "sha256": "4b2edb4e71f317e3adfeb98378bcbfcd00e7fe68202122ab67d269966cd116a3"
+    },
+    {
+      "path": "write_handoff.py",
+      "sha256": "89d35a9ed4deb71028549811d2d2e17f21cad2093a1580bb372f4bd2a4a51420"
+    }
+  ],
+  "frozen_review_hashes": [
+    {
+      "path": "ADDITIONAL-CHECKS.json",
+      "sha256": "0a43ec0b70a90aa2f4dd96eb89d29ad30edd0f5e2e8f2bd11581adc96acf07a1"
+    },
+    {
+      "path": "ALIAS-DISCRIMINATOR.json",
+      "sha256": "a60474f7b3dbbd8ced5bc04a381ff96135290fb3a7b5efeab6e627578498c8b3"
+    },
+    {
+      "path": "CHECKS.json",
+      "sha256": "eaf30186b5f7fb31e14421881a7aed1d304d951908c53b798c9b87988e349e16"
+    },
+    {
+      "path": "FINAL-TESTS.txt",
+      "sha256": "29f367a24187c544f420f267c9eeb813fad040dc98e4c6cda66e2185ae321a46"
+    },
+    {
+      "path": "HANDOFF.md",
+      "sha256": "9483585145bd20d91c02e255d2623251ec6489c692ba045068a7175e28a681be"
+    },
+    {
+      "path": "INPUTS.json",
+      "sha256": "2809760f4033ef212061979b66083179ef0c01edc9d4d7f9578e3a1acd11b3c4"
+    },
+    {
+      "path": "PREBUILD-SOURCE-PREFLIGHT.txt",
+      "sha256": "0fee9e0a4faca32a6ca27afd9e117beb14847cca9a83bced01f87edc416badc0"
+    },
+    {
+      "path": "REPORT.json",
+      "sha256": "496c230bb1e5a2d7e1c64cd0d733251e6bae9168f4949a17b6e035718abf4cfc"
+    },
+    {
+      "path": "REPORT.md",
+      "sha256": "6fe6703f283154ed172ded2654fc1be193a7c8cdc9d1ff12e7377419d7bcaaba"
+    },
+    {
+      "path": "VALIDATION.json",
+      "sha256": "9c3c74bc2997c112ef6db7d709ee1f92e261d8c298af842dbecf37be137a9a52"
+    },
+    {
+      "path": "additional_checks.py",
+      "sha256": "3143250b40be5db809ab701845d8830eb374f4eaffb311c5516bf0be2ebacd89"
+    },
+    {
+      "path": "review_checks.py",
+      "sha256": "bc4768aa83cd2d01de561dcf499567c2d1571cbc3faf3a026c07f1c1b31fdf70"
+    }
+  ],
+  "task_documents": [
+    {
+      "path": "research/challenge-8/kani-k1/TASK-CH8-S2-R4-REPAIR-DELTA-W14.md",
+      "sha256": "02ca9cc20513fafb7bca5fc5fa812290d6f7771ccb1d159169dbbce6ef40bae7",
+      "committed_at": "474e0b4209554bdd69c4303410192d2d472af4a2"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/TASK-CH8-S2-R4-REPAIR-W13.md",
+      "sha256": "fab2bb26a1c509763083835dab17de4f92fbdb46d374375a78a71b5d9006dce0",
+      "committed_at": "474e0b4209554bdd69c4303410192d2d472af4a2"
+    }
+  ]
+}

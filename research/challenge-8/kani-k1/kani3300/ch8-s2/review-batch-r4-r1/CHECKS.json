@@ -1,0 +1,29 @@
+{
+  "package_manifest": "60_FILES_59_HASHES_COMMITTED_MATCH",
+  "frozen_review_manifest": "COMMITTED_MATCH_UNCHANGED",
+  "final_object_tests": {
+    "count": 96,
+    "exit": 0,
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "unittest",
+      "-v",
+      "test_runner.py",
+      "test_s107.FinalizationTests",
+      "test_s2.py",
+      "test_cfg_pfc.py",
+      "test_rustc_diagnostics.py",
+      "test_contract_stacks.py"
+    ],
+    "workdir": "/root/kani-ch8-s2-r4-r1-w13/ch8-s1-control",
+    "elapsed_seconds": 359.438,
+    "transcript_sha256": "b365770ddc33e8163c8df7125d2b940032cd1b28fb6d1a8583a7c3c3b03fdf0b",
+    "scope": "actual final committed objects; Python/static/synthetic only"
+  },
+  "static_validator": "PASS_OUTPUT_WRITES_REDIRECTED_ONLY",
+  "native_compile": "NOT_RUN",
+  "causal_repair": "NOT_RUN",
+  "actual_r3_failing_unit_body": "UNKNOWN",
+  "proof_credit": "NONE"
+}

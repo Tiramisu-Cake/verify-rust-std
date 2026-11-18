@@ -1,0 +1,60 @@
+{
+  "schema": "ch8-s2-r4-r1-same14-finding-closure-v1",
+  "package_commit": "474e0b4209554bdd69c4303410192d2d472af4a2",
+  "frozen_review": "f5dd71722f82ac59e37152927a5f4dd9eee6ea1a",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "16aa3557742e1b8a8b64b3b3d49da23d988027f8"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r4-r1-w13",
+    "sha": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "tree": "9f7c903f2039e6a52b19f37c5f32fbd9cc86566f",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "db81e62d76cfa193b1d7fe8e8ebbecead7e20ef8",
+    "request_sha256": "9d165365933b6bc117311d7d52568f834bc2f083c2272800803a84883f286717",
+    "workflow_sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c"
+  },
+  "findings": [
+    {
+      "id": "R14-01",
+      "priority": "P1",
+      "status": "CLOSED",
+      "basis": "Source delta exactly imports original grandparent sort4_stable; both calls at300/301 bind the original declaration; no algorithm or branch change",
+      "evidence": [
+        "TARGETED-CHECKS.json#/lexical_cases",
+        "VALIDATION.json",
+        "INPUTS.json"
+      ],
+      "assurance": "STATIC_LEXICAL_REPAIR; native compiler NOT_RUN"
+    },
+    {
+      "id": "R14-02",
+      "priority": "P2",
+      "status": "CLOSED",
+      "basis": "Exact ordinary1/ordinary2 discriminator rejects contracted swap in ordinary and combined gates; safe chain retains exact target; three-level/module/function aliases and cycle/ambiguous/unresolved controls exercised",
+      "evidence": [
+        "TARGETED-CHECKS.json#/alias_cases",
+        "FINAL-TESTS.txt"
+      ],
+      "assurance": "ACTUAL_SYNTHETIC_GATE_DISCRIMINATION; only two source hash maps removed"
+    }
+  ],
+  "new_blockers": [
+    {
+      "id": "R14-03",
+      "priority": "P2",
+      "status": "OPEN",
+      "owner": "original13",
+      "evidence": "R14-03-DISCRIMINATOR.json"
+    }
+  ],
+  "verdict": "CHANGES_REQUIRED",
+  "native_compile": "NOT_RUN",
+  "proof_credit": "NONE"
+}

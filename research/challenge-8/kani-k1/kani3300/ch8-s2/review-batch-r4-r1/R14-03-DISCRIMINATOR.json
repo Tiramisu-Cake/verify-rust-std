@@ -1,0 +1,153 @@
+{
+  "id": "R14-03",
+  "priority": "P2",
+  "status": "OPEN",
+  "owner": "original13",
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r4-r1-w13",
+    "sha": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "tree": "9f7c903f2039e6a52b19f37c5f32fbd9cc86566f",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "db81e62d76cfa193b1d7fe8e8ebbecead7e20ef8",
+    "request_sha256": "9d165365933b6bc117311d7d52568f834bc2f083c2272800803a84883f286717",
+    "workflow_sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c"
+  },
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "16aa3557742e1b8a8b64b3b3d49da23d988027f8"
+  },
+  "checker_path": "ch8-s1-control/lexical_bindings.py",
+  "checker_lines": [
+    78,
+    84
+  ],
+  "mutation_file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+  "mutation_line": 146,
+  "old": "fn sort13_weak() {",
+  "new": "fn sort13_weak() { ((missing_static))();",
+  "original_batch_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+  "mutated_batch_sha256": "ac46aa6f9acdf70382b9b21367445b141e7ec115c2e7436d821c2980865a9edb",
+  "only_removed_request_keys": [
+    "lexical_source_sha256"
+  ],
+  "removed_hash_map_sha256": "6818f5c2b8dd440803ad526a88394eef62dfe8c41d441b5a1d7ebb6222f9ec60",
+  "request_other_fields": "EXACTLY_UNCHANGED",
+  "scanner_controls": [
+    {
+      "source": "missing_static();",
+      "call_paths": [
+        [
+          [
+            "missing_static"
+          ],
+          1,
+          "STATIC",
+          0
+        ]
+      ]
+    },
+    {
+      "source": "(missing_static)();",
+      "call_paths": [
+        [
+          [
+            "missing_static"
+          ],
+          1,
+          "STATIC",
+          1
+        ]
+      ]
+    },
+    {
+      "source": "((missing_static))();",
+      "call_paths": []
+    },
+    {
+      "source": "((super::super::sort4_stable))(a,b,c);",
+      "call_paths": []
+    }
+  ],
+  "actual_full_name_gate": {
+    "status": "STATIC_PASS",
+    "functions": 8,
+    "static_call_occurrences": 77,
+    "contexts": 11,
+    "mutated_function_record": {
+      "function": "sort13_weak",
+      "line": 146,
+      "static_calls": [
+        {
+          "path": "sort13_fault_network",
+          "line": 148,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_fault_network",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 188,
+            "declaration_kind": "fn",
+            "visibility": ""
+          }
+        },
+        {
+          "path": "KeyLess::new",
+          "line": 148,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess::new",
+          "binding": {
+            "kind": "VISIBLE_TYPE_ASSOCIATED_PATH",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+            "line": 22,
+            "declaration_kind": "struct",
+            "visibility": "pub(incrate::slice::sort::shared::smallsort)",
+            "member": "new",
+            "limit": "type root visible; impl/method dispatch NOT_CHECKED"
+          }
+        },
+        {
+          "path": "post",
+          "line": 149,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_model::post",
+          "binding": {
+            "kind": "IMPORTED_DECLARATION",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+            "line": 156,
+            "declaration_kind": "fn",
+            "visibility": "pub(incrate::slice::sort::shared::smallsort)"
+          }
+        },
+        {
+          "path": "snapshot",
+          "line": 149,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_model::snapshot",
+          "binding": {
+            "kind": "IMPORTED_DECLARATION",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+            "line": 153,
+            "declaration_kind": "fn",
+            "visibility": "pub(incrate::slice::sort::shared::smallsort)"
+          }
+        }
+      ],
+      "dispatch_outside_scope": [
+        {
+          "path": "assert",
+          "line": 149,
+          "kind": "MACRO",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        }
+      ]
+    },
+    "missing_static_in_inventory": false
+  },
+  "expected": "REJECT unresolved required static path, or explicitly reject unsupported callable parentheses",
+  "impact": "New bounded lexical gate silently omits a required static call instead of resolving or failing closed",
+  "independent_protection": "Exact immutable source/request hashes and correspondence independently reject changed bytes; no bypass claimed",
+  "actual_final_source": "No missing_static call in unchanged repaired source; this finding concerns the explicitly required new gate behavior",
+  "native_compile": "NOT_RUN",
+  "proof_credit": "NONE"
+}
