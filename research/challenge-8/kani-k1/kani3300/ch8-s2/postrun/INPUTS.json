@@ -1,0 +1,208 @@
+{
+  "schema": "ch8-s2-postrun-inputs-v1",
+  "status": "PREPARED_NOT_ISSUED",
+  "owner_authority": "S2 GO executed by owner/coordinator; exactly one attempt, no automatic rerun; intake after terminal",
+  "run": {
+    "repository": "Tiramisu-Cake/kani",
+    "id": 44264952389,
+    "expected_attempt": 1,
+    "url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44264952389",
+    "branch": "uninit-ci/ch8-s2-batch3probes-20261118",
+    "trigger_sha": "056c7d2ae46726c2998e92b5477f6bd8fe0ff47a",
+    "tree": "829f2a6ce410b366101bd413a268e825627e3780",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "reviewed_control_sha": "fc058c97335e4a064c7827b8534b3af2f7460bc3",
+    "published_source_branch": "experiment/ch8-s2-batch3probes-20261118",
+    "terminal_status": "NOT_YET_INTAKEN"
+  },
+  "source": {
+    "sha": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "tree": "2b305686df9758381cfc5d07e195ba05d6b87637"
+  },
+  "tool": {
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "change": "NONE_STOCK"
+  },
+  "request": {
+    "path": "../batch/CI-REQUEST.json",
+    "sha256": "eccd05f859b0c5982d6eea23fa0d2e209a9099e3cbc6fdfc883b6e2ad826ac23",
+    "workflow_sha256": "0f0dbfc57b0db8d138ba74d91d64aaa23e27ad8ff39960994a0261da4ac91f9f"
+  },
+  "package_g0": "ae8f7b2feb739fd51fe72063d4aa71fe36b90790",
+  "package_review_g0": "0468ccf26c879a03ca83b1d5955be5e860c2b442",
+  "GO_request_g0": "13dc947ad2d4bd5171096bb59d37ab219b408573",
+  "pilot_g0": "c8e4ab764d58bd8b684b660d92c62374530623d4",
+  "pilot_scope": "OFFLINE_DIAGNOSTIC_ONLY; Kani induction/PFC/S3 NOT_RUN",
+  "artifact": {
+    "name": "ch8-s2-batch3probes-44264952389-1",
+    "members": [
+      "group-evidence.json.gz"
+    ],
+    "count": 1,
+    "full_raw_logs_archives": "NOT_AUTHORIZED",
+    "digest": "VERIFY_GITHUB_ZIP_BEFORE_EXTRACTION_AND_EMBEDDED_HASHES"
+  },
+  "selection": {
+    "group_ids": [
+      "s2-batch3probes-u34"
+    ],
+    "row_ids": [
+      "swap_pfc",
+      "summary_witness",
+      "merge32_real",
+      "sort13_assumed",
+      "general32_assumed",
+      "merge_order_corrupt",
+      "merge_count_corrupt",
+      "checker_count_corrupt",
+      "checker_order_corrupt",
+      "sort13_weak",
+      "general32_weak"
+    ],
+    "expected": [
+      {
+        "id": "swap_pfc",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_SWAP_EQUAL",
+          "S2_SWAP_TAKEN",
+          "S2_SWAP_REVERSE",
+          "S2_SWAP_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "summary_witness",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_WITNESS_UNSORTED",
+          "S2_WITNESS_NONCONSTANT",
+          "S2_WITNESS_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "merge32_real",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_MERGE_RIGHT_FIRST",
+          "S2_MERGE_LEFT_FIRST",
+          "S2_MERGE_TIE",
+          "S2_MERGE_NONCONSTANT",
+          "S2_MERGE_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "sort13_assumed",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_SORT13_UNSORTED",
+          "S2_SORT13_DUPLICATE",
+          "S2_SORT13_NONCONSTANT",
+          "S2_SORT13_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "general32_assumed",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_GENERAL32_UNSORTED",
+          "S2_GENERAL32_DUPLICATE",
+          "S2_GENERAL32_NONCONSTANT",
+          "S2_GENERAL32_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "merge_order_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_MERGE_ORDER",
+        "required_cover_messages": []
+      },
+      {
+        "id": "merge_count_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_MERGE_COUNT",
+        "required_cover_messages": []
+      },
+      {
+        "id": "checker_count_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_CHECKER_COUNT",
+        "required_cover_messages": []
+      },
+      {
+        "id": "checker_order_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_CHECKER_ORDER",
+        "required_cover_messages": []
+      },
+      {
+        "id": "sort13_weak",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_SORT13_WEAK",
+        "required_cover_messages": []
+      },
+      {
+        "id": "general32_weak",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_GENERAL32_WEAK",
+        "required_cover_messages": []
+      }
+    ],
+    "formal_expected_inventory": [
+      "merge32_real"
+    ],
+    "diagnostic_assumed_inventory": [
+      "sort13_assumed",
+      "general32_assumed"
+    ],
+    "qualification": "NOT_GRANTED_BY_INTAKE"
+  },
+  "caps": {
+    "backend_harness_s": 600,
+    "compile_s": 900,
+    "group_child_s": 7500,
+    "phase_s": 8100,
+    "job_minutes": 180,
+    "jobs": 1,
+    "max_parallel": 1,
+    "group_RSS_max_GiB": 12,
+    "memory_headroom_GiB": 2,
+    "per_root_RSS_target_GiB": 6,
+    "per_root_RSS_measurement": "UNKNOWN_UNLESS_ACTUALLY_OBSERVED"
+  },
+  "known_limits": [
+    "body/model/checker/summary/driver phases unavailable from unchanged producer",
+    "group/comm sampled peaks do not establish simultaneous per-root aggregate",
+    "raw verification_time_s not full process wall",
+    "TIMEOUT censored and missing never zero",
+    "diagnostic assumed consumers confer no formal proof credit",
+    "partial group remains incomplete despite healthy source observations"
+  ],
+  "nonblocking_request_metadata": "S2-W14-N1 historical planned21000/projected14 unused; actual11roots6600s/1group retained separately; frozen request unchanged",
+  "accounting_reference_only": {
+    "reservation_g0": "a3e69dbba46506849722c7177a9b6b7fdb90653d",
+    "run_record_g0": "21257f02ad0e08b7f5fd3d07c9d8cb940435f92a",
+    "item2_used": 10,
+    "item2_cap": 14,
+    "item1_used": 27,
+    "item1_cap": 28,
+    "total_used": 37,
+    "total_cap": 42,
+    "new_runs_reservations_ledger_changes_authorized": 0
+  },
+  "activation": {
+    "intake13": "AFTER_TERMINAL_RUN_AND_COORDINATOR_ISSUE",
+    "review14": "AFTER_TERMINAL_AND_EXACT_COMMITTED_INTAKE13_AND_COORDINATOR_ISSUE",
+    "issue_workers_now": false,
+    "runtime": "fresh/current pane model and owner-enabled /fast preserved; no nested delegation"
+  },
+  "outputs": {
+    "intake": "../run-44264952389/ except review/",
+    "review": "../run-44264952389/review/"
+  }
+}
