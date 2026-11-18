@@ -1,0 +1,33 @@
+{
+  "source_sha": "16aa3557742e1b8a8b64b3b3d49da23d988027f8",
+  "source_tree": "135f4549d1e8d6f69f1935c817f4c42bb917b756",
+  "control_sha": "db81e62d76cfa193b1d7fe8e8ebbecead7e20ef8",
+  "control_tree": "76b64915601e060fc79da7cc1410993283a6dcab",
+  "request_sha256": "800fa67f8b7dcd8efdb228b72c0131f77d3676b3a1f46e1c06ba29a93cb77512",
+  "workflow_sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c",
+  "argv": [
+    "python3",
+    "-m",
+    "unittest",
+    "-v",
+    "test_runner.py",
+    "test_s107.FinalizationTests",
+    "test_s2.py",
+    "test_cfg_pfc.py",
+    "test_rustc_diagnostics.py",
+    "test_contract_stacks.py"
+  ],
+  "workdir": "/root/kani-ch8-s2-r4-final-w13/ch8-s1-control",
+  "env": {
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "exit_code": 0,
+  "test_count": 84,
+  "transcript_sha256": "a7bc0086078eaff543d59b9efb66b53d7097acb81f3274ace33cd7422e82023f",
+  "execution": "ACTUAL_FINAL_COMMITTED_SOURCE_CONTROL_REQUEST_WORKFLOW_IDENTITIES",
+  "precursor_tests_used_for_final_acceptance": false,
+  "scope": "Python/static/synthetic only. No native compiler, Kani, CBMC, expansion, verifier, full runner or CI.",
+  "native_compile": "NOT_RUN",
+  "actual_causal_CI_unit": "UNKNOWN",
+  "proof_credit": "NONE"
+}

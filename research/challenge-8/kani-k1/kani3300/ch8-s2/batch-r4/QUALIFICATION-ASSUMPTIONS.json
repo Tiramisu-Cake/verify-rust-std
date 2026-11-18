@@ -1,0 +1,99 @@
+{
+  "selected_roots": [
+    "swap_pfc",
+    "summary_witness",
+    "merge32_real",
+    "sort13_assumed",
+    "general32_assumed",
+    "merge_order_corrupt",
+    "merge_count_corrupt",
+    "checker_count_corrupt",
+    "checker_order_corrupt",
+    "sort13_weak",
+    "general32_weak"
+  ],
+  "selected_covers": 20,
+  "negative_oracles": {
+    "merge_order_corrupt": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 121,
+      "class": "assertion",
+      "source_sha256": "794fb18e5f6aa5a79f79b6e200b9cf5a4074442ddf51bdba9df4ea5f32567ef7",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_NEG_MERGE_ORDER\");",
+      "intended_message": "S2_NEG_MERGE_ORDER",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "merge_count_corrupt": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 128,
+      "class": "assertion",
+      "source_sha256": "794fb18e5f6aa5a79f79b6e200b9cf5a4074442ddf51bdba9df4ea5f32567ef7",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_NEG_MERGE_COUNT\");",
+      "intended_message": "S2_NEG_MERGE_COUNT",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "checker_count_corrupt": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 134,
+      "class": "assertion",
+      "source_sha256": "794fb18e5f6aa5a79f79b6e200b9cf5a4074442ddf51bdba9df4ea5f32567ef7",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_COUNT\");",
+      "intended_message": "S2_NEG_CHECKER_COUNT",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "checker_order_corrupt": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 140,
+      "class": "assertion",
+      "source_sha256": "794fb18e5f6aa5a79f79b6e200b9cf5a4074442ddf51bdba9df4ea5f32567ef7",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_ORDER\");",
+      "intended_message": "S2_NEG_CHECKER_ORDER",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "sort13_weak": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 149,
+      "class": "assertion",
+      "source_sha256": "794fb18e5f6aa5a79f79b6e200b9cf5a4074442ddf51bdba9df4ea5f32567ef7",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_SORT13_WEAK\");",
+      "intended_message": "S2_NEG_SORT13_WEAK",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "general32_weak": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 163,
+      "class": "assertion",
+      "source_sha256": "794fb18e5f6aa5a79f79b6e200b9cf5a4074442ddf51bdba9df4ea5f32567ef7",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_GENERAL32_WEAK\");",
+      "intended_message": "S2_NEG_GENERAL32_WEAK",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    }
+  },
+  "unselected_registration": "sort8_registration_only is active same-cfg but NOT SELECTED, NOT EXECUTED, NOT QUALIFIED",
+  "assumed_roots": [
+    "sort13_assumed",
+    "general32_assumed"
+  ],
+  "native_compile": "NOT_RUN",
+  "actual_causal_CI_unit": "UNKNOWN",
+  "closed_proof_obligations": 0,
+  "proof_credit": "NONE"
+}

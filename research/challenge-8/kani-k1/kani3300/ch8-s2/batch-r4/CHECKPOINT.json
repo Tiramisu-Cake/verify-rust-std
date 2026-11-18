@@ -1,0 +1,50 @@
+{
+  "task_id": "task043f659cb6ec8512fc0215aa52357369464f4cad",
+  "state": "READY_FOR_REVIEW14",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-w13",
+    "sha": "16aa3557742e1b8a8b64b3b3d49da23d988027f8",
+    "tree": "135f4549d1e8d6f69f1935c817f4c42bb917b756",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r4-final-w13",
+    "sha": "db81e62d76cfa193b1d7fe8e8ebbecead7e20ef8",
+    "tree": "76b64915601e060fc79da7cc1410993283a6dcab",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "dc1ad0f9ce364f9a7efb2c3cc32db6ed51b6db4b",
+    "request_sha256": "800fa67f8b7dcd8efdb228b72c0131f77d3676b3a1f46e1c06ba29a93cb77512",
+    "workflow_sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c"
+  },
+  "claims": [
+    "All4 contracted ordinary bindings removed across3 selected roots",
+    "23 ordinary binding records audited in11 contexts; no active target contracts",
+    "Same-cfg verified PFC gate and ordinary gate execute via existing check-source before setup/build",
+    "3 local caller copies exact after declared renames"
+  ],
+  "actual_causal_CI_unit": "UNKNOWN",
+  "native_compile": "NOT_RUN",
+  "causal_repair": "NOT_RUN",
+  "proof_credit": "NONE",
+  "closed_proof_obligations": 0,
+  "review14": "PENDING_EXTERNAL",
+  "next_step": "Independent14 exact candidate review, then separate exact GO-request; coordinator alone dispatches after GO",
+  "ledger_reference": "a4e8bdd22f:29/29+9/14=38/43; historical r0..r3 charged0, unchanged",
+  "external_actions": {
+    "compiler": 0,
+    "CI": 0,
+    "push": 0,
+    "issue": 0,
+    "PR": 0,
+    "ledger": 0,
+    "reservation": 0,
+    "budget": 0
+  },
+  "Fast": "OFF_PER_OWNER_NOT_TOGGLED",
+  "model_tier": "UNCHANGED",
+  "subagents": 0,
+  "blocker": null
+}

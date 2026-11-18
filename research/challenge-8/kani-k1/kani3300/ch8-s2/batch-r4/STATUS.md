@@ -1,0 +1,1 @@
+READY for separate independent14 review. Exact final pins in PINS.json; offline gates/tests/replay evidence in VALIDATION.json. Native compile/causal repair NOT_RUN; actual causal CI unit UNKNOWN; proof credit NONE. No dispatch authority.
