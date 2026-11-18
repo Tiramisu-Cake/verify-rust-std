@@ -1,0 +1,95 @@
+{
+  "schema": "issue4591-singlecall-go-request-v1",
+  "status": "HOLD_FOR_EXACT_REVIEW_AND_OWNER_EXTRA_ITEM1_GRANT",
+  "root_consent": "PENDING_EXACT_SAME11_DELTA_REVIEW",
+  "prepared_at_utc": "2026-11-18T22:26:42.747086+00:00",
+  "package": {
+    "g0": "5162af47e12611de4102ba20b0135b17c1d79d7d",
+    "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3",
+    "source": {
+      "sha": "f82934ca97caaa1270d5279054aa950173868be5",
+      "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+      "parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "author": "Tiramisu-Cake <igkharin@gmail.com>",
+      "message": "Exercise ordinary replacements through single-call PFC callers [skip ci]"
+    },
+    "ci_request_sha256": "8fb98acee9861fb9a94133d060d568fd0b7735d5840fcd9fdf7fc2fc6aacf4bc"
+  },
+  "review": {
+    "task_g0": "98dde2de28e13381092f20c082ba90f90ce34773",
+    "path": "wave0/issue4591-singlecall-review-w11-r3",
+    "commit": "PENDING",
+    "verdict": "PENDING"
+  },
+  "published_failed_base": {
+    "sha": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "parent": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "message": "Support ordinary stubs of contracted functions"
+  },
+  "main": {
+    "sha": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "tree": "c9a832dc1647c51ac3036429e5f97e73eb717ba7"
+  },
+  "future_head": {
+    "sha": "NOT_CREATED",
+    "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+    "parents": [
+      "6fca00af805b5c62b58e3e3f29eef183d6939907"
+    ],
+    "relation": "new nonskip same-tree sibling of local skipped f829; whole969f..final is exactly published6f then final; candidate excluded",
+    "branch": "fix/stub-contracted-function",
+    "update": "fast-forward from6f; no force",
+    "gate": [
+      "python3",
+      "-B",
+      "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/check_push_head.py",
+      "/root/kani-issue4591-singlecall-r3-w15",
+      "FINAL_FULL_SHA"
+    ],
+    "gate_required": "exit0/MATCH/errors[] and actual remote head still6f/mainstill969f; drift returns root"
+  },
+  "requested_CI": {
+    "repository": "Tiramisu-Cake/kani",
+    "event": "push",
+    "workflow_files": [
+      "kani.yml",
+      "format-check.yml",
+      "deny.yml"
+    ],
+    "native_instances": 12,
+    "scope": "complete unchanged5OS/allKani jobs +Format2/Deny1, native settings/retries preserved; PR-only release/std/bench deferred",
+    "attempts": 1,
+    "automatic_rerun": false,
+    "authorized": false
+  },
+  "blocking_gates": [
+    "independent exact same11 APPROVE of committed r3",
+    "OWNER explicit +1 item1 grant; current31/31 exhausted",
+    "root final exact consent/update after review and grant",
+    "actual final nonskip head gate and remote/main checks",
+    "separate usercoordinator launch"
+  ],
+  "accounting": {
+    "current_reference_ledger": "01f36372c07082a1cd592f29fe5702606926112b",
+    "current": {
+      "item1": "31/31 EXHAUSTED",
+      "item2": "11/17",
+      "total": "42/48"
+    },
+    "extra_item1_requested": 1,
+    "owner_grant": "NOT_GIVEN",
+    "next_attempt_number_if_granted": 32,
+    "actual_cap": "31; no automatic increase",
+    "future_totals": "recompute from latest owner ledger at launch, not a reservation",
+    "changed_here": false
+  },
+  "scope": {
+    "repair": "two fixtures only, compiler bytes match failed6f; new caller-PFC composition source-predicted",
+    "native_repaired_outcome": "NOT_RUN",
+    "old_failedCI": "retained7success1failure4cancelled; expected/script/ui notrun percoordinator",
+    "PR_issue_comment_or_openPRbranch_push": "OWNER approval required; not authorized here"
+  },
+  "no_CI_push_publication_accounting_action": true
+}
