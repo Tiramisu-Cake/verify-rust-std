@@ -1,0 +1,291 @@
+{
+  "schema": "ch8-s2-r3-postrun-inputs-v1",
+  "status": "PREPARED_NOT_ISSUED",
+  "owner_authority": "Owner-delegated coordinator executed agreed r3 GO; intake13 authorized only after terminal run, one attempt, no rerun.",
+  "run": {
+    "repository": "Tiramisu-Cake/kani",
+    "id": 44310254730,
+    "expected_attempt": 1,
+    "url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44310254730",
+    "branch": "uninit-ci/ch8-s2-batch3probes-r3-20261118",
+    "trigger_sha": "6d7f3c4b5b3f5db3c20d7b30b6363ead9096ba26",
+    "tree": "1c199ee22001213c164ac0bb9c9b56c2e5f827df",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "reviewed_control_sha": "dc1ad0f9ce364f9a7efb2c3cc32db6ed51b6db4b",
+    "published_source_branch": "experiment/ch8-s2-batch3probes-r3-20261118",
+    "terminal_status": "NOT_YET_INTAKEN"
+  },
+  "source": {
+    "sha": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+    "tree": "b5b25f4e59308df7b15340cae343f50ae9fd8a81",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "tool": {
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "change": "NONE_STOCK"
+  },
+  "request": {
+    "path": "../batch-r3/CI-REQUEST.json",
+    "sha256": "f6a0d1c354237c1f0ffde252cef84ec2e30b739ae1e5ef41a54ec7cfa3fb761e",
+    "workflow_sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c",
+    "cfg_pfc_source_sha256": {
+      "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "library/core/src/slice/mod.rs": "1c94e306a979f2c59a4e3687a32a3e4efbeef967b7bf5eeb8d1977371c2c17dd",
+      "library/core/src/slice/sort/mod.rs": "f67551bff44a854a3f03901db10a099bdab3b67b47d8724bef43858d97134f3c",
+      "library/core/src/slice/sort/shared/mod.rs": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
+      "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "86bac48e888365eab2187756dfd8ffbce059d6cc2ce35b1d8ab7b39d788118ac",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5"
+    },
+    "contract_stack_source_sha256": {
+      "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+      "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": "7095d7272d929b4e495896ff957a69120a7b86b3f0b99655ede4c989e0543b47",
+      "library/core/src/slice/sort/shared/smallsort/verify/fixed_inputs.rs": "5b648cbdedd89ef92f0a794580d0c682fc3fe3035cf63142f1b6bec6baccb7c7",
+      "library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs": "575aa575ffb977d945adb2fc40496c805fe6f8cdb1fc6fe471dbe277f5b2630f",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "86bac48e888365eab2187756dfd8ffbce059d6cc2ce35b1d8ab7b39d788118ac",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "85bdd131f3a7e62106e69e98e4b1b85d2f68c91a4bfff4df629955539493748c",
+      "library/core/src/slice/sort/shared/smallsort/verify/insert_tail_contracts.rs": "6f1a2540156a3c603639ee96245aca16ad9da3dbce401630c1b8866d343aa406",
+      "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "e37e6971e6458a17d858de9a6a6ea38265d7584934ef71c8243c97a487505e54",
+      "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs": "3a220d9fcd8269b253efaa8d7c18c13aa7a6e6f8cf59504ac2ec4c004b9abffe",
+      "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": "e008037d4c5a32e31dc25490437bcd2bc520915bfda4af3c2fc84df6e331450e",
+      "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "d59ceb99741990afcfe3f312119053a520f16c071f200953fc517a33729527bf",
+      "library/core/src/slice/sort/shared/smallsort/verify/scratch_geometry.rs": "905045ba504b5391af44a575dd7e616b0bebb124623490d24343f759eb7f7d16",
+      "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": "f576bfa8185c3ded0a27374dd4904db52f9711102a62c37f10406b2ccbd87f23",
+      "library/core/src/slice/sort/shared/smallsort/verify/tag_permutation.rs": "dafe3017a7dbf946c045756d8c0f122555bd1372868554563d1cb373eeea7837",
+      "library/core/src/slice/sort/shared/smallsort/verify/types.rs": "c5b4b5007cda1764af15639fba0fd23bfab9e489d052b0ead6872a440bed1f4f",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5"
+    }
+  },
+  "package_g0": "ba7286f5f77277aed531eaaab601e94396dec909",
+  "package_review_g0": "379d32fcf6784e9e3377c0972a81648c55294d96",
+  "GO_request_g0": "bcaf60f3e592bb81f6757d24a192fc6e4da90e2f",
+  "runner_component": {
+    "package_g0": "a8e3cb30c617a6dee07fa847f1f23470d59783e3",
+    "control_sha": "472be8c3794d7a4530760ab7d5eae4ce950aa01c",
+    "control_tree": "4835c615d20e6606ddcdc64bbb8314973cec141b",
+    "final_binding": "Reviewed exact code invariance except source identity literals and derived payload bindings"
+  },
+  "review_gates": {
+    "B-01": "CLOSED",
+    "B-02": "CLOSED",
+    "integration": "CLOSED"
+  },
+  "artifact": {
+    "name": "ch8-s2-batch3probes-44310254730-1",
+    "members": [
+      "group-evidence.json.gz"
+    ],
+    "count": 1,
+    "full_raw_logs_archives": "NOT_AUTHORIZED",
+    "digest": "VERIFY_GITHUB_ZIP_BEFORE_EXTRACTION_AND_EMBEDDED_HASHES"
+  },
+  "selection": {
+    "group_ids": [
+      "s2-batch3probes-u34"
+    ],
+    "row_ids": [
+      "swap_pfc",
+      "summary_witness",
+      "merge32_real",
+      "sort13_assumed",
+      "general32_assumed",
+      "merge_order_corrupt",
+      "merge_count_corrupt",
+      "checker_count_corrupt",
+      "checker_order_corrupt",
+      "sort13_weak",
+      "general32_weak"
+    ],
+    "expected": [
+      {
+        "id": "swap_pfc",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_SWAP_EQUAL",
+          "S2_SWAP_TAKEN",
+          "S2_SWAP_REVERSE",
+          "S2_SWAP_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "summary_witness",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_WITNESS_UNSORTED",
+          "S2_WITNESS_NONCONSTANT",
+          "S2_WITNESS_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "merge32_real",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_MERGE_RIGHT_FIRST",
+          "S2_MERGE_LEFT_FIRST",
+          "S2_MERGE_TIE",
+          "S2_MERGE_NONCONSTANT",
+          "S2_MERGE_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "sort13_assumed",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_SORT13_UNSORTED",
+          "S2_SORT13_DUPLICATE",
+          "S2_SORT13_NONCONSTANT",
+          "S2_SORT13_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "general32_assumed",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_GENERAL32_UNSORTED",
+          "S2_GENERAL32_DUPLICATE",
+          "S2_GENERAL32_NONCONSTANT",
+          "S2_GENERAL32_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "merge_order_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_MERGE_ORDER",
+        "required_cover_messages": []
+      },
+      {
+        "id": "merge_count_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_MERGE_COUNT",
+        "required_cover_messages": []
+      },
+      {
+        "id": "checker_count_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_CHECKER_COUNT",
+        "required_cover_messages": []
+      },
+      {
+        "id": "checker_order_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_CHECKER_ORDER",
+        "required_cover_messages": []
+      },
+      {
+        "id": "sort13_weak",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_SORT13_WEAK",
+        "required_cover_messages": []
+      },
+      {
+        "id": "general32_weak",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_GENERAL32_WEAK",
+        "required_cover_messages": []
+      }
+    ],
+    "formal_expected_inventory": [
+      "merge32_real"
+    ],
+    "diagnostic_assumed_inventory": [
+      "sort13_assumed",
+      "general32_assumed"
+    ],
+    "qualification": "NOT_GRANTED_BY_INTAKE"
+  },
+  "caps": {
+    "backend_harness_s": 600,
+    "compile_s": 900,
+    "group_child_s": 7500,
+    "phase_s": 8100,
+    "job_minutes": 180,
+    "jobs": 1,
+    "max_parallel": 1,
+    "group_RSS_max_GiB": 12,
+    "memory_headroom_GiB": 2,
+    "per_root_RSS_target_GiB": 6,
+    "per_root_RSS_measurement": "UNKNOWN_UNLESS_ACTUALLY_OBSERVED",
+    "root_cap_sum_s": 6600,
+    "phase_step_s": 7560,
+    "setup_s": 1800,
+    "checkout_depths": {
+      "control": 7,
+      "source": 5,
+      "tool": 2
+    }
+  },
+  "model_delta": "Inherited ordinary diagnostic_sort8 in both general32 roots; no sort8_registration_only. R3 changes twelve safety clauses in five functions to direct Kani attributes under S2 with complementary original safety attributes outside S2; bodies/signatures and five actual swap preconditions/frame/postconditions preserved. No proved semantic-leaf credit inferred.",
+  "known_limits": [
+    "Historical r1 rustc cause UNKNOWN. R2 complete diagnostic observed missing __kani_recursion_check_swap_if_less; r3 static normalization is a source-supported repair, not demonstrated native causality.",
+    "Author33 tests ran precursor67eb; finaldc1 corrected inventory binding only. Independent final7 gates/3 mutations are static evidence, not native compile/runtime proof.",
+    "Preview timing failure preserved; one independent PASS does not establish absence of a timing race.",
+    "Native compile, first root start, full export completeness and proof admission are separate gates.",
+    "Actual merge32 claim restricted to exact u8/32 sorted-halves/allocation domain; sort13/general32 DIAGNOSTIC_ASSUMED.",
+    "Unmeasured phases/per-root aggregate RSS/6GiB target UNKNOWN; do not substitute group or nonsimultaneous peaks.",
+    "TIMEOUT600s is censored; missing/NOT_RUN is not zero; zero-root setup costs do not establish causal speedup."
+  ],
+  "prior_runs": [
+    {
+      "id": 44264952389,
+      "charged": 0,
+      "proof_cost_reuse": false
+    },
+    {
+      "id": 44284869572,
+      "charged": 0,
+      "historical_cause": "UNKNOWN",
+      "proof_cost_reuse": false
+    },
+    {
+      "id": 44302170220,
+      "charged": 0,
+      "observed": "confirmed compile failure before first root; complete missing swap_if_less recursion-closure diagnostic",
+      "proof_cost_reuse": false
+    }
+  ],
+  "accounting_reference_only": {
+    "reservation_and_rule_g0": "cf2727a4e30faab908b0055cc1e67bfe2763eb4e",
+    "run_record_g0": "45fb230684167f8baa0e2e78105d78eb460520b2",
+    "item1_used": 29,
+    "item1_cap": 29,
+    "item2_used": 10,
+    "item2_cap": 14,
+    "total_used": 39,
+    "total_cap": 43,
+    "rule": "CONFIRMED_COMPILE_FAILURE_BEFORE_FIRST_ROOT=0; absence of RESULTS alone insufficient; retain real CI cost; every retry separate review+GO",
+    "worker_may_change_accounting": false
+  },
+  "activation": {
+    "issue_now": false,
+    "intake13": "AFTER_CONFIRMED_TERMINAL_ONCE; COORDINATOR_ALREADY_AUTHORIZED_ISSUANCE",
+    "later_cost_P2_review": "NOT_ISSUED",
+    "settings": "current model/tier, FastOFF; no subagents"
+  },
+  "output": "../run-44310254730/ except review/",
+  "preparation_snapshot": {
+    "id": 44310254730,
+    "status": "in_progress",
+    "conclusion": null,
+    "head_sha": "6d7f3c4b5b3f5db3c20d7b30b6363ead9096ba26",
+    "head_branch": "uninit-ci/ch8-s2-batch3probes-r3-20261118",
+    "event": "push",
+    "run_attempt": 1,
+    "updated_at": "2026-11-18T13:05:55Z",
+    "source": "Connected GitHub metadata observed during task preparation"
+  },
+  "trigger_tree_parent_observation": "MATCH from local exact Git object; connected run metadata independently binds actual head/ref/push/attempt1"
+}
