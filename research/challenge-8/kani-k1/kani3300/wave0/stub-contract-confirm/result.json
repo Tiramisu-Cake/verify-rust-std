@@ -1,0 +1,160 @@
+{
+  "assurance": "NOT_RUN; PREPARED_STATIC_PACKET",
+  "build": {
+    "exit": null,
+    "termination": "NOT_RUN"
+  },
+  "classification": "INCONCLUSIVE",
+  "integrity": {
+    "algorithm": "sha256",
+    "canonical_payload_sha256": "a68674bae6f28601885e1999facd4e9b99731889e1b67daf6ec52e7a489cdd53",
+    "canonicalization": "json sort_keys separators comma/colon UTF-8; omit integrity"
+  },
+  "native": {
+    "MIR": "NOT_RUN",
+    "confirmation": "NOT_RUN",
+    "fixed": "NOT_RUN",
+    "macro_expansion": "NOT_RUN",
+    "main": "NOT_RUN"
+  },
+  "planned_invocations": [
+    {
+      "argv": [
+        "${STOCK}/scripts/cargo-kani",
+        "kani",
+        "--manifest-path",
+        "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+        "--lib",
+        "--no-default-features",
+        "--features",
+        "provider",
+        "--exact",
+        "--harness",
+        "provider",
+        "-j1",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "stubbing",
+        "-Z",
+        "export-json",
+        "--export-json",
+        "${SCRATCH}/provider.json",
+        "--output-format=regular",
+        "--target-dir",
+        "${SCRATCH}/provider-target"
+      ],
+      "cfg": "kani plus feature=\"provider\"; provider harness always present",
+      "feature": "provider",
+      "runtime": "NOT_RUN",
+      "selected_harness": "provider",
+      "slot": "provider"
+    },
+    {
+      "argv": [
+        "${STOCK}/scripts/cargo-kani",
+        "kani",
+        "--manifest-path",
+        "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+        "--lib",
+        "--no-default-features",
+        "--features",
+        "verified",
+        "--exact",
+        "--harness",
+        "verified_control",
+        "-j1",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "stubbing",
+        "-Z",
+        "export-json",
+        "--export-json",
+        "${SCRATCH}/verified.json",
+        "--output-format=regular",
+        "--target-dir",
+        "${SCRATCH}/verified-target"
+      ],
+      "cfg": "kani plus feature=\"verified\"; provider harness always present",
+      "feature": "verified",
+      "runtime": "NOT_RUN",
+      "selected_harness": "verified_control",
+      "slot": "verified"
+    },
+    {
+      "argv": [
+        "${STOCK}/scripts/cargo-kani",
+        "kani",
+        "--manifest-path",
+        "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+        "--lib",
+        "--no-default-features",
+        "--features",
+        "ordinary",
+        "--exact",
+        "--harness",
+        "ordinary_stub",
+        "-j1",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "stubbing",
+        "-Z",
+        "export-json",
+        "--export-json",
+        "${SCRATCH}/ordinary.json",
+        "--output-format=regular",
+        "--target-dir",
+        "${SCRATCH}/ordinary-target"
+      ],
+      "cfg": "kani plus feature=\"ordinary\"; provider harness always present",
+      "feature": "ordinary",
+      "runtime": "NOT_RUN",
+      "selected_harness": "ordinary_stub",
+      "slot": "ordinary"
+    }
+  ],
+  "reasons": [
+    "NOT_RUN"
+  ],
+  "request_binding": {
+    "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "base_parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "control_head": "1253186ae87e079758ab573f50ba305a028f8963",
+    "control_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "control_tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+    "profile_sha256": "9f230f8fac56230a468f043e294bc77a745b50d5a16a47a7857eb0be4af5cae5",
+    "schema": "stub-contract-request-v1"
+  },
+  "request_sha256": "21749d215a2851d971e58f16727d7589af3468adffe086afa4a558cf026841c4",
+  "schema": "stub-contract-result-v1",
+  "setup": "NOT_RUN",
+  "slots": {
+    "ordinary": {
+      "observation": {
+        "outcome": "NOT_RUN"
+      },
+      "process": {
+        "termination": "NOT_RUN"
+      }
+    },
+    "provider": {
+      "observation": {
+        "outcome": "NOT_RUN"
+      },
+      "process": {
+        "termination": "NOT_RUN"
+      }
+    },
+    "verified": {
+      "observation": {
+        "outcome": "NOT_RUN"
+      },
+      "process": {
+        "termination": "NOT_RUN"
+      }
+    }
+  }
+}

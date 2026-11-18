@@ -1,0 +1,29 @@
+{
+  "accounting_reference_only": {
+    "CI_authorized": false,
+    "item1_cap": 30,
+    "item1_used": 29,
+    "item2_cap": 17,
+    "item2_used": 10,
+    "ledger_edit": false,
+    "reservation": false,
+    "total_cap": 47,
+    "total_used": 39
+  },
+  "clean_room": [
+    "exact upstream main source/docs/tests",
+    "own source-derived analysis",
+    "own historical diagnostic navigation only"
+  ],
+  "delegation": "none; task explicitly forbids subagents",
+  "forbidden_runs": "cargo rustc Kani CBMC rustfmt expansion compiler verifier fullrunner CI push PR issue ledger",
+  "g0_write_scope": "research/challenge-8/kani-k1/kani3300/wave0/stub-contract-confirm/",
+  "owner_authority": "PREPARATION_ONLY",
+  "required_next": [
+    "independent review14 or review11",
+    "separate coordinator/owner GO"
+  ],
+  "task": "task9582039593814a2b67b3ca6377c5f165e92dfa1f",
+  "task_file": "research/challenge-8/kani-k1/TASK-CH8-STUB-CONTRACT-CONFIRM-W15.md",
+  "task_file_sha256": "f801a95ad78152b632eb1752eb649bd23898c6b52f57adb881dadd034931419a"
+}

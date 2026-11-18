@@ -1,0 +1,242 @@
+{
+  "accounting_reference_only": {
+    "CI_authorized": false,
+    "item1_cap": 30,
+    "item1_used": 29,
+    "item2_cap": 17,
+    "item2_used": 10,
+    "ledger_edit": false,
+    "reservation": false,
+    "total_cap": 47,
+    "total_used": 39
+  },
+  "artifact": {
+    "inventory": "source/control files and tools with SHA256, per-slot export/stream digests and invocation identities; result canonical digest excludes integrity",
+    "members": [
+      "result.json"
+    ],
+    "name": "stub-contract-confirm-${github.run_id}-${github.run_attempt}",
+    "raw_logs": false,
+    "retention_days": 7
+  },
+  "authority": "NO_DISPATCH_NO_PUBLICATION_NO_ACCOUNTING",
+  "binding": {
+    "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "base_parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "control_head": "1253186ae87e079758ab573f50ba305a028f8963",
+    "control_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "control_tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+    "profile_sha256": "9f230f8fac56230a468f043e294bc77a745b50d5a16a47a7857eb0be4af5cae5",
+    "schema": "stub-contract-request-v1"
+  },
+  "caps": {
+    "automatic_retries": 0,
+    "build_invocations": 1,
+    "build_seconds": 900,
+    "diagnostic_block_bytes": 4096,
+    "diagnostic_blocks_per_stream": 32,
+    "each_native_seconds": 120,
+    "export_bytes": 2097152,
+    "group_rss_bytes": 8589934592,
+    "head_bytes": 4096,
+    "head_lines": 18,
+    "job_minutes": 60,
+    "max_checks_per_harness": 256,
+    "native_invocations": 3,
+    "per_process_address_space_bytes": 8589934592,
+    "preview_line_chars": 500,
+    "setup_minutes": 30,
+    "stream_bytes": 2097152,
+    "tail_bytes": 8192,
+    "tail_lines": 8
+  },
+  "classification_policy": "ORACLES.md and runner.classify; all actual outcomes NOT_RUN",
+  "commands": {
+    "build": {
+      "argv": [
+        "cargo",
+        "build-dev"
+      ],
+      "cwd": "${STOCK}",
+      "runtime": "NOT_RUN"
+    },
+    "setup": "./stock/.github/actions/setup with kani_dir=stock",
+    "slots": [
+      {
+        "argv": [
+          "${STOCK}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+          "--lib",
+          "--no-default-features",
+          "--features",
+          "provider",
+          "--exact",
+          "--harness",
+          "provider",
+          "-j1",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "stubbing",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/provider.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/provider-target"
+        ],
+        "cfg": "kani plus feature=\"provider\"; provider harness always present",
+        "feature": "provider",
+        "runtime": "NOT_RUN",
+        "selected_harness": "provider",
+        "slot": "provider"
+      },
+      {
+        "argv": [
+          "${STOCK}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+          "--lib",
+          "--no-default-features",
+          "--features",
+          "verified",
+          "--exact",
+          "--harness",
+          "verified_control",
+          "-j1",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "stubbing",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/verified.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/verified-target"
+        ],
+        "cfg": "kani plus feature=\"verified\"; provider harness always present",
+        "feature": "verified",
+        "runtime": "NOT_RUN",
+        "selected_harness": "verified_control",
+        "slot": "verified"
+      },
+      {
+        "argv": [
+          "${STOCK}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+          "--lib",
+          "--no-default-features",
+          "--features",
+          "ordinary",
+          "--exact",
+          "--harness",
+          "ordinary_stub",
+          "-j1",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "stubbing",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/ordinary.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/ordinary-target"
+        ],
+        "cfg": "kani plus feature=\"ordinary\"; provider harness always present",
+        "feature": "ordinary",
+        "runtime": "NOT_RUN",
+        "selected_harness": "ordinary_stub",
+        "slot": "ordinary"
+      }
+    ]
+  },
+  "compiler": "exact STOCK main; fixture/control lives in separate checkout; candidate fix excluded",
+  "control": {
+    "branch": "w15/stub-contract-confirm",
+    "dirty": "",
+    "head": "1253186ae87e079758ab573f50ba305a028f8963",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "published": false,
+    "shallow": "false",
+    "tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+    "worktree": "/root/kani-stub-contract-control-w15"
+  },
+  "environment": {
+    "CARGO_BUILD_TARGET": null,
+    "CARGO_ENCODED_RUSTFLAGS": null,
+    "CARGO_TARGET_DIR": null,
+    "FLAMEGRAPH": null,
+    "KANIFLAGS": "",
+    "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true",
+    "KANI_LOG": "",
+    "NO_COLOR": "1",
+    "RUSTFLAGS": "",
+    "RUSTUP_TOOLCHAIN": "nightly-2026-11-12",
+    "RUST_BACKTRACE": "0"
+  },
+  "future_gate": [
+    "independent14/11 approval of exact packet",
+    "separate coordinator/owner GO",
+    "coordinator-owned slot/accounting; no implicit reservation"
+  ],
+  "main": {
+    "compiler_fix": "NONE; F4 excluded",
+    "dirty": "",
+    "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "shallow": "false",
+    "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "worktree": "/root/kani-stub-contract-source-w15"
+  },
+  "patch_sha256": "915b02209ce2f8439c71239856b02aef6c58486236301f9e23902323b12608a4",
+  "profile_sha256": "9f230f8fac56230a468f043e294bc77a745b50d5a16a47a7857eb0be4af5cae5",
+  "repository": "Tiramisu-Cake/kani",
+  "request_binding": {
+    "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "base_parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "control_head": "1253186ae87e079758ab573f50ba305a028f8963",
+    "control_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "control_tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+    "profile_sha256": "9f230f8fac56230a468f043e294bc77a745b50d5a16a47a7857eb0be4af5cae5",
+    "schema": "stub-contract-request-v1"
+  },
+  "request_sha256": "21749d215a2851d971e58f16727d7589af3468adffe086afa4a558cf026841c4",
+  "schema": "stub-contract-ci-request-v1",
+  "status": "READY_FOR_REVIEW",
+  "stock": {
+    "compiler_fix": "NONE; F4 excluded",
+    "dirty": "",
+    "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "shallow": "false",
+    "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "worktree": "/root/kani-stub-contract-source-w15"
+  },
+  "task": "task9582039593814a2b67b3ca6377c5f165e92dfa1f",
+  "workflow": {
+    "control_checkout_depth": 2,
+    "dispatch": "NOT_AUTHORIZED; NOT_RUN",
+    "event": "workflow_dispatch",
+    "file": ".github/workflows/slow-tests.yml",
+    "inputs": {
+      "control_head": "1253186ae87e079758ab573f50ba305a028f8963",
+      "control_tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+      "request_sha256": "21749d215a2851d971e58f16727d7589af3468adffe086afa4a558cf026841c4"
+    },
+    "ref": "w15/stub-contract-confirm",
+    "repository": "Tiramisu-Cake/kani",
+    "source_checkout_depth": 2
+  }
+}

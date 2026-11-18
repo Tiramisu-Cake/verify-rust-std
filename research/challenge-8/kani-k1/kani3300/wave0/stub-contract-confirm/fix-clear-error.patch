@@ -1,0 +1,70 @@
+diff --git a/kani-compiler/src/kani_middle/codegen_units.rs b/kani-compiler/src/kani_middle/codegen_units.rs
+--- a/kani-compiler/src/kani_middle/codegen_units.rs
++++ b/kani-compiler/src/kani_middle/codegen_units.rs
+@@ -316,6 +316,18 @@
+ fn validate_units(tcx: TyCtxt, units: &[CodegenUnit]) {
+     for unit in units {
+         for (from, to) in &unit.stubs {
++            if KaniAttributes::for_def_id(tcx, from.def_id()).has_contract() {
++                let span = unit.harnesses.first().unwrap().def.span();
++                tcx.dcx().span_err(
++                    rustc_internal::internal(tcx, span),
++                    format!(
++                        "ordinary stubbing of contracted function `{}` is unsupported; \
++                         use `kani::stub_verified` to use its contract",
++                        from.name(),
++                    ),
++                );
++                continue;
++            }
+             // We use harness span since we don't keep the attribute span.
+             let Err(msg) = check_compatibility(tcx, *from, *to) else { continue };
+             let span = unit.harnesses.first().unwrap().def.span();
+diff --git a/docs/src/reference/experimental/stubbing.md b/docs/src/reference/experimental/stubbing.md
+--- a/docs/src/reference/experimental/stubbing.md
++++ b/docs/src/reference/experimental/stubbing.md
+@@ -161,7 +161,10 @@
+ - **Function contracts:** Stubbing works with function contracts. Use `#[kani::stub_verified(fn)]`
+   to replace a function with its verified contract abstraction. This requires a
+   `#[kani::proof_for_contract(fn)]` harness to exist. Regular `#[kani::stub]` can also be
+-  combined with `-Z function-contracts` in the same harness.
++  combined with `-Z function-contracts` in the same harness when the functions
++  replaced by ordinary stubs have no contracts. Applying an ordinary stub to a
++  contracted function produces a compilation error. Use `#[kani::stub_verified(fn)]`
++  to replace that function with its contract abstraction.
+ - **Loop contracts:** Stubbing and loop contracts (`-Z loop-contracts`) can be used together
+   in the same harness without issues.
+ - **Concrete playback:** Stubbing is compatible with `--concrete-playback`. When a stubbed
+diff --git a/tests/ui/ordinary-stub-contract/main.rs b/tests/ui/ordinary-stub-contract/main.rs
+new file mode 100644
+--- /dev/null
++++ b/tests/ui/ordinary-stub-contract/main.rs
+@@ -0,0 +1,21 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Zfunction-contracts -Zstubbing
++
++#[kani::requires(x < 8)]
++#[kani::ensures(|result| *result == x + 1)]
++fn f(x: u8) -> u8 {
++    x + 1
++}
++
++fn g(x: u8) -> u8 {
++    x + 2
++}
++
++#[kani::proof]
++#[kani::stub(f, g)]
++fn ordinary_stub() {
++    let x: u8 = kani::any();
++    kani::assume(x < 8);
++    assert!(f(x) == x + 2);
++}
+diff --git a/tests/ui/ordinary-stub-contract/expected b/tests/ui/ordinary-stub-contract/expected
+new file mode 100644
+--- /dev/null
++++ b/tests/ui/ordinary-stub-contract/expected
+@@ -0,0 +1,2 @@
++ordinary stubbing of contracted function
++is unsupported; use `kani::stub_verified` to use its contract

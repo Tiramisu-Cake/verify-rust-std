@@ -1,0 +1,55 @@
+{
+  "claims": [
+    {
+      "assurance": "SOURCE_ANALYSIS",
+      "claim": "conditional original-attributes/replacement-body mechanism on frozen main",
+      "evidence": "SOURCE-TRACE.md"
+    },
+    {
+      "assurance": "STATIC_SYNTHETIC",
+      "claim": "static/Python/mock packet checks pass",
+      "evidence": "VALIDATION.json"
+    }
+  ],
+  "closure_reason": "all four requested preparation deliverables completed; native CI requires future review and separate GO",
+  "control": {
+    "branch": "w15/stub-contract-confirm",
+    "dirty": "",
+    "head": "1253186ae87e079758ab573f50ba305a028f8963",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "published": false,
+    "shallow": "false",
+    "tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+    "worktree": "/root/kani-stub-contract-control-w15"
+  },
+  "independent_proof_credit": "NONE",
+  "ledger_mutation": false,
+  "native": {
+    "MIR": "NOT_RUN",
+    "confirmation": "NOT_RUN",
+    "fixed": "NOT_RUN",
+    "macro_expansion": "NOT_RUN",
+    "main": "NOT_RUN"
+  },
+  "next": "independent14/11 review of this immutable packet; no dispatch authorization",
+  "open": [
+    "native confirmation NOT_RUN",
+    "independent14/11 review",
+    "separate owner/coordinator GO",
+    "support semantics versus explicit documented restriction"
+  ],
+  "request_sha256": "21749d215a2851d971e58f16727d7589af3468adffe086afa4a558cf026841c4",
+  "reservation": false,
+  "schema": "stub-contract-checkpoint-v1",
+  "source": {
+    "compiler_fix": "NONE; F4 excluded",
+    "dirty": "",
+    "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "shallow": "false",
+    "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "worktree": "/root/kani-stub-contract-source-w15"
+  },
+  "status": "READY_FOR_REVIEW",
+  "task": "task9582039593814a2b67b3ca6377c5f165e92dfa1f"
+}
