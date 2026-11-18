@@ -1,0 +1,10 @@
+{
+  "classification": "PRECOMMIT_TARGETED_SYNTHETIC_CHECKS; final object tested separately by full Validate",
+  "old_repro": "PRIOR-4E97-UPLOADED-PREFIX-REPRO.json",
+  "initial_failure": "cap original_size-1 crosses final envelope guard; hard ValueError is fail closed",
+  "test_fixture_fix": "add synthetic optional1MB payload and halve measured compact cap to exercise published INCOMPLETE path; production caps unchanged",
+  "cwd_error": "one targeted invocation from control repo root failed import; rerun from ch8-s1-control",
+  "passes": "4 tests in1.154s; all archive-only positive/negative cases PASS",
+  "native_execution": "MOCKED; real _run_group, seal, fallback, packer, collect paths",
+  "proof_credit": "NONE"
+}

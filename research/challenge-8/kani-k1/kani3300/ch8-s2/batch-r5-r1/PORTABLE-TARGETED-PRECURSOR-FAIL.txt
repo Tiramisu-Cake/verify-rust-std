@@ -1,0 +1,20 @@
+test_archive_only_prefix_exact_seal_and_collect_after_later_failure (test_r5.PortablePrefixTests.test_archive_only_prefix_exact_seal_and_collect_after_later_failure) ... ok
+test_compact_cap_omission_is_explicit_and_never_qualified (test_r5.PortablePrefixTests.test_compact_cap_omission_is_explicit_and_never_qualified) ... ERROR
+test_missing_required_structured_member_rejects_archive (test_r5.PortablePrefixTests.test_missing_required_structured_member_rejects_archive) ... ok
+test_mutated_structured_member_with_updated_entry_hash_still_rejects (test_r5.PortablePrefixTests.test_mutated_structured_member_with_updated_entry_hash_still_rejects) ... ok
+
+======================================================================
+ERROR: test_compact_cap_omission_is_explicit_and_never_qualified (test_r5.PortablePrefixTests.test_compact_cap_omission_is_explicit_and_never_qualified)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s2-r5-r1-final-w13/ch8-s1-control/test_r5.py", line 367, in test_compact_cap_omission_is_explicit_and_never_qualified
+    with mock.patch.object(pack_evidence,'UNCOMPRESSED_CAP',original_size-1):result=pack_evidence.pack(out)
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/kani-ch8-s2-r5-r1-final-w13/ch8-s1-control/pack_evidence.py", line 187, in pack
+    raise ValueError('bounded fallback receipts exceed artifact cap')
+ValueError: bounded fallback receipts exceed artifact cap
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.070s
+
+FAILED (errors=1)

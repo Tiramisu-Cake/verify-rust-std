@@ -1,0 +1,75 @@
+{
+  "status": "COMBINED_MARGIN_AND_PORTABLE_REPAIR",
+  "measurement_classification": "ACTUAL_FINAL_OBJECT",
+  "prior_package": "53008fd4de6bb5719fd232b1ddb7e875b5112012",
+  "prior_control": {
+    "worktree": "/root/kani-ch8-s2-r5-package-w13",
+    "sha": "4e97d370aba4adc480fcc3701b111d02658aa94d",
+    "tree": "d4e0b1f74b609c67f984fe157b940330ac8d323a",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+    "request_sha256": "ef4efdd6a4753b01de13b9a22000646a9a56e029c115426d40fd061df406102b",
+    "workflow_sha256": "c48ae57ed944b74a155b4d57877ec3a088e5f642a7c1151481dd892ed933aeb0"
+  },
+  "prior_host_seconds": "403.420022367",
+  "prior_tests": 130,
+  "required_multiplier": "1.5",
+  "minimum_seconds_exact": "613.5403468290",
+  "minimum_whole_minutes": 11,
+  "old_cap_seconds": 600,
+  "old_ratio": "1.487283641698296530003969841",
+  "new_cap_seconds": 660,
+  "new_ratio": "1.613585814065335093936654016",
+  "rounding": "ceil(actual final Validate seconds *1.5/60)",
+  "full_suite_new_head": "COMBINED-FINAL-VALIDATE-TIMING.json",
+  "targeted_tests": "CAP-TESTS.json; plus four archive-only tests in actual final134",
+  "workflow_maxima_minutes": {
+    "prior": 186,
+    "new": 187
+  },
+  "setup_step_maxima_seconds": {
+    "prior": 3120,
+    "new": 3180
+  },
+  "setup_aggregate_seconds": 1800,
+  "job_minutes": 180,
+  "proof_step_seconds": 7560,
+  "campaign_seconds": 6900,
+  "extra_step_maximum_is_budget_grant": false,
+  "future_GitHub_duration": "UNKNOWN",
+  "future_timeout_absence": "NOT_CLAIMED",
+  "source_tool_schedule_caps": "UNCHANGED",
+  "runtime_delta": "portable structured seal only",
+  "coverage": {
+    "selected_roots": 9,
+    "covers": 16,
+    "exact_negatives": 5,
+    "deferred": [
+      "general32_assumed",
+      "general32_weak"
+    ],
+    "full_inventory": "11/20/6"
+  },
+  "current_budget_reference_only": {
+    "item2_used": 10,
+    "item2_cap": 14,
+    "total_used": 39,
+    "total_cap": 43,
+    "requested_extra3": "NOT_APPROVED",
+    "reservation": false
+  },
+  "actual_control": {
+    "worktree": "/root/kani-ch8-s2-r5-r1-final-w13",
+    "sha": "d67bd1ecd555030c46a06b8462d0313ea416711a",
+    "tree": "c8925e3acfd299f7eb74997c8e120873dcaab84d",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "4e97d370aba4adc480fcc3701b111d02658aa94d",
+    "request_sha256": "f4a1eb18f3324f380973194c2b384f1a1d6d4df139620f86978e9249462dc7c2",
+    "workflow_sha256": "4a9e90a68e4b3f977f28ee31ec2c9426e3b685f1da5616168e12756d0c64c8c6"
+  },
+  "actual_host_seconds": "409.026897886",
+  "actual_tests": 134,
+  "prior_measurement_classification": "INHERITED_PRIOR_OBJECT4e97"
+}

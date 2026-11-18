@@ -1,0 +1,25 @@
+{
+  "state": "REPRODUCED",
+  "control_sha": "4e97d370aba4adc480fcc3701b111d02658aa94d",
+  "case": "completed prefix sealed locally, later failure, uploaded artifact only",
+  "root": "checker_order_corrupt",
+  "local_seal_verified": true,
+  "local_collector_outcome": "RECORDED",
+  "local_expected_match": true,
+  "packed_state": "PACKAGED",
+  "original_receipt_retained_exactly": true,
+  "sealed_paths_missing_from_uploaded_artifact": [
+    "groups/r5-checker_order_corrupt/stderr.log",
+    "groups/r5-checker_order_corrupt/stdout.log"
+  ],
+  "archive_only_seal_verification": {
+    "type": "KeyError",
+    "message": "'groups/r5-checker_order_corrupt/stderr.log'"
+  },
+  "archive_only_r5_collect": {
+    "type": "KeyError",
+    "message": "'groups/r5-checker_order_corrupt/stderr.log'"
+  },
+  "scope": "synthetic fixture; not native outcome or proof evidence",
+  "compiler_CI_external_actions": 0
+}

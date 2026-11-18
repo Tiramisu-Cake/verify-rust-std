@@ -1,0 +1,52 @@
+{
+  "classification": "INHERITED_PRIOR_OBJECT",
+  "original_control": {
+    "worktree": "/root/kani-ch8-s2-r5-package-w13",
+    "sha": "4e97d370aba4adc480fcc3701b111d02658aa94d",
+    "tree": "d4e0b1f74b609c67f984fe157b940330ac8d323a",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+    "request_sha256": "ef4efdd6a4753b01de13b9a22000646a9a56e029c115426d40fd061df406102b",
+    "workflow_sha256": "c48ae57ed944b74a155b4d57877ec3a088e5f642a7c1151481dd892ed933aeb0"
+  },
+  "new_control": {
+    "worktree": "/root/kani-ch8-s2-r5-r1-final-w13",
+    "sha": "d67bd1ecd555030c46a06b8462d0313ea416711a",
+    "tree": "c8925e3acfd299f7eb74997c8e120873dcaab84d",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "4e97d370aba4adc480fcc3701b111d02658aa94d",
+    "request_sha256": "f4a1eb18f3324f380973194c2b384f1a1d6d4df139620f86978e9249462dc7c2",
+    "workflow_sha256": "4a9e90a68e4b3f977f28ee31ec2c9426e3b685f1da5616168e12756d0c64c8c6"
+  },
+  "prior130_suite_executions_new_head": 0,
+  "new134_suite": "COMBINED-FINAL-VALIDATE-TIMING.json",
+  "files": {
+    "PRIOR-OBJECT-VALIDATE-TIMING.json": {
+      "source_file": "RELEASE-FINAL-VALIDATE-TIMING.json",
+      "source_package": "53008fd4de6bb5719fd232b1ddb7e875b5112012",
+      "sha256": "3b9f65b0deb8f6318e8749b65d975a8b6825c4cf8d417214d2eb0c9936a7a236",
+      "classification": "INHERITED_PRIOR_OBJECT"
+    },
+    "PRIOR-OBJECT-TEST-PROVENANCE.json": {
+      "source_file": "RELEASE-TEST-PROVENANCE.json",
+      "source_package": "53008fd4de6bb5719fd232b1ddb7e875b5112012",
+      "sha256": "f2f356da18e6b120e9657506a25a7c1b03f1567e63da9a6f6e762df8a744f678",
+      "classification": "INHERITED_PRIOR_OBJECT"
+    },
+    "PRIOR-OBJECT-VALIDATE.txt": {
+      "source_file": "RELEASE-FINAL-VALIDATE.txt",
+      "source_package": "53008fd4de6bb5719fd232b1ddb7e875b5112012",
+      "sha256": "0408855a2573200d9428a5abe0f0613a67e1853fc31c958d9a4de9f8a1032b42",
+      "classification": "INHERITED_PRIOR_OBJECT"
+    },
+    "PRIOR-OBJECT-CHECK-SOURCE-TIMING.json": {
+      "source_file": "RELEASE-CHECK-SOURCE-TIMING.json",
+      "source_package": "53008fd4de6bb5719fd232b1ddb7e875b5112012",
+      "sha256": "e378fcb51c4d032aa854a340870936faac7da2b4015b7efcf31a6d5dd0c244f8",
+      "classification": "INHERITED_PRIOR_OBJECT"
+    }
+  },
+  "reason": "Prior130 timing remains prior-object only. Portable seal/service/test behavior changed, so separate actual final-object134 timing is mandatory."
+}

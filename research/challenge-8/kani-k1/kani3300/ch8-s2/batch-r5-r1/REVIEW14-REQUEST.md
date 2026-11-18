@@ -1,0 +1,11 @@
+Combined r5-r1 READY for SAME14 delta review; dispatch authority NONE.
+
+Control d67bd1ecd555030c46a06b8462d0313ea416711a; tree c8925e3acfd299f7eb74997c8e120873dcaab84d; parent 9e14e033f9ee31522b571c127609dcdff76d230b.
+Request SHA256 f4a1eb18f3324f380973194c2b384f1a1d6d4df139620f86978e9249462dc7c2; workflow SHA256 4a9e90a68e4b3f977f28ee31ec2c9426e3b685f1da5616168e12756d0c64c8c6.
+Source bd62e54df1b4749154790aa3db3cc7978f547f75; tool 0aac16ef62da9e9d5645782d458593e5d78143ba; checkout depths7/5/2.
+
+R14-R5-01: R5 Validate11min, exact-cap assertions and maxima187 rebound; legacy10min/186 unchanged. Actual final Validate134 PASS 409.026897886s, margin 1.613585814065335093936654016x >=1.5. Check-source PASS 13.409119839s. Prior130/403.420022367s stays INHERITED_PRIOR_OBJECT4e97. New timing was necessary because portable service/test behavior changed, with unchanged workflow command/module list.
+
+R14-R5-02: portable seal schema ch8-s2-r5-portable-seal-v1 requires hashed structured JSON only. Raw captures stay local with explicitly nonrequired local-only digest metadata. Protected packer/decoder, source/tool/binary/compile/export/rich-property/diagnostic bindings remain unchanged. Path/schema/hash checks reject unavailable/mutated structured payloads. Old exact repro fails on stderr.log; fixed archive-only test deletes producer directory, preserves byte-exact completed prefix after later failure/fallback/pack, verifies seal AND public collect. Missing member, mutation with updated entry digest, and published compact-cap INCOMPLETE are rejected. No raw logs added to upload. Production compact caps unchanged; cap test uses synthetic padding/threshold.
+
+Frozen530/4e97, review022b and cap-only4f evidence preserved. Delta contains only seven control paths; runtime delta only sealed/root_outcome, four tests added to existing explicit test_r5 module. Source/tool/order/campaign caps unchanged. Both general32 roots deferred;9/16/5 selected and full11/20/6 retained. No native compiler/verifier/full runner/CI/push/ledger/reservation. Extra3 budget NOT_APPROVED. Independent exact-final APPROVE and R14-R5-01+02 CLOSED required before separate GO request. This author fix does not claim independent closure or proof credit.

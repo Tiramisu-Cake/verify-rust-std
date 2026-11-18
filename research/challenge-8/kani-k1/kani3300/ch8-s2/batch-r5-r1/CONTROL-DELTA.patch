@@ -1,0 +1,291 @@
+diff --git a/.github/workflows/ch8-s2.yml b/.github/workflows/ch8-s2.yml
+index 1728fccb90de62022e16e3b354990380892f30cf..15c862e03579912b3bcb37ef8f65d0dbc3f3c079 100644
+--- a/.github/workflows/ch8-s2.yml
++++ b/.github/workflows/ch8-s2.yml
+@@ -30,7 +30,7 @@ jobs:
+         fetch-depth: 7
+         persist-credentials: false
+     - name: Validate control and synthetic wrapper
+-      timeout-minutes: 10
++      timeout-minutes: 11
+       working-directory: control/ch8-s1-control
+       env:
+         PYTHONDONTWRITEBYTECODE: '1'
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index e8ca5cf8a433fd2f76a662ae9008240b3ca2a21b..0e6a55ce76d8ae4e533efe1f2f3144b3c7d019f2 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -2,7 +2,7 @@
+   "schema": "ch8-s2-batch3probes-v1",
+   "status": "READY",
+   "authorization": "PREPARATION_ONLY; review14 then separate coordinator GO; dispatch not authorized",
+-  "entry_g0": "cd5da9a56e145dfef0e14a78a5379659d1c77cd6",
++  "entry_g0": "a9cc91d717751d2047e13bc7570a95305f546fa7",
+   "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+   "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+   "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+@@ -689,7 +689,7 @@
+     "ch8-s1-control/test_s2.py"
+   ],
+   "ci_payload_sha256": {
+-    ".github/workflows/ch8-s2.yml": "c48ae57ed944b74a155b4d57877ec3a088e5f642a7c1151481dd892ed933aeb0",
++    ".github/workflows/ch8-s2.yml": "4a9e90a68e4b3f977f28ee31ec2c9426e3b685f1da5616168e12756d0c64c8c6",
+     "ch8-s1-control/ORACLE-SOURCES.json": "69bf8d8494094a079a6ac3422ab90f30b7b5093b53e91ee6ce393a043538eaa2",
+     "ch8-s1-control/ROLE-MAP.json": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
+     "ch8-s1-control/S2-SOURCE.json": "950631f2d0594b7b14dc0c203d12379d48e3aeeba612f1651f029691b376daa6",
+@@ -697,7 +697,7 @@
+     "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+     "ch8-s1-control/binding_metadata.py": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030",
+     "ch8-s1-control/cfg_pfc.py": "e72ba0cff247613a3db7f4a5bd237cfeab64cb49d2410c61e85b3f80e91ecb11",
+-    "ch8-s1-control/check_package.py": "c92fd228fcf975d6c618d9d2a0827570c453e7d32b22753ff9b5ab0714536c0c",
++    "ch8-s1-control/check_package.py": "9746d9c0b338f923875e05d0970df70f4b5325aa2aa875787ca7586699df739c",
+     "ch8-s1-control/collect.py": "1d91b4a44d7cf9d4a7e9f7d571b2477381d4c01cc94860221daba440608b3346",
+     "ch8-s1-control/contract_stacks.py": "c4b0f92fe2ede42399f2743071e58380806e61339bfbc0d1beccbf6b2a11ea0d",
+     "ch8-s1-control/fixtures/s104-rich-fragment.json": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc",
+@@ -713,8 +713,8 @@
+     "ch8-s1-control/oracle_source.py": "75a9a665b7a9fc1c64cd51c1c8d281fd323f22411aee83c017d08f37a27f20ce",
+     "ch8-s1-control/ordinary_contracts.py": "bdbdbe13fa2da6dae8d6dfb7a57a66caed1e52b6d93c1586e8effecaa16cb78e",
+     "ch8-s1-control/pack_evidence.py": "8782f1abd29342cec1202d851c94222c50fed0e6c358549971048135ab24d206",
+-    "ch8-s1-control/r5_campaign.py": "f53cd264b9dbdaedf1f4bf26c1db1858619193e07ddc67389b7f39a2ecbe703d",
+-    "ch8-s1-control/r5_profile.py": "61fa5cd95ba0f180747ed20d109bdbbc86beee3c0537faa084d05b8b3b82a2f0",
++    "ch8-s1-control/r5_campaign.py": "9590e50ad38d8f0009584eddb17a648bf06779e2b6ad3a746cf3cc6deb2ab9fa",
++    "ch8-s1-control/r5_profile.py": "7a67ee275842dc7105e0b3e87be21103d13a84571d2b8f62f44829c1fedff5cb",
+     "ch8-s1-control/r5_runtime.py": "e796129e9da910879026cbe9a2037cf4834793f97032b2ff21bdf128268c697f",
+     "ch8-s1-control/rich_evidence.py": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+     "ch8-s1-control/runner.py": "d66a62853b2592604c2cc91187b5bf6e1c3fded8be0accd38cd0c1262f4e9215",
+@@ -726,7 +726,7 @@
+     "ch8-s1-control/test_contract_stacks.py": "28175e593a49600fc3478a61a7488b4066b0d9d06ef33b082418f19db1eba75d",
+     "ch8-s1-control/test_package.py": "70f00d0726b7011db8a02339c1b031bda49b4af3c2f7e881b68d06b7663b5ca7",
+     "ch8-s1-control/test_r1403_lexical.py": "5518422d03b2db340a09f7dbc9d074651ca607ef028e592e8dd7c4ac938b9c61",
+-    "ch8-s1-control/test_r5.py": "16303f9cef82a04f5f9ed9f29756b8f72d2e0a3d99e15fd8d8bdc760fd747ab3",
++    "ch8-s1-control/test_r5.py": "32759cdbc4d7ea6aac98f9f2138fcdd9491a47362f3daa702f3b17628584491f",
+     "ch8-s1-control/test_runner.py": "42ab9ff6ce08ba17331b62d6e10f26656719850d44968a5497751886a0f91630",
+     "ch8-s1-control/test_rustc_diagnostics.py": "fadad233e902b6fdaaea2a308e2a6321a3c594e8d0ba3492531459cbef0ac88d",
+     "ch8-s1-control/test_s104.py": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+@@ -734,10 +734,10 @@
+     "ch8-s1-control/test_s107.py": "bb33d7a1088572107a243ea364207a67081fb91fd6db90f4de00e627983aa420",
+     "ch8-s1-control/test_s108.py": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854",
+     "ch8-s1-control/test_s108r1.py": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03",
+-    "ch8-s1-control/test_s2.py": "1f1b0912fe1af908800fb111df2fca2e07f0d283cd7539671020c3f359b01e2b"
++    "ch8-s1-control/test_s2.py": "e38b11ff577e62d4ad1fa99dd59453528d75e546ea2d32a1a1986f171df6d524"
+   },
+   "ci_request_hash_policy": "Request excluded from its own payload map; exact request SHA in g0 package and every invocation receipt.",
+-  "control_reference": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
++  "control_reference": "4e97d370aba4adc480fcc3701b111d02658aa94d",
+   "cfg_pfc_source_sha256": {
+     "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+     "library/core/src/slice/mod.rs": "1c94e306a979f2c59a4e3687a32a3e4efbeef967b7bf5eeb8d1977371c2c17dd",
+diff --git a/ch8-s1-control/check_package.py b/ch8-s1-control/check_package.py
+index 57ef91ac7af60508a3e5a6b3e69d15292e15c162..1c687fc40fd4444a5591ccb066df04a712090a8c 100644
+--- a/ch8-s1-control/check_package.py
++++ b/ch8-s1-control/check_package.py
+@@ -80,6 +80,8 @@ def check_yaml(path):
+     import r5_profile
+     if 'S2_PROFILE' in doc.get('jobs',{}).get('s2_batch',{}).get('env',{}):
+         doc=r5_profile.validate_yaml(doc)
++        result=check_legacy_yaml(doc)
++        return {**result,'step_timeout_sum_minutes':187}
+     return check_legacy_yaml(doc)
+ 
+ 
+diff --git a/ch8-s1-control/r5_campaign.py b/ch8-s1-control/r5_campaign.py
+index b441303d1a39beb2e1294dd20754ba756c4827a2..a975c7c2c191a765986c1c9ba44d6ce606bd6f14 100644
+--- a/ch8-s1-control/r5_campaign.py
++++ b/ch8-s1-control/r5_campaign.py
+@@ -39,10 +39,20 @@ def sealed(out,reader=None,ids=None):
+     if len(ids)!=len(set(ids)) or not set(ids)<=set(p.ORDER):raise GlobalFailure('completed inventory mismatch')
+     for rid in ids:
+         seal=json.loads(raw(out/'completed'/(rid+'.json')))
+-        if seal.get('id')!=rid or not isinstance(seal.get('files'),dict):raise GlobalFailure('invalid completion seal')
++        if (not isinstance(seal,dict) or seal.get('schema')!='ch8-s2-r5-portable-seal-v1'
++                or seal.get('id')!=rid or not isinstance(seal.get('files'),dict)):
++            raise GlobalFailure('invalid portable completion seal')
++        required={str(Path(rid)/name) for name in ('receipt.json','worker-receipt.json')}
++        required.update({f'groups/r5-{rid}/receipt.json',f'workers/{rid}-supervision.json'})
++        if not required<=set(seal['files']):raise GlobalFailure('required structured seal member missing')
+         for name,h in seal['files'].items():
+             rel=Path(name)
+-            if rel.is_absolute() or '..' in rel.parts:raise GlobalFailure('sealed path escape')
++            allowed=(len(rel.parts)>=3 and rel.parts[:2]==('groups','r5-'+rid)) or name in required
++            if (not isinstance(name,str) or rel.is_absolute() or '..' in rel.parts or '\\' in name
++                    or rel.as_posix()!=name or rel.suffix!='.json' or not allowed):
++                raise GlobalFailure('portable sealed path/schema boundary')
++            if not isinstance(h,str) or len(h)!=64 or any(ch not in '0123456789abcdef' for ch in h):
++                raise GlobalFailure('portable seal digest type/format')
+             if digest(raw(out/rel))!=h:raise GlobalFailure('completed evidence storage drift')
+         if str(Path(rid)/'receipt.json') not in seal['files']:raise GlobalFailure('row not sealed')
+         records[rid]=seal
+@@ -193,12 +203,15 @@ def root_outcome(out,request,rid,supervision):
+     result.update(r5_supervision=supervision,resource_scope='LOCAL6GiB_SAMPLED_PGID_VmRSS; not strict tree/kernel/cgroup',proof_credit='NONE')
+     atomic(out/rid/'receipt.json',result)
+     directory=out/'groups'/('r5-'+rid)
+-    files={}
++    files={};local_only={}
+     for f in sorted(directory.rglob('*')):
+         if f.is_symlink():raise GlobalFailure('completion evidence symlink')
+         if f.is_file():
+             with f.open('rb') as stream:os.fsync(stream.fileno())
+-            files[str(f.relative_to(out))]=r.sha256(f)
++            name=str(f.relative_to(out));h=r.sha256(f)
++            if f.suffix=='.json':files[name]=h
++            else:local_only[name]={'sha256':h,'bytes':f.stat().st_size,
++                'scope':'LOCAL_CAPTURE_BYTES_ONLY_NOT_UPLOADED_NOT_REQUIRED_FOR_PORTABLE_REPLAY'}
+     for d in sorted([directory]+[d for d in directory.rglob('*') if d.is_dir()],key=lambda x:len(x.parts),reverse=True):
+         fd=os.open(d,os.O_DIRECTORY)
+         try:os.fsync(fd)
+@@ -211,7 +224,8 @@ def root_outcome(out,request,rid,supervision):
+     for name in ('receipt.json','worker-receipt.json'):files[str(Path(rid)/name)]=r.sha256(out/rid/name)
+     supervision_path=out/'workers'/(rid+'-supervision.json')
+     files[str(supervision_path.relative_to(out))]=r.sha256(supervision_path)
+-    seal={'id':rid,'files':files,'supervision':supervision,'expected_match':result['r5_expected_match'],
++    seal={'schema':'ch8-s2-r5-portable-seal-v1','id':rid,'files':files,'local_only_file_digests':local_only,
++          'supervision':supervision,'expected_match':result['r5_expected_match'],
+           'sealed_monotonic':time.monotonic(),'proof_credit':'NONE'}
+     atomic(out/'completed'/(rid+'.json'),seal)
+     return result
+diff --git a/ch8-s1-control/r5_profile.py b/ch8-s1-control/r5_profile.py
+index e080331796fe7c435d46b2f599b9ad1024361a80..71cb7b2fde74b014c5039cd4c05bafaea8f7bbfd 100644
+--- a/ch8-s1-control/r5_profile.py
++++ b/ch8-s1-control/r5_profile.py
+@@ -38,6 +38,7 @@ def validate_yaml(doc):
+     cmd='python3 control/ch8-s1-control/r5_campaign.py run --std export --tool tool --out "$RECEIPT_ROOT"\n'
+     assert steps['Run S2 batch3probes with bounded observations']['run']==cmd
+     assert steps['Materialize bounded fallback']['run']=='python3 control/ch8-s1-control/r5_campaign.py finish --out "$RECEIPT_ROOT"\n'
++    assert steps['Validate control and synthetic wrapper']['timeout-minutes']==11
+     actual=steps['Validate control and synthetic wrapper']['run'].splitlines()
+     legacy='python3 -m unittest -v test_runner.py test_s107.FinalizationTests test_s2.py test_cfg_pfc.py test_rustc_diagnostics.py test_contract_stacks.py test_r1403_lexical.py'
+     assert actual==['python3 check_package.py control --repo ..',legacy+' test_r5.py']
+@@ -47,5 +48,8 @@ def validate_yaml(doc):
+             step['run']='python3 control/ch8-s1-control/runner.py run --std export --tool tool --out "$RECEIPT_ROOT" --groups "$S1_GROUP"\n'
+         if step['name']=='Materialize bounded fallback':
+             step['run']='python3 control/ch8-s1-control/check_package.py fallback --out "$RECEIPT_ROOT" --groups "$S1_GROUP"\npython3 control/ch8-s1-control/pack_evidence.py --root "$RECEIPT_ROOT"\n'
+-        if step['name']=='Validate control and synthetic wrapper':step['run']='python3 check_package.py control --repo ..\n'+legacy+'\n'
++        if step['name']=='Validate control and synthetic wrapper':
++            # Normalize only the explicitly checked R5 cap for strict legacy validation.
++            step['timeout-minutes']=10
++            step['run']='python3 check_package.py control --repo ..\n'+legacy+'\n'
+     return normalized
+diff --git a/ch8-s1-control/test_r5.py b/ch8-s1-control/test_r5.py
+index 725fe33e0131ae3c7b906d05d1b55922e6f4b800..fd2e6aabfc74d5b085edb3db40d10faf255d31d8 100644
+--- a/ch8-s1-control/test_r5.py
++++ b/ch8-s1-control/test_r5.py
+@@ -272,4 +272,106 @@ class ProcessTests(unittest.TestCase):
+                     return helper.emit(out,rid,kind if len(started)==1 else 'ok')
+                 c.run_campaign(Path('/std'),Path('/tool'),out,request,invoker=invoke);self.assertEqual(started,list(p.ORDER))
+ 
++
++class PortablePrefixTests(unittest.TestCase):
++    """Real control/packer/collector; only native execution/source sampling are fixtures."""
++    def make_pair(self,base):
++        import collect as collector
++        request=r.load_request();out=base/'local';std=base/'std';tool=base/'tool'
++        fp={'required_hashes_present':True,'binaries':{name:{'path':'/'+name,'sha256':'a'*64} for name in ('kani_driver','kani_compiler','cbmc')}}
++        source={**c.identity(request),'changed_file_sha256':request['changed_file_sha256']}
++        rid=p.ORDER[0]
++        for index,current in enumerate(p.ORDER[:2]):
++            row=c.group(request,current)['rows'][0]
++            def execute(argv,cwd,dest,timeout,**kw):
++                stock=fixtures.batch_export([row],request['source_bindings'])
++                if index:stock.update(run_state='INCOMPLETE',harnesses=[])
++                kw['export_path'].write_text(json.dumps(stock));kw['compile_monitor'].poll(1,{})
++                if index:
++                    raw=('Checking harness '+row['selector']+'...\n').encode()
++                    kw['rich_parser'].feed(raw);kw['rich_parser'].finish()
++                else:
++                    fixtures.feed_regular(kw['rich_parser'],stock)
++                    raw=fixtures.render_regular(list(kw['rich_parser'].records.items()))
++                (dest/'stdout.log').write_bytes(raw);(dest/'stderr.log').write_bytes(b'local synthetic stderr capture\n')
++                target=Path(kw['env']['CARGO_TARGET_DIR'])
++                (target/'core.kani-metadata.json').write_text(json.dumps({'proof_harnesses':[{'pretty_name':row['selector'],'crate_name':'core'}]}))
++                return {'original_exit_code':1,'elapsed_seconds':2,'stdout_bytes':len(raw),'stderr_bytes':len(b'local synthetic stderr capture\n'),
++                        'child_shutdown_verified':True,'process_identity':{'pid':2,'pgid':2,'start_ticks':22}}
++            with mock.patch.object(r,'verify_source',return_value=source),mock.patch.object(r,'binary_fingerprints',return_value=fp),mock.patch.object(r,'group_memory_budget',return_value={'group_cap_kib':12*1024*1024}),mock.patch.object(r,'execute',side_effect=execute):
++                results,fatal=r._run_group(std,tool,out,request,c.group(request,current),time.monotonic()+720,
++                    isolated_limits={'stdout_bytes':100000,'stderr_bytes':10000,'export_bytes':100000})
++            if index:self.assertIsNotNone(fatal);self.assertEqual(results[0]['outcome'],'UNKNOWN')
++            else:self.assertIsNone(fatal);self.assertEqual(results[0]['outcome'],'RECORDED')
++            c.root_outcome(out,request,current,synthetic_supervision())
++            if not index:prefix=(out/rid/'receipt.json').read_bytes()
++        c.finalize(out,request,'synthetic later failure');c.fallback(out,request)
++        self.assertEqual((out/rid/'receipt.json').read_bytes(),prefix)
++        self.assertTrue(c.read(out/rid/'receipt.json')['r5_expected_match'])
++        pack_evidence.pack(out)
++        return out,request,rid,prefix
++    def upload_only(self,base,out):
++        import shutil
++        uploaded=base/'uploaded';uploaded.mkdir();shutil.copyfile(out/pack_evidence.NAME,uploaded/pack_evidence.NAME)
++        return uploaded
++    def archive_doc(self,uploaded):
++        import gzip
++        return json.loads(gzip.decompress((uploaded/pack_evidence.NAME).read_bytes()))
++    def write_archive(self,uploaded,doc):
++        import gzip
++        (uploaded/pack_evidence.NAME).write_bytes(gzip.compress(json.dumps(doc,separators=(',',':')).encode(),mtime=0))
++    def assert_rejected(self,uploaded,request,rid):
++        import collect as collector
++        for operation in (lambda:c.sealed(uploaded,collector.read_bytes,[rid]),lambda:collector.collect([uploaded],request)):
++            with self.assertRaises((c.GlobalFailure,r.RunnerError,KeyError,ValueError)):operation()
++    def test_archive_only_prefix_exact_seal_and_collect_after_later_failure(self):
++        import collect as collector
++        import shutil
++        with tempfile.TemporaryDirectory() as d:
++            base=Path(d);out,request,rid,prefix=self.make_pair(base)
++            seal=c.sealed(out)[rid];self.assertTrue(seal['local_only_file_digests'])
++            self.assertTrue(all(name.endswith('.json') for name in seal['files']))
++            uploaded=self.upload_only(base,out);doc=self.archive_doc(uploaded)
++            self.assertEqual(doc['state'],'PACKAGED')
++            self.assertFalse(any(name.endswith('.log') for name in doc['files']))
++            # Frozen old protocol would require these absent raw payloads (review022b repro).
++            for name in seal['local_only_file_digests']:
++                self.assertNotIn(name,doc['files'])
++                with self.assertRaises(KeyError):collector.read_bytes(uploaded/name)
++            shutil.rmtree(out) # proves the upload cannot fall back to producer-side files
++            replayed=c.sealed(uploaded,collector.read_bytes,[rid]);self.assertEqual(replayed[rid],seal)
++            self.assertEqual(collector.read_bytes(uploaded/rid/'receipt.json'),prefix)
++            result=collector.collect([uploaded],request)
++            first=next(row for row in result['rows'] if row['id']==rid)
++            later=next(row for row in result['rows'] if row['id']==p.ORDER[1])
++            self.assertEqual(first['outcome'],'RECORDED');self.assertTrue(first['r5_expected_match'])
++            self.assertEqual(later['outcome'],'UNKNOWN');self.assertFalse(result['full_inventory_complete'])
++            self.assertEqual(result['proof_credit'],'NONE')
++    def test_missing_required_structured_member_rejects_archive(self):
++        with tempfile.TemporaryDirectory() as d:
++            base=Path(d);out,request,rid,prefix=self.make_pair(base);uploaded=self.upload_only(base,out);doc=self.archive_doc(uploaded)
++            del doc['files']['groups/r5-'+rid+'/export.json'];self.write_archive(uploaded,doc)
++            self.assert_rejected(uploaded,request,rid)
++    def test_mutated_structured_member_with_updated_entry_hash_still_rejects(self):
++        import hashlib
++        with tempfile.TemporaryDirectory() as d:
++            base=Path(d);out,request,rid,prefix=self.make_pair(base);uploaded=self.upload_only(base,out);doc=self.archive_doc(uploaded)
++            entry=doc['files']['groups/r5-'+rid+'/properties.json'];changed=json.loads(entry['text']);changed['tampered']=True
++            data=json.dumps(changed).encode();entry.update(text=data.decode(),bytes=len(data),sha256=hashlib.sha256(data).hexdigest())
++            self.write_archive(uploaded,doc);self.assert_rejected(uploaded,request,rid)
++    def test_compact_cap_omission_is_explicit_and_never_qualified(self):
++        import gzip
++        with tempfile.TemporaryDirectory() as d:
++            base=Path(d);out,request,rid,prefix=self.make_pair(base)
++            # Non-required synthetic payload forces the bounded omission path;
++            # leave sufficient room for its explicit fallback receipt envelope.
++            (out/'extra.json').write_text(json.dumps({'padding':'x'*1000000}))
++            pack_evidence.pack(out)
++            original_size=len(gzip.decompress((out/pack_evidence.NAME).read_bytes()))
++            with mock.patch.object(pack_evidence,'UNCOMPRESSED_CAP',original_size//2):result=pack_evidence.pack(out)
++            self.assertEqual(result['state'],'INCOMPLETE')
++            self.assertEqual((out/rid/'receipt.json').read_bytes(),prefix)
++            uploaded=self.upload_only(base,out);self.assertEqual(self.archive_doc(uploaded)['state'],'INCOMPLETE')
++            self.assert_rejected(uploaded,request,rid)
++
+ if __name__=='__main__':unittest.main()
+diff --git a/ch8-s1-control/test_s2.py b/ch8-s1-control/test_s2.py
+index a0f32e6b16cf0f740afd16c5084e24fb92e67b9d..5e4389f03399e70911e3cde283819b985cce9646 100644
+--- a/ch8-s1-control/test_s2.py
++++ b/ch8-s1-control/test_s2.py
+@@ -71,7 +71,7 @@ class S2Tests(unittest.TestCase):
+ 
+     def test_workflow_caps_types_and_single_serial_job(self):
+         path=HERE.parent/'.github/workflows/ch8-s2.yml'
+-        self.assertEqual(cp.check_yaml(path)['step_timeout_sum_minutes'],186)
++        self.assertEqual(cp.check_yaml(path)['step_timeout_sum_minutes'],187)
+         text=path.read_text()
+         for before,after in [('timeout-minutes: 180','timeout-minutes: 181'),('fetch-depth: 7','fetch-depth: 6'),('persist-credentials: false','persist-credentials: true'),('timeout-minutes: 126','timeout-minutes: 135')]:
+             with tempfile.TemporaryDirectory() as d:

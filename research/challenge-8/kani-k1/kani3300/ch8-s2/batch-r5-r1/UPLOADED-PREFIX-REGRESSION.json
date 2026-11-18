@@ -1,0 +1,65 @@
+{
+  "status": "PASS_ACTUAL_FINAL_OBJECT",
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r5-r1-final-w13",
+    "sha": "d67bd1ecd555030c46a06b8462d0313ea416711a",
+    "tree": "c8925e3acfd299f7eb74997c8e120873dcaab84d",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "4e97d370aba4adc480fcc3701b111d02658aa94d",
+    "request_sha256": "f4a1eb18f3324f380973194c2b384f1a1d6d4df139620f86978e9249462dc7c2",
+    "workflow_sha256": "4a9e90a68e4b3f977f28ee31ec2c9426e3b685f1da5616168e12756d0c64c8c6"
+  },
+  "test_module_sha256": "32759cdbc4d7ea6aac98f9f2138fcdd9491a47362f3daa702f3b17628584491f",
+  "transcript_sha256": "f1cc69176d8f729efc51cdecdba8de2ac656ab6cf6bcd048317af4c11ae5b695",
+  "measurement": "COMBINED-TEST-PROVENANCE.json",
+  "cases": {
+    "test_archive_only_prefix_exact_seal_and_collect_after_later_failure": "PASS",
+    "test_missing_required_structured_member_rejects_archive": "PASS",
+    "test_mutated_structured_member_with_updated_entry_hash_still_rejects": "PASS",
+    "test_compact_cap_omission_is_explicit_and_never_qualified": "PASS"
+  },
+  "old_exact_repro": {
+    "state": "REPRODUCED",
+    "control_sha": "4e97d370aba4adc480fcc3701b111d02658aa94d",
+    "case": "completed prefix sealed locally, later failure, uploaded artifact only",
+    "root": "checker_order_corrupt",
+    "local_seal_verified": true,
+    "local_collector_outcome": "RECORDED",
+    "local_expected_match": true,
+    "packed_state": "PACKAGED",
+    "original_receipt_retained_exactly": true,
+    "sealed_paths_missing_from_uploaded_artifact": [
+      "groups/r5-checker_order_corrupt/stderr.log",
+      "groups/r5-checker_order_corrupt/stdout.log"
+    ],
+    "archive_only_seal_verification": {
+      "type": "KeyError",
+      "message": "'groups/r5-checker_order_corrupt/stderr.log'"
+    },
+    "archive_only_r5_collect": {
+      "type": "KeyError",
+      "message": "'groups/r5-checker_order_corrupt/stderr.log'"
+    },
+    "scope": "synthetic fixture; not native outcome or proof evidence",
+    "compiler_CI_external_actions": 0
+  },
+  "positive_assertions": [
+    "real _run_group, root_outcome, finalize, fallback, packer and public collect",
+    "external native execution/source sampling fixtures only",
+    "two sequential singleton mock groups; first RECORDED, later UNKNOWN",
+    "copy only group-evidence.json.gz to clean directory and delete producer output",
+    "all required structured bytes hash-verified by sealed",
+    "byte-exact retained first row before and after fallback and archive replay",
+    "collect first RECORDED with expected_match true; later UNKNOWN; full inventory false",
+    "raw log payloads absent; local digest metadata nonrequired",
+    "proof_credit NONE"
+  ],
+  "negative_assertions": [
+    "missing required export member rejected",
+    "tampered property member rejected even after updating entry hash/length",
+    "synthetic compact-cap omission publishes INCOMPLETE and never qualifies",
+    "production artifact caps unchanged"
+  ],
+  "scope": "SYNTHETIC_SERVICE_REGRESSION; NOT_NATIVE_PROOF"
+}
