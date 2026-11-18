@@ -161,3 +161,16 @@ fn general32_weak() {
     small_sort_general(&mut v,&mut KeyLess::<u8>::new());
     assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), "S2_NEG_GENERAL32_WEAK");
 }
+
+// Registration for Kani's stub_verified lookup in this same opt-in crate/cfg.
+// NOT EXECUTED by the 11-root request; registration is NOT qualification.
+// All S2 assumed consumers remain DIAGNOSTIC_ASSUMED with proof credit NONE.
+#[kani::proof_for_contract(sort8_stable)]
+#[kani::unwind(34)]
+fn sort8_registration_only() {
+    let mut src: [u8;8] = kani::any();
+    let mut dst = [MaybeUninit::<u8>::uninit();8];
+    let mut scratch = [MaybeUninit::<u8>::uninit();8];
+    unsafe { sort8_stable(src.as_mut_ptr(),dst.as_mut_ptr().cast(),
+        scratch.as_mut_ptr().cast(),&mut KeyLess::<u8>::new()) };
+}
