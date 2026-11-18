@@ -1,0 +1,21 @@
+{
+  "scope": "SYNTHETIC_PYTHON_CHILD_ONLY_NO_COMPILER_NO_PROOF",
+  "argv": [
+    "/usr/bin/python",
+    "-c",
+    "import sys;sys.stdout.write('noise\\n'*14000+'error[E0308]: synthetic middle mismatch\\n --> fixture.rs:7:3\\n  |\\n7 | bad()\\n  | ^^^^^\\n  = note: retained context\\n  = help: synthetic fix\\n\\nerror: synthetic second error\\n  = note: second context\\n'+'noise\\n'*14000);sys.stderr.write('stderr noise\\n'*1000+'\\x1b[31merror[E9999]\\x1b[0m: synthetic stderr error\\n  = help: retained stderr context\\n'+'stderr noise\\n'*1000);sys.exit(1)"
+  ],
+  "control_sha": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+  "old_preview_missing_middle_error": true,
+  "stdout_blocks": 2,
+  "stderr_blocks": 1,
+  "new_diagnostics_complete_for_observed_streams": true,
+  "packing": {
+    "artifact": "group-evidence.json.gz",
+    "state": "PACKAGED",
+    "uncompressed_bytes": 25822,
+    "compressed_bytes": 2786,
+    "sha256": "190c760755898254bdde2c17d3441686af1985ec71c53a4e7a9c951b4ab209a9"
+  },
+  "proof_credit": "NONE"
+}

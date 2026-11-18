@@ -1,0 +1,48 @@
+{
+  "schema": "ch8-runner-diagnostics-r2-validation-v1",
+  "control_sha": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+  "control_tree": "beb2346615ffbb7027b2f1ea8ea33a149952aa0b",
+  "final_targeted": {
+    "cwd": "/root/kani-ch8-s2-diagnostics-w11/ch8-s1-control",
+    "command": "python -m unittest -v test_rustc_diagnostics test_runner.ExecutionTests test_runner.CompileTests test_s107.FinalizationTests test_package.PackageTests.test_fallback_preserves_receipt_materializes_tail_and_bounds test_package.PackageTests.test_fallback_terminal_after_setup_failure_and_mid_run_interruption test_package.PackageTests.test_build_wrapper_receipts_and_errors_without_build",
+    "exit_code": 0,
+    "tests": 29,
+    "result": "PASS",
+    "transcript": "TARGETED-TESTS.txt"
+  },
+  "intermediate_expanded": {
+    "command": "python -m unittest -v test_runner test_s2 test_cfg_pfc test_s107.FinalizationTests test_rustc_diagnostics test_package.PackageTests.test_fallback_preserves_receipt_materializes_tail_and_bounds test_package.PackageTests.test_fallback_terminal_after_setup_failure_and_mid_run_interruption test_package.PackageTests.test_build_wrapper_receipts_and_errors_without_build",
+    "tests": 69,
+    "exit_code": 0,
+    "stage": "BEFORE_FINAL_DIAGNOSTIC_IO_AND_RICH_FAILURE_HARDENING",
+    "transcript": "INTERMEDIATE-TESTS.txt"
+  },
+  "resolved_failure": {
+    "tests": 68,
+    "failed": 1,
+    "transcript": "RESOLVED-PREVIEW-RACE.txt",
+    "cause": "diagnostic persistence preceded preview update, exposing a compile snapshot race",
+    "repair": "update counts/previews first; diagnostic capture then precedes rich parser; unchanged compile/preview assertions pass"
+  },
+  "static_package_validation": {
+    "command": "python validate_package.py",
+    "result_file": "PACKAGE-CHECK.json"
+  },
+  "production_runtime_CI_retention": "NOT_RUN",
+  "compiler_fullrunner": "NOT_RUN",
+  "historical_run44284869572_cause": "UNKNOWN",
+  "external_actions": {
+    "CI": 0,
+    "push": 0,
+    "PR": 0,
+    "cancel": 0,
+    "ledger": 0,
+    "reservation": 0,
+    "budget_changes": 0,
+    "publication": 0,
+    "subagents": 0
+  },
+  "current_model_fast": "UNCHANGED",
+  "closed_proof_obligations": 0,
+  "proof_credit": "NONE"
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "ch8-runner-diagnostics-r2-checkpoint-v1",
+  "state": "READY_FOR_REVIEW14",
+  "task_id": "task90b7e5bd7f7dcecc00e7009196a466a7422f179d",
+  "control_sha": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+  "control_tree": "beb2346615ffbb7027b2f1ea8ea33a149952aa0b",
+  "claims": [
+    {
+      "claim": "Rustc text error retention independent of previews",
+      "assurance": "BOUNDED_SYNTHETIC_AND_STATIC_ONLY",
+      "evidence": [
+        "TARGETED-TESTS.txt",
+        "PACKAGE-CHECK.json",
+        "synthetic-evidence/FIXTURE.json"
+      ]
+    }
+  ],
+  "open": [
+    "Exact committed delta-review14",
+    "Production runtime/CI diagnostic retention NOT_RUN",
+    "Historical compile cause UNKNOWN"
+  ],
+  "blocker": null,
+  "next_step": "Reviewer14 exact committed delta; no dispatch authorization",
+  "closed_proof_obligations": 0,
+  "proof_credit": "NONE",
+  "accounting": "UNCHANGED_OWNER_ONLY",
+  "closure_reason": "Authorized isolated diagnostics implementation, bounded regression/error/fallback tests and immutable review package complete"
+}

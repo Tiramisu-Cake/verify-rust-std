@@ -1,0 +1,58 @@
+{
+  "baseline": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+  "candidate": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+  "files": [
+    {
+      "path": ".github/workflows/ch8-s2.yml",
+      "baseline_sha256": "7dca25a36813d294548ce26c27dfe38b9b06d3f4091785eaad4f00be2a437455",
+      "candidate_sha256": "973944169dd4d7f2fc169582b1327cc8e31fa96710a2a597ed0a126ef37e4a2e"
+    },
+    {
+      "path": "ch8-s1-control/CI-REQUEST.json",
+      "baseline_sha256": "779126ddc8aa3e5cabd9b9968f0e1cd853c4e1b60a95a21ff4eb42d5a0c7ca74",
+      "candidate_sha256": "8e4dada7027f7e4cd2df6257455be16a921ead46c830212e7a3def7bdeec2b97"
+    },
+    {
+      "path": "ch8-s1-control/check_package.py",
+      "baseline_sha256": "0970f66906c9e0caff47e091cd7349cfe97b811217a0ffc57c47791bc23b23c6",
+      "candidate_sha256": "bf65515325970226b58c50a310b2989ec31f55c437b90defcd3b9db5ef6d1873"
+    },
+    {
+      "path": "ch8-s1-control/pack_evidence.py",
+      "baseline_sha256": "833004929291e3a6a96011c8579852fce7520e5dea6abd3af2c7611675619e8b",
+      "candidate_sha256": "b90c3d942ce3ec5734ef35719cebb5ac0a3052bd1c7317523c31f9a009e01c85"
+    },
+    {
+      "path": "ch8-s1-control/runner.py",
+      "baseline_sha256": "fd298f6157a4157115a504d630d51a5a3c234d2cb8cf7d9521b22182b02effd9",
+      "candidate_sha256": "5cd91fa221644daa3493ed1f5cd445fa91e8bf9a0071cb0cee8f13ba26ba1251"
+    },
+    {
+      "path": "ch8-s1-control/rustc_diagnostics.py",
+      "baseline_sha256": null,
+      "candidate_sha256": "c60dca260bafc89ae419c9d54f594e191b96558cb2670e7517ab802042aeb78a"
+    },
+    {
+      "path": "ch8-s1-control/test_rustc_diagnostics.py",
+      "baseline_sha256": null,
+      "candidate_sha256": "595504d1fc494a647f99318a34cd239db0a030c8cc2ab290846deb0872a87ec9"
+    }
+  ],
+  "delta_paths": [
+    ".github/workflows/ch8-s2.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/pack_evidence.py",
+    "ch8-s1-control/runner.py",
+    "ch8-s1-control/rustc_diagnostics.py",
+    "ch8-s1-control/test_rustc_diagnostics.py"
+  ],
+  "request_changes": [
+    "ci_changed_paths",
+    "ci_payload_sha256"
+  ],
+  "source_tool_cfg_selection_caps_oracles": "UNCHANGED_FROM_CONTROL_2EC",
+  "required_roots": 11,
+  "required_covers": 20,
+  "required_negatives": 6
+}
