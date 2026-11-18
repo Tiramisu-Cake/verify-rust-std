@@ -7,3 +7,5 @@
 Replay JSON совпадает с PROJECTION.json. Source/control/package/historical/ledger immutable; output ограничен текущим каталогом. Финальная локальная Git whitespace и scope проверка сохраняется в VALIDATION.json. Новых CI/proof/service/native runs не было. Неизмеренные compilation order, process-group shutdown и per-root metrics — UNKNOWN.
 
 Команды replay/self-test и подробные checks — VALIDATION.json. Первоначальный дополнительный cross-check source location потребовал учесть native regular rendering `control.rs` относительно recorded cwd против абсолютного export path; после этого targeted validation PASS. Это только binding координат, semantic signature не менялась.
+
+При сохранении обнаружен concurrent coordinator commit `21257f02ad0e08b7f5fd3d07c9d8cb940435f92a`, включивший staged intake и свой S2 ledger delta. Manifest исходных 16 файлов остался валиден. Никаких ledger mutations/revert/reset/rebase со стороны intake-агента; дальнейшая финализация ограничена пятью собственными файлами.

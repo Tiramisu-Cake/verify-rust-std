@@ -7,3 +7,5 @@
 First meaningful reasons и точные missing fields — RESULT.json; exact IDs/partitions/argv/env/tools/diagnostics — result.json и PROJECTION.json; adapter/source/transport boundaries — PROVENANCE.json. Old43882466907 exact Cargo error, per-root metrics и explicit process-group shutdown остаются UNKNOWN. Нет rawlogs, нового CI, fix, PR, push, ledger changes, субагентов или смены модели.
 
 Повторить compact replay из g0 root: `PYTHONDONTWRITEBYTECODE=1 python3 research/challenge-8/kani-k1/kani3300/wave0/f4-confirm-intake/run-44177926794/replay.py`. Скрипт только читает evidence и pinned Git objects, печатает projection; native tools не запускает.
+
+Shared checkout: параллельный coordinator commit `21257f02ad0e08b7f5fd3d07c9d8cb940435f92a` включил уже staged 16 файлов intake вместе со своим S2 ledger delta. Intake-агент ledger не менял, чужой commit не переписывал. Эти owner actions вне scope; приведённые counters — снимок входа. Финализация меняет только provenance/validation/handoff/manifest этого intake.

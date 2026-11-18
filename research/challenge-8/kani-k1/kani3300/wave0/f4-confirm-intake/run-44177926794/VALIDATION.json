@@ -28,6 +28,14 @@
   "self_test_command": "PYTHONDONTWRITEBYTECODE=1 python3 research/challenge-8/kani-k1/kani3300/wave0/f4-confirm-intake/run-44177926794/replay.py --self-test",
   "semantic_multisets_preserve_multiplicity": true,
   "seven_slot_compact_property_oracle_replay": "PASS",
+  "shared_checkout_concurrency": {
+    "accounting": "Original user-provided counters remain intake-time references; concurrent S2 dispatch/accounting is outside scope.",
+    "agent_ledger_actions": "NONE; no ledger content changed by intake agent; no revert/reset/rebase or S2 action",
+    "event": "Concurrent actor committed the shared staged 16-file intake together with its own S2 ledger change before this agent commit. This agent commit returned nothing to commit.",
+    "external_commit": "21257f02ad0e08b7f5fd3d07c9d8cb940435f92a",
+    "previous_observed_head": "13dc947ad2d4bd5171096bb59d37ab219b408573",
+    "response": "Preserve external commit; annotate provenance and finalize only intake output paths with required author and [skip ci]."
+  },
   "source_profile_workflow_payload_hashes": "PASS",
   "status": "PASS",
   "summary_independence": "PASS",

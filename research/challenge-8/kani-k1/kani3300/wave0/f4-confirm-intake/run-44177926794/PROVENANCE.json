@@ -81,6 +81,14 @@
   "reconstruction_prohibited": "No omitted field treated as directly observed; raw stream/export digests are producer-attested; no rawlogs, full logs, Cloud data, historical artifact or ledger read/write.",
   "replay": "AST selects only Unknown/require/parse_document/argv_for/environment/signature/classify from exact trigger runner; no service.execute, compiler, verifier, build or runner entrypoint",
   "schema": "ch8-f4-intake-provenance-v1",
+  "shared_checkout_concurrency": {
+    "accounting": "Original user-provided counters remain intake-time references; concurrent S2 dispatch/accounting is outside scope.",
+    "agent_ledger_actions": "NONE; no ledger content changed by intake agent; no revert/reset/rebase or S2 action",
+    "event": "Concurrent actor committed the shared staged 16-file intake together with its own S2 ledger change before this agent commit. This agent commit returned nothing to commit.",
+    "external_commit": "21257f02ad0e08b7f5fd3d07c9d8cb940435f92a",
+    "previous_observed_head": "13dc947ad2d4bd5171096bb59d37ab219b408573",
+    "response": "Preserve external commit; annotate provenance and finalize only intake output paths with required author and [skip ci]."
+  },
   "source_gates": "source_before/source_run/source_after source hashes/profile/head/tree/control/changes unchanged; all problems=[]; workflow step summaries confirm preflight/service controls success",
   "transport": "Only compact ZIP bytes obtained via tool-provided file reference, bounded <=1MiB, hashed in memory before ZIP parsing; archive not retained"
 }
