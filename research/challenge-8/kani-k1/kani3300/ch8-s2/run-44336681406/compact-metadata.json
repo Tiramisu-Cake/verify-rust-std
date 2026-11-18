@@ -1,0 +1,164 @@
+{
+  "rustc_diagnostics": {
+    "groups/s2-batch3probes-u34": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": false,
+      "incomplete_reasons": [
+        "EXECUTION_DIAGNOSTICS_INCOMPLETE",
+        "rss_cap"
+      ],
+      "unobserved_bytes": null,
+      "proof_credit": "NONE",
+      "streams": {
+        "stdout": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stdout",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": false,
+          "incomplete_reasons": [
+            "rss_cap"
+          ],
+          "status": "INCOMPLETE",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 7738554,
+          "pipe_eof": true,
+          "retention_cap_bytes": 16777216,
+          "block_cap": 32768,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": null,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stdout-receipt.json",
+          "compact_payload_retained": true
+        },
+        "stderr": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stderr",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": false,
+          "incomplete_reasons": [
+            "rss_cap"
+          ],
+          "status": "INCOMPLETE",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 2493,
+          "pipe_eof": true,
+          "retention_cap_bytes": 1048576,
+          "block_cap": 2048,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": null,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stderr-receipt.json",
+          "compact_payload_retained": true
+        }
+      },
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "expected_execution": true,
+      "execution_state": "FAILED"
+    },
+    "setup": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": true,
+      "incomplete_reasons": [],
+      "unobserved_bytes": 0,
+      "proof_credit": "NONE",
+      "streams": {
+        "stdout": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stdout",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": true,
+          "incomplete_reasons": [],
+          "status": "NO_TEXTUAL_ERRORS",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 1977,
+          "pipe_eof": true,
+          "retention_cap_bytes": 1048576,
+          "block_cap": 2048,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stdout-receipt.json",
+          "compact_payload_retained": true
+        },
+        "stderr": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stderr",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": true,
+          "incomplete_reasons": [],
+          "status": "NO_TEXTUAL_ERRORS",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 36209,
+          "pipe_eof": true,
+          "retention_cap_bytes": 1048576,
+          "block_cap": 2048,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stderr-receipt.json",
+          "compact_payload_retained": true
+        }
+      },
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "expected_execution": true,
+      "execution_state": "STATE_NOT_REPORTED"
+    }
+  },
+  "schema": "ch8-s1-05-artifact-v1",
+  "state": "PACKAGED",
+  "error": null,
+  "proof_credit": "NONE",
+  "diagnostic_retention": {
+    "complete": false,
+    "scope": "OBSERVED_TEXTUAL_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+    "expected_directories": [
+      "groups/s2-batch3probes-u34",
+      "setup"
+    ],
+    "incomplete_reasons": [
+      "EXECUTION_DIAGNOSTICS_INCOMPLETE",
+      "rss_cap"
+    ],
+    "proof_credit": "NONE"
+  }
+}

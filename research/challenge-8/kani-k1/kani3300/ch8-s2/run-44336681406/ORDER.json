@@ -1,0 +1,102 @@
+{
+  "request_order": [
+    "swap_pfc",
+    "summary_witness",
+    "merge32_real",
+    "sort13_assumed",
+    "general32_assumed",
+    "merge_order_corrupt",
+    "merge_count_corrupt",
+    "checker_count_corrupt",
+    "checker_order_corrupt",
+    "sort13_weak",
+    "general32_weak"
+  ],
+  "native_compilation_order": [
+    "merge_order_corrupt",
+    "merge32_real",
+    "checker_count_corrupt",
+    "summary_witness",
+    "swap_pfc",
+    "general32_weak",
+    "merge_count_corrupt",
+    "checker_order_corrupt",
+    "sort13_weak",
+    "sort13_assumed",
+    "general32_assumed"
+  ],
+  "stock_scheduled_order": [
+    {
+      "id": "general32_weak",
+      "line": 160,
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+    },
+    {
+      "id": "sort13_weak",
+      "line": 146,
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+    },
+    {
+      "id": "checker_order_corrupt",
+      "line": 138,
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "line": 132,
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+    },
+    {
+      "id": "merge_count_corrupt",
+      "line": 125,
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+    },
+    {
+      "id": "merge_order_corrupt",
+      "line": 118,
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+    },
+    {
+      "id": "summary_witness",
+      "line": 102,
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+    },
+    {
+      "id": "swap_pfc",
+      "line": 74,
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+    },
+    {
+      "id": "general32_assumed",
+      "line": 59,
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+    },
+    {
+      "id": "sort13_assumed",
+      "line": 42,
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+    },
+    {
+      "id": "merge32_real",
+      "line": 29,
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+    }
+  ],
+  "observed_started": [
+    "general32_weak"
+  ],
+  "remaining_not_started": [
+    "sort13_weak",
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "merge_count_corrupt",
+    "merge_order_corrupt",
+    "summary_witness",
+    "swap_pfc",
+    "general32_assumed",
+    "sort13_assumed",
+    "merge32_real"
+  ],
+  "basis": "Exact stock file ASC/line DESC sort plus one-worker pool; full observed-stream parser records only general32_weak and no final RESULTS; interrupted before next callback",
+  "future_order_guarantee": "Do not depend on request JSON/selector order or HashMap codegen/export order; more workers can change scheduling. Stock-internal future ordering beyond first unobserved."
+}

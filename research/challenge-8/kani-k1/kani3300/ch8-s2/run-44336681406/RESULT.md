@@ -1,0 +1,35 @@
+# W11 terminal intake — run 44336681406/1
+
+READY; intake complete within the authorized evidence boundary, proof evidence partial. Connected GitHub confirms terminal FAILURE, push, attempt 1, head `6157554df88fa810496fa6ba10a16a8acc805687`, ref `uninit-ci/ch8-s2-batch3probes-r4r2-20261118`. Trigger tree equals reviewed d33 control; sole parent matches. Full identities, payload/source hashes and protected binary snapshots are in PROVENANCE.json.
+
+Exactly one allowed artifact: `ch8-s2-batch3probes-44336681406-1`, ID 14443915305. ZIP 31,442 bytes, SHA256 `10cdd2d22173d8a15c6d05a1c89e4a323eb5633c3f82bb8d410e8a8135e67f9c`, verified before opening. Its sole member is `group-evidence.json.gz`; transport ZIP was never saved. Compressed/decompression/namespace/member hashes and 23 embedded native metadata hashes pass. See artifact-integrity.json. Repeated acquisition attempts narrowed the initially conservative namespace allowlist for this same artifact only; none retained transport bytes or read other artifacts.
+
+Source compilation is now observed COMPLETE through STOCK_INITIAL_EXPORT_OBSERVED, with elapsed upper bound 35.5 s. Native Cargo also reports Finished dev profile in 30.49 s. These are different boundaries. The retained stock document remains the initial INCOMPLETE marker: all 11 exact filters matched, but no terminal harness/result inventory. Compilation metadata contains exactly the 11 selected core roots, with fresh invocation target namespace; compilation inventory is not verification completion.
+
+The first root, general32_weak, reached completed symex reporting 488.498 s and postprocess equation reporting 25.0517 s. Group execution ended at 569.735 s with rss_cap, parent exit -15 / signal 15, timed_out=false, and verified child shutdown. No final RESULTS, named failed property, assertion verdict or cover verdict was retained. The expected S2_NEG_GENERAL32_WEAK failure is therefore UNKNOWN, not DETECTED. An “aborting path on assume(false)” progress message is not a failed-property verdict.
+
+| Root | Expected | Execution | Final outcome |
+|---|---|---|---|
+| swap_pfc | SUCCESS | NOT_STARTED | UNKNOWN |
+| summary_witness | SUCCESS | NOT_STARTED | UNKNOWN |
+| merge32_real | SUCCESS | NOT_STARTED | UNKNOWN |
+| sort13_assumed | SUCCESS | NOT_STARTED | UNKNOWN |
+| general32_assumed | SUCCESS | NOT_STARTED | UNKNOWN |
+| merge_order_corrupt | DETECTED / S2_NEG_MERGE_ORDER | NOT_STARTED | UNKNOWN |
+| merge_count_corrupt | DETECTED / S2_NEG_MERGE_COUNT | NOT_STARTED | UNKNOWN |
+| checker_count_corrupt | DETECTED / S2_NEG_CHECKER_COUNT | NOT_STARTED | UNKNOWN |
+| checker_order_corrupt | DETECTED / S2_NEG_CHECKER_ORDER | NOT_STARTED | UNKNOWN |
+| sort13_weak | DETECTED / S2_NEG_SORT13_WEAK | NOT_STARTED | UNKNOWN |
+| general32_weak | DETECTED / S2_NEG_GENERAL32_WEAK | STARTED, RSS interrupted | UNKNOWN |
+
+NOT_STARTED is established here by the exact one-worker scheduler, first root still lacking RESULTS, and the streaming parser's start inventory over all 7,738,554 observed stdout bytes, with no byte cap or reader/decoder failure preceding the final missing-RESULTS error. It is not inferred from absent verdicts alone. Original row receipts and the exact collector conservatively say UNKNOWN for all rows; this intake adds an execution-status field without rewriting receipts or converting missing costs to zero. The collector's generic "group source/completion/binary snapshot mismatch" fallback is caused by group completion=false here; source and binary snapshots independently match. No future root start/order was observed.
+
+All five positive expectation sets, six sole intended negative oracles and 20 required covers match pinned source tags and coordinates in ORACLE-BINDINGS.json. Property-ID ordinals remain source expectations; no native property inventory binds or validates them in this run. Native assertion/cover origin, effective contract clauses, harness/compiler-instance/type/MIR binding remain UNKNOWN. No oracle acceptance from aggregate exit or progress counts.
+
+Combined review `7c0a05d5bd85aeed14ea8579dd1f498152e04398` APPROVE and CLOSED R14-01/02/03 are inherited static facts for package `3cdec7455c52d93903a31e005c7e42204fa502e1`, exact source bd62/control d33/tool 0aac, GO `3c52f8191d9e1e3f17af1f510aa141a9838ed6ec`. Actual control contains the approved gate and explicit test_r1403_lexical.py CI module. Validate cap 600 s, source check 60 s, setup aggregate 1800 s and job 180 min remain. Connected step summaries now report Validate success/74 s and source-check success/2 s; they do not establish individual test results. The earlier host 107 tests/380.011575 s remains a separate host result. Old GO6db is spent. Compile completion supports the repair but does not uniquely establish historical R3's failing unit/cause; r1 diagnostics remain UNKNOWN.
+
+Both general32 roots retain original sort8_stable verified-stub lookup with same-cfg PFC registration only. Registration is unproved/unselected; it is not a qualified leaf. sort13/general32 remain DIAGNOSTIC_ASSUMED. The two weak controls concern faithful source-bound caller copies and seams, not original caller/leaf identities. This single interrupted observation measures this general32_weak copy, u8/32 fixed two-half input, weak merge seam, assumed sort8/insert-tail context and exact count/sorting model only. It establishes no cost for general32_assumed, sort13, merge32 or swap. The merge32 intended domain remains exact u8/32, sorted halves and its concrete allocation. Swap PFC requires separate admission. Nonvacuity, witness success, exact control detection, qualification and proof admission are distinct unresolved claims.
+
+Main stdout/stderr diagnostic receipts have no retained error blocks, zero observed headers/drops/unscanned bytes, pipe_eof=true, but complete=false/rss_cap and producer completeness UNKNOWN. Setup capture completeness is true; this does not certify main diagnostics. Original block coordinates are ORIGINAL_PIPE_BYTE_HALF_OPEN; with empty blocks no block text/hash/coordinate can be attributed. Embedded file hashes remain available. Main stdout observed 7,738,554 bytes; the bounded capture stored 65,536 bytes and omitted 7,673,018, while only 4,096 head/tail bytes are inline (61,440 more capture bytes omitted from preview). Its reported SHA256 hashes the stored capture, not the full original stream, and cannot be independently recomputed from this artifact. Main stderr has all 2,493 bytes inline and its capture hash replays exactly. DIAGNOSTICS.json preserves stream/group/artifact completeness, caps, omissions, explicit hash scope and reconstructed half-open preview byte windows. Packaging PACKAGED is not diagnostic or proof completeness.
+
+No successful roots or detected negative controls are established; zero proof obligations closed, no B1/B2 or independent proof credit, no automatic admission. COST.md and ORDER.json explain exact costs and launch basis. Only reporting/replay files in this run directory were written; no compiler, verifier, full runner, CI, source/control, ledger, budget, settings or external publication changes.

@@ -1,0 +1,425 @@
+[
+  {
+    "id": "swap_pfc",
+    "expected": "SUCCESS",
+    "required_success_messages": [
+      "S2_SWAP_EXACT_TRANSFER",
+      "S2_SWAP_FULL_FRAME",
+      "S2_ACTIVE_SWAP_PFC"
+    ],
+    "required_cover_messages": [
+      "S2_SWAP_EQUAL",
+      "S2_SWAP_TAKEN",
+      "S2_SWAP_REVERSE",
+      "S2_SWAP_USEFUL_RETURN"
+    ],
+    "failure_description": null,
+    "oracle": null,
+    "source_sites": {
+      "S2_SWAP_EXACT_TRANSFER": {
+        "line": 82,
+        "source": "    assert!(pair::post::<u8,KeyLess<u8>>(pre,v[1..].as_ptr(),a,b), \"S2_SWAP_EXACT_TRANSFER\");"
+      },
+      "S2_SWAP_FULL_FRAME": {
+        "line": 83,
+        "source": "    for i in 0..15 { assert!(i == a+1 || i == b+1 || v[i] == before[i], \"S2_SWAP_FULL_FRAME\"); }"
+      },
+      "S2_ACTIVE_SWAP_PFC": {
+        "line": 75,
+        "source": "    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_SWAP_PFC\");"
+      },
+      "S2_SWAP_EQUAL": {
+        "line": 84,
+        "source": "    kani::cover(a == b, \"S2_SWAP_EQUAL\");"
+      },
+      "S2_SWAP_TAKEN": {
+        "line": 85,
+        "source": "    kani::cover(a == 0 && b == 12 && before[13] < before[1], \"S2_SWAP_TAKEN\");"
+      },
+      "S2_SWAP_REVERSE": {
+        "line": 86,
+        "source": "    kani::cover(a == 12 && b == 0 && before[13] <= before[1], \"S2_SWAP_REVERSE\");"
+      },
+      "S2_SWAP_USEFUL_RETURN": {
+        "line": 87,
+        "source": "    kani::cover(true, \"S2_SWAP_USEFUL_RETURN\");"
+      }
+    },
+    "observed_final_properties": null,
+    "binding_status": "SOURCE_EXPECTATIONS_MATCH; NATIVE_PROPERTY_BINDING_UNKNOWN",
+    "outcome": "UNKNOWN"
+  },
+  {
+    "id": "summary_witness",
+    "expected": "SUCCESS",
+    "required_success_messages": [
+      "S2_SUMMARY_WITNESS_FULL_COUNT",
+      "S2_PAIR_WITNESS",
+      "S2_ACTIVE_SUMMARY_WITNESS"
+    ],
+    "required_cover_messages": [
+      "S2_WITNESS_UNSORTED",
+      "S2_WITNESS_NONCONSTANT",
+      "S2_WITNESS_USEFUL_RETURN"
+    ],
+    "failure_description": null,
+    "oracle": null,
+    "source_sites": {
+      "S2_SUMMARY_WITNESS_FULL_COUNT": {
+        "line": 98,
+        "source": "    assert!(span::post::<u8,KeyLess<u8>>(span::capture::<u8,KeyLess<u8>>(input.as_ptr(),input.len()),output.as_ptr(),input.len()), \"S2_SUMMARY_WITNESS_FULL_COUNT\");"
+      },
+      "S2_PAIR_WITNESS": {
+        "line": 111,
+        "source": "    assert!(pair::post::<u8,KeyLess<u8>>(pairpre,outpair.as_ptr(),0,1), \"S2_PAIR_WITNESS\");"
+      },
+      "S2_ACTIVE_SUMMARY_WITNESS": {
+        "line": 103,
+        "source": "    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_SUMMARY_WITNESS\");"
+      },
+      "S2_WITNESS_UNSORTED": {
+        "line": 112,
+        "source": "    kani::cover(input[0] > input[31], \"S2_WITNESS_UNSORTED\");"
+      },
+      "S2_WITNESS_NONCONSTANT": {
+        "line": 113,
+        "source": "    kani::cover(input[0] != input[31], \"S2_WITNESS_NONCONSTANT\");"
+      },
+      "S2_WITNESS_USEFUL_RETURN": {
+        "line": 114,
+        "source": "    kani::cover(true, \"S2_WITNESS_USEFUL_RETURN\");"
+      }
+    },
+    "observed_final_properties": null,
+    "binding_status": "SOURCE_EXPECTATIONS_MATCH; NATIVE_PROPERTY_BINDING_UNKNOWN",
+    "outcome": "UNKNOWN"
+  },
+  {
+    "id": "merge32_real",
+    "expected": "SUCCESS",
+    "required_success_messages": [
+      "S2_MERGE32_SORTED_FULL_COUNT",
+      "S2_MERGE_SOURCE_FRAME",
+      "S2_MERGE_CANARIES",
+      "S2_ACTIVE_MERGE32_REAL"
+    ],
+    "required_cover_messages": [
+      "S2_MERGE_RIGHT_FIRST",
+      "S2_MERGE_LEFT_FIRST",
+      "S2_MERGE_TIE",
+      "S2_MERGE_NONCONSTANT",
+      "S2_MERGE_USEFUL_RETURN"
+    ],
+    "failure_description": null,
+    "oracle": null,
+    "source_sites": {
+      "S2_MERGE32_SORTED_FULL_COUNT": {
+        "line": 32,
+        "source": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_MERGE32_SORTED_FULL_COUNT\");"
+      },
+      "S2_MERGE_SOURCE_FRAME": {
+        "line": 23,
+        "source": "    assert!(src == original, \"S2_MERGE_SOURCE_FRAME\");"
+      },
+      "S2_MERGE_CANARIES": {
+        "line": 24,
+        "source": "    assert!(unsafe { dst[0].assume_init() == 0xa5 && dst[33].assume_init() == 0x5a }, \"S2_MERGE_CANARIES\");"
+      },
+      "S2_ACTIVE_MERGE32_REAL": {
+        "line": 30,
+        "source": "    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_MERGE32_REAL\");"
+      },
+      "S2_MERGE_RIGHT_FIRST": {
+        "line": 33,
+        "source": "    kani::cover(src[0] > src[16], \"S2_MERGE_RIGHT_FIRST\");"
+      },
+      "S2_MERGE_LEFT_FIRST": {
+        "line": 34,
+        "source": "    kani::cover(src[0] < src[16], \"S2_MERGE_LEFT_FIRST\");"
+      },
+      "S2_MERGE_TIE": {
+        "line": 35,
+        "source": "    kani::cover(src[15] == src[16], \"S2_MERGE_TIE\");"
+      },
+      "S2_MERGE_NONCONSTANT": {
+        "line": 36,
+        "source": "    kani::cover(out[0] < out[31], \"S2_MERGE_NONCONSTANT\");"
+      },
+      "S2_MERGE_USEFUL_RETURN": {
+        "line": 37,
+        "source": "    kani::cover(true, \"S2_MERGE_USEFUL_RETURN\");"
+      }
+    },
+    "observed_final_properties": null,
+    "binding_status": "SOURCE_EXPECTATIONS_MATCH; NATIVE_PROPERTY_BINDING_UNKNOWN",
+    "outcome": "UNKNOWN"
+  },
+  {
+    "id": "sort13_assumed",
+    "expected": "SUCCESS",
+    "required_success_messages": [
+      "S2_SORT13_SORTED_FULL_COUNT",
+      "S2_SORT13_CANARIES",
+      "S2_ACTIVE_SORT13_ASSUMED"
+    ],
+    "required_cover_messages": [
+      "S2_SORT13_UNSORTED",
+      "S2_SORT13_DUPLICATE",
+      "S2_SORT13_NONCONSTANT",
+      "S2_SORT13_USEFUL_RETURN"
+    ],
+    "failure_description": null,
+    "oracle": null,
+    "source_sites": {
+      "S2_SORT13_SORTED_FULL_COUNT": {
+        "line": 47,
+        "source": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before[1..14]),&v[1..14]), \"S2_SORT13_SORTED_FULL_COUNT\");"
+      },
+      "S2_SORT13_CANARIES": {
+        "line": 48,
+        "source": "    assert!(v[0] == before[0] && v[14] == before[14], \"S2_SORT13_CANARIES\");"
+      },
+      "S2_ACTIVE_SORT13_ASSUMED": {
+        "line": 43,
+        "source": "    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_SORT13_ASSUMED\");"
+      },
+      "S2_SORT13_UNSORTED": {
+        "line": 49,
+        "source": "    kani::cover(before[1] > before[13], \"S2_SORT13_UNSORTED\");"
+      },
+      "S2_SORT13_DUPLICATE": {
+        "line": 50,
+        "source": "    kani::cover(before[1] == before[13], \"S2_SORT13_DUPLICATE\");"
+      },
+      "S2_SORT13_NONCONSTANT": {
+        "line": 51,
+        "source": "    kani::cover(v[1] < v[13], \"S2_SORT13_NONCONSTANT\");"
+      },
+      "S2_SORT13_USEFUL_RETURN": {
+        "line": 52,
+        "source": "    kani::cover(true, \"S2_SORT13_USEFUL_RETURN\");"
+      }
+    },
+    "observed_final_properties": null,
+    "binding_status": "SOURCE_EXPECTATIONS_MATCH; NATIVE_PROPERTY_BINDING_UNKNOWN",
+    "outcome": "UNKNOWN"
+  },
+  {
+    "id": "general32_assumed",
+    "expected": "SUCCESS",
+    "required_success_messages": [
+      "S2_GENERAL32_SORTED_FULL_COUNT",
+      "S2_GENERAL32_CANARIES",
+      "S2_ACTIVE_GENERAL32_ASSUMED"
+    ],
+    "required_cover_messages": [
+      "S2_GENERAL32_UNSORTED",
+      "S2_GENERAL32_DUPLICATE",
+      "S2_GENERAL32_NONCONSTANT",
+      "S2_GENERAL32_USEFUL_RETURN"
+    ],
+    "failure_description": null,
+    "oracle": null,
+    "source_sites": {
+      "S2_GENERAL32_SORTED_FULL_COUNT": {
+        "line": 64,
+        "source": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before[1..33]),&v[1..33]), \"S2_GENERAL32_SORTED_FULL_COUNT\");"
+      },
+      "S2_GENERAL32_CANARIES": {
+        "line": 65,
+        "source": "    assert!(v[0] == before[0] && v[33] == before[33], \"S2_GENERAL32_CANARIES\");"
+      },
+      "S2_ACTIVE_GENERAL32_ASSUMED": {
+        "line": 60,
+        "source": "    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_GENERAL32_ASSUMED\");"
+      },
+      "S2_GENERAL32_UNSORTED": {
+        "line": 66,
+        "source": "    kani::cover(before[1] > before[32], \"S2_GENERAL32_UNSORTED\");"
+      },
+      "S2_GENERAL32_DUPLICATE": {
+        "line": 67,
+        "source": "    kani::cover(before[1] == before[32], \"S2_GENERAL32_DUPLICATE\");"
+      },
+      "S2_GENERAL32_NONCONSTANT": {
+        "line": 68,
+        "source": "    kani::cover(v[1] < v[32], \"S2_GENERAL32_NONCONSTANT\");"
+      },
+      "S2_GENERAL32_USEFUL_RETURN": {
+        "line": 69,
+        "source": "    kani::cover(true, \"S2_GENERAL32_USEFUL_RETURN\");"
+      }
+    },
+    "observed_final_properties": null,
+    "binding_status": "SOURCE_EXPECTATIONS_MATCH; NATIVE_PROPERTY_BINDING_UNKNOWN",
+    "outcome": "UNKNOWN"
+  },
+  {
+    "id": "merge_order_corrupt",
+    "expected": "DETECTED",
+    "required_success_messages": [],
+    "required_cover_messages": [],
+    "failure_description": "S2_NEG_MERGE_ORDER",
+    "oracle": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 121,
+      "class": "assertion",
+      "source_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_NEG_MERGE_ORDER\");",
+      "intended_message": "S2_NEG_MERGE_ORDER",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "source_sites": {
+      "S2_NEG_MERGE_ORDER": {
+        "line": 121,
+        "source": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_NEG_MERGE_ORDER\");"
+      }
+    },
+    "observed_final_properties": null,
+    "binding_status": "SOURCE_EXPECTATIONS_MATCH; NATIVE_PROPERTY_BINDING_UNKNOWN",
+    "outcome": "UNKNOWN"
+  },
+  {
+    "id": "merge_count_corrupt",
+    "expected": "DETECTED",
+    "required_success_messages": [],
+    "required_cover_messages": [],
+    "failure_description": "S2_NEG_MERGE_COUNT",
+    "oracle": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 128,
+      "class": "assertion",
+      "source_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_NEG_MERGE_COUNT\");",
+      "intended_message": "S2_NEG_MERGE_COUNT",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "source_sites": {
+      "S2_NEG_MERGE_COUNT": {
+        "line": 128,
+        "source": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_NEG_MERGE_COUNT\");"
+      }
+    },
+    "observed_final_properties": null,
+    "binding_status": "SOURCE_EXPECTATIONS_MATCH; NATIVE_PROPERTY_BINDING_UNKNOWN",
+    "outcome": "UNKNOWN"
+  },
+  {
+    "id": "checker_count_corrupt",
+    "expected": "DETECTED",
+    "required_success_messages": [],
+    "required_cover_messages": [],
+    "failure_description": "S2_NEG_CHECKER_COUNT",
+    "oracle": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 134,
+      "class": "assertion",
+      "source_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_COUNT\");",
+      "intended_message": "S2_NEG_CHECKER_COUNT",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "source_sites": {
+      "S2_NEG_CHECKER_COUNT": {
+        "line": 134,
+        "source": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_COUNT\");"
+      }
+    },
+    "observed_final_properties": null,
+    "binding_status": "SOURCE_EXPECTATIONS_MATCH; NATIVE_PROPERTY_BINDING_UNKNOWN",
+    "outcome": "UNKNOWN"
+  },
+  {
+    "id": "checker_order_corrupt",
+    "expected": "DETECTED",
+    "required_success_messages": [],
+    "required_cover_messages": [],
+    "failure_description": "S2_NEG_CHECKER_ORDER",
+    "oracle": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 140,
+      "class": "assertion",
+      "source_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_ORDER\");",
+      "intended_message": "S2_NEG_CHECKER_ORDER",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "source_sites": {
+      "S2_NEG_CHECKER_ORDER": {
+        "line": 140,
+        "source": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_ORDER\");"
+      }
+    },
+    "observed_final_properties": null,
+    "binding_status": "SOURCE_EXPECTATIONS_MATCH; NATIVE_PROPERTY_BINDING_UNKNOWN",
+    "outcome": "UNKNOWN"
+  },
+  {
+    "id": "sort13_weak",
+    "expected": "DETECTED",
+    "required_success_messages": [],
+    "required_cover_messages": [],
+    "failure_description": "S2_NEG_SORT13_WEAK",
+    "oracle": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 149,
+      "class": "assertion",
+      "source_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_SORT13_WEAK\");",
+      "intended_message": "S2_NEG_SORT13_WEAK",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "source_sites": {
+      "S2_NEG_SORT13_WEAK": {
+        "line": 149,
+        "source": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_SORT13_WEAK\");"
+      }
+    },
+    "observed_final_properties": null,
+    "binding_status": "SOURCE_EXPECTATIONS_MATCH; NATIVE_PROPERTY_BINDING_UNKNOWN",
+    "outcome": "UNKNOWN"
+  },
+  {
+    "id": "general32_weak",
+    "expected": "DETECTED",
+    "required_success_messages": [],
+    "required_cover_messages": [],
+    "failure_description": "S2_NEG_GENERAL32_WEAK",
+    "oracle": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 163,
+      "class": "assertion",
+      "source_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_GENERAL32_WEAK\");",
+      "intended_message": "S2_NEG_GENERAL32_WEAK",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "source_sites": {
+      "S2_NEG_GENERAL32_WEAK": {
+        "line": 163,
+        "source": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_GENERAL32_WEAK\");"
+      }
+    },
+    "observed_final_properties": null,
+    "binding_status": "SOURCE_EXPECTATIONS_MATCH; NATIVE_PROPERTY_BINDING_UNKNOWN",
+    "outcome": "UNKNOWN"
+  }
+]
