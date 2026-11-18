@@ -1,0 +1,43 @@
+{
+  "schema": "ch8-f4-full-ci-intake-manifest-v1",
+  "hash": "sha256",
+  "scope": "This directory only; manifest excludes itself",
+  "files": {
+    "HANDOFF.md": {
+      "sha256": "d70d68c499211334d92bb01e43d3ea8cb412498466dece6bd9cc36b5a5e842c5",
+      "bytes": 1307
+    },
+    "INPUTS.json": {
+      "sha256": "038203812e4b8a16dc2d9419cb1268257fd3b3a20e1b9e6c2b77216c37fc5ea7",
+      "bytes": 5442
+    },
+    "PR-DRAFT.md": {
+      "sha256": "b015e9d3bab32cf2f40f52c430105651568180b64d7fbbdd755996ffd653185b",
+      "bytes": 1537
+    },
+    "PROVENANCE.json": {
+      "sha256": "67ced8378903c5ba8cd187b3dcc6a12eb990b0444e1b473b57f5216dd6836fee",
+      "bytes": 45376
+    },
+    "RESULT.json": {
+      "sha256": "25681625a93b226b2dae32dbf0c788a2f2bde129b9a1b8f02fcf46e7d7f93c57",
+      "bytes": 11087
+    },
+    "RESULT.md": {
+      "sha256": "5bd32c069004e2589120e1305d68bc50ceb6878a123a7f007b7697d57255408a",
+      "bytes": 2782
+    }
+  },
+  "validation": {
+    "status": "PASS",
+    "checks": [
+      "All JSON parses",
+      "Manifest SHA256 and byte lengths",
+      "Three terminal exact-head push attempt1 identities",
+      "All 12 expected jobs accounted for with native outcomes",
+      "arm64 runner_id=0 and empty steps",
+      "PR two substance paragraphs, reproducible first sentence, sole required Testing link, no SHAs/counts/internal labels, exact license and AI disclosure"
+    ],
+    "execution_boundary": "Static artifact checks only; no compiler/verifier/CI execution"
+  }
+}

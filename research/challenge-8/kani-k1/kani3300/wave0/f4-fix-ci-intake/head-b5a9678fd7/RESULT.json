@@ -1,0 +1,268 @@
+{
+  "schema": "ch8-f4-full-ci-intake-result-v1",
+  "classification": "FORK_PUSH_CI_PARTIAL_INFRASTRUCTURE",
+  "identity": "MATCH",
+  "terminal": true,
+  "workflows": [
+    {
+      "run_id": 44274306776,
+      "workflow": ".github/workflows/kani.yml",
+      "native_conclusion": "FAILURE",
+      "identity": "MATCH",
+      "all_expected_jobs_accounted": true,
+      "jobs": [
+        {
+          "id": 134698398537,
+          "name": "documentation",
+          "native_conclusion": "SUCCESS",
+          "coverage": "EXECUTED",
+          "checkout_identity": "UNKNOWN; checkout step success is not measured SHA",
+          "summary_reference": "PROVENANCE.json /runs/0/jobs/jobs/0"
+        },
+        {
+          "id": 134698399258,
+          "name": "benchcomp-tests",
+          "native_conclusion": "SUCCESS",
+          "coverage": "EXECUTED",
+          "checkout_identity": "UNKNOWN; checkout step success is not measured SHA",
+          "summary_reference": "PROVENANCE.json /runs/0/jobs/jobs/1"
+        },
+        {
+          "id": 134698399267,
+          "name": "llbc-regression",
+          "native_conclusion": "SUCCESS",
+          "coverage": "EXECUTED",
+          "checkout_identity": "UNKNOWN; checkout step success is not measured SHA",
+          "summary_reference": "PROVENANCE.json /runs/0/jobs/jobs/2"
+        },
+        {
+          "id": 134698399280,
+          "name": "regression (macos-15)",
+          "native_conclusion": "CANCELLED",
+          "coverage": "NOT_RUN",
+          "checkout_identity": "UNKNOWN; checkout step success is not measured SHA",
+          "summary_reference": "PROVENANCE.json /runs/0/jobs/jobs/3"
+        },
+        {
+          "id": 134698399322,
+          "name": "regression (ubuntu-24.04)",
+          "native_conclusion": "SUCCESS",
+          "coverage": "EXECUTED",
+          "checkout_identity": "UNKNOWN; checkout step success is not measured SHA",
+          "summary_reference": "PROVENANCE.json /runs/0/jobs/jobs/4"
+        },
+        {
+          "id": 134698399326,
+          "name": "regression (macos-15-intel)",
+          "native_conclusion": "SUCCESS",
+          "coverage": "EXECUTED",
+          "checkout_identity": "UNKNOWN; checkout step success is not measured SHA",
+          "summary_reference": "PROVENANCE.json /runs/0/jobs/jobs/5"
+        },
+        {
+          "id": 134698399339,
+          "name": "perf",
+          "native_conclusion": "SUCCESS",
+          "coverage": "EXECUTED",
+          "checkout_identity": "UNKNOWN; checkout step success is not measured SHA",
+          "summary_reference": "PROVENANCE.json /runs/0/jobs/jobs/6"
+        },
+        {
+          "id": 134698399352,
+          "name": "regression (ubuntu-24.04-arm)",
+          "native_conclusion": "SUCCESS",
+          "coverage": "EXECUTED",
+          "checkout_identity": "UNKNOWN; checkout step success is not measured SHA",
+          "summary_reference": "PROVENANCE.json /runs/0/jobs/jobs/7"
+        },
+        {
+          "id": 134698399395,
+          "name": "regression (ubuntu-22.04)",
+          "native_conclusion": "SUCCESS",
+          "coverage": "EXECUTED",
+          "checkout_identity": "UNKNOWN; checkout step success is not measured SHA",
+          "summary_reference": "PROVENANCE.json /runs/0/jobs/jobs/8"
+        }
+      ]
+    },
+    {
+      "run_id": 44274306711,
+      "workflow": ".github/workflows/format-check.yml",
+      "native_conclusion": "SUCCESS",
+      "identity": "MATCH",
+      "all_expected_jobs_accounted": true,
+      "jobs": [
+        {
+          "id": 134698398433,
+          "name": "clippy-check",
+          "native_conclusion": "SUCCESS",
+          "coverage": "EXECUTED",
+          "checkout_identity": "UNKNOWN; checkout step success is not measured SHA",
+          "summary_reference": "PROVENANCE.json /runs/1/jobs/jobs/0"
+        },
+        {
+          "id": 134698399347,
+          "name": "format-check",
+          "native_conclusion": "SUCCESS",
+          "coverage": "EXECUTED",
+          "checkout_identity": "UNKNOWN; checkout step success is not measured SHA",
+          "summary_reference": "PROVENANCE.json /runs/1/jobs/jobs/1"
+        }
+      ]
+    },
+    {
+      "run_id": 44274306733,
+      "workflow": ".github/workflows/deny.yml",
+      "native_conclusion": "FAILURE",
+      "identity": "MATCH",
+      "all_expected_jobs_accounted": true,
+      "jobs": [
+        {
+          "id": 134698398552,
+          "name": "audit",
+          "native_conclusion": "FAILURE",
+          "coverage": "EXECUTED",
+          "checkout_identity": "UNKNOWN; checkout step success is not measured SHA",
+          "summary_reference": "PROVENANCE.json /runs/2/jobs/jobs/0"
+        }
+      ]
+    }
+  ],
+  "frozen_workflow_inventory": {
+    "kani.yml": {
+      "regression_matrix": [
+        "macos-15-intel",
+        "ubuntu-22.04",
+        "ubuntu-24.04",
+        "macos-15",
+        "ubuntu-24.04-arm"
+      ],
+      "other_jobs": [
+        "benchcomp-tests",
+        "perf",
+        "llbc-regression",
+        "documentation"
+      ],
+      "job_conditions": "All candidate jobs unconditional on branch push; default success gating within steps; regression matrix fail-fast defaults to true. All expected jobs observed.",
+      "perf": "Full scripts/kani-perf.sh through retry@v4; max_attempts=2 is frozen workflow setting, actual internal retry count UNKNOWN. No workflow rerun.",
+      "documentation_publish": "Only push with startsWith(refs/heads/main, github.ref); Publish Documentation SKIPPED as expected for candidate branch; Build Documentation SUCCESS."
+    },
+    "format-check.yml": {
+      "jobs": [
+        "format-check",
+        "clippy-check"
+      ],
+      "continue_on_error": "Check C code formatting=true; native step SUCCESS, no tolerated failure observed; Clippy statistics shell has || true."
+    },
+    "deny.yml": {
+      "jobs": [
+        "audit"
+      ],
+      "audit": "EmbarkStudios/cargo-deny-action@v2, --all-features --workspace, command-arguments=-s; no continue-on-error."
+    }
+  },
+  "failures": [
+    {
+      "run_id": 44274306733,
+      "job_id": 134698398552,
+      "first_failed_step": "Run EmbarkStudios/cargo-deny-action@v2",
+      "step_number": 4,
+      "native_conclusion": "FAILURE",
+      "failure_class": "EXTERNAL_ADVISORY",
+      "f4_blocking": false,
+      "reason": "RUSTSEC-2026-0543: chrono unmaintained; advisories FAILED: 1 errors",
+      "reason_provenance": "Coordinator report and explicit acceptance, PROVENANCE.json coordinator_reports[1]; step failure independently confirmed",
+      "timeline": "Earliest failed step starts 2026-11-18T09:16:26Z; do not relabel Deny green."
+    },
+    {
+      "run_id": 44274306776,
+      "job_id": 134698399280,
+      "job": "regression (macos-15)",
+      "native_conclusion": "CANCELLED",
+      "failure_class": "INFRASTRUCTURE_NO_RUNNER",
+      "coverage": "NOT_RUN",
+      "first_failed_step": null,
+      "reason": "The job was not acquired by Runner of type hosted even after multiple attempts",
+      "reason_provenance": "Coordinator; independent runner_id=0, empty runner_name, zero steps corroborate non-execution",
+      "owner_decision": "NO_RERUN; upstream PR coverage"
+    }
+  ],
+  "regression": {
+    "fixture": "tests/script-based-pre/delayed-shared-body",
+    "source_binding": "INPUTS.json source_files at exact final-head Git objects; native workflow -> scripts/kani-regression.sh -> script-based-pre exec -> config.yml -> test.sh -> check.py",
+    "main_observation": {
+      "run_id": 44177926794,
+      "intake_commit": "06ff67af4aa1dd8df2cdbf2eec58bf3863008748",
+      "classification": "DEFECT_PRESENT",
+      "behavior": "Initialized harness succeeds alone and fails paired in both cfg variants; independent and delayed unsafe controls fail as intended. Prior compact intake, no fresh native execution."
+    },
+    "fixed_observation": {
+      "regression_jobs": "Four executed regression jobs and Execute Kani regression steps SUCCESS; macos-15 NOT_RUN",
+      "suite_report": "ubuntu-24.04 script-based-pre 103/103, COORDINATOR_REPORTED",
+      "named_fixture_runtime_result": "UNKNOWN from connected summaries; suite report plus frozen source supports suite-level acceptance, not independently observed per-harness properties",
+      "oracle_requirements_from_source": "Initialized control SUCCESS alone/paired, successful result == 7 assertion; delayed harness FAILURE alone/paired for uninitialized read; independent uninitialized control FAILURE; semantic check signatures equal between singleton and pair; both delayed_first/control_first feature call paths. Requirements are source facts, not exported runtime inventories.",
+      "individual_runtime_check_counts_and_properties": "UNKNOWN",
+      "actual_checkout_sha": "UNKNOWN",
+      "actual_compilation_order": "UNKNOWN; cfg variants select call paths",
+      "runtime_cache_causality": "UNKNOWN"
+    }
+  },
+  "performance": {
+    "native_step": "Execute Kani performance tests SUCCESS",
+    "mode": "Full fork perf job, distinct from PR comparison benchmarks",
+    "individual_cases_times_RSS_ratios_and_retries": "UNKNOWN; no numerical performance claim"
+  },
+  "deferred": [
+    {
+      "workflow": "release.yml",
+      "coverage": "DEFERRED_TO_UPSTREAM_PR",
+      "detail": "Includes planned 14 release instances; native triggers PR/merge_group, main push or kani-* tag; candidate branch push excluded."
+    },
+    {
+      "workflow": "verify-std-check.yml",
+      "coverage": "DEFERRED_TO_UPSTREAM_PR",
+      "detail": "PR/workflow_call; verify-std matrix ubuntu-22.04 and macos-15."
+    },
+    {
+      "workflow": "bench-pr.yml",
+      "coverage": "DEFERRED_TO_UPSTREAM_PR",
+      "detail": "PR types opened/synchronize/reopened/labeled; comparisons gated by Z-EndToEndBenchCI and Z-CompilerBenchCI labels."
+    },
+    {
+      "workflow": "extra_jobs.yml",
+      "coverage": "PR_METADATA_ONLY"
+    },
+    {
+      "job": "regression (macos-15)",
+      "coverage": "NOT_RUN; deferred to upstream PR by owner"
+    }
+  ],
+  "evidence_remaining": [
+    "Measured checkout SHA for executed jobs",
+    "Named fixture output and per-harness runtime properties/exports for both cfg variants",
+    "Independent Deny diagnostic/advisory timeline; report attributed to coordinator",
+    "Check-suite summaries unavailable: connector rejects endpoints, exact errors retained",
+    "Per-case performance metrics and internal retry counts",
+    "macOS arm64 execution and deferred upstream PR jobs"
+  ],
+  "readiness": {
+    "intake": "READY",
+    "pr_draft": "READY_FOR_OWNER_REVIEW",
+    "ci": "PARTIAL; no five-OS pass, no all-green CI",
+    "publication": "OWNER_COMMAND_REQUIRED; no publication attempted"
+  },
+  "actions": {
+    "CI": false,
+    "push": false,
+    "PR": false,
+    "rerun": false,
+    "cancel": false,
+    "source_changes": false,
+    "ledger_budget_changes": false,
+    "raw_logs_or_archives": false,
+    "compiler_or_verifier_execution": false,
+    "subagents": false,
+    "model_changed": false
+  },
+  "proof_credit": "NONE; CI intake and bounded regression evidence only; download_verified not set"
+}
