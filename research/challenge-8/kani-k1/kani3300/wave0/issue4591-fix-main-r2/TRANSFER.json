@@ -1,0 +1,250 @@
+{
+  "checked_at_utc": "2026-11-18T20:53:10.247664+00:00",
+  "source_head": "3a770b5db51ba07acffce3483bde0901e6533f3a",
+  "source_tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+  "patch_input_sha256": "4af4a997cb786fbe85b8916b98d0d8e487d770edfc088bc0b02d25d30ae6acb3",
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "apply",
+        "--check",
+        "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/issue4591-fix-r1/full-main.patch"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "apply",
+        "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/issue4591-fix-r1/full-main.patch"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "conflicts": [],
+  "manual_resolutions": [],
+  "additional_compiler_adaptations": [],
+  "assurance": "git patch application only; no compilation or native execution",
+  "old_base": {
+    "sha": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94"
+  },
+  "new_base": {
+    "sha": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "tree": "c9a832dc1647c51ac3036429e5f97e73eb717ba7",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e"
+  },
+  "old_source": {
+    "g0": "1d7ef5455f2ea790cd98dde9f38565edb59357ea",
+    "source": "e6aa083da3c93f3189039077795cc9a0d67d3a6d",
+    "tree": "01140856c15e161ff6fc4c1ce460fd4208a298cd",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "main": {
+      "sha": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+      "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94"
+    },
+    "package": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-fix-r1",
+    "independent_status": "W11-01_PENDING_NOT_INDEPENDENTLY_CLOSED"
+  },
+  "new_source": {
+    "sha": "3a770b5db51ba07acffce3483bde0901e6533f3a",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "parent": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "message": "Support ordinary stubs of contracted functions on new main [skip ci]",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "local_only": true,
+    "skip_ci": true
+  },
+  "upstream_changed_paths": [
+    "Cargo.lock",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/foreign_function.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+    "kani-compiler/src/intrinsics.rs",
+    "kani-compiler/src/kani_middle/attributes.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/contracts.rs",
+    "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+    "kani-compiler/src/session.rs",
+    "kani-driver/Cargo.toml",
+    "kani-driver/src/concrete_playback/playback.rs",
+    "kani-driver/src/session.rs",
+    "library/kani/src/models/mod.rs",
+    "rust-toolchain.toml",
+    "tests/expected/valid-value-checks/custom_niche.rs",
+    "tests/expected/valid-value-checks/place_access_pattern.rs",
+    "tests/kani/Intrinsics/CopySign/copysignf32.rs",
+    "tests/kani/Intrinsics/CopySign/copysignf64.rs",
+    "tests/kani/Intrinsics/MaxNum/maxnumf32.rs",
+    "tests/kani/Intrinsics/MaxNum/maxnumf64.rs",
+    "tests/kani/Intrinsics/MinNum/minnumf32.rs",
+    "tests/kani/Intrinsics/MinNum/minnumf64.rs",
+    "tests/kani/Uninit/fallback_intrinsic.rs",
+    "tests/script-based-pre/autoharness_niche/niche_probe.rs",
+    "tests/script-based-pre/autoharness_pattern_type/pattern_type_probe.rs",
+    "tests/script-based-pre/autoharness_sve_tuple/check.sh",
+    "tools/scanner/src/bin/scan.rs"
+  ],
+  "upstream_paths": {
+    "Cargo.lock": {
+      "new_main_blob": "33700f4be8c8108ed8b1afcb067dd092e8c32a4b",
+      "new_source_blob": "33700f4be8c8108ed8b1afcb067dd092e8c32a4b"
+    },
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/foreign_function.rs": {
+      "new_main_blob": "8cc6897f5da8fd6e99b4154b47df8d46ab6f06b3",
+      "new_source_blob": "8cc6897f5da8fd6e99b4154b47df8d46ab6f06b3"
+    },
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs": {
+      "new_main_blob": "bb9e3ca80afc02b57df360a7e15bb01ae3951a0d",
+      "new_source_blob": "bb9e3ca80afc02b57df360a7e15bb01ae3951a0d"
+    },
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs": {
+      "new_main_blob": "b03541868c4c3d8f2f6be4888da6ff9759e66612",
+      "new_source_blob": "b03541868c4c3d8f2f6be4888da6ff9759e66612"
+    },
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs": {
+      "new_main_blob": "9879e0562fea1b4e9dc515359f2079b60583afac",
+      "new_source_blob": "9879e0562fea1b4e9dc515359f2079b60583afac"
+    },
+    "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs": {
+      "new_main_blob": "26c164753880d3bfe5cae3ca16d5e9b9adc8be5c",
+      "new_source_blob": "26c164753880d3bfe5cae3ca16d5e9b9adc8be5c"
+    },
+    "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs": {
+      "new_main_blob": "47d579842dbfdc11e1c64bca5302f8a963fe9c48",
+      "new_source_blob": "47d579842dbfdc11e1c64bca5302f8a963fe9c48"
+    },
+    "kani-compiler/src/intrinsics.rs": {
+      "new_main_blob": "989f4f7d995f9de84d7bd5d1bc678775c4a8e189",
+      "new_source_blob": "989f4f7d995f9de84d7bd5d1bc678775c4a8e189"
+    },
+    "kani-compiler/src/kani_middle/attributes.rs": {
+      "new_main_blob": "84d53b6df551054c893e9e1b9119a28f2eea1d9c",
+      "new_source_blob": "84d53b6df551054c893e9e1b9119a28f2eea1d9c"
+    },
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": {
+      "new_main_blob": "2f542d45f265668acc33e55b68ec585ab215b9a2",
+      "new_source_blob": "2f542d45f265668acc33e55b68ec585ab215b9a2"
+    },
+    "kani-compiler/src/kani_middle/transform/contracts.rs": {
+      "new_main_blob": "d3be8c695729c91a6f22be5eea03fbb5629514bb",
+      "new_source_blob": "71005a6882fa612546107d843d2de54a0f8d3ec8"
+    },
+    "kani-compiler/src/kani_middle/transform/loop_contracts.rs": {
+      "new_main_blob": "bf9a14b816aeae2caac78a8831a90143aaf83867",
+      "new_source_blob": "bf9a14b816aeae2caac78a8831a90143aaf83867"
+    },
+    "kani-compiler/src/session.rs": {
+      "new_main_blob": "8f73e5636943098a47eb695e6c92bfc8a24e7464",
+      "new_source_blob": "8f73e5636943098a47eb695e6c92bfc8a24e7464"
+    },
+    "kani-driver/Cargo.toml": {
+      "new_main_blob": "fcd4df2d3e0c8959f7518309e4a07e1f2089d0ac",
+      "new_source_blob": "fcd4df2d3e0c8959f7518309e4a07e1f2089d0ac"
+    },
+    "kani-driver/src/concrete_playback/playback.rs": {
+      "new_main_blob": "ad514d29f2821d3845bc0667b073cb24a54ea0db",
+      "new_source_blob": "ad514d29f2821d3845bc0667b073cb24a54ea0db"
+    },
+    "kani-driver/src/session.rs": {
+      "new_main_blob": "1eefda52775c3d9f77d101e133bd025fa2620eba",
+      "new_source_blob": "1eefda52775c3d9f77d101e133bd025fa2620eba"
+    },
+    "library/kani/src/models/mod.rs": {
+      "new_main_blob": "8b633e685f73f6c3bff90b1ed98f6a056298b518",
+      "new_source_blob": "8b633e685f73f6c3bff90b1ed98f6a056298b518"
+    },
+    "rust-toolchain.toml": {
+      "new_main_blob": "1cdf94ea9b42256403997a5114d3b9ec10785d2d",
+      "new_source_blob": "1cdf94ea9b42256403997a5114d3b9ec10785d2d"
+    },
+    "tests/expected/valid-value-checks/custom_niche.rs": {
+      "new_main_blob": "78f58b7e154aecd2540e201655a4cd5cf3e12bba",
+      "new_source_blob": "78f58b7e154aecd2540e201655a4cd5cf3e12bba"
+    },
+    "tests/expected/valid-value-checks/place_access_pattern.rs": {
+      "new_main_blob": "dc60848a9e8e7d7f8aa06cbc1aeb5240e5800214",
+      "new_source_blob": "dc60848a9e8e7d7f8aa06cbc1aeb5240e5800214"
+    },
+    "tests/kani/Intrinsics/CopySign/copysignf32.rs": {
+      "new_main_blob": "8fd58a421c704eba816ad93c6b2358f5076f4bfc",
+      "new_source_blob": "8fd58a421c704eba816ad93c6b2358f5076f4bfc"
+    },
+    "tests/kani/Intrinsics/CopySign/copysignf64.rs": {
+      "new_main_blob": "d2044952f071393bae62b4db04672900b9fb33a4",
+      "new_source_blob": "d2044952f071393bae62b4db04672900b9fb33a4"
+    },
+    "tests/kani/Intrinsics/MaxNum/maxnumf32.rs": {
+      "new_main_blob": "5b125767e08d40650e38e8747f3c31772430d691",
+      "new_source_blob": "5b125767e08d40650e38e8747f3c31772430d691"
+    },
+    "tests/kani/Intrinsics/MaxNum/maxnumf64.rs": {
+      "new_main_blob": "f5efdf8a1dbfd549eb2e02b955d3da537b61eb2c",
+      "new_source_blob": "f5efdf8a1dbfd549eb2e02b955d3da537b61eb2c"
+    },
+    "tests/kani/Intrinsics/MinNum/minnumf32.rs": {
+      "new_main_blob": "b7bd41e6f12f23065092e90fec66bbdb48155d93",
+      "new_source_blob": "b7bd41e6f12f23065092e90fec66bbdb48155d93"
+    },
+    "tests/kani/Intrinsics/MinNum/minnumf64.rs": {
+      "new_main_blob": "20be71167b742b5207d9677e37bf530229044be2",
+      "new_source_blob": "20be71167b742b5207d9677e37bf530229044be2"
+    },
+    "tests/kani/Uninit/fallback_intrinsic.rs": {
+      "new_main_blob": "b46b10a95f48d1870091731fe69ae958fd02e037",
+      "new_source_blob": "b46b10a95f48d1870091731fe69ae958fd02e037"
+    },
+    "tests/script-based-pre/autoharness_niche/niche_probe.rs": {
+      "new_main_blob": "5c5ba1083ffe543eb68fb0142189533ac297ac95",
+      "new_source_blob": "5c5ba1083ffe543eb68fb0142189533ac297ac95"
+    },
+    "tests/script-based-pre/autoharness_pattern_type/pattern_type_probe.rs": {
+      "new_main_blob": "ebccaca247308c264775f2f9bde9b3be25f8b103",
+      "new_source_blob": "ebccaca247308c264775f2f9bde9b3be25f8b103"
+    },
+    "tests/script-based-pre/autoharness_sve_tuple/check.sh": {
+      "new_main_blob": "657c2eddf05b9b6aa1d4ea57a5f0509ca71a9e18",
+      "new_source_blob": "657c2eddf05b9b6aa1d4ea57a5f0509ca71a9e18"
+    },
+    "tools/scanner/src/bin/scan.rs": {
+      "new_main_blob": "f82b808e8a643be4422918ebb4a57259cdbdca54",
+      "new_source_blob": "f82b808e8a643be4422918ebb4a57259cdbdca54"
+    }
+  },
+  "delta_comparison": {
+    "normalization": "remove only git index blob-ID header lines; retain every path, hunk coordinate and content line",
+    "old_candidate_delta_sha256": "046b3fd71946a5f04e6d7fe7484b68ffbed42cab3903bf18c6caf50f1f4f34dc",
+    "new_candidate_delta_sha256": "046b3fd71946a5f04e6d7fe7484b68ffbed42cab3903bf18c6caf50f1f4f34dc",
+    "candidate_delta_equal": true,
+    "upstream_delta_sha256": "4761be015f5b082bb242032621f1a5dfcde30aff8d1455805febb38b371b3908",
+    "source_delta_sha256": "4761be015f5b082bb242032621f1a5dfcde30aff8d1455805febb38b371b3908",
+    "upstream_delta_preserved": true
+  },
+  "range_diff_sha256": "36ca12ad79bcc9c5e7a614cd1e7606ce000bdd234cd794b1282c64d5735f1644",
+  "range_diff_explanation": "Only commit message differs; candidate patch hunks identical. Normalized delta equality independently checks both directions.",
+  "new_patch_hashes": {
+    "fix.patch": "af782bc5473f4b45852ed253aefd929a0ca78746b5fa20452483bdc128cea6cd",
+    "regression-main.patch": "ef04091ab11f9af5067fc2d634bd901f013d75f8427bb026334566fb8fd536bd",
+    "full-main.patch": "bb4a00fa83852bc67730c3271c2f31fffc673fb2b79d53407fdd37cb37bfeeed"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "task_g0": "09840da5715c0462ee09256930d8487712beebf3",
+  "task": "TASK-KANI-4591-MAIN-REBASE-W15.md",
+  "owner_session": "current15",
+  "fast": "OFF",
+  "subagents_spawned": 0,
+  "cleanroom": {
+    "source": "approved upstream main969f objects plus own frozen repaired r1 patch and source trace",
+    "owner_exception": [
+      "https://github.com/model-checking/kani/issues/4591",
+      "all two issue comments"
+    ],
+    "unrelated_pr_diffs_or_implementations_read": false,
+    "F4": "CI scope/process precedent only; source branch directly from stock main"
+  },
+  "source": {
+    "sha": "3a770b5db51ba07acffce3483bde0901e6533f3a",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "parent": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "message": "Support ordinary stubs of contracted functions on new main [skip ci]",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "local_only": true,
+    "skip_ci": true
+  },
+  "base": {
+    "sha": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "tree": "c9a832dc1647c51ac3036429e5f97e73eb717ba7",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e"
+  },
+  "native_fixed": "NOT_RUN",
+  "native_new_main": "NOT_RUN",
+  "historical_intake": {
+    "run": 44380273557,
+    "intake_commit": "75de8b41bcdfcd202d066e3d5cfaf514f681f9e9",
+    "classification_unchanged": "INCONCLUSIVE"
+  },
+  "superseded_records": {
+    "old_clear_error_candidate": "SUPERSEDED; immutable, not ported",
+    "old_issue_draft": "DUPLICATE_OF_4591; immutable"
+  },
+  "upstream_main_recheck": "MAIN-CHECK.json",
+  "validation": "validate.py, VALIDATION.json",
+  "authorization": {
+    "preparation": true,
+    "ci": false,
+    "publication": false,
+    "ledger": false,
+    "budget_or_reservation": false
+  },
+  "prior_records_modified": false,
+  "frozen_inputs": {
+    "g0": "bdf1bb42189257c9654eb55dfcda11b2f08a0b01",
+    "review": "54ea8a918b761dc67213f7f24ae5163b7f463b42",
+    "source": "a7bca98c91cbfa595bdc2a1bdc6bd4d0a4fa796a",
+    "tree": "98fae98ce9e783bed0393d35657674da09c3aa31",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e"
+  },
+  "reasoning": "high",
+  "repair_scope": "Unchanged repaired compiler+test delta transferred to new approved upstream main; no conflicts or additional compiler adaptations",
+  "g0_start_head": "09840da5715c0462ee09256930d8487712beebf3",
+  "predecessor_r1": {
+    "g0": "1d7ef5455f2ea790cd98dde9f38565edb59357ea",
+    "source": "e6aa083da3c93f3189039077795cc9a0d67d3a6d",
+    "tree": "01140856c15e161ff6fc4c1ce460fd4208a298cd",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "main": {
+      "sha": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+      "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94"
+    },
+    "package": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-fix-r1",
+    "independent_status": "W11-01_PENDING_NOT_INDEPENDENTLY_CLOSED"
+  }
+}
