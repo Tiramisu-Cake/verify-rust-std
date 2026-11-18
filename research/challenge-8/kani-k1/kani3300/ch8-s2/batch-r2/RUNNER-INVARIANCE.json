@@ -1,0 +1,48 @@
+{
+  "reference_package_g0": "ac956bdf4db98a95e2da988ccd2c527582d3d32f",
+  "reference_control": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+  "reference_tree": "beb2346615ffbb7027b2f1ea8ea33a149952aa0b",
+  "files": [
+    {
+      "file": ".github/workflows/ch8-s2.yml",
+      "reference_sha256": "973944169dd4d7f2fc169582b1327cc8e31fa96710a2a597ed0a126ef37e4a2e",
+      "candidate_sha256": "973944169dd4d7f2fc169582b1327cc8e31fa96710a2a597ed0a126ef37e4a2e",
+      "status": "BYTE_IDENTICAL"
+    },
+    {
+      "file": "ch8-s1-control/check_package.py",
+      "reference_sha256": "bf65515325970226b58c50a310b2989ec31f55c437b90defcd3b9db5ef6d1873",
+      "candidate_sha256": "bf65515325970226b58c50a310b2989ec31f55c437b90defcd3b9db5ef6d1873",
+      "status": "BYTE_IDENTICAL"
+    },
+    {
+      "file": "ch8-s1-control/pack_evidence.py",
+      "reference_sha256": "b90c3d942ce3ec5734ef35719cebb5ac0a3052bd1c7317523c31f9a009e01c85",
+      "candidate_sha256": "b90c3d942ce3ec5734ef35719cebb5ac0a3052bd1c7317523c31f9a009e01c85",
+      "status": "BYTE_IDENTICAL"
+    },
+    {
+      "file": "ch8-s1-control/rustc_diagnostics.py",
+      "reference_sha256": "c60dca260bafc89ae419c9d54f594e191b96558cb2670e7517ab802042aeb78a",
+      "candidate_sha256": "c60dca260bafc89ae419c9d54f594e191b96558cb2670e7517ab802042aeb78a",
+      "status": "BYTE_IDENTICAL"
+    },
+    {
+      "file": "ch8-s1-control/test_rustc_diagnostics.py",
+      "reference_sha256": "595504d1fc494a647f99318a34cd239db0a030c8cc2ab290846deb0872a87ec9",
+      "candidate_sha256": "595504d1fc494a647f99318a34cd239db0a030c8cc2ab290846deb0872a87ec9",
+      "status": "BYTE_IDENTICAL"
+    },
+    {
+      "file": "ch8-s1-control/runner.py",
+      "reference_sha256": "5cd91fa221644daa3493ed1f5cd445fa91e8bf9a0071cb0cee8f13ba26ba1251",
+      "candidate_sha256": "dd1ed167b226c135014c4f69b54be74552c28272450ab6380711d0d3efeb3658",
+      "status": "ONLY_STD_SHA_AND_STD_TREE_LITERAL_REBIND; all executable diagnostics/runner code byte-identical",
+      "reference_source": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "candidate_source": "efb1aba7fc6445cba6cd75154713b598c9e2579d"
+    }
+  ],
+  "w11_original_29_tests": "ALL_INCLUDED_IN_72_PLUS_3_PASS",
+  "runner_defect_ownership": "W11; no collector/receipt/pack/fallback implementation edits by W13",
+  "production_retention": "NOT_RUN"
+}

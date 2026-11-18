@@ -1,0 +1,1 @@
+DRAFT_AWAITING_W11_CORRECTION — NOT FINAL READY. Source/model/cfg prepared; exact source/control/preflight in IDENTITIES/VALIDATION. B678 rejected for B-01/B-02; coordinator requires immutable original11 correction before final combined review14. Native compile/CI/push/ledger NOT_RUN; cause UNKNOWN.

@@ -1,0 +1,1 @@
+Reviewable preparation draft only. Current control/request bind the rejected b678 diagnostics implementation plus exact new source pins. Coordinator forbids final READY until original11 corrected immutable pins are integrated and combined review14 resolves findings. No GO-request or dispatch authorized.

@@ -1,0 +1,1 @@
+W13 combined S2 r2. Runtime: Codex. Task43a137ced6c25a9fe2b34f3df6048474d0415516; ../../../TASK-CH8-S2-R2-COMPOSE-W13.md. DRAFT_AWAITING_W11_CORRECTION; coordinator forbids final READY with b678. Source/model/cfg prepared. No subagents/native compiler/full runner/CI/push/ledger.

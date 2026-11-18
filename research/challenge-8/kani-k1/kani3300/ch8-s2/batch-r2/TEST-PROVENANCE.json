@@ -1,0 +1,19 @@
+{
+  "schema": "ch8-s2-r2-test-provenance-v1",
+  "execution_source_sha": "f5040a0e95b7a878d437acf0f92984ccbb57b453",
+  "execution_source_tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+  "execution_control_sha": "35c2f0b4e1b92f5a129db44cc61de45362756117",
+  "final_source_sha": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+  "final_source_tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+  "final_control_sha": "2d00b9cc14f5a093ccaa0288a0f691fddf3ee84a",
+  "stage_to_final_control_changes": [
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/runner.py"
+  ],
+  "semantics": "Source tree identical; final source ancestry condensed to retain base within checkout5. Final runner differs from tested code only STD_SHA literal, request only std_sha and matching runner payload hash. All other executable/test/fixture bytes identical; final static preflight rechecks exact pins. No repeat of already passing synthetic tests for identity-only changes.",
+  "targeted_count": 72,
+  "fallback_count": 3,
+  "W11_original_tests_included": 29,
+  "native_compile_model_retention": "NOT_RUN",
+  "known_review_findings": "W11 B-01/B-02 remain unresolved; passing existing tests does not establish correct global completeness"
+}

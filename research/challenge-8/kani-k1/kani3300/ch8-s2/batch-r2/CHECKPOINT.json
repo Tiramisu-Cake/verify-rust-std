@@ -1,0 +1,69 @@
+{
+  "schema": "ch8-s2-combined-r2-checkpoint-v1",
+  "state": "DRAFT_AWAITING_W11_CORRECTION",
+  "task_id": "task43a137ced6c25a9fe2b34f3df6048474d0415516",
+  "entry_g0": "43a137ced6c25a9fe2b34f3df6048474d0415516",
+  "source_sha": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+  "source_tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+  "control_sha": "2d00b9cc14f5a093ccaa0288a0f691fddf3ee84a",
+  "control_tree": "ccd84ffcd8dafbfce90a1cd01ee67586b4b8fc15",
+  "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+  "identities": "IDENTITIES.json",
+  "claims": [
+    {
+      "claim": "Both general roots use exact ordinary sort8 full-value relation;13-line registration removed; original assertions/covers retained",
+      "assurance": "STATIC_SOURCE_ONLY",
+      "evidence": [
+        "MODEL-MAP.json",
+        "SOURCE-DELTA.patch",
+        "CFG-PFC-MAP.json"
+      ]
+    },
+    {
+      "claim": "W11 diagnostics code unchanged except source identity literals; 72+3 bounded tests pass",
+      "assurance": "STATIC_AND_SYNTHETIC_ONLY",
+      "evidence": [
+        "RUNNER-INVARIANCE.json",
+        "TARGETED-TESTS.txt",
+        "FALLBACK-TESTS.txt"
+      ]
+    }
+  ],
+  "open": [
+    "Review14 exact combined committed candidate",
+    "Runtime compile/model/production retention NOT_RUN",
+    "Historical run44284869572 actual cause UNKNOWN",
+    "W11 B-01/P1 and B-02/P2 from review5db34a require original11 immutable correction and reviewer14 approval; GO blocked"
+  ],
+  "blocker": "Exact immutable corrected original11 runner package/control pins not yet supplied. B678 has CHANGES_REQUIRED B-01/B-02; coordinator forbids final READY on it.",
+  "next_step": "Integrate exact corrected W11 package/control pins supplied by coordinator; preserve parent9e14, rebind source/request/payload/patches, validate and submit exact combined package to review14 before GO-request.",
+  "proof_credit": "NONE",
+  "closed_proof_obligations": 0,
+  "accounting": {
+    "item1": "28/28",
+    "item2": "provisional10/14",
+    "total": "38/42",
+    "changes": 0,
+    "next_charge": "OWNER_ONLY"
+  },
+  "external_actions": {
+    "CI": 0,
+    "native_compiler": 0,
+    "push": 0,
+    "PR": 0,
+    "ledger": 0,
+    "reservation": 0,
+    "cancel": 0
+  },
+  "subagents": 0,
+  "closure_reason": "No final READY: source/model/cfg and draft composition preparation completed; approved W11 correction is an external dependency.",
+  "go_blocker": {
+    "review": "5db34a924329e05602bf1f8643ad0f4082653b3c",
+    "findings": [
+      "B-01/P1 missing main diagnostics concealed by complete setup",
+      "B-02/P2 suggestion diff context silently omitted"
+    ],
+    "owner": "11",
+    "repaired": false
+  }
+}
