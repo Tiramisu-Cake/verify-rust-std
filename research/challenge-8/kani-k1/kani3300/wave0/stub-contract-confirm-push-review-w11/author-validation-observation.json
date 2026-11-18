@@ -1,0 +1,37 @@
+{
+  "command": [
+    "python3",
+    "validate.py"
+  ],
+  "cwd": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/stub-contract-confirm-push",
+  "environment_override": {
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "exit_code": 0,
+  "invariance_report_sha256": "d1c8ec2f70dcb40bd1040b245ffd67d8b056040638491f7222cf2054df9deee2",
+  "invariance_status": "PASS",
+  "native_compiler_MIR_kani_cbmc_CI": "NOT_RUN",
+  "observation_source": "Direct exec session34237 returned completion exit0 during this review; summary of observed JSON, not a raw stdout copy",
+  "oracle_mutation_cases": 71,
+  "publication_enable_ledger_budget_changes": false,
+  "push_identity_gate_cases": 63,
+  "schema": "review-command-observation-v1",
+  "scope": "STATIC_PYTHON_DISPOSABLE_GIT_MOCK_ONLY",
+  "service": [
+    "success",
+    "nonzero",
+    "signal",
+    "timeout",
+    "RSS",
+    "output cap",
+    "spawn",
+    "middle diagnostics",
+    "partial",
+    "wrong target",
+    "missing control",
+    "three-slot collection",
+    "workflow contexts"
+  ],
+  "status": "PASS",
+  "validator_sha256": "b236d7603c904062349aeba9a3cb93b622774bb5c4f80d70f47e9261cd17c088"
+}

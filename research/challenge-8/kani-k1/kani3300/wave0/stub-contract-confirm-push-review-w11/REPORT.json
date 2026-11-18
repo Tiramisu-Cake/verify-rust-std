@@ -1,0 +1,135 @@
+{
+  "CI_push_enable_cron_PR_ledger_budget_reservation": false,
+  "Fast": "OFF preserved",
+  "S2": "run44375519132 continues per owner; untouched",
+  "accounting_reference_only": {
+    "item1": "29/30",
+    "item2": "11/17",
+    "mutated": false,
+    "total": "40/47"
+  },
+  "approval_scope": "NARROW_PUSH_TRIGGER_IDENTITY_DELTA; UPDATED_GO_REQUEST_PREPARATION_ONLY",
+  "blocking_findings": [],
+  "closure_reason": "Authorized narrow review and requested handoff complete; publication/native confirmation outside task",
+  "compiler_fix_approved": false,
+  "control": {
+    "branch": "w15/stub-contract-confirm-push",
+    "dirty": "",
+    "head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "published": false,
+    "tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6",
+    "worktree": "/root/kani-stub-contract-push-control-w15"
+  },
+  "final_gate": {
+    "authority": "READ_ONLY; SAME11_DELTA_AND_UPDATED_OWNER_GO_REQUIRED",
+    "final_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+    "profile_sha256": "ceb930a5b7764799880ac48ad6318bbaf6e14d6af70ea98abbe9da82107af148",
+    "range": [
+      "e9f0e9a38bf679fead630c44eec3bc08ebb9202b"
+    ],
+    "ref": "refs/heads/stub-contract-confirm-ci/w15-push",
+    "request_binding": {
+      "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "base_parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+      "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+      "control_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+      "control_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "control_tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6",
+      "profile_sha256": "ceb930a5b7764799880ac48ad6318bbaf6e14d6af70ea98abbe9da82107af148",
+      "schema": "stub-contract-request-v1"
+    },
+    "request_sha256": "45b074506bd6e40e2f25bc1fc3603d1491bbbfda4c7a4295e40ec785cecb651c",
+    "reviewed_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+    "same_tree_sibling": false,
+    "sole_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "status": "FINAL_HEAD_REQUEST_GATE_PASS",
+    "tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6"
+  },
+  "independent_proof_credit": "NONE",
+  "inheritance_basis": "Byte/AST/YAML invariance and unchanged historical Git objects; see INVARIANCE.json",
+  "inherited_review": "121893c72354fef0fdc1aa0f823fe78cc0e9fe89",
+  "intake_or_reset13_14": false,
+  "native": {
+    "MIR": "NOT_RUN",
+    "confirmation": "NOT_RUN",
+    "fixed": "NOT_RUN",
+    "macro_expansion": "NOT_RUN",
+    "main": "NOT_RUN"
+  },
+  "next": "UPDATED GO-request for exact candidate; owner/coordinator separately authorizes and performs final publication",
+  "notes": [
+    {
+      "detail": "Runtime derives actual request and checks event/Git consistency. Immutable external pins/final gate establish reviewed tree/profile/request; runtime does not certify its own review approval.",
+      "id": "EXTERNAL_REVIEW_BOUNDARY"
+    },
+    {
+      "detail": "Inspect export_inventory.present and complete. Any present export lacking a retained successful document, including parsed null, remains INCONCLUSIVE during independent replay. Do not credit producer classification alone.",
+      "id": "STRICT_REPLAY"
+    },
+    {
+      "detail": "Remote base presence and absent target ref have not been rechecked by this offline review. Coordinator must check them before a separately authorized push.",
+      "id": "REMOTE_PRECONDITIONS"
+    },
+    {
+      "detail": "Disposable sibling identity in independent-validation.json is a synthetic local test artifact, not a proposed final head. A real sibling requires a newly pinned final request and updated GO.",
+      "id": "SIBLING_TEST_ONLY"
+    }
+  ],
+  "old_manual_GO": {
+    "commit": "e304910c3324c0c566e232059d0b17b693178983",
+    "status": "SUPERSEDED; must not be used"
+  },
+  "package_commit": "5bb7ec9a01099148242421b0eb837c496e209c66",
+  "profile_sha256": "ceb930a5b7764799880ac48ad6318bbaf6e14d6af70ea98abbe9da82107af148",
+  "publication": {
+    "before": "0000000000000000000000000000000000000000",
+    "candidate_ref_publication": false,
+    "coordinator_owned": true,
+    "created": true,
+    "deleted": false,
+    "event": "push",
+    "exact_range_commits": [
+      "FINAL"
+    ],
+    "final_choice": "reviewed no-skip candidate or same-tree/direct-parent/profile-invariant no-skip sibling; exact final SHA/request gate and updated GO required",
+    "forced": false,
+    "range": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e..FINAL",
+    "ref": "refs/heads/stub-contract-confirm-ci/w15-push",
+    "remote_ref_must_be_absent": true,
+    "repository": "Tiramisu-Cake/kani",
+    "stock_base_must_already_exist_remotely": true
+  },
+  "request_sha256": "45b074506bd6e40e2f25bc1fc3603d1491bbbfda4c7a4295e40ec785cecb651c",
+  "schema": "stub-contract-push-delta-review-v1",
+  "settings_changed": false,
+  "stock": {
+    "dirty": "",
+    "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "published": false,
+    "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "worktree": "/root/kani-stub-contract-source-w15"
+  },
+  "subagents": false,
+  "task": "task54c3b8f7519cc4f73e6cf5dd348cfda6a0f8cdce",
+  "validation": {
+    "author": "PASS",
+    "author_oracle_mutation_cases": 71,
+    "author_push_identity_gate_cases": 63,
+    "independent": "PASS",
+    "independent_check_count": 239,
+    "strict_export_replay": {
+      "explicit_unsupported": "INCONCLUSIVE",
+      "failed_provider": "INCONCLUSIVE",
+      "malformed_export": "INCONCLUSIVE",
+      "null_export": "INCONCLUSIVE",
+      "oversized_export": "INCONCLUSIVE",
+      "partial_export": "INCONCLUSIVE",
+      "valid_missing": "DEFECT_PRESENT",
+      "valid_success": "DEFECT_ABSENT"
+    }
+  },
+  "verdict": "APPROVE",
+  "workflow_sha256": "720cc99642dfdce815773145d0d37820c29cf1f8e85b4cec87e70247dfff8edd"
+}

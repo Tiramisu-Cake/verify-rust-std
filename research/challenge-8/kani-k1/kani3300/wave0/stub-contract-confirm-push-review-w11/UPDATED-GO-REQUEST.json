@@ -1,0 +1,232 @@
+{
+  "accounting_reference_only": {
+    "item1": "29/30",
+    "item2": "11/17",
+    "mutated": false,
+    "reservation": false,
+    "total": "40/47"
+  },
+  "active_S2": "run44375519132 continues per owner; untouched",
+  "authority": "REQUEST_ONLY; NO_PUSH_NO_CI_NO_ENABLE_NO_ACCOUNTING",
+  "blocking_findings": [],
+  "chosen_topology": "Create only the absent exact trigger ref at the exact no-skip reviewed candidate; stock base already remote; one introduced commit; zero before/created true/deleted false/forced false",
+  "event": "push",
+  "final_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+  "final_head_gate": {
+    "authority": "READ_ONLY; SAME11_DELTA_AND_UPDATED_OWNER_GO_REQUIRED",
+    "final_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+    "profile_sha256": "ceb930a5b7764799880ac48ad6318bbaf6e14d6af70ea98abbe9da82107af148",
+    "range": [
+      "e9f0e9a38bf679fead630c44eec3bc08ebb9202b"
+    ],
+    "ref": "refs/heads/stub-contract-confirm-ci/w15-push",
+    "request_binding": {
+      "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "base_parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+      "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+      "control_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+      "control_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "control_tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6",
+      "profile_sha256": "ceb930a5b7764799880ac48ad6318bbaf6e14d6af70ea98abbe9da82107af148",
+      "schema": "stub-contract-request-v1"
+    },
+    "request_sha256": "45b074506bd6e40e2f25bc1fc3603d1491bbbfda4c7a4295e40ec785cecb651c",
+    "reviewed_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+    "same_tree_sibling": false,
+    "sole_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "status": "FINAL_HEAD_REQUEST_GATE_PASS",
+    "tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6"
+  },
+  "inherited_runtime": {
+    "caps": {
+      "automatic_retries": 0,
+      "build_invocations": 1,
+      "build_seconds": 900,
+      "diagnostic_block_bytes": 4096,
+      "diagnostic_blocks_per_stream": 32,
+      "each_native_seconds": 120,
+      "export_bytes": 2097152,
+      "group_rss_bytes": 8589934592,
+      "head_bytes": 4096,
+      "head_lines": 18,
+      "job_minutes": 60,
+      "max_checks_per_harness": 256,
+      "native_invocations": 3,
+      "per_process_address_space_bytes": 8589934592,
+      "preview_line_chars": 500,
+      "setup_minutes": 30,
+      "stream_bytes": 2097152,
+      "tail_bytes": 8192,
+      "tail_lines": 8
+    },
+    "commands": {
+      "build": {
+        "argv": [
+          "cargo",
+          "build-dev"
+        ],
+        "cwd": "${STOCK}",
+        "runtime": "NOT_RUN"
+      },
+      "setup": "./stock/.github/actions/setup with kani_dir=stock",
+      "slots": [
+        {
+          "argv": [
+            "${STOCK}/scripts/cargo-kani",
+            "kani",
+            "--manifest-path",
+            "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+            "--lib",
+            "--no-default-features",
+            "--features",
+            "provider",
+            "--exact",
+            "--harness",
+            "provider",
+            "-j1",
+            "-Z",
+            "function-contracts",
+            "-Z",
+            "stubbing",
+            "-Z",
+            "export-json",
+            "--export-json",
+            "${SCRATCH}/provider.json",
+            "--output-format=regular",
+            "--target-dir",
+            "${SCRATCH}/provider-target"
+          ],
+          "cfg": "kani plus feature=\"provider\"; provider harness always present",
+          "feature": "provider",
+          "runtime": "NOT_RUN",
+          "selected_harness": "provider",
+          "slot": "provider"
+        },
+        {
+          "argv": [
+            "${STOCK}/scripts/cargo-kani",
+            "kani",
+            "--manifest-path",
+            "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+            "--lib",
+            "--no-default-features",
+            "--features",
+            "verified",
+            "--exact",
+            "--harness",
+            "verified_control",
+            "-j1",
+            "-Z",
+            "function-contracts",
+            "-Z",
+            "stubbing",
+            "-Z",
+            "export-json",
+            "--export-json",
+            "${SCRATCH}/verified.json",
+            "--output-format=regular",
+            "--target-dir",
+            "${SCRATCH}/verified-target"
+          ],
+          "cfg": "kani plus feature=\"verified\"; provider harness always present",
+          "feature": "verified",
+          "runtime": "NOT_RUN",
+          "selected_harness": "verified_control",
+          "slot": "verified"
+        },
+        {
+          "argv": [
+            "${STOCK}/scripts/cargo-kani",
+            "kani",
+            "--manifest-path",
+            "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+            "--lib",
+            "--no-default-features",
+            "--features",
+            "ordinary",
+            "--exact",
+            "--harness",
+            "ordinary_stub",
+            "-j1",
+            "-Z",
+            "function-contracts",
+            "-Z",
+            "stubbing",
+            "-Z",
+            "export-json",
+            "--export-json",
+            "${SCRATCH}/ordinary.json",
+            "--output-format=regular",
+            "--target-dir",
+            "${SCRATCH}/ordinary-target"
+          ],
+          "cfg": "kani plus feature=\"ordinary\"; provider harness always present",
+          "feature": "ordinary",
+          "runtime": "NOT_RUN",
+          "selected_harness": "ordinary_stub",
+          "slot": "ordinary"
+        }
+      ]
+    }
+  },
+  "intake": "Runtime source snapshots must equal final GO actual head/tree/parent/request/profile; strict per-slot invocation and export-presence replay required; later intake separately authorized",
+  "native": {
+    "MIR": "NOT_RUN",
+    "confirmation": "NOT_RUN",
+    "fixed": "NOT_RUN",
+    "macro_expansion": "NOT_RUN",
+    "main": "NOT_RUN"
+  },
+  "package_commit": "5bb7ec9a01099148242421b0eb837c496e209c66",
+  "prepublication_checks": [
+    "Verify containing immutable review commit and report/manifest identities",
+    "Confirm remote stock base exists and exact target ref is absent",
+    "Rerun read-only final-head/request gate for exact selected candidate",
+    "Obtain separate owner/coordinator publication/attempt decision"
+  ],
+  "prior_review_commit": "121893c72354fef0fdc1aa0f823fe78cc0e9fe89",
+  "profile_sha256": "ceb930a5b7764799880ac48ad6318bbaf6e14d6af70ea98abbe9da82107af148",
+  "proof_credit": "NONE",
+  "publication": {
+    "before": "0000000000000000000000000000000000000000",
+    "candidate_ref_publication": false,
+    "coordinator_owned": true,
+    "created": true,
+    "deleted": false,
+    "event": "push",
+    "exact_range_commits": [
+      "FINAL"
+    ],
+    "final_choice": "reviewed no-skip candidate or same-tree/direct-parent/profile-invariant no-skip sibling; exact final SHA/request gate and updated GO required",
+    "forced": false,
+    "range": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e..FINAL",
+    "ref": "refs/heads/stub-contract-confirm-ci/w15-push",
+    "remote_ref_must_be_absent": true,
+    "repository": "Tiramisu-Cake/kani",
+    "stock_base_must_already_exist_remotely": true
+  },
+  "ref": "refs/heads/stub-contract-confirm-ci/w15-push",
+  "repository": "Tiramisu-Cake/kani",
+  "request_binding": {
+    "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "base_parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "control_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+    "control_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "control_tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6",
+    "profile_sha256": "ceb930a5b7764799880ac48ad6318bbaf6e14d6af70ea98abbe9da82107af148",
+    "schema": "stub-contract-request-v1"
+  },
+  "request_sha256": "45b074506bd6e40e2f25bc1fc3603d1491bbbfda4c7a4295e40ec785cecb651c",
+  "review_commit_identity": "Containing ownpaths-only skip-ci commit; resolve git log -1 -- this directory after commit",
+  "review_report_sha256": "1451fc641da693277a02af47704e1a99415ef372f547840630f1a76425fed916",
+  "review_verdict": "APPROVE",
+  "schema": "stub-contract-confirm-updated-go-request-v1",
+  "sibling": "Outside this exact GO-request; rerun final gate and issue updated exact SHA/request GO before publishing a same-tree direct sibling",
+  "sole_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "status": "READY_FOR_SEPARATE_OWNER_COORDINATOR_DECISION",
+  "supersedes_GO": "e304910c3324c0c566e232059d0b17b693178983",
+  "tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6",
+  "workflow": ".github/workflows/stub-contract-confirm.yml",
+  "workflow_sha256": "720cc99642dfdce815773145d0d37820c29cf1f8e85b4cec87e70247dfff8edd"
+}
