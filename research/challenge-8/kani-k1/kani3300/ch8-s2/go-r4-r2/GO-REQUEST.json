@@ -1,0 +1,277 @@
+{
+  "schema": "ch8-s2-r4-r2-approved-go-request-v1",
+  "status": "READY_FOR_DELEGATED_COORDINATOR_GO",
+  "package_g0": "3cdec7455c52d93903a31e005c7e42204fa502e1",
+  "review_g0": "7c0a05d5bd85aeed14ea8579dd1f498152e04398",
+  "review_verdict": "APPROVE",
+  "findings": [
+    {
+      "id": "R14-01",
+      "status": "CLOSED_INHERITED",
+      "basis": "Unchanged exact bd62 source and f5/e783 review dependencies; no native compilation claim"
+    },
+    {
+      "id": "R14-02",
+      "status": "CLOSED_INHERITED",
+      "basis": "Unchanged ordinary/CFG/contract gates, source and all request policy fields"
+    },
+    {
+      "id": "R14-03",
+      "status": "CLOSED",
+      "basis": "ccb6 exact gate-only APPROVE/CLOSED; approved lexical extractor and new regression module bytes inherited exactly; actual explicit final Validate command includes the module"
+    }
+  ],
+  "new_findings": [],
+  "blocking_findings": [],
+  "gate_dependency_review": "ccb6a60731866bcc8fc6dd6e6cbdf4c2a9fd4653",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "bd62e54df1b4749154790aa3db3cc7978f547f75"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r4-r2-final-w13",
+    "sha": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+    "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "request_sha256": "d7f4561810178e9eb553d83a04de343f2512aff18bbca0dbd4864472712d4d73",
+    "workflow_sha256": "b70c7dff34fe5ae12985dc0ba44f2791cca3bb288e774416f1eb405ab90b090b"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "request_sha256": "d7f4561810178e9eb553d83a04de343f2512aff18bbca0dbd4864472712d4d73",
+  "workflow_sha256": "b70c7dff34fe5ae12985dc0ba44f2791cca3bb288e774416f1eb405ab90b090b",
+  "root_consent": {
+    "decision": "AGREE_TO_ONE_NEW_R4_R2_ATTEMPT",
+    "authority": "Owner-delegated coordinator requests root agreement18:27; exact final combined review APPROVE and root receipts verified.",
+    "dispatcher": "USER_COORDINATOR_ONLY",
+    "conditions": [
+      "Exact reviewed source/control/tree/request/workflow and stock; source bd62 unchanged.",
+      "Create nonskip final native push trigger as SAME-TREE SIBLING with sole parent9e14, not childd33; record actual SHA/ref/run/attempt.",
+      "One new attempt, unchanged11roots/20covers/6negative oracles/proof-resource caps; no automatic rerun.",
+      "Validate step10min, other reviewed setup caps and aggregate1800s/job180min remain; actual future elapsed/remaining setup UNKNOWN.",
+      "Native results and diagnostic/cost completeness govern later intake; no compiling/causal-fix/qualification claim from static approval.",
+      "Accounting performed only by coordinator under recorded case-specific decisions; root preparation charges/reserves nothing."
+    ]
+  },
+  "source_publication": {
+    "required_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "existing_branch": "experiment/ch8-s2-batch3probes-r4-20261118",
+    "already_published": "COORDINATOR_REPORTED_FOR_PRIOR_R4_R1_GO",
+    "reuse_exact_sha": true,
+    "new_source_commit": false,
+    "root_published": false
+  },
+  "required_trigger": {
+    "repository": "Tiramisu-Cake/kani",
+    "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+    "single_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "topology": "SAME_TREE_SIBLING_OF_REVIEWED_CONTROL_NOT_CHILD_D33",
+    "event": "push",
+    "suggested_branch": "uninit-ci/ch8-s2-batch3probes-r4-r2-20261118",
+    "checkout_depths": {
+      "control": 7,
+      "source": 5,
+      "tool": 2
+    },
+    "created": false,
+    "actual_head_sha": null,
+    "actual_run_id": null,
+    "actual_attempt": null,
+    "final_push_gate": "Nonskip trigger and intended push range; verify actual final head/tree/parent/request bindings before dispatch."
+  },
+  "requested_new_workflow_attempts": 1,
+  "automatic_rerun": false,
+  "old_run_retry": false,
+  "scope": {
+    "group": "s2-batch3probes-u34",
+    "rows": [
+      "swap_pfc",
+      "summary_witness",
+      "merge32_real",
+      "sort13_assumed",
+      "general32_assumed",
+      "merge_order_corrupt",
+      "merge_count_corrupt",
+      "checker_count_corrupt",
+      "checker_order_corrupt",
+      "sort13_weak",
+      "general32_weak"
+    ],
+    "roots": 11,
+    "covers": 20,
+    "exact_negatives": 6,
+    "primary_probes": 3,
+    "backend_harness_s": 600,
+    "compile_s": 900,
+    "root_cap_sum_s": 6600,
+    "group_child_s": 7500,
+    "phase_s": 8100,
+    "phase_step_s": 7560,
+    "setup_aggregate_s": 1800,
+    "job_minutes": 180,
+    "jobs": 1,
+    "max_parallel": 1,
+    "RSS_GiB": 12,
+    "headroom_GiB": 2,
+    "validate_step_s": 600,
+    "source_identity_step_s": 60
+  },
+  "combined_delta": {
+    "changed_control_paths": [
+      ".github/workflows/ch8-s2.yml",
+      "ch8-s1-control/CI-REQUEST.json",
+      "ch8-s1-control/check_package.py",
+      "ch8-s1-control/lexical_bindings.py",
+      "ch8-s1-control/test_r1403_lexical.py",
+      "ch8-s1-control/test_s2.py"
+    ],
+    "validate_step": "1->10min ONLY timeout change",
+    "gate": "Approved R14-03 exact extractor/regression bytes inherited and explicit CI module wired",
+    "source_delta": "NONE",
+    "request": "Entry/reference/payload/inventory hash rebinding",
+    "check_package": "Exact timeout/order/two-command list and maxima sum177->186; aggregate/build/fallback AST unchanged",
+    "aggregate_budget": "Setup1800/job180 unchanged; sum maxima186min grants no extra elapsed time",
+    "protected_controls": "Runner/collector/packer/diagnostic/decoder/oracle/B01B02 unchanged"
+  },
+  "validation": {
+    "author_actual_final_validate": {
+      "count": 107,
+      "exit_code": 0,
+      "elapsed_seconds": 380.011575071,
+      "scope": "RECORDED_EXACT_FINAL_COMMITTED_OBJECT; NOT_RERUN"
+    },
+    "author_actual_check_source": {
+      "exit_code": 0,
+      "elapsed_seconds": 13.63850858,
+      "scope": "RECORDED_EXACT_FINAL_COMMITTED_OBJECT; NOT_RERUN"
+    },
+    "reviewer_targeted_tests": {
+      "control": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+      "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+      "cwd": "/root/kani-ch8-s2-r4-r2-final-w13/ch8-s1-control",
+      "argv": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "-v",
+        "test_s2.S2Tests.test_workflow_caps_types_and_single_serial_job",
+        "test_s2.S2Tests.test_timeout_caps_and_order_reject_redistribution",
+        "test_s2.S2Tests.test_setup_aggregate_remaining_boundary_without_compiler"
+      ],
+      "exit_code": 0,
+      "count": 3,
+      "transcript_sha256": "243a56d29234b7815cb0935d504198e0fac3394799325dcdc99334026d96b2a8",
+      "scope": "Changed workflow/cap/order and mocked aggregate-boundary tests only; build execute mocked; no compiler or full suite; no new final-command/check-source timing"
+    },
+    "workflow_mutations_rejected": [
+      "drop-module",
+      "drop-preflight",
+      "reverse-commands",
+      "extra-command",
+      "redistribute-cap",
+      "swap-source-validate"
+    ],
+    "patch_replays": "6_EXACT_TREE_MATCH",
+    "root_receipts": {
+      "batch-r4-r2": {
+        "committed_files_checked": 65,
+        "manifest_hashes_checked": 64
+      },
+      "review-batch-r4-r2": {
+        "committed_files_checked": 10,
+        "manifest_hashes_checked": 9
+      }
+    },
+    "root_source_control_tool_exact_clean": true,
+    "future_CI_timing": "UNKNOWN",
+    "precursor": "SEPARATE_NO_FINAL_ACCEPTANCE_CREDIT"
+  },
+  "assurance": {
+    "native_compile": "NOT_RUN",
+    "causal_repair": "NOT_RUN",
+    "actual_R3_failing_unit": "UNKNOWN",
+    "proof_credit": "NONE",
+    "DIAGNOSTIC_ASSUMED": [
+      "sort13_assumed",
+      "general32_assumed"
+    ],
+    "sort8_PFC": "Same-cfg registration ONLY, no proved leaf or selected PFC execution",
+    "negative_controls": "Two source-bound operation-identical caller copies/seams, not original caller identities",
+    "merge32_domain": "Exact u8/32/sorted-halves/allocation domain only",
+    "gate_scope": "Finite lexical/token check; type/method/trait/expansion/MIR limits remain",
+    "timeout_metrics": "TIMEOUT600s censored; absent/NOT_RUN metrics UNKNOWN, not zero"
+  },
+  "previous_exception": {
+    "GO_g0": "6db728b62b62d6d98d683f3d2cf6fb824dd6cc68",
+    "status": "SPENT_NO_TRANSFER",
+    "current_R14_03": "CLOSED_WITH_REVIEWED_INTEGRATION",
+    "historical_review_e783": "CHANGES_REQUIRED_UNCHANGED"
+  },
+  "accounting_reference_only": {
+    "ledger_g0": "a48799887ccf28ef48e2841f55e817a8398e5f32",
+    "item1_used": 29,
+    "item1_cap": 29,
+    "item2_used": 9,
+    "item2_cap": 14,
+    "total_used": 38,
+    "total_cap": 43,
+    "next_item2_if_counted": 10,
+    "next_total_if_counted": 39,
+    "prior_runs": [
+      {
+        "run": 44264952389,
+        "charge": 0,
+        "reason": "confirmed pre-root compile failure"
+      },
+      {
+        "run": 44284869572,
+        "charge": 0,
+        "reason": "confirmed pre-root compile failure; diagnostic UNKNOWN"
+      },
+      {
+        "run": 44302170220,
+        "charge": 0,
+        "reason": "confirmed pre-root compile failure"
+      },
+      {
+        "run": 44310254730,
+        "charge": 0,
+        "reason": "confirmed pre-root compile failure"
+      },
+      {
+        "run": 44328364855,
+        "charge": 0,
+        "reason": "PREBUILD_VALIDATION_TIMEOUT72s before source/tool build, coordinator-specific decision"
+      }
+    ],
+    "boundary": "Missing RESULTS alone insufficient; preserve real CI costs, every retry review+GO. Do not generalize the validation-timeout case to an automatic refund rule.",
+    "actor": "COORDINATOR_ONLY",
+    "ledger_changed": false,
+    "reservation": false,
+    "new_attempts_consumed": 0
+  },
+  "actions": {
+    "compiler": false,
+    "CI": false,
+    "dispatch": false,
+    "push": false,
+    "source_publication": false,
+    "PR": false,
+    "issue": false,
+    "ledger": false,
+    "budget": false,
+    "reservation": false
+  },
+  "next_intake": "After actual new run terminal, exact r4-r2 pins/artifact,11rows/20covers/6negatives/complete diagnostics/cost/partial/censoring/assumed limits; no prior zero-root evidence splice."
+}
