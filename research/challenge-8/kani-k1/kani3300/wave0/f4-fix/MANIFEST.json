@@ -1,0 +1,176 @@
+{
+  "schema": "ch8-f4-standalone-fix-v1",
+  "task": "task7b829344c9cdd8c25ec59294bb9015201638a879",
+  "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+  "source": "cab66681c912a3e5ee01a106faaeee5237ca0232",
+  "source_tree": "8585336ed35a14fe0fc157a7ca4e0d52075c0e49",
+  "source_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "source_worktree": "/root/kani-f4-fix-w15",
+  "shared_git_common_dir": "/root/kani-fix-3300-c2-s5/.git",
+  "source_author": "Tiramisu-Cake <igkharin@gmail.com>",
+  "source_files": {
+    "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs": {
+      "status": "M",
+      "mode": "100644",
+      "blob": "313167fbb1135b7e2912f018bbb1926d7bfaab07",
+      "sha256": "60c1254f81ed474e04a5888431cb8d695585b636cc8430148db5884a76480e4f"
+    },
+    "kani-compiler/src/kani_middle/transform/mod.rs": {
+      "status": "M",
+      "mode": "100644",
+      "blob": "3d7a6a1f0fcef65e5447c9f9032feca30bfa7d49",
+      "sha256": "0901d9ee2f60efb02949200822406713a4a1e6f068ecb52d053716a6c07957b7"
+    },
+    "tests/script-based-pre/delayed-shared-body/Cargo.toml": {
+      "status": "A",
+      "mode": "100644",
+      "blob": "c5f01d2288745fba0a5ca10a4e72e254823e78f6",
+      "sha256": "cf02a2b65e63502da1cd590218e7871e3fe3980a9e89aa41b3df391a70be0bac"
+    },
+    "tests/script-based-pre/delayed-shared-body/check.py": {
+      "status": "A",
+      "mode": "100644",
+      "blob": "259fb32ab2beb4950fa7e831916362ab2a29076e",
+      "sha256": "9142a8a0a5f2c74dce9628d88e86f53ff41a0413bd22b21a68abd1030c918043"
+    },
+    "tests/script-based-pre/delayed-shared-body/config.yml": {
+      "status": "A",
+      "mode": "100644",
+      "blob": "927fa124ffc37842ffa4da0abbf008c414586f71",
+      "sha256": "f6ac7ffc9bfa654dd81c7263d1af76a0e989860d4f001e89aede0881fa09be33"
+    },
+    "tests/script-based-pre/delayed-shared-body/control.rs": {
+      "status": "A",
+      "mode": "100644",
+      "blob": "fae8e21dfde7f5ca5157ceafb1f1f69bad645fd6",
+      "sha256": "95c37703c78422dcac06033d423fa4c5a0ab0975475e97f80bfe901b42f811a6"
+    },
+    "tests/script-based-pre/delayed-shared-body/expected": {
+      "status": "A",
+      "mode": "100644",
+      "blob": "92f25d57e0a7969a84d63af499d5c21f8b9f86fd",
+      "sha256": "fc24e4757ef87883ebb1d0127be0550016232039a4e4776237627eae9215f6c8"
+    },
+    "tests/script-based-pre/delayed-shared-body/src/lib.rs": {
+      "status": "A",
+      "mode": "100644",
+      "blob": "74a4854a3695a80004b6f78fceb4ed5fb3623525",
+      "sha256": "70dd61fec47556d11fd158f50bc5729c6fcfbe0170f43a8be788d6d2612431c9"
+    },
+    "tests/script-based-pre/delayed-shared-body/test.sh": {
+      "status": "A",
+      "mode": "100755",
+      "blob": "afcbb489b4da833048306a52378e9461f45569ff",
+      "sha256": "da984231aaf9c6743a66fca67b29f02b72fab8f92e973f24f9b03164f6378f36"
+    }
+  },
+  "preserved_standard_workflows": {
+    ".github/workflows/bench-compiler.yml": {
+      "blob": "0b30110c6ad5c105444045a94c801d153dde2725",
+      "sha256": "825d32f8e3d3949332417088fb0b096bb4b6f1819d8a0cb3c1e2cc666cd685cc"
+    },
+    ".github/workflows/bench-e2e.yml": {
+      "blob": "bc2db84b52fbb6f0c0017a67e94934662c0d9689",
+      "sha256": "e17c7ef9464ceec605771b9dade368122e250891526c6a0b0a9bb4b00a7a64ca"
+    },
+    ".github/workflows/bench-pr.yml": {
+      "blob": "d68534a54ffb3ce2f15671e941c84fc57af0e741",
+      "sha256": "eecc1509bcf9283e0d233b414af523f97a9f2a397e8766a558314f1a9f5a57d3"
+    },
+    ".github/workflows/cargo-update.yml": {
+      "blob": "1873a2ecdd83f97c37fb74b62a9e0c1d6b7728d7",
+      "sha256": "ac7f18f5fe4e685e5da609e5b2546503aab4cb5aa2f598c4a6df91b5d442c911"
+    },
+    ".github/workflows/cbmc-latest.yml": {
+      "blob": "223ec7f96ad8f3215216fc6b99a8337c650c8398",
+      "sha256": "ba39280e6ff9de85ccb5c14296d53845be7cc417baf683ddda56fe30767bbc48"
+    },
+    ".github/workflows/cbmc-update.yml": {
+      "blob": "90eea8a06f2a4af9b3d65befcc8fa9487699a982",
+      "sha256": "1b97bca1eb903ddf739d594830eb4b72b5ffc8c23ec7dc8c03c314c95cd0232f"
+    },
+    ".github/workflows/charon-update.yml": {
+      "blob": "70ad28901c1a7cfe617b98d4d35099da35659894",
+      "sha256": "d73125c239ffd2c2f68a7d41b703eb11bdbdefe97d3a3abc99ed0bbb2c1b7869"
+    },
+    ".github/workflows/deny.yml": {
+      "blob": "c54ce6bbcb075df881984f714589011c4b88d5e4",
+      "sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf"
+    },
+    ".github/workflows/extra_jobs.yml": {
+      "blob": "157c5b2d967e8b9fcfddf8943c29495f0ac5e2fa",
+      "sha256": "12c3c6626e9ad806e7f7bf7f65cca7e2f12b2ccae9da82cc62802b92299369d8"
+    },
+    ".github/workflows/format-check.yml": {
+      "blob": "9d21eeb4569234292401f90c66c833f6960f06fb",
+      "sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8"
+    },
+    ".github/workflows/kani.yml": {
+      "blob": "3e34d8ac3c0844d9ac9409790e7cb0a669381dad",
+      "sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303"
+    },
+    ".github/workflows/release.yml": {
+      "blob": "f10833e3035641a9893e1f5171b0b86864ef5b0e",
+      "sha256": "b608d02a4ddbaa9a1e4b0db321bd1aeb268afe5f946a9de14e2778b9e803b9b3"
+    },
+    ".github/workflows/slow-tests.yml": {
+      "blob": "54952f59bd844273d208a75e62c571c48079d154",
+      "sha256": "d9775bd66ebb7b927c28346623f9e6e3374c82cee97921eac5fee828eba5ba7f"
+    },
+    ".github/workflows/toolchain-upgrade.yml": {
+      "blob": "55bcdda98ad65718c01b82da993cc5baccbeceb3",
+      "sha256": "bd9cc5f4f09c1e00223a627fedbd7fb522053c6258284304c1d509f83dbcfa6a"
+    },
+    ".github/workflows/verify-std-check.yml": {
+      "blob": "be07976f48e50269fceca068c7c71dd6428b3498",
+      "sha256": "37a122141be204e64c1eb75caf6a6f72b1e1c9ce68f642ef79ad80cd1da9ee60"
+    },
+    ".github/workflows/z3-update.yml": {
+      "blob": "486105cd0bd8f8337b0ea31f7ee2bd8f48addb53",
+      "sha256": "83e06af88fe864b471d4b1af10022519c3f81cc63d62e00d64d73e77234a9553"
+    }
+  },
+  "patch_sha256": "01cb57c32c39d03335e47e74182634f638e3566e93338ca51b29e029c81f5318",
+  "patch_id_stable": "ead9815465df74724de904ec35079ce860a933d7",
+  "regression_main_patch_sha256": "392e0b2ae93282c39ba5324d2bde33cb9dc1f054c3f7c05f8a57aa18a7686b37",
+  "immutable_reference_commits": {
+    "intake": "06ff67af4aa1dd8df2cdbf2eec58bf3863008748",
+    "reproduction_review": "8c37ad792ead0ac22161e2e2d10d8dadcd2837e1"
+  },
+  "inputs": {
+    "TASK-CH8-F4-FIX-W15.md": {
+      "sha256": "66993fe4a0668297b90c8cc51a2e354bb76825ba573961885fcdecdc0562e6d5"
+    },
+    "STYLE-UPSTREAM-RULES.md": {
+      "sha256": "5932c080cd5938ad7fcb159b1847e663df828beffc17196716b001e6a5cb9e7a"
+    },
+    "kani3300/wave0/f4-confirm/SOURCE-TRACE.md": {
+      "sha256": "b9dbc625c8d8b52f3738ebad2ee68d627461ebf59f31a0a292d5601b4b8e65fe"
+    },
+    "kani3300/wave0/f4-confirm-review/REVIEW.md": {
+      "sha256": "d103bb743c8956bff804d1199421e1af439ffaa7adf44cdd38d55ae86021efba"
+    },
+    "kani3300/wave0/f4-confirm-intake/run-44177926794/RESULT.md": {
+      "sha256": "355ac2224d7923f801b12748e30a4571bb7c2713243ab4e5b859d56903dc30a7"
+    },
+    "kani3300/wave0/f4-confirm-intake/run-44177926794/result.json": {
+      "sha256": "8c15b1a13b4daa89f8eb2827a60d135c4280a60ad4746083790615b5f3a16576"
+    }
+  },
+  "package_files": {
+    "CHECKPOINT.json": "7676bbbbeec7f4fd0b11e5570bb1256b2bc81a610388e4d383bdc9f85386ea8f",
+    "CI-REQUEST.json": "da722e7fe2ffee8f8c6822c276d5fc37da54e7c7ec19895ec14644e99e06fb7b",
+    "CI-REQUEST.md": "b57829eb6a60c2b76063398f30799c8fcb362c9d65e0305e7f2591a93c63b648",
+    "HANDOFF.md": "d16fb3362d0bd07f8fe8eb18dc8bd64b9896ec9226d907ed2dc6b98c03828299",
+    "MAIN-CHECK.json": "eb9256266f5d6a94a4c357a68fa9232c476d9914a113b4e245ddc90a95dec1c7",
+    "PR-DRAFT.md": "e885bfd2b9bbba8fbfdbd39b48dd85c84f5cabf1b6568f89c8caf652e132c18e",
+    "REGRESSION-ORACLE.md": "ea2b5f4fe492e76869d5d06e8d7af263a256c8aa25798f495e523927967e151e",
+    "SOURCE-LIFECYCLE.md": "1e58fe612b663c29cd6f207e9e3207cd0b926989a3596a0b3df98ad0473397e5",
+    "VALIDATION.json": "2789c946725212589c149197d3e3379909b9ad6a1ad8b1e87db43eca73ca0913",
+    "VALIDATION.md": "ffe48721db493a0375f3b401249c93941a80d8fb92f519020bca7e8ef03a98a4",
+    "fix.patch": "01cb57c32c39d03335e47e74182634f638e3566e93338ca51b29e029c81f5318",
+    "regression-main.patch": "392e0b2ae93282c39ba5324d2bde33cb9dc1f054c3f7c05f8a57aa18a7686b37",
+    "validate.py": "c5ae9c923dcd55c48a9ea45e5868e39e8808d976c3adbdb977fffa499dfc6f76"
+  }
+}

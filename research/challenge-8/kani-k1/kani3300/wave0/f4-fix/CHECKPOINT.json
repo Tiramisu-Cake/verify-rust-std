@@ -1,0 +1,36 @@
+{
+  "task": "task7b829344c9cdd8c25ec59294bb9015201638a879",
+  "status": "READY_FOR_REVIEW",
+  "source": "cab66681c912a3e5ee01a106faaeee5237ca0232",
+  "tree": "8585336ed35a14fe0fc157a7ca4e0d52075c0e49",
+  "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "source_worktree": "/root/kani-f4-fix-w15",
+  "g0_write_scope": "research/challenge-8/kani-k1/kani3300/wave0/f4-fix",
+  "claims": [
+    {
+      "claim": "Standalone nine-file source diff preserves all 16 standard workflows, delayed pass/checks and observed Rust fixture",
+      "assurance": "STATIC_COMMITTED_SOURCE"
+    },
+    {
+      "claim": "New oracle rejects observed frozen-main compact results; labelled synthetic expected-fixed inventories pass",
+      "assurance": "STATIC_AND_SYNTHETIC_ONLY"
+    }
+  ],
+  "fixed_build_and_runtime": "NOT_RUN",
+  "main_new_test_runtime": "NOT_RUN",
+  "compilation_order": "UNKNOWN",
+  "proof_credit": "NONE",
+  "review14": "PENDING",
+  "blocker": null,
+  "open": [
+    "independent review14 of exact committed source and package",
+    "owner publication command and separate GO/accounting for full standard PR CI",
+    "actual fixed compiler build/regression PASS and measured clone performance",
+    "owner recheck of upstream main before publication"
+  ],
+  "forbidden_actions_performed": [],
+  "subagents": false,
+  "model_fast_settings": "UNCHANGED",
+  "ledger_modified": false,
+  "ci_push_pr_messages_reservation": false
+}
