@@ -1,0 +1,304 @@
+{
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "source": "cab66681c912a3e5ee01a106faaeee5237ca0232",
+  "tree": "8585336ed35a14fe0fc157a7ca4e0d52075c0e49",
+  "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+  "regression": "tests/script-based-pre/delayed-shared-body",
+  "fixed_runtime": "NOT_RUN",
+  "gates": [
+    "EXACT_COMMITTED_READY",
+    "INDEPENDENT_PLAN_DELTA_REVIEW14_APPROVED",
+    "OWNER_PUBLICATION_COMMAND",
+    "SEPARATE_FULL_CI_GO"
+  ],
+  "preserve_standard_workflows": true,
+  "skip_ci_trigger_handling": "Separate owner-authorized same-tree trigger without skip directives; final PR branch HEAD has no skip directive; inspect every commit in the pushed range before claiming a push run. No trigger created here.",
+  "standard_pr_workflows": [
+    "kani.yml",
+    "format-check.yml",
+    "deny.yml",
+    "verify-std-check.yml",
+    "extra_jobs.yml",
+    "bench-pr.yml",
+    "release.yml"
+  ],
+  "standard_kani_regression_os": [
+    "macos-15-intel",
+    "ubuntu-22.04",
+    "ubuntu-24.04",
+    "macos-15",
+    "ubuntu-24.04-arm"
+  ],
+  "applicable_benchmark_labels": [
+    "Z-EndToEndBenchCI",
+    "Z-CompilerBenchCI"
+  ],
+  "item1": {
+    "used_reference": 27,
+    "cap_reference": 28,
+    "remaining_attempt_authorized": false
+  },
+  "s2_ledger_reference": "4076",
+  "ledger_modified": false,
+  "attempts_consumed": 0,
+  "native_events": {
+    "kani.yml": {
+      "pull_request": "",
+      "merge_group": "",
+      "push": {
+        "branches": [
+          "**"
+        ]
+      }
+    },
+    "format-check.yml": {
+      "pull_request": "",
+      "merge_group": "",
+      "push": {
+        "branches": [
+          "**"
+        ]
+      }
+    },
+    "deny.yml": {
+      "pull_request": "",
+      "merge_group": "",
+      "push": {
+        "branches": [
+          "**"
+        ]
+      }
+    },
+    "verify-std-check.yml": {
+      "pull_request": "",
+      "workflow_call": ""
+    },
+    "extra_jobs.yml": {
+      "pull_request_target": "",
+      "merge_group": ""
+    },
+    "bench-pr.yml": {
+      "pull_request": {
+        "types": [
+          "opened",
+          "synchronize",
+          "reopened",
+          "labeled"
+        ]
+      }
+    },
+    "release.yml": {
+      "pull_request": "",
+      "merge_group": "",
+      "push": {
+        "branches": [
+          "main"
+        ],
+        "tags": [
+          "kani-*"
+        ]
+      }
+    }
+  },
+  "release_pr_coverage": {
+    "required_build_jobs": {
+      "build_bundle_macos_x86_64": {
+        "runs-on": "macos-15-intel",
+        "platform": "x86_64-apple-darwin"
+      },
+      "build_bundle_macos_aarch64": {
+        "runs-on": "macos-15",
+        "platform": "aarch64-apple-darwin"
+      },
+      "build_bundle_linux_x86_64": {
+        "runs-on": "ubuntu-22.04",
+        "platform": "x86_64-unknown-linux-gnu"
+      },
+      "build_bundle_linux_aarch64": {
+        "runs-on": "ubuntu-24.04-arm",
+        "platform": "aarch64-unknown-linux-gnu"
+      }
+    },
+    "required_test_matrices": {
+      "test-use-local-toolchain": {
+        "runs-on": "${{ matrix.os }}",
+        "needs": [
+          "build_bundle_macos_x86_64",
+          "build_bundle_macos_aarch64",
+          "build_bundle_linux_x86_64",
+          "build_bundle_linux_aarch64"
+        ],
+        "matrix": {
+          "os": [
+            "macos-15-intel",
+            "macos-15",
+            "ubuntu-22.04",
+            "ubuntu-24.04",
+            "ubuntu-24.04-arm"
+          ],
+          "include": [
+            {
+              "os": "macos-15-intel",
+              "rust_target": "x86_64-apple-darwin",
+              "prev_job": "${{ needs.build_bundle_macos_x86_64.outputs }}"
+            },
+            {
+              "os": "macos-15",
+              "rust_target": "aarch64-apple-darwin",
+              "prev_job": "${{ needs.build_bundle_macos_aarch64.outputs }}"
+            },
+            {
+              "os": "ubuntu-22.04",
+              "rust_target": "x86_64-unknown-linux-gnu",
+              "prev_job": "${{ needs.build_bundle_linux_x86_64.outputs }}"
+            },
+            {
+              "os": "ubuntu-24.04",
+              "rust_target": "x86_64-unknown-linux-gnu",
+              "prev_job": "${{ needs.build_bundle_linux_x86_64.outputs }}"
+            },
+            {
+              "os": "ubuntu-24.04-arm",
+              "rust_target": "aarch64-unknown-linux-gnu",
+              "prev_job": "${{ needs.build_bundle_linux_aarch64.outputs }}"
+            }
+          ]
+        }
+      },
+      "test_bundle": {
+        "runs-on": "${{ matrix.os }}",
+        "needs": [
+          "build_bundle_macos_x86_64",
+          "build_bundle_macos_aarch64",
+          "build_bundle_linux_x86_64",
+          "build_bundle_linux_aarch64"
+        ],
+        "matrix": {
+          "os": [
+            "macos-15-intel",
+            "macos-15",
+            "ubuntu-22.04",
+            "ubuntu-24.04",
+            "ubuntu-24.04-arm"
+          ],
+          "include": [
+            {
+              "prev_job": "${{ needs.build_bundle_linux_x86_64.outputs }}"
+            },
+            {
+              "os": "macos-15-intel",
+              "prev_job": "${{ needs.build_bundle_macos_x86_64.outputs }}"
+            },
+            {
+              "os": "macos-15",
+              "prev_job": "${{ needs.build_bundle_macos_aarch64.outputs }}"
+            },
+            {
+              "os": "ubuntu-24.04-arm",
+              "prev_job": "${{ needs.build_bundle_linux_aarch64.outputs }}"
+            }
+          ]
+        }
+      }
+    },
+    "required_instances": [
+      {
+        "job_id": "build_bundle_macos_x86_64",
+        "os": "macos-15-intel"
+      },
+      {
+        "job_id": "build_bundle_macos_aarch64",
+        "os": "macos-15"
+      },
+      {
+        "job_id": "build_bundle_linux_x86_64",
+        "os": "ubuntu-22.04"
+      },
+      {
+        "job_id": "build_bundle_linux_aarch64",
+        "os": "ubuntu-24.04-arm"
+      },
+      {
+        "job_id": "test-use-local-toolchain",
+        "os": "macos-15-intel"
+      },
+      {
+        "job_id": "test-use-local-toolchain",
+        "os": "macos-15"
+      },
+      {
+        "job_id": "test-use-local-toolchain",
+        "os": "ubuntu-22.04"
+      },
+      {
+        "job_id": "test-use-local-toolchain",
+        "os": "ubuntu-24.04"
+      },
+      {
+        "job_id": "test-use-local-toolchain",
+        "os": "ubuntu-24.04-arm"
+      },
+      {
+        "job_id": "test_bundle",
+        "os": "macos-15-intel"
+      },
+      {
+        "job_id": "test_bundle",
+        "os": "macos-15"
+      },
+      {
+        "job_id": "test_bundle",
+        "os": "ubuntu-22.04"
+      },
+      {
+        "job_id": "test_bundle",
+        "os": "ubuntu-24.04"
+      },
+      {
+        "job_id": "test_bundle",
+        "os": "ubuntu-24.04-arm"
+      }
+    ],
+    "required_instance_count": 14,
+    "intentional_pr_skips": {
+      "kani_release": {
+        "if": "${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/kani-') }}",
+        "needs": [
+          "build_bundle_macos_x86_64",
+          "build_bundle_macos_aarch64",
+          "build_bundle_linux_x86_64",
+          "build_bundle_linux_aarch64",
+          "test_bundle"
+        ]
+      },
+      "package_docker": {
+        "needs": "kani_release",
+        "reason": "Dependency kani_release is tag-push gated and skipped on PR."
+      }
+    }
+  },
+  "operational_gates": {
+    "binding": "Record reviewed source SHA/tree, same-tree trigger SHA/tree, exact final PR branch HEAD SHA/tree, PR number/ref/base SHA/tree, native event, workflow/run/attempt IDs, every required job/matrix and native conclusion. Final PR branch HEAD must be the authorized same-tree trigger with tree 8585336ed35a14fe0fc157a7ca4e0d52075c0e49; a newer HEAD requires rechecking exact candidate/run binding.",
+    "checkout": "Record actual checkout SHA/tree separately from PR branch HEAD and run head SHA. PR actions/checkout normally uses synthetic merge ref. With unchanged frozen base require merge tree equal reviewed/trigger tree; any delta requires review. Bench reusable jobs explicitly checkout PR head.sha and base.sha; authorized branch-push jobs must checkout exact trigger HEAD. Old confirmation ref gives no candidate evidence.",
+    "labels_and_event": "Both Z-EndToEndBenchCI and Z-CompilerBenchCI match kani-compiler/**. Owner must establish both labels before an eligible opened/synchronize/reopened/labeled event; GITHUB_TOKEN auto-labeling does not retrigger bench-pr and opening can race labels. Owner chooses authorized choreography/accounting. No label/event action here.",
+    "benchmarks": "Require end-to-end-bench -> perf-benchcomp and compiler-bench -> compile-timer-short, compile-timer-long on final head versus base. Preserve concurrency cancellations; missing/skipped/cancelled required benchmarks prevent acceptance. Assess warmed-cache clone time/RSS cost; regression requires concrete handoff.",
+    "native_triggers": "None of the seven applicable workflows has workflow_dispatch. Feature-branch push alone omits full PR std/benchmark/release-bundle coverage. Keep all native triggers, conditions, timeouts, retries and continue-on-error behavior unchanged.",
+    "native_outcomes": "Retain every applicable matrix conclusion. Missing, skipped, cancelled or red required jobs prevent full-CI acceptance. verify-std head failure remains failure even if conditional base comparison succeeds. extra_jobs auto-label uses trusted base and supplies no candidate build evidence. Documentation publishing skips outside push to main.",
+    "publication": "Independent reviewer14 approves exact committed plan delta and closes F4-R14-1; owner publication command and separate coordinator full-standard-CI GO/accounting still required. Owner rechecks upstream main; relevant drift requires explicit handoff. Update the future publication copy of old PR-DRAFT Testing only after actual execution, with actual results and at most one full-CI link.",
+    "scope": "No CI/rerun/cancel/push/PR/publication/labels/events/reservation/ledger/local compiler/verifier/full runner. Item1 remains reference 27/28; last 28/28 unspent. S2r1 GO awaits owner and is outside scope."
+  },
+  "future_run_binding": {
+    "trigger_sha": "NOT_CREATED_OR_RECORDED",
+    "trigger_tree": "NOT_CREATED_OR_RECORDED",
+    "pr_branch_head_sha": "NOT_CREATED_OR_RECORDED",
+    "pr_branch_head_tree": "NOT_CREATED_OR_RECORDED",
+    "pr_number": "NOT_CREATED_OR_RECORDED",
+    "pr_base_sha": "NOT_CREATED_OR_RECORDED",
+    "pr_base_tree": "NOT_CREATED_OR_RECORDED",
+    "actual_checkout_sha": "NOT_CREATED_OR_RECORDED",
+    "actual_checkout_tree": "NOT_CREATED_OR_RECORDED",
+    "native_event": "NOT_CREATED_OR_RECORDED",
+    "run_attempts": "NOT_CREATED_OR_RECORDED"
+  }
+}

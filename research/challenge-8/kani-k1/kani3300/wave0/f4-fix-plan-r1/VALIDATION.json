@@ -1,0 +1,134 @@
+{
+  "status": "PASS",
+  "scope": "STATIC_PLAN_DELTA_ONLY",
+  "source": "cab66681c912a3e5ee01a106faaeee5237ca0232",
+  "tree": "8585336ed35a14fe0fc157a7ca4e0d52075c0e49",
+  "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "applicable_pr_workflows": [
+    "kani.yml",
+    "format-check.yml",
+    "deny.yml",
+    "verify-std-check.yml",
+    "extra_jobs.yml",
+    "bench-pr.yml",
+    "release.yml"
+  ],
+  "release_required_instance_count": 14,
+  "release_required_instances": [
+    {
+      "job_id": "build_bundle_macos_x86_64",
+      "os": "macos-15-intel"
+    },
+    {
+      "job_id": "build_bundle_macos_aarch64",
+      "os": "macos-15"
+    },
+    {
+      "job_id": "build_bundle_linux_x86_64",
+      "os": "ubuntu-22.04"
+    },
+    {
+      "job_id": "build_bundle_linux_aarch64",
+      "os": "ubuntu-24.04-arm"
+    },
+    {
+      "job_id": "test-use-local-toolchain",
+      "os": "macos-15-intel"
+    },
+    {
+      "job_id": "test-use-local-toolchain",
+      "os": "macos-15"
+    },
+    {
+      "job_id": "test-use-local-toolchain",
+      "os": "ubuntu-22.04"
+    },
+    {
+      "job_id": "test-use-local-toolchain",
+      "os": "ubuntu-24.04"
+    },
+    {
+      "job_id": "test-use-local-toolchain",
+      "os": "ubuntu-24.04-arm"
+    },
+    {
+      "job_id": "test_bundle",
+      "os": "macos-15-intel"
+    },
+    {
+      "job_id": "test_bundle",
+      "os": "macos-15"
+    },
+    {
+      "job_id": "test_bundle",
+      "os": "ubuntu-22.04"
+    },
+    {
+      "job_id": "test_bundle",
+      "os": "ubuntu-24.04"
+    },
+    {
+      "job_id": "test_bundle",
+      "os": "ubuntu-24.04-arm"
+    }
+  ],
+  "checks": [
+    "exact source/test hashes and clean immutable source identity",
+    "all 16 workflow hashes and frozen .github/scripts trees unchanged",
+    "seven applicable PR workflows/native events derived from frozen YAML; no workflow_dispatch",
+    "four build jobs/platforms and both full five-OS matrices with artifact routes/needs",
+    "only tag-gated kani_release/dependent package_docker intentionally skip on PR",
+    "exact old-to-new CI request diff"
+  ],
+  "rejected_mutation_count": 41,
+  "rejected_mutations": [
+    "old six-workflow request",
+    "remove workflow kani.yml",
+    "remove workflow format-check.yml",
+    "remove workflow deny.yml",
+    "remove workflow verify-std-check.yml",
+    "remove workflow extra_jobs.yml",
+    "remove workflow bench-pr.yml",
+    "remove workflow release.yml",
+    "remove build build_bundle_macos_x86_64",
+    "remove build build_bundle_macos_aarch64",
+    "remove build build_bundle_linux_x86_64",
+    "remove build build_bundle_linux_aarch64",
+    "remove matrix OS test-use-local-toolchain/macos-15-intel",
+    "remove matrix OS test-use-local-toolchain/macos-15",
+    "remove matrix OS test-use-local-toolchain/ubuntu-22.04",
+    "remove matrix OS test-use-local-toolchain/ubuntu-24.04",
+    "remove matrix OS test-use-local-toolchain/ubuntu-24.04-arm",
+    "remove matrix OS test_bundle/macos-15-intel",
+    "remove matrix OS test_bundle/macos-15",
+    "remove matrix OS test_bundle/ubuntu-22.04",
+    "remove matrix OS test_bundle/ubuntu-24.04",
+    "remove matrix OS test_bundle/ubuntu-24.04-arm",
+    "remove instance build_bundle_macos_x86_64/macos-15-intel",
+    "remove instance build_bundle_macos_aarch64/macos-15",
+    "remove instance build_bundle_linux_x86_64/ubuntu-22.04",
+    "remove instance build_bundle_linux_aarch64/ubuntu-24.04-arm",
+    "remove instance test-use-local-toolchain/macos-15-intel",
+    "remove instance test-use-local-toolchain/macos-15",
+    "remove instance test-use-local-toolchain/ubuntu-22.04",
+    "remove instance test-use-local-toolchain/ubuntu-24.04",
+    "remove instance test-use-local-toolchain/ubuntu-24.04-arm",
+    "remove instance test_bundle/macos-15-intel",
+    "remove instance test_bundle/macos-15",
+    "remove instance test_bundle/ubuntu-22.04",
+    "remove instance test_bundle/ubuntu-24.04",
+    "remove instance test_bundle/ubuntu-24.04-arm",
+    "drop_matrix_job",
+    "rename_build",
+    "artifact_route",
+    "native_event",
+    "skip_required"
+  ],
+  "compiler_build": "NOT_RUN",
+  "fixed_runtime": "NOT_RUN",
+  "full_ci": "NOT_RUN",
+  "proof_credit": "NONE",
+  "review14": "PENDING_PLAN_DELTA_REVIEW",
+  "attempts_consumed": 0,
+  "ledger_modified": false
+}

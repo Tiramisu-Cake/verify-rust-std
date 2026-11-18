@@ -1,0 +1,41 @@
+{
+  "task": "task4817b5ddf0c1526432b9c7fa3b16a9ba81a85bb7",
+  "status": "READY_FOR_DELTA_REVIEW14",
+  "scope": "CI_REQUEST_METADATA_DOCS_VALIDATION_ONLY",
+  "old_package": "7485bbb27a72dd463d4a9628c8627689d30e7e56",
+  "review": "cbfd888f274a0666f09af79d98ef4b8b8061f497",
+  "finding": "F4-R14-1",
+  "finding_disposition": "PROPOSED_PLAN_FIX_PENDING_REVIEW14_CLOSURE",
+  "source": "cab66681c912a3e5ee01a106faaeee5237ca0232",
+  "tree": "8585336ed35a14fe0fc157a7ca4e0d52075c0e49",
+  "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+  "g0_write_scope": "research/challenge-8/kani-k1/kani3300/wave0/f4-fix-plan-r1",
+  "claims": [
+    {
+      "claim": "Seven applicable PR workflows and fourteen release PR instances match frozen YAML; removal/routing/skip mutations rejected",
+      "assurance": "STATIC_PLAN_VALIDATION_ONLY",
+      "evidence": "VALIDATION.json"
+    },
+    {
+      "claim": "Original source/test bytes, sixteen workflows, scripts and old748/cbfd packages preserved",
+      "assurance": "IMMUTABLE_GIT_REFERENCES_AND_HASH_IDENTITY",
+      "evidence": "MANIFEST.json"
+    }
+  ],
+  "fixed_build_and_runtime": "NOT_RUN",
+  "full_ci": "NOT_RUN",
+  "performance": "NOT_RUN",
+  "proof_credit": "NONE",
+  "review14": "PENDING_PLAN_DELTA_REVIEW",
+  "blocker": null,
+  "next": "Same reviewer14 reviews only exact committed plan delta; reviewer closes F4-R14-1. Then coordinator prepares separate full-standard-CI final-PR-head GO request.",
+  "item1_used_reference": 27,
+  "item1_cap_reference": 28,
+  "attempts_consumed": 0,
+  "ledger_modified": false,
+  "s2r1": "AWAITING_OWNER_GO_OUTSIDE_SCOPE",
+  "forbidden_actions_performed": [],
+  "subagents": false,
+  "model_fast_settings": "UNCHANGED"
+}
