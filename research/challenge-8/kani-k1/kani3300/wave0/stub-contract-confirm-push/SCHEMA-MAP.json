@@ -1,0 +1,24 @@
+{
+  "derived_fields": {
+    "slot.process.invocation_identity.request_sha256": "existing field inherits actual push-derived request",
+    "snapshot.push": "event/repository/ref/head/before/created from verified required GitHub context/payload",
+    "snapshot.request": "same canonical schema derived from actual control head/tree/profile",
+    "snapshot.request_sha256": "SHA256 of snapshot.request"
+  },
+  "result_schema": {
+    "byte_invariant": true,
+    "path": "result.schema.json",
+    "prior_sha256": "ef5548a63a2966b9e5ca33f98fc9e02b8716c10641c6c7a8d86b6a07eed4de6a",
+    "sha256": "ef5548a63a2966b9e5ca33f98fc9e02b8716c10641c6c7a8d86b6a07eed4de6a"
+  },
+  "retained": [
+    "rich process exits/signals/argv/env/digests",
+    "stream/diagnostic completeness",
+    "export presence/completeness",
+    "invocation identity/replay",
+    "strict oracles/classification",
+    "NOT_RUN and INCONCLUSIVE"
+  ],
+  "schema": "stub-contract-push-schema-map-v1",
+  "schema_extension": "snapshot permits additional properties already; no schema/oracle loosening"
+}

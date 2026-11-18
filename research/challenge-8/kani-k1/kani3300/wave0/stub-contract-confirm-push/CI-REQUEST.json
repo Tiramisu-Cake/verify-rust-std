@@ -1,0 +1,279 @@
+{
+  "accounting_reference_only": {
+    "CI_authorized": false,
+    "item1_cap": 30,
+    "item1_used": 29,
+    "item2_cap": 17,
+    "item2_used": 11,
+    "ledger_edit": false,
+    "reservation": false,
+    "total_cap": 47,
+    "total_used": 40
+  },
+  "artifact": {
+    "inventory": "source/control files and tools with SHA256, per-slot export/stream digests and invocation identities; result canonical digest excludes integrity",
+    "members": [
+      "result.json"
+    ],
+    "name": "stub-contract-confirm-${github.run_id}-${github.run_attempt}",
+    "raw_logs": false,
+    "retention_days": 7
+  },
+  "authority": "NO_CI_NO_PUBLICATION_NO_ENABLE_NO_ACCOUNTING",
+  "binding": {
+    "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "base_parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "control_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+    "control_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "control_tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6",
+    "profile_sha256": "ceb930a5b7764799880ac48ad6318bbaf6e14d6af70ea98abbe9da82107af148",
+    "schema": "stub-contract-request-v1"
+  },
+  "caps": {
+    "automatic_retries": 0,
+    "build_invocations": 1,
+    "build_seconds": 900,
+    "diagnostic_block_bytes": 4096,
+    "diagnostic_blocks_per_stream": 32,
+    "each_native_seconds": 120,
+    "export_bytes": 2097152,
+    "group_rss_bytes": 8589934592,
+    "head_bytes": 4096,
+    "head_lines": 18,
+    "job_minutes": 60,
+    "max_checks_per_harness": 256,
+    "native_invocations": 3,
+    "per_process_address_space_bytes": 8589934592,
+    "preview_line_chars": 500,
+    "setup_minutes": 30,
+    "stream_bytes": 2097152,
+    "tail_bytes": 8192,
+    "tail_lines": 8
+  },
+  "classification_policy": "ORACLES.md and runner.classify; all actual outcomes NOT_RUN",
+  "commands": {
+    "build": {
+      "argv": [
+        "cargo",
+        "build-dev"
+      ],
+      "cwd": "${STOCK}",
+      "runtime": "NOT_RUN"
+    },
+    "setup": "./stock/.github/actions/setup with kani_dir=stock",
+    "slots": [
+      {
+        "argv": [
+          "${STOCK}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+          "--lib",
+          "--no-default-features",
+          "--features",
+          "provider",
+          "--exact",
+          "--harness",
+          "provider",
+          "-j1",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "stubbing",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/provider.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/provider-target"
+        ],
+        "cfg": "kani plus feature=\"provider\"; provider harness always present",
+        "feature": "provider",
+        "runtime": "NOT_RUN",
+        "selected_harness": "provider",
+        "slot": "provider"
+      },
+      {
+        "argv": [
+          "${STOCK}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+          "--lib",
+          "--no-default-features",
+          "--features",
+          "verified",
+          "--exact",
+          "--harness",
+          "verified_control",
+          "-j1",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "stubbing",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/verified.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/verified-target"
+        ],
+        "cfg": "kani plus feature=\"verified\"; provider harness always present",
+        "feature": "verified",
+        "runtime": "NOT_RUN",
+        "selected_harness": "verified_control",
+        "slot": "verified"
+      },
+      {
+        "argv": [
+          "${STOCK}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+          "--lib",
+          "--no-default-features",
+          "--features",
+          "ordinary",
+          "--exact",
+          "--harness",
+          "ordinary_stub",
+          "-j1",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "stubbing",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/ordinary.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/ordinary-target"
+        ],
+        "cfg": "kani plus feature=\"ordinary\"; provider harness always present",
+        "feature": "ordinary",
+        "runtime": "NOT_RUN",
+        "selected_harness": "ordinary_stub",
+        "slot": "ordinary"
+      }
+    ]
+  },
+  "compiler": "exact STOCK main; fixture/control lives in separate checkout; candidate fix excluded",
+  "control": {
+    "branch": "w15/stub-contract-confirm-push",
+    "dirty": "",
+    "head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "published": false,
+    "tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6",
+    "worktree": "/root/kani-stub-contract-push-control-w15"
+  },
+  "environment": {
+    "CARGO_BUILD_TARGET": null,
+    "CARGO_ENCODED_RUSTFLAGS": null,
+    "CARGO_TARGET_DIR": null,
+    "FLAMEGRAPH": null,
+    "KANIFLAGS": "",
+    "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true",
+    "KANI_LOG": "",
+    "NO_COLOR": "1",
+    "RUSTFLAGS": "",
+    "RUSTUP_TOOLCHAIN": "nightly-2026-11-12",
+    "RUST_BACKTRACE": "0"
+  },
+  "future_gate": [
+    "SAME11 narrow trigger/identity delta APPROVE",
+    "read-only final-head gate on exact non-skip candidate or same-tree sibling SHA; recompute request",
+    "updated GO pins actual final SHA/tree/parent/profile/workflow/request/ref",
+    "separate owner/coordinator publication/attempt/accounting authorization; no implicit reservation"
+  ],
+  "identity_adapter": {
+    "request": "same stub-contract-request-v1 canonical sort_keys comma/colon UTF-8; derived from actual checkout SHA/tree/profile and frozen base/parent; never stored as an expected self-hash in control",
+    "runtime": "GITHUB_EVENT_NAME/GITHUB_REPOSITORY/GITHUB_REF/GITHUB_SHA/GITHUB_EVENT_PATH required; event after/ref/repository/head_commit and new-branch topology verified against checkout; tree/soleparent verified by git; legacy SC identity env and payload inputs rejected",
+    "sibling": "same tree/stock soleparent/profile; actual request SHA changes with final commit SHA; gate output must equal runtime snapshot request",
+    "trust_boundary": "immutable packet and external final-head gate pin reviewed tree/parent/profile; runtime derives actual identity from GitHub event; runtime does not independently certify coordinator review/GO"
+  },
+  "main": {
+    "dirty": "",
+    "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "published": false,
+    "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "worktree": "/root/kani-stub-contract-source-w15"
+  },
+  "patch_sha256": "711ec08bea2995a438c12c717531f99a7eba9f54d6d580f8ccc40d7d6e858de9",
+  "prior": {
+    "control_commit": "1253186ae87e079758ab573f50ba305a028f8963",
+    "control_tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+    "old_GO_commit": "e304910c3324c0c566e232059d0b17b693178983",
+    "old_GO_status": "SUPERSEDED; no attempt/accounting occurred per owner",
+    "old_packet_files": 31,
+    "old_packet_manifest_hashes": 30,
+    "old_profile_sha256": "9f230f8fac56230a468f043e294bc77a745b50d5a16a47a7857eb0be4af5cae5",
+    "old_request_sha256": "21749d215a2851d971e58f16727d7589af3468adffe086afa4a558cf026841c4",
+    "old_review_checks": 125,
+    "old_workflow_sha256": "0a537ae2e8f74f5864324237f761b2fe3b6a07982216b2e82ad9feca06d6011c",
+    "package_commit": "5ba4f444f6fa1882b4eb6ac6d773f76cfc9c6531",
+    "review_commit": "121893c72354fef0fdc1aa0f823fe78cc0e9fe89",
+    "review_status": "APPROVE confirmation-only; historical prior-object evidence"
+  },
+  "profile_sha256": "ceb930a5b7764799880ac48ad6318bbaf6e14d6af70ea98abbe9da82107af148",
+  "publication": {
+    "before": "0000000000000000000000000000000000000000",
+    "candidate_ref_publication": false,
+    "coordinator_owned": true,
+    "created": true,
+    "deleted": false,
+    "event": "push",
+    "exact_range_commits": [
+      "FINAL"
+    ],
+    "final_choice": "reviewed no-skip candidate or same-tree/direct-parent/profile-invariant no-skip sibling; exact final SHA/request gate and updated GO required",
+    "forced": false,
+    "range": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e..FINAL",
+    "ref": "refs/heads/stub-contract-confirm-ci/w15-push",
+    "remote_ref_must_be_absent": true,
+    "repository": "Tiramisu-Cake/kani",
+    "stock_base_must_already_exist_remotely": true
+  },
+  "repository": "Tiramisu-Cake/kani",
+  "request_binding": {
+    "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "base_parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "control_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+    "control_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "control_tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6",
+    "profile_sha256": "ceb930a5b7764799880ac48ad6318bbaf6e14d6af70ea98abbe9da82107af148",
+    "schema": "stub-contract-request-v1"
+  },
+  "request_sha256": "45b074506bd6e40e2f25bc1fc3603d1491bbbfda4c7a4295e40ec785cecb651c",
+  "schema": "stub-contract-ci-request-push-v1",
+  "status": "READY_FOR_SAME11_DELTA",
+  "stock": {
+    "dirty": "",
+    "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "published": false,
+    "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "worktree": "/root/kani-stub-contract-source-w15"
+  },
+  "task": "task54c3b8f7519cc4f73e6cf5dd348cfda6a0f8cdce",
+  "workflow": {
+    "branches": [
+      "stub-contract-confirm-ci/**"
+    ],
+    "control_checkout_depth": 2,
+    "event": "push",
+    "file": ".github/workflows/stub-contract-confirm.yml",
+    "inputs": "ABSENT; workflow_dispatch/schedule rejected",
+    "publication": "NOT_AUTHORIZED; NOT_RUN; coordinator-owned after SAME11 delta and UPDATED GO",
+    "ref": "refs/heads/stub-contract-confirm-ci/w15-push",
+    "repository": "Tiramisu-Cake/kani",
+    "source_checkout_depth": 2
+  },
+  "workflow_sha256": "720cc99642dfdce815773145d0d37820c29cf1f8e85b4cec87e70247dfff8edd"
+}

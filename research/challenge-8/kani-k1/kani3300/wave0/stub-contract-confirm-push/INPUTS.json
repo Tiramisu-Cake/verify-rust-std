@@ -1,0 +1,45 @@
+{
+  "authority": "LOCAL_TRIGGER_REPAIR_AND_G0_OWNPATH_COMMIT_ONLY",
+  "issuance": "owner /new15; explicit user instruction; no subagents",
+  "owner_reference_only": {
+    "S2": "run44375519132 executing per owner; untouched",
+    "item1": "29/30",
+    "item2": "11/17",
+    "total": "40/47"
+  },
+  "prior": {
+    "control_commit": "1253186ae87e079758ab573f50ba305a028f8963",
+    "control_tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+    "old_GO_commit": "e304910c3324c0c566e232059d0b17b693178983",
+    "old_GO_status": "SUPERSEDED; no attempt/accounting occurred per owner",
+    "old_packet_files": 31,
+    "old_packet_manifest_hashes": 30,
+    "old_profile_sha256": "9f230f8fac56230a468f043e294bc77a745b50d5a16a47a7857eb0be4af5cae5",
+    "old_request_sha256": "21749d215a2851d971e58f16727d7589af3468adffe086afa4a558cf026841c4",
+    "old_review_checks": 125,
+    "old_workflow_sha256": "0a537ae2e8f74f5864324237f761b2fe3b6a07982216b2e82ad9feca06d6011c",
+    "package_commit": "5ba4f444f6fa1882b4eb6ac6d773f76cfc9c6531",
+    "review_commit": "121893c72354fef0fdc1aa0f823fe78cc0e9fe89",
+    "review_status": "APPROVE confirmation-only; historical prior-object evidence"
+  },
+  "review_flow": [
+    "READY_FOR_SAME11_DELTA",
+    "SAME11 narrow trigger/identity delta review",
+    "UPDATED_GO_REQUEST; separate owner/coordinator authorization; no run in this preparation"
+  ],
+  "schema": "stub-contract-push-inputs-v1",
+  "task": "task54c3b8f7519cc4f73e6cf5dd348cfda6a0f8cdce",
+  "task_sources": [
+    {
+      "bytes": 3962,
+      "path": "research/challenge-8/kani-k1/TASK-CH8-STUB-CONTRACT-PUSH-FIX-W15.md",
+      "sha256": "ab999b3b8368561e64967fb4a2bdbbcf16d3aea7032559e19be3becec3de33c7"
+    },
+    {
+      "bytes": 3240,
+      "path": "research/challenge-8/kani-k1/STYLE-UPSTREAM-RULES.md",
+      "sha256": "5932c080cd5938ad7fcb159b1847e663df828beffc17196716b001e6a5cb9e7a"
+    }
+  ],
+  "workflow_state": "slow-tests.yml disabled_fork with daily cron per owner; enabling forbidden; state/default branch unchanged"
+}

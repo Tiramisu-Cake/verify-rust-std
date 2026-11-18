@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kani:stub-contract-result:v1",
+  "title": "Ordinary contracted stub confirmation result",
+  "type": "object",
+  "required": ["schema", "classification", "reasons", "setup", "build", "slots", "integrity"],
+  "properties": {
+    "schema": {"const": "stub-contract-result-v1"},
+    "classification": {"enum": ["DEFECT_PRESENT", "DEFECT_ABSENT", "INCONCLUSIVE"]},
+    "reasons": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "setup": {"type": "string"},
+    "setup_action_outcome": {"type": "string"},
+    "build": {"$ref": "#/$defs/process"},
+    "source_before": {"$ref": "#/$defs/snapshot"},
+    "source_after": {"$ref": "#/$defs/snapshot"},
+    "slots": {
+      "type": "object",
+      "required": ["provider", "verified", "ordinary"],
+      "additionalProperties": false,
+      "properties": {
+        "provider": {"$ref": "#/$defs/slot"},
+        "verified": {"$ref": "#/$defs/slot"},
+        "ordinary": {"$ref": "#/$defs/slot"}
+      }
+    },
+    "integrity": {
+      "type": "object", "required": ["algorithm", "canonical_payload_sha256", "canonicalization"],
+      "properties": {"algorithm": {"const": "sha256"}, "canonical_payload_sha256": {"$ref": "#/$defs/digest"}, "canonicalization": {"type": "string"}}
+    }
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "process": {
+      "type": "object", "required": ["termination"],
+      "properties": {
+        "termination": {"enum": ["NOT_RUN", "EXITED", "TIMEOUT", "RSS_CAP", "OUTPUT_CAP", "SPAWN_ERROR", "INCOMPLETE_STREAM"]},
+        "argv": {"type": "array", "items": {"type": "string"}},
+        "cwd": {"type": "string"}, "environment": {"type": "object"},
+        "exit": {"type": ["integer", "null"]}, "signal": {"type": ["integer", "null"]},
+        "diagnostics_complete": {"type": "boolean"},
+        "diagnostics": {"type": "array", "maxItems": 64, "items": {
+          "type": "object", "required": ["header", "text", "stream", "bytes", "sha256", "complete"],
+          "properties": {"header": {"type": "string"}, "text": {"type": "string"}, "stream": {"enum": ["stdout", "stderr"]}, "bytes": {"type": "integer", "minimum": 0}, "sha256": {"$ref": "#/$defs/digest"}, "complete": {"type": "boolean"}}
+        }},
+        "invocation_sha256": {"$ref": "#/$defs/digest"}
+      },
+      "allOf": [{"if": {"properties": {"termination": {"const": "EXITED"}}}, "then": {"required": ["argv", "cwd", "environment", "exit", "signal", "streams", "diagnostics", "diagnostics_complete"]}}]
+    },
+    "snapshot": {"type": "object", "required": ["problems", "source", "control", "tools"], "properties": {"problems": {"type": "array", "items": {"type": "string"}}, "source": {"type": "object"}, "control": {"type": "object"}, "tools": {"type": "object"}}},
+    "slot": {
+      "type": "object", "required": ["process", "observation"],
+      "properties": {
+        "process": {"$ref": "#/$defs/process"},
+        "feature": {"type": "string"}, "selected_harness": {"type": "string"},
+        "export_inventory": {"type": "object"},
+        "observation": {"type": "object", "required": ["outcome"], "properties": {"outcome": {"enum": ["NOT_RUN", "SUCCESS", "MISSING_CONTRACT_CLOSURE", "EXPLICIT_UNSUPPORTED", "INCONCLUSIVE"]}, "reason": {"type": "string"}, "export": {"type": "object"}}}
+      }
+    }
+  }
+}

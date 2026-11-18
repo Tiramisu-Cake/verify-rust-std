@@ -1,0 +1,454 @@
+diff --git a/.github/stub-contract-confirm/profile.json b/.github/stub-contract-confirm/profile.json
+index 9e27aa9d2..1f1c2c6ea 100644
+--- a/.github/stub-contract-confirm/profile.json
++++ b/.github/stub-contract-confirm/profile.json
+@@ -1,11 +1,14 @@
+ {
+   "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+   "control_sha256": {
+-    ".github/workflows/slow-tests.yml": "0a537ae2e8f74f5864324237f761b2fe3b6a07982216b2e82ad9feca06d6011c",
++    ".github/workflows/stub-contract-confirm.yml": "720cc99642dfdce815773145d0d37820c29cf1f8e85b4cec87e70247dfff8edd",
+     "tests/script-based-pre/stub-contract-confirm/Cargo.lock": "fa9068017f5b97625943c393e681831b12431c6c909f28c7b1ddcdcb1e4e21c6",
+     "tests/script-based-pre/stub-contract-confirm/Cargo.toml": "a1be548a68dc9e8e644d604fe65c5a2a379d85aef44204ba54f319c67635d86b",
+-    "tests/script-based-pre/stub-contract-confirm/check_service.py": "7469cd7e6090c3fb4034079296d296cd743ecf1bfcf2c8f9e141e50b9c95770c",
+-    "tests/script-based-pre/stub-contract-confirm/runner.py": "71bed05969b8e2d698a9ab501ac787fe3b61f9c93cc267a6669958423a963785",
++    "tests/script-based-pre/stub-contract-confirm/check_push_identity.py": "6300bb8af6428be6df2c04cac18bb902979ce5aeae33e15f0cd081ccb80cce09",
++    "tests/script-based-pre/stub-contract-confirm/check_service.py": "f2cb8ac3c55b99736719f014e41e174e27dd941eb44f0938b8e406945538f614",
++    "tests/script-based-pre/stub-contract-confirm/final_head.py": "b02ab0564f15c265295f09a16e712a7140cec4818037a325e4352ee7b3eba436",
++    "tests/script-based-pre/stub-contract-confirm/push_identity.py": "cfd24ccd1b7a5c7f2e08cf5476e362a5c94d738c3ac35e424318651163a4ecb9",
++    "tests/script-based-pre/stub-contract-confirm/runner.py": "cfa267deb24a76b0d4c3d1d0b04ef9a9b5346f797ff8acc193d74d2fb37c1f78",
+     "tests/script-based-pre/stub-contract-confirm/service.py": "0cb7c63d6bd97e4a2b2513fd6aeecb8bf219ae871a20f34942320f06b3edf994",
+     "tests/script-based-pre/stub-contract-confirm/src/lib.rs": "eeda30cfc12024ed314ddeb8c0ebade1911fd5ed2fabbc849db7ccd94e40eb4b",
+     "tests/script-based-pre/stub-contract-confirm/workflow_checks.py": "0909f66c75ad155cdf13ab3327372c630fe648ec65aec6353a8845f6eee07583"
+diff --git a/.github/workflows/slow-tests.yml b/.github/workflows/stub-contract-confirm.yml
+similarity index 80%
+rename from .github/workflows/slow-tests.yml
+rename to .github/workflows/stub-contract-confirm.yml
+index 045394880..fd2edd81d 100644
+--- a/.github/workflows/slow-tests.yml
++++ b/.github/workflows/stub-contract-confirm.yml
+@@ -2,20 +2,9 @@
+ # SPDX-License-Identifier: Apache-2.0 OR MIT
+ name: Ordinary stubbing of a contracted function
+ on:
+-  workflow_dispatch:
+-    inputs:
+-      control_head:
+-        description: Reviewed control commit
+-        required: true
+-        type: string
+-      control_tree:
+-        description: Reviewed control tree
+-        required: true
+-        type: string
+-      request_sha256:
+-        description: Reviewed canonical request digest
+-        required: true
+-        type: string
++  push:
++    branches:
++      - 'stub-contract-confirm-ci/**'
+ permissions:
+   contents: read
+ jobs:
+@@ -23,9 +12,6 @@ jobs:
+     runs-on: ubuntu-24.04
+     timeout-minutes: 60
+     env:
+-      SC_CONTROL_HEAD: ${{ inputs.control_head }}
+-      SC_CONTROL_TREE: ${{ inputs.control_tree }}
+-      SC_REQUEST_SHA256: ${{ inputs.request_sha256 }}
+       SC_SOURCE_DIR: ${{ github.workspace }}/stock
+       SC_EVIDENCE_DIR: ${{ github.workspace }}/stub-contract-evidence
+       PYTHONDONTWRITEBYTECODE: '1'
+diff --git a/tests/script-based-pre/stub-contract-confirm/check_push_identity.py b/tests/script-based-pre/stub-contract-confirm/check_push_identity.py
+new file mode 100644
+index 000000000..58368d56c
+--- /dev/null
++++ b/tests/script-based-pre/stub-contract-confirm/check_push_identity.py
+@@ -0,0 +1,172 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Exercise push admission and publication binding using disposable Git repositories."""
++import copy
++import hashlib
++import json
++import os
++from pathlib import Path
++import subprocess
++import tempfile
++from unittest.mock import patch
++
++import final_head
++import runner
++from push_identity import PREFIX, REPOSITORY
++
++
++def event_for(root, head, ref):
++    return {'repository': {'full_name': REPOSITORY}, 'ref': ref, 'after': head,
++            'before': '0' * 40, 'created': True, 'deleted': False, 'forced': False,
++            'head_commit': {'id': head, 'message': runner.git(root, 'show', '-s', '--format=%B', head)}}
++
++
++def check():
++    cases = []
++    with tempfile.TemporaryDirectory() as directory:
++        root = Path(directory)
++        repo, stock, control = [root / p for p in ('repo', 'stock', 'control')]
++        repo.mkdir()
++        def git(*args, cwd=repo):
++            return runner.git(cwd, *args)
++        def commit(message):
++            git('-c', 'user.name=Service test', '-c', 'user.email=test@example.invalid',
++                'commit', '-q', '--no-gpg-sign', '--allow-empty', '-m', message)
++            return git('rev-parse', 'HEAD')
++        git('init', '-q')
++        (repo / 'stock.txt').write_text('stock\n'); git('add', 'stock.txt')
++        parent = commit('parent'); base = commit('base'); tree = git('rev-parse', 'HEAD^{tree}')
++        git('clone', '-q', '--depth=2', repo.as_uri(), str(stock))
++        profile = repo / '.github/stub-contract-confirm/profile.json'
++        profile.parent.mkdir(parents=True)
++        profile.write_text(json.dumps({'base': base, 'tree': tree, 'source_sha256': {}, 'control_sha256': {}}))
++        git('add', str(profile)); head = commit('confirmation candidate'); control_tree = git('rev-parse', 'HEAD^{tree}')
++        git('clone', '-q', '--depth=2', repo.as_uri(), str(control))
++        assert git('rev-parse', '--is-shallow-repository', cwd=control) == 'true'
++        assert git('rev-list', '--count', 'HEAD', cwd=control) == '2'
++        event_path = root / 'event.json'
++        ref = PREFIX + 'synthetic'
++        event = event_for(control, head, ref)
++        event_path.write_text(json.dumps(event))
++        env = {'GITHUB_EVENT_NAME': 'push', 'GITHUB_REPOSITORY': REPOSITORY,
++               'GITHUB_REF': ref, 'GITHUB_SHA': head, 'GITHUB_EVENT_PATH': str(event_path)}
++        clean_env = {k: v for k, v in os.environ.items() if not k.startswith('SC_') and not k.startswith('GITHUB_')}
++        with patch.object(runner, 'ROOT', control), patch.object(runner, 'SOURCE', stock), \
++                patch.object(runner, 'PROFILE', control / '.github/stub-contract-confirm/profile.json'), \
++                patch.object(runner, 'BASE', base), patch.object(runner, 'TREE', tree), patch.object(runner, 'PARENT', parent), \
++                patch.object(runner, 'OUT', root / 'out'), patch.dict(os.environ, clean_env | env, clear=True):
++            value = runner.snapshot()
++            assert not value['problems'], value
++            request = runner.binding(head, control_tree, runner.sha(runner.PROFILE))
++            assert value['request'] == request
++            assert value['request_sha256'] == hashlib.sha256(runner.canonical(request)).hexdigest()
++            cases.append('real depth2 actual push binding')
++            nested_ref = PREFIX + 'nested/confirmation'
++            event_path.write_text(json.dumps(event | {'ref': nested_ref}))
++            with patch.dict(os.environ, {'GITHUB_REF': nested_ref}):
++                assert not runner.snapshot()['problems']
++            event_path.write_text(json.dumps(event))
++            cases.append('nested branch matches exact filter')
++            def rejected(label):
++                with patch.object(runner, 'execute', side_effect=AssertionError('build invoked before admission')):
++                    assert runner.snapshot()['problems'], label
++                    assert runner.main('build') == 1, label
++                    cases.append(label)
++            for key in env:
++                with patch.dict(os.environ, clear=False):
++                    del os.environ[key]
++                    rejected('missing ' + key)
++            for key, bad in [('GITHUB_EVENT_NAME', 'workflow_dispatch'), ('GITHUB_EVENT_NAME', 'schedule'),
++                             ('GITHUB_REPOSITORY', 'model-checking/kani'), ('GITHUB_SHA', base),
++                             ('GITHUB_SHA', 'wrong'), ('GITHUB_REF', 'refs/heads/main'),
++                             ('GITHUB_REF', 'refs/tags/stub-contract-confirm-ci/x'),
++                             ('GITHUB_REF', PREFIX), ('GITHUB_REF', PREFIX + '../bad'),
++                             ('SC_CONTROL_HEAD', head), ('SC_CONTROL_TREE', control_tree),
++                             ('SC_REQUEST_SHA256', value['request_sha256'])]:
++                with patch.dict(os.environ, {key: bad}):
++                    rejected(key + '=' + bad)
++            for key, bad in [('ref', PREFIX + 'other'), ('after', base), ('before', base),
++                             ('created', False), ('created', 1), ('deleted', True), ('forced', True),
++                             ('inputs', {}), ('repository', None), ('head_commit', None),
++                             ('head_commit', {'id': base, 'message': 'wrong'}),
++                             ('head_commit', {'id': head, 'message': 'wrong'})]:
++                event_path.write_text(json.dumps(event | {key: bad}))
++                rejected('payload ' + key + '=' + str(bad))
++            for bad in (None, [], {}, 'NOT_RUN'):
++                event_path.write_text(json.dumps(bad)); rejected('payload type ' + str(bad))
++            event_path.write_text('{'); rejected('malformed payload')
++            event_path.write_text(json.dumps(event))
++            (stock / 'stock.txt').write_text('changed\n'); rejected('stock mutation')
++            git('checkout', '--', 'stock.txt', cwd=stock)
++            (control / 'extra.rs').write_text('// source\n'); rejected('untracked source'); (control / 'extra.rs').unlink()
++            original = runner.PROFILE.read_bytes()
++            runner.PROFILE.write_text('{}'); rejected('profile mutation'); runner.PROFILE.write_bytes(original)
++            with patch.object(runner, 'BASE', parent):
++                rejected('wrong stock parent baseline')
++            git('fetch', '-q', '--depth=1', 'origin', base, cwd=stock); rejected('source depth1')
++            git('fetch', '-q', '--depth=2', 'origin', base, cwd=stock)
++            git('fetch', '-q', '--depth=1', 'origin', head, cwd=control); rejected('control depth1')
++
++        pins = {'stock': {'head': base, 'tree': tree, 'parent': parent},
++                'control': {'head': head, 'tree': control_tree, 'parent': base},
++                'profile_sha256': hashlib.sha256(original).hexdigest(), 'publication': {'ref': ref}}
++        def gate(final, supplied=None, expected_pins=pins):
++            return final_head.check(repo, final, ref, supplied, expected_pins)
++        gate_before = (git('rev-parse', 'HEAD'), git('status', '--porcelain'))
++        derived = gate(head)
++        assert derived['status'] == 'DERIVED_REQUIRES_EXACT_REQUEST_GATE'
++        assert derived['request_binding'] == request
++        assert gate(head, derived['request_sha256'])['status'] == 'FINAL_HEAD_REQUEST_GATE_PASS'
++        assert gate_before == (git('rev-parse', 'HEAD'), git('status', '--porcelain'))
++        cases.append('read-only exact no-skip candidate request gate')
++        def gate_reject(label, final=head, supplied=derived['request_sha256'], expected_pins=pins):
++            try:
++                gate(final, supplied, expected_pins)
++            except (ValueError, subprocess.SubprocessError):
++                cases.append(label)
++            else:
++                raise AssertionError(label)
++        gate_reject('wrong final request', supplied='0' * 64)
++        gate_reject('exact final sha required', final='HEAD')
++        for section, key, bad in [('control', 'tree', tree), ('control', 'parent', parent),
++                                   ('stock', 'tree', control_tree), ('stock', 'parent', base),
++                                   ('control', 'head', base), ('publication', 'ref', PREFIX + 'wrong')]:
++            broken = copy.deepcopy(pins); broken[section][key] = bad
++            gate_reject('wrong pins ' + section + '/' + key, expected_pins=broken)
++        broken = copy.deepcopy(pins); broken['profile_sha256'] = '0' * 64
++        gate_reject('wrong profile digest', expected_pins=broken)
++        def sibling(message):
++            return git('-c', 'user.name=Service test', '-c', 'user.email=test@example.invalid',
++                       'commit-tree', control_tree, '-p', base, '-m', message)
++        final = sibling('confirmation publication sibling')
++        derived_final = gate(final)
++        assert derived_final['same_tree_sibling'] and derived_final['request_sha256'] != derived['request_sha256']
++        assert gate(final, derived_final['request_sha256'])['status'] == 'FINAL_HEAD_REQUEST_GATE_PASS'
++        gate_reject('sibling rejects candidate request', final=final)
++        for marker in ('[skip ci]', '[ci skip]', '[no ci]', '[skip actions]', '[actions skip]', 'skip-checks: true'):
++            gate_reject('skip marker ' + marker, final=sibling('confirmation\n\n' + marker))
++        extra = commit('additional control commit')
++        gate_reject('multi-commit publication range', final=extra)
++        merge = git('-c', 'user.name=Service test', '-c', 'user.email=test@example.invalid',
++                    'commit-tree', control_tree, '-p', base, '-p', parent, '-m', 'merge')
++        gate_reject('merge parent', final=merge)
++        git('fetch', '-q', '--depth=2', 'origin', final, cwd=control)
++        git('checkout', '-q', '--detach', final, cwd=control)
++        event_path.write_text(json.dumps(event_for(control, final, ref)))
++        with patch.object(runner, 'ROOT', control), patch.object(runner, 'SOURCE', stock), \
++                patch.object(runner, 'PROFILE', control / '.github/stub-contract-confirm/profile.json'), \
++                patch.object(runner, 'BASE', base), patch.object(runner, 'TREE', tree), patch.object(runner, 'PARENT', parent), \
++                patch.dict(os.environ, clean_env | env | {'GITHUB_SHA': final}, clear=True):
++            value = runner.snapshot()
++            assert not value['problems'], value
++            assert value['request'] == derived_final['request_binding']
++            assert value['request_sha256'] == derived_final['request_sha256']
++            cases.append('sibling runtime actual head/request rebinding')
++            skipped = sibling('confirmation [skip ci]')
++            git('fetch', '-q', '--depth=2', 'origin', skipped, cwd=control)
++            git('checkout', '-q', '--detach', skipped, cwd=control)
++            event_path.write_text(json.dumps(event_for(control, skipped, ref)))
++            with patch.dict(os.environ, {'GITHUB_SHA': skipped}):
++                assert runner.snapshot()['problems']
++                cases.append('runtime skip head rejected')
++    return {'status': 'PASS', 'scope': 'DISPOSABLE_GIT_PYTHON_MOCK_ONLY', 'checks': len(cases), 'cases': cases}
+diff --git a/tests/script-based-pre/stub-contract-confirm/check_service.py b/tests/script-based-pre/stub-contract-confirm/check_service.py
+index f8c9c4b34..939b527e9 100644
+--- a/tests/script-based-pre/stub-contract-confirm/check_service.py
++++ b/tests/script-based-pre/stub-contract-confirm/check_service.py
+@@ -193,44 +193,8 @@ def check():
+             assert argv[0].startswith(str(runner.SOURCE)) and '--exact' in argv and '-j1' in argv
+             assert argv[argv.index('--features') + 1] in runner.SLOTS
+ 
+-    with tempfile.TemporaryDirectory() as directory:
+-        root = Path(directory)
+-        repo, stock, control = [root / p for p in ('repo', 'stock', 'control')]
+-        repo.mkdir()
+-        def git(*args, cwd=repo):
+-            return subprocess.check_output(['git', '-C', str(cwd), *args], stderr=subprocess.PIPE).decode().strip()
+-        def commit(message):
+-            git('-c', 'user.name=Service test', '-c', 'user.email=test@example.invalid',
+-                'commit', '-q', '--no-gpg-sign', '--allow-empty', '-m', message)
+-            return git('rev-parse', 'HEAD')
+-        git('init', '-q')
+-        (repo / 'stock.txt').write_text('stock\n'); git('add', 'stock.txt')
+-        parent = commit('parent'); base = commit('base'); tree = git('rev-parse', 'HEAD^{tree}')
+-        git('clone', '-q', '--depth=2', repo.as_uri(), str(stock))
+-        profile = repo / '.github/stub-contract-confirm/profile.json'
+-        profile.parent.mkdir(parents=True)
+-        profile.write_text(json.dumps({'base': base, 'tree': tree, 'source_sha256': {}, 'control_sha256': {}}))
+-        git('add', str(profile)); head = commit('control'); control_tree = git('rev-parse', 'HEAD^{tree}')
+-        git('clone', '-q', '--depth=2', repo.as_uri(), str(control))
+-        with patch.object(runner, 'ROOT', control), patch.object(runner, 'SOURCE', stock), \
+-                patch.object(runner, 'PROFILE', control / '.github/stub-contract-confirm/profile.json'), \
+-                patch.object(runner, 'BASE', base), patch.object(runner, 'TREE', tree), patch.object(runner, 'PARENT', parent):
+-            bound = runner.binding(head, control_tree, runner.sha(runner.PROFILE))
+-            env = {'SC_CONTROL_HEAD': head, 'SC_CONTROL_TREE': control_tree,
+-                   'SC_REQUEST_SHA256': hashlib.sha256(runner.canonical(bound)).hexdigest()}
+-            with patch.dict(os.environ, env):
+-                assert runner.snapshot()['problems'] == []
+-                for name in ('SC_CONTROL_HEAD', 'SC_CONTROL_TREE', 'SC_REQUEST_SHA256'):
+-                    with patch.dict(os.environ, {name: 'wrong'}):
+-                        assert runner.snapshot()['problems']
+-                (stock / 'stock.txt').write_text('changed\n')
+-                assert runner.snapshot()['problems']
+-                git('checkout', '--', 'stock.txt', cwd=stock)
+-                (control / 'extra.rs').write_text('// source\n')
+-                assert runner.snapshot()['problems']
+-                (control / 'extra.rs').unlink()
+-                git('fetch', '-q', '--depth=1', 'origin', base, cwd=stock)
+-                assert runner.snapshot()['problems']
++    from check_push_identity import check as check_push_identity
++    identity_checks = check_push_identity()
+ 
+     with tempfile.TemporaryDirectory() as directory:
+         out = Path(directory)
+@@ -251,15 +215,18 @@ def check():
+             assert value['classification'] == 'INCONCLUSIVE'
+             assert all(s['observation']['outcome'] == 'NOT_RUN' for s in value['slots'].values())
+ 
+-    workflow = (runner.ROOT / '.github/workflows/slow-tests.yml').read_text()
++    workflow = (runner.ROOT / '.github/workflows/stub-contract-confirm.yml').read_text()
+     expressions = workflow_expressions(workflow)
+     assert expressions and workflow.count('${{') == len(expressions)
+     assert 'fetch-depth: 2' in workflow and 'path: stock' in workflow and 'path: control' in workflow
+-    assert 'ref: ' + runner.BASE in workflow and 'push:' not in workflow
++    assert 'ref: ' + runner.BASE in workflow
++    assert "on:\n  push:\n    branches:\n      - 'stub-contract-confirm-ci/**'\npermissions:" in workflow
++    assert all(x not in workflow for x in ('workflow_dispatch', 'schedule:', 'inputs.', 'SC_CONTROL_HEAD', 'SC_CONTROL_TREE', 'SC_REQUEST_SHA256'))
++    assert not (runner.ROOT / '.github/workflows/slow-tests.yml').exists()
+     assert 'path: ${{ env.SC_EVIDENCE_DIR }}/result.json' in workflow
+     for stage in ('before', 'build', 'run', 'finish'):
+         assert 'runner.py ' + stage in workflow
+-    print(json.dumps({'status': 'PASS', 'scope': 'STATIC_PYTHON_MOCK_ONLY', 'mutation_cases': count,
++    print(json.dumps({'status': 'PASS', 'scope': 'STATIC_PYTHON_MOCK_ONLY', 'mutation_cases': count, 'push_identity': identity_checks,
+                       'native_compiler_kani_ci': 'NOT_RUN', 'service': ['success', 'nonzero', 'signal',
+                        'timeout', 'RSS', 'output cap', 'spawn', 'middle diagnostics', 'partial',
+                        'wrong target', 'missing control', 'three-slot collection', 'workflow contexts']}))
+diff --git a/tests/script-based-pre/stub-contract-confirm/final_head.py b/tests/script-based-pre/stub-contract-confirm/final_head.py
+new file mode 100644
+index 000000000..afb42e740
+--- /dev/null
++++ b/tests/script-based-pre/stub-contract-confirm/final_head.py
+@@ -0,0 +1,43 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Check a proposed publication commit against an immutable review packet."""
++import hashlib
++import json
++import re
++import subprocess
++
++from push_identity import SKIP, check_ref, git, require
++
++
++def canonical(value):
++    return json.dumps(value, sort_keys=True, separators=(',', ':')).encode()
++
++
++def check(root, final, ref, expected_request, pins):
++    require(isinstance(final, str) and re.fullmatch('[0-9a-f]{40}', final) is not None, 'exact final SHA required')
++    check_ref(ref)
++    require(ref == pins['publication']['ref'], 'publication ref')
++    stock, control = pins['stock'], pins['control']
++    require(control['parent'] == stock['head'], 'reviewed stock parent')
++    for commit, tree, parent in ((stock['head'], stock['tree'], stock['parent']),
++                                 (control['head'], control['tree'], stock['head']),
++                                 (final, control['tree'], stock['head'])):
++        require(git(root, 'rev-parse', commit + '^{tree}') == tree, 'reviewed/final tree')
++        require(git(root, 'show', '-s', '--format=%P', commit) == parent, 'reviewed/final sole parent')
++    raw = subprocess.check_output(['git', '-C', str(root), 'show', final + ':.github/stub-contract-confirm/profile.json'])
++    require(hashlib.sha256(raw).hexdigest() == pins['profile_sha256'], 'reviewed profile')
++    commits = git(root, 'rev-list', stock['head'] + '..' + final).splitlines()
++    require(commits == [final], 'publication range')
++    require(not SKIP.search(git(root, 'show', '-s', '--format=%B', final)), 'skip directive in publication range')
++    request = {'schema': 'stub-contract-request-v1', 'base': stock['head'], 'base_tree': stock['tree'],
++               'base_parent': stock['parent'], 'control_head': final, 'control_tree': control['tree'],
++               'control_parent': stock['head'], 'profile_sha256': pins['profile_sha256']}
++    digest = hashlib.sha256(canonical(request)).hexdigest()
++    if expected_request is not None:
++        require(expected_request == digest, 'final request identity')
++    return {'status': 'FINAL_HEAD_REQUEST_GATE_PASS' if expected_request is not None else 'DERIVED_REQUIRES_EXACT_REQUEST_GATE',
++            'reviewed_head': control['head'], 'final_head': final, 'same_tree_sibling': final != control['head'],
++            'ref': ref, 'tree': control['tree'], 'sole_parent': stock['head'],
++            'range': commits, 'profile_sha256': pins['profile_sha256'],
++            'request_binding': request, 'request_sha256': digest,
++            'authority': 'READ_ONLY; SAME11_DELTA_AND_UPDATED_OWNER_GO_REQUIRED'}
+diff --git a/tests/script-based-pre/stub-contract-confirm/push_identity.py b/tests/script-based-pre/stub-contract-confirm/push_identity.py
+new file mode 100644
+index 000000000..a19dae84e
+--- /dev/null
++++ b/tests/script-based-pre/stub-contract-confirm/push_identity.py
+@@ -0,0 +1,52 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Bind a newly created confirmation branch event to its checked-out commit."""
++import json
++import os
++from pathlib import Path
++import re
++import subprocess
++
++REPOSITORY = 'Tiramisu-Cake/kani'
++PREFIX = 'refs/heads/stub-contract-confirm-ci/'
++SKIP = re.compile(r'\[(?:skip ci|ci skip|no ci|skip actions|actions skip)\]|^skip-checks\s*:\s*true\s*$',
++                  re.IGNORECASE | re.MULTILINE)
++
++
++def require(condition, reason):
++    if not condition:
++        raise ValueError(reason)
++
++
++def git(root, *args):
++    return subprocess.check_output(['git', '-C', str(root), *args], stderr=subprocess.PIPE).decode().strip()
++
++
++def check_ref(ref):
++    require(isinstance(ref, str) and ref.startswith(PREFIX) and len(ref) > len(PREFIX), 'push branch')
++    subprocess.run(['git', 'check-ref-format', ref], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++
++
++def push_event(root, control):
++    require(os.environ.get('GITHUB_EVENT_NAME') == 'push', 'push event required')
++    require(os.environ.get('GITHUB_REPOSITORY') == REPOSITORY, 'push repository')
++    require(all(key not in os.environ for key in ('SC_CONTROL_HEAD', 'SC_CONTROL_TREE', 'SC_REQUEST_SHA256')),
++            'dispatch inputs in environment')
++    ref = os.environ['GITHUB_REF']
++    check_ref(ref)
++    head = os.environ['GITHUB_SHA']
++    require(re.fullmatch('[0-9a-f]{40}', head) is not None and head == control['head'], 'push head')
++    require(git(root, 'rev-parse', head + '^{tree}') == control['tree'], 'push tree')
++    require(git(root, 'show', '-s', '--format=%P', head) == control['parent'], 'push sole parent')
++    event = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
++    require(isinstance(event, dict) and 'inputs' not in event, 'push payload inputs')
++    require(event['repository']['full_name'] == REPOSITORY, 'event repository')
++    require(event['ref'] == ref and event['after'] == head, 'event ref/head')
++    require(event['created'] is True and event['deleted'] is False and event['forced'] is False
++            and event['before'] == '0' * 40, 'new branch topology')
++    message = git(root, 'show', '-s', '--format=%B', head)
++    require(event['head_commit']['id'] == head and event['head_commit']['message'] == message,
++            'event head commit')
++    require(not SKIP.search(message), 'skip directive in push head')
++    return {'event': 'push', 'repository': REPOSITORY, 'ref': ref, 'head': head,
++            'before': event['before'], 'created': True}
+diff --git a/tests/script-based-pre/stub-contract-confirm/runner.py b/tests/script-based-pre/stub-contract-confirm/runner.py
+index 74f379306..199913875 100644
+--- a/tests/script-based-pre/stub-contract-confirm/runner.py
++++ b/tests/script-based-pre/stub-contract-confirm/runner.py
+@@ -13,6 +13,7 @@ import sys
+ import tempfile
+ 
+ from service import execute
++from push_identity import push_event
+ 
+ HERE = Path(__file__).resolve().parent
+ ROOT = HERE.parents[2]
+@@ -79,18 +80,16 @@ def snapshot(built=False):
+         require(value['source']['head'] == BASE and value['source']['tree'] == TREE
+                 and value['source']['parent'] == PARENT, 'stock source identity')
+         require(value['control']['parent'] == BASE, 'control parent')
+-        require(value['control']['head'] == os.environ.get('SC_CONTROL_HEAD'), 'control head')
+-        require(value['control']['tree'] == os.environ.get('SC_CONTROL_TREE'), 'control tree')
++        value['push'] = push_event(ROOT, value['control'])
+         request = binding(value['control']['head'], value['control']['tree'], sha(PROFILE))
+         value['request'] = request
+         value['request_sha256'] = hashlib.sha256(canonical(request)).hexdigest()
+-        require(value['request_sha256'] == os.environ.get('SC_REQUEST_SHA256'), 'request identity')
+         changes = git(ROOT, 'diff', '--name-status', BASE, 'HEAD').splitlines()
+         for change in changes:
+             status, path = change.split('\t')
+             allowed = path.startswith(('tests/script-based-pre/stub-contract-confirm/',
+                                        '.github/stub-contract-confirm/'))
+-            allowed |= path == '.github/workflows/slow-tests.yml'
++            allowed |= path == '.github/workflows/stub-contract-confirm.yml'
+             allowed |= status == 'D' and path.startswith('.github/workflows/')
+             require(allowed, 'control source changed: ' + path)
+         value['control']['changes'] = changes
