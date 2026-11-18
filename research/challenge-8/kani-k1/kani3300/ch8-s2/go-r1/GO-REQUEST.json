@@ -1,0 +1,116 @@
+{
+  "schema": "ch8-s2-r1-go-request-v1",
+  "status": "READY_FOR_OWNER_GO",
+  "package_g0": "0a4cef493f858d0e91d3ebccfbbab0b8d32d0119",
+  "review_g0": "e40ac8e8dd8ab071879ff9ab60f4b14149af0c11",
+  "review_verdict": "APPROVE",
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "inherited_N1": "RESOLVED_IN_R1",
+  "source_sha": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+  "source_tree": "64d96010b0b4b896322e26d700c253f834ba9fd6",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+  "control_sha": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+  "control_tree": "b04ce6fd7a2c937bf72fcda7a262eef65a9f45bb",
+  "request_sha256": "779126ddc8aa3e5cabd9b9968f0e1cd853c4e1b60a95a21ff4eb42d5a0c7ca74",
+  "workflow_sha256": "7dca25a36813d294548ce26c27dfe38b9b06d3f4091785eaad4f00be2a437455",
+  "cfg_pfc_checker_sha256": "d533349c1046c105b7ecaaf897041e949c19aafe989ed2198b9d5fda9c132a19",
+  "required_trigger": {
+    "prepared": false,
+    "tree": "b04ce6fd7a2c937bf72fcda7a262eef65a9f45bb",
+    "single_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "topology": "same-tree sibling",
+    "repository": "Tiramisu-Cake/kani",
+    "branch_pattern": "uninit-ci/ch8-s2-batch3probes-*",
+    "checkout_depths": {
+      "control": 7,
+      "source": 5,
+      "tool": 2
+    }
+  },
+  "source_publication": {
+    "performed": false,
+    "repository": "Tiramisu-Cake/verify-rust-std",
+    "required_sha": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6"
+  },
+  "requested_workflow_attempts": 1,
+  "automatic_rerun": false,
+  "scope": {
+    "group": "s2-batch3probes-u34",
+    "rows": [
+      "swap_pfc",
+      "summary_witness",
+      "merge32_real",
+      "sort13_assumed",
+      "general32_assumed",
+      "merge_order_corrupt",
+      "merge_count_corrupt",
+      "checker_count_corrupt",
+      "checker_order_corrupt",
+      "sort13_weak",
+      "general32_weak"
+    ],
+    "required_covers": 20,
+    "exact_negatives": 6,
+    "backend_harness_s": 600,
+    "compile_s": 900,
+    "root_cap_sum_s": 6600,
+    "group_child_s": 7500,
+    "phase_s": 8100,
+    "job_minutes": 180,
+    "jobs": 1,
+    "max_parallel": 1,
+    "group_RSS_GiB": 12,
+    "headroom_GiB": 2
+  },
+  "reviewed_static": {
+    "tests": 58,
+    "cfg_contexts": 11,
+    "verified_stub_uses": 6,
+    "independent_cfg_fixtures": 14,
+    "workflow_mutations": 4,
+    "patch_replays": 5
+  },
+  "runtime": "NOT_RUN",
+  "proof_credit": "NONE",
+  "PFC_registration_qualification": false,
+  "diagnostic_assumed": [
+    "sort13_assumed",
+    "general32_assumed"
+  ],
+  "measurement_limits": [
+    "No actual r1 compile/cost evidence",
+    "Unmeasured separate body/model/checker/driver wall UNKNOWN",
+    "Per-root aggregate RSS and6GiB target UNKNOWN",
+    "Nonsimultaneous comm peaks not aggregate",
+    "No S3/general proof qualification"
+  ],
+  "accounting_reference_only": {
+    "ledger_g0": "4076fb01d5de93191f6f012540ee98b2514d36e5",
+    "current_item2_used": 10,
+    "item2_cap": 14,
+    "current_item1_used": 27,
+    "item1_cap": 28,
+    "current_total_used": 37,
+    "total_cap": 42,
+    "failed_attempt_accounting": "OWNER_DECISION_PENDING",
+    "repeat_accounting": "OWNER_ONLY_NO_ASSUMED_NEXT_NUMBER"
+  },
+  "actions": {
+    "push": false,
+    "trigger_preparation": false,
+    "dispatch": false,
+    "reservation": false,
+    "ledger_change": false
+  },
+  "old_immutable": {
+    "g0": "ae8f7b2feb739fd51fe72063d4aa71fe36b90790",
+    "source": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "control": "fc058c97335e4a064c7827b8534b3af2f7460bc3",
+    "review": "0468ccf26c879a03ca83b1d5955be5e860c2b442",
+    "GO_request": "13dc947ad2",
+    "failed_run": "44264952389"
+  },
+  "next_intake": "new run ID and r1 source/request; old44264952389 compile0roots is not proof/cost data"
+}
