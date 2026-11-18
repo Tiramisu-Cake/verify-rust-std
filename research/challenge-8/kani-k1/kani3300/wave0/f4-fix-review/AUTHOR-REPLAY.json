@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "scope": "STATIC_AND_SYNTHETIC_ONLY",
+  "checks": [
+    "Python AST and guarded native entry point",
+    "shell syntax and executable compiletest entry point",
+    "observed frozen-main compact results rejected by new regression oracle",
+    "all seven compact inventories parse with explicitly reconstructed export envelopes",
+    "synthetic equal singleton/paired inventories accepted; fixed runtime remains NOT_RUN",
+    "unsafe suppression, initialized failure, wrong failure site and semantic composition mutations rejected",
+    "parser rejects partial/missing/null/wrong-type/NOT_RUN/unresolved/mismatch/weakened checks",
+    "regular inventory parsing and duplicate harness rejection",
+    "mocked probe success/spawn/timeout/signal/error/missing export; native tools never called",
+    "harness-local global/codegen lifecycle; checks/workflows/scripts/observed Rust fixture unchanged",
+    "clean committed direct child; exact nine-file scope; isolated-index patch replay reproduces source tree"
+  ],
+  "main_oracle": "FAIL_ON_OBSERVED_COMPACT_RESULTS",
+  "fixed_runtime": "NOT_RUN",
+  "main_new_test_runtime": "NOT_RUN",
+  "compiler_build": "NOT_RUN",
+  "compilation_order": "UNKNOWN",
+  "independent_review": "PENDING_REVIEW14",
+  "intake_sha256": "8c15b1a13b4daa89f8eb2827a60d135c4280a60ad4746083790615b5f3a16576"
+}

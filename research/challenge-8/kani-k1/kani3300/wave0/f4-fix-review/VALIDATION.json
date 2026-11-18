@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "assurance": "STATIC_AND_SYNTHETIC_ONLY",
+  "package_commit": "7485bbb27a72dd463d4a9628c8627689d30e7e56",
+  "source": "cab66681c912a3e5ee01a106faaeee5237ca0232",
+  "tree": "8585336ed35a14fe0fc157a7ca4e0d52075c0e49",
+  "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "checks": [
+    "exact clean source HEAD/tree/direct parent/author/skip directive",
+    "all 14 package files match exact package commit; manifest and dependency hashes",
+    "nine-file scope; all 16 workflows and all scripts/library/toolchain/dependency pins unchanged",
+    "exact patch bytes and regression-only main patch; isolated-index regression replay",
+    "author static/oracle/error-path checks independently replayed; original package unchanged",
+    "mocked seven-invocation entry point: observed main rejected at initialized assertion; synthetic fixed accepted; cfg/targets/environment checked",
+    "all 16 native trigger sets inspected: seven PR workflows; confirmed plan omission of release.yml with 14 required build/test matrix instances and intended publication skips"
+  ],
+  "fixed_runtime": "NOT_RUN",
+  "main_new_test_runtime": "NOT_RUN",
+  "compiler_build": "NOT_RUN",
+  "actual_compilation_order": "UNKNOWN",
+  "actual_runtime_causality": "UNKNOWN",
+  "proof_credit": "NONE",
+  "author_replay_sha256": "2789c946725212589c149197d3e3379909b9ad6a1ad8b1e87db43eca73ca0913",
+  "package_manifest_sha256": "72caccd04c0784389f700684c22a7950ed68383599943d85a54408fe6cc5be58",
+  "native_tools_called": false,
+  "ci_called": false,
+  "original_package_unchanged": true,
+  "review_verdict": "CHANGES_REQUIRED",
+  "missing_pr_workflows": [
+    "release.yml"
+  ],
+  "blocking_findings": [
+    {
+      "id": "F4-R14-1",
+      "priority": "P2",
+      "owner": "original15",
+      "issue": "Full-standard-CI plan omits release.yml PR bundle build and test matrices"
+    }
+  ]
+}

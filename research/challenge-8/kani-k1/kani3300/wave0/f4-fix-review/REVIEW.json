@@ -1,0 +1,54 @@
+{
+  "schema": "ch8-f4-fix-independent-review-v1",
+  "task": "task7b829344c9cdd8c25ec59294bb9015201638a879",
+  "verdict": "CHANGES_REQUIRED",
+  "package_commit": "7485bbb27a72dd463d4a9628c8627689d30e7e56",
+  "source": "cab66681c912a3e5ee01a106faaeee5237ca0232",
+  "tree": "8585336ed35a14fe0fc157a7ca4e0d52075c0e49",
+  "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "source_worktree": "/root/kani-f4-fix-w15",
+  "source_branch": "w15/f4-fix-main",
+  "source_static_assessment": "No blocking source-code finding; per-harness isolation/pass/body/loop metadata lifecycle consistent by source inspection.",
+  "findings": [
+    {
+      "id": "F4-R14-1",
+      "priority": "P2",
+      "blocking": true,
+      "owner": "original15",
+      "locations": [
+        "f4-fix/CI-REQUEST.json:17",
+        "f4-fix/CI-REQUEST.md:42"
+      ],
+      "title": "Full-standard-CI plan omits release.yml PR bundle build and test matrices",
+      "source_evidence": ".github/workflows/release.yml:13 pull_request trigger; four unconditional bundle builds; test_bundle and test-use-local-toolchain each have five OS entries.",
+      "required_fix": "Include release.yml and all 14 PR build/test instances in CI request; retain intended kani_release/package_docker skips. Refresh package hashes and submit exact committed delta for review; preserve compiler/tests/workflows."
+    }
+  ],
+  "performance_risk": "Unmeasured whole warmed-cache copy per harness including no-uninit runs; repeated local work without warming or on later cache misses. Full perf and compiler/e2e benchmarks required.",
+  "ci_head_binding": "Bind reviewed source/tree to authorized same-tree trigger and exact PR branch head; record actual merge checkout SHA/tree separately; reject old confirmation ref.",
+  "skip_ci": "Source subject has [skip ci]; future no-skip same-tree PR head and pushed-range skip handling required; review creates no trigger.",
+  "benchmark_events": "Both labels apply; auto-label GITHUB_TOKEN events do not retrigger benchmarks; require eligible event after both labels exist and preserve skips/cancellations.",
+  "main_oracle": "FAIL_ON_OBSERVED_COMPACT_RESULTS",
+  "expected_fixed_oracle": "PASS_SYNTHETIC_ONLY",
+  "compiler_build": "NOT_RUN",
+  "fixed_runtime": "NOT_RUN",
+  "main_new_test_runtime": "NOT_RUN",
+  "full_standard_ci": "NOT_RUN",
+  "compilation_order": "UNKNOWN",
+  "runtime_cache_causality": "UNKNOWN",
+  "proof_credit": "NONE",
+  "actions": {
+    "author_code_edits": false,
+    "author_package_edits": false,
+    "subagents": false,
+    "model_fast_change": false,
+    "local_compiler": false,
+    "ci": false,
+    "push": false,
+    "pr": false,
+    "ledger": false,
+    "reservation": false,
+    "external_messages": false
+  },
+  "next": "Original15 fixes plan only and returns exact package delta; coordinator prepares final item1 28/28 GO request after APPROVE. Publication requires owner command."
+}
