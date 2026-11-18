@@ -1,0 +1,65 @@
+{
+  "actual_future_finalhead": "NOT_CREATED",
+  "rejections": [
+    {
+      "object": "candidate",
+      "argv": [
+        "python3",
+        "-B",
+        "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/check_push_head.py",
+        "/root/kani-issue4591-singlecall-r3-w15",
+        "f82934ca97caaa1270d5279054aa950173868be5"
+      ],
+      "exit": 1,
+      "result": {
+        "status": "REJECT",
+        "head": "f82934ca97caaa1270d5279054aa950173868be5",
+        "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+        "parents": [
+          "6fca00af805b5c62b58e3e3f29eef183d6939907"
+        ],
+        "range": [
+          "6fca00af805b5c62b58e3e3f29eef183d6939907",
+          "f82934ca97caaa1270d5279054aa950173868be5"
+        ],
+        "errors": [
+          "new nonskip repair sibling required",
+          "whole main..final range must be present and nonskip",
+          "skipped candidate must stay outside published range"
+        ],
+        "authorization_granted": false
+      },
+      "stderr": ""
+    },
+    {
+      "object": "published_failed_base",
+      "argv": [
+        "python3",
+        "-B",
+        "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/check_push_head.py",
+        "/root/kani-issue4591-singlecall-r3-w15",
+        "6fca00af805b5c62b58e3e3f29eef183d6939907"
+      ],
+      "exit": 1,
+      "result": {
+        "status": "REJECT",
+        "head": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+        "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+        "parents": [
+          "969f4648980a8e66cd0ca32fd3e714a55ac32cef"
+        ],
+        "range": [
+          "6fca00af805b5c62b58e3e3f29eef183d6939907"
+        ],
+        "errors": [
+          "new nonskip repair sibling required",
+          "tree differs from reviewed repair candidate",
+          "sole published6f parent required",
+          "complete main..final range must be published6f then final"
+        ],
+        "authorization_granted": false
+      },
+      "stderr": ""
+    }
+  ]
+}

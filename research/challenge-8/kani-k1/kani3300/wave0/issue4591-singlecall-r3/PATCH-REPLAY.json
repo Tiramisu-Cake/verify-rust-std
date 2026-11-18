@@ -1,0 +1,213 @@
+{
+  "assurance": "Git patch/index replay only; no compilation",
+  "replays": [
+    {
+      "start": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "patches": [
+        "repair.patch"
+      ],
+      "result_tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+      "matches_candidate": true,
+      "commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/root/kani-issue4591-singlecall-r3-w15",
+            "read-tree",
+            "6fca00af805b5c62b58e3e3f29eef183d6939907"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/root/kani-issue4591-singlecall-r3-w15",
+            "apply",
+            "--cached",
+            "--check",
+            "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/repair.patch"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/root/kani-issue4591-singlecall-r3-w15",
+            "apply",
+            "--cached",
+            "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/repair.patch"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/root/kani-issue4591-singlecall-r3-w15",
+            "write-tree"
+          ],
+          "exit": 0,
+          "stdout": "2ff34bc99ec3fe63579202c196f0ca288e318919\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "start": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "patches": [
+        "full-main.patch"
+      ],
+      "result_tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+      "matches_candidate": true,
+      "commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/root/kani-issue4591-singlecall-r3-w15",
+            "read-tree",
+            "969f4648980a8e66cd0ca32fd3e714a55ac32cef"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/root/kani-issue4591-singlecall-r3-w15",
+            "apply",
+            "--cached",
+            "--check",
+            "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/full-main.patch"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/root/kani-issue4591-singlecall-r3-w15",
+            "apply",
+            "--cached",
+            "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/full-main.patch"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/root/kani-issue4591-singlecall-r3-w15",
+            "write-tree"
+          ],
+          "exit": 0,
+          "stdout": "2ff34bc99ec3fe63579202c196f0ca288e318919\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "start": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "patches": [
+        "compiler-main.patch",
+        "regression-main.patch"
+      ],
+      "result_tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+      "matches_candidate": true,
+      "commands": [
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/root/kani-issue4591-singlecall-r3-w15",
+            "read-tree",
+            "969f4648980a8e66cd0ca32fd3e714a55ac32cef"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/root/kani-issue4591-singlecall-r3-w15",
+            "apply",
+            "--cached",
+            "--check",
+            "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/compiler-main.patch"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/root/kani-issue4591-singlecall-r3-w15",
+            "apply",
+            "--cached",
+            "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/compiler-main.patch"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/root/kani-issue4591-singlecall-r3-w15",
+            "apply",
+            "--cached",
+            "--check",
+            "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/regression-main.patch"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/root/kani-issue4591-singlecall-r3-w15",
+            "apply",
+            "--cached",
+            "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/regression-main.patch"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "/root/kani-issue4591-singlecall-r3-w15",
+            "write-tree"
+          ],
+          "exit": 0,
+          "stdout": "2ff34bc99ec3fe63579202c196f0ca288e318919\n",
+          "stderr": ""
+        }
+      ]
+    }
+  ]
+}

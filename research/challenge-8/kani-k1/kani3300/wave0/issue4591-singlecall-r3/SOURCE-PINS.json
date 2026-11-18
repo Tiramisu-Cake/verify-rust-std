@@ -1,0 +1,309 @@
+{
+  "schema": "issue4591-singlecall-r3-pins-v1",
+  "task": {
+    "commit": "98dde2de28e13381092f20c082ba90f90ce34773",
+    "runtime": "Codex",
+    "owner_session": "15",
+    "reasoning": "high",
+    "Fast": "OFF",
+    "subagents": false
+  },
+  "source_worktree": "/root/kani-issue4591-singlecall-r3-w15",
+  "source_branch": "fix/issue4591-singlecall-r3-w15",
+  "main": {
+    "sha": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "tree": "c9a832dc1647c51ac3036429e5f97e73eb717ba7",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "author": "Felipe R. Monteiro <felisous@amazon.com>",
+    "message": "Upgrade Rust toolchain to nightly-2026-11-18 (#5188)\n\nUpgrades the toolchain from `nightly-2026-11-12` to\n`nightly-2026-11-18`. All the changes below came with\n`nightly-2026-11-17`; `nightly-2026-11-18` needed none.\n\n### Changes for the new toolchain\n\n- **Attributes.** rustc removed `Attribute::path_matches` and\n`Attribute::value_str`. `attributes.rs` now checks a tool attribute's\npath itself (`attr_path_matches`, the same test rustc used to do) and\nreads a `path = \"value\"` attribute's string through `value_lit`\n(`attr_value_str`).\n- **Diagnostics.** `HumanReadableErrorType` gained a `no_graphics`\nfield.\n- **View types.** rustc added `TyKind::View`, a work-in-progress feature\nthat rustc's own codegen and const-eval do not support yet\n(`unimplemented!()`). Kani reports it as unsupported in the two type\nmatches in `typ.rs`, as it does for `UnsafeBinder`.\n- **Float intrinsics.** `copysign`, `maximum_number_nsz` and\n`minimum_number_nsz` are now generic over the float type, as `ceil`,\n`sqrt` and others became before. They join `GENERIC_FLOAT_INTRINSICS`,\nso Kani keeps its own f32/f64 models; the six tests call the generic\nintrinsics.\n- **SIMD types.** MIR no longer allows field projections into\n`#[repr(simd)]` types (MCP#838). The derived `Clone`/`Debug` of the\n`CustomMask` test model in `library/kani` projected into its field and\nmade clippy hit an ICE in MIR validation; it now copies the whole value.\nAll SIMD tests in the regression pass unchanged.\n- **Feature gates.** `pattern_type_macro` was removed; `pattern_type!`\nis gated by `pattern_types`. Four tests drop the old gate (a comment\nkeeps the line numbers their expected output refers to).\n- **Clippy.** Nine `.contains(&\"...\".to_string())` calls flagged by the\nnew `unnecessary_to_owned` finding use `.iter().any(..)`.\n\n### Removing `chrono`\n\n[RUSTSEC-2026-0543](https://rustsec.org/advisories/RUSTSEC-2026-0543)\n(issued 2026-11-17) marks `chrono` as unmaintained, with no fixed\nversion, so `cargo deny` fails on every PR and on `main`. `kani-driver`\nonly used it to stamp the flamegraph file name in developer mode; that\ntimestamp is now built from `std::time::SystemTime` (in UTC), with a\nunit test. This removes `chrono` and its time-zone crates from\n`Cargo.lock`.\n\n### Testing\n\nOn Linux with CBMC 6.11.0, in the Kani CI image:\n- `cargo build-dev`, the LLBC build, `scripts/kani-fmt.sh --check`, and\nboth clippy commands of the format-check workflow pass.\n- `scripts/kani-regression.sh`: every suite passes except\n`script-based-pre/compiler_defaults` (needs `jq`) and\n`script-based-pre/cbmc_truncated_results` (memory limit), which only\nfail in my container; the steps after the suites\n(`codegen-firecracker.sh`, the `cargo-features-flag` check, the `-D\nwarnings` build) pass.\n- `scripts/kani-llbc-regression.sh` passes.\n- `cargo deny --all-features --workspace check -s` (the arguments of the\nCargo Deny workflow) passes.\n\nAll of the above was run on `nightly-2026-11-18`.\n\nResolves #5189 (the automatic upgrade to `nightly-2026-11-13` failed on\nthe attribute API change from rust-lang/rust#165871, which this PR\nhandles).\n\nBy submitting this pull request, I confirm that my contribution is made\nunder the terms of the Apache 2.0 and MIT licenses.\n\n---------\n\nSigned-off-by: Felipe R. Monteiro <felisous@amazon.com>"
+  },
+  "published_failed_base": {
+    "sha": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "parent": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "message": "Support ordinary stubs of contracted functions"
+  },
+  "candidate": {
+    "sha": "f82934ca97caaa1270d5279054aa950173868be5",
+    "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+    "parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "message": "Exercise ordinary replacements through single-call PFC callers [skip ci]"
+  },
+  "repair_changed_paths": [
+    "tests/expected/function-contract/ordinary_stub_fail.rs",
+    "tests/kani/FunctionContracts/ordinary_stub.rs"
+  ],
+  "source_paths": [
+    "kani-compiler/src/kani_middle/transform/contracts.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/src/kani_middle/transform/stubs.rs"
+  ],
+  "test_paths": [
+    "tests/expected/function-contract/ordinary_stub_fail.expected",
+    "tests/expected/function-contract/ordinary_stub_fail.rs",
+    "tests/expected/function-contract/ordinary_stub_issue_4591.expected",
+    "tests/expected/function-contract/ordinary_stub_issue_4591.rs",
+    "tests/expected/function-contract/ordinary_stub_overlap.expected",
+    "tests/expected/function-contract/ordinary_stub_overlap.rs",
+    "tests/kani/FunctionContracts/ordinary_stub.rs",
+    "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs"
+  ],
+  "all_changed_from_main": [
+    "kani-compiler/src/kani_middle/transform/contracts.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/src/kani_middle/transform/stubs.rs",
+    "tests/expected/function-contract/ordinary_stub_fail.expected",
+    "tests/expected/function-contract/ordinary_stub_fail.rs",
+    "tests/expected/function-contract/ordinary_stub_issue_4591.expected",
+    "tests/expected/function-contract/ordinary_stub_issue_4591.rs",
+    "tests/expected/function-contract/ordinary_stub_overlap.expected",
+    "tests/expected/function-contract/ordinary_stub_overlap.rs",
+    "tests/kani/FunctionContracts/ordinary_stub.rs",
+    "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs"
+  ],
+  "frozen_author_g0": "ad50aaeaabe8b3a84dbf64a88d0214a16f4ee316",
+  "frozen_review_g0": "0f4e2830d9053cd3b031c36b9efd64a4c3a9160d",
+  "frozen_GO_g0": "1a32f0ad574d2ab2772363e0395f7808fbea5e08",
+  "future_final_head": {
+    "sha": "NOT_CREATED",
+    "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+    "parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "relation": "new nonskip same-tree sibling; sole6fparent; main..final contains published6f then final; candidate excluded",
+    "candidate_in_pushed_range": false,
+    "remote_update": "fast-forward from6f; no force"
+  },
+  "protected_git_trees": {
+    ".github/workflows": {
+      "969f4648980a8e66cd0ca32fd3e714a55ac32cef": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0",
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0",
+      "f82934ca97caaa1270d5279054aa950173868be5": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0"
+    },
+    ".github/actions": {
+      "969f4648980a8e66cd0ca32fd3e714a55ac32cef": "0c34b505ea7f29754d2ff655da2579bf26afa9b2",
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": "0c34b505ea7f29754d2ff655da2579bf26afa9b2",
+      "f82934ca97caaa1270d5279054aa950173868be5": "0c34b505ea7f29754d2ff655da2579bf26afa9b2"
+    },
+    "scripts": {
+      "969f4648980a8e66cd0ca32fd3e714a55ac32cef": "17ce41a6b9744224defd3a87247736f82992e550",
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": "17ce41a6b9744224defd3a87247736f82992e550",
+      "f82934ca97caaa1270d5279054aa950173868be5": "17ce41a6b9744224defd3a87247736f82992e550"
+    },
+    "library": {
+      "969f4648980a8e66cd0ca32fd3e714a55ac32cef": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932",
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932",
+      "f82934ca97caaa1270d5279054aa950173868be5": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932"
+    }
+  },
+  "protected_files": {
+    "rust-toolchain.toml": {
+      "blob": "1cdf94ea9b42256403997a5114d3b9ec10785d2d",
+      "sha256": "ed9dbd0be9df6701edee999486c603826904addf17d09eb5a065a40b2619412e"
+    },
+    "kani-dependencies": {
+      "blob": "177eb685db5011ad9066f5891b74146d38d40a72",
+      "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc"
+    },
+    "Cargo.toml": {
+      "blob": "4433a05759963160c59610f47581a3e3137b69a1",
+      "sha256": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459"
+    },
+    "Cargo.lock": {
+      "blob": "33700f4be8c8108ed8b1afcb067dd092e8c32a4b",
+      "sha256": "2acaa6ea4360c2aa380181920839dbefe18dc88331cc1eb5b2c4341a59ad3199"
+    },
+    "kani-compiler/Cargo.toml": {
+      "blob": "50c41da6ce5b981ec829c9794cdb18ad79f3932e",
+      "sha256": "967127d41b56627971265f487f5c5441d4337a75149087f9ed9b49374ed3778a"
+    },
+    "kani-driver/Cargo.toml": {
+      "blob": "fcd4df2d3e0c8959f7518309e4a07e1f2089d0ac",
+      "sha256": "417706199b383283ea499f5896028af6240990f27eec38042da1de3ad33ff8f1"
+    }
+  },
+  "all_workflows": {
+    ".github/workflows/bench-compiler.yml": {
+      "blob": "0b30110c6ad5c105444045a94c801d153dde2725",
+      "sha256": "825d32f8e3d3949332417088fb0b096bb4b6f1819d8a0cb3c1e2cc666cd685cc"
+    },
+    ".github/workflows/bench-e2e.yml": {
+      "blob": "bc2db84b52fbb6f0c0017a67e94934662c0d9689",
+      "sha256": "e17c7ef9464ceec605771b9dade368122e250891526c6a0b0a9bb4b00a7a64ca"
+    },
+    ".github/workflows/bench-pr.yml": {
+      "blob": "d68534a54ffb3ce2f15671e941c84fc57af0e741",
+      "sha256": "eecc1509bcf9283e0d233b414af523f97a9f2a397e8766a558314f1a9f5a57d3"
+    },
+    ".github/workflows/cargo-update.yml": {
+      "blob": "1873a2ecdd83f97c37fb74b62a9e0c1d6b7728d7",
+      "sha256": "ac7f18f5fe4e685e5da609e5b2546503aab4cb5aa2f598c4a6df91b5d442c911"
+    },
+    ".github/workflows/cbmc-latest.yml": {
+      "blob": "223ec7f96ad8f3215216fc6b99a8337c650c8398",
+      "sha256": "ba39280e6ff9de85ccb5c14296d53845be7cc417baf683ddda56fe30767bbc48"
+    },
+    ".github/workflows/cbmc-update.yml": {
+      "blob": "90eea8a06f2a4af9b3d65befcc8fa9487699a982",
+      "sha256": "1b97bca1eb903ddf739d594830eb4b72b5ffc8c23ec7dc8c03c314c95cd0232f"
+    },
+    ".github/workflows/charon-update.yml": {
+      "blob": "70ad28901c1a7cfe617b98d4d35099da35659894",
+      "sha256": "d73125c239ffd2c2f68a7d41b703eb11bdbdefe97d3a3abc99ed0bbb2c1b7869"
+    },
+    ".github/workflows/deny.yml": {
+      "blob": "c54ce6bbcb075df881984f714589011c4b88d5e4",
+      "sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf"
+    },
+    ".github/workflows/extra_jobs.yml": {
+      "blob": "157c5b2d967e8b9fcfddf8943c29495f0ac5e2fa",
+      "sha256": "12c3c6626e9ad806e7f7bf7f65cca7e2f12b2ccae9da82cc62802b92299369d8"
+    },
+    ".github/workflows/format-check.yml": {
+      "blob": "9d21eeb4569234292401f90c66c833f6960f06fb",
+      "sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8"
+    },
+    ".github/workflows/kani.yml": {
+      "blob": "3e34d8ac3c0844d9ac9409790e7cb0a669381dad",
+      "sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303"
+    },
+    ".github/workflows/release.yml": {
+      "blob": "f10833e3035641a9893e1f5171b0b86864ef5b0e",
+      "sha256": "b608d02a4ddbaa9a1e4b0db321bd1aeb268afe5f946a9de14e2778b9e803b9b3"
+    },
+    ".github/workflows/slow-tests.yml": {
+      "blob": "54952f59bd844273d208a75e62c571c48079d154",
+      "sha256": "d9775bd66ebb7b927c28346623f9e6e3374c82cee97921eac5fee828eba5ba7f"
+    },
+    ".github/workflows/toolchain-upgrade.yml": {
+      "blob": "55bcdda98ad65718c01b82da993cc5baccbeceb3",
+      "sha256": "bd9cc5f4f09c1e00223a627fedbd7fb522053c6258284304c1d509f83dbcfa6a"
+    },
+    ".github/workflows/verify-std-check.yml": {
+      "blob": "be07976f48e50269fceca068c7c71dd6428b3498",
+      "sha256": "37a122141be204e64c1eb75caf6a6f72b1e1c9ce68f642ef79ad80cd1da9ee60"
+    },
+    ".github/workflows/z3-update.yml": {
+      "blob": "486105cd0bd8f8337b0ea31f7ee2bd8f48addb53",
+      "sha256": "83e06af88fe864b471d4b1af10022519c3f81cc63d62e00d64d73e77234a9553"
+    }
+  },
+  "file_pins": {
+    "kani-compiler/src/kani_middle/transform/contracts.rs": {
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": {
+        "blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+        "sha256": "c8433cc928a57285e3d7d117a4b8d5187db2ec6ebcec819c4b6744612470bf91"
+      },
+      "f82934ca97caaa1270d5279054aa950173868be5": {
+        "blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+        "sha256": "c8433cc928a57285e3d7d117a4b8d5187db2ec6ebcec819c4b6744612470bf91"
+      }
+    },
+    "kani-compiler/src/kani_middle/transform/mod.rs": {
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": {
+        "blob": "38ea0963da5bccfa015f023aa7301debe2f360a4",
+        "sha256": "cee27768c3a4a4ad71c75d411e237d4aadedf9ff20a5962d4e93ecbf660c8ee9"
+      },
+      "f82934ca97caaa1270d5279054aa950173868be5": {
+        "blob": "38ea0963da5bccfa015f023aa7301debe2f360a4",
+        "sha256": "cee27768c3a4a4ad71c75d411e237d4aadedf9ff20a5962d4e93ecbf660c8ee9"
+      }
+    },
+    "kani-compiler/src/kani_middle/transform/stubs.rs": {
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": {
+        "blob": "a1df1bdbcba1d08599caa87f1aefb5569b15f77b",
+        "sha256": "04dd329ee7cf8b35d38a9c62d2ba9b853d1b7009e4cfd6cfcc10468b63d090b2"
+      },
+      "f82934ca97caaa1270d5279054aa950173868be5": {
+        "blob": "a1df1bdbcba1d08599caa87f1aefb5569b15f77b",
+        "sha256": "04dd329ee7cf8b35d38a9c62d2ba9b853d1b7009e4cfd6cfcc10468b63d090b2"
+      }
+    },
+    "tests/expected/function-contract/ordinary_stub_fail.expected": {
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": {
+        "blob": "d6a1bc5210e43225495e07724f7216c46eb0b363",
+        "sha256": "7f7e65b0abbae439e1db2860a1b4e61c7592d5fa7e4ecc84f6fb5cc0b3b395b4"
+      },
+      "f82934ca97caaa1270d5279054aa950173868be5": {
+        "blob": "d6a1bc5210e43225495e07724f7216c46eb0b363",
+        "sha256": "7f7e65b0abbae439e1db2860a1b4e61c7592d5fa7e4ecc84f6fb5cc0b3b395b4"
+      }
+    },
+    "tests/expected/function-contract/ordinary_stub_fail.rs": {
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": {
+        "blob": "a5ad088f8d8a34797e03253fe2a6001fc349c435",
+        "sha256": "e6a8e9f77130b5e839688fd61cb4e3a4a9ecf44c6affdfc8f6ed339533196610"
+      },
+      "f82934ca97caaa1270d5279054aa950173868be5": {
+        "blob": "81665a967abd9080232a2260f68642dd04ffe24b",
+        "sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266"
+      }
+    },
+    "tests/expected/function-contract/ordinary_stub_issue_4591.expected": {
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": {
+        "blob": "3c5703c6e9cadaba4b214a62a17ab9ab458acf9c",
+        "sha256": "202199fd0ac8bb6737fc34b34552b9491d4bf08c412555f60262fe71a9aa0c28"
+      },
+      "f82934ca97caaa1270d5279054aa950173868be5": {
+        "blob": "3c5703c6e9cadaba4b214a62a17ab9ab458acf9c",
+        "sha256": "202199fd0ac8bb6737fc34b34552b9491d4bf08c412555f60262fe71a9aa0c28"
+      }
+    },
+    "tests/expected/function-contract/ordinary_stub_issue_4591.rs": {
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": {
+        "blob": "620ff0ad1caff13ddc5f0e449c1b2507db785eca",
+        "sha256": "e65245e314ce01d894bc5b774e72df7cb1eb17b4bdf07939e037d61f9d41a8a0"
+      },
+      "f82934ca97caaa1270d5279054aa950173868be5": {
+        "blob": "620ff0ad1caff13ddc5f0e449c1b2507db785eca",
+        "sha256": "e65245e314ce01d894bc5b774e72df7cb1eb17b4bdf07939e037d61f9d41a8a0"
+      }
+    },
+    "tests/expected/function-contract/ordinary_stub_overlap.expected": {
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": {
+        "blob": "95ddb66fbfb2db730de8370a21102dd1d636175b",
+        "sha256": "00c63da23734458d9ccd008db73852f2a30694d694adacd5f2e8d6b8c05a5dd0"
+      },
+      "f82934ca97caaa1270d5279054aa950173868be5": {
+        "blob": "95ddb66fbfb2db730de8370a21102dd1d636175b",
+        "sha256": "00c63da23734458d9ccd008db73852f2a30694d694adacd5f2e8d6b8c05a5dd0"
+      }
+    },
+    "tests/expected/function-contract/ordinary_stub_overlap.rs": {
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": {
+        "blob": "fcb7d14ee966e62b810b515fb97eca464ec02c11",
+        "sha256": "21186f51f8260becc29d2a762dfba67ad504d44f3f2e34a85f62ba26425b980b"
+      },
+      "f82934ca97caaa1270d5279054aa950173868be5": {
+        "blob": "fcb7d14ee966e62b810b515fb97eca464ec02c11",
+        "sha256": "21186f51f8260becc29d2a762dfba67ad504d44f3f2e34a85f62ba26425b980b"
+      }
+    },
+    "tests/kani/FunctionContracts/ordinary_stub.rs": {
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": {
+        "blob": "6b042d1eec86b62063acba85185dfaef5195245a",
+        "sha256": "b1d1936b61f5a069cb4747c5eef23034459bb96c6b064ebee35889503389e4e6"
+      },
+      "f82934ca97caaa1270d5279054aa950173868be5": {
+        "blob": "ebde1e09258da92e639d64bcf12b7166a1e8a61c",
+        "sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e"
+      }
+    },
+    "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs": {
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": {
+        "blob": "5ddd482ab66bcab219d3eed6bfa04171290681db",
+        "sha256": "866d870c3ff3670f4a75401c18fa6b17e0a683de508e826a90bf4d8ef7b4b171"
+      },
+      "f82934ca97caaa1270d5279054aa950173868be5": {
+        "blob": "5ddd482ab66bcab219d3eed6bfa04171290681db",
+        "sha256": "866d870c3ff3670f4a75401c18fa6b17e0a683de508e826a90bf4d8ef7b4b171"
+      }
+    }
+  },
+  "patches": {
+    "repair.patch": "0215d0d906a2fc9b4bcfdb57ec9c759d918d24fd6662d9ffcbc2f3971ad65476",
+    "full-main.patch": "b0799ef2f4b96ef2e3adc84db4a61a2e4f1301c5aba30d2c60ea690fcf80056f",
+    "compiler-main.patch": "af782bc5473f4b45852ed253aefd929a0ca78746b5fa20452483bdc128cea6cd",
+    "regression-main.patch": "198a9a8ff5184a927f57aef0f01262b60276fd17624b75a4c77a83881de369de"
+  }
+}

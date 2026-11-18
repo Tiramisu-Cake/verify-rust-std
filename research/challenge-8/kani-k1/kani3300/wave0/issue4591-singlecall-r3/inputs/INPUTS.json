@@ -1,0 +1,63 @@
+{
+  "schema": "issue4591-singlecall-failure-inputs-v1",
+  "status": "OFFLINE_REPAIR_AUTHORIZED_CI_BUDGET_BLOCKED",
+  "owner": "owner01:00 explicit fresh15 diagnosis/repair then11delta; nextCI needs owner+1 in morning",
+  "native_runs": {
+    "Kani": 44399789701,
+    "Format": 44399789719,
+    "Deny": 44399789794,
+    "attempt": 1,
+    "head": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "parent": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "branch": "fix/stub-contracted-function",
+    "event": "push"
+  },
+  "connected_metadata": {
+    "Kani": "completed/failure",
+    "Format": "completed/success",
+    "Deny": "completed/success",
+    "Kani_jobs": {
+      "ubuntu24_job": 135139352062,
+      "failure_step": "Execute Kani regression",
+      "success": [
+        "benchcomp-tests",
+        "perf",
+        "documentation",
+        "llbc-regression"
+      ],
+      "cancelled": [
+        "regression (macos-15)",
+        "regression (ubuntu-22.04)",
+        "regression (ubuntu-24.04-arm)",
+        "regression (macos-15-intel)"
+      ]
+    },
+    "captured_utc": "2026-11-18T22:03:31.587806+00:00"
+  },
+  "coordinator_reported_native_detail": {
+    "suite": "first kani suite",
+    "suite_counts": "658 pass/1 fail; counting unit per coordinator report",
+    "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+    "harness": "replacement_contract_target",
+    "message": "Only a single top-level call to function contracted_replacement::{closure} when checking contract",
+    "line": 146,
+    "other_harnesses_same_file": "verified per coordinator",
+    "expected_scriptbased_ui": "NOT_RUN after failure",
+    "matrix_cancel_cause": "fail-fast per coordinator; do not infer old no-runner reason"
+  },
+  "frozen_author_g0": "ad50aaeaabe8b3a84dbf64a88d0214a16f4ee316",
+  "frozen_source_candidate": "3a770b5db51ba07acffce3483bde0901e6533f3a",
+  "frozen_review": "0f4e2830d9053cd3b031c36b9efd64a4c3a9160d",
+  "frozen_GO": "1a32f0ad574d2ab2772363e0395f7808fbea5e08",
+  "prior_finding": "W11-01 CLOSED statically for reachability; native single-top-level-call restriction now invalidates fixture expectations, preserve history",
+  "affected_negative_to_audit": "tests/expected/function-contract/ordinary_stub_fail.rs replacement_provider_postcondition, same direct-provider+copied-call pattern, suite not executed",
+  "old_intake_task80bb": "PREPARED_NOT_ISSUED_SUPERSEDED_BY_OWNER01:00_FAILURE_REPAIR; no automatic old intake/newPRdraft stage",
+  "budget": {
+    "item1": "31/31 EXHAUSTED",
+    "item2": "12/17",
+    "total": "43/48",
+    "next_tool_CI": "OWNER_EXTRA_ITEM1_GRANT_REQUIRED; no dispatch/reservation/charge here"
+  },
+  "S3": "run44405927807 independentlyIN_PROGRESS, do not reset13/14 or its task6967intake"
+}

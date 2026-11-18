@@ -1,0 +1,1025 @@
+{
+  "schema": "issue4591-singlecall-r3-standard-push-request-v1",
+  "status": "HOLD_FOR_SAME11_THEN_OWNER_EXTRA_ITEM1_GRANT",
+  "preparation_only": true,
+  "candidate": {
+    "sha": "f82934ca97caaa1270d5279054aa950173868be5",
+    "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+    "parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "message": "Exercise ordinary replacements through single-call PFC callers [skip ci]"
+  },
+  "published_failed_base": {
+    "sha": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "parent": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "message": "Support ordinary stubs of contracted functions"
+  },
+  "main": {
+    "sha": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "tree": "c9a832dc1647c51ac3036429e5f97e73eb717ba7",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "author": "Felipe R. Monteiro <felisous@amazon.com>",
+    "message": "Upgrade Rust toolchain to nightly-2026-11-18 (#5188)\n\nUpgrades the toolchain from `nightly-2026-11-12` to\n`nightly-2026-11-18`. All the changes below came with\n`nightly-2026-11-17`; `nightly-2026-11-18` needed none.\n\n### Changes for the new toolchain\n\n- **Attributes.** rustc removed `Attribute::path_matches` and\n`Attribute::value_str`. `attributes.rs` now checks a tool attribute's\npath itself (`attr_path_matches`, the same test rustc used to do) and\nreads a `path = \"value\"` attribute's string through `value_lit`\n(`attr_value_str`).\n- **Diagnostics.** `HumanReadableErrorType` gained a `no_graphics`\nfield.\n- **View types.** rustc added `TyKind::View`, a work-in-progress feature\nthat rustc's own codegen and const-eval do not support yet\n(`unimplemented!()`). Kani reports it as unsupported in the two type\nmatches in `typ.rs`, as it does for `UnsafeBinder`.\n- **Float intrinsics.** `copysign`, `maximum_number_nsz` and\n`minimum_number_nsz` are now generic over the float type, as `ceil`,\n`sqrt` and others became before. They join `GENERIC_FLOAT_INTRINSICS`,\nso Kani keeps its own f32/f64 models; the six tests call the generic\nintrinsics.\n- **SIMD types.** MIR no longer allows field projections into\n`#[repr(simd)]` types (MCP#838). The derived `Clone`/`Debug` of the\n`CustomMask` test model in `library/kani` projected into its field and\nmade clippy hit an ICE in MIR validation; it now copies the whole value.\nAll SIMD tests in the regression pass unchanged.\n- **Feature gates.** `pattern_type_macro` was removed; `pattern_type!`\nis gated by `pattern_types`. Four tests drop the old gate (a comment\nkeeps the line numbers their expected output refers to).\n- **Clippy.** Nine `.contains(&\"...\".to_string())` calls flagged by the\nnew `unnecessary_to_owned` finding use `.iter().any(..)`.\n\n### Removing `chrono`\n\n[RUSTSEC-2026-0543](https://rustsec.org/advisories/RUSTSEC-2026-0543)\n(issued 2026-11-17) marks `chrono` as unmaintained, with no fixed\nversion, so `cargo deny` fails on every PR and on `main`. `kani-driver`\nonly used it to stamp the flamegraph file name in developer mode; that\ntimestamp is now built from `std::time::SystemTime` (in UTC), with a\nunit test. This removes `chrono` and its time-zone crates from\n`Cargo.lock`.\n\n### Testing\n\nOn Linux with CBMC 6.11.0, in the Kani CI image:\n- `cargo build-dev`, the LLBC build, `scripts/kani-fmt.sh --check`, and\nboth clippy commands of the format-check workflow pass.\n- `scripts/kani-regression.sh`: every suite passes except\n`script-based-pre/compiler_defaults` (needs `jq`) and\n`script-based-pre/cbmc_truncated_results` (memory limit), which only\nfail in my container; the steps after the suites\n(`codegen-firecracker.sh`, the `cargo-features-flag` check, the `-D\nwarnings` build) pass.\n- `scripts/kani-llbc-regression.sh` passes.\n- `cargo deny --all-features --workspace check -s` (the arguments of the\nCargo Deny workflow) passes.\n\nAll of the above was run on `nightly-2026-11-18`.\n\nResolves #5189 (the automatic upgrade to `nightly-2026-11-13` failed on\nthe attribute API change from rust-lang/rust#165871, which this PR\nhandles).\n\nBy submitting this pull request, I confirm that my contribution is made\nunder the terms of the Apache 2.0 and MIT licenses.\n\n---------\n\nSigned-off-by: Felipe R. Monteiro <felisous@amazon.com>"
+  },
+  "future_final_head": {
+    "sha": "NOT_CREATED",
+    "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+    "parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "relation": "new nonskip same-tree sibling; sole6fparent; main..final contains published6f then final; candidate excluded",
+    "candidate_in_pushed_range": false,
+    "remote_update": "fast-forward from6f; no force"
+  },
+  "authorization": {
+    "prepare_offline": true,
+    "dispatch": false,
+    "push": false,
+    "PR_issue_comment": false,
+    "gates": [
+      "EXACT_COMMITTED_READY",
+      "SAME11_EXACT_DELTA_APPROVE",
+      "ROOT_GO_REQUEST_HOLD_FOR_OWNER_EXTRA_ITEM1_GRANT",
+      "OWNER_MORNING_ITEM1_PLUS1_EXPLICIT_GRANT",
+      "SEPARATE_AUTHORIZED_COORDINATOR_FULL_STANDARD_PUSH_COMMAND",
+      "ACTUAL_FINALHEAD_AND_REMOTE_GATES"
+    ]
+  },
+  "workflow_files": [
+    "kani.yml",
+    "format-check.yml",
+    "deny.yml"
+  ],
+  "native_jobs": {
+    "kani.yml": {
+      "regression": {
+        "runs-on": "${{ matrix.os }}",
+        "permissions": {
+          "contents": "read"
+        },
+        "strategy": {
+          "matrix": {
+            "os": [
+              "macos-15-intel",
+              "ubuntu-22.04",
+              "ubuntu-24.04",
+              "macos-15",
+              "ubuntu-24.04-arm"
+            ]
+          }
+        },
+        "steps": [
+          {
+            "name": "Checkout Kani",
+            "uses": "actions/checkout@v6"
+          },
+          {
+            "name": "Setup Kani Dependencies",
+            "uses": "./.github/actions/setup",
+            "with": {
+              "os": "${{ matrix.os }}"
+            }
+          },
+          {
+            "name": "Execute Kani regression",
+            "run": "./scripts/kani-regression.sh"
+          }
+        ]
+      },
+      "benchcomp-tests": {
+        "runs-on": "ubuntu-24.04",
+        "permissions": {
+          "contents": "read"
+        },
+        "steps": [
+          {
+            "name": "Checkout Kani",
+            "uses": "actions/checkout@v6"
+          },
+          {
+            "name": "Install benchcomp dependencies",
+            "run": "sudo apt-get update\nsudo apt-get install -y python3-pip\npushd tools/benchcomp && pip3 install -r requirements.txt\n"
+          },
+          {
+            "name": "Setup Kani Dependencies",
+            "uses": "./.github/actions/setup",
+            "with": {
+              "os": "ubuntu-24.04"
+            }
+          },
+          {
+            "name": "Build Kani using release mode",
+            "run": "cargo build-dev -- --release"
+          },
+          {
+            "name": "Run benchcomp unit and regression tests",
+            "run": "pushd tools/benchcomp && PATH=$(realpath ../../scripts):$PATH test/run"
+          }
+        ]
+      },
+      "perf": {
+        "runs-on": "ubuntu-24.04",
+        "timeout-minutes": "380",
+        "permissions": {
+          "contents": "read"
+        },
+        "steps": [
+          {
+            "name": "Checkout Kani",
+            "uses": "actions/checkout@v6"
+          },
+          {
+            "name": "Setup Kani Dependencies",
+            "uses": "./.github/actions/setup",
+            "with": {
+              "os": "ubuntu-24.04"
+            }
+          },
+          {
+            "name": "Execute Kani performance tests",
+            "uses": "nick-fields/retry@v4",
+            "with": {
+              "timeout_minutes": "180",
+              "max_attempts": "2",
+              "command": "./scripts/kani-perf.sh"
+            },
+            "env": {
+              "RUST_TEST_THREADS": "1"
+            }
+          }
+        ]
+      },
+      "llbc-regression": {
+        "runs-on": "ubuntu-24.04",
+        "permissions": {
+          "contents": "read"
+        },
+        "steps": [
+          {
+            "name": "Checkout Kani",
+            "uses": "actions/checkout@v6"
+          },
+          {
+            "name": "Setup Kani Dependencies",
+            "uses": "./.github/actions/setup",
+            "with": {
+              "os": "ubuntu-24.04"
+            }
+          },
+          {
+            "name": "Build Kani with Charon",
+            "run": "cargo build-dev -- --features cprover --features llbc"
+          },
+          {
+            "name": "Run tests",
+            "run": "./scripts/kani-llbc-regression.sh"
+          }
+        ]
+      },
+      "documentation": {
+        "runs-on": "ubuntu-24.04",
+        "permissions": {
+          "contents": "write"
+        },
+        "steps": [
+          {
+            "name": "Checkout Kani",
+            "uses": "actions/checkout@v6",
+            "with": {
+              "submodules": "recursive"
+            }
+          },
+          {
+            "name": "Install book dependencies",
+            "run": "./scripts/setup/ubuntu/install_doc_deps.sh"
+          },
+          {
+            "name": "Build Documentation",
+            "run": "./scripts/build-docs.sh"
+          },
+          {
+            "name": "Publish Documentation",
+            "if": "${{ github.event_name == 'push' && startsWith('refs/heads/main', github.ref) }}",
+            "uses": "JamesIves/github-pages-deploy-action@v4",
+            "with": {
+              "branch": "gh-pages",
+              "folder": "docs/book/",
+              "single-commit": "true"
+            }
+          }
+        ]
+      }
+    },
+    "format-check.yml": {
+      "format-check": {
+        "runs-on": "ubuntu-latest",
+        "steps": [
+          {
+            "name": "Checkout Kani",
+            "uses": "actions/checkout@v6"
+          },
+          {
+            "name": "Execute copyright check",
+            "run": "./scripts/ci/run-copyright-check.sh"
+          },
+          {
+            "name": "Check C code formatting",
+            "continue-on-error": "true",
+            "run": "./scripts/run-clang-format.sh -d"
+          },
+          {
+            "name": "Check Python code formatting",
+            "run": "pip3 install --upgrade autopep8\n./scripts/run-autopep8.sh\n"
+          }
+        ]
+      },
+      "clippy-check": {
+        "runs-on": "ubuntu-24.04",
+        "steps": [
+          {
+            "name": "Checkout Kani",
+            "uses": "actions/checkout@v6"
+          },
+          {
+            "name": "Setup Kani Dependencies",
+            "uses": "./.github/actions/setup",
+            "with": {
+              "os": "ubuntu-24.04"
+            }
+          },
+          {
+            "name": "Install jq for parsing.",
+            "run": "sudo apt-get install -y jq\n"
+          },
+          {
+            "name": "Run Clippy",
+            "run": "cargo clippy --workspace --tests -- -D warnings\nRUSTFLAGS=\"--cfg=kani_sysroot\" cargo clippy --workspace -- -D warnings\n"
+          },
+          {
+            "name": "Print Clippy Statistics",
+            "run": "rm .cargo/config.toml\n(cargo clippy --all --message-format=json 2>/dev/null  | \\\njq 'select(.message!=null) | .message.code.code' | grep -v '^null$' | \\\nsort | uniq -c) || true\n"
+          }
+        ]
+      }
+    },
+    "deny.yml": {
+      "audit": {
+        "runs-on": "ubuntu-latest",
+        "steps": [
+          {
+            "uses": "actions/checkout@v6",
+            "with": {
+              "submodules": "recursive"
+            }
+          },
+          {
+            "uses": "EmbarkStudios/cargo-deny-action@v2",
+            "env": {
+              "RUSTUP_TOOLCHAIN": "stable"
+            },
+            "with": {
+              "arguments": "--all-features --workspace",
+              "command-arguments": "-s"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "native_instances": 12,
+  "full_native_job_matrix": "five regression OS entries, remaining four kani jobs, two format jobs, deny audit; 12 job instances",
+  "event": "one future standard push to reviewed branch fast-forwarding published6f, after separate authority; unchanged ** triggers",
+  "regression_route": "stock scripts/kani-regression.sh and complete unchanged15 compiletest suites; all5 OS with native fail-fast, all jobs/steps/conditions/native retries",
+  "upstream_pr_deferred": {
+    "release.yml": {
+      "event": {
+        "pull_request": "",
+        "merge_group": "",
+        "push": {
+          "branches": [
+            "main"
+          ],
+          "tags": [
+            "kani-*"
+          ]
+        }
+      },
+      "jobs": {
+        "build_bundle_macos_x86_64": {
+          "name": "BuildBundle-MacOs-x86_64",
+          "runs-on": "macos-15-intel",
+          "outputs": {
+            "version": "${{ steps.bundle.outputs.version }}",
+            "bundle": "${{ steps.bundle.outputs.bundle }}",
+            "package": "${{ steps.bundle.outputs.package }}",
+            "crate_version": "${{ steps.bundle.outputs.crate_version }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout code",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "macos-15-intel"
+              }
+            },
+            {
+              "name": "Build bundle",
+              "id": "bundle",
+              "uses": "./.github/actions/build-bundle",
+              "with": {
+                "platform": "x86_64-apple-darwin"
+              }
+            }
+          ]
+        },
+        "build_bundle_macos_aarch64": {
+          "name": "BuildBundle-MacOs-aarch64",
+          "runs-on": "macos-15",
+          "outputs": {
+            "version": "${{ steps.bundle.outputs.version }}",
+            "bundle": "${{ steps.bundle.outputs.bundle }}",
+            "package": "${{ steps.bundle.outputs.package }}",
+            "crate_version": "${{ steps.bundle.outputs.crate_version }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout code",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "macos-15"
+              }
+            },
+            {
+              "name": "Build bundle",
+              "id": "bundle",
+              "uses": "./.github/actions/build-bundle",
+              "with": {
+                "platform": "aarch64-apple-darwin"
+              }
+            }
+          ]
+        },
+        "build_bundle_linux_x86_64": {
+          "name": "BuildBundle-Linux-x86_64",
+          "runs-on": "ubuntu-22.04",
+          "outputs": {
+            "version": "${{ steps.bundle.outputs.version }}",
+            "bundle": "${{ steps.bundle.outputs.bundle }}",
+            "package": "${{ steps.bundle.outputs.package }}",
+            "crate_version": "${{ steps.bundle.outputs.crate_version }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout code",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "ubuntu-22.04"
+              }
+            },
+            {
+              "name": "Build bundle",
+              "id": "bundle",
+              "uses": "./.github/actions/build-bundle",
+              "with": {
+                "platform": "x86_64-unknown-linux-gnu"
+              }
+            }
+          ]
+        },
+        "build_bundle_linux_aarch64": {
+          "name": "BuildBundle-Linux-aarch64",
+          "runs-on": "ubuntu-24.04-arm",
+          "outputs": {
+            "version": "${{ steps.bundle.outputs.version }}",
+            "bundle": "${{ steps.bundle.outputs.bundle }}",
+            "package": "${{ steps.bundle.outputs.package }}",
+            "crate_version": "${{ steps.bundle.outputs.crate_version }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout code",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04-arm"
+              }
+            },
+            {
+              "name": "Build bundle",
+              "id": "bundle",
+              "uses": "./.github/actions/build-bundle",
+              "with": {
+                "platform": "aarch64-unknown-linux-gnu"
+              }
+            }
+          ]
+        },
+        "test-use-local-toolchain": {
+          "name": "TestLocalToolchain",
+          "needs": [
+            "build_bundle_macos_x86_64",
+            "build_bundle_macos_aarch64",
+            "build_bundle_linux_x86_64",
+            "build_bundle_linux_aarch64"
+          ],
+          "strategy": {
+            "matrix": {
+              "os": [
+                "macos-15-intel",
+                "macos-15",
+                "ubuntu-22.04",
+                "ubuntu-24.04",
+                "ubuntu-24.04-arm"
+              ],
+              "include": [
+                {
+                  "os": "macos-15-intel",
+                  "rust_target": "x86_64-apple-darwin",
+                  "prev_job": "${{ needs.build_bundle_macos_x86_64.outputs }}"
+                },
+                {
+                  "os": "macos-15",
+                  "rust_target": "aarch64-apple-darwin",
+                  "prev_job": "${{ needs.build_bundle_macos_aarch64.outputs }}"
+                },
+                {
+                  "os": "ubuntu-22.04",
+                  "rust_target": "x86_64-unknown-linux-gnu",
+                  "prev_job": "${{ needs.build_bundle_linux_x86_64.outputs }}"
+                },
+                {
+                  "os": "ubuntu-24.04",
+                  "rust_target": "x86_64-unknown-linux-gnu",
+                  "prev_job": "${{ needs.build_bundle_linux_x86_64.outputs }}"
+                },
+                {
+                  "os": "ubuntu-24.04-arm",
+                  "rust_target": "aarch64-unknown-linux-gnu",
+                  "prev_job": "${{ needs.build_bundle_linux_aarch64.outputs }}"
+                }
+              ]
+            }
+          },
+          "runs-on": "${{ matrix.os }}",
+          "steps": [
+            {
+              "name": "Download bundle",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ matrix.prev_job.bundle }}"
+              }
+            },
+            {
+              "name": "Download kani-verifier crate",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ matrix.prev_job.package }}"
+              }
+            },
+            {
+              "name": "Check download",
+              "run": "ls -lh .\n"
+            },
+            {
+              "name": "Get toolchain version used to setup kani",
+              "run": "tar zxvf ${{ matrix.prev_job.bundle }}\nDATE=$(cat ./kani-${{ matrix.prev_job.version }}/rust-toolchain-version | cut -d'-' -f2,3,4)\necho \"Nightly date: $DATE\"\necho \"DATE=$DATE\" >> $GITHUB_ENV\n"
+            },
+            {
+              "name": "Install Kani from path",
+              "run": "tar zxvf ${{ matrix.prev_job.package }}\ncargo install --locked --path kani-verifier-${{ matrix.prev_job.crate_version }}\n"
+            },
+            {
+              "name": "Create a custom toolchain directory",
+              "run": "mkdir -p ${{ github.workspace }}/../custom_toolchain"
+            },
+            {
+              "name": "Fetch the nightly tarball",
+              "run": "echo \"Downloading Rust toolchain from rust server.\"\ncurl --proto '=https' --tlsv1.2 -O https://static.rust-lang.org/dist/$DATE/rust-nightly-${{ matrix.rust_target }}.tar.gz\ntar -xzf rust-nightly-${{ matrix.rust_target }}.tar.gz\n./rust-nightly-${{ matrix.rust_target }}/install.sh --prefix=${{ github.workspace }}/../custom_toolchain\n"
+            },
+            {
+              "name": "Ensure installation is correct",
+              "run": "cargo kani setup --use-local-bundle ./${{ matrix.prev_job.bundle }} --use-local-toolchain ${{ github.workspace }}/../custom_toolchain/\n"
+            },
+            {
+              "name": "Ensure that the rustup toolchain is not present",
+              "run": "if [ ! -e \"~/.rustup/toolchains/\" ]; then\n  echo \"Default toolchain file does not exist. Proceeding with running tests.\"\nelse\n  echo \"::error::Default toolchain exists despite not installing.\"\n  exit 1\nfi\n"
+            },
+            {
+              "name": "Checkout tests",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Move rust-toolchain file to outside kani",
+              "run": "mkdir -p ${{ github.workspace }}/../post-setup-tests\ncp -r tests/cargo-ui ${{ github.workspace }}/../post-setup-tests\ncp -r tests/kani/Assert ${{ github.workspace }}/../post-setup-tests\nls ${{ github.workspace }}/../post-setup-tests\n"
+            },
+            {
+              "name": "Run cargo-kani tests after moving",
+              "run": "for dir in supported-lib-types/rlib multiple-harnesses verbose; do\n  >&2 echo \"Running test $dir\"\n  pushd ${{ github.workspace }}/../post-setup-tests/cargo-ui/$dir\n  cargo kani\n  popd\ndone\n"
+            },
+            {
+              "name": "Check --help and --version",
+              "run": ">&2 echo \"Running cargo kani --help and --version\"\npushd ${{ github.workspace }}/../post-setup-tests/Assert\ncargo kani --help && cargo kani --version\npopd\n"
+            },
+            {
+              "name": "Run standalone kani test",
+              "run": ">&2 echo \"Running test on file bool_ref\"\npushd ${{ github.workspace }}/../post-setup-tests/Assert\nkani bool_ref.rs\npopd\n"
+            }
+          ]
+        },
+        "test_bundle": {
+          "name": "TestBundle",
+          "needs": [
+            "build_bundle_macos_x86_64",
+            "build_bundle_macos_aarch64",
+            "build_bundle_linux_x86_64",
+            "build_bundle_linux_aarch64"
+          ],
+          "strategy": {
+            "matrix": {
+              "os": [
+                "macos-15-intel",
+                "macos-15",
+                "ubuntu-22.04",
+                "ubuntu-24.04",
+                "ubuntu-24.04-arm"
+              ],
+              "include": [
+                {
+                  "prev_job": "${{ needs.build_bundle_linux_x86_64.outputs }}"
+                },
+                {
+                  "os": "macos-15-intel",
+                  "prev_job": "${{ needs.build_bundle_macos_x86_64.outputs }}"
+                },
+                {
+                  "os": "macos-15",
+                  "prev_job": "${{ needs.build_bundle_macos_aarch64.outputs }}"
+                },
+                {
+                  "os": "ubuntu-24.04-arm",
+                  "prev_job": "${{ needs.build_bundle_linux_aarch64.outputs }}"
+                }
+              ]
+            }
+          },
+          "runs-on": "${{ matrix.os }}",
+          "steps": [
+            {
+              "name": "Download bundle",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ matrix.prev_job.bundle }}"
+              }
+            },
+            {
+              "name": "Download kani-verifier crate",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ matrix.prev_job.package }}"
+              }
+            },
+            {
+              "name": "Check download",
+              "run": "ls -lh .\n"
+            },
+            {
+              "name": "Install from bundle",
+              "run": "tar zxvf ${{ matrix.prev_job.package }}\ncargo install --locked --path kani-verifier-${{ matrix.prev_job.crate_version }}\ncargo kani setup --use-local-bundle ./${{ matrix.prev_job.bundle }}\n"
+            },
+            {
+              "name": "Checkout tests",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Run tests",
+              "run": "for dir in simple-lib build-rs-works simple-kissat; do\n  >&2 echo \"Running test $dir\"\n  pushd tests/cargo-kani/$dir\n  cargo kani\n  popd\ndone\n"
+            }
+          ]
+        },
+        "kani_release": {
+          "if": "${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/kani-') }}",
+          "name": "Release",
+          "runs-on": "ubuntu-24.04",
+          "permissions": {
+            "contents": "write"
+          },
+          "needs": [
+            "build_bundle_macos_x86_64",
+            "build_bundle_macos_aarch64",
+            "build_bundle_linux_x86_64",
+            "build_bundle_linux_aarch64",
+            "test_bundle"
+          ],
+          "outputs": {
+            "version": "${{ steps.versioning.outputs.version }}",
+            "upload_url": "${{ steps.create_release.outputs.upload_url }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout code",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Get version",
+              "run": "# pkgid is something like file:///home/ubuntu/kani#kani-verifier:0.1.0\necho \"CRATE_VERSION=$(cargo pkgid | cut -d@ -f2)\" >> $GITHUB_ENV\n# GITHUB_REF is something like refs/tags/kani-0.1.0\necho \"TAG_VERSION=$(echo ${{ github.ref }} | cut -d \"-\" -f 2)\" >> $GITHUB_ENV\n"
+            },
+            {
+              "name": "Check Version",
+              "id": "versioning",
+              "run": "# Validate git tag & Cargo.toml are in sync on version number\nif [[ ${{ env.CRATE_VERSION }} != ${{ env.TAG_VERSION }} ]]; then\n  echo \"Git tag ${{env.TAG_VERSION}} did not match crate version ${{env.CRATE_VERSION}}\"\n  exit 1\nfi\necho \"version=${{ env.TAG_VERSION }}\" >> $GITHUB_OUTPUT\n"
+            },
+            {
+              "name": "Download MacOS bundle",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ needs.build_bundle_macos_x86_64.outputs.bundle }}"
+              }
+            },
+            {
+              "name": "Download MacOS ARM bundle",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ needs.build_bundle_macos_aarch64.outputs.bundle }}"
+              }
+            },
+            {
+              "name": "Download Linux bundle",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ needs.build_bundle_linux_x86_64.outputs.bundle }}"
+              }
+            },
+            {
+              "name": "Download Linux Arm bundle",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ needs.build_bundle_linux_aarch64.outputs.bundle }}"
+              }
+            },
+            {
+              "name": "Create release",
+              "id": "create_release",
+              "uses": "ncipollo/release-action@v1.21.0",
+              "env": {
+                "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              },
+              "with": {
+                "name": "kani-${{ env.TAG_VERSION }}",
+                "tag": "kani-${{ env.TAG_VERSION }}",
+                "artifacts": "${{ needs.build_bundle_linux_x86_64.outputs.bundle }},${{ needs.build_bundle_linux_aarch64.outputs.bundle }},${{ needs.build_bundle_macos_x86_64.outputs.bundle }},${{ needs.build_bundle_macos_aarch64.outputs.bundle }}",
+                "body": "Kani Rust verifier release bundle version ${{ env.TAG_VERSION }}.\n",
+                "draft": "true"
+              }
+            }
+          ]
+        },
+        "package_docker": {
+          "name": "Package Docker",
+          "needs": "kani_release",
+          "runs-on": "ubuntu-24.04",
+          "permissions": {
+            "contents": "write",
+            "packages": "write"
+          },
+          "env": {
+            "os": "ubuntu-24.04",
+            "target": "x86_64-unknown-linux-gnu"
+          },
+          "steps": [
+            {
+              "name": "Checkout code",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04"
+              }
+            },
+            {
+              "name": "Build release bundle",
+              "run": "cargo bundle\ncargo package -p kani-verifier\n"
+            },
+            {
+              "name": "Login to GitHub Container Registry",
+              "uses": "docker/login-action@v4",
+              "with": {
+                "registry": "ghcr.io",
+                "username": "${{ github.repository_owner }}",
+                "password": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Set lower case owner name. Needed for docker push.",
+              "run": "echo \"OWNER_LC=${OWNER,,}\" >>${GITHUB_ENV}\n",
+              "env": {
+                "OWNER": "${{ github.repository_owner }}"
+              }
+            },
+            {
+              "name": "Build and push",
+              "uses": "docker/build-push-action@v7",
+              "with": {
+                "context": ".",
+                "file": "scripts/ci/Dockerfile.bundle-release-24-04",
+                "push": "true",
+                "github-token": "${{ secrets.GITHUB_TOKEN }}",
+                "tags": "ghcr.io/${{ env.OWNER_LC }}/kani-${{ env.os }}:${{ needs.kani_release.outputs.version }}\nghcr.io/${{ env.OWNER_LC }}/kani-${{ env.os }}:latest\n",
+                "labels": "org.opencontainers.image.source=${{ github.repositoryUrl }}\norg.opencontainers.image.version=${{ needs.kani_release.outputs.version }}\norg.opencontainers.image.licenses=Apache-2.0 OR MIT\n"
+              }
+            }
+          ]
+        }
+      },
+      "scope": "all native bundle build/test jobs on upstream PR, including matrices; release publication tag-only"
+    },
+    "verify-std-check.yml": {
+      "event": {
+        "pull_request": "",
+        "workflow_call": ""
+      },
+      "jobs": {
+        "verify-std": {
+          "runs-on": "${{ matrix.os }}",
+          "strategy": {
+            "matrix": {
+              "os": [
+                "ubuntu-22.04",
+                "macos-15"
+              ]
+            }
+          },
+          "steps": [
+            {
+              "name": "Checkout Library",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "repository": "model-checking/verify-rust-std",
+                "path": "verify-rust-std",
+                "submodules": "true"
+              }
+            },
+            {
+              "name": "Checkout `Kani`",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "path": "kani",
+                "fetch-depth": "0"
+              }
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./kani/.github/actions/setup",
+              "with": {
+                "os": "${{ matrix.os }}",
+                "kani_dir": "kani"
+              }
+            },
+            {
+              "name": "Build Kani",
+              "working-directory": "kani",
+              "run": "cargo build-dev\necho \"$(pwd)/scripts\" >> $GITHUB_PATH\n"
+            },
+            {
+              "name": "Run verification with HEAD",
+              "id": "check-head",
+              "working-directory": "verify-rust-std",
+              "continue-on-error": "true",
+              "run": "kani verify-std -Z unstable-options ./library --target-dir ${{ runner.temp }} -Z function-contracts \\\n  -Z mem-predicates -Z loop-contracts --cbmc-args --object-bits 12\n"
+            },
+            {
+              "name": "Checkout BASE",
+              "working-directory": "kani",
+              "if": "steps.check-head.outcome != 'success' && github.event_name == 'pull_request'",
+              "run": "BASE_REF=${{ github.event.pull_request.base.sha }}\ngit checkout ${BASE_REF}\n"
+            },
+            {
+              "name": "Setup Kani Dependencies BASE",
+              "uses": "./kani/.github/actions/setup",
+              "if": "steps.check-head.outcome != 'success' && github.event_name == 'pull_request'",
+              "with": {
+                "os": "${{ matrix.os }}",
+                "kani_dir": "kani"
+              }
+            },
+            {
+              "name": "Build Kani BASE",
+              "working-directory": "kani",
+              "if": "steps.check-head.outcome != 'success' && github.event_name == 'pull_request'",
+              "run": "cargo build-dev\n"
+            },
+            {
+              "name": "Run verification with BASE",
+              "id": "check-base",
+              "if": "steps.check-head.outcome != 'success' && github.event_name == 'pull_request'",
+              "working-directory": "verify-rust-std",
+              "continue-on-error": "true",
+              "run": "kani verify-std -Z unstable-options ./library --target-dir ${{ runner.temp }} -Z function-contracts \\\n  -Z mem-predicates -Z loop-contracts --cbmc-args --object-bits 12\n"
+            },
+            {
+              "name": "Compare PR results",
+              "if": "steps.check-head.outcome != 'success' && steps.check-head.outcome != steps.check-base.outcome",
+              "run": "echo \"New failure introduced by this change\"\necho \"HEAD: ${{ steps.check-head.outcome }}\"\necho \"BASE: ${{ steps.check-base.outcome }}\"\nexit 1\n"
+            }
+          ]
+        }
+      },
+      "scope": "native ubuntu-22.04/macos-15 PR jobs"
+    },
+    "bench-pr.yml": {
+      "event": {
+        "pull_request": {
+          "types": [
+            "opened",
+            "synchronize",
+            "reopened",
+            "labeled"
+          ]
+        }
+      },
+      "concurrency": {
+        "group": "${{ github.workflow }}-${{ github.event.pull_request.number }}",
+        "cancel-in-progress": "true"
+      },
+      "jobs": {
+        "end-to-end-bench": {
+          "name": "End-to-End Benchmarks",
+          "if": "${{ contains(github.event.pull_request.labels.*.name, 'Z-EndToEndBenchCI') }}",
+          "uses": "./.github/workflows/bench-e2e.yml"
+        },
+        "compiler-bench": {
+          "name": "Compiler Benchmarks",
+          "if": "${{ contains(github.event.pull_request.labels.*.name, 'Z-CompilerBenchCI') }}",
+          "uses": "./.github/workflows/bench-compiler.yml"
+        }
+      },
+      "scope": "native Z-EndToEndBenchCI/Z-CompilerBenchCI label-gated workflows on upstream PR"
+    },
+    "extra_jobs.yml": {
+      "event": {
+        "pull_request_target": "",
+        "merge_group": ""
+      },
+      "scope": "native upstream PR metadata/labeler; no proof credit"
+    }
+  },
+  "preservation": {
+    "all16_workflows": {
+      ".github/workflows/bench-compiler.yml": {
+        "blob": "0b30110c6ad5c105444045a94c801d153dde2725",
+        "sha256": "825d32f8e3d3949332417088fb0b096bb4b6f1819d8a0cb3c1e2cc666cd685cc"
+      },
+      ".github/workflows/bench-e2e.yml": {
+        "blob": "bc2db84b52fbb6f0c0017a67e94934662c0d9689",
+        "sha256": "e17c7ef9464ceec605771b9dade368122e250891526c6a0b0a9bb4b00a7a64ca"
+      },
+      ".github/workflows/bench-pr.yml": {
+        "blob": "d68534a54ffb3ce2f15671e941c84fc57af0e741",
+        "sha256": "eecc1509bcf9283e0d233b414af523f97a9f2a397e8766a558314f1a9f5a57d3"
+      },
+      ".github/workflows/cargo-update.yml": {
+        "blob": "1873a2ecdd83f97c37fb74b62a9e0c1d6b7728d7",
+        "sha256": "ac7f18f5fe4e685e5da609e5b2546503aab4cb5aa2f598c4a6df91b5d442c911"
+      },
+      ".github/workflows/cbmc-latest.yml": {
+        "blob": "223ec7f96ad8f3215216fc6b99a8337c650c8398",
+        "sha256": "ba39280e6ff9de85ccb5c14296d53845be7cc417baf683ddda56fe30767bbc48"
+      },
+      ".github/workflows/cbmc-update.yml": {
+        "blob": "90eea8a06f2a4af9b3d65befcc8fa9487699a982",
+        "sha256": "1b97bca1eb903ddf739d594830eb4b72b5ffc8c23ec7dc8c03c314c95cd0232f"
+      },
+      ".github/workflows/charon-update.yml": {
+        "blob": "70ad28901c1a7cfe617b98d4d35099da35659894",
+        "sha256": "d73125c239ffd2c2f68a7d41b703eb11bdbdefe97d3a3abc99ed0bbb2c1b7869"
+      },
+      ".github/workflows/deny.yml": {
+        "blob": "c54ce6bbcb075df881984f714589011c4b88d5e4",
+        "sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf"
+      },
+      ".github/workflows/extra_jobs.yml": {
+        "blob": "157c5b2d967e8b9fcfddf8943c29495f0ac5e2fa",
+        "sha256": "12c3c6626e9ad806e7f7bf7f65cca7e2f12b2ccae9da82cc62802b92299369d8"
+      },
+      ".github/workflows/format-check.yml": {
+        "blob": "9d21eeb4569234292401f90c66c833f6960f06fb",
+        "sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8"
+      },
+      ".github/workflows/kani.yml": {
+        "blob": "3e34d8ac3c0844d9ac9409790e7cb0a669381dad",
+        "sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303"
+      },
+      ".github/workflows/release.yml": {
+        "blob": "f10833e3035641a9893e1f5171b0b86864ef5b0e",
+        "sha256": "b608d02a4ddbaa9a1e4b0db321bd1aeb268afe5f946a9de14e2778b9e803b9b3"
+      },
+      ".github/workflows/slow-tests.yml": {
+        "blob": "54952f59bd844273d208a75e62c571c48079d154",
+        "sha256": "d9775bd66ebb7b927c28346623f9e6e3374c82cee97921eac5fee828eba5ba7f"
+      },
+      ".github/workflows/toolchain-upgrade.yml": {
+        "blob": "55bcdda98ad65718c01b82da993cc5baccbeceb3",
+        "sha256": "bd9cc5f4f09c1e00223a627fedbd7fb522053c6258284304c1d509f83dbcfa6a"
+      },
+      ".github/workflows/verify-std-check.yml": {
+        "blob": "be07976f48e50269fceca068c7c71dd6428b3498",
+        "sha256": "37a122141be204e64c1eb75caf6a6f72b1e1c9ce68f642ef79ad80cd1da9ee60"
+      },
+      ".github/workflows/z3-update.yml": {
+        "blob": "486105cd0bd8f8337b0ea31f7ee2bd8f48addb53",
+        "sha256": "83e06af88fe864b471d4b1af10022519c3f81cc63d62e00d64d73e77234a9553"
+      }
+    },
+    "trees": {
+      ".github/workflows": {
+        "969f4648980a8e66cd0ca32fd3e714a55ac32cef": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0",
+        "6fca00af805b5c62b58e3e3f29eef183d6939907": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0",
+        "f82934ca97caaa1270d5279054aa950173868be5": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0"
+      },
+      ".github/actions": {
+        "969f4648980a8e66cd0ca32fd3e714a55ac32cef": "0c34b505ea7f29754d2ff655da2579bf26afa9b2",
+        "6fca00af805b5c62b58e3e3f29eef183d6939907": "0c34b505ea7f29754d2ff655da2579bf26afa9b2",
+        "f82934ca97caaa1270d5279054aa950173868be5": "0c34b505ea7f29754d2ff655da2579bf26afa9b2"
+      },
+      "scripts": {
+        "969f4648980a8e66cd0ca32fd3e714a55ac32cef": "17ce41a6b9744224defd3a87247736f82992e550",
+        "6fca00af805b5c62b58e3e3f29eef183d6939907": "17ce41a6b9744224defd3a87247736f82992e550",
+        "f82934ca97caaa1270d5279054aa950173868be5": "17ce41a6b9744224defd3a87247736f82992e550"
+      },
+      "library": {
+        "969f4648980a8e66cd0ca32fd3e714a55ac32cef": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932",
+        "6fca00af805b5c62b58e3e3f29eef183d6939907": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932",
+        "f82934ca97caaa1270d5279054aa950173868be5": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932"
+      }
+    },
+    "toolchain_and_dependency": {
+      "rust-toolchain.toml": {
+        "blob": "1cdf94ea9b42256403997a5114d3b9ec10785d2d",
+        "sha256": "ed9dbd0be9df6701edee999486c603826904addf17d09eb5a065a40b2619412e"
+      },
+      "kani-dependencies": {
+        "blob": "177eb685db5011ad9066f5891b74146d38d40a72",
+        "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc"
+      },
+      "Cargo.toml": {
+        "blob": "4433a05759963160c59610f47581a3e3137b69a1",
+        "sha256": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459"
+      },
+      "Cargo.lock": {
+        "blob": "33700f4be8c8108ed8b1afcb067dd092e8c32a4b",
+        "sha256": "2acaa6ea4360c2aa380181920839dbefe18dc88331cc1eb5b2c4341a59ad3199"
+      },
+      "kani-compiler/Cargo.toml": {
+        "blob": "50c41da6ce5b981ec829c9794cdb18ad79f3932e",
+        "sha256": "967127d41b56627971265f487f5c5441d4337a75149087f9ed9b49374ed3778a"
+      },
+      "kani-driver/Cargo.toml": {
+        "blob": "fcd4df2d3e0c8959f7518309e4a07e1f2089d0ac",
+        "sha256": "417706199b383283ea499f5896028af6240990f27eec38042da1de3ad33ff8f1"
+      }
+    },
+    "customCI_dispatch_cron_enable": false,
+    "native_fail_fast_and_cancellation_visible": true
+  },
+  "accounting_reference": {
+    "source": "task+INPUTS only; no ledger read or mutation",
+    "item1": "31/31 EXHAUSTED",
+    "item2": "12/17",
+    "total": "43/48",
+    "potential_owner_morning_extra_item1": 1,
+    "extra_grant": "NOT_GRANTED",
+    "attempts_consumed_here": 0,
+    "reservation": false,
+    "refund": false,
+    "S3": "independent; untouched"
+  },
+  "native_repair": "NOT_RUN",
+  "receipts_required": [
+    "actual finalSHA/tree/sole6fparent/full969f..final nonskip range and read-only gate",
+    "remote branch fullSHA and native push event/ref",
+    "three workflows IDs/attempts and all12 native job outcomes, native skipped steps retained",
+    "actual checkout SHA/tree if exposed, else UNKNOWN",
+    "named repaired positive and negative verification outcomes and failure descriptions if exposed; suite-only evidence labeled",
+    "ordinary/PFC/verified/control/safety/oracle cases; fail-fast omissions NOT_RUN",
+    "new actual advisory/infrastructure/performance facts; old F4 classifications supply no new result"
+  ],
+  "launch_owner": "usercoordinator only after separate owner+1 and authorization",
+  "publication_owner": "owner only",
+  "outcome_policy": "red/cancelled/skipped/missing stay native; static approval grants no native credit or dispatch"
+}

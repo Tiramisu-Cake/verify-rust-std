@@ -1,0 +1,184 @@
+{
+  "schema": "issue4591-singlecall-r3-manifest-v1",
+  "status": "READY_FOR_SAME11_EXACT_DELTA_REVIEW",
+  "package_commit": "reported externally; manifest excludes only itself",
+  "g0_parent_before_own_commit": "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+  "task_commit": "98dde2de28e13381092f20c082ba90f90ce34773",
+  "source": {
+    "sha": "f82934ca97caaa1270d5279054aa950173868be5",
+    "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+    "parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "message": "Exercise ordinary replacements through single-call PFC callers [skip ci]"
+  },
+  "published_failed_base": {
+    "sha": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "parent": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "message": "Support ordinary stubs of contracted functions"
+  },
+  "main": {
+    "sha": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "tree": "c9a832dc1647c51ac3036429e5f97e73eb717ba7",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "author": "Felipe R. Monteiro <felisous@amazon.com>",
+    "message": "Upgrade Rust toolchain to nightly-2026-11-18 (#5188)\n\nUpgrades the toolchain from `nightly-2026-11-12` to\n`nightly-2026-11-18`. All the changes below came with\n`nightly-2026-11-17`; `nightly-2026-11-18` needed none.\n\n### Changes for the new toolchain\n\n- **Attributes.** rustc removed `Attribute::path_matches` and\n`Attribute::value_str`. `attributes.rs` now checks a tool attribute's\npath itself (`attr_path_matches`, the same test rustc used to do) and\nreads a `path = \"value\"` attribute's string through `value_lit`\n(`attr_value_str`).\n- **Diagnostics.** `HumanReadableErrorType` gained a `no_graphics`\nfield.\n- **View types.** rustc added `TyKind::View`, a work-in-progress feature\nthat rustc's own codegen and const-eval do not support yet\n(`unimplemented!()`). Kani reports it as unsupported in the two type\nmatches in `typ.rs`, as it does for `UnsafeBinder`.\n- **Float intrinsics.** `copysign`, `maximum_number_nsz` and\n`minimum_number_nsz` are now generic over the float type, as `ceil`,\n`sqrt` and others became before. They join `GENERIC_FLOAT_INTRINSICS`,\nso Kani keeps its own f32/f64 models; the six tests call the generic\nintrinsics.\n- **SIMD types.** MIR no longer allows field projections into\n`#[repr(simd)]` types (MCP#838). The derived `Clone`/`Debug` of the\n`CustomMask` test model in `library/kani` projected into its field and\nmade clippy hit an ICE in MIR validation; it now copies the whole value.\nAll SIMD tests in the regression pass unchanged.\n- **Feature gates.** `pattern_type_macro` was removed; `pattern_type!`\nis gated by `pattern_types`. Four tests drop the old gate (a comment\nkeeps the line numbers their expected output refers to).\n- **Clippy.** Nine `.contains(&\"...\".to_string())` calls flagged by the\nnew `unnecessary_to_owned` finding use `.iter().any(..)`.\n\n### Removing `chrono`\n\n[RUSTSEC-2026-0543](https://rustsec.org/advisories/RUSTSEC-2026-0543)\n(issued 2026-11-17) marks `chrono` as unmaintained, with no fixed\nversion, so `cargo deny` fails on every PR and on `main`. `kani-driver`\nonly used it to stamp the flamegraph file name in developer mode; that\ntimestamp is now built from `std::time::SystemTime` (in UTC), with a\nunit test. This removes `chrono` and its time-zone crates from\n`Cargo.lock`.\n\n### Testing\n\nOn Linux with CBMC 6.11.0, in the Kani CI image:\n- `cargo build-dev`, the LLBC build, `scripts/kani-fmt.sh --check`, and\nboth clippy commands of the format-check workflow pass.\n- `scripts/kani-regression.sh`: every suite passes except\n`script-based-pre/compiler_defaults` (needs `jq`) and\n`script-based-pre/cbmc_truncated_results` (memory limit), which only\nfail in my container; the steps after the suites\n(`codegen-firecracker.sh`, the `cargo-features-flag` check, the `-D\nwarnings` build) pass.\n- `scripts/kani-llbc-regression.sh` passes.\n- `cargo deny --all-features --workspace check -s` (the arguments of the\nCargo Deny workflow) passes.\n\nAll of the above was run on `nightly-2026-11-18`.\n\nResolves #5189 (the automatic upgrade to `nightly-2026-11-13` failed on\nthe attribute API change from rust-lang/rust#165871, which this PR\nhandles).\n\nBy submitting this pull request, I confirm that my contribution is made\nunder the terms of the Apache 2.0 and MIT licenses.\n\n---------\n\nSigned-off-by: Felipe R. Monteiro <felisous@amazon.com>"
+  },
+  "CI_request_sha256": "8fb98acee9861fb9a94133d060d568fd0b7735d5840fcd9fdf7fc2fc6aacf4bc",
+  "source_pins_sha256": "272d15d8f3b3f7138502238372ce9c4255c639afd40c232de05b575b75557896",
+  "validation_sha256": "96508a46f790bf72d00863a8999cf485eccc453d853e30dc0b6a7d1948b8f1fa",
+  "independent_review": "PENDING_SAME11",
+  "GO": "NOT_ISSUED; after exactAPPROVE prepare HOLD_FOR_OWNER_EXTRA_ITEM1_GRANT",
+  "native_repair": "NOT_RUN",
+  "files": {
+    "CHECKPOINT.json": {
+      "sha256": "bec268008e0c1a0cdba998c4231854fd6caca8c31a2c431c89328c6a946f8c42",
+      "bytes": 9812
+    },
+    "CI-REQUEST.json": {
+      "sha256": "8fb98acee9861fb9a94133d060d568fd0b7735d5840fcd9fdf7fc2fc6aacf4bc",
+      "bytes": 42198
+    },
+    "CI-REQUEST.md": {
+      "sha256": "bc53258a0cf51d66454789269e38f7f9787512601ede8c4eba5a95c71e6f178a",
+      "bytes": 4602
+    },
+    "CURRENT-TASK.md": {
+      "sha256": "ac98855315d808715705f2c7247f9f4f63693f5109f40d39a0389ef1f897c663",
+      "bytes": 776
+    },
+    "DIAGNOSIS.md": {
+      "sha256": "800b41f9f6feb202afd930f20a46d823b6a6e3f41298eec0afe50d3c407b66fd",
+      "bytes": 12051
+    },
+    "HANDOFF.md": {
+      "sha256": "f90198d7426dcf012a4ad8ed60b4e981e9e16139365c37e3de4e511a598a6180",
+      "bytes": 3849
+    },
+    "MAIN-CHECK.json": {
+      "sha256": "8a73710193efc05c913ff37a952c89d194d3cb36299cb549aed10a5203e7f664",
+      "bytes": 286
+    },
+    "PATCH-REPLAY.json": {
+      "sha256": "fafc86e8c187cda7b9c78dbbb277ef48837c9c9dc45b5bedb3c83abab378c437",
+      "bytes": 5816
+    },
+    "PFC-AUDIT.json": {
+      "sha256": "089cfa708df9567a6c65a9b4579ea686430cff9ff829e72cb21576996693581b",
+      "bytes": 7351
+    },
+    "PR-DRAFT.md": {
+      "sha256": "2cb964a6d9eb07f06a70ec8d2b00c1429f62868830e10e6c0cc5d7d616b6b5a0",
+      "bytes": 1650
+    },
+    "PROVENANCE.json": {
+      "sha256": "4a48ab6ebb5a1069f4e672d8da1f171699e402d81cac83a45b67c23a89030702",
+      "bytes": 5266
+    },
+    "REGRESSION-ORACLE.json": {
+      "sha256": "a0ea77ec172fb21f23238c21af6b18712de71b5ddc1a2bdb3b6759fa30b694de",
+      "bytes": 23209
+    },
+    "REGRESSION-ORACLE.md": {
+      "sha256": "74e973da9627805a6402328d0f253fa177621c97e3d4948814bdf2a29d1cc2c4",
+      "bytes": 3986
+    },
+    "REMOTE-BRANCH-CHECK.json": {
+      "sha256": "1166b9bf8c75ec174fcbea0ec0fe4c2af49bd20173e9072d9a50b0d2ecd4e21b",
+      "bytes": 691
+    },
+    "SAME11-DELTA-REQUEST.md": {
+      "sha256": "e5645684f7243cfb76a38f0cf1e9a2bded7cba8d8d8f0fe8f3cf4470f74b66e7",
+      "bytes": 2596
+    },
+    "SOURCE-EXCERPTS.json": {
+      "sha256": "4a74c4252483248ba5ee94fedd0138b671111cf6807f154f71ee0cba36a282ca",
+      "bytes": 101233
+    },
+    "SOURCE-PINS.json": {
+      "sha256": "272d15d8f3b3f7138502238372ce9c4255c639afd40c232de05b575b75557896",
+      "bytes": 17988
+    },
+    "VALIDATION.md": {
+      "sha256": "bffd94b2e069ef450ebe6f30b08f6b3c28335c1c5de647a1ba3ff87bbeea4faf",
+      "bytes": 3500
+    },
+    "WORKFLOW-INVENTORY.json": {
+      "sha256": "f3867904d4f20c702b85e38d59b47c2e2776968336427043816c983816845407",
+      "bytes": 66896
+    },
+    "check_push_head.py": {
+      "sha256": "6e575278f8fca90caed7682b1967670d0ebed87424da984c0d5b3b3a1d059645",
+      "bytes": 3010
+    },
+    "compiler-main.patch": {
+      "sha256": "af782bc5473f4b45852ed253aefd929a0ca78746b5fa20452483bdc128cea6cd",
+      "bytes": 5183
+    },
+    "full-main.patch": {
+      "sha256": "b0799ef2f4b96ef2e3adc84db4a61a2e4f1301c5aba30d2c60ea690fcf80056f",
+      "bytes": 17173
+    },
+    "inputs/CBMC-GUARD-SOURCE.json": {
+      "sha256": "60b188f10637c0ac6073cd79cf47770c7deea48e2528d2e89287b44bf21487e0",
+      "bytes": 12089
+    },
+    "inputs/CBMC-SOURCE-PIN.json": {
+      "sha256": "3c0d5be8ab9b6070e700797a8c0d4ba3b15b509e0f1b52882598e5ffb023c956",
+      "bytes": 410
+    },
+    "inputs/FROZEN-INPUTS.json": {
+      "sha256": "a2163429f4e5ef2dad2ad0071968bda386d20b9385593b41ecb3176d9ff2daf6",
+      "bytes": 11507
+    },
+    "inputs/INPUTS.json": {
+      "sha256": "2a54fe8b6af9a382044811e3162c1dbfc864de45b7bf64e3b2c4cf35b5e1f560",
+      "bytes": 2795
+    },
+    "inputs/TASK-KANI-4591-SINGLE-CALL-FIX-W15.md": {
+      "sha256": "cb1405037c4f7aa33b34614690ae88f1689c4105664473b3b75d07adf593395c",
+      "bytes": 4967
+    },
+    "native/CONNECTED-METADATA.json": {
+      "sha256": "760d063b7c29631ded4251518f2fc7eeab33f8b21341a772b5fcf90d87954d24",
+      "bytes": 19333
+    },
+    "native/FAILURE-PROJECTION.json": {
+      "sha256": "21fa9536f68614c5040fed09ee4cad74f259b737f2734729c1b1276ed2d4dab4",
+      "bytes": 4334
+    },
+    "native/FAILURE-STEP.json": {
+      "sha256": "c25461ad6f2e419ea03164f5e7ebd478de3fefd178c56c80f8b0d9fafd281e9f",
+      "bytes": 921
+    },
+    "regression-main.patch": {
+      "sha256": "198a9a8ff5184a927f57aef0f01262b60276fd17624b75a4c77a83881de369de",
+      "bytes": 11990
+    },
+    "repair.patch": {
+      "sha256": "0215d0d906a2fc9b4bcfdb57ec9c759d918d24fd6662d9ffcbc2f3971ad65476",
+      "bytes": 1998
+    },
+    "tests/ACTUAL-GATE-REJECTIONS.json": {
+      "sha256": "dd81ff236cb4e497e3c312c9c3a3c96f0a87aadf91f0919f51f1850dc29d0045",
+      "bytes": 2031
+    },
+    "tests/FINAL-BOUNDARY.json": {
+      "sha256": "3fa5dc18efd69ada4c869f58387bade17ec6c27d8691a34d55db1a6593c0929c",
+      "bytes": 572
+    },
+    "tests/VALIDATION.json": {
+      "sha256": "96508a46f790bf72d00863a8999cf485eccc453d853e30dc0b6a7d1948b8f1fa",
+      "bytes": 23756
+    },
+    "tests/callshape.py": {
+      "sha256": "0522ba3040fa0dc402d5c346a7f9aaa27d80745565b77b7dec14c2aec89412c5",
+      "bytes": 4431
+    },
+    "validate.py": {
+      "sha256": "f2a13b7f499918f754452e20d5ceffdacf1ffcb04c8d8f2c9fdd5050303fdf0a",
+      "bytes": 16723
+    }
+  }
+}

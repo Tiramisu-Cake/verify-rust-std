@@ -1,0 +1,54 @@
+diff --git a/tests/expected/function-contract/ordinary_stub_fail.rs b/tests/expected/function-contract/ordinary_stub_fail.rs
+index a5ad088f8d8a34797e03253fe2a6001fc349c435..81665a967abd9080232a2260f68642dd04ffe24b 100644
+--- a/tests/expected/function-contract/ordinary_stub_fail.rs
++++ b/tests/expected/function-contract/ordinary_stub_fail.rs
+@@ -63,18 +63,21 @@ fn replacement_postcondition() {
+     f(0);
+ }
+ 
+-// The direct input satisfies the contract; only the copied input violates it.
++// The replacement's postcondition fails for input 1.
+ #[kani::ensures(|result| *result == 0)]
+ fn discriminating_replacement(x: u8) -> u8 {
+     x
+ }
+ 
+-#[kani::proof_for_contract(discriminating_replacement)]
++#[kani::ensures(|result| *result == x)]
++fn replacement_caller(x: u8) -> u8 {
++    f(x)
++}
++
++#[kani::proof_for_contract(replacement_caller)]
+ #[kani::stub(f, discriminating_replacement)]
+ fn replacement_provider_postcondition() {
+-    // The exact PFC target must be reachable from this harness itself.
+-    discriminating_replacement(0);
+-    f(1);
++    replacement_caller(1);
+ }
+ 
+ #[kani::requires(x < 4)]
+diff --git a/tests/kani/FunctionContracts/ordinary_stub.rs b/tests/kani/FunctionContracts/ordinary_stub.rs
+index 6b042d1eec86b62063acba85185dfaef5195245a..ebde1e09258da92e639d64bcf12b7166a1e8a61c 100644
+--- a/tests/kani/FunctionContracts/ordinary_stub.rs
++++ b/tests/kani/FunctionContracts/ordinary_stub.rs
+@@ -168,10 +168,14 @@ fn replacement_verified_contract() {
+     assert_eq!(f(8), 11);
+ }
+ 
+-#[kani::proof_for_contract(contracted_replacement)]
++#[kani::requires(x < 16)]
++#[kani::ensures(|result| *result == x + 3)]
++fn replacement_caller(x: u8) -> u8 {
++    f(x)
++}
++
++#[kani::proof_for_contract(replacement_caller)]
+ #[kani::stub(f, contracted_replacement)]
+ fn replacement_contract_target() {
+-    // Reach the exact selected provider in this harness, as well as its copied body.
+-    contracted_replacement(0);
+-    f(kani::any());
++    replacement_caller(kani::any());
+ }

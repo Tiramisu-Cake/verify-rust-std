@@ -1,0 +1,134 @@
+{
+  "schema": "issue4591-singlecall-r3-failure-projection-v1",
+  "head": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+  "head_tree_from_run_metadata": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+  "assurance": "connected run/job/step metadata plus separately attributed frozen coordinator report",
+  "connected_job_outcomes": [
+    {
+      "id": 135139351622,
+      "name": "benchcomp-tests",
+      "run_id": 44399789701,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 135139352039,
+      "name": "regression (macos-15)",
+      "run_id": 44399789701,
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "id": 135139352062,
+      "name": "regression (ubuntu-24.04)",
+      "run_id": 44399789701,
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "id": 135139352074,
+      "name": "perf",
+      "run_id": 44399789701,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 135139352092,
+      "name": "documentation",
+      "run_id": 44399789701,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 135139352096,
+      "name": "regression (ubuntu-22.04)",
+      "run_id": 44399789701,
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "id": 135139352110,
+      "name": "regression (ubuntu-24.04-arm)",
+      "run_id": 44399789701,
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "id": 135139352293,
+      "name": "regression (macos-15-intel)",
+      "run_id": 44399789701,
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "id": 135139352295,
+      "name": "llbc-regression",
+      "run_id": 44399789701,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 135139351394,
+      "name": "clippy-check",
+      "run_id": 44399789719,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 135139351983,
+      "name": "format-check",
+      "run_id": 44399789719,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 135139351679,
+      "name": "audit",
+      "run_id": 44399789794,
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "connected_totals": {
+    "success": 7,
+    "failure": 1,
+    "cancelled": 4,
+    "skipped": 0
+  },
+  "failure_step": {
+    "run": 44399789701,
+    "job": 135139352062,
+    "name": "Execute Kani regression",
+    "number": 4,
+    "conclusion": "failure",
+    "source": "connected steps"
+  },
+  "coordinator_reported": {
+    "suite": "first kani suite",
+    "suite_counts": "658 pass/1 fail; counting unit per coordinator report",
+    "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+    "harness": "replacement_contract_target",
+    "message": "Only a single top-level call to function contracted_replacement::{closure} when checking contract",
+    "line": 146,
+    "other_harnesses_same_file": "verified per coordinator",
+    "expected_scriptbased_ui": "NOT_RUN after failure",
+    "matrix_cancel_cause": "fail-fast per coordinator; do not infer old no-runner reason"
+  },
+  "unknown": [
+    "actual per-job checkout SHA/tree",
+    "full diagnostic including exact mangled closure/contract identity and property ID",
+    "complete failure transcript/process exit and exact native CBMC binary identity",
+    "mapping of coordinator line146 to a native diagnostic source span",
+    "independently retained named outcomes of other18 harnesses in ordinary_stub.rs",
+    "progress/content of cancelled OS jobs beyond exposed step metadata",
+    "per-harness property counts and performance measurements"
+  ],
+  "scope_limits": [
+    "658pass/1fail is supplied first-kani-suite count, counting unit per coordinator; not harness/property total",
+    "other harnesses same-file verified is a coordinator report, not inferred from job success",
+    "expected/script-based-pre/ui NOT_RUN and fail-fast cause are coordinator-reported; stock script errexit/order supports this but is not execution evidence",
+    "cancelled macOS job step details are null; no old F4 no-runner diagnosis carried",
+    "full matrix not green; native failed head remains authoritative",
+    "repair native result NOT_RUN; no static/mocked PASS overrides old failure"
+  ]
+}

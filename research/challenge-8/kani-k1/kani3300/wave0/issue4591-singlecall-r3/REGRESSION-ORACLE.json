@@ -1,0 +1,655 @@
+{
+  "schema": "issue4591-singlecall-r3-source-oracles-v1",
+  "source_head": "f82934ca97caaa1270d5279054aa950173868be5",
+  "source_tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+  "expected_only": true,
+  "harnesses": [
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "provider",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "line": 15,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_overflow",
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "line": 20,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "verified_precondition",
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "line": 26,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "verified_postcondition",
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "line": 32,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "provider_postcondition",
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "attributes": [
+        "#[kani::proof_for_contract(bad_contract)]"
+      ],
+      "line": 43,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "unstubbed_postcondition",
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "line": 48,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "unstubbed_precondition",
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(bad_contract, g)]"
+      ],
+      "line": 54,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_postcondition",
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, bad_contract)]"
+      ],
+      "line": 60,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_provider_postcondition",
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "attributes": [
+        "#[kani::proof_for_contract(replacement_caller)]",
+        "#[kani::stub(f, discriminating_replacement)]"
+      ],
+      "line": 77,
+      "source_unchanged_from6f": false,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "repair": "single PFC call to replacement_caller, ordinary replacement inside selected body; provider Assert",
+      "coverage_limit": "same provider selected by PFC and ordinary copied alias in one harness is replaced; separate same-function PFC/verified controls retained"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_precondition",
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, restricted_replacement)]"
+      ],
+      "line": 88,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_provider",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof_for_contract(requires_only)]"
+      ],
+      "line": 99,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_verified_precondition",
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "line": 104,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_verified_result",
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "line": 110,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_issue_4591.rs",
+      "harness": "check_caller",
+      "expected_fixed": "VERIFICATION_FAILURE_CALLER_OVERFLOW",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(abs_val, stub_abs_val)]"
+      ],
+      "line": 22,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_overlap.rs",
+      "harness": "overlapping_contract_target",
+      "expected_fixed": "COMPILE_ERROR_ORIGINAL_CONTRACT_CLOSURE",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]",
+        "#[kani::stub_verified(f)]",
+        "#[kani::stub(f, g)]"
+      ],
+      "line": 17,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "provider",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "line": 17,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "verified_control",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "line": 22,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ordinary_stub",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "line": 30,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ordinary_stub_outside_target_precondition",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "line": 38,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "requires_only_provider",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof_for_contract(requires_only)]"
+      ],
+      "line": 54,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "requires_only_verified_control",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "line": 59,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ensures_only_provider",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof_for_contract(ensures_only)]"
+      ],
+      "line": 65,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ensures_only_verified_control",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(ensures_only)]"
+      ],
+      "line": 70,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "multiple_targets",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(requires_only, g)]",
+        "#[kani::stub(ensures_only, g)]"
+      ],
+      "line": 76,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_provider",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof_for_contract(recursive)]"
+      ],
+      "line": 92,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_verified_control",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(recursive)]"
+      ],
+      "line": 97,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_target",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(recursive, g)]"
+      ],
+      "line": 103,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "generic_instances",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(generic, generic_replacement)]"
+      ],
+      "line": 119,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "uncontracted_target",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(uncontracted, g)]"
+      ],
+      "line": 131,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "transitive_replacement",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, requires_only)]",
+        "#[kani::stub(requires_only, g)]"
+      ],
+      "line": 138,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_provider",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof_for_contract(contracted_replacement)]"
+      ],
+      "line": 152,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_contract",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, contracted_replacement)]"
+      ],
+      "line": 157,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_verified_contract",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, contracted_replacement)]",
+        "#[kani::stub_verified(contracted_replacement)]"
+      ],
+      "line": 164,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_contract_target",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof_for_contract(replacement_caller)]",
+        "#[kani::stub(f, contracted_replacement)]"
+      ],
+      "line": 177,
+      "source_unchanged_from6f": false,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "FAILURE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "repair": "single PFC call to replacement_caller, ordinary replacement inside selected body; provider Assert",
+      "coverage_limit": "same provider selected by PFC and ordinary copied alias in one harness is replaced; separate same-function PFC/verified controls retained"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "ordinary_stub_original_mode",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, replacement)]"
+      ],
+      "line": 17,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "UNKNOWN",
+        "provenance": "connected job summary supplies no file-level result"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "provider",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "line": 23,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "UNKNOWN",
+        "provenance": "connected job summary supplies no file-level result"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "verified_control",
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "line": 28,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "UNKNOWN",
+        "provenance": "connected job summary supplies no file-level result"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "replacement_provider",
+      "expected_fixed": "EXPECTED_PANIC_POSTCONDITION",
+      "attributes": [
+        "#[kani::proof_for_contract(replacement)]",
+        "#[kani::should_panic]"
+      ],
+      "line": 34,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "oracle_assurance": "source expectation only",
+      "native6f": {
+        "status": "UNKNOWN",
+        "provenance": "connected job summary supplies no file-level result"
+      }
+    }
+  ],
+  "native_repair": "NOT_RUN",
+  "goldens": "all expected bytes unchanged from published6f; descriptions and harness totals retained, no property quota"
+}

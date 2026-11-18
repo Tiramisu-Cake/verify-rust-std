@@ -1,0 +1,552 @@
+{
+  "repository": "diffblue/cbmc",
+  "ref": "cbmc-6.11.0",
+  "path": "src/goto-instrument/contracts/dynamic-frames/dfcc_swap_and_wrap.cpp",
+  "git_blob": "2f57751f7ddeb657e2c80249f503113cbb978e26",
+  "url": "https://github.com/diffblue/cbmc/blob/cbmc-6.11.0/src/goto-instrument/contracts/dynamic-frames/dfcc_swap_and_wrap.cpp",
+  "configured_version": "6.11.0 from pinned kani-dependencies",
+  "actual_native_binary_identity": "UNKNOWN; no binary execution or raw log intake",
+  "lines": [
+    {
+      "line": 110,
+      "text": "/// \\details Generates globals statics:"
+    },
+    {
+      "line": 111,
+      "text": "/// ```c"
+    },
+    {
+      "line": 112,
+      "text": "/// static bool __contract_check_in_progress = false;"
+    },
+    {
+      "line": 113,
+      "text": "/// static bool __contract_checked_once = false;"
+    },
+    {
+      "line": 114,
+      "text": "/// ```"
+    },
+    {
+      "line": 115,
+      "text": "///"
+    },
+    {
+      "line": 116,
+      "text": "/// Adds the following instructions in the wrapper function body:"
+    },
+    {
+      "line": 117,
+      "text": "/// ```c"
+    },
+    {
+      "line": 118,
+      "text": "/// IF __contract_check_in_progress GOTO replace;"
+    },
+    {
+      "line": 119,
+      "text": "/// ASSERT !__contract_checked_once \"only a single top-level called allowed\";"
+    },
+    {
+      "line": 120,
+      "text": "/// __contract_check_in_progress = true;"
+    },
+    {
+      "line": 121,
+      "text": "/// <contract_handler.add_contract_checking_instructions(...)>;"
+    },
+    {
+      "line": 122,
+      "text": "/// __contract_checked_once = true;"
+    },
+    {
+      "line": 123,
+      "text": "/// __contract_check_in_progress = false;"
+    },
+    {
+      "line": 124,
+      "text": "/// GOTO end;"
+    },
+    {
+      "line": 125,
+      "text": "/// replace:"
+    },
+    {
+      "line": 126,
+      "text": "/// // if allow_recursive_calls"
+    },
+    {
+      "line": 127,
+      "text": "/// <contract_handler.add_contract_replacement_instructions(...)>;"
+    },
+    {
+      "line": 128,
+      "text": "/// // if !allow_recursive_calls"
+    },
+    {
+      "line": 129,
+      "text": "/// ASSERT false, \"no recursive calls\";"
+    },
+    {
+      "line": 130,
+      "text": "/// ASSUME false;"
+    },
+    {
+      "line": 131,
+      "text": "/// end:"
+    },
+    {
+      "line": 132,
+      "text": "/// END_FUNCTION;"
+    },
+    {
+      "line": 133,
+      "text": "/// ```"
+    },
+    {
+      "line": 134,
+      "text": "void dfcc_swap_and_wrapt::check_contract("
+    },
+    {
+      "line": 135,
+      "text": "  const loop_contract_configt &loop_contract_config,"
+    },
+    {
+      "line": 136,
+      "text": "  const irep_idt &function_id,"
+    },
+    {
+      "line": 137,
+      "text": "  const irep_idt &contract_id,"
+    },
+    {
+      "line": 138,
+      "text": "  std::set<irep_idt> &function_pointer_contracts,"
+    },
+    {
+      "line": 139,
+      "text": "  bool allow_recursive_calls)"
+    },
+    {
+      "line": 140,
+      "text": "{"
+    },
+    {
+      "line": 141,
+      "text": "  // all code generation needs to run on functions with unmodified signatures"
+    },
+    {
+      "line": 142,
+      "text": "  const irep_idt &wrapper_id = function_id;"
+    },
+    {
+      "line": 143,
+      "text": "  const irep_idt wrapped_id ="
+    },
+    {
+      "line": 144,
+      "text": "    id2string(wrapper_id) + \"_wrapped_for_contract_checking\";"
+    },
+    {
+      "line": 145,
+      "text": "  dfcc_utilst::wrap_function(goto_model, wrapper_id, wrapped_id);"
+    },
+    {
+      "line": 146,
+      "text": ""
+    },
+    {
+      "line": 147,
+      "text": "  // wrapper body"
+    },
+    {
+      "line": 148,
+      "text": "  goto_programt body;"
+    },
+    {
+      "line": 149,
+      "text": ""
+    },
+    {
+      "line": 150,
+      "text": "  const auto &wrapper_symbol ="
+    },
+    {
+      "line": 151,
+      "text": "    dfcc_utilst::get_function_symbol(goto_model.symbol_table, wrapper_id);"
+    },
+    {
+      "line": 152,
+      "text": ""
+    },
+    {
+      "line": 153,
+      "text": "  auto check_started = dfcc_utilst::create_static_symbol("
+    },
+    {
+      "line": 154,
+      "text": "                         goto_model.symbol_table,"
+    },
+    {
+      "line": 155,
+      "text": "                         bool_typet(),"
+    },
+    {
+      "line": 156,
+      "text": "                         id2string(function_id),"
+    },
+    {
+      "line": 157,
+      "text": "                         \"__contract_check_in_progress\","
+    },
+    {
+      "line": 158,
+      "text": "                         wrapper_symbol.location,"
+    },
+    {
+      "line": 159,
+      "text": "                         wrapper_symbol.mode,"
+    },
+    {
+      "line": 160,
+      "text": "                         wrapper_symbol.module,"
+    },
+    {
+      "line": 161,
+      "text": "                         false_exprt())"
+    },
+    {
+      "line": 162,
+      "text": "                         .symbol_expr();"
+    },
+    {
+      "line": 163,
+      "text": ""
+    },
+    {
+      "line": 164,
+      "text": "  auto check_completed = dfcc_utilst::create_static_symbol("
+    },
+    {
+      "line": 165,
+      "text": "                           goto_model.symbol_table,"
+    },
+    {
+      "line": 166,
+      "text": "                           bool_typet(),"
+    },
+    {
+      "line": 167,
+      "text": "                           id2string(function_id),"
+    },
+    {
+      "line": 168,
+      "text": "                           \"__contract_checked_once\","
+    },
+    {
+      "line": 169,
+      "text": "                           wrapper_symbol.location,"
+    },
+    {
+      "line": 170,
+      "text": "                           wrapper_symbol.mode,"
+    },
+    {
+      "line": 171,
+      "text": "                           wrapper_symbol.module,"
+    },
+    {
+      "line": 172,
+      "text": "                           false_exprt())"
+    },
+    {
+      "line": 173,
+      "text": "                           .symbol_expr();"
+    },
+    {
+      "line": 174,
+      "text": ""
+    },
+    {
+      "line": 175,
+      "text": "  auto check_started_goto = body.add(goto_programt::make_incomplete_goto("
+    },
+    {
+      "line": 176,
+      "text": "    check_started, wrapper_symbol.location));"
+    },
+    {
+      "line": 177,
+      "text": ""
+    },
+    {
+      "line": 178,
+      "text": "  // At most a single top level call to the checked function in any execution"
+    },
+    {
+      "line": 179,
+      "text": ""
+    },
+    {
+      "line": 180,
+      "text": "  // Recursive calls within a contract check correspond to"
+    },
+    {
+      "line": 181,
+      "text": "  // `check_started && !check_completed` and are allowed."
+    },
+    {
+      "line": 182,
+      "text": ""
+    },
+    {
+      "line": 183,
+      "text": "  // Any other call occuring with `check_completed` true is forbidden."
+    },
+    {
+      "line": 184,
+      "text": "  source_locationt sl(wrapper_symbol.location);"
+    },
+    {
+      "line": 185,
+      "text": "  sl.set_function(wrapper_symbol.name);"
+    },
+    {
+      "line": 186,
+      "text": "  sl.set_property_class(\"single_top_level_call\");"
+    },
+    {
+      "line": 187,
+      "text": "  sl.set_comment("
+    },
+    {
+      "line": 188,
+      "text": "    \"Only a single top-level call to function \" + id2string(function_id) +"
+    },
+    {
+      "line": 189,
+      "text": "    \" when checking contract \" + id2string(contract_id));"
+    },
+    {
+      "line": 190,
+      "text": "  body.add(goto_programt::make_assertion(not_exprt(check_completed), sl));"
+    },
+    {
+      "line": 191,
+      "text": "  body.add(goto_programt::make_assignment("
+    },
+    {
+      "line": 192,
+      "text": "    check_started, true_exprt(), wrapper_symbol.location));"
+    },
+    {
+      "line": 193,
+      "text": ""
+    },
+    {
+      "line": 194,
+      "text": "  const auto write_set_symbol = dfcc_utilst::create_new_parameter_symbol("
+    },
+    {
+      "line": 195,
+      "text": "    goto_model.symbol_table,"
+    },
+    {
+      "line": 196,
+      "text": "    function_id,"
+    },
+    {
+      "line": 197,
+      "text": "    \"__write_set_to_check\","
+    },
+    {
+      "line": 198,
+      "text": "    library.dfcc_type[dfcc_typet::CAR_SET_PTR]);"
+    },
+    {
+      "line": 199,
+      "text": ""
+    },
+    {
+      "line": 200,
+      "text": "  contract_handler.add_contract_instructions("
+    },
+    {
+      "line": 201,
+      "text": "    dfcc_contract_modet::CHECK,"
+    },
+    {
+      "line": 202,
+      "text": "    wrapper_id,"
+    },
+    {
+      "line": 203,
+      "text": "    wrapped_id,"
+    },
+    {
+      "line": 204,
+      "text": "    contract_id,"
+    },
+    {
+      "line": 205,
+      "text": "    write_set_symbol,"
+    },
+    {
+      "line": 206,
+      "text": "    body,"
+    },
+    {
+      "line": 207,
+      "text": "    function_pointer_contracts);"
+    },
+    {
+      "line": 208,
+      "text": ""
+    },
+    {
+      "line": 209,
+      "text": "  body.add(goto_programt::make_assignment("
+    },
+    {
+      "line": 210,
+      "text": "    check_completed, true_exprt(), wrapper_symbol.location));"
+    },
+    {
+      "line": 211,
+      "text": "  body.add(goto_programt::make_assignment("
+    },
+    {
+      "line": 212,
+      "text": "    check_started, false_exprt(), wrapper_symbol.location));"
+    },
+    {
+      "line": 213,
+      "text": ""
+    },
+    {
+      "line": 214,
+      "text": "  // unconditionally Jump to the end after the check"
+    },
+    {
+      "line": 215,
+      "text": "  auto goto_end_function ="
+    },
+    {
+      "line": 216,
+      "text": "    body.add(goto_programt::make_incomplete_goto(wrapper_symbol.location));"
+    },
+    {
+      "line": 217,
+      "text": ""
+    },
+    {
+      "line": 218,
+      "text": "  // Jump to the replacement section if check already in progress"
+    },
+    {
+      "line": 219,
+      "text": "  auto contract_replacement_label ="
+    },
+    {
+      "line": 220,
+      "text": "    body.add(goto_programt::make_skip(wrapper_symbol.location));"
+    },
+    {
+      "line": 221,
+      "text": "  check_started_goto->complete_goto(contract_replacement_label);"
+    },
+    {
+      "line": 222,
+      "text": ""
+    },
+    {
+      "line": 223,
+      "text": "  if(allow_recursive_calls)"
+    },
+    {
+      "line": 224,
+      "text": "  {"
+    },
+    {
+      "line": 225,
+      "text": "    contract_handler.add_contract_instructions("
+    },
+    {
+      "line": 226,
+      "text": "      dfcc_contract_modet::REPLACE,"
+    },
+    {
+      "line": 227,
+      "text": "      wrapper_id,"
+    },
+    {
+      "line": 228,
+      "text": "      wrapped_id,"
+    },
+    {
+      "line": 229,
+      "text": "      contract_id,"
+    },
+    {
+      "line": 230,
+      "text": "      write_set_symbol,"
+    },
+    {
+      "line": 231,
+      "text": "      body,"
+    },
+    {
+      "line": 232,
+      "text": "      function_pointer_contracts);"
+    },
+    {
+      "line": 233,
+      "text": "  }"
+    },
+    {
+      "line": 234,
+      "text": "  else"
+    },
+    {
+      "line": 235,
+      "text": "  {"
+    },
+    {
+      "line": 236,
+      "text": "    source_locationt sl(wrapper_symbol.location);"
+    },
+    {
+      "line": 237,
+      "text": "    sl.set_function(wrapper_symbol.name);"
+    },
+    {
+      "line": 238,
+      "text": "    sl.set_property_class(\"no_recursive_call\");"
+    },
+    {
+      "line": 239,
+      "text": "    sl.set_comment("
+    },
+    {
+      "line": 240,
+      "text": "      \"No recursive call to function \" + id2string(function_id) +"
+    },
+    {
+      "line": 241,
+      "text": "      \" when checking contract \" + id2string(contract_id));"
+    },
+    {
+      "line": 242,
+      "text": "    body.add(goto_programt::make_assertion(false_exprt(), sl));"
+    },
+    {
+      "line": 243,
+      "text": "    body.add("
+    },
+    {
+      "line": 244,
+      "text": "      goto_programt::make_assumption(false_exprt(), wrapper_symbol.location));"
+    }
+  ],
+  "assurance": "source excerpt from upstream configured release; no unrelated PR implementation"
+}

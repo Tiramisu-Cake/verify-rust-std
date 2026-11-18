@@ -1,0 +1,39 @@
+{
+  "task_commit": "98dde2de28e13381092f20c082ba90f90ce34773",
+  "task_file_sha256": "cb1405037c4f7aa33b34614690ae88f1689c4105664473b3b75d07adf593395c",
+  "INPUTS_sha256": "2a54fe8b6af9a382044811e3162c1dbfc864de45b7bf64e3b2c4cf35b5e1f560",
+  "g0_start_head": "f4c2a494bb6a00f4174fb957b1e2d08feabea07d",
+  "source": {
+    "sha": "f82934ca97caaa1270d5279054aa950173868be5",
+    "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+    "parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "message": "Exercise ordinary replacements through single-call PFC callers [skip ci]"
+  },
+  "source_parent": {
+    "sha": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "parent": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "message": "Support ordinary stubs of contracted functions"
+  },
+  "upstream": {
+    "sha": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "tree": "c9a832dc1647c51ac3036429e5f97e73eb717ba7",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "author": "Felipe R. Monteiro <felisous@amazon.com>",
+    "message": "Upgrade Rust toolchain to nightly-2026-11-18 (#5188)\n\nUpgrades the toolchain from `nightly-2026-11-12` to\n`nightly-2026-11-18`. All the changes below came with\n`nightly-2026-11-17`; `nightly-2026-11-18` needed none.\n\n### Changes for the new toolchain\n\n- **Attributes.** rustc removed `Attribute::path_matches` and\n`Attribute::value_str`. `attributes.rs` now checks a tool attribute's\npath itself (`attr_path_matches`, the same test rustc used to do) and\nreads a `path = \"value\"` attribute's string through `value_lit`\n(`attr_value_str`).\n- **Diagnostics.** `HumanReadableErrorType` gained a `no_graphics`\nfield.\n- **View types.** rustc added `TyKind::View`, a work-in-progress feature\nthat rustc's own codegen and const-eval do not support yet\n(`unimplemented!()`). Kani reports it as unsupported in the two type\nmatches in `typ.rs`, as it does for `UnsafeBinder`.\n- **Float intrinsics.** `copysign`, `maximum_number_nsz` and\n`minimum_number_nsz` are now generic over the float type, as `ceil`,\n`sqrt` and others became before. They join `GENERIC_FLOAT_INTRINSICS`,\nso Kani keeps its own f32/f64 models; the six tests call the generic\nintrinsics.\n- **SIMD types.** MIR no longer allows field projections into\n`#[repr(simd)]` types (MCP#838). The derived `Clone`/`Debug` of the\n`CustomMask` test model in `library/kani` projected into its field and\nmade clippy hit an ICE in MIR validation; it now copies the whole value.\nAll SIMD tests in the regression pass unchanged.\n- **Feature gates.** `pattern_type_macro` was removed; `pattern_type!`\nis gated by `pattern_types`. Four tests drop the old gate (a comment\nkeeps the line numbers their expected output refers to).\n- **Clippy.** Nine `.contains(&\"...\".to_string())` calls flagged by the\nnew `unnecessary_to_owned` finding use `.iter().any(..)`.\n\n### Removing `chrono`\n\n[RUSTSEC-2026-0543](https://rustsec.org/advisories/RUSTSEC-2026-0543)\n(issued 2026-11-17) marks `chrono` as unmaintained, with no fixed\nversion, so `cargo deny` fails on every PR and on `main`. `kani-driver`\nonly used it to stamp the flamegraph file name in developer mode; that\ntimestamp is now built from `std::time::SystemTime` (in UTC), with a\nunit test. This removes `chrono` and its time-zone crates from\n`Cargo.lock`.\n\n### Testing\n\nOn Linux with CBMC 6.11.0, in the Kani CI image:\n- `cargo build-dev`, the LLBC build, `scripts/kani-fmt.sh --check`, and\nboth clippy commands of the format-check workflow pass.\n- `scripts/kani-regression.sh`: every suite passes except\n`script-based-pre/compiler_defaults` (needs `jq`) and\n`script-based-pre/cbmc_truncated_results` (memory limit), which only\nfail in my container; the steps after the suites\n(`codegen-firecracker.sh`, the `cargo-features-flag` check, the `-D\nwarnings` build) pass.\n- `scripts/kani-llbc-regression.sh` passes.\n- `cargo deny --all-features --workspace check -s` (the arguments of the\nCargo Deny workflow) passes.\n\nAll of the above was run on `nightly-2026-11-18`.\n\nResolves #5189 (the automatic upgrade to `nightly-2026-11-13` failed on\nthe attribute API change from rust-lang/rust#165871, which this PR\nhandles).\n\nBy submitting this pull request, I confirm that my contribution is made\nunder the terms of the Apache 2.0 and MIT licenses.\n\n---------\n\nSigned-off-by: Felipe R. Monteiro <felisous@amazon.com>"
+  },
+  "old_source_candidate": {
+    "sha": "3a770b5db51ba07acffce3483bde0901e6533f3a",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "parent": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "message": "Support ordinary stubs of contracted functions on new main [skip ci]"
+  },
+  "old_candidate_tree_equals_published6f": true,
+  "clean_room": "main969f, published own6f, frozen own author/review/GO, issue4591/reproducer; configured CBMC release source diagnostic only; no unrelated third-party PR implementation",
+  "no_compiler_or_execution": true,
+  "old_evidence_immutable": true,
+  "source_worktree_isolated": true
+}

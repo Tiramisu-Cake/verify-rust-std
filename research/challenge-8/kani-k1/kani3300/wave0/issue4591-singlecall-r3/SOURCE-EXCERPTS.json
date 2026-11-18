@@ -1,0 +1,577 @@
+{
+  "source_only": true,
+  "excerpts": [
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/kani_middle/attributes.rs",
+      "blob": "84d53b6df551054c893e9e1b9119a28f2eea1d9c",
+      "start_line": 313,
+      "end_line": 326,
+      "text": "    ///\n    /// In the case of an error, this function will emit the error and return `None`.\n    pub(crate) fn interpret_for_contract_attribute(&self) -> Option<FnDefStable> {\n        self.expect_maybe_one(KaniAttributeKind::ProofForContract).and_then(|attr| {\n            let target = self.parse_single_path_attr(attr).ok()?;\n            Some(target.def().to_owned())\n        })\n    }\n\n    pub fn proof_for_contract(&self) -> Option<Result<Symbol, ErrorGuaranteed>> {\n        self.expect_maybe_one(KaniAttributeKind::ProofForContract)\n            .map(|target| expect_key_string_value(self.tcx.sess, target))\n    }\n"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/kani_middle/attributes.rs",
+      "blob": "84d53b6df551054c893e9e1b9119a28f2eea1d9c",
+      "start_line": 590,
+      "end_line": 617,
+      "text": "            || self.map.contains_key(&KaniAttributeKind::ProofForContract)\n    }\n\n    /// Check that the function specified in the `proof_for_contract` attribute\n    /// is reachable and emit an error if it isn't.\n    /// This is different from the earlier `check_attributes` call:\n    /// that checks that the specified target exists, but not if we can reach that target from the harness.\n    pub fn check_proof_for_contract_reachability(\n        &self,\n        reachable_functions: &HashSet<DefIdStable>,\n    ) {\n        if let Some(def) = self.interpret_for_contract_attribute()\n            && !reachable_functions.contains(&def.def_id())\n        {\n            let item_name = self.item_name();\n            let target_name = def.trimmed_name();\n            self.tcx.dcx().struct_span_err(\n                self.tcx.def_span(self.item),\n                format!(\n                    \"The function specified in the `proof_for_contract` attribute, `{target_name}`, is not reachable from the harness `{item_name}`.\",\n                )\n            )\n            .with_help(format!(\"Make sure that `{item_name}` calls `{target_name}`\"))\n            .emit();\n        }\n    }\n\n    /// Extract harness attributes for a given `def_id`."
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/kani_middle/attributes.rs",
+      "blob": "84d53b6df551054c893e9e1b9119a28f2eea1d9c",
+      "start_line": 313,
+      "end_line": 326,
+      "text": "    ///\n    /// In the case of an error, this function will emit the error and return `None`.\n    pub(crate) fn interpret_for_contract_attribute(&self) -> Option<FnDefStable> {\n        self.expect_maybe_one(KaniAttributeKind::ProofForContract).and_then(|attr| {\n            let target = self.parse_single_path_attr(attr).ok()?;\n            Some(target.def().to_owned())\n        })\n    }\n\n    pub fn proof_for_contract(&self) -> Option<Result<Symbol, ErrorGuaranteed>> {\n        self.expect_maybe_one(KaniAttributeKind::ProofForContract)\n            .map(|target| expect_key_string_value(self.tcx.sess, target))\n    }\n"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/kani_middle/attributes.rs",
+      "blob": "84d53b6df551054c893e9e1b9119a28f2eea1d9c",
+      "start_line": 590,
+      "end_line": 617,
+      "text": "            || self.map.contains_key(&KaniAttributeKind::ProofForContract)\n    }\n\n    /// Check that the function specified in the `proof_for_contract` attribute\n    /// is reachable and emit an error if it isn't.\n    /// This is different from the earlier `check_attributes` call:\n    /// that checks that the specified target exists, but not if we can reach that target from the harness.\n    pub fn check_proof_for_contract_reachability(\n        &self,\n        reachable_functions: &HashSet<DefIdStable>,\n    ) {\n        if let Some(def) = self.interpret_for_contract_attribute()\n            && !reachable_functions.contains(&def.def_id())\n        {\n            let item_name = self.item_name();\n            let target_name = def.trimmed_name();\n            self.tcx.dcx().struct_span_err(\n                self.tcx.def_span(self.item),\n                format!(\n                    \"The function specified in the `proof_for_contract` attribute, `{target_name}`, is not reachable from the harness `{item_name}`.\",\n                )\n            )\n            .with_help(format!(\"Make sure that `{item_name}` calls `{target_name}`\"))\n            .emit();\n        }\n    }\n\n    /// Extract harness attributes for a given `def_id`."
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/kani_middle/mod.rs",
+      "blob": "6093b083178e7b16e0f505d71c9438fdb924d334",
+      "start_line": 313,
+      "end_line": 340,
+      "text": "pub fn check_reachable_items(tcx: TyCtxt, queries: &QueryDb, items: &[MonoItem]) {\n    // Avoid printing the same error multiple times for different instantiations of the same item.\n    let mut def_ids = HashSet::new();\n    let reachable_functions: HashSet<DefId> = items\n        .iter()\n        .filter_map(|i| match i {\n            MonoItem::Fn(instance) => Some(instance.def.def_id()),\n            _ => None,\n        })\n        .collect();\n    for item in items.iter().filter(|i| matches!(i, MonoItem::Fn(..) | MonoItem::Static(..))) {\n        let def_id = match item {\n            MonoItem::Fn(instance) => instance.def.def_id(),\n            MonoItem::Static(def) => def.def_id(),\n            MonoItem::GlobalAsm(_) => {\n                unreachable!()\n            }\n        };\n        if !def_ids.contains(&def_id) {\n            let attributes = KaniAttributes::for_def_id(tcx, def_id);\n            // Check if any unstable attribute was reached.\n            attributes.check_unstable_features(&queries.args().unstable_features);\n            // Check whether all `proof_for_contract` targets are reachable\n            attributes.check_proof_for_contract_reachability(&reachable_functions);\n            def_ids.insert(def_id);\n        }\n    }\n    tcx.dcx().abort_if_errors();"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/kani_middle/mod.rs",
+      "blob": "6093b083178e7b16e0f505d71c9438fdb924d334",
+      "start_line": 313,
+      "end_line": 340,
+      "text": "pub fn check_reachable_items(tcx: TyCtxt, queries: &QueryDb, items: &[MonoItem]) {\n    // Avoid printing the same error multiple times for different instantiations of the same item.\n    let mut def_ids = HashSet::new();\n    let reachable_functions: HashSet<DefId> = items\n        .iter()\n        .filter_map(|i| match i {\n            MonoItem::Fn(instance) => Some(instance.def.def_id()),\n            _ => None,\n        })\n        .collect();\n    for item in items.iter().filter(|i| matches!(i, MonoItem::Fn(..) | MonoItem::Static(..))) {\n        let def_id = match item {\n            MonoItem::Fn(instance) => instance.def.def_id(),\n            MonoItem::Static(def) => def.def_id(),\n            MonoItem::GlobalAsm(_) => {\n                unreachable!()\n            }\n        };\n        if !def_ids.contains(&def_id) {\n            let attributes = KaniAttributes::for_def_id(tcx, def_id);\n            // Check if any unstable attribute was reached.\n            attributes.check_unstable_features(&queries.args().unstable_features);\n            // Check whether all `proof_for_contract` targets are reachable\n            attributes.check_proof_for_contract_reachability(&reachable_functions);\n            def_ids.insert(def_id);\n        }\n    }\n    tcx.dcx().abort_if_errors();"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/kani_middle/transform/stubs.rs",
+      "blob": "333e30141b37119c77d55203ab542499c79baa90",
+      "start_line": 44,
+      "end_line": 77,
+      "text": "\n    /// Transform the function body by replacing it with the stub body.\n    fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {\n        trace!(function=?instance.name(), \"transform\");\n        let ty = instance.ty();\n        if let TyKind::RigidTy(RigidTy::FnDef(fn_def, args)) = ty.kind()\n            && let Some(replace) = self.stubs.get(&fn_def)\n        {\n            let new_instance = Instance::resolve(*replace, &args).unwrap();\n            debug!(from=?instance.name(), to=?new_instance.name(), \"FnStubPass::transform\");\n            if let Some(body) = FnStubValidator::validate(tcx, (fn_def, *replace), new_instance) {\n                return (true, body);\n            }\n        }\n        (false, body)\n    }\n}\n\nimpl FnStubPass {\n    /// Build the pass with non-extern function stubs.\n    pub fn new(all_stubs: &Stubs) -> FnStubPass {\n        let stubs = all_stubs\n            .iter()\n            .filter_map(|(from, to)| (has_body(*from) && has_body(*to)).then_some((*from, *to)))\n            .collect::<HashMap<_, _>>();\n        FnStubPass { stubs }\n    }\n}\n\n/// Replace the body of a function that is stubbed by the other.\n///\n/// This pass will replace the function call, since one of the functions do not have a body to\n/// replace.\n#[derive(Debug, Clone)]"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/kani_middle/transform/stubs.rs",
+      "blob": "333e30141b37119c77d55203ab542499c79baa90",
+      "start_line": 150,
+      "end_line": 167,
+      "text": "                FnStubValidator { stub, tcx, locals: body.locals(), is_valid: true };\n            validator.visit_body(&body);\n            validator.is_valid.then_some(body)\n        } else {\n            None\n        }\n    }\n}\n\nimpl MirVisitor for FnStubValidator<'_, '_> {\n    fn visit_operand(&mut self, op: &Operand, loc: Location) {\n        let op_ty = op.ty(self.locals).unwrap();\n        if let TyKind::RigidTy(RigidTy::FnDef(def, args)) = op_ty.kind()\n            && Instance::resolve(def, &args).is_err()\n        {\n            self.is_valid = false;\n            let callee = crate::kani_middle::strip_local_crate_prefix(def.name());\n            let receiver_ty = args.0[0].expect_ty();"
+    },
+    {
+      "ref": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "path": "kani-compiler/src/kani_middle/transform/stubs.rs",
+      "blob": "a1df1bdbcba1d08599caa87f1aefb5569b15f77b",
+      "start_line": 44,
+      "end_line": 77,
+      "text": "    }\n\n    /// Transform the function body by replacing it with the stub body.\n    fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {\n        trace!(function=?instance.name(), \"transform\");\n        self.body_source = None;\n        let ty = instance.ty();\n        if let TyKind::RigidTy(RigidTy::FnDef(fn_def, args)) = ty.kind()\n            && let Some(replace) = self.stubs.get(&fn_def)\n        {\n            let new_instance = Instance::resolve(*replace, &args).unwrap();\n            debug!(from=?instance.name(), to=?new_instance.name(), \"FnStubPass::transform\");\n            if let Some(body) = FnStubValidator::validate(tcx, (fn_def, *replace), new_instance) {\n                self.body_source = Some(new_instance);\n                return (true, body);\n            }\n        }\n        (false, body)\n    }\n\n    fn take_body_source(&mut self) -> Option<Instance> {\n        self.body_source.take()\n    }\n}\n\nimpl FnStubPass {\n    /// Build the pass with non-extern function stubs.\n    pub fn new(all_stubs: &Stubs) -> FnStubPass {\n        let stubs = all_stubs\n            .iter()\n            .filter_map(|(from, to)| (has_body(*from) && has_body(*to)).then_some((*from, *to)))\n            .collect::<HashMap<_, _>>();\n        FnStubPass { stubs, body_source: None }\n    }"
+    },
+    {
+      "ref": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "path": "kani-compiler/src/kani_middle/transform/stubs.rs",
+      "blob": "a1df1bdbcba1d08599caa87f1aefb5569b15f77b",
+      "start_line": 150,
+      "end_line": 167,
+      "text": "}\n\nimpl FnStubValidator<'_, '_> {\n    fn validate(tcx: TyCtxt, stub: (FnDef, FnDef), new_instance: Instance) -> Option<Body> {\n        if validate_stub_const(tcx, new_instance) {\n            let body = crate::kani_middle::checked_body(tcx, new_instance).unwrap();\n            let mut validator =\n                FnStubValidator { stub, tcx, locals: body.locals(), is_valid: true };\n            validator.visit_body(&body);\n            validator.is_valid.then_some(body)\n        } else {\n            None\n        }\n    }\n}\n\nimpl MirVisitor for FnStubValidator<'_, '_> {\n    fn visit_operand(&mut self, op: &Operand, loc: Location) {"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/kani_middle/transform/stubs.rs",
+      "blob": "a1df1bdbcba1d08599caa87f1aefb5569b15f77b",
+      "start_line": 44,
+      "end_line": 77,
+      "text": "    }\n\n    /// Transform the function body by replacing it with the stub body.\n    fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {\n        trace!(function=?instance.name(), \"transform\");\n        self.body_source = None;\n        let ty = instance.ty();\n        if let TyKind::RigidTy(RigidTy::FnDef(fn_def, args)) = ty.kind()\n            && let Some(replace) = self.stubs.get(&fn_def)\n        {\n            let new_instance = Instance::resolve(*replace, &args).unwrap();\n            debug!(from=?instance.name(), to=?new_instance.name(), \"FnStubPass::transform\");\n            if let Some(body) = FnStubValidator::validate(tcx, (fn_def, *replace), new_instance) {\n                self.body_source = Some(new_instance);\n                return (true, body);\n            }\n        }\n        (false, body)\n    }\n\n    fn take_body_source(&mut self) -> Option<Instance> {\n        self.body_source.take()\n    }\n}\n\nimpl FnStubPass {\n    /// Build the pass with non-extern function stubs.\n    pub fn new(all_stubs: &Stubs) -> FnStubPass {\n        let stubs = all_stubs\n            .iter()\n            .filter_map(|(from, to)| (has_body(*from) && has_body(*to)).then_some((*from, *to)))\n            .collect::<HashMap<_, _>>();\n        FnStubPass { stubs, body_source: None }\n    }"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/kani_middle/transform/stubs.rs",
+      "blob": "a1df1bdbcba1d08599caa87f1aefb5569b15f77b",
+      "start_line": 150,
+      "end_line": 167,
+      "text": "}\n\nimpl FnStubValidator<'_, '_> {\n    fn validate(tcx: TyCtxt, stub: (FnDef, FnDef), new_instance: Instance) -> Option<Body> {\n        if validate_stub_const(tcx, new_instance) {\n            let body = crate::kani_middle::checked_body(tcx, new_instance).unwrap();\n            let mut validator =\n                FnStubValidator { stub, tcx, locals: body.locals(), is_valid: true };\n            validator.visit_body(&body);\n            validator.is_valid.then_some(body)\n        } else {\n            None\n        }\n    }\n}\n\nimpl MirVisitor for FnStubValidator<'_, '_> {\n    fn visit_operand(&mut self, op: &Operand, loc: Location) {"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "blob": "9f4d8d62932a069a933060fdbaf8bd8c7d5cb197",
+      "start_line": 114,
+      "end_line": 124,
+      "text": "        let unsupported_check_type = CheckType::new_unsupported_check_assert_assume_false(queries);\n        // This has to come first, since creating harnesses affects later stubbing and contract passes.\n        transformer.add_pass(queries, AutomaticHarnessPass::new(queries));\n        transformer.add_pass(queries, AutomaticArbitraryPass::new(unit, queries));\n        transformer.add_pass(queries, FnStubPass::new(&unit.stubs));\n        transformer.add_pass(queries, ExternFnStubPass::new(&unit.stubs));\n        transformer.add_pass(queries, FunctionWithContractPass::new(tcx, queries, unit));\n        // This has to come after the contract pass since we want this to only replace the closure\n        // body that is relevant for this harness.\n        transformer.add_pass(queries, AnyModifiesPass::new(tcx, queries, unit));\n        transformer.add_pass("
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "blob": "9f4d8d62932a069a933060fdbaf8bd8c7d5cb197",
+      "start_line": 158,
+      "end_line": 188,
+      "text": "                let mut body = crate::kani_middle::checked_body(tcx, instance)\n                    .unwrap_or_else(|| build_missing_body(tcx, instance));\n\n                let mut modified = false;\n                for pass in self.stub_passes.iter_mut().chain(self.inst_passes.iter_mut()) {\n                    let result = pass.transform(tcx, body, instance);\n                    modified |= result.0;\n                    body = result.1;\n                    self.generated_loop_modifies.extend(\n                        pass.take_generated_loop_modifies()\n                            .into_iter()\n                            .map(|(register_fn, locals)| ((instance, register_fn), locals)),\n                    );\n                    self.loop_modifies_bindings.extend(\n                        pass.take_loop_modifies_bindings()\n                            .into_iter()\n                            .map(|(binding, register_fn)| ((instance, binding), register_fn)),\n                    );\n                }\n\n                TransformationResult(body, modified)\n            })\n            .0\n    }\n\n    /// The locals of the transformed body of `instance` that codegen adds to the loop modifies\n    /// clause written by the user for the loop whose latch calls the register function\n    /// `register_fn`. The body of `instance` must have been transformed already.\n    pub fn generated_loop_modifies(&self, instance: Instance, register_fn: Instance) -> &[Local] {\n        self.generated_loop_modifies.get(&(instance, register_fn)).map_or(&[], Vec::as_slice)\n    }"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "blob": "9f4d8d62932a069a933060fdbaf8bd8c7d5cb197",
+      "start_line": 233,
+      "end_line": 251,
+      "text": "    where\n        Self: Sized;\n\n    /// Run a transformation pass in the function body.\n    fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body);\n\n    /// Take the locals that codegen must add to the loop modifies clause of the loops of the body\n    /// that this pass last transformed, by the instance of the register function that each\n    /// loop latch calls. See `LoopContractPass::add_generated_loop_modifies`.\n    fn take_generated_loop_modifies(&mut self) -> Vec<(Instance, Vec<Local>)> {\n        Vec::new()\n    }\n\n    /// Take the `kani_loop_modifies` bindings of the loops of the body that this pass last\n    /// transformed, with the instance of the register function of their loop. See\n    /// `LoopContractPass::find_loop_modifies_bindings`.\n    fn take_loop_modifies_bindings(&mut self) -> Vec<(Local, Instance)> {\n        Vec::new()\n    }"
+    },
+    {
+      "ref": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "blob": "38ea0963da5bccfa015f023aa7301debe2f360a4",
+      "start_line": 114,
+      "end_line": 124,
+      "text": "        let unsupported_check_type = CheckType::new_unsupported_check_assert_assume_false(queries);\n        // This has to come first, since creating harnesses affects later stubbing and contract passes.\n        transformer.add_pass(queries, AutomaticHarnessPass::new(queries));\n        transformer.add_pass(queries, AutomaticArbitraryPass::new(unit, queries));\n        transformer.add_pass(queries, FnStubPass::new(&unit.stubs));\n        transformer.add_pass(queries, ExternFnStubPass::new(&unit.stubs));\n        transformer.add_pass(queries, FunctionWithContractPass::new(tcx, queries, unit));\n        // This has to come after the contract pass since we want this to only replace the closure\n        // body that is relevant for this harness.\n        transformer.add_pass(queries, AnyModifiesPass::new(tcx, queries, unit));\n        transformer.add_pass("
+    },
+    {
+      "ref": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "blob": "38ea0963da5bccfa015f023aa7301debe2f360a4",
+      "start_line": 158,
+      "end_line": 188,
+      "text": "                let mut body = crate::kani_middle::checked_body(tcx, instance)\n                    .unwrap_or_else(|| build_missing_body(tcx, instance));\n\n                let mut modified = false;\n                let mut body_source = instance;\n                for pass in self.stub_passes.iter_mut().chain(self.inst_passes.iter_mut()) {\n                    let transform_instance = pass.transform_instance(instance, body_source);\n                    let result = pass.transform(tcx, body, transform_instance);\n                    if let Some(source) = pass.take_body_source() {\n                        body_source = source;\n                    }\n                    modified |= result.0;\n                    body = result.1;\n                    self.generated_loop_modifies.extend(\n                        pass.take_generated_loop_modifies()\n                            .into_iter()\n                            .map(|(register_fn, locals)| ((instance, register_fn), locals)),\n                    );\n                    self.loop_modifies_bindings.extend(\n                        pass.take_loop_modifies_bindings()\n                            .into_iter()\n                            .map(|(binding, register_fn)| ((instance, binding), register_fn)),\n                    );\n                }\n\n                TransformationResult(body, modified)\n            })\n            .0\n    }\n\n    /// The locals of the transformed body of `instance` that codegen adds to the loop modifies"
+    },
+    {
+      "ref": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "blob": "38ea0963da5bccfa015f023aa7301debe2f360a4",
+      "start_line": 233,
+      "end_line": 251,
+      "text": "    fn transformation_type() -> TransformationType\n    where\n        Self: Sized;\n\n    fn is_enabled(&self, query_db: &QueryDb) -> bool\n    where\n        Self: Sized;\n\n    /// Run a transformation pass in the function body.\n    fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body);\n\n    /// Select the instance whose attributes apply to this pass. `body_source` identifies the\n    /// resolved ordinary stub supplying the body when a replacement has been applied.\n    fn transform_instance(&self, instance: Instance, _body_source: Instance) -> Instance {\n        instance\n    }\n\n    /// Take the source instance of a successfully replaced body.\n    fn take_body_source(&mut self) -> Option<Instance> {"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "blob": "38ea0963da5bccfa015f023aa7301debe2f360a4",
+      "start_line": 114,
+      "end_line": 124,
+      "text": "        let unsupported_check_type = CheckType::new_unsupported_check_assert_assume_false(queries);\n        // This has to come first, since creating harnesses affects later stubbing and contract passes.\n        transformer.add_pass(queries, AutomaticHarnessPass::new(queries));\n        transformer.add_pass(queries, AutomaticArbitraryPass::new(unit, queries));\n        transformer.add_pass(queries, FnStubPass::new(&unit.stubs));\n        transformer.add_pass(queries, ExternFnStubPass::new(&unit.stubs));\n        transformer.add_pass(queries, FunctionWithContractPass::new(tcx, queries, unit));\n        // This has to come after the contract pass since we want this to only replace the closure\n        // body that is relevant for this harness.\n        transformer.add_pass(queries, AnyModifiesPass::new(tcx, queries, unit));\n        transformer.add_pass("
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "blob": "38ea0963da5bccfa015f023aa7301debe2f360a4",
+      "start_line": 158,
+      "end_line": 188,
+      "text": "                let mut body = crate::kani_middle::checked_body(tcx, instance)\n                    .unwrap_or_else(|| build_missing_body(tcx, instance));\n\n                let mut modified = false;\n                let mut body_source = instance;\n                for pass in self.stub_passes.iter_mut().chain(self.inst_passes.iter_mut()) {\n                    let transform_instance = pass.transform_instance(instance, body_source);\n                    let result = pass.transform(tcx, body, transform_instance);\n                    if let Some(source) = pass.take_body_source() {\n                        body_source = source;\n                    }\n                    modified |= result.0;\n                    body = result.1;\n                    self.generated_loop_modifies.extend(\n                        pass.take_generated_loop_modifies()\n                            .into_iter()\n                            .map(|(register_fn, locals)| ((instance, register_fn), locals)),\n                    );\n                    self.loop_modifies_bindings.extend(\n                        pass.take_loop_modifies_bindings()\n                            .into_iter()\n                            .map(|(binding, register_fn)| ((instance, binding), register_fn)),\n                    );\n                }\n\n                TransformationResult(body, modified)\n            })\n            .0\n    }\n\n    /// The locals of the transformed body of `instance` that codegen adds to the loop modifies"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "blob": "38ea0963da5bccfa015f023aa7301debe2f360a4",
+      "start_line": 233,
+      "end_line": 251,
+      "text": "    fn transformation_type() -> TransformationType\n    where\n        Self: Sized;\n\n    fn is_enabled(&self, query_db: &QueryDb) -> bool\n    where\n        Self: Sized;\n\n    /// Run a transformation pass in the function body.\n    fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body);\n\n    /// Select the instance whose attributes apply to this pass. `body_source` identifies the\n    /// resolved ordinary stub supplying the body when a replacement has been applied.\n    fn transform_instance(&self, instance: Instance, _body_source: Instance) -> Instance {\n        instance\n    }\n\n    /// Take the source instance of a successfully replaced body.\n    fn take_body_source(&mut self) -> Option<Instance> {"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "d3be8c695729c91a6f22be5eea03fbb5629514bb",
+      "start_line": 323,
+      "end_line": 374,
+      "text": "    fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {\n        trace!(function=?instance.name(), \"FunctionWithContractPass::transform\");\n        match instance.ty().kind().rigid().unwrap() {\n            RigidTy::FnDef(def, args) => {\n                if let Some(mode) = self.contract_mode(tcx, *def) {\n                    if mode == ContractMode::RecursiveCheck {\n                        check_mutual_recursion(tcx, *def, &body);\n                    }\n                    // Key the dedup on the monomorphized instance, not the\n                    // `FnDef`: a generic `stub_verified` target can be\n                    // instantiated at several types, and each instantiation has\n                    // its own return type and so its own potential cycle.\n                    if mode == ContractMode::Replace\n                        && self.arbitrary_cycle_checked.insert(instance)\n                    {\n                        self.check_arbitrary_cycle(tcx, *def, args);\n                    }\n                    self.mark_unused(tcx, *def, &body, mode);\n                    let new_body = self.set_mode(tcx, body, mode);\n                    (true, new_body)\n                } else if KaniAttributes::for_instance(tcx, instance).fn_marker()\n                    == Some(Symbol::intern(\"kani_register_contract\"))\n                {\n                    let run = Instance::resolve(self.run_contract_fn.unwrap(), args).unwrap();\n                    (true, run.body().unwrap())\n                } else {\n                    // Not a contract annotated function\n                    (false, body)\n                }\n            }\n            RigidTy::Closure(def, _args) => {\n                if self.unused_closures.contains(def) {\n                    // Delete body and mark it as unreachable.\n                    let mut new_body = MutableBody::from(body);\n                    new_body.clear_body(TerminatorKind::Unreachable);\n                    (true, new_body.into())\n                } else {\n                    // Not a contract annotated function\n                    (false, body)\n                }\n            }\n            _ => {\n                /* static variables case */\n                (false, body)\n            }\n        }\n    }\n}\n\nimpl FunctionWithContractPass {\n    /// Build the pass by collecting which functions we are stubbing and which ones we are\n    /// verifying."
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "d3be8c695729c91a6f22be5eea03fbb5629514bb",
+      "start_line": 386,
+      "end_line": 427,
+      "text": "                    // For automatic harnesses, the target is the function to verify,\n                    // and stubs are empty.\n                    (Some(fn_to_verify_def), HashSet::default())\n                } else {\n                    let attrs = KaniAttributes::for_instance(tcx, *harness);\n                    let check_fn = attrs.interpret_for_contract_attribute();\n                    let replace_fns: HashSet<_> =\n                        attrs.interpret_stub_verified_attribute().into_iter().collect();\n                    (check_fn, replace_fns)\n                }\n            };\n            let run_contract_fn =\n                queries.kani_functions().get(&KaniModel::RunContract.into()).copied();\n            assert!(run_contract_fn.is_some(), \"Failed to find Kani run contract function\");\n            let in_clause_fn =\n                queries.kani_functions().get(&KaniModel::InContractClause.into()).copied();\n            assert!(in_clause_fn.is_some(), \"Failed to find Kani in-contract-clause function\");\n            FunctionWithContractPass {\n                check_fn,\n                replace_fns,\n                assert_contracts: !queries.args().no_assert_contracts,\n                unused_closures: Default::default(),\n                run_contract_fn,\n                in_clause_fn,\n                kani_any: queries.kani_functions().get(&KaniModel::Any.into()).copied(),\n                arbitrary_cycle_checked: Default::default(),\n            }\n        } else {\n            // If reachability mode is PubFns or Tests, we just remove any contract logic.\n            // Note that in this path there is no proof harness.\n            FunctionWithContractPass::default()\n        }\n    }\n\n    /// Functions with contract have the following structure:\n    /// ```ignore\n    /// fn original([self], args*) {\n    ///    let kani_contract_mode = kani::internal::mode(); // ** Replace this call\n    ///    match kani_contract_mode {\n    ///        kani::internal::RECURSION_CHECK => {\n    ///            let closure = |/*args*/|{ /*body*/};\n    ///            kani_register_contract(closure) // ** Replace this call"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "d3be8c695729c91a6f22be5eea03fbb5629514bb",
+      "start_line": 498,
+      "end_line": 527,
+      "text": "            //   calls must not be dispatched to the check closure: they\n            //   would consume the single top-level contract check and run\n            //   write-set instrumentation in the clause's context. (Unlike\n            //   dispatching to the contract replacement, the original body\n            //   does not require the return type to implement Arbitrary.)\n            //\n            // * For assert mode: asserting the contracts of dependencies\n            //   (the default since #3802) is an aid for detecting API misuse\n            //   in user code; re-asserting them for calls made by *contract\n            //   clauses* checks specification-level plumbing at a\n            //   multiplicative cost. Clause evaluation is meant to compute a\n            //   predicate over the pre-/post-states, and the functions it\n            //   calls are best executed with their exact semantics (their\n            //   bodies remain fully inlined and UB-checked either way).\n            let in_clause_instance =\n                Instance::resolve(self.in_clause_fn.unwrap(), &GenericArgs(vec![])).unwrap();\n            let in_clause_local = new_body.new_local(Ty::bool_ty(), span, Mutability::Mut);\n            new_body.insert_call(\n                &in_clause_instance,\n                &mut mode_call,\n                InsertPosition::Before,\n                vec![],\n                Place::from(in_clause_local),\n            );\n            let u8_ty = Ty::from_rigid_kind(RigidTy::Uint(UintTy::U8));\n            let in_clause_u8 = new_body.insert_assignment(\n                Rvalue::Cast(\n                    CastKind::IntToInt,\n                    Operand::Move(Place::from(in_clause_local)),\n                    u8_ty,"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "d3be8c695729c91a6f22be5eea03fbb5629514bb",
+      "start_line": 575,
+      "end_line": 603,
+      "text": "                } else {\n                    ContractMode::SimpleCheck\n                }\n            } else if self.replace_fns.contains(&fn_def) {\n                ContractMode::Replace\n            } else if self.assert_contracts {\n                ContractMode::Assert\n            } else {\n                ContractMode::Original\n            }\n        })\n    }\n\n    /// Detect the `stub_verified` / `Arbitrary` cycle described in\n    /// <https://github.com/model-checking/kani/pull/4571>.\n    ///\n    /// A contract replacement havocs its own return value with\n    /// `kani::any::<Ret>()` (see `initial_replace_stmts` in `kani_macros`, where\n    /// `any_modifies` is emitted and later rewritten to `kani::any` by\n    /// [`AnyModifiesPass`]). So if `Ret`'s `Arbitrary` implementation reaches the\n    /// stubbed function again, the replacement calls itself through\n    /// `Arbitrary::any`:\n    ///\n    /// ```text\n    /// normalize -> replace closure -> kani::any::<Wrapper> ->\n    ///     <Wrapper as Arbitrary>::any -> Wrapper::new -> normalize -> ...\n    /// ```\n    ///\n    /// This recursion is unbounded and has no fixpoint, so CBMC unwinds until it"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "d3be8c695729c91a6f22be5eea03fbb5629514bb",
+      "start_line": 670,
+      "end_line": 705,
+      "text": "                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(replace_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::RecursiveCheck => {\n                self.unused_closures.insert(replace_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::SimpleCheck => {\n                self.unused_closures.insert(replace_closure);\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::Replace => {\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::Assert => {\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(replace_closure);\n            }\n        }\n    }\n}\n\n/// Enumeration that store the value of which implementation should be selected.\n///\n/// Keep the discriminant values in sync with [kani::internal::mode].\n#[derive(Copy, Clone, Debug, PartialEq, Eq)]\nenum ContractMode {\n    Original = 0,\n    RecursiveCheck = 1,"
+    },
+    {
+      "ref": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+      "start_line": 323,
+      "end_line": 374,
+      "text": "        if let RigidTy::FnDef(def, _) = instance.ty().kind().rigid().unwrap()\n            && (self.check_fn == Some(*def) || self.replace_fns.contains(def))\n        {\n            // Explicit contract checks and verified stubs retain their selected target.\n            instance\n        } else {\n            body_source\n        }\n    }\n\n    /// Transform the function body by replacing it with the stub body.\n    fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {\n        trace!(function=?instance.name(), \"FunctionWithContractPass::transform\");\n        match instance.ty().kind().rigid().unwrap() {\n            RigidTy::FnDef(def, args) => {\n                if let Some(mode) = self.contract_mode(tcx, *def) {\n                    if mode == ContractMode::RecursiveCheck {\n                        check_mutual_recursion(tcx, *def, &body);\n                    }\n                    // Key the dedup on the monomorphized instance, not the\n                    // `FnDef`: a generic `stub_verified` target can be\n                    // instantiated at several types, and each instantiation has\n                    // its own return type and so its own potential cycle.\n                    if mode == ContractMode::Replace\n                        && self.arbitrary_cycle_checked.insert(instance)\n                    {\n                        self.check_arbitrary_cycle(tcx, *def, args);\n                    }\n                    self.mark_unused(tcx, *def, &body, mode);\n                    let new_body = self.set_mode(tcx, body, mode);\n                    (true, new_body)\n                } else if KaniAttributes::for_instance(tcx, instance).fn_marker()\n                    == Some(Symbol::intern(\"kani_register_contract\"))\n                {\n                    let run = Instance::resolve(self.run_contract_fn.unwrap(), args).unwrap();\n                    (true, run.body().unwrap())\n                } else {\n                    // Not a contract annotated function\n                    (false, body)\n                }\n            }\n            RigidTy::Closure(def, _args) => {\n                if self.unused_closures.contains(def) {\n                    // Delete body and mark it as unreachable.\n                    let mut new_body = MutableBody::from(body);\n                    new_body.clear_body(TerminatorKind::Unreachable);\n                    (true, new_body.into())\n                } else {\n                    // Not a contract annotated function\n                    (false, body)\n                }\n            }"
+    },
+    {
+      "ref": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+      "start_line": 386,
+      "end_line": 427,
+      "text": "    pub fn new(tcx: TyCtxt, queries: &QueryDb, unit: &CodegenUnit) -> FunctionWithContractPass {\n        if let Some(harness) = unit.harnesses.first() {\n            let (check_fn, replace_fns) = {\n                let harness_generic_args = harness.args().0;\n                // Manual harnesses have no arguments, so if there are generic arguments,\n                // we know this is an automatic harness\n                if matches!(queries.args().reachability_analysis, ReachabilityType::AllFns)\n                    && !harness_generic_args.is_empty()\n                {\n                    let kind = harness.args().0[0].expect_ty().kind();\n                    let (fn_to_verify_def, _) = kind.fn_def().unwrap();\n                    // For automatic harnesses, the target is the function to verify,\n                    // and stubs are empty.\n                    (Some(fn_to_verify_def), HashSet::default())\n                } else {\n                    let attrs = KaniAttributes::for_instance(tcx, *harness);\n                    let check_fn = attrs.interpret_for_contract_attribute();\n                    let replace_fns: HashSet<_> =\n                        attrs.interpret_stub_verified_attribute().into_iter().collect();\n                    (check_fn, replace_fns)\n                }\n            };\n            let run_contract_fn =\n                queries.kani_functions().get(&KaniModel::RunContract.into()).copied();\n            assert!(run_contract_fn.is_some(), \"Failed to find Kani run contract function\");\n            let in_clause_fn =\n                queries.kani_functions().get(&KaniModel::InContractClause.into()).copied();\n            assert!(in_clause_fn.is_some(), \"Failed to find Kani in-contract-clause function\");\n            FunctionWithContractPass {\n                check_fn,\n                replace_fns,\n                assert_contracts: !queries.args().no_assert_contracts,\n                unused_closures: Default::default(),\n                run_contract_fn,\n                in_clause_fn,\n                kani_any: queries.kani_functions().get(&KaniModel::Any.into()).copied(),\n                arbitrary_cycle_checked: Default::default(),\n            }\n        } else {\n            // If reachability mode is PubFns or Tests, we just remove any contract logic.\n            // Note that in this path there is no proof harness.\n            FunctionWithContractPass::default()"
+    },
+    {
+      "ref": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+      "start_line": 498,
+      "end_line": 527,
+      "text": "            // Calls occurring during the evaluation of *contract clauses* of\n            // other functions are dispatched to the original body (mode 0,\n            // exact semantics) rather than the mode selected for normal\n            // calls, by computing the mode at runtime as\n            // `mode * (1 - in_contract_clause())`:\n            //\n            // * For check modes: while the harness is checking the contract\n            //   of this function, the function may also be called from\n            //   contract clauses of other functions in the harness's call\n            //   graph (e.g. a postcondition mentioning `NonNull::as_ptr`\n            //   evaluated while `as_ptr` itself is under verification). Such\n            //   calls must not be dispatched to the check closure: they\n            //   would consume the single top-level contract check and run\n            //   write-set instrumentation in the clause's context. (Unlike\n            //   dispatching to the contract replacement, the original body\n            //   does not require the return type to implement Arbitrary.)\n            //\n            // * For assert mode: asserting the contracts of dependencies\n            //   (the default since #3802) is an aid for detecting API misuse\n            //   in user code; re-asserting them for calls made by *contract\n            //   clauses* checks specification-level plumbing at a\n            //   multiplicative cost. Clause evaluation is meant to compute a\n            //   predicate over the pre-/post-states, and the functions it\n            //   calls are best executed with their exact semantics (their\n            //   bodies remain fully inlined and UB-checked either way).\n            let in_clause_instance =\n                Instance::resolve(self.in_clause_fn.unwrap(), &GenericArgs(vec![])).unwrap();\n            let in_clause_local = new_body.new_local(Ty::bool_ty(), span, Mutability::Mut);\n            new_body.insert_call(\n                &in_clause_instance,"
+    },
+    {
+      "ref": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+      "start_line": 575,
+      "end_line": 603,
+      "text": "\n    /// Return which contract mode to use for this function if any.\n    /// Note that the Check and Replace modes take precedence over the Assert mode.\n    /// This precedence ensures that a given `target` of a proof_for_contract(target) or stub_verified(target)\n    /// use their Check or Replace closures, respectively, rather than the Assert closure.\n    fn contract_mode(&self, tcx: TyCtxt, fn_def: FnDef) -> Option<ContractMode> {\n        let kani_attributes = KaniAttributes::for_def_id(tcx, fn_def.def_id());\n        kani_attributes.has_contract().then(|| {\n            if self.check_fn == Some(fn_def) {\n                if kani_attributes.has_recursion() {\n                    ContractMode::RecursiveCheck\n                } else {\n                    ContractMode::SimpleCheck\n                }\n            } else if self.replace_fns.contains(&fn_def) {\n                ContractMode::Replace\n            } else if self.assert_contracts {\n                ContractMode::Assert\n            } else {\n                ContractMode::Original\n            }\n        })\n    }\n\n    /// Detect the `stub_verified` / `Arbitrary` cycle described in\n    /// <https://github.com/model-checking/kani/pull/4571>.\n    ///\n    /// A contract replacement havocs its own return value with\n    /// `kani::any::<Ret>()` (see `initial_replace_stmts` in `kani_macros`, where"
+    },
+    {
+      "ref": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+      "start_line": 670,
+      "end_line": 705,
+      "text": "    /// Select any unused closure for body deletion.\n    fn mark_unused(&mut self, tcx: TyCtxt, fn_def: FnDef, body: &Body, mode: ContractMode) {\n        let contract =\n            KaniAttributes::for_def_id(tcx, fn_def.def_id()).contract_attributes().unwrap();\n        let recursion_closure = find_closure(tcx, fn_def, body, contract.recursion_check.as_str());\n        let check_closure = find_closure(tcx, fn_def, body, contract.checked_with.as_str());\n        let replace_closure = find_closure(tcx, fn_def, body, contract.replaced_with.as_str());\n        let assert_closure = find_closure(tcx, fn_def, body, contract.asserted_with.as_str());\n        match mode {\n            ContractMode::Original => {\n                // No contract instrumentation needed. Add all closures to the list of unused.\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(replace_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::RecursiveCheck => {\n                self.unused_closures.insert(replace_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::SimpleCheck => {\n                self.unused_closures.insert(replace_closure);\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::Replace => {\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::Assert => {\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(replace_closure);\n            }"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+      "start_line": 323,
+      "end_line": 374,
+      "text": "        if let RigidTy::FnDef(def, _) = instance.ty().kind().rigid().unwrap()\n            && (self.check_fn == Some(*def) || self.replace_fns.contains(def))\n        {\n            // Explicit contract checks and verified stubs retain their selected target.\n            instance\n        } else {\n            body_source\n        }\n    }\n\n    /// Transform the function body by replacing it with the stub body.\n    fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {\n        trace!(function=?instance.name(), \"FunctionWithContractPass::transform\");\n        match instance.ty().kind().rigid().unwrap() {\n            RigidTy::FnDef(def, args) => {\n                if let Some(mode) = self.contract_mode(tcx, *def) {\n                    if mode == ContractMode::RecursiveCheck {\n                        check_mutual_recursion(tcx, *def, &body);\n                    }\n                    // Key the dedup on the monomorphized instance, not the\n                    // `FnDef`: a generic `stub_verified` target can be\n                    // instantiated at several types, and each instantiation has\n                    // its own return type and so its own potential cycle.\n                    if mode == ContractMode::Replace\n                        && self.arbitrary_cycle_checked.insert(instance)\n                    {\n                        self.check_arbitrary_cycle(tcx, *def, args);\n                    }\n                    self.mark_unused(tcx, *def, &body, mode);\n                    let new_body = self.set_mode(tcx, body, mode);\n                    (true, new_body)\n                } else if KaniAttributes::for_instance(tcx, instance).fn_marker()\n                    == Some(Symbol::intern(\"kani_register_contract\"))\n                {\n                    let run = Instance::resolve(self.run_contract_fn.unwrap(), args).unwrap();\n                    (true, run.body().unwrap())\n                } else {\n                    // Not a contract annotated function\n                    (false, body)\n                }\n            }\n            RigidTy::Closure(def, _args) => {\n                if self.unused_closures.contains(def) {\n                    // Delete body and mark it as unreachable.\n                    let mut new_body = MutableBody::from(body);\n                    new_body.clear_body(TerminatorKind::Unreachable);\n                    (true, new_body.into())\n                } else {\n                    // Not a contract annotated function\n                    (false, body)\n                }\n            }"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+      "start_line": 386,
+      "end_line": 427,
+      "text": "    pub fn new(tcx: TyCtxt, queries: &QueryDb, unit: &CodegenUnit) -> FunctionWithContractPass {\n        if let Some(harness) = unit.harnesses.first() {\n            let (check_fn, replace_fns) = {\n                let harness_generic_args = harness.args().0;\n                // Manual harnesses have no arguments, so if there are generic arguments,\n                // we know this is an automatic harness\n                if matches!(queries.args().reachability_analysis, ReachabilityType::AllFns)\n                    && !harness_generic_args.is_empty()\n                {\n                    let kind = harness.args().0[0].expect_ty().kind();\n                    let (fn_to_verify_def, _) = kind.fn_def().unwrap();\n                    // For automatic harnesses, the target is the function to verify,\n                    // and stubs are empty.\n                    (Some(fn_to_verify_def), HashSet::default())\n                } else {\n                    let attrs = KaniAttributes::for_instance(tcx, *harness);\n                    let check_fn = attrs.interpret_for_contract_attribute();\n                    let replace_fns: HashSet<_> =\n                        attrs.interpret_stub_verified_attribute().into_iter().collect();\n                    (check_fn, replace_fns)\n                }\n            };\n            let run_contract_fn =\n                queries.kani_functions().get(&KaniModel::RunContract.into()).copied();\n            assert!(run_contract_fn.is_some(), \"Failed to find Kani run contract function\");\n            let in_clause_fn =\n                queries.kani_functions().get(&KaniModel::InContractClause.into()).copied();\n            assert!(in_clause_fn.is_some(), \"Failed to find Kani in-contract-clause function\");\n            FunctionWithContractPass {\n                check_fn,\n                replace_fns,\n                assert_contracts: !queries.args().no_assert_contracts,\n                unused_closures: Default::default(),\n                run_contract_fn,\n                in_clause_fn,\n                kani_any: queries.kani_functions().get(&KaniModel::Any.into()).copied(),\n                arbitrary_cycle_checked: Default::default(),\n            }\n        } else {\n            // If reachability mode is PubFns or Tests, we just remove any contract logic.\n            // Note that in this path there is no proof harness.\n            FunctionWithContractPass::default()"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+      "start_line": 498,
+      "end_line": 527,
+      "text": "            // Calls occurring during the evaluation of *contract clauses* of\n            // other functions are dispatched to the original body (mode 0,\n            // exact semantics) rather than the mode selected for normal\n            // calls, by computing the mode at runtime as\n            // `mode * (1 - in_contract_clause())`:\n            //\n            // * For check modes: while the harness is checking the contract\n            //   of this function, the function may also be called from\n            //   contract clauses of other functions in the harness's call\n            //   graph (e.g. a postcondition mentioning `NonNull::as_ptr`\n            //   evaluated while `as_ptr` itself is under verification). Such\n            //   calls must not be dispatched to the check closure: they\n            //   would consume the single top-level contract check and run\n            //   write-set instrumentation in the clause's context. (Unlike\n            //   dispatching to the contract replacement, the original body\n            //   does not require the return type to implement Arbitrary.)\n            //\n            // * For assert mode: asserting the contracts of dependencies\n            //   (the default since #3802) is an aid for detecting API misuse\n            //   in user code; re-asserting them for calls made by *contract\n            //   clauses* checks specification-level plumbing at a\n            //   multiplicative cost. Clause evaluation is meant to compute a\n            //   predicate over the pre-/post-states, and the functions it\n            //   calls are best executed with their exact semantics (their\n            //   bodies remain fully inlined and UB-checked either way).\n            let in_clause_instance =\n                Instance::resolve(self.in_clause_fn.unwrap(), &GenericArgs(vec![])).unwrap();\n            let in_clause_local = new_body.new_local(Ty::bool_ty(), span, Mutability::Mut);\n            new_body.insert_call(\n                &in_clause_instance,"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+      "start_line": 575,
+      "end_line": 603,
+      "text": "\n    /// Return which contract mode to use for this function if any.\n    /// Note that the Check and Replace modes take precedence over the Assert mode.\n    /// This precedence ensures that a given `target` of a proof_for_contract(target) or stub_verified(target)\n    /// use their Check or Replace closures, respectively, rather than the Assert closure.\n    fn contract_mode(&self, tcx: TyCtxt, fn_def: FnDef) -> Option<ContractMode> {\n        let kani_attributes = KaniAttributes::for_def_id(tcx, fn_def.def_id());\n        kani_attributes.has_contract().then(|| {\n            if self.check_fn == Some(fn_def) {\n                if kani_attributes.has_recursion() {\n                    ContractMode::RecursiveCheck\n                } else {\n                    ContractMode::SimpleCheck\n                }\n            } else if self.replace_fns.contains(&fn_def) {\n                ContractMode::Replace\n            } else if self.assert_contracts {\n                ContractMode::Assert\n            } else {\n                ContractMode::Original\n            }\n        })\n    }\n\n    /// Detect the `stub_verified` / `Arbitrary` cycle described in\n    /// <https://github.com/model-checking/kani/pull/4571>.\n    ///\n    /// A contract replacement havocs its own return value with\n    /// `kani::any::<Ret>()` (see `initial_replace_stmts` in `kani_macros`, where"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+      "start_line": 670,
+      "end_line": 705,
+      "text": "    /// Select any unused closure for body deletion.\n    fn mark_unused(&mut self, tcx: TyCtxt, fn_def: FnDef, body: &Body, mode: ContractMode) {\n        let contract =\n            KaniAttributes::for_def_id(tcx, fn_def.def_id()).contract_attributes().unwrap();\n        let recursion_closure = find_closure(tcx, fn_def, body, contract.recursion_check.as_str());\n        let check_closure = find_closure(tcx, fn_def, body, contract.checked_with.as_str());\n        let replace_closure = find_closure(tcx, fn_def, body, contract.replaced_with.as_str());\n        let assert_closure = find_closure(tcx, fn_def, body, contract.asserted_with.as_str());\n        match mode {\n            ContractMode::Original => {\n                // No contract instrumentation needed. Add all closures to the list of unused.\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(replace_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::RecursiveCheck => {\n                self.unused_closures.insert(replace_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::SimpleCheck => {\n                self.unused_closures.insert(replace_closure);\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::Replace => {\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::Assert => {\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(replace_closure);\n            }"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+      "blob": "a47dad9458283c11393f1c8661b43a5aa94222d9",
+      "start_line": 29,
+      "end_line": 52,
+      "text": "    ///    is passed to the `--nondet-static-exclude` argument.\n    ///    This flag expects the file path that `checked_with` is located in, the name of the\n    ///    `checked_with` function and the name of the constant (`REENTRY`).\n    pub fn handle_check_contract(\n        &mut self,\n        function_under_contract: InternalDefId,\n        items: &[MonoItem],\n    ) -> AssignsContract {\n        let tcx = self.tcx;\n        let modify = items\n            .iter()\n            .find_map(|item| {\n                // Find the instance under contract\n                let MonoItem::Fn(instance) = *item else { return None };\n                if rustc_internal::internal(tcx, instance.def.def_id()) == function_under_contract {\n                    self.find_modifies(instance)\n                } else {\n                    None\n                }\n            })\n            .unwrap();\n        self.attach_modifies_contract(modify);\n        let recursion_tracker = self.find_recursion_tracker(items);\n        AssignsContract { recursion_tracker, contracted_function_name: modify.mangled_name() }"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+      "blob": "a47dad9458283c11393f1c8661b43a5aa94222d9",
+      "start_line": 110,
+      "end_line": 146,
+      "text": "                    };\n                    if let TyKind::RigidTy(RigidTy::Closure(def, args)) = ty.kind() {\n                        return Some(Instance::resolve(FnDef(def.def_id()), &args).unwrap());\n                    }\n                }\n                None\n            })\n        };\n        let check_instance = if contract_attrs.has_recursion {\n            let recursion_check = find_closure(instance, contract_attrs.recursion_check.as_str())?;\n            find_closure(recursion_check, contract_attrs.checked_with.as_str())?\n        } else {\n            find_closure(instance, contract_attrs.checked_with.as_str())?\n        };\n        find_closure(check_instance, contract_attrs.modifies_wrapper.as_str())\n    }\n\n    /// Convert the Kani level contract into a CBMC level contract by creating a\n    /// CBMC lambda.\n    fn codegen_modifies_contract(\n        &mut self,\n        goto_annotated_fn_name: &str,\n        modifies: Instance,\n        loc: Location,\n    ) -> FunctionContract {\n        let goto_annotated_fn_typ = self\n            .symbol_table\n            .lookup(goto_annotated_fn_name)\n            .unwrap_or_else(|| panic!(\"Function '{goto_annotated_fn_name}' is not declared\"))\n            .typ\n            .clone();\n\n        // Find the memory-initialization shadow-memory static. It is tagged with the\n        // `KaniMemoryInitializationState` `fn_marker` (a `#[rustc_diagnostic_item]`\n        // can no longer be applied to statics). Its goto symbol is named after the\n        // static's mangled name, matching `codegen_static`.\n        let shadow_memory_assign = {"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+      "blob": "a47dad9458283c11393f1c8661b43a5aa94222d9",
+      "start_line": 29,
+      "end_line": 52,
+      "text": "    ///    is passed to the `--nondet-static-exclude` argument.\n    ///    This flag expects the file path that `checked_with` is located in, the name of the\n    ///    `checked_with` function and the name of the constant (`REENTRY`).\n    pub fn handle_check_contract(\n        &mut self,\n        function_under_contract: InternalDefId,\n        items: &[MonoItem],\n    ) -> AssignsContract {\n        let tcx = self.tcx;\n        let modify = items\n            .iter()\n            .find_map(|item| {\n                // Find the instance under contract\n                let MonoItem::Fn(instance) = *item else { return None };\n                if rustc_internal::internal(tcx, instance.def.def_id()) == function_under_contract {\n                    self.find_modifies(instance)\n                } else {\n                    None\n                }\n            })\n            .unwrap();\n        self.attach_modifies_contract(modify);\n        let recursion_tracker = self.find_recursion_tracker(items);\n        AssignsContract { recursion_tracker, contracted_function_name: modify.mangled_name() }"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+      "blob": "a47dad9458283c11393f1c8661b43a5aa94222d9",
+      "start_line": 110,
+      "end_line": 146,
+      "text": "                    };\n                    if let TyKind::RigidTy(RigidTy::Closure(def, args)) = ty.kind() {\n                        return Some(Instance::resolve(FnDef(def.def_id()), &args).unwrap());\n                    }\n                }\n                None\n            })\n        };\n        let check_instance = if contract_attrs.has_recursion {\n            let recursion_check = find_closure(instance, contract_attrs.recursion_check.as_str())?;\n            find_closure(recursion_check, contract_attrs.checked_with.as_str())?\n        } else {\n            find_closure(instance, contract_attrs.checked_with.as_str())?\n        };\n        find_closure(check_instance, contract_attrs.modifies_wrapper.as_str())\n    }\n\n    /// Convert the Kani level contract into a CBMC level contract by creating a\n    /// CBMC lambda.\n    fn codegen_modifies_contract(\n        &mut self,\n        goto_annotated_fn_name: &str,\n        modifies: Instance,\n        loc: Location,\n    ) -> FunctionContract {\n        let goto_annotated_fn_typ = self\n            .symbol_table\n            .lookup(goto_annotated_fn_name)\n            .unwrap_or_else(|| panic!(\"Function '{goto_annotated_fn_name}' is not declared\"))\n            .typ\n            .clone();\n\n        // Find the memory-initialization shadow-memory static. It is tagged with the\n        // `KaniMemoryInitializationState` `fn_marker` (a `#[rustc_diagnostic_item]`\n        // can no longer be applied to statics). Its goto symbol is named after the\n        // static's mangled name, matching `codegen_static`.\n        let shadow_memory_assign = {"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "kani-driver/src/call_goto_instrument.rs",
+      "blob": "f5d437f5b7afd20e6a723af87de6e3c664f81186",
+      "start_line": 175,
+      "end_line": 212,
+      "text": "        harness: &HarnessMetadata,\n        is_loop_contracts_enabled: bool,\n        file: &Path,\n    ) -> Result<()> {\n        // Do nothing if neither loop contracts nor function contracts is enabled.\n        if !is_loop_contracts_enabled && harness.contract.is_none() {\n            return Ok(());\n        }\n\n        let mut args: Vec<OsString> =\n            vec![\"--dfcc\".into(), (&harness.mangled_name).into(), \"--no-malloc-may-fail\".into()];\n\n        if is_loop_contracts_enabled {\n            args.append(&mut vec![\n                \"--apply-loop-contracts\".into(),\n                \"--loop-contracts-no-unwind\".into(),\n                // Because loop contracts now are wrapped in a closure which will be a side-effect expression in CBMC even they\n                // may not contain side-effect. So we disable the side-effect check for now and will implement a better check\n                // instead of simply rejecting function calls and statement expressions.\n                // See issue: diffblue/cbmc#8393\n                \"--disable-loop-contracts-side-effect-check\".into(),\n            ]);\n        }\n\n        if let Some(assigns) = harness.contract.as_ref() {\n            args.push(\"--enforce-contract\".into());\n            args.push(assigns.contracted_function_name.as_str().into());\n\n            if let Some(tracker) = &assigns.recursion_tracker {\n                args.push(\"--nondet-static-exclude\".into());\n                args.push(tracker.as_str().into());\n            }\n        }\n\n        args.push(file.into());\n        args.push(file.into());\n\n        self.call_goto_instrument(&args)"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "kani-driver/src/call_goto_instrument.rs",
+      "blob": "f5d437f5b7afd20e6a723af87de6e3c664f81186",
+      "start_line": 175,
+      "end_line": 212,
+      "text": "        harness: &HarnessMetadata,\n        is_loop_contracts_enabled: bool,\n        file: &Path,\n    ) -> Result<()> {\n        // Do nothing if neither loop contracts nor function contracts is enabled.\n        if !is_loop_contracts_enabled && harness.contract.is_none() {\n            return Ok(());\n        }\n\n        let mut args: Vec<OsString> =\n            vec![\"--dfcc\".into(), (&harness.mangled_name).into(), \"--no-malloc-may-fail\".into()];\n\n        if is_loop_contracts_enabled {\n            args.append(&mut vec![\n                \"--apply-loop-contracts\".into(),\n                \"--loop-contracts-no-unwind\".into(),\n                // Because loop contracts now are wrapped in a closure which will be a side-effect expression in CBMC even they\n                // may not contain side-effect. So we disable the side-effect check for now and will implement a better check\n                // instead of simply rejecting function calls and statement expressions.\n                // See issue: diffblue/cbmc#8393\n                \"--disable-loop-contracts-side-effect-check\".into(),\n            ]);\n        }\n\n        if let Some(assigns) = harness.contract.as_ref() {\n            args.push(\"--enforce-contract\".into());\n            args.push(assigns.contracted_function_name.as_str().into());\n\n            if let Some(tracker) = &assigns.recursion_tracker {\n                args.push(\"--nondet-static-exclude\".into());\n                args.push(tracker.as_str().into());\n            }\n        }\n\n        args.push(file.into());\n        args.push(file.into());\n\n        self.call_goto_instrument(&args)"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "library/kani_macros/src/sysroot/contracts/mod.rs",
+      "blob": "580f670930c46cbae77401804282057ef68b70f9",
+      "start_line": 572,
+      "end_line": 587,
+      "text": "pub fn proof_for_contract(attr: TokenStream, item: TokenStream) -> TokenStream {\n    let args = proc_macro2::TokenStream::from(attr);\n    let mut fn_item = parse_macro_input!(item as ItemFn);\n    fn_item.block.stmts.insert(0, parse_quote!(kani::internal::init_contracts();));\n    // Reset the contract-clause depth counter before anything else: statics\n    // are not reliably zero-initialized, and the counter steers the dispatch\n    // of calls to the function under verification (see `set_mode` in the\n    // Kani compiler).\n    fn_item.block.stmts.insert(0, parse_quote!(kani::internal::reset_contract_clause_depth();));\n    quote!(\n        #[allow(dead_code)]\n        #[kanitool::proof_for_contract = stringify!(#args)]\n        #fn_item\n    )\n    .into()\n}"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "library/kani_macros/src/sysroot/contracts/mod.rs",
+      "blob": "580f670930c46cbae77401804282057ef68b70f9",
+      "start_line": 572,
+      "end_line": 587,
+      "text": "pub fn proof_for_contract(attr: TokenStream, item: TokenStream) -> TokenStream {\n    let args = proc_macro2::TokenStream::from(attr);\n    let mut fn_item = parse_macro_input!(item as ItemFn);\n    fn_item.block.stmts.insert(0, parse_quote!(kani::internal::init_contracts();));\n    // Reset the contract-clause depth counter before anything else: statics\n    // are not reliably zero-initialized, and the counter steers the dispatch\n    // of calls to the function under verification (see `set_mode` in the\n    // Kani compiler).\n    fn_item.block.stmts.insert(0, parse_quote!(kani::internal::reset_contract_clause_depth();));\n    quote!(\n        #[allow(dead_code)]\n        #[kanitool::proof_for_contract = stringify!(#args)]\n        #fn_item\n    )\n    .into()\n}"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "library/kani_macros/src/sysroot/contracts/bootstrap.rs",
+      "blob": "400b24cb73541f9b7311ac11e024cfca2cfe2fac",
+      "start_line": 39,
+      "end_line": 49,
+      "text": "        // sees those attributes and can use them to determine\n        // `function_state`.\n        let ImplItemFn { attrs, vis, defaultness, sig, block } = self.annotated_fn;\n        self.output.extend(quote!(\n            #(#attrs)*\n            #[kanitool::recursion_check = #recursion_name]\n            #[kanitool::checked_with = #check_name]\n            #[kanitool::replaced_with = #replace_name]\n            #[kanitool::asserted_with = #assert_name]\n            #[kanitool::modifies_wrapper = #modifies_name]\n            #vis #defaultness #sig {"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "library/kani_macros/src/sysroot/contracts/bootstrap.rs",
+      "blob": "400b24cb73541f9b7311ac11e024cfca2cfe2fac",
+      "start_line": 83,
+      "end_line": 104,
+      "text": "                    kani::internal::ORIGINAL\n                }\n                let kani_contract_mode = kani_contract_mode();\n                match kani_contract_mode {\n                    kani::internal::RECURSION_CHECK => {\n                        #recursion_closure;\n                        kani_register_contract(#recursion_ident)\n                    }\n                    kani::internal::REPLACE => {\n                        #replace_closure;\n                        kani_register_contract(#replace_ident)\n                    }\n                    kani::internal::SIMPLE_CHECK => {\n                        #check_closure;\n                        kani_register_contract(#check_ident)\n                    }\n                    kani::internal::ASSERT => {\n                        #assert_closure;\n                        kani_register_contract(#assert_ident)\n                    }\n                    _ => #block\n                }"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "library/kani_macros/src/sysroot/contracts/bootstrap.rs",
+      "blob": "400b24cb73541f9b7311ac11e024cfca2cfe2fac",
+      "start_line": 145,
+      "end_line": 164,
+      "text": "        quote!(\n            #[kanitool::is_contract_generated(recursion_check)]\n            #[allow(dead_code, unused_variables, unused_mut)]\n            let mut #recursion_ident = kani_force_fn_once(|| #output\n            {\n                #[kanitool::recursion_tracker]\n                static mut REENTRY: bool = false;\n                if unsafe { REENTRY } {\n                    #replace_closure\n                    #replace_ident()\n                } else {\n                    unsafe { REENTRY = true };\n                    #check_closure\n                    let #result = #check_ident();\n                    unsafe { REENTRY = false };\n                    #result\n                }\n            });\n        )\n    }"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "library/kani_macros/src/sysroot/contracts/bootstrap.rs",
+      "blob": "400b24cb73541f9b7311ac11e024cfca2cfe2fac",
+      "start_line": 39,
+      "end_line": 49,
+      "text": "        // sees those attributes and can use them to determine\n        // `function_state`.\n        let ImplItemFn { attrs, vis, defaultness, sig, block } = self.annotated_fn;\n        self.output.extend(quote!(\n            #(#attrs)*\n            #[kanitool::recursion_check = #recursion_name]\n            #[kanitool::checked_with = #check_name]\n            #[kanitool::replaced_with = #replace_name]\n            #[kanitool::asserted_with = #assert_name]\n            #[kanitool::modifies_wrapper = #modifies_name]\n            #vis #defaultness #sig {"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "library/kani_macros/src/sysroot/contracts/bootstrap.rs",
+      "blob": "400b24cb73541f9b7311ac11e024cfca2cfe2fac",
+      "start_line": 83,
+      "end_line": 104,
+      "text": "                    kani::internal::ORIGINAL\n                }\n                let kani_contract_mode = kani_contract_mode();\n                match kani_contract_mode {\n                    kani::internal::RECURSION_CHECK => {\n                        #recursion_closure;\n                        kani_register_contract(#recursion_ident)\n                    }\n                    kani::internal::REPLACE => {\n                        #replace_closure;\n                        kani_register_contract(#replace_ident)\n                    }\n                    kani::internal::SIMPLE_CHECK => {\n                        #check_closure;\n                        kani_register_contract(#check_ident)\n                    }\n                    kani::internal::ASSERT => {\n                        #assert_closure;\n                        kani_register_contract(#assert_ident)\n                    }\n                    _ => #block\n                }"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "library/kani_macros/src/sysroot/contracts/bootstrap.rs",
+      "blob": "400b24cb73541f9b7311ac11e024cfca2cfe2fac",
+      "start_line": 145,
+      "end_line": 164,
+      "text": "        quote!(\n            #[kanitool::is_contract_generated(recursion_check)]\n            #[allow(dead_code, unused_variables, unused_mut)]\n            let mut #recursion_ident = kani_force_fn_once(|| #output\n            {\n                #[kanitool::recursion_tracker]\n                static mut REENTRY: bool = false;\n                if unsafe { REENTRY } {\n                    #replace_closure\n                    #replace_ident()\n                } else {\n                    unsafe { REENTRY = true };\n                    #check_closure\n                    let #result = #check_ident();\n                    unsafe { REENTRY = false };\n                    #result\n                }\n            });\n        )\n    }"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+      "blob": "365627d101b5c66d853628dca59a2fef842cbff2",
+      "start_line": 27,
+      "end_line": 61,
+      "text": "                let assume_bracketed = bracket_clause_stmt(quote!(kani::assume(#attr);));\n                quote!({\n                    #assume_bracketed\n                    #(#body_stmts)*\n                })\n            }\n            ContractConditionsData::Ensures { attr } => {\n                let (remembers, ensures_clause) = build_ensures(attr);\n\n                // The code that enforces the postconditions and cleans up the shallow\n                // argument copies (with `mem::forget`).\n                let ensures_bracketed = bracket_clause_expr(quote!(#ensures_clause));\n                let exec_postconditions = quote!(\n                    kani::assert(#ensures_bracketed, stringify!(#attr_copy));\n                );\n\n                let return_expr = body_stmts.pop();\n\n                let (assumes, rest_of_body) =\n                    split_for_remembers(&body_stmts[..], ContractMode::SimpleCheck);\n\n                quote!({\n                    #(#assumes)*\n                    #remembers\n                    #(#rest_of_body)*\n                    #exec_postconditions\n                    #return_expr\n                })\n            }\n            ContractConditionsData::Modifies { attr } => {\n                let wrapper_arg_ident = Ident::new(WRAPPER_ARG, Span::call_site());\n                let wrapper_tuple = body_stmts.iter_mut().find_map(|stmt| {\n                    if let Stmt::Local(Local {\n                        pat: Pat::Ident(PatIdent { ident, .. }),\n                        init: Some(LocalInit { expr, .. }),"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+      "blob": "365627d101b5c66d853628dca59a2fef842cbff2",
+      "start_line": 122,
+      "end_line": 140,
+      "text": "\n    /// Expand the check body.\n    ///\n    /// First find the modifies body and expand that. Then expand the rest of the body.\n    pub fn expand_check(&self, closure: &mut Stmt) {\n        let body = closure_body(closure);\n        self.expand_modifies(\n            find_contract_closure(&mut body.block.stmts, \"wrapper\")\n                .expect(\"Internal Failure: Expected to find `wrapper` closure, but found none\"),\n        );\n        *body = syn::parse2(self.make_check_body(mem::take(&mut body.block.stmts))).unwrap();\n    }\n\n    /// Emit a modifies wrapper. It's only argument is the list of addresses that may be modified.\n    pub fn modifies_closure(\n        &self,\n        output: &ReturnType,\n        body: &Block,\n        redefs: TokenStream2,"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+      "blob": "365627d101b5c66d853628dca59a2fef842cbff2",
+      "start_line": 157,
+      "end_line": 174,
+      "text": "    pub fn expand_modifies(&self, closure_stmt: &mut Stmt) {\n        if matches!(&self.condition_type, ContractConditionsData::Modifies { .. }) {\n            let Stmt::Local(Local { init: Some(LocalInit { expr, .. }), .. }) = closure_stmt else {\n                unreachable!()\n            };\n            // The closure is wrapped into `kani_force_fn_once_with_args`\n            let Expr::Call(call) = expr.as_ref() else { unreachable!() };\n            if call.args.len() != 1 {\n                unreachable!()\n            }\n            let expr = call.args.first().unwrap();\n            let Expr::Closure(closure) = expr else { unreachable!() };\n            let Expr::Block(body) = closure.body.as_ref() else { unreachable!() };\n            let stream = self.modifies_closure(&closure.output, &body.block, TokenStream2::new());\n            *closure_stmt = syn::parse2(stream).unwrap();\n        }\n    }\n"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+      "blob": "365627d101b5c66d853628dca59a2fef842cbff2",
+      "start_line": 27,
+      "end_line": 61,
+      "text": "                let assume_bracketed = bracket_clause_stmt(quote!(kani::assume(#attr);));\n                quote!({\n                    #assume_bracketed\n                    #(#body_stmts)*\n                })\n            }\n            ContractConditionsData::Ensures { attr } => {\n                let (remembers, ensures_clause) = build_ensures(attr);\n\n                // The code that enforces the postconditions and cleans up the shallow\n                // argument copies (with `mem::forget`).\n                let ensures_bracketed = bracket_clause_expr(quote!(#ensures_clause));\n                let exec_postconditions = quote!(\n                    kani::assert(#ensures_bracketed, stringify!(#attr_copy));\n                );\n\n                let return_expr = body_stmts.pop();\n\n                let (assumes, rest_of_body) =\n                    split_for_remembers(&body_stmts[..], ContractMode::SimpleCheck);\n\n                quote!({\n                    #(#assumes)*\n                    #remembers\n                    #(#rest_of_body)*\n                    #exec_postconditions\n                    #return_expr\n                })\n            }\n            ContractConditionsData::Modifies { attr } => {\n                let wrapper_arg_ident = Ident::new(WRAPPER_ARG, Span::call_site());\n                let wrapper_tuple = body_stmts.iter_mut().find_map(|stmt| {\n                    if let Stmt::Local(Local {\n                        pat: Pat::Ident(PatIdent { ident, .. }),\n                        init: Some(LocalInit { expr, .. }),"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+      "blob": "365627d101b5c66d853628dca59a2fef842cbff2",
+      "start_line": 122,
+      "end_line": 140,
+      "text": "\n    /// Expand the check body.\n    ///\n    /// First find the modifies body and expand that. Then expand the rest of the body.\n    pub fn expand_check(&self, closure: &mut Stmt) {\n        let body = closure_body(closure);\n        self.expand_modifies(\n            find_contract_closure(&mut body.block.stmts, \"wrapper\")\n                .expect(\"Internal Failure: Expected to find `wrapper` closure, but found none\"),\n        );\n        *body = syn::parse2(self.make_check_body(mem::take(&mut body.block.stmts))).unwrap();\n    }\n\n    /// Emit a modifies wrapper. It's only argument is the list of addresses that may be modified.\n    pub fn modifies_closure(\n        &self,\n        output: &ReturnType,\n        body: &Block,\n        redefs: TokenStream2,"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+      "blob": "365627d101b5c66d853628dca59a2fef842cbff2",
+      "start_line": 157,
+      "end_line": 174,
+      "text": "    pub fn expand_modifies(&self, closure_stmt: &mut Stmt) {\n        if matches!(&self.condition_type, ContractConditionsData::Modifies { .. }) {\n            let Stmt::Local(Local { init: Some(LocalInit { expr, .. }), .. }) = closure_stmt else {\n                unreachable!()\n            };\n            // The closure is wrapped into `kani_force_fn_once_with_args`\n            let Expr::Call(call) = expr.as_ref() else { unreachable!() };\n            if call.args.len() != 1 {\n                unreachable!()\n            }\n            let expr = call.args.first().unwrap();\n            let Expr::Closure(closure) = expr else { unreachable!() };\n            let Expr::Block(body) = closure.body.as_ref() else { unreachable!() };\n            let stream = self.modifies_closure(&closure.output, &body.block, TokenStream2::new());\n            *closure_stmt = syn::parse2(stream).unwrap();\n        }\n    }\n"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "library/kani_macros/src/sysroot/contracts/assert.rs",
+      "blob": "c795a2981f0e797ede2ac17b088c7ebbd974fda9",
+      "start_line": 69,
+      "end_line": 106,
+      "text": "                quote!({\n                    #assert_bracketed\n                    #(#body_stmts)*\n                })\n            }\n            ContractConditionsData::Ensures { attr } => {\n                let (remembers, ensures_clause) = build_ensures(attr);\n                let ensures_bracketed = bracket_clause_expr(quote!(#ensures_clause));\n\n                let exec_postconditions = quote!(\n                    kani::assert(#ensures_bracketed, stringify!(#attr_copy));\n                );\n\n                let return_expr = body_stmts.pop();\n\n                let (asserts, rest_of_body) =\n                    split_for_remembers(&body_stmts[..], ContractMode::Assert);\n\n                quote!({\n                    #(#asserts)*\n                    #remembers\n                    #(#rest_of_body)*\n                    #exec_postconditions\n                    #return_expr\n                })\n            }\n            ContractConditionsData::Modifies { .. } => {\n                quote!({#(#body_stmts)*})\n            }\n        }\n    }\n}"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "library/kani_macros/src/sysroot/contracts/assert.rs",
+      "blob": "c795a2981f0e797ede2ac17b088c7ebbd974fda9",
+      "start_line": 69,
+      "end_line": 106,
+      "text": "                quote!({\n                    #assert_bracketed\n                    #(#body_stmts)*\n                })\n            }\n            ContractConditionsData::Ensures { attr } => {\n                let (remembers, ensures_clause) = build_ensures(attr);\n                let ensures_bracketed = bracket_clause_expr(quote!(#ensures_clause));\n\n                let exec_postconditions = quote!(\n                    kani::assert(#ensures_bracketed, stringify!(#attr_copy));\n                );\n\n                let return_expr = body_stmts.pop();\n\n                let (asserts, rest_of_body) =\n                    split_for_remembers(&body_stmts[..], ContractMode::Assert);\n\n                quote!({\n                    #(#asserts)*\n                    #remembers\n                    #(#rest_of_body)*\n                    #exec_postconditions\n                    #return_expr\n                })\n            }\n            ContractConditionsData::Modifies { .. } => {\n                quote!({#(#body_stmts)*})\n            }\n        }\n    }\n}"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "scripts/kani-regression.sh",
+      "blob": "9927fae1d0b6d2dfad930a23624c178550db6813",
+      "start_line": 1,
+      "end_line": 10,
+      "text": "#!/usr/bin/env bash\n# Copyright Kani Contributors\n# SPDX-License-Identifier: Apache-2.0 OR MIT\n\nif [[ -z $KANI_REGRESSION_KEEP_GOING ]]; then\n  set -o errexit\nfi\nset -o pipefail\nset -o nounset\n"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "scripts/kani-regression.sh",
+      "blob": "9927fae1d0b6d2dfad930a23624c178550db6813",
+      "start_line": 65,
+      "end_line": 83,
+      "text": "    \"json-handler exec\"\n)\n\n# Build compiletest and print configuration. We pick suite / mode combo so there's no test.\necho \"--- Compiletest configuration\"\ncargo run -p compiletest --quiet -- --suite kani --mode cargo-kani --dry-run --verbose\necho \"-----------------------------\"\n\n# Build `kani-cov`\ncargo build -p kani-cov\n\n# Extract testing suite information and run compiletest\n# Bound each test's wall time so a hanging test (e.g. one whose verification\n# fails to terminate under a new toolchain) fails as a normal test failure with\n# output, instead of stalling the whole run until the CI job is killed hours\n# later. The nightly toolchain-upgrade automation relies on this: a clean\n# regression failure lets it open a tracking issue, whereas an unbounded hang\n# produces an unattributable job timeout. The cap is a guardrail against hangs,\n# not a tight performance bound, so it sits well above the slowest legitimate"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "scripts/kani-regression.sh",
+      "blob": "9927fae1d0b6d2dfad930a23624c178550db6813",
+      "start_line": 110,
+      "end_line": 117,
+      "text": "# Check codegen of firecracker\ntime \"$SCRIPT_DIR\"/codegen-firecracker.sh\n\n# Test for --manifest-path which we cannot do through compiletest.\n# It should just successfully find the project and specified proof harness. (Then clean up.)\nFEATURES_MANIFEST_PATH=\"$KANI_DIR/tests/cargo-kani/cargo-features-flag/Cargo.toml\"\ncargo kani --manifest-path \"$FEATURES_MANIFEST_PATH\" --harness trivial_success\ncargo clean --manifest-path \"$FEATURES_MANIFEST_PATH\""
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "scripts/kani-regression.sh",
+      "blob": "9927fae1d0b6d2dfad930a23624c178550db6813",
+      "start_line": 1,
+      "end_line": 10,
+      "text": "#!/usr/bin/env bash\n# Copyright Kani Contributors\n# SPDX-License-Identifier: Apache-2.0 OR MIT\n\nif [[ -z $KANI_REGRESSION_KEEP_GOING ]]; then\n  set -o errexit\nfi\nset -o pipefail\nset -o nounset\n"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "scripts/kani-regression.sh",
+      "blob": "9927fae1d0b6d2dfad930a23624c178550db6813",
+      "start_line": 65,
+      "end_line": 83,
+      "text": "    \"json-handler exec\"\n)\n\n# Build compiletest and print configuration. We pick suite / mode combo so there's no test.\necho \"--- Compiletest configuration\"\ncargo run -p compiletest --quiet -- --suite kani --mode cargo-kani --dry-run --verbose\necho \"-----------------------------\"\n\n# Build `kani-cov`\ncargo build -p kani-cov\n\n# Extract testing suite information and run compiletest\n# Bound each test's wall time so a hanging test (e.g. one whose verification\n# fails to terminate under a new toolchain) fails as a normal test failure with\n# output, instead of stalling the whole run until the CI job is killed hours\n# later. The nightly toolchain-upgrade automation relies on this: a clean\n# regression failure lets it open a tracking issue, whereas an unbounded hang\n# produces an unattributable job timeout. The cap is a guardrail against hangs,\n# not a tight performance bound, so it sits well above the slowest legitimate"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "scripts/kani-regression.sh",
+      "blob": "9927fae1d0b6d2dfad930a23624c178550db6813",
+      "start_line": 110,
+      "end_line": 117,
+      "text": "# Check codegen of firecracker\ntime \"$SCRIPT_DIR\"/codegen-firecracker.sh\n\n# Test for --manifest-path which we cannot do through compiletest.\n# It should just successfully find the project and specified proof harness. (Then clean up.)\nFEATURES_MANIFEST_PATH=\"$KANI_DIR/tests/cargo-kani/cargo-features-flag/Cargo.toml\"\ncargo kani --manifest-path \"$FEATURES_MANIFEST_PATH\" --harness trivial_success\ncargo clean --manifest-path \"$FEATURES_MANIFEST_PATH\""
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "tools/compiletest/src/runtest.rs",
+      "blob": "4438547071f5426caa8f0990fecfd727cf86352b",
+      "start_line": 488,
+      "end_line": 505,
+      "text": "    fn run_expected_test(&self) {\n        let proc_res = self.run_kani();\n        let dot_expected_path = self.testpaths.file.with_extension(\"expected\");\n        let expected_path = if dot_expected_path.exists() {\n            dot_expected_path\n        } else {\n            self.testpaths.file.parent().unwrap().join(\"expected\")\n        };\n        self.verify_output(&proc_res, &expected_path);\n        if self.config.require_success && !proc_res.status.success() {\n            self.fatal_proc_rec(\"test failed: Kani exited unsuccessfully\", &proc_res);\n        }\n    }\n\n    /// Runs Kani in coverage mode on the test file specified by `self.testpaths.file`.\n    fn run_expected_coverage_test(&self) {\n        let proc_res = self.run_kani_with_coverage();\n        let cov_results_path = self.extract_cov_results_path(&proc_res);"
+    },
+    {
+      "ref": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "path": "tools/compiletest/src/runtest.rs",
+      "blob": "4438547071f5426caa8f0990fecfd727cf86352b",
+      "start_line": 526,
+      "end_line": 538,
+      "text": "    /// Print an error if the verification output does not contain the expected\n    /// lines.\n    fn verify_output(&self, proc_res: &ProcRes, expected_path: &Path) {\n        // Include the output from stderr here for cases where there are exceptions\n        let expected = fs::read_to_string(expected_path).unwrap();\n        let output = proc_res.stdout.to_string() + &proc_res.stderr;\n        let diff = TestCx::contains_lines(\n            &output.split('\\n').collect::<Vec<_>>(),\n            expected.split('\\n').collect(),\n        );\n        match (diff, self.config.fix_expected) {\n            (None, _) => { /* Test passed. Do nothing*/ }\n            (Some(_), true) => {"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "tools/compiletest/src/runtest.rs",
+      "blob": "4438547071f5426caa8f0990fecfd727cf86352b",
+      "start_line": 488,
+      "end_line": 505,
+      "text": "    fn run_expected_test(&self) {\n        let proc_res = self.run_kani();\n        let dot_expected_path = self.testpaths.file.with_extension(\"expected\");\n        let expected_path = if dot_expected_path.exists() {\n            dot_expected_path\n        } else {\n            self.testpaths.file.parent().unwrap().join(\"expected\")\n        };\n        self.verify_output(&proc_res, &expected_path);\n        if self.config.require_success && !proc_res.status.success() {\n            self.fatal_proc_rec(\"test failed: Kani exited unsuccessfully\", &proc_res);\n        }\n    }\n\n    /// Runs Kani in coverage mode on the test file specified by `self.testpaths.file`.\n    fn run_expected_coverage_test(&self) {\n        let proc_res = self.run_kani_with_coverage();\n        let cov_results_path = self.extract_cov_results_path(&proc_res);"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "tools/compiletest/src/runtest.rs",
+      "blob": "4438547071f5426caa8f0990fecfd727cf86352b",
+      "start_line": 526,
+      "end_line": 538,
+      "text": "    /// Print an error if the verification output does not contain the expected\n    /// lines.\n    fn verify_output(&self, proc_res: &ProcRes, expected_path: &Path) {\n        // Include the output from stderr here for cases where there are exceptions\n        let expected = fs::read_to_string(expected_path).unwrap();\n        let output = proc_res.stdout.to_string() + &proc_res.stderr;\n        let diff = TestCx::contains_lines(\n            &output.split('\\n').collect::<Vec<_>>(),\n            expected.split('\\n').collect(),\n        );\n        match (diff, self.config.fix_expected) {\n            (None, _) => { /* Test passed. Do nothing*/ }\n            (Some(_), true) => {"
+    },
+    {
+      "ref": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "start_line": 171,
+      "end_line": 177,
+      "text": "#[kani::proof_for_contract(contracted_replacement)]\n#[kani::stub(f, contracted_replacement)]\nfn replacement_contract_target() {\n    // Reach the exact selected provider in this harness, as well as its copied body.\n    contracted_replacement(0);\n    f(kani::any());\n}"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "start_line": 177,
+      "end_line": 181,
+      "text": "#[kani::proof_for_contract(replacement_caller)]\n#[kani::stub(f, contracted_replacement)]\nfn replacement_contract_target() {\n    replacement_caller(kani::any());\n}"
+    },
+    {
+      "ref": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "start_line": 72,
+      "end_line": 78,
+      "text": "#[kani::proof_for_contract(discriminating_replacement)]\n#[kani::stub(f, discriminating_replacement)]\nfn replacement_provider_postcondition() {\n    // The exact PFC target must be reachable from this harness itself.\n    discriminating_replacement(0);\n    f(1);\n}"
+    },
+    {
+      "ref": "f82934ca97caaa1270d5279054aa950173868be5",
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "start_line": 77,
+      "end_line": 81,
+      "text": "#[kani::proof_for_contract(replacement_caller)]\n#[kani::stub(f, discriminating_replacement)]\nfn replacement_provider_postcondition() {\n    replacement_caller(1);\n}"
+    }
+  ]
+}

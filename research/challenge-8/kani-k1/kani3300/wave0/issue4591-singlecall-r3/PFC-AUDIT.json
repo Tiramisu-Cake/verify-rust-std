@@ -1,0 +1,220 @@
+{
+  "schema": "issue4591-singlecall-r3-pfc-audit-v1",
+  "all_affected_PFC": [
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "provider",
+      "target": "f",
+      "direct_source_calls": [
+        "f"
+      ],
+      "exact_direct_target_count": 1,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "expected": "one direct selected PFC call; source oracle in REGRESSION-ORACLE.json"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "provider_postcondition",
+      "target": "bad_contract",
+      "direct_source_calls": [
+        "bad_contract"
+      ],
+      "exact_direct_target_count": 1,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "expected": "one direct selected PFC call; source oracle in REGRESSION-ORACLE.json"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_provider_postcondition",
+      "target": "replacement_caller",
+      "direct_source_calls": [
+        "replacement_caller"
+      ],
+      "exact_direct_target_count": 1,
+      "source_unchanged_from6f": false,
+      "native_repair": "NOT_RUN",
+      "expected": "one direct selected PFC call; source oracle in REGRESSION-ORACLE.json",
+      "callshape": {
+        "harness": "replacement_provider_postcondition",
+        "selected_target": "replacement_caller",
+        "exact_target_reachable": true,
+        "effective_check_calls": 1,
+        "events": [
+          {
+            "requested": "replacement_caller",
+            "body_source": "replacement_caller",
+            "effective": "replacement_caller",
+            "mode": "Check",
+            "path": [
+              "replacement_caller"
+            ]
+          },
+          {
+            "requested": "f",
+            "body_source": "discriminating_replacement",
+            "effective": "discriminating_replacement",
+            "mode": "Assert",
+            "path": [
+              "replacement_caller",
+              "f"
+            ]
+          }
+        ],
+        "unsupported": [],
+        "single_call_shape": true
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_provider",
+      "target": "requires_only",
+      "direct_source_calls": [
+        "requires_only"
+      ],
+      "exact_direct_target_count": 1,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "expected": "one direct selected PFC call; source oracle in REGRESSION-ORACLE.json"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_overlap.rs",
+      "harness": "overlapping_contract_target",
+      "target": "f",
+      "direct_source_calls": [
+        "f"
+      ],
+      "exact_direct_target_count": 1,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "expected": "unchanged explicit same-original-target PFC+verified+ordinary overlap compile-error; not semantic PASS"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "provider",
+      "target": "f",
+      "direct_source_calls": [
+        "f"
+      ],
+      "exact_direct_target_count": 1,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "expected": "one direct selected PFC call; source oracle in REGRESSION-ORACLE.json"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "requires_only_provider",
+      "target": "requires_only",
+      "direct_source_calls": [
+        "requires_only"
+      ],
+      "exact_direct_target_count": 1,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "expected": "one direct selected PFC call; source oracle in REGRESSION-ORACLE.json"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ensures_only_provider",
+      "target": "ensures_only",
+      "direct_source_calls": [
+        "ensures_only"
+      ],
+      "exact_direct_target_count": 1,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "expected": "one direct selected PFC call; source oracle in REGRESSION-ORACLE.json"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_provider",
+      "target": "recursive",
+      "direct_source_calls": [
+        "recursive"
+      ],
+      "exact_direct_target_count": 1,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "expected": "one direct recursive target call; existing RecursiveCheck/REENTRY handles internal recursion; unmodified"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_provider",
+      "target": "contracted_replacement",
+      "direct_source_calls": [
+        "contracted_replacement"
+      ],
+      "exact_direct_target_count": 1,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "expected": "one direct selected PFC call; source oracle in REGRESSION-ORACLE.json"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_contract_target",
+      "target": "replacement_caller",
+      "direct_source_calls": [
+        "replacement_caller"
+      ],
+      "exact_direct_target_count": 1,
+      "source_unchanged_from6f": false,
+      "native_repair": "NOT_RUN",
+      "expected": "one direct selected PFC call; source oracle in REGRESSION-ORACLE.json",
+      "callshape": {
+        "harness": "replacement_contract_target",
+        "selected_target": "replacement_caller",
+        "exact_target_reachable": true,
+        "effective_check_calls": 1,
+        "events": [
+          {
+            "requested": "replacement_caller",
+            "body_source": "replacement_caller",
+            "effective": "replacement_caller",
+            "mode": "Check",
+            "path": [
+              "replacement_caller"
+            ]
+          },
+          {
+            "requested": "f",
+            "body_source": "contracted_replacement",
+            "effective": "contracted_replacement",
+            "mode": "Assert",
+            "path": [
+              "replacement_caller",
+              "f"
+            ]
+          }
+        ],
+        "unsupported": [],
+        "single_call_shape": true
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "provider",
+      "target": "f",
+      "direct_source_calls": [
+        "f"
+      ],
+      "exact_direct_target_count": 1,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "expected": "one direct selected PFC call; source oracle in REGRESSION-ORACLE.json"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "replacement_provider",
+      "target": "replacement",
+      "direct_source_calls": [
+        "replacement"
+      ],
+      "exact_direct_target_count": 1,
+      "source_unchanged_from6f": true,
+      "native_repair": "NOT_RUN",
+      "expected": "PFC check remains active despite no-assert; bad postcondition expected panic, unchanged"
+    }
+  ],
+  "assurance": "lexical source calls; real FnDef/MIR reachability and verification NOT_RUN"
+}

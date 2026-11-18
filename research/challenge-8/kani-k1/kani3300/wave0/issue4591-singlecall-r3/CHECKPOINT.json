@@ -1,0 +1,138 @@
+{
+  "schema": "issue4591-singlecall-r3-checkpoint-v1",
+  "status": "READY_FOR_SAME11_NATIVE_SINGLECALL_DELTA",
+  "task": "98dde2de28e13381092f20c082ba90f90ce34773",
+  "runtime": "Codex",
+  "reasoning": "high",
+  "Fast": "OFF",
+  "subagents": false,
+  "source_worktree": "/root/kani-issue4591-singlecall-r3-w15",
+  "source": {
+    "sha": "f82934ca97caaa1270d5279054aa950173868be5",
+    "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+    "parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "message": "Exercise ordinary replacements through single-call PFC callers [skip ci]"
+  },
+  "published_failed_base": {
+    "sha": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "parent": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "message": "Support ordinary stubs of contracted functions"
+  },
+  "main": {
+    "sha": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "tree": "c9a832dc1647c51ac3036429e5f97e73eb717ba7",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "author": "Felipe R. Monteiro <felisous@amazon.com>",
+    "message": "Upgrade Rust toolchain to nightly-2026-11-18 (#5188)\n\nUpgrades the toolchain from `nightly-2026-11-12` to\n`nightly-2026-11-18`. All the changes below came with\n`nightly-2026-11-17`; `nightly-2026-11-18` needed none.\n\n### Changes for the new toolchain\n\n- **Attributes.** rustc removed `Attribute::path_matches` and\n`Attribute::value_str`. `attributes.rs` now checks a tool attribute's\npath itself (`attr_path_matches`, the same test rustc used to do) and\nreads a `path = \"value\"` attribute's string through `value_lit`\n(`attr_value_str`).\n- **Diagnostics.** `HumanReadableErrorType` gained a `no_graphics`\nfield.\n- **View types.** rustc added `TyKind::View`, a work-in-progress feature\nthat rustc's own codegen and const-eval do not support yet\n(`unimplemented!()`). Kani reports it as unsupported in the two type\nmatches in `typ.rs`, as it does for `UnsafeBinder`.\n- **Float intrinsics.** `copysign`, `maximum_number_nsz` and\n`minimum_number_nsz` are now generic over the float type, as `ceil`,\n`sqrt` and others became before. They join `GENERIC_FLOAT_INTRINSICS`,\nso Kani keeps its own f32/f64 models; the six tests call the generic\nintrinsics.\n- **SIMD types.** MIR no longer allows field projections into\n`#[repr(simd)]` types (MCP#838). The derived `Clone`/`Debug` of the\n`CustomMask` test model in `library/kani` projected into its field and\nmade clippy hit an ICE in MIR validation; it now copies the whole value.\nAll SIMD tests in the regression pass unchanged.\n- **Feature gates.** `pattern_type_macro` was removed; `pattern_type!`\nis gated by `pattern_types`. Four tests drop the old gate (a comment\nkeeps the line numbers their expected output refers to).\n- **Clippy.** Nine `.contains(&\"...\".to_string())` calls flagged by the\nnew `unnecessary_to_owned` finding use `.iter().any(..)`.\n\n### Removing `chrono`\n\n[RUSTSEC-2026-0543](https://rustsec.org/advisories/RUSTSEC-2026-0543)\n(issued 2026-11-17) marks `chrono` as unmaintained, with no fixed\nversion, so `cargo deny` fails on every PR and on `main`. `kani-driver`\nonly used it to stamp the flamegraph file name in developer mode; that\ntimestamp is now built from `std::time::SystemTime` (in UTC), with a\nunit test. This removes `chrono` and its time-zone crates from\n`Cargo.lock`.\n\n### Testing\n\nOn Linux with CBMC 6.11.0, in the Kani CI image:\n- `cargo build-dev`, the LLBC build, `scripts/kani-fmt.sh --check`, and\nboth clippy commands of the format-check workflow pass.\n- `scripts/kani-regression.sh`: every suite passes except\n`script-based-pre/compiler_defaults` (needs `jq`) and\n`script-based-pre/cbmc_truncated_results` (memory limit), which only\nfail in my container; the steps after the suites\n(`codegen-firecracker.sh`, the `cargo-features-flag` check, the `-D\nwarnings` build) pass.\n- `scripts/kani-llbc-regression.sh` passes.\n- `cargo deny --all-features --workspace check -s` (the arguments of the\nCargo Deny workflow) passes.\n\nAll of the above was run on `nightly-2026-11-18`.\n\nResolves #5189 (the automatic upgrade to `nightly-2026-11-13` failed on\nthe attribute API change from rust-lang/rust#165871, which this PR\nhandles).\n\nBy submitting this pull request, I confirm that my contribution is made\nunder the terms of the Apache 2.0 and MIT licenses.\n\n---------\n\nSigned-off-by: Felipe R. Monteiro <felisous@amazon.com>"
+  },
+  "package_g0_commit": "delivery commit reported externally; no circular self-pin",
+  "diagnosis": "Both frozen fixtures contain two effective checks of one selected provider; exact-target reachability succeeds but sequential once guard fails. Native positive failure authoritative; negative guard failure predicted, suite NOT_RUN. Repair selects a substantive caller once, provider Assert inside ordinary replacement.",
+  "repair_scope": [
+    "tests/expected/function-contract/ordinary_stub_fail.rs",
+    "tests/kani/FunctionContracts/ordinary_stub.rs"
+  ],
+  "patches": {
+    "repair.patch": "0215d0d906a2fc9b4bcfdb57ec9c759d918d24fd6662d9ffcbc2f3971ad65476",
+    "full-main.patch": "b0799ef2f4b96ef2e3adc84db4a61a2e4f1301c5aba30d2c60ea690fcf80056f",
+    "compiler-main.patch": "af782bc5473f4b45852ed253aefd929a0ca78746b5fa20452483bdc128cea6cd",
+    "regression-main.patch": "198a9a8ff5184a927f57aef0f01262b60276fd17624b75a4c77a83881de369de"
+  },
+  "ci_request_sha256": "8fb98acee9861fb9a94133d060d568fd0b7735d5840fcd9fdf7fc2fc6aacf4bc",
+  "validation": {
+    "status": "PASS",
+    "check_count": 141,
+    "assurance": "offline Git/source-callshape/arithmetic/mutation/metadata checks only",
+    "patch_replays": 3,
+    "native_repair": "NOT_RUN",
+    "compiler_typecheck_MIR": "NOT_RUN"
+  },
+  "claims": [
+    {
+      "claim": "published6f Kani failed; Format/Deny succeeded; all12jobs accounted",
+      "assurance": "connected run/job/step metadata",
+      "evidence": "native/CONNECTED-METADATA.json"
+    },
+    {
+      "claim": "positive replacement_contract_target single-call error; suite658pass/1fail; other same-file harnesses verified; negative expected notrun; failfast reason",
+      "assurance": "frozen coordinator report; no raw-log intake",
+      "evidence": "native/FAILURE-PROJECTION.json"
+    },
+    {
+      "claim": "negative frozen fixture predicts same guard failure, repair shapes both have one exact selected check",
+      "assurance": "pinned source and bounded lexical/guard projection, not MIR/native",
+      "evidence": "DIAGNOSIS.md and tests/VALIDATION.json"
+    },
+    {
+      "claim": "other36 harness definitions, expected outputs and all compiler bytes retained; workflow/actions/scripts/library/toolchain/dependency bytes unchanged",
+      "assurance": "Git object/blob/source comparison",
+      "evidence": "SOURCE-PINS.json and tests/VALIDATION.json"
+    }
+  ],
+  "unknown": [
+    "full native diagnostic/property ID/process exit",
+    "actual per-job checkout identities",
+    "actual native CBMC binary identity",
+    "repair compilation/rustfmt/MIR/native outputs and performance",
+    "future nonskip finalSHA, not created"
+  ],
+  "history": "authorad50/review0f4/GO1a32 and failed6f/native/static-approved history frozen; W11-01 static reachability closure did not establish single-call validity",
+  "independent_review": "PENDING_SAME11_EXACT_DELTA; no subagent or author self-approval",
+  "root_GO": "NOT_PREPARED_BEFORE_SAME11_EXACT_APPROVE; then HOLD_FOR_OWNER_EXTRA_ITEM1_GRANT",
+  "accounting_reference": {
+    "item1": "31/31 EXHAUSTED",
+    "item2": "12/17",
+    "total": "43/48",
+    "potential_owner_morning_plus1": "NOT_GRANTED",
+    "attempts_here": 0,
+    "ledger_reservation_budget_mutation": false,
+    "repeat_refund": false
+  },
+  "future_final_head": {
+    "sha": "NOT_CREATED",
+    "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+    "parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "relation": "new nonskip same-tree sibling; sole6fparent; main..final contains published6f then final; candidate excluded",
+    "candidate_in_pushed_range": false,
+    "remote_update": "fast-forward from6f; no force"
+  },
+  "actions_performed": {
+    "compiler_verifier_fullrunner": false,
+    "CI_rerun_cancel": false,
+    "push_PR_issue_comment": false,
+    "rawlogs_archives_GCS": false,
+    "ledger_reservation_budget": false
+  },
+  "S3": "independent and untouched",
+  "rejected_alternatives": [
+    {
+      "approach": "remove only direct provider call",
+      "reason": "one effective check remains but selected provider FnDef absent from exact reachability"
+    },
+    {
+      "approach": "retain direct0 plus copied call",
+      "reason": "native/sourced once guard failure despite exact reachability"
+    },
+    {
+      "approach": "drop copied call and retain only direct0",
+      "reason": "loses meaningful ordinary replacement composition"
+    },
+    {
+      "approach": "change guards, add unreachable/dummy or clause-depth calls, weaken semantic expected output",
+      "reason": "unnecessary compiler/semantic expansion or validation bypass"
+    }
+  ],
+  "open": [
+    {
+      "gate": "SAME11 independent exact delta review",
+      "next": "SAME11-DELTA-REQUEST.md; separate original11 context, localized findings back to original15"
+    },
+    {
+      "gate": "owner morning extra item1 grant",
+      "next": "after exact APPROVE root prepares held GO-request; no capacity/dispatch inferred from static approval"
+    }
+  ],
+  "completion_reason": "all authorized offline diagnosis/repair/validation/artifacts complete; independent reviewer approval requires original11 and cannot be self-issued; native CI prohibited and item1 exhausted"
+}
