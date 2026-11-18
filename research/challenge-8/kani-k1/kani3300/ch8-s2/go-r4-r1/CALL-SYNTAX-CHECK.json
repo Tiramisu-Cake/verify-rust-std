@@ -1,0 +1,26 @@
+{
+  "schema": "ch8-s2-r14-03-exact-source-scope-check-v1",
+  "source_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+  "source_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+  "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+  "file_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+  "method": "Comment/literal-aware tokens from exact frozen cfg_pfc.tokens, independent of lexical_bindings.call_paths; enumerate EVERY closing-parenthesis immediately followed by opening-parenthesis in entire exact S2 batch module. Parenthesized-callee forms in R14-03 necessarily have this adjacency.",
+  "coverage": "Entire source module, including all eight added/changed functions and every branch; not only currently enumerated77 calls.",
+  "parenthesized_callable_occurrences": [],
+  "controls": [
+    {
+      "expression": "((missing_static))();",
+      "recognized_by_adjacency_check": true
+    },
+    {
+      "expression": "((super::super::sort4_stable))(a,b,c);",
+      "recognized_by_adjacency_check": true
+    },
+    {
+      "expression": "(f)();",
+      "recognized_by_adjacency_check": true
+    }
+  ],
+  "finding_scope": "R14-03 nested-parenthesized callee syntax absent from this exact source module. No assertion of complete Rust syntax/type/MIR/expansion validation; other limitations remain.",
+  "review_scope_fact": "Reviewer established no injected missing_static call and independent hash/correspondence rejection; root additionally checks absence of the whole parenthesized-callee class in module."
+}

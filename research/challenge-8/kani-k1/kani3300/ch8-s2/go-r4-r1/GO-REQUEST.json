@@ -1,0 +1,187 @@
+{
+  "schema": "ch8-s2-r4-r1-go-request-scoped-exception-v1",
+  "status": "READY_FOR_COORDINATOR_GO_WITH_EXACT_SOURCE_GATE_EXCEPTION",
+  "package_g0": "474e0b4209554bdd69c4303410192d2d472af4a2",
+  "review_g0": "e7837b0f70e235399e53f8da1b48a4a84b33f693",
+  "review_verdict": "CHANGES_REQUIRED",
+  "original_findings": {
+    "R14-01": "CLOSED",
+    "R14-02": "CLOSED"
+  },
+  "open_review_findings": [
+    "R14-03"
+  ],
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "16aa3557742e1b8a8b64b3b3d49da23d988027f8"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r4-r1-w13",
+    "sha": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "tree": "9f7c903f2039e6a52b19f37c5f32fbd9cc86566f",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "db81e62d76cfa193b1d7fe8e8ebbecead7e20ef8",
+    "request_sha256": "9d165365933b6bc117311d7d52568f834bc2f083c2272800803a84883f286717",
+    "workflow_sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "request_sha256": "9d165365933b6bc117311d7d52568f834bc2f083c2272800803a84883f286717",
+  "workflow_sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c",
+  "coordinator_consent": {
+    "decision": "AGREE_TO_ONE_NEW_R4_R1_ATTEMPT_WITH_R14_03_DEFERRED_NONBLOCKING",
+    "authority": "Coordinator17:40 proposed exact-source exception under owner-delegated agreement with root; root agrees after independent source-syntax check.",
+    "dispatcher": "USER_COORDINATOR_ONLY",
+    "conditions": [
+      "Exact reviewed source/control/tree/request/workflow/stock and unchanged11roots20covers6negatives/all caps.",
+      "Publish exact source; final native push trigger SAME-TREE SIBLING of control, sole parent9e14, not child0e8; record final SHA/ref/run/attempt.",
+      "One new attempt, no automatic rerun, no old run retry.",
+      "Preserve native compile/results/diagnostic completeness and all UNKNOWN/partial/censoring/assumed limits.",
+      "R14-03 exception expires for any source/control change or further run; generic gate completeness is not accepted."
+    ]
+  },
+  "acceptance_exception": {
+    "id": "R14-03",
+    "review_status": "OPEN",
+    "this_run_classification": "DEFERRED_NONBLOCKING",
+    "scope": "Only package474e0b4209/sourcebd62/control0e8 and one separately dispatched attempt.",
+    "basis": [
+      "Known unsupported callable syntax absent from entire exact batch source by CALL-SYNTAX-CHECK.json.",
+      "Separate exact byte/hash/correspondence guards unchanged; ordinary/PFC gates remain separate.",
+      "R14-03 concerns generic scanner completeness; no defect in unchanged candidate source demonstrated by this finding. Native compilation remains authoritative for compiler acceptance."
+    ],
+    "not_granted": [
+      "No reviewer APPROVE claimed; historical CHANGES_REQUIRED and OPEN preserved.",
+      "No generic name-gate completeness, successful compilation, causal repair, leaf qualification or proof acceptance inferred."
+    ],
+    "followup": "Isolated gate-only backlog repair for next revision; never mutate frozen source/control/current GO packet. Future use requires review and fresh bound package/GO.",
+    "backlog_task": "research/challenge-8/kani-k1/TASK-CH8-S2-R14-03-BACKLOG-W13.md",
+    "backlog_boundary": "Parallel isolated gate-only repair; current0e8/sourcebd62 and this GO packet immutable; no CI or automatic integration."
+  },
+  "source_publication": {
+    "performed": false,
+    "repository": "Tiramisu-Cake/verify-rust-std",
+    "required_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "suggested_branch": "experiment/ch8-s2-batch3probes-r4-r1-20261118"
+  },
+  "required_trigger": {
+    "created": false,
+    "repository": "Tiramisu-Cake/kani",
+    "tree": "9f7c903f2039e6a52b19f37c5f32fbd9cc86566f",
+    "single_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "topology": "same-tree sibling of reviewed control, NOT child0e8",
+    "suggested_branch": "uninit-ci/ch8-s2-batch3probes-r4-r1-20261118",
+    "actual_sha": null,
+    "actual_run": null,
+    "actual_attempt": null,
+    "checkout_depths": {
+      "control": 7,
+      "source": 5,
+      "tool": 2
+    },
+    "event": "push"
+  },
+  "requested_new_workflow_attempts": 1,
+  "automatic_rerun": false,
+  "scope": {
+    "group": "s2-batch3probes-u34",
+    "rows": [
+      "swap_pfc",
+      "summary_witness",
+      "merge32_real",
+      "sort13_assumed",
+      "general32_assumed",
+      "merge_order_corrupt",
+      "merge_count_corrupt",
+      "checker_count_corrupt",
+      "checker_order_corrupt",
+      "sort13_weak",
+      "general32_weak"
+    ],
+    "covers": 20,
+    "negative_oracles": 6,
+    "backend_harness_s": 600,
+    "compile_s": 900,
+    "root_cap_sum_s": 6600,
+    "group_child_s": 7500,
+    "phase_s": 8100,
+    "phase_step_s": 7560,
+    "setup_s": 1800,
+    "job_minutes": 180,
+    "jobs": 1,
+    "max_parallel": 1,
+    "RSS_GiB": 12,
+    "headroom_GiB": 2
+  },
+  "assurance": {
+    "native_compile": "NOT_RUN",
+    "causal_repair": "NOT_RUN",
+    "actual_R3_failing_unit_body": "UNKNOWN",
+    "new_gate_completeness": "NOT_ESTABLISHED_R14_03_OPEN",
+    "proof_credit": "NONE",
+    "diagnostic_assumed": [
+      "sort13_assumed",
+      "general32_assumed"
+    ],
+    "sort8_PFC": "same-cfg registration ONLY, not proved/selected",
+    "negative_controls": "two operation-identical source-bound caller copies/seams; not original caller identities",
+    "merge32_domain": "exactu8/32/sortedhalves/allocation only",
+    "TIMEOUT600s": "CENSORED",
+    "unobserved_metrics": "UNKNOWN, not zero"
+  },
+  "coordinator_receipt": {
+    "batch-r4-r1": {
+      "committed_files_checked": 60,
+      "manifest_hashes_checked": 59
+    },
+    "review-batch-r4-r1": {
+      "committed_files_checked": 18,
+      "manifest_hashes_checked": 17
+    }
+  },
+  "review_validation": {
+    "independent_final_object_tests": 96,
+    "static_replays": 6,
+    "checkout_depths": {
+      "control": 7,
+      "source": 5,
+      "tool": 2
+    },
+    "type_method_trait_MIR": "NOT_CHECKED"
+  },
+  "accounting_reference_only": {
+    "ledger_g0": "a4e8bdd22fc18919640fbff56e52eec69dc3f34a",
+    "item1_used": 29,
+    "item1_cap": 29,
+    "item2_used": 9,
+    "item2_cap": 14,
+    "total_used": 38,
+    "total_cap": 43,
+    "r0_r1_r2_r3_charged": 0,
+    "next_item2_if_counted": 10,
+    "rule": "Confirmed compile failure BEFORE first root qualifies0; no free-successful-run promise; real CI cost retained, each retry review+GO.",
+    "actor": "COORDINATOR_ONLY",
+    "ledger_changed": false,
+    "reservation": false
+  },
+  "actions": {
+    "compiler": false,
+    "CI": false,
+    "dispatch": false,
+    "source_publication": false,
+    "push": false,
+    "PR": false,
+    "issue": false,
+    "ledger": false,
+    "budget": false
+  }
+}
