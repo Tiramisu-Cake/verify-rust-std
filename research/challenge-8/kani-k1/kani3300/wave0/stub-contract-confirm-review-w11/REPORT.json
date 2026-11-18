@@ -1,0 +1,85 @@
+{
+  "Fast": "OFF preserved",
+  "accounting_reference_only": {
+    "item1": "29/30",
+    "item2": "10/17",
+    "mutated": false,
+    "total": "39/47"
+  },
+  "approval_scope": "CONFIRMATION_ONLY_READINESS; ROOT_GO_REQUEST_PREPARATION_ONLY",
+  "blocking_findings": [],
+  "compiler_fix_approved": false,
+  "control": {
+    "branch": "w15/stub-contract-confirm",
+    "dirty": "",
+    "head": "1253186ae87e079758ab573f50ba305a028f8963",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "published": false,
+    "shallow": "false",
+    "tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+    "worktree": "/root/kani-stub-contract-control-w15"
+  },
+  "control_patch_sha256": "915b02209ce2f8439c71239856b02aef6c58486236301f9e23902323b12608a4",
+  "dispatch_authorized": false,
+  "fix_candidate_patch_sha256": "d3221b7ed70707ae39c479eed0bccc1f89f25e5ae5215356a117a8b7f718be08",
+  "fixed_branch_ci_approved": false,
+  "independent_proof_credit": "NONE",
+  "native": {
+    "MIR": "NOT_RUN",
+    "confirmation": "NOT_RUN",
+    "fixed": "NOT_RUN",
+    "macro_expansion": "NOT_RUN",
+    "main": "NOT_RUN"
+  },
+  "next": "root prepares exact GO-request; separate owner/coordinator GO required before dispatch",
+  "nonblocking_notes": [
+    {
+      "detail": "Artifact replay must reject present but unretained partial/invalid exports; producer already retains presence and is conservative. Corrected reviewer replay test; original test traceback preserved.",
+      "id": "REPLAY_EXPORT_PRESENCE"
+    },
+    {
+      "detail": "Compiler/MIR/regressions/native confirmation remain unobserved; exact positive schema/diagnostic expectations remain source-derived until separately authorized confirmation.",
+      "id": "NATIVE_NOT_RUN"
+    }
+  ],
+  "package_commit": "5ba4f444f6fa1882b4eb6ac6d773f76cfc9c6531",
+  "policy_assessment": "clear-error guard is a coherent separate restriction proposal; support precedence remains a policy choice; compiler fix unapproved",
+  "profile_sha256": "9f230f8fac56230a468f043e294bc77a745b50d5a16a47a7857eb0be4af5cae5",
+  "publication_authorized": false,
+  "request_sha256": "21749d215a2851d971e58f16727d7589af3468adffe086afa4a558cf026841c4",
+  "reviewer": "independent11",
+  "schema": "stub-contract-confirm-review-v1",
+  "separate_GO": "ABSENT; REQUIRED",
+  "settings_changed": false,
+  "source_mechanism": "conditional original f attributes with substituted g body; no native or historical-unit diagnosis",
+  "stock": {
+    "compiler_fix": "NONE; F4 excluded",
+    "dirty": "",
+    "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "shallow": "false",
+    "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "worktree": "/root/kani-stub-contract-source-w15"
+  },
+  "subagents": false,
+  "task": "taskbbae71320b721ee3bb373b3b1177071266c16512",
+  "validation": {
+    "assurance": "STATIC_PYTHON_MOCK_ONLY",
+    "author": "PASS",
+    "author_counted_mutations": 71,
+    "independent": "PASS",
+    "independent_check_count": 125,
+    "mock_outcomes": {
+      "explicit_unsupported": "INCONCLUSIVE",
+      "failed_provider": "INCONCLUSIVE",
+      "malformed_export": "INCONCLUSIVE",
+      "oversized_export": "INCONCLUSIVE",
+      "partial_export": "INCONCLUSIVE",
+      "valid_missing": "DEFECT_PRESENT",
+      "valid_success": "DEFECT_ABSENT"
+    }
+  },
+  "verdict": "APPROVE",
+  "workflow_sha256": "0a537ae2e8f74f5864324237f761b2fe3b6a07982216b2e82ad9feca06d6011c",
+  "write_scope": "research/challenge-8/kani-k1/kani3300/wave0/stub-contract-confirm-review-w11"
+}

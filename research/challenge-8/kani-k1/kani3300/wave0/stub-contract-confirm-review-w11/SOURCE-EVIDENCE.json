@@ -1,0 +1,386 @@
+{
+  "assurance": "INDEPENDENT_STATIC_SOURCE_INSPECTION",
+  "files": [
+    {
+      "excerpts": [
+        {
+          "first_line": 115,
+          "last_line": 123,
+          "text": "        // This has to come first, since creating harnesses affects later stubbing and contract passes.\n        transformer.add_pass(queries, AutomaticHarnessPass::new(queries));\n        transformer.add_pass(queries, AutomaticArbitraryPass::new(unit, queries));\n        transformer.add_pass(queries, FnStubPass::new(&unit.stubs));\n        transformer.add_pass(queries, ExternFnStubPass::new(&unit.stubs));\n        transformer.add_pass(queries, FunctionWithContractPass::new(tcx, queries, unit));\n        // This has to come after the contract pass since we want this to only replace the closure\n        // body that is relevant for this harness.\n        transformer.add_pass(queries, AnyModifiesPass::new(tcx, queries, unit));"
+        },
+        {
+          "first_line": 152,
+          "last_line": 180,
+          "text": "    pub fn body_ref(&mut self, tcx: TyCtxt, instance: Instance) -> &Body {\n        &self\n            .cache\n            .entry(instance)\n            .or_insert_with(|| {\n                // Transform and add to the cache if there's no existing entry.\n                let mut body = crate::kani_middle::checked_body(tcx, instance)\n                    .unwrap_or_else(|| build_missing_body(tcx, instance));\n\n                let mut modified = false;\n                for pass in self.stub_passes.iter_mut().chain(self.inst_passes.iter_mut()) {\n                    let result = pass.transform(tcx, body, instance);\n                    modified |= result.0;\n                    body = result.1;\n                    self.generated_loop_modifies.extend(\n                        pass.take_generated_loop_modifies()\n                            .into_iter()\n                            .map(|(register_fn, locals)| ((instance, register_fn), locals)),\n                    );\n                    self.loop_modifies_bindings.extend(\n                        pass.take_loop_modifies_bindings()\n                            .into_iter()\n                            .map(|(binding, register_fn)| ((instance, binding), register_fn)),\n                    );\n                }\n\n                TransformationResult(body, modified)\n            })\n            .0"
+        }
+      ],
+      "git_blob": "9f4d8d62932a069a933060fdbaf8bd8c7d5cb197",
+      "line_ranges": [
+        [
+          115,
+          123
+        ],
+        [
+          152,
+          180
+        ]
+      ],
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "sha256": "1fc758f58412b7334cc3570e178bc43f557264ba09214453b051192ef949d3a1"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 46,
+          "last_line": 55,
+          "text": "    fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {\n        trace!(function=?instance.name(), \"transform\");\n        let ty = instance.ty();\n        if let TyKind::RigidTy(RigidTy::FnDef(fn_def, args)) = ty.kind()\n            && let Some(replace) = self.stubs.get(&fn_def)\n        {\n            let new_instance = Instance::resolve(*replace, &args).unwrap();\n            debug!(from=?instance.name(), to=?new_instance.name(), \"FnStubPass::transform\");\n            if let Some(body) = FnStubValidator::validate(tcx, (fn_def, *replace), new_instance) {\n                return (true, body);"
+        },
+        {
+          "first_line": 145,
+          "last_line": 155,
+          "text": "impl FnStubValidator<'_, '_> {\n    fn validate(tcx: TyCtxt, stub: (FnDef, FnDef), new_instance: Instance) -> Option<Body> {\n        if validate_stub_const(tcx, new_instance) {\n            let body = crate::kani_middle::checked_body(tcx, new_instance).unwrap();\n            let mut validator =\n                FnStubValidator { stub, tcx, locals: body.locals(), is_valid: true };\n            validator.visit_body(&body);\n            validator.is_valid.then_some(body)\n        } else {\n            None\n        }"
+        }
+      ],
+      "git_blob": "333e30141b37119c77d55203ab542499c79baa90",
+      "line_ranges": [
+        [
+          46,
+          55
+        ],
+        [
+          145,
+          155
+        ]
+      ],
+      "path": "kani-compiler/src/kani_middle/transform/stubs.rs",
+      "sha256": "5cbd5f695efaf3c4bbfbe58424ddd0c7a07b24356cf4cd8d3339a9c4a07e0fa0"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 333,
+          "last_line": 350,
+          "text": "                    // instantiated at several types, and each instantiation has\n                    // its own return type and so its own potential cycle.\n                    if mode == ContractMode::Replace\n                        && self.arbitrary_cycle_checked.insert(instance)\n                    {\n                        self.check_arbitrary_cycle(tcx, *def, args);\n                    }\n                    self.mark_unused(tcx, *def, &body, mode);\n                    let new_body = self.set_mode(tcx, body, mode);\n                    (true, new_body)\n                } else if KaniAttributes::for_instance(tcx, instance).fn_marker()\n                    == Some(Symbol::intern(\"kani_register_contract\"))\n                {\n                    let run = Instance::resolve(self.run_contract_fn.unwrap(), args).unwrap();\n                    (true, run.body().unwrap())\n                } else {\n                    // Not a contract annotated function\n                    (false, body)"
+        },
+        {
+          "first_line": 569,
+          "last_line": 587,
+          "text": "    fn contract_mode(&self, tcx: TyCtxt, fn_def: FnDef) -> Option<ContractMode> {\n        let kani_attributes = KaniAttributes::for_def_id(tcx, fn_def.def_id());\n        kani_attributes.has_contract().then(|| {\n            if self.check_fn == Some(fn_def) {\n                if kani_attributes.has_recursion() {\n                    ContractMode::RecursiveCheck\n                } else {\n                    ContractMode::SimpleCheck\n                }\n            } else if self.replace_fns.contains(&fn_def) {\n                ContractMode::Replace\n            } else if self.assert_contracts {\n                ContractMode::Assert\n            } else {\n                ContractMode::Original\n            }\n        })\n    }\n"
+        },
+        {
+          "first_line": 660,
+          "last_line": 734,
+          "text": "    fn mark_unused(&mut self, tcx: TyCtxt, fn_def: FnDef, body: &Body, mode: ContractMode) {\n        let contract =\n            KaniAttributes::for_def_id(tcx, fn_def.def_id()).contract_attributes().unwrap();\n        let recursion_closure = find_closure(tcx, fn_def, body, contract.recursion_check.as_str());\n        let check_closure = find_closure(tcx, fn_def, body, contract.checked_with.as_str());\n        let replace_closure = find_closure(tcx, fn_def, body, contract.replaced_with.as_str());\n        let assert_closure = find_closure(tcx, fn_def, body, contract.asserted_with.as_str());\n        match mode {\n            ContractMode::Original => {\n                // No contract instrumentation needed. Add all closures to the list of unused.\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(replace_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::RecursiveCheck => {\n                self.unused_closures.insert(replace_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::SimpleCheck => {\n                self.unused_closures.insert(replace_closure);\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::Replace => {\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(assert_closure);\n            }\n            ContractMode::Assert => {\n                self.unused_closures.insert(recursion_closure);\n                self.unused_closures.insert(check_closure);\n                self.unused_closures.insert(replace_closure);\n            }\n        }\n    }\n}\n\n/// Enumeration that store the value of which implementation should be selected.\n///\n/// Keep the discriminant values in sync with [kani::internal::mode].\n#[derive(Copy, Clone, Debug, PartialEq, Eq)]\nenum ContractMode {\n    Original = 0,\n    RecursiveCheck = 1,\n    SimpleCheck = 2,\n    Replace = 3,\n    Assert = 4,\n}\n\nfn find_closure(tcx: TyCtxt, fn_def: FnDef, body: &Body, name: &str) -> ClosureDef {\n    body.var_debug_info\n        .iter()\n        .find_map(|var_info| {\n            if var_info.name.as_str() == name {\n                let ty = match &var_info.value {\n                    VarDebugInfoContents::Place(place) => place.ty(body.locals()).unwrap(),\n                    VarDebugInfoContents::Const(const_op) => const_op.ty(),\n                };\n                if let TyKind::RigidTy(RigidTy::Closure(def, _args)) = ty.kind() {\n                    return Some(def);\n                }\n            }\n            None\n        })\n        .unwrap_or_else(|| {\n            tcx.sess.dcx().err(format!(\n                \"Failed to find contract closure `{name}` in function `{}`\",\n                fn_def.name()\n            ));\n            tcx.sess.dcx().abort_if_errors();\n            unreachable!()\n        })\n}"
+        }
+      ],
+      "git_blob": "45c1e68360ee06f134e0230d960297c0c30a0c18",
+      "line_ranges": [
+        [
+          333,
+          350
+        ],
+        [
+          569,
+          587
+        ],
+        [
+          660,
+          734
+        ]
+      ],
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "sha256": "06523bc56804fae5a4e6b484ef4e2ecedf34dbc046b29e02608e9ccdb3660cc9"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 244,
+          "last_line": 299,
+          "text": "/// Group the harnesses by their stubs and contract usage.\nfn group_by_stubs(\n    tcx: TyCtxt,\n    all_harnesses: &HashMap<Harness, HarnessMetadata>,\n) -> Vec<CodegenUnit> {\n    let mut per_stubs: HashMap<_, CodegenUnit> = HashMap::default();\n    for (harness, metadata) in all_harnesses {\n        let stub_ids = harness_stub_map(tcx, *harness, metadata);\n        let contracts = extract_contracts(tcx, *harness);\n        let stub_map = stub_ids\n            .iter()\n            .map(|(k, v)| (tcx.def_path_hash(*k), tcx.def_path_hash(*v)))\n            .collect::<BTreeMap<_, _>>();\n        let key = (contracts, stub_map);\n        if let Some(unit) = per_stubs.get_mut(&key) {\n            unit.harnesses.push(*harness);\n        } else {\n            let stubs = stub_ids\n                .iter()\n                .map(|(from, to)| (stub_def(tcx, *from), stub_def(tcx, *to)))\n                .collect::<HashMap<_, _>>();\n            let stubs = apply_transitivity(tcx, *harness, stubs);\n            per_stubs.insert(key, CodegenUnit { stubs, harnesses: vec![*harness] });\n        }\n    }\n    per_stubs.into_values().collect()\n}\n\n#[derive(Copy, Clone, Debug, Ord, PartialOrd, PartialEq, Eq, Hash)]\nenum ContractUsage {\n    Stub(usize),\n    Check(usize),\n}\n\n/// Extract the contract related usages.\n///\n/// Note that any error interpreting the result is emitted, but we delay aborting, so we emit as\n/// many errors as possible.\nfn extract_contracts(tcx: TyCtxt, harness: Harness) -> BTreeSet<ContractUsage> {\n    let def = harness.def;\n    let mut result = BTreeSet::new();\n    let attributes = KaniAttributes::for_def_id(tcx, def.def_id());\n    if let Some(target) = attributes.interpret_for_contract_attribute() {\n        result.insert(ContractUsage::Check(target.def_id().to_index()));\n    }\n    for stub in attributes.interpret_stub_verified_attribute() {\n        result.insert(ContractUsage::Stub(stub.def_id().to_index()));\n    }\n\n    result\n}\n\n/// Extract the filename for the metadata file.\nfn metadata_output_path(tcx: TyCtxt) -> PathBuf {\n    let filepath = tcx.output_filenames(()).path(OutputType::Object);\n    let filename = filepath.as_path();"
+        },
+        {
+          "first_line": 316,
+          "last_line": 328,
+          "text": "fn validate_units(tcx: TyCtxt, units: &[CodegenUnit]) {\n    for unit in units {\n        for (from, to) in &unit.stubs {\n            // We use harness span since we don't keep the attribute span.\n            let Err(msg) = check_compatibility(tcx, *from, *to) else { continue };\n            let span = unit.harnesses.first().unwrap().def.span();\n            tcx.dcx().span_err(rustc_internal::internal(tcx, span), msg);\n        }\n    }\n    tcx.dcx().abort_if_errors();\n}\n\n/// Apply stub transitivity operations."
+        }
+      ],
+      "git_blob": "9edc987da54521773ed371824d06e189cb4cceea",
+      "line_ranges": [
+        [
+          244,
+          299
+        ],
+        [
+          316,
+          328
+        ]
+      ],
+      "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+      "sha256": "7c97d5557936b1ed29ece9fad486b1acc8fd38f1a9e241c7c0e221b47d4c665d"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 87,
+          "last_line": 135,
+          "text": "    let krate = tcx.crate_name(LOCAL_CRATE);\n    let mut all_stub_verified_targets = FxHashMap::default();\n    let mut all_contract_targets = HashSet::new();\n\n    for item in tcx.hir_free_items() {\n        let def_id = item.owner_id.def_id.to_def_id();\n        let (stub_verified_targets, contract_targets) =\n            KaniAttributes::for_item(tcx, def_id).check_attributes();\n        all_stub_verified_targets.extend(stub_verified_targets);\n        all_contract_targets.extend(contract_targets);\n\n        if tcx.def_kind(def_id) == DefKind::GlobalAsm {\n            if !ignore_asm {\n                let error_msg = format!(\n                    \"Crate {krate} contains global ASM, which is not supported by Kani. Rerun with \\\n                    `-Z unstable-options --ignore-global-asm` to suppress this error \\\n                    (**Verification results may be impacted**).\",\n                );\n                tcx.dcx().err(error_msg);\n            } else {\n                tcx.dcx().warn(format!(\n                    \"Ignoring global ASM in crate {krate}. Verification results may be impacted.\",\n                ));\n            }\n        }\n    }\n\n    // Validate that all stub_verified targets have corresponding proof_for_contract harnesses\n    for (stub_verified_target, span) in all_stub_verified_targets {\n        if !all_contract_targets.contains(&stub_verified_target) {\n            tcx.dcx().struct_span_err(\n                span,\n                format!(\n                    \"stub verified target `{}` does not have a corresponding `#[proof_for_contract]` harness\",\n                    strip_local_crate_prefix(stub_verified_target.name())\n                ),\n            ).with_help(\"verified stubs are meant to be sound abstractions for a function's behavior, so Kani enforces that proofs exist for the stub's contract\")\n            .emit();\n        }\n    }\n\n    tcx.dcx().abort_if_errors();\n}\n\n/// The body of `instance`, or `None` if it has none; aborts with a diagnostic if it contains an\n/// explicit tail call (`become`).\n///\n/// Stable `rustc_public::mir::TerminatorKind` has no `TailCall` variant, so converting a body that\n/// contains one hits `unimplemented!()` inside the toolchain and aborts the compilation, c.f."
+        }
+      ],
+      "git_blob": "6093b083178e7b16e0f505d71c9438fdb924d334",
+      "line_ranges": [
+        [
+          87,
+          135
+        ]
+      ],
+      "path": "kani-compiler/src/kani_middle/mod.rs",
+      "sha256": "6e73911b203b9d8237a0725ca67f1c46342d106b572ad485a2ceb06b61739a41"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 105,
+          "last_line": 120,
+          "text": "    /// Stores (`readable_name`, `mangled_name`) pairs for each [Instance].\n    pub static INSTANCE_NAME_CACHE: RefCell<FxHashMap<Instance, (String, String)>> = RefCell::new(FxHashMap::default());\n}\n\n/// Returns the (`readable_name`, `mangled_name`) pair for an [Instance] from the cache,\n/// computing it if no entry exists.\n///\n/// The readable name is the stripped form from [crate::kani_middle::readable_name], not the\n/// raw [Instance::name], so that callers can use the cached value directly. The stripping\n/// depends only on the local crate name, which is fixed for a compilation session.\nfn instance_names(instance: &Instance) -> (String, String) {\n    INSTANCE_NAME_CACHE.with_borrow_mut(|cache| {\n        cache\n            .entry(*instance)\n            .or_insert_with(|| {\n                (crate::kani_middle::readable_name(*instance), instance.mangled_name())"
+        }
+      ],
+      "git_blob": "05e8446926a35e006e737b0c04eb5038324d0b04",
+      "line_ranges": [
+        [
+          105,
+          120
+        ]
+      ],
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+      "sha256": "80d8865c92a622da65c763e5085a3a80d426427db26c3e5e229e04305725e52e"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 25,
+          "last_line": 49,
+          "text": "        let replace_closure = self.replace_closure();\n        let check_closure = self.check_closure();\n        let recursion_closure = self.new_recursion_closure(&replace_closure, &check_closure);\n        let assert_closure = self.assert_closure();\n\n        let span = Span::call_site();\n        let replace_ident = Ident::new(&self.replace_name, span);\n        let check_ident = Ident::new(&self.check_name, span);\n        let recursion_ident = Ident::new(&self.recursion_name, span);\n        let assert_ident = Ident::new(&self.assert_name, span);\n\n        // The order of `attrs` and `kanitool::{checked_with,\n        // is_contract_generated}` is important here, because macros are\n        // expanded outside in. This way other contract annotations in `attrs`\n        // sees those attributes and can use them to determine\n        // `function_state`.\n        let ImplItemFn { attrs, vis, defaultness, sig, block } = self.annotated_fn;\n        self.output.extend(quote!(\n            #(#attrs)*\n            #[kanitool::recursion_check = #recursion_name]\n            #[kanitool::checked_with = #check_name]\n            #[kanitool::replaced_with = #replace_name]\n            #[kanitool::asserted_with = #assert_name]\n            #[kanitool::modifies_wrapper = #modifies_name]\n            #vis #defaultness #sig {"
+        },
+        {
+          "first_line": 79,
+          "last_line": 106,
+          "text": "                // call in MIR because the MIR `Inline` pass is off at Kani's default opt level.\n                #[inline]\n                #[kanitool::fn_marker = \"kani_contract_mode\"]\n                const fn kani_contract_mode() -> kani::internal::Mode {\n                    kani::internal::ORIGINAL\n                }\n                let kani_contract_mode = kani_contract_mode();\n                match kani_contract_mode {\n                    kani::internal::RECURSION_CHECK => {\n                        #recursion_closure;\n                        kani_register_contract(#recursion_ident)\n                    }\n                    kani::internal::REPLACE => {\n                        #replace_closure;\n                        kani_register_contract(#replace_ident)\n                    }\n                    kani::internal::SIMPLE_CHECK => {\n                        #check_closure;\n                        kani_register_contract(#check_ident)\n                    }\n                    kani::internal::ASSERT => {\n                        #assert_closure;\n                        kani_register_contract(#assert_ident)\n                    }\n                    _ => #block\n                }\n            }\n        ));"
+        }
+      ],
+      "git_blob": "400b24cb73541f9b7311ac11e024cfca2cfe2fac",
+      "line_ranges": [
+        [
+          25,
+          49
+        ],
+        [
+          79,
+          106
+        ]
+      ],
+      "path": "library/kani_macros/src/sysroot/contracts/bootstrap.rs",
+      "sha256": "d9e0988bfe8eef7f90b9378300ec4b77d425677ee60dc845f841939d073e9507"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 72,
+          "last_line": 89,
+          "text": "        let fn_name = &annotated_fn.sig.ident;\n        let generate_name = |purpose| format!(\"__kani_{purpose}_{fn_name}\");\n        let assert_name = generate_name(\"assert\");\n        let check_name = generate_name(\"check\");\n        let replace_name = generate_name(\"replace\");\n        let recursion_name = generate_name(\"recursion_check\");\n        let modifies_name = generate_name(\"modifies\");\n\n        Ok(Self {\n            condition_type,\n            annotated_fn,\n            attr_copy,\n            output,\n            check_name,\n            replace_name,\n            recursion_name,\n            assert_name,\n            modify_name: modifies_name,"
+        }
+      ],
+      "git_blob": "12c1338a9e7564d99d026a885cf43b695baafa28",
+      "line_ranges": [
+        [
+          72,
+          89
+        ]
+      ],
+      "path": "library/kani_macros/src/sysroot/contracts/initialize.rs",
+      "sha256": "dad2dcfdd2aa348a33f0162a81459ae4539946bc027ccac7d2593bf09bd2e95b"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 20,
+          "last_line": 45,
+          "text": "    /// Create the body of a check function.\n    ///\n    /// Wraps the conditions from this attribute around `self.body`.\n    pub fn make_check_body(&self, mut body_stmts: Vec<Stmt>) -> TokenStream2 {\n        let Self { attr_copy, .. } = self;\n        match &self.condition_type {\n            ContractConditionsData::Requires { attr } => {\n                let assume_bracketed = bracket_clause_stmt(quote!(kani::assume(#attr);));\n                quote!({\n                    #assume_bracketed\n                    #(#body_stmts)*\n                })\n            }\n            ContractConditionsData::Ensures { attr } => {\n                let (remembers, ensures_clause) = build_ensures(attr);\n\n                // The code that enforces the postconditions and cleans up the shallow\n                // argument copies (with `mem::forget`).\n                let ensures_bracketed = bracket_clause_expr(quote!(#ensures_clause));\n                let exec_postconditions = quote!(\n                    kani::assert(#ensures_bracketed, stringify!(#attr_copy));\n                );\n\n                let return_expr = body_stmts.pop();\n\n                let (assumes, rest_of_body) ="
+        }
+      ],
+      "git_blob": "365627d101b5c66d853628dca59a2fef842cbff2",
+      "line_ranges": [
+        [
+          20,
+          45
+        ]
+      ],
+      "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+      "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 19,
+          "last_line": 37,
+          "text": "The stubbing feature can be enabled by using the `-Z stubbing` option when calling Kani (the `-Z` indicates that it's an unstable feature).\n\nAt present, the only component of the stubbing feature is [the `#[kani::stub(<original>, <replacement>)]` attribute](#the-kanistub-attribute),\nwhich allows you to specify the pair of functions/methods that must be stubbed in a harness.\n\n<!--\nthe other components expected to be here in the future are: the `stub_set(...)!` macro, off-the-shelf verification-friendly implementations, and automated\nstubbing suggestions)\n-->\n\n## The `#[kani::stub(...)]` attribute\n\nThe stub attribute `#[kani::stub(<original>, <replacement>)]`  is the main tool of the stubbing feature.\n\nIt indicates to Kani that the function/method with name `<original>` should be replaced with the function/method with name `<replacement>` during the compilation step.\nThe names of these functions/methods are **resolved using Rust's standard name resolution rules**.\nThis includes support for imports like `use foo::bar as baz`, as well as imports of multiple versions of the same crate.\n\n**This attribute must be specified on a per-harness basis**. This provides a high degree of flexibility for users, since they are given the option to stub the same item with different replacements (or not use stubbing at all) depending on the proof harness. In addition, **the attribute can be specified multiple times per harness**, so that multiple (non-conflicting) stub pairings are supported."
+        },
+        {
+          "first_line": 159,
+          "last_line": 164,
+          "text": "### Feature interactions\n\n- **Function contracts:** Stubbing works with function contracts. Use `#[kani::stub_verified(fn)]`\n  to replace a function with its verified contract abstraction. This requires a\n  `#[kani::proof_for_contract(fn)]` harness to exist. Regular `#[kani::stub]` can also be\n  combined with `-Z function-contracts` in the same harness."
+        }
+      ],
+      "git_blob": "d3781d878e2b46a60ac86485105f72a3a50c4675",
+      "line_ranges": [
+        [
+          19,
+          37
+        ],
+        [
+          159,
+          164
+        ]
+      ],
+      "path": "docs/src/reference/experimental/stubbing.md",
+      "sha256": "e92c6cf8385ccada4bd133a614737f965561c93bd566cb876fd21a4e2788cd78"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 300,
+          "last_line": 306,
+          "text": "/// Return the path for the folder where the current executable is located.\nfn bin_folder() -> Result<PathBuf> {\n    let exe = std::env::current_exe().context(\"Cannot determine current executable location\")?;\n    let dir = exe.parent().context(\"Executable isn't in a directory\")?.to_owned();\n    Ok(dir)\n}\n"
+        },
+        {
+          "first_line": 360,
+          "last_line": 370,
+          "text": "    pub fn kani_compiler(&self) -> Result<PathBuf> {\n        match self {\n            Self::DevRepo(_) => {\n                // Use bin_folder to hide debug/release differences.\n                let path = bin_folder()?.join(\"kani-compiler\");\n                expect_path(path)\n            }\n            Self::Release(release) => {\n                let path = release.join(\"bin/kani-compiler\");\n                expect_path(path)\n            }"
+        }
+      ],
+      "git_blob": "2adacf1070b775cca938333f380414fd20cc7655",
+      "line_ranges": [
+        [
+          300,
+          306
+        ],
+        [
+          360,
+          370
+        ]
+      ],
+      "path": "kani-driver/src/session.rs",
+      "sha256": "442d7e72d8ae3d30ea506d826c71e380595e8b327a51ea02b250c8945b60166c"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 187,
+          "last_line": 199,
+          "text": "fn verify_project(project: Project, session: KaniSession) -> Result<()> {\n    debug!(?project, \"verify_project\");\n    let started_at = OffsetDateTime::now_utc();\n    let start_instant = Instant::now();\n\n    let harnesses = session.determine_targets(project.get_all_harnesses())?;\n    debug!(n = harnesses.len(), ?harnesses, \"verify_project\");\n    let export_context = session.begin_export_json(&harnesses, started_at)?;\n\n    // Verification\n    let runner = harness_runner::HarnessRunner { sess: &session, project: &project };\n    let results = runner.check_all_harnesses(&harnesses)?;\n"
+        }
+      ],
+      "git_blob": "6f3c36fd44f89a7307d3b8171c11f3e8b8a4a44a",
+      "line_ranges": [
+        [
+          187,
+          199
+        ]
+      ],
+      "path": "kani-driver/src/main.rs",
+      "sha256": "757eb0205da02cf3ab22a97e7c967b97d25510485f42815d106b2a170a0e6956"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 349,
+          "last_line": 403,
+          "text": "    schema_version: &'static str,\n    kani_commit: Option<&'static str>,\n    kani_commit_dirty: Option<bool>,\n    tools: ToolsExport,\n    enabled_unstable_features: BTreeSet<String>,\n    harness_selection: HarnessSelectionExport,\n    harness_timeout_s: Option<f64>,\n    configuration: ConfigurationExport,\n    outcome: RunOutcome,\n    run_state: RunState,\n    target: &'static str,\n    started_at: String,\n    wall_time_s: f64,\n    harnesses: Vec<HarnessExport>,\n    summary: Summary,\n}\n\n#[derive(Serialize)]\nstruct HarnessSelectionExport {\n    requested_filters: Vec<String>,\n    exact: bool,\n    unmatched_filters: Vec<String>,\n    matched_count: usize,\n}\n\n#[derive(Serialize, Clone, Copy, PartialEq, Eq, Debug)]\n#[serde(rename_all = \"SCREAMING_SNAKE_CASE\")]\nenum RunState {\n    Complete,\n    NoHarnessesSelected,\n    Partial,\n}\n\n#[derive(Serialize)]\nstruct ConfigurationExport {\n    checks: ChecksFlags,\n    cbmc_args: Vec<String>,\n    coverage_enabled: bool,\n}\n\n#[derive(Serialize)]\nstruct ChecksFlags {\n    memory_safety: bool,\n    overflow: bool,\n    unwinding: bool,\n    undefined_function: bool,\n    assertion_reach_checks: bool,\n    ignore_global_asm: bool,\n    extra_pointer_checks: bool,\n    assert_contracts: bool,\n    prove_safety_only: bool,\n}\n\n#[derive(Serialize, Clone, Copy, PartialEq, Eq, Debug)]\n#[serde(rename_all = \"SCREAMING_SNAKE_CASE\")]"
+        }
+      ],
+      "git_blob": "24901f7cf98213cd76cfa3b200bb07f2c6a181b0",
+      "line_ranges": [
+        [
+          349,
+          403
+        ]
+      ],
+      "path": "kani-driver/src/frontend/schema_utils.rs",
+      "sha256": "6cf7b1311b3ebfd6ec1ce61efb1875b33d067fc2a89d2e7d1ccf8bf6995b1a64"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 330,
+          "last_line": 348,
+          "text": "            _ => (),\n        }\n\n        if show_checks {\n            let check_id = format!(\"Check {index}: {name}\\n\");\n            let status_msg = format!(\"\\t - Status: {status}\\n\");\n            let description_msg = format!(\"\\t - Description: \\\"{description}\\\"\\n\");\n\n            result_str.push_str(&check_id);\n            result_str.push_str(&status_msg);\n            result_str.push_str(&description_msg);\n\n            if !location.is_missing() {\n                let location_msg = format!(\"\\t - Location: {location}\\n\");\n                result_str.push_str(&location_msg);\n            }\n            result_str.push('\\n');\n        }\n    }"
+        }
+      ],
+      "git_blob": "0e4b62727c400b942d6dbd17e198b1bd83a46227",
+      "line_ranges": [
+        [
+          330,
+          348
+        ]
+      ],
+      "path": "kani-driver/src/cbmc_property_renderer.rs",
+      "sha256": "f2f6be1b2a2e29e340e17c5859fa5a0f5c7d90bacb9287d082af23d442737c42"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 282,
+          "last_line": 307,
+          "text": "/// `<file>:<line>:<column> in function <function>`\n/// if all attributes were specified. Otherwise, we:\n///  * Omit `in function <function>` if the function isn't specified.\n///  * Use `Unknown file` instead of `<file>:<line>:<column>` if the file isn't\n///    specified.\n///  * Lines and columns are only formatted if they were specified and preceding\n///    attribute was formatted.\nimpl std::fmt::Display for SourceLocation {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {\n        if let Some(file) = self.file.clone() {\n            let file_path = filepath(file);\n            write!(f, \"{file_path}\")?;\n            if let Some(line) = self.line.clone() {\n                write!(f, \":{line}\")?;\n                if let Some(column) = self.column.clone() {\n                    write!(f, \":{column}\")?;\n                }\n            }\n        } else {\n            write!(f, \"Unknown file\")?;\n        }\n        if let Some(function) = self.function.clone() {\n            let demangled_function = demangle(&function);\n            write!(f, \" in function {demangled_function:#}\")?;\n        }\n        Ok(())"
+        }
+      ],
+      "git_blob": "039e248308301e41aebacaf46b95329369df5fb1",
+      "line_ranges": [
+        [
+          282,
+          307
+        ]
+      ],
+      "path": "kani-driver/src/cbmc_output_parser.rs",
+      "sha256": "efdc704e083c0a9b357e6258ef6312669091dca4fbbe102852c94c5e1fd7bfc1"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 1,
+          "last_line": 35,
+          "text": "#!/usr/bin/env bash\n# Copyright Kani Contributors\n# SPDX-License-Identifier: Apache-2.0 OR MIT\n\nset -eu\n\nSCRIPT_DIR=\"$( cd \"$( dirname \"${BASH_SOURCE[0]}\" )\" >/dev/null 2>&1 && pwd )\"\nREPO_DIR=\"$(dirname $SCRIPT_DIR)\"\n\nshopt -s nullglob\nKANI_DRIVER=\"$REPO_DIR/target/kani/bin/kani-driver\"\n\nif [[ ! -x ${KANI_DRIVER} ]]\nthen\n    echo \"ERROR: Could not find kani-driver binary.\"\n    echo \"Looked for: '${KANI_DRIVER}'\"\n    echo \"Was Kani successfully built first?\"\n    exit 1\nfi\n\nFLAMEGRAPH_DIR=\"flamegraphs\"\nFLAMEGRAPH_SAMPLING_RATE=8000 # in Hz\n\nFLAMEGRAPH_DRIVER=0\nif [[ ( -n \"${FLAMEGRAPH:-}\" ) && ( \"${FLAMEGRAPH}\" == \"driver\" ) ]]; then\n    FLAMEGRAPH_DRIVER=1\nfi\n\nif (( FLAMEGRAPH_DRIVER == 0 )); then \n    exec -a cargo-kani \"${KANI_DRIVER}\" \"$@\"\nelse \n    mkdir -p \"${FLAMEGRAPH_DIR}\"\n    DATE_POSTFIX=$(date +\"%Y-%m-%dT%H:%M:%S\")\n    exec -a cargo-kani samply record -r $FLAMEGRAPH_SAMPLING_RATE -o \"${FLAMEGRAPH_DIR}/driver-${DATE_POSTFIX}.json.gz\" --save-only \"${KANI_DRIVER}\" \"$@\"\nfi"
+        }
+      ],
+      "git_blob": "b05d7791f02dc6bf29c89fac6b073047cf219baf",
+      "line_ranges": [
+        [
+          1,
+          35
+        ]
+      ],
+      "path": "scripts/cargo-kani",
+      "sha256": "a0fca4b405bedc008d4f1fd3a5b03c097b190896c633a301badef846e8560291"
+    },
+    {
+      "excerpts": [
+        {
+          "first_line": 1,
+          "last_line": 43,
+          "text": "# Copyright Kani Contributors\n# SPDX-License-Identifier: Apache-2.0 OR MIT\nname: Setup Kani Dependencies\ndescription: \"Setup the machine to run Kani. Install rustup, dependencies and sync submodules.\"\ninputs:\n  os:\n    description: In which Operating System is this running\n    required: true\n  kani_dir:\n    description: Path to Kani's root directory\n    required: false\n    default: '.'\nruns:\n  using: composite\n  steps:\n      - name: Remove unnecessary software to free up disk space\n        if: contains(fromJSON('[\"ubuntu-20.04\",\"ubuntu-22.04\"]'), inputs.os)\n        shell: bash\n        run: |\n          # inspired by https://github.com/easimon/maximize-build-space/blob/master/action.yml\n          df -h\n          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup\n          df -h\n\n      - name: Install Rust toolchain\n        run: |\n          cd ${{ inputs.kani_dir }}\n          ./scripts/setup/install_rustup.sh\n          echo \"$HOME/.cargo/bin\" >> $GITHUB_PATH\n        shell: bash\n\n      - name: Install dependencies\n        run: cd ${{ inputs.kani_dir }} && ./scripts/setup/${{ inputs.os }}/install_deps.sh\n        shell: bash\n\n      - name: Update submodules\n        run: |\n          cd ${{ inputs.kani_dir }}\n          git config --global --add safe.directory $(pwd)\n          # Workaround for occasionally failing to copy a file in s2n-quic that we\n          # don't actually care about\n          GIT_LFS_SKIP_SMUDGE=1 git submodule update --init --depth 1\n        shell: bash"
+        }
+      ],
+      "git_blob": "7e781d3c6f853811cb39b29839ff4e452436ae2e",
+      "line_ranges": [
+        [
+          1,
+          49
+        ]
+      ],
+      "path": ".github/actions/setup/action.yml",
+      "sha256": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307"
+    }
+  ],
+  "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "schema": "stub-contract-review-source-v1",
+  "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786"
+}

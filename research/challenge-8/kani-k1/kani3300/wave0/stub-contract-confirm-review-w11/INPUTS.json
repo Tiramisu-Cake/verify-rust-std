@@ -1,0 +1,77 @@
+{
+  "g0_start_head": "2906a5b6d3b8451e5b49417714f75e3f9a4af148",
+  "issuance": "owner 21:44 /new11; explicit user message",
+  "package_commit": "5ba4f444f6fa1882b4eb6ac6d773f76cfc9c6531",
+  "pins": {
+    "control": {
+      "branch": "w15/stub-contract-confirm",
+      "dirty": "",
+      "head": "1253186ae87e079758ab573f50ba305a028f8963",
+      "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "published": false,
+      "shallow": "false",
+      "tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+      "worktree": "/root/kani-stub-contract-control-w15"
+    },
+    "control_patch_sha256": "915b02209ce2f8439c71239856b02aef6c58486236301f9e23902323b12608a4",
+    "fix_candidate_patch_sha256": "d3221b7ed70707ae39c479eed0bccc1f89f25e5ae5215356a117a8b7f718be08",
+    "g0_input": "9582039593814a2b67b3ca6377c5f165e92dfa1f",
+    "g0_note": "Shared g0 HEAD advanced during preparation; task issuance identity retained and unrelated commits preserved.",
+    "g0_observed_before_packaging": "805dfa3af4854e76f0997c7d131f8a1dbc09ff99",
+    "git_common_dir": "/root/kani-fix-3300-c2-s5/.git",
+    "native": {
+      "MIR": "NOT_RUN",
+      "confirmation": "NOT_RUN",
+      "fixed": "NOT_RUN",
+      "macro_expansion": "NOT_RUN",
+      "main": "NOT_RUN"
+    },
+    "profile_sha256": "9f230f8fac56230a468f043e294bc77a745b50d5a16a47a7857eb0be4af5cae5",
+    "request_binding": {
+      "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "base_parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+      "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+      "control_head": "1253186ae87e079758ab573f50ba305a028f8963",
+      "control_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "control_tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+      "profile_sha256": "9f230f8fac56230a468f043e294bc77a745b50d5a16a47a7857eb0be4af5cae5",
+      "schema": "stub-contract-request-v1"
+    },
+    "request_sha256": "21749d215a2851d971e58f16727d7589af3468adffe086afa4a558cf026841c4",
+    "schema": "stub-contract-pins-v1",
+    "settings": {
+      "Fast": "OFF per owner; unchanged",
+      "model_reasoning_tier": "unchanged"
+    },
+    "stock": {
+      "compiler_fix": "NONE; F4 excluded",
+      "dirty": "",
+      "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+      "shallow": "false",
+      "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+      "worktree": "/root/kani-stub-contract-source-w15"
+    },
+    "task": "task9582039593814a2b67b3ca6377c5f165e92dfa1f"
+  },
+  "reviewer": "independent11",
+  "schema": "stub-contract-confirm-review-inputs-v1",
+  "task": "taskbbae71320b721ee3bb373b3b1177071266c16512",
+  "task_files": [
+    {
+      "bytes": 2715,
+      "path": "research/challenge-8/kani-k1/TASK-CH8-STUB-CONTRACT-CONFIRM-REVIEW.md",
+      "sha256": "9c042a4575d36f732c5d6dc68ffde62329136f4481c8df7bfa4ab6e868d00fe0"
+    },
+    {
+      "bytes": 7257,
+      "path": "research/challenge-8/kani-k1/TASK-CH8-STUB-CONTRACT-CONFIRM-W15.md",
+      "sha256": "f801a95ad78152b632eb1752eb649bd23898c6b52f57adb881dadd034931419a"
+    },
+    {
+      "bytes": 3240,
+      "path": "research/challenge-8/kani-k1/STYLE-UPSTREAM-RULES.md",
+      "sha256": "5932c080cd5938ad7fcb159b1847e663df828beffc17196716b001e6a5cb9e7a"
+    }
+  ]
+}

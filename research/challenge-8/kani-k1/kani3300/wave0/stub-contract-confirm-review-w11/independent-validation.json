@@ -1,0 +1,317 @@
+{
+  "check_count": 125,
+  "checks": [
+    "exact package 31 files",
+    "committed bytes CHECKPOINT.json",
+    "committed bytes CI-REQUEST.json",
+    "committed bytes CI-REQUEST.md",
+    "committed bytes DISPATCH-ENTRY.json",
+    "committed bytes FIX-PROPOSAL.md",
+    "committed bytes HANDOFF.md",
+    "committed bytes INPUTS.json",
+    "committed bytes MAIN-DRIFT.json",
+    "committed bytes MAIN-METADATA-START.json",
+    "committed bytes MANIFEST.json",
+    "committed bytes ORACLES.md",
+    "committed bytes PINS.json",
+    "committed bytes PROVENANCE.json",
+    "committed bytes SOURCE-TRACE.md",
+    "committed bytes SOURCES.json",
+    "committed bytes VALIDATION.json",
+    "committed bytes VALIDATION.md",
+    "committed bytes control.patch",
+    "committed bytes fix-clear-error.patch",
+    "committed bytes result.json",
+    "committed bytes result.schema.json",
+    "committed bytes source/.github/stub-contract-confirm/profile.json",
+    "committed bytes source/.github/workflows/slow-tests.yml",
+    "committed bytes source/tests/script-based-pre/stub-contract-confirm/Cargo.lock",
+    "committed bytes source/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+    "committed bytes source/tests/script-based-pre/stub-contract-confirm/check_service.py",
+    "committed bytes source/tests/script-based-pre/stub-contract-confirm/runner.py",
+    "committed bytes source/tests/script-based-pre/stub-contract-confirm/service.py",
+    "committed bytes source/tests/script-based-pre/stub-contract-confirm/src/lib.rs",
+    "committed bytes source/tests/script-based-pre/stub-contract-confirm/workflow_checks.py",
+    "committed bytes validate.py",
+    "manifest 30 entries excluding itself",
+    "manifest identity CHECKPOINT.json",
+    "manifest identity CI-REQUEST.json",
+    "manifest identity CI-REQUEST.md",
+    "manifest identity DISPATCH-ENTRY.json",
+    "manifest identity FIX-PROPOSAL.md",
+    "manifest identity HANDOFF.md",
+    "manifest identity INPUTS.json",
+    "manifest identity MAIN-DRIFT.json",
+    "manifest identity MAIN-METADATA-START.json",
+    "manifest identity ORACLES.md",
+    "manifest identity PINS.json",
+    "manifest identity PROVENANCE.json",
+    "manifest identity SOURCE-TRACE.md",
+    "manifest identity SOURCES.json",
+    "manifest identity VALIDATION.json",
+    "manifest identity VALIDATION.md",
+    "manifest identity control.patch",
+    "manifest identity fix-clear-error.patch",
+    "manifest identity result.json",
+    "manifest identity result.schema.json",
+    "manifest identity source/.github/stub-contract-confirm/profile.json",
+    "manifest identity source/.github/workflows/slow-tests.yml",
+    "manifest identity source/tests/script-based-pre/stub-contract-confirm/Cargo.lock",
+    "manifest identity source/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+    "manifest identity source/tests/script-based-pre/stub-contract-confirm/check_service.py",
+    "manifest identity source/tests/script-based-pre/stub-contract-confirm/runner.py",
+    "manifest identity source/tests/script-based-pre/stub-contract-confirm/service.py",
+    "manifest identity source/tests/script-based-pre/stub-contract-confirm/src/lib.rs",
+    "manifest identity source/tests/script-based-pre/stub-contract-confirm/workflow_checks.py",
+    "manifest identity validate.py",
+    "owner exact digests",
+    "owner exact workflow digest",
+    "canonical request binding",
+    "request and runtime argv identical: provider",
+    "request and runtime argv identical: verified",
+    "request and runtime argv identical: ordinary",
+    "request and runtime environment identical",
+    "declared diagnostic and stream caps identical",
+    "stock exact clean sole-parent nonshallow tree",
+    "control exact clean sole-parent nonshallow tree",
+    "control patch exact binary diff",
+    "control patch replay exact tree",
+    "separate fix patch applicability",
+    "reject wrong closure",
+    "reject wrong function",
+    "reject generic compiler failure",
+    "reject additional primary error",
+    "reject incomplete diagnostics",
+    "reject incomplete stderr",
+    "reject timeout",
+    "reject rss cap",
+    "reject output cap",
+    "reject spawn error",
+    "reject missing exit",
+    "reject mixed verification evidence",
+    "provider registration alone insufficient: provider",
+    "provider registration alone insufficient: verified",
+    "semantic assertion required: provider",
+    "semantic assertion required: verified",
+    "semantic assertion required: ordinary",
+    "all slots retained: valid_missing",
+    "artifact canonical digest: valid_missing",
+    "replayed classification: valid_missing",
+    "all slots retained: valid_success",
+    "artifact canonical digest: valid_success",
+    "replayed classification: valid_success",
+    "all slots retained: explicit_unsupported",
+    "artifact canonical digest: explicit_unsupported",
+    "replayed classification: explicit_unsupported",
+    "all slots retained: malformed_export",
+    "artifact canonical digest: malformed_export",
+    "replayed classification: malformed_export",
+    "all slots retained: partial_export",
+    "artifact canonical digest: partial_export",
+    "replayed classification: partial_export",
+    "all slots retained: oversized_export",
+    "artifact canonical digest: oversized_export",
+    "replayed classification: oversized_export",
+    "all slots retained: failed_provider",
+    "artifact canonical digest: failed_provider",
+    "replayed classification: failed_provider",
+    "finish retained after setup failure",
+    "setup failure inconclusive failure",
+    "finish retained after setup cancelled",
+    "setup failure inconclusive cancelled",
+    "finish retained after setup skipped",
+    "setup failure inconclusive skipped",
+    "finish retained after setup UNKNOWN",
+    "setup failure inconclusive UNKNOWN",
+    "diagnostic byte cap conservative",
+    "diagnostic count cap conservative",
+    "full error retention cap refuses hidden suffix"
+  ],
+  "compiler_or_full_runner_executed": false,
+  "heads": {
+    "control": {
+      "head": "1253186ae87e079758ab573f50ba305a028f8963",
+      "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2"
+    },
+    "stock": {
+      "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+      "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786"
+    }
+  },
+  "mock_outcomes": {
+    "explicit_unsupported": "INCONCLUSIVE",
+    "failed_provider": "INCONCLUSIVE",
+    "malformed_export": "INCONCLUSIVE",
+    "oversized_export": "INCONCLUSIVE",
+    "partial_export": "INCONCLUSIVE",
+    "valid_missing": "DEFECT_PRESENT",
+    "valid_success": "DEFECT_ABSENT"
+  },
+  "native": {
+    "MIR": "NOT_RUN",
+    "confirmation": "NOT_RUN",
+    "fixed": "NOT_RUN",
+    "main": "NOT_RUN"
+  },
+  "package_inventory": [
+    {
+      "bytes": 1884,
+      "path": "CHECKPOINT.json",
+      "sha256": "9b7ef3686fd9f8226096f093f2c687faada59b845e2899c041291326bc52f680"
+    },
+    {
+      "bytes": 7964,
+      "path": "CI-REQUEST.json",
+      "sha256": "16a7b8dd076d479a94afb427161f66599bf1daa3b68abbbbcb5b49d40004c182"
+    },
+    {
+      "bytes": 4894,
+      "path": "CI-REQUEST.md",
+      "sha256": "3fd9bcdc236949b4c043e5c231a8a661321a5a98a27da736f778401cf8534430"
+    },
+    {
+      "bytes": 331,
+      "path": "DISPATCH-ENTRY.json",
+      "sha256": "c665d0aa9b666bcd8feba95979c785664e6ffc3fc9e2a11d7d27861ba8a17882"
+    },
+    {
+      "bytes": 3328,
+      "path": "FIX-PROPOSAL.md",
+      "sha256": "aad480c0e339fa789e51166ead462aeb67868f1ce594d705aa84ef243684d28b"
+    },
+    {
+      "bytes": 3373,
+      "path": "HANDOFF.md",
+      "sha256": "71748694cf885664a2a3984fd8c7b48ae3579d892f1729f196f63d10d9ea836d"
+    },
+    {
+      "bytes": 1041,
+      "path": "INPUTS.json",
+      "sha256": "0b38ddcab0743d21f135d5ef845299002fd6aea8445c2398a85fd87f015892aa"
+    },
+    {
+      "bytes": 402,
+      "path": "MAIN-DRIFT.json",
+      "sha256": "945a56793bf4dc9c875334a94330b3ec780ec68f50e4f6d0de9d66a2d87a48b1"
+    },
+    {
+      "bytes": 343,
+      "path": "MAIN-METADATA-START.json",
+      "sha256": "cdea450b088656ca5cfc0b2206da7fdde1ca7bc7251d87854163d360bcc31c76"
+    },
+    {
+      "bytes": 5051,
+      "path": "MANIFEST.json",
+      "sha256": "52c891176bf8ca30125bf3601da5c7f5bb80af6d3267cfe7aaf22ba8a027bc66"
+    },
+    {
+      "bytes": 3199,
+      "path": "ORACLES.md",
+      "sha256": "136c9a928225722aa9d67627ad87298dd13945493801d356262d322f79e585bb"
+    },
+    {
+      "bytes": 2246,
+      "path": "PINS.json",
+      "sha256": "b0eccd572dab3eb55d04ccb880cf9c123bd2f0f5439cb4aaeba82181b994b579"
+    },
+    {
+      "bytes": 995,
+      "path": "PROVENANCE.json",
+      "sha256": "04c59db94061ad61784dbc1c0c5bafa79448bbf9a683f26d65f05cdef806fef2"
+    },
+    {
+      "bytes": 6832,
+      "path": "SOURCE-TRACE.md",
+      "sha256": "c9d9281cbffe882a2bb4f5f1a035ebe954e9fcb9b2baa991bfc105f7fb89e950"
+    },
+    {
+      "bytes": 7451,
+      "path": "SOURCES.json",
+      "sha256": "5f95e12d06efe46a1665fcae90760d165182024fa8daab050f10388f8eeaa0d6"
+    },
+    {
+      "bytes": 7569,
+      "path": "VALIDATION.json",
+      "sha256": "c13c1fe58ee616e54f1c4dcb96fb27af1984b5a9a37c32c31e48dc8d908cc9d5"
+    },
+    {
+      "bytes": 1583,
+      "path": "VALIDATION.md",
+      "sha256": "9cd67788248c66435e5ebb444004c8e1e76e2bb7c08d18f8535beee3af23d841"
+    },
+    {
+      "bytes": 117802,
+      "path": "control.patch",
+      "sha256": "915b02209ce2f8439c71239856b02aef6c58486236301f9e23902323b12608a4"
+    },
+    {
+      "bytes": 3154,
+      "path": "fix-clear-error.patch",
+      "sha256": "d3221b7ed70707ae39c479eed0bccc1f89f25e5ae5215356a117a8b7f718be08"
+    },
+    {
+      "bytes": 4280,
+      "path": "result.json",
+      "sha256": "5399354e1d59fb2b12e723fe2acfe28c4bd89200e5071918f490b1dcc0aea9d8"
+    },
+    {
+      "bytes": 3398,
+      "path": "result.schema.json",
+      "sha256": "ef5548a63a2966b9e5ca33f98fc9e02b8716c10641c6c7a8d86b6a07eed4de6a"
+    },
+    {
+      "bytes": 4625,
+      "path": "source/.github/stub-contract-confirm/profile.json",
+      "sha256": "9f230f8fac56230a468f043e294bc77a745b50d5a16a47a7857eb0be4af5cae5"
+    },
+    {
+      "bytes": 2697,
+      "path": "source/.github/workflows/slow-tests.yml",
+      "sha256": "0a537ae2e8f74f5864324237f761b2fe3b6a07982216b2e82ad9feca06d6011c"
+    },
+    {
+      "bytes": 165,
+      "path": "source/tests/script-based-pre/stub-contract-confirm/Cargo.lock",
+      "sha256": "fa9068017f5b97625943c393e681831b12431c6c909f28c7b1ddcdcb1e4e21c6"
+    },
+    {
+      "bytes": 234,
+      "path": "source/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+      "sha256": "a1be548a68dc9e8e644d604fe65c5a2a379d85aef44204ba54f319c67635d86b"
+    },
+    {
+      "bytes": 16283,
+      "path": "source/tests/script-based-pre/stub-contract-confirm/check_service.py",
+      "sha256": "7469cd7e6090c3fb4034079296d296cd743ecf1bfcf2c8f9e141e50b9c95770c"
+    },
+    {
+      "bytes": 18479,
+      "path": "source/tests/script-based-pre/stub-contract-confirm/runner.py",
+      "sha256": "71bed05969b8e2d698a9ab501ac787fe3b61f9c93cc267a6669958423a963785"
+    },
+    {
+      "bytes": 6777,
+      "path": "source/tests/script-based-pre/stub-contract-confirm/service.py",
+      "sha256": "0cb7c63d6bd97e4a2b2513fd6aeecb8bf219ae871a20f34942320f06b3edf994"
+    },
+    {
+      "bytes": 645,
+      "path": "source/tests/script-based-pre/stub-contract-confirm/src/lib.rs",
+      "sha256": "eeda30cfc12024ed314ddeb8c0ebade1911fd5ed2fabbc849db7ccd94e40eb4b"
+    },
+    {
+      "bytes": 2796,
+      "path": "source/tests/script-based-pre/stub-contract-confirm/workflow_checks.py",
+      "sha256": "0909f66c75ad155cdf13ab3327372c630fe648ec65aec6353a8845f6eee07583"
+    },
+    {
+      "bytes": 6023,
+      "path": "validate.py",
+      "sha256": "886934f6e84202375d6b24809ad2b10a80eef10f04b7b699b029f8d8e32ea8d2"
+    }
+  ],
+  "scope": "STATIC_PYTHON_MOCK_ONLY",
+  "status": "PASS"
+}
