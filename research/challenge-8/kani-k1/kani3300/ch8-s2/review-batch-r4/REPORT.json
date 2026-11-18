@@ -1,0 +1,127 @@
+{
+  "schema": "ch8-s2-r4-independent14-review-v1",
+  "task_id": "043f659cb6ec8512fc0215aa52357369464f4cad",
+  "issued": "owner16:52",
+  "verdict": "CHANGES_REQUIRED",
+  "package_commit": "4e2801660d89d75a1357a420c78cd435159c35b3",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-w13",
+    "sha": "16aa3557742e1b8a8b64b3b3d49da23d988027f8",
+    "tree": "135f4549d1e8d6f69f1935c817f4c42bb917b756",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r4-final-w13",
+    "sha": "db81e62d76cfa193b1d7fe8e8ebbecead7e20ef8",
+    "tree": "76b64915601e060fc79da7cc1410993283a6dcab",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "dc1ad0f9ce364f9a7efb2c3cc32db6ed51b6db4b",
+    "request_sha256": "800fa67f8b7dcd8efdb228b72c0131f77d3676b3a1f46e1c06ba29a93cb77512",
+    "workflow_sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "review_scope": "R4 delta from ba7286/478/dc1; frozen diagnostic mechanism; unchanged facts inherited by exact bytes",
+  "findings": [
+    {
+      "id": "R14-01",
+      "priority": "P1",
+      "owner": "original13",
+      "title": "Relocated scratch copy calls sort4_stable without a module binding",
+      "source_sha": "16aa3557742e1b8a8b64b3b3d49da23d988027f8",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "lines": [
+        300,
+        301
+      ],
+      "imports_lines": [
+        2,
+        7
+      ],
+      "evidence": "ADDITIONAL-CHECKS.json",
+      "assurance": "STATIC_SOURCE_NAME_RESOLUTION_FINDING; compiler NOT_RUN",
+      "repair": "Restore correct parent callee binding; preserve algorithm; distinguish relocated dependency in bounded offline checks; rebind immutable package"
+    },
+    {
+      "id": "R14-02",
+      "priority": "P2",
+      "owner": "original13",
+      "title": "Chained Kani attribute alias is silently omitted by ordinary and combined gates",
+      "control_sha": "db81e62d76cfa193b1d7fe8e8ebbecead7e20ef8",
+      "path": "ch8-s1-control/ordinary_contracts.py",
+      "lines": [
+        117,
+        120
+      ],
+      "related": [
+        {
+          "path": "ch8-s1-control/cfg_pfc.py",
+          "lines": [
+            260,
+            267,
+            373,
+            377
+          ]
+        }
+      ],
+      "evidence": "ALIAS-DISCRIMINATOR.json",
+      "assurance": "REPRODUCED_SYNTHETIC_GATE_FAIL_OPEN; no expansion/compile",
+      "impact_limit": "Exact immutable source hashes and separate correspondence policy still reject mutation; unchanged r4 contains no such unsafe target",
+      "repair": "Resolve full chained identity with ambiguity/cycle guards or fail closed before skipping; add bounded regressions; preserve existing controls"
+    }
+  ],
+  "validation": {
+    "package_manifest": "48_FILES_47_HASHES_MATCH",
+    "final_object_tests": {
+      "count": 84,
+      "exit": 0,
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "unittest",
+        "-v",
+        "test_runner.py",
+        "test_s107.FinalizationTests",
+        "test_s2.py",
+        "test_cfg_pfc.py",
+        "test_rustc_diagnostics.py",
+        "test_contract_stacks.py"
+      ],
+      "transcript_sha256": "29f367a24187c544f420f267c9eeb813fad040dc98e4c6cda66e2185ae321a46"
+    },
+    "static_validator": "PASS_OUTPUT_REDIRECTED_ONLY",
+    "alias_discriminator": "REPRODUCED_FAIL_OPEN",
+    "native_compile": "NOT_RUN",
+    "causal_repair": "NOT_RUN",
+    "actual_failing_r3_unit_body": "UNKNOWN",
+    "proof_credit": "NONE"
+  },
+  "native_compile": "NOT_RUN",
+  "causal_repair": "NOT_RUN",
+  "actual_r3_unit_body": "UNKNOWN",
+  "leaf_pfc_qualification": "NOT_RUN",
+  "proof_credit": "NONE",
+  "closed_proof_obligations": 0,
+  "external_actions": {
+    "compiler": 0,
+    "CI": 0,
+    "push": 0,
+    "issue": 0,
+    "PR": 0,
+    "ledger": 0,
+    "reservation": 0,
+    "budget": 0,
+    "subagents": 0
+  },
+  "Fast": "OFF_PER_OWNER_UNCHANGED",
+  "model_tier": "CURRENT_UNCHANGED",
+  "next": "Original13 immutable localized repair, then same14 delta review; no GO or dispatch",
+  "review_commit": "Commit containing this report; full SHA in READY handoff, omitted here to avoid circular identity"
+}

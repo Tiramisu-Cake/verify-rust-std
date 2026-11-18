@@ -1,0 +1,71 @@
+{
+  "diagnostic_commit": "04c61ba50ae4d62caaf87ed84b90e84e958c184f",
+  "diagnostic_files_sha256_checked": 11,
+  "diagnostic_provenance_objects_checked": 37,
+  "source_delta_paths": [
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+  ],
+  "runner_delta": "TWO_IDENTITY_LITERALS_ONLY",
+  "source_binding_finding": {
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+    "calls": [
+      300,
+      301
+    ],
+    "name": "sort4_stable",
+    "module_import_aliases": [
+      "CopyOnDrop",
+      "FreezeMarker",
+      "KeyLess",
+      "MaybeUninit",
+      "SMALL_SORT_GENERAL_SCRATCH_LEN",
+      "bidirectional_merge",
+      "enabled",
+      "insert_tail",
+      "intrinsics",
+      "kani",
+      "mem",
+      "pair",
+      "post",
+      "ptr",
+      "size_of",
+      "slice",
+      "small_sort_general",
+      "snapshot",
+      "sort13_optimal",
+      "sort8_stable",
+      "span",
+      "swap_if_less"
+    ],
+    "module_functions": [
+      "checker_count_corrupt",
+      "checker_order_corrupt",
+      "general32_assumed",
+      "general32_weak",
+      "general_fault_copy",
+      "general_fault_scratch",
+      "merge",
+      "merge32_real",
+      "merge_count_corrupt",
+      "merge_order_corrupt",
+      "ordered",
+      "s2_merge_seam",
+      "s2_swap_seam",
+      "sort13_assumed",
+      "sort13_fault_network",
+      "sort13_weak",
+      "sort8_registration_only",
+      "summary_witness",
+      "swap_pfc",
+      "weak_merge",
+      "weak_swap",
+      "witness"
+    ],
+    "import_or_declaration_present": false,
+    "original_parent_declaration_present": true,
+    "scope": "Static source name audit; no native compilation or observed compiler diagnostic."
+  },
+  "native_compile": "NOT_RUN",
+  "causal_repair": "NOT_RUN",
+  "proof_credit": "NONE"
+}

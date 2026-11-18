@@ -1,0 +1,94 @@
+{
+  "source_sha": "16aa3557742e1b8a8b64b3b3d49da23d988027f8",
+  "control_sha": "db81e62d76cfa193b1d7fe8e8ebbecead7e20ef8",
+  "cases": [
+    {
+      "case": "baseline_r4",
+      "old": "#[kani::stub(s2_swap_seam,weak_swap)]",
+      "replacement": "#[kani::stub(s2_swap_seam,weak_swap)]",
+      "mutation_file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "ordinary_gate": {
+        "status": "STATIC_PASS",
+        "binding_count": 23,
+        "sort13_weak_records": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+            "target": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 145,
+            "scope": "FUNCTION",
+            "target_location": {
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 182
+            },
+            "active_contract_attrs": [],
+            "status": "NO_ACTIVE_CONTRACT_ATTRS"
+          }
+        ]
+      },
+      "combined_cfg_pfc_gate": {
+        "status": "STATIC_PASS",
+        "binding_count": 6,
+        "sort13_weak_records": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+            "target": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 145,
+            "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_swap",
+            "replacement_location": {
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 143
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "direct_contracted",
+      "old": "#[kani::stub(s2_swap_seam,weak_swap)]",
+      "replacement": "#[kani::stub(swap_if_less,weak_swap)]",
+      "mutation_file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "ordinary_gate": {
+        "status": "REJECT",
+        "diagnostic": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:145 core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak: ordinary stub target core::slice::sort::shared::smallsort::swap_if_less has active contract attrs at library/core/src/slice/sort/shared/smallsort.rs:460: crate::kani::requires(a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos)));crate::kani::modifies(v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos));crate::kani::ensures(|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos))"
+      },
+      "combined_cfg_pfc_gate": {
+        "status": "REJECT",
+        "diagnostic": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:145 core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak: ordinary stub target core::slice::sort::shared::smallsort::swap_if_less has active contract attrs at library/core/src/slice/sort/shared/smallsort.rs:460: crate::kani::requires(a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos)));crate::kani::modifies(v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos));crate::kani::ensures(|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos))"
+      }
+    },
+    {
+      "case": "single_alias_contracted",
+      "old": "#[kani::stub(s2_swap_seam,weak_swap)]",
+      "replacement": "use crate::kani::stub as ordinary1;\n#[ordinary1(swap_if_less,weak_swap)]",
+      "mutation_file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "ordinary_gate": {
+        "status": "REJECT",
+        "diagnostic": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:145 core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak: ordinary stub target core::slice::sort::shared::smallsort::swap_if_less has active contract attrs at library/core/src/slice/sort/shared/smallsort.rs:460: crate::kani::requires(a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos)));crate::kani::modifies(v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos));crate::kani::ensures(|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos))"
+      },
+      "combined_cfg_pfc_gate": {
+        "status": "REJECT",
+        "diagnostic": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:145 core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak: ordinary stub target core::slice::sort::shared::smallsort::swap_if_less has active contract attrs at library/core/src/slice/sort/shared/smallsort.rs:460: crate::kani::requires(a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos)));crate::kani::modifies(v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos));crate::kani::ensures(|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos))"
+      }
+    },
+    {
+      "case": "chained_alias_contracted",
+      "old": "#[kani::stub(s2_swap_seam,weak_swap)]",
+      "replacement": "use crate::kani::stub as ordinary1;\nuse self::ordinary1 as ordinary2;\n#[ordinary2(swap_if_less,weak_swap)]",
+      "mutation_file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "ordinary_gate": {
+        "status": "STATIC_PASS",
+        "binding_count": 22,
+        "sort13_weak_records": []
+      },
+      "combined_cfg_pfc_gate": {
+        "status": "STATIC_PASS",
+        "binding_count": 5,
+        "sort13_weak_records": []
+      }
+    }
+  ],
+  "limitation": "Synthetic source-gate check only; native macro expansion/compilation NOT_RUN. Exact immutable request hashes would separately reject mutation.",
+  "finding": "Unsupported chained alias silently removes active ordinary stub from both gate inventories; neither resolves nor fails closed."
+}
