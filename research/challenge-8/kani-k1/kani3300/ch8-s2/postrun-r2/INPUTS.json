@@ -1,0 +1,249 @@
+{
+  "schema": "ch8-s2-r2-postrun-inputs-v1",
+  "status": "PREPARED_NOT_ISSUED",
+  "owner_authority": "Owner/coordinator GO executed; one attempt, no autorerun; intake13 authorized after terminal and coordinator issuance.",
+  "run": {
+    "repository": "Tiramisu-Cake/kani",
+    "id": 44302170220,
+    "expected_attempt": 1,
+    "url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44302170220",
+    "branch": "uninit-ci/ch8-s2-batch3probes-r2-20261118",
+    "trigger_sha": "59ff2f1d9863c8eb7158cf77228ddd34ee6afe22",
+    "tree": "dadbd710770720cd360529188c81c6d19a8de61c",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "reviewed_control_sha": "2ce62b5bb31abd44824dc8e358f77e63d539ed98",
+    "published_source_branch": "experiment/ch8-s2-batch3probes-r2-20261118",
+    "terminal_status": "NOT_YET_INTAKEN"
+  },
+  "source": {
+    "sha": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+    "tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "tool": {
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "change": "NONE_STOCK"
+  },
+  "request": {
+    "path": "../batch-r2-r1/CI-REQUEST.json",
+    "sha256": "008c6868bd466fc7dfb2c1e3239f94157262b0d5c5ac14fac00be0e37fdaae38",
+    "workflow_sha256": "973944169dd4d7f2fc169582b1327cc8e31fa96710a2a597ed0a126ef37e4a2e",
+    "cfg_pfc_checker_sha256": "9cd4a9c1c069365ccfa1ab8bfb7569dc88dfb5b8add41a7ca158e6d7c9be6d28"
+  },
+  "package_g0": "5a9e715ad9e303fbd10600ee379313301c87e9b3",
+  "package_review_g0": "a2d6428b35930282b03f91eeadba72eaf3cbef9b",
+  "GO_request_g0": "5c992a095b6f3e48611f0b81dda7f0149451ebe6",
+  "runner_component": {
+    "package_g0": "a8e3cb30c617a6dee07fa847f1f23470d59783e3",
+    "control_sha": "472be8c3794d7a4530760ab7d5eae4ce950aa01c",
+    "control_tree": "4835c615d20e6606ddcdc64bbb8314973cec141b",
+    "final_binding": "Reviewed exact code invariance except source identity literals and derived payload bindings"
+  },
+  "review_gates": {
+    "B-01": "CLOSED",
+    "B-02": "CLOSED",
+    "integration": "CLOSED"
+  },
+  "artifact": {
+    "name": "ch8-s2-batch3probes-44302170220-1",
+    "members": [
+      "group-evidence.json.gz"
+    ],
+    "count": 1,
+    "full_raw_logs_archives": "NOT_AUTHORIZED",
+    "digest": "VERIFY_GITHUB_ZIP_BEFORE_EXTRACTION_AND_EMBEDDED_HASHES"
+  },
+  "selection": {
+    "group_ids": [
+      "s2-batch3probes-u34"
+    ],
+    "row_ids": [
+      "swap_pfc",
+      "summary_witness",
+      "merge32_real",
+      "sort13_assumed",
+      "general32_assumed",
+      "merge_order_corrupt",
+      "merge_count_corrupt",
+      "checker_count_corrupt",
+      "checker_order_corrupt",
+      "sort13_weak",
+      "general32_weak"
+    ],
+    "expected": [
+      {
+        "id": "swap_pfc",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_SWAP_EQUAL",
+          "S2_SWAP_TAKEN",
+          "S2_SWAP_REVERSE",
+          "S2_SWAP_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "summary_witness",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_WITNESS_UNSORTED",
+          "S2_WITNESS_NONCONSTANT",
+          "S2_WITNESS_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "merge32_real",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_MERGE_RIGHT_FIRST",
+          "S2_MERGE_LEFT_FIRST",
+          "S2_MERGE_TIE",
+          "S2_MERGE_NONCONSTANT",
+          "S2_MERGE_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "sort13_assumed",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_SORT13_UNSORTED",
+          "S2_SORT13_DUPLICATE",
+          "S2_SORT13_NONCONSTANT",
+          "S2_SORT13_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "general32_assumed",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_GENERAL32_UNSORTED",
+          "S2_GENERAL32_DUPLICATE",
+          "S2_GENERAL32_NONCONSTANT",
+          "S2_GENERAL32_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "merge_order_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_MERGE_ORDER",
+        "required_cover_messages": []
+      },
+      {
+        "id": "merge_count_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_MERGE_COUNT",
+        "required_cover_messages": []
+      },
+      {
+        "id": "checker_count_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_CHECKER_COUNT",
+        "required_cover_messages": []
+      },
+      {
+        "id": "checker_order_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_CHECKER_ORDER",
+        "required_cover_messages": []
+      },
+      {
+        "id": "sort13_weak",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_SORT13_WEAK",
+        "required_cover_messages": []
+      },
+      {
+        "id": "general32_weak",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_GENERAL32_WEAK",
+        "required_cover_messages": []
+      }
+    ],
+    "formal_expected_inventory": [
+      "merge32_real"
+    ],
+    "diagnostic_assumed_inventory": [
+      "sort13_assumed",
+      "general32_assumed"
+    ],
+    "qualification": "NOT_GRANTED_BY_INTAKE"
+  },
+  "caps": {
+    "backend_harness_s": 600,
+    "compile_s": 900,
+    "group_child_s": 7500,
+    "phase_s": 8100,
+    "job_minutes": 180,
+    "jobs": 1,
+    "max_parallel": 1,
+    "group_RSS_max_GiB": 12,
+    "memory_headroom_GiB": 2,
+    "per_root_RSS_target_GiB": 6,
+    "per_root_RSS_measurement": "UNKNOWN_UNLESS_ACTUALLY_OBSERVED",
+    "root_cap_sum_s": 6600,
+    "phase_step_s": 7560,
+    "setup_s": 1800,
+    "checkout_depths": {
+      "control": 7,
+      "source": 5,
+      "tool": 2
+    }
+  },
+  "model_delta": "Remove sort8_registration_only; both general32 probes use ordinary diagnostic_sort8 full sortedness/multiplicity/frame/init relation, exact u8/KeyLess domain. Not a proved semantic leaf.",
+  "known_limits": [
+    "Historical r1 rustc cause UNKNOWN; r2 is risk reduction, not established causal fix.",
+    "Preview timing failure remains in evidence; one independent PASS does not establish absence of a timing race.",
+    "Native diagnostics/compile/probe/model/nonvacuity/qualification NOT_RUN.",
+    "Actual merge32 claim limited to exact u8/32 sorted-halves/allocation domain; no S3/general length qualification.",
+    "Body/model/checker/summary/driver wall and per-root aggregate6GiB target UNKNOWN unless measured; no group/nonsimultaneous peaks substituted.",
+    "TIMEOUT600s is censored; missing/NOT_RUN is not zero; no causal speedup comparison to r1 zero roots."
+  ],
+  "prior_runs": [
+    {
+      "id": 44264952389,
+      "charged": 0,
+      "proof_cost_reuse": false
+    },
+    {
+      "id": 44284869572,
+      "charged": 0,
+      "historical_cause": "UNKNOWN",
+      "proof_cost_reuse": false
+    }
+  ],
+  "accounting_reference_only": {
+    "reservation_and_rule_g0": "d84aeb47ece80f53179f21e5625b3c2ee5c84109",
+    "run_record_g0": "2496ae513d4e3a12d562c16b063d1dd9ca10b29d",
+    "item1_used": 29,
+    "item1_cap": 29,
+    "item2_used": 10,
+    "item2_cap": 14,
+    "total_used": 39,
+    "total_cap": 43,
+    "rule": "CONFIRMED_COMPILE_FAILURE_BEFORE_FIRST_ROOT=0; absence of RESULTS alone insufficient; retain real CI cost; every retry separate review+GO",
+    "worker_may_change_accounting": false
+  },
+  "activation": {
+    "issue_now": false,
+    "intake13": "AFTER_TERMINAL_AND_COORDINATOR_ISSUE",
+    "later_cost_P2_review": "NOT_ISSUED",
+    "settings": "current model/tier, FastOFF; no subagents"
+  },
+  "output": "../run-44302170220/ except review/",
+  "preparation_snapshot": {
+    "id": 44302170220,
+    "status": "in_progress",
+    "conclusion": null,
+    "head_sha": "59ff2f1d9863c8eb7158cf77228ddd34ee6afe22",
+    "head_branch": "uninit-ci/ch8-s2-batch3probes-r2-20261118",
+    "event": "push",
+    "run_attempt": 1,
+    "updated_at": "2026-11-18T12:15:26Z"
+  },
+  "trigger_tree_parent_observation": "MATCH from connected GitHub commit metadata"
+}
