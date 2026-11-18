@@ -1,0 +1,149 @@
+{
+  "schema": "ch8-s2-r3-go-request-v1",
+  "status": "READY_FOR_DELEGATED_COORDINATOR_GO_CONDITIONAL_SOURCE_AND_TRIGGER_BINDING",
+  "package_g0": "ba7286f5f77277aed531eaaab601e94396dec909",
+  "review_g0": "379d32fcf6784e9e3377c0972a81648c55294d96",
+  "review_verdict": "APPROVE",
+  "blocking_findings": [],
+  "source_sha": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+  "source_tree": "b5b25f4e59308df7b15340cae343f50ae9fd8a81",
+  "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+  "control_sha": "dc1ad0f9ce364f9a7efb2c3cc32db6ed51b6db4b",
+  "control_tree": "1c199ee22001213c164ac0bb9c9b56c2e5f827df",
+  "request_sha256": "f6a0d1c354237c1f0ffde252cef84ec2e30b739ae1e5ef41a54ec7cfa3fb761e",
+  "workflow_sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c",
+  "source_contract_delta": "Twelve safety clauses in five functions conditionally use direct Kani attributes under S2, with complementary original safety attributes outside S2; five swap preconditions/frame/ensures/old/domain and all bodies/signatures preserved.",
+  "source_publication": {
+    "performed": false,
+    "repository": "Tiramisu-Cake/verify-rust-std",
+    "required_sha": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+    "suggested_branch": "experiment/ch8-s2-batch3probes-r3-20261118"
+  },
+  "required_trigger": {
+    "created": false,
+    "repository": "Tiramisu-Cake/kani",
+    "tree": "1c199ee22001213c164ac0bb9c9b56c2e5f827df",
+    "single_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "topology": "same-tree sibling of reviewed control, not child of dc1",
+    "branch_pattern": "uninit-ci/ch8-s2-batch3probes-*",
+    "suggested_branch": "uninit-ci/ch8-s2-batch3probes-r3-20261118",
+    "checkout_depths": {
+      "control": 7,
+      "source": 5,
+      "tool": 2
+    },
+    "skip_gate": "Final trigger and pushed range allow intended native push event"
+  },
+  "requested_new_workflow_attempts": 1,
+  "automatic_rerun": false,
+  "old_run_rerun_authorized": false,
+  "scope": {
+    "group": "s2-batch3probes-u34",
+    "rows": [
+      "swap_pfc",
+      "summary_witness",
+      "merge32_real",
+      "sort13_assumed",
+      "general32_assumed",
+      "merge_order_corrupt",
+      "merge_count_corrupt",
+      "checker_count_corrupt",
+      "checker_order_corrupt",
+      "sort13_weak",
+      "general32_weak"
+    ],
+    "required_covers": 20,
+    "exact_negatives": 6,
+    "backend_harness_s": 600,
+    "compile_s": 900,
+    "root_cap_sum_s": 6600,
+    "group_child_s": 7500,
+    "phase_s": 8100,
+    "job_minutes": 180,
+    "jobs": 1,
+    "max_parallel": 1,
+    "group_RSS_GiB": 12,
+    "headroom_GiB": 2,
+    "phase_step_s": 7560,
+    "setup_s": 1800
+  },
+  "coordinator_consent": {
+    "decision": "AGREE_TO_ONE_NEW_R3_ATTEMPT",
+    "authority": "Owner delegated GO to coordinator in agreement with root; direct request15:55",
+    "conditions": [
+      "Exact reviewed source/control/tree/request/workflow and stock0aac; publish source and bind actual same-tree sibling trigger with sole parent9e14.",
+      "One new workflow attempt, all unchanged11roots/20covers/6negative oracles and resource/output caps; no automatic rerun.",
+      "Retain complete/partial diagnostic receipts and native outcomes; no compile or causal-fix claim before execution.",
+      "Charging follows confirmed-pre-root-compile-failure rule; coordinator records actual attempt and budget, root preparation changes no ledger."
+    ],
+    "dispatcher": "USER_COORDINATOR_ONLY"
+  },
+  "reviewed_static": {
+    "contract_stacks": 19,
+    "effective_cfg_contexts": 11,
+    "attributed_literal_paths": 91,
+    "independent_final_gate_tests": 7,
+    "independent_additional_negative_mutations": 3,
+    "author_precursor_tests": 33,
+    "author_test_control": "67ebcf4a2285976b85d986e741adde8e443b706a",
+    "final_test_provenance": "finaldc1 changes only ci_changed_paths; do not relabel33 as finaldc1 execution",
+    "patch_replays": 6,
+    "B01_B02": "INHERITED_CLOSED_EXACT_COLLECTOR_PACKER_TEST_BYTES"
+  },
+  "coordinator_receipt": {
+    "package": {
+      "committed_files_checked": 45,
+      "manifest_hashes_checked": 44
+    },
+    "review": {
+      "committed_files_checked": 11,
+      "manifest_hashes_checked": 10
+    },
+    "source_control_exact_clean": true,
+    "review_json_sha256": "a43424c0ed1ff5c3ada9f04823b3427b7a56692b2e250f439b30eb15858f9a2c"
+  },
+  "compile": "NOT_RUN",
+  "executable_macro_expansion_and_MIR_lookup": "NOT_RUN",
+  "causal_fix": "UNVERIFIED_SOURCE_SUPPORTED_CANDIDATE",
+  "runtime_model_qualification": "NOT_RUN",
+  "R1_actual_cause": "UNKNOWN",
+  "proof_credit": "NONE",
+  "diagnostic_assumed": [
+    "sort13_assumed",
+    "general32_assumed"
+  ],
+  "limits": [
+    "Static attribute normalization/grouping trace does not establish successful native compilation or a demonstrated causal fix.",
+    "Actual merge32 evidence remains exact u8/32/sorted-halves/allocation domain only; no full S3/general qualification.",
+    "Changed-model costs and prior zero-root runs do not establish a speedup.",
+    "TIMEOUT600s is censored; missing/NOT_RUN is not zero; unmeasured phases/per-root aggregate RSS/6GiB target UNKNOWN."
+  ],
+  "accounting_reference_only": {
+    "ledger_g0": "7560bc06534233b11cb0c01959b2a82e6f994def",
+    "item1_used": 29,
+    "item1_cap": 29,
+    "item2_used": 9,
+    "item2_cap": 14,
+    "total_used": 38,
+    "total_cap": 43,
+    "r0_r1_r2_charged": 0,
+    "requested_next_item2_if_counted": 10,
+    "rule": "Confirmed compile failure before first root=0; missing RESULTS alone insufficient; preserve real CI costs; every retry separate review+GO.",
+    "actual_charge_actor": "COORDINATOR_OWNER_POLICY",
+    "ledger_changed": false,
+    "reservation": false,
+    "new_attempts_consumed": 0
+  },
+  "actions": {
+    "trigger_creation": false,
+    "source_publication": false,
+    "push": false,
+    "dispatch": false,
+    "rerun": false,
+    "ledger": false,
+    "reservation": false
+  },
+  "next_intake": "After actual new terminal run, exact r3 pins/artifact,11rows/20covers/6negatives,cost/partial/censoring/assumed boundaries and complete diagnostics; no prior zero-root result splice."
+}
