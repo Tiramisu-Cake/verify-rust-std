@@ -1,0 +1,316 @@
+{
+  "state": "PASS_OFFLINE_DOCUMENT_AND_BOUNDED_DIAGNOSTIC_CHECKS",
+  "checks": [
+    "source_HEAD_tree_clean",
+    "control_HEAD_tree_clean",
+    "tool_HEAD_tree_clean",
+    "22_label_sites_6_negative_16_supporting",
+    "full_inventory_11_roots_20_covers_6_negatives_16_required_success_roles",
+    "6_constructed_bad_post_diagnostics",
+    "34_same_allocation_merge8_interval_pairs"
+  ],
+  "dependency_count": 41,
+  "dependency_method": "Read exact Git blob objects; SHA256+Git blob recorded. Source/control file copies byte-matched; source/control/tool HEAD/tree/clean checked. No candidate code imported or executed.",
+  "label_site_count": 22,
+  "negative_site_count": 6,
+  "supporting_site_count": 16,
+  "constructed_fixtures": [
+    {
+      "root": "merge_order_corrupt",
+      "diagnostic_only": true,
+      "order_post": false,
+      "full_count_post": true,
+      "combined_post": false,
+      "actual_body_executed": false
+    },
+    {
+      "root": "merge_count_corrupt",
+      "diagnostic_only": true,
+      "order_post": true,
+      "full_count_post": false,
+      "combined_post": false,
+      "actual_body_executed": false
+    },
+    {
+      "root": "checker_count_corrupt",
+      "diagnostic_only": true,
+      "order_post": true,
+      "full_count_post": false,
+      "combined_post": false,
+      "actual_body_executed": false
+    },
+    {
+      "root": "checker_order_corrupt",
+      "diagnostic_only": true,
+      "order_post": false,
+      "full_count_post": true,
+      "combined_post": false,
+      "actual_body_executed": false
+    },
+    {
+      "root": "sort13_weak",
+      "diagnostic_only": true,
+      "order_post": false,
+      "full_count_post": true,
+      "combined_post": false,
+      "actual_body_executed": false
+    },
+    {
+      "root": "general32_weak",
+      "diagnostic_only": true,
+      "order_post": false,
+      "full_count_post": true,
+      "combined_post": false,
+      "actual_body_executed": false
+    }
+  ],
+  "merge8_geometry_pairs": [
+    {
+      "outer_N": 16,
+      "merge_n": 8,
+      "source_offset": 16,
+      "destination_offset": 0,
+      "minimum_capacity": 32
+    },
+    {
+      "outer_N": 16,
+      "merge_n": 8,
+      "source_offset": 24,
+      "destination_offset": 8,
+      "minimum_capacity": 32
+    },
+    {
+      "outer_N": 17,
+      "merge_n": 8,
+      "source_offset": 17,
+      "destination_offset": 0,
+      "minimum_capacity": 33
+    },
+    {
+      "outer_N": 17,
+      "merge_n": 8,
+      "source_offset": 25,
+      "destination_offset": 8,
+      "minimum_capacity": 33
+    },
+    {
+      "outer_N": 18,
+      "merge_n": 8,
+      "source_offset": 18,
+      "destination_offset": 0,
+      "minimum_capacity": 34
+    },
+    {
+      "outer_N": 18,
+      "merge_n": 8,
+      "source_offset": 26,
+      "destination_offset": 9,
+      "minimum_capacity": 34
+    },
+    {
+      "outer_N": 19,
+      "merge_n": 8,
+      "source_offset": 19,
+      "destination_offset": 0,
+      "minimum_capacity": 35
+    },
+    {
+      "outer_N": 19,
+      "merge_n": 8,
+      "source_offset": 27,
+      "destination_offset": 9,
+      "minimum_capacity": 35
+    },
+    {
+      "outer_N": 20,
+      "merge_n": 8,
+      "source_offset": 20,
+      "destination_offset": 0,
+      "minimum_capacity": 36
+    },
+    {
+      "outer_N": 20,
+      "merge_n": 8,
+      "source_offset": 28,
+      "destination_offset": 10,
+      "minimum_capacity": 36
+    },
+    {
+      "outer_N": 21,
+      "merge_n": 8,
+      "source_offset": 21,
+      "destination_offset": 0,
+      "minimum_capacity": 37
+    },
+    {
+      "outer_N": 21,
+      "merge_n": 8,
+      "source_offset": 29,
+      "destination_offset": 10,
+      "minimum_capacity": 37
+    },
+    {
+      "outer_N": 22,
+      "merge_n": 8,
+      "source_offset": 22,
+      "destination_offset": 0,
+      "minimum_capacity": 38
+    },
+    {
+      "outer_N": 22,
+      "merge_n": 8,
+      "source_offset": 30,
+      "destination_offset": 11,
+      "minimum_capacity": 38
+    },
+    {
+      "outer_N": 23,
+      "merge_n": 8,
+      "source_offset": 23,
+      "destination_offset": 0,
+      "minimum_capacity": 39
+    },
+    {
+      "outer_N": 23,
+      "merge_n": 8,
+      "source_offset": 31,
+      "destination_offset": 11,
+      "minimum_capacity": 39
+    },
+    {
+      "outer_N": 24,
+      "merge_n": 8,
+      "source_offset": 24,
+      "destination_offset": 0,
+      "minimum_capacity": 40
+    },
+    {
+      "outer_N": 24,
+      "merge_n": 8,
+      "source_offset": 32,
+      "destination_offset": 12,
+      "minimum_capacity": 40
+    },
+    {
+      "outer_N": 25,
+      "merge_n": 8,
+      "source_offset": 25,
+      "destination_offset": 0,
+      "minimum_capacity": 41
+    },
+    {
+      "outer_N": 25,
+      "merge_n": 8,
+      "source_offset": 33,
+      "destination_offset": 12,
+      "minimum_capacity": 41
+    },
+    {
+      "outer_N": 26,
+      "merge_n": 8,
+      "source_offset": 26,
+      "destination_offset": 0,
+      "minimum_capacity": 42
+    },
+    {
+      "outer_N": 26,
+      "merge_n": 8,
+      "source_offset": 34,
+      "destination_offset": 13,
+      "minimum_capacity": 42
+    },
+    {
+      "outer_N": 27,
+      "merge_n": 8,
+      "source_offset": 27,
+      "destination_offset": 0,
+      "minimum_capacity": 43
+    },
+    {
+      "outer_N": 27,
+      "merge_n": 8,
+      "source_offset": 35,
+      "destination_offset": 13,
+      "minimum_capacity": 43
+    },
+    {
+      "outer_N": 28,
+      "merge_n": 8,
+      "source_offset": 28,
+      "destination_offset": 0,
+      "minimum_capacity": 44
+    },
+    {
+      "outer_N": 28,
+      "merge_n": 8,
+      "source_offset": 36,
+      "destination_offset": 14,
+      "minimum_capacity": 44
+    },
+    {
+      "outer_N": 29,
+      "merge_n": 8,
+      "source_offset": 29,
+      "destination_offset": 0,
+      "minimum_capacity": 45
+    },
+    {
+      "outer_N": 29,
+      "merge_n": 8,
+      "source_offset": 37,
+      "destination_offset": 14,
+      "minimum_capacity": 45
+    },
+    {
+      "outer_N": 30,
+      "merge_n": 8,
+      "source_offset": 30,
+      "destination_offset": 0,
+      "minimum_capacity": 46
+    },
+    {
+      "outer_N": 30,
+      "merge_n": 8,
+      "source_offset": 38,
+      "destination_offset": 15,
+      "minimum_capacity": 46
+    },
+    {
+      "outer_N": 31,
+      "merge_n": 8,
+      "source_offset": 31,
+      "destination_offset": 0,
+      "minimum_capacity": 47
+    },
+    {
+      "outer_N": 31,
+      "merge_n": 8,
+      "source_offset": 39,
+      "destination_offset": 15,
+      "minimum_capacity": 47
+    },
+    {
+      "outer_N": 32,
+      "merge_n": 8,
+      "source_offset": 32,
+      "destination_offset": 0,
+      "minimum_capacity": 48
+    },
+    {
+      "outer_N": 32,
+      "merge_n": 8,
+      "source_offset": 40,
+      "destination_offset": 16,
+      "minimum_capacity": 48
+    }
+  ],
+  "proof_credit": "NONE",
+  "actual_compiler_or_verifier_executed": false,
+  "implementation_applied": false,
+  "limitations": [
+    "Fixture arrays do not execute actual merge/networks or prove failure reachability",
+    "Interval arithmetic does not prove pointer provenance, init or arbitrary allocation locality",
+    "Text/hash binding does not establish AST/MIR binding or machine induction",
+    "W11 committed intake is pending; no artifact inspection or snapshot diagnosis"
+  ]
+}

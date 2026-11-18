@@ -1,0 +1,676 @@
+{
+  "schema": "ch8-s2-r6-s3-plan-inputs-v1",
+  "task_id": "taska6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+  "entry_commit": "a6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+  "observed_g0_head_at_start": "a6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+  "observed_g0_head_during_plan": "75de8b41bcdfcd202d066e3d5cfaf514f681f9e9",
+  "mode": "PLANONLY_OFFLINE",
+  "settings": "Fast OFF; unchanged",
+  "recommendation": "FOLD_INTO_FIRST_S3",
+  "implementation_applied": false,
+  "pins": {
+    "source": {
+      "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+      "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8"
+    },
+    "control": {
+      "worktree": "/root/kani-ch8-s2-r5-r1-stable-final-w13",
+      "sha": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+      "tree": "20f53f18eaafe276a3f1ea74102cbc7c6f3985ac"
+    },
+    "tool": {
+      "worktree": "/root/kani-upstream-ch8-s1",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+    }
+  },
+  "package_commit": "2906a5b6d3b8451e5b49417714f75e3f9a4af148",
+  "review_commit": "c9e0f9aefaa00330b94715a6e5fa0089f5238983",
+  "request_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+  "workflow_sha256": "80d1273b9564a16eb4619089db5604ccccdfaa1cb7a155e9703d169c14b58c90",
+  "owner_ledger_reference": {
+    "commit": "1085e94c8c1b6df072721c47abd8632b1600ecb2",
+    "item1_used": 30,
+    "item1_cap": 30,
+    "item2_used": 11,
+    "item2_cap": 17,
+    "total_used": 41,
+    "total_cap": 47,
+    "remaining_item2": 6,
+    "working_allocation": {
+      "S3": 2,
+      "S4": 2,
+      "S5": 1,
+      "reserve": 1
+    },
+    "grant": false,
+    "reservation": false,
+    "worker_accounting_authority": false
+  },
+  "W11_intake": {
+    "state": "PENDING_ROOT_SUPPLIED_COMMITTED_SHA",
+    "commit": null,
+    "artifact_read_or_downloaded_by_W13": false,
+    "exact_snapshot_cause": "UNKNOWN"
+  },
+  "dependencies": [
+    {
+      "kind": "issued_task",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "a6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+      "path": "research/challenge-8/kani-k1/TASK-CH8-S2-R6-S3-PLAN-W13.md",
+      "blob": "78a262619617825426df622b9840a27c35f15fd6",
+      "sha256": "6bbf25cc00340c65fe3585d95fdb7fcbcf6f46d682aef4426d51fa44595a641f",
+      "bytes": 4485
+    },
+    {
+      "kind": "frozen_package",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "2906a5b6d3b8451e5b49417714f75e3f9a4af148",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch-r5-r1-stable/PINS.json",
+      "blob": "57494c00b49f402ca4d147fda1f4677c2c1f31bd",
+      "sha256": "f0b729ed92aa1f9df6fe1e325d6eaa6be8ef971abba7cea61b5044cbbbec3e96",
+      "bytes": 4951
+    },
+    {
+      "kind": "frozen_package",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "2906a5b6d3b8451e5b49417714f75e3f9a4af148",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch-r5-r1-stable/ROOT-BINDINGS.json",
+      "blob": "37642aa9d0b989466657f07b55f92c27849a88ef",
+      "sha256": "e3e26eda57863b86261de5adf0439a93e66fea7ea266be7f4816d76a1881753c",
+      "bytes": 34903
+    },
+    {
+      "kind": "frozen_package",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "2906a5b6d3b8451e5b49417714f75e3f9a4af148",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch-r5-r1-stable/SOURCE-MAP.json",
+      "blob": "d615e398720ee89c993452d5bc74841900b31886",
+      "sha256": "e423122b2fd4d7d6f8dc2ea204e395762124c24074f4670ca3b094a0f0d292ce",
+      "bytes": 5353
+    },
+    {
+      "kind": "frozen_package",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "2906a5b6d3b8451e5b49417714f75e3f9a4af148",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch-r5-r1-stable/PROPERTY-COVER-MAP.json",
+      "blob": "e533e92457486d912b639733fd5937b6c0b993d7",
+      "sha256": "783b6c4d15486b565a8a948efc831000d06959c50b1b280c211c19d1471948e8",
+      "bytes": 20176
+    },
+    {
+      "kind": "frozen_package",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "2906a5b6d3b8451e5b49417714f75e3f9a4af148",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch-r5-r1-stable/FULL-INVENTORIES.json",
+      "blob": "41e54a5c1d423b4a0331be6d9f2e6820108e99b6",
+      "sha256": "dff89dd88cbc8cd613386390addaf1b5cd3d4a18fabe51e465a632bfdc5930ac",
+      "bytes": 36012
+    },
+    {
+      "kind": "frozen_package",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "2906a5b6d3b8451e5b49417714f75e3f9a4af148",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch-r5-r1-stable/CI-REQUEST.json",
+      "blob": "20563068f3672a6bd424d83710f44939723d5875",
+      "sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+      "bytes": 42737
+    },
+    {
+      "kind": "frozen_package",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "2906a5b6d3b8451e5b49417714f75e3f9a4af148",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch-r5-r1-stable/WORKFLOW.yml",
+      "blob": "2935c5d84bb747290c9cb55fc264b1b6079bc2f6",
+      "sha256": "80d1273b9564a16eb4619089db5604ccccdfaa1cb7a155e9703d169c14b58c90",
+      "bytes": 4013
+    },
+    {
+      "kind": "frozen_package",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "2906a5b6d3b8451e5b49417714f75e3f9a4af148",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch-r5-r1-stable/MAP-PROVENANCE.json",
+      "blob": "7f6006ad424e5979b506f04fdbc86f5af562e9f2",
+      "sha256": "09cd1da6fed5ec7062477495b3e98945478b964ee66ef4e172a9445738645851",
+      "bytes": 1099
+    },
+    {
+      "kind": "frozen_package",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "2906a5b6d3b8451e5b49417714f75e3f9a4af148",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch-r5-r1-stable/DERIVED-MAP-PROVENANCE.json",
+      "blob": "9b45097c2b4505177b56678a86abfbb9e08fb07f",
+      "sha256": "5a80052348d805bc8e1044ecf43c13ab9cb417f7fccc125ea9f9be2827526415",
+      "bytes": 556
+    },
+    {
+      "kind": "final_review",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "c9e0f9aefaa00330b94715a6e5fa0089f5238983",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/review-batch-r5-r1-stable/REPORT.md",
+      "blob": "bfd676f7a1be9c30a110bffd007b67cf52ff29cf",
+      "sha256": "045fe5102d7d56c33e9611e367a7e3156945d6f51ce83484ce202ad43f9675fd",
+      "bytes": 5761
+    },
+    {
+      "kind": "final_review",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "c9e0f9aefaa00330b94715a6e5fa0089f5238983",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/review-batch-r5-r1-stable/REPORT.json",
+      "blob": "67cf71a8f7b5d3c079e84739a4179abeb8f3464e",
+      "sha256": "ef8fb1ab0c391004735d67e07d7e6210dfeefedb66b85ebd5d96333488e4c1be",
+      "bytes": 2363
+    },
+    {
+      "kind": "final_review",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "c9e0f9aefaa00330b94715a6e5fa0089f5238983",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/review-batch-r5-r1-stable/INPUTS.json",
+      "blob": "1464786b685f94b250dddcb246362c4720864bd1",
+      "sha256": "6574d45f8fc05aa949bfcf06f151a063115a552e0fcb7916277bcf92e3dd0236",
+      "bytes": 14057
+    },
+    {
+      "kind": "design_reference",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "a6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+      "path": "research/challenge-8/kani-k1/PLAN-CH8-ITEM2-SORTING-v2.md",
+      "blob": "d49d9b8c5de4dddd18365721d51b612c93fe053a",
+      "sha256": "22f2f79841d15f9ae4e0cc96be8c6ca5a3936b324099ebef874a8f8d3ba7351d",
+      "bytes": 31109
+    },
+    {
+      "kind": "design_reference",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "a6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+      "path": "research/challenge-8/kani-k1/TASK-CH8-S2-R5-INTAKE-SNAPSHOT-W11.md",
+      "blob": "2b9cb71a5d9e6bdfd81b45b409c5d2d68b0bc158",
+      "sha256": "5ac764038fa948ecac89b801cad3bda555a175f7fb33d9e3e93b69f554d05d76",
+      "bytes": 3925
+    },
+    {
+      "kind": "design_reference",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "a6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/postrun-r5/INPUTS.json",
+      "blob": "0f47988616c76d4c9ebf229fbc49386047c46115",
+      "sha256": "5eb7dfcb2a33bb09c584c1307ade283e549d17729444334be6c5939fad281b6a",
+      "bytes": 3469
+    },
+    {
+      "kind": "design_reference",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "a6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/r5-plan/PLAN.md",
+      "blob": "edec9ed7625ada8045680f6e2160280fd4905dd6",
+      "sha256": "89fdb115ca78e93626528affa98f3e26931bd5d0dd495fa7547023885cc577ea",
+      "bytes": 8608
+    },
+    {
+      "kind": "design_reference",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "a6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/r5-plan/DEPENDENCIES.md",
+      "blob": "b2a52cf15f76f820d603edd8df95bb3118f6780d",
+      "sha256": "527de8df489bd820d03c60548a54e9af6150bad8c99495c2612c67e6b3c466e7",
+      "bytes": 5487
+    },
+    {
+      "kind": "design_reference",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "a6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/r5-plan/BUDGET-ALTERNATIVES.md",
+      "blob": "1eb71551bd383df288860b840a21ea75de7c622c",
+      "sha256": "d77345905b7deb485280d03c7d5964af0dcf4089516e31780091c40f50a02c8c",
+      "bytes": 7218
+    },
+    {
+      "kind": "design_reference",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "a6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/merge-pilot/INVARIANT.md",
+      "blob": "81642fd33d0e160b6a3a6d70b1ee3c183911dc18",
+      "sha256": "3eac31401edd95da6ec24662043f91527d8df1a176e234512d87db93afc8c926",
+      "bytes": 12745
+    },
+    {
+      "kind": "design_reference",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "a6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/merge-pilot/source-map.json",
+      "blob": "9152666aaf6811d0efa8206afd5ae1cb90f5cdd6",
+      "sha256": "022fb4cbe40a7d15cedc76c9d98dead2c033fa5b43b744b961c768e0bd6bba4f",
+      "bytes": 4890
+    },
+    {
+      "kind": "design_reference",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "a6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/merge-pilot/HANDOFF.md",
+      "blob": "265fbf3f2ae65d5f796585b0364d0018e40fbf0a",
+      "sha256": "a910660e0c853ee7ca7508cb912b8540db0f40dcb3e78ceab63a86f347c116b2",
+      "bytes": 6013
+    },
+    {
+      "kind": "design_reference",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "a6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08-cell-retry-r1/ROLE-MAP.json",
+      "blob": "dbeb0421eebbea105390abdb14467013c167a431",
+      "sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
+      "bytes": 273774
+    },
+    {
+      "kind": "source",
+      "repository": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+      "commit": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "blob": "488add38638038f1902422ed6f3b387c1a9abf42",
+      "sha256": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+      "bytes": 45811
+    },
+    {
+      "kind": "source",
+      "repository": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+      "commit": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "blob": "396354bf70bc15d3622397b9df9de1694b8b5078",
+      "sha256": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+      "bytes": 5630
+    },
+    {
+      "kind": "source",
+      "repository": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+      "commit": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "blob": "a82258eaf6f1d988a040e9c9ac5e349e55612bd9",
+      "sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+      "bytes": 14791
+    },
+    {
+      "kind": "source",
+      "repository": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+      "commit": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs",
+      "blob": "d59ebef20bc0b94900f766f0e1211aa57b09f5ae",
+      "sha256": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "bytes": 2693
+    },
+    {
+      "kind": "source",
+      "repository": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+      "commit": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+      "blob": "100c4d46a82cf90ee840a4f1028010a2318754e6",
+      "sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "bytes": 2255
+    },
+    {
+      "kind": "source",
+      "repository": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+      "commit": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "blob": "0d0a9f1441e77acc793175a16270dd8ff9fac43d",
+      "sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "bytes": 4816
+    },
+    {
+      "kind": "source",
+      "repository": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+      "commit": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+      "blob": "52977f4b1f39637dc16c1620390a16c47dc48edb",
+      "sha256": "86bac48e888365eab2187756dfd8ffbce059d6cc2ce35b1d8ab7b39d788118ac",
+      "bytes": 11417
+    },
+    {
+      "kind": "control_source",
+      "repository": "/root/kani-ch8-s2-r5-r1-stable-final-w13",
+      "commit": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+      "path": "ch8-s1-control/runner.py",
+      "blob": "bff3c4ff28b9255a8cbfe8f7f97d61c3bb55fd1b",
+      "sha256": "d66a62853b2592604c2cc91187b5bf6e1c3fded8be0accd38cd0c1262f4e9215",
+      "bytes": 71476
+    },
+    {
+      "kind": "control_source",
+      "repository": "/root/kani-ch8-s2-r5-r1-stable-final-w13",
+      "commit": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+      "path": "ch8-s1-control/r5_campaign.py",
+      "blob": "a975c7c2c191a765986c1c9ba44d6ce606bd6f14",
+      "sha256": "9590e50ad38d8f0009584eddb17a648bf06779e2b6ad3a746cf3cc6deb2ab9fa",
+      "bytes": 23452
+    },
+    {
+      "kind": "control_source",
+      "repository": "/root/kani-ch8-s2-r5-r1-stable-final-w13",
+      "commit": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+      "path": "ch8-s1-control/r5_profile.py",
+      "blob": "bc72a23f4cc570f9d833d5d54a87cb90f15dcaae",
+      "sha256": "e237b05f7bbc26b2820173254c92035572b22280c4a0b7ee66481bfb41f64f4d",
+      "bytes": 3628
+    },
+    {
+      "kind": "control_source",
+      "repository": "/root/kani-ch8-s2-r5-r1-stable-final-w13",
+      "commit": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+      "path": "ch8-s1-control/s2_policy.py",
+      "blob": "86082eb0ae0b849940fef5898df53ad592f1f11c",
+      "sha256": "d87ce00811570c0ad7ea999fec3062166af542e576b188682308301519cb319c",
+      "bytes": 8093
+    },
+    {
+      "kind": "control_source",
+      "repository": "/root/kani-ch8-s2-r5-r1-stable-final-w13",
+      "commit": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+      "path": "ch8-s1-control/s108_package.py",
+      "blob": "62d642f40654194f0b16fe2df3e1b8db239577d4",
+      "sha256": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237",
+      "bytes": 7614
+    },
+    {
+      "kind": "control_source",
+      "repository": "/root/kani-ch8-s2-r5-r1-stable-final-w13",
+      "commit": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+      "path": "ch8-s1-control/negative_oracle.py",
+      "blob": "5e78a08a2b1185ee5c0e7b7dba7df69b622195d4",
+      "sha256": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c",
+      "bytes": 3086
+    },
+    {
+      "kind": "control_source",
+      "repository": "/root/kani-ch8-s2-r5-r1-stable-final-w13",
+      "commit": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+      "path": "ch8-s1-control/cfg_pfc.py",
+      "blob": "8086dd46bbe3842ef09f566770ad9bb3ce98703e",
+      "sha256": "e72ba0cff247613a3db7f4a5bd237cfeab64cb49d2410c61e85b3f80e91ecb11",
+      "bytes": 21141
+    },
+    {
+      "kind": "control_source",
+      "repository": "/root/kani-ch8-s2-r5-r1-stable-final-w13",
+      "commit": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+      "path": "ch8-s1-control/contract_stacks.py",
+      "blob": "ee33bb736ea5a51e875424590ce2c3ddf8d1d2b8",
+      "sha256": "c4b0f92fe2ede42399f2743071e58380806e61339bfbc0d1beccbf6b2a11ea0d",
+      "bytes": 9182
+    },
+    {
+      "kind": "control_source",
+      "repository": "/root/kani-ch8-s2-r5-r1-stable-final-w13",
+      "commit": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+      "path": "ch8-s1-control/lexical_bindings.py",
+      "blob": "10e94feb2cb57409c5ca7d603b42f3684ff6f8b8",
+      "sha256": "31abcb93bdb52bb1205e59ce6f4c8fe2206c2c63c9b2f82142492c8752f3e484",
+      "bytes": 18021
+    },
+    {
+      "kind": "control_source",
+      "repository": "/root/kani-ch8-s2-r5-r1-stable-final-w13",
+      "commit": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+      "path": "ch8-s1-control/s2_correspondence.py",
+      "blob": "5f6490d3678dcad102ff67509464df62198d0d81",
+      "sha256": "46f2cd69373b4ebd3a3395d455338aadff3d473df5df2734e1bd5d4d2432dd4f",
+      "bytes": 5359
+    },
+    {
+      "kind": "control_source",
+      "repository": "/root/kani-ch8-s2-r5-r1-stable-final-w13",
+      "commit": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+      "path": "ch8-s1-control/CI-REQUEST.json",
+      "blob": "20563068f3672a6bd424d83710f44939723d5875",
+      "sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+      "bytes": 42737
+    }
+  ],
+  "label_sites": [
+    {
+      "line": 23,
+      "literal": "S2_MERGE_SOURCE_FRAME",
+      "source_line": "    assert!(src == original, \"S2_MERGE_SOURCE_FRAME\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 24,
+      "literal": "S2_MERGE_CANARIES",
+      "source_line": "    assert!(unsafe { dst[0].assume_init() == 0xa5 && dst[33].assume_init() == 0x5a }, \"S2_MERGE_CANARIES\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 30,
+      "literal": "S2_ACTIVE_MERGE32_REAL",
+      "source_line": "    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_MERGE32_REAL\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 32,
+      "literal": "S2_MERGE32_SORTED_FULL_COUNT",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_MERGE32_SORTED_FULL_COUNT\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 43,
+      "literal": "S2_ACTIVE_SORT13_ASSUMED",
+      "source_line": "    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_SORT13_ASSUMED\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 47,
+      "literal": "S2_SORT13_SORTED_FULL_COUNT",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before[1..14]),&v[1..14]), \"S2_SORT13_SORTED_FULL_COUNT\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 48,
+      "literal": "S2_SORT13_CANARIES",
+      "source_line": "    assert!(v[0] == before[0] && v[14] == before[14], \"S2_SORT13_CANARIES\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 60,
+      "literal": "S2_ACTIVE_GENERAL32_ASSUMED",
+      "source_line": "    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_GENERAL32_ASSUMED\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 64,
+      "literal": "S2_GENERAL32_SORTED_FULL_COUNT",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before[1..33]),&v[1..33]), \"S2_GENERAL32_SORTED_FULL_COUNT\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 65,
+      "literal": "S2_GENERAL32_CANARIES",
+      "source_line": "    assert!(v[0] == before[0] && v[33] == before[33], \"S2_GENERAL32_CANARIES\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 75,
+      "literal": "S2_ACTIVE_SWAP_PFC",
+      "source_line": "    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_SWAP_PFC\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 82,
+      "literal": "S2_SWAP_EXACT_TRANSFER",
+      "source_line": "    assert!(pair::post::<u8,KeyLess<u8>>(pre,v[1..].as_ptr(),a,b), \"S2_SWAP_EXACT_TRANSFER\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 83,
+      "literal": "S2_SWAP_FULL_FRAME",
+      "source_line": "    for i in 0..15 { assert!(i == a+1 || i == b+1 || v[i] == before[i], \"S2_SWAP_FULL_FRAME\"); }",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 98,
+      "literal": "S2_SUMMARY_WITNESS_FULL_COUNT",
+      "source_line": "    assert!(span::post::<u8,KeyLess<u8>>(span::capture::<u8,KeyLess<u8>>(input.as_ptr(),input.len()),output.as_ptr(),input.len()), \"S2_SUMMARY_WITNESS_FULL_COUNT\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 103,
+      "literal": "S2_ACTIVE_SUMMARY_WITNESS",
+      "source_line": "    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_SUMMARY_WITNESS\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 111,
+      "literal": "S2_PAIR_WITNESS",
+      "source_line": "    assert!(pair::post::<u8,KeyLess<u8>>(pairpre,outpair.as_ptr(),0,1), \"S2_PAIR_WITNESS\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 121,
+      "literal": "S2_NEG_MERGE_ORDER",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_NEG_MERGE_ORDER\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 128,
+      "literal": "S2_NEG_MERGE_COUNT",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_NEG_MERGE_COUNT\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 134,
+      "literal": "S2_NEG_CHECKER_COUNT",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_COUNT\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 140,
+      "literal": "S2_NEG_CHECKER_ORDER",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_ORDER\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 149,
+      "literal": "S2_NEG_SORT13_WEAK",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_SORT13_WEAK\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    },
+    {
+      "line": 163,
+      "literal": "S2_NEG_GENERAL32_WEAK",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_GENERAL32_WEAK\");",
+      "planned_api": "kani::assert",
+      "applied": false
+    }
+  ],
+  "frozen_root_inventory": [
+    {
+      "id": "swap_pfc",
+      "mode": "PFC",
+      "assurance": "QUALIFICATION_ATTEMPT",
+      "covers": 4,
+      "negative_literal": null,
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "summary_witness",
+      "mode": "Original",
+      "assurance": "MODEL_DIAGNOSTIC",
+      "covers": 3,
+      "negative_literal": null,
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "merge32_real",
+      "mode": "Original",
+      "assurance": "ACTUAL_BODY",
+      "covers": 5,
+      "negative_literal": null,
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "sort13_assumed",
+      "mode": "Original",
+      "assurance": "DIAGNOSTIC_ASSUMED",
+      "covers": 4,
+      "negative_literal": null,
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "general32_assumed",
+      "mode": "Original",
+      "assurance": "DIAGNOSTIC_ASSUMED",
+      "covers": 4,
+      "negative_literal": null,
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "merge_order_corrupt",
+      "mode": "Original",
+      "assurance": "NEGATIVE_CONTROL",
+      "covers": 0,
+      "negative_literal": "S2_NEG_MERGE_ORDER",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "merge_count_corrupt",
+      "mode": "Original",
+      "assurance": "NEGATIVE_CONTROL",
+      "covers": 0,
+      "negative_literal": "S2_NEG_MERGE_COUNT",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "mode": "Original",
+      "assurance": "NEGATIVE_CONTROL",
+      "covers": 0,
+      "negative_literal": "S2_NEG_CHECKER_COUNT",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "checker_order_corrupt",
+      "mode": "Original",
+      "assurance": "NEGATIVE_CONTROL",
+      "covers": 0,
+      "negative_literal": "S2_NEG_CHECKER_ORDER",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "sort13_weak",
+      "mode": "Original",
+      "assurance": "NEGATIVE_CONTROL",
+      "covers": 0,
+      "negative_literal": "S2_NEG_SORT13_WEAK",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "general32_weak",
+      "mode": "Original",
+      "assurance": "NEGATIVE_CONTROL",
+      "covers": 0,
+      "negative_literal": "S2_NEG_GENERAL32_WEAK",
+      "proof_credit": "NONE"
+    }
+  ],
+  "proof_obligations_closed": 0,
+  "independent_B1_B2_credit": "NONE"
+}
