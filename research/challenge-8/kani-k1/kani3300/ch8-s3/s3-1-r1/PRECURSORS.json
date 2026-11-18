@@ -1,0 +1,27 @@
+{
+  "state": "TARGETED_PASS_NOT_FINAL_VALIDATE",
+  "frozen_reproduction": "FROZEN-DEFECT.json (3PASS means bugs reproduced)",
+  "targeted1": {
+    "tests": 22,
+    "reported_seconds": 41.84,
+    "file": "TARGETED-1.txt",
+    "control_identity": "UNCOMMITTED before structured stop evidence addition; exact code digest not captured"
+  },
+  "targeted2": {
+    "tests": 10,
+    "reported_seconds": 30.811,
+    "file": "TARGETED-2.txt",
+    "request_sha256": "b26b8dd8afdacc9dd09b94b2a043e6da96047826efa949ae8a34b74cb5efabc3",
+    "source_code_sha256": {
+      "runner.py": "4cbd68b17213748e3fed5a307764e1b217f91be13523d5e03271b9ae8d1ab847",
+      "s3_campaign.py": "6c3bea496b2079f20c96e19df5c1a931c5c604dd0ea1f61da9f8622dae51c136",
+      "s3_evidence.py": "ba97ad3a307223127dfa41f9e7ddaff235ab97402a1be1b1c609d525190ebf69",
+      "s3_validate.py": "77f995fa48c5800802c0ede3afd8192ed79dbeff8bd14f31deb5dad29773a3aa",
+      "test_s3.py": "314e5f08ee929de9b92e33e929e3af2362799e436f6c43ebb29d62d1511c1542",
+      "test_s3_repair.py": "3480cf7e888b6969ba3a863bf4a17e462c26297357b974214feadd7d4f8891f1"
+    },
+    "control_identity": "UNCOMMITTED on9e14; final request payload metadata not yet rebound"
+  },
+  "native": "NOT_RUN",
+  "proof_credit": 0
+}
