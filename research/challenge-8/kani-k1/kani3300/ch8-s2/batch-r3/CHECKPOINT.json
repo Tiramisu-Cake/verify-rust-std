@@ -1,0 +1,59 @@
+{
+  "schema": "ch8-s2-r3-checkpoint-v1",
+  "task_id": "task91cd41b3fdbffe36ed5d14806c390bf0b0c16bbb",
+  "state": "READY_FOR_INDEPENDENT14_DELTA_REVIEW",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r3-w13",
+    "sha": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+    "tree": "b5b25f4e59308df7b15340cae343f50ae9fd8a81",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "efb1aba7fc6445cba6cd75154713b598c9e2579d"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r3-final-w13",
+    "sha": "dc1ad0f9ce364f9a7efb2c3cc32db6ed51b6db4b",
+    "tree": "1c199ee22001213c164ac0bb9c9b56c2e5f827df",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "2ce62b5bb31abd44824dc8e358f77e63d539ed98",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "request_sha256": "f6a0d1c354237c1f0ffde252cef84ec2e30b739ae1e5ef41a54ec7cfa3fb761e",
+    "workflow_sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c"
+  },
+  "claims": [
+    "All12 safety predicates preserved; source bodies/signatures identical",
+    "All19 literal active contract stacks audited across11 identical effective cfg contexts",
+    "Ordinary sort8 relation/model/harness/provider bytes inherited exactly",
+    "33 targeted Python/static/synthetic tests PASS once; no native compiler"
+  ],
+  "assurance": "STATIC_SOURCE_AND_SYNTHETIC_ONLY",
+  "open": [
+    "Independent14 exact delta review",
+    "Root GO-request after APPROVE",
+    "Separate owner/coordinator GO for retry/publication/accounting",
+    "R3 compilation/qualification NOT_RUN; exact causal repair unverified",
+    "R1 actual cause UNKNOWN"
+  ],
+  "blocker": null,
+  "proof_credit": "NONE",
+  "closed_proof_obligations": 0,
+  "accounting_reference": {
+    "item1": "29/29",
+    "item2": "9/14",
+    "total": "38/43",
+    "changed_by13": false
+  },
+  "external_actions": {
+    "compiler": 0,
+    "CI": 0,
+    "push": 0,
+    "PR": 0,
+    "ledger": 0,
+    "reservation": 0,
+    "cancel": 0
+  },
+  "subagents": 0,
+  "Fast": "OFF_PER_OWNER; NOT_TOGGLED",
+  "model_tier": "UNCHANGED",
+  "next_step": "Separate14 review of exact READY pins; no dispatch authority"
+}

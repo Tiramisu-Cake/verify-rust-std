@@ -1,0 +1,294 @@
+{
+  "schema": "ch8-s2-r3-stock-macro-trace-v1",
+  "files": [
+    {
+      "repo": "stock_tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "file": "library/kani_macros/src/lib.rs",
+      "sha256": "64bf7f7b727ce0dbfee5a44c3d5b9adb21550630b7df64ec4fffa9f92aee314c",
+      "anchors": [
+        {
+          "line": 19,
+          "source": "#[cfg(kani_sysroot)]"
+        },
+        {
+          "line": 22,
+          "source": "#[cfg(not(kani_sysroot))]"
+        },
+        {
+          "line": 363,
+          "source": "pub fn requires(attr: TokenStream, item: TokenStream) -> TokenStream {"
+        },
+        {
+          "line": 383,
+          "source": "pub fn ensures(attr: TokenStream, item: TokenStream) -> TokenStream {"
+        },
+        {
+          "line": 435,
+          "source": "pub fn modifies(attr: TokenStream, item: TokenStream) -> TokenStream {"
+        },
+        {
+          "line": 463,
+          "source": "mod sysroot {"
+        },
+        {
+          "line": 469,
+          "source": "    pub use contracts::{ensures, modifies, proof_for_contract, requires, stub_verified};"
+        },
+        {
+          "line": 661,
+          "source": "mod regular {"
+        },
+        {
+          "line": 687,
+          "source": "    no_op!(requires);"
+        }
+      ]
+    },
+    {
+      "repo": "stock_tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "file": "library/kani_core/src/lib.rs",
+      "sha256": "fd4936db12f998df2419b9e6240f9171643f8287654840596ea2db40cfd76bc0",
+      "anchors": [
+        {
+          "line": 30,
+          "source": "pub use kani_macros::*;"
+        },
+        {
+          "line": 46,
+          "source": "            pub use kani_core::*;"
+        }
+      ]
+    },
+    {
+      "repo": "stock_tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "file": "library/kani_macros/src/sysroot/contracts/mod.rs",
+      "sha256": "7ec87e829711d05928c3026249e6c79bd20e5c7e9499fe401b53a3647cd76979",
+      "anchors": [
+        {
+          "line": 22,
+          "source": "//!"
+        },
+        {
+          "line": 33,
+          "source": "//!"
+        },
+        {
+          "line": 535,
+          "source": "pub fn requires(attr: TokenStream, item: TokenStream) -> TokenStream {"
+        },
+        {
+          "line": 671,
+          "source": "/// The main meat of handling requires/ensures contracts."
+        },
+        {
+          "line": 675,
+          "source": "fn contract_main("
+        },
+        {
+          "line": 698,
+          "source": ""
+        }
+      ]
+    },
+    {
+      "repo": "stock_tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "file": "library/kani_macros/src/sysroot/contracts/initialize.rs",
+      "sha256": "dad2dcfdd2aa348a33f0162a81459ae4539946bc027ccac7d2593bf09bd2e95b",
+      "anchors": [
+        {
+          "line": 20,
+          "source": "    /// state and if so return it."
+        },
+        {
+          "line": 34,
+          "source": "    pub fn from_attributes(attributes: &[syn::Attribute]) -> Self {"
+        },
+        {
+          "line": 73,
+          "source": "        let generate_name = |purpose| format!(\"__kani_{purpose}_{fn_name}\");"
+        }
+      ]
+    },
+    {
+      "repo": "stock_tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "file": "library/kani_macros/src/sysroot/contracts/bootstrap.rs",
+      "sha256": "d9e0988bfe8eef7f90b9378300ec4b77d425677ee60dc845f841939d073e9507",
+      "anchors": [
+        {
+          "line": 18,
+          "source": "    pub fn handle_untouched(&mut self) {"
+        },
+        {
+          "line": 35,
+          "source": ""
+        },
+        {
+          "line": 44,
+          "source": "            #[kanitool::recursion_check = #recursion_name]"
+        },
+        {
+          "line": 87,
+          "source": "                    kani::internal::RECURSION_CHECK => {"
+        },
+        {
+          "line": 113,
+          "source": "    pub fn handle_expanded(&mut self) {"
+        },
+        {
+          "line": 132,
+          "source": "    fn new_recursion_closure("
+        },
+        {
+          "line": 146,
+          "source": "            #[kanitool::is_contract_generated(recursion_check)]"
+        }
+      ]
+    },
+    {
+      "repo": "stock_tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "file": "library/kani_macros/src/sysroot/contracts/helpers.rs",
+      "sha256": "710d7ef9ca4ca6e2fc277a56d3f1f1b1008ae7162eaf7d8f3fc0c1826810fd30",
+      "anchors": [
+        {
+          "line": 105,
+          "source": "pub fn expect_closure_in_match<'a>(stmts: &'a mut [Stmt], name: &'static str) -> &'a mut Stmt {"
+        }
+      ]
+    },
+    {
+      "repo": "stock_tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "file": "library/kani_macros/src/sysroot/contracts/shared.rs",
+      "sha256": "a8df9244d86742adaf1bdfd991d1b6882962a6797b764d6824306f02024360e7",
+      "anchors": [
+        {
+          "line": 46,
+          "source": "pub fn split_for_remembers(stmts: &[Stmt], contract_mode: ContractMode) -> (&[Stmt], &[Stmt]) {"
+        },
+        {
+          "line": 69,
+          "source": "        first_two_idents == vec![\"kani\", check_str]"
+        },
+        {
+          "line": 88,
+          "source": "        _ => false,"
+        }
+      ]
+    },
+    {
+      "repo": "stock_tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "file": "kani-compiler/src/kani_middle/attributes.rs",
+      "sha256": "0b7cfe3b74e1958770b94a763fc89bc5b8156a1d120a69e8bdac67ada630078e",
+      "anchors": [
+        {
+          "line": 272,
+          "source": "        let recursion_check = self.attribute_value(KaniAttributeKind::RecursionCheck);"
+        }
+      ]
+    },
+    {
+      "repo": "stock_tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "file": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "sha256": "06523bc56804fae5a4e6b484ef4e2ecedf34dbc046b29e02608e9ccdb3660cc9",
+      "anchors": [
+        {
+          "line": 660,
+          "source": "    fn mark_unused(&mut self, tcx: TyCtxt, fn_def: FnDef, body: &Body, mode: ContractMode) {"
+        },
+        {
+          "line": 663,
+          "source": "        let recursion_closure = find_closure(tcx, fn_def, body, contract.recursion_check.as_str());"
+        },
+        {
+          "line": 711,
+          "source": "fn find_closure(tcx: TyCtxt, fn_def: FnDef, body: &Body, name: &str) -> ClosureDef {"
+        },
+        {
+          "line": 728,
+          "source": "                \"Failed to find contract closure `{name}` in function `{}`\","
+        }
+      ]
+    },
+    {
+      "repo": "source",
+      "commit": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+      "unchanged_from": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+      "file": "library/contracts/safety/src/lib.rs",
+      "sha256": "dfc19f213f0798becab9bba05d5a7ab3df5e3a6f0238c40a3aaf5034af65c3f2",
+      "anchors": [
+        {
+          "line": 12,
+          "source": "#[cfg(kani_host)]"
+        },
+        {
+          "line": 16,
+          "source": "#[cfg(not(kani_host))]"
+        },
+        {
+          "line": 151,
+          "source": "pub fn requires(attr: TokenStream, item: TokenStream) -> TokenStream {"
+        }
+      ]
+    },
+    {
+      "repo": "source",
+      "commit": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+      "unchanged_from": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+      "file": "library/contracts/safety/src/kani.rs",
+      "sha256": "43fbdd23ae200765be957c3fb8f91211538f32413c4607e7c03a5b43d5916b08",
+      "anchors": [
+        {
+          "line": 5,
+          "source": "pub(crate) fn requires(attr: TokenStream, item: TokenStream) -> TokenStream {"
+        },
+        {
+          "line": 28,
+          "source": "fn rewrite_attr(attr: TokenStream, item: TokenStream, name: &str) -> TokenStream {"
+        },
+        {
+          "line": 33,
+          "source": "        #[kani_core::#attribute(#args)]"
+        },
+        {
+          "line": 35,
+          "source": "    )"
+        }
+      ]
+    },
+    {
+      "repo": "source",
+      "commit": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+      "unchanged_from": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+      "file": "library/contracts/safety/src/runtime.rs",
+      "sha256": "b6582bb8ac2cc0e886f8b1f45294ce4904615108a9b8740ac2802ed108ea7e02",
+      "anchors": [
+        {
+          "line": 6,
+          "source": "pub(crate) fn requires(_attr: TokenStream, item: TokenStream) -> TokenStream {"
+        }
+      ]
+    },
+    {
+      "repo": "source",
+      "commit": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+      "unchanged_from": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+      "file": "library/core/src/lib.rs",
+      "sha256": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "anchors": [
+        {
+          "line": 358,
+          "source": "kani_core::kani_lib!(core);"
+        }
+      ]
+    }
+  ],
+  "assurance": "STATIC_SOURCE_ONLY_NO_EXPANSION_OR_MIR_EXECUTION"
+}

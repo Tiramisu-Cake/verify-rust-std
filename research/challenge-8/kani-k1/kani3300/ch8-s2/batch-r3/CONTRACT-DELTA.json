@@ -1,0 +1,459 @@
+[
+  {
+    "function": "core::slice::sort::shared::smallsort::swap_if_less",
+    "file": "library/core/src/slice/sort/shared/smallsort.rs",
+    "baseline_source": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+    "baseline_file_sha256": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0",
+    "baseline_line": 434,
+    "candidate_source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+    "candidate_file_sha256": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+    "candidate_line": 460,
+    "baseline_effective_attrs": [
+      "safety::requires(a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}))",
+      "safety::requires(b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}))",
+      "safety::requires(crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos)))",
+      "safety::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos)))",
+      "safety::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos)))",
+      "crate::kani::modifies(v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos))",
+      "crate::kani::ensures(|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos))"
+    ],
+    "candidate_effective_attrs": [
+      "crate::kani::requires(a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}))",
+      "crate::kani::requires(b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}))",
+      "crate::kani::requires(crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos)))",
+      "crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos)))",
+      "crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos)))",
+      "crate::kani::modifies(v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos))",
+      "crate::kani::ensures(|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos))"
+    ],
+    "before_clauses": [
+      {
+        "path": "safety::requires",
+        "op": "requires",
+        "line": 406,
+        "predicate_tokens": "a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)})",
+        "family": "safety_wrapper"
+      },
+      {
+        "path": "safety::requires",
+        "op": "requires",
+        "line": 413,
+        "predicate_tokens": "b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)})",
+        "family": "safety_wrapper"
+      },
+      {
+        "path": "safety::requires",
+        "op": "requires",
+        "line": 420,
+        "predicate_tokens": "crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos))",
+        "family": "safety_wrapper"
+      },
+      {
+        "path": "safety::requires",
+        "op": "requires",
+        "line": 424,
+        "predicate_tokens": "crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos))",
+        "family": "safety_wrapper"
+      },
+      {
+        "path": "safety::requires",
+        "op": "requires",
+        "line": 428,
+        "predicate_tokens": "crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos))",
+        "family": "safety_wrapper"
+      },
+      {
+        "path": "crate::kani::modifies",
+        "op": "modifies",
+        "line": 432,
+        "predicate_tokens": "v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos)",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::ensures",
+        "op": "ensures",
+        "line": 433,
+        "predicate_tokens": "|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos)",
+        "family": "direct_kani"
+      }
+    ],
+    "after_clauses": [
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 406,
+        "predicate_tokens": "a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)})",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 420,
+        "predicate_tokens": "b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)})",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 434,
+        "predicate_tokens": "crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos))",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 442,
+        "predicate_tokens": "crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos))",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 450,
+        "predicate_tokens": "crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos))",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::modifies",
+        "op": "modifies",
+        "line": 458,
+        "predicate_tokens": "v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos)",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::ensures",
+        "op": "ensures",
+        "line": 459,
+        "predicate_tokens": "|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos)",
+        "family": "direct_kani"
+      }
+    ],
+    "clause_semantics": "EXACT_ORDERED_TOKEN_MATCH",
+    "body_signature": "EXACT_NORMALIZATION_FROM_PINNED_R2",
+    "outside_S2": "ORIGINAL_SAFETY_WRAPPERS_AND_PREDICATES"
+  },
+  {
+    "function": "core::slice::sort::shared::smallsort::insert_tail",
+    "file": "library/core/src/slice/sort/shared/smallsort.rs",
+    "baseline_source": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+    "baseline_file_sha256": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0",
+    "baseline_line": 629,
+    "candidate_source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+    "candidate_file_sha256": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+    "candidate_line": 667,
+    "baseline_effective_attrs": [
+      "safety::requires(begin<tail&&insert_tail_contract_len(begin,tail)>1&&crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(begin,insert_tail_contract_len(begin,tail),))&&crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(begin,insert_tail_contract_len(begin,tail),)))",
+      "crate::kani::modifies(ptr::slice_from_raw_parts_mut(begin,insert_tail_contract_len(begin,tail)))",
+      "crate::kani::requires(!verify::sorting_s2_span::active::<T,F>()||(insert_tail_contract_len(begin,tail)>=2&&insert_tail_contract_len(begin,tail)<=17&&verify::sorting_s2_span::ordered::<T,F>(begin,insert_tail_contract_len(begin,tail)-1)))",
+      "crate::kani::ensures(|_|!verify::sorting_s2_span::active::<T,F>()||verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(begin,insert_tail_contract_len(begin,tail))),begin,insert_tail_contract_len(begin,tail)))"
+    ],
+    "candidate_effective_attrs": [
+      "crate::kani::requires(begin<tail&&insert_tail_contract_len(begin,tail)>1&&crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(begin,insert_tail_contract_len(begin,tail),))&&crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(begin,insert_tail_contract_len(begin,tail),)))",
+      "crate::kani::modifies(ptr::slice_from_raw_parts_mut(begin,insert_tail_contract_len(begin,tail)))",
+      "crate::kani::requires(!verify::sorting_s2_span::active::<T,F>()||(insert_tail_contract_len(begin,tail)>=2&&insert_tail_contract_len(begin,tail)<=17&&verify::sorting_s2_span::ordered::<T,F>(begin,insert_tail_contract_len(begin,tail)-1)))",
+      "crate::kani::ensures(|_|!verify::sorting_s2_span::active::<T,F>()||verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(begin,insert_tail_contract_len(begin,tail))),begin,insert_tail_contract_len(begin,tail)))"
+    ],
+    "before_clauses": [
+      {
+        "path": "safety::requires",
+        "op": "requires",
+        "line": 608,
+        "predicate_tokens": "begin<tail&&insert_tail_contract_len(begin,tail)>1&&crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(begin,insert_tail_contract_len(begin,tail),))&&crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(begin,insert_tail_contract_len(begin,tail),))",
+        "family": "safety_wrapper"
+      },
+      {
+        "path": "crate::kani::modifies",
+        "op": "modifies",
+        "line": 622,
+        "predicate_tokens": "ptr::slice_from_raw_parts_mut(begin,insert_tail_contract_len(begin,tail))",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 627,
+        "predicate_tokens": "!verify::sorting_s2_span::active::<T,F>()||(insert_tail_contract_len(begin,tail)>=2&&insert_tail_contract_len(begin,tail)<=17&&verify::sorting_s2_span::ordered::<T,F>(begin,insert_tail_contract_len(begin,tail)-1))",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::ensures",
+        "op": "ensures",
+        "line": 628,
+        "predicate_tokens": "|_|!verify::sorting_s2_span::active::<T,F>()||verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(begin,insert_tail_contract_len(begin,tail))),begin,insert_tail_contract_len(begin,tail))",
+        "family": "direct_kani"
+      }
+    ],
+    "after_clauses": [
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 634,
+        "predicate_tokens": "begin<tail&&insert_tail_contract_len(begin,tail)>1&&crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(begin,insert_tail_contract_len(begin,tail),))&&crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(begin,insert_tail_contract_len(begin,tail),))",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::modifies",
+        "op": "modifies",
+        "line": 660,
+        "predicate_tokens": "ptr::slice_from_raw_parts_mut(begin,insert_tail_contract_len(begin,tail))",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 665,
+        "predicate_tokens": "!verify::sorting_s2_span::active::<T,F>()||(insert_tail_contract_len(begin,tail)>=2&&insert_tail_contract_len(begin,tail)<=17&&verify::sorting_s2_span::ordered::<T,F>(begin,insert_tail_contract_len(begin,tail)-1))",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::ensures",
+        "op": "ensures",
+        "line": 666,
+        "predicate_tokens": "|_|!verify::sorting_s2_span::active::<T,F>()||verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(begin,insert_tail_contract_len(begin,tail))),begin,insert_tail_contract_len(begin,tail))",
+        "family": "direct_kani"
+      }
+    ],
+    "clause_semantics": "EXACT_ORDERED_TOKEN_MATCH",
+    "body_signature": "EXACT_NORMALIZATION_FROM_PINNED_R2",
+    "outside_S2": "ORIGINAL_SAFETY_WRAPPERS_AND_PREDICATES"
+  },
+  {
+    "function": "core::slice::sort::shared::smallsort::insertion_sort_shift_left",
+    "file": "library/core/src/slice/sort/shared/smallsort.rs",
+    "baseline_source": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+    "baseline_file_sha256": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0",
+    "baseline_line": 670,
+    "candidate_source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+    "candidate_file_sha256": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+    "candidate_line": 709,
+    "baseline_effective_attrs": [
+      "safety::requires(offset!=0&&offset<=v.len())",
+      "crate::kani::modifies(v)"
+    ],
+    "candidate_effective_attrs": [
+      "crate::kani::requires(offset!=0&&offset<=v.len())",
+      "crate::kani::modifies(v)"
+    ],
+    "before_clauses": [
+      {
+        "path": "safety::requires",
+        "op": "requires",
+        "line": 668,
+        "predicate_tokens": "offset!=0&&offset<=v.len()",
+        "family": "safety_wrapper"
+      },
+      {
+        "path": "crate::kani::modifies",
+        "op": "modifies",
+        "line": 669,
+        "predicate_tokens": "v",
+        "family": "direct_kani"
+      }
+    ],
+    "after_clauses": [
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 706,
+        "predicate_tokens": "offset!=0&&offset<=v.len()",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::modifies",
+        "op": "modifies",
+        "line": 708,
+        "predicate_tokens": "v",
+        "family": "direct_kani"
+      }
+    ],
+    "clause_semantics": "EXACT_ORDERED_TOKEN_MATCH",
+    "body_signature": "EXACT_NORMALIZATION_FROM_PINNED_R2",
+    "outside_S2": "ORIGINAL_SAFETY_WRAPPERS_AND_PREDICATES"
+  },
+  {
+    "function": "core::slice::sort::shared::smallsort::sort4_stable",
+    "file": "library/core/src/slice/sort/shared/smallsort.rs",
+    "baseline_source": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+    "baseline_file_sha256": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0",
+    "baseline_line": 719,
+    "candidate_source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+    "candidate_file_sha256": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+    "candidate_line": 763,
+    "baseline_effective_attrs": [
+      "safety::requires(crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(v_base,4))&&crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst,4))&&sort4_contract_regions_disjoint(v_base,dst))",
+      "crate::kani::modifies(ptr::slice_from_raw_parts_mut(dst,4))"
+    ],
+    "candidate_effective_attrs": [
+      "crate::kani::requires(crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(v_base,4))&&crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst,4))&&sort4_contract_regions_disjoint(v_base,dst))",
+      "crate::kani::modifies(ptr::slice_from_raw_parts_mut(dst,4))"
+    ],
+    "before_clauses": [
+      {
+        "path": "safety::requires",
+        "op": "requires",
+        "line": 713,
+        "predicate_tokens": "crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(v_base,4))&&crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst,4))&&sort4_contract_regions_disjoint(v_base,dst)",
+        "family": "safety_wrapper"
+      },
+      {
+        "path": "crate::kani::modifies",
+        "op": "modifies",
+        "line": 718,
+        "predicate_tokens": "ptr::slice_from_raw_parts_mut(dst,4)",
+        "family": "direct_kani"
+      }
+    ],
+    "after_clauses": [
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 752,
+        "predicate_tokens": "crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(v_base,4))&&crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst,4))&&sort4_contract_regions_disjoint(v_base,dst)",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::modifies",
+        "op": "modifies",
+        "line": 762,
+        "predicate_tokens": "ptr::slice_from_raw_parts_mut(dst,4)",
+        "family": "direct_kani"
+      }
+    ],
+    "clause_semantics": "EXACT_ORDERED_TOKEN_MATCH",
+    "body_signature": "EXACT_NORMALIZATION_FROM_PINNED_R2",
+    "outside_S2": "ORIGINAL_SAFETY_WRAPPERS_AND_PREDICATES"
+  },
+  {
+    "function": "core::slice::sort::shared::smallsort::bidirectional_merge",
+    "file": "library/core/src/slice/sort/shared/smallsort.rs",
+    "baseline_source": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+    "baseline_file_sha256": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0",
+    "baseline_line": 888,
+    "candidate_source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+    "candidate_file_sha256": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+    "candidate_line": 936,
+    "baseline_effective_attrs": [
+      "safety::requires(v.len()>=2)",
+      "safety::requires(crate::ub_checks::can_dereference(vas*const[T]))",
+      "safety::requires(crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst,v.len())))",
+      "safety::requires(merge_contract_regions_disjoint(v.as_ptr(),dst,v.len()))",
+      "crate::kani::modifies(ptr::slice_from_raw_parts_mut(dst,v.len()))",
+      "crate::kani::requires(!verify::sorting_s2_span::active::<T,F>()||(v.len()<=32&&verify::sorting_s2_span::ordered::<T,F>(v.as_ptr(),v.len()/2)&&verify::sorting_s2_span::ordered::<T,F>(v.as_ptr().wrapping_add(v.len()/2),v.len()-v.len()/2)))",
+      "crate::kani::ensures(|_|!verify::sorting_s2_span::active::<T,F>()||verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(v.as_ptr(),v.len())),dst,v.len()))"
+    ],
+    "candidate_effective_attrs": [
+      "crate::kani::requires(v.len()>=2)",
+      "crate::kani::requires(crate::ub_checks::can_dereference(vas*const[T]))",
+      "crate::kani::requires(crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst,v.len())))",
+      "crate::kani::requires(merge_contract_regions_disjoint(v.as_ptr(),dst,v.len()))",
+      "crate::kani::modifies(ptr::slice_from_raw_parts_mut(dst,v.len()))",
+      "crate::kani::requires(!verify::sorting_s2_span::active::<T,F>()||(v.len()<=32&&verify::sorting_s2_span::ordered::<T,F>(v.as_ptr(),v.len()/2)&&verify::sorting_s2_span::ordered::<T,F>(v.as_ptr().wrapping_add(v.len()/2),v.len()-v.len()/2)))",
+      "crate::kani::ensures(|_|!verify::sorting_s2_span::active::<T,F>()||verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(v.as_ptr(),v.len())),dst,v.len()))"
+    ],
+    "before_clauses": [
+      {
+        "path": "safety::requires",
+        "op": "requires",
+        "line": 881,
+        "predicate_tokens": "v.len()>=2",
+        "family": "safety_wrapper"
+      },
+      {
+        "path": "safety::requires",
+        "op": "requires",
+        "line": 882,
+        "predicate_tokens": "crate::ub_checks::can_dereference(vas*const[T])",
+        "family": "safety_wrapper"
+      },
+      {
+        "path": "safety::requires",
+        "op": "requires",
+        "line": 883,
+        "predicate_tokens": "crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst,v.len()))",
+        "family": "safety_wrapper"
+      },
+      {
+        "path": "safety::requires",
+        "op": "requires",
+        "line": 884,
+        "predicate_tokens": "merge_contract_regions_disjoint(v.as_ptr(),dst,v.len())",
+        "family": "safety_wrapper"
+      },
+      {
+        "path": "crate::kani::modifies",
+        "op": "modifies",
+        "line": 885,
+        "predicate_tokens": "ptr::slice_from_raw_parts_mut(dst,v.len())",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 886,
+        "predicate_tokens": "!verify::sorting_s2_span::active::<T,F>()||(v.len()<=32&&verify::sorting_s2_span::ordered::<T,F>(v.as_ptr(),v.len()/2)&&verify::sorting_s2_span::ordered::<T,F>(v.as_ptr().wrapping_add(v.len()/2),v.len()-v.len()/2))",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::ensures",
+        "op": "ensures",
+        "line": 887,
+        "predicate_tokens": "|_|!verify::sorting_s2_span::active::<T,F>()||verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(v.as_ptr(),v.len())),dst,v.len())",
+        "family": "direct_kani"
+      }
+    ],
+    "after_clauses": [
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 925,
+        "predicate_tokens": "v.len()>=2",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 927,
+        "predicate_tokens": "crate::ub_checks::can_dereference(vas*const[T])",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 929,
+        "predicate_tokens": "crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst,v.len()))",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 931,
+        "predicate_tokens": "merge_contract_regions_disjoint(v.as_ptr(),dst,v.len())",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::modifies",
+        "op": "modifies",
+        "line": 933,
+        "predicate_tokens": "ptr::slice_from_raw_parts_mut(dst,v.len())",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::requires",
+        "op": "requires",
+        "line": 934,
+        "predicate_tokens": "!verify::sorting_s2_span::active::<T,F>()||(v.len()<=32&&verify::sorting_s2_span::ordered::<T,F>(v.as_ptr(),v.len()/2)&&verify::sorting_s2_span::ordered::<T,F>(v.as_ptr().wrapping_add(v.len()/2),v.len()-v.len()/2))",
+        "family": "direct_kani"
+      },
+      {
+        "path": "crate::kani::ensures",
+        "op": "ensures",
+        "line": 935,
+        "predicate_tokens": "|_|!verify::sorting_s2_span::active::<T,F>()||verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(v.as_ptr(),v.len())),dst,v.len())",
+        "family": "direct_kani"
+      }
+    ],
+    "clause_semantics": "EXACT_ORDERED_TOKEN_MATCH",
+    "body_signature": "EXACT_NORMALIZATION_FROM_PINNED_R2",
+    "outside_S2": "ORIGINAL_SAFETY_WRAPPERS_AND_PREDICATES"
+  }
+]
