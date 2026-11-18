@@ -1,0 +1,206 @@
+{
+  "state": "PASS",
+  "package_commit": "ac956bdf4db98a95e2da988ccd2c527582d3d32f",
+  "package_files": [
+    {
+      "path": "CHANGED-FILES.json",
+      "sha256": "680d632c4b029f010c2fb6db3450eed022ed031601d1eb0dc473784edeb1e3ae"
+    },
+    {
+      "path": "CHECKPOINT.json",
+      "sha256": "fda01ee9688b715fd5b782dfadd07e4fc0a3f550bd34525c4369da2aa58d8b3a"
+    },
+    {
+      "path": "CI-REQUEST.json",
+      "sha256": "8e4dada7027f7e4cd2df6257455be16a921ead46c830212e7a3def7bdeec2b97"
+    },
+    {
+      "path": "CONTROL-CANDIDATE.patch",
+      "sha256": "e63e9a7f051af4477816ff380ecb0eb947fd6acca4c7b421c0c61c773e0a5178"
+    },
+    {
+      "path": "CONTROL-DELTA.patch",
+      "sha256": "4e9603599dcefc72f2136b62aebd86d0e32f67fe8401c965cd4718f466e02038"
+    },
+    {
+      "path": "CONTROL-REPAIR.patch",
+      "sha256": "d9ebf4e886af4ac7639caae6181d0a9c8ac5fa85323c1d1e2aa177826201cd48"
+    },
+    {
+      "path": "HANDOFF.md",
+      "sha256": "1773ebc37c37e65025abae9a613fa604b6fa45386a17fc7f4b55ff59d794b87c"
+    },
+    {
+      "path": "IDENTITIES.json",
+      "sha256": "77c81dfec771d8aee3b24335a232f35babd8c4e86eb36c67e0678145d47fb21b"
+    },
+    {
+      "path": "INTERMEDIATE-TESTS.txt",
+      "sha256": "9401f3b3d43a4bc7936356b8395888889127a297e4b2fc43f1b82ce6c2e0167b"
+    },
+    {
+      "path": "MANIFEST.sha256",
+      "sha256": "22dc3da03e5e05abb46266191f56cd0b42fbecd50f84152e3b871b022a1be784"
+    },
+    {
+      "path": "PACKAGE-CHECK.json",
+      "sha256": "c3e6d5016ffd970cc1a6e295c41c29f18e4e6604fd8f49f47ab4ec325569ec50"
+    },
+    {
+      "path": "PATCHES.json",
+      "sha256": "ef7d6006ba4006678ddda59088edb0c64cd4df6247e41995206ea43f2c9afcd1"
+    },
+    {
+      "path": "RESOLVED-PREVIEW-RACE.txt",
+      "sha256": "726ef1ce7eacb458c979fee81b872d8cf1a2526a6b26f7748ce5d208f7110202"
+    },
+    {
+      "path": "TARGETED-TESTS.txt",
+      "sha256": "afa9a3cac3058cbf8ba5fb75a274d2ed18d310cac7414fee13f98b74ec83d894"
+    },
+    {
+      "path": "VALIDATION.json",
+      "sha256": "8a259fd4cad9b8bd3d86c67fea726f11e2344904c1058283157153acce5d0c76"
+    },
+    {
+      "path": "VALIDATION.md",
+      "sha256": "bf95b5efdce9608a0c364a36577fcaf224b7afed1d21353b5090e6f596c2e794"
+    },
+    {
+      "path": "WORKFLOW.yml",
+      "sha256": "973944169dd4d7f2fc169582b1327cc8e31fa96710a2a597ed0a126ef37e4a2e"
+    },
+    {
+      "path": "rustc_diagnostics.py",
+      "sha256": "c60dca260bafc89ae419c9d54f594e191b96558cb2670e7517ab802042aeb78a"
+    },
+    {
+      "path": "synthetic-evidence/FIXTURE.json",
+      "sha256": "0e589d5ca4f7600ab0850a8bcf9735baa21f819f5b2db76ac7aaf3d5147cf018"
+    },
+    {
+      "path": "synthetic-evidence/compile/receipt.json",
+      "sha256": "90e2e26fe9c7c285279b6f8ddacab255380d61c1baec87ebd8e6a050b0307caa"
+    },
+    {
+      "path": "synthetic-evidence/group-evidence.json.gz",
+      "sha256": "190c760755898254bdde2c17d3441686af1985ec71c53a4e7a9c951b4ab209a9"
+    },
+    {
+      "path": "synthetic-evidence/receipt.json",
+      "sha256": "469b98fd4ccb03626136ea06d168d953ed6997e6ecca0d6373ff76e0e622e247"
+    },
+    {
+      "path": "synthetic-evidence/rustc-stderr-receipt.json",
+      "sha256": "591bc1ac2eb7bfa8473a791297a5e4ddbf6dcc04bb981f2f0c6ce67be4ca308e"
+    },
+    {
+      "path": "synthetic-evidence/rustc-stdout-receipt.json",
+      "sha256": "069ac27c4b5a8ad11eca5aa2e2bf52a22dc62ed0511fcf3bec303c2e4afeb4bd"
+    },
+    {
+      "path": "test_rustc_diagnostics.py",
+      "sha256": "595504d1fc494a647f99318a34cd239db0a030c8cc2ab290846deb0872a87ec9"
+    },
+    {
+      "path": "validate_package.py",
+      "sha256": "1dc9d7601383d6e5d1da1bd3ec79fd863995b8dbbb1db44bdeb09f3ed0b125fe"
+    }
+  ],
+  "task_file_sha256": "d901b7a97608d739e2cde9e748834918379c5fbc6e97f443fa8c7709cf6740db",
+  "control": {
+    "sha": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+    "tree": "beb2346615ffbb7027b2f1ea8ea33a149952aa0b",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "worktree": "/root/kani-ch8-s2-diagnostics-w11",
+    "stock_base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "baseline": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+    "baseline_tree": "b04ce6fd7a2c937bf72fcda7a262eef65a9f45bb",
+    "request_sha256": "8e4dada7027f7e4cd2df6257455be16a921ead46c830212e7a3def7bdeec2b97",
+    "workflow_sha256": "973944169dd4d7f2fc169582b1327cc8e31fa96710a2a597ed0a126ef37e4a2e"
+  },
+  "source": {
+    "sha": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+    "tree": "64d96010b0b4b896322e26d700c253f834ba9fd6"
+  },
+  "tool": {
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "change": "NONE"
+  },
+  "clean_worktrees": [
+    "control",
+    "source",
+    "tool",
+    "baseline"
+  ],
+  "changed_files": [
+    {
+      "path": ".github/workflows/ch8-s2.yml",
+      "baseline_sha256": "7dca25a36813d294548ce26c27dfe38b9b06d3f4091785eaad4f00be2a437455",
+      "candidate_sha256": "973944169dd4d7f2fc169582b1327cc8e31fa96710a2a597ed0a126ef37e4a2e"
+    },
+    {
+      "path": "ch8-s1-control/CI-REQUEST.json",
+      "baseline_sha256": "779126ddc8aa3e5cabd9b9968f0e1cd853c4e1b60a95a21ff4eb42d5a0c7ca74",
+      "candidate_sha256": "8e4dada7027f7e4cd2df6257455be16a921ead46c830212e7a3def7bdeec2b97"
+    },
+    {
+      "path": "ch8-s1-control/check_package.py",
+      "baseline_sha256": "0970f66906c9e0caff47e091cd7349cfe97b811217a0ffc57c47791bc23b23c6",
+      "candidate_sha256": "bf65515325970226b58c50a310b2989ec31f55c437b90defcd3b9db5ef6d1873"
+    },
+    {
+      "path": "ch8-s1-control/pack_evidence.py",
+      "baseline_sha256": "833004929291e3a6a96011c8579852fce7520e5dea6abd3af2c7611675619e8b",
+      "candidate_sha256": "b90c3d942ce3ec5734ef35719cebb5ac0a3052bd1c7317523c31f9a009e01c85"
+    },
+    {
+      "path": "ch8-s1-control/runner.py",
+      "baseline_sha256": "fd298f6157a4157115a504d630d51a5a3c234d2cb8cf7d9521b22182b02effd9",
+      "candidate_sha256": "5cd91fa221644daa3493ed1f5cd445fa91e8bf9a0071cb0cee8f13ba26ba1251"
+    },
+    {
+      "path": "ch8-s1-control/rustc_diagnostics.py",
+      "baseline_sha256": null,
+      "candidate_sha256": "c60dca260bafc89ae419c9d54f594e191b96558cb2670e7517ab802042aeb78a"
+    },
+    {
+      "path": "ch8-s1-control/test_rustc_diagnostics.py",
+      "baseline_sha256": null,
+      "candidate_sha256": "595504d1fc494a647f99318a34cd239db0a030c8cc2ab290846deb0872a87ec9"
+    }
+  ],
+  "only_changed_request_fields": [
+    "ci_changed_paths",
+    "ci_payload_sha256"
+  ],
+  "roots": 11,
+  "covers": 20,
+  "negative_oracles": 6,
+  "patches": [
+    {
+      "path": "CONTROL-REPAIR.patch",
+      "base": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+      "target_tree": "beb2346615ffbb7027b2f1ea8ea33a149952aa0b",
+      "sha256": "d9ebf4e886af4ac7639caae6181d0a9c8ac5fa85323c1d1e2aa177826201cd48",
+      "replayed_tree": "beb2346615ffbb7027b2f1ea8ea33a149952aa0b"
+    },
+    {
+      "path": "CONTROL-DELTA.patch",
+      "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "target_tree": "beb2346615ffbb7027b2f1ea8ea33a149952aa0b",
+      "sha256": "4e9603599dcefc72f2136b62aebd86d0e32f67fe8401c965cd4718f466e02038",
+      "replayed_tree": "beb2346615ffbb7027b2f1ea8ea33a149952aa0b"
+    },
+    {
+      "path": "CONTROL-CANDIDATE.patch",
+      "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "target_tree": "beb2346615ffbb7027b2f1ea8ea33a149952aa0b",
+      "sha256": "e63e9a7f051af4477816ff380ecb0eb947fd6acca4c7b421c0c61c773e0a5178",
+      "replayed_tree": "beb2346615ffbb7027b2f1ea8ea33a149952aa0b"
+    }
+  ],
+  "scope_A_review": "NOT_RERUN",
+  "proof_credit": "NONE"
+}

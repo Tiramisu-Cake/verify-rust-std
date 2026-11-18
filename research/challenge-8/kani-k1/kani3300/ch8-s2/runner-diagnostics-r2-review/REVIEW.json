@@ -1,0 +1,51 @@
+{
+  "schema": "ch8-w14-runner-diagnostics-review-v1",
+  "scope": "B",
+  "verdict": "CHANGES_REQUIRED",
+  "task_commit": "90b7e5bd7f7dcecc00e7009196a466a7422f179d",
+  "package_commit": "ac956bdf4db98a95e2da988ccd2c527582d3d32f",
+  "control_sha": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+  "control_tree": "beb2346615ffbb7027b2f1ea8ea33a149952aa0b",
+  "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+  "baseline": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+  "findings": [
+    {
+      "id": "B-01",
+      "priority": "P1",
+      "owner": "11",
+      "title": "Artifact diagnostic completeness omits main groups without stream receipts",
+      "location": "ch8-s1-control/pack_evidence.py:43",
+      "related_lines": [99, 100, 102],
+      "observed": "Exact-group fallback is NOT_RUN_OR_INTERRUPTED with diagnostics incomplete; complete setup alone makes artifact diagnostic_retention.complete true",
+      "repair": "Include expected execution/group coverage and missing receipts in packed diagnostic completeness; regress setup-success/main-missing and both-receipts-removal boundaries",
+      "repair_state": "NOT_APPLIED",
+      "evidence": "REPRODUCTIONS.json#/checks/1"
+    },
+    {
+      "id": "B-02",
+      "priority": "P2",
+      "owner": "11",
+      "title": "Numbered suggestion diff context is silently dropped as complete",
+      "location": "ch8-s1-control/rustc_diagnostics.py:15",
+      "related_lines": [87, 88, 125],
+      "observed": "Both streams retain 126 of 165 fixture bytes, omit N-minus/N-plus help lines, and claim complete with zero dropped bytes; compact artifact also claims complete",
+      "repair": "Retain suggestion diff and following context, or explicitly mark unsupported context incomplete; add exact-coordinate both-stream split/ANSI/packing regression",
+      "repair_state": "NOT_APPLIED",
+      "evidence": "REPRODUCTIONS.json#/checks/2"
+    }
+  ],
+  "independent_validation": {
+    "bindings": "BINDINGS.json",
+    "targeted_tests": {"tests": 29, "failures": 0, "errors": 0, "result": "PASS"},
+    "actual_baseline_long_middle": "PASS",
+    "additional_counterexamples": 2,
+    "assurance": "STATIC_AND_BOUNDED_OFFLINE_SYNTHETIC"
+  },
+  "scope_A": {"approved_commit": "fc8eeb66342d588a513e22c1e2bf8552007fb690", "rerun": false},
+  "combined_task_commit": "43a137ced6c25a9fe2b34f3df6048474d0415516",
+  "combined_handoff": "Do not wait for source13; runner inheritance requires future immutable repair approval and exact byte binding",
+  "production_runtime": "NOT_RUN",
+  "historical_compile_cause": "UNKNOWN",
+  "proof_credit": "NONE",
+  "next_owner": "coordinator -> original owner11 -> same reviewer14 delta review"
+}

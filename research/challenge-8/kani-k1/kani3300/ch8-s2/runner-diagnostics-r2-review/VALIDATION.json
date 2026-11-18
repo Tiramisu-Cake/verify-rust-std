@@ -1,0 +1,37 @@
+{
+  "schema": "ch8-w14-runner-review-validation-v1",
+  "target_control": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+  "targeted_tests": {
+    "cwd": "/root/kani-ch8-s2-diagnostics-w11/ch8-s1-control",
+    "command": "PYTHONDONTWRITEBYTECODE=1 python -m unittest -v test_rustc_diagnostics test_runner.ExecutionTests test_runner.CompileTests test_s107.FinalizationTests test_package.PackageTests.test_fallback_preserves_receipt_materializes_tail_and_bounds test_package.PackageTests.test_fallback_terminal_after_setup_failure_and_mid_run_interruption test_package.PackageTests.test_build_wrapper_receipts_and_errors_without_build",
+    "independently_executed": true,
+    "exit_code": 0,
+    "tests": 29,
+    "failures": 0,
+    "errors": 0,
+    "reported_duration_seconds": 6.690,
+    "result": "PASS",
+    "execution_tool_session_id": 59846,
+    "transcript_provenance": "Reviewer observed live tool output; author TARGETED-TESTS.txt was not substituted for independent execution"
+  },
+  "identity_checks": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python verify_bindings.py > BINDINGS.json",
+    "exit_code": 0,
+    "result": "PASS",
+    "checks": ["26 committed package files match", "task file matches issued task commit", "control/source/tool/baseline clean exact identities", "required parent and tree", "all seven delta file hashes", "all request payload bindings", "only allowed derived request fields change", "11 roots / 20 covers / 6 negatives unchanged", "three exact Git diff bytes and alternate-index tree replays", "author manifest hashes"]
+  },
+  "reviewer_probes": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python reproduce.py > REPRODUCTIONS.json",
+    "exit_code": 0,
+    "actual_baseline_vs_candidate_long_middle": "PASS",
+    "B-01": "COUNTEREXAMPLE_REPRODUCED",
+    "B-02": "COUNTEREXAMPLE_REPRODUCED_BOTH_STREAMS",
+    "note": "Probe exit zero means the frozen candidate defects were reproduced, not review approval"
+  },
+  "author_intermediate_69_tests": "NOT_RERUN_STAGE_QUALIFIED_AUTHOR_REPORT_ONLY",
+  "scope_A": "NOT_RERUN",
+  "compiler_verifier_fullrunner_CI": "NOT_RUN",
+  "production_retention": "NOT_RUN",
+  "historical_compile_cause": "UNKNOWN",
+  "proof_credit": "NONE"
+}

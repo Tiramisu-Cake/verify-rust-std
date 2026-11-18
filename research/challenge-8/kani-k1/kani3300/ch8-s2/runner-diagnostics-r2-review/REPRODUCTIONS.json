@@ -1,0 +1,102 @@
+{
+  "candidate": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+  "assurance": "BOUNDED_OFFLINE_SYNTHETIC",
+  "checks": [
+    {
+      "check": "actual-baseline-vs-candidate-long-middle",
+      "result": "PASS",
+      "baseline_runner_sha256": "fd298f6157a4157115a504d630d51a5a3c234d2cb8cf7d9521b22182b02effd9",
+      "input_bytes": 168090,
+      "input_sha256": "02f5a2777b81517b82db357c965025b3e16eca53a3764552bb71fe735bfbdaa8",
+      "baseline_and_candidate_preview_equal": true,
+      "baseline_missing_error": true,
+      "candidate_retained_exact_block": true,
+      "block": {
+        "stream": "stdout",
+        "start_byte": 84005,
+        "end_byte": 84085,
+        "text": "error[E9999]: UNIQUE_MIDDLE_REVIEW14\n --> a.rs:1:1\n  = note: preserved context\n\n",
+        "complete": true,
+        "dropped_bytes": 0
+      }
+    },
+    {
+      "finding": "B-01",
+      "result": "COUNTEREXAMPLE_REPRODUCED",
+      "group_state": "NOT_RUN_OR_INTERRUPTED",
+      "group_diagnostics": {
+        "complete": false,
+        "incomplete_reasons": [
+          "stderr:DIAGNOSTIC_RECEIPT_UNAVAILABLE",
+          "stdout:DIAGNOSTIC_RECEIPT_UNAVAILABLE"
+        ],
+        "proof_credit": "NONE",
+        "schema": "ch8-rustc-diagnostics-summary-v1",
+        "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+        "streams": {},
+        "unobserved_bytes": null
+      },
+      "artifact_directories": [
+        "setup"
+      ],
+      "artifact_diagnostic_retention": {
+        "complete": true,
+        "scope": "OBSERVED_TEXTUAL_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+        "incomplete_reasons": [],
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "finding": "B-02",
+      "result": "COUNTEREXAMPLE_REPRODUCED",
+      "cases": [
+        {
+          "stream": "stdout",
+          "input_bytes": 165,
+          "input_sha256": "db2b42e42794af0bda58b5c94198c16b1aa11d5917403c97e0917b75bc3e45de",
+          "input_text": "error[E0308]: mismatched types\n --> src/a.rs:1:1\n  |\n1 | let n = 42;\n  |         ^^ expected &str\nhelp: replace the value\n  |\n1 - let n = 42;\n1 + let n = \"42\";\n  |\n\n",
+          "retained_input_bytes": 126,
+          "complete": true,
+          "dropped_bytes": 0,
+          "incomplete_reasons": [],
+          "blocks": [
+            {
+              "stream": "stdout",
+              "start_byte": 0,
+              "end_byte": 126,
+              "text": "error[E0308]: mismatched types\n --> src/a.rs:1:1\n  |\n1 | let n = 42;\n  |         ^^ expected &str\nhelp: replace the value\n  |\n",
+              "complete": true,
+              "dropped_bytes": 0
+            }
+          ],
+          "artifact_complete": true
+        },
+        {
+          "stream": "stderr",
+          "input_bytes": 165,
+          "input_sha256": "db2b42e42794af0bda58b5c94198c16b1aa11d5917403c97e0917b75bc3e45de",
+          "input_text": "error[E0308]: mismatched types\n --> src/a.rs:1:1\n  |\n1 | let n = 42;\n  |         ^^ expected &str\nhelp: replace the value\n  |\n1 - let n = 42;\n1 + let n = \"42\";\n  |\n\n",
+          "retained_input_bytes": 126,
+          "complete": true,
+          "dropped_bytes": 0,
+          "incomplete_reasons": [],
+          "blocks": [
+            {
+              "stream": "stderr",
+              "start_byte": 0,
+              "end_byte": 126,
+              "text": "error[E0308]: mismatched types\n --> src/a.rs:1:1\n  |\n1 | let n = 42;\n  |         ^^ expected &str\nhelp: replace the value\n  |\n",
+              "complete": true,
+              "dropped_bytes": 0
+            }
+          ],
+          "artifact_complete": true
+        }
+      ],
+      "fixture_provenance": "Constructed rustc-style suggestion diff; not observed compiler output"
+    }
+  ],
+  "production_retention": "NOT_RUN",
+  "historical_cause": "UNKNOWN",
+  "proof_credit": "NONE"
+}
