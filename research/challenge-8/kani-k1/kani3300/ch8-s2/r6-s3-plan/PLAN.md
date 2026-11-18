@@ -19,33 +19,30 @@ review `c9e0f9aefaa00330b94715a6e5fa0089f5238983`, source
 hashes and read dependency hashes are in `INPUTS.json`. Review approval concerns
 that frozen candidate; it does not approve this future S3 design or grant GO.
 
-Committed W11 intake **`ebd77a955b2b8d1b4e8079cfbf569386bcf0b130`** became
-available during closeout and is incorporated. `INTAKE-UPDATE.md` binds the
-bounded update to its reports; W13 did not read/download the artifact or repeat
-W11's acquisition, cost/order or collector investigation. W11's source-reported
-native observations remain distinct from independent proof credit.
+The following are **owner-reported terminal observations**, not a new W13
+artifact intake: run44375519132/1 native completed/failure; `swap_pfc` SUCCESS
+10.7s/~2.39GiB; checker order/count and sort13 weak native FAILED with generic
+runtime-formatted descriptions, `r5_expected_match=false`; merge32 actual and
+sort13 assumed reached external child600wall; global snapshot stop while
+compiling merge_count; later merge_order and summary_witness NOT_RUN. Both
+general32 roots remained DEFERRED/NOT_SELECTED. Child wall includes compilation;
+these observations do not establish solver-only timeouts or costs of model,
+havoc and actual body separately. No negative is admitted from generic FAIL.
 
-Run44375519132/1 native completed/failure. Swap native SUCCESS10.680759458s,
-four satisfied covers and sampled2502640KiB is preserved, but qualification is
-NOT_GRANTED/r5_expected_match=false: four unreachable checks and three absent
-named success labels. The three early negatives have generic descriptions;
-checker_count also has actual assertion.2 versus expected.1. Merge32 and sort13
-are UNKNOWN after external child600.177/600.179s, not solver-only TIMEOUT600.
-Merge_count worker was interrupted after supervisor ProcessLookupError and
-required durable AFTER evidence is absent. No immutable-byte drift or generated
-output misclassification is established; exact syscall/path/traceback remains
-UNKNOWN. Later merge_order/witness NOT_RUN; general32 pair NOT_SELECTED.
-No negative or swap leaf is admitted by this plan.
+**W11 exact committed intake: PENDING_ROOT_SUPPLIED_COMMITTED_SHA.** W11 owns the
+ONE compact artifact, exact snapshot cause, cost/order and qualification intake.
+W13 has not read/downloaded that artifact or repeated its investigation.
+Uncommitted W11 files are not dependencies. Before future implementation,
+incorporate root-supplied committed intake by a bounded documentation update.
+An exact GlobalFailure cause remains UNKNOWN; this completed decision draft
+does not depend on inventing it or on another run to plan a repair.
 
 ## First S3 preparation contract for a later assignment
 
-1. Use the now-bound W11 intake and exact run/source/control/tool/request identities. Determine
+1. Bind W11 intake to exact run/source/control/tool/request identities. Determine
    what can be reused from swap, including actual PFC/contract properties,
-   complete covers, frame, qualified domain and same-cfg binding. Preserve the
-   current NOT_GRANTED verdict; all required labels and strict unreachable-check
-   gates must pass in fresh evidence before qualification. Do not waive four
-   unreachable checks or assume literal normalization resolves every one.
-   SUCCESS alone does not extend the provider to other geometry or T/F.
+   complete covers, frame, qualified domain and same-cfg binding. SUCCESS alone
+   does not extend the provider to every backing/offset/topology or to other T/F.
 2. Prepare one coherent candidate with all six negative labels and the supporting
    literal S2 positive roles, preserving expressions, control reachability,
    runtime bodies, source-copy correspondence and existing checks. Rebind maps

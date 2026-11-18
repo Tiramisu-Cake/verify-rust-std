@@ -3,7 +3,7 @@
 Dependency: `ebd77a955b2b8d1b4e8079cfbf569386bcf0b130`, published during W13
 closeout after initial draft commit ea6ea57c7747ad75bbb743a8dba23b500b1cbd19.
 Read only committed HANDOFF, SNAPSHOT-STOP.md, VERDICTS.md, COST.md, INPUTS.json
-and manifest. Their exact hashes are in INPUTS.json; acquisition/replay/structured
+and manifest, plus targeted VERDICTS.json swap unreachable records. Their exact hashes are in INPUTS.json; acquisition/replay/structured
 artifact/raw logs were not read or rerun. This update is report reconciliation,
 not an independent artifact verification or proof admission.
 

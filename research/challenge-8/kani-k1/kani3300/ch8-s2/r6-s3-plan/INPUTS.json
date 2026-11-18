@@ -49,30 +49,10 @@
     "worker_accounting_authority": false
   },
   "W11_intake": {
-    "state": "INCORPORATED_COMMITTED_REPORTS",
-    "commit": "ebd77a955b2b8d1b4e8079cfbf569386bcf0b130",
-    "available_during_closeout": true,
-    "first_W13_draft_commit": "ea6ea57c7747ad75bbb743a8dba23b500b1cbd19",
+    "state": "PENDING_ROOT_SUPPLIED_COMMITTED_SHA",
+    "commit": null,
     "artifact_read_or_downloaded_by_W13": false,
-    "reports_read": [
-      "HANDOFF.md",
-      "SNAPSHOT-STOP.md",
-      "VERDICTS.md",
-      "COST.md",
-      "INPUTS.json",
-      "MANIFEST.sha256"
-    ],
-    "report_hashes_checked_against_W11_manifest": true,
-    "identity_fields_compared_to_frozen_inputs": true,
-    "snapshot_guard_reason": "REQUIRED_AFTER_EVIDENCE_ABSENT",
-    "recorded_precursor": "supervisor ProcessLookupError: [Errno 3] No such process; cutoff supervisor_exception; worker -15",
-    "actual_immutable_byte_drift": "NOT_ESTABLISHED",
-    "exact_throwing_syscall_path_traceback": "UNKNOWN",
-    "swap_native_verdict": "SUCCESS",
-    "swap_strict_qualification": "NOT_GRANTED",
-    "swap_r5_expected_match": false,
-    "independent_artifact_verification_by_W13": false,
-    "independent_B1_B2_credit": "NONE"
+    "exact_snapshot_cause": "UNKNOWN"
   },
   "dependencies": [
     {
@@ -443,69 +423,6 @@
       "blob": "20563068f3672a6bd424d83710f44939723d5875",
       "sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
       "bytes": 42737
-    },
-    {
-      "kind": "committed_W11_report",
-      "repository": "/root/verify-rust-std-kani3300-g0",
-      "commit": "ebd77a955b2b8d1b4e8079cfbf569386bcf0b130",
-      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/run-44375519132/HANDOFF.md",
-      "blob": "c8a6b90c47ad9b33897ab7ed416fc5894d37313a",
-      "sha256": "c3d7e5d014edc5f4e9839b25cca16ecde8c1b1774a0c8158699ea1d0c865dceb",
-      "bytes": 2854
-    },
-    {
-      "kind": "committed_W11_report",
-      "repository": "/root/verify-rust-std-kani3300-g0",
-      "commit": "ebd77a955b2b8d1b4e8079cfbf569386bcf0b130",
-      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/run-44375519132/SNAPSHOT-STOP.md",
-      "blob": "158850a08e62d06c49cbd9663a2ff53ed707f9ba",
-      "sha256": "15788b104111ee919dd48a5a99a6179d98b00ab3942fb1d11bb539a0ce3b3648",
-      "bytes": 7010
-    },
-    {
-      "kind": "committed_W11_report",
-      "repository": "/root/verify-rust-std-kani3300-g0",
-      "commit": "ebd77a955b2b8d1b4e8079cfbf569386bcf0b130",
-      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/run-44375519132/VERDICTS.md",
-      "blob": "598b2cffea40306b2eddb85bd14a5577d680c575",
-      "sha256": "c8c13763396310f576b573f404447790fc9fbbffb230751aff440d4e25628aba",
-      "bytes": 6138
-    },
-    {
-      "kind": "committed_W11_report",
-      "repository": "/root/verify-rust-std-kani3300-g0",
-      "commit": "ebd77a955b2b8d1b4e8079cfbf569386bcf0b130",
-      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/run-44375519132/COST.md",
-      "blob": "7a2a3832cf1b46a5e17071c73a12dfc24f230fe6",
-      "sha256": "778d2c968c028f73e0155e6fcc0eb71216ddb857d8aa73edad62329f297287f4",
-      "bytes": 4445
-    },
-    {
-      "kind": "committed_W11_report",
-      "repository": "/root/verify-rust-std-kani3300-g0",
-      "commit": "ebd77a955b2b8d1b4e8079cfbf569386bcf0b130",
-      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/run-44375519132/INPUTS.json",
-      "blob": "e1fc5b5d2cad59b579d07f30327aa130cf7d9fd0",
-      "sha256": "fd95c417c535f3639b5281174f1e918e0eff3c1f0e2587fee7f4fa530cf41f22",
-      "bytes": 3632
-    },
-    {
-      "kind": "committed_W11_report",
-      "repository": "/root/verify-rust-std-kani3300-g0",
-      "commit": "ebd77a955b2b8d1b4e8079cfbf569386bcf0b130",
-      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/run-44375519132/MANIFEST.sha256",
-      "blob": "21caddb9640d4585a1e47d26ad5613d9f88ac753",
-      "sha256": "be35107a3d420c872667ff3045078d19e1d34d19ccc36a73ff3c5f6be55ee546",
-      "bytes": 3698
-    },
-    {
-      "kind": "control_source",
-      "repository": "/root/kani-ch8-s2-r5-r1-stable-final-w13",
-      "commit": "63535098ab85c70c8707eee0afd65f53c9ef566a",
-      "path": "ch8-s1-control/r5_runtime.py",
-      "blob": "1ae55bd0992ceb7ca00bc7aeceb13d7935d2d7c1",
-      "sha256": "e796129e9da910879026cbe9a2037cf4834793f97032b2ff21bdf128268c697f",
-      "bytes": 7684
     }
   ],
   "label_sites": [

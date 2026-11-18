@@ -53,15 +53,6 @@ An ID, source coordinate or label alone does not establish AST/MIR instance
 binding, causality or proof credit. Generic runtime-formatted FAIL remains
 unadmitted; do not import the separate stub-confirm exception.
 
-Committed W11 intake ebd77a9 additionally confirms checker_count's actual failed
-property assertion.2, while the frozen oracle expects assertion.1. This is a
-second reason to rebind from observed producer inventories. Swap's native
-SUCCESS is also not strictly qualified: required success labels absent and four
-unreachable checks. Normalizing all22 sites is necessary diagnostic work, not
-proof that every remaining strict-gate failure will disappear. Preserve the
-zero-unreachable success gate; analyze its four exact checks separately before
-fresh admission. Do not grandfather R5 by editing historical verdicts/oracles.
-
 ## Supporting positive roles and gates
 
 The same B contains 16 other labelled assertion sites. First S3 should normalize

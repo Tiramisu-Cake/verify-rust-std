@@ -1,26 +1,9 @@
 # Snapshot stop — conditional repair design, NOT_APPLIED
 
-Committed W11 intake `ebd77a955b2b8d1b4e8079cfbf569386bcf0b130` establishes
-**required AFTER evidence absent** at merge_count, after supervisor
-`ProcessLookupError: [Errno 3] No such process`, cutoff supervisor_exception,
-cleanup SIGTERM and worker exit-15. The group remains IN_PROGRESS with matching
-source_before/request and complete BEFORE binary snapshot; source_after,
-tool_fingerprints_after, binary_identity, execution and original group exception
-were not durably published. snapshot_errors=[] covers before only. Actual
-changed bytes, individual missing/unreadable file, after digests/existence and
-throwing syscall/path/traceback remain UNKNOWN. See INTAKE-UPDATE.md. W11 owns
-the ONE artifact intake; only its committed summaries were consumed here.
-
-Select the **capture/finalization/error-diagnostic branch** below for a later
-candidate. First retain the precise supervisor operation/exception/epochs and
-durable interruption/snapshot availability records. A disappearing-process sample
-is a source-supported possibility, not an established /proc pathname or race
-site. If a specific benign process-lifecycle race is then established, handle
-only that case with PID/start-time/ownership checks and rejection of recycled
-or unknown identities. Do not blanket-catch ProcessLookupError as success.
-Cleanup verified=true does not supply missing after snapshots or qualification.
-No generated-output exclusion or broad dirty-check relaxation is justified by
-this intake. An unmeasured post-state continues to stop the campaign globally.
+Actual changed field/path, before/after digests, missing snapshot or original
+capture exception: **UNKNOWN pending committed W11 intake**. No current filename
+or causal diagnosis is asserted here. W11 owns the ONE compact artifact intake;
+this source-level proposal does not duplicate it.
 
 Pinned control635 `r5_campaign.root_outcome` (lines166–173) conflates missing or
 unequal request/source-before/source-after, binary_identity != MATCH and
@@ -38,7 +21,7 @@ erase original child/compile exit, signal, timeout or exception.
 | An exact legitimately generated output was included in immutable/clean classification | classify ONLY that proven output at its controlled invocation path, preferably place outputs outside immutable checkouts; retain/hash its own manifest | no broad target/**/untracked ignore, no arbitrary path exclusion |
 | Required capture missing/unreadable, early-return path skipped after capture, malformed/missing receipt | repair finalization/capture coverage and typed reporting, always after shutdown/reaping | unmeasured identity remains UNKNOWN/global stop |
 | Wrong epoch/previous-root receipt used | bind invocation/root/stage and epoch explicitly, compare immutable pins within same invocation; retain prior seals | no copying a prior MATCH or re-baselining changed bytes |
-| Generic label plus incomplete before/after (actual R5: after absent) | preserve known before/guard inputs and add bounded operation/exception/epoch diagnostics in next authorized package; state residual UNKNOWN | do not declare exact syscall bug fixed or ask for a run solely to plan |
+| Only generic label survived, no exact before/after | add bounded structured mismatch/error record in next authorized package; state residual UNKNOWN | do not declare known bug fixed or ask for a run solely to plan |
 
 ## Immutable inputs versus generated outputs
 
@@ -82,21 +65,12 @@ roots get explicit NOT_RUN with the stop reason; deferred roots stay NOT_SELECTE
 Never overwrite R5 evidence, fabricate missing before/after, set download_verified
 or retrospectively turn STOP into a local timeout/success.
 
-The W11 record gives campaign1372.897125559s, worker3.561063614s and partial
-compile-child0.695s; none is an exact successful compile duration. Earlier two
-600wall roots had intact after evidence and continued. The snapshot guard fires
-before local cutoff classification; supervisor_error would independently be
-global even if snapshot checks passed. Preserve both causes, not only the first
-generic guard. Durable interruption reporting must not fabricate measurement.
-
 Future synthetic preflight matrix: unchanged inputs+generated output accepted
 only in declared output lifecycle; immutable byte/path/binary drift rejected;
 missing/unreadable/hash exception; null/array/wrong-type/partial snapshot;
 explicit NOT_RUN; receipt missing before child; timeout/compiler error/parser
 error; snapshot failure after failed child preserving its original error;
 source-stage-target/request/invocation mismatch; same digest at wrong path;
-symlink escape; prior seal mutation; disappearing process at each identified
-sampling/signalling step with original operation/exception retained; worker
-SIGTERM before final publication; cleanup exception and unreaped descendant.
+symlink escape; prior seal mutation; cleanup exception and unreaped descendant.
 Keep existing success/error/timeout/partial/fallback tests and native profile
 gates. These controls are planned, not executed by W13. No check is disabled.
