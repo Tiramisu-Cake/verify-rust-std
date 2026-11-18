@@ -1,0 +1,840 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "published_failed_base object/tree/parent",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "candidate object/tree/parent",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "main object/tree/parent",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "source HEAD and clean isolated worktree",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "repair scope exactly two fixtures",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "source parent is exact published6f",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "author and local skip candidate",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "compiler byte invariant kani-compiler/src/kani_middle/transform/contracts.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "compiler byte invariant kani-compiler/src/kani_middle/transform/mod.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "compiler byte invariant kani-compiler/src/kani_middle/transform/stubs.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected tree .github/workflows",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected tree .github/actions",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected tree scripts",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected tree library",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes rust-toolchain.toml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes kani-dependencies",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes Cargo.toml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes Cargo.lock",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes kani-compiler/Cargo.toml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes kani-driver/Cargo.toml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/bench-compiler.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/bench-e2e.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/bench-pr.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/cargo-update.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/cbmc-latest.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/cbmc-update.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/charon-update.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/deny.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/extra_jobs.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/format-check.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/kani.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/release.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/slow-tests.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/toolchain-upgrade.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/verify-std-check.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "protected bytes .github/workflows/z3-update.yml",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "patch seal repair.patch",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "patch seal full-main.patch",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "patch seal compiler-main.patch",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "patch seal regression-main.patch",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "three recorded isolated-index replays",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_contract_target frozen6f exact target reached but two effective checks",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_contract_target frozen6f second sequential guard fails in bounded model",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_contract_target repair exact target and one checked call",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_contract_target provider Assert inside selected caller",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_contract_target selected caller actually returns ordinary f result",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_contract_target straight line single meaningful call",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_contract_target mutation old arrangement rejected",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_contract_target mutation second selected call rejected",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_contract_target mutation missing selected call rejected",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_contract_target mutation alias alone fails exact-target reachability",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_contract_target mutation just remove direct0 keeps count1 but loses exact FnDef",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_provider_postcondition frozen6f exact target reached but two effective checks",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_provider_postcondition frozen6f second sequential guard fails in bounded model",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_provider_postcondition repair exact target and one checked call",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_provider_postcondition provider Assert inside selected caller",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_provider_postcondition selected caller actually returns ordinary f result",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_provider_postcondition straight line single meaningful call",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_provider_postcondition mutation old arrangement rejected",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_provider_postcondition mutation second selected call rejected",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_provider_postcondition mutation missing selected call rejected",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_provider_postcondition mutation alias alone fails exact-target reachability",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "replacement_provider_postcondition mutation just remove direct0 keeps count1 but loses exact FnDef",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "positive provider and caller contracts retain arithmetic domain",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "positive arithmetic oracle all admitted u8 inputs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "negative provider identity and unique postcondition",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "negative caller postcondition admits actual result and no masking requires",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "negative oracle source input yields provider failure and caller post passes",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "negative old direct0 passes before second-call guard",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "mutation provider postcondition weakened to identity loses intended negative",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "mutation Original provider loses provider assertion while caller post still passes",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "golden byte invariant tests/expected/function-contract/ordinary_stub_fail.expected",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "function inventory retained tests/expected/function-contract/ordinary_stub_fail.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "golden byte invariant tests/expected/function-contract/ordinary_stub_issue_4591.expected",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "function inventory retained tests/expected/function-contract/ordinary_stub_issue_4591.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "golden byte invariant tests/expected/function-contract/ordinary_stub_overlap.expected",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "function inventory retained tests/expected/function-contract/ordinary_stub_overlap.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "function inventory retained tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "function inventory retained tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "all declared harnesses retained",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "only failing/unrun PFC harnesses changed",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "all oracle rows bind declared harnesses",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs provider in tests/expected/function-contract/ordinary_stub_fail.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs replacement_overflow in tests/expected/function-contract/ordinary_stub_fail.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs verified_precondition in tests/expected/function-contract/ordinary_stub_fail.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs verified_postcondition in tests/expected/function-contract/ordinary_stub_fail.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs provider_postcondition in tests/expected/function-contract/ordinary_stub_fail.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs unstubbed_postcondition in tests/expected/function-contract/ordinary_stub_fail.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs unstubbed_precondition in tests/expected/function-contract/ordinary_stub_fail.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs replacement_postcondition in tests/expected/function-contract/ordinary_stub_fail.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs replacement_provider_postcondition in tests/expected/function-contract/ordinary_stub_fail.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs replacement_precondition in tests/expected/function-contract/ordinary_stub_fail.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs requires_only_provider in tests/expected/function-contract/ordinary_stub_fail.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs requires_only_verified_precondition in tests/expected/function-contract/ordinary_stub_fail.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs requires_only_verified_result in tests/expected/function-contract/ordinary_stub_fail.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs check_caller in tests/expected/function-contract/ordinary_stub_issue_4591.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs overlapping_contract_target in tests/expected/function-contract/ordinary_stub_overlap.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs provider in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs verified_control in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs ordinary_stub in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs ordinary_stub_outside_target_precondition in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs requires_only_provider in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs requires_only_verified_control in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs ensures_only_provider in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs ensures_only_verified_control in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs multiple_targets in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs recursive_provider in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs recursive_verified_control in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs recursive_target in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs generic_instances in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs uncontracted_target in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs transitive_replacement in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs replacement_provider in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs replacement_contract in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs replacement_verified_contract in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs replacement_contract_target in tests/kani/FunctionContracts/ordinary_stub.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs ordinary_stub_original_mode in tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs provider in tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs verified_control in tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "oracle attrs replacement_provider in tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "every PFC harness audited with one exact direct source call",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "negative golden binds named semantic failures and declared harness total",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "issue4591 caller overflow retained verbatim from6f",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "issue4591 i32MAX caller counterexample oracle",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "CBMC guard source binds assertion and persistent completed flag",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "exact reachability guard retained from main969f",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "contract body-source selector and mode precedence retained",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "metadata-only future gate valid shape",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "metadata gate rejects candidate pushed",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "metadata gate rejects tree drift",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "metadata gate rejects oldmain parent",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "metadata gate rejects merge parent",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "metadata gate rejects missing full range",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "metadata gate rejects extra ancestor",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "metadata gate rejects skip in final",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "metadata gate rejects skip in ancestor",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "metadata gate rejects candidate in range",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "connected native accounts all12 jobs and correct failed head",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "native failures and cancellations retained",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "CI authority stays blocked by same11 and exhausted item1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "request derives complete push workflows and matrix",
+      "status": "PASS",
+      "detail": null
+    }
+  ],
+  "callshapes": [
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "baseline": {
+        "harness": "replacement_contract_target",
+        "selected_target": "contracted_replacement",
+        "exact_target_reachable": true,
+        "effective_check_calls": 2,
+        "events": [
+          {
+            "requested": "contracted_replacement",
+            "body_source": "contracted_replacement",
+            "effective": "contracted_replacement",
+            "mode": "Check",
+            "path": [
+              "contracted_replacement"
+            ]
+          },
+          {
+            "requested": "f",
+            "body_source": "contracted_replacement",
+            "effective": "contracted_replacement",
+            "mode": "Check",
+            "path": [
+              "f"
+            ]
+          }
+        ],
+        "unsupported": [],
+        "single_call_shape": false
+      },
+      "repair": {
+        "harness": "replacement_contract_target",
+        "selected_target": "replacement_caller",
+        "exact_target_reachable": true,
+        "effective_check_calls": 1,
+        "events": [
+          {
+            "requested": "replacement_caller",
+            "body_source": "replacement_caller",
+            "effective": "replacement_caller",
+            "mode": "Check",
+            "path": [
+              "replacement_caller"
+            ]
+          },
+          {
+            "requested": "f",
+            "body_source": "contracted_replacement",
+            "effective": "contracted_replacement",
+            "mode": "Assert",
+            "path": [
+              "replacement_caller",
+              "f"
+            ]
+          }
+        ],
+        "unsupported": [],
+        "single_call_shape": true
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "baseline": {
+        "harness": "replacement_provider_postcondition",
+        "selected_target": "discriminating_replacement",
+        "exact_target_reachable": true,
+        "effective_check_calls": 2,
+        "events": [
+          {
+            "requested": "discriminating_replacement",
+            "body_source": "discriminating_replacement",
+            "effective": "discriminating_replacement",
+            "mode": "Check",
+            "path": [
+              "discriminating_replacement"
+            ]
+          },
+          {
+            "requested": "f",
+            "body_source": "discriminating_replacement",
+            "effective": "discriminating_replacement",
+            "mode": "Check",
+            "path": [
+              "f"
+            ]
+          }
+        ],
+        "unsupported": [],
+        "single_call_shape": false
+      },
+      "repair": {
+        "harness": "replacement_provider_postcondition",
+        "selected_target": "replacement_caller",
+        "exact_target_reachable": true,
+        "effective_check_calls": 1,
+        "events": [
+          {
+            "requested": "replacement_caller",
+            "body_source": "replacement_caller",
+            "effective": "replacement_caller",
+            "mode": "Check",
+            "path": [
+              "replacement_caller"
+            ]
+          },
+          {
+            "requested": "f",
+            "body_source": "discriminating_replacement",
+            "effective": "discriminating_replacement",
+            "mode": "Assert",
+            "path": [
+              "replacement_caller",
+              "f"
+            ]
+          }
+        ],
+        "unsupported": [],
+        "single_call_shape": true
+      }
+    }
+  ],
+  "source_candidate": "f82934ca97caaa1270d5279054aa950173868be5",
+  "source_tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+  "compiler_typecheck_MIR_expansion_verifier_native_repair": "NOT_RUN",
+  "limitations": [
+    "bounded lexical source model; no Rust name/type resolution or path analysis",
+    "Python arithmetic oracle; no Kani/CBMC proof",
+    "metadata gate mocks are not an actual final-head receipt or CI authorization"
+  ]
+}
