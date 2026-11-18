@@ -1,0 +1,25 @@
+{
+  "schema": "ch8-s2-r2-offline-preflight-iterations-v1",
+  "iterations": [
+    {
+      "candidate_source": "f5040a0e95b7a878d437acf0f92984ccbb57b453",
+      "result": "FAIL_SOURCE_BASE_OUTSIDE_FIRST_PARENT_DEPTH5",
+      "chain": [
+        "f5040a0e95b7a878d437acf0f92984ccbb57b453",
+        "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+        "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+        "55dc6ca6cd055bb5bb6b8570d86cf55cc62fcc19",
+        "4092c170cb7615d9a1bee3178ac877126d6e8058",
+        "99e8456d200fff1299ee5756279cddb23921dc65"
+      ],
+      "change": "Retain same tree in a new ownpath-only commit with actual parent97ac; keep derivation9fd and SOURCE-DELTA from9fd. Old candidates untouched; checkout5 unchanged."
+    },
+    {
+      "candidate_source": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+      "tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+      "result": "STATIC_PASS_SOURCE_BASE_WITHIN_DEPTH5"
+    }
+  ],
+  "native_runs": 0,
+  "initial_payload_sealing": "First metadata draft attempted to hash deleted stock workflow paths; corrected to hash existing payload files while preserving full changed-path set. No source/control code repair or gate relaxation was involved."
+}

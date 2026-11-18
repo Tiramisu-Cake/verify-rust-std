@@ -1,0 +1,1 @@
+READY_FOR_REVIEW_ONLY — combined source efb + repaired W11 472. Component verdicts and exact final-control review14 pending; no GO/independent finding closure/proof credit. Native compile/model/retention NOT_RUN; historical cause UNKNOWN.

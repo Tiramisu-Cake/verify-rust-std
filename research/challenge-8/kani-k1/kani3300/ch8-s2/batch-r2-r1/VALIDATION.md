@@ -1,0 +1,9 @@
+# Combined static/synthetic validation only
+
+Exact source efb/control/request/tool pins, seven patch replays, real shallow metadata7/5/2, all11 roots/CFG/PFC/ordinary stubs, original assertions/covers/oracles, source fixture/hash bindings and strict runtime source preservation are checked offline. All source/model maps and patches remain byte-identical to source component714; all W11 repaired runner code is byte-identical to472 except the two necessary source pin literals. The old714 draft and all old runner/review packages are preserved.
+
+TARGETED-TESTS.txt is the complete once-executed targeted selection on the exact final-control pin, including the old preview timing test and the new B01/B02 regressions. An accidental selection started in the old draft directory; it was stopped, its partial transcript preserved and it is excluded from final results. W11 author evidence includes the earlier expanded33 timing failure and final32/isolated1 outcomes, with no promotion to an independent verdict. No new native compiler/Kani/CBMC/full runner/CI is executed.
+
+Source/CFG/model checks are offline diagnostics, not callee/model qualification. Supplementary inherited macro/PFC declarations are source inspection, not compiler AST/MIR binding. Component review14 and the exact final-control integration delta review are pending; B01/B02 are AUTHOR_REPAIRED_PENDING_INDEPENDENT_CLOSURE. Final status is READY_FOR_REVIEW_ONLY, no GO or proof. Historical cause UNKNOWN; runtime model/retention NOT_RUN; no missing-root speedup, B1/B2/R8 or independent proof credit.
+
+Final bounded result: **79/79 PASS**, one complete execution on control `2ce62b5bb31abd44824dc8e358f77e63d539ed98`, including preview and all four W11 repair regressions. Seven exact patch replays and all offline package/cfg/hash/depth checks PASS. READY_FOR_REVIEW_ONLY; independent review pending.

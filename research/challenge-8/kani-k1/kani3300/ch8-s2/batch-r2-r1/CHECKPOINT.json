@@ -1,0 +1,76 @@
+{
+  "schema": "ch8-s2-combined-r2-r1-checkpoint-v1",
+  "state": "READY_FOR_REVIEW_ONLY",
+  "task_id": "task43a137ced6c25a9fe2b34f3df6048474d0415516",
+  "entry_g0": "43a137ced6c25a9fe2b34f3df6048474d0415516",
+  "source_sha": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+  "source_tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+  "control_sha": "2ce62b5bb31abd44824dc8e358f77e63d539ed98",
+  "control_tree": "dadbd710770720cd360529188c81c6d19a8de61c",
+  "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+  "identities": "IDENTITIES.json",
+  "claims": [
+    {
+      "claim": "Unchanged efb source/model component, exact source draft714 bytes/maps preserved",
+      "assurance": "STATIC_SOURCE_ONLY",
+      "evidence": [
+        "MODEL-MAP.json",
+        "SOURCE-DELTA.patch",
+        "CFG-PFC-MAP.json"
+      ]
+    },
+    {
+      "claim": "Exact repaired472 W11 implementation plus source literals and strict combined bindings",
+      "assurance": "STATIC_AND_SYNTHETIC_ONLY",
+      "evidence": [
+        "RUNNER-INVARIANCE.json",
+        "TEST-PROVENANCE.json",
+        "TARGETED-TESTS.txt"
+      ]
+    }
+  ],
+  "open": [
+    "Same14 independent source/model and repaired-runner component verdicts",
+    "Same14 exact final-control binding/integration delta review",
+    "B01/B02 independent closure pending, not closed by author tests",
+    "Native compilation/model execution/production retention NOT_RUN; actual historical cause UNKNOWN"
+  ],
+  "blocker": null,
+  "next_step": "Same14 component review plus exact committed final-control binding delta. GO-request only after combined APPROVE and resolved findings; owner-only runtime/publication/accounting.",
+  "proof_credit": "NONE",
+  "closed_proof_obligations": 0,
+  "accounting": {
+    "owner_reference_g0": "6b67c00b73e7ccd3f226ffecb6bfb3c3326ceb9b",
+    "item1": "28/29",
+    "item2": "provisional10/14",
+    "total": "38/43",
+    "changes_by13": 0,
+    "next_charge": "OWNER_ONLY"
+  },
+  "external_actions": {
+    "CI": 0,
+    "native_compiler": 0,
+    "push": 0,
+    "PR": 0,
+    "ledger": 0,
+    "reservation": 0,
+    "cancel": 0
+  },
+  "subagents": 0,
+  "closure_reason": "Authorized source and exact repaired runner composition complete and ready for review only. No final approval/GO/proof claimed.",
+  "current_model_tier": "UNCHANGED",
+  "Fast": "OFF_PER_OWNER; NOT_TOGGLED_BY13",
+  "targeted_validation": {
+    "tests": 79,
+    "failures": 0,
+    "errors": 0,
+    "exact_control": "2ce62b5bb31abd44824dc8e358f77e63d539ed98",
+    "state": "PASS_ONCE",
+    "stage": "PYTHON_STATIC_SYNTHETIC_ONLY",
+    "evidence": [
+      "TARGETED-TESTS.txt",
+      "TEST-PROVENANCE.json",
+      "VALIDATION.json"
+    ]
+  }
+}

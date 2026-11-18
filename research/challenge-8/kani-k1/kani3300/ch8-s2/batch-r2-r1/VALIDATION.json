@@ -1,0 +1,1078 @@
+{
+  "schema": "ch8-s2-combined-r2-r1-static-validation-v1",
+  "state": "STATIC_PASS_READY_FOR_REVIEW_ONLY",
+  "identities": {
+    "schema": "ch8-s2-combined-r2-r1-identities-v1",
+    "task_id": "task43a137ced6c25a9fe2b34f3df6048474d0415516",
+    "prepackage_g0": "6b67c00b73e7ccd3f226ffecb6bfb3c3326ceb9b",
+    "source": {
+      "worktree": "/root/verify-rust-std-ch8-s2-r2-final-w13",
+      "sha": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+      "tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+      "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "files": {
+        "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+        "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+        "library/core/src/slice/mod.rs": "1c94e306a979f2c59a4e3687a32a3e4efbeef967b7bf5eeb8d1977371c2c17dd",
+        "library/core/src/slice/sort/mod.rs": "f67551bff44a854a3f03901db10a099bdab3b67b47d8724bef43858d97134f3c",
+        "library/core/src/slice/sort/shared/mod.rs": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
+        "library/core/src/slice/sort/shared/smallsort.rs": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0",
+        "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+        "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "86bac48e888365eab2187756dfd8ffbce059d6cc2ce35b1d8ab7b39d788118ac",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+        "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+      },
+      "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "derivation_source": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6"
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "change": "NONE"
+    },
+    "control": {
+      "sha": "2ce62b5bb31abd44824dc8e358f77e63d539ed98",
+      "tree": "dadbd710770720cd360529188c81c6d19a8de61c",
+      "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "worktree": "/root/kani-ch8-s2-r2-r1-w13",
+      "stock_base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "baseline": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+      "baseline_tree": "b04ce6fd7a2c937bf72fcda7a262eef65a9f45bb",
+      "request_sha256": "008c6868bd466fc7dfb2c1e3239f94157262b0d5c5ac14fac00be0e37fdaae38",
+      "workflow_sha256": "973944169dd4d7f2fc169582b1327cc8e31fa96710a2a597ed0a126ef37e4a2e",
+      "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "diagnostics_reference": "472be8c3794d7a4530760ab7d5eae4ce950aa01c",
+      "diagnostics_reference_tree": "4835c615d20e6606ddcdc64bbb8314973cec141b",
+      "source_draft_control": "2d00b9cc14f5a093ccaa0288a0f691fddf3ee84a"
+    },
+    "production_retention": "NOT_RUN",
+    "review14": "PENDING_COMPONENT_VERDICTS_AND_EXACT_FINAL_CONTROL_BINDING",
+    "proof_credit": "NONE",
+    "entry_g0": "43a137ced6c25a9fe2b34f3df6048474d0415516",
+    "w11_package_g0": "ac956bdf4db98a95e2da988ccd2c527582d3d32f",
+    "historical_actual_cause": "UNKNOWN",
+    "qualification": "NOT_RUN",
+    "known_runner_review": {
+      "g0": "5db34a924329e05602bf1f8643ad0f4082653b3c",
+      "verdict": "CHANGES_REQUIRED",
+      "findings": [
+        "B-01",
+        "B-02"
+      ],
+      "repair_owner": "original11 via coordinator",
+      "status": "ORIGINAL11_AUTHOR_REPAIR_BOUND_EXACTLY; independent B01/B02 closure pending same14"
+    },
+    "package_readiness": "READY_FOR_REVIEW_ONLY",
+    "final_READY": "READY_FOR_REVIEW_NOT_GO",
+    "integration_authority_g0": "6b67c00b73e7ccd3f226ffecb6bfb3c3326ceb9b",
+    "source_component_g0": "714c1ca56dd7cf352ae6feebe5e252178cdb63b2",
+    "repaired_runner_package_g0": "a8e3cb30c617a6dee07fa847f1f23470d59783e3",
+    "repaired_runner_package": "runner-diagnostics-r2-r1/"
+  },
+  "roots": 11,
+  "covers": 20,
+  "exact_negatives": 6,
+  "root_bodies_signatures_assertions_covers": "EXACT_RETAINED",
+  "request_changed_fields_vs_W11": [
+    "entry_g0",
+    "std_sha",
+    "std_tree",
+    "rows",
+    "source_bindings",
+    "changed_file_sha256",
+    "ci_changed_paths",
+    "ci_payload_sha256",
+    "cfg_pfc_source_sha256"
+  ],
+  "cfg_pfc_map": {
+    "schema": "ch8-s2-cfg-pfc-map-v1",
+    "source_sha": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+    "source_tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+    "source_files_sha256": {
+      "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "library/core/src/slice/mod.rs": "1c94e306a979f2c59a4e3687a32a3e4efbeef967b7bf5eeb8d1977371c2c17dd",
+      "library/core/src/slice/sort/mod.rs": "f67551bff44a854a3f03901db10a099bdab3b67b47d8724bef43858d97134f3c",
+      "library/core/src/slice/sort/shared/mod.rs": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
+      "library/core/src/slice/sort/shared/smallsort.rs": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "86bac48e888365eab2187756dfd8ffbce059d6cc2ce35b1d8ab7b39d788118ac",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5"
+    },
+    "registration_provider_slice": [
+      "helper_contracts",
+      "sorting_s2_batch"
+    ],
+    "rows": [
+      {
+        "id": "swap_pfc",
+        "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+        "effective_cfg": [
+          "kani",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed",
+          "kani_smallsort_sorting"
+        ],
+        "location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 73
+        },
+        "stub_verified": [],
+        "ordinary_stubs_no_pfc_required": [],
+        "status": "STATIC_MATCH",
+        "proof_credit": "NONE"
+      },
+      {
+        "id": "summary_witness",
+        "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::summary_witness",
+        "effective_cfg": [
+          "kani",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed",
+          "kani_smallsort_sorting"
+        ],
+        "location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 101
+        },
+        "stub_verified": [],
+        "ordinary_stubs_no_pfc_required": [],
+        "status": "STATIC_MATCH",
+        "proof_credit": "NONE"
+      },
+      {
+        "id": "merge32_real",
+        "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real",
+        "effective_cfg": [
+          "kani",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed",
+          "kani_smallsort_sorting"
+        ],
+        "location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 28
+        },
+        "stub_verified": [],
+        "ordinary_stubs_no_pfc_required": [],
+        "status": "STATIC_MATCH",
+        "proof_credit": "NONE"
+      },
+      {
+        "id": "sort13_assumed",
+        "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+        "effective_cfg": [
+          "kani",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed",
+          "kani_smallsort_sorting"
+        ],
+        "location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 41
+        },
+        "stub_verified": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 39,
+            "matching_pfc": [
+              {
+                "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing4",
+                "target": "core::slice::sort::shared::smallsort::swap_if_less",
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+                "line": 49
+              },
+              {
+                "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u64_backing4",
+                "target": "core::slice::sort::shared::smallsort::swap_if_less",
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+                "line": 55
+              },
+              {
+                "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_bytes17_backing4",
+                "target": "core::slice::sort::shared::smallsort::swap_if_less",
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+                "line": 61
+              },
+              {
+                "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing9",
+                "target": "core::slice::sort::shared::smallsort::swap_if_less",
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+                "line": 121
+              },
+              {
+                "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing13",
+                "target": "core::slice::sort::shared::smallsort::swap_if_less",
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+                "line": 127
+              },
+              {
+                "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8",
+                "target": "core::slice::sort::shared::smallsort::swap_if_less",
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+                "line": 271
+              },
+              {
+                "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+                "target": "core::slice::sort::shared::smallsort::swap_if_less",
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+                "line": 71
+              }
+            ]
+          }
+        ],
+        "ordinary_stubs_no_pfc_required": [],
+        "status": "STATIC_MATCH",
+        "proof_credit": "NONE"
+      },
+      {
+        "id": "general32_assumed",
+        "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+        "effective_cfg": [
+          "kani",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed",
+          "kani_smallsort_sorting"
+        ],
+        "location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 58
+        },
+        "stub_verified": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+            "target": "core::slice::sort::shared::smallsort::insert_tail",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 55,
+            "matching_pfc": [
+              {
+                "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::insert_tail_safety_u64_tail1_to4_backing5",
+                "target": "core::slice::sort::shared::smallsort::insert_tail",
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+                "line": 157
+              }
+            ]
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+            "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 56,
+            "matching_pfc": [
+              {
+                "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len2",
+                "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+                "line": 240
+              },
+              {
+                "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len4",
+                "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+                "line": 247
+              }
+            ]
+          }
+        ],
+        "ordinary_stubs_no_pfc_required": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+            "target": "core::slice::sort::shared::smallsort::sort8_stable",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 54,
+            "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::diagnostic_sort8",
+            "replacement_location": {
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 169
+            }
+          }
+        ],
+        "status": "STATIC_MATCH",
+        "proof_credit": "NONE"
+      },
+      {
+        "id": "merge_order_corrupt",
+        "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt",
+        "effective_cfg": [
+          "kani",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed",
+          "kani_smallsort_sorting"
+        ],
+        "location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 117
+        },
+        "stub_verified": [],
+        "ordinary_stubs_no_pfc_required": [],
+        "status": "STATIC_MATCH",
+        "proof_credit": "NONE"
+      },
+      {
+        "id": "merge_count_corrupt",
+        "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+        "effective_cfg": [
+          "kani",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed",
+          "kani_smallsort_sorting"
+        ],
+        "location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 124
+        },
+        "stub_verified": [],
+        "ordinary_stubs_no_pfc_required": [],
+        "status": "STATIC_MATCH",
+        "proof_credit": "NONE"
+      },
+      {
+        "id": "checker_count_corrupt",
+        "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+        "effective_cfg": [
+          "kani",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed",
+          "kani_smallsort_sorting"
+        ],
+        "location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 131
+        },
+        "stub_verified": [],
+        "ordinary_stubs_no_pfc_required": [],
+        "status": "STATIC_MATCH",
+        "proof_credit": "NONE"
+      },
+      {
+        "id": "checker_order_corrupt",
+        "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "effective_cfg": [
+          "kani",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed",
+          "kani_smallsort_sorting"
+        ],
+        "location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 137
+        },
+        "stub_verified": [],
+        "ordinary_stubs_no_pfc_required": [],
+        "status": "STATIC_MATCH",
+        "proof_credit": "NONE"
+      },
+      {
+        "id": "sort13_weak",
+        "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+        "effective_cfg": [
+          "kani",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed",
+          "kani_smallsort_sorting"
+        ],
+        "location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 145
+        },
+        "stub_verified": [],
+        "ordinary_stubs_no_pfc_required": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 143,
+            "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_swap",
+            "replacement_location": {
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 141
+            }
+          }
+        ],
+        "status": "STATIC_MATCH",
+        "proof_credit": "NONE"
+      },
+      {
+        "id": "general32_weak",
+        "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+        "effective_cfg": [
+          "kani",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed",
+          "kani_smallsort_sorting"
+        ],
+        "location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 159
+        },
+        "stub_verified": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+            "target": "core::slice::sort::shared::smallsort::insert_tail",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 156,
+            "matching_pfc": [
+              {
+                "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::insert_tail_safety_u64_tail1_to4_backing5",
+                "target": "core::slice::sort::shared::smallsort::insert_tail",
+                "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+                "line": 157
+              }
+            ]
+          }
+        ],
+        "ordinary_stubs_no_pfc_required": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+            "target": "core::slice::sort::shared::smallsort::sort8_stable",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 155,
+            "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::diagnostic_sort8",
+            "replacement_location": {
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 169
+            }
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+            "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 157,
+            "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_merge",
+            "replacement_location": {
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 151
+            }
+          }
+        ],
+        "status": "STATIC_MATCH",
+        "proof_credit": "NONE"
+      }
+    ],
+    "checked_active_slice_uses": [
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_outside_backing_u8",
+        "target": "core::slice::sort::shared::smallsort::swap_if_less",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+        "line": 69,
+        "matching_pfc": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing4",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 49
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u64_backing4",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 55
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_bytes17_backing4",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 61
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing9",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 121
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing13",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 127
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 271
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 71
+          }
+        ]
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::unstable_network_safety_u8_n9_stubbed",
+        "target": "core::slice::sort::shared::smallsort::swap_if_less",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+        "line": 89,
+        "matching_pfc": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing4",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 49
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u64_backing4",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 55
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_bytes17_backing4",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 61
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing9",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 121
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing13",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 127
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 271
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 71
+          }
+        ]
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::unstable_network_safety_u8_n13_stubbed",
+        "target": "core::slice::sort::shared::smallsort::swap_if_less",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+        "line": 97,
+        "matching_pfc": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing4",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 49
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u64_backing4",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 55
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_bytes17_backing4",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 61
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing9",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 121
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing13",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 127
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 271
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 71
+          }
+        ]
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::rejects_insert_tail_equal_begin_u64",
+        "target": "core::slice::sort::shared::smallsort::insert_tail",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+        "line": 180,
+        "matching_pfc": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::insert_tail_safety_u64_tail1_to4_backing5",
+            "target": "core::slice::sort::shared::smallsort::insert_tail",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 157
+          }
+        ]
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::rejects_merge_overlapping_dst_u64",
+        "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+        "line": 256,
+        "matching_pfc": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len2",
+            "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 240
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len4",
+            "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 247
+          }
+        ]
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+        "target": "core::slice::sort::shared::smallsort::swap_if_less",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 39,
+        "matching_pfc": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing4",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 49
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u64_backing4",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 55
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_bytes17_backing4",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 61
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing9",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 121
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing13",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 127
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 271
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+            "target": "core::slice::sort::shared::smallsort::swap_if_less",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 71
+          }
+        ]
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+        "target": "core::slice::sort::shared::smallsort::insert_tail",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 55,
+        "matching_pfc": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::insert_tail_safety_u64_tail1_to4_backing5",
+            "target": "core::slice::sort::shared::smallsort::insert_tail",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 157
+          }
+        ]
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+        "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 56,
+        "matching_pfc": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len2",
+            "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 240
+          },
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len4",
+            "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 247
+          }
+        ]
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+        "target": "core::slice::sort::shared::smallsort::insert_tail",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 156,
+        "matching_pfc": [
+          {
+            "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::insert_tail_safety_u64_tail1_to4_backing5",
+            "target": "core::slice::sort::shared::smallsort::insert_tail",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+            "line": 157
+          }
+        ]
+      }
+    ],
+    "checked_active_ordinary_uses": [
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::unstable_network_safety_u8_n9_stubbed",
+        "target": "core::slice::sort::shared::smallsort::verify::helper_contracts::comparison_covers",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+        "line": 88,
+        "replacement": "core::slice::sort::shared::smallsort::verify::helper_contracts::omit_comparison_covers",
+        "replacement_location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+          "line": 28
+        }
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::unstable_network_safety_u8_n13_stubbed",
+        "target": "core::slice::sort::shared::smallsort::verify::helper_contracts::comparison_covers",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+        "line": 96,
+        "replacement": "core::slice::sort::shared::smallsort::verify::helper_contracts::omit_comparison_covers",
+        "replacement_location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+          "line": 28
+        }
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len2",
+        "target": "core::slice::sort::shared::smallsort::panic_on_ord_violation",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+        "line": 241,
+        "replacement": "core::slice::sort::shared::smallsort::verify::helper_contracts::cut_merge_order_violation",
+        "replacement_location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+          "line": 213
+        }
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len4",
+        "target": "core::slice::sort::shared::smallsort::panic_on_ord_violation",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+        "line": 248,
+        "replacement": "core::slice::sort::shared::smallsort::verify::helper_contracts::cut_merge_order_violation",
+        "replacement_location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+          "line": 213
+        }
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+        "target": "core::slice::sort::shared::smallsort::sort8_stable",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 54,
+        "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::diagnostic_sort8",
+        "replacement_location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 169
+        }
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+        "target": "core::slice::sort::shared::smallsort::swap_if_less",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 143,
+        "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_swap",
+        "replacement_location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 141
+        }
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+        "target": "core::slice::sort::shared::smallsort::sort8_stable",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 155,
+        "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::diagnostic_sort8",
+        "replacement_location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 169
+        }
+      },
+      {
+        "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+        "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 157,
+        "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_merge",
+        "replacement_location": {
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 151
+        }
+      }
+    ],
+    "status": "STATIC_PASS",
+    "compilation": "NOT_RUN",
+    "qualification_from_registration": false,
+    "proof_credit": "NONE"
+  },
+  "supplemental_compiled_uses": 6,
+  "runner_invariance": "EXACT_W11_IMPLEMENTATION_PLUS_TWO_SOURCE_LITERAL_REBINDS",
+  "preflight": {
+    "control_sha": "2ce62b5bb31abd44824dc8e358f77e63d539ed98",
+    "status": "STATIC_PASS",
+    "proof_credit": "NONE"
+  },
+  "patch_replay": [
+    {
+      "patch": "SOURCE-CANDIDATE.patch",
+      "sha256": "774d26286bac7eba244a00eee70edd36f883d9c6d720f68585895a5a7cb7a229",
+      "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "replayed_tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+      "state": "EXACT_TREE_MATCH"
+    },
+    {
+      "patch": "SOURCE-DELTA.patch",
+      "sha256": "fd1a3ef9b1710af64d2980f9229afe85381e8bd6c856c6d5467e8a40ab89a83a",
+      "base": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "replayed_tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+      "state": "EXACT_TREE_MATCH"
+    },
+    {
+      "patch": "CONTROL-CANDIDATE.patch",
+      "sha256": "0bcbcf290e61fcd8eb89c069f35d80dd9aa060a410c38e22e059649f979999d7",
+      "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "replayed_tree": "dadbd710770720cd360529188c81c6d19a8de61c",
+      "state": "EXACT_TREE_MATCH"
+    },
+    {
+      "patch": "CONTROL-DELTA.patch",
+      "sha256": "9bda788f0909f1ae818083d53c1dc16b99244bec5716fd6dd70b488801fed2df",
+      "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "replayed_tree": "dadbd710770720cd360529188c81c6d19a8de61c",
+      "state": "EXACT_TREE_MATCH"
+    },
+    {
+      "patch": "CONTROL-W11-DELTA.patch",
+      "sha256": "a54ef73c9dcda0d80889a2d5a6a19811be7fa4643478377b2edf2346108495ff",
+      "base": "472be8c3794d7a4530760ab7d5eae4ce950aa01c",
+      "replayed_tree": "dadbd710770720cd360529188c81c6d19a8de61c",
+      "state": "EXACT_TREE_MATCH"
+    },
+    {
+      "patch": "CONTROL-R1-DELTA.patch",
+      "sha256": "2a694135eb06d0ae4b9777ed57fca6cc63310be5c17ef17b12e228c5e470e3da",
+      "base": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+      "replayed_tree": "dadbd710770720cd360529188c81c6d19a8de61c",
+      "state": "EXACT_TREE_MATCH"
+    },
+    {
+      "patch": "CONTROL-DRAFT-DELTA.patch",
+      "sha256": "406da538325e649b4af8643117ad6d6d959d55586feb90845474c1c5035a0b03",
+      "base": "2d00b9cc14f5a093ccaa0288a0f691fddf3ee84a",
+      "replayed_tree": "dadbd710770720cd360529188c81c6d19a8de61c",
+      "state": "EXACT_TREE_MATCH"
+    }
+  ],
+  "actual_shallow_ancestry": [
+    {
+      "head": "2ce62b5bb31abd44824dc8e358f77e63d539ed98",
+      "depth": 7,
+      "boundary": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "endpoint": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "retained_chain": [
+        "2ce62b5bb31abd44824dc8e358f77e63d539ed98",
+        "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+        "9208b373c0a08a265fa0d7493a6529e331065271",
+        "b25dd39a46ba90b167500997d546a5f2f5bd8f3b",
+        "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+        "0aac16ef62da9e9d5645782d458593e5d78143ba"
+      ],
+      "endpoint_diff_paths": [
+        ".github/workflows/bench-compiler.yml",
+        ".github/workflows/bench-e2e.yml",
+        ".github/workflows/bench-pr.yml",
+        ".github/workflows/cargo-update.yml",
+        ".github/workflows/cbmc-latest.yml",
+        ".github/workflows/cbmc-update.yml",
+        ".github/workflows/ch8-s2.yml",
+        ".github/workflows/charon-update.yml",
+        ".github/workflows/deny.yml",
+        ".github/workflows/extra_jobs.yml",
+        ".github/workflows/format-check.yml",
+        ".github/workflows/kani.yml",
+        ".github/workflows/release.yml",
+        ".github/workflows/slow-tests.yml",
+        ".github/workflows/toolchain-upgrade.yml",
+        ".github/workflows/verify-std-check.yml",
+        ".github/workflows/z3-update.yml",
+        "ch8-s1-control/CI-REQUEST.json",
+        "ch8-s1-control/ORACLE-SOURCES.json",
+        "ch8-s1-control/ROLE-MAP.json",
+        "ch8-s1-control/S2-SOURCE.json",
+        "ch8-s1-control/activation-default.patch",
+        "ch8-s1-control/activation-override.patch",
+        "ch8-s1-control/binding_metadata.py",
+        "ch8-s1-control/cfg_pfc.py",
+        "ch8-s1-control/check_package.py",
+        "ch8-s1-control/collect.py",
+        "ch8-s1-control/fixtures/s104-rich-fragment.json",
+        "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
+        "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+        "ch8-s1-control/fixtures/s2-old97ac-batch.rs.txt",
+        "ch8-s1-control/fixtures/s2-r1-batch.rs.txt",
+        "ch8-s1-control/negative_oracle.py",
+        "ch8-s1-control/oracle_source.py",
+        "ch8-s1-control/pack_evidence.py",
+        "ch8-s1-control/rich_evidence.py",
+        "ch8-s1-control/runner.py",
+        "ch8-s1-control/rustc_diagnostics.py",
+        "ch8-s1-control/s108_package.py",
+        "ch8-s1-control/s2_policy.py",
+        "ch8-s1-control/test_cfg_pfc.py",
+        "ch8-s1-control/test_package.py",
+        "ch8-s1-control/test_runner.py",
+        "ch8-s1-control/test_rustc_diagnostics.py",
+        "ch8-s1-control/test_s104.py",
+        "ch8-s1-control/test_s105.py",
+        "ch8-s1-control/test_s107.py",
+        "ch8-s1-control/test_s108.py",
+        "ch8-s1-control/test_s108r1.py",
+        "ch8-s1-control/test_s2.py"
+      ],
+      "state": "PASS_REAL_GIT_SHALLOW_METADATA_SHARED_OBJECTS"
+    },
+    {
+      "head": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+      "depth": 5,
+      "boundary": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "endpoint": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "retained_chain": [
+        "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+        "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+        "55dc6ca6cd055bb5bb6b8570d86cf55cc62fcc19",
+        "4092c170cb7615d9a1bee3178ac877126d6e8058",
+        "99e8456d200fff1299ee5756279cddb23921dc65"
+      ],
+      "endpoint_diff_paths": [
+        "library/core/Cargo.toml",
+        "library/core/src/slice/sort/shared/smallsort.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs"
+      ],
+      "state": "PASS_REAL_GIT_SHALLOW_METADATA_SHARED_OBJECTS"
+    },
+    {
+      "head": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "depth": 2,
+      "boundary": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+      "endpoint": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "retained_chain": [
+        "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+      ],
+      "endpoint_diff_paths": [],
+      "state": "PASS_REAL_GIT_SHALLOW_METADATA_SHARED_OBJECTS"
+    }
+  ],
+  "targeted_tests": 79,
+  "original_W11_tests_included": 29,
+  "repaired_W11_final32_included": 32,
+  "test_execution_provenance": {
+    "schema": "ch8-s2-combined-r2-r1-final-test-provenance-v1",
+    "execution_source_sha": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+    "execution_source_tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+    "execution_control_sha": "2ce62b5bb31abd44824dc8e358f77e63d539ed98",
+    "execution_control_tree": "dadbd710770720cd360529188c81c6d19a8de61c",
+    "execution_request_sha256": "008c6868bd466fc7dfb2c1e3239f94157262b0d5c5ac14fac00be0e37fdaae38",
+    "cwd": "/root/kani-ch8-s2-r2-r1-w13/ch8-s1-control",
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_runner.py test_s107.FinalizationTests test_s2.py test_cfg_pfc.py test_rustc_diagnostics.py test_package.PackageTests.test_fallback_preserves_receipt_materializes_tail_and_bounds test_package.PackageTests.test_fallback_terminal_after_setup_failure_and_mid_run_interruption test_package.PackageTests.test_build_wrapper_receipts_and_errors_without_build",
+    "tests": 79,
+    "failures": 0,
+    "errors": 0,
+    "result": "PASS_ONCE_ON_EXACT_FINAL_CONTROL",
+    "original_W11_targeted_tests_included": 29,
+    "repaired_W11_final32_included": 32,
+    "source_model_cfg_tests": "All legacy16 and r2 model/ordinary4 controls retained",
+    "incomplete_wrong_cwd_attempt": {
+      "cwd": "/root/kani-ch8-s2-r2-packed-w13/ch8-s1-control",
+      "control_sha": "2d00b9cc14f5a093ccaa0288a0f691fddf3ee84a",
+      "original_exit": 143,
+      "state": "STOPPED_WRONG_DRAFT_CWD; NO_FINAL_VALIDATION_CREDIT",
+      "transcript": "MISDIRECTED-DRAFT-ATTEMPT.txt"
+    },
+    "inherited_W11_preview_failure": {
+      "transcript": "W11-EXPANDED-ATTEMPT.txt",
+      "stage": "Author expanded33 on exact repaired runner component, one existing preview timing failure; not hidden/omitted or claimed independently closed",
+      "related_author_outcomes": "W11 final32 PASS and isolatedpreview1 PASS retained separately; exact final combined79 includes preview without omission"
+    },
+    "compiler_Kani_CBMC_full_runner_CI": "NOT_RUN",
+    "independent_review14": "PENDING"
+  },
+  "GO": "NOT_REQUESTED_PENDING_COMBINED_REVIEW14_AND_FINDING_CLOSURE",
+  "python_ast_files": [
+    "binding_metadata.py",
+    "cfg_pfc.py",
+    "check_package.py",
+    "collect.py",
+    "negative_oracle.py",
+    "oracle_source.py",
+    "pack_evidence.py",
+    "rich_evidence.py",
+    "runner.py",
+    "rustc_diagnostics.py",
+    "s108_package.py",
+    "s2_policy.py",
+    "test_cfg_pfc.py",
+    "test_package.py",
+    "test_runner.py",
+    "test_rustc_diagnostics.py",
+    "test_s104.py",
+    "test_s105.py",
+    "test_s107.py",
+    "test_s108.py",
+    "test_s108r1.py",
+    "test_s2.py"
+  ],
+  "source_check": {
+    "std_sha": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+    "std_tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "changed_file_sha256": {
+      "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+      "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "library/core/src/slice/sort/shared/smallsort.rs": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+    }
+  },
+  "old_candidates": "PRESERVED_CLEAN",
+  "native_compile_model_production_retention": "NOT_RUN",
+  "historical_actual_cause": "UNKNOWN",
+  "independent_review14": "PENDING_EXACT_COMMITTED_COMBINED_PACKAGE",
+  "closed_proof_obligations": 0,
+  "proof_credit": "NONE",
+  "external_actions": "NO_CI_PUSH_PR_CANCEL_LEDGER_RESERVATION_OR_BUDGET_CHANGE"
+}

@@ -1,0 +1,1 @@
+W13 repaired combined S2 r2-r1. Runtime: Codex. Task43a137ced6c25a9fe2b34f3df6048474d0415516 plus owner14:08/coordinator6b67c00b73e7ccd3f226ffecb6bfb3c3326ceb9b. Source efb unchanged; exact W11 repaired472. READY_FOR_REVIEW_ONLY; no GO. Current model/tier unchanged, Fast OFF by owner; no toggle, subagents, compiler/CI/push/ledger. Canonical CHECKPOINT.json.

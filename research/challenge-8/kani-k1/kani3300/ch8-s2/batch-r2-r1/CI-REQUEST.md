@@ -1,0 +1,1 @@
+Exact final-control request for review only. Source/model efb unchanged; W11 repaired472 bytes bound via source literals and payload hashes. Component review proceeds in parallel; same14 must approve exact final-control integration delta and resolve findings before GO-request. No runtime/CI/push/ledger authorization.

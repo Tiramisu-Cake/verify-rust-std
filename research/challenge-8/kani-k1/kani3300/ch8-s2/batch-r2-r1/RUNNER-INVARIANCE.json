@@ -1,0 +1,50 @@
+{
+  "reference_package_g0": "a8e3cb30c617a6dee07fa847f1f23470d59783e3",
+  "reference_control": "472be8c3794d7a4530760ab7d5eae4ce950aa01c",
+  "reference_tree": "4835c615d20e6606ddcdc64bbb8314973cec141b",
+  "original_package_g0": "ac956bdf4db98a95e2da988ccd2c527582d3d32f",
+  "original_rejected_control": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+  "files": [
+    {
+      "file": ".github/workflows/ch8-s2.yml",
+      "reference_sha256": "973944169dd4d7f2fc169582b1327cc8e31fa96710a2a597ed0a126ef37e4a2e",
+      "candidate_sha256": "973944169dd4d7f2fc169582b1327cc8e31fa96710a2a597ed0a126ef37e4a2e",
+      "status": "BYTE_IDENTICAL"
+    },
+    {
+      "file": "ch8-s1-control/check_package.py",
+      "reference_sha256": "bf65515325970226b58c50a310b2989ec31f55c437b90defcd3b9db5ef6d1873",
+      "candidate_sha256": "bf65515325970226b58c50a310b2989ec31f55c437b90defcd3b9db5ef6d1873",
+      "status": "BYTE_IDENTICAL"
+    },
+    {
+      "file": "ch8-s1-control/pack_evidence.py",
+      "reference_sha256": "8782f1abd29342cec1202d851c94222c50fed0e6c358549971048135ab24d206",
+      "candidate_sha256": "8782f1abd29342cec1202d851c94222c50fed0e6c358549971048135ab24d206",
+      "status": "BYTE_IDENTICAL"
+    },
+    {
+      "file": "ch8-s1-control/rustc_diagnostics.py",
+      "reference_sha256": "0c94acd85a9f2f7a241958a2c5b9dffce09517bd8d08ddf30bfbdd81ef839b32",
+      "candidate_sha256": "0c94acd85a9f2f7a241958a2c5b9dffce09517bd8d08ddf30bfbdd81ef839b32",
+      "status": "BYTE_IDENTICAL"
+    },
+    {
+      "file": "ch8-s1-control/test_rustc_diagnostics.py",
+      "reference_sha256": "fadad233e902b6fdaaea2a308e2a6321a3c594e8d0ba3492531459cbef0ac88d",
+      "candidate_sha256": "fadad233e902b6fdaaea2a308e2a6321a3c594e8d0ba3492531459cbef0ac88d",
+      "status": "BYTE_IDENTICAL"
+    },
+    {
+      "file": "ch8-s1-control/runner.py",
+      "reference_sha256": "5cd91fa221644daa3493ed1f5cd445fa91e8bf9a0071cb0cee8f13ba26ba1251",
+      "candidate_sha256": "dd1ed167b226c135014c4f69b54be74552c28272450ab6380711d0d3efeb3658",
+      "status": "ONLY_STD_SHA_AND_STD_TREE_LITERAL_REBIND",
+      "reference_source": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "candidate_source": "efb1aba7fc6445cba6cd75154713b598c9e2579d"
+    }
+  ],
+  "runner_defect_ownership": "W11; all B01/B02 repair logic copied exact from472, W13 edits only source literals/bindings/model checker",
+  "independent_closure": "PENDING_REVIEW14",
+  "production_retention": "NOT_RUN"
+}

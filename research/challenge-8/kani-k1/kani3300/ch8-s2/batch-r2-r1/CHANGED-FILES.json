@@ -1,0 +1,85 @@
+{
+  "source_delta": [
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "reason": "Delete13 registration lines; replace both sort8 stub attributes; add ordinary full-value model. Every original root body/assertion/cover retained."
+    }
+  ],
+  "control_vs_W11": [
+    {
+      "path": "ch8-s1-control/CI-REQUEST.json",
+      "reason": "Rebind entry/source SHA/tree/file bindings and payload hashes/path set; rows/covers/negative coordinates/caps unchanged",
+      "sha256": "008c6868bd466fc7dfb2c1e3239f94157262b0d5c5ac14fac00be0e37fdaae38"
+    },
+    {
+      "path": "ch8-s1-control/S2-SOURCE.json",
+      "reason": "Exact new sorting_s2_batch fixture; all other source fixtures unchanged",
+      "sha256": "7a885a6cf40ccf3089b0594e3caddc4dba51c450005752e02d58efe4661a90d5"
+    },
+    {
+      "path": "ch8-s1-control/cfg_pfc.py",
+      "reason": "Check every ordinary reference in existing active slice has exact active target and replacement; retain all verified matching gates",
+      "sha256": "9cd4a9c1c069365ccfa1ab8bfb7569dc88dfb5b8add41a7ca158e6d7c9be6d28"
+    },
+    {
+      "path": "ch8-s1-control/fixtures/s2-r1-batch.rs.txt",
+      "reason": "Exact immutable source9fd batch to retain original registration controls and constrain source delta",
+      "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2"
+    },
+    {
+      "path": "ch8-s1-control/runner.py",
+      "reason": "Only STD_SHA/STD_TREE literals; W11 executable code unchanged",
+      "sha256": "dd1ed167b226c135014c4f69b54be74552c28272450ab6380711d0d3efeb3658"
+    },
+    {
+      "path": "ch8-s1-control/s2_policy.py",
+      "reason": "Require ordinary sort8 for BOTH roots and exact allowed model/source delta",
+      "sha256": "c1fb4fcfa8f039b46ff345e6bfbe0096ff91b8b4681a87f2dfe4d278b08c9a43"
+    },
+    {
+      "path": "ch8-s1-control/test_cfg_pfc.py",
+      "reason": "Retain all16 legacy registration controls on exact pinned r1 fixture; add4 r2 model/ordinary/unselected mutation controls",
+      "sha256": "86db85e3aa0b8da188dd6816d84a8f2abb237f6352b7a1a475ac7df4017697e5"
+    }
+  ],
+  "control_vs_parent": [
+    ".github/workflows/ch8-s2.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/S2-SOURCE.json",
+    "ch8-s1-control/cfg_pfc.py",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/fixtures/s2-old97ac-batch.rs.txt",
+    "ch8-s1-control/fixtures/s2-r1-batch.rs.txt",
+    "ch8-s1-control/pack_evidence.py",
+    "ch8-s1-control/runner.py",
+    "ch8-s1-control/rustc_diagnostics.py",
+    "ch8-s1-control/s2_policy.py",
+    "ch8-s1-control/test_cfg_pfc.py",
+    "ch8-s1-control/test_rustc_diagnostics.py",
+    "ch8-s1-control/test_s2.py"
+  ],
+  "w11_implementation_changes": "NONE except required two source identity literals in runner.py",
+  "W11_reference": "472be8c3794d7a4530760ab7d5eae4ce950aa01c",
+  "control_vs_draft": [
+    {
+      "path": "ch8-s1-control/CI-REQUEST.json",
+      "sha256": "008c6868bd466fc7dfb2c1e3239f94157262b0d5c5ac14fac00be0e37fdaae38",
+      "reason": "Exact original11 B01/B02 immutable repair bytes; request payload hash binding only"
+    },
+    {
+      "path": "ch8-s1-control/pack_evidence.py",
+      "sha256": "8782f1abd29342cec1202d851c94222c50fed0e6c358549971048135ab24d206",
+      "reason": "Exact original11 B01/B02 immutable repair bytes; request payload hash binding only"
+    },
+    {
+      "path": "ch8-s1-control/rustc_diagnostics.py",
+      "sha256": "0c94acd85a9f2f7a241958a2c5b9dffce09517bd8d08ddf30bfbdd81ef839b32",
+      "reason": "Exact original11 B01/B02 immutable repair bytes; request payload hash binding only"
+    },
+    {
+      "path": "ch8-s1-control/test_rustc_diagnostics.py",
+      "sha256": "fadad233e902b6fdaaea2a308e2a6321a3c594e8d0ba3492531459cbef0ac88d",
+      "reason": "Exact original11 B01/B02 immutable repair bytes; request payload hash binding only"
+    }
+  ]
+}

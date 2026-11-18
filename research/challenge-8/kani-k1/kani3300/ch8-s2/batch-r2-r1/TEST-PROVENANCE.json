@@ -1,0 +1,31 @@
+{
+  "schema": "ch8-s2-combined-r2-r1-final-test-provenance-v1",
+  "execution_source_sha": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+  "execution_source_tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+  "execution_control_sha": "2ce62b5bb31abd44824dc8e358f77e63d539ed98",
+  "execution_control_tree": "dadbd710770720cd360529188c81c6d19a8de61c",
+  "execution_request_sha256": "008c6868bd466fc7dfb2c1e3239f94157262b0d5c5ac14fac00be0e37fdaae38",
+  "cwd": "/root/kani-ch8-s2-r2-r1-w13/ch8-s1-control",
+  "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_runner.py test_s107.FinalizationTests test_s2.py test_cfg_pfc.py test_rustc_diagnostics.py test_package.PackageTests.test_fallback_preserves_receipt_materializes_tail_and_bounds test_package.PackageTests.test_fallback_terminal_after_setup_failure_and_mid_run_interruption test_package.PackageTests.test_build_wrapper_receipts_and_errors_without_build",
+  "tests": 79,
+  "failures": 0,
+  "errors": 0,
+  "result": "PASS_ONCE_ON_EXACT_FINAL_CONTROL",
+  "original_W11_targeted_tests_included": 29,
+  "repaired_W11_final32_included": 32,
+  "source_model_cfg_tests": "All legacy16 and r2 model/ordinary4 controls retained",
+  "incomplete_wrong_cwd_attempt": {
+    "cwd": "/root/kani-ch8-s2-r2-packed-w13/ch8-s1-control",
+    "control_sha": "2d00b9cc14f5a093ccaa0288a0f691fddf3ee84a",
+    "original_exit": 143,
+    "state": "STOPPED_WRONG_DRAFT_CWD; NO_FINAL_VALIDATION_CREDIT",
+    "transcript": "MISDIRECTED-DRAFT-ATTEMPT.txt"
+  },
+  "inherited_W11_preview_failure": {
+    "transcript": "W11-EXPANDED-ATTEMPT.txt",
+    "stage": "Author expanded33 on exact repaired runner component, one existing preview timing failure; not hidden/omitted or claimed independently closed",
+    "related_author_outcomes": "W11 final32 PASS and isolatedpreview1 PASS retained separately; exact final combined79 includes preview without omission"
+  },
+  "compiler_Kani_CBMC_full_runner_CI": "NOT_RUN",
+  "independent_review14": "PENDING"
+}

@@ -1,0 +1,48 @@
+{
+  "schema": "ch8-s2-sort8-ordinary-model-v1",
+  "source_sha": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+  "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+  "source_sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+  "model": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::diagnostic_sort8",
+  "consumers": [
+    "general32_assumed",
+    "general32_weak"
+  ],
+  "attribute_lines": [
+    54,
+    155
+  ],
+  "cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed; kani set by verify-std",
+  "assurance": "DIAGNOSTIC_ASSUMED",
+  "domain": "Exactly u8/KeyLess<u8>; enforced before casts, reads or writes via span::active specialization; other T/F asserts false, never silently accepts",
+  "signature": "unsafe fn diagnostic_sort8<T:FreezeMarker,F:FnMut(&T,&T)->bool>(v_base:*mut T,dst:*mut T,scratch_base:*mut T,_is_less:&mut F)",
+  "premise": "Exactly original requires: initialized readable source8, writable dst8/temp8, all three pairwise disjoint via same merge_contract_regions_disjoint. No Copy bound; no production signature changes.",
+  "before": "Owned span::capture of all8 full source bytes before writes",
+  "transition": "Independently nondeterministic writes of all8 u8 destination and all8 temp bytes, no comparator call; assume span::post(pre,dst,8)",
+  "post": "Output8 initialized, sorted nondecreasing full bytes and equal counts for every pre-state value; equal lengths exclude novel values. This is the exact applicable full-value sorting relation, not one queried value.",
+  "temp": "Unconstrained full bytes; initialized without any pre-read; caller does not observe temp contents",
+  "frame": "Only dst8/temp8 writes; no source/comparator/other storage writes, allocation or deallocation",
+  "topology_positive": [
+    {
+      "src": 1,
+      "dst_scratch": 0,
+      "temporary_scratch": 32,
+      "len": 8
+    },
+    {
+      "src": 17,
+      "dst_scratch": 16,
+      "temporary_scratch": 40,
+      "len": 8
+    }
+  ],
+  "positive_allocation": "v[1..33] within initialized u8[34], canaries0/33; stack MaybeUninit<u8>[48], dst0/16 and temp32/40",
+  "weak_allocation": "v[0..32] within initialized u8[32]; same stack48 with dst0/16 temp32/40; input[2;16]++[1;16]",
+  "remaining_calls": "insert_tail prefixes at scratch begin0/16, p8..15; final merge src scratch0..32 -> v interior32; weak control alone uses weak_merge copy",
+  "nonvacuity": "Original constructive witness n8..16/32 and pair plus20 covers unchanged; NOT_RUN. Every finite byte input has a sorted output, temp choices independent.",
+  "retained_sort8_contract": "Existing 3 cfg_attr contract lines in smallsort.rs untouched, never used by these ordinary sort8 stubs; no new sort8 PFC/old/modifies machinery",
+  "qualification": "NONE; source checks/synthetic Python diagnostics do not execute Rust or qualify callee/model; B1/B2/R8 NOT_ESTABLISHED",
+  "compile": "NOT_RUN",
+  "actual_retention": "NOT_RUN",
+  "weak_row_classification": "NEGATIVE_CONTROL unchanged; its sort8/insert premises are DIAGNOSTIC_ASSUMED and convey no proof credit"
+}

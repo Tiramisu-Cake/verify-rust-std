@@ -1,0 +1,863 @@
+[
+  {
+    "id": "swap_pfc",
+    "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+    "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+    "mode": "PFC",
+    "variant": "production",
+    "unwind": 34,
+    "expected": "SUCCESS",
+    "failure_description": null,
+    "required_cover_count": 4,
+    "required_cover_messages": [
+      "S2_SWAP_EQUAL",
+      "S2_SWAP_TAKEN",
+      "S2_SWAP_REVERSE",
+      "S2_SWAP_USEFUL_RETURN"
+    ],
+    "required_success_messages": [
+      "S2_SWAP_EXACT_TRANSFER",
+      "S2_SWAP_FULL_FRAME",
+      "S2_ACTIVE_SWAP_PFC"
+    ],
+    "timeout_seconds": 600,
+    "planned_seconds": null,
+    "state": "NOT_RUN",
+    "assurance": "QUALIFICATION_ATTEMPT",
+    "proof_credit": "NONE",
+    "target": "swap_if_less",
+    "binding": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+      "mode": "PFC",
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "target": "swap_if_less",
+      "locations": [
+        {
+          "line": 73,
+          "source": "fn swap_pfc() {"
+        },
+        {
+          "line": 71,
+          "source": "#[kani::proof_for_contract(swap_if_less)]"
+        }
+      ]
+    },
+    "cfg_stub": {
+      "id": "swap_pfc",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 73
+      },
+      "stub_verified": [],
+      "ordinary_stubs_no_pfc_required": [],
+      "status": "STATIC_MATCH",
+      "proof_credit": "NONE"
+    }
+  },
+  {
+    "id": "summary_witness",
+    "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::summary_witness",
+    "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::summary_witness",
+    "mode": "Original",
+    "variant": "production",
+    "unwind": 34,
+    "expected": "SUCCESS",
+    "failure_description": null,
+    "required_cover_count": 3,
+    "required_cover_messages": [
+      "S2_WITNESS_UNSORTED",
+      "S2_WITNESS_NONCONSTANT",
+      "S2_WITNESS_USEFUL_RETURN"
+    ],
+    "required_success_messages": [
+      "S2_SUMMARY_WITNESS_FULL_COUNT",
+      "S2_PAIR_WITNESS",
+      "S2_ACTIVE_SUMMARY_WITNESS"
+    ],
+    "timeout_seconds": 600,
+    "planned_seconds": null,
+    "state": "NOT_RUN",
+    "assurance": "MODEL_DIAGNOSTIC",
+    "proof_credit": "NONE",
+    "binding": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::summary_witness",
+      "mode": "Original",
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "target": null,
+      "locations": [
+        {
+          "line": 101,
+          "source": "fn summary_witness() {"
+        },
+        {
+          "line": 99,
+          "source": "#[kani::proof]"
+        }
+      ]
+    },
+    "cfg_stub": {
+      "id": "summary_witness",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::summary_witness",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 101
+      },
+      "stub_verified": [],
+      "ordinary_stubs_no_pfc_required": [],
+      "status": "STATIC_MATCH",
+      "proof_credit": "NONE"
+    }
+  },
+  {
+    "id": "merge32_real",
+    "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real",
+    "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real",
+    "mode": "Original",
+    "variant": "production",
+    "unwind": 34,
+    "expected": "SUCCESS",
+    "failure_description": null,
+    "required_cover_count": 5,
+    "required_cover_messages": [
+      "S2_MERGE_RIGHT_FIRST",
+      "S2_MERGE_LEFT_FIRST",
+      "S2_MERGE_TIE",
+      "S2_MERGE_NONCONSTANT",
+      "S2_MERGE_USEFUL_RETURN"
+    ],
+    "required_success_messages": [
+      "S2_MERGE32_SORTED_FULL_COUNT",
+      "S2_MERGE_SOURCE_FRAME",
+      "S2_MERGE_CANARIES",
+      "S2_ACTIVE_MERGE32_REAL"
+    ],
+    "timeout_seconds": 600,
+    "planned_seconds": null,
+    "state": "NOT_RUN",
+    "assurance": "ACTUAL_BODY",
+    "proof_credit": "NONE",
+    "binding": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real",
+      "mode": "Original",
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "target": null,
+      "locations": [
+        {
+          "line": 28,
+          "source": "fn merge32_real() {"
+        },
+        {
+          "line": 26,
+          "source": "#[kani::proof]"
+        }
+      ]
+    },
+    "cfg_stub": {
+      "id": "merge32_real",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 28
+      },
+      "stub_verified": [],
+      "ordinary_stubs_no_pfc_required": [],
+      "status": "STATIC_MATCH",
+      "proof_credit": "NONE"
+    }
+  },
+  {
+    "id": "sort13_assumed",
+    "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+    "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+    "mode": "Original",
+    "variant": "production",
+    "unwind": 34,
+    "expected": "SUCCESS",
+    "failure_description": null,
+    "required_cover_count": 4,
+    "required_cover_messages": [
+      "S2_SORT13_UNSORTED",
+      "S2_SORT13_DUPLICATE",
+      "S2_SORT13_NONCONSTANT",
+      "S2_SORT13_USEFUL_RETURN"
+    ],
+    "required_success_messages": [
+      "S2_SORT13_SORTED_FULL_COUNT",
+      "S2_SORT13_CANARIES",
+      "S2_ACTIVE_SORT13_ASSUMED"
+    ],
+    "timeout_seconds": 600,
+    "planned_seconds": null,
+    "state": "NOT_RUN",
+    "assurance": "DIAGNOSTIC_ASSUMED",
+    "proof_credit": "NONE",
+    "binding": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+      "mode": "Original",
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "target": null,
+      "locations": [
+        {
+          "line": 41,
+          "source": "fn sort13_assumed() {"
+        },
+        {
+          "line": 38,
+          "source": "#[kani::proof]"
+        }
+      ]
+    },
+    "cfg_stub": {
+      "id": "sort13_assumed",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 41
+      },
+      "stub_verified": [
+        {
+          "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+          "target": "core::slice::sort::shared::smallsort::swap_if_less",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 39,
+          "matching_pfc": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing4",
+              "target": "core::slice::sort::shared::smallsort::swap_if_less",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 49
+            },
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u64_backing4",
+              "target": "core::slice::sort::shared::smallsort::swap_if_less",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 55
+            },
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_bytes17_backing4",
+              "target": "core::slice::sort::shared::smallsort::swap_if_less",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 61
+            },
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing9",
+              "target": "core::slice::sort::shared::smallsort::swap_if_less",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 121
+            },
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing13",
+              "target": "core::slice::sort::shared::smallsort::swap_if_less",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 127
+            },
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8",
+              "target": "core::slice::sort::shared::smallsort::swap_if_less",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 271
+            },
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+              "target": "core::slice::sort::shared::smallsort::swap_if_less",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 71
+            }
+          ]
+        }
+      ],
+      "ordinary_stubs_no_pfc_required": [],
+      "status": "STATIC_MATCH",
+      "proof_credit": "NONE"
+    }
+  },
+  {
+    "id": "general32_assumed",
+    "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+    "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+    "mode": "Original",
+    "variant": "production",
+    "unwind": 34,
+    "expected": "SUCCESS",
+    "failure_description": null,
+    "required_cover_count": 4,
+    "required_cover_messages": [
+      "S2_GENERAL32_UNSORTED",
+      "S2_GENERAL32_DUPLICATE",
+      "S2_GENERAL32_NONCONSTANT",
+      "S2_GENERAL32_USEFUL_RETURN"
+    ],
+    "required_success_messages": [
+      "S2_GENERAL32_SORTED_FULL_COUNT",
+      "S2_GENERAL32_CANARIES",
+      "S2_ACTIVE_GENERAL32_ASSUMED"
+    ],
+    "timeout_seconds": 600,
+    "planned_seconds": null,
+    "state": "NOT_RUN",
+    "assurance": "DIAGNOSTIC_ASSUMED",
+    "proof_credit": "NONE",
+    "binding": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+      "mode": "Original",
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "target": null,
+      "locations": [
+        {
+          "line": 58,
+          "source": "fn general32_assumed() {"
+        },
+        {
+          "line": 53,
+          "source": "#[kani::proof]"
+        }
+      ]
+    },
+    "cfg_stub": {
+      "id": "general32_assumed",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 58
+      },
+      "stub_verified": [
+        {
+          "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+          "target": "core::slice::sort::shared::smallsort::insert_tail",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 55,
+          "matching_pfc": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::insert_tail_safety_u64_tail1_to4_backing5",
+              "target": "core::slice::sort::shared::smallsort::insert_tail",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 157
+            }
+          ]
+        },
+        {
+          "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+          "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 56,
+          "matching_pfc": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len2",
+              "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 240
+            },
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len4",
+              "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 247
+            }
+          ]
+        }
+      ],
+      "ordinary_stubs_no_pfc_required": [
+        {
+          "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+          "target": "core::slice::sort::shared::smallsort::sort8_stable",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 54,
+          "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::diagnostic_sort8",
+          "replacement_location": {
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 169
+          }
+        }
+      ],
+      "status": "STATIC_MATCH",
+      "proof_credit": "NONE"
+    }
+  },
+  {
+    "id": "merge_order_corrupt",
+    "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt",
+    "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt",
+    "mode": "Original",
+    "variant": "production",
+    "unwind": 34,
+    "expected": "DETECTED",
+    "failure_description": "S2_NEG_MERGE_ORDER",
+    "required_cover_count": 0,
+    "required_cover_messages": [],
+    "required_success_messages": [],
+    "timeout_seconds": 600,
+    "planned_seconds": null,
+    "state": "NOT_RUN",
+    "assurance": "NEGATIVE_CONTROL",
+    "proof_credit": "NONE",
+    "oracle": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 120,
+      "class": "assertion",
+      "source_sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_NEG_MERGE_ORDER\");",
+      "intended_message": "S2_NEG_MERGE_ORDER",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "binding": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt",
+      "mode": "Original",
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "target": null,
+      "locations": [
+        {
+          "line": 117,
+          "source": "fn merge_order_corrupt() {"
+        },
+        {
+          "line": 115,
+          "source": "#[kani::proof]"
+        }
+      ]
+    },
+    "cfg_stub": {
+      "id": "merge_order_corrupt",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 117
+      },
+      "stub_verified": [],
+      "ordinary_stubs_no_pfc_required": [],
+      "status": "STATIC_MATCH",
+      "proof_credit": "NONE"
+    }
+  },
+  {
+    "id": "merge_count_corrupt",
+    "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+    "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+    "mode": "Original",
+    "variant": "production",
+    "unwind": 34,
+    "expected": "DETECTED",
+    "failure_description": "S2_NEG_MERGE_COUNT",
+    "required_cover_count": 0,
+    "required_cover_messages": [],
+    "required_success_messages": [],
+    "timeout_seconds": 600,
+    "planned_seconds": null,
+    "state": "NOT_RUN",
+    "assurance": "NEGATIVE_CONTROL",
+    "proof_credit": "NONE",
+    "oracle": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 127,
+      "class": "assertion",
+      "source_sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_NEG_MERGE_COUNT\");",
+      "intended_message": "S2_NEG_MERGE_COUNT",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "binding": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+      "mode": "Original",
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "target": null,
+      "locations": [
+        {
+          "line": 124,
+          "source": "fn merge_count_corrupt() {"
+        },
+        {
+          "line": 122,
+          "source": "#[kani::proof]"
+        }
+      ]
+    },
+    "cfg_stub": {
+      "id": "merge_count_corrupt",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 124
+      },
+      "stub_verified": [],
+      "ordinary_stubs_no_pfc_required": [],
+      "status": "STATIC_MATCH",
+      "proof_credit": "NONE"
+    }
+  },
+  {
+    "id": "checker_count_corrupt",
+    "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+    "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+    "mode": "Original",
+    "variant": "production",
+    "unwind": 34,
+    "expected": "DETECTED",
+    "failure_description": "S2_NEG_CHECKER_COUNT",
+    "required_cover_count": 0,
+    "required_cover_messages": [],
+    "required_success_messages": [],
+    "timeout_seconds": 600,
+    "planned_seconds": null,
+    "state": "NOT_RUN",
+    "assurance": "NEGATIVE_CONTROL",
+    "proof_credit": "NONE",
+    "oracle": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 133,
+      "class": "assertion",
+      "source_sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_COUNT\");",
+      "intended_message": "S2_NEG_CHECKER_COUNT",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "binding": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "mode": "Original",
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "target": null,
+      "locations": [
+        {
+          "line": 131,
+          "source": "fn checker_count_corrupt() {"
+        },
+        {
+          "line": 129,
+          "source": "#[kani::proof]"
+        }
+      ]
+    },
+    "cfg_stub": {
+      "id": "checker_count_corrupt",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 131
+      },
+      "stub_verified": [],
+      "ordinary_stubs_no_pfc_required": [],
+      "status": "STATIC_MATCH",
+      "proof_credit": "NONE"
+    }
+  },
+  {
+    "id": "checker_order_corrupt",
+    "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+    "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+    "mode": "Original",
+    "variant": "production",
+    "unwind": 34,
+    "expected": "DETECTED",
+    "failure_description": "S2_NEG_CHECKER_ORDER",
+    "required_cover_count": 0,
+    "required_cover_messages": [],
+    "required_success_messages": [],
+    "timeout_seconds": 600,
+    "planned_seconds": null,
+    "state": "NOT_RUN",
+    "assurance": "NEGATIVE_CONTROL",
+    "proof_credit": "NONE",
+    "oracle": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 139,
+      "class": "assertion",
+      "source_sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_ORDER\");",
+      "intended_message": "S2_NEG_CHECKER_ORDER",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "binding": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "mode": "Original",
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "target": null,
+      "locations": [
+        {
+          "line": 137,
+          "source": "fn checker_order_corrupt() {"
+        },
+        {
+          "line": 135,
+          "source": "#[kani::proof]"
+        }
+      ]
+    },
+    "cfg_stub": {
+      "id": "checker_order_corrupt",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 137
+      },
+      "stub_verified": [],
+      "ordinary_stubs_no_pfc_required": [],
+      "status": "STATIC_MATCH",
+      "proof_credit": "NONE"
+    }
+  },
+  {
+    "id": "sort13_weak",
+    "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+    "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+    "mode": "Original",
+    "variant": "production",
+    "unwind": 34,
+    "expected": "DETECTED",
+    "failure_description": "S2_NEG_SORT13_WEAK",
+    "required_cover_count": 0,
+    "required_cover_messages": [],
+    "required_success_messages": [],
+    "timeout_seconds": 600,
+    "planned_seconds": null,
+    "state": "NOT_RUN",
+    "assurance": "NEGATIVE_CONTROL",
+    "proof_credit": "NONE",
+    "oracle": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 148,
+      "class": "assertion",
+      "source_sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_SORT13_WEAK\");",
+      "intended_message": "S2_NEG_SORT13_WEAK",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "binding": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "mode": "Original",
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "target": null,
+      "locations": [
+        {
+          "line": 145,
+          "source": "fn sort13_weak() {"
+        },
+        {
+          "line": 142,
+          "source": "#[kani::proof]"
+        }
+      ]
+    },
+    "cfg_stub": {
+      "id": "sort13_weak",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 145
+      },
+      "stub_verified": [],
+      "ordinary_stubs_no_pfc_required": [
+        {
+          "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+          "target": "core::slice::sort::shared::smallsort::swap_if_less",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 143,
+          "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_swap",
+          "replacement_location": {
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 141
+          }
+        }
+      ],
+      "status": "STATIC_MATCH",
+      "proof_credit": "NONE"
+    }
+  },
+  {
+    "id": "general32_weak",
+    "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+    "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+    "mode": "Original",
+    "variant": "production",
+    "unwind": 34,
+    "expected": "DETECTED",
+    "failure_description": "S2_NEG_GENERAL32_WEAK",
+    "required_cover_count": 0,
+    "required_cover_messages": [],
+    "required_success_messages": [],
+    "timeout_seconds": 600,
+    "planned_seconds": null,
+    "state": "NOT_RUN",
+    "assurance": "NEGATIVE_CONTROL",
+    "proof_credit": "NONE",
+    "oracle": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+      "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak.assertion.1",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 162,
+      "class": "assertion",
+      "source_sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_GENERAL32_WEAK\");",
+      "intended_message": "S2_NEG_GENERAL32_WEAK",
+      "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+    },
+    "binding": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+      "mode": "Original",
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+      "target": null,
+      "locations": [
+        {
+          "line": 159,
+          "source": "fn general32_weak() {"
+        },
+        {
+          "line": 154,
+          "source": "#[kani::proof]"
+        }
+      ]
+    },
+    "cfg_stub": {
+      "id": "general32_weak",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 159
+      },
+      "stub_verified": [
+        {
+          "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+          "target": "core::slice::sort::shared::smallsort::insert_tail",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 156,
+          "matching_pfc": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::insert_tail_safety_u64_tail1_to4_backing5",
+              "target": "core::slice::sort::shared::smallsort::insert_tail",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 157
+            }
+          ]
+        }
+      ],
+      "ordinary_stubs_no_pfc_required": [
+        {
+          "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+          "target": "core::slice::sort::shared::smallsort::sort8_stable",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 155,
+          "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::diagnostic_sort8",
+          "replacement_location": {
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 169
+          }
+        },
+        {
+          "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+          "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 157,
+          "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_merge",
+          "replacement_location": {
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 151
+          }
+        }
+      ],
+      "status": "STATIC_MATCH",
+      "proof_credit": "NONE"
+    }
+  }
+]
