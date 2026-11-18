@@ -1,0 +1,1133 @@
+{
+  "schema": "ch8-s2-r1-static-source-cfg-map-v1",
+  "assurance": "STATIC_SOURCE_ONLY_NOT_RUST_MACRO_EXPANSION",
+  "source_sha": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+  "stock_tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "control_sha": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+  "common_cfg": [
+    "kani",
+    "kani_smallsort_controls",
+    "kani_smallsort_s2_assumed",
+    "kani_smallsort_sorting"
+  ],
+  "rows": [
+    {
+      "id": "swap_pfc",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+      "line": 73,
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "root_mode": "PFC",
+      "active": true,
+      "body_validated_by_compiler": false,
+      "source_binding_reused": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+        "mode": "PFC",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2",
+        "target": "swap_if_less",
+        "locations": [
+          {
+            "line": 73,
+            "source": "fn swap_pfc() {"
+          },
+          {
+            "line": 71,
+            "source": "#[kani::proof_for_contract(swap_if_less)]"
+          }
+        ]
+      },
+      "stub_verified": [],
+      "ordinary_stubs": []
+    },
+    {
+      "id": "summary_witness",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::summary_witness",
+      "line": 101,
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "root_mode": "Original",
+      "active": true,
+      "body_validated_by_compiler": false,
+      "source_binding_reused": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::summary_witness",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2",
+        "target": null,
+        "locations": [
+          {
+            "line": 101,
+            "source": "fn summary_witness() {"
+          },
+          {
+            "line": 99,
+            "source": "#[kani::proof]"
+          }
+        ]
+      },
+      "stub_verified": [],
+      "ordinary_stubs": []
+    },
+    {
+      "id": "merge32_real",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real",
+      "line": 28,
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "root_mode": "Original",
+      "active": true,
+      "body_validated_by_compiler": false,
+      "source_binding_reused": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2",
+        "target": null,
+        "locations": [
+          {
+            "line": 28,
+            "source": "fn merge32_real() {"
+          },
+          {
+            "line": 26,
+            "source": "#[kani::proof]"
+          }
+        ]
+      },
+      "stub_verified": [],
+      "ordinary_stubs": []
+    },
+    {
+      "id": "sort13_assumed",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+      "line": 41,
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "root_mode": "Original",
+      "active": true,
+      "body_validated_by_compiler": false,
+      "source_binding_reused": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2",
+        "target": null,
+        "locations": [
+          {
+            "line": 41,
+            "source": "fn sort13_assumed() {"
+          },
+          {
+            "line": 38,
+            "source": "#[kani::proof]"
+          }
+        ]
+      },
+      "stub_verified": [
+        {
+          "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+          "target": "core::slice::sort::shared::smallsort::swap_if_less",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 39,
+          "matching_pfc": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing4",
+              "target": "core::slice::sort::shared::smallsort::swap_if_less",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 49
+            },
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u64_backing4",
+              "target": "core::slice::sort::shared::smallsort::swap_if_less",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 55
+            },
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_bytes17_backing4",
+              "target": "core::slice::sort::shared::smallsort::swap_if_less",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 61
+            },
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing9",
+              "target": "core::slice::sort::shared::smallsort::swap_if_less",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 121
+            },
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing13",
+              "target": "core::slice::sort::shared::smallsort::swap_if_less",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 127
+            },
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::rejects_swap_comparator_writing_outside_frame_u8",
+              "target": "core::slice::sort::shared::smallsort::swap_if_less",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 271
+            },
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+              "target": "core::slice::sort::shared::smallsort::swap_if_less",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 71
+            }
+          ]
+        }
+      ],
+      "ordinary_stubs": []
+    },
+    {
+      "id": "general32_assumed",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+      "line": 58,
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "root_mode": "Original",
+      "active": true,
+      "body_validated_by_compiler": false,
+      "source_binding_reused": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2",
+        "target": null,
+        "locations": [
+          {
+            "line": 58,
+            "source": "fn general32_assumed() {"
+          },
+          {
+            "line": 53,
+            "source": "#[kani::proof]"
+          }
+        ]
+      },
+      "stub_verified": [
+        {
+          "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+          "target": "core::slice::sort::shared::smallsort::sort8_stable",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 54,
+          "matching_pfc": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort8_registration_only",
+              "target": "core::slice::sort::shared::smallsort::sort8_stable",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 168
+            }
+          ]
+        },
+        {
+          "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+          "target": "core::slice::sort::shared::smallsort::insert_tail",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 55,
+          "matching_pfc": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::insert_tail_safety_u64_tail1_to4_backing5",
+              "target": "core::slice::sort::shared::smallsort::insert_tail",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 157
+            }
+          ]
+        },
+        {
+          "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+          "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 56,
+          "matching_pfc": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len2",
+              "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 240
+            },
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len4",
+              "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 247
+            }
+          ]
+        }
+      ],
+      "ordinary_stubs": []
+    },
+    {
+      "id": "merge_order_corrupt",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt",
+      "line": 117,
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "root_mode": "Original",
+      "active": true,
+      "body_validated_by_compiler": false,
+      "source_binding_reused": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2",
+        "target": null,
+        "locations": [
+          {
+            "line": 117,
+            "source": "fn merge_order_corrupt() {"
+          },
+          {
+            "line": 115,
+            "source": "#[kani::proof]"
+          }
+        ]
+      },
+      "stub_verified": [],
+      "ordinary_stubs": []
+    },
+    {
+      "id": "merge_count_corrupt",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+      "line": 124,
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "root_mode": "Original",
+      "active": true,
+      "body_validated_by_compiler": false,
+      "source_binding_reused": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2",
+        "target": null,
+        "locations": [
+          {
+            "line": 124,
+            "source": "fn merge_count_corrupt() {"
+          },
+          {
+            "line": 122,
+            "source": "#[kani::proof]"
+          }
+        ]
+      },
+      "stub_verified": [],
+      "ordinary_stubs": []
+    },
+    {
+      "id": "checker_count_corrupt",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "line": 131,
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "root_mode": "Original",
+      "active": true,
+      "body_validated_by_compiler": false,
+      "source_binding_reused": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2",
+        "target": null,
+        "locations": [
+          {
+            "line": 131,
+            "source": "fn checker_count_corrupt() {"
+          },
+          {
+            "line": 129,
+            "source": "#[kani::proof]"
+          }
+        ]
+      },
+      "stub_verified": [],
+      "ordinary_stubs": []
+    },
+    {
+      "id": "checker_order_corrupt",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "line": 137,
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "root_mode": "Original",
+      "active": true,
+      "body_validated_by_compiler": false,
+      "source_binding_reused": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2",
+        "target": null,
+        "locations": [
+          {
+            "line": 137,
+            "source": "fn checker_order_corrupt() {"
+          },
+          {
+            "line": 135,
+            "source": "#[kani::proof]"
+          }
+        ]
+      },
+      "stub_verified": [],
+      "ordinary_stubs": []
+    },
+    {
+      "id": "sort13_weak",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "line": 145,
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "root_mode": "Original",
+      "active": true,
+      "body_validated_by_compiler": false,
+      "source_binding_reused": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2",
+        "target": null,
+        "locations": [
+          {
+            "line": 145,
+            "source": "fn sort13_weak() {"
+          },
+          {
+            "line": 142,
+            "source": "#[kani::proof]"
+          }
+        ]
+      },
+      "stub_verified": [],
+      "ordinary_stubs": [
+        {
+          "target": "core::slice::sort::shared::smallsort::swap_if_less",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 143,
+          "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_swap"
+        }
+      ]
+    },
+    {
+      "id": "general32_weak",
+      "root": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+      "line": 159,
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "root_mode": "Original",
+      "active": true,
+      "body_validated_by_compiler": false,
+      "source_binding_reused": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2",
+        "target": null,
+        "locations": [
+          {
+            "line": 159,
+            "source": "fn general32_weak() {"
+          },
+          {
+            "line": 154,
+            "source": "#[kani::proof]"
+          }
+        ]
+      },
+      "stub_verified": [
+        {
+          "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+          "target": "core::slice::sort::shared::smallsort::sort8_stable",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 155,
+          "matching_pfc": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort8_registration_only",
+              "target": "core::slice::sort::shared::smallsort::sort8_stable",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "line": 168
+            }
+          ]
+        },
+        {
+          "harness": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+          "target": "core::slice::sort::shared::smallsort::insert_tail",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 156,
+          "matching_pfc": [
+            {
+              "harness": "core::slice::sort::shared::smallsort::verify::helper_contracts::insert_tail_safety_u64_tail1_to4_backing5",
+              "target": "core::slice::sort::shared::smallsort::insert_tail",
+              "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+              "line": 157
+            }
+          ]
+        }
+      ],
+      "ordinary_stubs": [
+        {
+          "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 157,
+          "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_merge"
+        }
+      ]
+    }
+  ],
+  "sort8_registration_selected_for_execution": false,
+  "cfg_truth_table": [
+    {
+      "kani": true,
+      "sorting": true,
+      "controls": true,
+      "s2_assumed": true,
+      "sort8_contract_attrs": true,
+      "span_module_and_functions": true,
+      "batch_roots_and_registration": true,
+      "merge_disjoint_helper": true,
+      "sorting_model": true,
+      "controls_only_modules": true,
+      "executed_here": false
+    },
+    {
+      "kani": true,
+      "sorting": true,
+      "controls": false,
+      "s2_assumed": true,
+      "sort8_contract_attrs": true,
+      "span_module_and_functions": true,
+      "batch_roots_and_registration": true,
+      "merge_disjoint_helper": true,
+      "sorting_model": true,
+      "controls_only_modules": false,
+      "executed_here": false
+    },
+    {
+      "kani": true,
+      "sorting": true,
+      "controls": true,
+      "s2_assumed": false,
+      "sort8_contract_attrs": false,
+      "span_module_and_functions": false,
+      "batch_roots_and_registration": false,
+      "merge_disjoint_helper": true,
+      "sorting_model": true,
+      "controls_only_modules": true,
+      "executed_here": false
+    },
+    {
+      "kani": true,
+      "sorting": false,
+      "controls": true,
+      "s2_assumed": true,
+      "sort8_contract_attrs": false,
+      "span_module_and_functions": false,
+      "batch_roots_and_registration": false,
+      "merge_disjoint_helper": true,
+      "sorting_model": false,
+      "controls_only_modules": false,
+      "executed_here": false
+    },
+    {
+      "kani": false,
+      "sorting": true,
+      "controls": true,
+      "s2_assumed": true,
+      "sort8_contract_attrs": false,
+      "span_module_and_functions": false,
+      "batch_roots_and_registration": false,
+      "merge_disjoint_helper": false,
+      "sorting_model": false,
+      "controls_only_modules": false,
+      "executed_here": false
+    }
+  ],
+  "r1_delta": {
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+    "added_lines": 13,
+    "deleted_lines": 0,
+    "prefix_unchanged": true,
+    "contract_span_helper_delta": false
+  },
+  "evidence": [
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/lib.rs",
+      "blob": "0a13f55e1796e4382147dd2d3040fc86879a2a9e",
+      "sha256": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "excerpts": [
+        {
+          "start_line": 143,
+          "end_line": 164,
+          "text": "#![feature(min_specialization)]\n#![feature(multiple_supertrait_upcastable)]\n#![feature(must_not_suspend)]\n#![feature(negative_impls)]\n#![feature(no_core)]\n#![feature(pattern_types)]\n#![feature(pin_macro_internals)]\n#![feature(prelude_import)]\n#![feature(repr_simd)]\n#![feature(rustc_attrs)]\n#![feature(rustdoc_internals)]\n#![feature(simd_ffi)]\n#![feature(splat)]\n#![feature(staged_api)]\n#![feature(stmt_expr_attributes)]\n#![feature(strict_provenance_lints)]\n#![feature(trait_alias)]\n#![feature(transparent_unions)]\n#![feature(try_blocks)]\n#![feature(uint_carryless_mul)]\n#![feature(unboxed_closures)]\n#![cfg_attr(all(kani, kani_smallsort_sorting), feature(fn_traits))]"
+        },
+        {
+          "start_line": 328,
+          "end_line": 330,
+          "text": "pub mod fmt;\npub mod hash;\npub mod slice;"
+        },
+        {
+          "start_line": 355,
+          "end_line": 358,
+          "text": "pub mod primitive;\n\n#[cfg(kani)]\nkani_core::kani_lib!(core);"
+        }
+      ]
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/mod.rs",
+      "blob": "a65ecd0bb1c6147359594fbbe38a1bdc6cf6aa9d",
+      "sha256": "1c94e306a979f2c59a4e3687a32a3e4efbeef967b7bf5eeb8d1977371c2c17dd",
+      "excerpts": [
+        {
+          "start_line": 37,
+          "end_line": 40,
+          "text": "    reason = \"exposed from core to be reused in std;\"\n)]\n#[doc(hidden)]\npub mod sort;"
+        }
+      ]
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/mod.rs",
+      "blob": "79852708b81ea31b9e07c38d354e64b5ce863b4e",
+      "sha256": "f67551bff44a854a3f03901db10a099bdab3b67b47d8724bef43858d97134f3c",
+      "excerpts": [
+        {
+          "start_line": 5,
+          "end_line": 8,
+          "text": "pub mod unstable;\n\npub(crate) mod select;\npub(crate) mod shared;"
+        }
+      ]
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/mod.rs",
+      "blob": "e1977d79f32076488e37048d17be77e37a321b0c",
+      "sha256": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
+      "excerpts": [
+        {
+          "start_line": 3,
+          "end_line": 13,
+          "text": "use crate::marker::Freeze;\n\npub(crate) mod pivot;\npub(crate) mod smallsort;\n\n/// SAFETY: this is safety relevant, how does this interact with the soundness holes in\n/// specialization?\n#[unsafe(rustc_allow_lifetime_dependent_specialization)]\npub(crate) trait FreezeMarker {}\n\nimpl<T: Freeze> FreezeMarker for T {}"
+        }
+      ]
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "blob": "232b87fd0bcde3bce9285cb5a453261a5a72f000",
+      "sha256": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0",
+      "excerpts": [
+        {
+          "start_line": 3,
+          "end_line": 7,
+          "text": "#[cfg(kani)]\nuse crate::kani;\nuse crate::mem::{self, ManuallyDrop, MaybeUninit};\nuse crate::slice::sort::shared::FreezeMarker;\nuse crate::{hint, intrinsics, ptr, slice};"
+        },
+        {
+          "start_line": 627,
+          "end_line": 629,
+          "text": "#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(!verify::sorting_s2_span::active::<T,F>() || (insert_tail_contract_len(begin,tail) >= 2 && insert_tail_contract_len(begin,tail) <= 17 && verify::sorting_s2_span::ordered::<T,F>(begin,insert_tail_contract_len(begin,tail)-1))))]\n#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::ensures(|_| !verify::sorting_s2_span::active::<T,F>() || verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(begin,insert_tail_contract_len(begin,tail))),begin,insert_tail_contract_len(begin,tail))))]\nunsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {"
+        },
+        {
+          "start_line": 767,
+          "end_line": 790,
+          "text": "/// SAFETY: The caller MUST guarantee that `v_base` is valid for 8 reads and\n/// writes, `scratch_base` and `dst` MUST be valid for 8 writes. The result will\n/// be stored in `dst[0..8]`.\n#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(v_base,8)) && crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst,8)) && crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(scratch_base,8)) && merge_contract_regions_disjoint(v_base,dst,8) && merge_contract_regions_disjoint(v_base,scratch_base,8) && merge_contract_regions_disjoint(dst,scratch_base,8)))]\n#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::modifies(ptr::slice_from_raw_parts_mut(dst,8), ptr::slice_from_raw_parts_mut(scratch_base,8)))]\n#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::ensures(|_| !verify::sorting_s2_span::active::<T,F>() || verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(v_base,8)),dst,8)))]\nunsafe fn sort8_stable<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(\n    v_base: *mut T,\n    dst: *mut T,\n    scratch_base: *mut T,\n    is_less: &mut F,\n) {\n    // SAFETY: these pointers are all in-bounds by the precondition of our function.\n    unsafe {\n        sort4_stable(v_base, scratch_base, is_less);\n        sort4_stable(v_base.add(4), scratch_base.add(4), is_less);\n    }\n\n    // SAFETY: scratch_base[0..8] is now initialized, allowing us to merge back\n    // into dst.\n    unsafe {\n        bidirectional_merge(slice::from_raw_parts(scratch_base, 8), dst, is_less);\n    }\n}"
+        },
+        {
+          "start_line": 858,
+          "end_line": 866,
+          "text": "#[cfg(kani)]\nfn merge_contract_regions_disjoint<T>(src: *const T, dst: *mut T, len: usize) -> bool {\n    let Some(bytes) = size_of::<T>().checked_mul(len) else {\n        return false;\n    };\n    bytes == 0\n        || !crate::ub_checks::same_allocation(src, dst)\n        || (src as usize).abs_diff(dst as usize) >= bytes\n}"
+        },
+        {
+          "start_line": 881,
+          "end_line": 892,
+          "text": "#[safety::requires(v.len() >= 2)]\n#[safety::requires(crate::ub_checks::can_dereference(v as *const [T]))]\n#[safety::requires(crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst, v.len())))]\n#[safety::requires(merge_contract_regions_disjoint(v.as_ptr(), dst, v.len()))]\n#[cfg_attr(kani, crate::kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]\n#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(!verify::sorting_s2_span::active::<T,F>() || (v.len() <= 32 && verify::sorting_s2_span::ordered::<T,F>(v.as_ptr(),v.len()/2) && verify::sorting_s2_span::ordered::<T,F>(v.as_ptr().wrapping_add(v.len()/2),v.len()-v.len()/2))))]\n#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::ensures(|_| !verify::sorting_s2_span::active::<T,F>() || verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(v.as_ptr(),v.len())),dst,v.len())))]\nunsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(\n    v: &[T],\n    dst: *mut T,\n    is_less: &mut F,\n) {"
+        },
+        {
+          "start_line": 997,
+          "end_line": 1000,
+          "text": "// Bounded SmallSort verification; harnesses are isolated from ordinary Rust builds.\n#[cfg(kani)]\n#[unstable(feature = \"kani\", issue = \"none\")]\nmod verify;"
+        }
+      ]
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "blob": "396354bf70bc15d3622397b9df9de1694b8b5078",
+      "sha256": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+      "excerpts": [
+        {
+          "start_line": 67,
+          "end_line": 98,
+          "text": "mod comparators;\nmod fixed_inputs;\nmod forwarding_contracts;\nmod helper_contracts;\nmod helper_contracts_wide;\nmod insert_tail_contracts;\nmod merge;\n#[cfg(kani_smallsort_controls)]\nmod mutations;\nmod network;\nmod scratch_geometry;\nmod smoke;\nmod tag_permutation;\nmod types;\n\n// S1 modules are isolated from the ordinary #752 inventory.\n#[cfg(all(kani, kani_smallsort_sorting))]\npub(super) mod sorting_model;\n#[cfg(all(kani, kani_smallsort_sorting))]\nmod sorting_entry_smoke;\n#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_controls))]\nmod sorting_model_controls;\n#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_controls))]\nmod sorting_entry_controls;\n\n// S2 cost experiment: every module is explicitly opt-in, separate from S1.\n#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed))]\npub(super) mod sorting_s2_swap;\n#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed))]\npub(super) mod sorting_s2_span;\n#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed))]\npub(super) mod sorting_s2_batch;"
+        }
+      ]
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+      "blob": "100c4d46a82cf90ee840a4f1028010a2318754e6",
+      "sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "excerpts": [
+        {
+          "start_line": 3,
+          "end_line": 53,
+          "text": "use super::sorting_model::{self, KeyLess, Snapshot};\nuse crate::slice;\ntrait Span<T, F> {\n    fn active() -> bool;\n    fn capture(p: *const T, n: usize) -> Snapshot;\n    fn post(s: Snapshot, p: *const T, n: usize) -> bool;\n    fn ordered(p: *const T, n: usize) -> bool;\n}\nimpl<T, F> Span<T, F> for () {\n    default fn active() -> bool { false }\n    default fn capture(_p: *const T, _n: usize) -> Snapshot {\n        sorting_model::snapshot::<u8, ()>(&[])\n    }\n    default fn post(_s: Snapshot, _p: *const T, _n: usize) -> bool { true }\n    default fn ordered(_p: *const T, _n: usize) -> bool { true }\n}\nimpl Span<u8, KeyLess<u8>> for () {\n    fn active() -> bool { true }\n    fn capture(p: *const u8, n: usize) -> Snapshot {\n        if n > 32 { return sorting_model::snapshot::<u8, ()>(&[]); }\n        if n == 0 { return sorting_model::snapshot::<u8, KeyLess<u8>>(&[]); }\n        // SAFETY: requires establishes initialized readable n-span before spec read.\n        unsafe { sorting_model::snapshot::<u8, KeyLess<u8>>(slice::from_raw_parts(p, n)) }\n    }\n    fn post(s: Snapshot, p: *const u8, n: usize) -> bool {\n        if n > 32 { return false; }\n        if n == 0 { return sorting_model::post::<u8, KeyLess<u8>>(s, &[]); }\n        unsafe { sorting_model::post::<u8, KeyLess<u8>>(s, slice::from_raw_parts(p, n)) }\n    }\n    fn ordered(p: *const u8, n: usize) -> bool {\n        if n > 32 { return false; }\n        let mut i = 1;\n        while i < n {\n            if unsafe { *p.add(i) < *p.add(i - 1) } { return false; }\n            i += 1;\n        }\n        true\n    }\n}\npub(in crate::slice::sort::shared::smallsort) fn active<T, F>() -> bool {\n    <() as Span<T,F>>::active()\n}\npub(in crate::slice::sort::shared::smallsort) fn capture<T, F>(p: *const T,n: usize) -> Snapshot {\n    <() as Span<T,F>>::capture(p,n)\n}\npub(in crate::slice::sort::shared::smallsort) fn post<T, F>(s: Snapshot,p: *const T,n: usize) -> bool {\n    <() as Span<T,F>>::post(s,p,n)\n}\npub(in crate::slice::sort::shared::smallsort) fn ordered<T, F>(p: *const T,n: usize) -> bool {\n    <() as Span<T,F>>::ordered(p,n)\n}"
+        }
+      ]
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "blob": "0d0a9f1441e77acc793175a16270dd8ff9fac43d",
+      "sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "excerpts": [
+        {
+          "start_line": 21,
+          "end_line": 28,
+          "text": "/// A closed, stateless comparator. Its type identifies the exact pure order.\npub(in crate::slice::sort::shared::smallsort) struct KeyLess<T>(PhantomData<fn() -> T>);\n\nimpl<T> KeyLess<T> {\n    pub(in crate::slice::sort::shared::smallsort) const fn new() -> Self {\n        Self(PhantomData)\n    }\n}"
+        },
+        {
+          "start_line": 45,
+          "end_line": 70,
+          "text": "macro_rules! key_less {\n    ($ty:ty) => {\n        impl<'a, 'b> FnOnce<(&'a $ty, &'b $ty)> for KeyLess<$ty> {\n            type Output = bool;\n            extern \"rust-call\" fn call_once(self, (a, b): (&'a $ty, &'b $ty)) -> bool {\n                a.value() < b.value()\n            }\n        }\n        impl<'a, 'b> FnMut<(&'a $ty, &'b $ty)> for KeyLess<$ty> {\n            extern \"rust-call\" fn call_mut(&mut self, (a, b): (&'a $ty, &'b $ty)) -> bool {\n                a.value() < b.value()\n            }\n        }\n    };\n}\nkey_less!(u8);\nkey_less!(Cell<u8>);\nkey_less!(NonCopyByte);\n\n/// Owned pre-state: no references to mutable input or uninitialized scratch.\n#[derive(Clone, Copy)]\npub(in crate::slice::sort::shared::smallsort) struct Snapshot {\n    values: [u8; CAP],\n    len: usize,\n    valid: bool,\n}"
+        },
+        {
+          "start_line": 125,
+          "end_line": 158,
+          "text": "trait Model<T, F> {\n    fn enabled() -> bool;\n    fn snapshot(values: &[T]) -> Snapshot;\n    fn post(before: Snapshot, values: &[T]) -> bool;\n}\n\nimpl<T, F> Model<T, F> for () {\n    default fn enabled() -> bool { false }\n    default fn snapshot(_values: &[T]) -> Snapshot { Snapshot::invalid() }\n    default fn post(_before: Snapshot, _values: &[T]) -> bool { true }\n}\n\nmacro_rules! active_model {\n    ($ty:ty) => {\n        impl Model<$ty, KeyLess<$ty>> for () {\n            fn enabled() -> bool { true }\n            fn snapshot(values: &[$ty]) -> Snapshot { active_snapshot(values) }\n            fn post(before: Snapshot, values: &[$ty]) -> bool { active_post(before, values) }\n        }\n    };\n}\nactive_model!(u8);\nactive_model!(Cell<u8>);\nactive_model!(NonCopyByte);\n\npub(in crate::slice::sort::shared::smallsort) fn enabled<T, F>() -> bool {\n    <() as Model<T, F>>::enabled()\n}\npub(in crate::slice::sort::shared::smallsort) fn snapshot<T, F>(values: &[T]) -> Snapshot {\n    <() as Model<T, F>>::snapshot(values)\n}\npub(in crate::slice::sort::shared::smallsort) fn post<T, F>(before: Snapshot, values: &[T]) -> bool {\n    <() as Model<T, F>>::post(before, values)\n}"
+        }
+      ]
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs",
+      "blob": "d59ebef20bc0b94900f766f0e1211aa57b09f5ae",
+      "sha256": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "excerpts": [
+        {
+          "start_line": 8,
+          "end_line": 13,
+          "text": "#[derive(Clone, Copy)]\npub(in crate::slice::sort::shared::smallsort) struct PairSnapshot {\n    a: u8,\n    b: u8,\n    valid: bool,\n}"
+        },
+        {
+          "start_line": 25,
+          "end_line": 40,
+          "text": "impl<T, F> SwapModel<T, F> for () {\n    default fn enabled() -> bool { false }\n    default fn capture(_base: *const T, _a: usize, _b: usize) -> PairSnapshot {\n        PairSnapshot::invalid()\n    }\n    default fn post(_pre: PairSnapshot, _base: *const T, _a: usize, _b: usize) -> bool {\n        true\n    }\n}\n\nimpl SwapModel<u8, KeyLess<u8>> for () {\n    fn enabled() -> bool { true }\n    fn capture(base: *const u8, a: usize, b: usize) -> PairSnapshot {\n        // SAFETY: the actual callee's existing requires establish both initialized,\n        // readable positions, nonwrapping offsets and a common allocation first.\n        unsafe { PairSnapshot { a: *base.add(a), b: *base.add(b), valid: true } }"
+        },
+        {
+          "start_line": 53,
+          "end_line": 72,
+          "text": "/// Unconditional generic facade; no new T/F bounds on the actual helper.\npub(in crate::slice::sort::shared::smallsort) fn enabled<T, F>() -> bool {\n    <() as SwapModel<T, F>>::enabled()\n}\n\n/// Spec-only read: active callers must establish the actual swap requires first.\n/// Inactive calls do not inspect pointers, indices or pointed-to bytes.\npub(in crate::slice::sort::shared::smallsort) fn capture<T, F>(\n    base: *const T, a: usize, b: usize,\n) -> PairSnapshot {\n    <() as SwapModel<T, F>>::capture(base, a, b)\n}\n\n/// Exact conditional transfer implies pair order and preservation of both full\n/// bytes, including equal positions. The actual modifies clause supplies frame.\npub(in crate::slice::sort::shared::smallsort) fn post<T, F>(\n    pre: PairSnapshot, base: *const T, a: usize, b: usize,\n) -> bool {\n    <() as SwapModel<T, F>>::post(pre, base, a, b)\n}"
+        }
+      ]
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "blob": "4ff2c7c17130e6c2206ac44eeebcf7156e234069",
+      "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2",
+      "excerpts": [
+        {
+          "start_line": 2,
+          "end_line": 6,
+          "text": "use super::super::{bidirectional_merge, sort13_optimal, small_sort_general,\n    swap_if_less, sort8_stable, insert_tail};\nuse super::sorting_model::{KeyLess, snapshot, post, enabled};\nuse super::{sorting_s2_span as span, sorting_s2_swap as pair};\nuse crate::{kani, mem::MaybeUninit, ptr};"
+        },
+        {
+          "start_line": 53,
+          "end_line": 62,
+          "text": "#[kani::proof]\n#[kani::stub_verified(sort8_stable)]\n#[kani::stub_verified(insert_tail)]\n#[kani::stub_verified(bidirectional_merge)]\n#[kani::unwind(34)]\nfn general32_assumed() {\n    assert!(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_GENERAL32_ASSUMED\");\n    let mut v: [u8;34] = kani::any();\n    let before = v;\n    small_sort_general(&mut v[1..33],&mut KeyLess::<u8>::new());"
+        },
+        {
+          "start_line": 154,
+          "end_line": 176,
+          "text": "#[kani::proof]\n#[kani::stub_verified(sort8_stable)]\n#[kani::stub_verified(insert_tail)]\n#[kani::stub(bidirectional_merge,weak_merge)]\n#[kani::unwind(34)]\nfn general32_weak() {\n    let mut v = [2u8;32]; for i in 16..32 { v[i] = 1; } let before = v;\n    small_sort_general(&mut v,&mut KeyLess::<u8>::new());\n    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_GENERAL32_WEAK\");\n}\n\n// Registration for Kani's stub_verified lookup in this same opt-in crate/cfg.\n// NOT EXECUTED by the 11-root request; registration is NOT qualification.\n// All S2 assumed consumers remain DIAGNOSTIC_ASSUMED with proof credit NONE.\n#[kani::proof_for_contract(sort8_stable)]\n#[kani::unwind(34)]\nfn sort8_registration_only() {\n    let mut src: [u8;8] = kani::any();\n    let mut dst = [MaybeUninit::<u8>::uninit();8];\n    let mut scratch = [MaybeUninit::<u8>::uninit();8];\n    unsafe { sort8_stable(src.as_mut_ptr(),dst.as_mut_ptr().cast(),\n        scratch.as_mut_ptr().cast(),&mut KeyLess::<u8>::new()) };\n}"
+        }
+      ]
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+      "blob": "52977f4b1f39637dc16c1620390a16c47dc48edb",
+      "sha256": "86bac48e888365eab2187756dfd8ffbce059d6cc2ce35b1d8ab7b39d788118ac",
+      "excerpts": [
+        {
+          "start_line": 49,
+          "end_line": 64,
+          "text": "#[kani::proof_for_contract(swap_if_less)]\n#[kani::unwind(8)]\nfn swap_safety_u8_backing4() {\n    exercise_swap::<u8>();\n}\n\n#[kani::proof_for_contract(swap_if_less)]\n#[kani::unwind(8)]\nfn swap_safety_u64_backing4() {\n    exercise_swap::<u64>();\n}\n\n#[kani::proof_for_contract(swap_if_less)]\n#[kani::unwind(32)]\nfn swap_safety_bytes17_backing4() {\n    exercise_swap::<[u8; 17]>();"
+        },
+        {
+          "start_line": 121,
+          "end_line": 130,
+          "text": "#[kani::proof_for_contract(swap_if_less)]\n#[kani::unwind(16)]\nfn swap_safety_u8_backing9() {\n    exercise_swap_u8_backing::<9>();\n}\n\n#[kani::proof_for_contract(swap_if_less)]\n#[kani::unwind(16)]\nfn swap_safety_u8_backing13() {\n    exercise_swap_u8_backing::<13>();"
+        },
+        {
+          "start_line": 157,
+          "end_line": 160,
+          "text": "#[kani::proof_for_contract(insert_tail)]\n#[kani::unwind(16)]\nfn insert_tail_safety_u64_tail1_to4_backing5() {\n    let mut v: [u64; 5] = kani::any();"
+        },
+        {
+          "start_line": 240,
+          "end_line": 251,
+          "text": "#[kani::proof_for_contract(bidirectional_merge)]\n#[kani::stub(super::super::panic_on_ord_violation, cut_merge_order_violation)]\n#[kani::unwind(16)]\nfn merge_safety_u64_len2() {\n    exercise_merge_u64::<2>();\n}\n\n#[kani::proof_for_contract(bidirectional_merge)]\n#[kani::stub(super::super::panic_on_ord_violation, cut_merge_order_violation)]\n#[kani::unwind(16)]\nfn merge_safety_u64_len4() {\n    exercise_merge_u64::<4>();"
+        },
+        {
+          "start_line": 269,
+          "end_line": 272,
+          "text": "// The order is lawful; only the captured counter lies outside the helper's write set.\n#[cfg(kani_smallsort_controls)]\n#[kani::proof_for_contract(swap_if_less)]\nfn rejects_swap_comparator_writing_outside_frame_u8() {"
+        }
+      ]
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/ub_checks.rs",
+      "blob": "2e05943aafc82942b2178e16610cb50f304e2e2d",
+      "sha256": "ba00cbb0481643a42823f21ab3dac50e5b074094bbbd716d8fb2bf7a4fe0d502",
+      "excerpts": [
+        {
+          "start_line": 245,
+          "end_line": 251,
+          "text": "#[cfg(kani)]\nmod predicates {\n    pub use crate::kani::float::float_to_int_in_range;\n    pub use crate::kani::mem::{\n        can_dereference, can_read_unaligned, can_write, can_write_unaligned, same_allocation,\n    };\n}"
+        }
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/mod.rs",
+      "blob": "580f670930c46cbae77401804282057ef68b70f9",
+      "sha256": "7ec87e829711d05928c3026249e6c79bd20e5c7e9499fe401b53a3647cd76979",
+      "excerpts": [
+        {
+          "start_line": 547,
+          "end_line": 586,
+          "text": "/// This is very similar to the kani_attribute macro, but it instead creates\n/// key-value style attributes which I find a little easier to parse.\nmacro_rules! passthrough {\n    ($name:ident, $allow_dead_code:ident) => {\n        pub fn $name(attr: TokenStream, item: TokenStream) -> TokenStream {\n            let args = proc_macro2::TokenStream::from(attr);\n            let fn_item = proc_macro2::TokenStream::from(item);\n            let name = Ident::new(stringify!($name), proc_macro2::Span::call_site());\n            let extra_attrs = if $allow_dead_code {\n                quote!(#[allow(dead_code)])\n            } else {\n                quote!()\n            };\n            quote!(\n                #extra_attrs\n                #[kanitool::#name = stringify!(#args)]\n                #fn_item\n            )\n            .into()\n        }\n    }\n}\n\npassthrough!(stub_verified, false);\n\npub fn proof_for_contract(attr: TokenStream, item: TokenStream) -> TokenStream {\n    let args = proc_macro2::TokenStream::from(attr);\n    let mut fn_item = parse_macro_input!(item as ItemFn);\n    fn_item.block.stmts.insert(0, parse_quote!(kani::internal::init_contracts();));\n    // Reset the contract-clause depth counter before anything else: statics\n    // are not reliably zero-initialized, and the counter steers the dispatch\n    // of calls to the function under verification (see `set_mode` in the\n    // Kani compiler).\n    fn_item.block.stmts.insert(0, parse_quote!(kani::internal::reset_contract_clause_depth();));\n    quote!(\n        #[allow(dead_code)]\n        #[kanitool::proof_for_contract = stringify!(#args)]\n        #fn_item\n    )\n    .into()"
+        }
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/initialize.rs",
+      "blob": "12c1338a9e7564d99d026a885cf43b695baafa28",
+      "sha256": "dad2dcfdd2aa348a33f0162a81459ae4539946bc027ccac7d2593bf09bd2e95b",
+      "excerpts": [
+        {
+          "start_line": 60,
+          "end_line": 69,
+          "text": "        let condition_type = match contract_typ {\n            ContractConditionsType::Requires => {\n                ContractConditionsData::Requires { attr: syn::parse(attr)? }\n            }\n            ContractConditionsType::Ensures => {\n                ContractConditionsData::Ensures { attr: syn::parse(attr)? }\n            }\n            ContractConditionsType::Modifies => {\n                ContractConditionsData::new_modifies(attr, &mut output)\n            }"
+        },
+        {
+          "start_line": 93,
+          "end_line": 110,
+          "text": "impl ContractConditionsData {\n    /// Constructs a [`Self::Modifies`] from the contents of the decorating attribute.\n    ///\n    /// Responsible for parsing the attribute.\n    fn new_modifies(attr: TokenStream, output: &mut TokenStream2) -> Self {\n        let attr = chunks_by(TokenStream2::from(attr), is_token_stream_2_comma)\n            .map(syn::parse2)\n            .filter_map(|expr| match expr {\n                Err(e) => {\n                    output.extend(e.into_compile_error());\n                    None\n                }\n                Ok(expr) => Some(expr),\n            })\n            .collect();\n\n        ContractConditionsData::Modifies { attr }\n    }"
+        }
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/shared.rs",
+      "blob": "7171806b571de45d5cdf17218b01494a1141c93c",
+      "sha256": "a8df9244d86742adaf1bdfd991d1b6882962a6797b764d6824306f02024360e7",
+      "excerpts": [
+        {
+          "start_line": 46,
+          "end_line": 59,
+          "text": "pub fn split_for_remembers(stmts: &[Stmt], contract_mode: ContractMode) -> (&[Stmt], &[Stmt]) {\n    let mut pos = 0;\n\n    let check_str = match contract_mode {\n        ContractMode::SimpleCheck => \"assume\",\n        ContractMode::Replace | ContractMode::Assert => \"assert\",\n    };\n\n    for stmt in stmts {\n        if stmt_is_precondition(stmt, check_str) {\n            pos += 1;\n        }\n    }\n    stmts.split_at(pos)"
+        },
+        {
+          "start_line": 75,
+          "end_line": 89,
+          "text": "/// Whether `stmt` is a precondition statement that [`split_for_remembers`] must\n/// place remembers after. Preconditions are emitted either as a bare\n/// `kani::assume(..)` / `kani::assert(..)` call statement, or wrapped in a\n/// clause-depth bracket (see `helpers::bracket_clause_stmt`), i.e.\n/// `{ let __kani_clause_guard = ..; kani::assume(#cond); }`. Both forms must be\n/// recognized, otherwise remembers get inserted before the precondition and\n/// `old(..)` expressions are evaluated without the precondition's constraints.\nfn stmt_is_precondition(stmt: &Stmt, check_str: &str) -> bool {\n    match stmt {\n        Stmt::Expr(Expr::Block(ExprBlock { block, .. }), _) => {\n            block.stmts.iter().any(|inner| stmt_is_precondition(inner, check_str))\n        }\n        Stmt::Expr(expr, _) => is_kani_check_call(expr, check_str),\n        _ => false,\n    }"
+        },
+        {
+          "start_line": 138,
+          "end_line": 158,
+          "text": "/// When a `#[kani::ensures(|result|expr)]` is expanded, this function is called on with `build_ensures(|result|expr)`.\n/// This function goes through the expr and extracts out all the `old` expressions and creates a sequence\n/// of statements that instantiate these expressions as `let remember_kani_internal_x = old_expr;`\n/// where x is a unique hash. This is returned as the first return parameter. The second\n/// return parameter is the expression formed by passing in the result variable into the input closure.\npub fn build_ensures(data: &ExprClosure) -> (TokenStream2, Expr) {\n    let mut remembers_exprs = HashMap::new();\n    let mut vis = OldVisitor { t: OldLifter::new(), remembers_exprs: &mut remembers_exprs };\n    let expr = &mut data.clone();\n    vis.visit_expr_closure_mut(expr);\n\n    let remembers_stmts: TokenStream2 =\n        remembers_exprs.iter().fold(quote!(), |collect, (ident, expr)| {\n            let bracketed =\n                crate::sysroot::contracts::helpers::bracket_clause_expr(quote!((#expr).clone()));\n            quote!(let #ident = #bracketed; #collect)\n        });\n\n    let result: Ident = Ident::new(INTERNAL_RESULT_IDENT, Span::call_site());\n    (remembers_stmts, Expr::Verbatim(quote!(kani::internal::apply_closure(#expr, &#result))))\n}"
+        },
+        {
+          "start_line": 195,
+          "end_line": 231,
+          "text": "impl<T: OldTrigger> syn::visit_mut::VisitMut for OldVisitor<'_, T> {\n    fn visit_expr_mut(&mut self, ex: &mut Expr) {\n        let trigger = match &*ex {\n            Expr::Call(call @ ExprCall { func, attrs, args, .. }) => match func.as_ref() {\n                Expr::Path(ExprPath {\n                    attrs: func_attrs,\n                    qself: None,\n                    path: Path { leading_colon: None, segments },\n                }) if segments.len() == 1\n                    && segments.first().is_some_and(|sgm| sgm.ident == \"old\") =>\n                {\n                    let first_segment = segments.first().unwrap();\n                    assert_spanned_err!(first_segment.arguments.is_empty(), first_segment);\n                    assert_spanned_err!(attrs.is_empty(), call);\n                    assert_spanned_err!(func_attrs.is_empty(), func);\n                    assert_spanned_err!(args.len() == 1, call);\n                    true\n                }\n                _ => false,\n            },\n            _ => false,\n        };\n        if trigger {\n            let span = ex.span();\n            let new_expr = if let Expr::Call(ExprCall { args, .. }) = ex {\n                self.t\n                    .trigger(args.iter_mut().next().unwrap(), span, self.remembers_exprs)\n                    .then(|| args.pop().unwrap().into_value())\n            } else {\n                unreachable!()\n            };\n            if let Some(new) = new_expr {\n                let _ = std::mem::replace(ex, new);\n            }\n        } else {\n            syn::visit_mut::visit_expr_mut(self, ex)\n        }"
+        },
+        {
+          "start_line": 235,
+          "end_line": 254,
+          "text": "impl OldTrigger for OldLifter {\n    fn trigger(\n        &mut self,\n        e: &mut Expr,\n        _: Span,\n        remembers_exprs: &mut HashMap<Ident, Expr>,\n    ) -> bool {\n        let mut denier = OldVisitor { t: OldDenier, remembers_exprs };\n        // This ensures there are no nested calls to `old`\n        denier.visit_expr_mut(e);\n        let mut hasher = DefaultHasher::new();\n        e.hash(&mut hasher);\n        let ident =\n            Ident::new(&format!(\"remember_kani_internal_{:x}\", hasher.finish()), Span::call_site());\n        // save the original expression to be lifted into the past remember environment\n        remembers_exprs.insert(ident.clone(), (*e).clone());\n        // change the expression to refer to the new remember variable\n        let _ = std::mem::replace(e, Expr::Verbatim(quote!((#ident))));\n        true\n    }"
+        }
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+      "blob": "365627d101b5c66d853628dca59a2fef842cbff2",
+      "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+      "excerpts": [
+        {
+          "start_line": 25,
+          "end_line": 54,
+          "text": "        match &self.condition_type {\n            ContractConditionsData::Requires { attr } => {\n                let assume_bracketed = bracket_clause_stmt(quote!(kani::assume(#attr);));\n                quote!({\n                    #assume_bracketed\n                    #(#body_stmts)*\n                })\n            }\n            ContractConditionsData::Ensures { attr } => {\n                let (remembers, ensures_clause) = build_ensures(attr);\n\n                // The code that enforces the postconditions and cleans up the shallow\n                // argument copies (with `mem::forget`).\n                let ensures_bracketed = bracket_clause_expr(quote!(#ensures_clause));\n                let exec_postconditions = quote!(\n                    kani::assert(#ensures_bracketed, stringify!(#attr_copy));\n                );\n\n                let return_expr = body_stmts.pop();\n\n                let (assumes, rest_of_body) =\n                    split_for_remembers(&body_stmts[..], ContractMode::SimpleCheck);\n\n                quote!({\n                    #(#assumes)*\n                    #remembers\n                    #(#rest_of_body)*\n                    #exec_postconditions\n                    #return_expr\n                })"
+        },
+        {
+          "start_line": 56,
+          "end_line": 79,
+          "text": "            ContractConditionsData::Modifies { attr } => {\n                let wrapper_arg_ident = Ident::new(WRAPPER_ARG, Span::call_site());\n                let wrapper_tuple = body_stmts.iter_mut().find_map(|stmt| {\n                    if let Stmt::Local(Local {\n                        pat: Pat::Ident(PatIdent { ident, .. }),\n                        init: Some(LocalInit { expr, .. }),\n                        ..\n                    }) = stmt\n                    {\n                        (ident == &wrapper_arg_ident).then_some(expr.as_mut())\n                    } else {\n                        None\n                    }\n                });\n                if let Some(Expr::Tuple(values)) = wrapper_tuple {\n                    values.elems.extend(attr.iter().map(|attr| {\n                        let bracketed = bracket_clause_expr(quote!(#attr as *const _));\n                        let expr: Expr = parse_quote!(#bracketed);\n                        expr\n                    }));\n                } else {\n                    unreachable!(\"Expected tuple but found `{wrapper_tuple:?}`\")\n                }\n                quote!({#(#body_stmts)*})"
+        },
+        {
+          "start_line": 84,
+          "end_line": 102,
+          "text": "    /// Initialize the list of statements for the check closure body.\n    fn initial_check_stmts(&self) -> Vec<syn::Stmt> {\n        let modifies_ident = Ident::new(&self.modify_name, Span::call_site());\n        let wrapper_arg_ident = Ident::new(WRAPPER_ARG, Span::call_site());\n        let return_type = return_type_to_type(&self.annotated_fn.sig.output);\n        let mut_recv = self.has_mutable_receiver().then(|| quote!(core::ptr::addr_of!(self),));\n        let redefs_mut_only = self.arg_redefinitions(true);\n        let modifies_closure = self.modifies_closure(\n            &self.annotated_fn.sig.output,\n            &self.annotated_fn.block,\n            redefs_mut_only,\n        );\n        let result = Ident::new(INTERNAL_RESULT_IDENT, Span::call_site());\n        parse_quote!(\n            let #wrapper_arg_ident = (#mut_recv);\n            #modifies_closure\n            let #result : #return_type = #modifies_ident(#wrapper_arg_ident);\n            #result\n        )"
+        },
+        {
+          "start_line": 109,
+          "end_line": 120,
+          "text": "    pub fn check_closure(&self) -> TokenStream2 {\n        let check_ident = Ident::new(&self.check_name, Span::call_site());\n        let sig = &self.annotated_fn.sig;\n        let output = &sig.output;\n        let body_stmts = self.initial_check_stmts();\n        let body = self.make_check_body(body_stmts);\n\n        quote!(\n            #[kanitool::is_contract_generated(check)]\n            #[allow(dead_code, unused_variables, unused_mut)]\n            let mut #check_ident = kani_force_fn_once(|| #output #body);\n        )"
+        },
+        {
+          "start_line": 135,
+          "end_line": 153,
+          "text": "    /// Emit a modifies wrapper. It's only argument is the list of addresses that may be modified.\n    pub fn modifies_closure(\n        &self,\n        output: &ReturnType,\n        body: &Block,\n        redefs: TokenStream2,\n    ) -> TokenStream2 {\n        // Filter receiver\n        let wrapper_ident = Ident::new(WRAPPER_ARG, Span::call_site());\n        let modifies_ident = Ident::new(&self.modify_name, Span::call_site());\n        let stmts = &body.stmts;\n        quote!(\n            #[kanitool::is_contract_generated(wrapper)]\n            #[allow(dead_code, unused_variables, unused_mut)]\n            let mut #modifies_ident = kani_force_fn_once_with_args(|#wrapper_ident: _| #output {\n                #redefs\n                #(#stmts)*\n            });\n        )"
+        },
+        {
+          "start_line": 197,
+          "end_line": 210,
+          "text": "    /// Generate argument re-definitions for arguments.\n    ///\n    /// This is used so Kani doesn't think that modifying a local argument value is a side effect,\n    /// and avoid may-drop checks in const generic functions.\n    pub fn arg_redefinitions(&self, redefine_only_mut: bool) -> TokenStream2 {\n        let mut result = TokenStream2::new();\n        for (mutability, ident) in self.arg_bindings() {\n            if mutability == MutBinding::Mut {\n                result.extend(quote!(let mut #ident = #ident;));\n            } else if !redefine_only_mut {\n                result.extend(quote!(let #ident = #ident;));\n            }\n        }\n        result"
+        }
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/replace.rs",
+      "blob": "c44de8f9984c27a83ccd9d8db8662c751713362d",
+      "sha256": "6bd51d3234c0778c5e0a465d1009d4efdee21dc2565e626b6d309f25c6791f05",
+      "excerpts": [
+        {
+          "start_line": 20,
+          "end_line": 35,
+          "text": "    fn initial_replace_stmts(&self) -> Vec<syn::Stmt> {\n        let return_type = return_type_to_type(&self.annotated_fn.sig.output);\n        let result = Ident::new(INTERNAL_RESULT_IDENT, Span::call_site());\n        // Add dummy assignments of the input variables to local variables\n        // to avoid may drop checks in const generic functions.\n        // https://github.com/model-checking/kani/issues/3667\n        let redefs = self.arg_redefinitions(false);\n        let redefs_block: Block = syn::parse_quote!({#redefs});\n        [\n            vec![syn::parse_quote!(\n                let #result : #return_type = kani::any_modifies();\n            )],\n            redefs_block.stmts,\n        ]\n        .concat()\n    }"
+        },
+        {
+          "start_line": 114,
+          "end_line": 151,
+          "text": "            ContractConditionsData::Ensures { attr } => {\n                let (remembers, ensures_clause) = build_ensures(attr);\n                let ensures_bracketed = bracket_clause_expr(quote!(#ensures_clause));\n                let result = Ident::new(INTERNAL_RESULT_IDENT, Span::call_site());\n\n                let (asserts, rest_of_before) = split_for_remembers(before, ContractMode::Replace);\n\n                quote!({\n                    #(#asserts)*\n                    #remembers\n                    #(#rest_of_before)*\n                    #(#after)*\n                    kani::assume(#ensures_bracketed);\n                    #recv_move\n                    #result\n                })\n            }\n            ContractConditionsData::Modifies { attr } => {\n                let result = Ident::new(INTERNAL_RESULT_IDENT, Span::call_site());\n                let havoc_stmts: Vec<_> = attr\n                    .iter()\n                    .map(|attr| {\n                        let bracketed =\n                            bracket_clause_expr(quote!(kani::internal::untracked_deref(&#attr)));\n                        quote!(unsafe {\n                            kani::internal::write_any(kani::internal::Pointer::assignable(\n                                #bracketed,\n                            ))\n                        };)\n                    })\n                    .collect();\n                quote!({\n                    #(#before)*\n                    #(#havoc_stmts)*\n                    #(#after)*\n                    #recv_move\n                    #result\n                })"
+        },
+        {
+          "start_line": 160,
+          "end_line": 171,
+          "text": "    pub fn replace_closure(&self) -> TokenStream {\n        let replace_ident = Ident::new(&self.replace_name, Span::call_site());\n        let sig = &self.annotated_fn.sig;\n        let output = &sig.output;\n        let before = self.initial_replace_stmts();\n        let body = self.expand_replace_body(&before, &[]);\n\n        quote!(\n            #[kanitool::is_contract_generated(replace)]\n            #[allow(dead_code, unused_variables, unused_mut)]\n            let mut #replace_ident = kani_force_fn_once(|| #output #body);\n        )"
+        }
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/assert.rs",
+      "blob": "c795a2981f0e797ede2ac17b088c7ebbd974fda9",
+      "sha256": "ec6480d46c29038b58cdac5d96ef962bd004e2d4fd16be6b9b64ee143f9cd5b4",
+      "excerpts": [
+        {
+          "start_line": 44,
+          "end_line": 56,
+          "text": "    fn initial_assert_stmts(&self) -> Vec<Stmt> {\n        let body_wrapper_ident = Ident::new(\"body_wrapper\", Span::call_site());\n        let output = &self.annotated_fn.sig.output;\n        let return_type = return_type_to_type(output);\n        let stmts = &self.annotated_fn.block.stmts;\n        let result = Ident::new(INTERNAL_RESULT_IDENT, Span::call_site());\n\n        parse_quote!(\n            let mut body_wrapper = kani_force_fn_once(|| #output {\n                #(#stmts)*\n            });\n            let #result : #return_type = #body_wrapper_ident();\n            #result"
+        },
+        {
+          "start_line": 74,
+          "end_line": 93,
+          "text": "            ContractConditionsData::Ensures { attr } => {\n                let (remembers, ensures_clause) = build_ensures(attr);\n                let ensures_bracketed = bracket_clause_expr(quote!(#ensures_clause));\n\n                let exec_postconditions = quote!(\n                    kani::assert(#ensures_bracketed, stringify!(#attr_copy));\n                );\n\n                let return_expr = body_stmts.pop();\n\n                let (asserts, rest_of_body) =\n                    split_for_remembers(&body_stmts[..], ContractMode::Assert);\n\n                quote!({\n                    #(#asserts)*\n                    #remembers\n                    #(#rest_of_body)*\n                    #exec_postconditions\n                    #return_expr\n                })"
+        }
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/bootstrap.rs",
+      "blob": "400b24cb73541f9b7311ac11e024cfca2cfe2fac",
+      "sha256": "d9e0988bfe8eef7f90b9378300ec4b77d425677ee60dc845f841939d073e9507",
+      "excerpts": [
+        {
+          "start_line": 41,
+          "end_line": 103,
+          "text": "        let ImplItemFn { attrs, vis, defaultness, sig, block } = self.annotated_fn;\n        self.output.extend(quote!(\n            #(#attrs)*\n            #[kanitool::recursion_check = #recursion_name]\n            #[kanitool::checked_with = #check_name]\n            #[kanitool::replaced_with = #replace_name]\n            #[kanitool::asserted_with = #assert_name]\n            #[kanitool::modifies_wrapper = #modifies_name]\n            #vis #defaultness #sig {\n                // Dummy functions used to force the compiler to annotate Kani's\n                // closures as `FnOnce`. Without this, Rust infers the generated closures as `FnMut`,\n                // preventing us from writing contracts for functions returning mutable references.\n                // See https://github.com/model-checking/kani/issues/3764\n                #[inline(never)]\n                #[kanitool::fn_marker = \"kani_force_fn_once\"]\n                const fn kani_force_fn_once<T, F: FnOnce() -> T>(f: F) -> F {\n                    f\n                }\n                #[inline(never)]\n                #[kanitool::fn_marker = \"kani_force_fn_once_with_args\"]\n                const fn kani_force_fn_once_with_args<A, T, F: FnOnce(A) -> T>(f: F) -> F {\n                    f\n                }\n                // Dummy function used to force the compiler to capture the environment.\n                // We cannot call closures inside constant functions.\n                // This function gets replaced by `kani::internal::call_closure`.\n                #[inline(never)]\n                #[kanitool::fn_marker = \"kani_register_contract\"]\n                const fn kani_register_contract<T, F: FnOnce() -> T>(f: F) -> T {\n                    unreachable!()\n                }\n                // Dummy function that we replace to pick the contract mode.\n                // By default, return ORIGINAL.\n                //\n                // `#[inline]`, unlike the other markers: this is the only non-generic one, so its\n                // single instantiation lives in the defining crate, and `compiler_builtins` cannot\n                // call through an upstream monomorphization (rust-lang/rust#137222). `#[inline]`\n                // makes rustc emit a local copy in each crate that needs it. Kani still finds the\n                // call in MIR because the MIR `Inline` pass is off at Kani's default opt level.\n                #[inline]\n                #[kanitool::fn_marker = \"kani_contract_mode\"]\n                const fn kani_contract_mode() -> kani::internal::Mode {\n                    kani::internal::ORIGINAL\n                }\n                let kani_contract_mode = kani_contract_mode();\n                match kani_contract_mode {\n                    kani::internal::RECURSION_CHECK => {\n                        #recursion_closure;\n                        kani_register_contract(#recursion_ident)\n                    }\n                    kani::internal::REPLACE => {\n                        #replace_closure;\n                        kani_register_contract(#replace_ident)\n                    }\n                    kani::internal::SIMPLE_CHECK => {\n                        #check_closure;\n                        kani_register_contract(#check_ident)\n                    }\n                    kani::internal::ASSERT => {\n                        #assert_closure;\n                        kani_register_contract(#assert_ident)\n                    }\n                    _ => #block"
+        }
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/helpers.rs",
+      "blob": "1298e09f258f9d3f02653291851eba00f0d67216",
+      "sha256": "710d7ef9ca4ca6e2fc277a56d3f1f1b1008ae7162eaf7d8f3fc0c1826810fd30",
+      "excerpts": [
+        {
+          "start_line": 12,
+          "end_line": 20,
+          "text": "/// If an explicit return type was provided it is returned, otherwise `()`.\npub fn return_type_to_type(return_type: &syn::ReturnType) -> Cow<'_, syn::Type> {\n    match return_type {\n        syn::ReturnType::Default => Cow::Owned(syn::Type::Tuple(syn::TypeTuple {\n            paren_token: syn::token::Paren::default(),\n            elems: Default::default(),\n        })),\n        syn::ReturnType::Type(_, typ) => Cow::Borrowed(typ.as_ref()),\n    }"
+        },
+        {
+          "start_line": 167,
+          "end_line": 188,
+          "text": "pub fn is_token_stream_2_comma(t: &proc_macro2::TokenTree) -> bool {\n    matches!(t, proc_macro2::TokenTree::Punct(p) if p.as_char() == ',')\n}\n\npub fn chunks_by<'a, T, C: Default + Extend<T>>(\n    i: impl IntoIterator<Item = T> + 'a,\n    mut pred: impl FnMut(&T) -> bool + 'a,\n) -> impl Iterator<Item = C> + 'a {\n    let mut iter = i.into_iter();\n    std::iter::from_fn(move || {\n        let mut new = C::default();\n        let mut empty = true;\n        for tok in iter.by_ref() {\n            empty = false;\n            if pred(&tok) {\n                break;\n            } else {\n                new.extend([tok])\n            }\n        }\n        (!empty).then_some(new)\n    })"
+        },
+        {
+          "start_line": 233,
+          "end_line": 257,
+          "text": "pub fn bracket_clause_expr(expr: proc_macro2::TokenStream) -> proc_macro2::TokenStream {\n    quote::quote!({\n        let __kani_clause_guard = kani::internal::enter_contract_clause_guard();\n        let __kani_clause_value = #expr;\n        __kani_clause_value\n    })\n}\n\n/// Wrap a contract clause *statement* (e.g. `kani::assume(#cond);` or\n/// `kani::assert(#cond, ..);`) in a scope that increments the clause-depth\n/// counter for its duration, via the same RAII guard as [`bracket_clause_expr`].\n///\n/// Unlike [`bracket_clause_expr`], the clause expression is left in place as a\n/// direct argument to `assume`/`assert` rather than moved behind a wrapper\n/// block. This preserves its span, so that a non-`bool` clause reports the\n/// type error on the offending sub-expression rather than on the generated\n/// wrapper (see tests/ui/function-contracts/non_bool_contracts.rs and\n/// https://github.com/model-checking/kani/issues/3009). The guard is still\n/// dropped on all exits from the scope, including unwinding.\npub fn bracket_clause_stmt(stmt: proc_macro2::TokenStream) -> proc_macro2::TokenStream {\n    quote::quote!({\n        let __kani_clause_guard = kani::internal::enter_contract_clause_guard();\n        #stmt\n    })\n}"
+        }
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_core/src/lib.rs",
+      "blob": "41ebc98272aec6e64656f0a4075c648133adef6b",
+      "sha256": "fd4936db12f998df2419b9e6240f9171643f8287654840596ea2db40cfd76bc0",
+      "excerpts": [
+        {
+          "start_line": 690,
+          "end_line": 695,
+          "text": "            /// This should only be used within contracts. The intent is to\n            /// perform type inference on a closure's argument\n            #[doc(hidden)]\n            pub fn apply_closure<T, U: Fn(&T) -> bool>(f: U, x: &T) -> bool {\n                f(x)\n            }"
+        }
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_core/src/mem.rs",
+      "blob": "42875177f699d98360a67bb1e050efdbb8296df7",
+      "sha256": "598428730a32f2c4034091688b50dde5a44deb69e2e3c61e08a0d394a5e42844",
+      "excerpts": [
+        {
+          "start_line": 30,
+          "end_line": 42,
+          "text": "        #[crate::kani::unstable_feature(\n            feature = \"mem-predicates\",\n            issue = 2690,\n            reason = \"experimental memory predicate API\"\n        )]\n        pub fn can_write<T: MetaSized>(ptr: *mut T) -> bool {\n            is_ptr_aligned(ptr) && is_inbounds(ptr)\n        }\n\n        /// Check if the pointer is valid for unaligned write access according to [crate::mem] conditions\n        /// 1, 2 and 3.\n        ///\n        /// Note this function succeeds for unaligned pointers. See [self::can_write] if you also"
+        },
+        {
+          "start_line": 68,
+          "end_line": 81,
+          "text": "            feature = \"mem-predicates\",\n            issue = 2690,\n            reason = \"experimental memory predicate API\"\n        )]\n        #[allow(clippy::not_unsafe_ptr_arg_deref)]\n        pub fn can_dereference<T: MetaSized>(ptr: *const T) -> bool {\n            // Need to assert `is_initialized` because non-determinism is used under the hood, so it\n            // does not make sense to use it inside assumption context.\n            is_ptr_aligned(ptr)\n                && is_inbounds(ptr)\n                && assert_is_initialized(ptr)\n                && unsafe { has_valid_value(ptr) }\n        }\n"
+        },
+        {
+          "start_line": 112,
+          "end_line": 129,
+          "text": "            feature = \"mem-predicates\",\n            issue = 2690,\n            reason = \"experimental memory predicate API\"\n        )]\n        #[allow(clippy::not_unsafe_ptr_arg_deref)]\n        pub fn same_allocation<T: PointeeSized>(ptr1: *const T, ptr2: *const T) -> bool {\n            same_allocation_internal(ptr1, ptr2)\n        }\n\n        #[allow(clippy::not_unsafe_ptr_arg_deref)]\n        pub(super) fn same_allocation_internal<T: PointeeSized>(\n            ptr1: *const T,\n            ptr2: *const T,\n        ) -> bool {\n            let addr1 = ptr1 as *const ();\n            let addr2 = ptr2 as *const ();\n            cbmc::same_allocation(addr1, addr2)\n        }"
+        }
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-compiler/src/kani_middle/mod.rs",
+      "blob": "6093b083178e7b16e0f505d71c9438fdb924d334",
+      "sha256": "6e73911b203b9d8237a0725ca67f1c46342d106b572ad485a2ceb06b61739a41",
+      "excerpts": [
+        {
+          "start_line": 83,
+          "end_line": 96,
+          "text": "/// Check that all crate items are supported and there's no misconfiguration.\n/// This method will exhaustively print any error / warning and it will abort at the end if any\n/// error was found.\npub fn check_crate_items(tcx: TyCtxt, ignore_asm: bool) {\n    let krate = tcx.crate_name(LOCAL_CRATE);\n    let mut all_stub_verified_targets = FxHashMap::default();\n    let mut all_contract_targets = HashSet::new();\n\n    for item in tcx.hir_free_items() {\n        let def_id = item.owner_id.def_id.to_def_id();\n        let (stub_verified_targets, contract_targets) =\n            KaniAttributes::for_item(tcx, def_id).check_attributes();\n        all_stub_verified_targets.extend(stub_verified_targets);\n        all_contract_targets.extend(contract_targets);"
+        },
+        {
+          "start_line": 114,
+          "end_line": 128,
+          "text": "    // Validate that all stub_verified targets have corresponding proof_for_contract harnesses\n    for (stub_verified_target, span) in all_stub_verified_targets {\n        if !all_contract_targets.contains(&stub_verified_target) {\n            tcx.dcx().struct_span_err(\n                span,\n                format!(\n                    \"stub verified target `{}` does not have a corresponding `#[proof_for_contract]` harness\",\n                    strip_local_crate_prefix(stub_verified_target.name())\n                ),\n            ).with_help(\"verified stubs are meant to be sound abstractions for a function's behavior, so Kani enforces that proofs exist for the stub's contract\")\n            .emit();\n        }\n    }\n\n    tcx.dcx().abort_if_errors();"
+        }
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-compiler/src/kani_middle/attributes.rs",
+      "blob": "ec2d5f8d691876b0f0f22a05cd9b6e3a27dc3ba1",
+      "sha256": "0b7cfe3b74e1958770b94a763fc89bc5b8156a1d120a69e8bdac67ada630078e",
+      "excerpts": [
+        {
+          "start_line": 622,
+          "end_line": 643,
+          "text": "    fn handle_proof_for_contract(&self, attr: &Attribute) {\n        let target_def = match self.interpret_for_contract_attribute() {\n            None => return, // This error was already emitted\n            Some(def) => def,\n        };\n        let target_attributes = KaniAttributes::for_def_id(self.tcx, target_def.def_id());\n        if target_attributes.contract_attributes().is_none() {\n            self.tcx\n                .dcx()\n                .struct_span_err(\n                    attr.span(),\n                    format!(\n                        \"Failed to check contract: `{}` has no contract.\",\n                        target_attributes.item_name(),\n                    ),\n                )\n                .with_span_note(\n                    rustc_internal::internal(self.tcx, target_def.span()),\n                    \"Try adding a contract to this function.\",\n                )\n                .emit();\n        }"
+        },
+        {
+          "start_line": 646,
+          "end_line": 681,
+          "text": "    fn check_stub_verified(&self, attr: &Attribute) {\n        let dcx = self.tcx.dcx();\n        let mut seen = HashSet::new();\n        for stub_target in self.interpret_stub_verified_attribute() {\n            if seen.contains(&stub_target) {\n                dcx.struct_span_warn(\n                    rustc_internal::internal(self.tcx, stub_target.span()),\n                    format!(\n                        \"Multiple occurrences of `stub_verified({})`.\",\n                        stub_target.trimmed_name()\n                    ),\n                )\n                .with_help(\"Use a single annotation instead.\")\n                .emit();\n            } else {\n                seen.insert(stub_target);\n            }\n            if KaniAttributes::for_def_id(self.tcx, stub_target.def_id())\n                .contract_attributes()\n                .is_none()\n            {\n                dcx.struct_span_err(\n                    attr.span(),\n                    format!(\n                        \"Target function in stub_verified, `{}`, has no contract.\",\n                        stub_target.trimmed_name()\n                    ),\n                )\n                    .with_span_note(\n                        rustc_internal::internal(self.tcx, stub_target.span()),\n                        format!(\n                            \"Try adding a contract to this function or use the unsound `{}` attribute instead.\",\n                            KaniAttributeKind::Stub.as_ref(),\n                        ),\n                    )\n                    .emit();"
+        }
+      ]
+    },
+    {
+      "commit": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+      "path": "ch8-s1-control/runner.py",
+      "blob": "9c47b3228ffc1984cb2895e345fd47d5d4c9e029",
+      "sha256": "fd298f6157a4157115a504d630d51a5a3c234d2cb8cf7d9521b22182b02effd9",
+      "excerpts": [
+        {
+          "start_line": 322,
+          "end_line": 344,
+          "text": "def build_argv(std: Path, tool: Path, selectors: list[str], unwind: int, export: Path) -> list[str]:\n    if not selectors or len(set(selectors)) != len(selectors):\n        raise RunnerError(\"nonempty unique exact group selectors required\")\n    argv = [str((tool.resolve() / \"scripts/kani\")), \"verify-std\", \"-Z\", \"unstable-options\"]\n    for feature in UNSTABLE:\n        argv += [\"-Z\", feature]\n    argv += [\"--no-assert-contracts\", \"--jobs=1\", \"--harness-timeout\", \"600s\"]\n    for selector in selectors:\n        argv += [\"--harness\", selector]\n    argv += [\"--exact\", \"--default-unwind\", str(unwind), \"-Z\", \"export-json\",\n             \"--export-json\", str(export.resolve()), \"--output-format=regular\", str((std.resolve() / \"library\")),\n             \"--cbmc-args\", \"--object-bits\", \"12\"]\n    return argv\n\n\ndef ci_env(std: Path | None = None) -> dict[str, str]:\n    env = os.environ.copy()\n    fixed = \"--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed\"\n    inherited = env.get(\"RUSTFLAGS\", \"\").strip()\n    if inherited and inherited != fixed:\n        raise RunnerError(\"refusing inherited RUSTFLAGS outside the frozen sorting+controls cfg\")\n    env[\"RUSTFLAGS\"] = fixed\n    env[\"NO_COLOR\"] = \"1\""
+        }
+      ]
+    },
+    {
+      "commit": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+      "path": ".github/workflows/ch8-s2.yml",
+      "blob": "279dceb3b64e8ecceaa8ef7d6d43cf9d33149655",
+      "sha256": "7dca25a36813d294548ce26c27dfe38b9b06d3f4091785eaad4f00be2a437455",
+      "excerpts": [
+        {
+          "start_line": 40,
+          "end_line": 65,
+          "text": "    - name: Read immutable export pins\n      timeout-minutes: 1\n      id: pins\n      run: \"python3 - <<'PYCODE'\\nimport json, os\\nr = json.load(open('control/ch8-s1-control/CI-REQUEST.json'))\\nassert r['status'] == 'READY'\\nwith open(os.environ['GITHUB_OUTPUT'], 'a') as f:\\n    f.write('std=' + r['std_sha'] + '\\\\n')\\n    f.write('tool=' + r['tool_sha'] + '\\\\n')\\nPYCODE\\n\"\n    - name: Checkout production model export\n      timeout-minutes: 5\n      uses: actions/checkout@v6\n      with:\n        repository: Tiramisu-Cake/verify-rust-std\n        ref: ${{ steps.pins.outputs.std }}\n        path: export\n        fetch-depth: 5\n        persist-credentials: false\n        submodules: true\n    - name: Checkout immutable upstream tool\n      timeout-minutes: 2\n      uses: actions/checkout@v6\n      with:\n        repository: model-checking/kani\n        ref: ${{ steps.pins.outputs.tool }}\n        path: tool\n        fetch-depth: 2\n        persist-credentials: false\n    - name: Check all source identities\n      timeout-minutes: 1\n      run: python3 control/ch8-s1-control/runner.py check-source --std export --tool tool"
+        },
+        {
+          "start_line": 80,
+          "end_line": 88,
+          "text": "    - name: Run S2 batch3probes with bounded observations\n      timeout-minutes: 126\n      env:\n        RECEIPT_ROOT: ${{ runner.temp }}/ch8-s1-receipts\n        PYTHONDONTWRITEBYTECODE: '1'\n        S1_GROUP: s2-batch3probes-u34\n      run: 'python3 control/ch8-s1-control/runner.py run --std export --tool tool --out \"$RECEIPT_ROOT\" --groups \"$S1_GROUP\"\n\n        '"
+        }
+      ]
+    }
+  ]
+}

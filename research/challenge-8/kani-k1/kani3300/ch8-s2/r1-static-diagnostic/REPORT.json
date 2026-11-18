@@ -1,0 +1,125 @@
+{
+  "schema": "ch8-s2-r1-static-diagnostic-v1",
+  "task_id": "task90b7e5bd7f7dcecc00e7009196a466a7422f179d",
+  "assurance": "STATIC_SOURCE_ONLY",
+  "source_sha": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+  "stock_tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "control_sha": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+  "result": "NO_CONCRETE_COMPILE_DEFECT_LOCATED_IN_REQUESTED_STATIC_SLICE",
+  "historical_rustc_cause": "UNKNOWN",
+  "observed_compiler_diagnostic": null,
+  "historical_input_origin": "TASK_AND_COORDINATOR_REPORT_ONLY",
+  "established_r1_static_compile_defects": [],
+  "compilation_here": "NOT_RUN",
+  "successful_r1_compilation": "NOT_ESTABLISHED",
+  "established_static_findings": [
+    "All11 roots share declared kani/sorting/controls/s2_assumed; consumer/span-provider cfgs align",
+    "Local disjoint helper active under kani; raw-pointer signature accepts arguments by coercion",
+    "old capture returns owned Clone+Copy Snapshot; stock emits clone after recognized preconditions before body/havoc",
+    "Post guard does not guard lifted old evaluation; generic inactive capture does not read storage",
+    "Registration call constrains u8/KeyLess with four arguments and unit return; no concrete mismatch located",
+    "O-to-r1 delta only13 appended registration lines; contract/span/helper unchanged",
+    "Registration is not macro/type/borrow validation or successful proof"
+  ],
+  "hypothesis_ranking_basis": "Investigation priority after static exclusions, not probability estimates",
+  "hypotheses": [
+    {
+      "rank": 1,
+      "id": "generated_contract_closure",
+      "hypothesis": "Type/borrow/trait rejection in generated sort8/insert_tail/merge closures",
+      "status": "OPEN_NO_CONCRETE_VIOLATION_LOCATED",
+      "discriminator": "Complete primary diagnostic with actual code/types/capture spans and macro expansion at active clauses"
+    },
+    {
+      "rank": 2,
+      "id": "registration_call",
+      "hypothesis": "Inference/trait rejection at new call or reset/init PFC expansion",
+      "status": "WEAK_SOURCE_TYPES_CONSTRAINED",
+      "discriminator": "Actual error at sorting_s2_batch.rs:168-175 or expansion; E0282/E0308 at casts only if emitted"
+    },
+    {
+      "rank": 3,
+      "id": "other_crate_item_or_stage",
+      "hypothesis": "Another active crate item or compiler/tool stage fails before roots",
+      "status": "OPEN_OUTSIDE_TARGETED_SLICE",
+      "discriminator": "Complete diagnostic names different item/file or ICE/tool stage with original exit"
+    },
+    {
+      "rank": 4,
+      "id": "cfg_or_registration_mismatch",
+      "hypothesis": "Missing span/disjoint/PFC provider under compiler cfg",
+      "status": "CONTRADICTED_FOR_PINNED_SOURCE_AND_DECLARED_CFG_ACTUAL_INVOCATION_UNRECOVERED",
+      "discriminator": "Actual E0425/E0433 or stock missing-PFC error plus exact source/tool/config/argv binding"
+    }
+  ],
+  "proposed_repair": {
+    "state": "NOT_APPLIED",
+    "kind": "CONDITIONAL_EXPLICIT_TYPE_DIAGNOSTIC_PROPOSAL",
+    "location": "REPORT.md diff",
+    "trigger_required": "Future retained diagnostic specifically identifies inference at new registration call",
+    "established_fix": false,
+    "semantic_contract_repair_justified": false,
+    "new_source_candidate": false
+  },
+  "future_retained_result": {
+    "failure_required_fields": [
+      "complete message/code/level",
+      "primary and secondary spans",
+      "rendered text and expansion/notes",
+      "source/tool/tree/request hashes",
+      "actual argv/env cfgs",
+      "stage",
+      "original exit/signal",
+      "completeness and truncation independent from preview"
+    ],
+    "success_required_fields": [
+      "unchanged exact tuple",
+      "original exit0",
+      "complete diagnostics retention status",
+      "valid initial export",
+      "11 exact selected roots"
+    ],
+    "retroactive_historical_causality": false,
+    "run_authorized_by_report": false,
+    "capture_implementation_owner": "W11"
+  },
+  "validation": {
+    "kind": "STATIC_ASSERTIONS_AND_GIT_IDENTITIES",
+    "source_manifest_file_count": 12,
+    "source_manifest_hashes_match": true,
+    "source_worktree_matches_pinned_bytes": true,
+    "source_control_worktrees_clean": true,
+    "control_request_matches_exactly": true,
+    "source_tool_control_tree_ids_match": true,
+    "root_binding_request_inventory_count": 11,
+    "root_function_line_anchors_match": true,
+    "common_cfg_matches": true,
+    "r1_delta_only_one_file": true,
+    "added_lines": 13,
+    "removed_lines": 0,
+    "old_prefix_identical": true,
+    "exact_evidence_file_count": 26,
+    "compiler_or_macro_execution": false
+  },
+  "execution": {
+    "compiler": false,
+    "cargo": false,
+    "kani": false,
+    "cbmc": false,
+    "full_runner": false,
+    "ci": false,
+    "subagents": 0,
+    "source_control_edits": false,
+    "proof_credit": "NONE",
+    "new_source_candidate": false,
+    "proposed_repair": "NOT_APPLIED",
+    "runner_changes": "W11 separate owner; untouched",
+    "accounting_changes": false
+  },
+  "proof_credit": "NONE",
+  "B1": "NOT_ESTABLISHED",
+  "B2": "NOT_ESTABLISHED",
+  "summary_qualification": "NOT_ESTABLISHED",
+  "accounting": "item1 28/28; item2 provisional10/14; total38/42, source-reported unchanged; r1 charge owner-only",
+  "closure_reason": "All authorized static/report work completed; historical diagnostic explicitly UNKNOWN; handoff reviewer14 and separate W11 capture work"
+}
