@@ -1,0 +1,1037 @@
+{
+  "schema": "s3-2-capped-plan-v1",
+  "task": "e61fdc2c3f0af10106451f8372f8f9c05e960778",
+  "status": "READY_PLANONLY_INTAKE_BOUND_PENDING14",
+  "execution": "PLANONLY_NOT_APPLIED",
+  "native_intake_commit": "d29ab46dbbb45d7106fa30c3ac04bb419a2ac286",
+  "qualified_leaves": [],
+  "proof_credit": 0,
+  "proof_obligations_closed": 0,
+  "source_trace": "PLAN.md with exact SOURCE-CITATIONS.json ranges; original roots/maps below",
+  "frozen_roots": [
+    {
+      "id": "s3_insert_tail_u8_rel16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_insert_tail_u8_rel16",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_insert_tail_u8_rel16",
+      "mode": "PFC",
+      "unwind": 36,
+      "target": "insert_tail",
+      "required_success_messages": [
+        "S3_INSERT_ACTIVE",
+        "S3_INSERT_SORTED_FULL_COUNT",
+        "S3_INSERT_OUTSIDE_FRAME"
+      ],
+      "required_cover_messages": [
+        "S3_INSERT_LENGTH2",
+        "S3_INSERT_LENGTH17",
+        "S3_INSERT_BASE_FIRST",
+        "S3_INSERT_BASE_LAST",
+        "S3_INSERT_EARLY_RETURN",
+        "S3_INSERT_FULL_SIFT",
+        "S3_INSERT_DUPLICATE",
+        "S3_INSERT_NONCONSTANT",
+        "S3_INSERT_USEFUL_RETURN"
+      ]
+    },
+    {
+      "id": "s3_merge8_u8_same_alloc",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_same_alloc",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_same_alloc",
+      "mode": "PFC",
+      "unwind": 50,
+      "target": "bidirectional_merge",
+      "required_success_messages": [
+        "S3_MERGE8_SAME_ACTIVE",
+        "S3_MERGE8_SAME_SORTED_FULL_COUNT",
+        "S3_MERGE8_SAME_OUTSIDE_FRAME",
+        "S3_MERGE8_SAME_SOURCE_FRAME",
+        "S3_MERGE8_SAME_CANARY"
+      ],
+      "required_cover_messages": [
+        "S3_MERGE8_SAME_FORWARD_ADJACENT",
+        "S3_MERGE8_SAME_REVERSE_ADJACENT",
+        "S3_MERGE8_SAME_EXTREME",
+        "S3_MERGE8_SAME_LEFT_FIRST",
+        "S3_MERGE8_SAME_RIGHT_FIRST",
+        "S3_MERGE8_SAME_TIE",
+        "S3_MERGE8_SAME_UNSORTED",
+        "S3_MERGE8_SAME_NONCONSTANT",
+        "S3_MERGE8_SAME_SORT8_FIRST_GEOMETRY",
+        "S3_MERGE8_SAME_SORT8_SECOND_GEOMETRY",
+        "S3_MERGE8_SAME_USEFUL_RETURN"
+      ]
+    }
+  ],
+  "common_leaf_contract": {
+    "type": "u8",
+    "comparator": "actual sorting_model::KeyLess<u8>, stateless full-byte <",
+    "alphabet": "All initialized logical input bytes arbitrary0..255 subject only to declared order premises",
+    "mode": "PFC_CANDIDATE_ACTUAL_BODY_NO_STUBS",
+    "state": "NOT_REGISTERED_NOT_RUN",
+    "proof_credit": 0,
+    "checks": "Retain actual guarded ensures, precise modifies, safety/init/validity/unwind and full native role/producer checks",
+    "selector_module_proposed": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate"
+  },
+  "preferred": {
+    "I-PART": {
+      "leaf_count": 16,
+      "original_pairs": 256,
+      "partition": "literal relative p1..16, every begin1..16",
+      "all_original_predicates_retained": true
+    },
+    "M-PART": {
+      "leaf_count": 2,
+      "original_pairs": 1122,
+      "partition_pairs": [
+        561,
+        561
+      ],
+      "further_exact_partition": "41 fixed-src s0..40 leaves, each every legal symbolic d; not next campaign"
+    },
+    "REL": {
+      "state": "CONDITIONAL_UNIMPLEMENTED_UNPROVED",
+      "insertion_relation": "k=count(prefix[i]<=old_tail,i<p); actual out=old[0:k] ++ [old_tail] ++ old[k:p]",
+      "merge_relation": "actual out ordered and equals old_src at bijection pi0..7, established by checked actual-body steps or bounded relation",
+      "query_count": "arbitrary q:u8 old/new full-span count equality; checked equivalence to existing per-old-value post required",
+      "stock_support": "UNKNOWN; no new trusted premises/model",
+      "constraints": [
+        "no assumed k/pi/permutation",
+        "no few-keys theorem",
+        "no old ensures/count/frame deletion",
+        "registration/witness is not actual provider proof",
+        "retain direct actual-body finite leaves if composition unsupported"
+      ]
+    },
+    "provider_domain_mismatches": [
+      "insert contract spans2..17 has no V34/b1..16 restriction",
+      "merge contract lengths2..32 has no MU48/all-outside-init restriction",
+      "separate allocation merge8 is not same-allocation8",
+      "same-allocation8 is not merge2..32",
+      "bounded wrapper/guard with checked exact-domain preconditions or actual inline proof required before modular reuse",
+      "sort8_registration_only stays unqualified"
+    ]
+  },
+  "leaves": [
+    {
+      "id": "i_p01_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p01_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 1,
+        "span": 2,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span2"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p02_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p02_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 2,
+        "span": 3,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span3"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p03_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p03_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 3,
+        "span": 4,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span4"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p04_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p04_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 4,
+        "span": 5,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span5"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p05_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p05_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 5,
+        "span": 6,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span6"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p06_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p06_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 6,
+        "span": 7,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span7"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p07_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p07_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 7,
+        "span": 8,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span8"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p08_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p08_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 8,
+        "span": 9,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span9"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p09_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p09_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 9,
+        "span": 10,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span10"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p10_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p10_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 10,
+        "span": 11,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span11"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p11_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p11_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 11,
+        "span": 12,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span12"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p12_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p12_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 12,
+        "span": 13,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span13"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p13_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p13_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 13,
+        "span": 14,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span14"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p14_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p14_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 14,
+        "span": 15,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span15"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p15_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p15_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 15,
+        "span": 16,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span16"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "i_p16_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p16_b1_16",
+      "group": "I-PART",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 16,
+        "span": 17,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "begin16",
+        "span17"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "m8_src_before_dst_all48",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::m8_src_before_dst_all48",
+      "group": "M-PART",
+      "domain": {
+        "backing": "[MaybeUninit<u8>;48]",
+        "src_inclusive": [
+          0,
+          40
+        ],
+        "dst_inclusive": [
+          0,
+          40
+        ],
+        "predicate": "s+8<=d",
+        "source_sorted_halves": [
+          4,
+          4
+        ],
+        "initialized": "every offset outside [d,d+8)",
+        "uninitialized": "[d,d+8)",
+        "original_pairs": 561
+      },
+      "unwind_proposal": 50,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "M",
+      "specific_covers_proposed": [
+        "forward_adjacent",
+        "s0_d40"
+      ],
+      "shared_covers_ref": "M"
+    },
+    {
+      "id": "m8_dst_before_src_all48",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::m8_dst_before_src_all48",
+      "group": "M-PART",
+      "domain": {
+        "backing": "[MaybeUninit<u8>;48]",
+        "src_inclusive": [
+          0,
+          40
+        ],
+        "dst_inclusive": [
+          0,
+          40
+        ],
+        "predicate": "d+8<=s",
+        "source_sorted_halves": [
+          4,
+          4
+        ],
+        "initialized": "every offset outside [d,d+8)",
+        "uninitialized": "[d,d+8)",
+        "original_pairs": 561
+      },
+      "unwind_proposal": 50,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "M",
+      "specific_covers_proposed": [
+        "reverse_adjacent",
+        "s40_d0",
+        "s32_d0",
+        "s40_d16"
+      ],
+      "shared_covers_ref": "M"
+    },
+    {
+      "id": "i_p16_b01",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p16_b01",
+      "group": "I-FIX",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin": 1,
+        "relative_tail": 16,
+        "span": 17,
+        "premise": "prefix16 sorted",
+        "original_pairs": 1
+      },
+      "unwind_proposal": 36,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "I",
+      "specific_covers_proposed": [
+        "begin1",
+        "span17"
+      ],
+      "shared_covers_ref": "I"
+    },
+    {
+      "id": "m8_s32_d00_allinit",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::m8_s32_d00_allinit",
+      "group": "M-FIX",
+      "domain": {
+        "backing": "[MaybeUninit<u8>;48]",
+        "src": 32,
+        "dst": 0,
+        "span": 8,
+        "source_sorted_halves": [
+          4,
+          4
+        ],
+        "initialized_intervals": [
+          [
+            8,
+            48
+          ]
+        ],
+        "uninitialized": "complement in [0,48), including dst",
+        "prior_initialized_values": "arbitrary full bytes, source halves alone sorted",
+        "original_allinit_pairs": 1,
+        "sort8_n32_side": null
+      },
+      "unwind_proposal": 50,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "M",
+      "specific_covers_proposed": [
+        "exact_offset_witness",
+        "exact_init_mask"
+      ],
+      "shared_covers_ref": "M"
+    },
+    {
+      "id": "m8_s32_d00_partial",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::m8_s32_d00_partial",
+      "group": "M-BRIDGE",
+      "domain": {
+        "backing": "[MaybeUninit<u8>;48]",
+        "src": 32,
+        "dst": 0,
+        "span": 8,
+        "source_sorted_halves": [
+          4,
+          4
+        ],
+        "initialized_intervals": [
+          [
+            32,
+            40
+          ]
+        ],
+        "uninitialized": "complement in [0,48), including dst",
+        "prior_initialized_values": "arbitrary full bytes, source halves alone sorted",
+        "original_allinit_pairs": 0,
+        "sort8_n32_side": 0
+      },
+      "unwind_proposal": 50,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "M",
+      "specific_covers_proposed": [
+        "exact_offset_witness",
+        "exact_init_mask"
+      ],
+      "shared_covers_ref": "M"
+    },
+    {
+      "id": "m8_s40_d16_partial",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::m8_s40_d16_partial",
+      "group": "M-BRIDGE",
+      "domain": {
+        "backing": "[MaybeUninit<u8>;48]",
+        "src": 40,
+        "dst": 16,
+        "span": 8,
+        "source_sorted_halves": [
+          4,
+          4
+        ],
+        "initialized_intervals": [
+          [
+            0,
+            8
+          ],
+          [
+            32,
+            48
+          ]
+        ],
+        "uninitialized": "complement in [0,48), including dst",
+        "prior_initialized_values": "arbitrary full bytes, source halves alone sorted",
+        "original_allinit_pairs": 0,
+        "sort8_n32_side": 1
+      },
+      "unwind_proposal": 50,
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "roles_binding": "UNKNOWN until future exact source and same-invocation native inventory",
+      "oracle_ref": "M",
+      "specific_covers_proposed": [
+        "exact_offset_witness",
+        "exact_init_mask"
+      ],
+      "shared_covers_ref": "M"
+    }
+  ],
+  "obligations": [
+    {
+      "id": "I-TRANSFER",
+      "scope": "all p1..16,b1..16",
+      "required": "Check actual gap-guard relation at k=#prefix<=old tail and restore initialized active span/full outside frame; k not assumed",
+      "status": "UNPROVED"
+    },
+    {
+      "id": "I-SEM",
+      "scope": "all full-byte sorted prefixes p1..16",
+      "required": "Checked exact transfer entails existing order/full-count predicate including ties and early return",
+      "status": "UNPROVED"
+    },
+    {
+      "id": "M-TRANSFER",
+      "scope": "8 values/all1122 offsets",
+      "required": "Check actual merge_up/down consumption and bijective permutation pi with out[j]=old_src[pi[j]]; retain end/panic check",
+      "status": "UNPROVED"
+    },
+    {
+      "id": "M-SEM",
+      "scope": "full-byte sorted4+4",
+      "required": "Checked comparison/frontier order plus bijective transfer entails existing order/full-count post",
+      "status": "UNPROVED"
+    },
+    {
+      "id": "PFC-BINDING",
+      "scope": "every consumed provider",
+      "required": "Exact source/tool/cfg/T/F contract/PFC resolution, success roles, SAT covers, bounded domain/guard; no generic summary from restricted harness",
+      "status": "PENDING_INDEPENDENT14_AND_FUTURE_EXACT_PROOF"
+    },
+    {
+      "id": "DOMAIN-UNION",
+      "scope": "256 insert/1122 merge pairs",
+      "required": "Union of independently qualified exact preconditions covers original domain; current integer enumeration grants no proof",
+      "status": "UNPROVED"
+    },
+    {
+      "id": "PARTIAL-INIT",
+      "scope": "34 actual sort8 merge contexts",
+      "required": "Exact initialized-value and MU-mask frame, dst init, no MU read, same-allocation provenance/separation and precondition entailment",
+      "status": "UNPROVED"
+    },
+    {
+      "id": "SORT8-COMPOSE",
+      "scope": "all34 exact caller triples",
+      "required": "Actual two sort4 then merge; V34->MU48 providers, dst order/count/init, temp init/frame, full source frame",
+      "status": "UNPROVED"
+    },
+    {
+      "id": "CALLER-EXTENSION",
+      "scope": "fallbackN0..16/general+networkN0..32",
+      "required": "All source/S4 classes, positive9/13, insertion induction, final merge2..32/odd center, init/copy/guard/dispatch/type/backing obligations",
+      "status": "UNPROVED"
+    }
+  ],
+  "smaller_options": {
+    "I-D1": {
+      "leaf": "i_p01_b1_16",
+      "missing_original_pairs": 240
+    },
+    "I-D16": {
+      "leaf": "i_p16_b1_16",
+      "missing_original_pairs": 240
+    },
+    "I-FIX": {
+      "leaf": "i_p16_b01",
+      "missing_original_pairs": 255
+    },
+    "M-FIX": {
+      "leaf": "m8_s32_d00_allinit",
+      "missing_original_pairs": 1121
+    },
+    "M-BRIDGE-L": {
+      "leaf": "m8_s32_d00_partial",
+      "remaining_sort8_contexts": 33,
+      "original_allinit_domain_covered": false
+    },
+    "M-BRIDGE-R": {
+      "leaf": "m8_s40_d16_partial",
+      "remaining_sort8_contexts": 33,
+      "original_allinit_domain_covered": false
+    },
+    "alphabet": "full independent bytes in every option; no reduced-key proposal"
+  },
+  "candidate_campaign": {
+    "authorization": "NONE; root supplied verified intake, independent14/S1 decision then separate implementation/review/root GO",
+    "workflow_attempts_proposed_max": 1,
+    "order": [
+      "checker_order_corrupt",
+      "checker_count_corrupt",
+      "sort13_weak",
+      "i_p01_b1_16",
+      "m8_s32_d00_allinit",
+      "i_p16_b1_16",
+      "m8_s32_d00_partial",
+      "m8_s40_d16_partial"
+    ],
+    "controls": [
+      {
+        "id": "checker_order_corrupt",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "unwind": 34,
+        "mode": "Original",
+        "failure_description": "S2_NEG_CHECKER_ORDER"
+      },
+      {
+        "id": "checker_count_corrupt",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+        "unwind": 34,
+        "mode": "Original",
+        "failure_description": "S2_NEG_CHECKER_COUNT"
+      },
+      {
+        "id": "sort13_weak",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+        "unwind": 34,
+        "mode": "Original",
+        "failure_description": "S2_NEG_SORT13_WEAK"
+      }
+    ],
+    "slots": 8,
+    "serial_fresh_singleton": true,
+    "jobs": 1,
+    "stubs": [],
+    "flags_reference": {
+      "unstable": [
+        "function-contracts",
+        "mem-predicates",
+        "float-lib",
+        "c-ffi",
+        "loop-contracts",
+        "quantifiers",
+        "stubbing",
+        "export-json"
+      ],
+      "assert_contracts": false,
+      "jobs": 1,
+      "harness_timeout": "600s",
+      "exact": true,
+      "default_unwind": 50,
+      "cbmc_args": [
+        "--object-bits",
+        "12"
+      ],
+      "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf"
+    },
+    "caps": {
+      "child_seconds": 600,
+      "compile_seconds": 180,
+      "slot_seconds": 720,
+      "controller_seconds": 180,
+      "cleanup_seconds": 240,
+      "campaign_seconds": 6900,
+      "outer_seconds": 7500,
+      "phase_seconds": 8100,
+      "step_seconds": 7560,
+      "local_rss_kib": 6291456,
+      "outer_rss_kib": 12582912,
+      "headroom_kib": 2097152,
+      "stdout_bytes": 16777216,
+      "stderr_bytes": 1048576,
+      "export_bytes": 8388608,
+      "artifact_bytes": 268435456
+    },
+    "setup_seconds": 1800,
+    "job_minutes": 180,
+    "envelope": {
+      "child_caps_compile_included": 4800,
+      "slot_envelope": 5760,
+      "controller_cleanup": 420,
+      "campaign_envelope": 6180,
+      "headroom_to6900": 720,
+      "fit_claim": false
+    },
+    "RSS_scope": "6GiB sampled owned process-group, not kernel/whole-tree peak; outer12+2GiB",
+    "preserve": [
+      "canonical paths",
+      "fail-closed protected pre/post identities",
+      "same-invocation source/producer/inventory binding",
+      "portable durable prefix",
+      "verified cleanup before any allowed local-error continuation",
+      "global stop on identity drift/unreadability; later NOT_RUN",
+      "no retries or runtime root substitutions"
+    ],
+    "mask_feasibility_gate": "Establish exact relational MU/init frame with stock checks; otherwise seal smaller exact request BEFORE GO",
+    "coverage_if_all_new_proofs_qualified": {
+      "original_insert_pairs": [
+        32,
+        256
+      ],
+      "original_allinit_merge_pairs": [
+        1,
+        1122
+      ],
+      "partialinit_contexts": [
+        2,
+        34
+      ]
+    },
+    "defer_when": [
+      "controls inadmissible",
+      "role/producer/PFC binding insufficient",
+      "mask/provenance checking unsupported",
+      "cleanup/protected identities fail",
+      "discriminator fails/caps without changed reviewed candidate"
+    ],
+    "cap_specific_priority": "RSS-censored insertion: fixed-p length partition/fixed-base diagnostic. Time-censored merge8same: fixed-offset full-byte/partial-init split. No unchanged full-root retry or cap increase."
+  },
+  "cost": {
+    "assurance": "ROOT_VERIFIED_W11_SOURCE_REPORTED_INTAKE; rounded151/212 reference scenarios retained",
+    "reference_seconds": {
+      "merge8_separate": 151,
+      "sort4_same_alloc": 212
+    },
+    "reference_metric_compile_split": "References are rounded native_verification_time_s, NOT whole-child wall. Exact completed and compile observation bounds in INTAKE-BINDING.json",
+    "sort4_same_rich_file_line": "Present null; exact successful unreachable.1 lib.rs:0:0 location-only decision pending14/root",
+    "eight_homogeneous_reference_scenarios_seconds": [
+      1208,
+      1696
+    ],
+    "limitations": [
+      "different problems/domains/possibly effective flags",
+      "no solver-time scaling guarantee",
+      "no fit600 claim",
+      "180 compile is within600, not added again",
+      "Cutoff reasons/timing per W11 intake; precise backend kill phase and source-level computational cause not established"
+    ]
+  },
+  "budget_reference": {
+    "item1": "31/31",
+    "item2": "12/17",
+    "remaining": 5,
+    "working": [
+      "one S3-2",
+      "two S4",
+      "S5",
+      "reserve"
+    ],
+    "reservation": false,
+    "mutation": false
+  },
+  "gaps": [
+    "all unrun original-domain partitions",
+    "32 remaining sort8 partial-init contexts after both diagnostics",
+    "actual sort4 V34->MU48 provider domain and caller preconditions",
+    "sort8 destination/temp init/frame and actual composition",
+    "positive actual9/13 ordering and prefix/suffix/frame",
+    "network17 p16 and network32 right base17 outside b1..16",
+    "general insertion MU48 bases0/h different masks",
+    "final merge2..32 including30 non8 lengths, odd center and allocation direction",
+    "seed/copyback/CopyOnDrop/forget/loop induction",
+    "100 S4 rows/14 classes/six dispatch bodies/Cell/nonCopy/size>16/backing-view-locality domains",
+    "generic T/F, callbacks, stability, termination and unwind not proved"
+  ],
+  "U_policy": {
+    "mode": "REJECT_ALL",
+    "proposal_enabled": false,
+    "admission": "Separate S1-criteria evidence/root review; unchanged here"
+  },
+  "intake_handoff": {
+    "owner": "W11 exclusively; root delivered verified d29ab46dbbb45d7106fa30c3ac04bb419a2ac286",
+    "received_before_commit": true,
+    "status": "BOUND_PENDING_INDEPENDENT14",
+    "remaining": [
+      "independent14/root S1/U assessment",
+      "sort4same exact location-only disposition",
+      "future exact provider/contract/MIR applicability and semantic proofs",
+      "source-level cap cause and exact backend phase remain unestablished"
+    ],
+    "no_duplicate_artifact_analysis": true,
+    "next": "Root checks ready fullg0/manifest/premises/budget; held14 reviews intake/S3-2 separately; no automatic implementation/acceptance/new run",
+    "future_postseal_updates": "Preserve committed package; one small immutable evidence-update sibling if further root input changes decisions"
+  },
+  "shared_oracles": {
+    "I": [
+      "active guards",
+      "actual insert_tail pre/post and precise active-span modifies",
+      "existing post(snapshot(old active),new active): order AND full-value multiplicity",
+      "every V34 byte outside active span unchanged; active span initialized on return"
+    ],
+    "M": [
+      "active guards",
+      "actual bidirectional_merge8 pre/post and dst-only modifies",
+      "dst8 initialized before typed/spec read",
+      "existing post(snapshot(old src8),out8): order AND full-value multiplicity",
+      "src8 and all initialized outside-dst values unchanged",
+      "outside init mask preserved; no MU spec reads",
+      "shared-src/raw-dst provenance and separation established, not assumed from addresses"
+    ]
+  },
+  "shared_covers": {
+    "I": [
+      "early_return",
+      "full_sift",
+      "duplicate",
+      "nonconstant_output",
+      "useful_return"
+    ],
+    "M": [
+      "left_first",
+      "right_first",
+      "tie",
+      "input_globally_unsorted",
+      "nonconstant_output",
+      "useful_return"
+    ]
+  },
+  "intake_binding": "INTAKE-BINDING.json"
+}

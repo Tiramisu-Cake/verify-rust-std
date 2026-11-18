@@ -1,0 +1,295 @@
+{
+  "schema": "s3-2-capped-prep-inputs-v1",
+  "task": "e61fdc2c3f0af10106451f8372f8f9c05e960778",
+  "entry_head": "e61fdc2c3f0af10106451f8372f8f9c05e960778",
+  "runtime": "Codex high/FastOFF; no subagents/model changes",
+  "status": "INTAKE_BOUND_PENDING_REVIEW14",
+  "source": "513341f41ce53833a279571401c924bdddddb6c8",
+  "source_tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+  "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+  "control": "cb63033ffcde918f4341146e56373476b8eeb569",
+  "control_tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+  "package": "008fcb7705e658643582668ebfabb5f2e340e95d",
+  "review": "12c4dc55029d89559a1857537621f9453f23c29d",
+  "historical_GO": "c59d410e993805d346b336920180011118c69c49",
+  "starting_plan": "3e453471291056ed6a52774567703bc57b6aac30",
+  "S4_matrix": "9e013a2683afbf64de762e570a052c11917e52f7",
+  "intake_commit": "d29ab46dbbb45d7106fa30c3ac04bb419a2ac286",
+  "intake_owner": "W11; root supplies exact verified commit and constraints",
+  "current_run": 44416629057,
+  "trigger": "7497ecdb3934585634f5f04e4ff7c6cc42450c0b",
+  "artifact_access": "NONE; no acquisition or analysis",
+  "coordinator_reported_only": {
+    "campaign": "SELECTED_PARTIAL 1454s/noGlobalStop",
+    "success_seconds": {
+      "swap": 27,
+      "sort4_separate": 79,
+      "merge8_separate": 151,
+      "sort4_same": 212
+    },
+    "sort4_same_rich_file_line": "UNKNOWN",
+    "capped_or_interrupted": [
+      "s3_insert_tail_u8_rel16",
+      "s3_merge8_u8_same_alloc"
+    ],
+    "negative_labels": "three FAILED, not admitted",
+    "cutoff_metric_phase_compile_RSS_roles_U_PFC_SAT_qualification": "See INTAKE-BINDING.json; precise backend phase and independent admission remain unknown/pending",
+    "historical_scope": "Initial task report preserved; superseded for cap/timing interpretation by INTAKE-BINDING.json"
+  },
+  "dependencies": [
+    {
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "kind": "FROZEN_SOURCE_NOT_NATIVE_EVIDENCE",
+      "blob": "700605e2afe2943da5aa5b5015db0e788c084730",
+      "sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "bytes": 46080
+    },
+    {
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+      "kind": "FROZEN_SOURCE_NOT_NATIVE_EVIDENCE",
+      "blob": "a40da8b91c917891a39f944799e16dba3c3b8383",
+      "sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+      "bytes": 9998
+    },
+    {
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "kind": "FROZEN_SOURCE_NOT_NATIVE_EVIDENCE",
+      "blob": "0d0a9f1441e77acc793175a16270dd8ff9fac43d",
+      "sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "bytes": 4816
+    },
+    {
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+      "kind": "FROZEN_SOURCE_NOT_NATIVE_EVIDENCE",
+      "blob": "100c4d46a82cf90ee840a4f1028010a2318754e6",
+      "sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "bytes": 2255
+    },
+    {
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "kind": "FROZEN_SOURCE_NOT_NATIVE_EVIDENCE",
+      "blob": "05dc4200a41f9049bb9e0b9b2f4da9abc5b36587",
+      "sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+      "bytes": 14901
+    },
+    {
+      "commit": "008fcb7705e658643582668ebfabb5f2e340e95d",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-r2/DOMAIN-UNWIND.json",
+      "kind": "FROZEN_MAP_NOT_NATIVE_RESULT",
+      "blob": "af360f0fc5e05c9f0162442a9ca7839b5a4a5827",
+      "sha256": "1b172bb42808faf313c645a7b80782f5f55f37130afe5053e1f520a202cc6b82",
+      "bytes": 5798
+    },
+    {
+      "commit": "008fcb7705e658643582668ebfabb5f2e340e95d",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-r2/PROVIDER-DAG.json",
+      "kind": "FROZEN_MAP_NOT_NATIVE_RESULT",
+      "blob": "5c81474720c4c8b258b6c98a0baabd2927b1de24",
+      "sha256": "a06cfcf8d7f9b3aaeb121c297dec7a01bb9bc6e6f4c1d2738d69eadec62dcb32",
+      "bytes": 2343
+    },
+    {
+      "commit": "008fcb7705e658643582668ebfabb5f2e340e95d",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-r2/ROOT-BINDINGS.json",
+      "kind": "FROZEN_MAP_NOT_NATIVE_RESULT",
+      "blob": "47e241fac2f6a01a4422ad42a626e177386040e6",
+      "sha256": "3e503f5ab40962c3b96a7b8ff3d492b59f3a01168ef2fd13c6fffb34f84ff07f",
+      "bytes": 52334
+    },
+    {
+      "commit": "008fcb7705e658643582668ebfabb5f2e340e95d",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-r2/ROLE-COVER-MAP.json",
+      "kind": "FROZEN_MAP_NOT_NATIVE_RESULT",
+      "blob": "37ed7a3d5858e57ee936c789165d60ba59a5ea0a",
+      "sha256": "16be76e49d3665eead1dd3de19aa08161a3236e2eebc13b383e8ff03c8dbffae",
+      "bytes": 42917
+    },
+    {
+      "commit": "008fcb7705e658643582668ebfabb5f2e340e95d",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-r2/CI-REQUEST.json",
+      "kind": "FROZEN_MAP_NOT_NATIVE_RESULT",
+      "blob": "ea854ac2e27eaf551a93e84b9320282e6c908d29",
+      "sha256": "efbc150280f5f9641c9e8b48fb4486122ae8c3cfa318f78a42486394e1de7656",
+      "bytes": 80174
+    },
+    {
+      "commit": "3e453471291056ed6a52774567703bc57b6aac30",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-2-offline-plan-r1/PLAN.md",
+      "kind": "STARTING_CONTRACT_UNCHANGED",
+      "blob": "c413453147011d015d9a835b2f33d25c5ef3e628",
+      "sha256": "014720e30e4de2ae82cbc52ba3a5c6e011e4c3930984dd5924a9da506f9e1a9d",
+      "bytes": 9284
+    },
+    {
+      "commit": "3e453471291056ed6a52774567703bc57b6aac30",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-2-offline-plan-r1/SELECTORS.json",
+      "kind": "STARTING_CONTRACT_UNCHANGED",
+      "blob": "2c34283a4cc6c00ebdcf41add7f0a3225d103715",
+      "sha256": "86896e61394ef082d694bd933fa07ad712ee82c1f2ada7fa9df6c1deda0bc815",
+      "bytes": 89421
+    },
+    {
+      "commit": "3e453471291056ed6a52774567703bc57b6aac30",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-2-offline-plan-r1/CHECKPOINT.json",
+      "kind": "STARTING_CONTRACT_UNCHANGED",
+      "blob": "5b2ea394eb285f63f1b15e9c42382aa84cf023a2",
+      "sha256": "cc5839924a507d045fbd6713e5db0d03a105df76e0013e3bf442163bf48d9981",
+      "bytes": 1906
+    },
+    {
+      "commit": "3e453471291056ed6a52774567703bc57b6aac30",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-2-offline-plan-r1/INPUTS.json",
+      "kind": "STARTING_CONTRACT_UNCHANGED",
+      "blob": "3a81d987f5080a6343a0a36161a48643d6a358df",
+      "sha256": "8af72421f7d3006817140cd365618b19f0126466c4cb251612a07e303b5aca73",
+      "bytes": 13063
+    },
+    {
+      "commit": "9e013a2683afbf64de762e570a052c11917e52f7",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/offline-matrix/MATRIX.md",
+      "kind": "STARTING_COVERAGE_CONTRACT_UNCHANGED",
+      "blob": "874cb51941bca6f4ec3417d97c17dae236fd550f",
+      "sha256": "73cf758b3130a5bb6005ffdb2ee8e3d07514754e9564352eb46cd524c980bdcb",
+      "bytes": 7981
+    },
+    {
+      "commit": "9e013a2683afbf64de762e570a052c11917e52f7",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/offline-matrix/MATRIX.json",
+      "kind": "STARTING_COVERAGE_CONTRACT_UNCHANGED",
+      "blob": "62818843502a5079d57b5f266e970e2b61670a72",
+      "sha256": "a8b9d2ba94c699f25eb563bf4aa20d05acff3ad15aa23741028746586e628e6e",
+      "bytes": 80619
+    },
+    {
+      "commit": "9e013a2683afbf64de762e570a052c11917e52f7",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/offline-matrix/INPUTS.json",
+      "kind": "STARTING_COVERAGE_CONTRACT_UNCHANGED",
+      "blob": "2cb719ee5aaaf3a056b23d83f700477cb2ed3934",
+      "sha256": "9ebd6daea75fdc1e1fe5213c6fbd247aaaa1a357c5420d9627c4181271d8544d",
+      "bytes": 12094
+    },
+    {
+      "commit": "c59d410e993805d346b336920180011118c69c49",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-go-r2/GO-REQUEST.json",
+      "kind": "HISTORICAL_CAPS_NOT_FUTURE_GO",
+      "blob": "3ad74a21b2969266db433cd33a4d14ae53a75be4",
+      "sha256": "fffba76114596c1c934f4579e8c7a330b390d6eb43e48a570c1352a93261d443",
+      "bytes": 9727
+    },
+    {
+      "commit": "12c4dc55029d89559a1857537621f9453f23c29d",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-review-r2/REPORT.md",
+      "kind": "HISTORICAL_REVIEW_NOT_PROOF",
+      "blob": "97ad4fcb0a5e4cdb68da6596ac4bd8600964228d",
+      "sha256": "6ae102ddd65405c8d28377ca6f663796f675d72f2d47fc33c3d9db3894210314",
+      "bytes": 9068
+    },
+    {
+      "commit": "e61fdc2c3f0af10106451f8372f8f9c05e960778",
+      "path": "research/challenge-8/kani-k1/TASK-CH8-S3-2-CAPPED-OFFLINE-PREP-W13.md",
+      "kind": "AUTHORIZATION",
+      "blob": "e68b2e847a922cc88c6e9badba2f434fd9276fce",
+      "sha256": "31541e4f349a93d15413cb513135de008c49ff842ccd52fbc5a00a99ef4f49db",
+      "bytes": 4608
+    },
+    {
+      "commit": "d29ab46dbbb45d7106fa30c3ac04bb419a2ac286",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/HANDOFF.md",
+      "kind": "ROOT_SUPPLIED_VERIFIED_W11_AUTHORED_INTAKE_NOT_REPEATED_ARTIFACT_ANALYSIS",
+      "blob": "9ef085b195363b4fe7542f5838560a82e10a7003",
+      "sha256": "d177432a7b850b0bed0e507e7d14fa205961ec3103b452de07b30ddada3fa22d",
+      "bytes": 2453
+    },
+    {
+      "commit": "d29ab46dbbb45d7106fa30c3ac04bb419a2ac286",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/COST.json",
+      "kind": "ROOT_SUPPLIED_VERIFIED_W11_AUTHORED_INTAKE_NOT_REPEATED_ARTIFACT_ANALYSIS",
+      "blob": "e0191d1344519ef5f6e0d0c669db8009484a97a8",
+      "sha256": "68fcc05bfaf8eba367906643dcffdb220b3ca63d34773d9e798414e42b2fb2ec",
+      "bytes": 23909
+    },
+    {
+      "commit": "d29ab46dbbb45d7106fa30c3ac04bb419a2ac286",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/QUALIFICATION.md",
+      "kind": "ROOT_SUPPLIED_VERIFIED_W11_AUTHORED_INTAKE_NOT_REPEATED_ARTIFACT_ANALYSIS",
+      "blob": "ecd70e7da1c09ff6b9f7157d7a78a942644ee16f",
+      "sha256": "aca7feb337f5787582e01b9ca22f510162d3462c2072a3a92f855b243d896d42",
+      "bytes": 5279
+    },
+    {
+      "commit": "d29ab46dbbb45d7106fa30c3ac04bb419a2ac286",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/METADATA-GAP.md",
+      "kind": "ROOT_SUPPLIED_VERIFIED_W11_AUTHORED_INTAKE_NOT_REPEATED_ARTIFACT_ANALYSIS",
+      "blob": "90d9333d49c74acce2a9ad629680ba2d152a2957",
+      "sha256": "c12d5ee2ecdfd07f2be279522baa3b90bbcd467408eae9e467efcedaeb479e05",
+      "bytes": 3364
+    }
+  ],
+  "flags_reference": {
+    "unstable": [
+      "function-contracts",
+      "mem-predicates",
+      "float-lib",
+      "c-ffi",
+      "loop-contracts",
+      "quantifiers",
+      "stubbing",
+      "export-json"
+    ],
+    "assert_contracts": false,
+    "jobs": 1,
+    "harness_timeout": "600s",
+    "exact": true,
+    "default_unwind": 50,
+    "cbmc_args": [
+      "--object-bits",
+      "12"
+    ],
+    "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf"
+  },
+  "future_flags": "Rebind/review exact future source/cfg/request; no change here",
+  "caps_reference": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "setup_seconds": 1800,
+  "job_minutes": 180,
+  "U": {
+    "mode": "REJECT_ALL",
+    "proposal_enabled": false
+  },
+  "accounting_reference": {
+    "item1": "31/31",
+    "item2": "12/17",
+    "remaining": 5,
+    "working": [
+      "one S3-2",
+      "two S4",
+      "S5",
+      "reserve"
+    ],
+    "reservation": false,
+    "mutation": false
+  },
+  "intake_delivery": "Root supplied exact verified commit and constraints before W13 commit; incorporated into current package, no update sibling needed for this delivery"
+}

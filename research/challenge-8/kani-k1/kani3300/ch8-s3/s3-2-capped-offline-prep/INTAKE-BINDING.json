@@ -1,0 +1,146 @@
+{
+  "schema": "s3-2-root-supplied-intake-binding-v1",
+  "intake_commit": "d29ab46dbbb45d7106fa30c3ac04bb419a2ac286",
+  "status": "BOUND_PENDING_INDEPENDENT14",
+  "assurance": "Root-verified committed W11 intake; source-reported native observations, no independently established B1/B2 proof/admission",
+  "consumption": "Only four W11 authored handoff/cost/qualification/metadata summaries at pinned commit; no raw artifact/log acquisition or replay",
+  "root_verification_claim": "Root reported32files/30manifest hashes, compact digest,5deps/42U source+member hashes MATCH; W13 does not repeat that investigation",
+  "cost_rows": [
+    {
+      "compile_elapsed_upper_bound_seconds": 34.68,
+      "compile_scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+      "compile_boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+      "compile_state": "COMPLETE",
+      "native_verification_time_s": "UNKNOWN_NO_COMPLETED_NATIVE_RESOURCE",
+      "native_wall_time_s": "UNKNOWN",
+      "censoring": "TERMINATED_UNFINISHED",
+      "RSS_at_kill_and_phase": "Trigger sample6326988KiB reconstructed from recorded peak and exact runner first-overcap break; each previous PGID sample<=6291456KiB. RSS at subsequent signal/kill UNKNOWN. Post-compilation; precise symex/backend phase UNKNOWN.",
+      "verification_budget_after_compile_upper_bound_seconds": 565.32,
+      "not_backend_duration": true,
+      "id": "s3_insert_tail_u8_rel16",
+      "execution": {
+        "elapsed_seconds": 112.349,
+        "original_exit_code": -15,
+        "signal": 15,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 6326988,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "termination_reason": "rss_cap"
+      }
+    },
+    {
+      "compile_elapsed_upper_bound_seconds": 35.105,
+      "compile_scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+      "compile_boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+      "compile_state": "COMPLETE",
+      "native_verification_time_s": "UNKNOWN_NO_COMPLETED_NATIVE_RESOURCE",
+      "native_wall_time_s": "UNKNOWN",
+      "censoring": "TERMINATED_UNFINISHED",
+      "RSS_at_kill_and_phase": "UNKNOWN_NO_TRIGGER_SAMPLE_OR_PHASE_TELEMETRY; recorded PGID and component maxima are separate samples",
+      "verification_budget_after_compile_upper_bound_seconds": 564.895,
+      "not_backend_duration": true,
+      "id": "s3_merge8_u8_same_alloc",
+      "execution": {
+        "elapsed_seconds": 600.205,
+        "original_exit_code": -15,
+        "signal": 15,
+        "timed_out": true,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 2558128,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "termination_reason": "timeout"
+      }
+    },
+    {
+      "compile_elapsed_upper_bound_seconds": 34.998,
+      "compile_scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+      "compile_boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+      "compile_state": "COMPLETE",
+      "native_verification_time_s": 150.963607091,
+      "native_wall_time_s": 156.709341522,
+      "censoring": "NONE_NATIVE_COMPLETED",
+      "RSS_at_kill_and_phase": "UNKNOWN_NO_TRIGGER_SAMPLE_OR_PHASE_TELEMETRY; recorded PGID and component maxima are separate samples",
+      "verification_budget_after_compile_upper_bound_seconds": 565.002,
+      "not_backend_duration": true,
+      "id": "s3_merge8_u8_separate",
+      "execution": {
+        "elapsed_seconds": 191.767,
+        "original_exit_code": 0,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 2572460,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "termination_reason": null
+      }
+    },
+    {
+      "compile_elapsed_upper_bound_seconds": 36.942,
+      "compile_scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+      "compile_boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+      "compile_state": "COMPLETE",
+      "native_verification_time_s": 212.237510446,
+      "native_wall_time_s": 217.731076132,
+      "censoring": "NONE_NATIVE_COMPLETED",
+      "RSS_at_kill_and_phase": "UNKNOWN_NO_TRIGGER_SAMPLE_OR_PHASE_TELEMETRY; recorded PGID and component maxima are separate samples",
+      "verification_budget_after_compile_upper_bound_seconds": 563.058,
+      "not_backend_duration": true,
+      "id": "s3_sort4_u8_same_alloc",
+      "execution": {
+        "elapsed_seconds": 254.769,
+        "original_exit_code": 0,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 2297976,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "termination_reason": null
+      }
+    }
+  ],
+  "cost_limits": {
+    "compiler_metric": "compile receipt elapsed_upper_bound_seconds is observation to first stock initial export, not exact compiler CPU or separately measured exclusive compile time.",
+    "RSS_limits": "Local PGID polled 6GiB; outer sampled census12GiB+2GiB headroom. Neither is true kernel/cgroup/tree peak. Component maxima are non-simultaneous; trigger RSS and kill phase not separately exported.",
+    "no_speedup_claim": "No matched problem/binary/control comparison."
+  },
+  "qualification": {
+    "strict_REJECT_ALL_expected_matches": "0/9",
+    "source_reported_S1_provisional": [
+      "checker_order_corrupt",
+      "checker_count_corrupt",
+      "s3_swap_u8_geometry",
+      "s3_sort4_u8_separate",
+      "s3_merge8_u8_separate",
+      "sort13_weak"
+    ],
+    "sort4_same": "nativeSUCCESS212.237510446s native verification; location-only decision pending14/root",
+    "incomplete_roots": [
+      "s3_insert_tail_u8_rel16",
+      "s3_merge8_u8_same_alloc"
+    ],
+    "completed_covers": "24/44 source covers observed; incomplete leaves retain28 literal sites UNKNOWN",
+    "U": "42 individual source-local arguments reported by W11, not independently admitted; current policy unchanged",
+    "assumed_summaries_accepted": false,
+    "independent_credit": 0
+  },
+  "metadata_gap": {
+    "producer_id": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.unreachable.1",
+    "class": "unreachable",
+    "status": "SUCCESS",
+    "description": "unreachable code",
+    "file": null,
+    "line": null,
+    "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc",
+    "interpretation": "present-null normalized coordinates; zero-sentinel display, not missing positive coordinates recoverable by planner",
+    "true_source_origin": "UNKNOWN",
+    "decision": "Location-only decision pending independent14/root; no exception/policy/reader change here"
+  },
+  "plan_delta": [
+    "Insertion is RSS-censored at112.349s, not600s wall timeout: prioritize p1/p16 partitions and fixed-base fallback for memory discriminator; no RSS cause attribution to a source feature",
+    "Same merge is wholechild600.205s including compile observation upper bound35.105s; max sampled PGID2558128KiB. Separate fixed-offset and partial-init cases address symbolic geometry/applicability; no speedup guarantee",
+    "Use151/212 only as rounded native-verification reference scenarios; they are not whole-child wall times; exact completed values are150.963607091/212.237510446s",
+    "No completed capped root or accepted summary; candidate keeps all checks and pending S1/metadata admission gates",
+    "No caps/domain/alphabet/frame/init/offset/budget/control change"
+  ]
+}
