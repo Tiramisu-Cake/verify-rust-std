@@ -1,0 +1,136 @@
+{
+  "status": "PROPOSED_NOT_IMPLEMENTED",
+  "execution": "NOT_RUN",
+  "quota_reference": {
+    "ledger_commit": "943d67bd487ea3ab33e5e77a0d0dfe8453a83532",
+    "item2_used": 10,
+    "item2_cap": 14,
+    "total_used": 39,
+    "total_cap": 43,
+    "remaining_workflow_attempts": 4,
+    "reservation": false,
+    "changed": false
+  },
+  "preferred_schedule": {
+    "id": "A_NINE_SINGLETONS_DEFER_GENERAL32",
+    "status": "PROPOSED_NOT_IMPLEMENTED",
+    "execution": "NOT_RUN",
+    "workflow_attempts_max": 1,
+    "jobs": 1,
+    "invocations": 9,
+    "parallelism": 1,
+    "stock_tool_builds": 1,
+    "Rust_compile_invocations_budgeted": 9,
+    "setup_seconds": 1800,
+    "per_invocation_compile_subcap_seconds": 180,
+    "per_invocation_child_wall_seconds": 600,
+    "per_invocation_slot_seconds": 720,
+    "root_compile_subcaps_sum_seconds": 1620,
+    "child_wall_sum_seconds": 5400,
+    "slot_sum_seconds": 6480,
+    "controller_overhead_seconds": 180,
+    "global_cleanup_seconds": 240,
+    "schedule_planned_max_seconds": 6900,
+    "outer_group_or_controller_ceiling_seconds": 7500,
+    "internal_phase_ceiling_seconds": 8100,
+    "workflow_proof_step_ceiling_seconds": 7560,
+    "job_seconds": 10800,
+    "always_cleanup_upload_reserve_seconds": 900,
+    "job_envelope_seconds": 10260,
+    "job_slack_seconds": 540,
+    "per_tree_RSS_target_GiB": 6,
+    "outer_existing_RSS_ceiling_GiB": 12,
+    "system_headroom_GiB": 2,
+    "general32_policy": "BOTH_DEFERRED_NOT_SELECTED",
+    "new_authority_granted": false
+  },
+  "alternatives": [
+    {
+      "id": "A",
+      "decision": "PREFERRED_CONDITIONAL",
+      "description": "Nine singleton roots, both general32 deferred, one workflow/job/shared setup",
+      "r5_attempts": 1,
+      "remaining_attempts_after_r5_if_charged": 3,
+      "invocations": 9,
+      "schedule_ceiling_seconds": 6900,
+      "setup_cap_seconds": 1800,
+      "job_envelope_seconds": 10260
+    },
+    {
+      "id": "B",
+      "decision": "NOT_PREFERRED_WITHOUT_ROOT_SCOPE_CHOICE",
+      "description": "Full11 with same720s slots",
+      "r5_attempts": 1,
+      "invocations": 11,
+      "arithmetic_seconds": 8340,
+      "fits_existing_group7500_step7560_phase8100": false,
+      "reason": "8340 exceeds7500,7560,8100; cannot silently reset group/phase clocks or increase caps"
+    },
+    {
+      "id": "C",
+      "decision": "OPTIONAL_SEPARATE_PROFILE_REVIEW",
+      "description": "Full11 with prefix9 child480/slot600, general32 pair child600/slot720; compile180 within each child",
+      "r5_attempts": 1,
+      "invocations": 11,
+      "arithmetic_seconds": 7260,
+      "within_group7500_slack_seconds": 240,
+      "within_step7560_slack_seconds": 300,
+      "compile_subcaps_sum_seconds": 1980,
+      "child_wall_sum_seconds": 5520,
+      "risk": "Shortens every prefix child to480 to spend time on censored general32. More UNKNOWN risk; no new claim of diagnostic gain or success. Different proposal, not auto fallback."
+    },
+    {
+      "id": "D",
+      "decision": "ROOT_QUOTA_TRADEOFF_ONLY",
+      "description": "A plus later isolated full general32 pair in another workflow",
+      "r5_attempts": 2,
+      "remaining_after_if_charged": 2,
+      "reason": "Violates preferred at-most-one r5 attempt and leaves insufficient distinct S3,S4,final slots unless compatible stages genuinely combined; no automatic second attempt"
+    },
+    {
+      "id": "E",
+      "decision": "FUTURE_SOURCE_DOMAIN_TASK_ONLY",
+      "description": "Explicit reduced-domain general32 diagnostics, new IDs and obligations",
+      "r5_attempts": "UNALLOCATED",
+      "scope": "May replace an explicitly selected diagnostic scope after new task/review, not count toward unchanged11/20/6 or execute in current docs task"
+    }
+  ],
+  "remaining_capacity_scenarios": [
+    {
+      "id": "Q1",
+      "allocation": {
+        "r5": 1,
+        "S3": 1,
+        "S4": 1,
+        "matched_final_or_contingency": 1
+      },
+      "sum": 4,
+      "condition": "All leaf domains must fit one proof-producing S3 attempt and S4 must fit one matched compatible entry attempt. Neither is established; failed retry consumes one slot. No automatic combination."
+    },
+    {
+      "id": "Q2",
+      "allocation": {
+        "r5": 0,
+        "S3": 2,
+        "S4": 1,
+        "matched_final_or_contingency": 1
+      },
+      "sum": 4,
+      "condition": "Root explicitly skips further S2 diagnostics and prioritizes semantic leaves. No current qualification or continuation implementation assumed."
+    },
+    {
+      "id": "Q3",
+      "allocation": {
+        "r5": 1,
+        "S3_first": 1,
+        "S3_repair_or_S4": 1,
+        "held_final_or_contingency": 1
+      },
+      "sum": 4,
+      "condition": "If slot3 consumed by S3 repair, S4 remains unfunded unless independently feasible to combine same-pin work; completion not promised. Hold slot4 when prerequisites missing; no fake final."
+    }
+  ],
+  "workflow_count_not_jobs": "A workflow attempt can contain several jobs/groups, but each job/setup/root invocation has real cost; quota policy/accounting belongs to coordinator. No per-group free attempt or job multiplying authority.",
+  "grants": "NONE; no reservation, charge, refund or retirement",
+  "guarantee_four_attempts_suffice": false
+}

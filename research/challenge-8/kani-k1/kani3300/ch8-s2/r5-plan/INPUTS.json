@@ -1,0 +1,75 @@
+{
+  "schema": "ch8-s2-r5-plan-inputs-v1",
+  "status": "PROPOSED_NOT_IMPLEMENTED",
+  "execution": "NOT_RUN",
+  "task_id": "task33d6df20ddc2276439be3aae5862104c976edc2a",
+  "owner_issued": "18:52 planONLY",
+  "entry_g0": "33d6df20ddc2276439be3aae5862104c976edc2a",
+  "task_document": "research/challenge-8/kani-k1/TASK-CH8-S2-R5-ECONOMICAL-PLAN-W13.md",
+  "task_document_sha256": "e0b9f9c2fc31ce8ce0c68b361c2cedfdffc199feb14743f70425b745f00c04ad",
+  "frozen_package": "3cdec7455c52d93903a31e005c7e42204fa502e1",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "bd62e54df1b4749154790aa3db3cc7978f547f75"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r4-r2-final-w13",
+    "sha": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+    "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "request_sha256": "d7f4561810178e9eb553d83a04de343f2512aff18bbca0dbd4864472712d4d73",
+    "workflow_sha256": "b70c7dff34fe5ae12985dc0ba44f2791cca3bb288e774416f1eb405ab90b090b"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "run": {
+    "id": 44336681406,
+    "attempt": 1,
+    "trigger": "6157554df88fa810496fa6ba10a16a8acc805687",
+    "assurance": "COORDINATOR_REPORTED_PROVISIONAL_UNTIL_W11_COMMITTED_INTAKE",
+    "compile": "COMPLETE_REPORTED",
+    "compile_seconds": 35.5,
+    "first_root": "general32_weak_REPORTED",
+    "symex_seconds": 488.5,
+    "symex_steps_approx": 4180000,
+    "VCC": 376543,
+    "VCC_simplified": 155645,
+    "group_seconds": 569.7,
+    "interruption": "GROUP_RSS12GiB_REPORTED",
+    "other_roots": "10_UNSTARTED_UNKNOWN_REPORTED",
+    "causal_model_cost_inference": "NONE"
+  },
+  "accounting_reference_only": {
+    "ledger_commit": "943d67bd487ea3ab33e5e77a0d0dfe8453a83532",
+    "item2_used": 10,
+    "item2_cap": 14,
+    "total_used": 39,
+    "total_cap": 43,
+    "remaining_workflow_attempts": 4,
+    "reservation": false,
+    "changed": false
+  },
+  "W11_dependency": {
+    "status": "PENDING_ROOT_SUPPLIED_COMMITTED_SHA",
+    "expected_directory": "kani3300/ch8-s2/run-44336681406/",
+    "intake_commit": null,
+    "cost_order_report": "NOT_READ; W11 ACTIVE",
+    "artifact_downloads_here": 0,
+    "why_first_trace_here": "NOT_REPEATED",
+    "final_recommendation": "CONDITIONAL_ON_EXACT_COMMITTED_W11_INTAKE"
+  },
+  "authority": "DOCS_ONLY; no runnable package, source/tool/control edits, CI, ledger, reservation, budget or implementation",
+  "Fast": "OFF_NOT_TOGGLED",
+  "settings": "CURRENT_MODEL_TIER_PRESERVED",
+  "subagents": 0
+}

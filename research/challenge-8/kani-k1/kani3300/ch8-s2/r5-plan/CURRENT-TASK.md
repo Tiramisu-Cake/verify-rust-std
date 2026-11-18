@@ -1,0 +1,1 @@
+Runtime: Codex. W13 task33d6df20ddc2276439be3aae5862104c976edc2a. READY_DOCS_CONDITIONAL_W11. PROPOSED_NOT_IMPLEMENTED / NOT_RUN. Docs only; next choice by root after exact W11 committed intake. See PLAN.md, INPUTS.json and CHECKPOINT.json.

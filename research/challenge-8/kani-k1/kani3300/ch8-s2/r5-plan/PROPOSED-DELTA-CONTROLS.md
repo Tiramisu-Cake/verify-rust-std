@@ -1,0 +1,33 @@
+# Предлагаемый control-only delta и обязательные различающие checks
+
+**PROPOSED_NOT_IMPLEMENTED / NOT_RUN.** Здесь нет patch, request или workflow, готового к исполнению. Имена модулей ниже обозначают будущий scope review.
+
+| Участок | Будущее изменение | Что сохранить |
+|---|---|---|
+| runner grouping / scheduler | ordered singleton launch plan, один общий deadline, отдельные local/global failure classes | полный canonical inventory11; nine selected, two explicitly deferred; нет скрытого reset phase clock |
+| S2 policy / request schema | явно названный isolation profile, selected subset и schedule separate от obligation inventory; bounded compile/slot/RSS targets | exact sourcebd62/stub/PFC/cfg/unwind34/oracles/covers/variants, all11 source bindings; не удалить fixed checks ради прохождения нового JSON |
+| invocation execution | root-specific supervisor/process tree, child600s внутри slot720s, compile subcap180s, runtime effective RSS target6GiB | original return/signal/exception; pre/post fingerprints; same-invocation namespace; outer ceilings |
+| collector / packer / fallback | durable per-invocation envelopes и aggregate journal, статус конкретного сбоя без переписывания других roots | B-01/B-02, exact rich/stock decoder, protected diagnostic completeness/caps, no false COMPLETE |
+| workflow / validation | shared setup/tool build, один serial controller stage; future exact CI module list and actual preflight timings | checkout/pin enforcement, native error paths, setup1800/job180/step7560; review exact final bytes |
+| source/tool | изменений не предлагать в preferred A | sourcebd62/tree dc2, stock0aac/tree9d8; reduced-domain вариант отдельным будущим решением |
+
+Начало slot: source/tool/request/selected-singleton binding, IN_PROGRESS receipt и fresh directory должны быть записаны до запуска child. Предлагаемая разбивка720s: preflight30s + child600s + post/kill/reap/decode/commit90s. Это design targets; если required pre/post work не помещается, root UNKNOWN, причина сохранена. Выделенные720s не сокращаются из-за предыдущего root. Admission проверяет remaining≥reserved slots всех оставшихся roots плюс controller/cleanup reserve; от этого общего monotonic clock не отнимают caps повторно как actual elapsed.
+
+LOCAL failure — compile error/compile timeout, child wall/RSS/output/export cap, no RESULTS, incomplete/wrong-type export или rich decoder rejection в пределах одного bound invocation. Сначала terminal partial receipt и исходные stream hashes/exit/signal/exception, затем bounded kill/reap/snapshot. После подтверждения shutdown, intact source/tool fingerprints и available budget следующий root запускается независимо от локального outcome. Negative exit1 не является fatal сам по себе: DETECTED возможен лишь по exact intended property и полному source-bound inventory; произвольный assertion failure не ожидаемый контроль.
+
+GLOBAL failure — source/request/tool identity drift, controller external cancellation/deadline, aggregate RSS/storage exhausted, неустранённый orphan либо отказ durable storage/receipt integrity. Тогда не обещать continuation: сохраняются completed receipt hashes; остальные roots получают явный NOT_RUN/UNKNOWN с origin и конкретным stop reason. Last failed root не может переписать terminal receipts предыдущих. Aggregate exit/nonzero отражает неполноту, но finalization/fallback/upload всё равно должны выполниться в reserved budget. Нельзя смешать controller exit с original Kani exit.
+
+Process group — имеющаяся основа, не достаточное доказательство полного tree containment. Future implementation должна учитывать pid+start-time, descendants и потомков после reparent/setsid; только killpg не покрывает detached child. Использовать доступный Linux containment/subreaper либо delegated cgroup, если реально поддержан, с bounded recursive shutdown и reap, без предположений о privileges. Если escape нельзя надёжно обнаружить/остановить, это implementation/review blocker; следующий root не запускать. Новых cgroups/IAM/host changes здесь нет. Sampled RSS и transient overshoot явно маркировать; для strict hard limit понадобилось бы отдельно проверенное kernel enforcement, которого план не утверждает.
+
+Будущие targeted service controls (в этом task НЕ ЗАПУСКАЛИСЬ):
+
+- First/middle/last root local success, expected negative exit1, unexpected assertion, compile exit42, spawn exception, compile timeout и child timeout → completed соседние receipts неизменны; оставшиеся selected roots стартуют в реальном заданном порядке.
+- RSS6GiB target/host clamp, output/export cap, no RESULTS, empty/null/list/wrong-type/partial/truncated JSON, missing stream/metadata и decoder exception → только affected root UNKNOWN, оригинальная причина сохранена. Никакого PASS по observed phrase или missing RESULT.
+- Real subprocess descendants: normal child, grandchild, inherited pipe, ignored SIGTERM, setsid/double-fork, parent exit before child, PID reuse, monitor/snapshot/thread exception. Terminate/reap bound и отсутствие live descendants обязательны перед next launch; sentinel unrelated process не затрагивается.
+- Monotonic boundaries: slot600/720, compile180, final admissible slot, global7500/8100/step7560; early local cap не обнуляет global timer; controller reserve не расходуется на новый root. Искусственный elapsed не должен превращать NOT_RUN в0s cost.
+- Same source but wrong selector/crate/mode, stale CARGO_TARGET_DIR, previous invocation export/property/metadata, wrong cfg/stub/contract target/type/instance, wrong request/run/binary/compile identity → reject. Fresh UUID alone не compiler instance proof.
+- Profilesv4/PFC: свежая chain manual native target → exact concrete instance/type/trait/impl/contract site → harness/property/cover origin на той же compilation; unknown missing links остаются UNKNOWN. Split invocation не наследует bound chain предыдущего root или старого CI.
+- Recovery after root interruption, hard global kill, receipt write failure, duplicate/missing root and selected/deferred partition mismatch → strict incomplete aggregate; B-01/B-02 error-path controls и decoder/location-only exceptions не расширять.
+- All canonical11 source maps, required20 covers и6 exact negatives остаются в obligation map; selected9 ожидают16/5. Deferred general32 не выкидываются из final completeness. Hash-replay receipts первого успешного root неизменны после всех поздних failures.
+
+Future review должен получить exact delta, all hashes и supportability receipts. Перед новой CI попыткой — prescribed preflight и необходимая synthetic матрица, затем independent review + fresh GO. Этот plan ничего не проверяет на compiler/CI и не одобряет реализацию.

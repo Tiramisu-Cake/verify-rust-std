@@ -1,0 +1,314 @@
+{
+  "schema": "ch8-s2-r5-plan-provenance-v1",
+  "status": "PROPOSED_NOT_IMPLEMENTED",
+  "execution": "NOT_RUN",
+  "recorded_utc": "2026-11-18T16:07:30.690890+00:00",
+  "scope": "Static source/identity reads and document arithmetic only; no runtime support tested",
+  "files": [
+    {
+      "repository": "control",
+      "commit": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+      "path": "ch8-s1-control/runner.py",
+      "sha256": "d05cfea5c382300e078d0c42309391a20375ef43563438369899e4d4538cce1f",
+      "line_ranges": [
+        [
+          256,
+          316
+        ],
+        [
+          323,
+          350
+        ],
+        [
+          449,
+          476
+        ],
+        [
+          537,
+          560
+        ],
+        [
+          563,
+          707
+        ],
+        [
+          1006,
+          1067
+        ],
+        [
+          1077,
+          1124
+        ],
+        [
+          1141,
+          1236
+        ]
+      ],
+      "supportability_claim": "Ordered groups/exact selectors; group-based sampled RSS and kill/reap; fresh target namespace; fatal stops subsequent groups. Planned continuation/tree6GiB/slot720 not present.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "control",
+      "commit": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+      "path": "ch8-s1-control/s2_policy.py",
+      "sha256": "a79e49c7d93707fce0ce809fea783ade9a884678c3d34a93fecad5c949dfe0db",
+      "line_ranges": [
+        [
+          26,
+          60
+        ]
+      ],
+      "supportability_claim": "Current schema fixes all11 rows, single group, timeout600, flags/stubs/assurance and7500 envelope; future reviewed profile needed.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "control",
+      "commit": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+      "path": "ch8-s1-control/binding_metadata.py",
+      "sha256": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030",
+      "line_ranges": [
+        [
+          18,
+          30
+        ],
+        [
+          79,
+          109
+        ]
+      ],
+      "supportability_claim": "Fresh native metadata collection has explicit unresolved compiler-instance/target/origin gaps; UUID not proof.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "control",
+      "commit": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+      "path": "ch8-s1-control/check_package.py",
+      "sha256": "66e60b5d39af550e6a8a7b6ad7dc56e155a861252ad9cc2f6e28c00565f803b9",
+      "line_ranges": [
+        [
+          81,
+          127
+        ],
+        [
+          151,
+          164
+        ]
+      ],
+      "supportability_claim": "Exact current workflow caps/wiring; setup clock1800 and build subcap900; no current matrix profile.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "control",
+      "commit": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+      "path": "ch8-s1-control/rich_evidence.py",
+      "sha256": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+      "line_ranges": [
+        [
+          177,
+          218
+        ]
+      ],
+      "supportability_claim": "Stock/rich inventory, exact properties/locations validation retained; no decoder relaxation.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "control",
+      "commit": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+      "path": "ch8-s1-control/pack_evidence.py",
+      "sha256": "8782f1abd29342cec1202d851c94222c50fed0e6c358549971048135ab24d206",
+      "line_ranges": [
+        [
+          137,
+          175
+        ]
+      ],
+      "supportability_claim": "Compact artifact omissions/completeness controls must remain explicit across more invocations.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-driver/src/args/mod.rs",
+      "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+      "line_ranges": [
+        [
+          254,
+          292
+        ],
+        [
+          305,
+          345
+        ],
+        [
+          401,
+          404
+        ],
+        [
+          906,
+          918
+        ]
+      ],
+      "supportability_claim": "Supported exact repeated harness filter, inner harness timeout, jobs, target-dir; only/no-codegen incompatible with verification export.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-driver/src/call_cbmc.rs",
+      "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+      "line_ranges": [
+        [
+          214,
+          248
+        ]
+      ],
+      "supportability_claim": "Harness timeout encloses CBMC output processing, not whole Rust compile/instrumentation pipeline.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-driver/src/call_cargo.rs",
+      "sha256": "6801ea256ab3464b72487c8aacc17e5e79920903304aa82d5f02e23d129c6129",
+      "line_ranges": [
+        [
+          84,
+          123
+        ],
+        [
+          141,
+          185
+        ]
+      ],
+      "supportability_claim": "Target directories and cargo compilation exist; no verified cross-invocation codegen reuse guarantee.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-driver/src/project.rs",
+      "sha256": "55bc8b60644000ede89bcb1bd43f923a5035659314b57e6f9c56884dd38b0627",
+      "line_ranges": [
+        [
+          353,
+          376
+        ]
+      ],
+      "supportability_claim": "std_project recreates dummy crate and calls cargo_build_std each invocation.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-driver/src/call_goto_instrument.rs",
+      "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+      "line_ranges": [
+        [
+          25,
+          55
+        ]
+      ],
+      "supportability_claim": "Per-harness specialization/contracts/instrumentation pipeline; detached raw CBMC does not supply equivalent driver provenance.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "source",
+      "commit": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+      "line_ranges": [
+        [
+          27,
+          88
+        ],
+        [
+          91,
+          163
+        ]
+      ],
+      "supportability_claim": "Harness/domain/stub/cover shapes justify only provisional scheduling hypotheses, not cost measurements.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "g0",
+      "commit": "33d6df20ddc2276439be3aae5862104c976edc2a",
+      "path": "research/challenge-8/kani-k1/PLAN-CH8-ITEM2-SORTING-v2.md",
+      "sha256": "22f2f79841d15f9ae4e0cc96be8c6ca5a3936b324099ebef874a8f8d3ba7351d",
+      "line_ranges": [
+        [
+          97,
+          124
+        ],
+        [
+          174,
+          224
+        ]
+      ],
+      "supportability_claim": "S3 semantic leaf domains, S4 threshold classes, cost/RSS gates and assumed-consumer limits.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "g0",
+      "commit": "33d6df20ddc2276439be3aae5862104c976edc2a",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch-r4-r2/PINS.json",
+      "sha256": "d1cb5a2e22965657f790242697aa57fad53bfef0f1442ea9253185b995f5e8e6",
+      "line_ranges": [
+        [
+          1,
+          54
+        ]
+      ],
+      "supportability_claim": "Frozen exact package/source/control/tool identities, preparation receipt only; not new postrun evidence.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "g0",
+      "commit": "33d6df20ddc2276439be3aae5862104c976edc2a",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch-r4-r2/CI-REQUEST.json",
+      "sha256": "d7f4561810178e9eb553d83a04de343f2512aff18bbca0dbd4864472712d4d73",
+      "line_ranges": [
+        [
+          1,
+          809
+        ]
+      ],
+      "supportability_claim": "Canonical11root/20cover/6negative inventory and source bindings; read as planning data.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "g0",
+      "commit": "33d6df20ddc2276439be3aae5862104c976edc2a",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/postrun-r4-r2/INPUTS.json",
+      "sha256": "b55095f884069406930aa39f990a3a7d30ada6dac3ea97b9b152c066d83b91a4",
+      "line_ranges": null,
+      "supportability_claim": "Previously prepared exact intake inputs only; NOT the active W11 output or terminal proof.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    },
+    {
+      "repository": "tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-driver/src/call_single_file.rs",
+      "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+      "line_ranges": [
+        [
+          126,
+          185
+        ]
+      ],
+      "supportability_claim": "kani_compiler_local_flags forwards exact harness selection; call_cargo cargo_build_std84..122 forwards these flags through rustc. Does not prove cost or cache reuse.",
+      "assurance": "PINNED_SOURCE_INSPECTION_ONLY"
+    }
+  ],
+  "W11_intake_commit": null,
+  "W11_output_read": false,
+  "artifact_downloads": 0,
+  "why_first_investigation": "NOT_REPEATED; delegated ownership W11 active per owner",
+  "coordinator_run_numbers": "PROVISIONAL_COOR_OR_OWNER_SUPPLIED; NOT_INDEPENDENT_POSTRUN_EVIDENCE",
+  "local_source_control_tool_clean_at_entry": true,
+  "source_control_tool_edits": 0,
+  "compiler_verifier_full_runner_CI": 0,
+  "implementation": "NONE",
+  "proof_credit": "NONE",
+  "independent_B1_B2": "NONE",
+  "documentation_validation": "JSON/Markdown inventory/arithmetical consistency and unchanged pinned sources; no runtime test suite"
+}
