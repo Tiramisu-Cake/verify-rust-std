@@ -1,0 +1,152 @@
+{
+  "schema": "ch8-s2-r5-r1-independent-delta-review-v1",
+  "verdict": "APPROVE",
+  "reviewed_package": "dc8d28b0117737e95ccc9b91eb470c1a3c42a635",
+  "task": "taska9cc91d717751d2047e13bc7570a95305f546fa7",
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r5-r1-final-w13",
+    "sha": "d67bd1ecd555030c46a06b8462d0313ea416711a",
+    "tree": "c8925e3acfd299f7eb74997c8e120873dcaab84d",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "4e97d370aba4adc480fcc3701b111d02658aa94d",
+    "request_sha256": "f4a1eb18f3324f380973194c2b384f1a1d6d4df139620f86978e9249462dc7c2",
+    "workflow_sha256": "4a9e90a68e4b3f977f28ee31ec2c9426e3b685f1da5616168e12756d0c64c8c6"
+  },
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "bd62e54df1b4749154790aa3db3cc7978f547f75"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "prior_review": "022b9893c693f5908d3c9fa2ffe22961bbf8d30b",
+  "closures": [
+    {
+      "id": "R14-R5-01",
+      "status": "CLOSED",
+      "blocking": false,
+      "control": "d67bd1ecd555030c46a06b8462d0313ea416711a",
+      "evidence": [
+        "VALIDATE-MARGIN.json",
+        "INVARIANCE.json",
+        "REEXECUTED-VALIDATION.json",
+        "TARGETED-TESTS.txt"
+      ],
+      "reason": "Exact R5 cap11, legacy10; actual final134/409.026897886s, margin1.613585814; caps/invariants/rebinding verified. Prior130 remains inherited4e97."
+    },
+    {
+      "id": "R14-R5-02",
+      "status": "CLOSED",
+      "blocking": false,
+      "control": "d67bd1ecd555030c46a06b8462d0313ea416711a",
+      "evidence": [
+        "PORTABLE-PROBE.json",
+        "TARGETED-TESTS.txt",
+        "UPLOADED-PREFIX-REPRO.json",
+        "INVARIANCE.json"
+      ],
+      "reason": "Old upload-only seal and collect failure reproduced; exact final real pipeline archive-only replay passes with byte-exact completed prefix after later failure/fallback. Missing/tampered/malformed/cap-omitted cases fail closed. Raw logs remain local; protected bindings and production caps unchanged."
+    }
+  ],
+  "blockers": [],
+  "observations": [
+    {
+      "id": "R14-R5-R1-O01",
+      "severity": "LOW",
+      "blocking": false,
+      "title": "Unchanged fast-exit process fixture has a timing-dependent early orphan list",
+      "evidence": [
+        "TARGETED-TESTS.txt",
+        "PROCESS-DIAGNOSTIC.json"
+      ],
+      "initial_targeted": "34 tests:33 PASS/1 FAIL",
+      "isolated_repeat": "1 FAIL",
+      "diagnostic": "All three instrumented cases verified cleanup/reaping and controller rejection of escaped PGID; delayed sampling recreates empty early orphan list.",
+      "scope": "Nonblocking inherited test stability observation; no candidate change requested in this localized repair. Possible future CI flakiness remains."
+    }
+  ],
+  "inherited_fullreview": "VERIFIED_INVARIANCE; exact seven control delta paths,3874 unchanged entries, unchanged source/tool and protected bytes",
+  "package_files": 70,
+  "manifest_hashes": 69,
+  "patch_replays": 6,
+  "checkout_depths": [
+    7,
+    5,
+    2
+  ],
+  "validation": {
+    "reviewer_targeted": {
+      "tests": 34,
+      "passed": 33,
+      "failed": 1,
+      "exit_code": 1,
+      "seconds": 30.712797523
+    },
+    "portable_cases": {
+      "test_archive_only_prefix_exact_seal_and_collect_after_later_failure": "PASS",
+      "test_compact_cap_omission_is_explicit_and_never_qualified": "PASS",
+      "test_missing_required_structured_member_rejects_archive": "PASS",
+      "test_mutated_structured_member_with_updated_entry_hash_still_rejects": "PASS"
+    },
+    "additional_portable_member_negatives": 16,
+    "additional_malformed_seals": 15,
+    "cap_setup_tests": {
+      "tests": 7,
+      "passed": 7
+    },
+    "author_final": {
+      "tests": 134,
+      "seconds": "409.026897886",
+      "classification": "ACTUAL_FINAL_OBJECT; INSPECTED_AUTHOR_EVIDENCE"
+    },
+    "author_check_source_seconds": "13.409119839",
+    "author_prior": {
+      "tests": 130,
+      "seconds": "403.420022367",
+      "classification": "INHERITED_PRIOR_OBJECT4e97"
+    },
+    "reviewer_full_Validate_executions": 0,
+    "static": "PASS"
+  },
+  "scope": {
+    "selected": "9/16/5",
+    "full": "11/20/6",
+    "general32": "DEFERRED_NOT_SELECTED; UNKNOWN",
+    "native_R5": "NOT_RUN",
+    "future_GitHub_timing": "UNKNOWN",
+    "proof_credit": "NONE",
+    "independent_B1_B2": "NONE",
+    "proof_obligations_closed": 0,
+    "assumed_caller_copy_source_reported_restrictions": "PRESERVED",
+    "compiler_instance_assertion_origin": "UNKNOWN"
+  },
+  "actions": {
+    "candidate_edit": 0,
+    "source_edit": 0,
+    "compiler": 0,
+    "verifier": 0,
+    "full_runner": 0,
+    "CI": 0,
+    "push": 0,
+    "PR": 0,
+    "issue": 0,
+    "raw_real_archive_read": 0,
+    "GCS": 0,
+    "ledger": 0,
+    "budget": 0,
+    "reservation": 0,
+    "subagent": 0
+  },
+  "Fast": "OFF_NOT_TOGGLED",
+  "settings": "PRESERVED",
+  "dispatch_authority": "NONE",
+  "next": "Coordinator GO-request preparation only; dispatch/publication separate owner/coordinator decisions."
+}

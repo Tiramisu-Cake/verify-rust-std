@@ -1,0 +1,34 @@
+{
+  "verdict": "APPROVE",
+  "reviewed_package": "dc8d28b0117737e95ccc9b91eb470c1a3c42a635",
+  "prior_review": "022b9893c693f5908d3c9fa2ffe22961bbf8d30b",
+  "closures": [
+    {
+      "id": "R14-R5-01",
+      "status": "CLOSED",
+      "blocking": false,
+      "control": "d67bd1ecd555030c46a06b8462d0313ea416711a",
+      "evidence": [
+        "VALIDATE-MARGIN.json",
+        "INVARIANCE.json",
+        "REEXECUTED-VALIDATION.json",
+        "TARGETED-TESTS.txt"
+      ],
+      "reason": "Exact R5 cap11, legacy10; actual final134/409.026897886s, margin1.613585814; caps/invariants/rebinding verified. Prior130 remains inherited4e97."
+    },
+    {
+      "id": "R14-R5-02",
+      "status": "CLOSED",
+      "blocking": false,
+      "control": "d67bd1ecd555030c46a06b8462d0313ea416711a",
+      "evidence": [
+        "PORTABLE-PROBE.json",
+        "TARGETED-TESTS.txt",
+        "UPLOADED-PREFIX-REPRO.json",
+        "INVARIANCE.json"
+      ],
+      "reason": "Old upload-only seal and collect failure reproduced; exact final real pipeline archive-only replay passes with byte-exact completed prefix after later failure/fallback. Missing/tampered/malformed/cap-omitted cases fail closed. Raw logs remain local; protected bindings and production caps unchanged."
+    }
+  ],
+  "blockers": []
+}

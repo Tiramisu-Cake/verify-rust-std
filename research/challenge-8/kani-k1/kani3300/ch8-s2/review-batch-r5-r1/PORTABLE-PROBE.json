@@ -1,0 +1,493 @@
+{
+  "status": "PASS",
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r5-r1-final-w13",
+    "sha": "d67bd1ecd555030c46a06b8462d0313ea416711a",
+    "tree": "c8925e3acfd299f7eb74997c8e120873dcaab84d",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "4e97d370aba4adc480fcc3701b111d02658aa94d",
+    "request_sha256": "f4a1eb18f3324f380973194c2b384f1a1d6d4df139620f86978e9249462dc7c2",
+    "workflow_sha256": "4a9e90a68e4b3f977f28ee31ec2c9426e3b685f1da5616168e12756d0c64c8c6"
+  },
+  "fixture": "test_r5.PortablePrefixTests.make_pair",
+  "pipeline": "real _run_group/root_outcome/finalize/fallback/pack/read_bytes/sealed/public collect",
+  "external_execution_and_sampling": "SYNTHETIC_ONLY",
+  "producer_directory_deleted": true,
+  "upload_only_files": [
+    "group-evidence.json.gz"
+  ],
+  "packed_state": "PACKAGED",
+  "prefix_sha256": "573baa8f7957ce7d3ecbea12ed1486f70453aa8b677c75a93c52dfab5cfd8941",
+  "prefix_byte_exact": true,
+  "completed_root": "checker_order_corrupt",
+  "completed_outcome": "RECORDED",
+  "completed_expected_match": true,
+  "later_failed_root": "checker_count_corrupt",
+  "later_outcome": "UNKNOWN",
+  "unstarted_and_deferred": "UNKNOWN/NOT_RUN or DEFERRED_NOT_SELECTED",
+  "raw_log_payloads_uploaded": false,
+  "local_digest_metadata_optional": true,
+  "structured_sealed_members": {
+    "checker_order_corrupt/receipt.json": {
+      "sha256": "573baa8f7957ce7d3ecbea12ed1486f70453aa8b677c75a93c52dfab5cfd8941",
+      "bytes": 7353
+    },
+    "checker_order_corrupt/worker-receipt.json": {
+      "sha256": "7a9bda07a22b7af8227f67417fdd0a2aa4dcc0787a6ace37521c0e6e57a5ea51",
+      "bytes": 6264
+    },
+    "groups/r5-checker_order_corrupt/binding-metadata.json": {
+      "sha256": "d11cc90dafb849ab9be82079d4dc6ffb89954c83eb2fe0650d9a8e0ca69253ae",
+      "bytes": 10786
+    },
+    "groups/r5-checker_order_corrupt/compile/receipt.json": {
+      "sha256": "5b6daf7abf570713e40bb76e4c3bceb9c19685bcd4eb830162918ad31c7d931b",
+      "bytes": 980
+    },
+    "groups/r5-checker_order_corrupt/export.json": {
+      "sha256": "c52f12b6dbcc8842661067e8ad4394956f92e85eab9839f1d0064ff706567e15",
+      "bytes": 1950
+    },
+    "groups/r5-checker_order_corrupt/properties.json": {
+      "sha256": "84a97420c21548a2c915770ae03213cc070d13135e11eb8788a6ae24d889d83b",
+      "bytes": 2472
+    },
+    "groups/r5-checker_order_corrupt/receipt.json": {
+      "sha256": "0b2587bd323a6594683ee0575cd76ad096779682b6e294f2d957d116ccd39c58",
+      "bytes": 11117
+    },
+    "workers/checker_order_corrupt-supervision.json": {
+      "sha256": "58453d4e14d59a6a0fd99de46f113dd571e339da8bf1abdf317b342c5cbf2552",
+      "bytes": 445
+    }
+  },
+  "member_negatives": [
+    {
+      "case": "missing_structured_member",
+      "member": "checker_order_corrupt/receipt.json",
+      "results": {
+        "seal": {
+          "type": "KeyError",
+          "message": "'checker_order_corrupt/receipt.json'"
+        },
+        "collect": {
+          "type": "KeyError",
+          "message": "'checker_order_corrupt/receipt.json'"
+        }
+      }
+    },
+    {
+      "case": "changed_bytes_rehashed_archive_entry",
+      "member": "checker_order_corrupt/receipt.json",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "completed evidence storage drift"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "completed evidence storage drift"
+        }
+      }
+    },
+    {
+      "case": "missing_structured_member",
+      "member": "checker_order_corrupt/worker-receipt.json",
+      "results": {
+        "seal": {
+          "type": "KeyError",
+          "message": "'checker_order_corrupt/worker-receipt.json'"
+        },
+        "collect": {
+          "type": "KeyError",
+          "message": "'checker_order_corrupt/worker-receipt.json'"
+        }
+      }
+    },
+    {
+      "case": "changed_bytes_rehashed_archive_entry",
+      "member": "checker_order_corrupt/worker-receipt.json",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "completed evidence storage drift"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "completed evidence storage drift"
+        }
+      }
+    },
+    {
+      "case": "missing_structured_member",
+      "member": "groups/r5-checker_order_corrupt/binding-metadata.json",
+      "results": {
+        "seal": {
+          "type": "KeyError",
+          "message": "'groups/r5-checker_order_corrupt/binding-metadata.json'"
+        },
+        "collect": {
+          "type": "KeyError",
+          "message": "'groups/r5-checker_order_corrupt/binding-metadata.json'"
+        }
+      }
+    },
+    {
+      "case": "changed_bytes_rehashed_archive_entry",
+      "member": "groups/r5-checker_order_corrupt/binding-metadata.json",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "completed evidence storage drift"
+        },
+        "collect": {
+          "type": "RunnerError",
+          "message": "binding metadata identity/digest mismatch"
+        }
+      }
+    },
+    {
+      "case": "missing_structured_member",
+      "member": "groups/r5-checker_order_corrupt/compile/receipt.json",
+      "results": {
+        "seal": {
+          "type": "KeyError",
+          "message": "'groups/r5-checker_order_corrupt/compile/receipt.json'"
+        },
+        "collect": {
+          "type": "KeyError",
+          "message": "'groups/r5-checker_order_corrupt/compile/receipt.json'"
+        }
+      }
+    },
+    {
+      "case": "changed_bytes_rehashed_archive_entry",
+      "member": "groups/r5-checker_order_corrupt/compile/receipt.json",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "completed evidence storage drift"
+        },
+        "collect": {
+          "type": "RunnerError",
+          "message": "binding metadata artifact digest mismatch"
+        }
+      }
+    },
+    {
+      "case": "missing_structured_member",
+      "member": "groups/r5-checker_order_corrupt/export.json",
+      "results": {
+        "seal": {
+          "type": "KeyError",
+          "message": "'groups/r5-checker_order_corrupt/export.json'"
+        },
+        "collect": {
+          "type": "KeyError",
+          "message": "'groups/r5-checker_order_corrupt/export.json'"
+        }
+      }
+    },
+    {
+      "case": "changed_bytes_rehashed_archive_entry",
+      "member": "groups/r5-checker_order_corrupt/export.json",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "completed evidence storage drift"
+        },
+        "collect": {
+          "type": "RunnerError",
+          "message": "binding metadata artifact digest mismatch"
+        }
+      }
+    },
+    {
+      "case": "missing_structured_member",
+      "member": "groups/r5-checker_order_corrupt/properties.json",
+      "results": {
+        "seal": {
+          "type": "KeyError",
+          "message": "'groups/r5-checker_order_corrupt/properties.json'"
+        },
+        "collect": {
+          "type": "KeyError",
+          "message": "'groups/r5-checker_order_corrupt/properties.json'"
+        }
+      }
+    },
+    {
+      "case": "changed_bytes_rehashed_archive_entry",
+      "member": "groups/r5-checker_order_corrupt/properties.json",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "completed evidence storage drift"
+        },
+        "collect": {
+          "type": "RunnerError",
+          "message": "binding metadata artifact digest mismatch"
+        }
+      }
+    },
+    {
+      "case": "missing_structured_member",
+      "member": "groups/r5-checker_order_corrupt/receipt.json",
+      "results": {
+        "seal": {
+          "type": "KeyError",
+          "message": "'groups/r5-checker_order_corrupt/receipt.json'"
+        },
+        "collect": {
+          "type": "KeyError",
+          "message": "'groups/r5-checker_order_corrupt/receipt.json'"
+        }
+      }
+    },
+    {
+      "case": "changed_bytes_rehashed_archive_entry",
+      "member": "groups/r5-checker_order_corrupt/receipt.json",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "completed evidence storage drift"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "completed evidence storage drift"
+        }
+      }
+    },
+    {
+      "case": "missing_structured_member",
+      "member": "workers/checker_order_corrupt-supervision.json",
+      "results": {
+        "seal": {
+          "type": "KeyError",
+          "message": "'workers/checker_order_corrupt-supervision.json'"
+        },
+        "collect": {
+          "type": "KeyError",
+          "message": "'workers/checker_order_corrupt-supervision.json'"
+        }
+      }
+    },
+    {
+      "case": "changed_bytes_rehashed_archive_entry",
+      "member": "workers/checker_order_corrupt-supervision.json",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "completed evidence storage drift"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "completed evidence storage drift"
+        }
+      }
+    }
+  ],
+  "malformed_seals": [
+    {
+      "case": "wrong_schema",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "invalid portable completion seal"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "invalid portable completion seal"
+        }
+      }
+    },
+    {
+      "case": "wrong_id",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "invalid portable completion seal"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "invalid portable completion seal"
+        }
+      }
+    },
+    {
+      "case": "files_wrong_type",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "invalid portable completion seal"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "invalid portable completion seal"
+        }
+      }
+    },
+    {
+      "case": "required_row_removed",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "required structured seal member missing"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "required structured seal member missing"
+        }
+      }
+    },
+    {
+      "case": "path_boundary:/escape.json",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "portable sealed path/schema boundary"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "portable sealed path/schema boundary"
+        }
+      }
+    },
+    {
+      "case": "path_boundary:../escape.json",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "portable sealed path/schema boundary"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "portable sealed path/schema boundary"
+        }
+      }
+    },
+    {
+      "case": "path_boundary:groups/r5-checker_order_corrupt/../escape.json",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "portable sealed path/schema boundary"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "portable sealed path/schema boundary"
+        }
+      }
+    },
+    {
+      "case": "path_boundary:groups//r5-checker_order_corrupt/extra.json",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "portable sealed path/schema boundary"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "portable sealed path/schema boundary"
+        }
+      }
+    },
+    {
+      "case": "path_boundary:groups\\r5-checker_order_corrupt\\extra.json",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "portable sealed path/schema boundary"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "portable sealed path/schema boundary"
+        }
+      }
+    },
+    {
+      "case": "path_boundary:groups/r5-checker_order_corrupt/stdout.log",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "portable sealed path/schema boundary"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "portable sealed path/schema boundary"
+        }
+      }
+    },
+    {
+      "case": "path_boundary:groups/r5-checker_count_corrupt/extra.json",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "portable sealed path/schema boundary"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "portable sealed path/schema boundary"
+        }
+      }
+    },
+    {
+      "case": "digest_format:None",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "portable seal digest type/format"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "portable seal digest type/format"
+        }
+      }
+    },
+    {
+      "case": "digest_format:23",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "portable seal digest type/format"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "portable seal digest type/format"
+        }
+      }
+    },
+    {
+      "case": "digest_format:'GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG'",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "portable seal digest type/format"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "portable seal digest type/format"
+        }
+      }
+    },
+    {
+      "case": "digest_format:'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'",
+      "results": {
+        "seal": {
+          "type": "GlobalFailure",
+          "message": "portable seal digest type/format"
+        },
+        "collect": {
+          "type": "GlobalFailure",
+          "message": "portable seal digest type/format"
+        }
+      }
+    }
+  ],
+  "member_negative_count": 16,
+  "malformed_seal_count": 15,
+  "elapsed_seconds": 4.164298289,
+  "full_inventory_complete": false,
+  "proof_credit": "NONE"
+}

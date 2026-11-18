@@ -1,0 +1,49 @@
+{
+  "status": "INDEPENDENTLY_VERIFIED",
+  "package": "dc8d28b0117737e95ccc9b91eb470c1a3c42a635",
+  "package_files": 70,
+  "manifest_hashes": 69,
+  "original_package_review": "UNCHANGED",
+  "delta_paths": [
+    ".github/workflows/ch8-s2.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/r5_campaign.py",
+    "ch8-s1-control/r5_profile.py",
+    "ch8-s1-control/test_r5.py",
+    "ch8-s1-control/test_s2.py"
+  ],
+  "request_changed_keys": [
+    "ci_payload_sha256",
+    "control_reference",
+    "entry_g0"
+  ],
+  "workflow_only_delta": "Validate10->11",
+  "function_AST": {
+    "check_package.py": {
+      "changed_functions": [
+        "check_yaml"
+      ],
+      "other_AST": "IDENTICAL"
+    },
+    "r5_profile.py": {
+      "changed_functions": [
+        "validate_yaml"
+      ],
+      "other_AST": "IDENTICAL"
+    },
+    "r5_campaign.py": {
+      "changed_functions": [
+        "root_outcome",
+        "sealed"
+      ],
+      "other_AST": "IDENTICAL"
+    }
+  },
+  "unchanged_control_file_count": 3874,
+  "unchanged_control_tree_except_seven_paths": true,
+  "original_R5_tests": "ALL_23_UNCHANGED; four portable tests added",
+  "source_tool": "EXACT_UNCHANGED",
+  "protected_decoders_bindings": "BYTE_IDENTICAL",
+  "scope": "inherit original full review by verified invariance; localized two-finding delta"
+}
