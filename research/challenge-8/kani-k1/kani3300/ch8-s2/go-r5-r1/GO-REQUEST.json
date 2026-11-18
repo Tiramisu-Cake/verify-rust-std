@@ -1,47 +1,22 @@
 {
-  "schema": "ch8-s2-r5-r1-go-request-v1",
-  "status": "HOLD_FOR_DETERMINISTIC_PROCESS_TEST_REPAIR_AND_DELTA_REVIEW",
-  "owner_request": "21:22 evaluate known Validate test flake and prepare GO-request with root decision",
-  "root_decision": {
-    "choice": "B_MAKE_TEST_DETERMINISTIC_KEEP_IN_VALIDATE",
-    "test_in_CI_Validate": true,
-    "test": "test_r5.ProcessTests.test_escaped_setsid_child_found_and_reaped",
-    "basis": "Workflow explicitly runs test_r5.py; independent review33PASS/1FAIL plus isolated repeatFAIL on timing-dependent early orphan snapshot. Runtime cleanup/controller rejection remained valid in bounded diagnostics. Stabilize fixture before spending a CI cycle.",
-    "consent": "AGREE_TO_ONE_R5_ATTEMPT_ONLY_AFTER_EXACT_TEST_ONLY_REPAIR_AND_INDEPENDENT_DELTA_APPROVE",
-    "old_d67_dispatch_agreed": false,
-    "repair_task_g0": "6d7c4739def196654459faf05b7e1c36ace03e93",
-    "repair_scope": "test fixture/assertions plus required payload and package bindings; production runtime/source/tool/schedule/caps unchanged",
-    "avoid": [
-      "skip/exclude test",
-      "retry until pass",
-      "sleep as synchronization",
-      "weaken cleanup/controller assertions"
+  "schema": "ch8-s2-r5-r1-approved-go-request-v2",
+  "status": "READY_FOR_DELEGATED_COORDINATOR_GO",
+  "package_g0": "2906a5b6d3b8451e5b49417714f75e3f9a4af148",
+  "review_g0": "c9e0f9aefaa00330b94715a6e5fa0089f5238983",
+  "review_verdict": "APPROVE",
+  "blocking_findings": [],
+  "root_consent": {
+    "decision": "AGREE_TO_ONE_NEW_R5_R1_STABLE_ATTEMPT",
+    "authority": "Owner21:53 asks root agreement; delegated user coordinator executes separately.",
+    "dispatcher": "USER_COORDINATOR_ONLY",
+    "conditions": [
+      "Publish/use exact reviewed sourcebd62 and stock0aac; no changes to runtime, selection, oracles, caps or payloads.",
+      "Final push trigger must be a SAME-TREE SIBLING of635 with soleparent9e14; verify final head/tree/request/workflow, nonskip head/push range, source checkout and depths7/5/2 before dispatch.",
+      "Keep Validate12min, full explicit136-test suite including deterministic process fixtures; setup aggregate1800s/job180min and all proof/resource/6900 campaign ceilings remain.",
+      "One new bounded nine-singleton campaign, no automatic retry; retain independent root outcomes/completed prefix and honest resource/UNKNOWN/DEFERRED reporting.",
+      "Separate post-terminal intake decides actual outcomes; static/source-reported evidence and assumed summaries are not promoted to native proof credit."
     ]
   },
-  "approved_prior_candidate": {
-    "package_g0": "dc8d28b0117737e95ccc9b91eb470c1a3c42a635",
-    "review_g0": "2ed2c8ef2f6b9d6460494b85594e3a5f08387a7f",
-    "review_verdict": "APPROVE",
-    "control": {
-      "worktree": "/root/kani-ch8-s2-r5-r1-final-w13",
-      "sha": "d67bd1ecd555030c46a06b8462d0313ea416711a",
-      "tree": "c8925e3acfd299f7eb74997c8e120873dcaab84d",
-      "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
-      "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
-      "derivation_control": "4e97d370aba4adc480fcc3701b111d02658aa94d",
-      "request_sha256": "f4a1eb18f3324f380973194c2b384f1a1d6d4df139620f86978e9249462dc7c2",
-      "workflow_sha256": "4a9e90a68e4b3f977f28ee31ec2c9426e3b685f1da5616168e12756d0c64c8c6"
-    },
-    "closures": {
-      "R14-R5-01": "CLOSED",
-      "R14-R5-02": "CLOSED"
-    },
-    "nonblocking_observation": "R14-R5-R1-O01 inherited test race; root elects pre-dispatch fix",
-    "review_integrity": "23committedfiles/22manifest hashes checked"
-  },
-  "final_package_g0": null,
-  "final_review_g0": null,
-  "final_control": null,
   "source": {
     "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
     "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
@@ -50,28 +25,53 @@
     "base": "99e8456d200fff1299ee5756279cddb23921dc65",
     "derivation_source": "bd62e54df1b4749154790aa3db3cc7978f547f75"
   },
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r5-r1-stable-final-w13",
+    "sha": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+    "tree": "20f53f18eaafe276a3f1ea74102cbc7c6f3985ac",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "d67bd1ecd555030c46a06b8462d0313ea416711a",
+    "request_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+    "workflow_sha256": "80d1273b9564a16eb4619089db5604ccccdfaa1cb7a155e9703d169c14b58c90"
+  },
   "tool": {
     "worktree": "/root/kani-upstream-ch8-s1",
     "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
     "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
     "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
   },
+  "request_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+  "workflow_sha256": "80d1273b9564a16eb4619089db5604ccccdfaa1cb7a155e9703d169c14b58c90",
+  "source_publication": {
+    "required_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "existing_branch": "experiment/ch8-s2-batch3probes-r4-20261118",
+    "already_published": "COORDINATOR_REPORTED_PRIOR_R4_GO",
+    "reuse_exact_sha": true,
+    "root_published": false
+  },
   "required_trigger": {
-    "topology": "SAME_TREE_SIBLING_OF_FINAL_REVIEWED_CONTROL",
+    "repository": "Tiramisu-Cake/kani",
+    "topology": "SAME_TREE_SIBLING_NOT_CHILD_OF635",
+    "tree": "20f53f18eaafe276a3f1ea74102cbc7c6f3985ac",
     "single_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
-    "tree": null,
-    "head": null,
-    "branch": null,
-    "run_id": null,
-    "attempt": null,
     "event": "push",
+    "suggested_branch": "uninit-ci/ch8-s2-batch3probes-r5-r1-20261118",
     "checkout_depths": {
       "control": 7,
       "source": 5,
       "tool": 2
     },
-    "created": false
+    "created": false,
+    "actual_head_sha": null,
+    "actual_ref": null,
+    "actual_run_id": null,
+    "actual_attempt": null,
+    "final_gate": "Exact final nonskip head/range/tree/parent/request/workflow/source before coordinator dispatch."
   },
+  "requested_new_workflow_attempts": 1,
+  "automatic_rerun": false,
+  "old_run_retry": false,
   "scope": {
     "selected": [
       "checker_order_corrupt",
@@ -120,34 +120,128 @@
     },
     "deferred_reason": "DEFERRED_TO_S3_PROVED_LEAVES; NOT_SELECTED; UNKNOWN"
   },
-  "dispatch_conditions": [
-    "Committed immutable test-stable final candidate and exact same14 delta APPROVE, no blockers.",
-    "All runtime/source/tool bytes and selected/deferred/oracles/campaign/resource caps match approved prior candidate; test retained in workflow.",
-    "Final Validate allPASS on exact candidate with truthful provenance and >=1.5x timeout margin.",
-    "Recheck final tree/soleparent/request/workflow and nonskip push head/range before separate coordinator GO/dispatch.",
-    "One new attempt; no automatic rerun; preserve local-failure continuation and durable uploaded prefix."
-  ],
+  "runtime_limits": {
+    "Validate_minutes": 12,
+    "legacy_Validate_minutes": 10,
+    "setup_aggregate_seconds": 1800,
+    "job_minutes": 180,
+    "proof_step_seconds": 7560,
+    "campaign_seconds": 6900,
+    "resource_scope": "Non-atomic sampled PGID RSS and observed owned PID cleanup; not strict kernel/tree/cgroup accounting."
+  },
+  "verification": {
+    "author_actual_final": {
+      "control": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+      "tests": 136,
+      "seconds": "446.377637895",
+      "cap_seconds": 720,
+      "margin": "1.612984027146456926344455403",
+      "check_source_seconds": "14.229315844",
+      "host_only": true
+    },
+    "reviewer_targeted": {
+      "tests": 28,
+      "seconds": 14.943931344,
+      "passed": 28,
+      "full_Validate_repeated": false
+    },
+    "finding_closures": [
+      {
+        "id": "R14-R5-01",
+        "status": "CLOSED",
+        "basis": "Prior closure plus independently checked exact12min minimum and final-object136PASS446.377637895s; legacy/setup/job/campaign unchanged"
+      },
+      {
+        "id": "R14-R5-02",
+        "status": "CLOSED",
+        "basis": "Exact service/packer/collector/runtime invariance to prior APPROVE2ed; four final-object portable regressions PASS"
+      }
+    ],
+    "test_stability": "Review independently retained normal/forced delayed real-child repetitions and forced failure cleanup; kept in explicit CI module list.",
+    "root_receipt": "ROOT-VERIFICATION.json"
+  },
   "budget_reference": {
     "ledger_g0": "87885e4e73520b5fc3ef41e68ca66e85989d432c",
-    "item1_used": 29,
-    "item1_limit": 30,
-    "item2_used": 10,
-    "item2_limit": 17,
-    "total_used": 39,
-    "total_limit": 47,
-    "prospective_r5_item2_if_counted": 11,
-    "prospective_total_if_counted": 40,
+    "current": {
+      "item1": [
+        29,
+        30
+      ],
+      "item2": [
+        10,
+        17
+      ],
+      "total": [
+        39,
+        47
+      ]
+    },
+    "after_both_if_counted": {
+      "item1": [
+        30,
+        30
+      ],
+      "item2": [
+        11,
+        17
+      ],
+      "total": [
+        41,
+        47
+      ]
+    },
+    "ledger_changed_by_root": false,
     "reservation": false,
-    "accounting_changed_by_root": false
+    "owner_coordinator_accounts_actual_runs": true,
+    "prospective_this_attempt": {
+      "item2": [
+        11,
+        17
+      ],
+      "total_if_S2_first": [
+        40,
+        47
+      ]
+    },
+    "requested_item2_attempts": 1
   },
-  "native_R5": "NOT_RUN",
-  "qualification": "NONE_FROM_PREPARATION",
-  "dispatcher": "USER_COORDINATOR_ONLY_SEPARATE_GO",
+  "history": {
+    "supersedes_hold_commit": "805dfa3af4854e76f0997c7d131f8a1dbc09ff99",
+    "prior_candidate": {
+      "package_g0": "dc8d28b0117737e95ccc9b91eb470c1a3c42a635",
+      "review_g0": "2ed2c8ef2f6b9d6460494b85594e3a5f08387a7f",
+      "review_verdict": "APPROVE",
+      "control": {
+        "worktree": "/root/kani-ch8-s2-r5-r1-final-w13",
+        "sha": "d67bd1ecd555030c46a06b8462d0313ea416711a",
+        "tree": "c8925e3acfd299f7eb74997c8e120873dcaab84d",
+        "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "derivation_control": "4e97d370aba4adc480fcc3701b111d02658aa94d",
+        "request_sha256": "f4a1eb18f3324f380973194c2b384f1a1d6d4df139620f86978e9249462dc7c2",
+        "workflow_sha256": "4a9e90a68e4b3f977f28ee31ec2c9426e3b685f1da5616168e12756d0c64c8c6"
+      },
+      "closures": {
+        "R14-R5-01": "CLOSED",
+        "R14-R5-02": "CLOSED"
+      },
+      "nonblocking_observation": "R14-R5-R1-O01 inherited test race; root elects pre-dispatch fix",
+      "review_integrity": "23committedfiles/22manifest hashes checked"
+    },
+    "all_precursors_failures_retained": "Immutable package and Git history; prior440.727/11min margin failure and reviewer33/1 not relabeled."
+  },
+  "limits": [
+    "Native R5 compile/results NOT_RUN before this future attempt.",
+    "Selected9roots16covers5negative; general32 pair DEFERRED_UNKNOWN, canonical11/20/6 not completed.",
+    "Assumed/caller-copy/source-reported policy preserved; independent proof credit NONE from preparation.",
+    "Future CI elapsed/resource/verdicts UNKNOWN."
+  ],
   "root_external_actions": {
     "CI": 0,
     "push": 0,
     "rerun": 0,
     "ledger": 0,
     "reservation": 0
-  }
+  },
+  "next": "User coordinator alone executes separate GO/dispatch and records actual trigger/ref/run/attempt; intake after terminal."
 }

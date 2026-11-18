@@ -1,34 +1,38 @@
-# S2 R5-r1 — HOLD before final GO
+# S2 R5-r1 stable — READY for coordinator GO
 
-Root chooses **(b), deterministic process test kept in Validate**. The workflow
-runs `python3 -m unittest ... test_r5.py`, including
-`ProcessTests.test_escaped_setsid_child_found_and_reaped`. The unchanged fixture
-failed in the reviewer batch and once in isolation on an early orphan-list
-snapshot; scoped diagnostics still observed/signalled/reaped the escaped child
-and rejected its PGID. A bounded synchronization/post-cleanup assertion repair
-is preferable to a known prebuild CI flake. The test remains in the suite.
+**Root agrees to one new R5 attempt** on package
+`2906a5b6d3b8451e5b49417714f75e3f9a4af148`, independent14 APPROVE
+`c9e0f9aefaa00330b94715a6e5fa0089f5238983`, no blockers; R14-R5-01/02 CLOSED.
+This finalizes the HOLD draft805dfa. The user coordinator dispatches separately.
 
-Original13 has task `6d7c4739def196654459faf05b7e1c36ace03e93`: tiny test-only
-repair plus necessary bindings, immutable `batch-r5-r1-stable/`, production
-runtime/source/tool/order/resource caps unchanged. SAME14 then checks exact final
-pins, preserved meaningful cleanup/controller coverage, allPASS final Validate
-and >=1.5x host margin. No sleeps/retries/skips or weaker assertions.
+Control `63535098ab85c70c8707eee0afd65f53c9ef566a`, tree
+`20f53f18eaafe276a3f1ea74102cbc7c6f3985ac`, sole parent
+`9e14e033f9ee31522b571c127609dcdff76d230b`.
+Request `d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1`;
+workflow `80d1273b9564a16eb4619089db5604ccccdfaa1cb7a155e9703d169c14b58c90`.
+Source `bd62e54df1b4749154790aa3db3cc7978f547f75` can reuse its published
+experiment/ch8-s2-batch3probes-r4-20261118 ref. Stock Kani remains
+`0aac16ef62da9e9d5645782d458593e5d78143ba`.
 
-Prior package `dc8d28b0117737e95ccc9b91eb470c1a3c42a635`, control
-`d67bd1ecd555030c46a06b8462d0313ea416711a` and review
-`2ed2c8ef2f6b9d6460494b85594e3a5f08387a7f` remain immutable; both01/02 CLOSED.
-Root checked23reviewfiles/22hashes. Prior134PASS/409.026897886s is retained
-alongside reviewer33PASS/1FAIL and repeatFAIL, without relabeling failed runs.
-The old control is **not dispatch-ready under this root decision**.
+Conditions:
+- Create a nonskip push trigger as a **same-tree sibling**, sole parent9e14,
+  not a child of635. Verify remote source SHA and final head/tree/parent/request/
+  workflow/push range; retain checkout depths7/5/2. Record actual ref/head/run/attempt.
+- Keep Validate12min with the deterministic process test and full module list.
+  Actual final136PASS/446.377637895s gives1.612984x; reviewer28PASS. Setup1800s,
+  job180min, campaign6900s and proof/resource caps remain binding. Host timing
+  does not guarantee future GitHub timing.
+- One campaign: nine serial fresh singleton invocations, selected9/16/5;
+  bothgeneral32 deferred, full11/20/6 retained. Preserve local failure isolation,
+  verified cleanup and archive-replayable completed prefix. No automatic retry.
+- Native outcomes/compile/proof are still NOT_RUN. Post-terminal intake must
+  retain partial/UNKNOWN/assumed/caller-copy/source-reported limits.
 
-**Conditional agreement:** one new R5 attempt after exact test-stable candidate
-and independent delta APPROVE, final identity/margin checks and separate user
-coordinator GO. Future trigger must be a same-tree sibling with sole parent
-`9e14e033f9ee31522b571c127609dcdff76d230b`; future tree/head/run remain unknown.
-Source `bd62e54df1b4749154790aa3db3cc7978f547f75`, stock
-`0aac16ef62da9e9d5645782d458593e5d78143ba`, checkout7/5/2 and selected9/16/5 plus
-deferredgeneral32/full11/20/6 remain fixed. No automatic rerun or new proof credit.
+Root rechecked84packagefiles/83hashes and15reviewfiles/14hashes, exact clean
+source/control/tool pins, request/workflow and timing identities. Production
+runtime invariance and01/02 closures are independently reviewed. All old failed
+runs and margin precursors remain preserved.
 
-Owner ledger87885e4e73: item1 29/30, item2 10/17, total39/47. R5 would be11/17
-and40/47 if counted; no reservation/accounting/CI/push action by root. This HOLD
-will be finalized only after the exact repair/review. See structured JSON.
+Owner ledger87885e: item2 currently10/17; this attempt would be11/17 if counted.
+With the separate main-confirmation attempt, total would be41/47 and item1
+30/30. Root changed no ledger, reservation, remote ref or CI state.

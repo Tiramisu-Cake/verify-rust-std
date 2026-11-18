@@ -1,0 +1,314 @@
+{
+  "schema": "stub-contract-confirm-approved-go-request-v1",
+  "status": "READY_FOR_COORDINATOR_GO",
+  "package_g0": "5ba4f444f6fa1882b4eb6ac6d773f76cfc9c6531",
+  "review_g0": "121893c72354fef0fdc1aa0f823fe78cc0e9fe89",
+  "review_verdict": "APPROVE",
+  "blocking_findings": [],
+  "approval_scope": "STOCK_MAIN_CONFIRMATION_ONLY",
+  "root_consent": {
+    "decision": "AGREE_TO_ONE_STOCK_MAIN_STUB_CONTRACT_CONFIRMATION_ATTEMPT",
+    "authority": "Owner grants +1item1;21:53 user coordinator asks root agreement and dispatches separately.",
+    "dispatcher": "USER_COORDINATOR_ONLY",
+    "conditions": [
+      "Use exact reviewed control125318 at frozen mainfaff; compiler build/setup/scripts must come from separate exact STOCK checkout, not fixture control/F4/fix candidate.",
+      "Publish exact control head/ref, verify remote equals reviewed head/tree and existing slow-tests workflow_dispatch entry is enabled; dispatch exact reviewed three inputs once. Do not substitute another trigger/head or rebind request without review.",
+      "Preserve build/setup plus provider, verified and ordinary independent slots/feature isolation/exact selectors/fresh targets and all caps/oracles; generic nonzero exit is not reproduction.",
+      "Retain structured diagnostic completeness independent of stream preview, export presence/inventory and canonical digest. Missing/partial/invalid export is not absent evidence.",
+      "Post-terminal intake only; compiler fix/clear-error policy, fixed-branch CI and publication remain separate owner decisions."
+    ]
+  },
+  "stock": {
+    "compiler_fix": "NONE; F4 excluded",
+    "dirty": "",
+    "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "shallow": "false",
+    "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "worktree": "/root/kani-stub-contract-source-w15"
+  },
+  "control": {
+    "branch": "w15/stub-contract-confirm",
+    "dirty": "",
+    "head": "1253186ae87e079758ab573f50ba305a028f8963",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "published": false,
+    "shallow": "false",
+    "tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+    "worktree": "/root/kani-stub-contract-control-w15"
+  },
+  "current_upstream_main_recheck": {
+    "assurance": "CONNECTED_GITHUB_METADATA_READ_ONLY_RECHECK_THIS_GO_TURN",
+    "url": "https://api.github.com/repos/model-checking/kani/branches/main",
+    "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "parents": [
+      "a3c8b8610739aab7d2c864bd4021086a5e7c0d94"
+    ],
+    "drift": "NONE"
+  },
+  "request_sha256": "21749d215a2851d971e58f16727d7589af3468adffe086afa4a558cf026841c4",
+  "profile_sha256": "9f230f8fac56230a468f043e294bc77a745b50d5a16a47a7857eb0be4af5cae5",
+  "workflow_sha256": "0a537ae2e8f74f5864324237f761b2fe3b6a07982216b2e82ad9feca06d6011c",
+  "request_binding": {
+    "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "base_parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+    "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "control_head": "1253186ae87e079758ab573f50ba305a028f8963",
+    "control_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "control_tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+    "profile_sha256": "9f230f8fac56230a468f043e294bc77a745b50d5a16a47a7857eb0be4af5cae5",
+    "schema": "stub-contract-request-v1"
+  },
+  "control_patch_sha256": "915b02209ce2f8439c71239856b02aef6c58486236301f9e23902323b12608a4",
+  "fix_candidate": {
+    "patch_sha256": "d3221b7ed70707ae39c479eed0bccc1f89f25e5ae5215356a117a8b7f718be08",
+    "included_in_confirmation": false,
+    "compiler_fix_approved": false,
+    "fixed_branch_CI_approved": false,
+    "publication_approved": false
+  },
+  "required_dispatch": {
+    "repository": "Tiramisu-Cake/kani",
+    "event": "workflow_dispatch",
+    "workflow": ".github/workflows/slow-tests.yml",
+    "ref": "w15/stub-contract-confirm",
+    "exact_head": "1253186ae87e079758ab573f50ba305a028f8963",
+    "exact_tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+    "exact_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "inputs": {
+      "control_head": "1253186ae87e079758ab573f50ba305a028f8963",
+      "control_tree": "507f9a07bc6fb4eca26706ea0fde32612731fbe2",
+      "request_sha256": "21749d215a2851d971e58f16727d7589af3468adffe086afa4a558cf026841c4"
+    },
+    "control_checkout_depth": 2,
+    "source_checkout_depth": 2,
+    "remote_ref_published_by_root": false,
+    "workflow_entry_enabled": "OPERATOR_VERIFY_EXISTING_DEFAULT_BRANCH_DISPATCH_ENTRY_BEFORE_DISPATCH; connector workflow metadata unsupported during author preparation",
+    "actual_run_id": null,
+    "actual_attempt": null,
+    "actual_ref": null
+  },
+  "requested_new_workflow_attempts": 1,
+  "automatic_rerun": false,
+  "caps": {
+    "automatic_retries": 0,
+    "build_invocations": 1,
+    "build_seconds": 900,
+    "diagnostic_block_bytes": 4096,
+    "diagnostic_blocks_per_stream": 32,
+    "each_native_seconds": 120,
+    "export_bytes": 2097152,
+    "group_rss_bytes": 8589934592,
+    "head_bytes": 4096,
+    "head_lines": 18,
+    "job_minutes": 60,
+    "max_checks_per_harness": 256,
+    "native_invocations": 3,
+    "per_process_address_space_bytes": 8589934592,
+    "preview_line_chars": 500,
+    "setup_minutes": 30,
+    "stream_bytes": 2097152,
+    "tail_bytes": 8192,
+    "tail_lines": 8
+  },
+  "commands": {
+    "build": {
+      "argv": [
+        "cargo",
+        "build-dev"
+      ],
+      "cwd": "${STOCK}",
+      "runtime": "NOT_RUN"
+    },
+    "setup": "./stock/.github/actions/setup with kani_dir=stock",
+    "slots": [
+      {
+        "argv": [
+          "${STOCK}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+          "--lib",
+          "--no-default-features",
+          "--features",
+          "provider",
+          "--exact",
+          "--harness",
+          "provider",
+          "-j1",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "stubbing",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/provider.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/provider-target"
+        ],
+        "cfg": "kani plus feature=\"provider\"; provider harness always present",
+        "feature": "provider",
+        "runtime": "NOT_RUN",
+        "selected_harness": "provider",
+        "slot": "provider"
+      },
+      {
+        "argv": [
+          "${STOCK}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+          "--lib",
+          "--no-default-features",
+          "--features",
+          "verified",
+          "--exact",
+          "--harness",
+          "verified_control",
+          "-j1",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "stubbing",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/verified.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/verified-target"
+        ],
+        "cfg": "kani plus feature=\"verified\"; provider harness always present",
+        "feature": "verified",
+        "runtime": "NOT_RUN",
+        "selected_harness": "verified_control",
+        "slot": "verified"
+      },
+      {
+        "argv": [
+          "${STOCK}/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "${CONTROL}/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+          "--lib",
+          "--no-default-features",
+          "--features",
+          "ordinary",
+          "--exact",
+          "--harness",
+          "ordinary_stub",
+          "-j1",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "stubbing",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "${SCRATCH}/ordinary.json",
+          "--output-format=regular",
+          "--target-dir",
+          "${SCRATCH}/ordinary-target"
+        ],
+        "cfg": "kani plus feature=\"ordinary\"; provider harness always present",
+        "feature": "ordinary",
+        "runtime": "NOT_RUN",
+        "selected_harness": "ordinary_stub",
+        "slot": "ordinary"
+      }
+    ]
+  },
+  "environment": {
+    "CARGO_BUILD_TARGET": null,
+    "CARGO_ENCODED_RUSTFLAGS": null,
+    "CARGO_TARGET_DIR": null,
+    "FLAMEGRAPH": null,
+    "KANIFLAGS": "",
+    "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true",
+    "KANI_LOG": "",
+    "NO_COLOR": "1",
+    "RUSTFLAGS": "",
+    "RUSTUP_TOOLCHAIN": "nightly-2026-11-12",
+    "RUST_BACKTRACE": "0"
+  },
+  "artifact": {
+    "inventory": "source/control files and tools with SHA256, per-slot export/stream digests and invocation identities; result canonical digest excludes integrity",
+    "members": [
+      "result.json"
+    ],
+    "name": "stub-contract-confirm-${github.run_id}-${github.run_attempt}",
+    "raw_logs": false,
+    "retention_days": 7
+  },
+  "classification": {
+    "DEFECT_PRESENT": "Successful setup/build/PFC/verified controls plus complete exact ordinary target missing __kani_recursion_check_f error, nonzero exit, no export or verification inventory.",
+    "DEFECT_ABSENT": "Valid controls and exact ordinary semantic assertion f(x)==x+2 succeeds with complete expected export. Applies only to this fixture.",
+    "INCONCLUSIVE": "Setup/build/control failure, unrelated/additional compiler error, wrong binding, incomplete output/diagnostics/export, timeout/RSS/output/spawn error; explicit unsupported diagnostic retained as separate behavior.",
+    "explicit_unsupported": "INCONCLUSIVE plus EXPLICIT_UNSUPPORTED under frozen-main policy.",
+    "replay_requirement": "Inspect export_inventory.present; present but unretained partial/invalid export is never equivalent to absent export."
+  },
+  "validation": {
+    "root_receipt": "ROOT-VERIFICATION.json",
+    "independent_checks": 125,
+    "independent": "PASS_STATIC_PYTHON_MOCK",
+    "author_mutations": 71,
+    "native_main_fixed_MIR": "NOT_RUN",
+    "independent_proof_credit": "NONE"
+  },
+  "budget_reference": {
+    "ledger_g0": "87885e4e73520b5fc3ef41e68ca66e85989d432c",
+    "current": {
+      "item1": [
+        29,
+        30
+      ],
+      "item2": [
+        10,
+        17
+      ],
+      "total": [
+        39,
+        47
+      ]
+    },
+    "after_both_if_counted": {
+      "item1": [
+        30,
+        30
+      ],
+      "item2": [
+        11,
+        17
+      ],
+      "total": [
+        41,
+        47
+      ]
+    },
+    "ledger_changed_by_root": false,
+    "reservation": false,
+    "owner_coordinator_accounts_actual_runs": true,
+    "prospective_this_attempt": {
+      "item1": [
+        30,
+        30
+      ],
+      "total_if_confirmation_first": [
+        40,
+        47
+      ]
+    },
+    "requested_item1_attempts": 1
+  },
+  "root_external_actions": {
+    "CI": 0,
+    "push": 0,
+    "rerun": 0,
+    "ledger": 0,
+    "reservation": 0
+  },
+  "next": "User coordinator verifies exact remote control/dispatch entry, executes separate GO once, records run/attempt and accounts; intake after terminal."
+}

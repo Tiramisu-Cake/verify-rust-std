@@ -1,0 +1,52 @@
+{
+  "scope": "STUB_CONTRACT_MAIN_CONFIRMATION",
+  "verification": {
+    "verification": "PASS",
+    "packages_and_reviews": [
+      {
+        "path": "ch8-s2/batch-r5-r1-stable",
+        "commit": "2906a5b6d3b8451e5b49417714f75e3f9a4af148",
+        "committed_files": 84,
+        "manifest_entries": 83,
+        "all_match": true
+      },
+      {
+        "path": "ch8-s2/review-batch-r5-r1-stable",
+        "commit": "c9e0f9aefaa00330b94715a6e5fa0089f5238983",
+        "committed_files": 15,
+        "manifest_entries": 14,
+        "all_match": true
+      },
+      {
+        "path": "wave0/stub-contract-confirm",
+        "commit": "5ba4f444f6fa1882b4eb6ac6d773f76cfc9c6531",
+        "committed_files": 31,
+        "manifest_entries": 30,
+        "all_match": true
+      },
+      {
+        "path": "wave0/stub-contract-confirm-review-w11",
+        "commit": "121893c72354fef0fdc1aa0f823fe78cc0e9fe89",
+        "committed_files": 14,
+        "manifest_entries": 13,
+        "all_match": true
+      }
+    ],
+    "all_exact_pins_clean": true,
+    "r5_margin": 1.6129840271464568,
+    "stub_request_canonical_match": true
+  },
+  "current_upstream_main_recheck": {
+    "assurance": "CONNECTED_GITHUB_METADATA_READ_ONLY_RECHECK_THIS_GO_TURN",
+    "url": "https://api.github.com/repos/model-checking/kani/branches/main",
+    "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "parents": [
+      "a3c8b8610739aab7d2c864bd4021086a5e7c0d94"
+    ],
+    "drift": "NONE"
+  },
+  "reviewed_source_only_native_NOT_RUN": true,
+  "checked_at_UTC": "2026-11-18T18:55:56.859702+00:00",
+  "root_CI_push_accounting_actions": 0
+}
