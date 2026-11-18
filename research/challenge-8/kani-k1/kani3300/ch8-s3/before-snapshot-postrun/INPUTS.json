@@ -1,0 +1,46 @@
+{
+  "schema": "ch8-s3-before-snapshot-diagnostic-inputs-v1",
+  "status": "INTAKE_AUTHORIZED_NOT_YET_ISSUED",
+  "base_intake_task_g0": "6967b2db974efff371efbbf45a7eeb0c1b065666",
+  "run": 44405927807,
+  "attempt": 1,
+  "repository": "Tiramisu-Cake/kani",
+  "event": "push",
+  "head": "d92581141b86e0f3b695cb37acc15c265478c9b4",
+  "branch": "uninit-ci/ch8-s3-1-20261119",
+  "native_connected_status": "completed/failure",
+  "source": "513341f41ce53833a279571401c924bdddddb6c8",
+  "control_candidate": "fc29b93b1e333b73e55e2872701c80d9927f3b02",
+  "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_package": "0902ad2d84e5e5c4d9bb3b01d5c7f7671e84b38d",
+  "review": "27040e2cd8d3564e5d0a929b8f68ca38a5a61432",
+  "GO": "99291133b2ee82d3ccd03a116f8f4cf4855f7e86",
+  "artifact": {
+    "id": 14476230830,
+    "name": "ch8-s3-1-44405927807-1",
+    "archive_digest": "sha256:6ec79c507691c3719c562c7e31fc6587de9a0a20384533b06de76acb8f9b6df7",
+    "size": 60016,
+    "expired": false,
+    "only_allowed_compact_member": "group-evidence.json.gz",
+    "metadata_observed_utc": "2026-11-18T22:07:34.531379+00:00"
+  },
+  "coordinator_report01_06": {
+    "campaign": "STOPPED after41s rootsphase",
+    "error": "GlobalFailure: worker protected/provenance evidence rejected: recorded worker binary drift: before",
+    "first_root": "checker_order_corrupt INTERRUPTED",
+    "remaining8": "NOT_RUN",
+    "native_verdicts": "NONE",
+    "cause": "UNKNOWN_PENDING_INTAKE; false positive is hypothesis, not finding"
+  },
+  "focus": "which exact binary/field/digest/path comparison fails in worker BEFORE versus setup/E0 and protected reader; why, or precise evidence gap",
+  "output": "kani3300/ch8-s3/run-44405927807/",
+  "budget": {
+    "ledger": "01f36372c07082a1cd592f29fe5702606926112b",
+    "item1": "31/31",
+    "item2": "11/17",
+    "total": "42/48",
+    "S3_1_charge": "0 by coordinator case-specific controller abort before any root completed; root agreed case, no blanket refund rule",
+    "write": false
+  },
+  "next": "root reviews actual committed intake -> original13 localized repair+regression -> same14delta ->newGO; no automatic rerun"
+}
