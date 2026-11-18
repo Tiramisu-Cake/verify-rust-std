@@ -1,0 +1,69 @@
+{
+  "schema": "ch8-s3-1-root-recheck-r2-v1",
+  "observed_at_utc": "2026-11-18T22:56:46.994571+00:00",
+  "checks": {
+    "s3-1-r2": {
+      "commit": "008fcb7705e658643582668ebfabb5f2e340e95d",
+      "committed_files": 65,
+      "manifest_hashes": 64,
+      "all_committed_bytes_and_payloads": "MATCH"
+    },
+    "s3-1-review-r2": {
+      "commit": "12c4dc55029d89559a1857537621f9453f23c29d",
+      "committed_files": 98,
+      "manifest_hashes": 97,
+      "all_committed_bytes_and_payloads": "MATCH"
+    },
+    "u-proposal-checker-order": {
+      "commit": "93f158e9ab64d48706f0b638204aee743d74ecfd",
+      "committed_files": 9,
+      "manifest_hashes": 8,
+      "all_committed_bytes_and_payloads": "MATCH"
+    },
+    "source": {
+      "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+      "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "clean": true
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+      "clean": true
+    },
+    "control": {
+      "sha": "cb63033ffcde918f4341146e56373476b8eeb569",
+      "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "clean": true
+    },
+    "request_sha256": "efbc150280f5f9641c9e8b48fb4486122ae8c3cfa318f78a42486394e1de7656",
+    "workflow_sha256": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709"
+  },
+  "review_disposition": "APPROVE",
+  "blockers": [],
+  "validation": {
+    "author_exact_final": {
+      "tests": 192,
+      "execution_count": 1,
+      "elapsed_seconds": 534.581739554,
+      "cap_seconds": 1080,
+      "margin": 2.0202710270295445,
+      "independently_witnessed": false
+    },
+    "reviewer_independent_targeted_tests": 23,
+    "reviewer_static_source_preflight": "PASS",
+    "native_compile_proof_fit": "NOT_RUN",
+    "no_unnecessary_full_Validate_rerun": true
+  },
+  "U_proposal_native_rows": {
+    "rows": 8,
+    "exact_native_id_status_class_description_file_line": "MATCH_SEALED_INTAKE",
+    "policy_activated": false
+  },
+  "ledger_reference": "01f36372c07082a1cd592f29fe5702606926112b",
+  "native_compile_proof_fit": "NOT_RUN",
+  "proof_credit": "NONE",
+  "CI_push_publication_accounting_actions": "NONE"
+}

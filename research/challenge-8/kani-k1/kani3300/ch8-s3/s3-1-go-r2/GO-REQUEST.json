@@ -1,0 +1,231 @@
+{
+  "schema": "ch8-s3-1-go-r2-v1",
+  "status": "READY_FOR_DELEGATED_COORDINATOR_GO",
+  "root_consent": "AGREE_ONE_BOUNDED_S3_1_R2_WORKFLOW_ATTEMPT",
+  "prepared_at_utc": "2026-11-18T22:56:46.994571+00:00",
+  "immutable_inputs": {
+    "candidate_g0": "008fcb7705e658643582668ebfabb5f2e340e95d",
+    "candidate_path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-r2",
+    "review_g0": "12c4dc55029d89559a1857537621f9453f23c29d",
+    "review_path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-review-r2",
+    "review_disposition": "APPROVE",
+    "path_representation_delta": "APPROVED_ZERO_BLOCKERS",
+    "inherited_R14-01": "CLOSED in27040; exact protected bytes retained",
+    "inherited_R14-02": "CLOSED in27040; exact protected bytes retained",
+    "historical_intake": "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+    "spent_old_GO": "99291133b2ee82d3ccd03a116f8f4cf4855f7e86"
+  },
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s3-1-final-w13",
+    "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+    "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s3-1-r2-control-w13",
+    "sha": "cb63033ffcde918f4341146e56373476b8eeb569",
+    "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "request": {
+    "sha256": "efbc150280f5f9641c9e8b48fb4486122ae8c3cfa318f78a42486394e1de7656",
+    "workflow_sha256": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709",
+    "schema": "ch8-s3-1-v1",
+    "profile": "ch8-s3-1-actual-fullbyte-v1",
+    "path": "ch8-s1-control/CI-REQUEST.json",
+    "workflow_path": ".github/workflows/ch8-s2.yml",
+    "payload_and_request_bytes_must_stay_exact": true,
+    "frozen_control_reference_is_provenance_not_future_head": "1dfc267b66abd83d536eb41a17052a4f3d767d2b"
+  },
+  "future_trigger": {
+    "sha": "NOT_CREATED",
+    "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+    "parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "relation": "new nonskip SAME-TREE SIBLING of cb63033ffcde918f4341146e56373476b8eeb569, not its child; sole exact9e14parent; exactly one new commit above9e14",
+    "repository": "Tiramisu-Cake/kani",
+    "event": "push",
+    "branch_filter": "uninit-ci/ch8-s3-1-*",
+    "branch": "coordinator selects matching new research branch",
+    "no_skip_in_final_commit": true,
+    "read_only_checks_required_before_push": [
+      "actual final fullSHA/tree/soleparent/range/skip directives",
+      "exact frozen request/workflow hashes in final tree",
+      "source513 fullSHA published and fetchable from Tiramisu-Cake/verify-rust-std before trigger",
+      "tool0aac fetchable from model-checking/kani; no upgrade to969f or4591patch",
+      "checkout ancestry depths7/5/2 preserve required base objects"
+    ],
+    "actual_run_id": "UNKNOWN_UNTIL_COORDINATOR_DISPATCH",
+    "attempts": 1,
+    "automatic_workflow_rerun": false
+  },
+  "campaign": {
+    "os": "ubuntu-24.04",
+    "workflow_job": "s3_leaf",
+    "serial": true,
+    "shared_setup_and_build_once": true,
+    "ordered_rows": [
+      {
+        "id": "checker_order_corrupt",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "unwind": 34
+      },
+      {
+        "id": "checker_count_corrupt",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+        "unwind": 34
+      },
+      {
+        "id": "s3_swap_u8_geometry",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_swap_u8_geometry",
+        "unwind": 36
+      },
+      {
+        "id": "s3_sort4_u8_separate",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_separate",
+        "unwind": 8
+      },
+      {
+        "id": "s3_sort4_u8_same_alloc",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc",
+        "unwind": 50
+      },
+      {
+        "id": "s3_insert_tail_u8_rel16",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_insert_tail_u8_rel16",
+        "unwind": 36
+      },
+      {
+        "id": "s3_merge8_u8_separate",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_separate",
+        "unwind": 12
+      },
+      {
+        "id": "s3_merge8_u8_same_alloc",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_same_alloc",
+        "unwind": 50
+      },
+      {
+        "id": "sort13_weak",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+        "unwind": 34
+      }
+    ],
+    "positive_PFC_candidates": 6,
+    "negative_controls": 3,
+    "source_cover_sites": 44,
+    "selected_literal_assertion_and_cover_sites": 71,
+    "compiled_property_counts": "UNKNOWN_UNTIL_NATIVE_EXPORT",
+    "deferred": [
+      "swap_pfc",
+      "summary_witness",
+      "merge32_real",
+      "sort13_assumed",
+      "general32_assumed",
+      "merge_order_corrupt",
+      "merge_count_corrupt",
+      "general32_weak"
+    ],
+    "caps": {
+      "child_seconds": 600,
+      "compile_seconds": 180,
+      "slot_seconds": 720,
+      "controller_seconds": 180,
+      "cleanup_seconds": 240,
+      "campaign_seconds": 6900,
+      "outer_seconds": 7500,
+      "phase_seconds": 8100,
+      "step_seconds": 7560,
+      "local_rss_kib": 6291456,
+      "outer_rss_kib": 12582912,
+      "headroom_kib": 2097152,
+      "stdout_bytes": 16777216,
+      "stderr_bytes": 1048576,
+      "export_bytes": 8388608,
+      "artifact_bytes": 268435456
+    },
+    "setup_seconds": 1800,
+    "job_minutes": 180,
+    "validate_step_minutes": 18,
+    "local_memory_scope": "sampled owned process-group RSS with verified cleanup; not kernel cgroup/whole-tree peak",
+    "continuation": "local cutoff/error may continue only after verified cleanup and valid post/protected identity evidence; observed drift/unreadability globally stops, preserves prefix and laterNOT_RUN",
+    "native_runners": "nine fresh singleton stock verify-std invocations; exact native start selection required"
+  },
+  "policy": {
+    "unreachable_admission": {
+      "mode": "REJECT_ALL",
+      "proposal": "S3-U-SITE-REVIEW-v1",
+      "enabled": false,
+      "unknown": "REJECT",
+      "role_unreachable": "REJECT"
+    },
+    "qualification": "separate intake/acceptance; success roles cannot be UNREACHABLE; no admission change enabled",
+    "scope": "actual full-byte u8/KeyLess leaf instances in exact reviewed allocations/offsets/frame/init domains; no genericT/F/allallocation theorem",
+    "open_obligations_path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-r2/FULL-OBLIGATIONS.md",
+    "formal_credit_before_run": "NONE",
+    "native_compile_proof_fit": "NOT_RUN",
+    "no_assumed_summary_reduced_domain_or_registration_promotion": true,
+    "no_fullN16_N32_or_fit600_claim": true,
+    "legacy_policy_and_historical_evidence": "UNCHANGED",
+    "offline_U_proposal": {
+      "g0": "93f158e9ab64d48706f0b638204aee743d74ecfd",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/u-proposal-checker-order",
+      "status": "CONDITIONAL_SOURCE_ARGUMENT_ONLY_NOT_ENABLED_OR_ADMITTED",
+      "changes_current_request_or_policy": false
+    }
+  },
+  "accounting": {
+    "current_ledger": "01f36372c07082a1cd592f29fe5702606926112b",
+    "current": {
+      "item1": "31/31",
+      "item2": "11/17",
+      "total": "42/48"
+    },
+    "prospective_counted_S3_attempt": {
+      "item1": "31/31",
+      "item2": "12/17",
+      "total": "43/48"
+    },
+    "root_changed_ledger": false,
+    "reservation": false,
+    "owner": "user coordinator alone; existing case-specific controller-stop charge0 retained, no new refund rule or root accounting",
+    "historical_author_reference": "Frozen author/request accounting is historical provenance; latest coordinator ledger above governs without request changes"
+  },
+  "authority": {
+    "root_prepares_and_consents_only": true,
+    "dispatch": "user coordinator separately creates/publishes research refs and launches once after this consent",
+    "PR_issue_comment_or_open_PR_branch_push": "owner approval required, not authorized here",
+    "no_compiler_verifier_fullrunner_CI_push_accounting_action_performed": true
+  },
+  "next": "user coordinator binds actual source publication and same-tree trigger/run IDs; terminal intake and acceptance remain separate readiness gates",
+  "validation": {
+    "author_exact_final": {
+      "tests": 192,
+      "execution_count": 1,
+      "elapsed_seconds": 534.581739554,
+      "cap_seconds": 1080,
+      "margin": 2.0202710270295445,
+      "independently_witnessed": false
+    },
+    "reviewer_independent_targeted_tests": 23,
+    "reviewer_static_source_preflight": "PASS",
+    "native_compile_proof_fit": "NOT_RUN",
+    "no_unnecessary_full_Validate_rerun": true
+  },
+  "history": {
+    "run": "44405927807/1",
+    "outcome": "STOPPED; completedprefix0; firstrowINTERRUPTED_UNKNOWN; later8NOT_RUN",
+    "native_literal_negative_observation": "FAILURE S2_NEG_CHECKER_ORDER; 8U retained; not an admitted control",
+    "path_dictionary_mismatch": "source-established relative/absolute path strings; all recorded hashes equal",
+    "historical_physical_identity": "UNKNOWN",
+    "retrospective_rebaseline_or_admission": false,
+    "old_GO_9929": "SPENT_NOT_REUSED"
+  }
+}
