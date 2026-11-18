@@ -1,0 +1,31 @@
+{
+  "task": "4f0c7107d92045eac340ef0c1e5595c546f6e556",
+  "status": "READY_FOR_REVIEW14",
+  "source": "ca1452227d6ad319f1b9bc1ad33bf618120733eb",
+  "tree": "baedd51d92073ecb2b96991bae7dc562ee8f58a2",
+  "parent": "b5a9678fd7c2a0f67c3fcafd90057fc2afaf9b5d",
+  "claims": [
+    {
+      "claim": "Enabled whole-transformer clone; disabled shared main lifecycle; exactly two-file b5 delta",
+      "assurance": "STATIC_COMMITTED_SOURCE"
+    },
+    {
+      "claim": "Two-mode oracle, parser and mocked command/environment checks pass",
+      "assurance": "STATIC_AND_SYNTHETIC_ONLY"
+    }
+  ],
+  "compiler": "NOT_RUN",
+  "native_two_mode": "NOT_RUN",
+  "performance": "NOT_RUN",
+  "review14": "PENDING",
+  "blocker": null,
+  "open": [
+    "Independent14 exact candidate/package review",
+    "Root exact GO-request after approval",
+    "Owner no-skip same-tree sibling publication and full native push CI",
+    "Actual two-mode native runtime and performance",
+    "Deferred upstream PR release/std/bench coverage"
+  ],
+  "forbidden_actions_performed": [],
+  "ledger_modified": false
+}

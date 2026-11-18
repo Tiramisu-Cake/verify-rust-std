@@ -1,0 +1,189 @@
+{
+  "schema": "ch8-f4-uninit-only-full-native-push-plan-v1",
+  "status": "PREPARED_NOT_AUTHORIZED",
+  "reviewed_candidate": "ca1452227d6ad319f1b9bc1ad33bf618120733eb",
+  "reviewed_tree": "baedd51d92073ecb2b96991bae7dc562ee8f58a2",
+  "parent": "b5a9678fd7c2a0f67c3fcafd90057fc2afaf9b5d",
+  "source_worktree": "/root/kani-f4-uninit-only-w15",
+  "candidate_message": "[skip ci]; local only; do not publish",
+  "authorization": {
+    "owner_choice": "A; +1 item1 cap29",
+    "dispatch": false,
+    "required_gates": [
+      "EXACT_COMMITTED_READY",
+      "INDEPENDENT_REVIEW14_APPROVE",
+      "ROOT_EXACT_GO_REQUEST",
+      "OWNER_DISPATCH_AND_PUBLICATION_COMMAND"
+    ]
+  },
+  "future_final_head": {
+    "sha": "NOT_CREATED",
+    "tree": "baedd51d92073ecb2b96991bae7dc562ee8f58a2",
+    "parent": "b5a9678fd7c2a0f67c3fcafd90057fc2afaf9b5d",
+    "relation": "no-skip same-tree sibling of reviewed candidate; direct child of b5",
+    "pushed_range": "b5..HEAD contains only final sibling and no skip directives",
+    "candidate_in_pushed_range": false,
+    "creation_and_publication_owner": "OWNER_OR_COORDINATOR_AFTER_REVIEW_AND_GO",
+    "read_only_gate": "python3 check_push_head.py /root/kani-f4-uninit-only-w15 FUTURE_FINAL_FULL_SHA"
+  },
+  "native_event": "push to non-main candidate branch, branch filter **; no workflow_dispatch",
+  "workflows": {
+    "kani.yml": {
+      "jobs": {
+        "regression": {
+          "matrix_os": [
+            "macos-15-intel",
+            "ubuntu-22.04",
+            "ubuntu-24.04",
+            "macos-15",
+            "ubuntu-24.04-arm"
+          ],
+          "command": "./scripts/kani-regression.sh",
+          "strategy": "unchanged; default fail-fast=true; all matrix entries included"
+        },
+        "benchcomp-tests": {
+          "command": "frozen benchcomp unit/regression tests and release build"
+        },
+        "perf": {
+          "command": "./scripts/kani-perf.sh",
+          "job_timeout_minutes": 380,
+          "retry": {
+            "action": "nick-fields/retry@v4",
+            "timeout_minutes": 180,
+            "max_attempts": 2
+          },
+          "env": {
+            "RUST_TEST_THREADS": 1
+          }
+        },
+        "llbc-regression": {
+          "command": "frozen Charon build and ./scripts/kani-llbc-regression.sh"
+        },
+        "documentation": {
+          "command": "./scripts/build-docs.sh",
+          "publish": "native main-only condition; expected skipped on candidate branch"
+        }
+      },
+      "job_set": "ALL_NATIVE_JOBS"
+    },
+    "format-check.yml": {
+      "jobs": {
+        "format-check": {
+          "checks": [
+            "copyright",
+            "C formatting",
+            "Python formatting"
+          ],
+          "c_format_continue_on_error": true
+        },
+        "clippy-check": {
+          "checks": [
+            "both frozen Clippy commands",
+            "statistics with frozen || true"
+          ]
+        }
+      }
+    },
+    "deny.yml": {
+      "jobs": {
+        "audit": {
+          "action": "EmbarkStudios/cargo-deny-action@v2",
+          "arguments": "--all-features --workspace",
+          "command_arguments": "-s",
+          "toolchain": "stable",
+          "continue_on_error": false
+        }
+      }
+    }
+  },
+  "preserve": {
+    "all_workflows": 16,
+    "workflow_sha256": {
+      ".github/workflows/bench-compiler.yml": "825d32f8e3d3949332417088fb0b096bb4b6f1819d8a0cb3c1e2cc666cd685cc",
+      ".github/workflows/bench-e2e.yml": "e17c7ef9464ceec605771b9dade368122e250891526c6a0b0a9bb4b00a7a64ca",
+      ".github/workflows/bench-pr.yml": "eecc1509bcf9283e0d233b414af523f97a9f2a397e8766a558314f1a9f5a57d3",
+      ".github/workflows/cargo-update.yml": "ac7f18f5fe4e685e5da609e5b2546503aab4cb5aa2f598c4a6df91b5d442c911",
+      ".github/workflows/cbmc-latest.yml": "ba39280e6ff9de85ccb5c14296d53845be7cc417baf683ddda56fe30767bbc48",
+      ".github/workflows/cbmc-update.yml": "1b97bca1eb903ddf739d594830eb4b72b5ffc8c23ec7dc8c03c314c95cd0232f",
+      ".github/workflows/charon-update.yml": "d73125c239ffd2c2f68a7d41b703eb11bdbdefe97d3a3abc99ed0bbb2c1b7869",
+      ".github/workflows/deny.yml": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf",
+      ".github/workflows/extra_jobs.yml": "12c3c6626e9ad806e7f7bf7f65cca7e2f12b2ccae9da82cc62802b92299369d8",
+      ".github/workflows/format-check.yml": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8",
+      ".github/workflows/kani.yml": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+      ".github/workflows/release.yml": "b608d02a4ddbaa9a1e4b0db321bd1aeb268afe5f946a9de14e2778b9e803b9b3",
+      ".github/workflows/slow-tests.yml": "d9775bd66ebb7b927c28346623f9e6e3374c82cee97921eac5fee828eba5ba7f",
+      ".github/workflows/toolchain-upgrade.yml": "bd9cc5f4f09c1e00223a627fedbd7fb522053c6258284304c1d509f83dbcfa6a",
+      ".github/workflows/verify-std-check.yml": "37a122141be204e64c1eb75caf6a6f72b1e1c9ce68f642ef79ad80cd1da9ee60",
+      ".github/workflows/z3-update.yml": "83e06af88fe864b471d4b1af10022519c3f81cc63d62e00d64d73e77234a9553"
+    },
+    "conditions": true,
+    "retries": true,
+    "timeouts": true,
+    "continue_on_error": true,
+    "scripts": true,
+    "library": true,
+    "toolchain": true,
+    "dependencies": true
+  },
+  "regression": {
+    "path": "tests/script-based-pre/delayed-shared-body",
+    "route": "kani.yml regression -> scripts/kani-regression.sh -> compiletest script-based-pre exec -> config.yml -> test.sh -> check.py",
+    "mode_matrix": [
+      "uninit on/off",
+      "delayed_first/control_first call paths",
+      "delayed singleton/initialized singleton/paired",
+      "independent control in each mode"
+    ],
+    "new_native_runtime": "NOT_RUN",
+    "new_main_vs_fix_runtime": "NOT_RUN",
+    "performance": "NOT_RUN"
+  },
+  "deferred_to_owner_upstream_pr": {
+    "release.yml": "full native PR bundle builds/test matrices; release publication stays tag-only",
+    "verify-std-check.yml": "ubuntu-22.04 and macos-15 native PR/workflow_call",
+    "bench-pr.yml": "Z-EndToEndBenchCI and Z-CompilerBenchCI; frozen PR events and concurrency",
+    "extra_jobs.yml": "PR metadata/labels; no candidate proof credit"
+  },
+  "required_receipt": [
+    "review14 exact package/source/tree approval",
+    "root GO identity and prospective item1 29/29",
+    "final full SHA/tree/parent and whole pushed-range skip gate",
+    "remote head full SHA and native event/ref",
+    "workflow run IDs/attempts and every job/matrix conclusion",
+    "actual checkout SHA/tree when available; do not infer from successful checkout step",
+    "two-mode named-regression result/property evidence if available; distinguish suite-level success",
+    "perf native outcome and any measured metrics; unmeasured values UNKNOWN",
+    "deny native failure/advisory and macOS infrastructure failures retained as observed"
+  ],
+  "outcome_policy": "Preserve native SUCCESS/FAILURE/CANCELLED/SKIPPED/NOT_RUN and infrastructure/advisory distinctions. Missing/red/nonexecuted required jobs prevent an all-green/full-matrix claim; any exception requires owner classification, not silent rerun.",
+  "old_ci": {
+    "head": "b5a9678fd7c2a0f67c3fcafd90057fc2afaf9b5d",
+    "kani_run": 44274306776,
+    "kani": "8 SUCCESS; macos-15 NO_RUNNER/NOT_RUN",
+    "format": "SUCCESS",
+    "deny": "EXTERNAL_ADVISORY/native FAILURE",
+    "coverage_of_new_head": false,
+    "old_macos_rerun": "OWNER_NO_RERUN"
+  },
+  "accounting_reference": {
+    "item1_used": 28,
+    "item1_cap": 29,
+    "prospective_bundle": "29/29 only after separate GO/dispatch",
+    "item2_provisional": "10/14",
+    "total": "38/43 reference",
+    "attempts_consumed_here": 0,
+    "owner_only": true,
+    "r1S2": "owner-only; unchanged"
+  },
+  "actions": {
+    "ci": false,
+    "push": false,
+    "pr": false,
+    "rerun": false,
+    "cancel": false,
+    "labels": false,
+    "ledger": false,
+    "reservation": false,
+    "budget": false
+  }
+}
