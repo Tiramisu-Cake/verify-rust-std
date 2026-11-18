@@ -1,0 +1,147 @@
+{
+  "native_job_seconds": 208.0,
+  "native_run_created_to_updated_seconds": 212,
+  "steps": [
+    {
+      "name": "Set up job",
+      "started_at": "2026-11-18T19:24:59Z",
+      "completed_at": "2026-11-18T19:25:00Z",
+      "seconds": 1.0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+      "started_at": "2026-11-18T19:25:00Z",
+      "completed_at": "2026-11-18T19:25:02Z",
+      "seconds": 2.0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+      "started_at": "2026-11-18T19:25:02Z",
+      "completed_at": "2026-11-18T19:25:03Z",
+      "seconds": 1.0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Check source identities",
+      "started_at": "2026-11-18T19:25:03Z",
+      "completed_at": "2026-11-18T19:25:04Z",
+      "seconds": 1.0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Check collector service controls",
+      "started_at": "2026-11-18T19:25:04Z",
+      "completed_at": "2026-11-18T19:25:07Z",
+      "seconds": 3.0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Setup stock Kani dependencies",
+      "started_at": "2026-11-18T19:25:07Z",
+      "completed_at": "2026-11-18T19:26:18Z",
+      "seconds": 71.0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Build stock Kani",
+      "started_at": "2026-11-18T19:26:18Z",
+      "completed_at": "2026-11-18T19:28:20Z",
+      "seconds": 122.0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Collect isolated contract cases",
+      "started_at": "2026-11-18T19:28:20Z",
+      "completed_at": "2026-11-18T19:28:23Z",
+      "seconds": 3.0,
+      "conclusion": "failure"
+    },
+    {
+      "name": "Complete compact result",
+      "started_at": "2026-11-18T19:28:23Z",
+      "completed_at": "2026-11-18T19:28:23Z",
+      "seconds": 0.0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Upload compact result",
+      "started_at": "2026-11-18T19:28:23Z",
+      "completed_at": "2026-11-18T19:28:24Z",
+      "seconds": 1.0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+      "started_at": "2026-11-18T19:28:24Z",
+      "completed_at": "2026-11-18T19:28:25Z",
+      "seconds": 1.0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+      "started_at": "2026-11-18T19:28:25Z",
+      "completed_at": "2026-11-18T19:28:25Z",
+      "seconds": 0.0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Complete job",
+      "started_at": "2026-11-18T19:28:25Z",
+      "completed_at": "2026-11-18T19:28:25Z",
+      "seconds": 0.0,
+      "conclusion": "success"
+    }
+  ],
+  "build": {
+    "elapsed_seconds": 121.178,
+    "sampled_group_peak_rss_bytes": 2031894528,
+    "rss_cap_bytes": 8589934592,
+    "timeout_seconds": 900,
+    "termination": "EXITED",
+    "exit": 0,
+    "signal": null
+  },
+  "slot_processes": {
+    "ordinary": {
+      "elapsed_seconds": 0.229,
+      "sampled_group_peak_rss_bytes": 181051392,
+      "rss_cap_bytes": 8589934592,
+      "timeout_seconds": 120,
+      "termination": "EXITED",
+      "exit": 1,
+      "signal": null
+    },
+    "provider": {
+      "elapsed_seconds": 0.987,
+      "sampled_group_peak_rss_bytes": 211066880,
+      "rss_cap_bytes": 8589934592,
+      "timeout_seconds": 120,
+      "termination": "EXITED",
+      "exit": 0,
+      "signal": null
+    },
+    "verified": {
+      "elapsed_seconds": 0.527,
+      "sampled_group_peak_rss_bytes": 209731584,
+      "rss_cap_bytes": 8589934592,
+      "timeout_seconds": 120,
+      "termination": "EXITED",
+      "exit": 0,
+      "signal": null
+    }
+  },
+  "limits": {
+    "per_stream_bytes": 2097152,
+    "export_bytes": 2097152,
+    "rss_cap_bytes": 8589934592,
+    "scope": "AS cap per process plus sampled process-group RSS; sampled RSS is not exact peak",
+    "diagnostics": "bounded complete error blocks; head/tail previews are not full streams",
+    "setup_inner_timing": "UNKNOWN",
+    "build_subphase_timing": "UNKNOWN",
+    "native_job_exit": "UNKNOWN; native conclusion FAILURE, collector run-stage source exit policy 2 is source-derived",
+    "cloud_cost": "NOT_APPLICABLE; no new build or accounting action",
+    "billing_cost": "UNKNOWN"
+  }
+}

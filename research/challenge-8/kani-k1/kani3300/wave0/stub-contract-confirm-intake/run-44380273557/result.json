@@ -1,0 +1,2106 @@
+{
+  "build": {
+    "argv": [
+      "cargo",
+      "build-dev"
+    ],
+    "compiler_process_hints": [],
+    "cwd": "/home/runner/work/kani/kani/stock",
+    "diagnostics": [],
+    "diagnostics_complete": true,
+    "elapsed_seconds": 121.178,
+    "environment": {
+      "CARGO_BUILD_TARGET": null,
+      "CARGO_ENCODED_RUSTFLAGS": null,
+      "CARGO_TARGET_DIR": null,
+      "KANIFLAGS": "",
+      "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true",
+      "KANI_LOG": "",
+      "NO_COLOR": "1",
+      "PATH": "/home/runner/.cargo/bin:/snap/bin:/home/runner/.local/bin:/opt/pipx_bin:/home/runner/.cargo/bin:/home/runner/.config/composer/vendor/bin:/usr/local/.ghcup/bin:/home/runner/.dotnet/tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+      "RUSTFLAGS": "",
+      "RUSTUP_TOOLCHAIN": "nightly-2026-11-12",
+      "RUST_BACKTRACE": "0"
+    },
+    "exit": 0,
+    "property_inventory": {},
+    "rss_cap_bytes": 8589934592,
+    "sampled_group_peak_rss_bytes": 2031894528,
+    "signal": null,
+    "streams": {
+      "stderr": {
+        "bytes": 36175,
+        "complete": true,
+        "head": [
+          "warning: missing `[lints]` to inherit `[workspace.lints]`",
+          "  --> tools/kani-cov/Cargo.toml",
+          "   = note: `cargo::missing_lints_inheritance` is set to `warn` by default",
+          "help: to inherit `workspace.lints, add:",
+          "   |",
+          "21 ~ tree-sitter-rust = \"0.24\"",
+          "22 + [lints]",
+          "23 + workspace = true",
+          "   |",
+          "help: to clarify your intent to not inherit, add:",
+          "   |",
+          "21 ~ tree-sitter-rust = \"0.24\"",
+          "22 + [lints]",
+          "   |",
+          "warning: `kani-cov` (manifest) generated 1 warning",
+          "warning: missing `[lints]` to inherit `[workspace.lints]`",
+          "  --> tools/scanner/Cargo.toml",
+          "   = note: `cargo::missing_lints_inheritance` is set to `warn` by default"
+        ],
+        "sha256": "502d548aa30da3c59588e4846c7952c90ae1fa2e448913ed4394f5f483d62c69",
+        "tail": [
+          "   |",
+          "14 | kani = {path=\"../kani\"}",
+          "   | ^^^^",
+          "   |",
+          "   = note: `cargo::unused_dependencies` is set to `warn` by default",
+          "help: consider removing the dependency on `kani`",
+          "warning: `std` (manifest) generated 1 warning",
+          "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 27.64s"
+        ]
+      },
+      "stdout": {
+        "bytes": 1977,
+        "complete": true,
+        "head": [
+          "\u001b[1m\u001b[33mwarning\u001b[0m\u001b[1m: `feature(generic_const_exprs)` is not supported with the next-generation trait solver\u001b[0m",
+          "  \u001b[1m\u001b[94m--> \u001b[0mlibrary/kani/src/lib.rs:12:12",
+          "   \u001b[1m\u001b[94m|\u001b[0m",
+          "\u001b[1m\u001b[94m12\u001b[0m \u001b[1m\u001b[94m|\u001b[0m #![feature(generic_const_exprs)]",
+          "   \u001b[1m\u001b[94m|\u001b[0m            \u001b[1m\u001b[33m^^^^^^^^^^^^^^^^^^^\u001b[0m",
+          "   \u001b[1m\u001b[94m|\u001b[0m",
+          "   \u001b[1m\u001b[94m= \u001b[0m\u001b[1mnote\u001b[0m: `-Znext-solver=globally` is currently enabled by default for testing",
+          "   \u001b[1m\u001b[94m= \u001b[0m\u001b[1mnote\u001b[0m: reverted the setting to `-Znext-solver=coherence` for this crate",
+          "   \u001b[1m\u001b[94m= \u001b[0m\u001b[1mnote\u001b[0m: the currently stable trait solver will be used for this crate",
+          "   \u001b[1m\u001b[94m= \u001b[0m\u001b[1mnote\u001b[0m: see issues #160895 <https://github.com/rust-lang/rust/issues/160895> for more information",
+          "",
+          "",
+          "\u001b[1m\u001b[33mwarning\u001b[0m\u001b[1m: `feature(generic_const_exprs)` is not supported with the next-generation trait solver\u001b[0m",
+          "  \u001b[1m\u001b[94m--> \u001b[0mlibrary/kani/src/lib.rs:12:12",
+          "   \u001b[1m\u001b[94m|\u001b[0m",
+          "\u001b[1m\u001b[94m12\u001b[0m \u001b[1m\u001b[94m|\u001b[0m #![feature(generic_const_exprs)]",
+          "   \u001b[1m\u001b[94m|\u001b[0m            \u001b[1m\u001b[33m^^^^^^^^^^^^^^^^^^^\u001b[0m",
+          "   \u001b[1m\u001b[94m|\u001b[0m"
+        ],
+        "sha256": "854f714d7c064b46069a2427bc8b33fa2a702591dd54e9aa49320d6439750ca1",
+        "tail": [
+          "  \u001b[1m\u001b[94m--> \u001b[0mlibrary/kani/src/lib.rs:21:52",
+          "   \u001b[1m\u001b[94m|\u001b[0m",
+          "\u001b[1m\u001b[94m21\u001b[0m \u001b[1m\u001b[94m|\u001b[0m #![cfg_attr(feature = \"concrete_playback\", feature(layout_for_ptr))]",
+          "   \u001b[1m\u001b[94m|\u001b[0m                                                    \u001b[1m\u001b[33m^^^^^^^^^^^^^^\u001b[0m",
+          "   \u001b[1m\u001b[94m|\u001b[0m",
+          "   \u001b[1m\u001b[94m= \u001b[0m\u001b[1mnote\u001b[0m: `#[warn(stable_features)]` on by default",
+          "",
+          ""
+        ]
+      }
+    },
+    "termination": "EXITED",
+    "timeout_seconds": 900,
+    "verification_success": 0
+  },
+  "build_preflight": {
+    "control": {
+      "changes": [
+        "A\t.github/stub-contract-confirm/profile.json",
+        "D\t.github/workflows/bench-compiler.yml",
+        "D\t.github/workflows/bench-e2e.yml",
+        "D\t.github/workflows/bench-pr.yml",
+        "D\t.github/workflows/cargo-update.yml",
+        "D\t.github/workflows/cbmc-latest.yml",
+        "D\t.github/workflows/cbmc-update.yml",
+        "D\t.github/workflows/charon-update.yml",
+        "D\t.github/workflows/deny.yml",
+        "D\t.github/workflows/extra_jobs.yml",
+        "D\t.github/workflows/format-check.yml",
+        "D\t.github/workflows/kani.yml",
+        "D\t.github/workflows/release.yml",
+        "D\t.github/workflows/slow-tests.yml",
+        "A\t.github/workflows/stub-contract-confirm.yml",
+        "D\t.github/workflows/toolchain-upgrade.yml",
+        "D\t.github/workflows/verify-std-check.yml",
+        "D\t.github/workflows/z3-update.yml",
+        "A\ttests/script-based-pre/stub-contract-confirm/Cargo.lock",
+        "A\ttests/script-based-pre/stub-contract-confirm/Cargo.toml",
+        "A\ttests/script-based-pre/stub-contract-confirm/check_push_identity.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/check_service.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/final_head.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/push_identity.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/runner.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/service.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/src/lib.rs",
+        "A\ttests/script-based-pre/stub-contract-confirm/workflow_checks.py"
+      ],
+      "head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+      "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "shallow": "true",
+      "tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6"
+    },
+    "files": {
+      "control_sha256/.github/workflows/stub-contract-confirm.yml": "720cc99642dfdce815773145d0d37820c29cf1f8e85b4cec87e70247dfff8edd",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/Cargo.lock": "fa9068017f5b97625943c393e681831b12431c6c909f28c7b1ddcdcb1e4e21c6",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/Cargo.toml": "a1be548a68dc9e8e644d604fe65c5a2a379d85aef44204ba54f319c67635d86b",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/check_push_identity.py": "6300bb8af6428be6df2c04cac18bb902979ce5aeae33e15f0cd081ccb80cce09",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/check_service.py": "f2cb8ac3c55b99736719f014e41e174e27dd941eb44f0938b8e406945538f614",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/final_head.py": "b02ab0564f15c265295f09a16e712a7140cec4818037a325e4352ee7b3eba436",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/push_identity.py": "cfd24ccd1b7a5c7f2e08cf5476e362a5c94d738c3ac35e424318651163a4ecb9",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/runner.py": "cfa267deb24a76b0d4c3d1d0b04ef9a9b5346f797ff8acc193d74d2fb37c1f78",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/service.py": "0cb7c63d6bd97e4a2b2513fd6aeecb8bf219ae871a20f34942320f06b3edf994",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/src/lib.rs": "eeda30cfc12024ed314ddeb8c0ebade1911fd5ed2fabbc849db7ccd94e40eb4b",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/workflow_checks.py": "0909f66c75ad155cdf13ab3327372c630fe648ec65aec6353a8845f6eee07583",
+      "source_sha256/.github/actions/setup/action.yml": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+      "source_sha256/AGENTS.md": "1da51e34458da7d68cdb977f1bf9a0c787b4bee457e78e92823bd72ecd54f479",
+      "source_sha256/Cargo.lock": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+      "source_sha256/docs/src/reference/experimental/contracts.md": "3a2239f46ddb82636528d008083f8a96864710af86d3a8769e891fcff471162a",
+      "source_sha256/docs/src/reference/experimental/stubbing.md": "e92c6cf8385ccada4bd133a614737f965561c93bd566cb876fd21a4e2788cd78",
+      "source_sha256/kani-compiler/src/kani_middle/attributes.rs": "a100fb2de9331efeeea3a0683b21170df4a4873f91d70a26845b2e47bc80f6cf",
+      "source_sha256/kani-compiler/src/kani_middle/codegen_units.rs": "7c97d5557936b1ed29ece9fad486b1acc8fd38f1a9e241c7c0e221b47d4c665d",
+      "source_sha256/kani-compiler/src/kani_middle/mod.rs": "6e73911b203b9d8237a0725ca67f1c46342d106b572ad485a2ceb06b61739a41",
+      "source_sha256/kani-compiler/src/kani_middle/stubbing/mod.rs": "6046e90950423336046a1478f4f387266398773102842bd545dab1ec291a38fb",
+      "source_sha256/kani-compiler/src/kani_middle/transform/contracts.rs": "06523bc56804fae5a4e6b484ef4e2ecedf34dbc046b29e02608e9ccdb3660cc9",
+      "source_sha256/kani-compiler/src/kani_middle/transform/mod.rs": "1fc758f58412b7334cc3570e178bc43f557264ba09214453b051192ef949d3a1",
+      "source_sha256/kani-compiler/src/kani_middle/transform/stubs.rs": "5cbd5f695efaf3c4bbfbe58424ddd0c7a07b24356cf4cd8d3339a9c4a07e0fa0",
+      "source_sha256/kani-driver/src/args/cargo.rs": "4858197960f905b6ff5068fe8977128747ef9a735798f208e18579eab77cf8a8",
+      "source_sha256/kani-driver/src/session.rs": "442d7e72d8ae3d30ea506d826c71e380595e8b327a51ea02b250c8945b60166c",
+      "source_sha256/kani_metadata/src/harness.rs": "133e43a5cab35920fbbfb0d99df6ff71610ebc31e8f8d63607331e155c20d740",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/assert.rs": "ec6480d46c29038b58cdac5d96ef962bd004e2d4fd16be6b9b64ee143f9cd5b4",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/bootstrap.rs": "d9e0988bfe8eef7f90b9378300ec4b77d425677ee60dc845f841939d073e9507",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/check.rs": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/initialize.rs": "dad2dcfdd2aa348a33f0162a81459ae4539946bc027ccac7d2593bf09bd2e95b",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/mod.rs": "7ec87e829711d05928c3026249e6c79bd20e5c7e9499fe401b53a3647cd76979",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/replace.rs": "6bd51d3234c0778c5e0a465d1009d4efdee21dc2565e626b6d309f25c6791f05",
+      "source_sha256/rust-toolchain.toml": "d40d66a452e934c9cedede2844b920d48ff217565c81b4e47311bb346c960d93",
+      "source_sha256/scripts/cargo-kani": "a0fca4b405bedc008d4f1fd3a5b03c097b190896c633a301badef846e8560291",
+      "source_sha256/scripts/kani": "28a81c48fd72627ed2449993730636bc830abeffeaea4d85d9297b2ec4393af2",
+      "source_sha256/tests/expected/function-contract/as-assertions/precedence.rs": "ceb780c6ec0d6ebe7c8ac696500fe439435ca7b4730169724883346085aff7ff",
+      "source_sha256/tests/expected/function-contract/gcd_rec_simple_pass.rs": "48134c28050eed7385140ab341f7602234888e6208ca61403d27c53cc6ef6a44",
+      "source_sha256/tests/expected/function-contract/simple_replace_pass.rs": "219358bc397e5e24dc5e1150efdc1b74b5c0667e4d7bab423cb04df3d969af97",
+      "source_sha256/tests/kani/FunctionContracts/stub_verified_safe_arbitrary.rs": "eb25877e66814f3f54ae35ff957678996b1992bee37947a65bc302c75f45bee6",
+      "source_sha256/tests/kani/Stubbing/stub_generic_param_rename_simple.rs": "853b77b9edd9fc210201afe21c9e69a88b786a01fa4f1d6cb2879ebf76417f00"
+    },
+    "problems": [],
+    "push": {
+      "before": "0000000000000000000000000000000000000000",
+      "created": true,
+      "event": "push",
+      "head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+      "ref": "refs/heads/stub-contract-confirm-ci/w15-push",
+      "repository": "Tiramisu-Cake/kani"
+    },
+    "request": {
+      "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "base_parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+      "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+      "control_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+      "control_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "control_tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6",
+      "profile_sha256": "ceb930a5b7764799880ac48ad6318bbaf6e14d6af70ea98abbe9da82107af148",
+      "schema": "stub-contract-request-v1"
+    },
+    "request_sha256": "45b074506bd6e40e2f25bc1fc3603d1491bbbfda4c7a4295e40ec785cecb651c",
+    "source": {
+      "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+      "shallow": "true",
+      "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786"
+    },
+    "tools": {}
+  },
+  "classification": "INCONCLUSIVE",
+  "integrity": {
+    "algorithm": "sha256",
+    "canonical_payload_sha256": "27349fbdc02b185fb1a0d62e33f6823c06a3496c320eee5bd5de270544870f8c",
+    "canonicalization": "json sort_keys separators comma/colon UTF-8; omit integrity"
+  },
+  "job_status": "failure",
+  "preflight": {
+    "control": {
+      "changes": [
+        "A\t.github/stub-contract-confirm/profile.json",
+        "D\t.github/workflows/bench-compiler.yml",
+        "D\t.github/workflows/bench-e2e.yml",
+        "D\t.github/workflows/bench-pr.yml",
+        "D\t.github/workflows/cargo-update.yml",
+        "D\t.github/workflows/cbmc-latest.yml",
+        "D\t.github/workflows/cbmc-update.yml",
+        "D\t.github/workflows/charon-update.yml",
+        "D\t.github/workflows/deny.yml",
+        "D\t.github/workflows/extra_jobs.yml",
+        "D\t.github/workflows/format-check.yml",
+        "D\t.github/workflows/kani.yml",
+        "D\t.github/workflows/release.yml",
+        "D\t.github/workflows/slow-tests.yml",
+        "A\t.github/workflows/stub-contract-confirm.yml",
+        "D\t.github/workflows/toolchain-upgrade.yml",
+        "D\t.github/workflows/verify-std-check.yml",
+        "D\t.github/workflows/z3-update.yml",
+        "A\ttests/script-based-pre/stub-contract-confirm/Cargo.lock",
+        "A\ttests/script-based-pre/stub-contract-confirm/Cargo.toml",
+        "A\ttests/script-based-pre/stub-contract-confirm/check_push_identity.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/check_service.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/final_head.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/push_identity.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/runner.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/service.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/src/lib.rs",
+        "A\ttests/script-based-pre/stub-contract-confirm/workflow_checks.py"
+      ],
+      "head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+      "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "shallow": "true",
+      "tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6"
+    },
+    "files": {
+      "control_sha256/.github/workflows/stub-contract-confirm.yml": "720cc99642dfdce815773145d0d37820c29cf1f8e85b4cec87e70247dfff8edd",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/Cargo.lock": "fa9068017f5b97625943c393e681831b12431c6c909f28c7b1ddcdcb1e4e21c6",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/Cargo.toml": "a1be548a68dc9e8e644d604fe65c5a2a379d85aef44204ba54f319c67635d86b",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/check_push_identity.py": "6300bb8af6428be6df2c04cac18bb902979ce5aeae33e15f0cd081ccb80cce09",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/check_service.py": "f2cb8ac3c55b99736719f014e41e174e27dd941eb44f0938b8e406945538f614",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/final_head.py": "b02ab0564f15c265295f09a16e712a7140cec4818037a325e4352ee7b3eba436",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/push_identity.py": "cfd24ccd1b7a5c7f2e08cf5476e362a5c94d738c3ac35e424318651163a4ecb9",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/runner.py": "cfa267deb24a76b0d4c3d1d0b04ef9a9b5346f797ff8acc193d74d2fb37c1f78",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/service.py": "0cb7c63d6bd97e4a2b2513fd6aeecb8bf219ae871a20f34942320f06b3edf994",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/src/lib.rs": "eeda30cfc12024ed314ddeb8c0ebade1911fd5ed2fabbc849db7ccd94e40eb4b",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/workflow_checks.py": "0909f66c75ad155cdf13ab3327372c630fe648ec65aec6353a8845f6eee07583",
+      "source_sha256/.github/actions/setup/action.yml": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+      "source_sha256/AGENTS.md": "1da51e34458da7d68cdb977f1bf9a0c787b4bee457e78e92823bd72ecd54f479",
+      "source_sha256/Cargo.lock": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+      "source_sha256/docs/src/reference/experimental/contracts.md": "3a2239f46ddb82636528d008083f8a96864710af86d3a8769e891fcff471162a",
+      "source_sha256/docs/src/reference/experimental/stubbing.md": "e92c6cf8385ccada4bd133a614737f965561c93bd566cb876fd21a4e2788cd78",
+      "source_sha256/kani-compiler/src/kani_middle/attributes.rs": "a100fb2de9331efeeea3a0683b21170df4a4873f91d70a26845b2e47bc80f6cf",
+      "source_sha256/kani-compiler/src/kani_middle/codegen_units.rs": "7c97d5557936b1ed29ece9fad486b1acc8fd38f1a9e241c7c0e221b47d4c665d",
+      "source_sha256/kani-compiler/src/kani_middle/mod.rs": "6e73911b203b9d8237a0725ca67f1c46342d106b572ad485a2ceb06b61739a41",
+      "source_sha256/kani-compiler/src/kani_middle/stubbing/mod.rs": "6046e90950423336046a1478f4f387266398773102842bd545dab1ec291a38fb",
+      "source_sha256/kani-compiler/src/kani_middle/transform/contracts.rs": "06523bc56804fae5a4e6b484ef4e2ecedf34dbc046b29e02608e9ccdb3660cc9",
+      "source_sha256/kani-compiler/src/kani_middle/transform/mod.rs": "1fc758f58412b7334cc3570e178bc43f557264ba09214453b051192ef949d3a1",
+      "source_sha256/kani-compiler/src/kani_middle/transform/stubs.rs": "5cbd5f695efaf3c4bbfbe58424ddd0c7a07b24356cf4cd8d3339a9c4a07e0fa0",
+      "source_sha256/kani-driver/src/args/cargo.rs": "4858197960f905b6ff5068fe8977128747ef9a735798f208e18579eab77cf8a8",
+      "source_sha256/kani-driver/src/session.rs": "442d7e72d8ae3d30ea506d826c71e380595e8b327a51ea02b250c8945b60166c",
+      "source_sha256/kani_metadata/src/harness.rs": "133e43a5cab35920fbbfb0d99df6ff71610ebc31e8f8d63607331e155c20d740",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/assert.rs": "ec6480d46c29038b58cdac5d96ef962bd004e2d4fd16be6b9b64ee143f9cd5b4",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/bootstrap.rs": "d9e0988bfe8eef7f90b9378300ec4b77d425677ee60dc845f841939d073e9507",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/check.rs": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/initialize.rs": "dad2dcfdd2aa348a33f0162a81459ae4539946bc027ccac7d2593bf09bd2e95b",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/mod.rs": "7ec87e829711d05928c3026249e6c79bd20e5c7e9499fe401b53a3647cd76979",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/replace.rs": "6bd51d3234c0778c5e0a465d1009d4efdee21dc2565e626b6d309f25c6791f05",
+      "source_sha256/rust-toolchain.toml": "d40d66a452e934c9cedede2844b920d48ff217565c81b4e47311bb346c960d93",
+      "source_sha256/scripts/cargo-kani": "a0fca4b405bedc008d4f1fd3a5b03c097b190896c633a301badef846e8560291",
+      "source_sha256/scripts/kani": "28a81c48fd72627ed2449993730636bc830abeffeaea4d85d9297b2ec4393af2",
+      "source_sha256/tests/expected/function-contract/as-assertions/precedence.rs": "ceb780c6ec0d6ebe7c8ac696500fe439435ca7b4730169724883346085aff7ff",
+      "source_sha256/tests/expected/function-contract/gcd_rec_simple_pass.rs": "48134c28050eed7385140ab341f7602234888e6208ca61403d27c53cc6ef6a44",
+      "source_sha256/tests/expected/function-contract/simple_replace_pass.rs": "219358bc397e5e24dc5e1150efdc1b74b5c0667e4d7bab423cb04df3d969af97",
+      "source_sha256/tests/kani/FunctionContracts/stub_verified_safe_arbitrary.rs": "eb25877e66814f3f54ae35ff957678996b1992bee37947a65bc302c75f45bee6",
+      "source_sha256/tests/kani/Stubbing/stub_generic_param_rename_simple.rs": "853b77b9edd9fc210201afe21c9e69a88b786a01fa4f1d6cb2879ebf76417f00"
+    },
+    "problems": [],
+    "push": {
+      "before": "0000000000000000000000000000000000000000",
+      "created": true,
+      "event": "push",
+      "head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+      "ref": "refs/heads/stub-contract-confirm-ci/w15-push",
+      "repository": "Tiramisu-Cake/kani"
+    },
+    "request": {
+      "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "base_parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+      "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+      "control_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+      "control_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "control_tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6",
+      "profile_sha256": "ceb930a5b7764799880ac48ad6318bbaf6e14d6af70ea98abbe9da82107af148",
+      "schema": "stub-contract-request-v1"
+    },
+    "request_sha256": "45b074506bd6e40e2f25bc1fc3603d1491bbbfda4c7a4295e40ec785cecb651c",
+    "source": {
+      "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+      "shallow": "true",
+      "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786"
+    },
+    "tools": {}
+  },
+  "reasons": [
+    "provider control failure",
+    "workflow status: failure"
+  ],
+  "schema": "stub-contract-result-v1",
+  "setup": "SUCCESS",
+  "setup_action_outcome": "success",
+  "slots": {
+    "ordinary": {
+      "export_inventory": {
+        "complete": false,
+        "present": false
+      },
+      "feature": "ordinary",
+      "observation": {
+        "outcome": "INCONCLUSIVE",
+        "reason": "unrelated or ambiguous compiler error"
+      },
+      "process": {
+        "argv": [
+          "/home/runner/work/kani/kani/stock/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+          "--lib",
+          "--no-default-features",
+          "--features",
+          "ordinary",
+          "--exact",
+          "--harness",
+          "ordinary_stub",
+          "-j1",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "stubbing",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "/tmp/stub-contract-ordinary-qntjbfpj/export.json",
+          "--output-format=regular",
+          "--target-dir",
+          "/tmp/stub-contract-ordinary-qntjbfpj/target"
+        ],
+        "compiler_process_hints": [],
+        "cwd": "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm",
+        "diagnostics": [
+          {
+            "bytes": 104,
+            "complete": true,
+            "header": "error: Failed to find contract closure `__kani_recursion_check_f` in function `stub_contract_confirm::f`",
+            "sha256": "68af977f51fdb22cdd9ce7ccdae0d86783ba8c5185c84ecde96e229c8e2ade07",
+            "stream": "stdout",
+            "text": "error: Failed to find contract closure `__kani_recursion_check_f` in function `stub_contract_confirm::f`"
+          },
+          {
+            "bytes": 78,
+            "complete": true,
+            "header": "error: Failed to execute cargo (exit status: 101). Found 1 compilation errors.",
+            "sha256": "2366826d1d0989536b6d5d5f0d692bc7be0f3a9cd417b8a41befeb246b63e516",
+            "stream": "stdout",
+            "text": "error: Failed to execute cargo (exit status: 101). Found 1 compilation errors."
+          },
+          {
+            "bytes": 98,
+            "complete": true,
+            "header": "error: could not compile `stub-contract-confirm` (lib) due to 1 previous error; 2 warnings emitted",
+            "sha256": "7a23f2ace76546d80e98c171427cd012f0b73dd9b8453910e943053caeda3c5c",
+            "stream": "stderr",
+            "text": "error: could not compile `stub-contract-confirm` (lib) due to 1 previous error; 2 warnings emitted"
+          }
+        ],
+        "diagnostics_complete": true,
+        "elapsed_seconds": 0.229,
+        "environment": {
+          "CARGO_BUILD_TARGET": null,
+          "CARGO_ENCODED_RUSTFLAGS": null,
+          "CARGO_TARGET_DIR": null,
+          "KANIFLAGS": "",
+          "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true",
+          "KANI_LOG": "",
+          "NO_COLOR": "1",
+          "PATH": "/home/runner/.cargo/bin:/snap/bin:/home/runner/.local/bin:/opt/pipx_bin:/home/runner/.cargo/bin:/home/runner/.config/composer/vendor/bin:/usr/local/.ghcup/bin:/home/runner/.dotnet/tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "RUSTFLAGS": "",
+          "RUSTUP_TOOLCHAIN": "nightly-2026-11-12",
+          "RUST_BACKTRACE": "0"
+        },
+        "exit": 1,
+        "invocation_identity": {
+          "argv": [
+            "/home/runner/work/kani/kani/stock/scripts/cargo-kani",
+            "kani",
+            "--manifest-path",
+            "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+            "--lib",
+            "--no-default-features",
+            "--features",
+            "ordinary",
+            "--exact",
+            "--harness",
+            "ordinary_stub",
+            "-j1",
+            "-Z",
+            "function-contracts",
+            "-Z",
+            "stubbing",
+            "-Z",
+            "export-json",
+            "--export-json",
+            "/tmp/stub-contract-ordinary-qntjbfpj/export.json",
+            "--output-format=regular",
+            "--target-dir",
+            "/tmp/stub-contract-ordinary-qntjbfpj/target"
+          ],
+          "environment": {
+            "CARGO_BUILD_TARGET": null,
+            "CARGO_ENCODED_RUSTFLAGS": null,
+            "CARGO_TARGET_DIR": null,
+            "FLAMEGRAPH": null,
+            "KANIFLAGS": "",
+            "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true",
+            "KANI_LOG": "",
+            "NO_COLOR": "1",
+            "RUSTFLAGS": "",
+            "RUSTUP_TOOLCHAIN": "nightly-2026-11-12",
+            "RUST_BACKTRACE": "0"
+          },
+          "feature": "ordinary",
+          "fixture_sha256": "eeda30cfc12024ed314ddeb8c0ebade1911fd5ed2fabbc849db7ccd94e40eb4b",
+          "harness": "ordinary_stub",
+          "manifest_sha256": "a1be548a68dc9e8e644d604fe65c5a2a379d85aef44204ba54f319c67635d86b",
+          "request_sha256": "45b074506bd6e40e2f25bc1fc3603d1491bbbfda4c7a4295e40ec785cecb651c",
+          "slot": "ordinary"
+        },
+        "invocation_sha256": "55468aabbc6bd461996bc2cc0be4fa674a87a829d50d805a9d51f7b0c29954d3",
+        "property_inventory": {},
+        "rss_cap_bytes": 8589934592,
+        "sampled_group_peak_rss_bytes": 181051392,
+        "signal": null,
+        "streams": {
+          "stderr": {
+            "bytes": 224,
+            "complete": true,
+            "head": [
+              "   Compiling stub-contract-confirm v0.1.0 (/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm)",
+              "error: could not compile `stub-contract-confirm` (lib) due to 1 previous error; 2 warnings emitted"
+            ],
+            "sha256": "a6877f6391fd099f855e6fb50b473190c44d5da1f34347db1905ce00e864d039",
+            "tail": [
+              "   Compiling stub-contract-confirm v0.1.0 (/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm)",
+              "error: could not compile `stub-contract-confirm` (lib) due to 1 previous error; 2 warnings emitted"
+            ]
+          },
+          "stdout": {
+            "bytes": 627,
+            "complete": true,
+            "head": [
+              "Kani Rust Verifier 0.68.0 (cargo plugin)",
+              "CBMC 6.11.0",
+              "warning: function `g` is never used",
+              "  --> src/lib.rs:11:4",
+              "   |",
+              "11 | fn g(x: u8) -> u8 {",
+              "   |    ^",
+              "   |",
+              "   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default",
+              "",
+              "warning: use of an unstable feature",
+              " --> <crate attribute>:1:12",
+              "  |",
+              "1 | #![feature(register_tool)]",
+              "  |            ^^^^^^^^^^^^^",
+              "  |",
+              "  = note: requested on the command line with `--force-warn unstable-features`",
+              ""
+            ],
+            "sha256": "e90e707220eba411195ba37ae22530a8ce81f9355f5e94721dcf22aba02596b3",
+            "tail": [
+              "1 | #![feature(register_tool)]",
+              "  |            ^^^^^^^^^^^^^",
+              "  |",
+              "  = note: requested on the command line with `--force-warn unstable-features`",
+              "",
+              "error: Failed to find contract closure `__kani_recursion_check_f` in function `stub_contract_confirm::f`",
+              "",
+              "error: Failed to execute cargo (exit status: 101). Found 1 compilation errors."
+            ]
+          }
+        },
+        "termination": "EXITED",
+        "timeout_seconds": 120,
+        "verification_success": 0
+      },
+      "selected_harness": "ordinary_stub"
+    },
+    "provider": {
+      "export_inventory": {
+        "bytes": 2886,
+        "complete": true,
+        "present": true,
+        "sha256": "23c5152fae077f595abfa68a651994dbea2fc63c1f818bb1da72bda340556aa3"
+      },
+      "feature": "provider",
+      "observation": {
+        "outcome": "INCONCLUSIVE",
+        "reason": "check counts"
+      },
+      "process": {
+        "argv": [
+          "/home/runner/work/kani/kani/stock/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+          "--lib",
+          "--no-default-features",
+          "--features",
+          "provider",
+          "--exact",
+          "--harness",
+          "provider",
+          "-j1",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "stubbing",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "/tmp/stub-contract-provider-09lv2a82/export.json",
+          "--output-format=regular",
+          "--target-dir",
+          "/tmp/stub-contract-provider-09lv2a82/target"
+        ],
+        "compiler_process_hints": [],
+        "cwd": "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm",
+        "diagnostics": [],
+        "diagnostics_complete": true,
+        "elapsed_seconds": 0.987,
+        "environment": {
+          "CARGO_BUILD_TARGET": null,
+          "CARGO_ENCODED_RUSTFLAGS": null,
+          "CARGO_TARGET_DIR": null,
+          "KANIFLAGS": "",
+          "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true",
+          "KANI_LOG": "",
+          "NO_COLOR": "1",
+          "PATH": "/home/runner/.cargo/bin:/snap/bin:/home/runner/.local/bin:/opt/pipx_bin:/home/runner/.cargo/bin:/home/runner/.config/composer/vendor/bin:/usr/local/.ghcup/bin:/home/runner/.dotnet/tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "RUSTFLAGS": "",
+          "RUSTUP_TOOLCHAIN": "nightly-2026-11-12",
+          "RUST_BACKTRACE": "0"
+        },
+        "exit": 0,
+        "invocation_identity": {
+          "argv": [
+            "/home/runner/work/kani/kani/stock/scripts/cargo-kani",
+            "kani",
+            "--manifest-path",
+            "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+            "--lib",
+            "--no-default-features",
+            "--features",
+            "provider",
+            "--exact",
+            "--harness",
+            "provider",
+            "-j1",
+            "-Z",
+            "function-contracts",
+            "-Z",
+            "stubbing",
+            "-Z",
+            "export-json",
+            "--export-json",
+            "/tmp/stub-contract-provider-09lv2a82/export.json",
+            "--output-format=regular",
+            "--target-dir",
+            "/tmp/stub-contract-provider-09lv2a82/target"
+          ],
+          "environment": {
+            "CARGO_BUILD_TARGET": null,
+            "CARGO_ENCODED_RUSTFLAGS": null,
+            "CARGO_TARGET_DIR": null,
+            "FLAMEGRAPH": null,
+            "KANIFLAGS": "",
+            "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true",
+            "KANI_LOG": "",
+            "NO_COLOR": "1",
+            "RUSTFLAGS": "",
+            "RUSTUP_TOOLCHAIN": "nightly-2026-11-12",
+            "RUST_BACKTRACE": "0"
+          },
+          "feature": "provider",
+          "fixture_sha256": "eeda30cfc12024ed314ddeb8c0ebade1911fd5ed2fabbc849db7ccd94e40eb4b",
+          "harness": "provider",
+          "manifest_sha256": "a1be548a68dc9e8e644d604fe65c5a2a379d85aef44204ba54f319c67635d86b",
+          "request_sha256": "45b074506bd6e40e2f25bc1fc3603d1491bbbfda4c7a4295e40ec785cecb651c",
+          "slot": "provider"
+        },
+        "invocation_sha256": "839f3386e52e07156e9754576c7d898ea6ef700bb8f6d15805f425f62923073a",
+        "property_inventory": {
+          "provider": [
+            {
+              "description": "ptr NULL or writable up to size",
+              "id": "__CPROVER_contracts_write_set_check_assignment.assertion.1",
+              "index": 1,
+              "location": "<builtin-library-__CPROVER_contracts_library>:805 in function __CPROVER_contracts_write_set_check_assignment",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "CAR size is less than __CPROVER_max_malloc_size",
+              "id": "__CPROVER_contracts_write_set_check_assignment.assertion.2",
+              "index": 2,
+              "location": "<builtin-library-__CPROVER_contracts_library>:822 in function __CPROVER_contracts_write_set_check_assignment",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "no offset bits overflow on CAR upper bound computation",
+              "id": "__CPROVER_contracts_write_set_check_assignment.assertion.3",
+              "index": 3,
+              "location": "<builtin-library-__CPROVER_contracts_library>:828 in function __CPROVER_contracts_write_set_check_assignment",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "unwinding assertion loop 0",
+              "id": "__CPROVER_contracts_write_set_check_assignment.unwind.1",
+              "index": 4,
+              "location": "<builtin-library-__CPROVER_contracts_library>:837 in function __CPROVER_contracts_write_set_check_assignment",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "|result| *result == x + 1",
+              "id": "f::{closure#2}.assertion.1",
+              "index": 5,
+              "location": "src/lib.rs:6:1 in function f::{closure#2}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "Only a single top-level call to function _RNCNCNvCscr1fTsd9oyc_21stub_contract_confirm1fs0_0s_0B5_ when checking contract _RNCNCNvCscr1fTsd9oyc_21stub_contract_confirm1fs0_0s_0B5_",
+              "id": "stub_contract_confirm::f::{closure#2}::{closure#1}.single_top_level_call.1",
+              "index": 6,
+              "location": "src/lib.rs:5:1 in function stub_contract_confirm::f::{closure#2}::{closure#1}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "Check that requires do not allocate or deallocate memory",
+              "id": "stub_contract_confirm::f::{closure#2}::{closure#1}.no_alloc_dealloc_in_requires.1",
+              "index": 7,
+              "location": "src/lib.rs:5:1 in function stub_contract_confirm::f::{closure#2}::{closure#1}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "Check that ensures do not allocate or deallocate memory",
+              "id": "stub_contract_confirm::f::{closure#2}::{closure#1}.no_alloc_dealloc_in_ensures.1",
+              "index": 8,
+              "location": "src/lib.rs:5:1 in function stub_contract_confirm::f::{closure#2}::{closure#1}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "No recursive call to function _RNCNCNvCscr1fTsd9oyc_21stub_contract_confirm1fs0_0s_0B5_ when checking contract _RNCNCNvCscr1fTsd9oyc_21stub_contract_confirm1fs0_0s_0B5_",
+              "id": "stub_contract_confirm::f::{closure#2}::{closure#1}.no_recursive_call.1",
+              "index": 9,
+              "location": "src/lib.rs:5:1 in function stub_contract_confirm::f::{closure#2}::{closure#1}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "unreachable code",
+              "id": "f::{closure#0}.unreachable.1",
+              "index": 10,
+              "location": "src/lib.rs:5:1 in function f::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "attempt to subtract with overflow",
+              "id": "kani::internal::exit_contract_clause.assertion.1",
+              "index": 11,
+              "location": "library/kani_core/src/lib.rs:851:49 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "unwinding assertion loop 0",
+              "id": "__CPROVER_contracts_write_set_record_deallocated.unwind.1",
+              "index": 12,
+              "location": "<builtin-library-__CPROVER_contracts_library>:740 in function __CPROVER_contracts_write_set_record_deallocated",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "Check that ptr is freeable",
+              "id": "free.frees.1",
+              "index": 13,
+              "location": "<builtin-library-free>:43 in function free",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "Check that *var_1 is assignable",
+              "id": "kani::internal::reset_contract_clause_depth.assigns.1",
+              "index": 14,
+              "location": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "attempt to add with overflow",
+              "id": "kani::internal::enter_contract_clause.assertion.1",
+              "index": 15,
+              "location": "library/kani_core/src/lib.rs:835:49 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "attempt to add with overflow",
+              "id": "f::{closure#2}::{closure#1}.assertion.1",
+              "index": 16,
+              "location": "src/lib.rs:8:5 in function f::{closure#2}::{closure#1}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "attempt to add with overflow",
+              "id": "f.assertion.1",
+              "index": 17,
+              "location": "src/lib.rs:8:5 in function f",
+              "status": "UNREACHABLE"
+            },
+            {
+              "description": "unreachable code",
+              "id": "f::{closure#3}.unreachable.1",
+              "index": 18,
+              "location": "src/lib.rs:5:1 in function f::{closure#3}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "unreachable code",
+              "id": "f::{closure#1}.unreachable.1",
+              "index": 19,
+              "location": "src/lib.rs:5:1 in function f::{closure#1}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "attempt to add with overflow",
+              "id": "f::{closure#2}::{closure#0}.assertion.1",
+              "index": 20,
+              "location": "src/lib.rs:6:37 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.1",
+              "index": 21,
+              "location": "src/lib.rs:6:26 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.2",
+              "index": 22,
+              "location": "src/lib.rs:6:26 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.3",
+              "index": 23,
+              "location": "src/lib.rs:6:26 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.4",
+              "index": 24,
+              "location": "src/lib.rs:6:26 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.5",
+              "index": 25,
+              "location": "src/lib.rs:6:26 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.6",
+              "index": 26,
+              "location": "src/lib.rs:6:26 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.7",
+              "index": 27,
+              "location": "src/lib.rs:6:37 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.8",
+              "index": 28,
+              "location": "src/lib.rs:6:37 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.9",
+              "index": 29,
+              "location": "src/lib.rs:6:37 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.10",
+              "index": 30,
+              "location": "src/lib.rs:6:37 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.11",
+              "index": 31,
+              "location": "src/lib.rs:6:37 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.12",
+              "index": 32,
+              "location": "src/lib.rs:6:37 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.13",
+              "index": 33,
+              "location": "src/lib.rs:6:37 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.14",
+              "index": 34,
+              "location": "src/lib.rs:6:37 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.15",
+              "index": 35,
+              "location": "src/lib.rs:6:37 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.16",
+              "index": 36,
+              "location": "src/lib.rs:6:37 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.17",
+              "index": 37,
+              "location": "src/lib.rs:6:37 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "f::{closure#2}::{closure#0}.pointer_dereference.18",
+              "index": 38,
+              "location": "src/lib.rs:6:37 in function f::{closure#2}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "free argument must be NULL or valid pointer",
+              "id": "provider.precondition_instance.1",
+              "index": 39,
+              "location": "src/lib.rs:15:1 in function provider",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "free argument must be dynamic object",
+              "id": "provider.precondition_instance.2",
+              "index": 40,
+              "location": "src/lib.rs:15:1 in function provider",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "free argument has offset zero",
+              "id": "provider.precondition_instance.3",
+              "index": 41,
+              "location": "src/lib.rs:15:1 in function provider",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "double free",
+              "id": "provider.precondition_instance.4",
+              "index": 42,
+              "location": "src/lib.rs:15:1 in function provider",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "free called for new[] object",
+              "id": "provider.precondition_instance.5",
+              "index": 43,
+              "location": "src/lib.rs:15:1 in function provider",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "free called for stack-allocated object",
+              "id": "provider.precondition_instance.6",
+              "index": 44,
+              "location": "src/lib.rs:15:1 in function provider",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "kani::internal::in_contract_clause.pointer_dereference.1",
+              "index": 45,
+              "location": "library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "kani::internal::in_contract_clause.pointer_dereference.2",
+              "index": 46,
+              "location": "library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "kani::internal::in_contract_clause.pointer_dereference.3",
+              "index": 47,
+              "location": "library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "kani::internal::in_contract_clause.pointer_dereference.4",
+              "index": 48,
+              "location": "library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "kani::internal::in_contract_clause.pointer_dereference.5",
+              "index": 49,
+              "location": "library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "kani::internal::in_contract_clause.pointer_dereference.6",
+              "index": 50,
+              "location": "library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "kani::internal::reset_contract_clause_depth.pointer_dereference.1",
+              "index": 51,
+              "location": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "kani::internal::reset_contract_clause_depth.pointer_dereference.2",
+              "index": 52,
+              "location": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "kani::internal::reset_contract_clause_depth.pointer_dereference.3",
+              "index": 53,
+              "location": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "kani::internal::reset_contract_clause_depth.pointer_dereference.4",
+              "index": 54,
+              "location": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "kani::internal::reset_contract_clause_depth.pointer_dereference.5",
+              "index": 55,
+              "location": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "kani::internal::reset_contract_clause_depth.pointer_dereference.6",
+              "index": 56,
+              "location": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.1",
+              "index": 57,
+              "location": "<builtin-library-__CPROVER_contracts_library>:1186 in function __CPROVER_contracts_make_invalid_pointer",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.2",
+              "index": 58,
+              "location": "<builtin-library-__CPROVER_contracts_library>:1186 in function __CPROVER_contracts_make_invalid_pointer",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.3",
+              "index": 59,
+              "location": "<builtin-library-__CPROVER_contracts_library>:1186 in function __CPROVER_contracts_make_invalid_pointer",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.4",
+              "index": 60,
+              "location": "<builtin-library-__CPROVER_contracts_library>:1186 in function __CPROVER_contracts_make_invalid_pointer",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.5",
+              "index": 61,
+              "location": "<builtin-library-__CPROVER_contracts_library>:1186 in function __CPROVER_contracts_make_invalid_pointer",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.6",
+              "index": 62,
+              "location": "<builtin-library-__CPROVER_contracts_library>:1186 in function __CPROVER_contracts_make_invalid_pointer",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "count leading zeros is undefined for value zero",
+              "id": "__CPROVER_contracts_obj_set_create_indexed_by_object_id.bit_count.1",
+              "index": 63,
+              "location": "<builtin-library-__CPROVER_contracts_library>:264 in function __CPROVER_contracts_obj_set_create_indexed_by_object_id",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "count leading zeros is undefined for value zero",
+              "id": "__CPROVER_contracts_obj_set_create_indexed_by_object_id.bit_count.2",
+              "index": 64,
+              "location": "<builtin-library-__CPROVER_contracts_library>:264 in function __CPROVER_contracts_obj_set_create_indexed_by_object_id",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "count leading zeros is undefined for value zero",
+              "id": "__CPROVER_contracts_obj_set_create_indexed_by_object_id.bit_count.3",
+              "index": 65,
+              "location": "<builtin-library-__CPROVER_contracts_library>:264 in function __CPROVER_contracts_obj_set_create_indexed_by_object_id",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.1",
+              "index": 66,
+              "location": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.2",
+              "index": 67,
+              "location": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.3",
+              "index": 68,
+              "location": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.4",
+              "index": 69,
+              "location": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.5",
+              "index": 70,
+              "location": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.6",
+              "index": 71,
+              "location": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.7",
+              "index": 72,
+              "location": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.8",
+              "index": 73,
+              "location": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.9",
+              "index": 74,
+              "location": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.10",
+              "index": 75,
+              "location": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.11",
+              "index": 76,
+              "location": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.12",
+              "index": 77,
+              "location": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.1",
+              "index": 78,
+              "location": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.2",
+              "index": 79,
+              "location": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.3",
+              "index": 80,
+              "location": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.4",
+              "index": 81,
+              "location": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.5",
+              "index": 82,
+              "location": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.6",
+              "index": 83,
+              "location": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.7",
+              "index": 84,
+              "location": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.8",
+              "index": 85,
+              "location": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.9",
+              "index": 86,
+              "location": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.10",
+              "index": 87,
+              "location": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.11",
+              "index": 88,
+              "location": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.12",
+              "index": 89,
+              "location": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        "rss_cap_bytes": 8589934592,
+        "sampled_group_peak_rss_bytes": 211066880,
+        "signal": null,
+        "streams": {
+          "stderr": {
+            "bytes": 197,
+            "complete": true,
+            "head": [
+              "   Compiling stub-contract-confirm v0.1.0 (/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm)",
+              "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.19s"
+            ],
+            "sha256": "e90b2f7140a44bdbd2bf74ac23f57911c0f2dd3ed6e4f610e91ec86388b56325",
+            "tail": [
+              "   Compiling stub-contract-confirm v0.1.0 (/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm)",
+              "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.19s"
+            ]
+          },
+          "stdout": {
+            "bytes": 23419,
+            "complete": true,
+            "head": [
+              "Kani Rust Verifier 0.68.0 (cargo plugin)",
+              "CBMC 6.11.0",
+              "warning: function `g` is never used",
+              "  --> src/lib.rs:11:4",
+              "   |",
+              "11 | fn g(x: u8) -> u8 {",
+              "   |    ^",
+              "   |",
+              "   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default",
+              "",
+              "warning: use of an unstable feature",
+              " --> <crate attribute>:1:12",
+              "  |",
+              "1 | #![feature(register_tool)]",
+              "  |            ^^^^^^^^^^^^^",
+              "  |",
+              "  = note: requested on the command line with `--force-warn unstable-features`",
+              ""
+            ],
+            "sha256": "166eed9b41db40d9bde232ab3b89d51d39e871af84ece38067fbfc206ac4ceb1",
+            "tail": [
+              "SUMMARY:",
+              " ** 0 of 89 failed (1 unreachable)",
+              "",
+              "VERIFICATION:- SUCCESSFUL",
+              "Verification Time: 0.101460256s",
+              "",
+              "Manual Harness Summary:",
+              "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+            ]
+          }
+        },
+        "termination": "EXITED",
+        "timeout_seconds": 120,
+        "verification_success": 1
+      },
+      "selected_harness": "provider"
+    },
+    "verified": {
+      "export_inventory": {
+        "bytes": 2735,
+        "complete": true,
+        "present": true,
+        "sha256": "ea465cde645c90a9364fa721678ba9664a3fd1f82f75fe8964283401261effc6"
+      },
+      "feature": "verified",
+      "observation": {
+        "outcome": "INCONCLUSIVE",
+        "reason": "check counts"
+      },
+      "process": {
+        "argv": [
+          "/home/runner/work/kani/kani/stock/scripts/cargo-kani",
+          "kani",
+          "--manifest-path",
+          "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+          "--lib",
+          "--no-default-features",
+          "--features",
+          "verified",
+          "--exact",
+          "--harness",
+          "verified_control",
+          "-j1",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "stubbing",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "/tmp/stub-contract-verified-ysccqtwq/export.json",
+          "--output-format=regular",
+          "--target-dir",
+          "/tmp/stub-contract-verified-ysccqtwq/target"
+        ],
+        "compiler_process_hints": [],
+        "cwd": "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm",
+        "diagnostics": [],
+        "diagnostics_complete": true,
+        "elapsed_seconds": 0.527,
+        "environment": {
+          "CARGO_BUILD_TARGET": null,
+          "CARGO_ENCODED_RUSTFLAGS": null,
+          "CARGO_TARGET_DIR": null,
+          "KANIFLAGS": "",
+          "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true",
+          "KANI_LOG": "",
+          "NO_COLOR": "1",
+          "PATH": "/home/runner/.cargo/bin:/snap/bin:/home/runner/.local/bin:/opt/pipx_bin:/home/runner/.cargo/bin:/home/runner/.config/composer/vendor/bin:/usr/local/.ghcup/bin:/home/runner/.dotnet/tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+          "RUSTFLAGS": "",
+          "RUSTUP_TOOLCHAIN": "nightly-2026-11-12",
+          "RUST_BACKTRACE": "0"
+        },
+        "exit": 0,
+        "invocation_identity": {
+          "argv": [
+            "/home/runner/work/kani/kani/stock/scripts/cargo-kani",
+            "kani",
+            "--manifest-path",
+            "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+            "--lib",
+            "--no-default-features",
+            "--features",
+            "verified",
+            "--exact",
+            "--harness",
+            "verified_control",
+            "-j1",
+            "-Z",
+            "function-contracts",
+            "-Z",
+            "stubbing",
+            "-Z",
+            "export-json",
+            "--export-json",
+            "/tmp/stub-contract-verified-ysccqtwq/export.json",
+            "--output-format=regular",
+            "--target-dir",
+            "/tmp/stub-contract-verified-ysccqtwq/target"
+          ],
+          "environment": {
+            "CARGO_BUILD_TARGET": null,
+            "CARGO_ENCODED_RUSTFLAGS": null,
+            "CARGO_TARGET_DIR": null,
+            "FLAMEGRAPH": null,
+            "KANIFLAGS": "",
+            "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true",
+            "KANI_LOG": "",
+            "NO_COLOR": "1",
+            "RUSTFLAGS": "",
+            "RUSTUP_TOOLCHAIN": "nightly-2026-11-12",
+            "RUST_BACKTRACE": "0"
+          },
+          "feature": "verified",
+          "fixture_sha256": "eeda30cfc12024ed314ddeb8c0ebade1911fd5ed2fabbc849db7ccd94e40eb4b",
+          "harness": "verified_control",
+          "manifest_sha256": "a1be548a68dc9e8e644d604fe65c5a2a379d85aef44204ba54f319c67635d86b",
+          "request_sha256": "45b074506bd6e40e2f25bc1fc3603d1491bbbfda4c7a4295e40ec785cecb651c",
+          "slot": "verified"
+        },
+        "invocation_sha256": "fc621cd057c3e485eeb47a4574a533b9ae7985cb7f449d64f0ea509b36686cb4",
+        "property_inventory": {
+          "verified_control": [
+            {
+              "description": "attempt to add with overflow",
+              "id": "kani::internal::enter_contract_clause.assertion.1",
+              "index": 1,
+              "location": "library/kani_core/src/lib.rs:835:49 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "unreachable code",
+              "id": "f::{closure#2}.unreachable.1",
+              "index": 2,
+              "location": "src/lib.rs:5:1 in function f::{closure#2}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "unreachable code",
+              "id": "f::{closure#0}.unreachable.1",
+              "index": 3,
+              "location": "src/lib.rs:5:1 in function f::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "x < 8",
+              "id": "f::{closure#1}.assertion.1",
+              "index": 4,
+              "location": "src/lib.rs:5:1 in function f::{closure#1}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "unreachable code",
+              "id": "f::{closure#3}.unreachable.1",
+              "index": 5,
+              "location": "src/lib.rs:5:1 in function f::{closure#3}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "attempt to add with overflow",
+              "id": "verified_control.assertion.1",
+              "index": 6,
+              "location": "src/lib.rs:26:21 in function verified_control",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "assertion failed: f(x) == x + 1",
+              "id": "verified_control.assertion.2",
+              "index": 7,
+              "location": "src/lib.rs:26:5 in function verified_control",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "attempt to add with overflow",
+              "id": "f::{closure#1}::{closure#0}.assertion.1",
+              "index": 8,
+              "location": "src/lib.rs:6:37 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "attempt to subtract with overflow",
+              "id": "kani::internal::exit_contract_clause.assertion.1",
+              "index": 9,
+              "location": "library/kani_core/src/lib.rs:851:49 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "attempt to add with overflow",
+              "id": "f.assertion.1",
+              "index": 10,
+              "location": "src/lib.rs:8:5 in function f",
+              "status": "UNREACHABLE"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.1",
+              "index": 11,
+              "location": "src/lib.rs:6:26 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.2",
+              "index": 12,
+              "location": "src/lib.rs:6:26 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.3",
+              "index": 13,
+              "location": "src/lib.rs:6:26 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.4",
+              "index": 14,
+              "location": "src/lib.rs:6:26 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.5",
+              "index": 15,
+              "location": "src/lib.rs:6:26 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.6",
+              "index": 16,
+              "location": "src/lib.rs:6:26 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.7",
+              "index": 17,
+              "location": "src/lib.rs:6:37 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.8",
+              "index": 18,
+              "location": "src/lib.rs:6:37 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.9",
+              "index": 19,
+              "location": "src/lib.rs:6:37 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.10",
+              "index": 20,
+              "location": "src/lib.rs:6:37 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.11",
+              "index": 21,
+              "location": "src/lib.rs:6:37 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.12",
+              "index": 22,
+              "location": "src/lib.rs:6:37 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.13",
+              "index": 23,
+              "location": "src/lib.rs:6:37 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.14",
+              "index": 24,
+              "location": "src/lib.rs:6:37 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.15",
+              "index": 25,
+              "location": "src/lib.rs:6:37 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.16",
+              "index": 26,
+              "location": "src/lib.rs:6:37 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.17",
+              "index": 27,
+              "location": "src/lib.rs:6:37 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "f::{closure#1}::{closure#0}.pointer_dereference.18",
+              "index": 28,
+              "location": "src/lib.rs:6:37 in function f::{closure#1}::{closure#0}",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.1",
+              "index": 29,
+              "location": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.2",
+              "index": 30,
+              "location": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.3",
+              "index": 31,
+              "location": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.4",
+              "index": 32,
+              "location": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.5",
+              "index": 33,
+              "location": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.6",
+              "index": 34,
+              "location": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.7",
+              "index": 35,
+              "location": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.8",
+              "index": 36,
+              "location": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.9",
+              "index": 37,
+              "location": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.10",
+              "index": 38,
+              "location": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.11",
+              "index": 39,
+              "location": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "kani::internal::enter_contract_clause.pointer_dereference.12",
+              "index": 40,
+              "location": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.1",
+              "index": 41,
+              "location": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.2",
+              "index": 42,
+              "location": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.3",
+              "index": 43,
+              "location": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.4",
+              "index": 44,
+              "location": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.5",
+              "index": 45,
+              "location": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.6",
+              "index": 46,
+              "location": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer NULL",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.7",
+              "index": 47,
+              "location": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.8",
+              "index": 48,
+              "location": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: deallocated dynamic object",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.9",
+              "index": 49,
+              "location": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: dead object",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.10",
+              "index": 50,
+              "location": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer outside object bounds",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.11",
+              "index": 51,
+              "location": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: invalid integer address",
+              "id": "kani::internal::exit_contract_clause.pointer_dereference.12",
+              "index": 52,
+              "location": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        "rss_cap_bytes": 8589934592,
+        "sampled_group_peak_rss_bytes": 209731584,
+        "signal": null,
+        "streams": {
+          "stderr": {
+            "bytes": 197,
+            "complete": true,
+            "head": [
+              "   Compiling stub-contract-confirm v0.1.0 (/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm)",
+              "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.19s"
+            ],
+            "sha256": "e90b2f7140a44bdbd2bf74ac23f57911c0f2dd3ed6e4f610e91ec86388b56325",
+            "tail": [
+              "   Compiling stub-contract-confirm v0.1.0 (/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm)",
+              "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.19s"
+            ]
+          },
+          "stdout": {
+            "bytes": 13949,
+            "complete": true,
+            "head": [
+              "Kani Rust Verifier 0.68.0 (cargo plugin)",
+              "CBMC 6.11.0",
+              "warning: function `g` is never used",
+              "  --> src/lib.rs:11:4",
+              "   |",
+              "11 | fn g(x: u8) -> u8 {",
+              "   |    ^",
+              "   |",
+              "   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default",
+              "",
+              "warning: use of an unstable feature",
+              " --> <crate attribute>:1:12",
+              "  |",
+              "1 | #![feature(register_tool)]",
+              "  |            ^^^^^^^^^^^^^",
+              "  |",
+              "  = note: requested on the command line with `--force-warn unstable-features`",
+              ""
+            ],
+            "sha256": "785a5b5a57cdff5ed83a04708c87023b927fdb6583ae070a797474ee1e744291",
+            "tail": [
+              "SUMMARY:",
+              " ** 0 of 52 failed (1 unreachable)",
+              "",
+              "VERIFICATION:- SUCCESSFUL",
+              "Verification Time: 0.06927465s",
+              "",
+              "Manual Harness Summary:",
+              "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+            ]
+          }
+        },
+        "termination": "EXITED",
+        "timeout_seconds": 120,
+        "verification_success": 1
+      },
+      "selected_harness": "verified_control"
+    }
+  },
+  "source_after": {
+    "control": {
+      "changes": [
+        "A\t.github/stub-contract-confirm/profile.json",
+        "D\t.github/workflows/bench-compiler.yml",
+        "D\t.github/workflows/bench-e2e.yml",
+        "D\t.github/workflows/bench-pr.yml",
+        "D\t.github/workflows/cargo-update.yml",
+        "D\t.github/workflows/cbmc-latest.yml",
+        "D\t.github/workflows/cbmc-update.yml",
+        "D\t.github/workflows/charon-update.yml",
+        "D\t.github/workflows/deny.yml",
+        "D\t.github/workflows/extra_jobs.yml",
+        "D\t.github/workflows/format-check.yml",
+        "D\t.github/workflows/kani.yml",
+        "D\t.github/workflows/release.yml",
+        "D\t.github/workflows/slow-tests.yml",
+        "A\t.github/workflows/stub-contract-confirm.yml",
+        "D\t.github/workflows/toolchain-upgrade.yml",
+        "D\t.github/workflows/verify-std-check.yml",
+        "D\t.github/workflows/z3-update.yml",
+        "A\ttests/script-based-pre/stub-contract-confirm/Cargo.lock",
+        "A\ttests/script-based-pre/stub-contract-confirm/Cargo.toml",
+        "A\ttests/script-based-pre/stub-contract-confirm/check_push_identity.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/check_service.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/final_head.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/push_identity.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/runner.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/service.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/src/lib.rs",
+        "A\ttests/script-based-pre/stub-contract-confirm/workflow_checks.py"
+      ],
+      "head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+      "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "shallow": "true",
+      "tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6"
+    },
+    "files": {
+      "control_sha256/.github/workflows/stub-contract-confirm.yml": "720cc99642dfdce815773145d0d37820c29cf1f8e85b4cec87e70247dfff8edd",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/Cargo.lock": "fa9068017f5b97625943c393e681831b12431c6c909f28c7b1ddcdcb1e4e21c6",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/Cargo.toml": "a1be548a68dc9e8e644d604fe65c5a2a379d85aef44204ba54f319c67635d86b",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/check_push_identity.py": "6300bb8af6428be6df2c04cac18bb902979ce5aeae33e15f0cd081ccb80cce09",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/check_service.py": "f2cb8ac3c55b99736719f014e41e174e27dd941eb44f0938b8e406945538f614",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/final_head.py": "b02ab0564f15c265295f09a16e712a7140cec4818037a325e4352ee7b3eba436",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/push_identity.py": "cfd24ccd1b7a5c7f2e08cf5476e362a5c94d738c3ac35e424318651163a4ecb9",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/runner.py": "cfa267deb24a76b0d4c3d1d0b04ef9a9b5346f797ff8acc193d74d2fb37c1f78",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/service.py": "0cb7c63d6bd97e4a2b2513fd6aeecb8bf219ae871a20f34942320f06b3edf994",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/src/lib.rs": "eeda30cfc12024ed314ddeb8c0ebade1911fd5ed2fabbc849db7ccd94e40eb4b",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/workflow_checks.py": "0909f66c75ad155cdf13ab3327372c630fe648ec65aec6353a8845f6eee07583",
+      "source_sha256/.github/actions/setup/action.yml": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+      "source_sha256/AGENTS.md": "1da51e34458da7d68cdb977f1bf9a0c787b4bee457e78e92823bd72ecd54f479",
+      "source_sha256/Cargo.lock": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+      "source_sha256/docs/src/reference/experimental/contracts.md": "3a2239f46ddb82636528d008083f8a96864710af86d3a8769e891fcff471162a",
+      "source_sha256/docs/src/reference/experimental/stubbing.md": "e92c6cf8385ccada4bd133a614737f965561c93bd566cb876fd21a4e2788cd78",
+      "source_sha256/kani-compiler/src/kani_middle/attributes.rs": "a100fb2de9331efeeea3a0683b21170df4a4873f91d70a26845b2e47bc80f6cf",
+      "source_sha256/kani-compiler/src/kani_middle/codegen_units.rs": "7c97d5557936b1ed29ece9fad486b1acc8fd38f1a9e241c7c0e221b47d4c665d",
+      "source_sha256/kani-compiler/src/kani_middle/mod.rs": "6e73911b203b9d8237a0725ca67f1c46342d106b572ad485a2ceb06b61739a41",
+      "source_sha256/kani-compiler/src/kani_middle/stubbing/mod.rs": "6046e90950423336046a1478f4f387266398773102842bd545dab1ec291a38fb",
+      "source_sha256/kani-compiler/src/kani_middle/transform/contracts.rs": "06523bc56804fae5a4e6b484ef4e2ecedf34dbc046b29e02608e9ccdb3660cc9",
+      "source_sha256/kani-compiler/src/kani_middle/transform/mod.rs": "1fc758f58412b7334cc3570e178bc43f557264ba09214453b051192ef949d3a1",
+      "source_sha256/kani-compiler/src/kani_middle/transform/stubs.rs": "5cbd5f695efaf3c4bbfbe58424ddd0c7a07b24356cf4cd8d3339a9c4a07e0fa0",
+      "source_sha256/kani-driver/src/args/cargo.rs": "4858197960f905b6ff5068fe8977128747ef9a735798f208e18579eab77cf8a8",
+      "source_sha256/kani-driver/src/session.rs": "442d7e72d8ae3d30ea506d826c71e380595e8b327a51ea02b250c8945b60166c",
+      "source_sha256/kani_metadata/src/harness.rs": "133e43a5cab35920fbbfb0d99df6ff71610ebc31e8f8d63607331e155c20d740",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/assert.rs": "ec6480d46c29038b58cdac5d96ef962bd004e2d4fd16be6b9b64ee143f9cd5b4",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/bootstrap.rs": "d9e0988bfe8eef7f90b9378300ec4b77d425677ee60dc845f841939d073e9507",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/check.rs": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/initialize.rs": "dad2dcfdd2aa348a33f0162a81459ae4539946bc027ccac7d2593bf09bd2e95b",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/mod.rs": "7ec87e829711d05928c3026249e6c79bd20e5c7e9499fe401b53a3647cd76979",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/replace.rs": "6bd51d3234c0778c5e0a465d1009d4efdee21dc2565e626b6d309f25c6791f05",
+      "source_sha256/rust-toolchain.toml": "d40d66a452e934c9cedede2844b920d48ff217565c81b4e47311bb346c960d93",
+      "source_sha256/scripts/cargo-kani": "a0fca4b405bedc008d4f1fd3a5b03c097b190896c633a301badef846e8560291",
+      "source_sha256/scripts/kani": "28a81c48fd72627ed2449993730636bc830abeffeaea4d85d9297b2ec4393af2",
+      "source_sha256/tests/expected/function-contract/as-assertions/precedence.rs": "ceb780c6ec0d6ebe7c8ac696500fe439435ca7b4730169724883346085aff7ff",
+      "source_sha256/tests/expected/function-contract/gcd_rec_simple_pass.rs": "48134c28050eed7385140ab341f7602234888e6208ca61403d27c53cc6ef6a44",
+      "source_sha256/tests/expected/function-contract/simple_replace_pass.rs": "219358bc397e5e24dc5e1150efdc1b74b5c0667e4d7bab423cb04df3d969af97",
+      "source_sha256/tests/kani/FunctionContracts/stub_verified_safe_arbitrary.rs": "eb25877e66814f3f54ae35ff957678996b1992bee37947a65bc302c75f45bee6",
+      "source_sha256/tests/kani/Stubbing/stub_generic_param_rename_simple.rs": "853b77b9edd9fc210201afe21c9e69a88b786a01fa4f1d6cb2879ebf76417f00"
+    },
+    "problems": [],
+    "push": {
+      "before": "0000000000000000000000000000000000000000",
+      "created": true,
+      "event": "push",
+      "head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+      "ref": "refs/heads/stub-contract-confirm-ci/w15-push",
+      "repository": "Tiramisu-Cake/kani"
+    },
+    "request": {
+      "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "base_parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+      "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+      "control_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+      "control_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "control_tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6",
+      "profile_sha256": "ceb930a5b7764799880ac48ad6318bbaf6e14d6af70ea98abbe9da82107af148",
+      "schema": "stub-contract-request-v1"
+    },
+    "request_sha256": "45b074506bd6e40e2f25bc1fc3603d1491bbbfda4c7a4295e40ec785cecb651c",
+    "source": {
+      "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+      "shallow": "true",
+      "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786"
+    },
+    "tools": {
+      "cargo": {
+        "path": "/home/runner/.rustup/toolchains/nightly-2026-11-12-x86_64-unknown-linux-gnu/bin/cargo",
+        "resolved": "/home/runner/.rustup/toolchains/nightly-2026-11-12-x86_64-unknown-linux-gnu/bin/cargo",
+        "sha256": "52959e2876ba1c6329a37407179f14bdb06175698585a78fc8c8d1e4c5bfcd5e"
+      },
+      "cbmc": {
+        "path": "/usr/bin/cbmc",
+        "resolved": "/usr/bin/cbmc",
+        "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+      },
+      "kani-compiler": {
+        "path": "/home/runner/work/kani/kani/stock/target/kani/bin/kani-compiler",
+        "sha256": "99f1fe91cc24ca6ae5ced7ba56d2099880faaa940f0e4091d34f4869f07f6fd9"
+      },
+      "kani-driver": {
+        "path": "/home/runner/work/kani/kani/stock/target/kani/bin/kani-driver",
+        "sha256": "820bc358626ce9469085170c442c9606549b36bff3b46099770f8fa27ae6b2a4"
+      },
+      "rustc": {
+        "path": "/home/runner/.rustup/toolchains/nightly-2026-11-12-x86_64-unknown-linux-gnu/bin/rustc",
+        "resolved": "/home/runner/.rustup/toolchains/nightly-2026-11-12-x86_64-unknown-linux-gnu/bin/rustc",
+        "sha256": "b7035409007bf7a45b30f2c791068df7745af3b0347665251c422507bed9a280"
+      }
+    }
+  },
+  "source_before": {
+    "control": {
+      "changes": [
+        "A\t.github/stub-contract-confirm/profile.json",
+        "D\t.github/workflows/bench-compiler.yml",
+        "D\t.github/workflows/bench-e2e.yml",
+        "D\t.github/workflows/bench-pr.yml",
+        "D\t.github/workflows/cargo-update.yml",
+        "D\t.github/workflows/cbmc-latest.yml",
+        "D\t.github/workflows/cbmc-update.yml",
+        "D\t.github/workflows/charon-update.yml",
+        "D\t.github/workflows/deny.yml",
+        "D\t.github/workflows/extra_jobs.yml",
+        "D\t.github/workflows/format-check.yml",
+        "D\t.github/workflows/kani.yml",
+        "D\t.github/workflows/release.yml",
+        "D\t.github/workflows/slow-tests.yml",
+        "A\t.github/workflows/stub-contract-confirm.yml",
+        "D\t.github/workflows/toolchain-upgrade.yml",
+        "D\t.github/workflows/verify-std-check.yml",
+        "D\t.github/workflows/z3-update.yml",
+        "A\ttests/script-based-pre/stub-contract-confirm/Cargo.lock",
+        "A\ttests/script-based-pre/stub-contract-confirm/Cargo.toml",
+        "A\ttests/script-based-pre/stub-contract-confirm/check_push_identity.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/check_service.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/final_head.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/push_identity.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/runner.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/service.py",
+        "A\ttests/script-based-pre/stub-contract-confirm/src/lib.rs",
+        "A\ttests/script-based-pre/stub-contract-confirm/workflow_checks.py"
+      ],
+      "head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+      "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "shallow": "true",
+      "tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6"
+    },
+    "files": {
+      "control_sha256/.github/workflows/stub-contract-confirm.yml": "720cc99642dfdce815773145d0d37820c29cf1f8e85b4cec87e70247dfff8edd",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/Cargo.lock": "fa9068017f5b97625943c393e681831b12431c6c909f28c7b1ddcdcb1e4e21c6",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/Cargo.toml": "a1be548a68dc9e8e644d604fe65c5a2a379d85aef44204ba54f319c67635d86b",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/check_push_identity.py": "6300bb8af6428be6df2c04cac18bb902979ce5aeae33e15f0cd081ccb80cce09",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/check_service.py": "f2cb8ac3c55b99736719f014e41e174e27dd941eb44f0938b8e406945538f614",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/final_head.py": "b02ab0564f15c265295f09a16e712a7140cec4818037a325e4352ee7b3eba436",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/push_identity.py": "cfd24ccd1b7a5c7f2e08cf5476e362a5c94d738c3ac35e424318651163a4ecb9",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/runner.py": "cfa267deb24a76b0d4c3d1d0b04ef9a9b5346f797ff8acc193d74d2fb37c1f78",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/service.py": "0cb7c63d6bd97e4a2b2513fd6aeecb8bf219ae871a20f34942320f06b3edf994",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/src/lib.rs": "eeda30cfc12024ed314ddeb8c0ebade1911fd5ed2fabbc849db7ccd94e40eb4b",
+      "control_sha256/tests/script-based-pre/stub-contract-confirm/workflow_checks.py": "0909f66c75ad155cdf13ab3327372c630fe648ec65aec6353a8845f6eee07583",
+      "source_sha256/.github/actions/setup/action.yml": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+      "source_sha256/AGENTS.md": "1da51e34458da7d68cdb977f1bf9a0c787b4bee457e78e92823bd72ecd54f479",
+      "source_sha256/Cargo.lock": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+      "source_sha256/docs/src/reference/experimental/contracts.md": "3a2239f46ddb82636528d008083f8a96864710af86d3a8769e891fcff471162a",
+      "source_sha256/docs/src/reference/experimental/stubbing.md": "e92c6cf8385ccada4bd133a614737f965561c93bd566cb876fd21a4e2788cd78",
+      "source_sha256/kani-compiler/src/kani_middle/attributes.rs": "a100fb2de9331efeeea3a0683b21170df4a4873f91d70a26845b2e47bc80f6cf",
+      "source_sha256/kani-compiler/src/kani_middle/codegen_units.rs": "7c97d5557936b1ed29ece9fad486b1acc8fd38f1a9e241c7c0e221b47d4c665d",
+      "source_sha256/kani-compiler/src/kani_middle/mod.rs": "6e73911b203b9d8237a0725ca67f1c46342d106b572ad485a2ceb06b61739a41",
+      "source_sha256/kani-compiler/src/kani_middle/stubbing/mod.rs": "6046e90950423336046a1478f4f387266398773102842bd545dab1ec291a38fb",
+      "source_sha256/kani-compiler/src/kani_middle/transform/contracts.rs": "06523bc56804fae5a4e6b484ef4e2ecedf34dbc046b29e02608e9ccdb3660cc9",
+      "source_sha256/kani-compiler/src/kani_middle/transform/mod.rs": "1fc758f58412b7334cc3570e178bc43f557264ba09214453b051192ef949d3a1",
+      "source_sha256/kani-compiler/src/kani_middle/transform/stubs.rs": "5cbd5f695efaf3c4bbfbe58424ddd0c7a07b24356cf4cd8d3339a9c4a07e0fa0",
+      "source_sha256/kani-driver/src/args/cargo.rs": "4858197960f905b6ff5068fe8977128747ef9a735798f208e18579eab77cf8a8",
+      "source_sha256/kani-driver/src/session.rs": "442d7e72d8ae3d30ea506d826c71e380595e8b327a51ea02b250c8945b60166c",
+      "source_sha256/kani_metadata/src/harness.rs": "133e43a5cab35920fbbfb0d99df6ff71610ebc31e8f8d63607331e155c20d740",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/assert.rs": "ec6480d46c29038b58cdac5d96ef962bd004e2d4fd16be6b9b64ee143f9cd5b4",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/bootstrap.rs": "d9e0988bfe8eef7f90b9378300ec4b77d425677ee60dc845f841939d073e9507",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/check.rs": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/initialize.rs": "dad2dcfdd2aa348a33f0162a81459ae4539946bc027ccac7d2593bf09bd2e95b",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/mod.rs": "7ec87e829711d05928c3026249e6c79bd20e5c7e9499fe401b53a3647cd76979",
+      "source_sha256/library/kani_macros/src/sysroot/contracts/replace.rs": "6bd51d3234c0778c5e0a465d1009d4efdee21dc2565e626b6d309f25c6791f05",
+      "source_sha256/rust-toolchain.toml": "d40d66a452e934c9cedede2844b920d48ff217565c81b4e47311bb346c960d93",
+      "source_sha256/scripts/cargo-kani": "a0fca4b405bedc008d4f1fd3a5b03c097b190896c633a301badef846e8560291",
+      "source_sha256/scripts/kani": "28a81c48fd72627ed2449993730636bc830abeffeaea4d85d9297b2ec4393af2",
+      "source_sha256/tests/expected/function-contract/as-assertions/precedence.rs": "ceb780c6ec0d6ebe7c8ac696500fe439435ca7b4730169724883346085aff7ff",
+      "source_sha256/tests/expected/function-contract/gcd_rec_simple_pass.rs": "48134c28050eed7385140ab341f7602234888e6208ca61403d27c53cc6ef6a44",
+      "source_sha256/tests/expected/function-contract/simple_replace_pass.rs": "219358bc397e5e24dc5e1150efdc1b74b5c0667e4d7bab423cb04df3d969af97",
+      "source_sha256/tests/kani/FunctionContracts/stub_verified_safe_arbitrary.rs": "eb25877e66814f3f54ae35ff957678996b1992bee37947a65bc302c75f45bee6",
+      "source_sha256/tests/kani/Stubbing/stub_generic_param_rename_simple.rs": "853b77b9edd9fc210201afe21c9e69a88b786a01fa4f1d6cb2879ebf76417f00"
+    },
+    "problems": [],
+    "push": {
+      "before": "0000000000000000000000000000000000000000",
+      "created": true,
+      "event": "push",
+      "head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+      "ref": "refs/heads/stub-contract-confirm-ci/w15-push",
+      "repository": "Tiramisu-Cake/kani"
+    },
+    "request": {
+      "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "base_parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+      "base_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+      "control_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+      "control_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "control_tree": "76ffe2048b88d45c759d0b297362c2c4981e7ad6",
+      "profile_sha256": "ceb930a5b7764799880ac48ad6318bbaf6e14d6af70ea98abbe9da82107af148",
+      "schema": "stub-contract-request-v1"
+    },
+    "request_sha256": "45b074506bd6e40e2f25bc1fc3603d1491bbbfda4c7a4295e40ec785cecb651c",
+    "source": {
+      "head": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+      "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94",
+      "shallow": "true",
+      "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786"
+    },
+    "tools": {
+      "cargo": {
+        "path": "/home/runner/.rustup/toolchains/nightly-2026-11-12-x86_64-unknown-linux-gnu/bin/cargo",
+        "resolved": "/home/runner/.rustup/toolchains/nightly-2026-11-12-x86_64-unknown-linux-gnu/bin/cargo",
+        "sha256": "52959e2876ba1c6329a37407179f14bdb06175698585a78fc8c8d1e4c5bfcd5e"
+      },
+      "cbmc": {
+        "path": "/usr/bin/cbmc",
+        "resolved": "/usr/bin/cbmc",
+        "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+      },
+      "kani-compiler": {
+        "path": "/home/runner/work/kani/kani/stock/target/kani/bin/kani-compiler",
+        "sha256": "99f1fe91cc24ca6ae5ced7ba56d2099880faaa940f0e4091d34f4869f07f6fd9"
+      },
+      "kani-driver": {
+        "path": "/home/runner/work/kani/kani/stock/target/kani/bin/kani-driver",
+        "sha256": "820bc358626ce9469085170c442c9606549b36bff3b46099770f8fa27ae6b2a4"
+      },
+      "rustc": {
+        "path": "/home/runner/.rustup/toolchains/nightly-2026-11-12-x86_64-unknown-linux-gnu/bin/rustc",
+        "resolved": "/home/runner/.rustup/toolchains/nightly-2026-11-12-x86_64-unknown-linux-gnu/bin/rustc",
+        "sha256": "b7035409007bf7a45b30f2c791068df7745af3b0347665251c422507bed9a280"
+      }
+    }
+  }
+}

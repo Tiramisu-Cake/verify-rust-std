@@ -1,0 +1,50 @@
+{
+  "authorization": {
+    "owner": "owner22:31",
+    "task_commit": "96642d9188c1900224c154c97a9f5e6ec6531dc0",
+    "base_intake_commit": "545c33e27a282104cafe5f51837d5226dd1961e0",
+    "scope": "allow successful native controls despite pinned-count mismatch only; preserve strict export/presence/completeness/error requirements"
+  },
+  "producer_classification": "INCONCLUSIVE",
+  "producer_reasons": [
+    "provider control failure",
+    "workflow status: failure"
+  ],
+  "producer_slot_observations": {
+    "ordinary": {
+      "outcome": "INCONCLUSIVE",
+      "reason": "unrelated or ambiguous compiler error"
+    },
+    "provider": {
+      "outcome": "INCONCLUSIVE",
+      "reason": "check counts"
+    },
+    "verified": {
+      "outcome": "INCONCLUSIVE",
+      "reason": "check counts"
+    }
+  },
+  "native_conclusion": "FAILURE",
+  "native_control_observation": "Both controls EXITED/0, one verification_success marker each, successful harness summaries and semantic properties in complete stdout inventory",
+  "pinned_counts_only_independently_supported": false,
+  "owner_policy_reclassified_observation": "INCONCLUSIVE",
+  "defect_signature_observed": true,
+  "defect_present_gate_satisfied": false,
+  "affected_count_predicate": "type(count) is int and 0 < count <= 256 and entry['n_properties'] == count and type(checks['success']) is int and checks['success'] == count",
+  "other_frozen_predicates": {
+    "unreachable_bucket": "checks['unreachable'] == []",
+    "property_status": "all(p['status'] == 'SUCCESS' and p['description'] and p['location'] for p in props)",
+    "export": "schema/run_state/outcome/target/features/check flags/harness selection/outcome require retained doc",
+    "ordinary_primary_error": "exclude only error: aborting due to ... and error: could not compile ...; remaining headers must be the single exact f error"
+  },
+  "blockers": [
+    "Both present complete exports are unretained; configuration/check buckets/export target and outcomes cannot be independently replayed.",
+    "Both inventories contain f.assertion.1 UNREACHABLE; the frozen oracle also rejects unreachable buckets and any non-SUCCESS property, separately from check counts.",
+    "Ordinary contains the exact f diagnostic plus the cargo-execution wrapper, which the frozen primary-error filter does not exclude."
+  ],
+  "applied_override": false,
+  "raw_evidence_modified": false,
+  "historical_s2_unit_body": "UNKNOWN; independent run/intake untouched",
+  "fixed_pass": "NOT_RUN; no fix authorized",
+  "independent_B1_B2_full_std_credit": false
+}

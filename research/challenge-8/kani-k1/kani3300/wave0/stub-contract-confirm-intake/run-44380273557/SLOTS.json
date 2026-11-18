@@ -1,0 +1,306 @@
+{
+  "ordinary": {
+    "producer": {
+      "outcome": "INCONCLUSIVE",
+      "reason": "unrelated or ambiguous compiler error"
+    },
+    "strict_retained_replay": {
+      "outcome": "INCONCLUSIVE",
+      "reason": "unrelated or ambiguous compiler error"
+    },
+    "count_only_replay": {
+      "outcome": "INCONCLUSIVE",
+      "reason": "unrelated or ambiguous compiler error"
+    },
+    "stdout_property_count": 0,
+    "stdout_status_counts": {},
+    "non_success_properties": [],
+    "export_inventory": {
+      "complete": false,
+      "present": false
+    },
+    "retained_export": false,
+    "native_exit": 1,
+    "verification_success": 0,
+    "feature": "ordinary",
+    "selected_harness": "ordinary_stub",
+    "semantic_properties": [],
+    "argv": [
+      "/home/runner/work/kani/kani/stock/scripts/cargo-kani",
+      "kani",
+      "--manifest-path",
+      "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+      "--lib",
+      "--no-default-features",
+      "--features",
+      "ordinary",
+      "--exact",
+      "--harness",
+      "ordinary_stub",
+      "-j1",
+      "-Z",
+      "function-contracts",
+      "-Z",
+      "stubbing",
+      "-Z",
+      "export-json",
+      "--export-json",
+      "/tmp/stub-contract-ordinary-qntjbfpj/export.json",
+      "--output-format=regular",
+      "--target-dir",
+      "/tmp/stub-contract-ordinary-qntjbfpj/target"
+    ],
+    "cwd": "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm",
+    "environment": {
+      "CARGO_BUILD_TARGET": null,
+      "CARGO_ENCODED_RUSTFLAGS": null,
+      "CARGO_TARGET_DIR": null,
+      "KANIFLAGS": "",
+      "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true",
+      "KANI_LOG": "",
+      "NO_COLOR": "1",
+      "PATH": "/home/runner/.cargo/bin:/snap/bin:/home/runner/.local/bin:/opt/pipx_bin:/home/runner/.cargo/bin:/home/runner/.config/composer/vendor/bin:/usr/local/.ghcup/bin:/home/runner/.dotnet/tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+      "RUSTFLAGS": "",
+      "RUSTUP_TOOLCHAIN": "nightly-2026-11-12",
+      "RUST_BACKTRACE": "0"
+    },
+    "invocation_sha256": "55468aabbc6bd461996bc2cc0be4fa674a87a829d50d805a9d51f7b0c29954d3",
+    "diagnostics": [
+      {
+        "bytes": 104,
+        "complete": true,
+        "header": "error: Failed to find contract closure `__kani_recursion_check_f` in function `stub_contract_confirm::f`",
+        "sha256": "68af977f51fdb22cdd9ce7ccdae0d86783ba8c5185c84ecde96e229c8e2ade07",
+        "stream": "stdout",
+        "text": "error: Failed to find contract closure `__kani_recursion_check_f` in function `stub_contract_confirm::f`"
+      },
+      {
+        "bytes": 78,
+        "complete": true,
+        "header": "error: Failed to execute cargo (exit status: 101). Found 1 compilation errors.",
+        "sha256": "2366826d1d0989536b6d5d5f0d692bc7be0f3a9cd417b8a41befeb246b63e516",
+        "stream": "stdout",
+        "text": "error: Failed to execute cargo (exit status: 101). Found 1 compilation errors."
+      },
+      {
+        "bytes": 98,
+        "complete": true,
+        "header": "error: could not compile `stub-contract-confirm` (lib) due to 1 previous error; 2 warnings emitted",
+        "sha256": "7a23f2ace76546d80e98c171427cd012f0b73dd9b8453910e943053caeda3c5c",
+        "stream": "stderr",
+        "text": "error: could not compile `stub-contract-confirm` (lib) due to 1 previous error; 2 warnings emitted"
+      }
+    ],
+    "timing_and_limits": {
+      "elapsed_seconds": 0.229,
+      "sampled_group_peak_rss_bytes": 181051392,
+      "rss_cap_bytes": 8589934592,
+      "timeout_seconds": 120,
+      "termination": "EXITED",
+      "exit": 1,
+      "signal": null
+    },
+    "verification_time_seconds": "NOT_RUN",
+    "export_target_config_checks_harness_outcome": "ABSENT_EXPORT; no verification inventory"
+  },
+  "provider": {
+    "producer": {
+      "outcome": "INCONCLUSIVE",
+      "reason": "check counts"
+    },
+    "strict_retained_replay": {
+      "outcome": "INCONCLUSIVE",
+      "reason": "present export incomplete/null/invalid/unretained"
+    },
+    "count_only_replay": {
+      "outcome": "INCONCLUSIVE",
+      "reason": "present export incomplete/null/invalid/unretained"
+    },
+    "stdout_property_count": 89,
+    "stdout_status_counts": {
+      "SUCCESS": 88,
+      "UNREACHABLE": 1
+    },
+    "non_success_properties": [
+      {
+        "description": "attempt to add with overflow",
+        "id": "f.assertion.1",
+        "index": 17,
+        "location": "src/lib.rs:8:5 in function f",
+        "status": "UNREACHABLE"
+      }
+    ],
+    "export_inventory": {
+      "bytes": 2886,
+      "complete": true,
+      "present": true,
+      "sha256": "23c5152fae077f595abfa68a651994dbea2fc63c1f818bb1da72bda340556aa3"
+    },
+    "retained_export": false,
+    "native_exit": 0,
+    "verification_success": 1,
+    "feature": "provider",
+    "selected_harness": "provider",
+    "semantic_properties": [
+      {
+        "description": "|result| *result == x + 1",
+        "id": "f::{closure#2}.assertion.1",
+        "index": 5,
+        "location": "src/lib.rs:6:1 in function f::{closure#2}",
+        "status": "SUCCESS"
+      }
+    ],
+    "argv": [
+      "/home/runner/work/kani/kani/stock/scripts/cargo-kani",
+      "kani",
+      "--manifest-path",
+      "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+      "--lib",
+      "--no-default-features",
+      "--features",
+      "provider",
+      "--exact",
+      "--harness",
+      "provider",
+      "-j1",
+      "-Z",
+      "function-contracts",
+      "-Z",
+      "stubbing",
+      "-Z",
+      "export-json",
+      "--export-json",
+      "/tmp/stub-contract-provider-09lv2a82/export.json",
+      "--output-format=regular",
+      "--target-dir",
+      "/tmp/stub-contract-provider-09lv2a82/target"
+    ],
+    "cwd": "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm",
+    "environment": {
+      "CARGO_BUILD_TARGET": null,
+      "CARGO_ENCODED_RUSTFLAGS": null,
+      "CARGO_TARGET_DIR": null,
+      "KANIFLAGS": "",
+      "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true",
+      "KANI_LOG": "",
+      "NO_COLOR": "1",
+      "PATH": "/home/runner/.cargo/bin:/snap/bin:/home/runner/.local/bin:/opt/pipx_bin:/home/runner/.cargo/bin:/home/runner/.config/composer/vendor/bin:/usr/local/.ghcup/bin:/home/runner/.dotnet/tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+      "RUSTFLAGS": "",
+      "RUSTUP_TOOLCHAIN": "nightly-2026-11-12",
+      "RUST_BACKTRACE": "0"
+    },
+    "invocation_sha256": "839f3386e52e07156e9754576c7d898ea6ef700bb8f6d15805f425f62923073a",
+    "diagnostics": [],
+    "timing_and_limits": {
+      "elapsed_seconds": 0.987,
+      "sampled_group_peak_rss_bytes": 211066880,
+      "rss_cap_bytes": 8589934592,
+      "timeout_seconds": 120,
+      "termination": "EXITED",
+      "exit": 0,
+      "signal": null
+    },
+    "verification_time_seconds": 0.101460256,
+    "export_target_config_checks_harness_outcome": "UNKNOWN: export not retained"
+  },
+  "verified": {
+    "producer": {
+      "outcome": "INCONCLUSIVE",
+      "reason": "check counts"
+    },
+    "strict_retained_replay": {
+      "outcome": "INCONCLUSIVE",
+      "reason": "present export incomplete/null/invalid/unretained"
+    },
+    "count_only_replay": {
+      "outcome": "INCONCLUSIVE",
+      "reason": "present export incomplete/null/invalid/unretained"
+    },
+    "stdout_property_count": 52,
+    "stdout_status_counts": {
+      "SUCCESS": 51,
+      "UNREACHABLE": 1
+    },
+    "non_success_properties": [
+      {
+        "description": "attempt to add with overflow",
+        "id": "f.assertion.1",
+        "index": 10,
+        "location": "src/lib.rs:8:5 in function f",
+        "status": "UNREACHABLE"
+      }
+    ],
+    "export_inventory": {
+      "bytes": 2735,
+      "complete": true,
+      "present": true,
+      "sha256": "ea465cde645c90a9364fa721678ba9664a3fd1f82f75fe8964283401261effc6"
+    },
+    "retained_export": false,
+    "native_exit": 0,
+    "verification_success": 1,
+    "feature": "verified",
+    "selected_harness": "verified_control",
+    "semantic_properties": [
+      {
+        "description": "assertion failed: f(x) == x + 1",
+        "id": "verified_control.assertion.2",
+        "index": 7,
+        "location": "src/lib.rs:26:5 in function verified_control",
+        "status": "SUCCESS"
+      }
+    ],
+    "argv": [
+      "/home/runner/work/kani/kani/stock/scripts/cargo-kani",
+      "kani",
+      "--manifest-path",
+      "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm/Cargo.toml",
+      "--lib",
+      "--no-default-features",
+      "--features",
+      "verified",
+      "--exact",
+      "--harness",
+      "verified_control",
+      "-j1",
+      "-Z",
+      "function-contracts",
+      "-Z",
+      "stubbing",
+      "-Z",
+      "export-json",
+      "--export-json",
+      "/tmp/stub-contract-verified-ysccqtwq/export.json",
+      "--output-format=regular",
+      "--target-dir",
+      "/tmp/stub-contract-verified-ysccqtwq/target"
+    ],
+    "cwd": "/home/runner/work/kani/kani/control/tests/script-based-pre/stub-contract-confirm",
+    "environment": {
+      "CARGO_BUILD_TARGET": null,
+      "CARGO_ENCODED_RUSTFLAGS": null,
+      "CARGO_TARGET_DIR": null,
+      "KANIFLAGS": "",
+      "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true",
+      "KANI_LOG": "",
+      "NO_COLOR": "1",
+      "PATH": "/home/runner/.cargo/bin:/snap/bin:/home/runner/.local/bin:/opt/pipx_bin:/home/runner/.cargo/bin:/home/runner/.config/composer/vendor/bin:/usr/local/.ghcup/bin:/home/runner/.dotnet/tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+      "RUSTFLAGS": "",
+      "RUSTUP_TOOLCHAIN": "nightly-2026-11-12",
+      "RUST_BACKTRACE": "0"
+    },
+    "invocation_sha256": "fc621cd057c3e485eeb47a4574a533b9ae7985cb7f449d64f0ea509b36686cb4",
+    "diagnostics": [],
+    "timing_and_limits": {
+      "elapsed_seconds": 0.527,
+      "sampled_group_peak_rss_bytes": 209731584,
+      "rss_cap_bytes": 8589934592,
+      "timeout_seconds": 120,
+      "termination": "EXITED",
+      "exit": 0,
+      "signal": null
+    },
+    "verification_time_seconds": 0.06927465,
+    "export_target_config_checks_harness_outcome": "UNKNOWN: export not retained"
+  }
+}

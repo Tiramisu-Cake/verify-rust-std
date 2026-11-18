@@ -1,0 +1,192 @@
+{
+  "status": "PASS",
+  "scope": "STATIC_PYTHON_EVIDENCE_REPLAY_AND_SYNTHETIC_MUTATIONS",
+  "validations": {
+    "result_bytes_digest": true,
+    "canonical_payload": true,
+    "profile_digest": true,
+    "frozen_oracle_digest": true,
+    "native_terminal_identity": true,
+    "preflight_identity": true,
+    "preflight_request_files": true,
+    "preflight_push": true,
+    "build_preflight_identity": true,
+    "build_preflight_request_files": true,
+    "build_preflight_push": true,
+    "source_before_identity": true,
+    "source_before_request_files": true,
+    "source_before_push": true,
+    "source_after_identity": true,
+    "source_after_request_files": true,
+    "source_after_push": true,
+    "tool_stability": true,
+    "kani-driver_separate_stock_path": true,
+    "kani-compiler_separate_stock_path": true,
+    "setup_build": true,
+    "provider_argv_identity": true,
+    "provider_source_manifest_binding": true,
+    "provider_environment": true,
+    "provider_fresh_target": true,
+    "provider_diagnostic_blocks": true,
+    "provider_property_partition": true,
+    "verified_argv_identity": true,
+    "verified_source_manifest_binding": true,
+    "verified_environment": true,
+    "verified_fresh_target": true,
+    "verified_diagnostic_blocks": true,
+    "verified_property_partition": true,
+    "ordinary_argv_identity": true,
+    "ordinary_source_manifest_binding": true,
+    "ordinary_environment": true,
+    "ordinary_fresh_target": true,
+    "ordinary_diagnostic_blocks": true,
+    "ordinary_property_partition": true,
+    "ordinary_exact_diagnostic_present": true,
+    "producer_classification_replay": true
+  },
+  "slots": {
+    "provider": {
+      "producer": {
+        "outcome": "INCONCLUSIVE",
+        "reason": "check counts"
+      },
+      "strict_retained_replay": {
+        "outcome": "INCONCLUSIVE",
+        "reason": "present export incomplete/null/invalid/unretained"
+      },
+      "count_only_replay": {
+        "outcome": "INCONCLUSIVE",
+        "reason": "present export incomplete/null/invalid/unretained"
+      },
+      "stdout_property_count": 89,
+      "stdout_status_counts": {
+        "SUCCESS": 88,
+        "UNREACHABLE": 1
+      },
+      "non_success_properties": [
+        {
+          "description": "attempt to add with overflow",
+          "id": "f.assertion.1",
+          "index": 17,
+          "location": "src/lib.rs:8:5 in function f",
+          "status": "UNREACHABLE"
+        }
+      ],
+      "export_inventory": {
+        "bytes": 2886,
+        "complete": true,
+        "present": true,
+        "sha256": "23c5152fae077f595abfa68a651994dbea2fc63c1f818bb1da72bda340556aa3"
+      },
+      "retained_export": false,
+      "native_exit": 0,
+      "verification_success": 1
+    },
+    "verified": {
+      "producer": {
+        "outcome": "INCONCLUSIVE",
+        "reason": "check counts"
+      },
+      "strict_retained_replay": {
+        "outcome": "INCONCLUSIVE",
+        "reason": "present export incomplete/null/invalid/unretained"
+      },
+      "count_only_replay": {
+        "outcome": "INCONCLUSIVE",
+        "reason": "present export incomplete/null/invalid/unretained"
+      },
+      "stdout_property_count": 52,
+      "stdout_status_counts": {
+        "SUCCESS": 51,
+        "UNREACHABLE": 1
+      },
+      "non_success_properties": [
+        {
+          "description": "attempt to add with overflow",
+          "id": "f.assertion.1",
+          "index": 10,
+          "location": "src/lib.rs:8:5 in function f",
+          "status": "UNREACHABLE"
+        }
+      ],
+      "export_inventory": {
+        "bytes": 2735,
+        "complete": true,
+        "present": true,
+        "sha256": "ea465cde645c90a9364fa721678ba9664a3fd1f82f75fe8964283401261effc6"
+      },
+      "retained_export": false,
+      "native_exit": 0,
+      "verification_success": 1
+    },
+    "ordinary": {
+      "producer": {
+        "outcome": "INCONCLUSIVE",
+        "reason": "unrelated or ambiguous compiler error"
+      },
+      "strict_retained_replay": {
+        "outcome": "INCONCLUSIVE",
+        "reason": "unrelated or ambiguous compiler error"
+      },
+      "count_only_replay": {
+        "outcome": "INCONCLUSIVE",
+        "reason": "unrelated or ambiguous compiler error"
+      },
+      "stdout_property_count": 0,
+      "stdout_status_counts": {},
+      "non_success_properties": [],
+      "export_inventory": {
+        "complete": false,
+        "present": false
+      },
+      "retained_export": false,
+      "native_exit": 1,
+      "verification_success": 0
+    }
+  },
+  "tests": {
+    "synthetic_strict_count_mismatch_rejected": true,
+    "synthetic_count_only_override_accepted": true,
+    "wrong_target_rejected": true,
+    "wrong_export_status_rejected": true,
+    "failed_check_rejected": true,
+    "failed_property_rejected": true,
+    "unreachable_property_rejected": true,
+    "unreachable_bucket_rejected": true,
+    "unrelated_error_rejected": true,
+    "disabled_check_rejected": true,
+    "wrong_harness_rejected": true,
+    "missing_export_rejected": true,
+    "null_export_rejected": true,
+    "invalid_export_rejected": true,
+    "partial_export_rejected": true,
+    "oversized_export_rejected": true,
+    "invalid_export_size_rejected": true,
+    "invalid_export_digest_rejected": true,
+    "null_completeness_rejected": true,
+    "missing_count_rejected": true,
+    "null_count_rejected": true,
+    "error_bucket_rejected": true,
+    "absent_presence_rejected": true,
+    "wrong_presence_type_rejected": true,
+    "timeout_rejected": true,
+    "nonzero_control_exit_rejected": true,
+    "incomplete_stream_rejected": true,
+    "incomplete_diagnostics_rejected": true,
+    "actual_ordinary_wrapper_not_silently_ignored": true,
+    "provider_unretained_export_not_forgiven": true,
+    "verified_unretained_export_not_forgiven": true
+  },
+  "producer_classification": "INCONCLUSIVE",
+  "producer_reasons": [
+    "provider control failure",
+    "workflow status: failure"
+  ],
+  "owner_policy_reclassified_observation": "INCONCLUSIVE",
+  "pinned_counts_only_independently_supported": false,
+  "blockers": [
+    "Both present complete exports are unretained; configuration/check buckets/export target and outcomes cannot be independently replayed.",
+    "Both inventories contain f.assertion.1 UNREACHABLE; the frozen oracle also rejects unreachable buckets and any non-SUCCESS property, separately from check counts.",
+    "Ordinary contains the exact f diagnostic plus the cargo-execution wrapper, which the frozen primary-error filter does not exclude."
+  ]
+}

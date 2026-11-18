@@ -1,0 +1,50 @@
+{
+  "status": "READY_FOR_OWNER_PROOFREADING_WITH_EXPLICIT_EVIDENCE_BLOCKER",
+  "producer_classification": "INCONCLUSIVE",
+  "owner_policy_reclassified_observation": "INCONCLUSIVE",
+  "pinned_counts_only_independently_supported": false,
+  "native": {
+    "run": 44380273557,
+    "attempt": 1,
+    "status": "COMPLETED",
+    "conclusion": "FAILURE",
+    "identities": "MATCH",
+    "build": "SUCCESS",
+    "controls": "EXITED/0, VERIFICATION:- SUCCESSFUL",
+    "ordinary": "EXITED/1, exact missing closure f diagnostic plus cargo wrapper"
+  },
+  "actual_stdout_counts": {
+    "provider": {
+      "total": 89,
+      "statuses": {
+        "SUCCESS": 88,
+        "UNREACHABLE": 1
+      }
+    },
+    "verified": {
+      "total": 52,
+      "statuses": {
+        "SUCCESS": 51,
+        "UNREACHABLE": 1
+      }
+    }
+  },
+  "actual_export_check_counts": "UNKNOWN: both parsed exports were not retained",
+  "strict_export_replay": "INCONCLUSIVE",
+  "blockers": [
+    "Both present complete exports are unretained; configuration/check buckets/export target and outcomes cannot be independently replayed.",
+    "Both inventories contain f.assertion.1 UNREACHABLE; the frozen oracle also rejects unreachable buckets and any non-SUCCESS property, separately from check counts.",
+    "Ordinary contains the exact f diagnostic plus the cargo-execution wrapper, which the frozen primary-error filter does not exclude."
+  ],
+  "artifact_sha256": "9c08f69a0518d65d3dd1722f32f59fab4f3ecd69d020e6de535fbfd6f35ffb65",
+  "canonical_payload_sha256": "27349fbdc02b185fb1a0d62e33f6823c06a3496c320eee5bd5de270544870f8c",
+  "checks": {
+    "identity_integrity": 41,
+    "bounded_replay_mutation_checks": 31,
+    "all_pass": true
+  },
+  "issue_draft": "ISSUE-DRAFT.md",
+  "external_draft": "/root/smallsort-pr-drafts/ISSUE-STUB-CONTRACT-DRAFT.md",
+  "next_action": "owner proofreading and explicit decision on missing export evidence / unreachable-property predicates / wrapper filter; no automatic CI or fix",
+  "scope_limits": "LIMITS.md"
+}
