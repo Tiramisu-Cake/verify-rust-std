@@ -1,0 +1,167 @@
+{
+  "schema": "ch8-s3-checker-u-proposal-inputs-v1",
+  "task": "fbd666ffb1ba9b3b2b34b1bd1450105cb0cb666f",
+  "task_path": "research/challenge-8/kani-k1/TASK-CH8-S3-CHECKER-U-PROPOSAL-W11.md",
+  "task_sha256": "44cc2d731feeb7df0324ddc0116e2e06534ea0deac0a1196d199c820c076b69c",
+  "authorization": "User night-authorized offline bounded preparation; no subagents",
+  "base_g0": "008fcb7705e658643582668ebfabb5f2e340e95d",
+  "intake": "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+  "intake_tree": "2759fb8a41254c4a20bb5a378569214039d92035",
+  "source": "513341f41ce53833a279571401c924bdddddb6c8",
+  "source_tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+  "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+  "recorded_control": "fc29b93b1e333b73e55e2872701c80d9927f3b02",
+  "recorded_trigger": "d92581141b86e0f3b695cb37acc15c265478c9b4",
+  "request_sha256": "17f7cfba45ca5e572b7e32bea25d31add90885dc2378b725783737e1a6577604",
+  "invocation": {
+    "invocation_id": "e9e24a4799c142fcb40fcb0c05210a99",
+    "argv": [
+      "/home/runner/work/kani/kani/tool/scripts/kani",
+      "verify-std",
+      "-Z",
+      "unstable-options",
+      "-Z",
+      "function-contracts",
+      "-Z",
+      "mem-predicates",
+      "-Z",
+      "float-lib",
+      "-Z",
+      "c-ffi",
+      "-Z",
+      "loop-contracts",
+      "-Z",
+      "quantifiers",
+      "-Z",
+      "stubbing",
+      "--no-assert-contracts",
+      "--jobs=1",
+      "--harness-timeout",
+      "600s",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "--exact",
+      "--default-unwind",
+      "34",
+      "-Z",
+      "export-json",
+      "--export-json",
+      "/home/runner/work/_temp/ch8-s1-receipts/groups/s3-checker_order_corrupt/export.json",
+      "--output-format=regular",
+      "/home/runner/work/kani/kani/export/library",
+      "--cbmc-args",
+      "--object-bits",
+      "12"
+    ],
+    "selectors": [
+      "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt"
+    ],
+    "unwind": 34,
+    "effective_cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf",
+    "cargo_target_dir": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/e9e24a4799c142fcb40fcb0c05210a99",
+    "timeout_seconds": 600,
+    "compile_limit_seconds": 180,
+    "variant": "production"
+  },
+  "frozen_intake_files": {
+    "INPUTS.json": {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44405927807/INPUTS.json",
+      "commit": "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+      "sha256": "c1653e08a7b5a8d23da337a897dd4b6565722d679f32b03ee2734c676172f106",
+      "bytes": 8092
+    },
+    "NATIVE.json": {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44405927807/NATIVE.json",
+      "commit": "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+      "sha256": "8174682dceb323b0148e819d78b671be924ce1a92b1cc61eacd988578098d2ec",
+      "bytes": 10185
+    },
+    "PROVENANCE.json": {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44405927807/PROVENANCE.json",
+      "commit": "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+      "sha256": "ddead0f4ac0bcffc1ac3055a4e656d478d4fc04ae77b382894cc57fb564dabe8",
+      "bytes": 19252
+    },
+    "SOURCE-TRACE.json": {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44405927807/SOURCE-TRACE.json",
+      "commit": "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+      "sha256": "428f55e0cefeb42cb2cbafeb34d0b52a7ce8888e88646d3819268647117d2e21",
+      "bytes": 36019
+    },
+    "member-catalogue.json": {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44405927807/member-catalogue.json",
+      "commit": "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+      "sha256": "93e69b8f5cc8908485d1ae20b12d5918cf2c8ed40664bde8db787e9c2e546700",
+      "bytes": 13406
+    },
+    "BEFORE-DIFF.json": {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44405927807/BEFORE-DIFF.json",
+      "commit": "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+      "sha256": "1166dd5a04a4fc38ed0c8d6425e7aae1b3ee4d9ed2f881236e9f67ee83587437",
+      "bytes": 11612
+    },
+    "PREFIX-REPLAY.json": {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44405927807/PREFIX-REPLAY.json",
+      "commit": "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+      "sha256": "014973501df61a3384d2fb4d3082868eb92a70d2e8e8136fb8d878b7b2ab5857",
+      "bytes": 3324
+    },
+    "MANIFEST.json": {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44405927807/MANIFEST.json",
+      "commit": "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+      "sha256": "4f7510f2af8238799f4ad597bcfa676a6d05f49e8bcf97836d35419136aa1960",
+      "bytes": 3826
+    }
+  },
+  "source_files": {
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": {
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "bytes": 4816
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": {
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+      "bytes": 14901
+    },
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": {
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "sha256": "16c4cd102e8597e146ce62c98ac57464658f99bbc09b1ac99a8408ab6ee6c83a",
+      "bytes": 5825
+    }
+  },
+  "read_boundary": "Existing sealed structured intake and local frozen Git source objects only; no compact-member reacquisition, gzip/raw archive/log read, network or new artifacts",
+  "settings": "high / Fast OFF preserved as instructed; no settings changes, model changes or subagents",
+  "owned_output": "research/challenge-8/kani-k1/kani3300/ch8-s3/u-proposal-checker-order",
+  "write_boundary": "Only new owned proposal directory; no source/control/map/policy/test-runtime/history/ledger/reservation/budget changes",
+  "current_policy": {
+    "mode": "REJECT_ALL",
+    "proposal": "S3-U-SITE-REVIEW-v1",
+    "enabled": false,
+    "unknown": "REJECT",
+    "role_unreachable": "REJECT"
+  },
+  "proposal_state": "DISABLED",
+  "historical": {
+    "controller": "STOPPED",
+    "completed_prefix": 0,
+    "first_row": "INTERRUPTED-UNKNOWN",
+    "later8": "NOT_RUN",
+    "deferred8": "NOT_SELECTED",
+    "qualification": 0,
+    "proof_credit": 0,
+    "physical_identity": "UNKNOWN"
+  },
+  "accounting_reference_only": "31/31+11/17=42/48; no action",
+  "scope_exclusions": [
+    "new positive leaves",
+    "arbitrary callers",
+    "CI",
+    "compiler/cargo/rustc/rustfmt/Kani/CBMC/expansion/verifier/fullrunner",
+    "push/PR/issues",
+    "artifact acquisition",
+    "policy enablement",
+    "automatic U credit"
+  ]
+}

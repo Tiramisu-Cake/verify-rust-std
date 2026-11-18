@@ -1,0 +1,652 @@
+{
+  "schema": "ch8-s3-checker-u-source-local-proposal-v1",
+  "status": "READY_FOR_ROOT_REVIEW",
+  "proposal_state": "DISABLED",
+  "enabled": false,
+  "current_policy": {
+    "mode": "REJECT_ALL",
+    "proposal": "S3-U-SITE-REVIEW-v1",
+    "enabled": false,
+    "unknown": "REJECT",
+    "role_unreachable": "REJECT"
+  },
+  "evidence_level": "SOURCE_REPORTED_NATIVE_OBSERVATIONS_AND_SOURCE_LOCAL_CONDITIONAL_ARGUMENT_ONLY",
+  "independent_B1": false,
+  "independent_B2": false,
+  "qualification": 0,
+  "proof_credit": 0,
+  "proof_obligations_closed": 0,
+  "control_admitted": false,
+  "scope": "Exactly eight observed U entries in checker_order_corrupt native control, sealed intake only",
+  "native_summary": {
+    "checks": 24,
+    "SUCCESS": 15,
+    "FAILURE": 1,
+    "UNREACHABLE": 8,
+    "covers": 0,
+    "intended_failure": {
+      "id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt.assertion.1",
+      "description": "S2_NEG_CHECKER_ORDER",
+      "class": "assertion",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": "140",
+      "trace_available": true,
+      "status": "FAILURE"
+    }
+  },
+  "premises": [
+    {
+      "id": "P1",
+      "fact": "Exact checker_order_corrupt source has input=[1u8,2], out=[2u8,1], and one snapshot/post call at line140; proof+unwind34 attributes, no harness stub/assume attribute.",
+      "citations": [
+        "caller",
+        "caller-import"
+      ]
+    },
+    {
+      "id": "P2",
+      "fact": "snapshot/post facade calls Model<u8,KeyLess<u8>>; active_model!(u8) defines snapshot->active_snapshot and post->active_post. This is a source dispatch derivation, not independently established compiler dispatch.",
+      "citations": [
+        "dispatch"
+      ]
+    },
+    {
+      "id": "P3",
+      "fact": "CAP=32; active_snapshot sees length2<=32, stores valid=true, len=2, and copies input values[0]=1,values[1]=2 into the owned snapshot. Its loop uses indices0,1; increments0->1->2 are bounded.",
+      "citations": [
+        "snapshot",
+        "cap"
+      ]
+    },
+    {
+      "id": "P4",
+      "fact": "active_post receives that snapshot and out of length2. Guard line92 is false (valid,2<=32,equal lengths). i=1; 1<2 at line96 enters the order loop. Project<u8>::value is dereference, so line97 is out[1]=1 < out[0]=2, true. Indices1 and0 and subtraction1-1=0 are valid. Line98 returns false.",
+      "citations": [
+        "project-u8",
+        "active-post"
+      ]
+    },
+    {
+      "id": "P5",
+      "fact": "That return dominates the unexecuted line100 increment and all lines104-118 in this source-local path. No later order iteration, multiset outer iteration, or inner iteration occurs. The caller assertion therefore receives false; its literal failure agrees with, but does not prove, this derivation.",
+      "citations": [
+        "active-post",
+        "caller"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "native": {
+        "class": "assertion",
+        "description": "attempt to add with overflow",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+        "line": "100",
+        "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:100:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+        "status": "UNREACHABLE"
+      },
+      "source_candidate": {
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "file_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+        "line": 100,
+        "exact_line": "        i += 1;",
+        "expression_candidate": "i += 1",
+        "function": "active_post<T: Project>; reported concrete active_post::<u8>",
+        "citations": [
+          "active-post",
+          "caller",
+          "caller-import",
+          "dispatch",
+          "project-u8",
+          "snapshot",
+          "cap"
+        ]
+      },
+      "caller_observations": {
+        "source_root": "checker_order_corrupt at sorting_s2_batch.rs:138-140",
+        "source_call_chain": "checker_order_corrupt -> snapshot::<u8,KeyLess<u8>> -> Model::snapshot -> active_snapshot::<u8>; then post::<u8,KeyLess<u8>> -> Model::post -> active_post::<u8>",
+        "native_root": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "native_call_stack": "UNKNOWN"
+      },
+      "loop_instance_observations": {
+        "source_site": "ordering-loop tail; i=1",
+        "fixed_source_path": "first ordering iteration i=1 returns at line98; listed site has zero source-path visits",
+        "native_iteration": "UNKNOWN"
+      },
+      "premises": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "local_reason": "Line100 follows the line97 true branch and line98 return in the first order iteration. The increment is never evaluated. If reached with i=1, 1+1=2 is safe; this safety fact alone does not establish native U.",
+      "source_local_conclusion": "CONDITIONALLY_UNREACHABLE_UNDER_EXACT_FIXED_SOURCE_CALL",
+      "binding_gaps": [
+        "native_caller",
+        "compiler_dispatch",
+        "property_expression_binding",
+        "loop_instance",
+        "physical_identity",
+        "model_file_observation"
+      ],
+      "invalidation": [
+        "Change out to [1u8,2] (or make out[1] >= out[0]): the first order comparison is false; line100 and the multiset phase are then reached for this length2 case.",
+        "Change control length/content, u8 projection, specialization/dispatch, guard/return/predicate/control flow, or source/tool/cfg/instance: recompute the argument; no transfer of U acceptance.",
+        "For counting rows, merely making input and output multisets equal does not bypass the early inversion; order rejection is the relevant dominance premise."
+      ],
+      "original_status_preserved": "UNREACHABLE",
+      "role_success": false,
+      "admission": "REJECT_ALL",
+      "proof_credit": 0
+    },
+    {
+      "native": {
+        "class": "assertion",
+        "description": "index out of bounds: the length is less than or equal to the given index",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+        "line": "106",
+        "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:106:21 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+        "status": "UNREACHABLE"
+      },
+      "source_candidate": {
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "file_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+        "line": 106,
+        "exact_line": "        let query = before.values[i];",
+        "expression_candidate": "before.values[i]",
+        "function": "active_post<T: Project>; reported concrete active_post::<u8>",
+        "citations": [
+          "active-post",
+          "caller",
+          "caller-import",
+          "dispatch",
+          "project-u8",
+          "snapshot",
+          "cap"
+        ]
+      },
+      "caller_observations": {
+        "source_root": "checker_order_corrupt at sorting_s2_batch.rs:138-140",
+        "source_call_chain": "checker_order_corrupt -> snapshot::<u8,KeyLess<u8>> -> Model::snapshot -> active_snapshot::<u8>; then post::<u8,KeyLess<u8>> -> Model::post -> active_post::<u8>",
+        "native_root": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "native_call_stack": "UNKNOWN"
+      },
+      "loop_instance_observations": {
+        "source_site": "multiset outer loop (source initializes i=0 at line104)",
+        "fixed_source_path": "first ordering iteration i=1 returns at line98; listed site has zero source-path visits",
+        "native_iteration": "UNKNOWN"
+      },
+      "premises": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "local_reason": "Line106 is in the multiset outer body after the order loop. The earlier return at line98 prevents line104 and every multiset iteration, so this bounds check is never evaluated.",
+      "source_local_conclusion": "CONDITIONALLY_UNREACHABLE_UNDER_EXACT_FIXED_SOURCE_CALL",
+      "binding_gaps": [
+        "native_caller",
+        "compiler_dispatch",
+        "property_expression_binding",
+        "loop_instance",
+        "physical_identity",
+        "model_file_observation"
+      ],
+      "invalidation": [
+        "Change out to [1u8,2] (or make out[1] >= out[0]): the first order comparison is false; line100 and the multiset phase are then reached for this length2 case.",
+        "Change control length/content, u8 projection, specialization/dispatch, guard/return/predicate/control flow, or source/tool/cfg/instance: recompute the argument; no transfer of U acceptance.",
+        "For counting rows, merely making input and output multisets equal does not bypass the early inversion; order rejection is the relevant dominance premise."
+      ],
+      "original_status_preserved": "UNREACHABLE",
+      "role_success": false,
+      "admission": "REJECT_ALL",
+      "proof_credit": 0
+    },
+    {
+      "native": {
+        "class": "assertion",
+        "description": "index out of bounds: the length is less than or equal to the given index",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+        "line": "111",
+        "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+        "status": "UNREACHABLE"
+      },
+      "source_candidate": {
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "file_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+        "line": 111,
+        "exact_line": "            if before.values[j] == query { old_count += 1; }",
+        "expression_candidate": "before.values[j]",
+        "function": "active_post<T: Project>; reported concrete active_post::<u8>",
+        "citations": [
+          "active-post",
+          "caller",
+          "caller-import",
+          "dispatch",
+          "project-u8",
+          "snapshot",
+          "cap"
+        ]
+      },
+      "caller_observations": {
+        "source_root": "checker_order_corrupt at sorting_s2_batch.rs:138-140",
+        "source_call_chain": "checker_order_corrupt -> snapshot::<u8,KeyLess<u8>> -> Model::snapshot -> active_snapshot::<u8>; then post::<u8,KeyLess<u8>> -> Model::post -> active_post::<u8>",
+        "native_root": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "native_call_stack": "UNKNOWN"
+      },
+      "loop_instance_observations": {
+        "source_site": "multiset outer i / inner j loops (j initializes0 at line109)",
+        "fixed_source_path": "first ordering iteration i=1 returns at line98; listed site has zero source-path visits",
+        "native_iteration": "UNKNOWN"
+      },
+      "premises": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "local_reason": "Line111 lookup is in the inner counting loop at lines110-114, after the returning order test. Neither loop is reached, so this bounds check is never evaluated.",
+      "source_local_conclusion": "CONDITIONALLY_UNREACHABLE_UNDER_EXACT_FIXED_SOURCE_CALL",
+      "binding_gaps": [
+        "native_caller",
+        "compiler_dispatch",
+        "property_expression_binding",
+        "loop_instance",
+        "physical_identity",
+        "model_file_observation"
+      ],
+      "invalidation": [
+        "Change out to [1u8,2] (or make out[1] >= out[0]): the first order comparison is false; line100 and the multiset phase are then reached for this length2 case.",
+        "Change control length/content, u8 projection, specialization/dispatch, guard/return/predicate/control flow, or source/tool/cfg/instance: recompute the argument; no transfer of U acceptance.",
+        "For counting rows, merely making input and output multisets equal does not bypass the early inversion; order rejection is the relevant dominance premise."
+      ],
+      "original_status_preserved": "UNREACHABLE",
+      "role_success": false,
+      "admission": "REJECT_ALL",
+      "proof_credit": 0
+    },
+    {
+      "native": {
+        "class": "assertion",
+        "description": "attempt to add with overflow",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+        "line": "111",
+        "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:44 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+        "status": "UNREACHABLE"
+      },
+      "source_candidate": {
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "file_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+        "line": 111,
+        "exact_line": "            if before.values[j] == query { old_count += 1; }",
+        "expression_candidate": "old_count += 1",
+        "function": "active_post<T: Project>; reported concrete active_post::<u8>",
+        "citations": [
+          "active-post",
+          "caller",
+          "caller-import",
+          "dispatch",
+          "project-u8",
+          "snapshot",
+          "cap"
+        ]
+      },
+      "caller_observations": {
+        "source_root": "checker_order_corrupt at sorting_s2_batch.rs:138-140",
+        "source_call_chain": "checker_order_corrupt -> snapshot::<u8,KeyLess<u8>> -> Model::snapshot -> active_snapshot::<u8>; then post::<u8,KeyLess<u8>> -> Model::post -> active_post::<u8>",
+        "native_root": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "native_call_stack": "UNKNOWN"
+      },
+      "loop_instance_observations": {
+        "source_site": "multiset outer i / inner j; conditional before.values[j] == query",
+        "fixed_source_path": "first ordering iteration i=1 returns at line98; listed site has zero source-path visits",
+        "native_iteration": "UNKNOWN"
+      },
+      "premises": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "local_reason": "Line111 increment additionally requires equality before.values[j]==query. The whole inner loop is unreachable after line98, independent of that equality, so the addition/overflow check is never evaluated.",
+      "source_local_conclusion": "CONDITIONALLY_UNREACHABLE_UNDER_EXACT_FIXED_SOURCE_CALL",
+      "binding_gaps": [
+        "native_caller",
+        "compiler_dispatch",
+        "property_expression_binding",
+        "loop_instance",
+        "physical_identity",
+        "model_file_observation"
+      ],
+      "invalidation": [
+        "Change out to [1u8,2] (or make out[1] >= out[0]): the first order comparison is false; line100 and the multiset phase are then reached for this length2 case.",
+        "Change control length/content, u8 projection, specialization/dispatch, guard/return/predicate/control flow, or source/tool/cfg/instance: recompute the argument; no transfer of U acceptance.",
+        "For counting rows, merely making input and output multisets equal does not bypass the early inversion; order rejection is the relevant dominance premise."
+      ],
+      "original_status_preserved": "UNREACHABLE",
+      "role_success": false,
+      "admission": "REJECT_ALL",
+      "proof_credit": 0
+    },
+    {
+      "native": {
+        "class": "assertion",
+        "description": "index out of bounds: the length is less than or equal to the given index",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+        "line": "112",
+        "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+        "status": "UNREACHABLE"
+      },
+      "source_candidate": {
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "file_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+        "line": 112,
+        "exact_line": "            if values[j].value() == query { new_count += 1; }",
+        "expression_candidate": "values[j].value()",
+        "function": "active_post<T: Project>; reported concrete active_post::<u8>",
+        "citations": [
+          "active-post",
+          "caller",
+          "caller-import",
+          "dispatch",
+          "project-u8",
+          "snapshot",
+          "cap"
+        ]
+      },
+      "caller_observations": {
+        "source_root": "checker_order_corrupt at sorting_s2_batch.rs:138-140",
+        "source_call_chain": "checker_order_corrupt -> snapshot::<u8,KeyLess<u8>> -> Model::snapshot -> active_snapshot::<u8>; then post::<u8,KeyLess<u8>> -> Model::post -> active_post::<u8>",
+        "native_root": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "native_call_stack": "UNKNOWN"
+      },
+      "loop_instance_observations": {
+        "source_site": "multiset outer i / inner j loops",
+        "fixed_source_path": "first ordering iteration i=1 returns at line98; listed site has zero source-path visits",
+        "native_iteration": "UNKNOWN"
+      },
+      "premises": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "local_reason": "Line112 output lookup belongs to the same unreachable inner loop. The order-test return occurs before any multiset query or counter is initialized, so this bounds check is never evaluated.",
+      "source_local_conclusion": "CONDITIONALLY_UNREACHABLE_UNDER_EXACT_FIXED_SOURCE_CALL",
+      "binding_gaps": [
+        "native_caller",
+        "compiler_dispatch",
+        "property_expression_binding",
+        "loop_instance",
+        "physical_identity",
+        "model_file_observation"
+      ],
+      "invalidation": [
+        "Change out to [1u8,2] (or make out[1] >= out[0]): the first order comparison is false; line100 and the multiset phase are then reached for this length2 case.",
+        "Change control length/content, u8 projection, specialization/dispatch, guard/return/predicate/control flow, or source/tool/cfg/instance: recompute the argument; no transfer of U acceptance.",
+        "For counting rows, merely making input and output multisets equal does not bypass the early inversion; order rejection is the relevant dominance premise."
+      ],
+      "original_status_preserved": "UNREACHABLE",
+      "role_success": false,
+      "admission": "REJECT_ALL",
+      "proof_credit": 0
+    },
+    {
+      "native": {
+        "class": "assertion",
+        "description": "attempt to add with overflow",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+        "line": "112",
+        "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:45 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+        "status": "UNREACHABLE"
+      },
+      "source_candidate": {
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "file_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+        "line": 112,
+        "exact_line": "            if values[j].value() == query { new_count += 1; }",
+        "expression_candidate": "new_count += 1",
+        "function": "active_post<T: Project>; reported concrete active_post::<u8>",
+        "citations": [
+          "active-post",
+          "caller",
+          "caller-import",
+          "dispatch",
+          "project-u8",
+          "snapshot",
+          "cap"
+        ]
+      },
+      "caller_observations": {
+        "source_root": "checker_order_corrupt at sorting_s2_batch.rs:138-140",
+        "source_call_chain": "checker_order_corrupt -> snapshot::<u8,KeyLess<u8>> -> Model::snapshot -> active_snapshot::<u8>; then post::<u8,KeyLess<u8>> -> Model::post -> active_post::<u8>",
+        "native_root": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "native_call_stack": "UNKNOWN"
+      },
+      "loop_instance_observations": {
+        "source_site": "multiset outer i / inner j; conditional values[j].value() == query",
+        "fixed_source_path": "first ordering iteration i=1 returns at line98; listed site has zero source-path visits",
+        "native_iteration": "UNKNOWN"
+      },
+      "premises": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "local_reason": "Line112 increment additionally requires output projection==query. The whole inner loop is unreachable after line98, independent of that equality, so the addition/overflow check is never evaluated.",
+      "source_local_conclusion": "CONDITIONALLY_UNREACHABLE_UNDER_EXACT_FIXED_SOURCE_CALL",
+      "binding_gaps": [
+        "native_caller",
+        "compiler_dispatch",
+        "property_expression_binding",
+        "loop_instance",
+        "physical_identity",
+        "model_file_observation"
+      ],
+      "invalidation": [
+        "Change out to [1u8,2] (or make out[1] >= out[0]): the first order comparison is false; line100 and the multiset phase are then reached for this length2 case.",
+        "Change control length/content, u8 projection, specialization/dispatch, guard/return/predicate/control flow, or source/tool/cfg/instance: recompute the argument; no transfer of U acceptance.",
+        "For counting rows, merely making input and output multisets equal does not bypass the early inversion; order rejection is the relevant dominance premise."
+      ],
+      "original_status_preserved": "UNREACHABLE",
+      "role_success": false,
+      "admission": "REJECT_ALL",
+      "proof_credit": 0
+    },
+    {
+      "native": {
+        "class": "assertion",
+        "description": "attempt to add with overflow",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+        "line": "113",
+        "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:113:13 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+        "status": "UNREACHABLE"
+      },
+      "source_candidate": {
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "file_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+        "line": 113,
+        "exact_line": "            j += 1;",
+        "expression_candidate": "j += 1",
+        "function": "active_post<T: Project>; reported concrete active_post::<u8>",
+        "citations": [
+          "active-post",
+          "caller",
+          "caller-import",
+          "dispatch",
+          "project-u8",
+          "snapshot",
+          "cap"
+        ]
+      },
+      "caller_observations": {
+        "source_root": "checker_order_corrupt at sorting_s2_batch.rs:138-140",
+        "source_call_chain": "checker_order_corrupt -> snapshot::<u8,KeyLess<u8>> -> Model::snapshot -> active_snapshot::<u8>; then post::<u8,KeyLess<u8>> -> Model::post -> active_post::<u8>",
+        "native_root": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "native_call_stack": "UNKNOWN"
+      },
+      "loop_instance_observations": {
+        "source_site": "multiset inner-loop tail",
+        "fixed_source_path": "first ordering iteration i=1 returns at line98; listed site has zero source-path visits",
+        "native_iteration": "UNKNOWN"
+      },
+      "premises": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "local_reason": "Line113 increment is at the inner counting-loop tail. The preceding order-test return prevents entry to that loop, so the addition/overflow check is never evaluated.",
+      "source_local_conclusion": "CONDITIONALLY_UNREACHABLE_UNDER_EXACT_FIXED_SOURCE_CALL",
+      "binding_gaps": [
+        "native_caller",
+        "compiler_dispatch",
+        "property_expression_binding",
+        "loop_instance",
+        "physical_identity",
+        "model_file_observation"
+      ],
+      "invalidation": [
+        "Change out to [1u8,2] (or make out[1] >= out[0]): the first order comparison is false; line100 and the multiset phase are then reached for this length2 case.",
+        "Change control length/content, u8 projection, specialization/dispatch, guard/return/predicate/control flow, or source/tool/cfg/instance: recompute the argument; no transfer of U acceptance.",
+        "For counting rows, merely making input and output multisets equal does not bypass the early inversion; order rejection is the relevant dominance premise."
+      ],
+      "original_status_preserved": "UNREACHABLE",
+      "role_success": false,
+      "admission": "REJECT_ALL",
+      "proof_credit": 0
+    },
+    {
+      "native": {
+        "class": "assertion",
+        "description": "attempt to add with overflow",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+        "line": "118",
+        "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:118:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+        "status": "UNREACHABLE"
+      },
+      "source_candidate": {
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+        "file_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+        "line": 118,
+        "exact_line": "        i += 1;",
+        "expression_candidate": "i += 1",
+        "function": "active_post<T: Project>; reported concrete active_post::<u8>",
+        "citations": [
+          "active-post",
+          "caller",
+          "caller-import",
+          "dispatch",
+          "project-u8",
+          "snapshot",
+          "cap"
+        ]
+      },
+      "caller_observations": {
+        "source_root": "checker_order_corrupt at sorting_s2_batch.rs:138-140",
+        "source_call_chain": "checker_order_corrupt -> snapshot::<u8,KeyLess<u8>> -> Model::snapshot -> active_snapshot::<u8>; then post::<u8,KeyLess<u8>> -> Model::post -> active_post::<u8>",
+        "native_root": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "native_call_stack": "UNKNOWN"
+      },
+      "loop_instance_observations": {
+        "source_site": "multiset outer-loop tail after old_count != new_count test",
+        "fixed_source_path": "first ordering iteration i=1 returns at line98; listed site has zero source-path visits",
+        "native_iteration": "UNKNOWN"
+      },
+      "premises": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5"
+      ],
+      "local_reason": "Line118 increment follows the inner loop and the line115 count comparison/possible return. The first order-test return already precludes all of that, so the addition/overflow check is never evaluated.",
+      "source_local_conclusion": "CONDITIONALLY_UNREACHABLE_UNDER_EXACT_FIXED_SOURCE_CALL",
+      "binding_gaps": [
+        "native_caller",
+        "compiler_dispatch",
+        "property_expression_binding",
+        "loop_instance",
+        "physical_identity",
+        "model_file_observation"
+      ],
+      "invalidation": [
+        "Change out to [1u8,2] (or make out[1] >= out[0]): the first order comparison is false; line100 and the multiset phase are then reached for this length2 case.",
+        "Change control length/content, u8 projection, specialization/dispatch, guard/return/predicate/control flow, or source/tool/cfg/instance: recompute the argument; no transfer of U acceptance.",
+        "For counting rows, merely making input and output multisets equal does not bypass the early inversion; order rejection is the relevant dominance premise."
+      ],
+      "original_status_preserved": "UNREACHABLE",
+      "role_success": false,
+      "admission": "REJECT_ALL",
+      "proof_credit": 0
+    }
+  ],
+  "binding_limits": {
+    "native_caller": "UNKNOWN: property rows identify active_post::<u8> and root inventory; no per-property caller stack or call-site edge is present in these structured observations.",
+    "compiler_dispatch": "UNKNOWN: source specialization/facade chain is readable; actual compiled dispatch and no alternate lowering are not independently established.",
+    "property_expression_binding": "UNKNOWN: description, file, line and display column suggest the stated source expression; no independently established property-ID-to-AST/MIR/CBMC-expression map. Numeric assertion suffixes are opaque IDs.",
+    "loop_instance": "UNKNOWN: native rows have no loop ID, unwind iteration, SSA instance, or dynamic counter values. Source-local reasoning predicts only order iteration i=1 and zero visits to every listed site.",
+    "physical_identity": "UNKNOWN: recorded binary hashes agree but realpath/readlink/stat/device/inode/size/mtime are absent; setup inventory absent. No physical-object or compiler-origin proof follows.",
+    "catalogue_scope": "Catalogue lists keys for export/properties/binding metadata, not independent field contents or binding proof. SOURCE-TRACE is pinned control-side static spans explaining the reader rejection, not proof of the active_post origin.",
+    "model_file_observation": "UNKNOWN: sorting_model.rs is absent from the emitted changed_file_sha256/source_under_test.file_sha256 lists. Its text/hash here comes from the frozen source Git object. Source-reported std SHA/tree agree with that object, but there is no separately emitted model-file measurement or independently established compiled-origin binding."
+  },
+  "source_supported_facts": [
+    "Fixed input/output, direct literal assertion and source-level concrete dispatch chain",
+    "Owned snapshot valid=true,len=2; Project<u8> reads byte value",
+    "First order test true -> false return before all eight source candidate sites"
+  ],
+  "unknowns": [
+    "Independent MIR/AST/CBMC-expression and caller/loop-instance binding",
+    "Physical binary identity and unobserved intermediate binary changes",
+    "Any future invocation/inventory/admission; no positive leaf or arbitrary caller conclusion"
+  ],
+  "counterfactuals": [
+    {
+      "change": "out=[1u8,2], same input and source",
+      "consequence": "first test 2<1 is false; line100 executes i=1->2; multiset phase enters and, with identical multiset, both outer iterations complete. All eight candidate expressions are visited, even though their error conditions remain false.",
+      "scope": "source-local arithmetic sanity control only; no Rust/native run"
+    },
+    {
+      "change": "replace line97 comparison < with >=, keep out=[2,1]",
+      "consequence": "first predicate 1>=2 is false; the early return argument fails and line100/counting phase become reachable. Hypothetical text mutation only; no source edit.",
+      "scope": "manual counterfactual; not compiler/property binding proof"
+    }
+  ],
+  "admission_requirements": "Any later enablement requires separate exact candidate review by a non-author and coordinator GO. This output changes no gate. Unknown/missing/changed/additional/role-U remain rejected; never relabel roles UNREACHABLE as success.",
+  "history": "STOPPED/prefix0/firstrowINTERRUPTED-UNKNOWN; qualification0; no historical rewrite",
+  "independent_pathfix": "S3 pathfix13/review14 and #4591 GO14ab HOLD until owner+1 morning remain outside this output; no tool CI reactivation",
+  "new_acquisition": false,
+  "new_native_execution": false
+}
