@@ -1,0 +1,103 @@
+{
+  "task_id": "taskcd5da9a56e145dfef0e14a78a5379659d1c77cd6",
+  "state": "READY_FOR_INDEPENDENT14_R5_REVIEW",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "bd62e54df1b4749154790aa3db3cc7978f547f75"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r5-package-w13",
+    "sha": "4e97d370aba4adc480fcc3701b111d02658aa94d",
+    "tree": "d4e0b1f74b609c67f984fe157b940330ac8d323a",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+    "request_sha256": "ef4efdd6a4753b01de13b9a22000646a9a56e029c115426d40fd061df406102b",
+    "workflow_sha256": "c48ae57ed944b74a155b4d57877ec3a088e5f642a7c1151481dd892ed933aeb0"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "plan": "07d891b23ba65405920090de87ed7eec9730fec4",
+  "intake": "5ca0641af6c5b588ae2a4257ccc0fe52df6a827a",
+  "W11_dependency": "RESOLVED_EXACT_5ca",
+  "selected": {
+    "roots": 9,
+    "positive_expectations": 4,
+    "exact_negative_expectations": 5,
+    "required_covers": 16
+  },
+  "deferred": [
+    "general32_assumed",
+    "general32_weak"
+  ],
+  "full_obligations": {
+    "roots": 11,
+    "covers": 20,
+    "negatives": 6
+  },
+  "final_validate": {
+    "tests": 130,
+    "seconds": 403.420022367,
+    "exit": 0,
+    "executions": 1
+  },
+  "final_check_source": {
+    "seconds": 13.074775086,
+    "exit": 0,
+    "executions": 1
+  },
+  "review14": "PENDING_NEW_R5_COMBINED_CANDIDATE",
+  "GO": "PENDING_SEPARATE_COORDINATOR_DECISION",
+  "dispatch_authority": "NONE",
+  "native_r5_compiler_roots_solver": "NOT_RUN",
+  "proof_credit": "NONE",
+  "independent_B1_B2": "NONE",
+  "closed_proof_obligations": 0,
+  "budget_actual": {
+    "item2_used": 10,
+    "item2_cap": 14,
+    "total_used": 39,
+    "total_cap": 43,
+    "future_r5_attempts_max": 1,
+    "reservation": false
+  },
+  "recommendation_NOT_GRANTED": {
+    "minimum_extra": 1,
+    "working_extra": 3,
+    "suggested_cap": 17
+  },
+  "external_actions": {
+    "CI": 0,
+    "push": 0,
+    "PR": 0,
+    "issue": 0,
+    "ledger": 0,
+    "budget": 0,
+    "reservation": 0,
+    "source_edit": 0,
+    "tool_edit": 0,
+    "compiler": 0,
+    "verifier": 0,
+    "subagent": 0
+  },
+  "Fast": "OFF_NOT_TOGGLED",
+  "settings": "PRESERVED",
+  "remaining_limits": [
+    "Native CI/runtime timing and stock children not run here",
+    "Sampled PGID/PID RSS is not strict root/tree memory",
+    "Profilesv4/PFC compiler-instance/assertion-origin gaps remain UNKNOWN; no new qualification",
+    "general32 pair deferred to S3 proved leaves/summary work; no reduced-domain variant",
+    "Current four remaining attempts do not guarantee S3/S4/full16/32/final matrix"
+  ],
+  "next": "Independent14 review exact package/control/profile/request/workflow/delta; then separate root/coordinator GO only",
+  "closure_reason": "All authorized control implementation and offline/static/synthetic package preparation complete; no compiler/CI/dispatch authority. Review and GO are required separate steps.",
+  "recorded_utc": "2026-11-18T17:28:55.540907+00:00"
+}

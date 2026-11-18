@@ -1,0 +1,1 @@
+Runtime: Codex. W13 taskcd5da9a56e145dfef0e14a78a5379659d1c77cd6. READY_FOR_INDEPENDENT14_R5_REVIEW. Exact pins PINS.json. Source/tool unchanged; r5 native/CI NOT_RUN; review14 and separate GO PENDING.

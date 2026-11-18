@@ -1,0 +1,161 @@
+{
+  "candidate": {
+    "worktree": "/root/kani-ch8-s2-r5-package-w13",
+    "sha": "4e97d370aba4adc480fcc3701b111d02658aa94d",
+    "tree": "d4e0b1f74b609c67f984fe157b940330ac8d323a",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+    "request_sha256": "ef4efdd6a4753b01de13b9a22000646a9a56e029c115426d40fd061df406102b",
+    "workflow_sha256": "c48ae57ed944b74a155b4d57877ec3a088e5f642a7c1151481dd892ed933aeb0"
+  },
+  "steps": [
+    {
+      "index": 1,
+      "name": "Begin setup budget",
+      "command": "python3 -c 'import os,time; open(os.environ[\"SETUP_EPOCH\"],\"w\").write(str(time.time()))'",
+      "action": null,
+      "cap_seconds": 60,
+      "measured_this_machine_seconds": "UNKNOWN",
+      "scope": "NOT_RUN_CURRENT_R5",
+      "decision": "KEEP_FROZEN_TIMEOUT; r5 setup/step/job caps not increased"
+    },
+    {
+      "index": 2,
+      "name": "Checkout CI control",
+      "command": null,
+      "action": "actions/checkout@v6",
+      "cap_seconds": 120,
+      "measured_this_machine_seconds": "UNKNOWN",
+      "scope": "NOT_RUN_CURRENT_R5",
+      "decision": "KEEP_FROZEN_TIMEOUT; r5 setup/step/job caps not increased"
+    },
+    {
+      "index": 3,
+      "name": "Validate control and synthetic wrapper",
+      "command": "python3 check_package.py control --repo ..\npython3 -m unittest -v test_runner.py test_s107.FinalizationTests test_s2.py test_cfg_pfc.py test_rustc_diagnostics.py test_contract_stacks.py test_r1403_lexical.py test_r5.py\n",
+      "action": null,
+      "cap_seconds": 600,
+      "measured_this_machine_seconds": 403.420022367,
+      "scope": "LOCAL_STATIC_SYNTHETIC_ONLY",
+      "decision": "KEEP_FROZEN_TIMEOUT; r5 setup/step/job caps not increased"
+    },
+    {
+      "index": 4,
+      "name": "Read immutable export pins",
+      "command": "python3 - <<'PYCODE'\nimport json, os\nr = json.load(open('control/ch8-s1-control/CI-REQUEST.json'))\nassert r['status'] == 'READY'\nwith open(os.environ['GITHUB_OUTPUT'], 'a') as f:\n    f.write('std=' + r['std_sha'] + '\\n')\n    f.write('tool=' + r['tool_sha'] + '\\n')\nPYCODE\n",
+      "action": null,
+      "cap_seconds": 60,
+      "measured_this_machine_seconds": "UNKNOWN",
+      "scope": "NOT_RUN_CURRENT_R5",
+      "decision": "KEEP_FROZEN_TIMEOUT; r5 setup/step/job caps not increased"
+    },
+    {
+      "index": 5,
+      "name": "Checkout production model export",
+      "command": null,
+      "action": "actions/checkout@v6",
+      "cap_seconds": 300,
+      "measured_this_machine_seconds": "UNKNOWN",
+      "scope": "NOT_RUN_CURRENT_R5",
+      "decision": "KEEP_FROZEN_TIMEOUT; r5 setup/step/job caps not increased"
+    },
+    {
+      "index": 6,
+      "name": "Checkout immutable upstream tool",
+      "command": null,
+      "action": "actions/checkout@v6",
+      "cap_seconds": 120,
+      "measured_this_machine_seconds": "UNKNOWN",
+      "scope": "NOT_RUN_CURRENT_R5",
+      "decision": "KEEP_FROZEN_TIMEOUT; r5 setup/step/job caps not increased"
+    },
+    {
+      "index": 7,
+      "name": "Check all source identities",
+      "command": "python3 control/ch8-s1-control/runner.py check-source --std export --tool tool",
+      "action": null,
+      "cap_seconds": 60,
+      "measured_this_machine_seconds": 13.074775086,
+      "scope": "LOCAL_STATIC_SYNTHETIC_ONLY",
+      "decision": "KEEP_FROZEN_TIMEOUT; r5 setup/step/job caps not increased"
+    },
+    {
+      "index": 8,
+      "name": "Setup exact stock tool",
+      "command": null,
+      "action": "./tool/.github/actions/setup",
+      "cap_seconds": 900,
+      "measured_this_machine_seconds": "UNKNOWN",
+      "scope": "NOT_RUN_CURRENT_R5",
+      "decision": "KEEP_FROZEN_TIMEOUT; r5 setup/step/job caps not increased"
+    },
+    {
+      "index": 9,
+      "name": "Build exact stock tool once",
+      "command": "python3 ../control/ch8-s1-control/check_package.py build --tool . --epoch \"$SETUP_EPOCH\" --out \"$RECEIPT_ROOT/setup\"",
+      "action": null,
+      "cap_seconds": 900,
+      "measured_this_machine_seconds": "UNKNOWN",
+      "scope": "NOT_RUN_CURRENT_R5",
+      "decision": "KEEP_FROZEN_TIMEOUT; r5 setup/step/job caps not increased"
+    },
+    {
+      "index": 10,
+      "name": "Run S2 batch3probes with bounded observations",
+      "command": "python3 control/ch8-s1-control/r5_campaign.py run --std export --tool tool --out \"$RECEIPT_ROOT\"\n",
+      "action": null,
+      "cap_seconds": 7560,
+      "measured_this_machine_seconds": "UNKNOWN",
+      "scope": "NOT_RUN_CURRENT_R5",
+      "decision": "KEEP_FROZEN_TIMEOUT; r5 setup/step/job caps not increased"
+    },
+    {
+      "index": 11,
+      "name": "Materialize bounded fallback",
+      "command": "python3 control/ch8-s1-control/r5_campaign.py finish --out \"$RECEIPT_ROOT\"\n",
+      "action": null,
+      "cap_seconds": 120,
+      "measured_this_machine_seconds": "UNKNOWN",
+      "scope": "NOT_RUN_CURRENT_R5",
+      "decision": "KEEP_FROZEN_TIMEOUT; r5 setup/step/job caps not increased"
+    },
+    {
+      "index": 12,
+      "name": "Upload bounded evidence",
+      "command": null,
+      "action": "actions/upload-artifact@v4",
+      "cap_seconds": 360,
+      "measured_this_machine_seconds": "UNKNOWN",
+      "scope": "NOT_RUN_CURRENT_R5",
+      "decision": "KEEP_FROZEN_TIMEOUT; r5 setup/step/job caps not increased"
+    }
+  ],
+  "setup_seconds": 1800,
+  "setup_origin": "Begin setup budget epoch; stock tool setup/build share1800. Proof root compilations are separately inside campaign child slots.",
+  "campaign": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "formula": "9*720+180+240=6900; worker710 plus parent durable-publication10 inside each720",
+  "child_compile_arithmetic": "9*600=5400 child wall; 9*180=1620 compile subcaps INSIDE child walls, not extra",
+  "job_arithmetic": "1800+7560+900=10260<=10800; sum step maxima186min is not elapsed or a grant",
+  "counter_policy": "One monotonic campaign; cleanup alarm6660 and hard6900. No per-root reset, retry, resumed solver or slack extra roots.",
+  "actual_GitHub_r5_duration": "UNKNOWN_NOT_RUN",
+  "future_timeout_absence": "NOT_CLAIMED",
+  "proof_credit": "NONE"
+}

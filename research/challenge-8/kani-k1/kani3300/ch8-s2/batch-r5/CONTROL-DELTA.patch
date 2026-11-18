@@ -1,0 +1,1342 @@
+diff --git a/.github/workflows/ch8-s2.yml b/.github/workflows/ch8-s2.yml
+index 4bb4b7a4e8d661f397ae2a33785c3ebe5dc6079c..1728fccb90de62022e16e3b354990380892f30cf 100644
+--- a/.github/workflows/ch8-s2.yml
++++ b/.github/workflows/ch8-s2.yml
+@@ -13,6 +13,8 @@ jobs:
+     if: ${{ github.repository == 'Tiramisu-Cake/kani' && github.event_name == 'push' }}
+     runs-on: ubuntu-24.04
+     timeout-minutes: 180
++    env:
++      S2_PROFILE: ch8-s2-r5-isolated-v1
+     steps:
+     - name: Begin setup budget
+       timeout-minutes: 1
+@@ -34,7 +36,7 @@ jobs:
+         PYTHONDONTWRITEBYTECODE: '1'
+       run: 'python3 check_package.py control --repo ..
+ 
+-        python3 -m unittest -v test_runner.py test_s107.FinalizationTests test_s2.py test_cfg_pfc.py test_rustc_diagnostics.py test_contract_stacks.py test_r1403_lexical.py
++        python3 -m unittest -v test_runner.py test_s107.FinalizationTests test_s2.py test_cfg_pfc.py test_rustc_diagnostics.py test_contract_stacks.py test_r1403_lexical.py test_r5.py
+ 
+         '
+     - name: Read immutable export pins
+@@ -83,7 +85,7 @@ jobs:
+         RECEIPT_ROOT: ${{ runner.temp }}/ch8-s1-receipts
+         PYTHONDONTWRITEBYTECODE: '1'
+         S1_GROUP: s2-batch3probes-u34
+-      run: 'python3 control/ch8-s1-control/runner.py run --std export --tool tool --out "$RECEIPT_ROOT" --groups "$S1_GROUP"
++      run: 'python3 control/ch8-s1-control/r5_campaign.py run --std export --tool tool --out "$RECEIPT_ROOT"
+ 
+         '
+     - name: Materialize bounded fallback
+@@ -93,9 +95,7 @@ jobs:
+         RECEIPT_ROOT: ${{ runner.temp }}/ch8-s1-receipts
+         JOB_STATUS: ${{ job.status }}
+         S1_GROUP: s2-batch3probes-u34
+-      run: 'python3 control/ch8-s1-control/check_package.py fallback --out "$RECEIPT_ROOT" --groups "$S1_GROUP"
+-
+-        python3 control/ch8-s1-control/pack_evidence.py --root "$RECEIPT_ROOT"
++      run: 'python3 control/ch8-s1-control/r5_campaign.py finish --out "$RECEIPT_ROOT"
+ 
+         '
+     - name: Upload bounded evidence
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index 854455c3f10567fe94b9d0132c8dacf415f7f47f..e8ca5cf8a433fd2f76a662ae9008240b3ca2a21b 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -2,7 +2,7 @@
+   "schema": "ch8-s2-batch3probes-v1",
+   "status": "READY",
+   "authorization": "PREPARATION_ONLY; review14 then separate coordinator GO; dispatch not authorized",
+-  "entry_g0": "16a4f1d3e9ca438396d9226ea3d13ffaa88150fe",
++  "entry_g0": "cd5da9a56e145dfef0e14a78a5379659d1c77cd6",
+   "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+   "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+   "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+@@ -614,8 +614,8 @@
+     "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed"
+   },
+   "accounting_reference": {
+-    "ledger_g0": "7560bc06534233b11cb0c01959b2a82e6f994def",
+-    "item2_used": 9,
++    "ledger_g0": "943d67bd487ea3ab33e5e77a0d0dfe8453a83532",
++    "item2_used": 10,
+     "item2_cap": 14,
+     "future_accounting": "OWNER_ONLY",
+     "changed": false
+@@ -665,6 +665,9 @@
+     "ch8-s1-control/oracle_source.py",
+     "ch8-s1-control/ordinary_contracts.py",
+     "ch8-s1-control/pack_evidence.py",
++    "ch8-s1-control/r5_campaign.py",
++    "ch8-s1-control/r5_profile.py",
++    "ch8-s1-control/r5_runtime.py",
+     "ch8-s1-control/rich_evidence.py",
+     "ch8-s1-control/runner.py",
+     "ch8-s1-control/rustc_diagnostics.py",
+@@ -675,6 +678,7 @@
+     "ch8-s1-control/test_contract_stacks.py",
+     "ch8-s1-control/test_package.py",
+     "ch8-s1-control/test_r1403_lexical.py",
++    "ch8-s1-control/test_r5.py",
+     "ch8-s1-control/test_runner.py",
+     "ch8-s1-control/test_rustc_diagnostics.py",
+     "ch8-s1-control/test_s104.py",
+@@ -685,7 +689,7 @@
+     "ch8-s1-control/test_s2.py"
+   ],
+   "ci_payload_sha256": {
+-    ".github/workflows/ch8-s2.yml": "b70c7dff34fe5ae12985dc0ba44f2791cca3bb288e774416f1eb405ab90b090b",
++    ".github/workflows/ch8-s2.yml": "c48ae57ed944b74a155b4d57877ec3a088e5f642a7c1151481dd892ed933aeb0",
+     "ch8-s1-control/ORACLE-SOURCES.json": "69bf8d8494094a079a6ac3422ab90f30b7b5093b53e91ee6ce393a043538eaa2",
+     "ch8-s1-control/ROLE-MAP.json": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
+     "ch8-s1-control/S2-SOURCE.json": "950631f2d0594b7b14dc0c203d12379d48e3aeeba612f1651f029691b376daa6",
+@@ -693,8 +697,8 @@
+     "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+     "ch8-s1-control/binding_metadata.py": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030",
+     "ch8-s1-control/cfg_pfc.py": "e72ba0cff247613a3db7f4a5bd237cfeab64cb49d2410c61e85b3f80e91ecb11",
+-    "ch8-s1-control/check_package.py": "66e60b5d39af550e6a8a7b6ad7dc56e155a861252ad9cc2f6e28c00565f803b9",
+-    "ch8-s1-control/collect.py": "bb9170a58af1e0cfcb93d9758730265f2ae78b019c7a0a9b50d348cca45cd6e7",
++    "ch8-s1-control/check_package.py": "c92fd228fcf975d6c618d9d2a0827570c453e7d32b22753ff9b5ab0714536c0c",
++    "ch8-s1-control/collect.py": "1d91b4a44d7cf9d4a7e9f7d571b2477381d4c01cc94860221daba440608b3346",
+     "ch8-s1-control/contract_stacks.py": "c4b0f92fe2ede42399f2743071e58380806e61339bfbc0d1beccbf6b2a11ea0d",
+     "ch8-s1-control/fixtures/s104-rich-fragment.json": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc",
+     "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+@@ -709,27 +713,31 @@
+     "ch8-s1-control/oracle_source.py": "75a9a665b7a9fc1c64cd51c1c8d281fd323f22411aee83c017d08f37a27f20ce",
+     "ch8-s1-control/ordinary_contracts.py": "bdbdbe13fa2da6dae8d6dfb7a57a66caed1e52b6d93c1586e8effecaa16cb78e",
+     "ch8-s1-control/pack_evidence.py": "8782f1abd29342cec1202d851c94222c50fed0e6c358549971048135ab24d206",
++    "ch8-s1-control/r5_campaign.py": "f53cd264b9dbdaedf1f4bf26c1db1858619193e07ddc67389b7f39a2ecbe703d",
++    "ch8-s1-control/r5_profile.py": "61fa5cd95ba0f180747ed20d109bdbbc86beee3c0537faa084d05b8b3b82a2f0",
++    "ch8-s1-control/r5_runtime.py": "e796129e9da910879026cbe9a2037cf4834793f97032b2ff21bdf128268c697f",
+     "ch8-s1-control/rich_evidence.py": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+-    "ch8-s1-control/runner.py": "d05cfea5c382300e078d0c42309391a20375ef43563438369899e4d4538cce1f",
++    "ch8-s1-control/runner.py": "d66a62853b2592604c2cc91187b5bf6e1c3fded8be0accd38cd0c1262f4e9215",
+     "ch8-s1-control/rustc_diagnostics.py": "0c94acd85a9f2f7a241958a2c5b9dffce09517bd8d08ddf30bfbdd81ef839b32",
+     "ch8-s1-control/s108_package.py": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237",
+     "ch8-s1-control/s2_correspondence.py": "46f2cd69373b4ebd3a3395d455338aadff3d473df5df2734e1bd5d4d2432dd4f",
+-    "ch8-s1-control/s2_policy.py": "a79e49c7d93707fce0ce809fea783ade9a884678c3d34a93fecad5c949dfe0db",
++    "ch8-s1-control/s2_policy.py": "d87ce00811570c0ad7ea999fec3062166af542e576b188682308301519cb319c",
+     "ch8-s1-control/test_cfg_pfc.py": "96c7e07fd3d78cb6c6769a5c018d49b1f1e1d28eee39db6322cba63ea31a91ea",
+     "ch8-s1-control/test_contract_stacks.py": "28175e593a49600fc3478a61a7488b4066b0d9d06ef33b082418f19db1eba75d",
+     "ch8-s1-control/test_package.py": "70f00d0726b7011db8a02339c1b031bda49b4af3c2f7e881b68d06b7663b5ca7",
+     "ch8-s1-control/test_r1403_lexical.py": "5518422d03b2db340a09f7dbc9d074651ca607ef028e592e8dd7c4ac938b9c61",
+-    "ch8-s1-control/test_runner.py": "91be0156d1d8e55bc2e768891996f69cb1cd248096521d1ff5358dc8f57daaa4",
++    "ch8-s1-control/test_r5.py": "16303f9cef82a04f5f9ed9f29756b8f72d2e0a3d99e15fd8d8bdc760fd747ab3",
++    "ch8-s1-control/test_runner.py": "42ab9ff6ce08ba17331b62d6e10f26656719850d44968a5497751886a0f91630",
+     "ch8-s1-control/test_rustc_diagnostics.py": "fadad233e902b6fdaaea2a308e2a6321a3c594e8d0ba3492531459cbef0ac88d",
+     "ch8-s1-control/test_s104.py": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+     "ch8-s1-control/test_s105.py": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e",
+-    "ch8-s1-control/test_s107.py": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0",
++    "ch8-s1-control/test_s107.py": "bb33d7a1088572107a243ea364207a67081fb91fd6db90f4de00e627983aa420",
+     "ch8-s1-control/test_s108.py": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854",
+     "ch8-s1-control/test_s108r1.py": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03",
+-    "ch8-s1-control/test_s2.py": "9362dc8c8a41bfee17f2da62e218c4f8f47ca8499bb8791a2b3ad1cab0ee6718"
++    "ch8-s1-control/test_s2.py": "1f1b0912fe1af908800fb111df2fca2e07f0d283cd7539671020c3f359b01e2b"
+   },
+   "ci_request_hash_policy": "Request excluded from its own payload map; exact request SHA in g0 package and every invocation receipt.",
+-  "control_reference": "0e8c836857344866564e1423ad5d8d28bbc4106b",
++  "control_reference": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+   "cfg_pfc_source_sha256": {
+     "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+     "library/core/src/slice/mod.rs": "1c94e306a979f2c59a4e3687a32a3e4efbeef967b7bf5eeb8d1977371c2c17dd",
+@@ -805,5 +813,54 @@
+     "library/core/src/slice/raw.rs": "3190285ba163dacd220b6c827d49e580eeb85256cd1fffafdacb345a87a08bb7",
+     "library/core/src/intrinsics/mod.rs": "95bad83ea99a46bcbdbd4163e42112866fdfadc4660ca1d1c4298fed57b1c5fc",
+     "library/core/src/prelude/v1.rs": "b57d120c6762622bd33114f46267dab8ba6c88be38f1433adb62d4ba36cd3a68"
++  },
++  "profile": "ch8-s2-r5-isolated-v1",
++  "r5": {
++    "selected": [
++      "checker_order_corrupt",
++      "checker_count_corrupt",
++      "swap_pfc",
++      "sort13_weak",
++      "merge32_real",
++      "sort13_assumed",
++      "merge_count_corrupt",
++      "merge_order_corrupt",
++      "summary_witness"
++    ],
++    "deferred": [
++      "general32_assumed",
++      "general32_weak"
++    ],
++    "caps": {
++      "child_seconds": 600,
++      "compile_seconds": 180,
++      "slot_seconds": 720,
++      "controller_seconds": 180,
++      "cleanup_seconds": 240,
++      "campaign_seconds": 6900,
++      "outer_seconds": 7500,
++      "phase_seconds": 8100,
++      "step_seconds": 7560,
++      "local_rss_kib": 6291456,
++      "outer_rss_kib": 12582912,
++      "headroom_kib": 2097152,
++      "stdout_bytes": 16777216,
++      "stderr_bytes": 1048576,
++      "export_bytes": 8388608,
++      "artifact_bytes": 268435456
++    },
++    "plan_commit": "07d891b23ba65405920090de87ed7eec9730fec4",
++    "intake_commit": "5ca0641af6c5b588ae2a4257ccc0fe52df6a827a",
++    "full_inventory": {
++      "roots": 11,
++      "covers": 20,
++      "negatives": 6
++    },
++    "selected_inventory": {
++      "roots": 9,
++      "covers": 16,
++      "negatives": 5
++    },
++    "deferred_reason": "DEFERRED_TO_S3_PROVED_LEAVES; NOT_SELECTED; UNKNOWN"
+   }
+ }
+diff --git a/ch8-s1-control/check_package.py b/ch8-s1-control/check_package.py
+index 5a2566cded67c844c90a04a359ed8262cc4138c7..57ef91ac7af60508a3e5a6b3e69d15292e15c162 100644
+--- a/ch8-s1-control/check_package.py
++++ b/ch8-s1-control/check_package.py
+@@ -77,6 +77,13 @@ def git(repo, *args):
+ 
+ def check_yaml(path):
+     doc=load_yaml(path.read_text()); check_scalar_types(doc)
++    import r5_profile
++    if 'S2_PROFILE' in doc.get('jobs',{}).get('s2_batch',{}).get('env',{}):
++        doc=r5_profile.validate_yaml(doc)
++    return check_legacy_yaml(doc)
++
++
++def check_legacy_yaml(doc):
+     assert doc['on']=={'push':{'branches':['uninit-ci/ch8-s2-batch3probes-*']}}
+     assert doc['permissions']=={'contents':'read'}
+     assert doc['concurrency']=={'group':'ch8-s2-fork','cancel-in-progress':False}
+@@ -166,6 +173,22 @@ def build(tool, epoch, out):
+ 
+ 
+ def fallback(out, group_ids=None):
++    import r5_profile
++    request=json.loads((HERE/'CI-REQUEST.json').read_text())
++    if r5_profile.enabled(request):
++        active=(out/'campaign-start.json').exists() or (out/'completed').exists()
++        terminal=out/'receipt.json'
++        if terminal.exists():
++            try:active=active or json.loads(terminal.read_text()).get('schema')=='ch8-s2-r5-campaign-v1'
++            except (ValueError,AttributeError):active=True # ambiguous storage must not overwrite a prefix
++        if group_ids is None or active:
++            import r5_campaign
++            return r5_campaign.fallback(out,request)
++        # Explicit legacy group API remains strict before any r5 campaign state.
++    return legacy_fallback(out,group_ids)
++
++
++def legacy_fallback(out, group_ids=None):
+     out.mkdir(parents=True,exist_ok=True)
+     r=json.loads((HERE/'CI-REQUEST.json').read_text())
+     # SIGKILL cannot run finally: retain observations and mark incomplete work UNKNOWN.
+diff --git a/ch8-s1-control/collect.py b/ch8-s1-control/collect.py
+index c5fdc019f752a080cb9d6b4fa8c698fb76705457..8342489746419d79bfa0ee223b33a9ee3e48e6b7 100644
+--- a/ch8-s1-control/collect.py
++++ b/ch8-s1-control/collect.py
+@@ -51,6 +51,14 @@ def read(path):
+ 
+ 
+ def collect(roots,request):
++    import r5_profile
++    if r5_profile.enabled(request):
++        import r5_campaign
++        return r5_campaign.collect(roots,request)
++    return legacy_collect(roots,request)
++
++
++def legacy_collect(roots,request):
+     groups={g['id']:g for g in r.group_rows(request['rows'],request['execution_groups'])}
+     expected_identity={key:request[key] for key in ('std_sha','std_tree','tool_sha','tool_tree')}
+     request_hash=r.sha256(r.REQUEST_PATH)
+diff --git a/ch8-s1-control/r5_campaign.py b/ch8-s1-control/r5_campaign.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..b441303d1a39beb2e1294dd20754ba756c4827a2
+--- /dev/null
++++ b/ch8-s1-control/r5_campaign.py
+@@ -0,0 +1,334 @@
++#!/usr/bin/env python3
++"""One bounded serial r5 campaign; legacy decoder and full obligations retained."""
++import argparse,hashlib,json,os,signal,subprocess,sys,time
++from pathlib import Path
++import runner as r
++import r5_profile as p
++import r5_runtime as rt
++
++class GlobalFailure(RuntimeError):pass
++class CampaignSignal(BaseException):pass
++
++def atomic(path,value):
++    path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
++    data=json.dumps(value,indent=2,sort_keys=True).encode()+b'\n'
++    temp=path.with_name(path.name+'.tmp')
++    with temp.open('xb') as f:f.write(data);f.flush();os.fsync(f.fileno())
++    os.replace(temp,path)
++    fd=os.open(path.parent,os.O_DIRECTORY)
++    try:os.fsync(fd)
++    finally:os.close(fd)
++
++def read(path):
++    if path.is_symlink() or path.stat().st_size>r.ARTIFACT_CAP_BYTES:raise GlobalFailure('receipt storage boundary')
++    value=json.loads(path.read_text())
++    if not isinstance(value,dict):raise GlobalFailure('receipt wrong type')
++    return value
++
++def digest(data):return hashlib.sha256(data).hexdigest()
++def group(request,rid):return next(g for g in r.group_rows(request['rows'],p.groups(request)) if g['rows'][0]['id']==rid)
++def identity(request):return {k:request[k] for k in ('std_sha','std_tree','tool_sha','tool_tree')}
++
++def sealed(out,reader=None,ids=None):
++    def raw(path):
++        if reader:return reader(path)
++        if path.is_symlink():raise GlobalFailure('sealed symlink')
++        return path.read_bytes()
++    records={}
++    if ids is None:ids=[rid for rid in p.ORDER if (out/'completed'/(rid+'.json')).exists()]
++    if len(ids)!=len(set(ids)) or not set(ids)<=set(p.ORDER):raise GlobalFailure('completed inventory mismatch')
++    for rid in ids:
++        seal=json.loads(raw(out/'completed'/(rid+'.json')))
++        if seal.get('id')!=rid or not isinstance(seal.get('files'),dict):raise GlobalFailure('invalid completion seal')
++        for name,h in seal['files'].items():
++            rel=Path(name)
++            if rel.is_absolute() or '..' in rel.parts:raise GlobalFailure('sealed path escape')
++            if digest(raw(out/rel))!=h:raise GlobalFailure('completed evidence storage drift')
++        if str(Path(rid)/'receipt.json') not in seal['files']:raise GlobalFailure('row not sealed')
++        records[rid]=seal
++    return records
++
++def usage(out):
++    totals={'stdout_bytes':0,'stderr_bytes':0,'export_bytes':0,'artifact_bytes':0}
++    for f in out.rglob('*'):
++        if f.is_symlink():raise GlobalFailure('artifact symlink')
++        if not f.is_file():continue
++        try:size=f.stat().st_size
++        except FileNotFoundError:continue # atomic temporary renamed during census
++        totals['artifact_bytes']+=size
++        if f.name=='export.json':totals['export_bytes']+=size
++    for path in (out/'groups').glob('*/receipt.json'):
++        doc=read(path);execution=doc.get('execution',{})
++        for key in ('stdout_bytes','stderr_bytes'):
++            value=execution.get(key,0)
++            if type(value) is not int or value<0:raise GlobalFailure('aggregate output statistics unknown')
++            totals[key]+=value
++    for f in (out/'workers').glob('*.stderr'):totals['stderr_bytes']+=f.stat().st_size
++    return totals
++
++def check_usage(out):
++    used=usage(out)
++    if any(used[key]>=p.CAPS[key] for key in used):raise GlobalFailure('aggregate_output_export_artifact_cap')
++    return {key:p.CAPS[key]-used[key] for key in ('stdout_bytes','stderr_bytes','export_bytes')}
++
++def finalize(out,request,stop_reason=None,elapsed=None):
++    """Only missing/unsealed rows may change. Completed prefix bytes never rewritten."""
++    p.validate(request);out.mkdir(parents=True,exist_ok=True);done=sealed(out)
++    start_doc=read(out/'campaign-start.json') if (out/'campaign-start.json').exists() else {}
++    rows=[]
++    for row in request['rows']:
++        rid=row['id']
++        if rid in done:result=read(out/rid/'receipt.json')
++        else:
++            supervision_path=out/'workers'/(rid+'-supervision.json')
++            supervision=read(supervision_path) if supervision_path.exists() else None
++            prior_path=out/rid/'receipt.json'
++            prior=read(prior_path) if prior_path.exists() else {}
++            interrupted=(supervision is not None and supervision.get('worker_pid') is not None) or prior.get('status') in ('IN_PROGRESS','OBSERVED','UNKNOWN','INTERRUPTED')
++            intent_only=(out/'workers'/(rid+'-launch.json')).exists() and not interrupted
++            status='DEFERRED_NOT_SELECTED' if rid in p.DEFERRED else 'INTERRUPTED' if interrupted else 'UNSEALED_INVOCATION_UNKNOWN' if intent_only else 'NOT_RUN'
++            result={**r._row_base(row,status),'group':'r5-'+rid,'proof_credit':'NONE',
++                    'reason':'DEFERRED_TO_S3_PROVED_LEAVES' if rid in p.DEFERRED else stop_reason or 'NO_DURABLE_COMPLETION',
++                    'cost_status':'UNKNOWN_NOT_ZERO','assurance':row['assurance'],
++                    'invocation_supervision':supervision,
++                    'native_root_start':'UNKNOWN_UNLESS_NATIVE_EVENT_RETAINED' if interrupted or intent_only else 'NOT_SELECTED_OR_NO_WORKER_LAUNCH'}
++            # Save unfinished worker evidence before replacing canonical row.
++            old=out/rid/'receipt.json';saved=out/rid/'unfinished-worker-receipt.json'
++            if old.exists() and not saved.exists():
++                previous=read(old)
++                if previous.get('status') not in ('NOT_RUN','DEFERRED_NOT_SELECTED'):atomic(saved,previous)
++            atomic(old,result)
++        rows.append(result)
++    for rid in p.ORDER:
++        gp=out/'groups'/('r5-'+rid)/'receipt.json'
++        if not gp.exists():atomic(gp,{'state':'NOT_RUN','group':'r5-'+rid,'reason':stop_reason or 'NO_INVOCATION',
++                                   'selectors':[group(request,rid)['rows'][0]['selector']],'proof_credit':'NONE'})
++    failed=any(x.get('outcome')!='RECORDED' or x.get('r5_expected_match') is not True for x in rows if x['id'] in p.ORDER)
++    doc={'schema':'ch8-s2-r5-campaign-v1','state':'STOPPED' if stop_reason else 'SELECTED_PARTIAL' if failed else 'SELECTED_RECORDED_FULL_INVENTORY_INCOMPLETE',
++         **start_doc.get('identity',identity(request)),'request_sha256':(start_doc['request_sha256'] if 'request_sha256' in start_doc else r.sha256(r.REQUEST_PATH)),'selected_groups':['r5-'+rid for rid in p.ORDER],
++         'rows':rows,'stop_reason':stop_reason,'phase_elapsed_seconds':elapsed,'proof_credit':'NONE',
++         'r5_campaign':{'profile':p.PROFILE,'launch_order':list(p.ORDER),'deferred':list(p.DEFERRED),
++                        'completed':list(done),'full_inventory_complete':False,'selected_roots':9,'covers_required':16,'exact_negatives_required':5,
++                        'global_caps':p.CAPS,'scope':'STATIC/SOURCE_REPORTED_OBSERVATIONS; independent proof credit NONE'}}
++    atomic(out/'receipt.json',doc);return doc
++
++def fallback(out,request):
++    terminal=read(out/'receipt.json') if (out/'receipt.json').exists() else {}
++    done=sealed(out)
++    if (out/'campaign-start.json').exists():request=read(out/'campaign-start.json')['request_data']
++    if (terminal.get('schema')!='ch8-s2-r5-campaign-v1'
++        or set(terminal.get('r5_campaign',{}).get('completed',[]))!=set(done)):
++        finalize(out,request,terminal.get('stop_reason') or 'ALWAYS_FALLBACK_PRESERVED_PREFIX',terminal.get('phase_elapsed_seconds'))
++    atomic(out/'job-status.json',{'job_status':os.environ.get('JOB_STATUS','UNKNOWN'),
++        'request_sha256':(terminal['request_sha256'] if 'request_sha256' in terminal else r.sha256(r.REQUEST_PATH)),
++        'acceptance':'PENDING_INDEPENDENT_REVIEW','credit':'NONE'})
++    return {'fallback':'R5_PREFIX_PRESERVED','proof_credit':'NONE'}
++
++def record_supervision(out,rid,supervision):
++    path=out/'workers'/(rid+'-supervision.json')
++    if path.exists():
++        if read(path)!=supervision:raise GlobalFailure('supervision storage drift')
++    else:atomic(path,supervision)
++
++
++def validate_owned_groups(doc,supervision):
++    observed=supervision.get('containment',{}).get('observed',[])
++    worker=supervision.get('worker_pid')
++    driver=doc.get('execution',{}).get('process_identity',{})
++    initial=supervision.get('worker_initial_identity')
++    if (not isinstance(initial,dict) or initial.get('pid')!=worker or initial.get('pgid')!=worker
++        or type(initial.get('start_ticks')) is not int or initial['start_ticks']<=0
++        or not any(rec.get('pid')==worker and rec.get('pgid')==worker and rec.get('start_ticks')==initial['start_ticks'] for rec in observed)):
++        raise GlobalFailure('missing_owned_worker_pid_pgid_starttime')
++    if doc.get('state')=='COMPLETE' and (type(driver.get('start_ticks')) is not int
++        or not any(rec.get('pid')==driver.get('pid') and rec.get('pgid')==driver.get('pgid') and rec.get('start_ticks')==driver['start_ticks'] for rec in observed)):
++        raise GlobalFailure('missing_observed_stock_driver_identity')
++    allowed={worker}
++    if driver.get('pid') is not None:
++        if driver.get('pgid')!=driver['pid']:raise GlobalFailure('stock child was not its declared session leader')
++        allowed.add(driver['pgid'])
++    # Exited/zombie detached children count too: worker's PG-only AFTER snapshot
++    # cannot certify quiescence of an escaped group, even if outer cleanup reaps it.
++    if any(rec.get('pgid') not in allowed for rec in observed):
++        raise GlobalFailure('unexpected_process_group_containment_gap')
++
++
++def root_outcome(out,request,rid,supervision):
++    record_supervision(out,rid,supervision)
++    gp=out/'groups'/('r5-'+rid)/'receipt.json'
++    doc=read(gp) if gp.exists() else {}
++    expected={**identity(request),'changed_file_sha256':request['changed_file_sha256']}
++    if (doc.get('request_sha256')!=r.sha256(r.REQUEST_PATH) or doc.get('source_before')!=expected or doc.get('source_after')!=expected
++            or doc.get('binary_identity')!='MATCH' or doc.get('snapshot_errors')):
++        raise GlobalFailure('source_tool_request_binary_snapshot_drift_or_unavailable')
++    events=doc.get('native_start_events',[]);selector=group(request,rid)['rows'][0]['selector']
++    if any(x.get('selector')!=selector for x in events) or len(events)>1:
++        raise GlobalFailure('native_selector_start_mismatch')
++    if not supervision.get('containment',{}).get('verified'):raise GlobalFailure('unreaped_or_orphan_child')
++    validate_owned_groups(doc,supervision)
++    if supervision.get('orphan_survivors_at_worker_exit') or supervision.get('supervisor_error') or supervision.get('cutoff') in ('outer_sampled_rss','aggregate_artifact_cap'):
++        raise GlobalFailure('global_supervisor_failure')
++    expected_row=group(request,rid)['rows'][0]
++    result=read(out/rid/'receipt.json') if (out/rid/'receipt.json').exists() else r._row_base(expected_row)
++    if any(result.get(k)!=expected_row[k] for k in ('id','selector','mode','variant')) or result.get('group')!='r5-'+rid:
++        raise GlobalFailure('worker row/source-stage-target binding mismatch')
++    if result.get('outcome')=='RECORDED' and doc.get('state')!='COMPLETE':
++        result.update(outcome='UNKNOWN',reason='incomplete_group_not_accepted')
++    atomic(out/rid/'worker-receipt.json',result)
++    if supervision.get('cutoff') or supervision.get('worker_exit')!=0:
++        result.update(status='UNKNOWN',outcome='UNKNOWN',reason=supervision.get('cutoff') or 'worker_exit',r5_expected_match=False)
++    elif result.get('outcome')=='RECORDED':
++        if not doc.get('native_start_verified'):raise GlobalFailure('completed root lacks exact native start')
++        rich=read(out/'groups'/('r5-'+rid)/'properties.json')
++        props=next((x for x in rich.get('harnesses',[]) if x.get('name')==selector),{})
++        result['r5_expected_match']=r.s2_policy.expected_observation(group(request,rid)['rows'][0],result.get('export',{}),props)
++    else:result['r5_expected_match']=False
++    result['assurance']=expected_row['assurance']
++    result['invocation_original_exit']=doc.get('execution',{}).get('original_exit_code')
++    result['invocation_signal']=doc.get('execution',{}).get('signal')
++    result['r5_timeout_scopes']={'compile_subcap_inside_child_seconds':180,'whole_child_seconds':600,
++        'inner_CBMC_ceiling_seconds':600,'complete_slot_seconds':720,'supervised_worker_wall_seconds':710,'durable_publication_reserve_seconds':10,
++        'termination_reason':doc.get('execution',{}).get('termination_reason'),
++        'external_child_cutoff_is_backend_TIMEOUT600':False}
++    result.update(r5_supervision=supervision,resource_scope='LOCAL6GiB_SAMPLED_PGID_VmRSS; not strict tree/kernel/cgroup',proof_credit='NONE')
++    atomic(out/rid/'receipt.json',result)
++    directory=out/'groups'/('r5-'+rid)
++    files={}
++    for f in sorted(directory.rglob('*')):
++        if f.is_symlink():raise GlobalFailure('completion evidence symlink')
++        if f.is_file():
++            with f.open('rb') as stream:os.fsync(stream.fileno())
++            files[str(f.relative_to(out))]=r.sha256(f)
++    for d in sorted([directory]+[d for d in directory.rglob('*') if d.is_dir()],key=lambda x:len(x.parts),reverse=True):
++        fd=os.open(d,os.O_DIRECTORY)
++        try:os.fsync(fd)
++        finally:os.close(fd)
++    if supervision.get('monotonic_start') is not None and time.monotonic()>=supervision['monotonic_start']+p.CAPS['slot_seconds']:
++        supervision['cutoff']=supervision.get('cutoff') or 'durable_slot_cutoff'
++        supervision['limit_initiated']=True
++        result.update(outcome='UNKNOWN',r5_expected_match=False,reason='durable_slot_cutoff',r5_supervision=supervision)
++        atomic(out/rid/'receipt.json',result)
++    for name in ('receipt.json','worker-receipt.json'):files[str(Path(rid)/name)]=r.sha256(out/rid/name)
++    supervision_path=out/'workers'/(rid+'-supervision.json')
++    files[str(supervision_path.relative_to(out))]=r.sha256(supervision_path)
++    seal={'id':rid,'files':files,'supervision':supervision,'expected_match':result['r5_expected_match'],
++          'sealed_monotonic':time.monotonic(),'proof_credit':'NONE'}
++    atomic(out/'completed'/(rid+'.json'),seal)
++    return result
++
++def invoke(std,tool,out,request,rid,limits,slot):
++    lp=out/'workers'/(rid+'-limits.json');atomic(lp,limits)
++    argv=[sys.executable,str(Path(__file__).resolve()),'worker','--std',str(std.resolve()),'--tool',str(tool.resolve()),
++          '--out',str(out.resolve()),'--root',rid,'--limits',str(lp.resolve())]
++    return rt.supervise(argv,Path.cwd(),dict(os.environ,PYTHONDONTWRITEBYTECODE='1'),slot,p.CAPS['outer_rss_kib'],
++                        out/'workers'/(rid+'.stderr'),lambda:usage(out)['artifact_bytes']>=p.CAPS['artifact_bytes'])
++
++def run_campaign(std,tool,out,request,invoker=None,clock=time.monotonic):
++    p.validate(request);out=out.resolve();out.mkdir(parents=True,exist_ok=True)
++    if (out/'campaign-start.json').exists() or (out/'completed').exists():raise GlobalFailure('campaign retry/resume forbidden')
++    start=clock();request_hash=r.sha256(r.REQUEST_PATH);stop=None
++    atomic(out/'campaign-start.json',{'request_sha256':request_hash,'start_monotonic':start,'caps':p.CAPS,'selected':list(p.ORDER),
++                                    'pid':os.getpid(),'profile':p.PROFILE,'identity':identity(request),'request_data':request,'proof_credit':'NONE'})
++    try:
++        for index,rid in enumerate(p.ORDER):
++            if r.sha256(r.REQUEST_PATH)!=request_hash:raise GlobalFailure('request drift')
++            sealed(out)
++            if p.CAPS['campaign_seconds']-(clock()-start) < (len(p.ORDER)-index)*p.CAPS['slot_seconds']+p.CAPS['cleanup_seconds']:
++                raise GlobalFailure('global_budget_reserved_slots_no_reset')
++            limits=check_usage(out)
++            atomic(out/'workers'/(rid+'-launch.json'),{'id':rid,'rank':index+1,'selector':group(request,rid)['rows'][0]['selector'],
++                'monotonic':clock(),'request_sha256':request_hash,'limits':limits,'slot_seconds':p.CAPS['slot_seconds']})
++            supervision=(invoker or invoke)(std,tool,out,request,rid,limits,p.CAPS['slot_seconds']-10)
++            record_supervision(out,rid,supervision)
++            if clock()-start>=p.CAPS['campaign_seconds']-p.CAPS['cleanup_seconds']:raise GlobalFailure('hard_global_deadline')
++            if r.sha256(r.REQUEST_PATH)!=request_hash:raise GlobalFailure('request drift')
++            root_outcome(out,request,rid,supervision)
++            finalize(out,request,elapsed=clock()-start)
++            check_usage(out)
++    except BaseException as exc:
++        stop=f'{type(exc).__name__}: {exc}'
++    terminal=finalize(out,request,stop,clock()-start)
++    return 0 if terminal['state']=='SELECTED_RECORDED_FULL_INVENTORY_INCOMPLETE' else 1
++
++def worker(std,tool,out,request,rid,limits):
++    p.validate(request)
++    assert rid in p.ORDER and set(limits)=={'stdout_bytes','stderr_bytes','export_bytes'}
++    assert all(type(v) is int and 0<v<=p.CAPS[k] for k,v in limits.items())
++    # No tool build/reuse/alternative solver. Legacy protected path, exactly one selector.
++    r._run_group(std,tool,out,request,group(request,rid),time.monotonic()+p.CAPS['slot_seconds']-10,isolated_limits=limits)
++    return 0
++
++def collect(roots,request):
++    import collect as c
++    result=c.legacy_collect(roots,p.view(request))
++    for root in roots:
++        terminal=c.read(root/'receipt.json');meta=terminal.get('r5_campaign',{})
++        if meta.get('profile')!=p.PROFILE or meta.get('launch_order')!=list(p.ORDER) or meta.get('deferred')!=list(p.DEFERRED):
++            raise GlobalFailure('r5 terminal selection mismatch')
++        done=sealed(root,c.read_bytes,meta.get('completed',[]))
++        invocation_ids=set()
++        for rid,seal in done.items():
++            sup=seal.get('supervision',{})
++            if not sup.get('containment',{}).get('verified'):raise GlobalFailure('unverified root containment')
++            row=c.read(root/rid/'receipt.json');gp=c.read(root/'groups'/('r5-'+rid)/'receipt.json')
++            validate_owned_groups(gp,sup)
++            if row.get('r5_supervision')!=sup:raise GlobalFailure('row/seal supervision mismatch')
++            if row.get('outcome')=='RECORDED':
++                selector=group(request,rid)['rows'][0]['selector'];argv=gp.get('argv',[])
++                try:
++                    std=Path(argv[argv.index('--output-format=regular')+1]).parent
++                    tool=Path(argv[0]).parent.parent;export=Path(argv[argv.index('--export-json')+1])
++                    assert argv==r.build_argv(std,tool,[selector],34,export)
++                except (ValueError,IndexError,AssertionError):raise GlobalFailure('singleton argv binding mismatch')
++                iid=gp.get('invocation_id');target=Path(gp.get('cargo_target_dir','/'))
++                if not iid or iid in invocation_ids or target!=std/'target/ch8-s1-cargo'/iid:
++                    raise GlobalFailure('fresh invocation namespace mismatch')
++                invocation_ids.add(iid)
++                if (sup.get('cutoff') or sup.get('supervisor_error') or sup.get('worker_exit')!=0 or sup.get('orphan_survivors_at_worker_exit')
++                    or gp.get('compile_limit_seconds')!=180 or not 0<gp.get('timeout_seconds',0)<=600
++                    or not 0<gp.get('memory',{}).get('group_cap_kib',0)<=p.CAPS['local_rss_kib']
++                    or gp.get('effective_cfg')!=request['flags']['RUSTFLAGS']
++                    or [x.get('selector') for x in gp.get('native_start_events',[])]!=[selector]
++                    or not gp.get('native_start_verified')):
++                    raise GlobalFailure('r5 recorded result has cutoff/resource/start/config mismatch')
++                compile_receipt=c.read(root/'groups'/('r5-'+rid)/'compile/receipt.json')
++                if (compile_receipt.get('state')!='COMPLETE' or compile_receipt.get('limit_seconds')!=180
++                    or compile_receipt.get('selectors')!=[selector]
++                    or compile_receipt.get('request_sha256')!=terminal['request_sha256']):
++                    raise GlobalFailure('r5 fresh compile binding mismatch')
++    result.update(state='SELECTED_OBSERVATIONS_PENDING_REVIEW_FULL_INVENTORY_INCOMPLETE',
++                  selected_missing_groups=[x for x in result['missing_groups'] if x not in ['r5-'+rid for rid in p.DEFERRED]],
++                  deferred=list(p.DEFERRED),full_inventory_complete=False)
++    for row in result['rows']:
++        if row['id'] in p.DEFERRED:row.update(status='DEFERRED_NOT_SELECTED',outcome='UNKNOWN',reason='DEFERRED_TO_S3_PROVED_LEAVES')
++    return result
++
++def main():
++    a=argparse.ArgumentParser();a.add_argument('command',choices=['run','worker','finish']);a.add_argument('--std',type=Path);a.add_argument('--tool',type=Path);a.add_argument('--out',type=Path,required=True);a.add_argument('--root');a.add_argument('--limits',type=Path)
++    args=a.parse_args()
++    if args.command=='finish':
++        import pack_evidence
++        failed=False
++        try:fallback(args.out,r.load_request())
++        except Exception as exc:
++            failed=True;print('r5 fallback incomplete: '+type(exc).__name__+': '+str(exc),file=sys.stderr)
++        finally:pack_evidence.pack(args.out)
++        return 1 if failed else 0
++    if args.std is None or args.tool is None:a.error('run/worker requires --std and --tool')
++    request=r.load_request();p.validate(request)
++    if os.environ.get('S2_PROFILE')!=p.PROFILE:raise GlobalFailure('workflow profile environment mismatch')
++    if args.command=='worker':return worker(args.std,args.tool,args.out,request,args.root,read(args.limits))
++    def interrupted(signum,frame):raise CampaignSignal(str(signum))
++    for sig in (signal.SIGTERM,signal.SIGINT):signal.signal(sig,interrupted)
++    alarm_start=time.monotonic()
++    def campaign_alarm(signum,frame):
++        remaining=p.CAPS['campaign_seconds']-(time.monotonic()-alarm_start)
++        if remaining>0:
++            signal.setitimer(signal.ITIMER_REAL,remaining)
++            raise CampaignSignal('campaign cleanup reserve reached')
++        raise CampaignSignal('hard global6900 deadline')
++    signal.signal(signal.SIGALRM,campaign_alarm)
++    signal.setitimer(signal.ITIMER_REAL,p.CAPS['campaign_seconds']-p.CAPS['cleanup_seconds'])
++    try:return run_campaign(args.std,args.tool,args.out,request)
++    finally:signal.setitimer(signal.ITIMER_REAL,0)
++if __name__=='__main__':raise SystemExit(main())
+diff --git a/ch8-s1-control/r5_profile.py b/ch8-s1-control/r5_profile.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..e080331796fe7c435d46b2f599b9ad1024361a80
+--- /dev/null
++++ b/ch8-s1-control/r5_profile.py
+@@ -0,0 +1,51 @@
++"""Exact control-only isolation profile; canonical legacy obligations stay intact."""
++import copy
++PROFILE='ch8-s2-r5-isolated-v1'
++ORDER=('checker_order_corrupt','checker_count_corrupt','swap_pfc','sort13_weak',
++       'merge32_real','sort13_assumed','merge_count_corrupt','merge_order_corrupt','summary_witness')
++DEFERRED=('general32_assumed','general32_weak')
++CAPS={'child_seconds':600,'compile_seconds':180,'slot_seconds':720,
++      'controller_seconds':180,'cleanup_seconds':240,'campaign_seconds':6900,
++      'outer_seconds':7500,'phase_seconds':8100,'step_seconds':7560,
++      'local_rss_kib':6*1024*1024,'outer_rss_kib':12*1024*1024,'headroom_kib':2*1024*1024,
++      'stdout_bytes':16*1024*1024,'stderr_bytes':1024*1024,'export_bytes':8*1024*1024,
++      'artifact_bytes':256*1024*1024}
++def enabled(request):return request.get('profile')==PROFILE
++
++def validate(request):
++    assert request.get('profile')==PROFILE
++    assert request.get('r5')=={'selected':list(ORDER),'deferred':list(DEFERRED),'caps':CAPS,
++        'plan_commit':'07d891b23ba65405920090de87ed7eec9730fec4',
++        'intake_commit':'5ca0641af6c5b588ae2a4257ccc0fe52df6a827a',
++        'full_inventory':{'roots':11,'covers':20,'negatives':6},
++        'selected_inventory':{'roots':9,'covers':16,'negatives':5},
++        'deferred_reason':'DEFERRED_TO_S3_PROVED_LEAVES; NOT_SELECTED; UNKNOWN'}
++    assert 9*CAPS['slot_seconds']+CAPS['controller_seconds']+CAPS['cleanup_seconds']==CAPS['campaign_seconds']
++    import s2_policy
++    s2_policy.validate_legacy_request(request)
++    return True
++
++def groups(request):
++    return [{'id':'r5-'+rid,'variant':'production','unwind':34,'row_ids':[rid]}
++            for rid in (*ORDER,*DEFERRED)]
++
++def view(request):
++    validate(request);result=copy.deepcopy(request);result['execution_groups']=groups(request);return result
++
++def validate_yaml(doc):
++    job=doc['jobs']['s2_batch'];assert job['env']=={'S2_PROFILE':PROFILE}
++    steps={s['name']:s for s in job['steps']}
++    cmd='python3 control/ch8-s1-control/r5_campaign.py run --std export --tool tool --out "$RECEIPT_ROOT"\n'
++    assert steps['Run S2 batch3probes with bounded observations']['run']==cmd
++    assert steps['Materialize bounded fallback']['run']=='python3 control/ch8-s1-control/r5_campaign.py finish --out "$RECEIPT_ROOT"\n'
++    actual=steps['Validate control and synthetic wrapper']['run'].splitlines()
++    legacy='python3 -m unittest -v test_runner.py test_s107.FinalizationTests test_s2.py test_cfg_pfc.py test_rustc_diagnostics.py test_contract_stacks.py test_r1403_lexical.py'
++    assert actual==['python3 check_package.py control --repo ..',legacy+' test_r5.py']
++    normalized=copy.deepcopy(doc);normalized['jobs']['s2_batch'].pop('env')
++    for step in normalized['jobs']['s2_batch']['steps']:
++        if step['name']=='Run S2 batch3probes with bounded observations':
++            step['run']='python3 control/ch8-s1-control/runner.py run --std export --tool tool --out "$RECEIPT_ROOT" --groups "$S1_GROUP"\n'
++        if step['name']=='Materialize bounded fallback':
++            step['run']='python3 control/ch8-s1-control/check_package.py fallback --out "$RECEIPT_ROOT" --groups "$S1_GROUP"\npython3 control/ch8-s1-control/pack_evidence.py --root "$RECEIPT_ROOT"\n'
++        if step['name']=='Validate control and synthetic wrapper':step['run']='python3 check_package.py control --repo ..\n'+legacy+'\n'
++    return normalized
+diff --git a/ch8-s1-control/r5_runtime.py b/ch8-s1-control/r5_runtime.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..1ae55bd0992ceb7ca00bc7aeceb13d7935d2d7c1
+--- /dev/null
++++ b/ch8-s1-control/r5_runtime.py
+@@ -0,0 +1,141 @@
++"""Linux owned-process containment and observed native starts, no compiler logic."""
++import ctypes,errno,os,re,signal,subprocess,sys,time
++from pathlib import Path
++import rich_evidence
++
++class NativeStarts(rich_evidence.RegularEvidence):
++    def __init__(self,*args):
++        super().__init__(*args);self.starts=[]
++    def _line(self,line):
++        marker=re.fullmatch(r'Checking harness (.+)\.\.\.',line)
++        if marker:self.starts.append({'selector':marker[1],'monotonic':time.monotonic()})
++        return super()._line(line)
++
++class ContainmentError(RuntimeError):pass
++
++def census():
++    result={}
++    for p in Path('/proc').iterdir():
++        if not p.name.isdigit():continue
++        try:
++            raw=(p/'stat').read_text();tail=raw[raw.rfind(')')+2:].split()
++            result[int(p.name)]={'pid':int(p.name),'state':tail[0],'ppid':int(tail[1]),
++                'pgid':int(tail[2]),'start_ticks':int(tail[19])}
++        except (FileNotFoundError,ProcessLookupError):continue
++    return result
++
++def subreaper(enable=None):
++    libc=ctypes.CDLL(None,use_errno=True);value=ctypes.c_int()
++    if libc.prctl(37,ctypes.byref(value),0,0,0)!=0:raise ContainmentError('PR_GET_CHILD_SUBREAPER failed')
++    old=bool(value.value)
++    if enable is not None and libc.prctl(36,int(enable),0,0,0)!=0:raise ContainmentError('PR_SET_CHILD_SUBREAPER failed')
++    return old
++
++class Owned:
++    """Dedicated subreaper process must own no unrelated active children."""
++    def __init__(self):
++        if not hasattr(os,'pidfd_open') or not hasattr(signal,'pidfd_send_signal'):
++            raise ContainmentError('Linux pidfds required for race-safe owned signaling')
++        self.parent=os.getpid();self.old=subreaper(True);self.known={};self.signals=[];self.reaped=[]
++        self.scan_errors=[]
++        if any(v['ppid']==self.parent for v in census().values()):
++            subreaper(self.old);raise ContainmentError('unrelated preexisting child; containment scope not exclusive')
++    def restore(self):subreaper(self.old)
++    def observe(self,worker_pid=None):
++        table=census();owned=set()
++        if worker_pid in table:owned.add(worker_pid)
++        owned.update(p for p,v in table.items() if v['ppid']==self.parent)
++        owned.update(p for p,v in self.known.items() if p in table and table[p]['start_ticks']==v['start_ticks'])
++        while True:
++            extra={p for p,v in table.items() if v['ppid'] in owned}
++            if extra<=owned:break
++            owned|=extra
++        live=[]
++        for pid in owned:
++            rec=table.get(pid)
++            if rec is None:continue
++            old=self.known.get(pid)
++            if old is not None and old['start_ticks']!=rec['start_ticks']:
++                raise ContainmentError('owned PID identity reused')
++            self.known[pid]=rec
++            if rec['state']!='Z':live.append(rec)
++        return live,table
++    def send(self,rec,sig):
++        try:fd=os.pidfd_open(rec['pid'])
++        except ProcessLookupError:return
++        try:
++            current=census().get(rec['pid'])
++            if current is None:return
++            if current['start_ticks']!=rec['start_ticks']:raise ContainmentError('pidfd identity mismatch')
++            signal.pidfd_send_signal(fd,sig)
++            self.signals.append({'pid':rec['pid'],'start_ticks':rec['start_ticks'],'signal':sig,'monotonic':time.monotonic()})
++        except ProcessLookupError:pass
++        finally:os.close(fd)
++    def cleanup(self,proc,seconds=8):
++        start=time.monotonic();deadline=start+seconds
++        while time.monotonic()<deadline:
++            live,table=self.observe(proc.pid);proc.poll()
++            for rec in live:self.send(rec,signal.SIGTERM if time.monotonic()-start<1 else signal.SIGKILL)
++            for pid,rec in list(self.known.items()):
++                if pid==proc.pid:continue
++                try:
++                    got,status=os.waitpid(pid,os.WNOHANG)
++                    if got:self.reaped.append({'pid':pid,'status':status})
++                except ChildProcessError:pass
++            live,table=self.observe(proc.pid)
++            zombies=[p for p,v in table.items() if v['ppid']==self.parent and p!=proc.pid]
++            if not live and not zombies:
++                proc.wait(timeout=max(.01,deadline-time.monotonic()))
++                return {'verified':True,'scope':'SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting',
++                        'observed':list(self.known.values()),'signals':self.signals,'reaped_adopted':self.reaped,
++                        'worker_exit':proc.returncode,'elapsed_seconds':time.monotonic()-start}
++            time.sleep(.02)
++        return {'verified':False,'reason':'OWNED_DESCENDANTS_NOT_REAPED','observed':list(self.known.values()),
++                'signals':self.signals,'reaped_adopted':self.reaped,'elapsed_seconds':time.monotonic()-start}
++
++def sampled_owned_rss(records):
++    total=0
++    for rec in records:
++        try:
++            for line in (Path('/proc')/str(rec['pid'])/'status').read_text().splitlines():
++                if line.startswith('VmRSS:'):total+=int(line.split()[1]);break
++        except FileNotFoundError:pass
++    return total
++
++def supervise(argv,cwd,env,slot_seconds,outer_rss_kib,stderr_path,artifact_check=None):
++    """Never allows a success after the cutoff latch. All descendants cleaned first."""
++    owned=Owned();proc=None;started=time.monotonic();cutoff=None;peak=0;cleanup=None;error=None;first=None;survivors=[]
++    stderr_path.parent.mkdir(parents=True,exist_ok=True)
++    try:
++        with stderr_path.open('xb') as stream:
++            proc=subprocess.Popen(argv,cwd=cwd,env=env,start_new_session=True,stdout=subprocess.DEVNULL,stderr=stream)
++            # The first sample can race a fast exit; adopted children remain owned.
++            first=census().get(proc.pid)
++            if first:owned.known[proc.pid]=first
++            while True:
++                live,_=owned.observe(proc.pid);peak=max(peak,sampled_owned_rss(live))
++                if time.monotonic()-started>=slot_seconds:cutoff='slot_wall'
++                elif peak>outer_rss_kib:cutoff='outer_sampled_rss'
++                elif stderr_path.stat().st_size>65536:cutoff='worker_stderr_cap'
++                elif artifact_check is not None and artifact_check():cutoff='aggregate_artifact_cap'
++                if cutoff:break
++                if proc.poll() is not None:
++                    survivors=[x for x in live if x['pid']!=proc.pid]
++                    break
++                time.sleep(.02)
++    except BaseException as exc:
++        cutoff=cutoff or 'supervisor_exception';error={'type':type(exc).__name__,'message':str(exc)}
++    finally:
++        try:
++            if proc is not None:cleanup=owned.cleanup(proc)
++        except BaseException as exc:
++            cleanup={'verified':False,'reason':f'{type(exc).__name__}: {exc}'}
++        if time.monotonic()-started>=slot_seconds:cutoff=cutoff or 'slot_wall_during_cleanup'
++        try:owned.restore()
++        except Exception as exc:cleanup={'verified':False,'reason':'subreaper_restore:'+str(exc)}
++    return {'worker_pid':proc.pid if proc else None,'worker_initial_identity':first if proc else None,
++        'worker_exit':proc.returncode if proc else None,'worker_wall_limit_seconds':slot_seconds,'cutoff':cutoff,'supervisor_error':error,
++        'containment':cleanup,'monotonic_start':started,'monotonic_end':time.monotonic(),
++        'elapsed_seconds':time.monotonic()-started,'outer_sampled_peak_kib':peak,
++        'outer_rss_scope':'POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel',
++        'limit_initiated':cutoff is not None,'orphan_survivors_at_worker_exit':survivors}
+diff --git a/ch8-s1-control/runner.py b/ch8-s1-control/runner.py
+index 2d3165158113468e910f57e6e33b890238424644..bff3c4ff28b9255a8cbfe8f7f97d61c3bb55fd1b 100644
+--- a/ch8-s1-control/runner.py
++++ b/ch8-s1-control/runner.py
+@@ -565,12 +565,12 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+             stderr_cap: int = STDERR_CAP_BYTES, export_path: Path | None = None,
+             export_cap: int = EXPORT_CAP_BYTES, env: dict[str, str] | None = None,
+             capture_tail: bool = False, compile_monitor: CompileMonitor | None = None,
+-            rich_parser=None) -> dict[str, Any]:
++            rich_parser=None, record_identity: bool = False) -> dict[str, Any]:
+     out.mkdir(parents=True, exist_ok=True)
+     started = time.monotonic()
+     info: dict[str, Any] = {"original_exit_code": None, "signal": None, "timed_out": False,
+                             "rss_peak_kib": 0, "rss_status": "SAMPLED_PROCESS_GROUP",
+-                            "output_truncated": False, "output_bytes": 0}
++                            "output_truncated": False, "output_bytes": 0, "stdout_bytes":0, "stderr_bytes":0}
+     state: dict[str, Any] = {"stdout_cap": False, "stderr_cap": False,
+                              "stdout_kept": 0, "stderr_kept": 0,
+                              "stdout_bytes": 0, "stderr_bytes": 0}
+@@ -607,6 +607,10 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+         external_signal.append(signum)
+         _kill_group(proc.pid)
+     try:
++        if record_identity:
++            from r5_runtime import census
++            info['process_identity']=census().get(proc.pid) or {'pid':proc.pid,'state':'EARLY_EXIT_UNOBSERVED_PGID_STARTTIME'}
++            info['rss_scope']='SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup'
+         for thread in threads:
+             thread.start()
+         for sig in (signal.SIGTERM, signal.SIGINT):
+@@ -667,6 +671,8 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+                 thread.join(timeout=2)
+                 if thread.is_alive():
+                     cleanup_errors.append("pipe reader did not stop")
++        for pipe, thread in zip((proc.stdout,proc.stderr),threads):
++            if thread.ident is None:pipe.close()
+         for sig, handler in previous_handlers.items():
+             try:
+                 signal.signal(sig, handler)
+@@ -1005,7 +1011,13 @@ def _artifact_size(out: Path) -> int:
+ 
+ 
+ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+-               group: dict[str, Any], phase_deadline: float) -> tuple[list[dict[str, Any]], str | None]:
++               group: dict[str, Any], phase_deadline: float, isolated_limits=None) -> tuple[list[dict[str, Any]], str | None]:
++    if isolated_limits is not None:
++        import r5_profile
++        r5_profile.validate(request)
++        assert len(group['rows'])==1 and group['rows'][0]['id'] in r5_profile.ORDER
++        assert group['id']=='r5-'+group['rows'][0]['id']
++    compile_limit=180 if isolated_limits is not None else COMPILE_SECONDS
+     dest = out / "groups" / group["id"]
+     dest.mkdir(parents=True, exist_ok=True)
+     selectors = [row["selector"] for row in group["rows"]]
+@@ -1018,15 +1030,19 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+                "invocation_id": uuid.uuid4().hex,
+                "argv": argv, "selectors": selectors, "variant": group["variant"],
+                "unwind": group["unwind"], "proof_credit": "NONE",
+-               "compile_limit_seconds": COMPILE_SECONDS,
+-               "group_budget_seconds": COMPILE_SECONDS + sum(r["timeout_seconds"] for r in group["rows"]),
++               "compile_limit_seconds": compile_limit,
++               "group_budget_seconds": 600 if isolated_limits is not None else compile_limit + sum(r["timeout_seconds"] for r in group["rows"]),
+                "std_sha": STD_SHA, "tool_sha": TOOL_SHA,
+                "request_sha256": sha256(REQUEST_PATH)}
+     patch = None
+     metadata_target = None
+     fatal = None
+-    rich = rich_evidence.RegularEvidence(selectors, std.resolve())
+-    monitor = CompileMonitor(dest / "compile/receipt.json", export, selectors)
++    if isolated_limits is not None:
++        from r5_runtime import NativeStarts
++        rich=NativeStarts(selectors,std.resolve())
++    else:
++        rich = rich_evidence.RegularEvidence(selectors, std.resolve())
++    monitor = CompileMonitor(dest / "compile/receipt.json", export, selectors, seconds=compile_limit)
+     try:
+         _write_json(dest / "receipt.json", receipt)
+         for result in results:
+@@ -1037,6 +1053,9 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+         if not before["required_hashes_present"]:
+             raise RunnerError("missing required tool binary hash")
+         memory = group_memory_budget()
++        if isolated_limits is not None:
++            memory['group_cap_kib']=min(memory['group_cap_kib'],RSS_CAP_KIB)
++            memory['rss_scope']='POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup'
+         patch, variant_files = _run_variant(std, group["variant"], request)
+         receipt.update(source_before=source_before, tool_fingerprints_before=before,
+                        memory=memory, source_under_test={"base_std_sha": STD_SHA,
+@@ -1055,6 +1074,13 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+             raise RunnerError("phase_seconds_cap_before_group")
+         # Group envelope is compile + all row budgets; the separate phase deadline is authoritative.
+         timeout = min(receipt["group_budget_seconds"], remaining)
++        if isolated_limits is not None:
++            if remaining<600:raise RunnerError('r5_preflight_slot_budget_no_full_child')
++            timeout=600
++            receipt['r5_limits']={'child_wall_seconds':600,'compile_seconds_inside_child':180,
++                'rss_effective_kib':memory['group_cap_kib'],'output_remaining':isolated_limits,
++                'rss_scope':memory['rss_scope'],'inner_backend_timeout_seconds':600}
++
+         receipt.update(timeout_seconds=timeout, phase_limited=timeout < receipt["group_budget_seconds"])
+         export.unlink(missing_ok=True)
+         for stream in ("stdout", "stderr"):
+@@ -1062,10 +1088,16 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+         _write_json(dest / "receipt.json", receipt)
+         try:
+             invocation = execute(argv, std.resolve(), dest, timeout,
+-                                 rss_cap_kib=memory["group_cap_kib"], stdout_cap=STDOUT_CAP_BYTES,
+-                                 stderr_cap=STDERR_CAP_BYTES, export_path=export, export_cap=EXPORT_CAP_BYTES,
+-                                 env=child_env, capture_tail=True, compile_monitor=monitor, rich_parser=rich)
++                                 rss_cap_kib=memory["group_cap_kib"],
++                                 stdout_cap=min(STDOUT_CAP_BYTES,isolated_limits['stdout_bytes']) if isolated_limits is not None else STDOUT_CAP_BYTES,
++                                 stderr_cap=min(STDERR_CAP_BYTES,isolated_limits['stderr_bytes']) if isolated_limits is not None else STDERR_CAP_BYTES,
++                                 export_path=export,
++                                 export_cap=min(EXPORT_CAP_BYTES,isolated_limits['export_bytes']) if isolated_limits is not None else EXPORT_CAP_BYTES,
++                                 env=child_env, capture_tail=True, compile_monitor=monitor, rich_parser=rich,
++                                 **({"record_identity":True} if isolated_limits is not None else {}))
+             receipt["execution"] = invocation
++            if isolated_limits is not None and invocation.get('elapsed_seconds',0)>=timeout:
++                invocation.update(timed_out=True,termination_reason=invocation.get('termination_reason') or 'child_wall_cutoff')
+         except BaseException as exc:
+             receipt["execution_exception"] = {"type": type(exc).__name__, "message": str(exc)}
+             raise
+@@ -1150,6 +1182,12 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+                 fatal = (fatal + "; " if fatal else "") + "compile_receipt_error: " + receipt["compile_receipt_error"]
+         _write_json(dest / "properties.json", rich.document())
+         receipt["location_exceptions"] = rich.location_exceptions()
++        if isolated_limits is not None:
++            receipt['native_start_events']=rich.starts
++            receipt['native_start_scope']='OBSERVED_STOCK_STDOUT_HEADER; source-reported not compiler/origin proof'
++            receipt['native_start_verified']=[x['selector'] for x in rich.starts]==selectors
++            if any(x['selector'] not in selectors for x in rich.starts) or len(rich.starts)>1:
++                fatal='native_selector_mismatch_or_duplicate'
+         try:
+             receipt["binding_metadata"] = capture_binding_metadata(dest, metadata_target, request, group, receipt)
+             if receipt["binding_metadata"]["errors"]:
+@@ -1188,6 +1226,8 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+ def run_rows(std: Path, tool: Path, out: Path, request: dict[str, Any],
+              group_ids: list[str] | None = None) -> int:
+     out.mkdir(parents=True, exist_ok=True)
++    import r5_profile
++    if r5_profile.enabled(request):raise RunnerError('r5 multi-root legacy run refused; use isolated campaign')
+     phase_started = time.monotonic()
+     deadline = phase_started+PHASE_SECONDS
+     all_groups = group_rows(request["rows"], request.get("execution_groups"))
+@@ -1250,6 +1290,8 @@ def main(argv: list[str] | None = None) -> int:
+         if args.command == "check-source":
+             print(json.dumps(verify_source(args.std, args.tool, request), sort_keys=True))
+         else:
++            import r5_profile
++            if r5_profile.enabled(request):raise RunnerError('r5 requires isolated r5_campaign.py run; legacy multi-root run refused')
+             group_ids = args.groups.split(",") if args.groups is not None else None
+             code = run_rows(args.std, args.tool, args.out, request, group_ids)
+             if code:
+diff --git a/ch8-s1-control/s2_policy.py b/ch8-s1-control/s2_policy.py
+index 1a77a179c8a5cc3eacb888e2959ba394bfb778c5..86082eb0ae0b849940fef5898df53ad592f1f11c 100644
+--- a/ch8-s1-control/s2_policy.py
++++ b/ch8-s1-control/s2_policy.py
+@@ -23,7 +23,7 @@ STUBS={'sort13_assumed':['#[kani::stub_verified(swap_if_less)]'],
+  'general32_weak':['#[kani::stub_verified(sort8_stable)]','#[kani::stub_verified(insert_tail)]','#[kani::stub(s2_merge_seam,weak_merge)]']}
+ def digest(data):return hashlib.sha256(data).hexdigest()
+ 
+-def validate_request(r):
++def validate_legacy_request(r):
+     assert r['schema']=='ch8-s2-batch3probes-v1'
+     assert isinstance(r['cfg_pfc_source_sha256'],dict) and len(r['cfg_pfc_source_sha256'])==8
+     assert isinstance(r['contract_stack_source_sha256'],dict) and len(r['contract_stack_source_sha256'])==23
+@@ -60,6 +60,12 @@ def validate_request(r):
+     assert sum(x['timeout_seconds'] for x in r['rows'])+r['budgets']['compile_seconds']==7500
+     return True
+ 
++def validate_request(r):
++    import r5_profile
++    if 'profile' in r or 'r5' in r:
++        r5_profile.validate(r)
++    return validate_legacy_request(r)
++
+ def validate_source(std,r):
+     validate_request(r)
+     lexical_bindings.check(std,r)
+diff --git a/ch8-s1-control/test_r5.py b/ch8-s1-control/test_r5.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..725fe33e0131ae3c7b906d05d1b55922e6f4b800
+--- /dev/null
++++ b/ch8-s1-control/test_r5.py
+@@ -0,0 +1,275 @@
++"""r5 service regressions. Only bounded synthetic/Python children; never Rust/CI."""
++import copy,json,os,sys,tempfile,time,unittest
++from pathlib import Path
++from unittest import mock
++import runner as r
++import r5_profile as p
++import r5_campaign as c
++import r5_runtime as rt
++import test_runner as fixtures
++import check_package,pack_evidence
++
++def synthetic_supervision():
++    worker={'pid':1,'pgid':1,'start_ticks':11}
++    driver={'pid':2,'pgid':2,'start_ticks':22}
++    return {'worker_pid':1,'worker_initial_identity':worker,'worker_exit':0,'cutoff':None,'supervisor_error':None,
++            'containment':{'verified':True,'observed':[worker,driver]},'orphan_survivors_at_worker_exit':[]}
++
++class CampaignTests(unittest.TestCase):
++    def setUp(self):self.req=r.load_request()
++    def emit(self,out,rid,case='ok'):
++        row=c.group(self.req,rid)['rows'][0];name=row['selector'];gp=out/'groups'/('r5-'+rid)
++        source={**c.identity(self.req),'changed_file_sha256':self.req['changed_file_sha256']}
++        doc={'state':'FAILED','group':'r5-'+rid,'request_sha256':r.sha256(r.REQUEST_PATH),'source_before':source,'source_after':source,
++             'binary_identity':'MATCH','snapshot_errors':[],'native_start_events':[{'selector':name,'monotonic':time.monotonic()}],
++             'native_start_verified':True,'execution':{'original_exit_code':0,'stdout_bytes':1,'stderr_bytes':0,'process_identity':{'pid':2,'pgid':2,'start_ticks':22}}}
++        result={**r._row_base(row,'UNKNOWN'),'group':'r5-'+rid,'outcome':'UNKNOWN','reason':case}
++        if case in ('ok','unexpected','negative_wrong'):
++            doc['state']='COMPLETE'
++            h={'outcome':{'kind':'COMPLETED','verdict':'SUCCESS'},'checks':{'success':1,'total':1,
++              **{k:[] for k in ('failure','unreachable','undetermined','error','unknown','other')}},
++              'covers':{'total':row['required_cover_count'],**{k:[] for k in ('unsatisfiable','unreachable','undetermined','error','unknown','other')}}}
++            props=[{'id':str(i),'description':s,'class':'assertion','status':'SUCCESS'} for i,s in enumerate(row.get('required_success_messages',[]))]
++            props += [{'id':'c'+str(i),'description':s,'class':'cover','status':'SATISFIED'} for i,s in enumerate(row['required_cover_messages'])]
++            if row['expected']=='DETECTED':
++                h=fixtures.batch_export([row],self.req['source_bindings'])['harnesses'][0];props=copy.deepcopy(h['failed_properties'])
++                if case=='negative_wrong':props[0]['description']='UNEXPECTED_ASSERTION'
++            if case=='unexpected':h['outcome']={'kind':'COMPLETED','verdict':'FAILURE'}
++            result.update(status='OBSERVED',outcome='RECORDED',export={'state':'RECORDED_OBSERVATION','outcome':'RECORDED','harness':h})
++            c.atomic(gp/'properties.json',{'harnesses':[{'name':name,'properties':props}]})
++        if case=='source':doc['source_after']={}
++        if case=='binary':doc['binary_identity']='UNKNOWN'
++        if case=='wrong_start':doc['native_start_events']=[{'selector':'wrong'}]
++        gp.mkdir(parents=True,exist_ok=True)
++        if case=='export_cap':(gp/'export.json').write_bytes(b'0'*(p.CAPS['export_bytes']+1))
++        c.atomic(gp/'receipt.json',doc);c.atomic(out/rid/'receipt.json',result)
++        return synthetic_supervision()
++    def run_cases(self,case='rss',position=0):
++        with tempfile.TemporaryDirectory() as d:
++            out=Path(d);launched=[]
++            def call(std,tool,out,request,rid,limits,slot):
++                launched.append(rid);return self.emit(out,rid,case if len(launched)-1==position else 'ok')
++            code=c.run_campaign(Path('/std'),Path('/tool'),out,self.req,invoker=call)
++            terminal=c.read(out/'receipt.json');before={rid:seal['files'] for rid,seal in c.sealed(out).items()}
++            check_package.fallback(out)
++            self.assertEqual(before,{rid:seal['files'] for rid,seal in c.sealed(out).items()})
++            return code,launched,terminal
++    def test_first_middle_last_local_errors_continue(self):
++        for case in ('rss','timeout','compile_exit42','compile_timeout','missing_RESULTS','partial','null','wrong_type','decoder_error','unexpected'):
++            for pos in (0,4,8):
++                with self.subTest(case=case,pos=pos):
++                    _,launched,term=self.run_cases(case,pos)
++                    self.assertEqual(launched,list(p.ORDER));self.assertEqual(len(term['r5_campaign']['completed']),9)
++                    self.assertEqual([x['id'] for x in term['rows'] if x['status']=='DEFERRED_NOT_SELECTED'],list(p.DEFERRED))
++    def test_identity_start_and_containment_abort(self):
++        for case in ('source','binary','wrong_start'):
++            with self.subTest(case=case):
++                code,launched,term=self.run_cases(case,1)
++                self.assertEqual(launched,list(p.ORDER[:2]));self.assertEqual(code,1)
++                self.assertEqual(term['r5_campaign']['completed'],[p.ORDER[0]])
++        for sup in ({'containment':{'verified':False}}, {'containment':{'verified':True},'orphan_survivors_at_worker_exit':[{'pid':123}]}):
++            with tempfile.TemporaryDirectory() as d:
++                out=Path(d);self.emit(out,p.ORDER[0])
++                with self.assertRaises(c.GlobalFailure):c.root_outcome(out,self.req,p.ORDER[0],sup)
++    def test_exact_negative_not_generic_failure_and_no_late_success(self):
++        with tempfile.TemporaryDirectory() as d:
++            out=Path(d);rid=p.ORDER[0];result=c.root_outcome(out,self.req,rid,self.emit(out,rid,'negative_wrong'))
++            self.assertFalse(result['r5_expected_match']);self.assertEqual(result['export']['harness']['outcome']['verdict'],'FAILURE')
++        with tempfile.TemporaryDirectory() as d:
++            out=Path(d);rid=p.ORDER[0];sup=self.emit(out,rid);sup['cutoff']='slot_wall_during_cleanup'
++            result=c.root_outcome(out,self.req,rid,sup);self.assertEqual(result['outcome'],'UNKNOWN');self.assertFalse(result['r5_expected_match'])
++    def test_global_clock_and_aggregate_export_cap(self):
++        with tempfile.TemporaryDirectory() as d:
++            out=Path(d);launched=[]
++            def invoke(*args):launched.append(args[4]);return self.emit(args[2],args[4])
++            code=c.run_campaign(Path('/std'),Path('/tool'),out,self.req,invoker=invoke,clock=mock.Mock(side_effect=[0,181,181]))
++            self.assertEqual(code,1);self.assertFalse(launched);self.assertIn('global_budget',c.read(out/'receipt.json')['stop_reason'])
++        _,launched,term=self.run_cases('export_cap',0)
++        self.assertEqual(launched,[p.ORDER[0]]);self.assertIn('aggregate_output',term['stop_reason'])
++    def test_missing_request_after_launch_keeps_original_identity_and_packs(self):
++        with tempfile.TemporaryDirectory() as d:
++            path=Path(d)/'request.json';path.write_bytes(r.REQUEST_PATH.read_bytes());original=r.sha256(path);out=Path(d)/'out'
++            def invoke(*args):
++                sup=self.emit(args[2],args[4]);path.unlink();return sup
++            with mock.patch.object(r,'REQUEST_PATH',path):
++                self.assertEqual(c.run_campaign(Path('/std'),Path('/tool'),out,self.req,invoker=invoke),1)
++                self.assertEqual(c.read(out/'receipt.json')['request_sha256'],original)
++                c.fallback(out,self.req);pack_evidence.pack(out)
++                self.assertTrue((out/pack_evidence.NAME).exists())
++    def test_request_and_completed_storage_drift(self):
++        with tempfile.TemporaryDirectory() as d:
++            out=Path(d);c.root_outcome(out,self.req,p.ORDER[0],self.emit(out,p.ORDER[0]));(out/p.ORDER[0]/'receipt.json').write_text('{}')
++            with self.assertRaisesRegex(c.GlobalFailure,'storage drift'):c.fallback(out,self.req)
++        with tempfile.TemporaryDirectory() as d:
++            request=Path(d)/'request.json';request.write_bytes(r.REQUEST_PATH.read_bytes());out=Path(d)/'out';launched=[]
++            def invoke(*args):
++                launched.append(args[4]);result=self.emit(args[2],args[4]);request.write_text('{}');return result
++            with mock.patch.object(r,'REQUEST_PATH',request):
++                self.assertEqual(c.run_campaign(Path('/std'),Path('/tool'),out,self.req,invoker=invoke),1)
++                self.assertIn('request drift',c.read(out/'receipt.json')['stop_reason'])
++            self.assertEqual(len(launched),1)
++    def test_prefix_packed_and_fallback_preserves_exact_bytes(self):
++        with tempfile.TemporaryDirectory() as d:
++            out=Path(d);rid=p.ORDER[0];c.root_outcome(out,self.req,rid,self.emit(out,rid));c.finalize(out,self.req,'later failure')
++            before=(out/rid/'receipt.json').read_bytes();c.fallback(out,self.req)
++            self.assertEqual((out/rid/'receipt.json').read_bytes(),before);pack_evidence.pack(out)
++            self.assertTrue((out/pack_evidence.NAME).exists());self.assertEqual(c.sealed(out)[rid]['files'][rid+'/receipt.json'],c.digest(before))
++    def test_exited_detached_group_cannot_reuse_pgid_only_after_snapshot(self):
++        doc={'execution':{'process_identity':{'pid':2,'pgid':2,'start_ticks':22}}}
++        sup=synthetic_supervision()
++        c.validate_owned_groups(doc,sup)
++        sup['containment']['observed'].append({'pid':3,'pgid':3,'state':'Z'})
++        with self.assertRaisesRegex(c.GlobalFailure,'unexpected_process_group'):c.validate_owned_groups(doc,sup)
++    def test_unsealed_worker_or_launch_intent_is_not_claimed_unstarted(self):
++        for status in ('IN_PROGRESS','INTENT_ONLY'):
++            with self.subTest(status=status),tempfile.TemporaryDirectory() as d:
++                out=Path(d);rid=p.ORDER[0];row=c.group(self.req,rid)['rows'][0]
++                if status=='IN_PROGRESS':c.atomic(out/rid/'receipt.json',{**r._row_base(row,'IN_PROGRESS'),'group':'r5-'+rid})
++                else:c.atomic(out/'workers'/(rid+'-launch.json'),{'id':rid})
++                term=c.finalize(out,self.req,'controller interrupted')
++                affected=next(x for x in term['rows'] if x['id']==rid)
++                self.assertEqual(affected['status'],'INTERRUPTED' if status=='IN_PROGRESS' else 'UNSEALED_INVOCATION_UNKNOWN')
++                self.assertEqual(affected['outcome'],'UNKNOWN');self.assertIn('UNKNOWN',affected['native_root_start'])
++    def test_global_abort_keeps_supervision_and_interrupted_status(self):
++        with tempfile.TemporaryDirectory() as d:
++            out=Path(d)
++            def invoke(std,tool,out,req,rid,limits,slot):
++                sup=self.emit(out,rid,'binary');sup['worker_pid']=12345
++                sup['worker_initial_identity']={'pid':12345,'pgid':12345,'start_ticks':777}
++                return sup
++            self.assertEqual(c.run_campaign(Path('/std'),Path('/tool'),out,self.req,invoker=invoke),1)
++            terminal=c.read(out/'receipt.json');affected=next(x for x in terminal['rows'] if x['id']==p.ORDER[0])
++            self.assertEqual(affected['status'],'INTERRUPTED');self.assertEqual(affected['outcome'],'UNKNOWN')
++            retained=c.read(out/'workers'/(p.ORDER[0]+'-supervision.json'))
++            self.assertEqual(retained['worker_initial_identity']['start_ticks'],777)
++            self.assertEqual(affected['invocation_supervision'],retained)
++            self.assertTrue(all(x['status']=='NOT_RUN' for x in terminal['rows'] if x['id'] in p.ORDER[1:]))
++    def test_explicit_legacy_group_api_cannot_overwrite_active_r5_prefix(self):
++        with tempfile.TemporaryDirectory() as d:
++            out=Path(d);rid=p.ORDER[0];c.root_outcome(out,self.req,rid,self.emit(out,rid));c.finalize(out,self.req,'later failure')
++            original=(out/rid/'receipt.json').read_bytes()
++            check_package.fallback(out,['s2-batch3probes-u34'])
++            self.assertEqual((out/rid/'receipt.json').read_bytes(),original)
++            self.assertEqual(c.read(out/'receipt.json')['schema'],'ch8-s2-r5-campaign-v1')
++    def test_finish_packs_prefix_even_if_fallback_errors(self):
++        import contextlib,io
++        with tempfile.TemporaryDirectory() as d,mock.patch.object(sys,'argv',['r5_campaign','finish','--out',d]),mock.patch.object(c,'fallback',side_effect=c.GlobalFailure('synthetic storage failure')),mock.patch.object(pack_evidence,'pack') as pack,contextlib.redirect_stderr(io.StringIO()):
++            self.assertEqual(c.main(),1);pack.assert_called_once_with(Path(d))
++    def test_post_cleanup_deadline_and_shared_export_remainder(self):
++        with tempfile.TemporaryDirectory() as d:
++            out=Path(d);rid=p.ORDER[0];sup=self.emit(out,rid);sup['monotonic_start']=time.monotonic()-721
++            result=c.root_outcome(out,self.req,rid,sup)
++            self.assertEqual(result['outcome'],'UNKNOWN');self.assertEqual(result['r5_supervision']['cutoff'],'durable_slot_cutoff')
++        with tempfile.TemporaryDirectory() as d:
++            out=Path(d);launches=[]
++            def invoke(std,tool,out,req,rid,limits,slot):
++                launches.append(rid)
++                if len(launches)==2:self.assertEqual(limits['export_bytes'],3*1024*1024)
++                sup=self.emit(out,rid,'partial');gp=out/'groups'/('r5-'+rid)
++                (gp/'export.json').write_bytes(b'0'*(5*1024*1024));return sup
++            self.assertEqual(c.run_campaign(Path('/std'),Path('/tool'),out,self.req,invoker=invoke),1)
++            self.assertEqual(launches,list(p.ORDER[:2]));self.assertEqual(len(c.sealed(out)),2)
++    def test_global_clock_is_not_reset_after_first_root(self):
++        with tempfile.TemporaryDirectory() as d:
++            out=Path(d);launches=[]
++            def invoke(*args):launches.append(args[4]);return self.emit(args[2],args[4])
++            clock=mock.Mock(side_effect=[0,0,0,1,1,901,901])
++            self.assertEqual(c.run_campaign(Path('/std'),Path('/tool'),out,self.req,invoker=invoke,clock=clock),1)
++            self.assertEqual(launches,[p.ORDER[0]]);self.assertIn('global_budget',c.read(out/'receipt.json')['stop_reason'])
++    def test_profile_legacy_strict_and_full_union(self):
++        p.validate(self.req);legacy=fixtures.legacy_request();r.s2_policy.validate_request(legacy)
++        with tempfile.TemporaryDirectory() as d,self.assertRaises(r.RunnerError):r.run_rows(Path('/std'),Path('/tool'),Path(d),self.req)
++        self.assertEqual(len(r.group_rows(legacy['rows'],legacy['execution_groups'])),1)
++        for field,value in [('selected',list(reversed(p.ORDER))),('deferred',[]),('caps',{})]:
++            bad=copy.deepcopy(self.req);bad['r5'][field]=value
++            with self.assertRaises(AssertionError):p.validate(bad)
++        bad=copy.deepcopy(legacy);bad['execution_groups']=p.groups(self.req)
++        with self.assertRaises(AssertionError):r.s2_policy.validate_request(bad)
++        self.assertEqual(sum(x['required_cover_count'] for x in self.req['rows'] if x['id'] in p.ORDER),16)
++        self.assertEqual(sum(x['required_cover_count'] for x in self.req['rows']),20)
++    def test_native_start_filter_and_compile_cutoff(self):
++        parser=rt.NativeStarts(['chosen'],Path('/'));parser.feed(b'Checking harness wrong...\n')
++        self.assertIn('unexpected',parser.error);self.assertEqual(parser.starts[0]['selector'],'wrong')
++        parser=rt.NativeStarts(['chosen'],Path('/'));parser.feed(b'Checking harness chosen...\nChecking harness chosen...\n')
++        self.assertEqual(len(parser.starts),2);self.assertIn('duplicate',parser.error)
++        with tempfile.TemporaryDirectory() as d:
++            root=Path(d);export=root/'export.json';row=self.req['rows'][0];monitor=r.CompileMonitor(root/'compile.json',export,[row['selector']],seconds=180)
++            export.write_text(json.dumps(fixtures.batch_export([row],self.req['source_bindings'])))
++            self.assertTrue(monitor.poll(180,{}));monitor.finish({'elapsed_seconds':181,'original_exit_code':0},{})
++            self.assertEqual(monitor.receipt['state'],'FAILED')
++    def test_isolated_pipeline_singleton_namespace_caps(self):
++        req=self.req;row=c.group(req,p.ORDER[0])['rows'][0];targets=[]
++        fp={'required_hashes_present':True,'binaries':{k:{'path':'/'+k,'sha256':'a'*64} for k in ('kani_driver','kani_compiler','cbmc')}}
++        source={**c.identity(req),'changed_file_sha256':req['changed_file_sha256']}
++        with tempfile.TemporaryDirectory() as d:
++            base=Path(d);std=base/'std';tool=base/'tool'
++            def execute(argv,cwd,out,timeout,**kw):
++                self.assertEqual(argv.count('--harness'),1);self.assertEqual(argv[argv.index('--harness')+1],row['selector'])
++                self.assertEqual(timeout,600);self.assertEqual(kw['rss_cap_kib'],6*1024*1024);self.assertEqual(kw['compile_monitor'].seconds,180)
++                self.assertTrue(kw['record_identity']);targets.append(kw['env']['CARGO_TARGET_DIR'])
++                stock=fixtures.batch_export([row],req['source_bindings']);kw['export_path'].write_text(json.dumps(stock));kw['compile_monitor'].poll(1,{})
++                fixtures.feed_regular(kw['rich_parser'],stock)
++                target=Path(kw['env']['CARGO_TARGET_DIR'])
++                (target/'core.kani-metadata.json').write_text(json.dumps({'proof_harnesses':[{'pretty_name':row['selector'],'crate_name':'core'}]}))
++                return {'original_exit_code':1,'elapsed_seconds':2,'stdout_bytes':1,'stderr_bytes':0,'child_shutdown_verified':True,'process_identity':{'pid':2,'pgid':2,'start_ticks':22}}
++            with mock.patch.object(r,'verify_source',return_value=source),mock.patch.object(r,'binary_fingerprints',return_value=fp),mock.patch.object(r,'group_memory_budget',return_value={'group_cap_kib':12*1024*1024}),mock.patch.object(r,'execute',side_effect=execute):
++                for index in range(2):
++                    out=base/str(index)
++                    r._run_group(std,tool,out,req,c.group(req,p.ORDER[0]),time.monotonic()+720,isolated_limits={'stdout_bytes':10000,'stderr_bytes':1000,'export_bytes':100000})
++                    sup=synthetic_supervision()
++                    result=c.root_outcome(out,req,p.ORDER[0],sup)
++                    self.assertEqual(result['outcome'],'RECORDED')
++                    c.finalize(out,req)
++                    replay=c.collect([out],req)
++                    observed=next(x for x in replay['rows'] if x['id']==p.ORDER[0])
++                    self.assertEqual(observed['outcome'],'RECORDED');self.assertFalse(replay['full_inventory_complete'])
++                    gp=out/'groups'/('r5-'+p.ORDER[0])/'receipt.json'
++                    doc=c.read(gp);doc['native_start_verified']=False;c.atomic(gp,doc)
++                    seal_path=out/'completed'/(p.ORDER[0]+'.json');seal=c.read(seal_path)
++                    seal['files'][str(gp.relative_to(out))]=r.sha256(gp);c.atomic(seal_path,seal)
++                    with self.assertRaises(c.GlobalFailure):c.collect([out],req)
++            self.assertNotEqual(targets[0],targets[1]);self.assertTrue(all('/target/ch8-s1-cargo/' in x for x in targets))
++
++class ProcessTests(unittest.TestCase):
++    def supervise(self,script,slot=.15):
++        with tempfile.TemporaryDirectory() as d:
++            return rt.supervise([sys.executable,'-c',script],Path(d),dict(os.environ),slot,12*1024*1024,Path(d)/'worker.stderr')
++    def test_pid_identity_failure_still_reaps_before_snapshot_boundary(self):
++        with tempfile.TemporaryDirectory() as d,mock.patch.object(rt,'census',side_effect=OSError('synthetic proc identity read error')):
++            result=r.execute([sys.executable,'-c','import time;time.sleep(30)'],Path(d),Path(d)/'child',2,record_identity=True)
++            self.assertEqual(result['termination_reason'],'runner_exception')
++            self.assertEqual(result['runner_exception']['type'],'OSError')
++            self.assertTrue(result['child_shutdown_verified']);self.assertIsNotNone(result['original_exit_code'])
++    def test_real_timeout_python_tree_reaped(self):
++        result=self.supervise('import time;time.sleep(30)')
++        self.assertEqual(result['cutoff'],'slot_wall');self.assertTrue(result['containment']['verified'])
++        self.assertTrue(result['containment']['signals']);self.assertIsNotNone(result['worker_initial_identity']['start_ticks'])
++    def test_escaped_setsid_child_found_and_reaped(self):
++        script="import subprocess,sys;subprocess.Popen([sys.executable,'-c','import os,time;os.setsid();time.sleep(30)']);"
++        result=self.supervise(script,2)
++        self.assertTrue(result['containment']['verified']);self.assertTrue(result['orphan_survivors_at_worker_exit']);self.assertTrue(result['containment']['reaped_adopted'])
++    def test_zero_exit_during_cleanup_does_not_clear_cutoff(self):
++        script="import signal,sys,time;signal.signal(signal.SIGTERM,lambda *args:sys.exit(0));time.sleep(30)"
++        result=self.supervise(script,.2)
++        self.assertEqual(result['worker_exit'],0);self.assertEqual(result['cutoff'],'slot_wall');self.assertTrue(result['limit_initiated'])
++    def test_unrelated_child_never_signalled(self):
++        import subprocess
++        child=subprocess.Popen([sys.executable,'-c','import time;time.sleep(30)'])
++        try:
++            with self.assertRaises(rt.ContainmentError):self.supervise('pass')
++            self.assertIsNone(child.poll())
++        finally:child.terminate();child.wait(timeout=3)
++    def test_real_local_rss_timeout_then_next_root(self):
++        request=r.load_request()
++        for kind in ('rss','timeout'):
++            with self.subTest(kind=kind),tempfile.TemporaryDirectory() as d:
++                out=Path(d);helper=CampaignTests();helper.req=request;started=[]
++                def invoke(std,tool,out,req,rid,limits,slot):
++                    started.append(rid)
++                    if len(started)==1:
++                        execution=r.execute([sys.executable,'-c','import time;time.sleep(30)'],Path(d),out/'python-child',.12,rss_cap_kib=1 if kind=='rss' else 6*1024*1024,record_identity=True)
++                        self.assertTrue(execution['child_shutdown_verified']);self.assertEqual(execution['termination_reason'],'rss_cap' if kind=='rss' else 'timeout')
++                    return helper.emit(out,rid,kind if len(started)==1 else 'ok')
++                c.run_campaign(Path('/std'),Path('/tool'),out,request,invoker=invoke);self.assertEqual(started,list(p.ORDER))
++
++if __name__=='__main__':unittest.main()
+diff --git a/ch8-s1-control/test_runner.py b/ch8-s1-control/test_runner.py
+index eb77c9526f42ca8373c2af3a5694a3b29582a0f1..39a13e5c339d92509ff2b24d3c828b34fa312914 100644
+--- a/ch8-s1-control/test_runner.py
++++ b/ch8-s1-control/test_runner.py
+@@ -14,6 +14,14 @@ from unittest import mock
+ import runner
+ 
+ 
++def legacy_request():
++    """Exercise the unchanged legacy grouped contract separately from r5 service tests."""
++    request=runner.load_request()
++    request.pop('profile',None);request.pop('r5',None)
++    runner.s2_policy.validate_legacy_request(request)
++    return request
++
++
+ def row(**updates):
+     value = {"id": "synthetic", "selector": "slice::sort::root", "mode": "PFC",
+              "variant": "production", "unwind": 4, "expected": "SUCCESS",
+@@ -292,7 +300,7 @@ class NoListBindingTests(unittest.TestCase):
+ 
+     def test_source_anchor_and_request_binding_mutations(self):
+         import copy
+-        original=runner.load_request()
++        original=legacy_request()
+         mutations=[
+             lambda r:r['source_bindings'].pop(r['rows'][0]['id']),
+             lambda r:r['source_bindings'][r['rows'][0]['id']].update(selector='other'),
+@@ -362,7 +370,7 @@ def feed_regular(parser, stock):
+ 
+ class GroupTests(unittest.TestCase):
+     def test_groups_keep_rows_flags_variants_and_every_selector(self):
+-        request=runner.load_request();groups=runner.group_rows(request['rows'],request['execution_groups'])
++        request=legacy_request();groups=runner.group_rows(request['rows'],request['execution_groups'])
+         self.assertEqual(len(groups),1)
+         self.assertEqual([g['id'] for g in groups],[g['id'] for g in request['execution_groups']])
+         self.assertEqual(sorted(r['id'] for g in groups for r in g['rows']),sorted(r['id'] for r in request['rows']))
+@@ -476,7 +484,7 @@ class GroupTests(unittest.TestCase):
+         return code,json.loads((out/'receipt.json').read_text()),calls,out
+ 
+     def test_all_s2_rows_one_invocation_record_only(self):
+-        request=runner.load_request()
++        request=legacy_request()
+         with tempfile.TemporaryDirectory() as d:
+             code,summary,calls,out=self.run_mock_batch(Path(d),request)
+             self.assertEqual(code,0,json.dumps(summary))
+@@ -519,7 +527,7 @@ class GroupTests(unittest.TestCase):
+             self.assertEqual(json.loads((out/'a/receipt.json').read_text())['status'],'NOT_RUN')
+ 
+     def test_phase_limit_is_separate_from_kani_harness_limit(self):
+-        request=runner.load_request()
++        request=legacy_request()
+         with tempfile.TemporaryDirectory() as d,mock.patch.object(runner,'PHASE_SECONDS',50):
+             code,summary,calls,out=self.run_mock_batch(Path(d),request)
+             self.assertEqual(code,0)  # Complete evidence is independent of offline oracles
+diff --git a/ch8-s1-control/test_s107.py b/ch8-s1-control/test_s107.py
+index bb08cb0b9a20bff21ac36a8a3ccef9429a516940..07d6f548a8b30e9110bb9c022585e691e163e996 100644
+--- a/ch8-s1-control/test_s107.py
++++ b/ch8-s1-control/test_s107.py
+@@ -281,7 +281,7 @@ class LocationTests(unittest.TestCase):
+         with self.assertRaises(ValueError):replay.validate(stock)
+ 
+     def test_collector_rechecks_snapshots_and_exact_exception_receipts(self):
+-        request=r.load_request()
++        request=runner_tests.legacy_request()
+         helper=runner_tests.GroupTests('test_all35_rows_fourteen_invocations_record_only_without_oracle_classification')
+         with tempfile.TemporaryDirectory() as tmp:
+             original=runner_tests.feed_regular
+diff --git a/ch8-s1-control/test_s2.py b/ch8-s1-control/test_s2.py
+index 554711a91641feb783d6bedde7e74cb01bedfa79..a0f32e6b16cf0f740afd16c5084e24fb92e67b9d 100644
+--- a/ch8-s1-control/test_s2.py
++++ b/ch8-s1-control/test_s2.py
+@@ -119,7 +119,7 @@ class S2Tests(unittest.TestCase):
+             self.assertTrue(info['child_shutdown_verified'])
+ 
+     def test_missing_results_partial_timeout_and_remaining_inventory_unknown(self):
+-        req=r.load_request()
++        req=fixtures.legacy_request()
+         for case in ('missing','partial','timeout','not_run','wrong_target','source','post_source','exception'):
+             with self.subTest(case=case),tempfile.TemporaryDirectory() as d:
+                 code,summary,calls,out=fixtures.GroupTests().run_mock_batch(Path(d),req,case=case)
