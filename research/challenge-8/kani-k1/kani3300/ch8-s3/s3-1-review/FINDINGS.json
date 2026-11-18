@@ -1,0 +1,69 @@
+{
+  "schema": "ch8-s3-1-independent14-findings-v1",
+  "disposition": "REQUEST_CHANGES",
+  "candidate_g0": "e8a8e5328a941af8a07b778122604b0c9bf4579b",
+  "blocking_findings": [
+    {
+      "id": "R14-02",
+      "priority": "P1",
+      "blocking": true,
+      "title": "FAILED worker skips recorded protected snapshot errors or drift",
+      "control_sha": "1dfc267b66abd83d536eb41a17052a4f3d767d2b",
+      "locations": [
+        {
+          "file": "ch8-s1-control/s3_campaign.py",
+          "line": 186
+        },
+        {
+          "file": "ch8-s1-control/runner.py",
+          "line": 1204
+        }
+      ],
+      "trigger": "FAILED worker with source_after_error(std HEAD drift), or AFTER snapshot_errors and binary_identity UNKNOWN; later controller post matches E0",
+      "actual": "All9 invocations/seals; six later roots launch; SELECTED_PARTIAL with stop_reason null",
+      "expected": "Preserve recorded protected drift/read failure and globally stop before later roots",
+      "repair_owner": "original13",
+      "repair_boundary": "Inspect available worker protected mismatches/errors regardless of state; distinguish absent inner AFTER due to interruption and preserve verified controller AFTER recovery; no rebaseline/erasure",
+      "evidence": [
+        "tests/test_review14.py:SnapshotFindings",
+        "tests/review14.stdout.txt"
+      ],
+      "followup": "new immutable repair + same14 delta"
+    },
+    {
+      "id": "R14-01",
+      "priority": "P2",
+      "blocking": true,
+      "title": "S3 compilation/source-under-test evidence writes and accepts legacy bd62 source SHA",
+      "control_sha": "1dfc267b66abd83d536eb41a17052a4f3d767d2b",
+      "locations": [
+        {
+          "file": "ch8-s1-control/runner.py",
+          "line": 511
+        },
+        {
+          "file": "ch8-s1-control/runner.py",
+          "line": 1091
+        },
+        {
+          "file": "ch8-s1-control/s3_campaign.py",
+          "line": 386
+        }
+      ],
+      "trigger": "Any successful S3 singleton through the actual compile/source-under-test writers",
+      "actual": "Group/source_before513341 but compile std_sha and source_under_test base_std_sha bd62; eighteen stale compile receipts accepted by local plus upload-only replay",
+      "expected": "Explicit requested source/tool identities throughout writers and readers; missing/malformed/stale identities reject",
+      "repair_owner": "original13",
+      "repair_boundary": "S3 request-derived identities; preserve legacy defaults and historical evidence; refresh metadata/request hashes and exact validation",
+      "evidence": [
+        "tests/test_review14.py:ProvenanceFindings",
+        "tests/review14.stdout.txt"
+      ],
+      "followup": "new immutable repair + same14 delta"
+    }
+  ],
+  "source_semantic_additional_blockers": [],
+  "GO": "NOT_REQUESTED_NOT_AUTHORIZED",
+  "native": "NOT_RUN",
+  "proof_credit": "NONE"
+}

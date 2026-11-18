@@ -1,0 +1,72 @@
+{
+  "schema": "ch8-s3-1-independent14-validation-v1",
+  "disposition": "REQUEST_CHANGES",
+  "candidate_g0": "e8a8e5328a941af8a07b778122604b0c9bf4579b",
+  "candidate_final_validate": {
+    "scope": "original recorded provenance hash/arithmetic audit; not reviewer rerun or independent CI witness",
+    "control_sha": "1dfc267b66abd83d536eb41a17052a4f3d767d2b",
+    "tests": 172,
+    "elapsed_seconds": 601.497913089,
+    "margin": 1.7955174515130843,
+    "execution_count": 1,
+    "reference": "../s3-1/validation-final/FINAL-VALIDATE.json",
+    "precursor_final_credit": false
+  },
+  "independent_checks": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 tests/audit_inputs.py",
+      "cwd": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-review",
+      "state": "PASS",
+      "check_count": 347,
+      "evidence": "inputs-audit.json",
+      "scope": "read-only Git/hash/source-role/transcript checks; temporary-index patch replays"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_s3",
+      "cwd": "/root/kani-ch8-s3-1-final-control-w13/ch8-s1-control",
+      "state": "PASS",
+      "tests": 36,
+      "elapsed_seconds_reported": 47.184,
+      "evidence": [
+        "tests/s3-unittest.stdout.txt",
+        "tests/s3-unittest.stderr.txt"
+      ],
+      "scope": "unit/static/synthetic service; small real Python children only"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 runner.py check-source --std /root/verify-rust-std-ch8-s3-1-final-w13 --tool /root/kani-upstream-ch8-s1",
+      "cwd": "/root/kani-ch8-s3-1-final-control-w13/ch8-s1-control",
+      "state": "PASS",
+      "evidence": [
+        "tests/source-prebuild.stdout.json",
+        "tests/source-prebuild.stderr.txt"
+      ],
+      "scope": "real checkouts, all static prebuild gates, no compiler/expansion"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 tests/test_review14.py",
+      "cwd": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-review",
+      "state": "BUGS_REPRODUCED",
+      "tests": 3,
+      "elapsed_seconds_reported": 5.833,
+      "evidence": [
+        "tests/review14.stdout.txt",
+        "tests/review14.stderr.txt"
+      ],
+      "scope": "assertions reproduce current defects, not acceptance; actual writers/controller/collector with synthetic native execution"
+    }
+  ],
+  "full_final_validate_rerun": false,
+  "native_compile": "NOT_RUN",
+  "compiler_audit": "NOT_RUN",
+  "Kani_CBMC": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "full_native_runner": "NOT_RUN",
+  "runtime_fit": "NOT_RUN",
+  "qualified_leaves": [],
+  "proof_obligations_closed": 0,
+  "independent_B1_B2_credit": "NONE",
+  "budget_action": "NONE; reference11/17 total41/48 unchanged, no reservation",
+  "delegation": "NONE",
+  "settings_changes": "NONE; preserve high/Fast OFF"
+}

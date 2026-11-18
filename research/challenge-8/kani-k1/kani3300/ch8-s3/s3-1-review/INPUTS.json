@@ -1,0 +1,101 @@
+{
+  "schema": "ch8-s3-1-independent14-inputs-v1",
+  "owner": "owner23:54 explicit /new14",
+  "recorded_utc": "2026-11-18T21:04:00.502794+00:00",
+  "task_commit": "7afd3d52d959a246df4e968e9cc8a66f029fbedf",
+  "task": "research/challenge-8/kani-k1/TASK-CH8-S3-1-REVIEW-W14.md",
+  "package_g0": "e8a8e5328a941af8a07b778122604b0c9bf4579b",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s3-1-final-w13",
+    "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+    "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s3-1-final-control-w13",
+    "sha": "1dfc267b66abd83d536eb41a17052a4f3d767d2b",
+    "tree": "07d2500da97ca0a2bd6e62aede3bc5e79d15cfcd",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "request_sha256": "b26b8dd8afdacc9dd09b94b2a043e6da96047826efa949ae8a34b74cb5efabc3",
+  "workflow_sha256": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709",
+  "roots": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "s3_swap_u8_geometry",
+    "s3_sort4_u8_separate",
+    "s3_sort4_u8_same_alloc",
+    "s3_insert_tail_u8_rel16",
+    "s3_merge8_u8_separate",
+    "s3_merge8_u8_same_alloc",
+    "sort13_weak"
+  ],
+  "unwind": [
+    34,
+    34,
+    36,
+    8,
+    50,
+    36,
+    12,
+    50,
+    34
+  ],
+  "cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf",
+  "role_policy": {
+    "mode": "REJECT_ALL",
+    "proposal": "S3-U-SITE-REVIEW-v1",
+    "enabled": false,
+    "unknown": "REJECT",
+    "role_unreachable": "REJECT"
+  },
+  "read_dependencies": [
+    {
+      "name": "plan",
+      "commit": "da89127150a550ccb3861a7bfc5b6205c6409e61",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/r6-s3-plan-r1/"
+    },
+    {
+      "name": "intake",
+      "commit": "ebd77a955b2b8d1b4e8079cfbf569386bcf0b130",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/run-44375519132/",
+      "scope": "committed reports only; no artifact acquisition"
+    }
+  ],
+  "S4_reference": {
+    "commit": "9e013a2683afbf64de762e570a052c11917e52f7",
+    "used_for_proof_credit": false,
+    "read_in_this_review": false
+  },
+  "copied_inputs": {
+    "HANDOFF.md": {
+      "bytes": 4718,
+      "sha256": "8f4334911ae325517ad8ae5fbdb292f18d61e274504084f05475f2b3f5527988"
+    },
+    "PINS.json": {
+      "bytes": 2565,
+      "sha256": "b5aba715a4af2df1612cee9c37608f2590cd3f3a903799785c4557d260f3865e"
+    },
+    "REVIEW14-REQUEST.md": {
+      "bytes": 3140,
+      "sha256": "eec268b2c67d433d2041788ccac4453975b463f8162301f3d86a6ad6b9e1b382"
+    },
+    "TASK-CH8-S3-1-REVIEW-W14.md": {
+      "bytes": 1574,
+      "sha256": "4a9636d1d01d797c234e0af92c78e8ac0256b0d35ba6bb96b2c5fd7a285efc77"
+    }
+  },
+  "integrity_report": "inputs-audit.json",
+  "initial_g0_untracked_outside_scope": [
+    "research/challenge-8/kani-k1/kani3300/wave0/issue4591-fix-main-r2/"
+  ],
+  "candidate_edits": false,
+  "native": "NOT_RUN",
+  "proof_credit": "NONE"
+}
