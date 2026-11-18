@@ -1,0 +1,1288 @@
+{
+  "status": "STATIC_PASS",
+  "schema": "ch8-s2-lexical-binding-v1",
+  "source_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+  "source_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+  "inventory_derivation": "all added or head/body-changed functions relative to SHA-pinned r3 fixture",
+  "functions": [
+    {
+      "function": "sort13_weak",
+      "line": 146,
+      "static_calls": [
+        {
+          "path": "sort13_fault_network",
+          "line": 148,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_fault_network",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 188,
+            "declaration_kind": "fn",
+            "visibility": ""
+          }
+        },
+        {
+          "path": "KeyLess::new",
+          "line": 148,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess::new",
+          "binding": {
+            "kind": "VISIBLE_TYPE_ASSOCIATED_PATH",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+            "line": 22,
+            "declaration_kind": "struct",
+            "visibility": "pub(incrate::slice::sort::shared::smallsort)",
+            "member": "new",
+            "limit": "type root visible; impl/method dispatch NOT_CHECKED"
+          }
+        },
+        {
+          "path": "post",
+          "line": 149,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_model::post",
+          "binding": {
+            "kind": "IMPORTED_DECLARATION",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+            "line": 156,
+            "declaration_kind": "fn",
+            "visibility": "pub(incrate::slice::sort::shared::smallsort)"
+          }
+        },
+        {
+          "path": "snapshot",
+          "line": 149,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_model::snapshot",
+          "binding": {
+            "kind": "IMPORTED_DECLARATION",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+            "line": 153,
+            "declaration_kind": "fn",
+            "visibility": "pub(incrate::slice::sort::shared::smallsort)"
+          }
+        }
+      ],
+      "dispatch_outside_scope": [
+        {
+          "path": "assert",
+          "line": 149,
+          "kind": "MACRO",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        }
+      ]
+    },
+    {
+      "function": "general32_weak",
+      "line": 160,
+      "static_calls": [
+        {
+          "path": "general_fault_copy",
+          "line": 162,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general_fault_copy",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 251,
+            "declaration_kind": "fn",
+            "visibility": ""
+          }
+        },
+        {
+          "path": "KeyLess::new",
+          "line": 162,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess::new",
+          "binding": {
+            "kind": "VISIBLE_TYPE_ASSOCIATED_PATH",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+            "line": 22,
+            "declaration_kind": "struct",
+            "visibility": "pub(incrate::slice::sort::shared::smallsort)",
+            "member": "new",
+            "limit": "type root visible; impl/method dispatch NOT_CHECKED"
+          }
+        },
+        {
+          "path": "post",
+          "line": 163,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_model::post",
+          "binding": {
+            "kind": "IMPORTED_DECLARATION",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+            "line": 156,
+            "declaration_kind": "fn",
+            "visibility": "pub(incrate::slice::sort::shared::smallsort)"
+          }
+        },
+        {
+          "path": "snapshot",
+          "line": 163,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_model::snapshot",
+          "binding": {
+            "kind": "IMPORTED_DECLARATION",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+            "line": 153,
+            "declaration_kind": "fn",
+            "visibility": "pub(incrate::slice::sort::shared::smallsort)"
+          }
+        }
+      ],
+      "dispatch_outside_scope": [
+        {
+          "path": "assert",
+          "line": 163,
+          "kind": "MACRO",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        }
+      ]
+    },
+    {
+      "function": "sort8_registration_only",
+      "line": 171,
+      "static_calls": [
+        {
+          "path": "kani::any",
+          "line": 172,
+          "identity": "core::kani::any",
+          "binding": {
+            "kind": "EXPLICIT_PINNED_MACRO_PROVIDER",
+            "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+            "file": "library/kani_core/src/lib.rs",
+            "sha256": "fd4936db12f998df2419b9e6240f9171643f8287654840596ea2db40cfd76bc0",
+            "anchor": "pub fn any<T: Arbitrary>() -> T",
+            "limit": "macro output not expanded; provider explicit, no typing claim"
+          }
+        },
+        {
+          "path": "MaybeUninit::uninit",
+          "line": 173,
+          "identity": "core::mem::MaybeUninit::uninit",
+          "binding": {
+            "file": "library/core/src/mem/maybe_uninit.rs",
+            "declaration_anchor": "pub const fn uninit()",
+            "kind": "PINNED_PUBLIC_PROVIDER"
+          }
+        },
+        {
+          "path": "MaybeUninit::uninit",
+          "line": 174,
+          "identity": "core::mem::MaybeUninit::uninit",
+          "binding": {
+            "file": "library/core/src/mem/maybe_uninit.rs",
+            "declaration_anchor": "pub const fn uninit()",
+            "kind": "PINNED_PUBLIC_PROVIDER"
+          }
+        },
+        {
+          "path": "sort8_stable",
+          "line": 175,
+          "identity": "core::slice::sort::shared::smallsort::sort8_stable",
+          "binding": {
+            "kind": "IMPORTED_DECLARATION",
+            "file": "library/core/src/slice/sort/shared/smallsort.rs",
+            "line": 817,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "KeyLess::new",
+          "line": 176,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess::new",
+          "binding": {
+            "kind": "VISIBLE_TYPE_ASSOCIATED_PATH",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+            "line": 22,
+            "declaration_kind": "struct",
+            "visibility": "pub(incrate::slice::sort::shared::smallsort)",
+            "member": "new",
+            "limit": "type root visible; impl/method dispatch NOT_CHECKED"
+          }
+        }
+      ],
+      "dispatch_outside_scope": [
+        {
+          "path": "as_mut_ptr",
+          "line": 175,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "as_mut_ptr",
+          "line": 175,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "cast",
+          "line": 175,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "as_mut_ptr",
+          "line": 176,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "cast",
+          "line": 176,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        }
+      ]
+    },
+    {
+      "function": "s2_swap_seam",
+      "line": 181,
+      "static_calls": [
+        {
+          "path": "swap_if_less",
+          "line": 182,
+          "identity": "core::slice::sort::shared::smallsort::swap_if_less",
+          "binding": {
+            "kind": "IMPORTED_DECLARATION",
+            "file": "library/core/src/slice/sort/shared/smallsort.rs",
+            "line": 460,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        }
+      ],
+      "dispatch_outside_scope": []
+    },
+    {
+      "function": "s2_merge_seam",
+      "line": 184,
+      "static_calls": [
+        {
+          "path": "bidirectional_merge",
+          "line": 185,
+          "identity": "core::slice::sort::shared::smallsort::bidirectional_merge",
+          "binding": {
+            "kind": "IMPORTED_DECLARATION",
+            "file": "library/core/src/slice/sort/shared/smallsort.rs",
+            "line": 936,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        }
+      ],
+      "dispatch_outside_scope": []
+    },
+    {
+      "function": "sort13_fault_network",
+      "line": 188,
+      "static_calls": [
+        {
+          "path": "intrinsics::abort_immediate",
+          "line": 193,
+          "identity": "core::intrinsics::abort_immediate",
+          "binding": {
+            "file": "library/core/src/intrinsics/mod.rs",
+            "declaration_anchor": "pub const fn abort_immediate()",
+            "kind": "PINNED_PUBLIC_PROVIDER"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 203,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 204,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 205,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 206,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 207,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 208,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 209,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 210,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 211,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 212,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 213,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 214,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 215,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 216,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 217,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 218,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 219,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 220,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 221,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 222,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 223,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 224,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 225,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 226,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 227,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 228,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 229,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 230,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 231,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 232,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 233,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 234,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 235,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 236,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 237,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 238,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 239,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 240,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 241,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 242,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 243,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 244,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 245,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 246,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_swap_seam",
+          "line": 247,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_swap_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 181,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        }
+      ],
+      "dispatch_outside_scope": [
+        {
+          "path": "len",
+          "line": 192,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "as_mut_ptr",
+          "line": 196,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        }
+      ],
+      "original_binding_correspondence": "EXACT_FULL_IDENTITIES_AFTER_DECLARED_SEAM_RENAMES"
+    },
+    {
+      "function": "general_fault_copy",
+      "line": 251,
+      "static_calls": [
+        {
+          "path": "MaybeUninit::uninit",
+          "line": 252,
+          "identity": "core::mem::MaybeUninit::uninit",
+          "binding": {
+            "file": "library/core/src/mem/maybe_uninit.rs",
+            "declaration_anchor": "pub const fn uninit()",
+            "kind": "PINNED_PUBLIC_PROVIDER"
+          }
+        },
+        {
+          "path": "slice::from_raw_parts_mut",
+          "line": 257,
+          "identity": "core::slice::from_raw_parts_mut",
+          "binding": {
+            "file": "library/core/src/slice/raw.rs",
+            "declaration_anchor": "pub const unsafe fn from_raw_parts_mut<'a, T>",
+            "kind": "PINNED_PUBLIC_PROVIDER"
+          }
+        },
+        {
+          "path": "general_fault_scratch",
+          "line": 263,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general_fault_scratch",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 266,
+            "declaration_kind": "fn",
+            "visibility": ""
+          }
+        }
+      ],
+      "dispatch_outside_scope": [
+        {
+          "path": "as_mut_ptr",
+          "line": 258,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        }
+      ],
+      "original_binding_correspondence": "EXACT_FULL_IDENTITIES_AFTER_DECLARED_SEAM_RENAMES"
+    },
+    {
+      "function": "general_fault_scratch",
+      "line": 266,
+      "static_calls": [
+        {
+          "path": "intrinsics::abort_immediate",
+          "line": 277,
+          "identity": "core::intrinsics::abort_immediate",
+          "binding": {
+            "file": "library/core/src/intrinsics/mod.rs",
+            "declaration_anchor": "pub const fn abort_immediate()",
+            "kind": "PINNED_PUBLIC_PROVIDER"
+          }
+        },
+        {
+          "path": "size_of",
+          "line": 287,
+          "identity": "core::mem::size_of",
+          "binding": {
+            "file": "library/core/src/mem/mod.rs",
+            "declaration_anchor": "pub const fn size_of<T>()",
+            "kind": "PINNED_PUBLIC_PROVIDER"
+          }
+        },
+        {
+          "path": "sort8_stable",
+          "line": 289,
+          "identity": "core::slice::sort::shared::smallsort::sort8_stable",
+          "binding": {
+            "kind": "IMPORTED_DECLARATION",
+            "file": "library/core/src/slice/sort/shared/smallsort.rs",
+            "line": 817,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "sort8_stable",
+          "line": 290,
+          "identity": "core::slice::sort::shared::smallsort::sort8_stable",
+          "binding": {
+            "kind": "IMPORTED_DECLARATION",
+            "file": "library/core/src/slice/sort/shared/smallsort.rs",
+            "line": 817,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "sort4_stable",
+          "line": 300,
+          "identity": "core::slice::sort::shared::smallsort::sort4_stable",
+          "binding": {
+            "kind": "IMPORTED_DECLARATION",
+            "file": "library/core/src/slice/sort/shared/smallsort.rs",
+            "line": 763,
+            "declaration_kind": "fn",
+            "visibility": "pubunsafe"
+          }
+        },
+        {
+          "path": "sort4_stable",
+          "line": 301,
+          "identity": "core::slice::sort::shared::smallsort::sort4_stable",
+          "binding": {
+            "kind": "IMPORTED_DECLARATION",
+            "file": "library/core/src/slice/sort/shared/smallsort.rs",
+            "line": 763,
+            "declaration_kind": "fn",
+            "visibility": "pubunsafe"
+          }
+        },
+        {
+          "path": "ptr::copy_nonoverlapping",
+          "line": 305,
+          "identity": "core::ptr::copy_nonoverlapping",
+          "binding": {
+            "file": "library/core/src/ptr/mod.rs",
+            "declaration_anchor": "pub const unsafe fn copy_nonoverlapping<T>",
+            "kind": "PINNED_PUBLIC_PROVIDER"
+          }
+        },
+        {
+          "path": "ptr::copy_nonoverlapping",
+          "line": 306,
+          "identity": "core::ptr::copy_nonoverlapping",
+          "binding": {
+            "file": "library/core/src/ptr/mod.rs",
+            "declaration_anchor": "pub const unsafe fn copy_nonoverlapping<T>",
+            "kind": "PINNED_PUBLIC_PROVIDER"
+          }
+        },
+        {
+          "path": "ptr::copy_nonoverlapping",
+          "line": 319,
+          "identity": "core::ptr::copy_nonoverlapping",
+          "binding": {
+            "file": "library/core/src/ptr/mod.rs",
+            "declaration_anchor": "pub const unsafe fn copy_nonoverlapping<T>",
+            "kind": "PINNED_PUBLIC_PROVIDER"
+          }
+        },
+        {
+          "path": "insert_tail",
+          "line": 320,
+          "identity": "core::slice::sort::shared::smallsort::insert_tail",
+          "binding": {
+            "kind": "IMPORTED_DECLARATION",
+            "file": "library/core/src/slice/sort/shared/smallsort.rs",
+            "line": 667,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "s2_merge_seam",
+          "line": 332,
+          "identity": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::s2_merge_seam",
+          "binding": {
+            "kind": "LOCAL_FN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 184,
+            "declaration_kind": "fn",
+            "visibility": "unsafe"
+          }
+        },
+        {
+          "path": "slice::from_raw_parts",
+          "line": 333,
+          "identity": "core::slice::from_raw_parts",
+          "binding": {
+            "file": "library/core/src/slice/raw.rs",
+            "declaration_anchor": "pub const unsafe fn from_raw_parts<'a, T>",
+            "kind": "PINNED_PUBLIC_PROVIDER"
+          }
+        },
+        {
+          "path": "mem::forget",
+          "line": 337,
+          "identity": "core::mem::forget",
+          "binding": {
+            "file": "library/core/src/mem/mod.rs",
+            "declaration_anchor": "pub const fn forget<T>",
+            "kind": "PINNED_PUBLIC_PROVIDER"
+          }
+        }
+      ],
+      "dispatch_outside_scope": [
+        {
+          "path": "len",
+          "line": 271,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "len",
+          "line": 276,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "as_mut_ptr",
+          "line": 280,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "as_mut_ptr",
+          "line": 285,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "add",
+          "line": 289,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "add",
+          "line": 291,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "add",
+          "line": 292,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "add",
+          "line": 293,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "add",
+          "line": 301,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "add",
+          "line": 301,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "add",
+          "line": 306,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "add",
+          "line": 306,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "add",
+          "line": 314,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "add",
+          "line": 315,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "add",
+          "line": 319,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "add",
+          "line": 319,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        },
+        {
+          "path": "add",
+          "line": 320,
+          "kind": "METHOD",
+          "resolution": "NOT_CHECKED_METHOD_OR_MACRO_DISPATCH"
+        }
+      ],
+      "original_binding_correspondence": "EXACT_FULL_IDENTITIES_AFTER_DECLARED_SEAM_RENAMES"
+    }
+  ],
+  "source_files_sha256": {
+    "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+    "library/core/src/slice/mod.rs": "1c94e306a979f2c59a4e3687a32a3e4efbeef967b7bf5eeb8d1977371c2c17dd",
+    "library/core/src/slice/sort/mod.rs": "f67551bff44a854a3f03901db10a099bdab3b67b47d8724bef43858d97134f3c",
+    "library/core/src/slice/sort/shared/mod.rs": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
+    "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "library/core/src/mem/mod.rs": "7504ca7c3188077e142917d8c8b7fc7976f08f417439bb68399d1c0352eb8738",
+    "library/core/src/mem/maybe_uninit.rs": "1230d267542337ee2842c29d8227cf8a58fe75c53a2a70efaee3922c4e8e25c0",
+    "library/core/src/ptr/mod.rs": "cc17237f8e88211f0d082f8c8d88b6fd55f905c7baaa3c32cd75632269c03ff2",
+    "library/core/src/slice/raw.rs": "3190285ba163dacd220b6c827d49e580eeb85256cd1fffafdacb345a87a08bb7",
+    "library/core/src/intrinsics/mod.rs": "95bad83ea99a46bcbdbd4163e42112866fdfadc4660ca1d1c4298fed57b1c5fc",
+    "library/core/src/prelude/v1.rs": "b57d120c6762622bd33114f46267dab8ba6c88be38f1433adb62d4ba36cd3a68"
+  },
+  "contexts": [
+    {
+      "row": "swap_pfc",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "functions_checked": 8,
+      "all_branches": true
+    },
+    {
+      "row": "summary_witness",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "functions_checked": 8,
+      "all_branches": true
+    },
+    {
+      "row": "merge32_real",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "functions_checked": 8,
+      "all_branches": true
+    },
+    {
+      "row": "sort13_assumed",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "functions_checked": 8,
+      "all_branches": true
+    },
+    {
+      "row": "general32_assumed",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "functions_checked": 8,
+      "all_branches": true
+    },
+    {
+      "row": "merge_order_corrupt",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "functions_checked": 8,
+      "all_branches": true
+    },
+    {
+      "row": "merge_count_corrupt",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "functions_checked": 8,
+      "all_branches": true
+    },
+    {
+      "row": "checker_count_corrupt",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "functions_checked": 8,
+      "all_branches": true
+    },
+    {
+      "row": "checker_order_corrupt",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "functions_checked": 8,
+      "all_branches": true
+    },
+    {
+      "row": "sort13_weak",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "functions_checked": 8,
+      "all_branches": true
+    },
+    {
+      "row": "general32_weak",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "functions_checked": 8,
+      "all_branches": true
+    }
+  ],
+  "limits": [
+    "lexical paths only; no type, generic bound, borrow, method, macro expansion, MIR or compilation validation",
+    "body-local items/imports and unsupported paths fail closed; callable parameters are lexical only"
+  ],
+  "native_compile": "NOT_RUN",
+  "proof_credit": "NONE"
+}

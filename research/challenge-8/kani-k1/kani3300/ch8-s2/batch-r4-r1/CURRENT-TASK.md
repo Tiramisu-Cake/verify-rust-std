@@ -1,0 +1,1 @@
+Runtime: Codex. W13 taskcf40e805eb47a5f11efdf27a62b06caf2bc2adff, owner17:01. READY_FOR_SAME14_DELTA_REVIEW. Full pins PINS.json; HANDOFF and REVIEW14-REQUEST are local routing artifacts. Native compile/causal repair NOT_RUN; actual R3 failing unit/body UNKNOWN; no GO/CI/push/issue/ledger.

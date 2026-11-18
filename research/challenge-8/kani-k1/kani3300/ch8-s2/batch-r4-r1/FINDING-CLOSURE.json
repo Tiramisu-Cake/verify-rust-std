@@ -1,0 +1,133 @@
+{
+  "status": "STATIC_PASS",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "16aa3557742e1b8a8b64b3b3d49da23d988027f8"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r4-r1-w13",
+    "sha": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "tree": "9f7c903f2039e6a52b19f37c5f32fbd9cc86566f",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "db81e62d76cfa193b1d7fe8e8ebbecead7e20ef8",
+    "request_sha256": "9d165365933b6bc117311d7d52568f834bc2f083c2272800803a84883f286717",
+    "workflow_sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c"
+  },
+  "frozen_review": "f5dd71722f82ac59e37152927a5f4dd9eee6ea1a",
+  "cases": [
+    {
+      "case": "EXACT_REVIEW_DISCRIMINATOR_s2_swap_seam",
+      "replacement": "use crate::kani::stub as ordinary1;\nuse self::ordinary1 as ordinary2;\n#[ordinary2(s2_swap_seam,weak_swap)]",
+      "only_removed_hash_maps": [
+        "ordinary_contract_source_sha256",
+        "cfg_pfc_source_sha256"
+      ],
+      "gates": {
+        "ordinary_contracts": {
+          "status": "STATIC_PASS",
+          "records": 23
+        },
+        "cfg_pfc": {
+          "status": "STATIC_PASS",
+          "records": 6
+        }
+      }
+    },
+    {
+      "case": "EXACT_REVIEW_DISCRIMINATOR_swap_if_less",
+      "replacement": "use crate::kani::stub as ordinary1;\nuse self::ordinary1 as ordinary2;\n#[ordinary2(swap_if_less,weak_swap)]",
+      "only_removed_hash_maps": [
+        "ordinary_contract_source_sha256",
+        "cfg_pfc_source_sha256"
+      ],
+      "gates": {
+        "ordinary_contracts": {
+          "status": "REJECT",
+          "diagnostic": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:146 core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak: ordinary stub target core::slice::sort::shared::smallsort::swap_if_less has active contract attrs at library/core/src/slice/sort/shared/smallsort.rs:460: crate::kani::requires(a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos)));crate::kani::modifies(v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos));crate::kani::ensures(|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos))"
+        },
+        "cfg_pfc": {
+          "status": "REJECT",
+          "diagnostic": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:146 core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak: ordinary stub target core::slice::sort::shared::smallsort::swap_if_less has active contract attrs at library/core/src/slice/sort/shared/smallsort.rs:460: crate::kani::requires(a_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(b_pos.checked_mul(size_of::<T>()).is_some_and(|offset|{offset<=isize::MAXasusize&&(v_baseasisize).checked_add(offsetasisize).is_some()&&ptr::byte_offset_does_not_wrap(v_base,offsetasisize)}));crate::kani::requires(crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(a_pos))&&crate::ub_checks::same_allocation(v_base,v_base.wrapping_add(b_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(a_pos)));crate::kani::requires(crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))&&crate::ub_checks::can_write(v_base.wrapping_add(b_pos)));crate::kani::modifies(v_base.wrapping_add(a_pos),v_base.wrapping_add(b_pos));crate::kani::ensures(|_|!verify::sorting_s2_swap::enabled::<T,F>()||verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos))"
+        }
+      }
+    },
+    {
+      "case": "frozen_r4",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "name_gate": {
+        "status": "REJECT",
+        "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort4_stable"
+      }
+    },
+    {
+      "case": "fixed_r4_r1",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "name_gate": {
+        "status": "STATIC_PASS",
+        "records": 8
+      }
+    },
+    {
+      "case": "removed_import",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "name_gate": {
+        "status": "REJECT",
+        "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort4_stable"
+      }
+    },
+    {
+      "case": "renamed_import",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "name_gate": {
+        "status": "REJECT",
+        "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort4_stable"
+      }
+    },
+    {
+      "case": "wrong_target_import",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "name_gate": {
+        "status": "REJECT",
+        "diagnostic": "name gate: relocated binding differs from original general_fault_scratch"
+      }
+    },
+    {
+      "case": "cfg_disabled_import",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "name_gate": {
+        "status": "REJECT",
+        "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort4_stable"
+      }
+    },
+    {
+      "case": "qualified_legitimate",
+      "only_removed_hash_maps": [
+        "lexical_source_sha256"
+      ],
+      "name_gate": {
+        "status": "STATIC_PASS",
+        "records": 8
+      }
+    }
+  ],
+  "R14-01": "REPAIRED_SOURCE_BINDING; frozen rejection/fixed acceptance; no observed compiler diagnostic",
+  "R14-02": "EXACT_CHAIN_REJECTED_BY_BOTH_GATES_ON_CONTRACTED_TARGET; safe chain retained",
+  "limits": "Lexical scanner only; native compile/causal repair NOT_RUN; actual R3 failing unit/body UNKNOWN; independent review pending; proof credit NONE"
+}

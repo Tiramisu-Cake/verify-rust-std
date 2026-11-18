@@ -1,0 +1,12 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs
+index 72fa09d0bf55c01a3001eb87974f55a858d3ae4c..a82258eaf6f1d988a040e9c9ac5e349e55612bd9 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs
+@@ -1,6 +1,6 @@
+ //! Three cost probes. Assumed consumers are DIAGNOSTIC_ASSUMED, never proof credit.
+ use super::super::{bidirectional_merge, sort13_optimal, small_sort_general,
+-    swap_if_less, sort8_stable, insert_tail, CopyOnDrop, SMALL_SORT_GENERAL_SCRATCH_LEN};
++    swap_if_less, sort8_stable, sort4_stable, insert_tail, CopyOnDrop, SMALL_SORT_GENERAL_SCRATCH_LEN};
+ use super::sorting_model::{KeyLess, snapshot, post, enabled};
+ use super::{sorting_s2_span as span, sorting_s2_swap as pair};
+ use crate::{kani, mem::{self, MaybeUninit, size_of}, ptr, slice, intrinsics};
