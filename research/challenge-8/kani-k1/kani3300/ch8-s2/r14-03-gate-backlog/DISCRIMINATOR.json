@@ -1,0 +1,91 @@
+{
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "proposed_control": {
+    "worktree": "/root/kani-ch8-s2-r14-03-gate-backlog-w13",
+    "sha": "0e97a487d8b7f8e8cbced5dbe2b6909c7150c695",
+    "tree": "b980862474e3630c459ee147def4fa45f3ea42fd",
+    "parent": "0e8c836857344866564e1423ad5d8d28bbc4106b"
+  },
+  "frozen_review": "e7837b0f70e235399e53f8da1b48a4a84b33f693",
+  "exact_frozen_request_sha256": "9d165365933b6bc117311d7d52568f834bc2f083c2272800803a84883f286717",
+  "only_removed_request_keys": [
+    "lexical_source_sha256"
+  ],
+  "removed_hash_map_sha256": "2ba53fe1e971088dd027892e8553531faebdd160feae8cf3a64e257dc27a81c0",
+  "all_other_request_fields": "EXACTLY_UNCHANGED",
+  "baseline": {
+    "status": "STATIC_PASS",
+    "functions": 8,
+    "static_calls": 77,
+    "contexts": 11
+  },
+  "baseline_map": "EXACTLY_EQUAL_FROZEN_AND_PROPOSED",
+  "cases": [
+    {
+      "depth": 0,
+      "expression": "missing_static();",
+      "mutated_source_sha256": "c57ba591d1c071dafa2537be83f0f3b8b9824865029c551c1089d9973bbfae64",
+      "gates": {
+        "frozen": {
+          "status": "REJECT",
+          "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::missing_static"
+        },
+        "proposed": {
+          "status": "REJECT",
+          "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::missing_static"
+        }
+      }
+    },
+    {
+      "depth": 1,
+      "expression": "(missing_static)();",
+      "mutated_source_sha256": "a6b09faca71f911bc448f63dd95266063a7d0b5fd2db8d6b680d4c8f2d667633",
+      "gates": {
+        "frozen": {
+          "status": "REJECT",
+          "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::missing_static"
+        },
+        "proposed": {
+          "status": "REJECT",
+          "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::missing_static"
+        }
+      }
+    },
+    {
+      "depth": 2,
+      "expression": "((missing_static))();",
+      "mutated_source_sha256": "ac46aa6f9acdf70382b9b21367445b141e7ec115c2e7436d821c2980865a9edb",
+      "gates": {
+        "frozen": {
+          "status": "STATIC_PASS",
+          "static_calls": 77
+        },
+        "proposed": {
+          "status": "REJECT",
+          "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::missing_static"
+        }
+      }
+    },
+    {
+      "depth": 8,
+      "expression": "((((((((missing_static))))))))();",
+      "mutated_source_sha256": "b11dac74584ae06f52eaa9b6f32831db2b0034637c596009aded26684e360e21",
+      "gates": {
+        "frozen": {
+          "status": "STATIC_PASS",
+          "static_calls": 77
+        },
+        "proposed": {
+          "status": "REJECT",
+          "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::missing_static"
+        }
+      }
+    }
+  ],
+  "scope": "Actual lexical gates over temporary fixtures; no Rust execution or typing claim"
+}

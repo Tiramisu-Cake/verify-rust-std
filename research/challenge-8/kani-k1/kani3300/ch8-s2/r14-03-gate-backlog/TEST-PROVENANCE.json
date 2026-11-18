@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r14-03-gate-backlog-w13",
+    "sha": "0e97a487d8b7f8e8cbced5dbe2b6909c7150c695",
+    "tree": "b980862474e3630c459ee147def4fa45f3ea42fd",
+    "parent": "0e8c836857344866564e1423ad5d8d28bbc4106b"
+  },
+  "request_sha256": "9d165365933b6bc117311d7d52568f834bc2f083c2272800803a84883f286717",
+  "execution": "ACTUAL_FINAL_COMMITTED_LOCAL_CONTROL; TEMPORARY_SOURCE_MUTATIONS_ONLY",
+  "argv": [
+    "python3",
+    "-m",
+    "unittest",
+    "-v",
+    "test_r1403_lexical",
+    "test_cfg_pfc.LexicalBindingTests",
+    "test_cfg_pfc.RepairAliasTests",
+    "test_cfg_pfc.CfgPfcTests.test_full_target_and_attribute_aliases",
+    "test_cfg_pfc.CfgPfcTests.test_missing_wrong_cfg_cfg_attr_and_disabled_pfc"
+  ],
+  "workdir": "/root/kani-ch8-s2-r14-03-gate-backlog-w13/ch8-s1-control",
+  "env": {
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "exit_code": 0,
+  "test_count": 23,
+  "elapsed_seconds": 215.448,
+  "transcript_sha256": "0291dcb92ace4ba0c2b2ed3a72f8cde142ce1157fbbf0d2edc6cb094fd39b5d3",
+  "scope": "New extractor/full lexical-gate discriminators and affected existing lexical/alias/cfg tests only; full96 NOT_REPEATED",
+  "native_compiler": "NOT_RUN",
+  "verifier": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "proof_credit": "NONE"
+}

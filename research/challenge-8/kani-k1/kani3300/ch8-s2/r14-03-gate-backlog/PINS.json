@@ -1,0 +1,48 @@
+{
+  "status": "NOT_AN_EXECUTABLE_CI_PACKAGE",
+  "entry_g0": "6db728b62b62d6d98d683f3d2cf6fb824dd6cc68",
+  "task_document": "research/challenge-8/kani-k1/TASK-CH8-S2-R14-03-BACKLOG-W13.md",
+  "task_document_sha256": "808fca5fdfa295d06cb04fb0a02a5133fd854918ac8dde98cf8dd4509ff1cfe8",
+  "frozen_review": "e7837b0f70e235399e53f8da1b48a4a84b33f693",
+  "frozen_package": "474e0b4209554bdd69c4303410192d2d472af4a2",
+  "frozen_control": {
+    "worktree": "/root/kani-ch8-s2-r4-r1-w13",
+    "sha": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "tree": "9f7c903f2039e6a52b19f37c5f32fbd9cc86566f",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "frozen_source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "proposed_local_control": {
+    "worktree": "/root/kani-ch8-s2-r14-03-gate-backlog-w13",
+    "sha": "0e97a487d8b7f8e8cbced5dbe2b6909c7150c695",
+    "tree": "b980862474e3630c459ee147def4fa45f3ea42fd",
+    "parent": "0e8c836857344866564e1423ad5d8d28bbc4106b"
+  },
+  "changed_paths": [
+    "ch8-s1-control/lexical_bindings.py",
+    "ch8-s1-control/test_r1403_lexical.py"
+  ],
+  "patch": {
+    "path": "PATCH.patch",
+    "sha256": "1dfaf5a1fa2d748e81bea4093018eb65972d7cfc807e47c0d1f7ad39565f8cba",
+    "base": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "target": "0e97a487d8b7f8e8cbced5dbe2b6909c7150c695",
+    "target_tree": "b980862474e3630c459ee147def4fa45f3ea42fd",
+    "replay": "EXACT_TREE_MATCH"
+  },
+  "unchanged_frozen_request_sha256": "9d165365933b6bc117311d7d52568f834bc2f083c2272800803a84883f286717",
+  "request_binding": "FROZEN_REFERENCE_ONLY; local payload map deliberately NOT_REBOUND",
+  "workflow_sha256": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c",
+  "review_status": "AUTHOR_FIX_FOR_SAME14_GATE_ONLY_REVIEW; INDEPENDENT_CLOSURE_PENDING",
+  "current_GO": "UNCHANGED; one-run deferral belongs only to frozen bd62/0e8 inputs",
+  "next_integration": "Rebind payload/request and ancestry; independent review and fresh GO required; no automatic integration",
+  "native_compile": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "proof_credit": "NONE",
+  "g0_commit": "commit containing this directory; self-reference excluded"
+}
