@@ -1,0 +1,105 @@
+{
+  "schema": "ch8-f4-a-postrun-inputs-v1",
+  "authorization": "Owner executed F4-A GO, one new full native push bundle; intake15 after all3terminal, then root updates external PR draft; no CI/rerun/publication actions by intake.",
+  "repository": "Tiramisu-Cake/kani",
+  "head": "9b67828707f8d7d5e691484896a82475dcf34d28",
+  "tree": "baedd51d92073ecb2b96991bae7dc562ee8f58a2",
+  "parent": "b5a9678fd7c2a0f67c3fcafd90057fc2afaf9b5d",
+  "branch": "fix/per-harness-global-transforms",
+  "event": "push",
+  "expected_attempt": 1,
+  "reviewed_candidate": "ca1452227d6ad319f1b9bc1ad33bf618120733eb",
+  "package_g0": "a16ef717e18ca8263e360c24058b13a3ef4d4605",
+  "review_g0": "516bf3aea71ba7477ce06a1cab5bc956a00be23a",
+  "review_verdict": "APPROVE",
+  "GO_g0": "64b2cc9f48a84afc4fbe23c7adb778fd9a513320",
+  "main_at_dispatch": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "check_push_head": "PASS coordinator-reported; full localGit head/tree/parent independently matched",
+  "main_drift_at_dispatch": "NONE coordinator-reported",
+  "runs": [
+    {
+      "id": 44295027834,
+      "workflow": ".github/workflows/kani.yml"
+    },
+    {
+      "id": 44295027924,
+      "workflow": ".github/workflows/format-check.yml"
+    },
+    {
+      "id": 44295028060,
+      "workflow": ".github/workflows/deny.yml"
+    }
+  ],
+  "preparation_snapshot": [
+    {
+      "id": 44295027834,
+      "name": "Kani CI",
+      "status": "queued",
+      "conclusion": null,
+      "head_sha": "9b67828707f8d7d5e691484896a82475dcf34d28",
+      "head_branch": "fix/per-harness-global-transforms",
+      "event": "push",
+      "run_attempt": 1,
+      "updated_at": "2026-11-18T11:28:36Z"
+    },
+    {
+      "id": 44295027924,
+      "name": "Kani Format Check",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "9b67828707f8d7d5e691484896a82475dcf34d28",
+      "head_branch": "fix/per-harness-global-transforms",
+      "event": "push",
+      "run_attempt": 1,
+      "updated_at": "2026-11-18T11:28:40Z"
+    },
+    {
+      "id": 44295028060,
+      "name": "Cargo Deny",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "9b67828707f8d7d5e691484896a82475dcf34d28",
+      "head_branch": "fix/per-harness-global-transforms",
+      "event": "push",
+      "run_attempt": 1,
+      "updated_at": "2026-11-18T11:29:27Z"
+    }
+  ],
+  "approved_plan": {
+    "path": "../f4-uninit-only/CI-REQUEST.json",
+    "sha256": "437469f988cf424a16639c15bb694bb9c89f66e41f4e769bff7bf36a508a76fa"
+  },
+  "old_run_scope": "44274306776/b560 intake applies only to b5 unconditional-copy revision; no old outcomes carried into new runs.",
+  "deferred": "PR-only release/std/bench/metadata per owner; new macOS entries are normal required matrix jobs.",
+  "output": "../f4-uninit-only-intake/head-9b67828707/",
+  "PR_draft_source": "/root/smallsort-pr-drafts/PR-F4-DRAFT.md",
+  "PR_update_actor": "root after committed intake check; worker15 writes only own g0 draft",
+  "Testing_link": "https://github.com/Tiramisu-Cake/kani/actions/runs/44295027834",
+  "accounting_reference_only": {
+    "reservation_g0": "eaec7daa432dbb5546347bc00aa1838f6c046594",
+    "run_record_g0": "9bb775ca0e591d085bf4789c2620d198a9cf0392",
+    "item1_used": 29,
+    "item1_cap": 29,
+    "item2_provisional_used": 9,
+    "item2_cap": 14,
+    "total_provisional_used": 38,
+    "total_cap": 43,
+    "charge_refund_reservation_actions": false,
+    "S2_r1_charge_repeat": "OWNER_ONLY",
+    "superseded_preparation_values": {
+      "item2_provisional_used": 10,
+      "total_provisional_used": 39
+    },
+    "current_source": "Owner current instruction; 29/29 + 9/14 = 38/43; reference only"
+  },
+  "activation": {
+    "issued": true,
+    "source": "Current owner message, 2026-11-18 owner15:54 Europe/Moscow",
+    "Fast": "OFF",
+    "model_tier": "UNCHANGED",
+    "subagents": false
+  },
+  "preparation_status_preserved": "PREPARED_NOT_ISSUED",
+  "status": "ISSUED_BY_OWNER_CURRENT_MESSAGE_ALL3TERMINAL",
+  "task_id": "taske069de32bab22a22975fca5d819acee9f03d3b0f"
+}

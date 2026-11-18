@@ -1,0 +1,214 @@
+{
+  "observed_at": "2026-11-18T12:59:56.521020+00:00",
+  "repository": "/root/kani-f4-uninit-only-w15",
+  "object_head": "9b67828707f8d7d5e691484896a82475dcf34d28",
+  "tree": "baedd51d92073ecb2b96991bae7dc562ee8f58a2",
+  "parent": "b5a9678fd7c2a0f67c3fcafd90057fc2afaf9b5d",
+  "candidate_tree": "baedd51d92073ecb2b96991bae7dc562ee8f58a2",
+  "source_files": {
+    "tests/script-based-pre/delayed-shared-body/Cargo.toml": {
+      "git_blob": "c5f01d2288745fba0a5ca10a4e72e254823e78f6",
+      "sha256": "cf02a2b65e63502da1cd590218e7871e3fe3980a9e89aa41b3df391a70be0bac",
+      "bytes": 193
+    },
+    "tests/script-based-pre/delayed-shared-body/check.py": {
+      "git_blob": "4738b524f7eccb32af4a1ac1f1405d0a1f92a0c2",
+      "sha256": "1504c3928084a2e29886b0392d9d8624fc32375c5494807864c80fc82e680ba3",
+      "bytes": 9593
+    },
+    "tests/script-based-pre/delayed-shared-body/config.yml": {
+      "git_blob": "927fa124ffc37842ffa4da0abbf008c414586f71",
+      "sha256": "f6ac7ffc9bfa654dd81c7263d1af76a0e989860d4f001e89aede0881fa09be33",
+      "bytes": 110
+    },
+    "tests/script-based-pre/delayed-shared-body/control.rs": {
+      "git_blob": "fae8e21dfde7f5ca5157ceafb1f1f69bad645fd6",
+      "sha256": "95c37703c78422dcac06033d423fa4c5a0ab0975475e97f80bfe901b42f811a6",
+      "bytes": 382
+    },
+    "tests/script-based-pre/delayed-shared-body/expected": {
+      "git_blob": "92f25d57e0a7969a84d63af499d5c21f8b9f86fd",
+      "sha256": "fc24e4757ef87883ebb1d0127be0550016232039a4e4776237627eae9215f6c8",
+      "bytes": 65
+    },
+    "tests/script-based-pre/delayed-shared-body/src/lib.rs": {
+      "git_blob": "74a4854a3695a80004b6f78fceb4ed5fb3623525",
+      "sha256": "70dd61fec47556d11fd158f50bc5729c6fcfbe0170f43a8be788d6d2612431c9",
+      "bytes": 899
+    },
+    "tests/script-based-pre/delayed-shared-body/test.sh": {
+      "git_blob": "afcbb489b4da833048306a52378e9461f45569ff",
+      "sha256": "da984231aaf9c6743a66fca67b29f02b72fab8f92e973f24f9b03164f6378f36",
+      "bytes": 130
+    },
+    "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs": {
+      "git_blob": "73d21df8af96c601d9f4d940b185077f861ec5af",
+      "sha256": "14cf16762c3475238941c254fc4080b00149c1618a156a5baab8dbdc7de78db3",
+      "bytes": 42092
+    },
+    "scripts/kani-regression.sh": {
+      "git_blob": "9927fae1d0b6d2dfad930a23624c178550db6813",
+      "sha256": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+      "bytes": 5201
+    },
+    "scripts/kani-perf.sh": {
+      "git_blob": "d2bb43fb97bb2c8b90601c05586e8f998543f9c7",
+      "sha256": "1621733a19cb970858d85e9099e0d8ecf4af1c45f715b4330907006cdc5c7e73",
+      "bytes": 2053
+    },
+    "tools/compiletest/src/runtest.rs": {
+      "git_blob": "4438547071f5426caa8f0990fecfd727cf86352b",
+      "sha256": "7ab3d25a027144d8b4b669990793d8f76b980d7a9f9ed59130af8a95749797a4",
+      "bytes": 29489
+    },
+    "Cargo.lock": {
+      "git_blob": "1bb6463d877d16edd25c153aa5a439cb8ae24cb7",
+      "sha256": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+      "bytes": 72882
+    },
+    "rust-toolchain.toml": {
+      "git_blob": "8c223e3d2581181ebb0047585ffaee0d4bf32282",
+      "sha256": "d40d66a452e934c9cedede2844b920d48ff217565c81b4e47311bb346c960d93",
+      "bytes": 183
+    }
+  },
+  "workflow_inventory": {
+    ".github/workflows/bench-compiler.yml": {
+      "expected_sha256": "825d32f8e3d3949332417088fb0b096bb4b6f1819d8a0cb3c1e2cc666cd685cc",
+      "head_sha256": "825d32f8e3d3949332417088fb0b096bb4b6f1819d8a0cb3c1e2cc666cd685cc",
+      "dispatch_main_sha256": "825d32f8e3d3949332417088fb0b096bb4b6f1819d8a0cb3c1e2cc666cd685cc",
+      "match": true
+    },
+    ".github/workflows/bench-e2e.yml": {
+      "expected_sha256": "e17c7ef9464ceec605771b9dade368122e250891526c6a0b0a9bb4b00a7a64ca",
+      "head_sha256": "e17c7ef9464ceec605771b9dade368122e250891526c6a0b0a9bb4b00a7a64ca",
+      "dispatch_main_sha256": "e17c7ef9464ceec605771b9dade368122e250891526c6a0b0a9bb4b00a7a64ca",
+      "match": true
+    },
+    ".github/workflows/bench-pr.yml": {
+      "expected_sha256": "eecc1509bcf9283e0d233b414af523f97a9f2a397e8766a558314f1a9f5a57d3",
+      "head_sha256": "eecc1509bcf9283e0d233b414af523f97a9f2a397e8766a558314f1a9f5a57d3",
+      "dispatch_main_sha256": "eecc1509bcf9283e0d233b414af523f97a9f2a397e8766a558314f1a9f5a57d3",
+      "match": true
+    },
+    ".github/workflows/cargo-update.yml": {
+      "expected_sha256": "ac7f18f5fe4e685e5da609e5b2546503aab4cb5aa2f598c4a6df91b5d442c911",
+      "head_sha256": "ac7f18f5fe4e685e5da609e5b2546503aab4cb5aa2f598c4a6df91b5d442c911",
+      "dispatch_main_sha256": "ac7f18f5fe4e685e5da609e5b2546503aab4cb5aa2f598c4a6df91b5d442c911",
+      "match": true
+    },
+    ".github/workflows/cbmc-latest.yml": {
+      "expected_sha256": "ba39280e6ff9de85ccb5c14296d53845be7cc417baf683ddda56fe30767bbc48",
+      "head_sha256": "ba39280e6ff9de85ccb5c14296d53845be7cc417baf683ddda56fe30767bbc48",
+      "dispatch_main_sha256": "ba39280e6ff9de85ccb5c14296d53845be7cc417baf683ddda56fe30767bbc48",
+      "match": true
+    },
+    ".github/workflows/cbmc-update.yml": {
+      "expected_sha256": "1b97bca1eb903ddf739d594830eb4b72b5ffc8c23ec7dc8c03c314c95cd0232f",
+      "head_sha256": "1b97bca1eb903ddf739d594830eb4b72b5ffc8c23ec7dc8c03c314c95cd0232f",
+      "dispatch_main_sha256": "1b97bca1eb903ddf739d594830eb4b72b5ffc8c23ec7dc8c03c314c95cd0232f",
+      "match": true
+    },
+    ".github/workflows/charon-update.yml": {
+      "expected_sha256": "d73125c239ffd2c2f68a7d41b703eb11bdbdefe97d3a3abc99ed0bbb2c1b7869",
+      "head_sha256": "d73125c239ffd2c2f68a7d41b703eb11bdbdefe97d3a3abc99ed0bbb2c1b7869",
+      "dispatch_main_sha256": "d73125c239ffd2c2f68a7d41b703eb11bdbdefe97d3a3abc99ed0bbb2c1b7869",
+      "match": true
+    },
+    ".github/workflows/deny.yml": {
+      "expected_sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf",
+      "head_sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf",
+      "dispatch_main_sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf",
+      "match": true
+    },
+    ".github/workflows/extra_jobs.yml": {
+      "expected_sha256": "12c3c6626e9ad806e7f7bf7f65cca7e2f12b2ccae9da82cc62802b92299369d8",
+      "head_sha256": "12c3c6626e9ad806e7f7bf7f65cca7e2f12b2ccae9da82cc62802b92299369d8",
+      "dispatch_main_sha256": "12c3c6626e9ad806e7f7bf7f65cca7e2f12b2ccae9da82cc62802b92299369d8",
+      "match": true
+    },
+    ".github/workflows/format-check.yml": {
+      "expected_sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8",
+      "head_sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8",
+      "dispatch_main_sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8",
+      "match": true
+    },
+    ".github/workflows/kani.yml": {
+      "expected_sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+      "head_sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+      "dispatch_main_sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+      "match": true
+    },
+    ".github/workflows/release.yml": {
+      "expected_sha256": "b608d02a4ddbaa9a1e4b0db321bd1aeb268afe5f946a9de14e2778b9e803b9b3",
+      "head_sha256": "b608d02a4ddbaa9a1e4b0db321bd1aeb268afe5f946a9de14e2778b9e803b9b3",
+      "dispatch_main_sha256": "b608d02a4ddbaa9a1e4b0db321bd1aeb268afe5f946a9de14e2778b9e803b9b3",
+      "match": true
+    },
+    ".github/workflows/slow-tests.yml": {
+      "expected_sha256": "d9775bd66ebb7b927c28346623f9e6e3374c82cee97921eac5fee828eba5ba7f",
+      "head_sha256": "d9775bd66ebb7b927c28346623f9e6e3374c82cee97921eac5fee828eba5ba7f",
+      "dispatch_main_sha256": "d9775bd66ebb7b927c28346623f9e6e3374c82cee97921eac5fee828eba5ba7f",
+      "match": true
+    },
+    ".github/workflows/toolchain-upgrade.yml": {
+      "expected_sha256": "bd9cc5f4f09c1e00223a627fedbd7fb522053c6258284304c1d509f83dbcfa6a",
+      "head_sha256": "bd9cc5f4f09c1e00223a627fedbd7fb522053c6258284304c1d509f83dbcfa6a",
+      "dispatch_main_sha256": "bd9cc5f4f09c1e00223a627fedbd7fb522053c6258284304c1d509f83dbcfa6a",
+      "match": true
+    },
+    ".github/workflows/verify-std-check.yml": {
+      "expected_sha256": "37a122141be204e64c1eb75caf6a6f72b1e1c9ce68f642ef79ad80cd1da9ee60",
+      "head_sha256": "37a122141be204e64c1eb75caf6a6f72b1e1c9ce68f642ef79ad80cd1da9ee60",
+      "dispatch_main_sha256": "37a122141be204e64c1eb75caf6a6f72b1e1c9ce68f642ef79ad80cd1da9ee60",
+      "match": true
+    },
+    ".github/workflows/z3-update.yml": {
+      "expected_sha256": "83e06af88fe864b471d4b1af10022519c3f81cc63d62e00d64d73e77234a9553",
+      "head_sha256": "83e06af88fe864b471d4b1af10022519c3f81cc63d62e00d64d73e77234a9553",
+      "dispatch_main_sha256": "83e06af88fe864b471d4b1af10022519c3f81cc63d62e00d64d73e77234a9553",
+      "match": true
+    }
+  },
+  "checks": {
+    "all_16_workflows_frozen": true,
+    "workflow_set_exact": true,
+    "identity_and_skip_gate": {
+      "status": "IDENTITY_AND_SKIP_GATE_PASS",
+      "reviewed_source": "ca1452227d6ad319f1b9bc1ad33bf618120733eb",
+      "trigger_sha": "9b67828707f8d7d5e691484896a82475dcf34d28",
+      "trigger_tree": "baedd51d92073ecb2b96991bae7dc562ee8f58a2",
+      "parent": "b5a9678fd7c2a0f67c3fcafd90057fc2afaf9b5d",
+      "pushed_range": [
+        "9b67828707f8d7d5e691484896a82475dcf34d28"
+      ],
+      "authorization": "SEPARATE_REVIEW_AND_OWNER_GO_REQUIRED"
+    }
+  },
+  "source_route": {
+    "workflow": "kani.yml regression -> scripts/kani-regression.sh",
+    "suite": "script-based-pre exec",
+    "suite_declared": true,
+    "config_script": "# Copyright Kani Contributors\n# SPDX-License-Identifier: Apache-2.0 OR MIT\nscript: test.sh\nexpected: expected\n",
+    "test_script": "#!/usr/bin/env bash\n# Copyright Kani Contributors\n# SPDX-License-Identifier: Apache-2.0 OR MIT\nset -euo pipefail\npython3 check.py\n",
+    "check_py_sections": {
+      "parse": {
+        "start": 49,
+        "end": 101
+      },
+      "compare": {
+        "start": 125,
+        "end": 146
+      },
+      "probe": {
+        "start": 149,
+        "end": 164
+      },
+      "main": {
+        "start": 167,
+        "end": 189
+      }
+    },
+    "assurance": "Exact-head source binding and discovery configuration; runtime discovery and fixture outcomes require separate reports."
+  }
+}

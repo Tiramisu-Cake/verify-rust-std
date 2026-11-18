@@ -1,0 +1,97 @@
+{
+  "schema": "ch8-f4-a-intake-provenance-v1",
+  "observed_at": "2026-11-18T12:59:56.521020+00:00",
+  "connected_metadata": "GITHUB-SUMMARIES.json: each response has source URL, observation time, explicit projection coverage; MANIFEST hashes exact retained bytes",
+  "local_source": "SOURCE-IDENTITY.json: exact Git objects, all 16 frozen workflows, static gate",
+  "reference_files": [
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/TASK-CH8-F4-A-INTAKE-W15.md",
+      "sha256": "e9ec017e354f98e3ebb0841055c79894ab6523ae0f8634b3c5f29838504311cd",
+      "bytes": 5182
+    },
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/STYLE-UPSTREAM-RULES.md",
+      "sha256": "5932c080cd5938ad7fcb159b1847e663df828beffc17196716b001e6a5cb9e7a",
+      "bytes": 3240
+    },
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/f4-uninit-only-postrun/INPUTS.json",
+      "sha256": "1b5e286c76b62f579bf340222c8f527a75a2478f1dec408e1c5f434a304e2836",
+      "bytes": 3658
+    },
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/f4-uninit-only/CI-REQUEST.json",
+      "sha256": "437469f988cf424a16639c15bb694bb9c89f66e41f4e769bff7bf36a508a76fa",
+      "bytes": 7944
+    },
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/f4-uninit-only/SOURCE-PINS.json",
+      "sha256": "508188df3fca3514f9983f97250046cf3b60b9906fb71549b90fae43bad923f8",
+      "bytes": 4003
+    },
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/f4-uninit-only/check_push_head.py",
+      "sha256": "1165f664d7e0e785ba8c6d199e5bc804d5c9c5001082abb071c69b05646c9622",
+      "bytes": 2027
+    },
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/f4-uninit-only-review-w11/REVIEW.json",
+      "sha256": "0f6bca2c813e2030bd82cbe803ded924035ca258c9fb81f18a9d014e8d780415",
+      "bytes": 4021
+    },
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/f4-confirm-intake/run-44177926794/RESULT.json",
+      "sha256": "39213c230a393d12b03f3b79ad6bd54bce07d092fddb899be96a2dc7f971b196",
+      "bytes": 11291
+    },
+    {
+      "path": "/root/smallsort-pr-drafts/PR-F4-DRAFT.md",
+      "sha256": "6e15978f1cb8926907eaa8865596611661ae3f22557e5da9e40da0f3fa3bb3de",
+      "bytes": 2403
+    }
+  ],
+  "coordinator_reports": [
+    {
+      "id": "new-head-terminal-owner1554",
+      "source": "Current owner message issuing task taske069de32bab22a22975fca5d819acee9f03d3b0f",
+      "reported_time": "2026-11-18 owner15:54 Europe/Moscow; message timestamp not independently exposed",
+      "recorded_at": "2026-11-18T12:59:56.521020+00:00",
+      "report_text": "All3terminal attempt1/head9b67828707f8d7d5e691484896a82475dcf34d28 MATCH: Kani44295027834 nativeFAILURE (8jobsSUCCESS includingIntel/perf,macos-15CANCELLED/noRunner); Format44295027924SUCCESS,Deny44295028060FAILURE. NEW coordinator classification DenyEXTERNAL_ADVISORY, newmac noRunner, script-based-pre103/103 reported on this head.",
+      "report_text_sha256": "8b65c3b95ce99793b28c3a342eab9a185349bab2a48fb0abb827800676eb360f",
+      "head": "9b67828707f8d7d5e691484896a82475dcf34d28",
+      "runs": [
+        44295027834,
+        44295027924,
+        44295028060
+      ],
+      "claims": {
+        "deny_classification": "EXTERNAL_ADVISORY",
+        "macos_15": "CANCELLED/noRunner",
+        "script_based_pre": "103/103 on this head"
+      },
+      "coverage": "Coordinator-reported aggregate; OS/job attribution of suite count, individual two-mode exports, diagnostic text/advisory ID and report URL/digest are not supplied. Digest here binds only the quoted report text.",
+      "independent_corroboration": "Run identity/verdicts, every native job/step and macOS runner_id=0/steps=[] independently observed. Advisory cause and suite result remain coordinator-reported."
+    }
+  ],
+  "limitations": [
+    {
+      "resource": "macOS and Deny check-run diagnostics",
+      "detail": "Connector INVALID_ARGUMENT; exact rejected URLs/responses retained in GITHUB-SUMMARIES.json unavailable_checks. No raw/log fallback."
+    }
+  ],
+  "history": {
+    "main_reproducer": {
+      "commit": "06ff67af4aa1dd8df2cdbf2eec58bf3863008748",
+      "run_id": 44177926794,
+      "purpose": "Historical main defect observation only; not a new-head result"
+    },
+    "old_b5_ci": {
+      "run_id": 44274306776,
+      "head": "b5a9678fd7c2a0f67c3fcafd90057fc2afaf9b5d",
+      "new_head_credit": false,
+      "outcome_transfer": false
+    }
+  },
+  "external_draft": "Read as prose input; unchanged. Root applies replacement after READY.",
+  "assurance": "Bounded metadata observations, exact-head static source inspection, separately attributed new coordinator reports; no new formal proof credit or download_verified."
+}
