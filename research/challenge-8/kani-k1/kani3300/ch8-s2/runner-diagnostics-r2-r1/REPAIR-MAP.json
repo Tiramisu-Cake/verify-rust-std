@@ -1,0 +1,37 @@
+{
+  "review": "5db34a924329e05602bf1f8643ad0f4082653b3c",
+  "frozen_control": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+  "repaired_control": "472be8c3794d7a4530760ab7d5eae4ce950aa01c",
+  "findings": [
+    {
+      "id": "B-01",
+      "priority": "P1",
+      "status": "AUTHOR_REPAIR_TESTED_PENDING_REVIEW14",
+      "files": [
+        "ch8-s1-control/pack_evidence.py",
+        "ch8-s1-control/test_rustc_diagnostics.py"
+      ],
+      "repair": "Diagnostic coverage unions actual streams with expected groups/receipts and execution states; absent both-stream main capture cannot inherit complete setup",
+      "regressions": [
+        "test_b01_exact_group_fallback_cannot_inherit_complete_setup",
+        "test_b01_both_main_streams_removed_at_pack_boundary",
+        "test_b01_terminal_inventory_missing_group_and_execution_states"
+      ]
+    },
+    {
+      "id": "B-02",
+      "priority": "P2",
+      "status": "AUTHOR_REPAIR_TESTED_PENDING_REVIEW14",
+      "files": [
+        "ch8-s1-control/rustc_diagnostics.py",
+        "ch8-s1-control/test_rustc_diagnostics.py"
+      ],
+      "repair": "Numbered N-minus/N-plus suggestion lines retain the active block through following source/note/help context",
+      "regressions": [
+        "test_b02_exact_review_suggestion_and_ansi_split_both_streams"
+      ]
+    }
+  ],
+  "independent_finding_closure": "NOT_CLAIMED",
+  "unrelated_observation": "Existing unchanged CompileMonitor preview snapshot test intermittently races stderr pipe consumption; failed expanded attempt retained and isolated recheck recorded; no out-of-scope runner change"
+}

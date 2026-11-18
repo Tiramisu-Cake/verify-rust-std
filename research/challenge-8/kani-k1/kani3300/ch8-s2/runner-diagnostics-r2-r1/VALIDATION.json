@@ -1,0 +1,73 @@
+{
+  "schema": "ch8-w11-diagnostics-repair-validation-v1",
+  "control_sha": "472be8c3794d7a4530760ab7d5eae4ce950aa01c",
+  "tree": "4835c615d20e6606ddcdc64bbb8314973cec141b",
+  "final_localized": {
+    "tests": 32,
+    "failures": 0,
+    "errors": 0,
+    "transcript": "FINAL-32-TESTS.txt",
+    "result": "PASS",
+    "executed_recipe": "FINAL-TEST-COMMAND.py (executed from stdin)",
+    "cwd": "/root/kani-ch8-s2-diagnostics-r2-r1-w11/ch8-s1-control"
+  },
+  "preview_recheck": {
+    "tests": 1,
+    "failures": 0,
+    "result": "PASS_ISOLATED",
+    "transcript": "PREVIEW-ISOLATED-RECHECK.txt",
+    "command": "python -m unittest -v test_runner.CompileTests.test_single_process_compile_then_two_harnesses_and_bounded_previews"
+  },
+  "expanded_attempt": {
+    "tests": 33,
+    "failures": 1,
+    "transcript": "EXPANDED-ATTEMPT.txt",
+    "failure": "Existing unchanged test_runner.CompileTests.test_single_process_compile_then_two_harnesses_and_bounded_previews stderr preview timing; no B01/B02 regression failed"
+  },
+  "initial_33": {
+    "tests": 33,
+    "failures": 0,
+    "transcript": "INITIAL-33-TESTS.txt",
+    "stage": "before final test assertion clarification; same runtime repair code"
+  },
+  "old_candidate_negative": {
+    "tests": 4,
+    "subtest_failures": 10,
+    "errors": 0,
+    "transcript": "BASELINE-NEGATIVE-REGRESSIONS.json",
+    "result": "EXPECTED_FAILURES"
+  },
+  "review_reproductions_before": "BEFORE-REPRODUCTIONS.json",
+  "author_reproductions_after": "AFTER-REPRODUCTIONS.json",
+  "package_check": "PACKAGE-CHECK.json",
+  "independent_closure": "NOT_CLAIMED_PENDING_REVIEW14",
+  "unchanged": [
+    "runner.py",
+    "workflow",
+    "source",
+    "tool",
+    "cfg",
+    "argv",
+    "selection",
+    "caps",
+    "11 roots",
+    "20 covers",
+    "6 negative oracles",
+    "proof outcomes"
+  ],
+  "production_runtime": "NOT_RUN",
+  "historical_compile_cause": "UNKNOWN",
+  "proof_credit": "NONE",
+  "external_actions": {
+    "CI": 0,
+    "push": 0,
+    "PR": 0,
+    "cancel": 0,
+    "ledger": 0,
+    "reservation": 0,
+    "budget_changes": 0,
+    "subagents": 0,
+    "publication": 0
+  },
+  "author_reproduction_command": "python reproduce_repairs.py"
+}

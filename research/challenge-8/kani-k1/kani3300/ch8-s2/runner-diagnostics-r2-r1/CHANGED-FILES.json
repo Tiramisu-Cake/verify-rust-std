@@ -1,0 +1,41 @@
+{
+  "baseline": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+  "candidate": "472be8c3794d7a4530760ab7d5eae4ce950aa01c",
+  "delta_paths": [
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/pack_evidence.py",
+    "ch8-s1-control/rustc_diagnostics.py",
+    "ch8-s1-control/test_rustc_diagnostics.py"
+  ],
+  "files": [
+    {
+      "path": "ch8-s1-control/CI-REQUEST.json",
+      "baseline_sha256": "8e4dada7027f7e4cd2df6257455be16a921ead46c830212e7a3def7bdeec2b97",
+      "candidate_sha256": "8efb33417013116119602d9cf8e62a01de7b25ed2d2bbde6b9abd5d6457dd212"
+    },
+    {
+      "path": "ch8-s1-control/pack_evidence.py",
+      "baseline_sha256": "b90c3d942ce3ec5734ef35719cebb5ac0a3052bd1c7317523c31f9a009e01c85",
+      "candidate_sha256": "8782f1abd29342cec1202d851c94222c50fed0e6c358549971048135ab24d206"
+    },
+    {
+      "path": "ch8-s1-control/rustc_diagnostics.py",
+      "baseline_sha256": "c60dca260bafc89ae419c9d54f594e191b96558cb2670e7517ab802042aeb78a",
+      "candidate_sha256": "0c94acd85a9f2f7a241958a2c5b9dffce09517bd8d08ddf30bfbdd81ef839b32"
+    },
+    {
+      "path": "ch8-s1-control/test_rustc_diagnostics.py",
+      "baseline_sha256": "595504d1fc494a647f99318a34cd239db0a030c8cc2ab290846deb0872a87ec9",
+      "candidate_sha256": "fadad233e902b6fdaaea2a308e2a6321a3c594e8d0ba3492531459cbef0ac88d"
+    }
+  ],
+  "request_changes": [
+    "ci_payload_sha256"
+  ],
+  "workflow": "BYTE_IDENTICAL_TO_B678",
+  "runner_py": "BYTE_IDENTICAL_TO_B678",
+  "source_tool_cfg_selection_caps_oracles": "UNCHANGED",
+  "roots": 11,
+  "covers": 20,
+  "negative_oracles": 6
+}

@@ -1,0 +1,49 @@
+{
+  "baseline": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+  "result": "EXPECTED_REGRESSION_FAILURES_REPRODUCED",
+  "tests": 4,
+  "failures": [
+    {
+      "test": "test_b01_both_main_streams_removed_at_pack_boundary (w11_r1_negative_regressions.ReviewRepairTests.test_b01_both_main_streams_removed_at_pack_boundary)",
+      "traceback": "Traceback (most recent call last):\n  File \"/root/kani-ch8-s2-diagnostics-r2-r1-w11/ch8-s1-control/test_rustc_diagnostics.py\", line 282, in test_b01_both_main_streams_removed_at_pack_boundary\n    self.assertFalse(artifact['diagnostic_retention']['complete'])\nAssertionError: True is not false\n"
+    },
+    {
+      "test": "test_b01_exact_group_fallback_cannot_inherit_complete_setup (w11_r1_negative_regressions.ReviewRepairTests.test_b01_exact_group_fallback_cannot_inherit_complete_setup)",
+      "traceback": "Traceback (most recent call last):\n  File \"/root/kani-ch8-s2-diagnostics-r2-r1-w11/ch8-s1-control/test_rustc_diagnostics.py\", line 255, in test_b01_exact_group_fallback_cannot_inherit_complete_setup\n    self.assertIn('groups/'+self.GROUP, artifact['rustc_diagnostics'])\nAssertionError: 'groups/s2-batch3probes-u34' not found in {'setup': {'schema': 'ch8-rustc-diagnostics-summary-v1', 'complete': True, 'incomplete_reasons': [], 'unobserved_bytes': 0, 'proof_credit': 'NONE', 'streams': {'stdout': {'schema': 'ch8-rustc-diagnostics-v1', 'stream': 'stdout', 'scope': 'OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT', 'offset_unit': 'ORIGINAL_PIPE_BYTE_HALF_OPEN', 'ansi_removed': True, 'complete': True, 'incomplete_reasons': [], 'status': 'NO_TEXTUAL_ERRORS', 'producer_completeness': 'UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE', 'producer_reported_error_count': 0, 'producer_reported_omission': False, 'observed_bytes': 0, 'pipe_eof': True, 'retention_cap_bytes': 8192, 'block_cap': 16, 'retained_input_bytes': 0, 'error_headers_observed': 0, 'substantive_headers_observed': 0, 'dropped_blocks': 0, 'dropped_bytes': 0, 'unscanned_bytes': 0, 'unobserved_bytes': 0, 'dropped_counts_scope': 'OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN', 'proof_credit': 'NONE', 'receipt': 'rustc-stdout-receipt.json', 'compact_payload_retained': True}, 'stderr': {'schema': 'ch8-rustc-diagnostics-v1', 'stream': 'stderr', 'scope': 'OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT', 'offset_unit': 'ORIGINAL_PIPE_BYTE_HALF_OPEN', 'ansi_removed': True, 'complete': True, 'incomplete_reasons': [], 'status': 'NO_TEXTUAL_ERRORS', 'producer_completeness': 'UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE', 'producer_reported_error_count': 0, 'producer_reported_omission': False, 'observed_bytes': 0, 'pipe_eof': True, 'retention_cap_bytes': 8192, 'block_cap': 16, 'retained_input_bytes': 0, 'error_headers_observed': 0, 'substantive_headers_observed': 0, 'dropped_blocks': 0, 'dropped_bytes': 0, 'unscanned_bytes': 0, 'unobserved_bytes': 0, 'dropped_counts_scope': 'OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN', 'proof_credit': 'NONE', 'receipt': 'rustc-stderr-receipt.json', 'compact_payload_retained': True}}, 'scope': 'OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN'}}\n"
+    },
+    {
+      "test": "test_b01_terminal_inventory_missing_group_and_execution_states (w11_r1_negative_regressions.ReviewRepairTests.test_b01_terminal_inventory_missing_group_and_execution_states) (state='NOT_RUN')",
+      "traceback": "Traceback (most recent call last):\n  File \"/root/kani-ch8-s2-diagnostics-r2-r1-w11/ch8-s1-control/test_rustc_diagnostics.py\", line 300, in test_b01_terminal_inventory_missing_group_and_execution_states\n    self.assertFalse(artifact['diagnostic_retention']['complete'])\nAssertionError: True is not false\n"
+    },
+    {
+      "test": "test_b01_terminal_inventory_missing_group_and_execution_states (w11_r1_negative_regressions.ReviewRepairTests.test_b01_terminal_inventory_missing_group_and_execution_states) (state='INTERRUPTED')",
+      "traceback": "Traceback (most recent call last):\n  File \"/root/kani-ch8-s2-diagnostics-r2-r1-w11/ch8-s1-control/test_rustc_diagnostics.py\", line 300, in test_b01_terminal_inventory_missing_group_and_execution_states\n    self.assertFalse(artifact['diagnostic_retention']['complete'])\nAssertionError: True is not false\n"
+    },
+    {
+      "test": "test_b01_terminal_inventory_missing_group_and_execution_states (w11_r1_negative_regressions.ReviewRepairTests.test_b01_terminal_inventory_missing_group_and_execution_states) (state='IN_PROGRESS')",
+      "traceback": "Traceback (most recent call last):\n  File \"/root/kani-ch8-s2-diagnostics-r2-r1-w11/ch8-s1-control/test_rustc_diagnostics.py\", line 300, in test_b01_terminal_inventory_missing_group_and_execution_states\n    self.assertFalse(artifact['diagnostic_retention']['complete'])\nAssertionError: True is not false\n"
+    },
+    {
+      "test": "test_b01_terminal_inventory_missing_group_and_execution_states (w11_r1_negative_regressions.ReviewRepairTests.test_b01_terminal_inventory_missing_group_and_execution_states) (state=None)",
+      "traceback": "Traceback (most recent call last):\n  File \"/root/kani-ch8-s2-diagnostics-r2-r1-w11/ch8-s1-control/test_rustc_diagnostics.py\", line 300, in test_b01_terminal_inventory_missing_group_and_execution_states\n    self.assertFalse(artifact['diagnostic_retention']['complete'])\nAssertionError: True is not false\n"
+    },
+    {
+      "test": "test_b02_exact_review_suggestion_and_ansi_split_both_streams (w11_r1_negative_regressions.ReviewRepairTests.test_b02_exact_review_suggestion_and_ansi_split_both_streams) (stream='stdout', ansi=False)",
+      "traceback": "Traceback (most recent call last):\n  File \"/root/kani-ch8-s2-diagnostics-r2-r1-w11/ch8-s1-control/test_rustc_diagnostics.py\", line 327, in test_b02_exact_review_suggestion_and_ansi_split_both_streams\n    self.assertEqual(value['retained_input_bytes'], len(wire))\nAssertionError: 126 != 165\n"
+    },
+    {
+      "test": "test_b02_exact_review_suggestion_and_ansi_split_both_streams (w11_r1_negative_regressions.ReviewRepairTests.test_b02_exact_review_suggestion_and_ansi_split_both_streams) (stream='stdout', ansi=True)",
+      "traceback": "Traceback (most recent call last):\n  File \"/root/kani-ch8-s2-diagnostics-r2-r1-w11/ch8-s1-control/test_rustc_diagnostics.py\", line 327, in test_b02_exact_review_suggestion_and_ansi_split_both_streams\n    self.assertEqual(value['retained_input_bytes'], len(wire))\nAssertionError: 135 != 251\n"
+    },
+    {
+      "test": "test_b02_exact_review_suggestion_and_ansi_split_both_streams (w11_r1_negative_regressions.ReviewRepairTests.test_b02_exact_review_suggestion_and_ansi_split_both_streams) (stream='stderr', ansi=False)",
+      "traceback": "Traceback (most recent call last):\n  File \"/root/kani-ch8-s2-diagnostics-r2-r1-w11/ch8-s1-control/test_rustc_diagnostics.py\", line 327, in test_b02_exact_review_suggestion_and_ansi_split_both_streams\n    self.assertEqual(value['retained_input_bytes'], len(wire))\nAssertionError: 126 != 165\n"
+    },
+    {
+      "test": "test_b02_exact_review_suggestion_and_ansi_split_both_streams (w11_r1_negative_regressions.ReviewRepairTests.test_b02_exact_review_suggestion_and_ansi_split_both_streams) (stream='stderr', ansi=True)",
+      "traceback": "Traceback (most recent call last):\n  File \"/root/kani-ch8-s2-diagnostics-r2-r1-w11/ch8-s1-control/test_rustc_diagnostics.py\", line 327, in test_b02_exact_review_suggestion_and_ansi_split_both_streams\n    self.assertEqual(value['retained_input_bytes'], len(wire))\nAssertionError: 135 != 251\n"
+    }
+  ],
+  "errors": 0,
+  "scope": "FOUR_LOCALIZED_REPAIR_REGRESSIONS_ONLY_NO_COMPILER"
+}

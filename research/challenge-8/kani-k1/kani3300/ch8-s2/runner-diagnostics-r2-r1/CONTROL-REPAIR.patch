@@ -1,0 +1,267 @@
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index ab09a4810..c6a6a4f40 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -691,16 +691,16 @@
+     "ch8-s1-control/fixtures/s2-old97ac-batch.rs.txt": "37125e0d65bbce0b70fc6626960cbf0c17dab3d2d07675c183cf15407a37c850",
+     "ch8-s1-control/negative_oracle.py": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c",
+     "ch8-s1-control/oracle_source.py": "75a9a665b7a9fc1c64cd51c1c8d281fd323f22411aee83c017d08f37a27f20ce",
+-    "ch8-s1-control/pack_evidence.py": "b90c3d942ce3ec5734ef35719cebb5ac0a3052bd1c7317523c31f9a009e01c85",
++    "ch8-s1-control/pack_evidence.py": "8782f1abd29342cec1202d851c94222c50fed0e6c358549971048135ab24d206",
+     "ch8-s1-control/rich_evidence.py": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+     "ch8-s1-control/runner.py": "5cd91fa221644daa3493ed1f5cd445fa91e8bf9a0071cb0cee8f13ba26ba1251",
+-    "ch8-s1-control/rustc_diagnostics.py": "c60dca260bafc89ae419c9d54f594e191b96558cb2670e7517ab802042aeb78a",
++    "ch8-s1-control/rustc_diagnostics.py": "0c94acd85a9f2f7a241958a2c5b9dffce09517bd8d08ddf30bfbdd81ef839b32",
+     "ch8-s1-control/s108_package.py": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237",
+     "ch8-s1-control/s2_policy.py": "175687c717b2b1ab81301c0a91fac2536f3cb905e0f0bc519622fcc87ee1e41f",
+     "ch8-s1-control/test_cfg_pfc.py": "d9e688af01b2bfcfdc2d7c4dd7ada0e5004e1821d7eee1d719cc0f5402686cab",
+     "ch8-s1-control/test_package.py": "70f00d0726b7011db8a02339c1b031bda49b4af3c2f7e881b68d06b7663b5ca7",
+     "ch8-s1-control/test_runner.py": "91be0156d1d8e55bc2e768891996f69cb1cd248096521d1ff5358dc8f57daaa4",
+-    "ch8-s1-control/test_rustc_diagnostics.py": "595504d1fc494a647f99318a34cd239db0a030c8cc2ab290846deb0872a87ec9",
++    "ch8-s1-control/test_rustc_diagnostics.py": "fadad233e902b6fdaaea2a308e2a6321a3c594e8d0ba3492531459cbef0ac88d",
+     "ch8-s1-control/test_s104.py": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+     "ch8-s1-control/test_s105.py": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e",
+     "ch8-s1-control/test_s107.py": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0",
+diff --git a/ch8-s1-control/pack_evidence.py b/ch8-s1-control/pack_evidence.py
+index e09133c69..accacce34 100644
+--- a/ch8-s1-control/pack_evidence.py
++++ b/ch8-s1-control/pack_evidence.py
+@@ -12,6 +12,86 @@ COMPRESSED_CAP = 8 * 1024 * 1024
+ NAME = 'group-evidence.json.gz'
+ 
+ 
++def diagnostic_inventory(root):
++    """Expected group coverage survives missing streams and fallback interruption.
++
++    Row/compile receipts refer to a shared group capture, not a new execution.
++    Only existing structured receipt inventories are consulted; no dispatch or
++    proof/selection inference is performed.
++    """
++    directories = {p.parent: False for stream in ('stdout', 'stderr')
++                   for p in root.rglob('rustc-'+stream+'-receipt.json')}
++    reasons = []
++
++    def read_receipt(path):
++        if path.is_symlink() or path.stat().st_size > UNCOMPRESSED_CAP:
++            raise ValueError('execution receipt boundary')
++        value = json.loads(path.read_text())
++        if not isinstance(value, dict):
++            raise ValueError('execution receipt type')
++        return value
++
++    def expect_group(group):
++        if not isinstance(group, str) or not group or group in ('.', '..') or '/' in group or '\\' in group:
++            reasons.append('INVALID_EXPECTED_DIAGNOSTIC_GROUP')
++        else:
++            directories[root/'groups'/group] = True
++
++    for directory in (root/'groups').glob('*'):
++        if directory.is_dir() and not directory.is_symlink():
++            directories[directory] = True
++    for path in root.rglob('receipt.json'):
++        relative = path.relative_to(root)
++        try:
++            value = read_receipt(path)
++        except (OSError, ValueError, TypeError):
++            reasons.append(str(relative)+':EXECUTION_INVENTORY_UNAVAILABLE')
++            continue
++        if 'selected_groups' in value:
++            if not isinstance(value['selected_groups'], list):
++                reasons.append(str(relative)+':INVALID_SELECTED_GROUPS')
++            else:
++                for group in value['selected_groups']:
++                    expect_group(group)
++        # Pending terminal envelopes can precede selected_groups; rows retain
++        # the group assignment. Explicitly unselected rows create no obligation.
++        if isinstance(value.get('rows'), list):
++            for row in value['rows']:
++                if isinstance(row, dict) and row.get('group') and row.get('status') != 'NOT_SELECTED':
++                    expect_group(row['group'])
++        is_row = 'status' in value and 'group' in value
++        is_compile = len(relative.parts) >= 2 and relative.parts[-2] == 'compile'
++        is_terminal = path.parent == root and ('rows' in value or 'selected_groups' in value)
++        if not is_row and not is_compile and not is_terminal and any(
++                k in value for k in ('execution', 'original_exit_code', 'rustc_diagnostics')):
++            directories[path.parent] = True
++
++    diagnostics = {}
++    for directory, expected in sorted(directories.items()):
++        summary = rustc_diagnostics.summary(directory)
++        summary['expected_execution'] = expected
++        path = directory/'receipt.json'
++        if expected or path.exists():
++            try:
++                receipt = read_receipt(path)
++                state = receipt.get('state', receipt.get('status', 'STATE_NOT_REPORTED'))
++                summary['execution_state'] = state
++                if state in ('NOT_RUN', 'NOT_RUN_OR_INTERRUPTED', 'IN_PROGRESS', 'INTERRUPTED'):
++                    summary['incomplete_reasons'].append('EXECUTION_STATE:'+state)
++                recorded = receipt.get('rustc_diagnostics')
++                if isinstance(recorded, dict) and recorded.get('complete') is False:
++                    summary['incomplete_reasons'].append('EXECUTION_DIAGNOSTICS_INCOMPLETE')
++            except (OSError, ValueError, TypeError):
++                summary['execution_state'] = 'RECEIPT_UNAVAILABLE'
++                summary['incomplete_reasons'].append('EXECUTION_RECEIPT_UNAVAILABLE')
++        summary['incomplete_reasons'] = sorted(set(summary['incomplete_reasons']))
++        summary['complete'] = not summary['incomplete_reasons']
++        if not summary['complete']:
++            summary['unobserved_bytes'] = None
++        diagnostics[str(directory.relative_to(root))] = summary
++    return diagnostics, reasons
++
++
+ def pack(root):
+     files = {}
+     total = 0
+@@ -40,9 +120,7 @@ def pack(root):
+     except (OSError, ValueError) as exc:
+         errors.append(str(exc))
+     error = '; '.join(errors) if errors else None
+-    diagnostics = {str(p.relative_to(root)): rustc_diagnostics.summary(p)
+-                   for p in sorted({p.parent for stream in ('stdout','stderr')
+-                                    for p in root.rglob('rustc-'+stream+'-receipt.json')})}
++    diagnostics, coverage_reasons = diagnostic_inventory(root)
+     doc = {'rustc_diagnostics': diagnostics, 'schema': 'ch8-s1-05-artifact-v1', 'state': 'INCOMPLETE' if error else 'PACKAGED',
+            'error': error, 'files': files, 'proof_credit': 'NONE'}
+     raw = json.dumps(doc, ensure_ascii=False, separators=(',', ':')).encode()
+@@ -97,10 +175,11 @@ def pack(root):
+             else:
+                 brief['compact_payload_retained'] = True
+     doc['diagnostic_retention'] = {
+-        'complete': bool(diagnostics) and all(v['complete'] for v in diagnostics.values()),
++        'complete': bool(diagnostics) and not coverage_reasons and all(v['complete'] for v in diagnostics.values()),
+         'scope': 'OBSERVED_TEXTUAL_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN',
+-        'incomplete_reasons': sorted({r for v in diagnostics.values() for r in v['incomplete_reasons']})
+-                             if diagnostics else ['DIAGNOSTIC_RECEIPTS_UNAVAILABLE'],
++        'expected_directories': sorted(k for k, v in diagnostics.items() if v['expected_execution']),
++        'incomplete_reasons': sorted(set(coverage_reasons) | {r for v in diagnostics.values() for r in v['incomplete_reasons']})
++                             if diagnostics else sorted(set(coverage_reasons) | {'DIAGNOSTIC_RECEIPTS_UNAVAILABLE'}),
+         'proof_credit': 'NONE'}
+     raw = json.dumps(doc, ensure_ascii=False, separators=(',', ':')).encode()
+     compressed = gzip.compress(raw, mtime=0)
+diff --git a/ch8-s1-control/rustc_diagnostics.py b/ch8-s1-control/rustc_diagnostics.py
+index a54ea0142..644b533db 100644
+--- a/ch8-s1-control/rustc_diagnostics.py
++++ b/ch8-s1-control/rustc_diagnostics.py
+@@ -12,7 +12,7 @@ import re
+ 
+ ANSI = re.compile(rb"\x1b(?:\[[0-?]*[ -/]*[@-~]|\][^\x07\x1b]*(?:\x07|\x1b\\))")
+ ERROR = re.compile(rb"^\s*error(?:\[[^]\r\n]+\])?:")
+-CONTEXT = re.compile(rb"^(?:[ \t]|[0-9]+[ \t]*\||note:|help:|--> |::: )")
++CONTEXT = re.compile(rb"^(?:[ \t]|[0-9]+[ \t]*[|+-]|note:|help:|--> |::: )")
+ COUNT = re.compile(rb"(?:aborting due to |Found )(\d+)(?: previous)? compilation errors?|aborting due to (\d+) previous errors?")
+ OMITTED = re.compile(rb"(?:errors?|diagnostics?) (?:were )?(?:omitted|suppressed)", re.I)
+ 
+diff --git a/ch8-s1-control/test_rustc_diagnostics.py b/ch8-s1-control/test_rustc_diagnostics.py
+index d88012df7..4b37c7a4c 100644
+--- a/ch8-s1-control/test_rustc_diagnostics.py
++++ b/ch8-s1-control/test_rustc_diagnostics.py
+@@ -234,5 +234,108 @@ class DiagnosticsTests(unittest.TestCase):
+                 with self.assertRaises(ValueError): pack_evidence.pack(root)
+ 
+ 
++class ReviewRepairTests(unittest.TestCase):
++    """Localized regressions for review5db34a9 B-01/P1 and B-02/P2."""
++    GROUP = 's2-batch3probes-u34'
++
++    def complete_streams(self, root):
++        for stream in ('stdout', 'stderr'):
++            capture = diagnostics.Capture(stream, 8192, root/('rustc-'+stream+'-receipt.json'))
++            capture.finish()
++
++    def test_b01_exact_group_fallback_cannot_inherit_complete_setup(self):
++        with tempfile.TemporaryDirectory() as d:
++            root = Path(d)
++            self.complete_streams(root/'setup')
++            check_package.fallback(root, [self.GROUP])
++            path = root/'groups'/self.GROUP/'receipt.json'
++            before = path.read_bytes()
++            artifact = unpack(root)
++            self.assertTrue(artifact['rustc_diagnostics']['setup']['complete'])
++            self.assertIn('groups/'+self.GROUP, artifact['rustc_diagnostics'])
++            group = artifact['rustc_diagnostics']['groups/'+self.GROUP]
++            self.assertFalse(group['complete'])
++            self.assertEqual(group['execution_state'], 'NOT_RUN_OR_INTERRUPTED')
++            self.assertIn('stdout:DIAGNOSTIC_RECEIPT_UNAVAILABLE', group['incomplete_reasons'])
++            self.assertIn('stderr:DIAGNOSTIC_RECEIPT_UNAVAILABLE', group['incomplete_reasons'])
++            self.assertFalse(artifact['diagnostic_retention']['complete'])
++            self.assertIn('EXECUTION_STATE:NOT_RUN_OR_INTERRUPTED', artifact['diagnostic_retention']['incomplete_reasons'])
++            self.assertEqual(path.read_bytes(), before)
++            self.assertEqual(json.loads(before)['outcome'], 'UNKNOWN')
++
++    def test_b01_both_main_streams_removed_at_pack_boundary(self):
++        with tempfile.TemporaryDirectory() as d:
++            root = Path(d)
++            group = root/'groups'/self.GROUP
++            self.complete_streams(root/'setup')
++            self.complete_streams(group)
++            summary = diagnostics.summary(group)
++            value = {'state': 'FAILED', 'execution': {'original_exit_code': 42},
++                     'rustc_diagnostics': summary, 'outcome': 'UNKNOWN', 'proof_credit': 'NONE'}
++            (group/'receipt.json').write_text(json.dumps(value))
++            (root/'receipt.json').write_text(json.dumps({'selected_groups': [self.GROUP], 'rows': []}))
++            self.assertTrue(unpack(root)['diagnostic_retention']['complete'])
++            for stream in ('stdout', 'stderr'):
++                (group/('rustc-'+stream+'-receipt.json')).unlink()
++            before = (group/'receipt.json').read_bytes()
++            artifact = unpack(root)
++            self.assertFalse(artifact['diagnostic_retention']['complete'])
++            self.assertIn('groups/'+self.GROUP, artifact['diagnostic_retention']['expected_directories'])
++            self.assertFalse(artifact['rustc_diagnostics']['groups/'+self.GROUP]['complete'])
++            packed = json.loads(artifact['files']['groups/'+self.GROUP+'/receipt.json']['text'])
++            self.assertEqual(packed, value)
++            self.assertEqual((group/'receipt.json').read_bytes(), before)
++
++    def test_b01_terminal_inventory_missing_group_and_execution_states(self):
++        for state in ('NOT_RUN', 'INTERRUPTED', 'IN_PROGRESS', None):
++            with self.subTest(state=state), tempfile.TemporaryDirectory() as d:
++                root = Path(d)
++                self.complete_streams(root/'setup')
++                (root/'receipt.json').write_text(json.dumps({'selected_groups': [self.GROUP], 'rows': []}))
++                group = root/'groups'/self.GROUP
++                if state:
++                    self.complete_streams(group)
++                    (group/'receipt.json').write_text(json.dumps({'state': state, 'original_exit_code': None}))
++                artifact = unpack(root)
++                self.assertFalse(artifact['diagnostic_retention']['complete'])
++                summary = artifact['rustc_diagnostics']['groups/'+self.GROUP]
++                self.assertFalse(summary['complete'])
++                self.assertEqual(summary['execution_state'], state or 'RECEIPT_UNAVAILABLE')
++
++    def test_b02_exact_review_suggestion_and_ansi_split_both_streams(self):
++        fixture = (b'error[E0308]: mismatched types\n --> src/a.rs:1:1\n  |\n'
++                   b'1 | let n = 42;\n  |         ^^ expected &str\nhelp: replace the value\n  |\n'
++                   b'1 - let n = 42;\n1 + let n = "42";\n  |\n\n')
++        self.assertEqual(len(fixture), 165)
++        for stream in ('stdout', 'stderr'):
++            for ansi in (False, True):
++                with self.subTest(stream=stream, ansi=ansi), tempfile.TemporaryDirectory() as d:
++                    root = Path(d)
++                    prefix = b'noise before block\n'
++                    tail = '  = note: café after suggestion\nhelp: retained after diff\n'.encode() if ansi else b''
++                    block = fixture+tail
++                    wire = block.replace(b'error[E0308]', b'\x1b[31merror[E0308]\x1b[0m').replace(b'1 - ', b'\x1b[31m1 - \x1b[0m').replace(b'1 + ', b'\x1b[32m1 + \x1b[0m') if ansi else block
++                    for name in ('stdout', 'stderr'):
++                        cap = diagnostics.Capture(name, 8192, root/('rustc-'+name+'-receipt.json'))
++                        if name == stream:
++                            for byte in prefix+wire:
++                                cap.feed(bytes([byte]))
++                        cap.finish()
++                    value = json.loads((root/('rustc-'+stream+'-receipt.json')).read_text())
++                    self.assertTrue(value['complete'])
++                    self.assertEqual(value['dropped_bytes'], 0)
++                    self.assertEqual(value['retained_input_bytes'], len(wire))
++                    self.assertEqual(len(value['blocks']), 1)
++                    captured = value['blocks'][0]
++                    self.assertTrue(captured['complete'])
++                    self.assertEqual(captured['text'], block.decode())
++                    self.assertEqual(captured['start_byte'], len(prefix))
++                    self.assertEqual(captured['end_byte'], len(prefix)+len(wire))
++                    artifact = unpack(root)
++                    packed = json.loads(artifact['files']['rustc-'+stream+'-receipt.json']['text'])
++                    self.assertEqual(packed, value)
++                    self.assertTrue(artifact['diagnostic_retention']['complete'])
++
++
+ if __name__ == '__main__':
+     unittest.main()

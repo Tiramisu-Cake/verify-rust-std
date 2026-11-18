@@ -1,0 +1,30 @@
+{
+  "schema": "ch8-w11-diagnostics-repair-checkpoint-v1",
+  "task_id": "task845f890269e1f6b611872ab11933c476932718d4",
+  "state": "READY_FOR_SAME_REVIEWER14_DELTA_REVIEW",
+  "control_sha": "472be8c3794d7a4530760ab7d5eae4ce950aa01c",
+  "control_tree": "4835c615d20e6606ddcdc64bbb8314973cec141b",
+  "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+  "claims": [
+    {
+      "claim": "B-01/B-02 localized author repairs pass bounded regression and static checks",
+      "assurance": "AUTHOR_STATIC_AND_SYNTHETIC_ONLY",
+      "evidence": [
+        "VALIDATION.json",
+        "AFTER-REPRODUCTIONS.json",
+        "PACKAGE-CHECK.json"
+      ]
+    }
+  ],
+  "open": [
+    "Same reviewer14 independently rechecks exact committed repairs; no findings closed by author",
+    "Coordinator observation: unchanged preview snapshot test has intermittent timing failure; isolated recheck PASS; no out-of-scope fix",
+    "Production retention NOT_RUN; historical compile cause UNKNOWN"
+  ],
+  "blocker": null,
+  "next_step": "Same14 delta review; W13 may consume exact repaired runner pins after approval",
+  "closed_proof_obligations": 0,
+  "proof_credit": "NONE",
+  "accounting": "UNCHANGED_OWNER_ONLY",
+  "closure_reason": "Localized B-01/B-02 repairs and review package completed; unrelated test observation returned to coordinator in handoff"
+}
