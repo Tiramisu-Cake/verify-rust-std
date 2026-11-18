@@ -35,6 +35,15 @@ Worktree `/root/verify-rust-std-kani3300-g0`; paths below relative to
 - Ledger reservation `1ab634309d79b98bb32e09129dba2f1c9e71f64d`, run record
   `73ffdca390ef753fa4ac2118c4480c6844af3dd3`: item1 **28/28**, item2 **10/14**,
   total **38/42**. Reference only; do not charge/refund/reserve/change anything.
+- Coordinator's later Deny decision: run `44274306733` native FAILURE is
+  **EXTERNAL_ADVISORY**, **not an F4 blocker**: RUSTSEC-2026-0543, chrono
+  unmaintained, retained message `advisories FAILED: 1 errors`. Coordinator reports
+  last green upstream-main deny at 2026-11-17 05:47, before the advisory appeared.
+  Attribute that diagnosis/timeline to the coordinator; no independent log or
+  advisory-date validation is inferred. Main/final-head workspace Cargo.lock are
+  byte-identical; only the dependency-free fixture Cargo.toml is added. Preserve
+  the native red outcome separately from this explicit acceptance decision.
+  No retry, dependency update, ignore-list change or source/workflow fix.
 
 ## Intake
 
@@ -63,9 +72,12 @@ Worktree `/root/verify-rust-std-kani3300-g0`; paths below relative to
    Preserve initialized singleton/paired and intended unsafe controls and both cfg
    variants when exposed; missing details remain UNKNOWN. No repeated compiler audit.
 5. Report first retained meaningful failed step/reason and classification:
-   FORK_PUSH_CI_PASS, FORK_PUSH_CI_FAILED or INCONCLUSIVE. Every required job must
-   be accounted for. Do not declare a dependency/baseline issue harmless without
-   evidence; do not fix source/CI, rerun or alter native conclusions. Measured perf
+   FORK_PUSH_CI_PASS, FORK_PUSH_CI_COMPLETE_WITH_EXTERNAL_ADVISORY,
+   FORK_PUSH_CI_FAILED or INCONCLUSIVE. The external-advisory disposition requires
+   all other required candidate jobs to pass; it preserves Deny=FAILURE with
+   failure_class=EXTERNAL_ADVISORY, f4_blocking=false and coordinator provenance.
+   Every required job must be accounted for. No other failure is waived by this
+   decision. Do not fix source/CI, rerun or alter native conclusions. Measured perf
    only; separate compiler/PR benchmark comparisons remain deferred.
 
 ## Draft and delivery
@@ -81,7 +93,9 @@ license sentence and required AI disclosure. No head/parent SHAs, test counters,
 internal F4/receipt/proof labels or invented compilation-order/cache causality.
 Testing must truthfully reflect failures/UNKNOWN and deferred upstream PR checks;
 do not write fixed PASS/green standard CI if evidence is missing or red. Mark draft
-readiness separately from CI readiness. Use old PR-DRAFT only as prose input.
+readiness separately from CI readiness. Note cargo-deny's external advisory for
+unchanged chrono dependencies without claiming Deny passed. Use old PR-DRAFT only
+as prose input.
 
 No CI/push/PR/publication/labels/events/rerun/cancel/reservation/ledger/budget or
 source changes. Publication requires owner command. S2/S3 outside scope.
