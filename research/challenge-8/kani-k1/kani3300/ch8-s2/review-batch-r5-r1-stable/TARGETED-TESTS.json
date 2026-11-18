@@ -1,0 +1,638 @@
+{
+  "status": "PASS",
+  "control": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+  "test_r5_sha256": "59a2a741f07f28fba85f79435d70f06dcfa0a0aa2ee3bb8a6ff8fecde72c5b1d",
+  "test_count": 28,
+  "repeat_policy": "Exactly 3 normal and 3 forced-early-empty; predetermined; every result retained; no retry-until-pass",
+  "repetitions": [
+    {
+      "iteration": 1,
+      "test": "test_escaped_setsid_child_found_and_reaped",
+      "pass": true,
+      "real_case": [
+        {
+          "supervision": {
+            "worker_pid": 2836852,
+            "worker_initial_identity": {
+              "pid": 2836852,
+              "state": "R",
+              "ppid": 2836812,
+              "pgid": 2836852,
+              "start_ticks": 252212278
+            },
+            "worker_exit": 0,
+            "worker_wall_limit_seconds": 6,
+            "cutoff": null,
+            "supervisor_error": null,
+            "containment": {
+              "verified": true,
+              "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+              "observed": [
+                {
+                  "pid": 2836852,
+                  "state": "Z",
+                  "ppid": 2836812,
+                  "pgid": 2836852,
+                  "start_ticks": 252212278
+                },
+                {
+                  "pid": 2836861,
+                  "state": "S",
+                  "ppid": 2836812,
+                  "pgid": 2836861,
+                  "start_ticks": 252212291
+                }
+              ],
+              "signals": [
+                {
+                  "pid": 2836861,
+                  "start_ticks": 252212291,
+                  "signal": 15,
+                  "monotonic": 2522123.052162755
+                }
+              ],
+              "reaped_adopted": [
+                {
+                  "pid": 2836861,
+                  "status": 15
+                }
+              ],
+              "worker_exit": 0,
+              "elapsed_seconds": 0.0679084355942905
+            },
+            "monotonic_start": 2522122.783713023,
+            "monotonic_end": 2522123.077779023,
+            "elapsed_seconds": 0.29406627360731363,
+            "outer_sampled_peak_kib": 22728,
+            "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+            "limit_initiated": false,
+            "orphan_survivors_at_worker_exit": [
+              {
+                "pid": 2836861,
+                "state": "S",
+                "ppid": 2836812,
+                "pgid": 2836861,
+                "start_ticks": 252212291
+              }
+            ]
+          },
+          "child_ready": {
+            "pid": 2836861,
+            "pgid": 2836861,
+            "start_ticks": 252212291
+          }
+        }
+      ],
+      "transcript": "test_escaped_setsid_child_found_and_reaped (test_r5.ProcessTests.test_escaped_setsid_child_found_and_reaped) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.347s\n\nOK\n"
+    },
+    {
+      "iteration": 1,
+      "test": "test_escaped_child_adopted_after_early_snapshot",
+      "pass": true,
+      "real_case": [
+        {
+          "supervision": {
+            "worker_pid": 2836881,
+            "worker_initial_identity": {
+              "pid": 2836881,
+              "state": "R",
+              "ppid": 2836812,
+              "pgid": 2836881,
+              "start_ticks": 252212313
+            },
+            "worker_exit": 0,
+            "worker_wall_limit_seconds": 6,
+            "cutoff": null,
+            "supervisor_error": null,
+            "containment": {
+              "verified": true,
+              "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+              "observed": [
+                {
+                  "pid": 2836881,
+                  "state": "R",
+                  "ppid": 2836812,
+                  "pgid": 2836881,
+                  "start_ticks": 252212313
+                },
+                {
+                  "pid": 2836890,
+                  "state": "S",
+                  "ppid": 2836812,
+                  "pgid": 2836890,
+                  "start_ticks": 252212323
+                }
+              ],
+              "signals": [
+                {
+                  "pid": 2836890,
+                  "start_ticks": 252212323,
+                  "signal": 15,
+                  "monotonic": 2522123.340564293
+                }
+              ],
+              "reaped_adopted": [
+                {
+                  "pid": 2836890,
+                  "status": 15
+                }
+              ],
+              "worker_exit": 0,
+              "elapsed_seconds": 0.07384858839213848
+            },
+            "monotonic_start": 2522123.130961259,
+            "monotonic_end": 2522123.372796185,
+            "elapsed_seconds": 0.2418354032561183,
+            "outer_sampled_peak_kib": 0,
+            "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+            "limit_initiated": false,
+            "orphan_survivors_at_worker_exit": []
+          },
+          "child_ready": {
+            "pid": 2836890,
+            "pgid": 2836890,
+            "start_ticks": 252212323
+          }
+        }
+      ],
+      "transcript": "test_escaped_child_adopted_after_early_snapshot (test_r5.ProcessTests.test_escaped_child_adopted_after_early_snapshot) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.313s\n\nOK\n"
+    },
+    {
+      "iteration": 2,
+      "test": "test_escaped_setsid_child_found_and_reaped",
+      "pass": true,
+      "real_case": [
+        {
+          "supervision": {
+            "worker_pid": 2836913,
+            "worker_initial_identity": {
+              "pid": 2836913,
+              "state": "R",
+              "ppid": 2836812,
+              "pgid": 2836913,
+              "start_ticks": 252212347
+            },
+            "worker_exit": 0,
+            "worker_wall_limit_seconds": 6,
+            "cutoff": null,
+            "supervisor_error": null,
+            "containment": {
+              "verified": true,
+              "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+              "observed": [
+                {
+                  "pid": 2836913,
+                  "state": "Z",
+                  "ppid": 2836812,
+                  "pgid": 2836913,
+                  "start_ticks": 252212347
+                },
+                {
+                  "pid": 2836916,
+                  "state": "Z",
+                  "ppid": 2836812,
+                  "pgid": 2836916,
+                  "start_ticks": 252212363
+                }
+              ],
+              "signals": [
+                {
+                  "pid": 2836916,
+                  "start_ticks": 252212363,
+                  "signal": 15,
+                  "monotonic": 2522123.764547972
+                }
+              ],
+              "reaped_adopted": [
+                {
+                  "pid": 2836916,
+                  "status": 15
+                }
+              ],
+              "worker_exit": 0,
+              "elapsed_seconds": 0.11376528302207589
+            },
+            "monotonic_start": 2522123.472572929,
+            "monotonic_end": 2522123.839270058,
+            "elapsed_seconds": 0.3666974389925599,
+            "outer_sampled_peak_kib": 12692,
+            "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+            "limit_initiated": false,
+            "orphan_survivors_at_worker_exit": [
+              {
+                "pid": 2836916,
+                "state": "S",
+                "ppid": 2836812,
+                "pgid": 2836916,
+                "start_ticks": 252212363
+              }
+            ]
+          },
+          "child_ready": {
+            "pid": 2836916,
+            "pgid": 2836916,
+            "start_ticks": 252212363
+          }
+        }
+      ],
+      "transcript": "test_escaped_setsid_child_found_and_reaped (test_r5.ProcessTests.test_escaped_setsid_child_found_and_reaped) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.439s\n\nOK\n"
+    },
+    {
+      "iteration": 2,
+      "test": "test_escaped_child_adopted_after_early_snapshot",
+      "pass": true,
+      "real_case": [
+        {
+          "supervision": {
+            "worker_pid": 2836931,
+            "worker_initial_identity": {
+              "pid": 2836931,
+              "state": "R",
+              "ppid": 2836812,
+              "pgid": 2836931,
+              "start_ticks": 252212388
+            },
+            "worker_exit": 0,
+            "worker_wall_limit_seconds": 6,
+            "cutoff": null,
+            "supervisor_error": null,
+            "containment": {
+              "verified": true,
+              "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+              "observed": [
+                {
+                  "pid": 2836931,
+                  "state": "R",
+                  "ppid": 2836812,
+                  "pgid": 2836931,
+                  "start_ticks": 252212388
+                },
+                {
+                  "pid": 2836936,
+                  "state": "S",
+                  "ppid": 2836812,
+                  "pgid": 2836936,
+                  "start_ticks": 252212398
+                }
+              ],
+              "signals": [
+                {
+                  "pid": 2836936,
+                  "start_ticks": 252212398,
+                  "signal": 15,
+                  "monotonic": 2522124.070358794
+                }
+              ],
+              "reaped_adopted": [
+                {
+                  "pid": 2836936,
+                  "status": 15
+                }
+              ],
+              "worker_exit": 0,
+              "elapsed_seconds": 0.05653558298945427
+            },
+            "monotonic_start": 2522123.882069046,
+            "monotonic_end": 2522124.09017969,
+            "elapsed_seconds": 0.2081108340062201,
+            "outer_sampled_peak_kib": 0,
+            "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+            "limit_initiated": false,
+            "orphan_survivors_at_worker_exit": []
+          },
+          "child_ready": {
+            "pid": 2836936,
+            "pgid": 2836936,
+            "start_ticks": 252212398
+          }
+        }
+      ],
+      "transcript": "test_escaped_child_adopted_after_early_snapshot (test_r5.ProcessTests.test_escaped_child_adopted_after_early_snapshot) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.250s\n\nOK\n"
+    },
+    {
+      "iteration": 3,
+      "test": "test_escaped_setsid_child_found_and_reaped",
+      "pass": true,
+      "real_case": [
+        {
+          "supervision": {
+            "worker_pid": 2836947,
+            "worker_initial_identity": {
+              "pid": 2836947,
+              "state": "R",
+              "ppid": 2836812,
+              "pgid": 2836947,
+              "start_ticks": 252212412
+            },
+            "worker_exit": 0,
+            "worker_wall_limit_seconds": 6,
+            "cutoff": null,
+            "supervisor_error": null,
+            "containment": {
+              "verified": true,
+              "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+              "observed": [
+                {
+                  "pid": 2836947,
+                  "state": "Z",
+                  "ppid": 2836812,
+                  "pgid": 2836947,
+                  "start_ticks": 252212412
+                },
+                {
+                  "pid": 2836977,
+                  "state": "Z",
+                  "ppid": 2836812,
+                  "pgid": 2836977,
+                  "start_ticks": 252212428
+                }
+              ],
+              "signals": [
+                {
+                  "pid": 2836977,
+                  "start_ticks": 252212428,
+                  "signal": 15,
+                  "monotonic": 2522124.532332141
+                }
+              ],
+              "reaped_adopted": [
+                {
+                  "pid": 2836977,
+                  "status": 15
+                }
+              ],
+              "worker_exit": 0,
+              "elapsed_seconds": 0.12011013785377145
+            },
+            "monotonic_start": 2522124.12804606,
+            "monotonic_end": 2522124.610562324,
+            "elapsed_seconds": 0.482516473159194,
+            "outer_sampled_peak_kib": 23728,
+            "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+            "limit_initiated": false,
+            "orphan_survivors_at_worker_exit": [
+              {
+                "pid": 2836977,
+                "state": "S",
+                "ppid": 2836812,
+                "pgid": 2836977,
+                "start_ticks": 252212428
+              }
+            ]
+          },
+          "child_ready": {
+            "pid": 2836977,
+            "pgid": 2836977,
+            "start_ticks": 252212428
+          }
+        }
+      ],
+      "transcript": "test_escaped_setsid_child_found_and_reaped (test_r5.ProcessTests.test_escaped_setsid_child_found_and_reaped) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.523s\n\nOK\n"
+    },
+    {
+      "iteration": 3,
+      "test": "test_escaped_child_adopted_after_early_snapshot",
+      "pass": true,
+      "real_case": [
+        {
+          "supervision": {
+            "worker_pid": 2837020,
+            "worker_initial_identity": {
+              "pid": 2837020,
+              "state": "R",
+              "ppid": 2836812,
+              "pgid": 2837020,
+              "start_ticks": 252212465
+            },
+            "worker_exit": 0,
+            "worker_wall_limit_seconds": 6,
+            "cutoff": null,
+            "supervisor_error": null,
+            "containment": {
+              "verified": true,
+              "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+              "observed": [
+                {
+                  "pid": 2837020,
+                  "state": "R",
+                  "ppid": 2836812,
+                  "pgid": 2837020,
+                  "start_ticks": 252212465
+                },
+                {
+                  "pid": 2837027,
+                  "state": "Z",
+                  "ppid": 2836812,
+                  "pgid": 2837027,
+                  "start_ticks": 252212475
+                }
+              ],
+              "signals": [
+                {
+                  "pid": 2837027,
+                  "start_ticks": 252212475,
+                  "signal": 15,
+                  "monotonic": 2522124.860570247
+                }
+              ],
+              "reaped_adopted": [
+                {
+                  "pid": 2837027,
+                  "status": 15
+                }
+              ],
+              "worker_exit": 0,
+              "elapsed_seconds": 0.12585954507812858
+            },
+            "monotonic_start": 2522124.655273736,
+            "monotonic_end": 2522124.942842556,
+            "elapsed_seconds": 0.2875690869987011,
+            "outer_sampled_peak_kib": 0,
+            "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+            "limit_initiated": false,
+            "orphan_survivors_at_worker_exit": []
+          },
+          "child_ready": {
+            "pid": 2837027,
+            "pgid": 2837027,
+            "start_ticks": 252212475
+          }
+        }
+      ],
+      "transcript": "test_escaped_child_adopted_after_early_snapshot (test_r5.ProcessTests.test_escaped_child_adopted_after_early_snapshot) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.333s\n\nOK\n"
+    }
+  ],
+  "failure_probes": [
+    {
+      "mode": "eof",
+      "supervision": {
+        "worker_pid": 2837347,
+        "worker_initial_identity": {
+          "pid": 2837347,
+          "state": "R",
+          "ppid": 2836812,
+          "pgid": 2837347,
+          "start_ticks": 252213342
+        },
+        "worker_exit": 1,
+        "worker_wall_limit_seconds": 6,
+        "cutoff": null,
+        "supervisor_error": null,
+        "containment": {
+          "verified": true,
+          "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+          "observed": [
+            {
+              "pid": 2837347,
+              "state": "Z",
+              "ppid": 2836812,
+              "pgid": 2837347,
+              "start_ticks": 252213342
+            }
+          ],
+          "signals": [],
+          "reaped_adopted": [],
+          "worker_exit": 1,
+          "elapsed_seconds": 0.032840433064848185
+        },
+        "monotonic_start": 2522133.423552418,
+        "monotonic_end": 2522133.808253279,
+        "elapsed_seconds": 0.3847010228782892,
+        "outer_sampled_peak_kib": 30792,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "limit_initiated": false,
+        "orphan_survivors_at_worker_exit": []
+      },
+      "child": {
+        "pid": 2837348,
+        "pgid": 2837348,
+        "start_ticks": 252213350
+      },
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 14, in <module>\n  File \"/usr/lib/python3.12/json/__init__.py\", line 346, in loads\n    return _default_decoder.decode(s)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/json/decoder.py\", line 337, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/json/decoder.py\", line 355, in raw_decode\n    raise JSONDecodeError(\"Expecting value\", s, err.value) from None\njson.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)\n"
+    },
+    {
+      "mode": "wrong_identity",
+      "supervision": {
+        "worker_pid": 2837349,
+        "worker_initial_identity": {
+          "pid": 2837349,
+          "state": "R",
+          "ppid": 2836812,
+          "pgid": 2837349,
+          "start_ticks": 252213384
+        },
+        "worker_exit": 1,
+        "worker_wall_limit_seconds": 6,
+        "cutoff": null,
+        "supervisor_error": null,
+        "containment": {
+          "verified": true,
+          "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+          "observed": [
+            {
+              "pid": 2837349,
+              "state": "Z",
+              "ppid": 2836812,
+              "pgid": 2837349,
+              "start_ticks": 252213384
+            },
+            {
+              "pid": 2837350,
+              "state": "R",
+              "ppid": 2837349,
+              "pgid": 2837349,
+              "start_ticks": 252213391
+            }
+          ],
+          "signals": [],
+          "reaped_adopted": [],
+          "worker_exit": 1,
+          "elapsed_seconds": 0.03550390526652336
+        },
+        "monotonic_start": 2522133.846552674,
+        "monotonic_end": 2522134.272899174,
+        "elapsed_seconds": 0.4263467057608068,
+        "outer_sampled_peak_kib": 30884,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "limit_initiated": false,
+        "orphan_survivors_at_worker_exit": []
+      },
+      "child": {
+        "pid": 2837350,
+        "pgid": 2837350,
+        "start_ticks": 252213391
+      },
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 16, in <module>\nAssertionError\n"
+    },
+    {
+      "mode": "missing_ignore_term",
+      "supervision": {
+        "worker_pid": 2837351,
+        "worker_initial_identity": {
+          "pid": 2837351,
+          "state": "R",
+          "ppid": 2836812,
+          "pgid": 2837351,
+          "start_ticks": 252213431
+        },
+        "worker_exit": 1,
+        "worker_wall_limit_seconds": 6,
+        "cutoff": null,
+        "supervisor_error": null,
+        "containment": {
+          "verified": true,
+          "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+          "observed": [
+            {
+              "pid": 2837351,
+              "state": "Z",
+              "ppid": 2836812,
+              "pgid": 2837351,
+              "start_ticks": 252213431
+            },
+            {
+              "pid": 2837352,
+              "state": "S",
+              "ppid": 2837351,
+              "pgid": 2837352,
+              "start_ticks": 252213438
+            }
+          ],
+          "signals": [],
+          "reaped_adopted": [],
+          "worker_exit": 1,
+          "elapsed_seconds": 0.05544317979365587
+        },
+        "monotonic_start": 2522134.31310013,
+        "monotonic_end": 2522137.68298412,
+        "elapsed_seconds": 3.369884483050555,
+        "outer_sampled_peak_kib": 30940,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "limit_initiated": false,
+        "orphan_survivors_at_worker_exit": []
+      },
+      "child": {
+        "pid": 2837352,
+        "pgid": 2837352,
+        "start_ticks": 252213438
+      },
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 13, in <module>\nAssertionError: child-ready timeout\n"
+    }
+  ],
+  "regressions": [
+    "test_r5.ProcessTests",
+    "test_r5.PortablePrefixTests",
+    "test_r5.CampaignTests.test_identity_start_and_containment_abort",
+    "test_s2.S2Tests.test_workflow_caps_types_and_single_serial_job",
+    "test_s2.S2Tests.test_timeout_caps_and_order_reject_redistribution",
+    "test_s2.S2Tests.test_setup_aggregate_remaining_boundary_without_compiler",
+    "final_cap_checks.R5MarginTests",
+    "FailureBoundary"
+  ],
+  "monotonic_start_ns": 2522122759632055,
+  "monotonic_end_ns": 2522137703563399,
+  "elapsed_seconds": 14.943931344,
+  "transcript_sha256": "e252512881c564ab9bc11bd04e54418a1fd4100bf2d5a894cb1e328d315a9394",
+  "compiler_fullrunner_CI": "NOT_RUN",
+  "proof_credit": "NONE"
+}

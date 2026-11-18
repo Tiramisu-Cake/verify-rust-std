@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "changed_paths": [
+    ".github/workflows/ch8-s2.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/r5_profile.py",
+    "ch8-s1-control/test_r5.py",
+    "ch8-s1-control/test_s2.py"
+  ],
+  "unchanged_tree_entries": 3875,
+  "total_tree_entries": 3881,
+  "old_test_methods": 36,
+  "new_test_methods": 40,
+  "altered_existing_test_methods": [
+    [
+      "ProcessTests",
+      "test_escaped_setsid_child_found_and_reaped"
+    ]
+  ],
+  "production_runtime_campaign_collector_runner_packer_protected_controls": "EXACT_GIT_BLOBS_UNCHANGED",
+  "prior_package_and_review": "ALL_COMMITTED_BYTES_UNCHANGED",
+  "package_files": 84,
+  "manifest_hashes": 83,
+  "source_tool": "EXACT_CLEAN_PINS",
+  "full_validate_reviewer_executions": 0
+}
