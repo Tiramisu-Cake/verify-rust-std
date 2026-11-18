@@ -1,0 +1,85 @@
+{
+  "schema": "issue4591-independent11-review-v1",
+  "decision": "REQUEST_CHANGES",
+  "approve": false,
+  "package_commit": "bdf1bb42189257c9654eb55dfcda11b2f08a0b01",
+  "source_head": "a7bca98c91cbfa595bdc2a1bdc6bd4d0a4fa796a",
+  "source_tree": "98fae98ce9e783bed0393d35657674da09c3aa31",
+  "sole_parent_main": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "findings": [
+    {
+      "id": "W11-01",
+      "priority": "HIGH",
+      "blocking": true,
+      "title": "Provider-target PFC harnesses lack reachability of the selected provider FnDef",
+      "locations": [
+        {
+          "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+          "line": 171,
+          "harness": "replacement_contract_target"
+        },
+        {
+          "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+          "line": 66,
+          "harness": "replacement_provider_postcondition"
+        }
+      ],
+      "evidence_kind": "STATIC_SOURCE_TRACE",
+      "native_result": "NOT_RUN",
+      "repair_owner": "original15",
+      "next_review": "same independent11 immutable delta-review",
+      "repair_constraints": [
+        "Preserve exact PFC target reachability guard.",
+        "Exercise copied-provider mode with a reachable selected provider in the same harness.",
+        "Ensure a directly failing provider call does not mask the negative copied-provider control.",
+        "Update all affected pins, patches, oracles, validation, manifest and HANDOFF in a new immutable repair package."
+      ]
+    }
+  ],
+  "checks": {
+    "independent_static": 112,
+    "author_static_mock": 137,
+    "package_files": 21,
+    "author_manifest_records": 20,
+    "workflow_files": 16,
+    "full_standard_push_workflows": 3,
+    "native_job_instances": 12,
+    "oracle_harnesses": 38,
+    "oracle_rows_blocked": 2
+  },
+  "native": {
+    "main": "NOT_RUN",
+    "fixed": "NOT_RUN",
+    "compiler": "NOT_RUN",
+    "cargo": "NOT_RUN",
+    "rustfmt": "NOT_RUN",
+    "kani": "NOT_RUN",
+    "fullrunner": "NOT_RUN",
+    "ci": "NOT_RUN"
+  },
+  "gates": {
+    "root_go_request": "WITHHELD_PENDING_REPAIR_AND_EXACT_APPROVE",
+    "dispatch_authorized": false,
+    "pr_publication_authorized": false,
+    "future_nonskip_head": "NOT_CREATED"
+  },
+  "budget_reference": {
+    "item1_used": 30,
+    "item1_cap": 31,
+    "item2_used": 11,
+    "item2_cap": 17,
+    "total_used": 41,
+    "total_cap": 48,
+    "consumed_here": 0,
+    "ledger_modified": false
+  },
+  "provenance": {
+    "source_edited": false,
+    "author_package_edited": false,
+    "historical_evidence_edited": false,
+    "subagents_spawned": 0,
+    "model_settings_changed": false,
+    "push_pr_issues_comments": false,
+    "raw_evidence_access": false
+  }
+}

@@ -1,0 +1,532 @@
+{
+  "scope": "All 38 declared harness oracles; independent semantic inspection only",
+  "rows": [
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "provider",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Direct original target PFC assumes x<8; x+1 satisfies ensures.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_overflow",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "g(u8::MAX) adds 2 and violates overflow check.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "verified_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Original f requires x<8; argument 8 violates it.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "verified_postcondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Original verified f(7)=8; asserting 9 fails.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "provider_postcondition",
+      "attributes": [
+        "#[kani::proof_for_contract(bad_contract)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Direct PFC body x fails original ensures result==x+2 at 0.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "unstubbed_postcondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "An ordinary mapping of f leaves bad_contract(0) assertion active.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "unstubbed_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(bad_contract, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "An ordinary mapping of bad_contract leaves f(8) requires active.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_postcondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, bad_contract)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Copied bad_contract Assert mode fails own result==x+2 at 0.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_provider_postcondition",
+      "attributes": [
+        "#[kani::proof_for_contract(bad_contract)]",
+        "#[kani::stub(f, bad_contract)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "BLOCKER: bad_contract PFC wrapper is absent from reachable function DefIds; expected semantic failure is replaced by compile error.",
+      "disposition": "BLOCKING_ORACLE_ERROR",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, restricted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Copied restricted provider requires x<4; input 4 violates it.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Direct PFC assumes x<8 and bounds arithmetic.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_verified_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Original requires-only verified call at 8 violates requires.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_verified_result",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Without ensures the verified return is unconstrained; asserting it equals 8 has a counterexample.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_issue_4591.rs",
+      "harness": "check_caller",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(abs_val, stub_abs_val)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE_CALLER_OVERFLOW",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Verbatim issue stub admits i32::MAX; caller adds 1, so required caller overflow failure is real.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_overlap.rs",
+      "harness": "overlapping_contract_target",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]",
+        "#[kani::stub_verified(f)]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "COMPILE_ERROR_ORIGINAL_CONTRACT_CLOSURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Explicit original PFC wins over verified mode; ordinary plain body lacks original f closure and retains current compilation error.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "provider",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Direct original target PFC assumes x<8; x+1 satisfies ensures.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Verified f preserves requires/ensures and proves x+1 (or f(7)=8).",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ordinary_stub",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Bounded x<8 gives x+2<=9, distinct from original x+1.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ordinary_stub_outside_target_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "f(8)=10 bypasses original requires and original ensures safely.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "requires_only_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Direct PFC assumes x<8 and bounds arithmetic.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "requires_only_verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Argument 7 satisfies original requires; no result claim.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ensures_only_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(ensures_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Identity body satisfies result==x for all u8.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ensures_only_verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(ensures_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Original result==x constrains verified abstraction.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "multiple_targets",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(requires_only, g)]",
+        "#[kani::stub(ensures_only, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Both mappings give 10 at 8; independent unstubbed f(7)=8 retains contracts.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(recursive)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Original recursive contract assumes x<4 and preserves result==x.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(recursive)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Verified recursive result==x at 3.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_target",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(recursive, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Ordinary g(8)=10 bypasses original recursive target requires.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "generic_instances",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(generic, generic_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Two concrete type instances and equal arguments distinguish replacement from original precondition.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "uncontracted_target",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(uncontracted, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Ordinary g(8)=10; separate unstubbed f(7) remains valid.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "transitive_replacement",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, requires_only)]",
+        "#[kani::stub(requires_only, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "f->requires_only->g resolves final provider g at both callsites.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(contracted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Positive-file direct contracted provider assumes x<16 and returns x+3; no-assert file uses expected postcondition panic.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_contract",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, contracted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Copied and direct provider run own contract: x=8 is inside provider requires, outside original requires.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_verified_contract",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, contracted_replacement)]",
+        "#[kani::stub_verified(contracted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Provider Replace mode returns x+3 under own specification.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_contract_target",
+      "attributes": [
+        "#[kani::proof_for_contract(contracted_replacement)]",
+        "#[kani::stub(f, contracted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "BLOCKER: provider PFC wrapper is absent from reachable function DefIds; positive oracle predicts wrong stage.",
+      "disposition": "BLOCKING_ORACLE_ERROR",
+      "execution_boundary": "Whole positive/negative fixture compilation is blocked by finding W11-01; all native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "ordinary_stub_original_mode",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "no-assert-contracts selects provider Original body x+2 at 8; both original and provider requires are bypassed.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "provider",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Direct original target PFC assumes x<8; x+1 satisfies ensures.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Verified f preserves requires/ensures and proves x+1 (or f(7)=8).",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Native results remain NOT_RUN."
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "replacement_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(replacement)]",
+        "#[kani::should_panic]"
+      ],
+      "expected_fixed": "EXPECTED_PANIC_POSTCONDITION",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "independent_source_review": "Positive-file direct contracted provider assumes x<16 and returns x+3; no-assert file uses expected postcondition panic.",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Native results remain NOT_RUN."
+    }
+  ]
+}

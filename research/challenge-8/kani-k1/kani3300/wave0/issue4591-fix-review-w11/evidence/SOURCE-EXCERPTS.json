@@ -1,0 +1,184 @@
+{
+  "source": "a7bca98c91cbfa595bdc2a1bdc6bd4d0a4fa796a",
+  "records": [
+    {
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "sha256": "cee27768c3a4a4ad71c75d411e237d4aadedf9ff20a5962d4e93ecbf660c8ee9",
+      "blob": "38ea0963da5bccfa015f023aa7301debe2f360a4",
+      "excerpts": [
+        {
+          "first_line": 150,
+          "last_line": 185,
+          "numbered_text": "150: \n151:     /// Equivalent to `body()`, but avoids cloning the returned `Body`.\n152:     pub fn body_ref(&mut self, tcx: TyCtxt, instance: Instance) -> &Body {\n153:         &self\n154:             .cache\n155:             .entry(instance)\n156:             .or_insert_with(|| {\n157:                 // Transform and add to the cache if there's no existing entry.\n158:                 let mut body = crate::kani_middle::checked_body(tcx, instance)\n159:                     .unwrap_or_else(|| build_missing_body(tcx, instance));\n160: \n161:                 let mut modified = false;\n162:                 let mut body_source = instance;\n163:                 for pass in self.stub_passes.iter_mut().chain(self.inst_passes.iter_mut()) {\n164:                     let transform_instance = pass.transform_instance(instance, body_source);\n165:                     let result = pass.transform(tcx, body, transform_instance);\n166:                     if let Some(source) = pass.take_body_source() {\n167:                         body_source = source;\n168:                     }\n169:                     modified |= result.0;\n170:                     body = result.1;\n171:                     self.generated_loop_modifies.extend(\n172:                         pass.take_generated_loop_modifies()\n173:                             .into_iter()\n174:                             .map(|(register_fn, locals)| ((instance, register_fn), locals)),\n175:                     );\n176:                     self.loop_modifies_bindings.extend(\n177:                         pass.take_loop_modifies_bindings()\n178:                             .into_iter()\n179:                             .map(|(binding, register_fn)| ((instance, binding), register_fn)),\n180:                     );\n181:                 }\n182: \n183:                 TransformationResult(body, modified)\n184:             })\n185:             .0"
+        },
+        {
+          "first_line": 237,
+          "last_line": 260,
+          "numbered_text": "237:     fn is_enabled(&self, query_db: &QueryDb) -> bool\n238:     where\n239:         Self: Sized;\n240: \n241:     /// Run a transformation pass in the function body.\n242:     fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body);\n243: \n244:     /// Select the instance whose attributes apply to this pass. `body_source` identifies the\n245:     /// resolved ordinary stub supplying the body when a replacement has been applied.\n246:     fn transform_instance(&self, instance: Instance, _body_source: Instance) -> Instance {\n247:         instance\n248:     }\n249: \n250:     /// Take the source instance of a successfully replaced body.\n251:     fn take_body_source(&mut self) -> Option<Instance> {\n252:         None\n253:     }\n254: \n255:     /// Take the locals that codegen must add to the loop modifies clause of the loops of the body\n256:     /// that this pass last transformed, by the instance of the register function that each\n257:     /// loop latch calls. See `LoopContractPass::add_generated_loop_modifies`.\n258:     fn take_generated_loop_modifies(&mut self) -> Vec<(Instance, Vec<Local>)> {\n259:         Vec::new()\n260:     }"
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/stubs.rs",
+      "sha256": "04dd329ee7cf8b35d38a9c62d2ba9b853d1b7009e4cfd6cfcc10468b63d090b2",
+      "blob": "a1df1bdbcba1d08599caa87f1aefb5569b15f77b",
+      "excerpts": [
+        {
+          "first_line": 42,
+          "last_line": 80,
+          "numbered_text": "42:     {\n43:         query_db.args().stubbing_enabled && !self.stubs.is_empty()\n44:     }\n45: \n46:     /// Transform the function body by replacing it with the stub body.\n47:     fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {\n48:         trace!(function=?instance.name(), \"transform\");\n49:         self.body_source = None;\n50:         let ty = instance.ty();\n51:         if let TyKind::RigidTy(RigidTy::FnDef(fn_def, args)) = ty.kind()\n52:             && let Some(replace) = self.stubs.get(&fn_def)\n53:         {\n54:             let new_instance = Instance::resolve(*replace, &args).unwrap();\n55:             debug!(from=?instance.name(), to=?new_instance.name(), \"FnStubPass::transform\");\n56:             if let Some(body) = FnStubValidator::validate(tcx, (fn_def, *replace), new_instance) {\n57:                 self.body_source = Some(new_instance);\n58:                 return (true, body);\n59:             }\n60:         }\n61:         (false, body)\n62:     }\n63: \n64:     fn take_body_source(&mut self) -> Option<Instance> {\n65:         self.body_source.take()\n66:     }\n67: }\n68: \n69: impl FnStubPass {\n70:     /// Build the pass with non-extern function stubs.\n71:     pub fn new(all_stubs: &Stubs) -> FnStubPass {\n72:         let stubs = all_stubs\n73:             .iter()\n74:             .filter_map(|(from, to)| (has_body(*from) && has_body(*to)).then_some((*from, *to)))\n75:             .collect::<HashMap<_, _>>();\n76:         FnStubPass { stubs, body_source: None }\n77:     }\n78: }\n79: \n80: /// Replace the body of a function that is stubbed by the other."
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "sha256": "66880bee0997fa01913ee29ae68c086230cc3252aa2818298963fe37abc25211",
+      "blob": "1e4e4723f3c6178c9f5005e58e8643827840e08f",
+      "excerpts": [
+        {
+          "first_line": 321,
+          "last_line": 375,
+          "numbered_text": "321: \n322:     fn transform_instance(&self, instance: Instance, body_source: Instance) -> Instance {\n323:         if let RigidTy::FnDef(def, _) = instance.ty().kind().rigid().unwrap()\n324:             && (self.check_fn == Some(*def) || self.replace_fns.contains(def))\n325:         {\n326:             // Explicit contract checks and verified stubs retain their selected target.\n327:             instance\n328:         } else {\n329:             body_source\n330:         }\n331:     }\n332: \n333:     /// Transform the function body by replacing it with the stub body.\n334:     fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {\n335:         trace!(function=?instance.name(), \"FunctionWithContractPass::transform\");\n336:         match instance.ty().kind().rigid().unwrap() {\n337:             RigidTy::FnDef(def, args) => {\n338:                 if let Some(mode) = self.contract_mode(tcx, *def) {\n339:                     if mode == ContractMode::RecursiveCheck {\n340:                         check_mutual_recursion(tcx, *def, &body);\n341:                     }\n342:                     // Key the dedup on the monomorphized instance, not the\n343:                     // `FnDef`: a generic `stub_verified` target can be\n344:                     // instantiated at several types, and each instantiation has\n345:                     // its own return type and so its own potential cycle.\n346:                     if mode == ContractMode::Replace\n347:                         && self.arbitrary_cycle_checked.insert(instance)\n348:                     {\n349:                         self.check_arbitrary_cycle(tcx, *def, args);\n350:                     }\n351:                     self.mark_unused(tcx, *def, &body, mode);\n352:                     let new_body = self.set_mode(tcx, body, mode);\n353:                     (true, new_body)\n354:                 } else if KaniAttributes::for_instance(tcx, instance).fn_marker()\n355:                     == Some(Symbol::intern(\"kani_register_contract\"))\n356:                 {\n357:                     let run = Instance::resolve(self.run_contract_fn.unwrap(), args).unwrap();\n358:                     (true, run.body().unwrap())\n359:                 } else {\n360:                     // Not a contract annotated function\n361:                     (false, body)\n362:                 }\n363:             }\n364:             RigidTy::Closure(def, _args) => {\n365:                 if self.unused_closures.contains(def) {\n366:                     // Delete body and mark it as unreachable.\n367:                     let mut new_body = MutableBody::from(body);\n368:                     new_body.clear_body(TerminatorKind::Unreachable);\n369:                     (true, new_body.into())\n370:                 } else {\n371:                     // Not a contract annotated function\n372:                     (false, body)\n373:                 }\n374:             }\n375:             _ => {"
+        },
+        {
+          "first_line": 584,
+          "last_line": 608,
+          "numbered_text": "584:                 if kani_attributes.has_recursion() {\n585:                     ContractMode::RecursiveCheck\n586:                 } else {\n587:                     ContractMode::SimpleCheck\n588:                 }\n589:             } else if self.replace_fns.contains(&fn_def) {\n590:                 ContractMode::Replace\n591:             } else if self.assert_contracts {\n592:                 ContractMode::Assert\n593:             } else {\n594:                 ContractMode::Original\n595:             }\n596:         })\n597:     }\n598: \n599:     /// Detect the `stub_verified` / `Arbitrary` cycle described in\n600:     /// <https://github.com/model-checking/kani/pull/4571>.\n601:     ///\n602:     /// A contract replacement havocs its own return value with\n603:     /// `kani::any::<Ret>()` (see `initial_replace_stmts` in `kani_macros`, where\n604:     /// `any_modifies` is emitted and later rewritten to `kani::any` by\n605:     /// [`AnyModifiesPass`]). So if `Ret`'s `Arbitrary` implementation reaches the\n606:     /// stubbed function again, the replacement calls itself through\n607:     /// `Arbitrary::any`:\n608:     ///"
+        },
+        {
+          "first_line": 677,
+          "last_line": 730,
+          "numbered_text": "677:         let assert_closure = find_closure(tcx, fn_def, body, contract.asserted_with.as_str());\n678:         match mode {\n679:             ContractMode::Original => {\n680:                 // No contract instrumentation needed. Add all closures to the list of unused.\n681:                 self.unused_closures.insert(recursion_closure);\n682:                 self.unused_closures.insert(check_closure);\n683:                 self.unused_closures.insert(replace_closure);\n684:                 self.unused_closures.insert(assert_closure);\n685:             }\n686:             ContractMode::RecursiveCheck => {\n687:                 self.unused_closures.insert(replace_closure);\n688:                 self.unused_closures.insert(check_closure);\n689:                 self.unused_closures.insert(assert_closure);\n690:             }\n691:             ContractMode::SimpleCheck => {\n692:                 self.unused_closures.insert(replace_closure);\n693:                 self.unused_closures.insert(recursion_closure);\n694:                 self.unused_closures.insert(assert_closure);\n695:             }\n696:             ContractMode::Replace => {\n697:                 self.unused_closures.insert(recursion_closure);\n698:                 self.unused_closures.insert(check_closure);\n699:                 self.unused_closures.insert(assert_closure);\n700:             }\n701:             ContractMode::Assert => {\n702:                 self.unused_closures.insert(recursion_closure);\n703:                 self.unused_closures.insert(check_closure);\n704:                 self.unused_closures.insert(replace_closure);\n705:             }\n706:         }\n707:     }\n708: }\n709: \n710: /// Enumeration that store the value of which implementation should be selected.\n711: ///\n712: /// Keep the discriminant values in sync with [kani::internal::mode].\n713: #[derive(Copy, Clone, Debug, PartialEq, Eq)]\n714: enum ContractMode {\n715:     Original = 0,\n716:     RecursiveCheck = 1,\n717:     SimpleCheck = 2,\n718:     Replace = 3,\n719:     Assert = 4,\n720: }\n721: \n722: fn find_closure(tcx: TyCtxt, fn_def: FnDef, body: &Body, name: &str) -> ClosureDef {\n723:     body.var_debug_info\n724:         .iter()\n725:         .find_map(|var_info| {\n726:             if var_info.name.as_str() == name {\n727:                 let ty = match &var_info.value {\n728:                     VarDebugInfoContents::Place(place) => place.ty(body.locals()).unwrap(),\n729:                     VarDebugInfoContents::Const(const_op) => const_op.ty(),\n730:                 };"
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/reachability.rs",
+      "sha256": "867d88b13d9f33ea84edc7a7cbc556df3cf011e12ab9d05d18582339585dbb34",
+      "blob": "1896d2f486564cfe2c0dbe3df90f931422d1c69a",
+      "excerpts": [
+        {
+          "first_line": 142,
+          "last_line": 180,
+          "numbered_text": "142:     pub fn collect(&mut self, root: MonoItem) {\n143:         debug!(?root, \"collect\");\n144:         self.queue.push(root);\n145:         self.reachable_items();\n146:     }\n147: \n148:     /// Traverses the call graph starting from the given root. For every function, we visit all\n149:     /// instruction looking for the items that should be included in the compilation.\n150:     fn reachable_items(&mut self) {\n151:         while let Some(to_visit) = self.queue.pop() {\n152:             if !self.collected.contains(&to_visit) {\n153:                 self.collected.insert(to_visit.clone());\n154:                 let next_items = match &to_visit {\n155:                     MonoItem::Fn(instance) => self.visit_fn(*instance),\n156:                     MonoItem::Static(static_def) => self.visit_static(*static_def),\n157:                     MonoItem::GlobalAsm(_) => {\n158:                         self.visit_asm(&to_visit);\n159:                         vec![]\n160:                     }\n161:                 };\n162:                 self.call_graph.add_edges(to_visit, &next_items);\n163: \n164:                 self.queue.extend(next_items.into_iter().filter_map(\n165:                     |CollectedItem { item, .. }| (!self.collected.contains(&item)).then_some(item),\n166:                 ));\n167:             }\n168:         }\n169:     }\n170: \n171:     /// Visit a function and collect all mono-items reachable from its instructions.\n172:     fn visit_fn(&mut self, instance: Instance) -> Vec<CollectedItem> {\n173:         let _guard = debug_span!(\"visit_fn\", function=?instance).entered();\n174:         let body = self.transformer.body_ref(self.tcx, instance);\n175:         let mut collector =\n176:             MonoItemsFnCollector { tcx: self.tcx, collected: FxHashSet::default(), body };\n177:         collector.visit_body(body);\n178:         collector.collected.into_iter().collect()\n179:     }\n180: "
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/mod.rs",
+      "sha256": "6e73911b203b9d8237a0725ca67f1c46342d106b572ad485a2ceb06b61739a41",
+      "blob": "6093b083178e7b16e0f505d71c9438fdb924d334",
+      "excerpts": [
+        {
+          "first_line": 313,
+          "last_line": 342,
+          "numbered_text": "313: pub fn check_reachable_items(tcx: TyCtxt, queries: &QueryDb, items: &[MonoItem]) {\n314:     // Avoid printing the same error multiple times for different instantiations of the same item.\n315:     let mut def_ids = HashSet::new();\n316:     let reachable_functions: HashSet<DefId> = items\n317:         .iter()\n318:         .filter_map(|i| match i {\n319:             MonoItem::Fn(instance) => Some(instance.def.def_id()),\n320:             _ => None,\n321:         })\n322:         .collect();\n323:     for item in items.iter().filter(|i| matches!(i, MonoItem::Fn(..) | MonoItem::Static(..))) {\n324:         let def_id = match item {\n325:             MonoItem::Fn(instance) => instance.def.def_id(),\n326:             MonoItem::Static(def) => def.def_id(),\n327:             MonoItem::GlobalAsm(_) => {\n328:                 unreachable!()\n329:             }\n330:         };\n331:         if !def_ids.contains(&def_id) {\n332:             let attributes = KaniAttributes::for_def_id(tcx, def_id);\n333:             // Check if any unstable attribute was reached.\n334:             attributes.check_unstable_features(&queries.args().unstable_features);\n335:             // Check whether all `proof_for_contract` targets are reachable\n336:             attributes.check_proof_for_contract_reachability(&reachable_functions);\n337:             def_ids.insert(def_id);\n338:         }\n339:     }\n340:     tcx.dcx().abort_if_errors();\n341: }\n342: "
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/attributes.rs",
+      "sha256": "a100fb2de9331efeeea3a0683b21170df4a4873f91d70a26845b2e47bc80f6cf",
+      "blob": "81e5e94ea12f8256c2a574f3048f663e1fd56a9a",
+      "excerpts": [
+        {
+          "first_line": 579,
+          "last_line": 601,
+          "numbered_text": "579:     /// Check that the function specified in the `proof_for_contract` attribute\n580:     /// is reachable and emit an error if it isn't.\n581:     /// This is different from the earlier `check_attributes` call:\n582:     /// that checks that the specified target exists, but not if we can reach that target from the harness.\n583:     pub fn check_proof_for_contract_reachability(\n584:         &self,\n585:         reachable_functions: &HashSet<DefIdStable>,\n586:     ) {\n587:         if let Some(def) = self.interpret_for_contract_attribute()\n588:             && !reachable_functions.contains(&def.def_id())\n589:         {\n590:             let item_name = self.item_name();\n591:             let target_name = def.trimmed_name();\n592:             self.tcx.dcx().struct_span_err(\n593:                 self.tcx.def_span(self.item),\n594:                 format!(\n595:                     \"The function specified in the `proof_for_contract` attribute, `{target_name}`, is not reachable from the harness `{item_name}`.\",\n596:                 )\n597:             )\n598:             .with_help(format!(\"Make sure that `{item_name}` calls `{target_name}`\"))\n599:             .emit();\n600:         }\n601:     }"
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "sha256": "3a4b584feccedd843d492521ccc343195d8bb824fe7470be63c26234427e2594",
+      "blob": "9c65098f23434fdb9fd4f1e803c452759e0df124",
+      "excerpts": [
+        {
+          "first_line": 94,
+          "last_line": 104,
+          "numbered_text": "94:         // Alternatively, we could run reachability only once after the global passes are applied\n95:         // and resolve the necessary dependencies inside the passes on the fly. This, however, has a\n96:         // disadvantage of not having a precomputed call graph for the global passes to use. The\n97:         // call graph could be used, for example, in resolving function pointer or vtable calls for\n98:         // global passes that need this.\n99:         let (mut items, call_graph) = with_timer(\n100:             || collect_reachable_items(tcx, transformer, starting_items),\n101:             \"codegen reachability analysis\",\n102:         );\n103: \n104:         // Retrieve all instances from the currently codegened items."
+        },
+        {
+          "first_line": 133,
+          "last_line": 141,
+          "numbered_text": "133:         }\n134: \n135:         // Follow rustc naming convention (cx is abbrev for context).\n136:         // https://rustc-dev-guide.rust-lang.org/conventions.html#naming-conventions\n137:         let mut gcx =\n138:             QUERY_DB.with(|db| GotocCtx::new(tcx, db.borrow().clone(), machine_model, transformer));\n139:         check_reachable_items(gcx.tcx, &gcx.queries, &items);\n140: \n141:         let contract_info = with_timer("
+        },
+        {
+          "first_line": 420,
+          "last_line": 454,
+          "numbered_text": "420:                         // Only worth the extra reachability pass when there are export workers to\n421:                         // overlap with; without them exports happen synchronously on this thread,\n422:                         // so ordering cannot hide any latency and would only add compile time.\n423:                         let ordered_harnesses = if export_thread_pool.has_workers() {\n424:                             order_harnesses::<MostReachableItems>(\n425:                                 &unit.harnesses,\n426:                                 tcx,\n427:                                 &mut shared_unit_transformer,\n428:                             )\n429:                         } else {\n430:                             unit.harnesses.iter().collect()\n431:                         };\n432: \n433:                         for harness in ordered_harnesses {\n434:                             clear_codegen_cache();\n435: \n436:                             let model_path = units.harness_model_path(*harness).unwrap();\n437:                             let is_automatic_harness = units.is_automatic_harness(harness);\n438:                             let contract_metadata =\n439:                                 self.target_if_contract_harness(tcx, harness, is_automatic_harness);\n440:                             let (min_gcx, items, contract_info) = self.codegen_items(\n441:                                 tcx,\n442:                                 &[MonoItem::Fn(*harness)],\n443:                                 model_path,\n444:                                 &results.machine_model,\n445:                                 contract_metadata\n446:                                     .map(|def| rustc_internal::internal(tcx, def.def_id())),\n447:                                 template_passes.clone(),\n448:                                 &mut shared_unit_transformer,\n449:                                 &export_thread_pool,\n450:                             );\n451:                             if min_gcx.has_loop_contracts {\n452:                                 loop_contracts_instances.push(*harness);\n453:                             }\n454:                             results.extend(min_gcx, items, None);"
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+      "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+      "blob": "a47dad9458283c11393f1c8661b43a5aa94222d9",
+      "excerpts": [
+        {
+          "first_line": 32,
+          "last_line": 53,
+          "numbered_text": "32:     pub fn handle_check_contract(\n33:         &mut self,\n34:         function_under_contract: InternalDefId,\n35:         items: &[MonoItem],\n36:     ) -> AssignsContract {\n37:         let tcx = self.tcx;\n38:         let modify = items\n39:             .iter()\n40:             .find_map(|item| {\n41:                 // Find the instance under contract\n42:                 let MonoItem::Fn(instance) = *item else { return None };\n43:                 if rustc_internal::internal(tcx, instance.def.def_id()) == function_under_contract {\n44:                     self.find_modifies(instance)\n45:                 } else {\n46:                     None\n47:                 }\n48:             })\n49:             .unwrap();\n50:         self.attach_modifies_contract(modify);\n51:         let recursion_tracker = self.find_recursion_tracker(items);\n52:         AssignsContract { recursion_tracker, contracted_function_name: modify.mangled_name() }\n53:     }"
+        }
+      ]
+    },
+    {
+      "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+      "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+      "blob": "365627d101b5c66d853628dca59a2fef842cbff2",
+      "excerpts": [
+        {
+          "first_line": 128,
+          "last_line": 167,
+          "numbered_text": "128:         self.expand_modifies(\n129:             find_contract_closure(&mut body.block.stmts, \"wrapper\")\n130:                 .expect(\"Internal Failure: Expected to find `wrapper` closure, but found none\"),\n131:         );\n132:         *body = syn::parse2(self.make_check_body(mem::take(&mut body.block.stmts))).unwrap();\n133:     }\n134: \n135:     /// Emit a modifies wrapper. It's only argument is the list of addresses that may be modified.\n136:     pub fn modifies_closure(\n137:         &self,\n138:         output: &ReturnType,\n139:         body: &Block,\n140:         redefs: TokenStream2,\n141:     ) -> TokenStream2 {\n142:         // Filter receiver\n143:         let wrapper_ident = Ident::new(WRAPPER_ARG, Span::call_site());\n144:         let modifies_ident = Ident::new(&self.modify_name, Span::call_site());\n145:         let stmts = &body.stmts;\n146:         quote!(\n147:             #[kanitool::is_contract_generated(wrapper)]\n148:             #[allow(dead_code, unused_variables, unused_mut)]\n149:             let mut #modifies_ident = kani_force_fn_once_with_args(|#wrapper_ident: _| #output {\n150:                 #redefs\n151:                 #(#stmts)*\n152:             });\n153:         )\n154:     }\n155: \n156:     /// Expand the modifies closure if we are handling a modifies attribute. Otherwise, no-op.\n157:     pub fn expand_modifies(&self, closure_stmt: &mut Stmt) {\n158:         if matches!(&self.condition_type, ContractConditionsData::Modifies { .. }) {\n159:             let Stmt::Local(Local { init: Some(LocalInit { expr, .. }), .. }) = closure_stmt else {\n160:                 unreachable!()\n161:             };\n162:             // The closure is wrapped into `kani_force_fn_once_with_args`\n163:             let Expr::Call(call) = expr.as_ref() else { unreachable!() };\n164:             if call.args.len() != 1 {\n165:                 unreachable!()\n166:             }\n167:             let expr = call.args.first().unwrap();"
+        }
+      ]
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "sha256": "d7a9258322aecb5ff57b497cf96ed937eaa326746a6fadf5554a2e05f6e173e1",
+      "blob": "0c4c06e2eacfc8592024d86f0d7156f4dcbe5d01",
+      "excerpts": [
+        {
+          "first_line": 145,
+          "last_line": 175,
+          "numbered_text": "145: \n146: #[kani::requires(x < 16)]\n147: #[kani::ensures(|result| *result == x + 3)]\n148: fn contracted_replacement(x: u8) -> u8 {\n149:     x + 3\n150: }\n151: \n152: #[kani::proof_for_contract(contracted_replacement)]\n153: fn replacement_provider() {\n154:     contracted_replacement(kani::any());\n155: }\n156: \n157: #[kani::proof]\n158: #[kani::stub(f, contracted_replacement)]\n159: fn replacement_contract() {\n160:     assert_eq!(f(8), 11);\n161:     assert_eq!(contracted_replacement(8), 11);\n162: }\n163: \n164: #[kani::proof]\n165: #[kani::stub(f, contracted_replacement)]\n166: #[kani::stub_verified(contracted_replacement)]\n167: fn replacement_verified_contract() {\n168:     assert_eq!(f(8), 11);\n169: }\n170: \n171: #[kani::proof_for_contract(contracted_replacement)]\n172: #[kani::stub(f, contracted_replacement)]\n173: fn replacement_contract_target() {\n174:     f(kani::any());\n175: }"
+        }
+      ]
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "sha256": "25430c642c8e6c15db1f57afc776e716dc23adf94209311e44348806e7cd1077",
+      "blob": "d9349271ca0c2af0ca9698038068240c84889100",
+      "excerpts": [
+        {
+          "first_line": 38,
+          "last_line": 73,
+          "numbered_text": "38: #[kani::ensures(|result| *result == x + 2)]\n39: fn bad_contract(x: u8) -> u8 {\n40:     x\n41: }\n42: \n43: #[kani::proof_for_contract(bad_contract)]\n44: fn provider_postcondition() {\n45:     bad_contract(0);\n46: }\n47: \n48: #[kani::proof]\n49: #[kani::stub(f, g)]\n50: fn unstubbed_postcondition() {\n51:     bad_contract(0);\n52: }\n53: \n54: #[kani::proof]\n55: #[kani::stub(bad_contract, g)]\n56: fn unstubbed_precondition() {\n57:     f(8);\n58: }\n59: \n60: #[kani::proof]\n61: #[kani::stub(f, bad_contract)]\n62: fn replacement_postcondition() {\n63:     f(0);\n64: }\n65: \n66: #[kani::proof_for_contract(bad_contract)]\n67: #[kani::stub(f, bad_contract)]\n68: fn replacement_provider_postcondition() {\n69:     f(0);\n70: }\n71: \n72: #[kani::requires(x < 4)]\n73: fn restricted_replacement(x: u8) -> u8 {"
+        }
+      ]
+    },
+    {
+      "path": "tools/compiletest/src/runtest.rs",
+      "sha256": "7ab3d25a027144d8b4b669990793d8f76b980d7a9f9ed59130af8a95749797a4",
+      "blob": "4438547071f5426caa8f0990fecfd727cf86352b",
+      "excerpts": [
+        {
+          "first_line": 488,
+          "last_line": 501,
+          "numbered_text": "488:     fn run_expected_test(&self) {\n489:         let proc_res = self.run_kani();\n490:         let dot_expected_path = self.testpaths.file.with_extension(\"expected\");\n491:         let expected_path = if dot_expected_path.exists() {\n492:             dot_expected_path\n493:         } else {\n494:             self.testpaths.file.parent().unwrap().join(\"expected\")\n495:         };\n496:         self.verify_output(&proc_res, &expected_path);\n497:         if self.config.require_success && !proc_res.status.success() {\n498:             self.fatal_proc_rec(\"test failed: Kani exited unsuccessfully\", &proc_res);\n499:         }\n500:     }\n501: "
+        },
+        {
+          "first_line": 528,
+          "last_line": 540,
+          "numbered_text": "528:     fn verify_output(&self, proc_res: &ProcRes, expected_path: &Path) {\n529:         // Include the output from stderr here for cases where there are exceptions\n530:         let expected = fs::read_to_string(expected_path).unwrap();\n531:         let output = proc_res.stdout.to_string() + &proc_res.stderr;\n532:         let diff = TestCx::contains_lines(\n533:             &output.split('\\n').collect::<Vec<_>>(),\n534:             expected.split('\\n').collect(),\n535:         );\n536:         match (diff, self.config.fix_expected) {\n537:             (None, _) => { /* Test passed. Do nothing*/ }\n538:             (Some(_), true) => {\n539:                 // Fix output but still fail the test so users know which ones were updated\n540:                 fs::write(expected_path, output).unwrap_or_else(|_| {"
+        },
+        {
+          "first_line": 566,
+          "last_line": 608,
+          "numbered_text": "566:         for line in lines {\n567:             // A line that ends in \"\\\" indicates that the next line in the\n568:             // expected file should appear on the consecutive line in the\n569:             // output. This is a temporary mechanism until we have more robust\n570:             // json-based checking of verification results\n571:             if let Some(prefix) = line.strip_suffix('\\\\') {\n572:                 // accumulate the lines\n573:                 consecutive_lines.push(prefix);\n574:             } else {\n575:                 consecutive_lines.push(line);\n576:                 if !TestCx::contains(str, &consecutive_lines) {\n577:                     return Some(consecutive_lines);\n578:                 }\n579:                 consecutive_lines.clear();\n580:             }\n581:         }\n582:         // Someone may add a `\\` to the last line (probably by accident) but\n583:         // that would mean this test would succeed without actually testing so\n584:         // we add a check here again.\n585:         (!consecutive_lines.is_empty() && !TestCx::contains(str, &consecutive_lines))\n586:             .then_some(consecutive_lines)\n587:     }\n588: \n589:     /// Check if there is a set of consecutive lines in `str` where each line\n590:     /// contains a line from `lines`\n591:     fn contains(str: &[&str], lines: &[&str]) -> bool {\n592:         // Does *any* subslice of length `lines.len()` satisfy the containment of\n593:         // *all* `lines`?\n594:         // `trim()` added to ignore trailing and preceding whitespace\n595:         str.windows(lines.len()).any(|subslice| {\n596:             subslice.iter().zip(lines).all(|(output, expected)| output.contains(expected.trim()))\n597:         })\n598:     }\n599: \n600:     fn create_stamp(&self) {\n601:         let stamp = crate::stamp(self.config, self.testpaths);\n602:         fs::write(stamp, \"we only support one configuration\").unwrap();\n603:     }\n604: \n605:     /// Run `kani-cov merge` and `kani-cov report` to generate a text-based\n606:     /// report and return the `ProcRes` associated to the `kani-cov report`\n607:     /// command.\n608:     fn run_kanicov_report("
+        }
+      ]
+    }
+  ]
+}
