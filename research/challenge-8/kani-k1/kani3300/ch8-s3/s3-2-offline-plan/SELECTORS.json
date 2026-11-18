@@ -1,0 +1,67 @@
+{
+  "state": "UNREGISTERED_DRAFT_SEALED_EARLY; NOT_IMPLEMENTATION_READY",
+  "all_outcomes": "NOT_RUN",
+  "one_conditional_NEXT_proposal_only": [
+    {
+      "selector": "next_sort8_u8_n32_left_real_pfc",
+      "mode": "actual PFC proposed",
+      "domain": "V34 src1; S48 dst0/temp32, scratch initiallyMU",
+      "unwind_source_lower_proposal": 50
+    },
+    {
+      "selector": "next_sort9_u8_v34_base1_len9_real",
+      "mode": "actual Original positive; not a contract summary",
+      "domain": "all initializedV34; base1,len9; real25 swaps",
+      "unwind_source_lower_proposal": 36
+    },
+    {
+      "selector": "next_sort8_u8_v34_s48_context34_real_pfc",
+      "mode": "actual PFC proposed",
+      "domain": "n16..32, side0/1; (srcV=1+side*h,dstS=side*h,tempS=n+8*side); partial-init scratch masks",
+      "unwind_source_lower_proposal": 50
+    },
+    {
+      "selector": "next_sort9_u8_v34_context11_real",
+      "mode": "actual Original positive; no summary promotion",
+      "domain": "19 S4 caller rows,11 distinct(base,len) pairs; L9..12",
+      "unwind_source_lower_proposal": 36
+    },
+    {
+      "selector": "next_sort13_u8_v34_base1_len13_real",
+      "mode": "actual Original, changed inline real45-swap encoding",
+      "domain": "all initializedV34; base1,len13; no assumed swap summary",
+      "unwind_source_lower_proposal": 36
+    },
+    {
+      "selector": "next_sort13_u8_v34_context13_real",
+      "mode": "actual Original positive; no summary promotion",
+      "domain": "20 S4 caller rows,13 distinct(base,len) pairs; L13..17 including mixed25",
+      "unwind_source_lower_proposal": 36
+    }
+  ],
+  "prerequisites": [
+    "priority14 repairs accepted first; no run now",
+    "actual S3-1 results examined; none available now",
+    "future exact source/control/cfg/roles/init/frame/precondition proof, independent review and separately authorized GO",
+    "Original network positives need checked semantic PFC contracts/registration before stock verified summary use"
+  ],
+  "caps_estimate_only": {
+    "six_slots720_plus_controller180_cleanup240": 4740,
+    "reference_cap": 6900,
+    "child600_includes_compile180": true,
+    "native_cost_fit": "UNKNOWN"
+  },
+  "not_selected": [
+    "unchanged heavy merge32/sort13_assumed/general32",
+    "reduced alphabet",
+    "all full16/32 consumers in this NEXT",
+    "experimental #4591/#4691 or new-main969f tool"
+  ],
+  "budget": {
+    "current_item2": "11/17",
+    "total": "41/48",
+    "remaining": 6,
+    "working_allocation": "2S3 includes frozenS3-1+conditionalNEXT, 2S4+S5+reserve; estimate only, no reservation"
+  },
+  "proof_credit": 0
+}
