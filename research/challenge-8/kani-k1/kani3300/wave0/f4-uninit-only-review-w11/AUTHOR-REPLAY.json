@@ -1,0 +1,221 @@
+{
+  "status": "PASS",
+  "assurance": "STATIC_AND_SYNTHETIC_ONLY",
+  "checks": [
+    "Python AST, guarded entry point, executable shell syntax",
+    "observed frozen-main enabled compact inventories still reject",
+    "enabled compact data parse with explicitly reconstructed native envelopes",
+    "synthetic two-mode positives; both cfg paths reject unsafe suppression/ordinary failures/composition drift",
+    "semantic multiplicity/assertion/site controls and disabled unexpected-uninit control",
+    "both parsers reject missing/partial/null/wrong-type/NOT_RUN/native outcome/feature/selection/check mismatches",
+    "regular output inventory parser and duplicate harness rejection",
+    "both probes: mocked success/stale/spawn/timeout/signal/error/missing/malformed/null export",
+    "mocked orchestration: two modes x both cfg paths/singletons/pairs plus independent controls; poisoned env removed",
+    "exact DelayedUbPass predicate; whole clone on / shared reference off; remaining compiler lifecycle byte invariant",
+    "clean direct b5 child, exact two-file delta; 16 workflows/fixtures/checks/toolchain/dependencies unchanged",
+    "both narrow b5 patch and full main patch reproduce exact candidate tree in isolated indexes",
+    "regression-only patch installs exact two-mode fixture on main with main compiler unchanged",
+    "source/tree/parent and changed-file/workflow/patch SHA256 binding",
+    "complete native push job/matrix plan and read-only final-head guard; skipped candidate rejected"
+  ],
+  "source": "ca1452227d6ad319f1b9bc1ad33bf618120733eb",
+  "tree": "baedd51d92073ecb2b96991bae7dc562ee8f58a2",
+  "parent": "b5a9678fd7c2a0f67c3fcafd90057fc2afaf9b5d",
+  "main_enabled_oracle": "REJECTS_OBSERVED_COMPACT_RESULTS_WITH_ADAPTED_ENVELOPE",
+  "native_two_mode_runtime": "NOT_RUN",
+  "disabled_native_inventory": "NOT_RUN",
+  "compiler_build": "NOT_RUN",
+  "performance": "NOT_RUN",
+  "compilation_order": "UNKNOWN",
+  "independent_review": "PENDING_REVIEW14",
+  "proof_credit": "NONE",
+  "intake_sha256": "8c15b1a13b4daa89f8eb2827a60d135c4280a60ad4746083790615b5f3a16576",
+  "mock_case_matrix": [
+    {
+      "uninit": true,
+      "case": "uninitialized_control",
+      "wanted": [
+        "uninitialized_control"
+      ],
+      "features": [
+        "export-json",
+        "ghost-state",
+        "uninit-checks"
+      ],
+      "exit_expected": 1,
+      "fixture": "SYNTHETIC_EXPECTED; not native observations"
+    },
+    {
+      "uninit": true,
+      "case": "delayed_first/delayed_alone",
+      "wanted": [
+        "delayed_harness"
+      ],
+      "features": [
+        "export-json",
+        "ghost-state",
+        "uninit-checks"
+      ],
+      "exit_expected": 1,
+      "fixture": "SYNTHETIC_EXPECTED; not native observations"
+    },
+    {
+      "uninit": true,
+      "case": "delayed_first/control_alone",
+      "wanted": [
+        "initialized_control_harness"
+      ],
+      "features": [
+        "export-json",
+        "ghost-state",
+        "uninit-checks"
+      ],
+      "exit_expected": 0,
+      "fixture": "SYNTHETIC_EXPECTED; not native observations"
+    },
+    {
+      "uninit": true,
+      "case": "delayed_first/paired",
+      "wanted": [
+        "delayed_harness",
+        "initialized_control_harness"
+      ],
+      "features": [
+        "export-json",
+        "ghost-state",
+        "uninit-checks"
+      ],
+      "exit_expected": 1,
+      "fixture": "SYNTHETIC_EXPECTED; not native observations"
+    },
+    {
+      "uninit": true,
+      "case": "control_first/delayed_alone",
+      "wanted": [
+        "delayed_harness"
+      ],
+      "features": [
+        "export-json",
+        "ghost-state",
+        "uninit-checks"
+      ],
+      "exit_expected": 1,
+      "fixture": "SYNTHETIC_EXPECTED; not native observations"
+    },
+    {
+      "uninit": true,
+      "case": "control_first/control_alone",
+      "wanted": [
+        "initialized_control_harness"
+      ],
+      "features": [
+        "export-json",
+        "ghost-state",
+        "uninit-checks"
+      ],
+      "exit_expected": 0,
+      "fixture": "SYNTHETIC_EXPECTED; not native observations"
+    },
+    {
+      "uninit": true,
+      "case": "control_first/paired",
+      "wanted": [
+        "delayed_harness",
+        "initialized_control_harness"
+      ],
+      "features": [
+        "export-json",
+        "ghost-state",
+        "uninit-checks"
+      ],
+      "exit_expected": 1,
+      "fixture": "SYNTHETIC_EXPECTED; not native observations"
+    },
+    {
+      "uninit": false,
+      "case": "uninitialized_control",
+      "wanted": [
+        "uninitialized_control"
+      ],
+      "features": [
+        "export-json"
+      ],
+      "exit_expected": 0,
+      "fixture": "SYNTHETIC_EXPECTED; not native observations"
+    },
+    {
+      "uninit": false,
+      "case": "delayed_first/delayed_alone",
+      "wanted": [
+        "delayed_harness"
+      ],
+      "features": [
+        "export-json"
+      ],
+      "exit_expected": 0,
+      "fixture": "SYNTHETIC_EXPECTED; not native observations"
+    },
+    {
+      "uninit": false,
+      "case": "delayed_first/control_alone",
+      "wanted": [
+        "initialized_control_harness"
+      ],
+      "features": [
+        "export-json"
+      ],
+      "exit_expected": 0,
+      "fixture": "SYNTHETIC_EXPECTED; not native observations"
+    },
+    {
+      "uninit": false,
+      "case": "delayed_first/paired",
+      "wanted": [
+        "delayed_harness",
+        "initialized_control_harness"
+      ],
+      "features": [
+        "export-json"
+      ],
+      "exit_expected": 0,
+      "fixture": "SYNTHETIC_EXPECTED; not native observations"
+    },
+    {
+      "uninit": false,
+      "case": "control_first/delayed_alone",
+      "wanted": [
+        "delayed_harness"
+      ],
+      "features": [
+        "export-json"
+      ],
+      "exit_expected": 0,
+      "fixture": "SYNTHETIC_EXPECTED; not native observations"
+    },
+    {
+      "uninit": false,
+      "case": "control_first/control_alone",
+      "wanted": [
+        "initialized_control_harness"
+      ],
+      "features": [
+        "export-json"
+      ],
+      "exit_expected": 0,
+      "fixture": "SYNTHETIC_EXPECTED; not native observations"
+    },
+    {
+      "uninit": false,
+      "case": "control_first/paired",
+      "wanted": [
+        "delayed_harness",
+        "initialized_control_harness"
+      ],
+      "features": [
+        "export-json"
+      ],
+      "exit_expected": 0,
+      "fixture": "SYNTHETIC_EXPECTED; not native observations"
+    }
+  ]
+}

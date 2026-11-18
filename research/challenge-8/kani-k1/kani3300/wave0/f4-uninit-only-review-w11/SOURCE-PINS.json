@@ -1,0 +1,77 @@
+{
+  "schema": "ch8-f4-uninit-only-review-pins-v1",
+  "reviewer": "independent11",
+  "task_commit": "fd388552f401d9f72cea6e4b17d0678bdb7e54c1",
+  "package_commit": "a16ef717e18ca8263e360c24058b13a3ef4d4605",
+  "source": "ca1452227d6ad319f1b9bc1ad33bf618120733eb",
+  "tree": "baedd51d92073ecb2b96991bae7dc562ee8f58a2",
+  "parent": "b5a9678fd7c2a0f67c3fcafd90057fc2afaf9b5d",
+  "source_pins": {
+    "schema": "ch8-f4-uninit-only-source-pins-v1",
+    "source": "ca1452227d6ad319f1b9bc1ad33bf618120733eb",
+    "tree": "baedd51d92073ecb2b96991bae7dc562ee8f58a2",
+    "parent": "b5a9678fd7c2a0f67c3fcafd90057fc2afaf9b5d",
+    "baseline_tree": "8585336ed35a14fe0fc157a7ca4e0d52075c0e49",
+    "main": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "main_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "source_worktree": "/root/kani-f4-uninit-only-w15",
+    "changed_file_sha256": {
+      "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs": "14cf16762c3475238941c254fc4080b00149c1618a156a5baab8dbdc7de78db3",
+      "tests/script-based-pre/delayed-shared-body/check.py": "1504c3928084a2e29886b0392d9d8624fc32375c5494807864c80fc82e680ba3"
+    },
+    "full_main_changed_file_sha256": {
+      "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs": "14cf16762c3475238941c254fc4080b00149c1618a156a5baab8dbdc7de78db3",
+      "kani-compiler/src/kani_middle/transform/mod.rs": "0901d9ee2f60efb02949200822406713a4a1e6f068ecb52d053716a6c07957b7",
+      "tests/script-based-pre/delayed-shared-body/Cargo.toml": "cf02a2b65e63502da1cd590218e7871e3fe3980a9e89aa41b3df391a70be0bac",
+      "tests/script-based-pre/delayed-shared-body/check.py": "1504c3928084a2e29886b0392d9d8624fc32375c5494807864c80fc82e680ba3",
+      "tests/script-based-pre/delayed-shared-body/config.yml": "f6ac7ffc9bfa654dd81c7263d1af76a0e989860d4f001e89aede0881fa09be33",
+      "tests/script-based-pre/delayed-shared-body/control.rs": "95c37703c78422dcac06033d423fa4c5a0ab0975475e97f80bfe901b42f811a6",
+      "tests/script-based-pre/delayed-shared-body/expected": "fc24e4757ef87883ebb1d0127be0550016232039a4e4776237627eae9215f6c8",
+      "tests/script-based-pre/delayed-shared-body/src/lib.rs": "70dd61fec47556d11fd158f50bc5729c6fcfbe0170f43a8be788d6d2612431c9",
+      "tests/script-based-pre/delayed-shared-body/test.sh": "da984231aaf9c6743a66fca67b29f02b72fab8f92e973f24f9b03164f6378f36"
+    },
+    "workflow_sha256": {
+      ".github/workflows/bench-compiler.yml": "825d32f8e3d3949332417088fb0b096bb4b6f1819d8a0cb3c1e2cc666cd685cc",
+      ".github/workflows/bench-e2e.yml": "e17c7ef9464ceec605771b9dade368122e250891526c6a0b0a9bb4b00a7a64ca",
+      ".github/workflows/bench-pr.yml": "eecc1509bcf9283e0d233b414af523f97a9f2a397e8766a558314f1a9f5a57d3",
+      ".github/workflows/cargo-update.yml": "ac7f18f5fe4e685e5da609e5b2546503aab4cb5aa2f598c4a6df91b5d442c911",
+      ".github/workflows/cbmc-latest.yml": "ba39280e6ff9de85ccb5c14296d53845be7cc417baf683ddda56fe30767bbc48",
+      ".github/workflows/cbmc-update.yml": "1b97bca1eb903ddf739d594830eb4b72b5ffc8c23ec7dc8c03c314c95cd0232f",
+      ".github/workflows/charon-update.yml": "d73125c239ffd2c2f68a7d41b703eb11bdbdefe97d3a3abc99ed0bbb2c1b7869",
+      ".github/workflows/deny.yml": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf",
+      ".github/workflows/extra_jobs.yml": "12c3c6626e9ad806e7f7bf7f65cca7e2f12b2ccae9da82cc62802b92299369d8",
+      ".github/workflows/format-check.yml": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8",
+      ".github/workflows/kani.yml": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+      ".github/workflows/release.yml": "b608d02a4ddbaa9a1e4b0db321bd1aeb268afe5f946a9de14e2778b9e803b9b3",
+      ".github/workflows/slow-tests.yml": "d9775bd66ebb7b927c28346623f9e6e3374c82cee97921eac5fee828eba5ba7f",
+      ".github/workflows/toolchain-upgrade.yml": "bd9cc5f4f09c1e00223a627fedbd7fb522053c6258284304c1d509f83dbcfa6a",
+      ".github/workflows/verify-std-check.yml": "37a122141be204e64c1eb75caf6a6f72b1e1c9ce68f642ef79ad80cd1da9ee60",
+      ".github/workflows/z3-update.yml": "83e06af88fe864b471d4b1af10022519c3f81cc63d62e00d64d73e77234a9553"
+    },
+    "patch_sha256": {
+      "delta-b5.patch": "5da5371a5cf3cbb9379b3187cfb0112a7eda8f42e3124517139a204faef6cfab",
+      "full-main.patch": "7c699363d7fc964d682e9b37952fa93716553a3a497052915edee7d584d9dcc8",
+      "regression-main.patch": "107c4275a2c4f9b33a99dc2d67afdf01f3c3d736c21184b397d122b60bfc2fab"
+    }
+  },
+  "committed_package_files_sha256": {
+    "CHECKPOINT.json": "c6c3ab9fd1d80c88ccbb5895809b07941c30c9dcb0b535eb17dc1299fe36a4d5",
+    "CI-REQUEST.json": "437469f988cf424a16639c15bb694bb9c89f66e41f4e769bff7bf36a508a76fa",
+    "CI-REQUEST.md": "e7416f17fd6312870ddb3caaf26dbbd09f3ad7c395f1f852271b1edf663f7271",
+    "HANDOFF.md": "988f54e71ae1518b7ff593dec46858f00b275a9644f97bf2ecb14888a4dd2076",
+    "MANIFEST.json": "7505380840720271b790e9ea3d34cb42cd4b235aaee013d01bff771e05b2c7a6",
+    "PR-DRAFT.md": "d44e918dbbbfa811dafcfbd45256e2cce56788cdf3312712ef39f9a9635903d6",
+    "PROVENANCE.json": "8bc2819cc567684c7985fca477f259bd46878efc668f55dc97335bb2ef928768",
+    "REGRESSION-ORACLE.md": "7440497618d5bba185a3d18ebd89e13b3d5dda300833a6a943c6cb24d1e8ba88",
+    "SOURCE-LIFECYCLE.md": "bfd174200fc92a1a6d21dfb0288d131d51819948641fd67f4cc1e32b61887fff",
+    "SOURCE-PINS.json": "508188df3fca3514f9983f97250046cf3b60b9906fb71549b90fae43bad923f8",
+    "VALIDATION.json": "6fd0597ffaf8243809cdf161dd2b654ea5088be81d85660eecc9d692a96473f9",
+    "VALIDATION.md": "e5c0883413cac7f22469104508695dce089c35fd4b31a70db5dd16485a78bb07",
+    "check_push_head.py": "1165f664d7e0e785ba8c6d199e5bc804d5c9c5001082abb071c69b05646c9622",
+    "delta-b5.patch": "5da5371a5cf3cbb9379b3187cfb0112a7eda8f42e3124517139a204faef6cfab",
+    "full-main.patch": "7c699363d7fc964d682e9b37952fa93716553a3a497052915edee7d584d9dcc8",
+    "regression-main.patch": "107c4275a2c4f9b33a99dc2d67afdf01f3c3d736c21184b397d122b60bfc2fab",
+    "validate.py": "9fccf200404b091593579603b5c4597ae189e31d2b4d2892965710f3f21475f6"
+  },
+  "real_source_index_sha256": "282d2a2aa0d14830f45d5aa85ce628e49a8390d7627f866f822222f257d4c9b0"
+}
