@@ -1,0 +1,876 @@
+{
+  "state": "READY_SNAPSHOT_STOP_INTAKE",
+  "run": 44375519132,
+  "attempt": 1,
+  "task_g0": "a6b52a0aa3c145cfabb5989b2e1e49780275c6bb",
+  "failing_root": "merge_count_corrupt",
+  "stage": "STD_COMPILATION_INTERRUPTED; compile FAILED external_signal, group IN_PROGRESS; native start UNKNOWN_NOT_PUBLISHED",
+  "stop_reason": "GlobalFailure: source_tool_request_binary_snapshot_drift_or_unavailable",
+  "guard_source": "ch8-s1-control/r5_campaign.py:171-173 at actual-trigger same-tree reviewed control",
+  "guard_terms": {
+    "request_sha256_mismatch": false,
+    "source_before_mismatch": false,
+    "source_after_mismatch": true,
+    "source_after_reason": "FIELD_ABSENT",
+    "binary_identity_not_MATCH": true,
+    "binary_identity_reason": "FIELD_ABSENT",
+    "snapshot_errors_truthy": false
+  },
+  "field_path_diff": [
+    {
+      "field": "source_before.std_sha -> source_after.std_sha",
+      "path": "/home/runner/work/kani/kani/export",
+      "expected": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "before": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "after": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "IDENTITY_CHECK_PASSED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "source_before.std_tree -> source_after.std_tree",
+      "path": "/home/runner/work/kani/kani/export",
+      "expected": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+      "before": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+      "after": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "IDENTITY_CHECK_PASSED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "source_before.tool_sha -> source_after.tool_sha",
+      "path": "/home/runner/work/kani/kani/tool",
+      "expected": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "before": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "after": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "IDENTITY_CHECK_PASSED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "source_before.tool_tree -> source_after.tool_tree",
+      "path": "/home/runner/work/kani/kani/tool",
+      "expected": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "before": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "after": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "IDENTITY_CHECK_PASSED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "source_{before,after}.changed_file_sha256[library/core/Cargo.toml]",
+      "path": "/home/runner/work/kani/kani/export/library/core/Cargo.toml",
+      "expected_sha256": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+      "before_sha256": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+      "after_sha256": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "FILE_READABLE_AND_HASH_MATCHED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "source_{before,after}.changed_file_sha256[library/core/src/lib.rs]",
+      "path": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+      "expected_sha256": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "before_sha256": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "after_sha256": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "FILE_READABLE_AND_HASH_MATCHED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "source_{before,after}.changed_file_sha256[library/core/src/slice/sort/shared/smallsort.rs]",
+      "path": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+      "expected_sha256": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+      "before_sha256": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+      "after_sha256": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "FILE_READABLE_AND_HASH_MATCHED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "source_{before,after}.changed_file_sha256[library/core/src/slice/sort/shared/smallsort/verify.rs]",
+      "path": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "expected_sha256": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+      "before_sha256": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+      "after_sha256": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "FILE_READABLE_AND_HASH_MATCHED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "source_{before,after}.changed_file_sha256[library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs]",
+      "path": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "expected_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+      "before_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+      "after_sha256": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "FILE_READABLE_AND_HASH_MATCHED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "source_{before,after}.changed_file_sha256[library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs]",
+      "path": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+      "expected_sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "before_sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "after_sha256": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "FILE_READABLE_AND_HASH_MATCHED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "source_{before,after}.changed_file_sha256[library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs]",
+      "path": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs",
+      "expected_sha256": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "before_sha256": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "after_sha256": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "FILE_READABLE_AND_HASH_MATCHED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "source_{before,after}.changed_file_sha256[tool_config/kani-version.toml]",
+      "path": "/home/runner/work/kani/kani/export/tool_config/kani-version.toml",
+      "expected_sha256": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717",
+      "before_sha256": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717",
+      "after_sha256": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "FILE_READABLE_AND_HASH_MATCHED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "tool_fingerprints_{before,after}.binaries.cbmc",
+      "path": "/usr/bin/cbmc",
+      "expected_sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+      "expected_scope": "BASELINE_MEASURED_BEFORE_THIS_CHILD; no independently pinned build-reproducibility digest",
+      "before_sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995",
+      "after_sha256": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "is_file AND HASH_READ_SUCCEEDED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "tool_fingerprints_{before,after}.binaries.kani_compiler",
+      "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+      "expected_sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+      "expected_scope": "BASELINE_MEASURED_BEFORE_THIS_CHILD; no independently pinned build-reproducibility digest",
+      "before_sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4",
+      "after_sha256": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "is_file AND HASH_READ_SUCCEEDED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "tool_fingerprints_{before,after}.binaries.kani_driver",
+      "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+      "expected_sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846",
+      "expected_scope": "BASELINE_MEASURED_BEFORE_THIS_CHILD; no independently pinned build-reproducibility digest",
+      "before_sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846",
+      "after_sha256": "UNKNOWN_FIELD_ABSENT",
+      "existence_before": "is_file AND HASH_READ_SUCCEEDED",
+      "existence_after": "UNKNOWN_NOT_RECORDED",
+      "exception": "UNKNOWN_NOT_RECORDED",
+      "changed_bytes": "NOT_ESTABLISHED"
+    },
+    {
+      "field": "request_sha256",
+      "path": "/home/runner/work/kani/kani/control/ch8-s1-control/CI-REQUEST.json",
+      "expected_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+      "before_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+      "after_sha256": "NO_SEPARATE_GROUP_AFTER_REQUEST_FIELD; campaign request-drift guard precedes failing root guard",
+      "existence_before": "HASH_RECORDED",
+      "existence_after": "CAMPAIGN_SOURCE_PATH_CHECK_PASSED_BY_CONTROL_FLOW; exact current digest not separately retained",
+      "exception": "NONE_RECORDED"
+    },
+    {
+      "field": "binary_identity",
+      "expected": "MATCH",
+      "before": "NOT_APPLICABLE_COMPUTED_ONLY_IN_FINALLY",
+      "after": "FIELD_ABSENT",
+      "existence_after": "FIELD_ABSENT_NOT_A_BINARY_EXISTENCE_TEST"
+    },
+    {
+      "field": "snapshot_errors",
+      "expected": [],
+      "before": [],
+      "after": "NO_SEPARATE_AFTER_SNAPSHOT",
+      "meaning": "Empty list accompanies BEFORE only; cannot certify successful AFTER capture"
+    }
+  ],
+  "before_snapshot": {
+    "binaries": {
+      "cbmc": {
+        "path": "/usr/bin/cbmc",
+        "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+      },
+      "kani_compiler": {
+        "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+        "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+      },
+      "kani_driver": {
+        "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+        "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      }
+    },
+    "missing_binaries": [],
+    "phase": "BEFORE_CHILD",
+    "reported_versions": null,
+    "required_binaries": [
+      "kani_driver",
+      "kani_compiler",
+      "cbmc"
+    ],
+    "required_hashes_present": true,
+    "snapshot_completed": true,
+    "state": "COMPLETE"
+  },
+  "after_snapshot": "UNKNOWN_NOT_RECORDED; entire tool_fingerprints_after absent",
+  "group_original_exception": "UNKNOWN_NOT_RECORDED; original_exception/execution_exception/reason absent",
+  "supervisor_original_exception": {
+    "message": "[Errno 3] No such process",
+    "type": "ProcessLookupError"
+  },
+  "supervisor_exception_callsite": "UNKNOWN_NO_TRACEBACK_OR_FILENAME_RECORDED; do not infer a /proc pathname",
+  "supervision": {
+    "containment": {
+      "elapsed_seconds": 0.19560340500038365,
+      "observed": [
+        {
+          "pgid": 11134,
+          "pid": 11134,
+          "ppid": 8291,
+          "start_ticks": 213300,
+          "state": "Z"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11172,
+          "ppid": 11165,
+          "start_ticks": 213586,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11165,
+          "ppid": 11134,
+          "start_ticks": 213585,
+          "state": "Z"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11197,
+          "ppid": 11172,
+          "start_ticks": 213592,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11198,
+          "ppid": 11172,
+          "start_ticks": 213592,
+          "state": "R"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11195,
+          "ppid": 11172,
+          "start_ticks": 213592,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11199,
+          "ppid": 11172,
+          "start_ticks": 213592,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11210,
+          "ppid": 11172,
+          "start_ticks": 213597,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11220,
+          "ppid": 11198,
+          "start_ticks": 213601,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11221,
+          "ppid": 11220,
+          "start_ticks": 213601,
+          "state": "D"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11232,
+          "ppid": 11195,
+          "start_ticks": 213606,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11233,
+          "ppid": 11232,
+          "start_ticks": 213606,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11234,
+          "ppid": 11233,
+          "start_ticks": 213606,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11236,
+          "ppid": 11172,
+          "start_ticks": 213606,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11245,
+          "ppid": 11210,
+          "start_ticks": 213609,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11246,
+          "ppid": 11236,
+          "start_ticks": 213609,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11247,
+          "ppid": 11246,
+          "start_ticks": 213609,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11248,
+          "ppid": 11245,
+          "start_ticks": 213609,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11249,
+          "ppid": 11247,
+          "start_ticks": 213609,
+          "state": "R"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11250,
+          "ppid": 11248,
+          "start_ticks": 213609,
+          "state": "R"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11252,
+          "ppid": 11172,
+          "start_ticks": 213609,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11263,
+          "ppid": 11252,
+          "start_ticks": 213610,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11266,
+          "ppid": 11172,
+          "start_ticks": 213612,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11270,
+          "ppid": 11172,
+          "start_ticks": 213613,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11277,
+          "ppid": 11172,
+          "start_ticks": 213614,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11280,
+          "ppid": 11172,
+          "start_ticks": 213615,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11285,
+          "ppid": 11280,
+          "start_ticks": 213618,
+          "state": "Z"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11298,
+          "ppid": 11172,
+          "start_ticks": 213622,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11307,
+          "ppid": 11298,
+          "start_ticks": 213625,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11308,
+          "ppid": 11307,
+          "start_ticks": 213625,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11309,
+          "ppid": 11308,
+          "start_ticks": 213625,
+          "state": "R"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11322,
+          "ppid": 11172,
+          "start_ticks": 213632,
+          "state": "S"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11325,
+          "ppid": 11323,
+          "start_ticks": 213633,
+          "state": "Z"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11323,
+          "ppid": 11270,
+          "start_ticks": 213633,
+          "state": "R"
+        },
+        {
+          "pgid": 11165,
+          "pid": 11339,
+          "ppid": 8291,
+          "start_ticks": 213638,
+          "state": "Z"
+        }
+      ],
+      "reaped_adopted": [
+        {
+          "pid": 11277,
+          "status": 15
+        },
+        {
+          "pid": 11322,
+          "status": 15
+        },
+        {
+          "pid": 11339,
+          "status": 134
+        }
+      ],
+      "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+      "signals": [
+        {
+          "monotonic": 2136.388478622,
+          "pid": 11266,
+          "signal": 15,
+          "start_ticks": 213612
+        },
+        {
+          "monotonic": 2136.393980984,
+          "pid": 11172,
+          "signal": 15,
+          "start_ticks": 213586
+        },
+        {
+          "monotonic": 2136.398069014,
+          "pid": 11277,
+          "signal": 15,
+          "start_ticks": 213614
+        },
+        {
+          "monotonic": 2136.402025065,
+          "pid": 11322,
+          "signal": 15,
+          "start_ticks": 213632
+        },
+        {
+          "monotonic": 2136.405427897,
+          "pid": 11165,
+          "signal": 15,
+          "start_ticks": 213585
+        },
+        {
+          "monotonic": 2136.408995335,
+          "pid": 11134,
+          "signal": 15,
+          "start_ticks": 213300
+        },
+        {
+          "monotonic": 2136.437695743,
+          "pid": 11339,
+          "signal": 15,
+          "start_ticks": 213638
+        },
+        {
+          "monotonic": 2136.440378158,
+          "pid": 11134,
+          "signal": 15,
+          "start_ticks": 213300
+        },
+        {
+          "monotonic": 2136.470736595,
+          "pid": 11339,
+          "signal": 15,
+          "start_ticks": 213638
+        },
+        {
+          "monotonic": 2136.473414343,
+          "pid": 11134,
+          "signal": 15,
+          "start_ticks": 213300
+        },
+        {
+          "monotonic": 2136.503807818,
+          "pid": 11134,
+          "signal": 15,
+          "start_ticks": 213300
+        },
+        {
+          "monotonic": 2136.532325729,
+          "pid": 11134,
+          "signal": 15,
+          "start_ticks": 213300
+        },
+        {
+          "monotonic": 2136.563331313,
+          "pid": 11134,
+          "signal": 15,
+          "start_ticks": 213300
+        }
+      ],
+      "verified": true,
+      "worker_exit": -15
+    },
+    "cutoff": "supervisor_exception",
+    "elapsed_seconds": 3.5610636140004317,
+    "limit_initiated": true,
+    "monotonic_end": 2136.56648506,
+    "monotonic_start": 2133.005421564,
+    "orphan_survivors_at_worker_exit": [],
+    "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+    "outer_sampled_peak_kib": 971752,
+    "supervisor_error": {
+      "message": "[Errno 3] No such process",
+      "type": "ProcessLookupError"
+    },
+    "worker_exit": -15,
+    "worker_initial_identity": {
+      "pgid": 11134,
+      "pid": 11134,
+      "ppid": 8291,
+      "start_ticks": 213300,
+      "state": "R"
+    },
+    "worker_pid": 11134,
+    "worker_wall_limit_seconds": 710
+  },
+  "compile_execution": {
+    "child_shutdown_verified": true,
+    "component_group_peak_kib": {
+      "backend": 0,
+      "compiler": 831168,
+      "driver": 6448,
+      "other": 215380
+    },
+    "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+    "elapsed_seconds": 0.695,
+    "interrupted_by_signal": 15,
+    "original_exit_code": 1,
+    "output_bytes": 2853,
+    "output_truncated": false,
+    "process_identity": {
+      "pgid": 11165,
+      "pid": 11165,
+      "ppid": 11134,
+      "start_ticks": 213585,
+      "state": "S"
+    },
+    "rss_peak_gib": 0.8698081970214844,
+    "rss_peak_kib": 912060,
+    "rss_sample_period_seconds": 0.05,
+    "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+    "rss_status": "SAMPLED_PROCESS_GROUP",
+    "rustc_diagnostics": {
+      "complete": false,
+      "incomplete_reasons": [
+        "external_signal"
+      ],
+      "proof_credit": "NONE",
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "streams": {
+        "stderr": {
+          "ansi_removed": true,
+          "block_cap": 2020,
+          "complete": false,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "error_headers_observed": 1,
+          "incomplete_reasons": [
+            "external_signal"
+          ],
+          "observed_bytes": 2719,
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "pipe_eof": true,
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "proof_credit": "NONE",
+          "receipt": "rustc-stderr-receipt.json",
+          "retained_input_bytes": 46,
+          "retention_cap_bytes": 1034583,
+          "schema": "ch8-rustc-diagnostics-v1",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "status": "INCOMPLETE",
+          "stream": "stderr",
+          "substantive_headers_observed": 1,
+          "unobserved_bytes": null,
+          "unscanned_bytes": 0
+        },
+        "stdout": {
+          "ansi_removed": true,
+          "block_cap": 30352,
+          "complete": false,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "error_headers_observed": 1,
+          "incomplete_reasons": [
+            "external_signal"
+          ],
+          "observed_bytes": 134,
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "pipe_eof": true,
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "proof_credit": "NONE",
+          "receipt": "rustc-stdout-receipt.json",
+          "retained_input_bytes": 83,
+          "retention_cap_bytes": 15540450,
+          "schema": "ch8-rustc-diagnostics-v1",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "status": "INCOMPLETE",
+          "stream": "stdout",
+          "substantive_headers_observed": 1,
+          "unobserved_bytes": null,
+          "unscanned_bytes": 0
+        }
+      },
+      "unobserved_bytes": null
+    },
+    "signal": null,
+    "stderr_bytes": 2719,
+    "stderr_truncated": false,
+    "stdout_bytes": 134,
+    "stdout_truncated": false,
+    "termination_reason": "external_signal",
+    "timed_out": false
+  },
+  "bounded_compile_diagnostics": {
+    "member": "groups/r5-merge_count_corrupt/compile/receipt.json",
+    "stdout_head": "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.11.0\nerror: Failed to execute cargo (signal: 15 (SIGTERM)). Found 0 compilation errors.\n",
+    "stderr_tail_last550": "(no_source_text)' --check-cfg 'cfg(proc_macro_span)' --check-cfg 'cfg(proc_macro_span_file)' --check-cfg 'cfg(proc_macro_span_location)' --check-cfg 'cfg(procmacro2_backtrace)' --check-cfg 'cfg(procmacro2_build_probe)' --check-cfg 'cfg(procmacro2_nightly_testing)' --check-cfg 'cfg(procmacro2_semver_exempt)' --check-cfg 'cfg(randomize_layout)' --check-cfg 'cfg(span_locations)' --check-cfg 'cfg(super_unstable)' --check-cfg 'cfg(wrap_proc_macro)'` (signal: 15, SIGTERM: termination signal)\nwarning: build failed, waiting for other jobs to finish...\n",
+    "scope": "Existing compact-producer bounded previews only, not raw logs. stdout reports cargo SIGTERM and 0 compilation errors; stderr proc-macro2 command SIGTERM."
+  },
+  "capture_epochs": {
+    "campaign_start_monotonic": 763.670367251,
+    "worker_launch_monotonic": 2133.001646384,
+    "supervisor_start_monotonic": 2133.005421564,
+    "supervisor_end_monotonic": 2136.56648506,
+    "before": "AFTER verify_source, BEFORE variant/target setup/child; exact snapshot time not recorded",
+    "after": "Intended AFTER execute shutdown and BEFORE export parse, protected inner finally; not published for interrupted worker",
+    "source_after": "Intended outer finally AFTER binary comparison and variant cleanup; not published",
+    "cleanup_signals": [
+      {
+        "monotonic": 2136.388478622,
+        "pid": 11266,
+        "signal": 15,
+        "start_ticks": 213612
+      },
+      {
+        "monotonic": 2136.393980984,
+        "pid": 11172,
+        "signal": 15,
+        "start_ticks": 213586
+      },
+      {
+        "monotonic": 2136.398069014,
+        "pid": 11277,
+        "signal": 15,
+        "start_ticks": 213614
+      },
+      {
+        "monotonic": 2136.402025065,
+        "pid": 11322,
+        "signal": 15,
+        "start_ticks": 213632
+      },
+      {
+        "monotonic": 2136.405427897,
+        "pid": 11165,
+        "signal": 15,
+        "start_ticks": 213585
+      },
+      {
+        "monotonic": 2136.408995335,
+        "pid": 11134,
+        "signal": 15,
+        "start_ticks": 213300
+      },
+      {
+        "monotonic": 2136.437695743,
+        "pid": 11339,
+        "signal": 15,
+        "start_ticks": 213638
+      },
+      {
+        "monotonic": 2136.440378158,
+        "pid": 11134,
+        "signal": 15,
+        "start_ticks": 213300
+      },
+      {
+        "monotonic": 2136.470736595,
+        "pid": 11339,
+        "signal": 15,
+        "start_ticks": 213638
+      },
+      {
+        "monotonic": 2136.473414343,
+        "pid": 11134,
+        "signal": 15,
+        "start_ticks": 213300
+      },
+      {
+        "monotonic": 2136.503807818,
+        "pid": 11134,
+        "signal": 15,
+        "start_ticks": 213300
+      },
+      {
+        "monotonic": 2136.532325729,
+        "pid": 11134,
+        "signal": 15,
+        "start_ticks": 213300
+      },
+      {
+        "monotonic": 2136.563331313,
+        "pid": 11134,
+        "signal": 15,
+        "start_ticks": 213300
+      }
+    ],
+    "capture_monotonic_clock_scope": "One native campaign machine; no cross-host conversion"
+  },
+  "classification": {
+    "actual_changed_immutable_bytes": "NOT_ESTABLISHED",
+    "disappeared_or_unreadable_source_or_binary_path": "UNKNOWN_NOT_RECORDED",
+    "missing_required_snapshot": "ESTABLISHED_AFTER_FIELDS_AND_BINARY_IDENTITY_ABSENT",
+    "snapshot_function_failure": "UNKNOWN_NOT_RECORDED; BEFORE complete and snapshot_errors empty",
+    "export_parse_failure": "NOT_ESTABLISHED_NO_FINAL_EXPORT_OR_GROUP_EXCEPTION",
+    "expected_generated_compilation_output_drift": "NOT_ESTABLISHED; fresh target generated artifacts are not binary snapshot candidates",
+    "stale_per_root_binding": "NOT_ESTABLISHED; unique current invocation and before snapshots match; after unavailable",
+    "recorded_operational_precursor": "supervisor_exception ProcessLookupError [Errno 3] No such process; cleanup SIGTERM, worker -15; stock driver child recorded in compile receipt original_exit1/external_signal15",
+    "precise_missing_path_or_exception_stack": "UNKNOWN_NOT_RECORDED"
+  },
+  "protected_vs_generated": {
+    "protected": "Source/tool commit/tree/clean checkout and eight changed-file digests; control request hash; fixed kani-driver/kani-compiler/cbmc paths and before/after binary digest equality",
+    "generated_target": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/e158606b2aa944e8bbe38c2c238c3fa0",
+    "generated_export": "/home/runner/work/_temp/ch8-s1-receipts/groups/r5-merge_count_corrupt/export.json",
+    "generated": "Per-invocation target/export/compile/properties/native metadata may be produced or changed during compilation; not compared as immutable source/tool binaries. Structured completed files protected separately by portable completion seals."
+  },
+  "cost": {
+    "campaign_elapsed_seconds": 1372.8971255590002,
+    "worker_elapsed_seconds": 3.5610636140004317,
+    "partial_compile_child_elapsed_seconds": 0.695,
+    "compile_elapsed_upper_bound_seconds": null,
+    "compile_limit_seconds": 180,
+    "meaning": "1372.897 is clock()-campaign_start, not this compile or proof time. Worker3.561 includes launch/preflight/capture/cleanup; compile receipt0.695 is partial child execution until external SIGTERM; exact completed compile duration UNKNOWN."
+  },
+  "global_vs_local": "root_outcome tests input/binary snapshots before supervision cutoff and expected verdict handling. Missing source_after/binary_identity raises GlobalFailure, run_campaign catches BaseException once outside loop and finalizes STOPPED. supervisor_error would also be global_supervisor_failure later if initial snapshots passed. Earlier child600 interruptions had intact after snapshots, returned UNKNOWN, were sealed and allowed next roots. No global6900/RSS/artifact cap recorded at stop.",
+  "completed_prefix": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "swap_pfc",
+    "sort13_weak",
+    "merge32_real",
+    "sort13_assumed"
+  ],
+  "later_selected_not_run": [
+    "merge_order_corrupt",
+    "summary_witness"
+  ],
+  "deferred": [
+    "general32_assumed",
+    "general32_weak"
+  ],
+  "residual_unknown": [
+    "post-child source/tool file existence and digests",
+    "actual changed/disappeared pathname, if any",
+    "after snapshot function invocation/completion before worker exit",
+    "supervisor ProcessLookupError traceback/syscall/path",
+    "group original exception/execution result/final export",
+    "native harness start for interrupted merge_count (not published, not inferred NOT_STARTED)",
+    "exact aggregate missing stage costs, true process-tree peak, compiler-instance and AST/MIR property origin"
+  ],
+  "next_for_offline_plan13": [
+    "Keep immutable input drift UNESTABLISHED and missing-after evidence explicit. Preserve supervisor original ProcessLookupError alongside generic guard.",
+    "Plan source-preserving supervisor error/capture diagnostics with exact traceback/path/epoch and independently durable after-state availability; no intake implementation authorized.",
+    "Preserve native verdicts and strict S2 label/property/qualification gates; no waiver or automatic admission.",
+    "Plan13 consumes this committed canonical intake; no duplicate artifact intake or W15 issue work."
+  ],
+  "proof_credit": "NONE"
+}

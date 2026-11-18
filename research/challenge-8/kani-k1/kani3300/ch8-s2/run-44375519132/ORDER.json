@@ -1,0 +1,205 @@
+{
+  "observed_order": [
+    {
+      "id": "checker_order_corrupt",
+      "rank": 1,
+      "launch": {
+        "id": "checker_order_corrupt",
+        "limits": {
+          "export_bytes": 8388608,
+          "stderr_bytes": 1048576,
+          "stdout_bytes": 16777216
+        },
+        "monotonic": 763.672423919,
+        "rank": 1,
+        "request_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "slot_seconds": 720
+      },
+      "native_start_events": [
+        {
+          "monotonic": 795.808261662,
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt"
+        }
+      ],
+      "sealed": true,
+      "worker_exit": 0,
+      "next_launched": "checker_count_corrupt"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "rank": 2,
+      "launch": {
+        "id": "checker_count_corrupt",
+        "limits": {
+          "export_bytes": 8384218,
+          "stderr_bytes": 1046083,
+          "stdout_bytes": 16683031
+        },
+        "monotonic": 798.825677374,
+        "rank": 2,
+        "request_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+        "slot_seconds": 720
+      },
+      "native_start_events": [
+        {
+          "monotonic": 830.354158254,
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt"
+        }
+      ],
+      "sealed": true,
+      "worker_exit": 0,
+      "next_launched": "swap_pfc"
+    },
+    {
+      "id": "swap_pfc",
+      "rank": 3,
+      "launch": {
+        "id": "swap_pfc",
+        "limits": {
+          "export_bytes": 8380517,
+          "stderr_bytes": 1043783,
+          "stdout_bytes": 16555082
+        },
+        "monotonic": 833.564099631,
+        "rank": 3,
+        "request_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+        "slot_seconds": 720
+      },
+      "native_start_events": [
+        {
+          "monotonic": 871.488150975,
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc"
+        }
+      ],
+      "sealed": true,
+      "worker_exit": 0,
+      "next_launched": "sort13_weak"
+    },
+    {
+      "id": "sort13_weak",
+      "rank": 4,
+      "launch": {
+        "id": "sort13_weak",
+        "limits": {
+          "export_bytes": 8374793,
+          "stderr_bytes": 1041483,
+          "stdout_bytes": 16345760
+        },
+        "monotonic": 885.093957763,
+        "rank": 4,
+        "request_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+        "slot_seconds": 720
+      },
+      "native_start_events": [
+        {
+          "monotonic": 918.070306924,
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak"
+        }
+      ],
+      "sealed": true,
+      "worker_exit": 0,
+      "next_launched": "merge32_real"
+    },
+    {
+      "id": "merge32_real",
+      "rank": 5,
+      "launch": {
+        "id": "merge32_real",
+        "limits": {
+          "export_bytes": 8370332,
+          "stderr_bytes": 1039183,
+          "stdout_bytes": 16247145
+        },
+        "monotonic": 921.094257421,
+        "rank": 5,
+        "request_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real",
+        "slot_seconds": 720
+      },
+      "native_start_events": [
+        {
+          "monotonic": 956.167832137,
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real"
+        }
+      ],
+      "sealed": true,
+      "worker_exit": 0,
+      "next_launched": "sort13_assumed"
+    },
+    {
+      "id": "sort13_assumed",
+      "rank": 6,
+      "launch": {
+        "id": "sort13_assumed",
+        "limits": {
+          "export_bytes": 8369085,
+          "stderr_bytes": 1036883,
+          "stdout_bytes": 15713581
+        },
+        "monotonic": 1527.061070438,
+        "rank": 6,
+        "request_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+        "slot_seconds": 720
+      },
+      "native_start_events": [
+        {
+          "monotonic": 1560.277477146,
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed"
+        }
+      ],
+      "sealed": true,
+      "worker_exit": 0,
+      "next_launched": "merge_count_corrupt"
+    },
+    {
+      "id": "merge_count_corrupt",
+      "rank": 7,
+      "launch": {
+        "id": "merge_count_corrupt",
+        "limits": {
+          "export_bytes": 8367836,
+          "stderr_bytes": 1034583,
+          "stdout_bytes": 15540450
+        },
+        "monotonic": 2133.001646384,
+        "rank": 7,
+        "request_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+        "slot_seconds": 720
+      },
+      "native_start_events": "UNKNOWN_NOT_PUBLISHED",
+      "sealed": false,
+      "worker_exit": -15,
+      "next_launched": "NONE_GLOBAL_STOP"
+    }
+  ],
+  "planned_order": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "swap_pfc",
+    "sort13_weak",
+    "merge32_real",
+    "sort13_assumed",
+    "merge_count_corrupt",
+    "merge_order_corrupt",
+    "summary_witness"
+  ],
+  "completed_prefix": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "swap_pfc",
+    "sort13_weak",
+    "merge32_real",
+    "sort13_assumed"
+  ],
+  "completed_means": "DURABLY_SEALED_OBSERVATIONS; includes two UNKNOWN cutoffs, not six successful proofs",
+  "deferred": [
+    "general32_assumed",
+    "general32_weak"
+  ]
+}

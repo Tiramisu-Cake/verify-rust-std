@@ -1,0 +1,1438 @@
+{
+  "rows": [
+    {
+      "id": "swap_pfc",
+      "selected": true,
+      "cost_status": "RECORDED_SCOPED",
+      "compile_state": "COMPLETE",
+      "compile_elapsed_upper_bound_seconds": 29.546,
+      "native_cargo_finished_dev_seconds": 29.12,
+      "verification_time_s": 10.680759458,
+      "execution_scope": "SINGLETON_DRIVER_COMPILE_PLUS_NATIVE_VERIFICATION",
+      "execution": {
+        "child_shutdown_verified": true,
+        "component_group_peak_kib": {
+          "backend": 295604,
+          "compiler": 2460352,
+          "driver": 240840,
+          "other": 130156
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "elapsed_seconds": 45.777,
+        "original_exit_code": 0,
+        "output_bytes": 211622,
+        "output_truncated": false,
+        "process_identity": {
+          "pgid": 9230,
+          "pid": 9230,
+          "ppid": 9199,
+          "start_ticks": 83642,
+          "state": "R"
+        },
+        "rss_peak_gib": 2.3867034912109375,
+        "rss_peak_kib": 2502640,
+        "rss_sample_period_seconds": 0.05,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_status": "SAMPLED_PROCESS_GROUP",
+        "signal": null,
+        "stderr_bytes": 2300,
+        "stderr_truncated": false,
+        "stdout_bytes": 209322,
+        "stdout_truncated": false,
+        "timed_out": false
+      },
+      "worker_supervision": {
+        "cutoff": null,
+        "elapsed_seconds": 51.50536875,
+        "limit_initiated": false,
+        "monotonic_end": 885.073886114,
+        "monotonic_start": 833.56851746,
+        "orphan_survivors_at_worker_exit": [],
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "outer_sampled_peak_kib": 2532004,
+        "supervisor_error": null,
+        "worker_exit": 0,
+        "worker_initial_identity": {
+          "pgid": 9199,
+          "pid": 9199,
+          "ppid": 8291,
+          "start_ticks": 83356,
+          "state": "R"
+        },
+        "worker_pid": 9199,
+        "worker_wall_limit_seconds": 710
+      },
+      "containment": {
+        "elapsed_seconds": 0.0055472760000156995,
+        "reaped_adopted": [],
+        "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+        "signals": [],
+        "verified": true,
+        "worker_exit": 0
+      },
+      "phases": {
+        "instrumentation_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "symex_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "solver_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "body_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "model_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "checker_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "summary_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "VCC": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "steps": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "true_tree_peak_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "exact_root_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT"
+      },
+      "compile_receipt": "groups/r5-swap_pfc/compile/receipt.json",
+      "bounded_native_metric_fragments": [
+        {
+          "member": "groups/r5-swap_pfc/receipt.json",
+          "pointer": "/stderr/head",
+          "metrics": [
+            {
+              "preview_line": 35,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 29.12s"
+            }
+          ]
+        },
+        {
+          "member": "groups/r5-swap_pfc/compile/receipt.json",
+          "pointer": "/stderr/head",
+          "metrics": [
+            {
+              "preview_line": 35,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 29.12s"
+            }
+          ]
+        },
+        {
+          "member": "groups/r5-swap_pfc/compile/receipt.json",
+          "pointer": "/stderr/tail",
+          "metrics": [
+            {
+              "preview_line": 31,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 29.12s"
+            }
+          ]
+        }
+      ],
+      "fragment_scope": "Exact source-reported lines retained in bounded previews; head/tail may overlap. Individual Runtime Solver/decision procedure values can describe repeated property-solving iterations. No sum or aggregate phase duration inferred; omitted intervals and final backend outcome UNKNOWN for cutoffs."
+    },
+    {
+      "id": "summary_witness",
+      "selected": true,
+      "cost_status": "UNKNOWN_NOT_ZERO",
+      "compile_state": "NOT_STARTED",
+      "compile_elapsed_upper_bound_seconds": null,
+      "native_cargo_finished_dev_seconds": null,
+      "verification_time_s": null,
+      "execution_scope": "NO_EXECUTION_COST_RECORDED",
+      "execution": {},
+      "worker_supervision": {},
+      "containment": {},
+      "phases": {
+        "instrumentation_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "symex_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "solver_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "body_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "model_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "checker_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "summary_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "VCC": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "steps": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "true_tree_peak_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "exact_root_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT"
+      },
+      "compile_receipt": null,
+      "bounded_native_metric_fragments": [],
+      "fragment_scope": "Exact source-reported lines retained in bounded previews; head/tail may overlap. Individual Runtime Solver/decision procedure values can describe repeated property-solving iterations. No sum or aggregate phase duration inferred; omitted intervals and final backend outcome UNKNOWN for cutoffs."
+    },
+    {
+      "id": "merge32_real",
+      "selected": true,
+      "cost_status": "RECORDED_SCOPED",
+      "compile_state": "COMPLETE",
+      "compile_elapsed_upper_bound_seconds": 30.879,
+      "native_cargo_finished_dev_seconds": 30.43,
+      "verification_time_s": null,
+      "execution_scope": "SINGLETON_DRIVER_COMPILE_PLUS_NATIVE_VERIFICATION",
+      "execution": {
+        "child_shutdown_verified": true,
+        "component_group_peak_kib": {
+          "backend": 1110940,
+          "compiler": 2546096,
+          "driver": 7620,
+          "other": 177248
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "elapsed_seconds": 600.177,
+        "original_exit_code": -15,
+        "output_bytes": 535864,
+        "output_truncated": false,
+        "process_identity": {
+          "pgid": 10154,
+          "pid": 10154,
+          "ppid": 10123,
+          "start_ticks": 92397,
+          "state": "S"
+        },
+        "rss_peak_gib": 2.405994415283203,
+        "rss_peak_kib": 2522868,
+        "rss_sample_period_seconds": 0.05,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_status": "SAMPLED_PROCESS_GROUP",
+        "signal": 15,
+        "stderr_bytes": 2300,
+        "stderr_truncated": false,
+        "stdout_bytes": 533564,
+        "stdout_truncated": false,
+        "termination_reason": "timeout",
+        "timed_out": true
+      },
+      "worker_supervision": {
+        "cutoff": null,
+        "elapsed_seconds": 605.942332669,
+        "limit_initiated": false,
+        "monotonic_end": 1527.040444621,
+        "monotonic_start": 921.098112039,
+        "orphan_survivors_at_worker_exit": [],
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "outer_sampled_peak_kib": 2595140,
+        "supervisor_error": null,
+        "worker_exit": 0,
+        "worker_initial_identity": {
+          "pgid": 10123,
+          "pid": 10123,
+          "ppid": 8291,
+          "start_ticks": 92109,
+          "state": "R"
+        },
+        "worker_pid": 10123,
+        "worker_wall_limit_seconds": 710
+      },
+      "containment": {
+        "elapsed_seconds": 0.0055090540001856425,
+        "reaped_adopted": [
+          {
+            "pid": 10542,
+            "status": 3840
+          }
+        ],
+        "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+        "signals": [],
+        "verified": true,
+        "worker_exit": 0
+      },
+      "phases": {
+        "instrumentation_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "symex_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "solver_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "body_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "model_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "checker_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "summary_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "VCC": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "steps": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "true_tree_peak_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "exact_root_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT"
+      },
+      "compile_receipt": "groups/r5-merge32_real/compile/receipt.json",
+      "bounded_native_metric_fragments": [
+        {
+          "member": "groups/r5-merge32_real/receipt.json",
+          "pointer": "/stdout/tail",
+          "metrics": [
+            {
+              "preview_line": 3,
+              "text": "Runtime Symex: 4.1702s"
+            },
+            {
+              "preview_line": 4,
+              "text": "size of program expression: 148505 steps"
+            },
+            {
+              "preview_line": 5,
+              "text": "slicing removed 83513 assignments"
+            },
+            {
+              "preview_line": 6,
+              "text": "Generated 23019 VCC(s), 8165 remaining after simplification"
+            },
+            {
+              "preview_line": 7,
+              "text": "Runtime Postprocess Equation: 0.193017s"
+            },
+            {
+              "preview_line": 10,
+              "text": "Runtime Convert SSA: 0.959045s"
+            },
+            {
+              "preview_line": 13,
+              "text": "Runtime Post-process: 0.0116701s"
+            },
+            {
+              "preview_line": 17,
+              "text": "Runtime Solver: 5.2488s"
+            },
+            {
+              "preview_line": 18,
+              "text": "Runtime decision procedure: 6.23342s"
+            },
+            {
+              "preview_line": 23,
+              "text": "Runtime Solver: 1.11117s"
+            },
+            {
+              "preview_line": 24,
+              "text": "Runtime decision procedure: 1.1247s"
+            },
+            {
+              "preview_line": 29,
+              "text": "Runtime Solver: 1.53847s"
+            },
+            {
+              "preview_line": 30,
+              "text": "Runtime decision procedure: 1.54821s"
+            },
+            {
+              "preview_line": 35,
+              "text": "Runtime Solver: 0.19285s"
+            },
+            {
+              "preview_line": 36,
+              "text": "Runtime decision procedure: 0.199842s"
+            },
+            {
+              "preview_line": 41,
+              "text": "Runtime Solver: 1.86749s"
+            },
+            {
+              "preview_line": 42,
+              "text": "Runtime decision procedure: 1.87445s"
+            },
+            {
+              "preview_line": 47,
+              "text": "Runtime Solver: 0.467469s"
+            },
+            {
+              "preview_line": 48,
+              "text": "Runtime decision procedure: 0.476095s"
+            },
+            {
+              "preview_line": 53,
+              "text": "Runtime Solver: 7.42812s"
+            },
+            {
+              "preview_line": 54,
+              "text": "Runtime decision procedure: 7.43666s"
+            }
+          ]
+        },
+        {
+          "member": "groups/r5-merge32_real/receipt.json",
+          "pointer": "/stderr/head",
+          "metrics": [
+            {
+              "preview_line": 35,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 30.43s"
+            }
+          ]
+        },
+        {
+          "member": "groups/r5-merge32_real/compile/receipt.json",
+          "pointer": "/stderr/head",
+          "metrics": [
+            {
+              "preview_line": 35,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 30.43s"
+            }
+          ]
+        },
+        {
+          "member": "groups/r5-merge32_real/compile/receipt.json",
+          "pointer": "/stderr/tail",
+          "metrics": [
+            {
+              "preview_line": 31,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 30.43s"
+            }
+          ]
+        }
+      ],
+      "fragment_scope": "Exact source-reported lines retained in bounded previews; head/tail may overlap. Individual Runtime Solver/decision procedure values can describe repeated property-solving iterations. No sum or aggregate phase duration inferred; omitted intervals and final backend outcome UNKNOWN for cutoffs."
+    },
+    {
+      "id": "sort13_assumed",
+      "selected": true,
+      "cost_status": "RECORDED_SCOPED",
+      "compile_state": "COMPLETE",
+      "compile_elapsed_upper_bound_seconds": 29.164,
+      "native_cargo_finished_dev_seconds": 28.71,
+      "verification_time_s": null,
+      "execution_scope": "SINGLETON_DRIVER_COMPILE_PLUS_NATIVE_VERIFICATION",
+      "execution": {
+        "child_shutdown_verified": true,
+        "component_group_peak_kib": {
+          "backend": 1045188,
+          "compiler": 2491176,
+          "driver": 7224,
+          "other": 216732
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "elapsed_seconds": 600.179,
+        "original_exit_code": -15,
+        "output_bytes": 175431,
+        "output_truncated": false,
+        "process_identity": {
+          "pgid": 10666,
+          "pid": 10666,
+          "ppid": 10635,
+          "start_ticks": 152991,
+          "state": "S"
+        },
+        "rss_peak_gib": 2.4226531982421875,
+        "rss_peak_kib": 2540336,
+        "rss_sample_period_seconds": 0.05,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_status": "SAMPLED_PROCESS_GROUP",
+        "signal": 15,
+        "stderr_bytes": 2300,
+        "stderr_truncated": false,
+        "stdout_bytes": 173131,
+        "stdout_truncated": false,
+        "termination_reason": "timeout",
+        "timed_out": true
+      },
+      "worker_supervision": {
+        "cutoff": null,
+        "elapsed_seconds": 605.9139254569998,
+        "limit_initiated": false,
+        "monotonic_end": 2132.978635432,
+        "monotonic_start": 1527.06471007,
+        "orphan_survivors_at_worker_exit": [],
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "outer_sampled_peak_kib": 2557068,
+        "supervisor_error": null,
+        "worker_exit": 0,
+        "worker_initial_identity": {
+          "pgid": 10635,
+          "pid": 10635,
+          "ppid": 8291,
+          "start_ticks": 152706,
+          "state": "R"
+        },
+        "worker_pid": 10635,
+        "worker_wall_limit_seconds": 710
+      },
+      "containment": {
+        "elapsed_seconds": 0.005467911999858188,
+        "reaped_adopted": [
+          {
+            "pid": 11060,
+            "status": 3840
+          }
+        ],
+        "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+        "signals": [],
+        "verified": true,
+        "worker_exit": 0
+      },
+      "phases": {
+        "instrumentation_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "symex_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "solver_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "body_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "model_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "checker_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "summary_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "VCC": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "steps": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "true_tree_peak_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "exact_root_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT"
+      },
+      "compile_receipt": "groups/r5-sort13_assumed/compile/receipt.json",
+      "bounded_native_metric_fragments": [
+        {
+          "member": "groups/r5-sort13_assumed/receipt.json",
+          "pointer": "/stdout/tail",
+          "metrics": [
+            {
+              "preview_line": 3,
+              "text": "Runtime Symex: 7.69945s"
+            },
+            {
+              "preview_line": 4,
+              "text": "size of program expression: 250671 steps"
+            },
+            {
+              "preview_line": 5,
+              "text": "slicing removed 178241 assignments"
+            },
+            {
+              "preview_line": 6,
+              "text": "Generated 22555 VCC(s), 3124 remaining after simplification"
+            },
+            {
+              "preview_line": 7,
+              "text": "Runtime Postprocess Equation: 0.128154s"
+            },
+            {
+              "preview_line": 10,
+              "text": "Runtime Convert SSA: 0.690125s"
+            },
+            {
+              "preview_line": 13,
+              "text": "Runtime Post-process: 7.995e-06s"
+            },
+            {
+              "preview_line": 17,
+              "text": "Runtime Solver: 0.0197492s"
+            },
+            {
+              "preview_line": 18,
+              "text": "Runtime decision procedure: 0.724552s"
+            },
+            {
+              "preview_line": 23,
+              "text": "Runtime Solver: 0.167873s"
+            },
+            {
+              "preview_line": 24,
+              "text": "Runtime decision procedure: 0.171667s"
+            },
+            {
+              "preview_line": 29,
+              "text": "Runtime Solver: 0.020222s"
+            },
+            {
+              "preview_line": 30,
+              "text": "Runtime decision procedure: 0.0244105s"
+            },
+            {
+              "preview_line": 35,
+              "text": "Runtime Solver: 0.0305136s"
+            },
+            {
+              "preview_line": 36,
+              "text": "Runtime decision procedure: 0.0344379s"
+            },
+            {
+              "preview_line": 41,
+              "text": "Runtime Solver: 0.0201941s"
+            },
+            {
+              "preview_line": 42,
+              "text": "Runtime decision procedure: 0.023942s"
+            },
+            {
+              "preview_line": 47,
+              "text": "Runtime Solver: 0.559048s"
+            },
+            {
+              "preview_line": 48,
+              "text": "Runtime decision procedure: 0.562966s"
+            },
+            {
+              "preview_line": 53,
+              "text": "Runtime Solver: 0.211579s"
+            },
+            {
+              "preview_line": 54,
+              "text": "Runtime decision procedure: 0.227984s"
+            }
+          ]
+        },
+        {
+          "member": "groups/r5-sort13_assumed/receipt.json",
+          "pointer": "/stderr/head",
+          "metrics": [
+            {
+              "preview_line": 35,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 28.71s"
+            }
+          ]
+        },
+        {
+          "member": "groups/r5-sort13_assumed/compile/receipt.json",
+          "pointer": "/stderr/head",
+          "metrics": [
+            {
+              "preview_line": 35,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 28.71s"
+            }
+          ]
+        },
+        {
+          "member": "groups/r5-sort13_assumed/compile/receipt.json",
+          "pointer": "/stderr/tail",
+          "metrics": [
+            {
+              "preview_line": 31,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 28.71s"
+            }
+          ]
+        }
+      ],
+      "fragment_scope": "Exact source-reported lines retained in bounded previews; head/tail may overlap. Individual Runtime Solver/decision procedure values can describe repeated property-solving iterations. No sum or aggregate phase duration inferred; omitted intervals and final backend outcome UNKNOWN for cutoffs."
+    },
+    {
+      "id": "general32_assumed",
+      "selected": false,
+      "cost_status": "UNKNOWN_NOT_ZERO",
+      "compile_state": "NOT_STARTED",
+      "compile_elapsed_upper_bound_seconds": null,
+      "native_cargo_finished_dev_seconds": null,
+      "verification_time_s": null,
+      "execution_scope": "NO_EXECUTION_COST_RECORDED",
+      "execution": {},
+      "worker_supervision": {},
+      "containment": {},
+      "phases": {
+        "instrumentation_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "symex_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "solver_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "body_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "model_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "checker_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "summary_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "VCC": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "steps": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "true_tree_peak_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "exact_root_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT"
+      },
+      "compile_receipt": null,
+      "bounded_native_metric_fragments": [],
+      "fragment_scope": "Exact source-reported lines retained in bounded previews; head/tail may overlap. Individual Runtime Solver/decision procedure values can describe repeated property-solving iterations. No sum or aggregate phase duration inferred; omitted intervals and final backend outcome UNKNOWN for cutoffs."
+    },
+    {
+      "id": "merge_order_corrupt",
+      "selected": true,
+      "cost_status": "UNKNOWN_NOT_ZERO",
+      "compile_state": "NOT_STARTED",
+      "compile_elapsed_upper_bound_seconds": null,
+      "native_cargo_finished_dev_seconds": null,
+      "verification_time_s": null,
+      "execution_scope": "NO_EXECUTION_COST_RECORDED",
+      "execution": {},
+      "worker_supervision": {},
+      "containment": {},
+      "phases": {
+        "instrumentation_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "symex_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "solver_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "body_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "model_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "checker_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "summary_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "VCC": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "steps": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "true_tree_peak_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "exact_root_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT"
+      },
+      "compile_receipt": null,
+      "bounded_native_metric_fragments": [],
+      "fragment_scope": "Exact source-reported lines retained in bounded previews; head/tail may overlap. Individual Runtime Solver/decision procedure values can describe repeated property-solving iterations. No sum or aggregate phase duration inferred; omitted intervals and final backend outcome UNKNOWN for cutoffs."
+    },
+    {
+      "id": "merge_count_corrupt",
+      "selected": true,
+      "cost_status": "RECORDED_SCOPED",
+      "compile_state": "FAILED",
+      "compile_elapsed_upper_bound_seconds": null,
+      "native_cargo_finished_dev_seconds": null,
+      "verification_time_s": null,
+      "execution_scope": "COMPILE_RECEIPT_PARTIAL_CHILD_EXECUTION",
+      "execution": {
+        "child_shutdown_verified": true,
+        "component_group_peak_kib": {
+          "backend": 0,
+          "compiler": 831168,
+          "driver": 6448,
+          "other": 215380
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "elapsed_seconds": 0.695,
+        "interrupted_by_signal": 15,
+        "original_exit_code": 1,
+        "output_bytes": 2853,
+        "output_truncated": false,
+        "process_identity": {
+          "pgid": 11165,
+          "pid": 11165,
+          "ppid": 11134,
+          "start_ticks": 213585,
+          "state": "S"
+        },
+        "rss_peak_gib": 0.8698081970214844,
+        "rss_peak_kib": 912060,
+        "rss_sample_period_seconds": 0.05,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_status": "SAMPLED_PROCESS_GROUP",
+        "signal": null,
+        "stderr_bytes": 2719,
+        "stderr_truncated": false,
+        "stdout_bytes": 134,
+        "stdout_truncated": false,
+        "termination_reason": "external_signal",
+        "timed_out": false
+      },
+      "worker_supervision": {
+        "cutoff": "supervisor_exception",
+        "elapsed_seconds": 3.5610636140004317,
+        "limit_initiated": true,
+        "monotonic_end": 2136.56648506,
+        "monotonic_start": 2133.005421564,
+        "orphan_survivors_at_worker_exit": [],
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "outer_sampled_peak_kib": 971752,
+        "supervisor_error": {
+          "message": "[Errno 3] No such process",
+          "type": "ProcessLookupError"
+        },
+        "worker_exit": -15,
+        "worker_initial_identity": {
+          "pgid": 11134,
+          "pid": 11134,
+          "ppid": 8291,
+          "start_ticks": 213300,
+          "state": "R"
+        },
+        "worker_pid": 11134,
+        "worker_wall_limit_seconds": 710
+      },
+      "containment": {
+        "elapsed_seconds": 0.19560340500038365,
+        "reaped_adopted": [
+          {
+            "pid": 11277,
+            "status": 15
+          },
+          {
+            "pid": 11322,
+            "status": 15
+          },
+          {
+            "pid": 11339,
+            "status": 134
+          }
+        ],
+        "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+        "signals": [
+          {
+            "monotonic": 2136.388478622,
+            "pid": 11266,
+            "signal": 15,
+            "start_ticks": 213612
+          },
+          {
+            "monotonic": 2136.393980984,
+            "pid": 11172,
+            "signal": 15,
+            "start_ticks": 213586
+          },
+          {
+            "monotonic": 2136.398069014,
+            "pid": 11277,
+            "signal": 15,
+            "start_ticks": 213614
+          },
+          {
+            "monotonic": 2136.402025065,
+            "pid": 11322,
+            "signal": 15,
+            "start_ticks": 213632
+          },
+          {
+            "monotonic": 2136.405427897,
+            "pid": 11165,
+            "signal": 15,
+            "start_ticks": 213585
+          },
+          {
+            "monotonic": 2136.408995335,
+            "pid": 11134,
+            "signal": 15,
+            "start_ticks": 213300
+          },
+          {
+            "monotonic": 2136.437695743,
+            "pid": 11339,
+            "signal": 15,
+            "start_ticks": 213638
+          },
+          {
+            "monotonic": 2136.440378158,
+            "pid": 11134,
+            "signal": 15,
+            "start_ticks": 213300
+          },
+          {
+            "monotonic": 2136.470736595,
+            "pid": 11339,
+            "signal": 15,
+            "start_ticks": 213638
+          },
+          {
+            "monotonic": 2136.473414343,
+            "pid": 11134,
+            "signal": 15,
+            "start_ticks": 213300
+          },
+          {
+            "monotonic": 2136.503807818,
+            "pid": 11134,
+            "signal": 15,
+            "start_ticks": 213300
+          },
+          {
+            "monotonic": 2136.532325729,
+            "pid": 11134,
+            "signal": 15,
+            "start_ticks": 213300
+          },
+          {
+            "monotonic": 2136.563331313,
+            "pid": 11134,
+            "signal": 15,
+            "start_ticks": 213300
+          }
+        ],
+        "verified": true,
+        "worker_exit": -15
+      },
+      "phases": {
+        "instrumentation_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "symex_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "solver_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "body_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "model_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "checker_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "summary_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "VCC": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "steps": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "true_tree_peak_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "exact_root_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT"
+      },
+      "compile_receipt": "groups/r5-merge_count_corrupt/compile/receipt.json",
+      "bounded_native_metric_fragments": [],
+      "fragment_scope": "Exact source-reported lines retained in bounded previews; head/tail may overlap. Individual Runtime Solver/decision procedure values can describe repeated property-solving iterations. No sum or aggregate phase duration inferred; omitted intervals and final backend outcome UNKNOWN for cutoffs."
+    },
+    {
+      "id": "checker_count_corrupt",
+      "selected": true,
+      "cost_status": "RECORDED_SCOPED",
+      "compile_state": "COMPLETE",
+      "compile_elapsed_upper_bound_seconds": 28.653,
+      "native_cargo_finished_dev_seconds": 28.56,
+      "verification_time_s": 0.2798136,
+      "execution_scope": "SINGLETON_DRIVER_COMPILE_PLUS_NATIVE_VERIFICATION",
+      "execution": {
+        "child_shutdown_verified": true,
+        "component_group_peak_kib": {
+          "backend": 33832,
+          "compiler": 1888420,
+          "driver": 13436,
+          "other": 177552
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "elapsed_seconds": 28.998,
+        "original_exit_code": 1,
+        "output_bytes": 130249,
+        "output_truncated": false,
+        "process_identity": {
+          "pgid": 8779,
+          "pid": 8779,
+          "ppid": 8748,
+          "start_ticks": 80167,
+          "state": "S"
+        },
+        "rss_peak_gib": 1.8380546569824219,
+        "rss_peak_kib": 1927340,
+        "rss_sample_period_seconds": 0.05,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_status": "SAMPLED_PROCESS_GROUP",
+        "signal": null,
+        "stderr_bytes": 2300,
+        "stderr_truncated": false,
+        "stdout_bytes": 127949,
+        "stdout_truncated": false,
+        "timed_out": false
+      },
+      "worker_supervision": {
+        "cutoff": null,
+        "elapsed_seconds": 34.71848949499997,
+        "limit_initiated": false,
+        "monotonic_end": 833.547985353,
+        "monotonic_start": 798.82949597,
+        "orphan_survivors_at_worker_exit": [],
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "outer_sampled_peak_kib": 1955480,
+        "supervisor_error": null,
+        "worker_exit": 0,
+        "worker_initial_identity": {
+          "pgid": 8748,
+          "pid": 8748,
+          "ppid": 8291,
+          "start_ticks": 79882,
+          "state": "R"
+        },
+        "worker_pid": 8748,
+        "worker_wall_limit_seconds": 710
+      },
+      "containment": {
+        "elapsed_seconds": 0.0054914219999773195,
+        "reaped_adopted": [],
+        "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+        "signals": [],
+        "verified": true,
+        "worker_exit": 0
+      },
+      "phases": {
+        "instrumentation_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "symex_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "solver_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "body_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "model_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "checker_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "summary_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "VCC": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "steps": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "true_tree_peak_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "exact_root_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT"
+      },
+      "compile_receipt": "groups/r5-checker_count_corrupt/compile/receipt.json",
+      "bounded_native_metric_fragments": [
+        {
+          "member": "groups/r5-checker_count_corrupt/receipt.json",
+          "pointer": "/stderr/head",
+          "metrics": [
+            {
+              "preview_line": 35,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 28.56s"
+            }
+          ]
+        },
+        {
+          "member": "groups/r5-checker_count_corrupt/compile/receipt.json",
+          "pointer": "/stderr/head",
+          "metrics": [
+            {
+              "preview_line": 35,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 28.56s"
+            }
+          ]
+        },
+        {
+          "member": "groups/r5-checker_count_corrupt/compile/receipt.json",
+          "pointer": "/stderr/tail",
+          "metrics": [
+            {
+              "preview_line": 31,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 28.56s"
+            }
+          ]
+        }
+      ],
+      "fragment_scope": "Exact source-reported lines retained in bounded previews; head/tail may overlap. Individual Runtime Solver/decision procedure values can describe repeated property-solving iterations. No sum or aggregate phase duration inferred; omitted intervals and final backend outcome UNKNOWN for cutoffs."
+    },
+    {
+      "id": "checker_order_corrupt",
+      "selected": true,
+      "cost_status": "RECORDED_SCOPED",
+      "compile_state": "COMPLETE",
+      "compile_elapsed_upper_bound_seconds": 29.248,
+      "native_cargo_finished_dev_seconds": 28.73,
+      "verification_time_s": 0.040254686,
+      "execution_scope": "SINGLETON_DRIVER_COMPILE_PLUS_NATIVE_VERIFICATION",
+      "execution": {
+        "child_shutdown_verified": true,
+        "component_group_peak_kib": {
+          "backend": 18836,
+          "compiler": 1888876,
+          "driver": 7112,
+          "other": 127432
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "elapsed_seconds": 29.363,
+        "original_exit_code": 1,
+        "output_bytes": 96678,
+        "output_truncated": false,
+        "process_identity": {
+          "pgid": 8323,
+          "pid": 8323,
+          "ppid": 8292,
+          "start_ticks": 76653,
+          "state": "S"
+        },
+        "rss_peak_gib": 1.8411979675292969,
+        "rss_peak_kib": 1930636,
+        "rss_sample_period_seconds": 0.05,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_status": "SAMPLED_PROCESS_GROUP",
+        "signal": null,
+        "stderr_bytes": 2493,
+        "stderr_truncated": false,
+        "stdout_bytes": 94185,
+        "stdout_truncated": false,
+        "timed_out": false
+      },
+      "worker_supervision": {
+        "cutoff": null,
+        "elapsed_seconds": 35.13111059999994,
+        "limit_initiated": false,
+        "monotonic_end": 798.807360483,
+        "monotonic_start": 763.676250005,
+        "orphan_survivors_at_worker_exit": [],
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "outer_sampled_peak_kib": 1956616,
+        "supervisor_error": null,
+        "worker_exit": 0,
+        "worker_initial_identity": {
+          "pgid": 8292,
+          "pid": 8292,
+          "ppid": 8291,
+          "start_ticks": 76367,
+          "state": "R"
+        },
+        "worker_pid": 8292,
+        "worker_wall_limit_seconds": 710
+      },
+      "containment": {
+        "elapsed_seconds": 0.005583896999951321,
+        "reaped_adopted": [],
+        "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+        "signals": [],
+        "verified": true,
+        "worker_exit": 0
+      },
+      "phases": {
+        "instrumentation_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "symex_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "solver_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "body_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "model_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "checker_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "summary_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "VCC": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "steps": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "true_tree_peak_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "exact_root_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT"
+      },
+      "compile_receipt": "groups/r5-checker_order_corrupt/compile/receipt.json",
+      "bounded_native_metric_fragments": [
+        {
+          "member": "groups/r5-checker_order_corrupt/receipt.json",
+          "pointer": "/stderr/tail",
+          "metrics": [
+            {
+              "preview_line": 2,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 28.73s"
+            }
+          ]
+        },
+        {
+          "member": "groups/r5-checker_order_corrupt/compile/receipt.json",
+          "pointer": "/stderr/tail",
+          "metrics": [
+            {
+              "preview_line": 31,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 28.73s"
+            }
+          ]
+        }
+      ],
+      "fragment_scope": "Exact source-reported lines retained in bounded previews; head/tail may overlap. Individual Runtime Solver/decision procedure values can describe repeated property-solving iterations. No sum or aggregate phase duration inferred; omitted intervals and final backend outcome UNKNOWN for cutoffs."
+    },
+    {
+      "id": "sort13_weak",
+      "selected": true,
+      "cost_status": "RECORDED_SCOPED",
+      "compile_state": "COMPLETE",
+      "compile_elapsed_upper_bound_seconds": 30.095,
+      "native_cargo_finished_dev_seconds": 30.0,
+      "verification_time_s": 0.084462405,
+      "execution_scope": "SINGLETON_DRIVER_COMPILE_PLUS_NATIVE_VERIFICATION",
+      "execution": {
+        "child_shutdown_verified": true,
+        "component_group_peak_kib": {
+          "backend": 25572,
+          "compiler": 1889496,
+          "driver": 8520,
+          "other": 128004
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "elapsed_seconds": 30.266,
+        "original_exit_code": 1,
+        "output_bytes": 100915,
+        "output_truncated": false,
+        "process_identity": {
+          "pgid": 9701,
+          "pid": 9701,
+          "ppid": 9670,
+          "start_ticks": 88793,
+          "state": "S"
+        },
+        "rss_peak_gib": 1.8377494812011719,
+        "rss_peak_kib": 1927020,
+        "rss_sample_period_seconds": 0.05,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_status": "SAMPLED_PROCESS_GROUP",
+        "signal": null,
+        "stderr_bytes": 2300,
+        "stderr_truncated": false,
+        "stdout_bytes": 98615,
+        "stdout_truncated": false,
+        "timed_out": false
+      },
+      "worker_supervision": {
+        "cutoff": null,
+        "elapsed_seconds": 35.97690506799995,
+        "limit_initiated": false,
+        "monotonic_end": 921.075308632,
+        "monotonic_start": 885.098403671,
+        "orphan_survivors_at_worker_exit": [],
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "outer_sampled_peak_kib": 1953024,
+        "supervisor_error": null,
+        "worker_exit": 0,
+        "worker_initial_identity": {
+          "pgid": 9670,
+          "pid": 9670,
+          "ppid": 8291,
+          "start_ticks": 88509,
+          "state": "R"
+        },
+        "worker_pid": 9670,
+        "worker_wall_limit_seconds": 710
+      },
+      "containment": {
+        "elapsed_seconds": 0.005610994999983632,
+        "reaped_adopted": [],
+        "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+        "signals": [],
+        "verified": true,
+        "worker_exit": 0
+      },
+      "phases": {
+        "instrumentation_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "symex_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "solver_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "body_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "model_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "checker_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "summary_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "VCC": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "steps": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "true_tree_peak_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "exact_root_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT"
+      },
+      "compile_receipt": "groups/r5-sort13_weak/compile/receipt.json",
+      "bounded_native_metric_fragments": [
+        {
+          "member": "groups/r5-sort13_weak/receipt.json",
+          "pointer": "/stderr/head",
+          "metrics": [
+            {
+              "preview_line": 35,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 30.00s"
+            }
+          ]
+        },
+        {
+          "member": "groups/r5-sort13_weak/compile/receipt.json",
+          "pointer": "/stderr/head",
+          "metrics": [
+            {
+              "preview_line": 35,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 30.00s"
+            }
+          ]
+        },
+        {
+          "member": "groups/r5-sort13_weak/compile/receipt.json",
+          "pointer": "/stderr/tail",
+          "metrics": [
+            {
+              "preview_line": 31,
+              "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 30.00s"
+            }
+          ]
+        }
+      ],
+      "fragment_scope": "Exact source-reported lines retained in bounded previews; head/tail may overlap. Individual Runtime Solver/decision procedure values can describe repeated property-solving iterations. No sum or aggregate phase duration inferred; omitted intervals and final backend outcome UNKNOWN for cutoffs."
+    },
+    {
+      "id": "general32_weak",
+      "selected": false,
+      "cost_status": "UNKNOWN_NOT_ZERO",
+      "compile_state": "NOT_STARTED",
+      "compile_elapsed_upper_bound_seconds": null,
+      "native_cargo_finished_dev_seconds": null,
+      "verification_time_s": null,
+      "execution_scope": "NO_EXECUTION_COST_RECORDED",
+      "execution": {},
+      "worker_supervision": {},
+      "containment": {},
+      "phases": {
+        "instrumentation_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "symex_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "solver_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "body_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "model_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "checker_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "summary_seconds": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "VCC": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "steps": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "true_tree_peak_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT",
+        "exact_root_RSS": "UNKNOWN_NOT_EXPOSED_IN_STRUCTURED_EXPORT"
+      },
+      "compile_receipt": null,
+      "bounded_native_metric_fragments": [],
+      "fragment_scope": "Exact source-reported lines retained in bounded previews; head/tail may overlap. Individual Runtime Solver/decision procedure values can describe repeated property-solving iterations. No sum or aggregate phase duration inferred; omitted intervals and final backend outcome UNKNOWN for cutoffs."
+    }
+  ],
+  "limits": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "additional_limits": {
+    "setup_seconds": 1800,
+    "job_minutes": 180,
+    "checkout_depths": [
+      7,
+      5,
+      2
+    ],
+    "worker_wall_seconds": 710,
+    "durable_publication_reserve_seconds": 10,
+    "inner_CBMC_ceiling_seconds": 600
+  },
+  "campaign_elapsed_seconds": 1372.8971255590002,
+  "campaign_start_monotonic": 763.670367251,
+  "setup": {
+    "original_exit_code": 0,
+    "signal": null,
+    "timed_out": false,
+    "rss_peak_kib": 1451656,
+    "rss_status": "SAMPLED_PROCESS_GROUP",
+    "output_truncated": false,
+    "output_bytes": 38186,
+    "stdout_bytes": 1977,
+    "stderr_bytes": 36209,
+    "component_group_peak_kib": {
+      "driver": 0,
+      "backend": 0,
+      "compiler": 1378376,
+      "other": 292424
+    },
+    "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+    "child_shutdown_verified": true,
+    "stdout_truncated": false,
+    "stderr_truncated": false,
+    "rss_peak_gib": 1.3844070434570312,
+    "rss_sample_period_seconds": 0.05,
+    "elapsed_seconds": 242.444,
+    "rustc_diagnostics": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": true,
+      "incomplete_reasons": [],
+      "unobserved_bytes": 0,
+      "proof_credit": "NONE",
+      "streams": {
+        "stdout": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stdout",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": true,
+          "incomplete_reasons": [],
+          "status": "NO_TEXTUAL_ERRORS",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 1977,
+          "pipe_eof": true,
+          "retention_cap_bytes": 1048576,
+          "block_cap": 2048,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stdout-receipt.json"
+        },
+        "stderr": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stderr",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": true,
+          "incomplete_reasons": [],
+          "status": "NO_TEXTUAL_ERRORS",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 36209,
+          "pipe_eof": true,
+          "retention_cap_bytes": 1048576,
+          "block_cap": 2048,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stderr-receipt.json"
+        }
+      },
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN"
+    },
+    "setup_total_seconds": 703.3546853065491
+  },
+  "job_wall_seconds": 2087.0,
+  "github_step_costs": [
+    {
+      "name": "Set up job",
+      "conclusion": "success",
+      "started_at": "2026-11-18T18:58:50Z",
+      "completed_at": "2026-11-18T18:58:53Z",
+      "wall_seconds": 3.0
+    },
+    {
+      "name": "Begin setup budget",
+      "conclusion": "success",
+      "started_at": "2026-11-18T18:58:53Z",
+      "completed_at": "2026-11-18T18:58:53Z",
+      "wall_seconds": 0.0
+    },
+    {
+      "name": "Checkout CI control",
+      "conclusion": "success",
+      "started_at": "2026-11-18T18:58:53Z",
+      "completed_at": "2026-11-18T18:58:59Z",
+      "wall_seconds": 6.0
+    },
+    {
+      "name": "Validate control and synthetic wrapper",
+      "conclusion": "success",
+      "started_at": "2026-11-18T18:58:59Z",
+      "completed_at": "2026-11-18T19:00:34Z",
+      "wall_seconds": 95.0
+    },
+    {
+      "name": "Read immutable export pins",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:00:34Z",
+      "completed_at": "2026-11-18T19:00:34Z",
+      "wall_seconds": 0.0
+    },
+    {
+      "name": "Checkout production model export",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:00:34Z",
+      "completed_at": "2026-11-18T19:00:38Z",
+      "wall_seconds": 4.0
+    },
+    {
+      "name": "Checkout immutable upstream tool",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:00:38Z",
+      "completed_at": "2026-11-18T19:00:39Z",
+      "wall_seconds": 1.0
+    },
+    {
+      "name": "Check all source identities",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:00:39Z",
+      "completed_at": "2026-11-18T19:00:42Z",
+      "wall_seconds": 3.0
+    },
+    {
+      "name": "Setup exact stock tool",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:00:42Z",
+      "completed_at": "2026-11-18T19:06:34Z",
+      "wall_seconds": 352.0
+    },
+    {
+      "name": "Build exact stock tool once",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:06:34Z",
+      "completed_at": "2026-11-18T19:10:37Z",
+      "wall_seconds": 243.0
+    },
+    {
+      "name": "Run S2 batch3probes with bounded observations",
+      "conclusion": "failure",
+      "started_at": "2026-11-18T19:10:37Z",
+      "completed_at": "2026-11-18T19:33:30Z",
+      "wall_seconds": 1373.0
+    },
+    {
+      "name": "Materialize bounded fallback",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:33:30Z",
+      "completed_at": "2026-11-18T19:33:30Z",
+      "wall_seconds": 0.0
+    },
+    {
+      "name": "Upload bounded evidence",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:33:30Z",
+      "completed_at": "2026-11-18T19:33:32Z",
+      "wall_seconds": 2.0
+    },
+    {
+      "name": "Post Checkout immutable upstream tool",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:33:32Z",
+      "completed_at": "2026-11-18T19:33:32Z",
+      "wall_seconds": 0.0
+    },
+    {
+      "name": "Post Checkout production model export",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:33:32Z",
+      "completed_at": "2026-11-18T19:33:32Z",
+      "wall_seconds": 0.0
+    },
+    {
+      "name": "Post Checkout CI control",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:33:32Z",
+      "completed_at": "2026-11-18T19:33:32Z",
+      "wall_seconds": 0.0
+    },
+    {
+      "name": "Complete job",
+      "conclusion": "success",
+      "started_at": "2026-11-18T19:33:32Z",
+      "completed_at": "2026-11-18T19:33:32Z",
+      "wall_seconds": 0.0
+    }
+  ],
+  "scope": "Native source-reported cost observations. Child600 includes compile180. No subtraction into missing phases. PGID/owned RSS samples are not strict tree peaks; components are non-simultaneous. NOT_RUN costs UNKNOWN, no general32 extrapolation."
+}

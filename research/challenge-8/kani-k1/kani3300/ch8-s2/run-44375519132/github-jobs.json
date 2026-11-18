@@ -1,0 +1,169 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 135053549584,
+      "run_id": 44375519132,
+      "workflow_name": "CH8 S2 batch3probes diagnostic cost",
+      "head_branch": "uninit-ci/ch8-s2-batch3probes-r5-20261118",
+      "run_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/runs/44375519132",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVp9vW88AAAAfcdGgEA",
+      "head_sha": "33c687e43de170d4b936ed3e9c29f6b35c192419",
+      "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/jobs/135053549584",
+      "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44375519132/job/135053549584",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-11-18T18:58:45Z",
+      "started_at": "2026-11-18T18:58:49Z",
+      "completed_at": "2026-11-18T19:33:36Z",
+      "name": "s2_batch",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-18T18:58:50Z",
+          "completed_at": "2026-11-18T18:58:53Z"
+        },
+        {
+          "name": "Begin setup budget",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-18T18:58:53Z",
+          "completed_at": "2026-11-18T18:58:53Z"
+        },
+        {
+          "name": "Checkout CI control",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-18T18:58:53Z",
+          "completed_at": "2026-11-18T18:58:59Z"
+        },
+        {
+          "name": "Validate control and synthetic wrapper",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-18T18:58:59Z",
+          "completed_at": "2026-11-18T19:00:34Z"
+        },
+        {
+          "name": "Read immutable export pins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-18T19:00:34Z",
+          "completed_at": "2026-11-18T19:00:34Z"
+        },
+        {
+          "name": "Checkout production model export",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-18T19:00:34Z",
+          "completed_at": "2026-11-18T19:00:38Z"
+        },
+        {
+          "name": "Checkout immutable upstream tool",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-18T19:00:38Z",
+          "completed_at": "2026-11-18T19:00:39Z"
+        },
+        {
+          "name": "Check all source identities",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-18T19:00:39Z",
+          "completed_at": "2026-11-18T19:00:42Z"
+        },
+        {
+          "name": "Setup exact stock tool",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-18T19:00:42Z",
+          "completed_at": "2026-11-18T19:06:34Z"
+        },
+        {
+          "name": "Build exact stock tool once",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-18T19:06:34Z",
+          "completed_at": "2026-11-18T19:10:37Z"
+        },
+        {
+          "name": "Run S2 batch3probes with bounded observations",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 11,
+          "started_at": "2026-11-18T19:10:37Z",
+          "completed_at": "2026-11-18T19:33:30Z"
+        },
+        {
+          "name": "Materialize bounded fallback",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-11-18T19:33:30Z",
+          "completed_at": "2026-11-18T19:33:30Z"
+        },
+        {
+          "name": "Upload bounded evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-11-18T19:33:30Z",
+          "completed_at": "2026-11-18T19:33:32Z"
+        },
+        {
+          "name": "Post Checkout immutable upstream tool",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 24,
+          "started_at": "2026-11-18T19:33:32Z",
+          "completed_at": "2026-11-18T19:33:32Z"
+        },
+        {
+          "name": "Post Checkout production model export",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 25,
+          "started_at": "2026-11-18T19:33:32Z",
+          "completed_at": "2026-11-18T19:33:32Z"
+        },
+        {
+          "name": "Post Checkout CI control",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 26,
+          "started_at": "2026-11-18T19:33:32Z",
+          "completed_at": "2026-11-18T19:33:32Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 27,
+          "started_at": "2026-11-18T19:33:32Z",
+          "completed_at": "2026-11-18T19:33:32Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135053549584",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "runner_id": 1000002294,
+      "runner_name": "GitHub Actions 1000002294",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

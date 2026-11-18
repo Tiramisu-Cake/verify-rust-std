@@ -1,0 +1,822 @@
+{
+  "packaging": "PACKAGED",
+  "packaging_error": null,
+  "diagnostic_retention": {
+    "complete": false,
+    "scope": "OBSERVED_TEXTUAL_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+    "expected_directories": [
+      "groups/r5-checker_count_corrupt",
+      "groups/r5-checker_order_corrupt",
+      "groups/r5-general32_assumed",
+      "groups/r5-general32_weak",
+      "groups/r5-merge32_real",
+      "groups/r5-merge_count_corrupt",
+      "groups/r5-merge_order_corrupt",
+      "groups/r5-sort13_assumed",
+      "groups/r5-sort13_weak",
+      "groups/r5-summary_witness",
+      "groups/r5-swap_pfc",
+      "setup"
+    ],
+    "incomplete_reasons": [
+      "EXECUTION_DIAGNOSTICS_INCOMPLETE",
+      "EXECUTION_RECEIPT_UNAVAILABLE",
+      "EXECUTION_STATE:IN_PROGRESS",
+      "EXECUTION_STATE:NOT_RUN",
+      "external_signal",
+      "stderr:DIAGNOSTIC_RECEIPT_UNAVAILABLE",
+      "stdout:DIAGNOSTIC_RECEIPT_UNAVAILABLE",
+      "timeout"
+    ],
+    "proof_credit": "NONE"
+  },
+  "rustc_diagnostics": {
+    "groups/r5-checker_count_corrupt": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": true,
+      "incomplete_reasons": [],
+      "unobserved_bytes": 0,
+      "proof_credit": "NONE",
+      "streams": {
+        "stdout": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stdout",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": true,
+          "incomplete_reasons": [],
+          "status": "NO_TEXTUAL_ERRORS",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 127949,
+          "pipe_eof": true,
+          "retention_cap_bytes": 16683031,
+          "block_cap": 32584,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stdout-receipt.json",
+          "compact_payload_retained": true
+        },
+        "stderr": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stderr",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": true,
+          "incomplete_reasons": [],
+          "status": "NO_TEXTUAL_ERRORS",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 2300,
+          "pipe_eof": true,
+          "retention_cap_bytes": 1046083,
+          "block_cap": 2043,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stderr-receipt.json",
+          "compact_payload_retained": true
+        }
+      },
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "expected_execution": true,
+      "execution_state": "COMPLETE"
+    },
+    "groups/r5-checker_order_corrupt": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": true,
+      "incomplete_reasons": [],
+      "unobserved_bytes": 0,
+      "proof_credit": "NONE",
+      "streams": {
+        "stdout": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stdout",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": true,
+          "incomplete_reasons": [],
+          "status": "NO_TEXTUAL_ERRORS",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 94185,
+          "pipe_eof": true,
+          "retention_cap_bytes": 16777216,
+          "block_cap": 32768,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stdout-receipt.json",
+          "compact_payload_retained": true
+        },
+        "stderr": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stderr",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": true,
+          "incomplete_reasons": [],
+          "status": "NO_TEXTUAL_ERRORS",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 2493,
+          "pipe_eof": true,
+          "retention_cap_bytes": 1048576,
+          "block_cap": 2048,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stderr-receipt.json",
+          "compact_payload_retained": true
+        }
+      },
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "expected_execution": true,
+      "execution_state": "COMPLETE"
+    },
+    "groups/r5-general32_assumed": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": false,
+      "incomplete_reasons": [
+        "EXECUTION_RECEIPT_UNAVAILABLE",
+        "stderr:DIAGNOSTIC_RECEIPT_UNAVAILABLE",
+        "stdout:DIAGNOSTIC_RECEIPT_UNAVAILABLE"
+      ],
+      "unobserved_bytes": null,
+      "proof_credit": "NONE",
+      "streams": {},
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "expected_execution": true,
+      "execution_state": "RECEIPT_UNAVAILABLE"
+    },
+    "groups/r5-general32_weak": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": false,
+      "incomplete_reasons": [
+        "EXECUTION_RECEIPT_UNAVAILABLE",
+        "stderr:DIAGNOSTIC_RECEIPT_UNAVAILABLE",
+        "stdout:DIAGNOSTIC_RECEIPT_UNAVAILABLE"
+      ],
+      "unobserved_bytes": null,
+      "proof_credit": "NONE",
+      "streams": {},
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "expected_execution": true,
+      "execution_state": "RECEIPT_UNAVAILABLE"
+    },
+    "groups/r5-merge32_real": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": false,
+      "incomplete_reasons": [
+        "EXECUTION_DIAGNOSTICS_INCOMPLETE",
+        "timeout"
+      ],
+      "unobserved_bytes": null,
+      "proof_credit": "NONE",
+      "streams": {
+        "stdout": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stdout",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": false,
+          "incomplete_reasons": [
+            "timeout"
+          ],
+          "status": "INCOMPLETE",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 533564,
+          "pipe_eof": true,
+          "retention_cap_bytes": 16247145,
+          "block_cap": 31732,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": null,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stdout-receipt.json",
+          "compact_payload_retained": true
+        },
+        "stderr": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stderr",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": false,
+          "incomplete_reasons": [
+            "timeout"
+          ],
+          "status": "INCOMPLETE",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 2300,
+          "pipe_eof": true,
+          "retention_cap_bytes": 1039183,
+          "block_cap": 2029,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": null,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stderr-receipt.json",
+          "compact_payload_retained": true
+        }
+      },
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "expected_execution": true,
+      "execution_state": "FAILED"
+    },
+    "groups/r5-merge_count_corrupt": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": false,
+      "incomplete_reasons": [
+        "EXECUTION_STATE:IN_PROGRESS",
+        "external_signal"
+      ],
+      "unobserved_bytes": null,
+      "proof_credit": "NONE",
+      "streams": {
+        "stdout": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stdout",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": false,
+          "incomplete_reasons": [
+            "external_signal"
+          ],
+          "status": "INCOMPLETE",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 134,
+          "pipe_eof": true,
+          "retention_cap_bytes": 15540450,
+          "block_cap": 30352,
+          "retained_input_bytes": 83,
+          "error_headers_observed": 1,
+          "substantive_headers_observed": 1,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": null,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stdout-receipt.json",
+          "compact_payload_retained": true
+        },
+        "stderr": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stderr",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": false,
+          "incomplete_reasons": [
+            "external_signal"
+          ],
+          "status": "INCOMPLETE",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 2719,
+          "pipe_eof": true,
+          "retention_cap_bytes": 1034583,
+          "block_cap": 2020,
+          "retained_input_bytes": 46,
+          "error_headers_observed": 1,
+          "substantive_headers_observed": 1,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": null,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stderr-receipt.json",
+          "compact_payload_retained": true
+        }
+      },
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "expected_execution": true,
+      "execution_state": "IN_PROGRESS"
+    },
+    "groups/r5-merge_order_corrupt": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": false,
+      "incomplete_reasons": [
+        "EXECUTION_STATE:NOT_RUN",
+        "stderr:DIAGNOSTIC_RECEIPT_UNAVAILABLE",
+        "stdout:DIAGNOSTIC_RECEIPT_UNAVAILABLE"
+      ],
+      "unobserved_bytes": null,
+      "proof_credit": "NONE",
+      "streams": {},
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "expected_execution": true,
+      "execution_state": "NOT_RUN"
+    },
+    "groups/r5-sort13_assumed": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": false,
+      "incomplete_reasons": [
+        "EXECUTION_DIAGNOSTICS_INCOMPLETE",
+        "timeout"
+      ],
+      "unobserved_bytes": null,
+      "proof_credit": "NONE",
+      "streams": {
+        "stdout": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stdout",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": false,
+          "incomplete_reasons": [
+            "timeout"
+          ],
+          "status": "INCOMPLETE",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 173131,
+          "pipe_eof": true,
+          "retention_cap_bytes": 15713581,
+          "block_cap": 30690,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": null,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stdout-receipt.json",
+          "compact_payload_retained": true
+        },
+        "stderr": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stderr",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": false,
+          "incomplete_reasons": [
+            "timeout"
+          ],
+          "status": "INCOMPLETE",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 2300,
+          "pipe_eof": true,
+          "retention_cap_bytes": 1036883,
+          "block_cap": 2025,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": null,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stderr-receipt.json",
+          "compact_payload_retained": true
+        }
+      },
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "expected_execution": true,
+      "execution_state": "FAILED"
+    },
+    "groups/r5-sort13_weak": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": true,
+      "incomplete_reasons": [],
+      "unobserved_bytes": 0,
+      "proof_credit": "NONE",
+      "streams": {
+        "stdout": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stdout",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": true,
+          "incomplete_reasons": [],
+          "status": "NO_TEXTUAL_ERRORS",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 98615,
+          "pipe_eof": true,
+          "retention_cap_bytes": 16345760,
+          "block_cap": 31925,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stdout-receipt.json",
+          "compact_payload_retained": true
+        },
+        "stderr": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stderr",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": true,
+          "incomplete_reasons": [],
+          "status": "NO_TEXTUAL_ERRORS",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 2300,
+          "pipe_eof": true,
+          "retention_cap_bytes": 1041483,
+          "block_cap": 2034,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stderr-receipt.json",
+          "compact_payload_retained": true
+        }
+      },
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "expected_execution": true,
+      "execution_state": "COMPLETE"
+    },
+    "groups/r5-summary_witness": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": false,
+      "incomplete_reasons": [
+        "EXECUTION_STATE:NOT_RUN",
+        "stderr:DIAGNOSTIC_RECEIPT_UNAVAILABLE",
+        "stdout:DIAGNOSTIC_RECEIPT_UNAVAILABLE"
+      ],
+      "unobserved_bytes": null,
+      "proof_credit": "NONE",
+      "streams": {},
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "expected_execution": true,
+      "execution_state": "NOT_RUN"
+    },
+    "groups/r5-swap_pfc": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": true,
+      "incomplete_reasons": [],
+      "unobserved_bytes": 0,
+      "proof_credit": "NONE",
+      "streams": {
+        "stdout": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stdout",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": true,
+          "incomplete_reasons": [],
+          "status": "NO_TEXTUAL_ERRORS",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 209322,
+          "pipe_eof": true,
+          "retention_cap_bytes": 16555082,
+          "block_cap": 32334,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stdout-receipt.json",
+          "compact_payload_retained": true
+        },
+        "stderr": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stderr",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": true,
+          "incomplete_reasons": [],
+          "status": "NO_TEXTUAL_ERRORS",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 2300,
+          "pipe_eof": true,
+          "retention_cap_bytes": 1043783,
+          "block_cap": 2038,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stderr-receipt.json",
+          "compact_payload_retained": true
+        }
+      },
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "expected_execution": true,
+      "execution_state": "COMPLETE"
+    },
+    "setup": {
+      "schema": "ch8-rustc-diagnostics-summary-v1",
+      "complete": true,
+      "incomplete_reasons": [],
+      "unobserved_bytes": 0,
+      "proof_credit": "NONE",
+      "streams": {
+        "stdout": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stdout",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": true,
+          "incomplete_reasons": [],
+          "status": "NO_TEXTUAL_ERRORS",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 1977,
+          "pipe_eof": true,
+          "retention_cap_bytes": 1048576,
+          "block_cap": 2048,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stdout-receipt.json",
+          "compact_payload_retained": true
+        },
+        "stderr": {
+          "schema": "ch8-rustc-diagnostics-v1",
+          "stream": "stderr",
+          "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+          "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+          "ansi_removed": true,
+          "complete": true,
+          "incomplete_reasons": [],
+          "status": "NO_TEXTUAL_ERRORS",
+          "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+          "producer_reported_error_count": 0,
+          "producer_reported_omission": false,
+          "observed_bytes": 36209,
+          "pipe_eof": true,
+          "retention_cap_bytes": 1048576,
+          "block_cap": 2048,
+          "retained_input_bytes": 0,
+          "error_headers_observed": 0,
+          "substantive_headers_observed": 0,
+          "dropped_blocks": 0,
+          "dropped_bytes": 0,
+          "unscanned_bytes": 0,
+          "unobserved_bytes": 0,
+          "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+          "proof_credit": "NONE",
+          "receipt": "rustc-stderr-receipt.json",
+          "compact_payload_retained": true
+        }
+      },
+      "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+      "expected_execution": true,
+      "execution_state": "STATE_NOT_REPORTED"
+    }
+  },
+  "all11_rows": true,
+  "selected9": true,
+  "deferred2": true,
+  "seals_validated": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "swap_pfc",
+    "sort13_weak",
+    "merge32_real",
+    "sort13_assumed"
+  ],
+  "sealed_members": {
+    "checker_order_corrupt": {
+      "checker_order_corrupt/receipt.json": "d4dd1a13623185aca06f4a9d9d3db89e52ee32a5bfb10d4655a50ec63725b072",
+      "checker_order_corrupt/worker-receipt.json": "4b26309f9975ab8c0711bdaa95fc25e065828acc431dacefc332684768cb86c1",
+      "groups/r5-checker_order_corrupt/binding-metadata.json": "6098f847f7f72fbd30bbc7ff3dd71d77ff8ce3cdc72a0b37d7035273f0699a3a",
+      "groups/r5-checker_order_corrupt/compile/receipt.json": "5f5a472755d21dc278f341aaeede190831b7bb62921b28c1cbeea371856beaa1",
+      "groups/r5-checker_order_corrupt/export.json": "7f9478277cd6bfea68e281629035f1bb04eaaf9b60bc956793343a9c7fe7a516",
+      "groups/r5-checker_order_corrupt/properties.json": "8dfe63de44267f2eeb89ad3f410b736f0a08ceeca310cc94b75df78cc12608dd",
+      "groups/r5-checker_order_corrupt/receipt.json": "d587ce796e8bb731ef0610a0cd12641be1230ac313eee97d2dba17b247e6180a",
+      "groups/r5-checker_order_corrupt/rustc-stderr-receipt.json": "b7242e6ff6468988bf9a375b72590c73560c84b47de9cbe60d152377f5e7a204",
+      "groups/r5-checker_order_corrupt/rustc-stdout-receipt.json": "87afffe56fb37cd5d9d187f4e455fb78f6dba7786c996e92d8bb4fb85e8be6de",
+      "workers/checker_order_corrupt-supervision.json": "a90b3e28ba32b047e53a185ea165f30e0ff2eea1afdc2b0320f8fda1b869de45"
+    },
+    "checker_count_corrupt": {
+      "checker_count_corrupt/receipt.json": "cb2e7bd86609ece6690da28a3ef93a2a92030e01a0e8d3dca52c85b7f87010df",
+      "checker_count_corrupt/worker-receipt.json": "a319ecdecbd4ac53a1c14b95545a68912d22dc34b1006655802990aa1d27d495",
+      "groups/r5-checker_count_corrupt/binding-metadata.json": "88190c002cf19b366f35cf2d7a7293ad4ebd538caace8284942c2568d8d33e3e",
+      "groups/r5-checker_count_corrupt/compile/receipt.json": "2d8cf219868d920fb58650cfdb7ced6f1696065382e14f465582ed0cb208a89a",
+      "groups/r5-checker_count_corrupt/export.json": "9f9d94db5a743fe7dda5fb53a7e58f79857c6ff3ba9d5270ceedda2ae3afae32",
+      "groups/r5-checker_count_corrupt/properties.json": "cd0f473848c270a639ee9ecbd80cdd7096dc75e7d8c0551e2fb05af543bf1df7",
+      "groups/r5-checker_count_corrupt/receipt.json": "7a4f5d3d166dd33e8d7021278f9ae369a1eab78e74f4246a192c16a58310d981",
+      "groups/r5-checker_count_corrupt/rustc-stderr-receipt.json": "ba3408e25974708a9b8d70a6221e42561243ce355c25a30f047c46b5d225f0e8",
+      "groups/r5-checker_count_corrupt/rustc-stdout-receipt.json": "fffbc313fe601ae6e8047934a621401bdc9084a148e0f5a5860d6e8ad698bfde",
+      "workers/checker_count_corrupt-supervision.json": "70179bdd7ab228022c2e1b0f11adec02a4f18b05651c457851a110cf4acbbb94"
+    },
+    "swap_pfc": {
+      "groups/r5-swap_pfc/binding-metadata.json": "5ea27a215ce6ecdc0e69f533ea8dfa3063edff04795166e7dad2debf27ec0dd8",
+      "groups/r5-swap_pfc/compile/receipt.json": "818479aabc6657c14e84c3badfa06b86f56a25703d177a4919ddfc195588ff78",
+      "groups/r5-swap_pfc/export.json": "e5d50054548fd720dd05efbf999faa11399bcfc2931a0b6e92f9b6ecb5b5dc4b",
+      "groups/r5-swap_pfc/properties.json": "3af992f748b87c8e29c166af1f7d9d6c422b8b8ec0fdd8ad214574239d6489fc",
+      "groups/r5-swap_pfc/receipt.json": "8d26e3a2b4a33d10380415d91c595c039a29c5b4802258277e63a894c6980fc1",
+      "groups/r5-swap_pfc/rustc-stderr-receipt.json": "840c37ae308bb9d60cf2197f4c9ccd531eb124d2629c6922d5d5393eb335665d",
+      "groups/r5-swap_pfc/rustc-stdout-receipt.json": "abd68ff0acd60b40c2ec3f0a07ea4b650b782d74f4b75efa2ab6f9f602efdd30",
+      "swap_pfc/receipt.json": "4480a2690ae4b0d1f6c9959afe754bf5c2795aa0eedde735565c806de0258443",
+      "swap_pfc/worker-receipt.json": "07388a2ea1a513624e9a17dae2fa098036861d191e6eda833aa7e7ead12ecb9c",
+      "workers/swap_pfc-supervision.json": "902d64e4cd831f9efa7a04a63342ec24c3682170bb90550d880b0db86dab9496"
+    },
+    "sort13_weak": {
+      "groups/r5-sort13_weak/binding-metadata.json": "592bab091a56c98a59685fd63a96db3f269f771a6f8b751ffb3c2c10821d54a2",
+      "groups/r5-sort13_weak/compile/receipt.json": "37bd32ead89a56ea026a8380c2fd07f059bc928e71bba1af9888965171f1850b",
+      "groups/r5-sort13_weak/export.json": "f6795928072e6e6adec35fa94e6c6fa7e485ddde51b4430bc9bac481a0ce361b",
+      "groups/r5-sort13_weak/properties.json": "cc8559a34c7c6da729872f4d286a403dd35f183715b664c3f29db748120fbb23",
+      "groups/r5-sort13_weak/receipt.json": "f07ed6aae8077dc70ec4bc7af296e0f667a4cac09f213b8b7ee39f8dd0c9d2d3",
+      "groups/r5-sort13_weak/rustc-stderr-receipt.json": "bcde6b96422dd6ef385c466bd5d6f2b61c78385febfa16b644b70c052d1d7f14",
+      "groups/r5-sort13_weak/rustc-stdout-receipt.json": "cc3feeae674fb7d2f3fcabdfda98e1caa3788cea7509c7ea3e878860732b1ba5",
+      "sort13_weak/receipt.json": "b02e2cabb75d4fb949910892fc877d2e4fcafe7ea2d74093f43a8bbe4d807d8c",
+      "sort13_weak/worker-receipt.json": "aeeca0f523b8987bdf4e4016ecde5da53cd76fe89481efafef99a3ebce9c7a41",
+      "workers/sort13_weak-supervision.json": "ac993d1b2264b7b6c3f322cf2c01dc81340f7678160fd34cd12210a66ad211b2"
+    },
+    "merge32_real": {
+      "groups/r5-merge32_real/binding-metadata.json": "76dc63992b668ea95612172608690fd079577469eba1086b06281de7064e0850",
+      "groups/r5-merge32_real/compile/receipt.json": "c3f46c9ee59c63f1e15d4bc8d735040d00084b1a48b5815f78aa6ca6a43db86e",
+      "groups/r5-merge32_real/export.json": "2b825ecbfb553c30b62e90d530a63b7d816e74cf67f4a7bf9131b52f637a09b3",
+      "groups/r5-merge32_real/properties.json": "9e246e16397c1e61a5c97de9024f18be6cce2a90feafb978775ca3a59387a327",
+      "groups/r5-merge32_real/receipt.json": "fc525f63ebee75369006def0ce93d8ab6e114a5b7b27fd3e248f39d292a777e7",
+      "groups/r5-merge32_real/rustc-stderr-receipt.json": "ff14b24408d65cab2467b593f5e8ea4ea35e4a8fabdf846dd78214142a622770",
+      "groups/r5-merge32_real/rustc-stdout-receipt.json": "714e2671e3e0f09fe13e0b38146f7828c91515d23f860c2a88e507616e80ab9a",
+      "merge32_real/receipt.json": "ba662a0fa6e836a993c9ac8c0274cb1446db9767306637b3f3c35e91cad9bc03",
+      "merge32_real/worker-receipt.json": "74d18db474f5ddca2ff60f9fc9f8567d072590f69bf0b581b161c5db95135ff3",
+      "workers/merge32_real-supervision.json": "ec707c1e4ae4e763b13cfcb975c75784be6b50c5caedcff114a74786abece174"
+    },
+    "sort13_assumed": {
+      "groups/r5-sort13_assumed/binding-metadata.json": "4273b8f422cbb143b66b33401d1ce439ef46d98fb039d168496043687819bfcd",
+      "groups/r5-sort13_assumed/compile/receipt.json": "9c3d24c4a1da7433b8147a2b3e6dde488a63b6f29ed61f13e653d3a8ac8f8dba",
+      "groups/r5-sort13_assumed/export.json": "4eec17f663248dc6a27d959ad79200956486ba5c5901b578c2088f979dab5191",
+      "groups/r5-sort13_assumed/properties.json": "294808b299429cd7986351a6c4715679c7b51ff4d3091daa51cd56eba2c3cebb",
+      "groups/r5-sort13_assumed/receipt.json": "ce9cb18f20a24bcbe722722efd8a85cba629b79579ef917d16069fb50f1d3ecd",
+      "groups/r5-sort13_assumed/rustc-stderr-receipt.json": "f212648c0b7772c776bf94d189f0d7c3973cfbee52305df6c446cbfac6b1678e",
+      "groups/r5-sort13_assumed/rustc-stdout-receipt.json": "1250d489e291d5e2384fa618e48e783a7cb8a80f98d89272b818e7eaaf69843f",
+      "sort13_assumed/receipt.json": "0a743d1b80844646f75f4c14c5ac165af2c85740f3c00da0f638cf1f7d24ac8e",
+      "sort13_assumed/worker-receipt.json": "d6e1c7c2f096f42397423d0c305553409cbfcdea6b2614899d9a5ef35f3c58b2",
+      "workers/sort13_assumed-supervision.json": "6a04e73dd8efed786265b68f57aa5f3eb403ead9614ec2b0f4f8da443fcefc32"
+    }
+  },
+  "local_only_digests_not_replayed": {
+    "checker_order_corrupt": {
+      "groups/r5-checker_order_corrupt/stderr.log": {
+        "bytes": 2493,
+        "scope": "LOCAL_CAPTURE_BYTES_ONLY_NOT_UPLOADED_NOT_REQUIRED_FOR_PORTABLE_REPLAY",
+        "sha256": "cb75c6251b1feb80521ee244ef185f3514e3af3702959c874c8718bd0d7a98cb"
+      },
+      "groups/r5-checker_order_corrupt/stdout.log": {
+        "bytes": 65536,
+        "scope": "LOCAL_CAPTURE_BYTES_ONLY_NOT_UPLOADED_NOT_REQUIRED_FOR_PORTABLE_REPLAY",
+        "sha256": "e34d4b3de0bd4eb20a57663d22d22b50cac742ff5aa1ccf112a76b4229f7c1b0"
+      }
+    },
+    "checker_count_corrupt": {
+      "groups/r5-checker_count_corrupt/stderr.log": {
+        "bytes": 2300,
+        "scope": "LOCAL_CAPTURE_BYTES_ONLY_NOT_UPLOADED_NOT_REQUIRED_FOR_PORTABLE_REPLAY",
+        "sha256": "d9967c7733a25d4b6ae14fa4886199c37f2f4474ec347273c1be4630cf4c6157"
+      },
+      "groups/r5-checker_count_corrupt/stdout.log": {
+        "bytes": 65536,
+        "scope": "LOCAL_CAPTURE_BYTES_ONLY_NOT_UPLOADED_NOT_REQUIRED_FOR_PORTABLE_REPLAY",
+        "sha256": "8e5a7bd689e4c711fc06e9938d9ed189c8859655593769eef180fe3bc24f8dc7"
+      }
+    },
+    "swap_pfc": {
+      "groups/r5-swap_pfc/stderr.log": {
+        "bytes": 2300,
+        "scope": "LOCAL_CAPTURE_BYTES_ONLY_NOT_UPLOADED_NOT_REQUIRED_FOR_PORTABLE_REPLAY",
+        "sha256": "a40cd3ec506dc5d63522d257ab738ef9db4bbee9b98641ad65363da3c897cc89"
+      },
+      "groups/r5-swap_pfc/stdout.log": {
+        "bytes": 65536,
+        "scope": "LOCAL_CAPTURE_BYTES_ONLY_NOT_UPLOADED_NOT_REQUIRED_FOR_PORTABLE_REPLAY",
+        "sha256": "412f6c78b9df51de38235ae4fc88639922f2eec3529c671deffe6eb21acac3ec"
+      }
+    },
+    "sort13_weak": {
+      "groups/r5-sort13_weak/stderr.log": {
+        "bytes": 2300,
+        "scope": "LOCAL_CAPTURE_BYTES_ONLY_NOT_UPLOADED_NOT_REQUIRED_FOR_PORTABLE_REPLAY",
+        "sha256": "3539b6e3cf40c439e9290d12292146fd27ef303693fb5be3908eb53b88c4803f"
+      },
+      "groups/r5-sort13_weak/stdout.log": {
+        "bytes": 65536,
+        "scope": "LOCAL_CAPTURE_BYTES_ONLY_NOT_UPLOADED_NOT_REQUIRED_FOR_PORTABLE_REPLAY",
+        "sha256": "5010f1b1a527ee370498cdc8857e9ecb5054644e6b7ef6c005a7599224c1d85c"
+      }
+    },
+    "merge32_real": {
+      "groups/r5-merge32_real/stderr.log": {
+        "bytes": 2300,
+        "scope": "LOCAL_CAPTURE_BYTES_ONLY_NOT_UPLOADED_NOT_REQUIRED_FOR_PORTABLE_REPLAY",
+        "sha256": "860edf36db3b315e368d37b25205b393283ecdc24f53b020bf470ae1698d5a12"
+      },
+      "groups/r5-merge32_real/stdout.log": {
+        "bytes": 65536,
+        "scope": "LOCAL_CAPTURE_BYTES_ONLY_NOT_UPLOADED_NOT_REQUIRED_FOR_PORTABLE_REPLAY",
+        "sha256": "589169866f5e8612b8ac338911ac5717226f7c949ed6df68ae1c1ca311b17e29"
+      }
+    },
+    "sort13_assumed": {
+      "groups/r5-sort13_assumed/stderr.log": {
+        "bytes": 2300,
+        "scope": "LOCAL_CAPTURE_BYTES_ONLY_NOT_UPLOADED_NOT_REQUIRED_FOR_PORTABLE_REPLAY",
+        "sha256": "7f5d4cc6a24a8bb7a665a46838615a66b17018b280005527e13f0f9172c3dd02"
+      },
+      "groups/r5-sort13_assumed/stdout.log": {
+        "bytes": 65536,
+        "scope": "LOCAL_CAPTURE_BYTES_ONLY_NOT_UPLOADED_NOT_REQUIRED_FOR_PORTABLE_REPLAY",
+        "sha256": "57f867f0139419e48298bf97ea9b02c437a6049a686d75ed088b006f9a6dcf7b"
+      }
+    }
+  },
+  "compiler_identity": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+  "parser_binding": "reviewed collector exact structured digest/selector/crate/native metadata/rich-export checks; no AST/MIR/ADT or compiler-instance proof",
+  "proof_credit": "NONE"
+}

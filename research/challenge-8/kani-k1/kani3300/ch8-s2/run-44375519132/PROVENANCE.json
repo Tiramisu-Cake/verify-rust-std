@@ -1,0 +1,1522 @@
+{
+  "actual_trigger": "33c687e43de170d4b936ed3e9c29f6b35c192419",
+  "reviewed_control": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+  "same_tree": "20f53f18eaafe276a3f1ea74102cbc7c6f3985ac",
+  "same_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "bd62e54df1b4749154790aa3db3cc7978f547f75"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "request_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+  "workflow_sha256": "80d1273b9564a16eb4619089db5604ccccdfaa1cb7a155e9703d169c14b58c90",
+  "payloads": {
+    ".github/workflows/ch8-s2.yml": {
+      "bytes": 4013,
+      "sha256": "80d1273b9564a16eb4619089db5604ccccdfaa1cb7a155e9703d169c14b58c90"
+    },
+    "ch8-s1-control/ORACLE-SOURCES.json": {
+      "bytes": 17596,
+      "sha256": "69bf8d8494094a079a6ac3422ab90f30b7b5093b53e91ee6ce393a043538eaa2"
+    },
+    "ch8-s1-control/ROLE-MAP.json": {
+      "bytes": 273774,
+      "sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d"
+    },
+    "ch8-s1-control/S2-SOURCE.json": {
+      "bytes": 987710,
+      "sha256": "950631f2d0594b7b14dc0c203d12379d48e3aeeba612f1651f029691b376daa6"
+    },
+    "ch8-s1-control/activation-default.patch": {
+      "bytes": 800,
+      "sha256": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3"
+    },
+    "ch8-s1-control/activation-override.patch": {
+      "bytes": 782,
+      "sha256": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356"
+    },
+    "ch8-s1-control/binding_metadata.py": {
+      "bytes": 7271,
+      "sha256": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030"
+    },
+    "ch8-s1-control/cfg_pfc.py": {
+      "bytes": 21141,
+      "sha256": "e72ba0cff247613a3db7f4a5bd237cfeab64cb49d2410c61e85b3f80e91ecb11"
+    },
+    "ch8-s1-control/check_package.py": {
+      "bytes": 17834,
+      "sha256": "410d143c8ac58f683f9d085364089b3d4f46f066f1782c8d69be93a222b587f3"
+    },
+    "ch8-s1-control/collect.py": {
+      "bytes": 11511,
+      "sha256": "1d91b4a44d7cf9d4a7e9f7d571b2477381d4c01cc94860221daba440608b3346"
+    },
+    "ch8-s1-control/contract_stacks.py": {
+      "bytes": 9182,
+      "sha256": "c4b0f92fe2ede42399f2743071e58380806e61339bfbc0d1beccbf6b2a11ea0d"
+    },
+    "ch8-s1-control/fixtures/s104-rich-fragment.json": {
+      "bytes": 2455,
+      "sha256": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc"
+    },
+    "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt": {
+      "bytes": 39572,
+      "sha256": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651"
+    },
+    "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt": {
+      "bytes": 7252,
+      "sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+    },
+    "ch8-s1-control/fixtures/s2-old97ac-batch.rs.txt": {
+      "bytes": 7958,
+      "sha256": "37125e0d65bbce0b70fc6626960cbf0c17dab3d2d07675c183cf15407a37c850"
+    },
+    "ch8-s1-control/fixtures/s2-r1-batch.rs.txt": {
+      "bytes": 8565,
+      "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2"
+    },
+    "ch8-s1-control/fixtures/s2-r2-smallsort.rs.txt": {
+      "bytes": 41966,
+      "sha256": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0"
+    },
+    "ch8-s1-control/fixtures/s2-r3-batch.rs.txt": {
+      "bytes": 9335,
+      "sha256": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5"
+    },
+    "ch8-s1-control/fixtures/s2-r4-batch.rs.txt": {
+      "bytes": 14777,
+      "sha256": "794fb18e5f6aa5a79f79b6e200b9cf5a4074442ddf51bdba9df4ea5f32567ef7"
+    },
+    "ch8-s1-control/lexical_bindings.py": {
+      "bytes": 18021,
+      "sha256": "31abcb93bdb52bb1205e59ce6f4c8fe2206c2c63c9b2f82142492c8752f3e484"
+    },
+    "ch8-s1-control/negative_oracle.py": {
+      "bytes": 3086,
+      "sha256": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c"
+    },
+    "ch8-s1-control/oracle_source.py": {
+      "bytes": 6814,
+      "sha256": "75a9a665b7a9fc1c64cd51c1c8d281fd323f22411aee83c017d08f37a27f20ce"
+    },
+    "ch8-s1-control/ordinary_contracts.py": {
+      "bytes": 10241,
+      "sha256": "bdbdbe13fa2da6dae8d6dfb7a57a66caed1e52b6d93c1586e8effecaa16cb78e"
+    },
+    "ch8-s1-control/pack_evidence.py": {
+      "bytes": 10784,
+      "sha256": "8782f1abd29342cec1202d851c94222c50fed0e6c358549971048135ab24d206"
+    },
+    "ch8-s1-control/r5_campaign.py": {
+      "bytes": 23452,
+      "sha256": "9590e50ad38d8f0009584eddb17a648bf06779e2b6ad3a746cf3cc6deb2ab9fa"
+    },
+    "ch8-s1-control/r5_profile.py": {
+      "bytes": 3628,
+      "sha256": "e237b05f7bbc26b2820173254c92035572b22280c4a0b7ee66481bfb41f64f4d"
+    },
+    "ch8-s1-control/r5_runtime.py": {
+      "bytes": 7684,
+      "sha256": "e796129e9da910879026cbe9a2037cf4834793f97032b2ff21bdf128268c697f"
+    },
+    "ch8-s1-control/rich_evidence.py": {
+      "bytes": 12313,
+      "sha256": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139"
+    },
+    "ch8-s1-control/runner.py": {
+      "bytes": 71476,
+      "sha256": "d66a62853b2592604c2cc91187b5bf6e1c3fded8be0accd38cd0c1262f4e9215"
+    },
+    "ch8-s1-control/rustc_diagnostics.py": {
+      "bytes": 10171,
+      "sha256": "0c94acd85a9f2f7a241958a2c5b9dffce09517bd8d08ddf30bfbdd81ef839b32"
+    },
+    "ch8-s1-control/s108_package.py": {
+      "bytes": 7614,
+      "sha256": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237"
+    },
+    "ch8-s1-control/s2_correspondence.py": {
+      "bytes": 5359,
+      "sha256": "46f2cd69373b4ebd3a3395d455338aadff3d473df5df2734e1bd5d4d2432dd4f"
+    },
+    "ch8-s1-control/s2_policy.py": {
+      "bytes": 8093,
+      "sha256": "d87ce00811570c0ad7ea999fec3062166af542e576b188682308301519cb319c"
+    },
+    "ch8-s1-control/test_cfg_pfc.py": {
+      "bytes": 21412,
+      "sha256": "96c7e07fd3d78cb6c6769a5c018d49b1f1e1d28eee39db6322cba63ea31a91ea"
+    },
+    "ch8-s1-control/test_contract_stacks.py": {
+      "bytes": 4833,
+      "sha256": "28175e593a49600fc3478a61a7488b4066b0d9d06ef33b082418f19db1eba75d"
+    },
+    "ch8-s1-control/test_package.py": {
+      "bytes": 24272,
+      "sha256": "70f00d0726b7011db8a02339c1b031bda49b4af3c2f7e881b68d06b7663b5ca7"
+    },
+    "ch8-s1-control/test_r1403_lexical.py": {
+      "bytes": 6044,
+      "sha256": "5518422d03b2db340a09f7dbc9d074651ca607ef028e592e8dd7c4ac938b9c61"
+    },
+    "ch8-s1-control/test_r5.py": {
+      "bytes": 34681,
+      "sha256": "59a2a741f07f28fba85f79435d70f06dcfa0a0aa2ee3bb8a6ff8fecde72c5b1d"
+    },
+    "ch8-s1-control/test_runner.py": {
+      "bytes": 41654,
+      "sha256": "42ab9ff6ce08ba17331b62d6e10f26656719850d44968a5497751886a0f91630"
+    },
+    "ch8-s1-control/test_rustc_diagnostics.py": {
+      "bytes": 20618,
+      "sha256": "fadad233e902b6fdaaea2a308e2a6321a3c594e8d0ba3492531459cbef0ac88d"
+    },
+    "ch8-s1-control/test_s104.py": {
+      "bytes": 5315,
+      "sha256": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d"
+    },
+    "ch8-s1-control/test_s105.py": {
+      "bytes": 9720,
+      "sha256": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e"
+    },
+    "ch8-s1-control/test_s107.py": {
+      "bytes": 23560,
+      "sha256": "bb33d7a1088572107a243ea364207a67081fb91fd6db90f4de00e627983aa420"
+    },
+    "ch8-s1-control/test_s108.py": {
+      "bytes": 7591,
+      "sha256": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854"
+    },
+    "ch8-s1-control/test_s108r1.py": {
+      "bytes": 8039,
+      "sha256": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03"
+    },
+    "ch8-s1-control/test_s2.py": {
+      "bytes": 10364,
+      "sha256": "1c57b2de286916bdc0a5ce78a4aa111fdb1bbc66a8357a32214fc56df42cbfd2"
+    }
+  },
+  "source_file_hashes": {
+    "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+    "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+    "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+    "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717",
+    "library/core/src/slice/mod.rs": "1c94e306a979f2c59a4e3687a32a3e4efbeef967b7bf5eeb8d1977371c2c17dd",
+    "library/core/src/slice/sort/mod.rs": "f67551bff44a854a3f03901db10a099bdab3b67b47d8724bef43858d97134f3c",
+    "library/core/src/slice/sort/shared/mod.rs": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
+    "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "86bac48e888365eab2187756dfd8ffbce059d6cc2ce35b1d8ab7b39d788118ac",
+    "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs": "7095d7272d929b4e495896ff957a69120a7b86b3f0b99655ede4c989e0543b47",
+    "library/core/src/slice/sort/shared/smallsort/verify/fixed_inputs.rs": "5b648cbdedd89ef92f0a794580d0c682fc3fe3035cf63142f1b6bec6baccb7c7",
+    "library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs": "575aa575ffb977d945adb2fc40496c805fe6f8cdb1fc6fe471dbe277f5b2630f",
+    "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "85bdd131f3a7e62106e69e98e4b1b85d2f68c91a4bfff4df629955539493748c",
+    "library/core/src/slice/sort/shared/smallsort/verify/insert_tail_contracts.rs": "6f1a2540156a3c603639ee96245aca16ad9da3dbce401630c1b8866d343aa406",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "e37e6971e6458a17d858de9a6a6ea38265d7584934ef71c8243c97a487505e54",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs": "3a220d9fcd8269b253efaa8d7c18c13aa7a6e6f8cf59504ac2ec4c004b9abffe",
+    "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs": "e008037d4c5a32e31dc25490437bcd2bc520915bfda4af3c2fc84df6e331450e",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "d59ceb99741990afcfe3f312119053a520f16c071f200953fc517a33729527bf",
+    "library/core/src/slice/sort/shared/smallsort/verify/scratch_geometry.rs": "905045ba504b5391af44a575dd7e616b0bebb124623490d24343f759eb7f7d16",
+    "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs": "f576bfa8185c3ded0a27374dd4904db52f9711102a62c37f10406b2ccbd87f23",
+    "library/core/src/slice/sort/shared/smallsort/verify/tag_permutation.rs": "dafe3017a7dbf946c045756d8c0f122555bd1372868554563d1cb373eeea7837",
+    "library/core/src/slice/sort/shared/smallsort/verify/types.rs": "c5b4b5007cda1764af15639fba0fd23bfab9e489d052b0ead6872a440bed1f4f",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+    "library/core/src/mem/mod.rs": "7504ca7c3188077e142917d8c8b7fc7976f08f417439bb68399d1c0352eb8738",
+    "library/core/src/mem/maybe_uninit.rs": "1230d267542337ee2842c29d8227cf8a58fe75c53a2a70efaee3922c4e8e25c0",
+    "library/core/src/ptr/mod.rs": "cc17237f8e88211f0d082f8c8d88b6fd55f905c7baaa3c32cd75632269c03ff2",
+    "library/core/src/slice/raw.rs": "3190285ba163dacd220b6c827d49e580eeb85256cd1fffafdacb345a87a08bb7",
+    "library/core/src/intrinsics/mod.rs": "95bad83ea99a46bcbdbd4163e42112866fdfadc4660ca1d1c4298fed57b1c5fc",
+    "library/core/src/prelude/v1.rs": "b57d120c6762622bd33114f46267dab8ba6c88be38f1433adb62d4ba36cd3a68"
+  },
+  "identities": [
+    {
+      "id": "swap_pfc",
+      "invocation_id": "c1d8be2df4384e458a1a1e87aeb75f86",
+      "cargo_target_dir": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/c1d8be2df4384e458a1a1e87aeb75f86",
+      "argv": [
+        "/home/runner/work/kani/kani/tool/scripts/kani",
+        "verify-std",
+        "-Z",
+        "unstable-options",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "mem-predicates",
+        "-Z",
+        "float-lib",
+        "-Z",
+        "c-ffi",
+        "-Z",
+        "loop-contracts",
+        "-Z",
+        "quantifiers",
+        "-Z",
+        "stubbing",
+        "--no-assert-contracts",
+        "--jobs=1",
+        "--harness-timeout",
+        "600s",
+        "--harness",
+        "slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+        "--exact",
+        "--default-unwind",
+        "34",
+        "-Z",
+        "export-json",
+        "--export-json",
+        "/home/runner/work/_temp/ch8-s1-receipts/groups/r5-swap_pfc/export.json",
+        "--output-format=regular",
+        "/home/runner/work/kani/kani/export/library",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ],
+      "effective_cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed",
+      "source_under_test": {
+        "base_std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "patch_sha256": null,
+        "variant": "production"
+      },
+      "before": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "BEFORE_CHILD",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "after": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "AFTER_CHILD_SHUTDOWN",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "source_before": {
+        "changed_file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+      },
+      "source_after": {
+        "changed_file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+      },
+      "binding_metadata": {
+        "binding_status": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "bytes": 205175,
+        "errors": [],
+        "invocation_id": "c1d8be2df4384e458a1a1e87aeb75f86",
+        "native_bytes": 174391,
+        "native_files": 23,
+        "path": "binding-metadata.json",
+        "proof_credit": "NONE",
+        "sha256": "5ea27a215ce6ecdc0e69f533ea8dfa3063edff04795166e7dad2debf27ec0dd8",
+        "state": "CAPTURED_AVAILABLE_FIELDS"
+      },
+      "native_binding": {
+        "compilation_id": null,
+        "compiler_identity_status": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "identity_scope": "RUNNER_INVOCATION_DIRECTORY_NOT_COMPILER_INSTANCE",
+        "rows": [
+          {
+            "binding_gaps": {
+              "assertion_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "compilation_id": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "contract_resolution": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "cover_predicate_and_expansion": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "effective_contract_clauses": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "harness_instance": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "property_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "resolved_target": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "target_wrapper_property_edges": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER"
+            },
+            "crate": "core",
+            "group_id": "r5-swap_pfc",
+            "harness": "slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+            "mode": "PFC",
+            "native_harness_records": [
+              {
+                "crate": "core",
+                "metadata_path": "x86_64-unknown-linux-gnu/debug/build/core/e4b302978039eff6/out/core-e4b302978039eff6.kani-metadata.json",
+                "name": "slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+                "pointer": "/proof_harnesses/0"
+              }
+            ],
+            "native_record_scope": "EXACT_SELECTOR_CRATE_WITHIN_INVOCATION_ONLY",
+            "row_id": "swap_pfc",
+            "variant": "production"
+          }
+        ],
+        "configuration_sha256": "7718651ad66b75d7d446914a0c9d97ed1a142ea1c573719fcefe02038a178346"
+      }
+    },
+    {
+      "id": "merge32_real",
+      "invocation_id": "91bc618cda714bc38042524e5f06caf0",
+      "cargo_target_dir": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/91bc618cda714bc38042524e5f06caf0",
+      "argv": [
+        "/home/runner/work/kani/kani/tool/scripts/kani",
+        "verify-std",
+        "-Z",
+        "unstable-options",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "mem-predicates",
+        "-Z",
+        "float-lib",
+        "-Z",
+        "c-ffi",
+        "-Z",
+        "loop-contracts",
+        "-Z",
+        "quantifiers",
+        "-Z",
+        "stubbing",
+        "--no-assert-contracts",
+        "--jobs=1",
+        "--harness-timeout",
+        "600s",
+        "--harness",
+        "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real",
+        "--exact",
+        "--default-unwind",
+        "34",
+        "-Z",
+        "export-json",
+        "--export-json",
+        "/home/runner/work/_temp/ch8-s1-receipts/groups/r5-merge32_real/export.json",
+        "--output-format=regular",
+        "/home/runner/work/kani/kani/export/library",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ],
+      "effective_cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed",
+      "source_under_test": {
+        "base_std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "patch_sha256": null,
+        "variant": "production"
+      },
+      "before": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "BEFORE_CHILD",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "after": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "AFTER_CHILD_SHUTDOWN",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "source_before": {
+        "changed_file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+      },
+      "source_after": {
+        "changed_file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+      },
+      "binding_metadata": {
+        "binding_status": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "bytes": 205172,
+        "errors": [],
+        "invocation_id": "91bc618cda714bc38042524e5f06caf0",
+        "native_bytes": 174178,
+        "native_files": 23,
+        "path": "binding-metadata.json",
+        "proof_credit": "NONE",
+        "sha256": "76dc63992b668ea95612172608690fd079577469eba1086b06281de7064e0850",
+        "state": "CAPTURED_AVAILABLE_FIELDS"
+      },
+      "native_binding": {
+        "compilation_id": null,
+        "compiler_identity_status": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "identity_scope": "RUNNER_INVOCATION_DIRECTORY_NOT_COMPILER_INSTANCE",
+        "rows": [
+          {
+            "binding_gaps": {
+              "assertion_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "compilation_id": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "contract_resolution": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "cover_predicate_and_expansion": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "effective_contract_clauses": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "harness_instance": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "property_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "resolved_target": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "target_wrapper_property_edges": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER"
+            },
+            "crate": "core",
+            "group_id": "r5-merge32_real",
+            "harness": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real",
+            "mode": "Original",
+            "native_harness_records": [
+              {
+                "crate": "core",
+                "metadata_path": "x86_64-unknown-linux-gnu/debug/build/core/99b9e72b364ef5b4/out/core-99b9e72b364ef5b4.kani-metadata.json",
+                "name": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real",
+                "pointer": "/proof_harnesses/0"
+              }
+            ],
+            "native_record_scope": "EXACT_SELECTOR_CRATE_WITHIN_INVOCATION_ONLY",
+            "row_id": "merge32_real",
+            "variant": "production"
+          }
+        ],
+        "configuration_sha256": "1770b25edb273f2c65858df9d064f5b8fa24b451e21c8f92a13e4543d4db0402"
+      }
+    },
+    {
+      "id": "sort13_assumed",
+      "invocation_id": "75df1e7534de4b2eaf284e2238629cfb",
+      "cargo_target_dir": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/75df1e7534de4b2eaf284e2238629cfb",
+      "argv": [
+        "/home/runner/work/kani/kani/tool/scripts/kani",
+        "verify-std",
+        "-Z",
+        "unstable-options",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "mem-predicates",
+        "-Z",
+        "float-lib",
+        "-Z",
+        "c-ffi",
+        "-Z",
+        "loop-contracts",
+        "-Z",
+        "quantifiers",
+        "-Z",
+        "stubbing",
+        "--no-assert-contracts",
+        "--jobs=1",
+        "--harness-timeout",
+        "600s",
+        "--harness",
+        "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+        "--exact",
+        "--default-unwind",
+        "34",
+        "-Z",
+        "export-json",
+        "--export-json",
+        "/home/runner/work/_temp/ch8-s1-receipts/groups/r5-sort13_assumed/export.json",
+        "--output-format=regular",
+        "/home/runner/work/kani/kani/export/library",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ],
+      "effective_cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed",
+      "source_under_test": {
+        "base_std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "patch_sha256": null,
+        "variant": "production"
+      },
+      "before": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "BEFORE_CHILD",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "after": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "AFTER_CHILD_SHUTDOWN",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "source_before": {
+        "changed_file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+      },
+      "source_after": {
+        "changed_file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+      },
+      "binding_metadata": {
+        "binding_status": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "bytes": 205254,
+        "errors": [],
+        "invocation_id": "75df1e7534de4b2eaf284e2238629cfb",
+        "native_bytes": 174236,
+        "native_files": 23,
+        "path": "binding-metadata.json",
+        "proof_credit": "NONE",
+        "sha256": "4273b8f422cbb143b66b33401d1ce439ef46d98fb039d168496043687819bfcd",
+        "state": "CAPTURED_AVAILABLE_FIELDS"
+      },
+      "native_binding": {
+        "compilation_id": null,
+        "compiler_identity_status": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "identity_scope": "RUNNER_INVOCATION_DIRECTORY_NOT_COMPILER_INSTANCE",
+        "rows": [
+          {
+            "binding_gaps": {
+              "assertion_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "compilation_id": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "contract_resolution": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "cover_predicate_and_expansion": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "effective_contract_clauses": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "harness_instance": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "property_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "resolved_target": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "target_wrapper_property_edges": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER"
+            },
+            "crate": "core",
+            "group_id": "r5-sort13_assumed",
+            "harness": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+            "mode": "Original",
+            "native_harness_records": [
+              {
+                "crate": "core",
+                "metadata_path": "x86_64-unknown-linux-gnu/debug/build/core/c02b0a7dcc540194/out/core-c02b0a7dcc540194.kani-metadata.json",
+                "name": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+                "pointer": "/proof_harnesses/0"
+              }
+            ],
+            "native_record_scope": "EXACT_SELECTOR_CRATE_WITHIN_INVOCATION_ONLY",
+            "row_id": "sort13_assumed",
+            "variant": "production"
+          }
+        ],
+        "configuration_sha256": "6dbebf32a821c8a88d439edec024cb8990d64603e8ae62e0ef827a17166e75c6"
+      }
+    },
+    {
+      "id": "merge_count_corrupt",
+      "invocation_id": "e158606b2aa944e8bbe38c2c238c3fa0",
+      "cargo_target_dir": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/e158606b2aa944e8bbe38c2c238c3fa0",
+      "argv": [
+        "/home/runner/work/kani/kani/tool/scripts/kani",
+        "verify-std",
+        "-Z",
+        "unstable-options",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "mem-predicates",
+        "-Z",
+        "float-lib",
+        "-Z",
+        "c-ffi",
+        "-Z",
+        "loop-contracts",
+        "-Z",
+        "quantifiers",
+        "-Z",
+        "stubbing",
+        "--no-assert-contracts",
+        "--jobs=1",
+        "--harness-timeout",
+        "600s",
+        "--harness",
+        "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+        "--exact",
+        "--default-unwind",
+        "34",
+        "-Z",
+        "export-json",
+        "--export-json",
+        "/home/runner/work/_temp/ch8-s1-receipts/groups/r5-merge_count_corrupt/export.json",
+        "--output-format=regular",
+        "/home/runner/work/kani/kani/export/library",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ],
+      "effective_cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed",
+      "source_under_test": {
+        "base_std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "patch_sha256": null,
+        "variant": "production"
+      },
+      "before": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "BEFORE_CHILD",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "after": "UNKNOWN_NOT_RECORDED",
+      "source_before": {
+        "changed_file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+      },
+      "source_after": "UNKNOWN_NOT_RECORDED",
+      "binding_metadata": "UNKNOWN_NOT_RECORDED",
+      "native_binding": "UNKNOWN_NOT_RECORDED"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "invocation_id": "ef82c0dd0cf04e7689edc5b9c4132575",
+      "cargo_target_dir": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/ef82c0dd0cf04e7689edc5b9c4132575",
+      "argv": [
+        "/home/runner/work/kani/kani/tool/scripts/kani",
+        "verify-std",
+        "-Z",
+        "unstable-options",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "mem-predicates",
+        "-Z",
+        "float-lib",
+        "-Z",
+        "c-ffi",
+        "-Z",
+        "loop-contracts",
+        "-Z",
+        "quantifiers",
+        "-Z",
+        "stubbing",
+        "--no-assert-contracts",
+        "--jobs=1",
+        "--harness-timeout",
+        "600s",
+        "--harness",
+        "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+        "--exact",
+        "--default-unwind",
+        "34",
+        "-Z",
+        "export-json",
+        "--export-json",
+        "/home/runner/work/_temp/ch8-s1-receipts/groups/r5-checker_count_corrupt/export.json",
+        "--output-format=regular",
+        "/home/runner/work/kani/kani/export/library",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ],
+      "effective_cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed",
+      "source_under_test": {
+        "base_std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "patch_sha256": null,
+        "variant": "production"
+      },
+      "before": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "BEFORE_CHILD",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "after": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "AFTER_CHILD_SHUTDOWN",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "source_before": {
+        "changed_file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+      },
+      "source_after": {
+        "changed_file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+      },
+      "binding_metadata": {
+        "binding_status": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "bytes": 205083,
+        "errors": [],
+        "invocation_id": "ef82c0dd0cf04e7689edc5b9c4132575",
+        "native_bytes": 174207,
+        "native_files": 23,
+        "path": "binding-metadata.json",
+        "proof_credit": "NONE",
+        "sha256": "88190c002cf19b366f35cf2d7a7293ad4ebd538caace8284942c2568d8d33e3e",
+        "state": "CAPTURED_AVAILABLE_FIELDS"
+      },
+      "native_binding": {
+        "compilation_id": null,
+        "compiler_identity_status": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "identity_scope": "RUNNER_INVOCATION_DIRECTORY_NOT_COMPILER_INSTANCE",
+        "rows": [
+          {
+            "binding_gaps": {
+              "assertion_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "compilation_id": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "contract_resolution": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "cover_predicate_and_expansion": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "effective_contract_clauses": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "harness_instance": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "property_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "resolved_target": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "target_wrapper_property_edges": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER"
+            },
+            "crate": "core",
+            "group_id": "r5-checker_count_corrupt",
+            "harness": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+            "mode": "Original",
+            "native_harness_records": [
+              {
+                "crate": "core",
+                "metadata_path": "x86_64-unknown-linux-gnu/debug/build/core/de0d81a644b54b6e/out/core-de0d81a644b54b6e.kani-metadata.json",
+                "name": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+                "pointer": "/proof_harnesses/0"
+              }
+            ],
+            "native_record_scope": "EXACT_SELECTOR_CRATE_WITHIN_INVOCATION_ONLY",
+            "row_id": "checker_count_corrupt",
+            "variant": "production"
+          }
+        ],
+        "configuration_sha256": "d6cd5a323aba22d6af69175c860157270c1632a8f6a923f339a42f9a3bced96b"
+      }
+    },
+    {
+      "id": "checker_order_corrupt",
+      "invocation_id": "ecf9fd3470424af69ce44a7f6e05a49c",
+      "cargo_target_dir": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/ecf9fd3470424af69ce44a7f6e05a49c",
+      "argv": [
+        "/home/runner/work/kani/kani/tool/scripts/kani",
+        "verify-std",
+        "-Z",
+        "unstable-options",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "mem-predicates",
+        "-Z",
+        "float-lib",
+        "-Z",
+        "c-ffi",
+        "-Z",
+        "loop-contracts",
+        "-Z",
+        "quantifiers",
+        "-Z",
+        "stubbing",
+        "--no-assert-contracts",
+        "--jobs=1",
+        "--harness-timeout",
+        "600s",
+        "--harness",
+        "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "--exact",
+        "--default-unwind",
+        "34",
+        "-Z",
+        "export-json",
+        "--export-json",
+        "/home/runner/work/_temp/ch8-s1-receipts/groups/r5-checker_order_corrupt/export.json",
+        "--output-format=regular",
+        "/home/runner/work/kani/kani/export/library",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ],
+      "effective_cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed",
+      "source_under_test": {
+        "base_std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "patch_sha256": null,
+        "variant": "production"
+      },
+      "before": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "BEFORE_CHILD",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "after": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "AFTER_CHILD_SHUTDOWN",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "source_before": {
+        "changed_file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+      },
+      "source_after": {
+        "changed_file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+      },
+      "binding_metadata": {
+        "binding_status": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "bytes": 205079,
+        "errors": [],
+        "invocation_id": "ecf9fd3470424af69ce44a7f6e05a49c",
+        "native_bytes": 174207,
+        "native_files": 23,
+        "path": "binding-metadata.json",
+        "proof_credit": "NONE",
+        "sha256": "6098f847f7f72fbd30bbc7ff3dd71d77ff8ce3cdc72a0b37d7035273f0699a3a",
+        "state": "CAPTURED_AVAILABLE_FIELDS"
+      },
+      "native_binding": {
+        "compilation_id": null,
+        "compiler_identity_status": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "identity_scope": "RUNNER_INVOCATION_DIRECTORY_NOT_COMPILER_INSTANCE",
+        "rows": [
+          {
+            "binding_gaps": {
+              "assertion_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "compilation_id": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "contract_resolution": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "cover_predicate_and_expansion": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "effective_contract_clauses": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "harness_instance": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "property_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "resolved_target": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "target_wrapper_property_edges": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER"
+            },
+            "crate": "core",
+            "group_id": "r5-checker_order_corrupt",
+            "harness": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+            "mode": "Original",
+            "native_harness_records": [
+              {
+                "crate": "core",
+                "metadata_path": "x86_64-unknown-linux-gnu/debug/build/core/4a687f4f92766194/out/core-4a687f4f92766194.kani-metadata.json",
+                "name": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+                "pointer": "/proof_harnesses/0"
+              }
+            ],
+            "native_record_scope": "EXACT_SELECTOR_CRATE_WITHIN_INVOCATION_ONLY",
+            "row_id": "checker_order_corrupt",
+            "variant": "production"
+          }
+        ],
+        "configuration_sha256": "b70880068443d37d9e655bf18df148cb0acafa3951b6f9624f63b1ae517996c9"
+      }
+    },
+    {
+      "id": "sort13_weak",
+      "invocation_id": "4162b2b5a0484481b5c25597b252c0e8",
+      "cargo_target_dir": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/4162b2b5a0484481b5c25597b252c0e8",
+      "argv": [
+        "/home/runner/work/kani/kani/tool/scripts/kani",
+        "verify-std",
+        "-Z",
+        "unstable-options",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "mem-predicates",
+        "-Z",
+        "float-lib",
+        "-Z",
+        "c-ffi",
+        "-Z",
+        "loop-contracts",
+        "-Z",
+        "quantifiers",
+        "-Z",
+        "stubbing",
+        "--no-assert-contracts",
+        "--jobs=1",
+        "--harness-timeout",
+        "600s",
+        "--harness",
+        "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+        "--exact",
+        "--default-unwind",
+        "34",
+        "-Z",
+        "export-json",
+        "--export-json",
+        "/home/runner/work/_temp/ch8-s1-receipts/groups/r5-sort13_weak/export.json",
+        "--output-format=regular",
+        "/home/runner/work/kani/kani/export/library",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ],
+      "effective_cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed",
+      "source_under_test": {
+        "base_std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "patch_sha256": null,
+        "variant": "production"
+      },
+      "before": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "BEFORE_CHILD",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "after": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "AFTER_CHILD_SHUTDOWN",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "source_before": {
+        "changed_file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+      },
+      "source_after": {
+        "changed_file_sha256": {
+          "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+          "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+          "library/core/src/slice/sort/shared/smallsort.rs": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+          "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+        },
+        "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+      },
+      "binding_metadata": {
+        "binding_status": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "bytes": 205011,
+        "errors": [],
+        "invocation_id": "4162b2b5a0484481b5c25597b252c0e8",
+        "native_bytes": 174230,
+        "native_files": 23,
+        "path": "binding-metadata.json",
+        "proof_credit": "NONE",
+        "sha256": "592bab091a56c98a59685fd63a96db3f269f771a6f8b751ffb3c2c10821d54a2",
+        "state": "CAPTURED_AVAILABLE_FIELDS"
+      },
+      "native_binding": {
+        "compilation_id": null,
+        "compiler_identity_status": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+        "identity_scope": "RUNNER_INVOCATION_DIRECTORY_NOT_COMPILER_INSTANCE",
+        "rows": [
+          {
+            "binding_gaps": {
+              "assertion_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "compilation_id": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "contract_resolution": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "cover_predicate_and_expansion": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "effective_contract_clauses": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "harness_instance": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "property_origin": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "resolved_target": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER",
+              "target_wrapper_property_edges": "UNKNOWN_NOT_EXPORTED_BY_PINNED_PRODUCER"
+            },
+            "crate": "core",
+            "group_id": "r5-sort13_weak",
+            "harness": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+            "mode": "Original",
+            "native_harness_records": [
+              {
+                "crate": "core",
+                "metadata_path": "x86_64-unknown-linux-gnu/debug/build/core/cff920712e0c4f7c/out/core-cff920712e0c4f7c.kani-metadata.json",
+                "name": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+                "pointer": "/proof_harnesses/0"
+              }
+            ],
+            "native_record_scope": "EXACT_SELECTOR_CRATE_WITHIN_INVOCATION_ONLY",
+            "row_id": "sort13_weak",
+            "variant": "production"
+          }
+        ],
+        "configuration_sha256": "deac6495941ecc66bbc33c788a232cfc3ab4991eca550d31c7f40ef5da9898c5"
+      }
+    }
+  ],
+  "compact": {
+    "file_reference": "file_0000000009d48211ae0bf0cd22226ea7",
+    "artifact_id": 14463098208,
+    "digest": "sha256:696de53e57950d3000585bf5f0934472988db236a37b08547a33cd2c77a8e814",
+    "transport_saved": false,
+    "members": 99
+  },
+  "settings": "PRESERVED",
+  "Fast": "OFF_PRESERVED",
+  "subagents": 0,
+  "review_assurance": "Pinned committed package/review/GO references from issued task; not fresh review or proof credit"
+}
