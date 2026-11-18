@@ -1,0 +1,125 @@
+{
+  "state": "STATIC_PASS",
+  "package_files": 45,
+  "manifest_hashes": 44,
+  "patch_exact_diff_checks": [
+    {
+      "path": "SOURCE-CANDIDATE.patch",
+      "sha256": "ea240b5150040519ecfd4b8b46d729b3eab5a84ad4de90e6fa927b7143864a2b",
+      "exact_git_diff": true
+    },
+    {
+      "path": "SOURCE-DELTA.patch",
+      "sha256": "2c2bd1984eb32dbef2cb40b512a02e90288b849bbc421793ed615ef54a939ac2",
+      "exact_git_diff": true
+    },
+    {
+      "path": "SOURCE-PARENT.patch",
+      "sha256": "787addd368e739f37d12469c291cfdbdb53a3170e5c701fb4bc0e9d2570d5fe4",
+      "exact_git_diff": true
+    },
+    {
+      "path": "CONTROL-CANDIDATE.patch",
+      "sha256": "8a11fa08a4bce0ecbc9cef30abcbd6d83f9c49ec62c9987576a3d77bf64794b3",
+      "exact_git_diff": true
+    },
+    {
+      "path": "CONTROL-PARENT.patch",
+      "sha256": "af8543ac0443baa0afbcfda862ad2ead89a704fb3591d66143ffb77eb0d9c226",
+      "exact_git_diff": true
+    },
+    {
+      "path": "CONTROL-DELTA.patch",
+      "sha256": "b7693de2b90d4c600f32c101f951c603958cd3293587346946e8d45ddf471f50",
+      "exact_git_diff": true
+    }
+  ],
+  "invariant_request_keys": [
+    "rows",
+    "source_bindings",
+    "variants",
+    "budgets",
+    "execution_groups",
+    "replacement_unions",
+    "formal_expected_inventory",
+    "diagnostic_assumed_inventory",
+    "qualification_inventory",
+    "flags",
+    "future_runs",
+    "proof_credit",
+    "runtime_smallsort_base_sha256"
+  ],
+  "source_delta_paths": [
+    "library/core/src/slice/sort/shared/smallsort.rs"
+  ],
+  "active_modules": 23,
+  "functions": 321,
+  "contract_stacks": 19,
+  "identical_effective_contexts": 11,
+  "attributed_literal_contract_paths": 91,
+  "macro_trace_anchors_and_hashes": "MATCH",
+  "runner_two_identity_literals": "MATCH",
+  "final_gate_tests": {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "unittest",
+      "-v",
+      "test_contract_stacks"
+    ],
+    "cwd": "/root/kani-ch8-s2-r3-final-w13/ch8-s1-control",
+    "control": "dc1ad0f9ce364f9a7efb2c3cc32db6ed51b6db4b",
+    "request_sha256": "f6a0d1c354237c1f0ffde252cef84ec2e30b739ae1e5ef41a54ec7cfa3fb761e",
+    "exit": 0,
+    "count": 7,
+    "elapsed_seconds": 13.306
+  },
+  "additional_negative_cases": [
+    {
+      "case": "swap_frame_post_reordered",
+      "result": "REJECTED",
+      "reason": "S2 contract stack differs from exact r2-preserving normalization"
+    },
+    {
+      "case": "swap_frame_deleted",
+      "result": "REJECTED",
+      "reason": "S2 contract stack differs from exact r2-preserving normalization"
+    },
+    {
+      "case": "swap_post_deleted",
+      "result": "REJECTED",
+      "reason": "S2 contract stack differs from exact r2-preserving normalization"
+    }
+  ],
+  "precursor33": {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "unittest",
+      "-v",
+      "test_contract_stacks",
+      "test_cfg_pfc.R2CfgPfcTests",
+      "test_s2",
+      "test_runner.RequestTests",
+      "test_runner.NoListBindingTests",
+      "test_runner.ExportTests",
+      "test_rustc_diagnostics.ReviewRepairTests"
+    ],
+    "cwd": "/root/kani-ch8-s2-r3-w13/ch8-s1-control",
+    "start_unix": 1795005392.7841287,
+    "elapsed_seconds": 43.012,
+    "exit_code": 0,
+    "source_sha": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+    "control_sha": "67ebcf4a2285976b85d986e741adde8e443b706a",
+    "request_sha256": "64ea54d7ad935ada202d19e292529f1f3ae21dc2a2269ee6a76db74e0f077b9a",
+    "stage": "PYTHON_STATIC_SYNTHETIC_ONLY"
+  },
+  "precursor33_status": "AUTHOR_RECORDED_PASS_ON_67eb_ONLY; NOT_REEXECUTED",
+  "compiler": "NOT_RUN",
+  "macro_expansion": "NOT_RUN",
+  "MIR_lookup": "NOT_RUN",
+  "model_execution": "NOT_RUN",
+  "qualification": "NOT_RUN",
+  "proof_credit": "NONE",
+  "elapsed_seconds": 28.603
+}

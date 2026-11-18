@@ -1,0 +1,56 @@
+{
+  "schema": "ch8-s2-r3-w14-provenance-v1",
+  "recorded_utc": "2026-11-18T12:53:49.955407+00:00",
+  "command": "PYTHONDONTWRITEBYTECODE=1 python3 kani3300/ch8-s2/review-batch-r3/run_checks.py",
+  "cwd": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1",
+  "exit_code": 0,
+  "assurance": "STATIC_AND_TARGETED_SYNTHETIC_ONLY",
+  "run_elapsed_seconds": 28.603,
+  "final_gate_execution": {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "unittest",
+      "-v",
+      "test_contract_stacks"
+    ],
+    "cwd": "/root/kani-ch8-s2-r3-final-w13/ch8-s1-control",
+    "control": "dc1ad0f9ce364f9a7efb2c3cc32db6ed51b6db4b",
+    "request_sha256": "f6a0d1c354237c1f0ffde252cef84ec2e30b739ae1e5ef41a54ec7cfa3fb761e",
+    "exit": 0,
+    "count": 7,
+    "elapsed_seconds": 13.306
+  },
+  "author33_provenance": {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "unittest",
+      "-v",
+      "test_contract_stacks",
+      "test_cfg_pfc.R2CfgPfcTests",
+      "test_s2",
+      "test_runner.RequestTests",
+      "test_runner.NoListBindingTests",
+      "test_runner.ExportTests",
+      "test_rustc_diagnostics.ReviewRepairTests"
+    ],
+    "cwd": "/root/kani-ch8-s2-r3-w13/ch8-s1-control",
+    "start_unix": 1795005392.7841287,
+    "elapsed_seconds": 43.012,
+    "exit_code": 0,
+    "source_sha": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+    "control_sha": "67ebcf4a2285976b85d986e741adde8e443b706a",
+    "request_sha256": "64ea54d7ad935ada202d19e292529f1f3ae21dc2a2269ee6a76db74e0f077b9a",
+    "stage": "PYTHON_STATIC_SYNTHETIC_ONLY"
+  },
+  "author_preflight_sha256": "e9288f33593b2331fd28105c518006a58688e68e0d2abc1a832f57ff8a46936c",
+  "author_preflight_writes": "write callback redirected to own FINAL-VALIDATION.json; author paths unchanged",
+  "post_run_script_edit": "PINS emitter only: nest original identity snapshot and expose review pins; no validation/test logic changed; no repeated test run",
+  "observed_stdout": [
+    "STATIC_PASS: 6 exact patch replays; checkout7/5/2; source/control/payload/cfg/model/stack bindings;33 targeted tests inherited by exact code/input identity except path inventory.",
+    "W14 STATIC_PASS: exact45/44, six patches, final preflight, 19stacks/11contexts/91paths, 7final gate tests + 3negative mutations"
+  ],
+  "evidence_fetches": 0,
+  "native_tools_executed": 0
+}

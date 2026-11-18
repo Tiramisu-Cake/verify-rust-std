@@ -1,0 +1,68 @@
+{
+  "schema": "ch8-s2-r3-independent14-review-v1",
+  "task_id": "task91cd41b3fdbffe36ed5d14806c390bf0b0c16bbb",
+  "issued_by": "owner15:48",
+  "reviewed_g0": "ba7286f5f77277aed531eaaab601e94396dec909",
+  "package": "kani3300/ch8-s2/batch-r3/",
+  "verdict": "APPROVE",
+  "blocking_findings": [],
+  "localized_findings": [],
+  "repair_owner": "original13",
+  "immutable_delta_review": true,
+  "source_contract_assessment": "PRESERVED_STATICALLY; 12 safety clauses across5functions; swap5requires/frame/ensures/old/domain retained",
+  "stack_assessment": {
+    "contexts": 11,
+    "contexts_identical_effective_cfg": true,
+    "active_stacks": 19,
+    "lexical_functions": 321,
+    "modules": 23,
+    "attributed_literal_contract_paths": 91,
+    "unattributed_literal_contract_paths": 0
+  },
+  "macro_assessment": "STOCK_MARKER_STATE_MACHINE_TRACED; WRAPPER_REMOVAL_IS_UNVERIFIED_SOURCE_SUPPORTED_REPAIR",
+  "runner_model_assessment": "INHERITED_BY_EXACT_BYTES; runner only two source identity literals; targeted gate integration",
+  "B01_B02": "INHERIT_FROZEN_CLOSED; collector/packer/regression tests byte-identical",
+  "validation": "VALIDATION.json and FINAL-VALIDATION.json",
+  "executed_final_tests": {
+    "gate_tests": 7,
+    "additional_negative_mutations": 3
+  },
+  "precursor33": {
+    "control": "67ebcf4a2285976b85d986e741adde8e443b706a",
+    "assurance": "AUTHOR_RECORDED_PASS; CODE_INPUT_INHERITANCE; NOT_EXECUTED_BY_W14",
+    "final_delta": "ci_changed_paths only",
+    "relabel_as_final_execution": false
+  },
+  "compilation": "NOT_RUN",
+  "macro_expansion": "NOT_RUN",
+  "MIR_lookup": "NOT_RUN",
+  "runtime_model_execution": "NOT_RUN",
+  "causal_repair": "UNVERIFIED",
+  "qualification": "NOT_RUN",
+  "R1_actual_cause": "UNKNOWN",
+  "proof_credit": "NONE",
+  "closed_proof_obligations": 0,
+  "GO": "NOT_ISSUED",
+  "next_step": "Coordinator/root prepares exact r3 GO-request; separate owner/coordinator dispatch/publication/accounting authority required",
+  "accounting_reference": {
+    "item1": "29/29",
+    "item2": "9/14",
+    "total": "38/43",
+    "ledger_changed": false,
+    "next_charge_assumed": false
+  },
+  "external_actions": {
+    "compiler": 0,
+    "CI": 0,
+    "push": 0,
+    "PR": 0,
+    "rerun": 0,
+    "cancel": 0,
+    "ledger": 0,
+    "reservation": 0,
+    "budget": 0
+  },
+  "subagents": 0,
+  "model_tier": "UNCHANGED",
+  "Fast": "OFF_PER_OWNER; NOT_TOGGLED"
+}
