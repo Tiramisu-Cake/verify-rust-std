@@ -44,6 +44,15 @@ Worktree `/root/verify-rust-std-kani3300-g0`; paths below relative to
   byte-identical; only the dependency-free fixture Cargo.toml is added. Preserve
   the native red outcome separately from this explicit acceptance decision.
   No retry, dependency update, ignore-list change or source/workflow fix.
+- Coordinator update 13:17: Kani CI job `134698399280`, regression (macos-15),
+  native CANCELLED: `The job was not acquired by Runner of type hosted even after
+  multiple attempts`. Coordinator reports runner unassigned, zero steps; classify
+  INFRASTRUCTURE_NO_RUNNER, coverage NOT_RUN, not a demonstrated F4 defect.
+  Connected job summaries independently confirm CANCELLED, seven other jobs
+  SUCCESS and macos-15-intel (`134698399326`) IN_PROGRESS at this snapshot.
+  Preserve diagnosis provenance and missing arm64 execution. A single-job retry
+  is an extra attempt beyond 28/28 and requires a separate owner GO; none is
+  authorized here. Still wait for all three workflows terminal before intake.
 
 ## Intake
 
@@ -73,7 +82,10 @@ Worktree `/root/verify-rust-std-kani3300-g0`; paths below relative to
    variants when exposed; missing details remain UNKNOWN. No repeated compiler audit.
 5. Report first retained meaningful failed step/reason and classification:
    FORK_PUSH_CI_PASS, FORK_PUSH_CI_COMPLETE_WITH_EXTERNAL_ADVISORY,
-   FORK_PUSH_CI_FAILED or INCONCLUSIVE. The external-advisory disposition requires
+   FORK_PUSH_CI_PARTIAL_INFRASTRUCTURE, FORK_PUSH_CI_FAILED or INCONCLUSIVE.
+   Preserve the unexecuted macos-15 job as INFRASTRUCTURE_NO_RUNNER/NOT_RUN;
+   the partial-infrastructure disposition never establishes a five-OS pass.
+   The external-advisory complete disposition requires
    all other required candidate jobs to pass; it preserves Deny=FAILURE with
    failure_class=EXTERNAL_ADVISORY, f4_blocking=false and coordinator provenance.
    Every required job must be accounted for. No other failure is waived by this
@@ -94,8 +106,9 @@ internal F4/receipt/proof labels or invented compilation-order/cache causality.
 Testing must truthfully reflect failures/UNKNOWN and deferred upstream PR checks;
 do not write fixed PASS/green standard CI if evidence is missing or red. Mark draft
 readiness separately from CI readiness. Note cargo-deny's external advisory for
-unchanged chrono dependencies without claiming Deny passed. Use old PR-DRAFT only
-as prose input.
+unchanged chrono dependencies without claiming Deny passed, and macOS arm64
+runner non-acquisition without claiming that matrix executed/passed. Use old
+PR-DRAFT only as prose input.
 
 No CI/push/PR/publication/labels/events/rerun/cancel/reservation/ledger/budget or
 source changes. Publication requires owner command. S2/S3 outside scope.
