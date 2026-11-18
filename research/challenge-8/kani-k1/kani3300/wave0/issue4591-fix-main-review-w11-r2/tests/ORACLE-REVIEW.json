@@ -1,0 +1,602 @@
+{
+  "source": {
+    "sha": "3a770b5db51ba07acffce3483bde0901e6533f3a",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "parent": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "message": "Support ordinary stubs of contracted functions on new main [skip ci]",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "local_only": true,
+    "skip_ci": true
+  },
+  "main": {
+    "sha": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "tree": "c9a832dc1647c51ac3036429e5f97e73eb717ba7",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e"
+  },
+  "count": 38,
+  "harnesses": [
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "provider",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Direct original target PFC assumes x<8; x+1 satisfies ensures.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_overflow",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "g(u8::MAX) adds 2 and violates overflow check.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "verified_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Original f requires x<8; argument 8 violates it.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "verified_postcondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Original verified f(7)=8; asserting 9 fails.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "provider_postcondition",
+      "attributes": [
+        "#[kani::proof_for_contract(bad_contract)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Direct PFC body x fails original ensures result==x+2 at 0.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "unstubbed_postcondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "An ordinary mapping of f leaves bad_contract(0) assertion active.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "unstubbed_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(bad_contract, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "An ordinary mapping of bad_contract leaves f(8) requires active.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_postcondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, bad_contract)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Copied bad_contract Assert mode fails own result==x+2 at 0.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_provider_postcondition",
+      "attributes": [
+        "#[kani::proof_for_contract(discriminating_replacement)]",
+        "#[kani::stub(f, discriminating_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "w11_01": {
+        "exact_target": "discriminating_replacement",
+        "direct_call": "discriminating_replacement(0)",
+        "direct_expected": "POSTCONDITION_PASS",
+        "copied_call": "f(1)",
+        "copied_expected": "POSTCONDITION_FAILURE",
+        "postcondition": "|result| *result == 0",
+        "body": "x",
+        "basis": "source-only input discrimination; native NOT_RUN"
+      },
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "W11-01 CLOSED: unconditional direct discriminating_replacement(0) reaches selected local FnDef and returns0 satisfying result==0; copied f(1) uses the same SimpleCheck closures and returns1 violating that unique postcondition. No requires/arithmetic/assume/direct failing post masks copied failure.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, restricted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Copied restricted provider requires x<4; input 4 violates it.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Direct PFC assumes x<8 and bounds arithmetic.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_verified_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Original requires-only verified call at 8 violates requires.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_verified_result",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Without ensures the verified return is unconstrained; asserting it equals 8 has a counterexample.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_issue_4591.rs",
+      "harness": "check_caller",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(abs_val, stub_abs_val)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE_CALLER_OVERFLOW",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Verbatim issue stub admits i32::MAX; caller adds 1, so required caller overflow failure is real.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_overlap.rs",
+      "harness": "overlapping_contract_target",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]",
+        "#[kani::stub_verified(f)]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "COMPILE_ERROR_ORIGINAL_CONTRACT_CLOSURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Explicit original PFC wins over verified mode; ordinary plain body lacks original f closure and retains current compilation error.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "provider",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Direct original target PFC assumes x<8; x+1 satisfies ensures.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Verified f preserves requires/ensures and proves x+1 (or f(7)=8).",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ordinary_stub",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Bounded x<8 gives x+2<=9, distinct from original x+1.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ordinary_stub_outside_target_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "f(8)=10 bypasses original requires and original ensures safely.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "requires_only_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Direct PFC assumes x<8 and bounds arithmetic.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "requires_only_verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Argument 7 satisfies original requires; no result claim.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ensures_only_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(ensures_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Identity body satisfies result==x for all u8.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ensures_only_verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(ensures_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Original result==x constrains verified abstraction.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "multiple_targets",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(requires_only, g)]",
+        "#[kani::stub(ensures_only, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Both mappings give 10 at 8; independent unstubbed f(7)=8 retains contracts.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(recursive)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Original recursive contract assumes x<4 and preserves result==x.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(recursive)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Verified recursive result==x at 3.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_target",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(recursive, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Ordinary g(8)=10 bypasses original recursive target requires.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "generic_instances",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(generic, generic_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Two concrete type instances and equal arguments distinguish replacement from original precondition.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "uncontracted_target",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(uncontracted, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Ordinary g(8)=10; separate unstubbed f(7) remains valid.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "transitive_replacement",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, requires_only)]",
+        "#[kani::stub(requires_only, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "f->requires_only->g resolves final provider g at both callsites.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(contracted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Direct contracted provider PFC assumes x<16; x+3 is safe and satisfies result==x+3.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_contract",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, contracted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Copied and direct provider run own contract: x=8 is inside provider requires, outside original requires.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_verified_contract",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, contracted_replacement)]",
+        "#[kani::stub_verified(contracted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Provider Replace mode returns x+3 under own specification.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_contract_target",
+      "attributes": [
+        "#[kani::proof_for_contract(contracted_replacement)]",
+        "#[kani::stub(f, contracted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "w11_01": {
+        "exact_target": "contracted_replacement",
+        "direct_call": "contracted_replacement(0)",
+        "copied_call": "f(kani::any())",
+        "expected": "both provider Check paths satisfy own pre/postconditions",
+        "basis": "source-only; native NOT_RUN"
+      },
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "W11-01 CLOSED: unconditional local contracted_replacement(0) calls selected FnDef; f(any) copies its SimpleCheck body. Direct0 passes; copied x<16 is assumed by requires, x+3 is safe and satisfies ensures. Both calls are outside contract clauses.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "ordinary_stub_original_mode",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "no-assert-contracts selects provider Original body x+2 at 8; both original and provider requires are bypassed.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "provider",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Direct original target PFC assumes x<8; x+1 satisfies ensures.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "Verified f preserves requires/ensures and proves x+1 (or f(7)=8).",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "replacement_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(replacement)]",
+        "#[kani::should_panic]"
+      ],
+      "expected_fixed": "EXPECTED_PANIC_POSTCONDITION",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "disposition": "SOURCE_EXPECTATION_SUPPORTED",
+      "execution_boundary": "Source expectation only; all new native/typechecking/compiler/verifier/CI NOT_RUN.",
+      "independent_source_review": "PFC remains SimpleCheck despite --no-assert-contracts; replacement(0) returns2 while ensures demands3. should_panic consumes intended postcondition failure.",
+      "review_basis": "current pinned source plus checked original function invariance; updated PFC rows independently reassessed"
+    }
+  ],
+  "historical_intake": "faff INCONCLUSIVE unchanged; no new-main/fixed credit"
+}

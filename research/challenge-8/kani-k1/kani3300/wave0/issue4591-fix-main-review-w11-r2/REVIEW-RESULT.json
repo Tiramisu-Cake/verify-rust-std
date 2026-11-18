@@ -1,0 +1,152 @@
+{
+  "decision": "APPROVE",
+  "W11-01": {
+    "status": "CLOSED",
+    "assurance": "independent source review; measured FnDef/MIR/native NOT_RUN",
+    "positive": "selected provider direct0 plus copied nondeterministic call, valid provider requires/post",
+    "negative": "selected identity provider ensures0: direct0 PASS, copied1 intended postcondition FAIL; no masking"
+  },
+  "blocking_findings": [],
+  "package": "ad50aaeaabe8b3a84dbf64a88d0214a16f4ee316",
+  "source": {
+    "sha": "3a770b5db51ba07acffce3483bde0901e6533f3a",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "parent": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "message": "Support ordinary stubs of contracted functions on new main [skip ci]",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "local_only": true,
+    "skip_ci": true
+  },
+  "main": {
+    "sha": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "tree": "c9a832dc1647c51ac3036429e5f97e73eb717ba7",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e"
+  },
+  "ci_request_sha256": "50da6854da282d718e28ee93953cd5d27c0bf47b366f538248cd5f461b71fdbe",
+  "tests": {
+    "independent_static_mock": {
+      "status": "PASS",
+      "count": 407
+    },
+    "author_replay": {
+      "status": "PASS",
+      "count": 237
+    },
+    "oracle_rows_reviewed": 38,
+    "PFC_harnesses_source_reviewed": 13,
+    "patch_replays": [
+      {
+        "patches": [
+          "full-main.patch"
+        ],
+        "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac"
+      },
+      {
+        "patches": [
+          "fix.patch",
+          "regression-main.patch"
+        ],
+        "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac"
+      },
+      {
+        "patches": [
+          "../issue4591-fix-r1/full-main.patch"
+        ],
+        "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac"
+      }
+    ]
+  },
+  "new_native_main": "NOT_RUN",
+  "new_native_fixed": "NOT_RUN",
+  "compiler_typechecking": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "future_final_head": "NOT_CREATED",
+  "root_go": "NOT_ISSUED_BY_INDEPENDENT_REVIEW; ELIGIBLE_FOR_EXACT_ROOT_GO_DECISION",
+  "launch_owner": "USERCOORDINATOR_ONLY_AFTER_SEPARATE_AUTHORIZATION",
+  "PR_publication_owner": "OWNER_ONLY",
+  "native_push_instances": [
+    {
+      "workflow": "deny.yml",
+      "job": "audit",
+      "os": "ubuntu-latest"
+    },
+    {
+      "workflow": "format-check.yml",
+      "job": "format-check",
+      "os": "ubuntu-latest"
+    },
+    {
+      "workflow": "format-check.yml",
+      "job": "clippy-check",
+      "os": "ubuntu-24.04"
+    },
+    {
+      "workflow": "kani.yml",
+      "job": "regression",
+      "os": "macos-15-intel"
+    },
+    {
+      "workflow": "kani.yml",
+      "job": "regression",
+      "os": "ubuntu-22.04"
+    },
+    {
+      "workflow": "kani.yml",
+      "job": "regression",
+      "os": "ubuntu-24.04"
+    },
+    {
+      "workflow": "kani.yml",
+      "job": "regression",
+      "os": "macos-15"
+    },
+    {
+      "workflow": "kani.yml",
+      "job": "regression",
+      "os": "ubuntu-24.04-arm"
+    },
+    {
+      "workflow": "kani.yml",
+      "job": "benchcomp-tests",
+      "os": "ubuntu-24.04"
+    },
+    {
+      "workflow": "kani.yml",
+      "job": "perf",
+      "os": "ubuntu-24.04"
+    },
+    {
+      "workflow": "kani.yml",
+      "job": "llbc-regression",
+      "os": "ubuntu-24.04"
+    },
+    {
+      "workflow": "kani.yml",
+      "job": "documentation",
+      "os": "ubuntu-24.04"
+    }
+  ],
+  "future_gate": {
+    "sha": "NOT_CREATED",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "parent": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "relation": "new nonskip same-tree sibling of candidate; main..final is exactly one new commit",
+    "candidate_in_pushed_range": false,
+    "owner": "USERCOORDINATOR_AFTER_SAME11_DELTA_AND_ROOT_GO"
+  },
+  "accounting_reference_only": {
+    "item1": "30/31",
+    "item2": "11/17",
+    "total": "41/48",
+    "prospective_bundle": "item1 31/31; total42/48",
+    "consumed_here": 0,
+    "ledger_mutation": false
+  },
+  "candidate_edits": false,
+  "subagents_spawned": 0,
+  "model_changes": false,
+  "reasoning_setting_changes": false,
+  "fast_setting_changes": false,
+  "no_formal_proof_credit": true,
+  "repair_owner_if_future_findings": "original15 new immutable repair, same independent11 delta"
+}
