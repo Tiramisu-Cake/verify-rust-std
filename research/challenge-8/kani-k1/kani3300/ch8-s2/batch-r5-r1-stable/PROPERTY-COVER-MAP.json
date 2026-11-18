@@ -1,0 +1,479 @@
+{
+  "schema": "ch8-s2-r5-source-expectations-v1",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "bd62e54df1b4749154790aa3db3cc7978f547f75"
+  },
+  "request_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+  "rows": [
+    {
+      "id": "swap_pfc",
+      "selection": "SELECTED_R5",
+      "mode": "PFC",
+      "assurance": "QUALIFICATION_ATTEMPT",
+      "expected": "SUCCESS",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+      "source_binding": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+        "mode": "PFC",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "target": "swap_if_less",
+        "locations": [
+          {
+            "line": 72,
+            "source": "#[kani::proof_for_contract(swap_if_less)]"
+          },
+          {
+            "line": 74,
+            "source": "fn swap_pfc() {"
+          }
+        ]
+      },
+      "required_success_messages": [
+        "S2_SWAP_EXACT_TRANSFER",
+        "S2_SWAP_FULL_FRAME",
+        "S2_ACTIVE_SWAP_PFC"
+      ],
+      "required_cover_messages": [
+        "S2_SWAP_EQUAL",
+        "S2_SWAP_TAKEN",
+        "S2_SWAP_REVERSE",
+        "S2_SWAP_USEFUL_RETURN"
+      ],
+      "oracle": null,
+      "native_r5_property_cover_bindings": "NOT_RUN_UNOBSERVED; require fresh stock/rich/compiler-origin chain; source ordinals not inferred native identity",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "summary_witness",
+      "selection": "SELECTED_R5",
+      "mode": "Original",
+      "assurance": "MODEL_DIAGNOSTIC",
+      "expected": "SUCCESS",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::summary_witness",
+      "source_binding": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::summary_witness",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "target": null,
+        "locations": [
+          {
+            "line": 100,
+            "source": "#[kani::proof]"
+          },
+          {
+            "line": 102,
+            "source": "fn summary_witness() {"
+          }
+        ]
+      },
+      "required_success_messages": [
+        "S2_SUMMARY_WITNESS_FULL_COUNT",
+        "S2_PAIR_WITNESS",
+        "S2_ACTIVE_SUMMARY_WITNESS"
+      ],
+      "required_cover_messages": [
+        "S2_WITNESS_UNSORTED",
+        "S2_WITNESS_NONCONSTANT",
+        "S2_WITNESS_USEFUL_RETURN"
+      ],
+      "oracle": null,
+      "native_r5_property_cover_bindings": "NOT_RUN_UNOBSERVED; require fresh stock/rich/compiler-origin chain; source ordinals not inferred native identity",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "merge32_real",
+      "selection": "SELECTED_R5",
+      "mode": "Original",
+      "assurance": "ACTUAL_BODY",
+      "expected": "SUCCESS",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real",
+      "source_binding": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "target": null,
+        "locations": [
+          {
+            "line": 27,
+            "source": "#[kani::proof]"
+          },
+          {
+            "line": 29,
+            "source": "fn merge32_real() {"
+          }
+        ]
+      },
+      "required_success_messages": [
+        "S2_MERGE32_SORTED_FULL_COUNT",
+        "S2_MERGE_SOURCE_FRAME",
+        "S2_MERGE_CANARIES",
+        "S2_ACTIVE_MERGE32_REAL"
+      ],
+      "required_cover_messages": [
+        "S2_MERGE_RIGHT_FIRST",
+        "S2_MERGE_LEFT_FIRST",
+        "S2_MERGE_TIE",
+        "S2_MERGE_NONCONSTANT",
+        "S2_MERGE_USEFUL_RETURN"
+      ],
+      "oracle": null,
+      "native_r5_property_cover_bindings": "NOT_RUN_UNOBSERVED; require fresh stock/rich/compiler-origin chain; source ordinals not inferred native identity",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "sort13_assumed",
+      "selection": "SELECTED_R5",
+      "mode": "Original",
+      "assurance": "DIAGNOSTIC_ASSUMED",
+      "expected": "SUCCESS",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+      "source_binding": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "target": null,
+        "locations": [
+          {
+            "line": 39,
+            "source": "#[kani::proof]"
+          },
+          {
+            "line": 42,
+            "source": "fn sort13_assumed() {"
+          }
+        ]
+      },
+      "required_success_messages": [
+        "S2_SORT13_SORTED_FULL_COUNT",
+        "S2_SORT13_CANARIES",
+        "S2_ACTIVE_SORT13_ASSUMED"
+      ],
+      "required_cover_messages": [
+        "S2_SORT13_UNSORTED",
+        "S2_SORT13_DUPLICATE",
+        "S2_SORT13_NONCONSTANT",
+        "S2_SORT13_USEFUL_RETURN"
+      ],
+      "oracle": null,
+      "native_r5_property_cover_bindings": "NOT_RUN_UNOBSERVED; require fresh stock/rich/compiler-origin chain; source ordinals not inferred native identity",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "general32_assumed",
+      "selection": "DEFERRED_TO_S3_NOT_SELECTED",
+      "mode": "Original",
+      "assurance": "DIAGNOSTIC_ASSUMED",
+      "expected": "SUCCESS",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+      "source_binding": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "target": null,
+        "locations": [
+          {
+            "line": 54,
+            "source": "#[kani::proof]"
+          },
+          {
+            "line": 59,
+            "source": "fn general32_assumed() {"
+          }
+        ]
+      },
+      "required_success_messages": [
+        "S2_GENERAL32_SORTED_FULL_COUNT",
+        "S2_GENERAL32_CANARIES",
+        "S2_ACTIVE_GENERAL32_ASSUMED"
+      ],
+      "required_cover_messages": [
+        "S2_GENERAL32_UNSORTED",
+        "S2_GENERAL32_DUPLICATE",
+        "S2_GENERAL32_NONCONSTANT",
+        "S2_GENERAL32_USEFUL_RETURN"
+      ],
+      "oracle": null,
+      "native_r5_property_cover_bindings": "NOT_RUN_UNOBSERVED; require fresh stock/rich/compiler-origin chain; source ordinals not inferred native identity",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "merge_order_corrupt",
+      "selection": "SELECTED_R5",
+      "mode": "Original",
+      "assurance": "NEGATIVE_CONTROL",
+      "expected": "DETECTED",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt",
+      "source_binding": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "target": null,
+        "locations": [
+          {
+            "line": 116,
+            "source": "#[kani::proof]"
+          },
+          {
+            "line": 118,
+            "source": "fn merge_order_corrupt() {"
+          }
+        ]
+      },
+      "required_success_messages": [],
+      "required_cover_messages": [],
+      "oracle": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt",
+        "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt.assertion.1",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 121,
+        "class": "assertion",
+        "source_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_NEG_MERGE_ORDER\");",
+        "intended_message": "S2_NEG_MERGE_ORDER",
+        "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+      },
+      "native_r5_property_cover_bindings": "NOT_RUN_UNOBSERVED; require fresh stock/rich/compiler-origin chain; source ordinals not inferred native identity",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "merge_count_corrupt",
+      "selection": "SELECTED_R5",
+      "mode": "Original",
+      "assurance": "NEGATIVE_CONTROL",
+      "expected": "DETECTED",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+      "source_binding": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "target": null,
+        "locations": [
+          {
+            "line": 123,
+            "source": "#[kani::proof]"
+          },
+          {
+            "line": 125,
+            "source": "fn merge_count_corrupt() {"
+          }
+        ]
+      },
+      "required_success_messages": [],
+      "required_cover_messages": [],
+      "oracle": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+        "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt.assertion.1",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 128,
+        "class": "assertion",
+        "source_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_NEG_MERGE_COUNT\");",
+        "intended_message": "S2_NEG_MERGE_COUNT",
+        "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+      },
+      "native_r5_property_cover_bindings": "NOT_RUN_UNOBSERVED; require fresh stock/rich/compiler-origin chain; source ordinals not inferred native identity",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "selection": "SELECTED_R5",
+      "mode": "Original",
+      "assurance": "NEGATIVE_CONTROL",
+      "expected": "DETECTED",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "source_binding": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "target": null,
+        "locations": [
+          {
+            "line": 130,
+            "source": "#[kani::proof]"
+          },
+          {
+            "line": 132,
+            "source": "fn checker_count_corrupt() {"
+          }
+        ]
+      },
+      "required_success_messages": [],
+      "required_cover_messages": [],
+      "oracle": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+        "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt.assertion.1",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 134,
+        "class": "assertion",
+        "source_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_COUNT\");",
+        "intended_message": "S2_NEG_CHECKER_COUNT",
+        "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+      },
+      "native_r5_property_cover_bindings": "NOT_RUN_UNOBSERVED; require fresh stock/rich/compiler-origin chain; source ordinals not inferred native identity",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "checker_order_corrupt",
+      "selection": "SELECTED_R5",
+      "mode": "Original",
+      "assurance": "NEGATIVE_CONTROL",
+      "expected": "DETECTED",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "source_binding": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "target": null,
+        "locations": [
+          {
+            "line": 136,
+            "source": "#[kani::proof]"
+          },
+          {
+            "line": 138,
+            "source": "fn checker_order_corrupt() {"
+          }
+        ]
+      },
+      "required_success_messages": [],
+      "required_cover_messages": [],
+      "oracle": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt.assertion.1",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 140,
+        "class": "assertion",
+        "source_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_ORDER\");",
+        "intended_message": "S2_NEG_CHECKER_ORDER",
+        "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+      },
+      "native_r5_property_cover_bindings": "NOT_RUN_UNOBSERVED; require fresh stock/rich/compiler-origin chain; source ordinals not inferred native identity",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "sort13_weak",
+      "selection": "SELECTED_R5",
+      "mode": "Original",
+      "assurance": "NEGATIVE_CONTROL",
+      "expected": "DETECTED",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "source_binding": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "target": null,
+        "locations": [
+          {
+            "line": 143,
+            "source": "#[kani::proof]"
+          },
+          {
+            "line": 146,
+            "source": "fn sort13_weak() {"
+          }
+        ]
+      },
+      "required_success_messages": [],
+      "required_cover_messages": [],
+      "oracle": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+        "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak.assertion.1",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 149,
+        "class": "assertion",
+        "source_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_SORT13_WEAK\");",
+        "intended_message": "S2_NEG_SORT13_WEAK",
+        "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+      },
+      "native_r5_property_cover_bindings": "NOT_RUN_UNOBSERVED; require fresh stock/rich/compiler-origin chain; source ordinals not inferred native identity",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "general32_weak",
+      "selection": "DEFERRED_TO_S3_NOT_SELECTED",
+      "mode": "Original",
+      "assurance": "NEGATIVE_CONTROL",
+      "expected": "DETECTED",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+      "source_binding": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+        "mode": "Original",
+        "crate": "core",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "target": null,
+        "locations": [
+          {
+            "line": 155,
+            "source": "#[kani::proof]"
+          },
+          {
+            "line": 160,
+            "source": "fn general32_weak() {"
+          }
+        ]
+      },
+      "required_success_messages": [],
+      "required_cover_messages": [],
+      "oracle": {
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+        "property_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak.assertion.1",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 163,
+        "class": "assertion",
+        "source_sha256": "e0f47062d71f256fed49b8ad8144c2a83c9a96ecd85646605b1c2fe9b707d0dc",
+        "source_line": "    assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_GENERAL32_WEAK\");",
+        "intended_message": "S2_NEG_GENERAL32_WEAK",
+        "binding": "SOURCE_EXPECTED_ID_UNOBSERVED; requires exact rich inventory + source coordinates; mismatch UNKNOWN"
+      },
+      "native_r5_property_cover_bindings": "NOT_RUN_UNOBSERVED; require fresh stock/rich/compiler-origin chain; source ordinals not inferred native identity",
+      "proof_credit": "NONE"
+    }
+  ],
+  "selected": {
+    "roots": 9,
+    "covers": 16,
+    "negatives": 5
+  },
+  "canonical_full": {
+    "roots": 11,
+    "covers": 20,
+    "negatives": 6
+  },
+  "r5_native": "NOT_RUN",
+  "registration_only": "sort8 same-cfg PFC registration remains unproved/unselected"
+}

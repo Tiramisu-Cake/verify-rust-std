@@ -1,0 +1,33 @@
+{
+  "execution": "TARGETED_CAP_TESTS_ONLY_NEW_OBJECT",
+  "control_sha": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+  "control_tree": "20f53f18eaafe276a3f1ea74102cbc7c6f3985ac",
+  "request_sha256": "d87434d250a1a430c565d8e0612e5a3987f7a811b6cfd9091c268865ff3498b1",
+  "workflow_sha256": "80d1273b9564a16eb4619089db5604ccccdfaa1cb7a155e9703d169c14b58c90",
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "unittest",
+    "-v",
+    "final_cap_checks.R5MarginTests",
+    "test_s2.S2Tests.test_workflow_caps_types_and_single_serial_job",
+    "test_s2.S2Tests.test_timeout_caps_and_order_reject_redistribution",
+    "test_s2.S2Tests.test_setup_aggregate_remaining_boundary_without_compiler"
+  ],
+  "cwd": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s2/batch-r5-r1-stable",
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "started_utc": "2026-11-18T18:36:21.971158+00:00",
+  "monotonic_start_ns": 2521317303868119,
+  "monotonic_end_ns": 2521318754491678,
+  "elapsed_seconds": 1.450623559,
+  "exit_code": 0,
+  "test_files_sha256": {
+    "final_cap_checks.py": "b0caf9ec39b0fdf73ee61862a67286f506ed8a0439925c597635684f8c028b04",
+    "test_s2.py": "1c57b2de286916bdc0a5ce78a4aa111fdb1bbc66a8357a32214fc56df42cbfd2"
+  },
+  "transcript_sha256": "d21c6a5628bcd804239d1484e848c0da4c8f2983d8a48f1ecf01a5371f38f7a4",
+  "full130_suite_on_new_object": "SEPARATELY_MEASURED_COMBINED_FINAL",
+  "compiler_CI": "NOT_RUN"
+}

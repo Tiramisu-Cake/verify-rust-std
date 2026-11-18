@@ -1,0 +1,27 @@
+{
+  "status": "TESTS_PASS_BUT_MARGIN_FAIL",
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r5-r1-stable-w13",
+    "sha": "5d7b8cadedc2f7627e5d28432701b8ea6823e188",
+    "tree": "807214865330fa99f2d8d8b397e6d16d33941140",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "elapsed_seconds": 440.727425928,
+  "tests": 136,
+  "cap_seconds": 660,
+  "ratio": 1.4975242319224802,
+  "required_ratio": 1.5,
+  "necessary_whole_minute_cap": 12,
+  "authorized_exception": "TASK-CH8-S2-R5-TEST-STABILITY-W13.md:Only if necessary under owner margin rule, smallest sufficient R5 cap",
+  "new_final_control": "63535098ab85c70c8707eee0afd65f53c9ef566a",
+  "additional_final_execution_reason": "concrete margin failure and exact-final provenance after cap/assertion changes; not retry-until-pass",
+  "fixture_service_command_module_list": "BYTE_IDENTICAL to final635; necessary exact-cap assertions only differ",
+  "prior_control_patch_sha256": "6c227798ddbb5a51d1e3aa7447698d699c2d44393046424ac0b998039eadfca7",
+  "files": {
+    "PRECURSOR-STABLE-CHECK-SOURCE-TIMING.json": "06e10d8ab86f29fd3cf0babee4690c474d2aa36d8b592d7086d1af09ee11124f",
+    "PRECURSOR-STABLE-CHECK-SOURCE.txt": "b0cde3f3de798f900d76bc48dde308197e9e04a24e5ad362d109c5024761f095",
+    "PRECURSOR-STABLE-FINAL-VALIDATE-TIMING.json": "601dfecf53ce88cf3d2f065d73b9349ed15930cbfefe8245a541e831d9df5ec9",
+    "PRECURSOR-STABLE-FINAL-VALIDATE.txt": "126548c5b9859d46925ccc53df042b180217a29300c8dcb553131cc4329a50c6",
+    "PRECURSOR-STABLE-TEST-PROVENANCE.json": "d839af76414129de9b0fca64c1da81dfd3192f972e4fa9a56f8984c7ee8c5ad7"
+  }
+}

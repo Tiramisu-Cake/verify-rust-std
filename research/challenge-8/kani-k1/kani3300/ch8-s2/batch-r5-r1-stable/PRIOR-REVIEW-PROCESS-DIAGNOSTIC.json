@@ -1,0 +1,229 @@
+{
+  "status": "DIAGNOSED_UNCHANGED_FIXTURE_RACE",
+  "initial_failure": "TARGETED-TESTS.txt: orphan_survivors_at_worker_exit [] assertion; containment verified assertion passed",
+  "runtime_byte_identical_to_prior": true,
+  "runtime_sha256": "e796129e9da910879026cbe9a2037cf4834793f97032b2ff21bdf128268c697f",
+  "exact_test_repeats": [
+    {
+      "attempt": 1,
+      "success": false,
+      "transcript": "test_escaped_setsid_child_found_and_reaped (test_r5.ProcessTests.test_escaped_setsid_child_found_and_reaped) ... FAIL\n\n======================================================================\nFAIL: test_escaped_setsid_child_found_and_reaped (test_r5.ProcessTests.test_escaped_setsid_child_found_and_reaped)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/root/kani-ch8-s2-r5-r1-final-w13/ch8-s1-control/test_r5.py\", line 250, in test_escaped_setsid_child_found_and_reaped\n    self.assertTrue(result['containment']['verified']);self.assertTrue(result['orphan_survivors_at_worker_exit']);self.assertTrue(result['containment']['reaped_adopted'])\n                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: [] is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.343s\n\nFAILED (failures=1)\n"
+    }
+  ],
+  "instrumented_cases": [
+    {
+      "case": "exact_fast_exit_fixture",
+      "result": {
+        "worker_pid": 2810067,
+        "worker_initial_identity": {
+          "pid": 2810067,
+          "state": "R",
+          "ppid": 2810056,
+          "pgid": 2810067,
+          "start_ticks": 252019190
+        },
+        "worker_exit": 0,
+        "worker_wall_limit_seconds": 2,
+        "cutoff": null,
+        "supervisor_error": null,
+        "containment": {
+          "verified": true,
+          "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+          "observed": [
+            {
+              "pid": 2810067,
+              "state": "Z",
+              "ppid": 2810056,
+              "pgid": 2810067,
+              "start_ticks": 252019190
+            },
+            {
+              "pid": 2810070,
+              "state": "S",
+              "ppid": 2810056,
+              "pgid": 2810070,
+              "start_ticks": 252019211
+            }
+          ],
+          "signals": [
+            {
+              "pid": 2810070,
+              "start_ticks": 252019211,
+              "signal": 15,
+              "monotonic": 2520192.341754282
+            }
+          ],
+          "reaped_adopted": [
+            {
+              "pid": 2810070,
+              "status": 15
+            }
+          ],
+          "worker_exit": 0,
+          "elapsed_seconds": 0.13454392366111279
+        },
+        "monotonic_start": 2520191.905279077,
+        "monotonic_end": 2520192.361662277,
+        "elapsed_seconds": 0.4563836697489023,
+        "outer_sampled_peak_kib": 11292,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "limit_initiated": false,
+        "orphan_survivors_at_worker_exit": [
+          {
+            "pid": 2810070,
+            "state": "R",
+            "ppid": 2810056,
+            "pgid": 2810067,
+            "start_ticks": 252019211
+          }
+        ]
+      },
+      "controller_owned_group_check": {
+        "rejected": true,
+        "message": "unexpected_process_group_containment_gap"
+      }
+    },
+    {
+      "case": "synchronized_setsid_before_parent_exit",
+      "result": {
+        "worker_pid": 2810072,
+        "worker_initial_identity": {
+          "pid": 2810072,
+          "state": "R",
+          "ppid": 2810056,
+          "pgid": 2810072,
+          "start_ticks": 252019238
+        },
+        "worker_exit": 0,
+        "worker_wall_limit_seconds": 2,
+        "cutoff": null,
+        "supervisor_error": null,
+        "containment": {
+          "verified": true,
+          "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+          "observed": [
+            {
+              "pid": 2810072,
+              "state": "Z",
+              "ppid": 2810056,
+              "pgid": 2810072,
+              "start_ticks": 252019238
+            },
+            {
+              "pid": 2810073,
+              "state": "S",
+              "ppid": 2810056,
+              "pgid": 2810073,
+              "start_ticks": 252019251
+            }
+          ],
+          "signals": [
+            {
+              "pid": 2810073,
+              "start_ticks": 252019251,
+              "signal": 15,
+              "monotonic": 2520192.718917075
+            }
+          ],
+          "reaped_adopted": [
+            {
+              "pid": 2810073,
+              "status": 15
+            }
+          ],
+          "worker_exit": 0,
+          "elapsed_seconds": 0.07107467716559768
+        },
+        "monotonic_start": 2520192.385030251,
+        "monotonic_end": 2520192.739393023,
+        "elapsed_seconds": 0.3543630689382553,
+        "outer_sampled_peak_kib": 23744,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "limit_initiated": false,
+        "orphan_survivors_at_worker_exit": [
+          {
+            "pid": 2810073,
+            "state": "S",
+            "ppid": 2810056,
+            "pgid": 2810073,
+            "start_ticks": 252019251
+          }
+        ]
+      },
+      "controller_owned_group_check": {
+        "rejected": true,
+        "message": "unexpected_process_group_containment_gap"
+      }
+    },
+    {
+      "case": "delayed_after_first_observation",
+      "result": {
+        "worker_pid": 2810074,
+        "worker_initial_identity": {
+          "pid": 2810074,
+          "state": "R",
+          "ppid": 2810056,
+          "pgid": 2810074,
+          "start_ticks": 252019276
+        },
+        "worker_exit": 0,
+        "worker_wall_limit_seconds": 2,
+        "cutoff": null,
+        "supervisor_error": null,
+        "containment": {
+          "verified": true,
+          "scope": "SUBREAPER_OWNED_DESCENDANTS_PID_STARTTIME; not kernel memory accounting",
+          "observed": [
+            {
+              "pid": 2810074,
+              "state": "R",
+              "ppid": 2810056,
+              "pgid": 2810074,
+              "start_ticks": 252019276
+            },
+            {
+              "pid": 2810075,
+              "state": "Z",
+              "ppid": 2810056,
+              "pgid": 2810075,
+              "start_ticks": 252019287
+            }
+          ],
+          "signals": [
+            {
+              "pid": 2810075,
+              "start_ticks": 252019287,
+              "signal": 15,
+              "monotonic": 2520193.044753455
+            }
+          ],
+          "reaped_adopted": [
+            {
+              "pid": 2810075,
+              "status": 15
+            }
+          ],
+          "worker_exit": 0,
+          "elapsed_seconds": 0.11535738361999393
+        },
+        "monotonic_start": 2520192.768777319,
+        "monotonic_end": 2520193.123310598,
+        "elapsed_seconds": 0.3545338246040046,
+        "outer_sampled_peak_kib": 0,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "limit_initiated": false,
+        "orphan_survivors_at_worker_exit": []
+      },
+      "controller_owned_group_check": {
+        "rejected": true,
+        "message": "unexpected_process_group_containment_gap"
+      }
+    }
+  ],
+  "analysis": "The original fixture lets its parent exit immediately after Popen, without synchronizing child setsid. The supervisor samples live before poll; adoption/child startup can occur between that sample and parent exit. The early survivors list is timing-dependent. cleanup resamples owned descendants, signals and reaps them; its observed inventory feeds the unchanged controller PGID escape check. The synchronized fixture guarantees setsid before exit and independently tests that check.",
+  "classification": "UNCHANGED_NONDETERMINISTIC_TEST_SNAPSHOT; not a portable-seal regression",
+  "limitation": "No general process-containment proof; scoped diagnostic only. Initial failed assertion retained; no all34PASS claim.",
+  "candidate_edit": 0,
+  "full_Validate_reexecutions": 0,
+  "proof_credit": "NONE"
+}

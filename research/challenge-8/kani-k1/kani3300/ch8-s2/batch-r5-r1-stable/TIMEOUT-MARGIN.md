@@ -1,0 +1,1 @@
+Actual final136 PASS 446.377637895s; 720s/446.377637895=1.612984027146456926344455403x >=1.5. Minimum 669.5664568425s, smallest whole-minute cap12. R5 cap12 follows measured precursor margin failure; strict legacy10 unchanged. Setup1800/job180min/campaign6900/resource caps unchanged. Prior134/409.026897886s remains prior-object only. Future CI timing UNKNOWN.

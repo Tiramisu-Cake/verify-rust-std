@@ -1,0 +1,2 @@
+READY_SAME14_NARROW_DELTA task6d7c4739def196654459faf05b7e1c36ace03e93
+Stable test-only candidate; exact approval/GO PENDING.

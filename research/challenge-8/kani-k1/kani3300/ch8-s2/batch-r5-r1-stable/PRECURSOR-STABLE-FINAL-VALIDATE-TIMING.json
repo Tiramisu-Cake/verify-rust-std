@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "command": "python3 check_package.py control --repo ..\npython3 -m unittest -v test_runner.py test_s107.FinalizationTests test_s2.py test_cfg_pfc.py test_rustc_diagnostics.py test_contract_stacks.py test_r1403_lexical.py test_r5.py\n",
+  "shell": [
+    "bash",
+    "--noprofile",
+    "--norc",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c"
+  ],
+  "cwd": "/root/kani-ch8-s2-r5-r1-stable-w13/ch8-s1-control",
+  "provenance": {
+    "source": {
+      "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+      "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+      "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    },
+    "control": {
+      "worktree": "/root/kani-ch8-s2-r5-r1-stable-w13",
+      "sha": "5d7b8cadedc2f7627e5d28432701b8ea6823e188",
+      "tree": "807214865330fa99f2d8d8b397e6d16d33941140",
+      "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+    },
+    "tool": {
+      "worktree": "/root/kani-upstream-ch8-s1",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    },
+    "request_sha256": "9a738b28f802655b0b59c17a1a5012f748110269d5e1dfd301b08a48b9478185",
+    "workflow_sha256": "4a9e90a68e4b3f977f28ee31ec2c9426e3b685f1da5616168e12756d0c64c8c6"
+  },
+  "started_utc": "2026-11-18T18:27:35.102356+00:00",
+  "monotonic_start_ns": 2520790435089333,
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "GITHUB_REPOSITORY": "Tiramisu-Cake/kani",
+    "GITHUB_EVENT_NAME": "push",
+    "GITHUB_REF": "refs/heads/uninit-ci/ch8-s2-batch3probes-r5-r1-stable-w13",
+    "GITHUB_RUN_ATTEMPT": "1",
+    "GITHUB_SHA": "5d7b8cadedc2f7627e5d28432701b8ea6823e188",
+    "S2_PROFILE": "ch8-s2-r5-isolated-v1"
+  },
+  "host": "Linux-6.8.0-136-generic-x86_64-with-glibc2.39",
+  "machine_duration_scope": "THIS_MACHINE_ONLY; GitHub future duration UNKNOWN",
+  "proof_credit": "NONE",
+  "exit_code": 0,
+  "ended_utc": "2026-11-18T18:34:56.071634+00:00",
+  "monotonic_end_ns": 2521231162515261,
+  "elapsed_seconds": 440.727425928,
+  "transcript_sha256": "126548c5b9859d46925ccc53df042b180217a29300c8dcb553131cc4329a50c6"
+}
