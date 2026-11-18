@@ -1,0 +1,20 @@
+{
+  "exact_frozen_mutation_sha256": "ac46aa6f9acdf70382b9b21367445b141e7ec115c2e7436d821c2980865a9edb",
+  "only_removed_request_keys": [
+    "lexical_source_sha256"
+  ],
+  "other_request_fields": "EXACTLY_UNCHANGED",
+  "outcomes": {
+    "frozen": {
+      "status": "STATIC_PASS",
+      "static_calls": 77
+    },
+    "proposed": {
+      "status": "REJECT",
+      "diagnostic": "name gate: unresolved static path core::slice::sort::shared::smallsort::verify::sorting_s2_batch::missing_static"
+    }
+  },
+  "baseline": "EXACT_MAP_MATCH_FROZEN_PROPOSED_AND_PINNED_MAP;77calls8functions11contexts",
+  "native_compile": "NOT_RUN",
+  "proof_credit": "NONE"
+}

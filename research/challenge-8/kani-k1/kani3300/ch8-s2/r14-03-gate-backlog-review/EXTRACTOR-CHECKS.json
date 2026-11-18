@@ -1,0 +1,189 @@
+{
+  "status": "PASS",
+  "scope": "bounded extractor/guard delta; no expression typing or syntax completeness claim",
+  "path_cases": [
+    {
+      "depth": 0,
+      "path": "callable",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 0,
+      "path": "super::super::sort4_stable",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 0,
+      "path": "::core::mem::size_of::<u8>",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 1,
+      "path": "callable",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 1,
+      "path": "super::super::sort4_stable",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 1,
+      "path": "::core::mem::size_of::<u8>",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 2,
+      "path": "callable",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 2,
+      "path": "super::super::sort4_stable",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 2,
+      "path": "::core::mem::size_of::<u8>",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 4,
+      "path": "callable",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 4,
+      "path": "super::super::sort4_stable",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 4,
+      "path": "::core::mem::size_of::<u8>",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 16,
+      "path": "callable",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 16,
+      "path": "super::super::sort4_stable",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 16,
+      "path": "::core::mem::size_of::<u8>",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 257,
+      "path": "callable",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 257,
+      "path": "super::super::sort4_stable",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 257,
+      "path": "::core::mem::size_of::<u8>",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 4096,
+      "path": "callable",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 4096,
+      "path": "super::super::sort4_stable",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    },
+    {
+      "depth": 4096,
+      "path": "::core::mem::size_of::<u8>",
+      "status": "ONE_EXACT_STATIC_RECORD_WITH_ORIGINAL_TOKEN_OFFSET"
+    }
+  ],
+  "unsupported_guard_cases": [
+    {
+      "expression": "((left,right))()",
+      "status": "REJECT",
+      "diagnostic": "name gate: unsupported callable expression ending ) at line 1"
+    },
+    {
+      "expression": "((*pointer))()",
+      "status": "REJECT",
+      "diagnostic": "name gate: unsupported callable expression ending ) at line 1"
+    },
+    {
+      "expression": "((obj.member))()",
+      "status": "REJECT",
+      "diagnostic": "name gate: unsupported callable expression ending ) at line 1"
+    },
+    {
+      "expression": "((factory))()()",
+      "status": "REJECT",
+      "diagnostic": "name gate: unsupported callable expression ending ) at line 1"
+    },
+    {
+      "expression": "((factory(argument)))()",
+      "status": "REJECT",
+      "diagnostic": "name gate: unsupported callable expression ending ) at line 1"
+    },
+    {
+      "expression": "((callbacks[0]))()",
+      "status": "REJECT",
+      "diagnostic": "name gate: unsupported callable expression ending ) at line 1"
+    },
+    {
+      "expression": "((|| {}))()",
+      "status": "REJECT",
+      "diagnostic": "name gate: unsupported callable expression ending ) at line 1"
+    },
+    {
+      "expression": "(({callback}))()",
+      "status": "REJECT",
+      "diagnostic": "name gate: unsupported callable expression ending ) at line 1"
+    },
+    {
+      "expression": "((macro!()))()",
+      "status": "REJECT",
+      "diagnostic": "name gate: unsupported callable expression ending ) at line 1"
+    }
+  ],
+  "nested_argument_and_method_case": {
+    "source": "((callee))(((argument))(), ((receiver)).method());",
+    "records": [
+      [
+        [
+          "callee"
+        ],
+        1,
+        "STATIC",
+        2
+      ],
+      [
+        [
+          "argument"
+        ],
+        1,
+        "STATIC",
+        8
+      ],
+      [
+        [
+          "method"
+        ],
+        1,
+        "METHOD",
+        20
+      ]
+    ]
+  },
+  "native_compile": "NOT_RUN",
+  "proof_credit": "NONE"
+}

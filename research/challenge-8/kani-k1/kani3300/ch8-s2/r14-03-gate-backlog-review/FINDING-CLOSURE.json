@@ -1,0 +1,30 @@
+{
+  "id": "R14-03",
+  "priority": "P2",
+  "status": "CLOSED",
+  "scope": "Exact gate-only patch ONLY; historical e783 review and frozen control remain immutable",
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r14-03-gate-backlog-w13",
+    "sha": "0e97a487d8b7f8e8cbced5dbe2b6909c7150c695",
+    "tree": "b980862474e3630c459ee147def4fa45f3ea42fd",
+    "parent": "0e8c836857344866564e1423ad5d8d28bbc4106b"
+  },
+  "patch": {
+    "path": "PATCH.patch",
+    "sha256": "1dfaf5a1fa2d748e81bea4093018eb65972d7cfc807e47c0d1f7ad39565f8cba",
+    "base": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "target": "0e97a487d8b7f8e8cbced5dbe2b6909c7150c695",
+    "target_tree": "b980862474e3630c459ee147def4fa45f3ea42fd",
+    "replay": "EXACT_TREE_MATCH"
+  },
+  "basis": "Exact frozen nested-call discriminator changes from silent accept to unresolved-path rejection; nested supported paths resolve once with original token offsets; unsupported grouped/index/block/call-result callees reject",
+  "evidence": [
+    "DISCRIMINATOR.json",
+    "EXTRACTOR-CHECKS.json",
+    "FINAL-TESTS.txt",
+    "CHECKS.json"
+  ],
+  "assurance": "OFFLINE_STATIC_SYNTHETIC_ONLY",
+  "native_compile": "NOT_RUN",
+  "proof_credit": "NONE"
+}

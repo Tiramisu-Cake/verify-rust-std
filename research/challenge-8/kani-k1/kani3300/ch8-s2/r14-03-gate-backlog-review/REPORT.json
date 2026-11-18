@@ -1,0 +1,161 @@
+{
+  "schema": "ch8-s2-r1403-gate-only-same14-review-v1",
+  "task_id": "task6db728b62b62d6d98d683f3d2cf6fb824dd6cc68",
+  "issued": "owner17:54 SAME14 gate-only delta",
+  "verdict": "APPROVE",
+  "finding": {
+    "id": "R14-03",
+    "priority": "P2",
+    "status": "CLOSED",
+    "scope": "Exact gate-only patch ONLY; historical e783 review and frozen control remain immutable",
+    "control": {
+      "worktree": "/root/kani-ch8-s2-r14-03-gate-backlog-w13",
+      "sha": "0e97a487d8b7f8e8cbced5dbe2b6909c7150c695",
+      "tree": "b980862474e3630c459ee147def4fa45f3ea42fd",
+      "parent": "0e8c836857344866564e1423ad5d8d28bbc4106b"
+    },
+    "patch": {
+      "path": "PATCH.patch",
+      "sha256": "1dfaf5a1fa2d748e81bea4093018eb65972d7cfc807e47c0d1f7ad39565f8cba",
+      "base": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+      "target": "0e97a487d8b7f8e8cbced5dbe2b6909c7150c695",
+      "target_tree": "b980862474e3630c459ee147def4fa45f3ea42fd",
+      "replay": "EXACT_TREE_MATCH"
+    },
+    "basis": "Exact frozen nested-call discriminator changes from silent accept to unresolved-path rejection; nested supported paths resolve once with original token offsets; unsupported grouped/index/block/call-result callees reject",
+    "evidence": [
+      "DISCRIMINATOR.json",
+      "EXTRACTOR-CHECKS.json",
+      "FINAL-TESTS.txt",
+      "CHECKS.json"
+    ],
+    "assurance": "OFFLINE_STATIC_SYNTHETIC_ONLY",
+    "native_compile": "NOT_RUN",
+    "proof_credit": "NONE"
+  },
+  "new_blockers": [],
+  "package_commit": "4eccefc670602b58f25f9c55a27da2d844cdcf18",
+  "frozen_review": "e7837b0f70e235399e53f8da1b48a4a84b33f693",
+  "frozen_package": "474e0b4209554bdd69c4303410192d2d472af4a2",
+  "frozen_source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "frozen_control": {
+    "worktree": "/root/kani-ch8-s2-r4-r1-w13",
+    "sha": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "tree": "9f7c903f2039e6a52b19f37c5f32fbd9cc86566f",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "local_control": {
+    "worktree": "/root/kani-ch8-s2-r14-03-gate-backlog-w13",
+    "sha": "0e97a487d8b7f8e8cbced5dbe2b6909c7150c695",
+    "tree": "b980862474e3630c459ee147def4fa45f3ea42fd",
+    "parent": "0e8c836857344866564e1423ad5d8d28bbc4106b"
+  },
+  "patch": {
+    "path": "PATCH.patch",
+    "sha256": "1dfaf5a1fa2d748e81bea4093018eb65972d7cfc807e47c0d1f7ad39565f8cba",
+    "base": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "target": "0e97a487d8b7f8e8cbced5dbe2b6909c7150c695",
+    "target_tree": "b980862474e3630c459ee147def4fa45f3ea42fd",
+    "replay": "EXACT_TREE_MATCH"
+  },
+  "review_scope": "Bounded call_paths/extractor/guard/new tests only; no broad audit",
+  "R14-01": "CLOSED_INHERITED_UNCHANGED",
+  "R14-02": "CLOSED_INHERITED_UNCHANGED",
+  "validation": {
+    "status": "STATIC_PASS",
+    "manifest": "COMMITTED_MATCH_UNCHANGED",
+    "changed_paths": [
+      "ch8-s1-control/lexical_bindings.py",
+      "ch8-s1-control/test_r1403_lexical.py"
+    ],
+    "checker_delta": "call_paths ONLY; AST outside identical",
+    "patch_replay": "EXACT_TREE_MATCH",
+    "final_targeted_tests": 23,
+    "precursor_failure": "PRESERVED; CHECKER_BYTES_IDENTICAL; NO_ACCEPTANCE_CREDIT",
+    "baseline_map": "EXACTLY_UNCHANGED77/8/11",
+    "exact_discriminator": "FROZEN_ACCEPTS_PROPOSED_REJECTS",
+    "frozen_package_review_GO_source_control": "UNCHANGED_BEFORE_AND_AFTER",
+    "integration": "NOT_PERFORMED",
+    "package_status": "NOT_AN_EXECUTABLE_CI_PACKAGE",
+    "native_compile": "NOT_RUN",
+    "CI": "NOT_RUN",
+    "proof_credit": "NONE"
+  },
+  "targeted_tests": {
+    "control": {
+      "worktree": "/root/kani-ch8-s2-r14-03-gate-backlog-w13",
+      "sha": "0e97a487d8b7f8e8cbced5dbe2b6909c7150c695",
+      "tree": "b980862474e3630c459ee147def4fa45f3ea42fd",
+      "parent": "0e8c836857344866564e1423ad5d8d28bbc4106b"
+    },
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "unittest",
+      "-v",
+      "test_r1403_lexical",
+      "test_cfg_pfc.LexicalBindingTests",
+      "test_cfg_pfc.RepairAliasTests",
+      "test_cfg_pfc.CfgPfcTests.test_full_target_and_attribute_aliases",
+      "test_cfg_pfc.CfgPfcTests.test_missing_wrong_cfg_cfg_attr_and_disabled_pfc"
+    ],
+    "cwd": "/root/kani-ch8-s2-r14-03-gate-backlog-w13/ch8-s1-control",
+    "count": 23,
+    "exit_code": 0,
+    "elapsed_seconds": 284.68,
+    "transcript_sha256": "633f12ddd98ac3ef87b5a7dab1a5fdc02c42d828e02daffe2aaf84de453acf66",
+    "execution": "ACTUAL_FINAL_COMMITTED_LOCAL_CONTROL",
+    "scope": "Affected targeted offline tests only; full96 not repeated"
+  },
+  "additional_extractor_checks": {
+    "supported_cases": 21,
+    "depth_max_tested": 4096,
+    "unsupported_cases": 9
+  },
+  "baseline_map": "EXACT77_STATIC_CALLS8_FUNCTIONS11_CONTEXTS_UNCHANGED",
+  "package_status": "NOT_AN_EXECUTABLE_CI_PACKAGE",
+  "precursor_failure": "PRESERVED_NO_ACCEPTANCE_CREDIT; checker identical; final test inserts semicolon to distinguish separate block from callable expression",
+  "limits": [
+    "Finite token extractor/guard only; no general Rust parser or arbitrary syntax completeness",
+    "Methods/macros remain inventoried without dispatch resolution credit",
+    "Associated-type/trait selection, typing, expansion, borrow checking, MIR and native compile NOT_RUN"
+  ],
+  "owner_reported_context": {
+    "run": "44328364855",
+    "outcome": "FAILED_PREBUILD_VALIDATE_1MIN",
+    "roots": 0,
+    "charged": 0,
+    "assurance": "OWNER_SUPPLIED; NOT_REAUDITED_IN_THIS_GATE_REVIEW",
+    "timeout10min_audit_task": "16a; independently prepared by NEW13; outside this review"
+  },
+  "integration": "NOT_PERFORMED; exact approved patch may be selected for separately bound next candidate; required review/GO remain",
+  "historical_GO": "UNCHANGED; no CI credit or exception transfer",
+  "native_compile": "NOT_RUN",
+  "verifier": "NOT_RUN",
+  "full_runner": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "causal_repair": "NOT_RUN",
+  "actual_r3_unit_body": "UNKNOWN",
+  "proof_credit": "NONE",
+  "closed_proof_obligations": 0,
+  "external_actions": {
+    "compiler": 0,
+    "CI": 0,
+    "push": 0,
+    "PR": 0,
+    "issue": 0,
+    "ledger": 0,
+    "budget": 0,
+    "integration": 0,
+    "subagents": 0
+  },
+  "Fast": "OFF_PER_OWNER_UNCHANGED",
+  "settings": "CURRENT_UNCHANGED",
+  "next": "Local HANDOFF to original13 current new role; exact patch only, no automatic CI",
+  "review_commit": "Containing commit; full SHA in READY, omitted here to avoid circular identity"
+}
