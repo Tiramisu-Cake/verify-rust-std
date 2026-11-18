@@ -1,0 +1,123 @@
+{
+  "records": [
+    {
+      "name": "s3-targeted-1",
+      "sha256": "f2d732db42e58ed67acfaaab5e3fabcc7be022f53dafe3d8368087c75064441a",
+      "scope": "PRECOMMIT_TARGETED_SERVICE_SOURCE_TESTS; not actual final Validate",
+      "exact_commit": "NOT_COMMITTED_AT_EXECUTION"
+    },
+    {
+      "name": "s3-source-1",
+      "sha256": "3e53c3e5b30108d429aeeb6e47df4b88bb185c2156bb7e96174c0929e403072d",
+      "scope": "PRECOMMIT_TARGETED_SERVICE_SOURCE_TESTS; not actual final Validate",
+      "exact_commit": "NOT_COMMITTED_AT_EXECUTION"
+    },
+    {
+      "name": "s3-finalization-fix",
+      "sha256": "6679b784ce4f5546828ece775769a55fda8e58a9b25807568662dcf0f1291803",
+      "scope": "PRECOMMIT_TARGETED_SERVICE_SOURCE_TESTS; not actual final Validate",
+      "exact_commit": "NOT_COMMITTED_AT_EXECUTION"
+    },
+    {
+      "name": "s3-legacy-precursor",
+      "sha256": "bbbc551a8b2f89dd374848fc10aa95fec1ef0de181a60a307d6f460a63aa6d76",
+      "scope": "PRECOMMIT_TARGETED_OR_LEGACY_ONLY; not final Validate",
+      "exact_control_commit": "NOT_COMMITTED_AT_EXECUTION",
+      "source_candidate": "51ff3e86bcd160d9f2f48aabc66d83c3770f5241 (or source-free legacy fixture test)",
+      "result": "FAIL_56_ERRORS_ALL_std_sha"
+    },
+    {
+      "name": "s3-campaign-fix",
+      "sha256": "a64a6ffbf4398b8c44e19646535af960517640c97d834e80af5d7616c3e3c99f",
+      "scope": "PRECOMMIT_TARGETED_OR_LEGACY_ONLY; not final Validate",
+      "exact_control_commit": "NOT_COMMITTED_AT_EXECUTION",
+      "source_candidate": "51ff3e86bcd160d9f2f48aabc66d83c3770f5241 (or source-free legacy fixture test)",
+      "result": "PASS"
+    },
+    {
+      "name": "s3-singleton-1",
+      "sha256": "225f11c058358ebf863e26fe0bbae7208f3acc458ea5732be0fdbf30da25bb40",
+      "scope": "PRECOMMIT_TARGETED_OR_LEGACY_ONLY; not final Validate",
+      "exact_control_commit": "NOT_COMMITTED_AT_EXECUTION",
+      "source_candidate": "51ff3e86bcd160d9f2f48aabc66d83c3770f5241 (or source-free legacy fixture test)",
+      "result": "FAIL_2_SOURCE_TARGET_NOT_FATAL"
+    },
+    {
+      "name": "s3-singleton-fix",
+      "sha256": "43e6428455eb63c5061abb8f8f03d8758a928fe2b85fb81f1cd8c4597a933867",
+      "scope": "PRECOMMIT_TARGETED_OR_LEGACY_ONLY; not final Validate",
+      "exact_control_commit": "NOT_COMMITTED_AT_EXECUTION",
+      "source_candidate": "51ff3e86bcd160d9f2f48aabc66d83c3770f5241 (or source-free legacy fixture test)",
+      "result": "PASS"
+    },
+    {
+      "name": "s3-replay-binding-fix",
+      "sha256": "f328db1b1affb741fa61f16344381c6c66bd2a141832c451907dbc54abd9a0e4",
+      "scope": "PRECOMMIT_TARGETED_OR_LEGACY_ONLY; not final Validate",
+      "exact_control_commit": "NOT_COMMITTED_AT_EXECUTION",
+      "source_candidate": "51ff3e86bcd160d9f2f48aabc66d83c3770f5241 (or source-free legacy fixture test)",
+      "result": "PASS"
+    },
+    {
+      "name": "s3-portable-1",
+      "sha256": "e739c56aca97544a56649d368e8d4ce8e0df6480112f8514c8b65ad520b6e57f",
+      "scope": "PRECOMMIT_TARGETED_OR_LEGACY_ONLY; not final Validate",
+      "exact_control_commit": "NOT_COMMITTED_AT_EXECUTION",
+      "source_candidate": "51ff3e86bcd160d9f2f48aabc66d83c3770f5241 (or source-free legacy fixture test)",
+      "result": "PASS"
+    },
+    {
+      "name": "s3-final-targeted",
+      "sha256": "64aa211d8f6c66a212d28b2156ec97a4748d64dd0cad6ee19c84a1f15d15085f",
+      "scope": "PRECOMMIT_TARGETED_OR_LEGACY_ONLY; not final Validate",
+      "exact_control_commit": "NOT_COMMITTED_AT_EXECUTION",
+      "source_candidate": "51ff3e86bcd160d9f2f48aabc66d83c3770f5241 (or source-free legacy fixture test)",
+      "result": "PASS"
+    },
+    {
+      "name": "s3-final-source-targeted",
+      "sha256": "c4843b6d10bd03f4d907782204b637e86f960e19342afe5a8911453c23e4c277",
+      "scope": "PRECOMMIT_TARGETED_OR_LEGACY_ONLY; not final Validate",
+      "exact_control_commit": "NOT_COMMITTED_AT_EXECUTION",
+      "source_candidate": "513341f41ce53833a279571401c924bdddddb6c8",
+      "result": "PASS"
+    }
+  ],
+  "gate_generator_precursors": [
+    {
+      "result": "KeyError contract_stack_source_sha256",
+      "fix": "new S3 adapter supports map derivation before request binding; production requires nonempty sealed map"
+    },
+    {
+      "result": "GateError unresolved static path batch::let",
+      "fix": "lexical let keyword; all static calls still audited"
+    },
+    {
+      "result": "legacy synthetic minimal requests missing std_sha in _run_group",
+      "fix": "legacy grouped path retains legacy constant; S3 isolation validates complete request before use"
+    }
+  ],
+  "native": "NOT_RUN",
+  "preservation": "Early source51ff remains an immutable sibling precursor; final source513341 is another sibling of97ac, not a descendant. No precursor result assigned to final control6684; only final Validate has exact committed control provenance.",
+  "late_boundary_fix": {
+    "old_control": "6684bf345c2be55f32d8044949ceeade048e7faf",
+    "final_control": "1dfc267b66abd83d536eb41a17052a4f3d767d2b",
+    "defect": "durable_slot_cutoff mutated an already serialized supervisor record; lifecycle/seal could disagree on late completion",
+    "fix": "late-publication cutoff changes row outcome/flag only; original supervisor remains immutable",
+    "targeted_test": "s3-durable-boundary-fix.txt",
+    "targeted_sha256": "860ff6483cdc63073dce861bbdcf3639770f028c98692c1d7d21eac83d8f0c5f",
+    "scope": "one distinguishing precommit test PASS; final full Validate is separate exact final commit run",
+    "old_validate": "FINAL-VALIDATE.json (designation at launch preserved; precursor after candidate correction)",
+    "actual_final_validate": "validation-final/FINAL-VALIDATE.json"
+  },
+  "preparation_errors_without_candidate_execution": [
+    {
+      "error": "SyntaxError: unterminated string literal in an edit-helper stdin script",
+      "effect": "no file write; corrected with apply_patch; no test/native execution"
+    },
+    {
+      "error": "exec workdir did not yet exist while preparing final control sibling",
+      "effect": "command process never started; worktree creation then run from existing cwd"
+    }
+  ]
+}

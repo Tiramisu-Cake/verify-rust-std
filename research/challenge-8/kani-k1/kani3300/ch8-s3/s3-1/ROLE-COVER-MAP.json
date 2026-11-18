@@ -1,0 +1,875 @@
+{
+  "source_sha": "513341f41ce53833a279571401c924bdddddb6c8",
+  "cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf",
+  "selected": [
+    {
+      "id": "checker_order_corrupt",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_CHECKER_ORDER",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 140,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_ORDER\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "checker_count_corrupt",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_CHECKER_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 134,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_COUNT\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "s3_swap_u8_geometry",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_SWAP_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 25,
+          "source_line": "    kani::assert(active(), \"S3_SWAP_ACTIVE\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_SWAP_EXACT_TRANSFER",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 35,
+          "source_line": "    kani::assert(pair::post::<u8, KeyLess<u8>>(pre, p, a, b), \"S3_SWAP_EXACT_TRANSFER\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_SWAP_FULL_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 37,
+          "source_line": "        kani::assert(i == base + a || i == base + b || v[i] == before[i], \"S3_SWAP_FULL_FRAME\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SWAP_EQUAL",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 39,
+          "source_line": "    kani::cover(a == b, \"S3_SWAP_EQUAL\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SWAP_TAKEN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 40,
+          "source_line": "    kani::cover(a < b && before[base + b] < before[base + a], \"S3_SWAP_TAKEN\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SWAP_REVERSE_UNTAKEN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 41,
+          "source_line": "    kani::cover(a > b && before[base + b] >= before[base + a], \"S3_SWAP_REVERSE_UNTAKEN\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SWAP_DUPLICATE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 42,
+          "source_line": "    kani::cover(a != b && before[base + a] == before[base + b], \"S3_SWAP_DUPLICATE\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SWAP_BASE_ZERO",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 43,
+          "source_line": "    kani::cover(base == 0, \"S3_SWAP_BASE_ZERO\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SWAP_BASE_LAST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 44,
+          "source_line": "    kani::cover(base == 20, \"S3_SWAP_BASE_LAST\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SWAP_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 45,
+          "source_line": "    kani::cover(true, \"S3_SWAP_USEFUL_RETURN\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "s3_sort4_u8_separate",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_SORT4_SEPARATE_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 51,
+          "source_line": "    kani::assert(active(), \"S3_SORT4_SEPARATE_ACTIVE\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_SORT4_SEPARATE_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 59,
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[1..5]), &out), \"S3_SORT4_SEPARATE_SORTED_FULL_COUNT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_SORT4_SEPARATE_SOURCE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 60,
+          "source_line": "    kani::assert(src == before, \"S3_SORT4_SEPARATE_SOURCE_FRAME\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_SORT4_SEPARATE_CANARIES",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 61,
+          "source_line": "    kani::assert(unsafe { dst[0].assume_init() == 0xa5 && dst[5].assume_init() == 0x5a }, \"S3_SORT4_SEPARATE_CANARIES\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SORT4_SEPARATE_UNSORTED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 62,
+          "source_line": "    kani::cover(!ordered(&before[1..5]), \"S3_SORT4_SEPARATE_UNSORTED\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SORT4_SEPARATE_DUPLICATE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 63,
+          "source_line": "    kani::cover(before[1] == before[4], \"S3_SORT4_SEPARATE_DUPLICATE\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SORT4_SEPARATE_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 64,
+          "source_line": "    kani::cover(out[0] < out[3], \"S3_SORT4_SEPARATE_NONCONSTANT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SORT4_SEPARATE_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 65,
+          "source_line": "    kani::cover(true, \"S3_SORT4_SEPARATE_USEFUL_RETURN\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "s3_sort4_u8_same_alloc",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_SORT4_SAME_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 71,
+          "source_line": "    kani::assert(active(), \"S3_SORT4_SAME_ACTIVE\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_SORT4_SAME_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 84,
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 4]), &out), \"S3_SORT4_SAME_SORTED_FULL_COUNT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_SORT4_SAME_OUTSIDE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 86,
+          "source_line": "        kani::assert((dst <= i && i < dst + 4) || unsafe { v[i].assume_init() } == before[i], \"S3_SORT4_SAME_OUTSIDE_FRAME\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_SORT4_SAME_SOURCE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 89,
+          "source_line": "        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], \"S3_SORT4_SAME_SOURCE_FRAME\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_SORT4_SAME_CANARY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 93,
+          "source_line": "    kani::assert(unsafe { v[canary].assume_init() } == before[canary], \"S3_SORT4_SAME_CANARY\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SORT4_SAME_FORWARD_ADJACENT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 94,
+          "source_line": "    kani::cover(src + 4 == dst, \"S3_SORT4_SAME_FORWARD_ADJACENT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SORT4_SAME_REVERSE_ADJACENT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 95,
+          "source_line": "    kani::cover(dst + 4 == src, \"S3_SORT4_SAME_REVERSE_ADJACENT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SORT4_SAME_EXTREME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 96,
+          "source_line": "    kani::cover(src == 44 && dst == 0, \"S3_SORT4_SAME_EXTREME\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SORT4_SAME_UNSORTED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 97,
+          "source_line": "    kani::cover(!ordered(&before[src..src + 4]), \"S3_SORT4_SAME_UNSORTED\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SORT4_SAME_DUPLICATE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 98,
+          "source_line": "    kani::cover(before[src] == before[src + 3], \"S3_SORT4_SAME_DUPLICATE\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SORT4_SAME_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 99,
+          "source_line": "    kani::cover(out[0] < out[3], \"S3_SORT4_SAME_NONCONSTANT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_SORT4_SAME_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 100,
+          "source_line": "    kani::cover(true, \"S3_SORT4_SAME_USEFUL_RETURN\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "s3_insert_tail_u8_rel16",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_INSERT_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 106,
+          "source_line": "    kani::assert(active(), \"S3_INSERT_ACTIVE\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_INSERT_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 115,
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[begin..begin + tail + 1]), &v[begin..begin + tail + 1]), \"S3_INSERT_SORTED_FULL_COUNT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_INSERT_OUTSIDE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 117,
+          "source_line": "        kani::assert((begin <= i && i <= begin + tail) || v[i] == before[i], \"S3_INSERT_OUTSIDE_FRAME\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_INSERT_LENGTH2",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 119,
+          "source_line": "    kani::cover(tail == 1, \"S3_INSERT_LENGTH2\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_INSERT_LENGTH17",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 120,
+          "source_line": "    kani::cover(tail == 16, \"S3_INSERT_LENGTH17\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_INSERT_BASE_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 121,
+          "source_line": "    kani::cover(begin == 1, \"S3_INSERT_BASE_FIRST\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_INSERT_BASE_LAST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 122,
+          "source_line": "    kani::cover(begin == 16, \"S3_INSERT_BASE_LAST\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_INSERT_EARLY_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 123,
+          "source_line": "    kani::cover(before[begin + tail] >= before[begin + tail - 1], \"S3_INSERT_EARLY_RETURN\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_INSERT_FULL_SIFT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 124,
+          "source_line": "    kani::cover(before[begin + tail] < before[begin], \"S3_INSERT_FULL_SIFT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_INSERT_DUPLICATE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 125,
+          "source_line": "    kani::cover(before[begin + tail] == before[begin], \"S3_INSERT_DUPLICATE\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_INSERT_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 126,
+          "source_line": "    kani::cover(v[begin] < v[begin + tail], \"S3_INSERT_NONCONSTANT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_INSERT_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 127,
+          "source_line": "    kani::cover(true, \"S3_INSERT_USEFUL_RETURN\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "s3_merge8_u8_separate",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_MERGE8_SEPARATE_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 133,
+          "source_line": "    kani::assert(active(), \"S3_MERGE8_SEPARATE_ACTIVE\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_MERGE8_SEPARATE_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 142,
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[1..9]), &out), \"S3_MERGE8_SEPARATE_SORTED_FULL_COUNT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_MERGE8_SEPARATE_SOURCE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 143,
+          "source_line": "    kani::assert(src == before, \"S3_MERGE8_SEPARATE_SOURCE_FRAME\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_MERGE8_SEPARATE_CANARIES",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 144,
+          "source_line": "    kani::assert(unsafe { dst[0].assume_init() == 0xa5 && dst[9].assume_init() == 0x5a }, \"S3_MERGE8_SEPARATE_CANARIES\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SEPARATE_LEFT_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 145,
+          "source_line": "    kani::cover(src[1] < src[5], \"S3_MERGE8_SEPARATE_LEFT_FIRST\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SEPARATE_RIGHT_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 146,
+          "source_line": "    kani::cover(src[1] > src[5], \"S3_MERGE8_SEPARATE_RIGHT_FIRST\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SEPARATE_TIE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 147,
+          "source_line": "    kani::cover(src[4] == src[5], \"S3_MERGE8_SEPARATE_TIE\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SEPARATE_UNSORTED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 148,
+          "source_line": "    kani::cover(src[4] > src[5], \"S3_MERGE8_SEPARATE_UNSORTED\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SEPARATE_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 149,
+          "source_line": "    kani::cover(out[0] < out[7], \"S3_MERGE8_SEPARATE_NONCONSTANT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SEPARATE_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 150,
+          "source_line": "    kani::cover(true, \"S3_MERGE8_SEPARATE_USEFUL_RETURN\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "s3_merge8_u8_same_alloc",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_MERGE8_SAME_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 156,
+          "source_line": "    kani::assert(active(), \"S3_MERGE8_SAME_ACTIVE\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_MERGE8_SAME_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 172,
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 8]), &out), \"S3_MERGE8_SAME_SORTED_FULL_COUNT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_MERGE8_SAME_OUTSIDE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 174,
+          "source_line": "        kani::assert((dst <= i && i < dst + 8) || unsafe { v[i].assume_init() } == before[i], \"S3_MERGE8_SAME_OUTSIDE_FRAME\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_MERGE8_SAME_SOURCE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 177,
+          "source_line": "        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], \"S3_MERGE8_SAME_SOURCE_FRAME\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S3_MERGE8_SAME_CANARY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 181,
+          "source_line": "    kani::assert(unsafe { v[canary].assume_init() } == before[canary], \"S3_MERGE8_SAME_CANARY\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SAME_FORWARD_ADJACENT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 182,
+          "source_line": "    kani::cover(src + 8 == dst, \"S3_MERGE8_SAME_FORWARD_ADJACENT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SAME_REVERSE_ADJACENT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 183,
+          "source_line": "    kani::cover(dst + 8 == src, \"S3_MERGE8_SAME_REVERSE_ADJACENT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SAME_EXTREME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 184,
+          "source_line": "    kani::cover(src == 40 && dst == 0, \"S3_MERGE8_SAME_EXTREME\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SAME_LEFT_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 185,
+          "source_line": "    kani::cover(before[src] < before[src + 4], \"S3_MERGE8_SAME_LEFT_FIRST\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SAME_RIGHT_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 186,
+          "source_line": "    kani::cover(before[src] > before[src + 4], \"S3_MERGE8_SAME_RIGHT_FIRST\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SAME_TIE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 187,
+          "source_line": "    kani::cover(before[src + 3] == before[src + 4], \"S3_MERGE8_SAME_TIE\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SAME_UNSORTED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 188,
+          "source_line": "    kani::cover(before[src + 3] > before[src + 4], \"S3_MERGE8_SAME_UNSORTED\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SAME_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 189,
+          "source_line": "    kani::cover(out[0] < out[7], \"S3_MERGE8_SAME_NONCONSTANT\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SAME_SORT8_FIRST_GEOMETRY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 190,
+          "source_line": "    kani::cover(src == 32 && dst == 0, \"S3_MERGE8_SAME_SORT8_FIRST_GEOMETRY\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SAME_SORT8_SECOND_GEOMETRY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 191,
+          "source_line": "    kani::cover(src == 40 && dst == 16, \"S3_MERGE8_SAME_SORT8_SECOND_GEOMETRY\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S3_MERGE8_SAME_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+          "line": 192,
+          "source_line": "    kani::cover(true, \"S3_MERGE8_SAME_USEFUL_RETURN\");",
+          "source_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "sort13_weak",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_SORT13_WEAK",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 149,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_SORT13_WEAK\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    }
+  ],
+  "all22_legacy_literal_sites": [
+    {
+      "line": 23,
+      "source_line": "    kani::assert(src == original, \"S2_MERGE_SOURCE_FRAME\");",
+      "literal": "S2_MERGE_SOURCE_FRAME"
+    },
+    {
+      "line": 24,
+      "source_line": "    kani::assert(unsafe { dst[0].assume_init() == 0xa5 && dst[33].assume_init() == 0x5a }, \"S2_MERGE_CANARIES\");",
+      "literal": "S2_MERGE_CANARIES"
+    },
+    {
+      "line": 30,
+      "source_line": "    kani::assert(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_MERGE32_REAL\");",
+      "literal": "S2_ACTIVE_MERGE32_REAL"
+    },
+    {
+      "line": 32,
+      "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_MERGE32_SORTED_FULL_COUNT\");",
+      "literal": "S2_MERGE32_SORTED_FULL_COUNT"
+    },
+    {
+      "line": 43,
+      "source_line": "    kani::assert(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_SORT13_ASSUMED\");",
+      "literal": "S2_ACTIVE_SORT13_ASSUMED"
+    },
+    {
+      "line": 47,
+      "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before[1..14]),&v[1..14]), \"S2_SORT13_SORTED_FULL_COUNT\");",
+      "literal": "S2_SORT13_SORTED_FULL_COUNT"
+    },
+    {
+      "line": 48,
+      "source_line": "    kani::assert(v[0] == before[0] && v[14] == before[14], \"S2_SORT13_CANARIES\");",
+      "literal": "S2_SORT13_CANARIES"
+    },
+    {
+      "line": 60,
+      "source_line": "    kani::assert(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_GENERAL32_ASSUMED\");",
+      "literal": "S2_ACTIVE_GENERAL32_ASSUMED"
+    },
+    {
+      "line": 64,
+      "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before[1..33]),&v[1..33]), \"S2_GENERAL32_SORTED_FULL_COUNT\");",
+      "literal": "S2_GENERAL32_SORTED_FULL_COUNT"
+    },
+    {
+      "line": 65,
+      "source_line": "    kani::assert(v[0] == before[0] && v[33] == before[33], \"S2_GENERAL32_CANARIES\");",
+      "literal": "S2_GENERAL32_CANARIES"
+    },
+    {
+      "line": 75,
+      "source_line": "    kani::assert(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_SWAP_PFC\");",
+      "literal": "S2_ACTIVE_SWAP_PFC"
+    },
+    {
+      "line": 82,
+      "source_line": "    kani::assert(pair::post::<u8,KeyLess<u8>>(pre,v[1..].as_ptr(),a,b), \"S2_SWAP_EXACT_TRANSFER\");",
+      "literal": "S2_SWAP_EXACT_TRANSFER"
+    },
+    {
+      "line": 83,
+      "source_line": "    for i in 0..15 { kani::assert(i == a+1 || i == b+1 || v[i] == before[i], \"S2_SWAP_FULL_FRAME\"); }",
+      "literal": "S2_SWAP_FULL_FRAME"
+    },
+    {
+      "line": 98,
+      "source_line": "    kani::assert(span::post::<u8,KeyLess<u8>>(span::capture::<u8,KeyLess<u8>>(input.as_ptr(),input.len()),output.as_ptr(),input.len()), \"S2_SUMMARY_WITNESS_FULL_COUNT\");",
+      "literal": "S2_SUMMARY_WITNESS_FULL_COUNT"
+    },
+    {
+      "line": 103,
+      "source_line": "    kani::assert(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), \"S2_ACTIVE_SUMMARY_WITNESS\");",
+      "literal": "S2_ACTIVE_SUMMARY_WITNESS"
+    },
+    {
+      "line": 111,
+      "source_line": "    kani::assert(pair::post::<u8,KeyLess<u8>>(pairpre,outpair.as_ptr(),0,1), \"S2_PAIR_WITNESS\");",
+      "literal": "S2_PAIR_WITNESS"
+    },
+    {
+      "line": 121,
+      "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_NEG_MERGE_ORDER\");",
+      "literal": "S2_NEG_MERGE_ORDER"
+    },
+    {
+      "line": 128,
+      "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), \"S2_NEG_MERGE_COUNT\");",
+      "literal": "S2_NEG_MERGE_COUNT"
+    },
+    {
+      "line": 134,
+      "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_COUNT\");",
+      "literal": "S2_NEG_CHECKER_COUNT"
+    },
+    {
+      "line": 140,
+      "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_ORDER\");",
+      "literal": "S2_NEG_CHECKER_ORDER"
+    },
+    {
+      "line": 149,
+      "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_SORT13_WEAK\");",
+      "literal": "S2_NEG_SORT13_WEAK"
+    },
+    {
+      "line": 163,
+      "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_GENERAL32_WEAK\");",
+      "literal": "S2_NEG_GENERAL32_WEAK"
+    }
+  ],
+  "producer_binding": "IDs UNKNOWN until complete same-invocation stock+rich inventory. All loop instances retained; source path must equal recorded source_root/file; source hashes/lines/classes/status exact. No ordinal guess.",
+  "proof_credit": "NONE"
+}

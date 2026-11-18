@@ -1,0 +1,82 @@
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index 67772a623..70b04cb48 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -1403,7 +1403,7 @@
+     "ch8-s1-control/s108_package.py": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237",
+     "ch8-s1-control/s2_correspondence.py": "46f2cd69373b4ebd3a3395d455338aadff3d473df5df2734e1bd5d4d2432dd4f",
+     "ch8-s1-control/s2_policy.py": "d87ce00811570c0ad7ea999fec3062166af542e576b188682308301519cb319c",
+-    "ch8-s1-control/s3_campaign.py": "b9a4c3ec79596585c0be66292ea925bd1922d05f242aec811f594f3ff8a29ba5",
++    "ch8-s1-control/s3_campaign.py": "4b46e6ad1006372b64e6a678019497242a25b836670e38bcbc59c3e90b342b96",
+     "ch8-s1-control/s3_cfg_pfc.py": "a757a156456c36c33bc09b0e7a3a8a4457601e599a320f6f74dbcb91fb823ed3",
+     "ch8-s1-control/s3_contract_stacks.py": "ad7cea13149e6d684ee8e380ce62ab4aeab68887a0786c43055f829ee97f2f5e",
+     "ch8-s1-control/s3_lexical_bindings.py": "fbe3ca43fc800bded1e4da79ace4989233d7e8019c4a823979379921f74e4c5d",
+@@ -1428,7 +1428,7 @@
+     "ch8-s1-control/test_s108.py": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854",
+     "ch8-s1-control/test_s108r1.py": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03",
+     "ch8-s1-control/test_s2.py": "1c57b2de286916bdc0a5ce78a4aa111fdb1bbc66a8357a32214fc56df42cbfd2",
+-    "ch8-s1-control/test_s3.py": "cd2d42af88b81a99c5d0711cc207fdb0f5767fc9bb792d87697746c72cbb727c",
++    "ch8-s1-control/test_s3.py": "2256c09e79e2c207600137714630325d1a1f8f45bd2d9f49de4bc14ce47b9ecd",
+     ".github/workflows/ch8-s2.yml": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709"
+   },
+   "ci_changed_paths": [
+@@ -1596,5 +1596,6 @@
+     "library/core/src/slice/raw.rs": "3190285ba163dacd220b6c827d49e580eeb85256cd1fffafdacb345a87a08bb7",
+     "library/core/src/intrinsics/mod.rs": "95bad83ea99a46bcbdbd4163e42112866fdfadc4660ca1d1c4298fed57b1c5fc",
+     "library/core/src/prelude/v1.rs": "b57d120c6762622bd33114f46267dab8ba6c88be38f1433adb62d4ba36cd3a68"
+-  }
++  },
++  "s3_control_precursor": "6684bf345c2be55f32d8044949ceeade048e7faf"
+ }
+diff --git a/ch8-s1-control/s3_campaign.py b/ch8-s1-control/s3_campaign.py
+index eab28ed17..2c2c22f1e 100644
+--- a/ch8-s1-control/s3_campaign.py
++++ b/ch8-s1-control/s3_campaign.py
+@@ -241,9 +241,10 @@ def root_outcome(out,request,rid,supervision):
+         try:os.fsync(fd)
+         finally:os.close(fd)
+     if supervision.get('monotonic_start') is not None and time.monotonic()>=supervision['monotonic_start']+p.CAPS['slot_seconds']:
+-        supervision['cutoff']=supervision.get('cutoff') or 'durable_slot_cutoff'
+-        supervision['limit_initiated']=True
+-        result.update(outcome='UNKNOWN',s3_expected_match=False,reason='durable_slot_cutoff',s3_supervision=supervision)
++        # Supervision is already durably recorded and bound into lifecycle.
++        # Publication cutoff belongs to the row; never mutate that frozen record.
++        result.update(outcome='UNKNOWN',s3_expected_match=False,reason='durable_slot_cutoff',
++                      durable_publication_cutoff=True)
+         atomic(out/rid/'receipt.json',result)
+     for path in (out/'baseline.json',out/'campaign-start.json',out/'workers'/(rid+'-lifecycle.json'),out/'workers'/(rid+'-launch.json')):
+         files[str(path.relative_to(out))]=r.sha256(path)
+diff --git a/ch8-s1-control/test_s3.py b/ch8-s1-control/test_s3.py
+index 9c254fece..45a467e6c 100644
+--- a/ch8-s1-control/test_s3.py
++++ b/ch8-s1-control/test_s3.py
+@@ -220,6 +220,7 @@ class CampaignTests(unittest.TestCase):
+         elif case=='native':doc['native_start_events']=[{'selector':'wrong'}]
+         elif case=='role':props['properties'][0]['status']='UNREACHABLE'
+         elif case=='output_unknown':doc['execution'].pop('stdout_bytes')
++        elif case=='durable_late':sup['monotonic_start']=time.monotonic()-721
+         c.atomic(gp/'receipt.json',doc);c.atomic(gp/'properties.json',{'harnesses':[props]});c.atomic(out/rid/'receipt.json',result)
+         return sup
+     def run_case(self,out,cases):
+@@ -292,6 +293,21 @@ class CampaignTests(unittest.TestCase):
+         with tempfile.TemporaryDirectory() as d:
+             out=Path(d);c.fallback(out,self.req);terminal=c.read(out/'receipt.json')
+             self.assertTrue(all(x['status']=='NOT_RUN' for x in terminal['rows']))
++    def test_late_publication_keeps_supervision_lifecycle_and_seal_identical(self):
++        with tempfile.TemporaryDirectory() as d:
++            out=Path(d);code,_,_=self.run_case(out,{p.ORDER[2]:'durable_late'})
++            self.assertEqual(code,1)
++            rid=p.ORDER[2];row=c.read(out/rid/'receipt.json')
++            self.assertTrue(row['durable_publication_cutoff']);self.assertEqual(row['outcome'],'UNKNOWN')
++            sup=c.read(out/'workers'/(rid+'-supervision.json'))
++            life=c.read(out/'workers'/(rid+'-lifecycle.json'))
++            seal=c.read(out/'completed'/(rid+'.json'))
++            self.assertEqual(sup,life['supervision']);self.assertEqual(sup,seal['supervision'])
++            self.assertEqual(sup,row['s3_supervision']);self.assertIsNone(sup['cutoff'])
++            self.assertFalse(seal['expected_match']);pack_evidence.pack(out)
++            import gzip
++            packed=json.loads(gzip.decompress((out/pack_evidence.NAME).read_bytes()))
++            self.assertEqual(set(c.sealed(out,lambda path:packed['files'][str(path.relative_to(out))]['text'].encode())),set(p.ORDER))
+     def test_fresh_prefix_and_aggregate_partial_capture_controls(self):
+         with tempfile.TemporaryDirectory() as d:
+             out=Path(d);(out/'old-evidence.json').write_text('{}')

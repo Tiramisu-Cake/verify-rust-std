@@ -1,0 +1,27 @@
+test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch (test_s3.SingletonRunnerTests.test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch) ... 
+  test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch (test_s3.SingletonRunnerTests.test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch) (case='source') ... FAIL
+  test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch (test_s3.SingletonRunnerTests.test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch) (case='target') ... FAIL
+test_s3_singleton_uses_real_new_pins_cfg_bounds_fresh_target_and_after (test_s3.SingletonRunnerTests.test_s3_singleton_uses_real_new_pins_cfg_bounds_fresh_target_and_after) ... ok
+
+======================================================================
+FAIL: test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch (test_s3.SingletonRunnerTests.test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch) (case='source')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-control-w13/ch8-s1-control/test_s3.py", line 363, in test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch
+    self.assertTrue(fatal);self.assertEqual(results[0]['outcome'],'UNKNOWN');self.assertEqual(gp['binary_identity'],'MATCH')
+    ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None is not true
+
+======================================================================
+FAIL: test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch (test_s3.SingletonRunnerTests.test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch) (case='target')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3-1-control-w13/ch8-s1-control/test_s3.py", line 363, in test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch
+    self.assertTrue(fatal);self.assertEqual(results[0]['outcome'],'UNKNOWN');self.assertEqual(gp['binary_identity'],'MATCH')
+    ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None is not true
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.498s
+
+FAILED (failures=2)

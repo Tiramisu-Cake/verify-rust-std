@@ -1,0 +1,109 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs
+index aad4b79321..a40da8b91c 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs
+@@ -66,28 +66,37 @@ fn s3_sort4_u8_separate() {
+ }
+ 
+ #[kani::proof_for_contract(sort4_stable)]
+-#[kani::unwind(20)]
++#[kani::unwind(50)]
+ fn s3_sort4_u8_same_alloc() {
+     kani::assert(active(), "S3_SORT4_SAME_ACTIVE");
+-    let mut v: [u8; 18] = kani::any();
+-    let before = v;
++    let before: [u8; 48] = kani::any();
++    let mut v = [MaybeUninit::<u8>::uninit(); 48];
+     let src: usize = kani::any();
+     let dst: usize = kani::any();
+-    kani::assume(1 <= src && src <= 13 && 1 <= dst && dst <= 13);
++    kani::assume(src <= 44 && dst <= 44);
+     kani::assume(src + 4 <= dst || dst + 4 <= src);
+-    let p = v.as_mut_ptr();
++    for i in 0..48 {
++        if i < dst || i >= dst + 4 { v[i].write(before[i]); }
++    }
++    let p = v.as_mut_ptr().cast::<u8>();
+     unsafe { sort4_stable(p.add(src), p.add(dst), &mut KeyLess::<u8>::new()) };
+-    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 4]), &v[dst..dst + 4]), "S3_SORT4_SAME_SORTED_FULL_COUNT");
+-    for i in 0..18 {
+-        kani::assert((dst <= i && i < dst + 4) || v[i] == before[i], "S3_SORT4_SAME_OUTSIDE_FRAME");
++    let out = unsafe { [v[dst].assume_init(), v[dst+1].assume_init(), v[dst+2].assume_init(), v[dst+3].assume_init()] };
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 4]), &out), "S3_SORT4_SAME_SORTED_FULL_COUNT");
++    for i in 0..48 {
++        kani::assert((dst <= i && i < dst + 4) || unsafe { v[i].assume_init() } == before[i], "S3_SORT4_SAME_OUTSIDE_FRAME");
++    }
++    for i in 0..4 {
++        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], "S3_SORT4_SAME_SOURCE_FRAME");
+     }
+-    kani::assert(v[src..src + 4] == before[src..src + 4], "S3_SORT4_SAME_SOURCE_FRAME");
++    let canary: usize = kani::any();
++    kani::assume(canary < 48 && (canary < dst || canary >= dst + 4));
++    kani::assert(unsafe { v[canary].assume_init() } == before[canary], "S3_SORT4_SAME_CANARY");
+     kani::cover(src + 4 == dst, "S3_SORT4_SAME_FORWARD_ADJACENT");
+     kani::cover(dst + 4 == src, "S3_SORT4_SAME_REVERSE_ADJACENT");
+-    kani::cover(src == 1 && dst == 13, "S3_SORT4_SAME_EXTREME");
++    kani::cover(src == 44 && dst == 0, "S3_SORT4_SAME_EXTREME");
+     kani::cover(!ordered(&before[src..src + 4]), "S3_SORT4_SAME_UNSORTED");
+     kani::cover(before[src] == before[src + 3], "S3_SORT4_SAME_DUPLICATE");
+-    kani::cover(v[dst] < v[dst + 3], "S3_SORT4_SAME_NONCONSTANT");
++    kani::cover(out[0] < out[3], "S3_SORT4_SAME_NONCONSTANT");
+     kani::cover(true, "S3_SORT4_SAME_USEFUL_RETURN");
+ }
+ 
+@@ -142,31 +151,43 @@ fn s3_merge8_u8_separate() {
+ }
+ 
+ #[kani::proof_for_contract(bidirectional_merge)]
+-#[kani::unwind(36)]
++#[kani::unwind(50)]
+ fn s3_merge8_u8_same_alloc() {
+     kani::assert(active(), "S3_MERGE8_SAME_ACTIVE");
+-    let mut v: [u8; 34] = kani::any();
++    let before: [u8; 48] = kani::any();
++    let mut v = [MaybeUninit::<u8>::uninit(); 48];
+     let src: usize = kani::any();
+     let dst: usize = kani::any();
+-    kani::assume(1 <= src && src <= 25 && 1 <= dst && dst <= 25);
++    kani::assume(src <= 40 && dst <= 40);
+     kani::assume(src + 8 <= dst || dst + 8 <= src);
+-    kani::assume(ordered(&v[src..src + 4]) && ordered(&v[src + 4..src + 8]));
+-    let before = v;
+-    let p = v.as_mut_ptr();
++    kani::assume(ordered(&before[src..src + 4]) && ordered(&before[src + 4..src + 8]));
++    for i in 0..48 {
++        if i < dst || i >= dst + 8 { v[i].write(before[i]); }
++    }
++    let p = v.as_mut_ptr().cast::<u8>();
+     // Only the source range is borrowed. The disjoint destination retains raw provenance.
+     unsafe { bidirectional_merge(slice::from_raw_parts(p.add(src), 8), p.add(dst), &mut KeyLess::<u8>::new()) };
+-    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 8]), &v[dst..dst + 8]), "S3_MERGE8_SAME_SORTED_FULL_COUNT");
+-    for i in 0..34 {
+-        kani::assert((dst <= i && i < dst + 8) || v[i] == before[i], "S3_MERGE8_SAME_OUTSIDE_FRAME");
++    let mut out = [0u8; 8];
++    for i in 0..8 { out[i] = unsafe { v[dst+i].assume_init() }; }
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 8]), &out), "S3_MERGE8_SAME_SORTED_FULL_COUNT");
++    for i in 0..48 {
++        kani::assert((dst <= i && i < dst + 8) || unsafe { v[i].assume_init() } == before[i], "S3_MERGE8_SAME_OUTSIDE_FRAME");
++    }
++    for i in 0..8 {
++        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], "S3_MERGE8_SAME_SOURCE_FRAME");
+     }
+-    kani::assert(v[src..src + 8] == before[src..src + 8], "S3_MERGE8_SAME_SOURCE_FRAME");
++    let canary: usize = kani::any();
++    kani::assume(canary < 48 && (canary < dst || canary >= dst + 8));
++    kani::assert(unsafe { v[canary].assume_init() } == before[canary], "S3_MERGE8_SAME_CANARY");
+     kani::cover(src + 8 == dst, "S3_MERGE8_SAME_FORWARD_ADJACENT");
+     kani::cover(dst + 8 == src, "S3_MERGE8_SAME_REVERSE_ADJACENT");
+-    kani::cover(src == 25 && dst == 1, "S3_MERGE8_SAME_EXTREME");
++    kani::cover(src == 40 && dst == 0, "S3_MERGE8_SAME_EXTREME");
+     kani::cover(before[src] < before[src + 4], "S3_MERGE8_SAME_LEFT_FIRST");
+     kani::cover(before[src] > before[src + 4], "S3_MERGE8_SAME_RIGHT_FIRST");
+     kani::cover(before[src + 3] == before[src + 4], "S3_MERGE8_SAME_TIE");
+     kani::cover(before[src + 3] > before[src + 4], "S3_MERGE8_SAME_UNSORTED");
+-    kani::cover(v[dst] < v[dst + 7], "S3_MERGE8_SAME_NONCONSTANT");
++    kani::cover(out[0] < out[7], "S3_MERGE8_SAME_NONCONSTANT");
++    kani::cover(src == 32 && dst == 0, "S3_MERGE8_SAME_SORT8_FIRST_GEOMETRY");
++    kani::cover(src == 40 && dst == 16, "S3_MERGE8_SAME_SORT8_SECOND_GEOMETRY");
+     kani::cover(true, "S3_MERGE8_SAME_USEFUL_RETURN");
+ }

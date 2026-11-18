@@ -1,0 +1,78 @@
+{
+  "schema": "ch8-s3-1-pins-v1",
+  "task": "7afd3d52d959a246df4e968e9cc8a66f029fbedf",
+  "owner": "owner22:54 /new13",
+  "plan": "da89127150a550ccb3861a7bfc5b6205c6409e61",
+  "intake": "ebd77a955b2b8d1b4e8079cfbf569386bcf0b130",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s3-1-final-w13",
+    "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+    "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s3-1-final-control-w13",
+    "sha": "1dfc267b66abd83d536eb41a17052a4f3d767d2b",
+    "tree": "07d2500da97ca0a2bd6e62aede3bc5e79d15cfcd",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "request_sha256": "b26b8dd8afdacc9dd09b94b2a043e6da96047826efa949ae8a34b74cb5efabc3",
+  "workflow_sha256": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709",
+  "roots": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "s3_swap_u8_geometry",
+    "s3_sort4_u8_separate",
+    "s3_sort4_u8_same_alloc",
+    "s3_insert_tail_u8_rel16",
+    "s3_merge8_u8_separate",
+    "s3_merge8_u8_same_alloc",
+    "sort13_weak"
+  ],
+  "unwind": [
+    34,
+    34,
+    36,
+    8,
+    50,
+    36,
+    12,
+    50,
+    34
+  ],
+  "cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf",
+  "role_policy": {
+    "mode": "REJECT_ALL",
+    "proposal": "S3-U-SITE-REVIEW-v1",
+    "enabled": false,
+    "unknown": "REJECT",
+    "role_unreachable": "REJECT"
+  },
+  "actual_final_validate": "validation-final/FINAL-VALIDATE.json",
+  "precursor_validate": "FINAL-VALIDATE.json; exact6684 at launch, not final1dfc",
+  "native": "NOT_RUN",
+  "credit": "NONE",
+  "review14": "PENDING",
+  "GO": "NOT_REQUESTED_NOT_AUTHORIZED",
+  "accounting_reference": {
+    "ledger_g0": "df7a140991",
+    "item1_used": 30,
+    "item1_cap": 31,
+    "item2_used": 11,
+    "item2_cap": 17,
+    "total_used": 41,
+    "total_cap": 48,
+    "future_accounting": "OWNER_ONLY; first S3 if executed would consume item2 12/17",
+    "reservation": false,
+    "changed": false
+  },
+  "status": "READY_FOR_INDEPENDENT14_REVIEW",
+  "validation": "VALIDATION.json",
+  "package_g0": "SELF: commit containing this manifest; exact full commit supplied in completion response"
+}

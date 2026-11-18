@@ -1,0 +1,102 @@
+{
+  "schema": "S3-U-SITE-REVIEW-v1",
+  "proposal_only": true,
+  "enabled": false,
+  "current_policy": {
+    "mode": "REJECT_ALL",
+    "proposal": "S3-U-SITE-REVIEW-v1",
+    "enabled": false,
+    "unknown": "REJECT",
+    "role_unreachable": "REJECT"
+  },
+  "historical_intake": "ebd77a955b2b8d1b4e8079cfbf569386bcf0b130",
+  "sites": [
+    {
+      "historical_exact_instance": {
+        "class": "assertion",
+        "description": "attempt to subtract with overflow",
+        "display_id": "num::<impl usize>::abs_diff.assertion.1",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+        "id": "num::<impl usize>::abs_diff.assertion.1",
+        "line": "3222",
+        "location_display": "library/core/src/num/uint_macros.rs:3222:21 in function num::<impl usize>::abs_diff",
+        "status": "UNREACHABLE"
+      },
+      "historical_source": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "new_source_sha": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/num/uint_macros.rs",
+      "sha256": "450207c51e804eb3e182e6ce8d7e76fa58e950739ad09fbc6c68b888e4c83110",
+      "line": 3222,
+      "source_line": "                    other - self",
+      "source_local_argument": "Under self<other, other-self cannot underflow over full usize; exact abs_diff caller/MIR origin remains unknown.",
+      "new_invocation_instance": "UNKNOWN_NOT_RUN",
+      "admission": "REJECT_UNTIL_SEPARATE_REVIEWED_POLICY_AND_GO"
+    },
+    {
+      "historical_exact_instance": {
+        "class": "assertion",
+        "description": "attempt to subtract with overflow",
+        "display_id": "num::<impl usize>::abs_diff.assertion.2",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+        "id": "num::<impl usize>::abs_diff.assertion.2",
+        "line": "3224",
+        "location_display": "library/core/src/num/uint_macros.rs:3224:21 in function num::<impl usize>::abs_diff",
+        "status": "UNREACHABLE"
+      },
+      "historical_source": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "new_source_sha": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/num/uint_macros.rs",
+      "sha256": "450207c51e804eb3e182e6ce8d7e76fa58e950739ad09fbc6c68b888e4c83110",
+      "line": 3224,
+      "source_line": "                    self - other",
+      "source_local_argument": "Under !(self<other), self-other cannot underflow, including equality; preserve provenance/range premises.",
+      "new_invocation_instance": "UNKNOWN_NOT_RUN",
+      "admission": "REJECT_UNTIL_SEPARATE_REVIEWED_POLICY_AND_GO"
+    },
+    {
+      "historical_exact_instance": {
+        "class": "assertion",
+        "description": "attempt to shift left with overflow",
+        "display_id": "fmt::Arguments::<'_>::from_str.assertion.1",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/fmt/mod.rs",
+        "id": "fmt::Arguments::<'_>::from_str.assertion.1",
+        "line": "820",
+        "location_display": "library/core/src/fmt/mod.rs:820:38 in function fmt::Arguments::<'_>::from_str",
+        "status": "UNREACHABLE"
+      },
+      "historical_source": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "new_source_sha": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/fmt/mod.rs",
+      "sha256": "7096d0bc7616393c39d7013997b2ede9716cabc12e6371f64b2a736f97d73981",
+      "line": 820,
+      "source_line": "                args: mem::transmute(s.len() << 1 | 1),",
+      "source_local_argument": "Shift count is constant1 below usize width. Literal labels may remove formatting paths; disappearance must be established by fresh inventory, not inferred.",
+      "new_invocation_instance": "UNKNOWN_NOT_RUN",
+      "admission": "REJECT_UNTIL_SEPARATE_REVIEWED_POLICY_AND_GO"
+    },
+    {
+      "historical_exact_instance": {
+        "class": "assertion",
+        "description": "attempt to subtract with overflow",
+        "display_id": "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/const_ptr.rs",
+        "id": "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+        "line": "1479",
+        "location_display": "library/core/src/ptr/const_ptr.rs:1479:23 in function ptr::const_ptr::<impl *const ()>::is_aligned_to",
+        "status": "UNREACHABLE"
+      },
+      "historical_source": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "new_source_sha": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/ptr/const_ptr.rs",
+      "sha256": "6ace4c013849ef9f32ea5c1941ad68cc92eb98be92089f5952d85de3ad8ddc45",
+      "line": 1479,
+      "source_line": "        self.addr() & (align - 1) == 0",
+      "source_local_argument": "A successfully returning power-of-two guard implies align>=1; align-1 cannot underflow. Retain non-power-of-two panic and pointer validity/alignment requirements.",
+      "new_invocation_instance": "UNKNOWN_NOT_RUN",
+      "admission": "REJECT_UNTIL_SEPARATE_REVIEWED_POLICY_AND_GO"
+    }
+  ],
+  "review_proposal": "Review each source-local definedness argument using S1 source-bound site methodology. Any future opt-in admission must pin exact full property id/class/description/file/line/source hash, effective cfg, root/provider instance and complete same-invocation inventory; retain original UNREACHABLE status separately. Unknown, missing, changed, additional or role-U rejects. This package enables no such admission and preserves zero-U gates.",
+  "instance_origin_limit": "Historical intake coordinates + current exact source are not AST/MIR/caller-to-contract binding. Future instance evidence remains required; no source/runtime rewrite or historical verdict change.",
+  "proof_credit": "NONE"
+}

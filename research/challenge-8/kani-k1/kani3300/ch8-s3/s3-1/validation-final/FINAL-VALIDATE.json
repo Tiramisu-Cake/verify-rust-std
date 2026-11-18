@@ -1,0 +1,64 @@
+{
+  "schema": "ch8-s3-final-validate-provenance-v1",
+  "state": "PASS",
+  "execution_count": 1,
+  "started_utc": "2026-11-18T20:41:11.719487+00:00",
+  "control_sha": "1dfc267b66abd83d536eb41a17052a4f3d767d2b",
+  "control_tree": "07d2500da97ca0a2bd6e62aede3bc5e79d15cfcd",
+  "source_sha": "513341f41ce53833a279571401c924bdddddb6c8",
+  "source_tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+  "request_sha256": "b26b8dd8afdacc9dd09b94b2a043e6da96047826efa949ae8a34b74cb5efabc3",
+  "workflow_sha256": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709",
+  "script_sha256": "816b137b3db2f58472b618ddaa00bbbbc36630fcd69553185bb7fd42c5b01b34",
+  "commands": [
+    [
+      "python3",
+      "check_package.py",
+      "control",
+      "--repo",
+      ".."
+    ],
+    [
+      "python3",
+      "s3_validate.py"
+    ]
+  ],
+  "cwd": "/root/kani-ch8-s3-1-final-control-w13/ch8-s1-control",
+  "step_cap_seconds": 1080,
+  "scope": "EXACT_FINAL_LOCAL_STATIC_VALIDATE_WITH_SYNTHETIC_CI_METADATA; not a CI run",
+  "native_compile": "NOT_RUN",
+  "Kani_CBMC": "NOT_RUN",
+  "full_native_runner": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "proof_credit": "NONE",
+  "monotonic_start_ns": 2528807077278680,
+  "ended_utc": "2026-11-18T20:51:13.242572+00:00",
+  "monotonic_end_ns": 2529408575191769,
+  "elapsed_seconds": 601.497913089,
+  "commands_executed": [
+    {
+      "argv": [
+        "python3",
+        "check_package.py",
+        "control",
+        "--repo",
+        ".."
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.2358691073022783
+    },
+    {
+      "argv": [
+        "python3",
+        "s3_validate.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 600.2614735388197
+    }
+  ],
+  "margin": 1.7955174515130843,
+  "required_margin": 1.5,
+  "margin_pass": true,
+  "stdout_sha256": "c3313ab781ec77a665551e75bf8c8865a83a850d6be418c2252574abe7212eb9",
+  "stderr_sha256": "343ff5820751017ef9d4af61b4616b0b4a9468ac2ec563b72ec64b9c40600947"
+}

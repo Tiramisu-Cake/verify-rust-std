@@ -1,0 +1,78 @@
+{
+  "schema": "ch8-s3-1-checkpoint-v1",
+  "task": "task7afd3d52d959a246df4e968e9cc8a66f029fbedf",
+  "status": "READY_FOR_INDEPENDENT14_REVIEW",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s3-1-final-w13",
+    "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+    "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s3-1-final-control-w13",
+    "sha": "1dfc267b66abd83d536eb41a17052a4f3d767d2b",
+    "tree": "07d2500da97ca0a2bd6e62aede3bc5e79d15cfcd",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "request_sha256": "b26b8dd8afdacc9dd09b94b2a043e6da96047826efa949ae8a34b74cb5efabc3",
+  "workflow_sha256": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709",
+  "claims": [
+    {
+      "claim": "source/controller/recipe implemented and exact maps sealed",
+      "assurance": "SOURCE_STATIC_ONLY",
+      "evidence": [
+        "PINS.json",
+        "ROOT-BINDINGS.json",
+        "ROLE-COVER-MAP.json",
+        "DOMAIN-UNWIND.json",
+        "PROVIDER-DAG.json",
+        "FINAL-SOURCE-GATES.json"
+      ]
+    },
+    {
+      "claim": "172 unit/synthetic service tests passed on exact final control; one actual final Validate",
+      "assurance": "LOCAL_PYTHON_SOURCE_SYNTHETIC_TESTS_ONLY",
+      "evidence": [
+        "validation-final/FINAL-VALIDATE.json",
+        "validation-final/FINAL-VALIDATE.stdout.txt",
+        "validation-final/FINAL-VALIDATE.stderr.txt"
+      ]
+    },
+    {
+      "claim": "eight patch trees and checkout5/7/2 ancestry match",
+      "assurance": "LOCAL_GIT_TREE_INTEGRITY",
+      "evidence": [
+        "PATCHES.json",
+        "ANCESTRY.json"
+      ]
+    }
+  ],
+  "open": [
+    "independent14 review of this exact candidate",
+    "separately issued owner GO; no dispatch authorization now",
+    "native compilation/property inventory/proof outcomes/fit NOT_RUN",
+    "future U instance origin/binding UNKNOWN; all U currently reject; disabled explicit site proposal",
+    "full S3 and remaining T/F/init/frame/locality/geometry/threshold obligations remain OPEN"
+  ],
+  "rejected_approaches": [
+    "unchanged heavy merge32/sort13/general32 run",
+    "reduced alphabet or assumed summary promotion",
+    "blanket ProcessLookupError suppression or rebaseline",
+    "blanket U waiver/filtered success/historical rewrite",
+    "mutating a durable supervisor record at late publication"
+  ],
+  "blocker": null,
+  "next": "independent14 review only; root may issue GO only after accepted review",
+  "proof_obligations_closed": 0,
+  "qualified_leaves": [],
+  "native": "NOT_RUN",
+  "independent_B1_B2_credit": "NONE",
+  "budget_action": "NONE; reference item2 11/17 total41/48; no reservation or reserve",
+  "closure_reason": "Authorized offline implementation and validation complete. Next stage is explicitly independent14 review; native/CI/publication forbidden by this task."
+}
