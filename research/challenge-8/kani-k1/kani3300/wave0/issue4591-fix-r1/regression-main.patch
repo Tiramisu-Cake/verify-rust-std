@@ -1,0 +1,464 @@
+diff --git a/tests/expected/function-contract/ordinary_stub_fail.expected b/tests/expected/function-contract/ordinary_stub_fail.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..d6a1bc5210e43225495e07724f7216c46eb0b363
+--- /dev/null
++++ b/tests/expected/function-contract/ordinary_stub_fail.expected
+@@ -0,0 +1,32 @@
++assertion\
++- Status: FAILURE\
++- Description: "attempt to add with overflow"
++
++assertion\
++- Status: FAILURE\
++- Description: "x < 8"
++
++assertion\
++- Status: FAILURE\
++- Description: "|result| *result == x + 2"
++
++assertion\
++- Status: FAILURE\
++- Description: "|result| *result == 0"
++
++assertion\
++- Status: FAILURE\
++- Description: "x < 4"
++
++Verification failed for - replacement_overflow
++Verification failed for - verified_precondition
++Verification failed for - verified_postcondition
++Verification failed for - provider_postcondition
++Verification failed for - unstubbed_postcondition
++Verification failed for - unstubbed_precondition
++Verification failed for - replacement_postcondition
++Verification failed for - replacement_provider_postcondition
++Verification failed for - replacement_precondition
++Verification failed for - requires_only_verified_precondition
++Verification failed for - requires_only_verified_result
++Complete - 2 successfully verified harnesses, 11 failures, 13 total.
+diff --git a/tests/expected/function-contract/ordinary_stub_fail.rs b/tests/expected/function-contract/ordinary_stub_fail.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..a5ad088f8d8a34797e03253fe2a6001fc349c435
+--- /dev/null
++++ b/tests/expected/function-contract/ordinary_stub_fail.rs
+@@ -0,0 +1,111 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z function-contracts -Z stubbing
++
++#[kani::requires(x < 8)]
++#[kani::ensures(|result| *result == x + 1)]
++fn f(x: u8) -> u8 {
++    x + 1
++}
++
++fn g(x: u8) -> u8 {
++    x + 2
++}
++
++#[kani::proof_for_contract(f)]
++fn provider() {
++    f(kani::any());
++}
++
++#[kani::proof]
++#[kani::stub(f, g)]
++fn replacement_overflow() {
++    f(u8::MAX);
++}
++
++#[kani::proof]
++#[kani::stub_verified(f)]
++fn verified_precondition() {
++    f(8);
++}
++
++#[kani::proof]
++#[kani::stub_verified(f)]
++fn verified_postcondition() {
++    assert_eq!(f(7), 9);
++}
++
++#[kani::ensures(|result| *result == x + 2)]
++fn bad_contract(x: u8) -> u8 {
++    x
++}
++
++#[kani::proof_for_contract(bad_contract)]
++fn provider_postcondition() {
++    bad_contract(0);
++}
++
++#[kani::proof]
++#[kani::stub(f, g)]
++fn unstubbed_postcondition() {
++    bad_contract(0);
++}
++
++#[kani::proof]
++#[kani::stub(bad_contract, g)]
++fn unstubbed_precondition() {
++    f(8);
++}
++
++#[kani::proof]
++#[kani::stub(f, bad_contract)]
++fn replacement_postcondition() {
++    f(0);
++}
++
++// The direct input satisfies the contract; only the copied input violates it.
++#[kani::ensures(|result| *result == 0)]
++fn discriminating_replacement(x: u8) -> u8 {
++    x
++}
++
++#[kani::proof_for_contract(discriminating_replacement)]
++#[kani::stub(f, discriminating_replacement)]
++fn replacement_provider_postcondition() {
++    // The exact PFC target must be reachable from this harness itself.
++    discriminating_replacement(0);
++    f(1);
++}
++
++#[kani::requires(x < 4)]
++fn restricted_replacement(x: u8) -> u8 {
++    x
++}
++
++#[kani::proof]
++#[kani::stub(f, restricted_replacement)]
++fn replacement_precondition() {
++    f(4);
++}
++
++#[kani::requires(x < 8)]
++fn requires_only(x: u8) -> u8 {
++    x + 1
++}
++
++#[kani::proof_for_contract(requires_only)]
++fn requires_only_provider() {
++    requires_only(kani::any());
++}
++
++#[kani::proof]
++#[kani::stub_verified(requires_only)]
++fn requires_only_verified_precondition() {
++    requires_only(8);
++}
++
++#[kani::proof]
++#[kani::stub_verified(requires_only)]
++fn requires_only_verified_result() {
++    assert_eq!(requires_only(7), 8);
++}
+diff --git a/tests/expected/function-contract/ordinary_stub_issue_4591.expected b/tests/expected/function-contract/ordinary_stub_issue_4591.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..3c5703c6e9cadaba4b214a62a17ab9ab458acf9c
+--- /dev/null
++++ b/tests/expected/function-contract/ordinary_stub_issue_4591.expected
+@@ -0,0 +1,7 @@
++caller.assertion\
++- Status: FAILURE\
++- Description: "attempt to add with overflow"
++
++VERIFICATION:- FAILED
++Verification failed for - check_caller
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/function-contract/ordinary_stub_issue_4591.rs b/tests/expected/function-contract/ordinary_stub_issue_4591.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..620ff0ad1caff13ddc5f0e449c1b2507db785eca
+--- /dev/null
++++ b/tests/expected/function-contract/ordinary_stub_issue_4591.rs
+@@ -0,0 +1,28 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z function-contracts -Z stubbing
++
++// Issue #4591: the replacement admits i32::MAX, which overflows in caller.
++
++#[kani::ensures(|result: &i32| *result >= 0)]
++fn abs_val(x: i32) -> i32 {
++    if x < 0 { -x } else { x }
++}
++
++fn stub_abs_val(_x: i32) -> i32 {
++    let r: i32 = kani::any();
++    kani::assume(r >= 0);
++    r
++}
++
++fn caller(x: i32) -> i32 {
++    abs_val(x) + 1
++}
++
++#[kani::proof]
++#[kani::stub(abs_val, stub_abs_val)]
++fn check_caller() {
++    let x: i32 = kani::any();
++    let result = caller(x);
++    assert!(result >= 1);
++}
+diff --git a/tests/expected/function-contract/ordinary_stub_overlap.expected b/tests/expected/function-contract/ordinary_stub_overlap.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..95ddb66fbfb2db730de8370a21102dd1d636175b
+--- /dev/null
++++ b/tests/expected/function-contract/ordinary_stub_overlap.expected
+@@ -0,0 +1 @@
++Failed to find contract closure `__kani_recursion_check_f`
+diff --git a/tests/expected/function-contract/ordinary_stub_overlap.rs b/tests/expected/function-contract/ordinary_stub_overlap.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..fcb7d14ee966e62b810b515fb97eca464ec02c11
+--- /dev/null
++++ b/tests/expected/function-contract/ordinary_stub_overlap.rs
+@@ -0,0 +1,22 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z function-contracts -Z stubbing
++
++// Explicit contract modes select the original target during ordinary stubbing.
++
++#[kani::requires(x < 8)]
++#[kani::ensures(|result| *result == x + 1)]
++fn f(x: u8) -> u8 {
++    x + 1
++}
++
++fn g(x: u8) -> u8 {
++    x + 2
++}
++
++#[kani::proof_for_contract(f)]
++#[kani::stub_verified(f)]
++#[kani::stub(f, g)]
++fn overlapping_contract_target() {
++    f(kani::any());
++}
+diff --git a/tests/kani/FunctionContracts/ordinary_stub.rs b/tests/kani/FunctionContracts/ordinary_stub.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..6b042d1eec86b62063acba85185dfaef5195245a
+--- /dev/null
++++ b/tests/kani/FunctionContracts/ordinary_stub.rs
+@@ -0,0 +1,177 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z function-contracts -Z stubbing
++
++// Ordinary replacements supply the behavior of contracted targets (issue #4591).
++
++#[kani::requires(x < 8)]
++#[kani::ensures(|result| *result == x + 1)]
++fn f(x: u8) -> u8 {
++    x + 1
++}
++
++fn g(x: u8) -> u8 {
++    x + 2
++}
++
++#[kani::proof_for_contract(f)]
++fn provider() {
++    f(kani::any());
++}
++
++#[kani::proof]
++#[kani::stub_verified(f)]
++fn verified_control() {
++    let x: u8 = kani::any();
++    kani::assume(x < 8);
++    assert!(f(x) == x + 1);
++}
++
++#[kani::proof]
++#[kani::stub(f, g)]
++fn ordinary_stub() {
++    let x: u8 = kani::any();
++    kani::assume(x < 8);
++    assert!(f(x) == x + 2);
++}
++
++#[kani::proof]
++#[kani::stub(f, g)]
++fn ordinary_stub_outside_target_precondition() {
++    assert_eq!(f(8), 10);
++}
++
++#[kani::requires(x < 8)]
++fn requires_only(x: u8) -> u8 {
++    x + 1
++}
++
++#[kani::ensures(|result| *result == x)]
++fn ensures_only(x: u8) -> u8 {
++    x
++}
++
++#[kani::proof_for_contract(requires_only)]
++fn requires_only_provider() {
++    requires_only(kani::any());
++}
++
++#[kani::proof]
++#[kani::stub_verified(requires_only)]
++fn requires_only_verified_control() {
++    requires_only(7);
++}
++
++#[kani::proof_for_contract(ensures_only)]
++fn ensures_only_provider() {
++    ensures_only(kani::any());
++}
++
++#[kani::proof]
++#[kani::stub_verified(ensures_only)]
++fn ensures_only_verified_control() {
++    assert_eq!(ensures_only(8), 8);
++}
++
++#[kani::proof]
++#[kani::stub(requires_only, g)]
++#[kani::stub(ensures_only, g)]
++fn multiple_targets() {
++    assert_eq!(requires_only(8), 10);
++    assert_eq!(ensures_only(8), 10);
++    assert_eq!(f(7), 8);
++}
++
++#[kani::requires(x < 4)]
++#[kani::ensures(|result| *result == x)]
++#[kani::recursion]
++fn recursive(x: u8) -> u8 {
++    if x == 0 { 0 } else { recursive(x - 1) + 1 }
++}
++
++#[kani::proof_for_contract(recursive)]
++fn recursive_provider() {
++    recursive(kani::any());
++}
++
++#[kani::proof]
++#[kani::stub_verified(recursive)]
++fn recursive_verified_control() {
++    assert_eq!(recursive(3), 3);
++}
++
++#[kani::proof]
++#[kani::stub(recursive, g)]
++fn recursive_target() {
++    assert_eq!(recursive(8), 10);
++}
++
++#[kani::requires(x != y)]
++#[kani::ensures(|result| *result == x)]
++fn generic<T: Copy + PartialEq>(x: T, y: T) -> T {
++    x
++}
++
++fn generic_replacement<T: Copy + PartialEq>(_x: T, y: T) -> T {
++    y
++}
++
++#[kani::proof]
++#[kani::stub(generic, generic_replacement)]
++fn generic_instances() {
++    assert_eq!(generic(1u8, 2u8), 2);
++    assert_eq!(generic(3u16, 4u16), 4);
++    assert_eq!(generic(5u8, 5u8), 5);
++}
++
++fn uncontracted(x: u8) -> u8 {
++    x
++}
++
++#[kani::proof]
++#[kani::stub(uncontracted, g)]
++fn uncontracted_target() {
++    assert_eq!(uncontracted(8), 10);
++    assert_eq!(f(7), 8);
++}
++
++#[kani::proof]
++#[kani::stub(f, requires_only)]
++#[kani::stub(requires_only, g)]
++fn transitive_replacement() {
++    assert_eq!(f(8), 10);
++    assert_eq!(requires_only(8), 10);
++}
++
++#[kani::requires(x < 16)]
++#[kani::ensures(|result| *result == x + 3)]
++fn contracted_replacement(x: u8) -> u8 {
++    x + 3
++}
++
++#[kani::proof_for_contract(contracted_replacement)]
++fn replacement_provider() {
++    contracted_replacement(kani::any());
++}
++
++#[kani::proof]
++#[kani::stub(f, contracted_replacement)]
++fn replacement_contract() {
++    assert_eq!(f(8), 11);
++    assert_eq!(contracted_replacement(8), 11);
++}
++
++#[kani::proof]
++#[kani::stub(f, contracted_replacement)]
++#[kani::stub_verified(contracted_replacement)]
++fn replacement_verified_contract() {
++    assert_eq!(f(8), 11);
++}
++
++#[kani::proof_for_contract(contracted_replacement)]
++#[kani::stub(f, contracted_replacement)]
++fn replacement_contract_target() {
++    // Reach the exact selected provider in this harness, as well as its copied body.
++    contracted_replacement(0);
++    f(kani::any());
++}
+diff --git a/tests/kani/FunctionContracts/ordinary_stub_no_assert.rs b/tests/kani/FunctionContracts/ordinary_stub_no_assert.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..5ddd482ab66bcab219d3eed6bfa04171290681db
+--- /dev/null
++++ b/tests/kani/FunctionContracts/ordinary_stub_no_assert.rs
+@@ -0,0 +1,38 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z function-contracts -Z stubbing --no-assert-contracts
++
++#[kani::requires(x < 8)]
++#[kani::ensures(|result| *result == x + 1)]
++fn f(x: u8) -> u8 {
++    x + 1
++}
++
++#[kani::requires(x < 4)]
++#[kani::ensures(|result| *result == x + 3)]
++fn replacement(x: u8) -> u8 {
++    x + 2
++}
++
++#[kani::proof]
++#[kani::stub(f, replacement)]
++fn ordinary_stub_original_mode() {
++    assert_eq!(f(8), 10);
++}
++
++#[kani::proof_for_contract(f)]
++fn provider() {
++    f(kani::any());
++}
++
++#[kani::proof]
++#[kani::stub_verified(f)]
++fn verified_control() {
++    assert_eq!(f(7), 8);
++}
++
++#[kani::proof_for_contract(replacement)]
++#[kani::should_panic]
++fn replacement_provider() {
++    replacement(0);
++}

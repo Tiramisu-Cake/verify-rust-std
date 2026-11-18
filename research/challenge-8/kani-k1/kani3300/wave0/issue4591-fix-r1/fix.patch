@@ -1,0 +1,105 @@
+diff --git a/kani-compiler/src/kani_middle/transform/contracts.rs b/kani-compiler/src/kani_middle/transform/contracts.rs
+index 45c1e68360ee06f134e0230d960297c0c30a0c18..1e4e4723f3c6178c9f5005e58e8643827840e08f 100644
+--- a/kani-compiler/src/kani_middle/transform/contracts.rs
++++ b/kani-compiler/src/kani_middle/transform/contracts.rs
+@@ -319,6 +319,17 @@ fn is_enabled(&self, _query_db: &QueryDb) -> bool
+         true
+     }
+ 
++    fn transform_instance(&self, instance: Instance, body_source: Instance) -> Instance {
++        if let RigidTy::FnDef(def, _) = instance.ty().kind().rigid().unwrap()
++            && (self.check_fn == Some(*def) || self.replace_fns.contains(def))
++        {
++            // Explicit contract checks and verified stubs retain their selected target.
++            instance
++        } else {
++            body_source
++        }
++    }
++
+     /// Transform the function body by replacing it with the stub body.
+     fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {
+         trace!(function=?instance.name(), "FunctionWithContractPass::transform");
+diff --git a/kani-compiler/src/kani_middle/transform/mod.rs b/kani-compiler/src/kani_middle/transform/mod.rs
+index 9f4d8d62932a069a933060fdbaf8bd8c7d5cb197..38ea0963da5bccfa015f023aa7301debe2f360a4 100644
+--- a/kani-compiler/src/kani_middle/transform/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/mod.rs
+@@ -159,8 +159,13 @@ pub fn body_ref(&mut self, tcx: TyCtxt, instance: Instance) -> &Body {
+                     .unwrap_or_else(|| build_missing_body(tcx, instance));
+ 
+                 let mut modified = false;
++                let mut body_source = instance;
+                 for pass in self.stub_passes.iter_mut().chain(self.inst_passes.iter_mut()) {
+-                    let result = pass.transform(tcx, body, instance);
++                    let transform_instance = pass.transform_instance(instance, body_source);
++                    let result = pass.transform(tcx, body, transform_instance);
++                    if let Some(source) = pass.take_body_source() {
++                        body_source = source;
++                    }
+                     modified |= result.0;
+                     body = result.1;
+                     self.generated_loop_modifies.extend(
+@@ -236,6 +241,17 @@ fn is_enabled(&self, query_db: &QueryDb) -> bool
+     /// Run a transformation pass in the function body.
+     fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body);
+ 
++    /// Select the instance whose attributes apply to this pass. `body_source` identifies the
++    /// resolved ordinary stub supplying the body when a replacement has been applied.
++    fn transform_instance(&self, instance: Instance, _body_source: Instance) -> Instance {
++        instance
++    }
++
++    /// Take the source instance of a successfully replaced body.
++    fn take_body_source(&mut self) -> Option<Instance> {
++        None
++    }
++
+     /// Take the locals that codegen must add to the loop modifies clause of the loops of the body
+     /// that this pass last transformed, by the instance of the register function that each
+     /// loop latch calls. See `LoopContractPass::add_generated_loop_modifies`.
+diff --git a/kani-compiler/src/kani_middle/transform/stubs.rs b/kani-compiler/src/kani_middle/transform/stubs.rs
+index 333e30141b37119c77d55203ab542499c79baa90..a1df1bdbcba1d08599caa87f1aefb5569b15f77b 100644
+--- a/kani-compiler/src/kani_middle/transform/stubs.rs
++++ b/kani-compiler/src/kani_middle/transform/stubs.rs
+@@ -25,6 +25,7 @@
+ #[derive(Debug, Clone)]
+ pub struct FnStubPass {
+     stubs: Stubs,
++    body_source: Option<Instance>,
+ }
+ 
+ impl TransformPass for FnStubPass {
+@@ -45,6 +46,7 @@ fn is_enabled(&self, query_db: &QueryDb) -> bool
+     /// Transform the function body by replacing it with the stub body.
+     fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {
+         trace!(function=?instance.name(), "transform");
++        self.body_source = None;
+         let ty = instance.ty();
+         if let TyKind::RigidTy(RigidTy::FnDef(fn_def, args)) = ty.kind()
+             && let Some(replace) = self.stubs.get(&fn_def)
+@@ -52,11 +54,16 @@ fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, B
+             let new_instance = Instance::resolve(*replace, &args).unwrap();
+             debug!(from=?instance.name(), to=?new_instance.name(), "FnStubPass::transform");
+             if let Some(body) = FnStubValidator::validate(tcx, (fn_def, *replace), new_instance) {
++                self.body_source = Some(new_instance);
+                 return (true, body);
+             }
+         }
+         (false, body)
+     }
++
++    fn take_body_source(&mut self) -> Option<Instance> {
++        self.body_source.take()
++    }
+ }
+ 
+ impl FnStubPass {
+@@ -66,7 +73,7 @@ pub fn new(all_stubs: &Stubs) -> FnStubPass {
+             .iter()
+             .filter_map(|(from, to)| (has_body(*from) && has_body(*to)).then_some((*from, *to)))
+             .collect::<HashMap<_, _>>();
+-        FnStubPass { stubs }
++        FnStubPass { stubs, body_source: None }
+     }
+ }
+ 

@@ -1,0 +1,1677 @@
+{
+  "main_sha": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "candidate_sha": "e6aa083da3c93f3189039077795cc9a0d67d3a6d",
+  "source": "exact main bytes parsed with PyYAML BaseLoader; all original job/step fields retained",
+  "workflows": {
+    "bench-compiler.yml": {
+      "path": ".github/workflows/bench-compiler.yml",
+      "sha256": "825d32f8e3d3949332417088fb0b096bb4b6f1819d8a0cb3c1e2cc666cd685cc",
+      "name": "Kani Compiler Performance Benchmarks",
+      "on": {
+        "push": {
+          "branches": [
+            "main"
+          ]
+        },
+        "workflow_call": ""
+      },
+      "concurrency": null,
+      "jobs": {
+        "compile-timer-short": {
+          "runs-on": "ubuntu-24.04",
+          "steps": [
+            {
+              "name": "Save push event HEAD and HEAD~ to environment variables",
+              "if": "${{ github.event_name == 'push' }}",
+              "run": "echo \"NEW_REF=${{ github.event.after}}\" | tee -a \"$GITHUB_ENV\"\necho \"OLD_REF=${{ github.event.before }}\" | tee -a \"$GITHUB_ENV\"\n"
+            },
+            {
+              "name": "Save pull request HEAD and base to environment variables",
+              "if": "${{ github.event_name == 'pull_request' }}",
+              "run": "echo \"OLD_REF=${{ github.event.pull_request.base.sha }}\" | tee -a \"$GITHUB_ENV\"\necho \"NEW_REF=${{ github.event.pull_request.head.sha }}\" | tee -a \"$GITHUB_ENV\"\n"
+            },
+            {
+              "name": "Check out Kani (old variant)",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "path": "./old",
+                "ref": "${{ env.OLD_REF }}",
+                "fetch-depth": "2"
+              }
+            },
+            {
+              "name": "Check out Kani (new variant)",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "path": "./new",
+                "ref": "${{ env.NEW_REF }}",
+                "fetch-depth": "1"
+              }
+            },
+            {
+              "name": "Set up Kani Dependencies (old variant)",
+              "uses": "./old/.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04",
+                "kani_dir": "old"
+              }
+            },
+            {
+              "name": "Set up Kani Dependencies (new variant)",
+              "uses": "./new/.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04",
+                "kani_dir": "new"
+              }
+            },
+            {
+              "name": "Copy benchmarks from new to old",
+              "run": "rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/"
+            },
+            {
+              "name": "Build `compile-timer` in old",
+              "run": "cd old/tools/compile-timer && cargo build --release"
+            },
+            {
+              "name": "Build `kani` in old",
+              "run": "cd old && cargo build-dev --release"
+            },
+            {
+              "name": "Build `compile-timer` in new",
+              "run": "cd new/tools/compile-timer && cargo build --release"
+            },
+            {
+              "name": "Build `kani` in new",
+              "run": "cd new && cargo build-dev --release"
+            },
+            {
+              "name": "Run `compile-timer` on old",
+              "run": "export PATH=\"${{ github.workspace }}/old/scripts:$PATH\"\ncd old/tests/perf && ../../target/release/compile-timer --out-path compile-times-old.json --ignore kani-lib --ignore display_trait --ignore s2n-quic\n"
+            },
+            {
+              "name": "Run `compile-timer` on new",
+              "run": "export PATH=\"${{ github.workspace }}/new/scripts:$PATH\"\ncd new/tests/perf && ../../target/release/compile-timer --out-path compile-times-new.json --ignore kani-lib --ignore display_trait --ignore s2n-quic\n"
+            },
+            {
+              "name": "Run analysis between the two",
+              "run": "./new/target/release/compile-analyzer --path-pre old/tests/perf/compile-times-old.json --path-post new/tests/perf/compile-times-new.json --only-markdown --suite-name short >> \"$GITHUB_STEP_SUMMARY\""
+            }
+          ]
+        },
+        "compile-timer-long": {
+          "runs-on": "ubuntu-24.04",
+          "steps": [
+            {
+              "name": "Save push event HEAD and HEAD~ to environment variables",
+              "if": "${{ github.event_name == 'push' }}",
+              "run": "echo \"NEW_REF=${{ github.event.after}}\" | tee -a \"$GITHUB_ENV\"\necho \"OLD_REF=${{ github.event.before }}\" | tee -a \"$GITHUB_ENV\"\n"
+            },
+            {
+              "name": "Save pull request HEAD and base to environment variables",
+              "if": "${{ github.event_name == 'pull_request' }}",
+              "run": "echo \"OLD_REF=${{ github.event.pull_request.base.sha }}\" | tee -a \"$GITHUB_ENV\"\necho \"NEW_REF=${{ github.event.pull_request.head.sha }}\" | tee -a \"$GITHUB_ENV\"\n"
+            },
+            {
+              "name": "Check out Kani (old variant)",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "path": "./old",
+                "ref": "${{ env.OLD_REF }}",
+                "fetch-depth": "2"
+              }
+            },
+            {
+              "name": "Check out Kani (new variant)",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "path": "./new",
+                "ref": "${{ env.NEW_REF }}",
+                "fetch-depth": "1"
+              }
+            },
+            {
+              "name": "Set up Kani Dependencies (old variant)",
+              "uses": "./old/.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04",
+                "kani_dir": "old"
+              }
+            },
+            {
+              "name": "Set up Kani Dependencies (new variant)",
+              "uses": "./new/.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04",
+                "kani_dir": "new"
+              }
+            },
+            {
+              "name": "Copy benchmarks from new to old",
+              "run": "rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/"
+            },
+            {
+              "name": "Build `compile-timer` in old",
+              "run": "cd old/tools/compile-timer && cargo build --release"
+            },
+            {
+              "name": "Build `kani` in old",
+              "run": "cd old && cargo build-dev --release"
+            },
+            {
+              "name": "Build `compile-timer` in new",
+              "run": "cd new/tools/compile-timer && cargo build --release"
+            },
+            {
+              "name": "Build `kani` in new",
+              "run": "cd new && cargo build-dev --release"
+            },
+            {
+              "name": "Run `compile-timer` on old",
+              "run": "export PATH=\"${{ github.workspace }}/old/scripts:$PATH\"\ncd old/tests/perf/s2n-quic && ../../../target/release/compile-timer --out-path compile-times-old.json --also-visit quic/s2n-quic-core --also-visit quic/s2n-quic-platform --also-visit common/s2n-codec --skip-current\n"
+            },
+            {
+              "name": "Run `compile-timer` on new",
+              "run": "export PATH=\"${{ github.workspace }}/new/scripts:$PATH\"\ncd new/tests/perf/s2n-quic && ../../../target/release/compile-timer --out-path compile-times-new.json --also-visit quic/s2n-quic-core --also-visit quic/s2n-quic-platform --also-visit common/s2n-codec --skip-current\n"
+            },
+            {
+              "name": "Run analysis between the two",
+              "run": "./new/target/release/compile-analyzer --path-pre old/tests/perf/s2n-quic/compile-times-old.json --path-post new/tests/perf/s2n-quic/compile-times-new.json --only-markdown --suite-name long >> \"$GITHUB_STEP_SUMMARY\""
+            }
+          ]
+        }
+      }
+    },
+    "bench-e2e.yml": {
+      "path": ".github/workflows/bench-e2e.yml",
+      "sha256": "e17c7ef9464ceec605771b9dade368122e250891526c6a0b0a9bb4b00a7a64ca",
+      "name": "Kani End-To-End Performance Benchmarks",
+      "on": {
+        "push": {
+          "branches": [
+            "main"
+          ]
+        },
+        "workflow_call": ""
+      },
+      "concurrency": null,
+      "jobs": {
+        "perf-benchcomp": {
+          "runs-on": "ubuntu-24.04",
+          "steps": [
+            {
+              "name": "Save push event HEAD and HEAD~ to environment variables",
+              "if": "${{ github.event_name == 'push' }}",
+              "run": "echo \"NEW_REF=${{ github.event.after}}\" | tee -a \"$GITHUB_ENV\"\necho \"OLD_REF=${{ github.event.before }}\" | tee -a \"$GITHUB_ENV\"\n"
+            },
+            {
+              "name": "Save pull request HEAD and base to environment variables",
+              "if": "${{ github.event_name == 'pull_request' }}",
+              "run": "echo \"OLD_REF=${{ github.event.pull_request.base.sha }}\" | tee -a \"$GITHUB_ENV\"\necho \"NEW_REF=${{ github.event.pull_request.head.sha }}\" | tee -a \"$GITHUB_ENV\"\n"
+            },
+            {
+              "name": "Check out Kani (old variant)",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "path": "./old",
+                "ref": "${{ env.OLD_REF }}",
+                "fetch-depth": "2"
+              }
+            },
+            {
+              "name": "Check out Kani (new variant)",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "path": "./new",
+                "ref": "${{ env.NEW_REF }}",
+                "fetch-depth": "1"
+              }
+            },
+            {
+              "name": "Set up Kani Dependencies (old variant)",
+              "uses": "./old/.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04",
+                "kani_dir": "old"
+              }
+            },
+            {
+              "name": "Set up Kani Dependencies (new variant)",
+              "uses": "./new/.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04",
+                "kani_dir": "new"
+              }
+            },
+            {
+              "name": "Copy benchmarks from new to old",
+              "run": "rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/"
+            },
+            {
+              "name": "Run benchcomp",
+              "run": "new/tools/benchcomp/bin/benchcomp \\\n  --config new/tools/benchcomp/configs/perf-regression.yaml \\\n  run\nnew/tools/benchcomp/bin/benchcomp \\\n  --config new/tools/benchcomp/configs/perf-regression.yaml \\\n  collate\n"
+            },
+            {
+              "name": "Perf Regression Results Table",
+              "run": "new/tools/benchcomp/bin/benchcomp \\\n  --config new/tools/benchcomp/configs/perf-regression.yaml \\\n  visualize --only dump_markdown_results_table >> \"$GITHUB_STEP_SUMMARY\"\n"
+            },
+            {
+              "name": "Run other visualizations",
+              "run": "new/tools/benchcomp/bin/benchcomp \\\n  --config new/tools/benchcomp/configs/perf-regression.yaml \\\n  visualize --except dump_markdown_results_table\n"
+            }
+          ]
+        }
+      }
+    },
+    "bench-pr.yml": {
+      "path": ".github/workflows/bench-pr.yml",
+      "sha256": "eecc1509bcf9283e0d233b414af523f97a9f2a397e8766a558314f1a9f5a57d3",
+      "name": "Kani Benchmarks",
+      "on": {
+        "pull_request": {
+          "types": [
+            "opened",
+            "synchronize",
+            "reopened",
+            "labeled"
+          ]
+        }
+      },
+      "concurrency": {
+        "group": "${{ github.workflow }}-${{ github.event.pull_request.number }}",
+        "cancel-in-progress": "true"
+      },
+      "jobs": {
+        "end-to-end-bench": {
+          "name": "End-to-End Benchmarks",
+          "if": "${{ contains(github.event.pull_request.labels.*.name, 'Z-EndToEndBenchCI') }}",
+          "uses": "./.github/workflows/bench-e2e.yml"
+        },
+        "compiler-bench": {
+          "name": "Compiler Benchmarks",
+          "if": "${{ contains(github.event.pull_request.labels.*.name, 'Z-CompilerBenchCI') }}",
+          "uses": "./.github/workflows/bench-compiler.yml"
+        }
+      }
+    },
+    "cargo-update.yml": {
+      "path": ".github/workflows/cargo-update.yml",
+      "sha256": "ac7f18f5fe4e685e5da609e5b2546503aab4cb5aa2f598c4a6df91b5d442c911",
+      "name": "Attempt cargo update",
+      "on": {
+        "schedule": [
+          {
+            "cron": "30 3 * * Mon"
+          }
+        ],
+        "workflow_dispatch": ""
+      },
+      "concurrency": null,
+      "jobs": {
+        "create-cargo-update-pr": {
+          "if": "github.repository == 'model-checking/kani'",
+          "runs-on": "ubuntu-22.04",
+          "steps": [
+            {
+              "name": "Checkout Kani",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "ubuntu-22.04"
+              }
+            },
+            {
+              "name": "Run cargo update",
+              "env": {
+                "GH_TOKEN": "${{ github.token }}"
+              },
+              "run": "today=$(date +%Y-%m-%d)\necho \"today=$today\" >> $GITHUB_ENV\nif ! git ls-remote --exit-code origin cargo-update-$today ; then\n  cargo update\n  cargo build-dev\n  git diff\nfi\n"
+            },
+            {
+              "name": "Create Pull Request",
+              "uses": "peter-evans/create-pull-request@v8",
+              "with": {
+                "commit-message": "Upgrade cargo dependencies to ${{ env.today }}",
+                "branch": "cargo-update-${{ env.today }}",
+                "delete-branch": "true",
+                "title": "Automatic cargo update to ${{ env.today }}",
+                "body": "Dependency upgrade resulting from `cargo update`.\n"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "cbmc-latest.yml": {
+      "path": ".github/workflows/cbmc-latest.yml",
+      "sha256": "ba39280e6ff9de85ccb5c14296d53845be7cc417baf683ddda56fe30767bbc48",
+      "name": "Nightly: CBMC Latest",
+      "on": {
+        "schedule": [
+          {
+            "cron": "0 9 * * *"
+          }
+        ],
+        "workflow_dispatch": ""
+      },
+      "concurrency": null,
+      "jobs": {
+        "regression": {
+          "runs-on": "${{ matrix.os }}",
+          "strategy": {
+            "matrix": {
+              "os": [
+                "macos-15-intel",
+                "ubuntu-22.04",
+                "ubuntu-24.04"
+              ]
+            }
+          },
+          "steps": [
+            {
+              "name": "Checkout Kani under \"kani\"",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "path": "kani"
+              }
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./kani/.github/actions/setup",
+              "with": {
+                "os": "${{ matrix.os }}",
+                "kani_dir": "kani"
+              }
+            },
+            {
+              "name": "Checkout CBMC under \"cbmc\"",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "repository": "diffblue/cbmc",
+                "path": "cbmc"
+              }
+            },
+            {
+              "name": "Build CBMC (Linux)",
+              "if": "${{ startsWith(matrix.os, 'ubuntu') }}",
+              "working-directory": "./cbmc",
+              "run": "cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl=\"minisat2;cadical\"\ncmake --build build -- -j 4\n# Prepend the bin directory to $PATH\necho \"${GITHUB_WORKSPACE}/cbmc/build/bin\" >> $GITHUB_PATH\n"
+            },
+            {
+              "name": "Build CBMC (macOS)",
+              "if": "${{ startsWith(matrix.os, 'macos') }}",
+              "working-directory": "./cbmc",
+              "run": "cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl=\"minisat2;cadical\" -DCMAKE_CXX_COMPILER=$(which clang++)\ncmake --build build -- -j 4\n# Prepend the bin directory to $PATH\necho \"${GITHUB_WORKSPACE}/cbmc/build/bin\" >> $GITHUB_PATH\n"
+            },
+            {
+              "name": "Execute Kani regressions",
+              "working-directory": "./kani",
+              "run": "./scripts/kani-regression.sh"
+            }
+          ]
+        },
+        "perf": {
+          "runs-on": "ubuntu-24.04",
+          "timeout-minutes": "380",
+          "steps": [
+            {
+              "name": "Checkout Kani under \"kani\"",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "path": "kani"
+              }
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./kani/.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04",
+                "kani_dir": "kani"
+              }
+            },
+            {
+              "name": "Build Kani using release mode",
+              "working-directory": "./kani",
+              "run": "cargo build-dev -- --release"
+            },
+            {
+              "name": "Checkout CBMC under \"cbmc\"",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "repository": "diffblue/cbmc",
+                "path": "cbmc"
+              }
+            },
+            {
+              "name": "Build CBMC",
+              "working-directory": "./cbmc",
+              "run": "cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl=\"minisat2;cadical\"\ncmake --build build -- -j 4\n# Prepend the bin directory to $PATH\necho \"${GITHUB_WORKSPACE}/cbmc/build/bin\" >> $GITHUB_PATH\n"
+            },
+            {
+              "name": "Execute Kani performance tests",
+              "uses": "nick-fields/retry@v4",
+              "with": {
+                "timeout_minutes": "180",
+                "max_attempts": "2",
+                "command": "cd kani && ./scripts/kani-perf.sh"
+              },
+              "env": {
+                "RUST_TEST_THREADS": "1"
+              }
+            },
+            {
+              "name": "Execute Kani performance ignored tests",
+              "working-directory": "./kani",
+              "continue-on-error": "true",
+              "run": "cargo run -p compiletest -- --suite perf --mode cargo-kani-test ignore --ignored --no-fail-fast",
+              "env": {
+                "RUST_TEST_THREADS": "1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "cbmc-update.yml": {
+      "path": ".github/workflows/cbmc-update.yml",
+      "sha256": "1b97bca1eb903ddf739d594830eb4b72b5ffc8c23ec7dc8c03c314c95cd0232f",
+      "name": "Attempt CBMC update",
+      "on": {
+        "schedule": [
+          {
+            "cron": "30 4 * * Mon"
+          }
+        ],
+        "workflow_dispatch": ""
+      },
+      "concurrency": null,
+      "jobs": {
+        "create-cbmc-update-pr": {
+          "if": "github.repository == 'model-checking/kani'",
+          "runs-on": "ubuntu-22.04",
+          "steps": [
+            {
+              "name": "Checkout Kani",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "ubuntu-22.04"
+              }
+            },
+            {
+              "name": "Compare CBMC versions and determine next step",
+              "env": {
+                "GH_TOKEN": "${{ github.token }}"
+              },
+              "run": "grep ^CBMC_VERSION kani-dependencies | sed 's/\"//g' >> $GITHUB_ENV\nCBMC_LATEST=$(gh -R diffblue/cbmc release list | grep Latest | awk '{print $1}' | cut -f2 -d-)\necho \"CBMC_LATEST=$CBMC_LATEST\" >> $GITHUB_ENV\n# check whether the version has changed at all\nif [ x$CBMC_LATEST = x$CBMC_VERSION ] ; then\n  echo \"next_step=none\" >> $GITHUB_ENV\n# check whether we already have an existing issue for a failing\n# upgrade\nelif gh issue list -S \\\n    \"CBMC upgrade to $CBMC_LATEST failed\" \\\n    --json number,title | grep title ; then\n  echo \"next_step=none\" >> $GITHUB_ENV\n# check whether we already have a branch (and thus: a PR) for a\n# successful upgrade\nelif ! git ls-remote --exit-code origin cbmc-$CBMC_LATEST ; then\n  CBMC_LATEST_MAJOR=$(echo $CBMC_LATEST | cut -f1 -d.)\n  CBMC_LATEST_MINOR=$(echo $CBMC_LATEST | cut -f2 -d.)\n  sed -i \"s/^CBMC_MAJOR=.*/CBMC_MAJOR=\\\"$CBMC_LATEST_MAJOR\\\"/\" kani-dependencies\n  sed -i \"s/^CBMC_MINOR=.*/CBMC_MINOR=\\\"$CBMC_LATEST_MINOR\\\"/\" kani-dependencies\n  sed -i \"s/^CBMC_VERSION=.*/CBMC_VERSION=\\\"$CBMC_LATEST\\\"/\" kani-dependencies\n  git diff\n  # install the newer CBMC version\n  ./scripts/setup/ubuntu/install_cbmc.sh\n  if ! ./scripts/kani-regression.sh ; then\n    echo \"next_step=create_issue\" >> $GITHUB_ENV\n  else\n    echo \"next_step=create_pr\" >> $GITHUB_ENV\n  fi\n# we already have a PR, nothing to be done\nelse\n  echo \"next_step=none\" >> $GITHUB_ENV\nfi\n"
+            },
+            {
+              "name": "Create Pull Request",
+              "if": "${{ env.next_step == 'create_pr' }}",
+              "uses": "peter-evans/create-pull-request@v8",
+              "with": {
+                "commit-message": "Upgrade CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }}",
+                "branch": "cbmc-${{ env.CBMC_LATEST }}",
+                "delete-branch": "true",
+                "title": "Automatic upgrade of CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }}",
+                "body": "Upgrade CBMC to its latest release.\n"
+              }
+            },
+            {
+              "name": "Create Issue",
+              "if": "${{ env.next_step == 'create_issue' }}",
+              "uses": "dacbd/create-issue-action@main",
+              "with": {
+                "token": "${{ github.token }}",
+                "title": "CBMC upgrade to ${{ env.CBMC_LATEST }} failed",
+                "body": "Updating CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }} failed.\nThe failed automated run [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "charon-update.yml": {
+      "path": ".github/workflows/charon-update.yml",
+      "sha256": "d73125c239ffd2c2f68a7d41b703eb11bdbdefe97d3a3abc99ed0bbb2c1b7869",
+      "name": "Attempt Charon update",
+      "on": {
+        "schedule": [
+          {
+            "cron": "30 4 * * Wed"
+          }
+        ],
+        "workflow_dispatch": ""
+      },
+      "concurrency": null,
+      "jobs": {
+        "create-charon-update-pr": {
+          "if": "github.repository == 'model-checking/kani'",
+          "runs-on": "ubuntu-22.04",
+          "steps": [
+            {
+              "name": "Checkout Kani",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "ubuntu-22.04"
+              }
+            },
+            {
+              "name": "Update the Charon pin and determine next step",
+              "env": {
+                "GH_TOKEN": "${{ github.token }}"
+              },
+              "run": "./scripts/charon_update.sh"
+            },
+            {
+              "name": "Clean untracked files",
+              "run": "git clean -f"
+            },
+            {
+              "name": "Create Pull Request",
+              "id": "create_pr",
+              "if": "${{ env.next_step == 'create_pr' }}",
+              "uses": "peter-evans/create-pull-request@v8",
+              "with": {
+                "commit-message": "Upgrade Charon from ${{ env.current_charon }} to ${{ env.next_charon }}",
+                "branch": "charon-${{ env.next_charon }}",
+                "delete-branch": "true",
+                "title": "Automatic upgrade of Charon from ${{ env.current_charon }} to ${{ env.next_charon }}",
+                "body": "Update the Charon pin (used by the LLBC backend) from ${{ env.current_charon }} to its\nlatest tag, ${{ env.next_charon }}. Only the `charon` submodule and `Cargo.lock` change.\n`kani-llbc-regression.sh` passed in the\n[automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).\n\n${{ env.charon_log }}\n"
+              }
+            },
+            {
+              "name": "Point the open failure issue to the PR",
+              "if": "${{ steps.create_pr.outputs.pull-request-number && env.failure_issue != '' }}",
+              "env": {
+                "GH_TOKEN": "${{ github.token }}",
+                "PR_NUMBER": "${{ steps.create_pr.outputs.pull-request-number }}"
+              },
+              "run": "gh issue comment \"$failure_issue\" --body \\\n  \"Charon $next_charon passes the LLBC regression: see #$PR_NUMBER.\"\n"
+            },
+            {
+              "name": "Create Issue",
+              "if": "${{ env.next_step == 'create_issue' }}",
+              "uses": "dacbd/create-issue-action@main",
+              "with": {
+                "token": "${{ github.token }}",
+                "title": "Automatic Charon upgrade failed",
+                "body": "Updating Charon from ${{ env.current_charon }} to ${{ env.next_charon }} requires\nsource changes: `kani-llbc-regression.sh` failed in the\n[automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).\n\nThis issue stays open across Charon tags: later failing attempts add a comment here\nrather than filing a new issue. Close it once the pin is updated.\n\n${{ env.charon_log }}\n"
+              }
+            },
+            {
+              "name": "Comment on the open failure issue",
+              "if": "${{ env.next_step == 'comment_issue' }}",
+              "env": {
+                "GH_TOKEN": "${{ github.token }}",
+                "BODY": "Updating Charon from ${{ env.current_charon }} to ${{ env.next_charon }} failed as well:\n[automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).\n\n${{ env.charon_log }}\n"
+              },
+              "run": "gh issue comment \"$failure_issue\" --body \"$BODY\""
+            }
+          ]
+        }
+      }
+    },
+    "deny.yml": {
+      "path": ".github/workflows/deny.yml",
+      "sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf",
+      "name": "Cargo Deny",
+      "on": {
+        "pull_request": "",
+        "merge_group": "",
+        "push": {
+          "branches": [
+            "**"
+          ]
+        }
+      },
+      "concurrency": null,
+      "jobs": {
+        "audit": {
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "actions/checkout@v6",
+              "with": {
+                "submodules": "recursive"
+              }
+            },
+            {
+              "uses": "EmbarkStudios/cargo-deny-action@v2",
+              "env": {
+                "RUSTUP_TOOLCHAIN": "stable"
+              },
+              "with": {
+                "arguments": "--all-features --workspace",
+                "command-arguments": "-s"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "extra_jobs.yml": {
+      "path": ".github/workflows/extra_jobs.yml",
+      "sha256": "12c3c6626e9ad806e7f7bf7f65cca7e2f12b2ccae9da82cc62802b92299369d8",
+      "name": "Kani Extra",
+      "on": {
+        "pull_request_target": "",
+        "merge_group": ""
+      },
+      "concurrency": null,
+      "jobs": {
+        "auto-label": {
+          "name": "Auto Label",
+          "permissions": {
+            "pull-requests": "write"
+          },
+          "outputs": {
+            "all-labels": "${{ steps.labeler.outputs.all-labels }}",
+            "new-labels": "${{ steps.labeler.outputs.new-labels }}"
+          },
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout Kani",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Label PR",
+              "id": "labeler",
+              "uses": "actions/labeler@v7",
+              "with": {
+                "dot": "true"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "format-check.yml": {
+      "path": ".github/workflows/format-check.yml",
+      "sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8",
+      "name": "Kani Format Check",
+      "on": {
+        "pull_request": "",
+        "merge_group": "",
+        "push": {
+          "branches": [
+            "**"
+          ]
+        }
+      },
+      "concurrency": null,
+      "jobs": {
+        "format-check": {
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "name": "Checkout Kani",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Execute copyright check",
+              "run": "./scripts/ci/run-copyright-check.sh"
+            },
+            {
+              "name": "Check C code formatting",
+              "continue-on-error": "true",
+              "run": "./scripts/run-clang-format.sh -d"
+            },
+            {
+              "name": "Check Python code formatting",
+              "run": "pip3 install --upgrade autopep8\n./scripts/run-autopep8.sh\n"
+            }
+          ]
+        },
+        "clippy-check": {
+          "runs-on": "ubuntu-24.04",
+          "steps": [
+            {
+              "name": "Checkout Kani",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04"
+              }
+            },
+            {
+              "name": "Install jq for parsing.",
+              "run": "sudo apt-get install -y jq\n"
+            },
+            {
+              "name": "Run Clippy",
+              "run": "cargo clippy --workspace --tests -- -D warnings\nRUSTFLAGS=\"--cfg=kani_sysroot\" cargo clippy --workspace -- -D warnings\n"
+            },
+            {
+              "name": "Print Clippy Statistics",
+              "run": "rm .cargo/config.toml\n(cargo clippy --all --message-format=json 2>/dev/null  | \\\njq 'select(.message!=null) | .message.code.code' | grep -v '^null$' | \\\nsort | uniq -c) || true\n"
+            }
+          ]
+        }
+      }
+    },
+    "kani.yml": {
+      "path": ".github/workflows/kani.yml",
+      "sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+      "name": "Kani CI",
+      "on": {
+        "pull_request": "",
+        "merge_group": "",
+        "push": {
+          "branches": [
+            "**"
+          ]
+        }
+      },
+      "concurrency": null,
+      "jobs": {
+        "regression": {
+          "runs-on": "${{ matrix.os }}",
+          "permissions": {
+            "contents": "read"
+          },
+          "strategy": {
+            "matrix": {
+              "os": [
+                "macos-15-intel",
+                "ubuntu-22.04",
+                "ubuntu-24.04",
+                "macos-15",
+                "ubuntu-24.04-arm"
+              ]
+            }
+          },
+          "steps": [
+            {
+              "name": "Checkout Kani",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "${{ matrix.os }}"
+              }
+            },
+            {
+              "name": "Execute Kani regression",
+              "run": "./scripts/kani-regression.sh"
+            }
+          ]
+        },
+        "benchcomp-tests": {
+          "runs-on": "ubuntu-24.04",
+          "permissions": {
+            "contents": "read"
+          },
+          "steps": [
+            {
+              "name": "Checkout Kani",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Install benchcomp dependencies",
+              "run": "sudo apt-get update\nsudo apt-get install -y python3-pip\npushd tools/benchcomp && pip3 install -r requirements.txt\n"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04"
+              }
+            },
+            {
+              "name": "Build Kani using release mode",
+              "run": "cargo build-dev -- --release"
+            },
+            {
+              "name": "Run benchcomp unit and regression tests",
+              "run": "pushd tools/benchcomp && PATH=$(realpath ../../scripts):$PATH test/run"
+            }
+          ]
+        },
+        "perf": {
+          "runs-on": "ubuntu-24.04",
+          "timeout-minutes": "380",
+          "permissions": {
+            "contents": "read"
+          },
+          "steps": [
+            {
+              "name": "Checkout Kani",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04"
+              }
+            },
+            {
+              "name": "Execute Kani performance tests",
+              "uses": "nick-fields/retry@v4",
+              "with": {
+                "timeout_minutes": "180",
+                "max_attempts": "2",
+                "command": "./scripts/kani-perf.sh"
+              },
+              "env": {
+                "RUST_TEST_THREADS": "1"
+              }
+            }
+          ]
+        },
+        "llbc-regression": {
+          "runs-on": "ubuntu-24.04",
+          "permissions": {
+            "contents": "read"
+          },
+          "steps": [
+            {
+              "name": "Checkout Kani",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04"
+              }
+            },
+            {
+              "name": "Build Kani with Charon",
+              "run": "cargo build-dev -- --features cprover --features llbc"
+            },
+            {
+              "name": "Run tests",
+              "run": "./scripts/kani-llbc-regression.sh"
+            }
+          ]
+        },
+        "documentation": {
+          "runs-on": "ubuntu-24.04",
+          "permissions": {
+            "contents": "write"
+          },
+          "steps": [
+            {
+              "name": "Checkout Kani",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "submodules": "recursive"
+              }
+            },
+            {
+              "name": "Install book dependencies",
+              "run": "./scripts/setup/ubuntu/install_doc_deps.sh"
+            },
+            {
+              "name": "Build Documentation",
+              "run": "./scripts/build-docs.sh"
+            },
+            {
+              "name": "Publish Documentation",
+              "if": "${{ github.event_name == 'push' && startsWith('refs/heads/main', github.ref) }}",
+              "uses": "JamesIves/github-pages-deploy-action@v4",
+              "with": {
+                "branch": "gh-pages",
+                "folder": "docs/book/",
+                "single-commit": "true"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "release.yml": {
+      "path": ".github/workflows/release.yml",
+      "sha256": "b608d02a4ddbaa9a1e4b0db321bd1aeb268afe5f946a9de14e2778b9e803b9b3",
+      "name": "Release Bundle",
+      "on": {
+        "pull_request": "",
+        "merge_group": "",
+        "push": {
+          "branches": [
+            "main"
+          ],
+          "tags": [
+            "kani-*"
+          ]
+        }
+      },
+      "concurrency": null,
+      "jobs": {
+        "build_bundle_macos_x86_64": {
+          "name": "BuildBundle-MacOs-x86_64",
+          "runs-on": "macos-15-intel",
+          "outputs": {
+            "version": "${{ steps.bundle.outputs.version }}",
+            "bundle": "${{ steps.bundle.outputs.bundle }}",
+            "package": "${{ steps.bundle.outputs.package }}",
+            "crate_version": "${{ steps.bundle.outputs.crate_version }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout code",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "macos-15-intel"
+              }
+            },
+            {
+              "name": "Build bundle",
+              "id": "bundle",
+              "uses": "./.github/actions/build-bundle",
+              "with": {
+                "platform": "x86_64-apple-darwin"
+              }
+            }
+          ]
+        },
+        "build_bundle_macos_aarch64": {
+          "name": "BuildBundle-MacOs-aarch64",
+          "runs-on": "macos-15",
+          "outputs": {
+            "version": "${{ steps.bundle.outputs.version }}",
+            "bundle": "${{ steps.bundle.outputs.bundle }}",
+            "package": "${{ steps.bundle.outputs.package }}",
+            "crate_version": "${{ steps.bundle.outputs.crate_version }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout code",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "macos-15"
+              }
+            },
+            {
+              "name": "Build bundle",
+              "id": "bundle",
+              "uses": "./.github/actions/build-bundle",
+              "with": {
+                "platform": "aarch64-apple-darwin"
+              }
+            }
+          ]
+        },
+        "build_bundle_linux_x86_64": {
+          "name": "BuildBundle-Linux-x86_64",
+          "runs-on": "ubuntu-22.04",
+          "outputs": {
+            "version": "${{ steps.bundle.outputs.version }}",
+            "bundle": "${{ steps.bundle.outputs.bundle }}",
+            "package": "${{ steps.bundle.outputs.package }}",
+            "crate_version": "${{ steps.bundle.outputs.crate_version }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout code",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "ubuntu-22.04"
+              }
+            },
+            {
+              "name": "Build bundle",
+              "id": "bundle",
+              "uses": "./.github/actions/build-bundle",
+              "with": {
+                "platform": "x86_64-unknown-linux-gnu"
+              }
+            }
+          ]
+        },
+        "build_bundle_linux_aarch64": {
+          "name": "BuildBundle-Linux-aarch64",
+          "runs-on": "ubuntu-24.04-arm",
+          "outputs": {
+            "version": "${{ steps.bundle.outputs.version }}",
+            "bundle": "${{ steps.bundle.outputs.bundle }}",
+            "package": "${{ steps.bundle.outputs.package }}",
+            "crate_version": "${{ steps.bundle.outputs.crate_version }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout code",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04-arm"
+              }
+            },
+            {
+              "name": "Build bundle",
+              "id": "bundle",
+              "uses": "./.github/actions/build-bundle",
+              "with": {
+                "platform": "aarch64-unknown-linux-gnu"
+              }
+            }
+          ]
+        },
+        "test-use-local-toolchain": {
+          "name": "TestLocalToolchain",
+          "needs": [
+            "build_bundle_macos_x86_64",
+            "build_bundle_macos_aarch64",
+            "build_bundle_linux_x86_64",
+            "build_bundle_linux_aarch64"
+          ],
+          "strategy": {
+            "matrix": {
+              "os": [
+                "macos-15-intel",
+                "macos-15",
+                "ubuntu-22.04",
+                "ubuntu-24.04",
+                "ubuntu-24.04-arm"
+              ],
+              "include": [
+                {
+                  "os": "macos-15-intel",
+                  "rust_target": "x86_64-apple-darwin",
+                  "prev_job": "${{ needs.build_bundle_macos_x86_64.outputs }}"
+                },
+                {
+                  "os": "macos-15",
+                  "rust_target": "aarch64-apple-darwin",
+                  "prev_job": "${{ needs.build_bundle_macos_aarch64.outputs }}"
+                },
+                {
+                  "os": "ubuntu-22.04",
+                  "rust_target": "x86_64-unknown-linux-gnu",
+                  "prev_job": "${{ needs.build_bundle_linux_x86_64.outputs }}"
+                },
+                {
+                  "os": "ubuntu-24.04",
+                  "rust_target": "x86_64-unknown-linux-gnu",
+                  "prev_job": "${{ needs.build_bundle_linux_x86_64.outputs }}"
+                },
+                {
+                  "os": "ubuntu-24.04-arm",
+                  "rust_target": "aarch64-unknown-linux-gnu",
+                  "prev_job": "${{ needs.build_bundle_linux_aarch64.outputs }}"
+                }
+              ]
+            }
+          },
+          "runs-on": "${{ matrix.os }}",
+          "steps": [
+            {
+              "name": "Download bundle",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ matrix.prev_job.bundle }}"
+              }
+            },
+            {
+              "name": "Download kani-verifier crate",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ matrix.prev_job.package }}"
+              }
+            },
+            {
+              "name": "Check download",
+              "run": "ls -lh .\n"
+            },
+            {
+              "name": "Get toolchain version used to setup kani",
+              "run": "tar zxvf ${{ matrix.prev_job.bundle }}\nDATE=$(cat ./kani-${{ matrix.prev_job.version }}/rust-toolchain-version | cut -d'-' -f2,3,4)\necho \"Nightly date: $DATE\"\necho \"DATE=$DATE\" >> $GITHUB_ENV\n"
+            },
+            {
+              "name": "Install Kani from path",
+              "run": "tar zxvf ${{ matrix.prev_job.package }}\ncargo install --locked --path kani-verifier-${{ matrix.prev_job.crate_version }}\n"
+            },
+            {
+              "name": "Create a custom toolchain directory",
+              "run": "mkdir -p ${{ github.workspace }}/../custom_toolchain"
+            },
+            {
+              "name": "Fetch the nightly tarball",
+              "run": "echo \"Downloading Rust toolchain from rust server.\"\ncurl --proto '=https' --tlsv1.2 -O https://static.rust-lang.org/dist/$DATE/rust-nightly-${{ matrix.rust_target }}.tar.gz\ntar -xzf rust-nightly-${{ matrix.rust_target }}.tar.gz\n./rust-nightly-${{ matrix.rust_target }}/install.sh --prefix=${{ github.workspace }}/../custom_toolchain\n"
+            },
+            {
+              "name": "Ensure installation is correct",
+              "run": "cargo kani setup --use-local-bundle ./${{ matrix.prev_job.bundle }} --use-local-toolchain ${{ github.workspace }}/../custom_toolchain/\n"
+            },
+            {
+              "name": "Ensure that the rustup toolchain is not present",
+              "run": "if [ ! -e \"~/.rustup/toolchains/\" ]; then\n  echo \"Default toolchain file does not exist. Proceeding with running tests.\"\nelse\n  echo \"::error::Default toolchain exists despite not installing.\"\n  exit 1\nfi\n"
+            },
+            {
+              "name": "Checkout tests",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Move rust-toolchain file to outside kani",
+              "run": "mkdir -p ${{ github.workspace }}/../post-setup-tests\ncp -r tests/cargo-ui ${{ github.workspace }}/../post-setup-tests\ncp -r tests/kani/Assert ${{ github.workspace }}/../post-setup-tests\nls ${{ github.workspace }}/../post-setup-tests\n"
+            },
+            {
+              "name": "Run cargo-kani tests after moving",
+              "run": "for dir in supported-lib-types/rlib multiple-harnesses verbose; do\n  >&2 echo \"Running test $dir\"\n  pushd ${{ github.workspace }}/../post-setup-tests/cargo-ui/$dir\n  cargo kani\n  popd\ndone\n"
+            },
+            {
+              "name": "Check --help and --version",
+              "run": ">&2 echo \"Running cargo kani --help and --version\"\npushd ${{ github.workspace }}/../post-setup-tests/Assert\ncargo kani --help && cargo kani --version\npopd\n"
+            },
+            {
+              "name": "Run standalone kani test",
+              "run": ">&2 echo \"Running test on file bool_ref\"\npushd ${{ github.workspace }}/../post-setup-tests/Assert\nkani bool_ref.rs\npopd\n"
+            }
+          ]
+        },
+        "test_bundle": {
+          "name": "TestBundle",
+          "needs": [
+            "build_bundle_macos_x86_64",
+            "build_bundle_macos_aarch64",
+            "build_bundle_linux_x86_64",
+            "build_bundle_linux_aarch64"
+          ],
+          "strategy": {
+            "matrix": {
+              "os": [
+                "macos-15-intel",
+                "macos-15",
+                "ubuntu-22.04",
+                "ubuntu-24.04",
+                "ubuntu-24.04-arm"
+              ],
+              "include": [
+                {
+                  "prev_job": "${{ needs.build_bundle_linux_x86_64.outputs }}"
+                },
+                {
+                  "os": "macos-15-intel",
+                  "prev_job": "${{ needs.build_bundle_macos_x86_64.outputs }}"
+                },
+                {
+                  "os": "macos-15",
+                  "prev_job": "${{ needs.build_bundle_macos_aarch64.outputs }}"
+                },
+                {
+                  "os": "ubuntu-24.04-arm",
+                  "prev_job": "${{ needs.build_bundle_linux_aarch64.outputs }}"
+                }
+              ]
+            }
+          },
+          "runs-on": "${{ matrix.os }}",
+          "steps": [
+            {
+              "name": "Download bundle",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ matrix.prev_job.bundle }}"
+              }
+            },
+            {
+              "name": "Download kani-verifier crate",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ matrix.prev_job.package }}"
+              }
+            },
+            {
+              "name": "Check download",
+              "run": "ls -lh .\n"
+            },
+            {
+              "name": "Install from bundle",
+              "run": "tar zxvf ${{ matrix.prev_job.package }}\ncargo install --locked --path kani-verifier-${{ matrix.prev_job.crate_version }}\ncargo kani setup --use-local-bundle ./${{ matrix.prev_job.bundle }}\n"
+            },
+            {
+              "name": "Checkout tests",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Run tests",
+              "run": "for dir in simple-lib build-rs-works simple-kissat; do\n  >&2 echo \"Running test $dir\"\n  pushd tests/cargo-kani/$dir\n  cargo kani\n  popd\ndone\n"
+            }
+          ]
+        },
+        "kani_release": {
+          "if": "${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/kani-') }}",
+          "name": "Release",
+          "runs-on": "ubuntu-24.04",
+          "permissions": {
+            "contents": "write"
+          },
+          "needs": [
+            "build_bundle_macos_x86_64",
+            "build_bundle_macos_aarch64",
+            "build_bundle_linux_x86_64",
+            "build_bundle_linux_aarch64",
+            "test_bundle"
+          ],
+          "outputs": {
+            "version": "${{ steps.versioning.outputs.version }}",
+            "upload_url": "${{ steps.create_release.outputs.upload_url }}"
+          },
+          "steps": [
+            {
+              "name": "Checkout code",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Get version",
+              "run": "# pkgid is something like file:///home/ubuntu/kani#kani-verifier:0.1.0\necho \"CRATE_VERSION=$(cargo pkgid | cut -d@ -f2)\" >> $GITHUB_ENV\n# GITHUB_REF is something like refs/tags/kani-0.1.0\necho \"TAG_VERSION=$(echo ${{ github.ref }} | cut -d \"-\" -f 2)\" >> $GITHUB_ENV\n"
+            },
+            {
+              "name": "Check Version",
+              "id": "versioning",
+              "run": "# Validate git tag & Cargo.toml are in sync on version number\nif [[ ${{ env.CRATE_VERSION }} != ${{ env.TAG_VERSION }} ]]; then\n  echo \"Git tag ${{env.TAG_VERSION}} did not match crate version ${{env.CRATE_VERSION}}\"\n  exit 1\nfi\necho \"version=${{ env.TAG_VERSION }}\" >> $GITHUB_OUTPUT\n"
+            },
+            {
+              "name": "Download MacOS bundle",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ needs.build_bundle_macos_x86_64.outputs.bundle }}"
+              }
+            },
+            {
+              "name": "Download MacOS ARM bundle",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ needs.build_bundle_macos_aarch64.outputs.bundle }}"
+              }
+            },
+            {
+              "name": "Download Linux bundle",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ needs.build_bundle_linux_x86_64.outputs.bundle }}"
+              }
+            },
+            {
+              "name": "Download Linux Arm bundle",
+              "uses": "actions/download-artifact@v8",
+              "with": {
+                "name": "${{ needs.build_bundle_linux_aarch64.outputs.bundle }}"
+              }
+            },
+            {
+              "name": "Create release",
+              "id": "create_release",
+              "uses": "ncipollo/release-action@v1.21.0",
+              "env": {
+                "GITHUB_TOKEN": "${{ secrets.GITHUB_TOKEN }}"
+              },
+              "with": {
+                "name": "kani-${{ env.TAG_VERSION }}",
+                "tag": "kani-${{ env.TAG_VERSION }}",
+                "artifacts": "${{ needs.build_bundle_linux_x86_64.outputs.bundle }},${{ needs.build_bundle_linux_aarch64.outputs.bundle }},${{ needs.build_bundle_macos_x86_64.outputs.bundle }},${{ needs.build_bundle_macos_aarch64.outputs.bundle }}",
+                "body": "Kani Rust verifier release bundle version ${{ env.TAG_VERSION }}.\n",
+                "draft": "true"
+              }
+            }
+          ]
+        },
+        "package_docker": {
+          "name": "Package Docker",
+          "needs": "kani_release",
+          "runs-on": "ubuntu-24.04",
+          "permissions": {
+            "contents": "write",
+            "packages": "write"
+          },
+          "env": {
+            "os": "ubuntu-24.04",
+            "target": "x86_64-unknown-linux-gnu"
+          },
+          "steps": [
+            {
+              "name": "Checkout code",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "ubuntu-24.04"
+              }
+            },
+            {
+              "name": "Build release bundle",
+              "run": "cargo bundle\ncargo package -p kani-verifier\n"
+            },
+            {
+              "name": "Login to GitHub Container Registry",
+              "uses": "docker/login-action@v4",
+              "with": {
+                "registry": "ghcr.io",
+                "username": "${{ github.repository_owner }}",
+                "password": "${{ secrets.GITHUB_TOKEN }}"
+              }
+            },
+            {
+              "name": "Set lower case owner name. Needed for docker push.",
+              "run": "echo \"OWNER_LC=${OWNER,,}\" >>${GITHUB_ENV}\n",
+              "env": {
+                "OWNER": "${{ github.repository_owner }}"
+              }
+            },
+            {
+              "name": "Build and push",
+              "uses": "docker/build-push-action@v7",
+              "with": {
+                "context": ".",
+                "file": "scripts/ci/Dockerfile.bundle-release-24-04",
+                "push": "true",
+                "github-token": "${{ secrets.GITHUB_TOKEN }}",
+                "tags": "ghcr.io/${{ env.OWNER_LC }}/kani-${{ env.os }}:${{ needs.kani_release.outputs.version }}\nghcr.io/${{ env.OWNER_LC }}/kani-${{ env.os }}:latest\n",
+                "labels": "org.opencontainers.image.source=${{ github.repositoryUrl }}\norg.opencontainers.image.version=${{ needs.kani_release.outputs.version }}\norg.opencontainers.image.licenses=Apache-2.0 OR MIT\n"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "slow-tests.yml": {
+      "path": ".github/workflows/slow-tests.yml",
+      "sha256": "d9775bd66ebb7b927c28346623f9e6e3374c82cee97921eac5fee828eba5ba7f",
+      "name": "Nightly: Slow tests",
+      "on": {
+        "schedule": [
+          {
+            "cron": "30 5 * * *"
+          }
+        ],
+        "workflow_dispatch": ""
+      },
+      "concurrency": null,
+      "jobs": {
+        "regression": {
+          "runs-on": "${{ matrix.os }}",
+          "strategy": {
+            "matrix": {
+              "os": [
+                "macos-15-intel",
+                "ubuntu-22.04",
+                "ubuntu-24.04"
+              ]
+            }
+          },
+          "steps": [
+            {
+              "name": "Checkout Kani",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "${{ matrix.os }}"
+              }
+            },
+            {
+              "name": "Build Kani",
+              "run": "cargo build-dev"
+            },
+            {
+              "name": "Run Kani's slow tests",
+              "run": "./scripts/kani-slow-tests.sh"
+            }
+          ]
+        }
+      }
+    },
+    "toolchain-upgrade.yml": {
+      "path": ".github/workflows/toolchain-upgrade.yml",
+      "sha256": "bd9cc5f4f09c1e00223a627fedbd7fb522053c6258284304c1d509f83dbcfa6a",
+      "name": "Attempt toolchain update",
+      "on": {
+        "schedule": [
+          {
+            "cron": "30 2 * * *"
+          }
+        ],
+        "workflow_dispatch": ""
+      },
+      "concurrency": null,
+      "jobs": {
+        "create-toolchain-pr": {
+          "if": "github.repository == 'model-checking/kani'",
+          "runs-on": "ubuntu-22.04",
+          "steps": [
+            {
+              "name": "Checkout Kani",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./.github/actions/setup",
+              "with": {
+                "os": "ubuntu-22.04"
+              }
+            },
+            {
+              "name": "Update toolchain config",
+              "env": {
+                "GH_TOKEN": "${{ github.token }}"
+              },
+              "run": "source scripts/toolchain_update.sh\n"
+            },
+            {
+              "name": "Clean untracked files",
+              "run": "git clean -f"
+            },
+            {
+              "name": "Create Pull Request",
+              "id": "create_pr",
+              "if": "${{ env.next_step == 'create_pr' }}",
+              "uses": "peter-evans/create-pull-request@v8",
+              "with": {
+                "commit-message": "Upgrade Rust toolchain to nightly-${{ env.next_toolchain_date }}",
+                "branch": "toolchain-${{ env.next_toolchain_date }}",
+                "delete-branch": "true",
+                "title": "Automatic toolchain upgrade to nightly-${{ env.next_toolchain_date }}",
+                "body": "Update Rust toolchain from nightly-${{ env.current_toolchain_date }} to nightly-${{ env.next_toolchain_date }} without any other source changes.\n"
+              }
+            },
+            {
+              "name": "Add debugging hints",
+              "if": "${{ steps.create_pr.outputs.pull-request-number }}",
+              "uses": "actions/github-script@v9",
+              "with": {
+                "script": "github.rest.issues.createComment({\n  issue_number: ${{ steps.create_pr.outputs.pull-request-number }},\n  owner: context.repo.owner,\n  repo: context.repo.repo,\n  body: `This is an automatically generated pull request. If any of the CI checks fail,\n    manual intervention is required. In such a case, review the changes at\n    https://github.com/rust-lang/rust from\n    https://github.com/rust-lang/rust/commit/${{ env.current_toolchain_hash }} up to\n    https://github.com/rust-lang/rust/commit/${{ env.next_toolchain_hash }}. The log\n    for this commit range is:\n\n    ` + process.env.git_log\n})\n"
+              }
+            },
+            {
+              "name": "Create Issue",
+              "if": "${{ env.next_step == 'create_issue' }}",
+              "uses": "dacbd/create-issue-action@main",
+              "with": {
+                "token": "${{ github.token }}",
+                "title": "Toolchain upgrade to nightly-${{ env.next_toolchain_date }} failed",
+                "body": "Updating Rust toolchain from nightly-${{ env.current_toolchain_date }} to nightly-${{ env.next_toolchain_date }} requires source changes.\nThe failed automated run [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\nPlease review the changes at https://github.com/rust-lang/rust from https://github.com/rust-lang/rust/commit/${{ env.current_toolchain_hash }} up to https://github.com/rust-lang/rust/commit/${{ env.next_toolchain_hash }}. The log for this commit range is:\n${{ env.git_log }}\n"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "verify-std-check.yml": {
+      "path": ".github/workflows/verify-std-check.yml",
+      "sha256": "37a122141be204e64c1eb75caf6a6f72b1e1c9ce68f642ef79ad80cd1da9ee60",
+      "name": "Check Std Verification",
+      "on": {
+        "pull_request": "",
+        "workflow_call": ""
+      },
+      "concurrency": null,
+      "jobs": {
+        "verify-std": {
+          "runs-on": "${{ matrix.os }}",
+          "strategy": {
+            "matrix": {
+              "os": [
+                "ubuntu-22.04",
+                "macos-15"
+              ]
+            }
+          },
+          "steps": [
+            {
+              "name": "Checkout Library",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "repository": "model-checking/verify-rust-std",
+                "path": "verify-rust-std",
+                "submodules": "true"
+              }
+            },
+            {
+              "name": "Checkout `Kani`",
+              "uses": "actions/checkout@v6",
+              "with": {
+                "path": "kani",
+                "fetch-depth": "0"
+              }
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "uses": "./kani/.github/actions/setup",
+              "with": {
+                "os": "${{ matrix.os }}",
+                "kani_dir": "kani"
+              }
+            },
+            {
+              "name": "Build Kani",
+              "working-directory": "kani",
+              "run": "cargo build-dev\necho \"$(pwd)/scripts\" >> $GITHUB_PATH\n"
+            },
+            {
+              "name": "Run verification with HEAD",
+              "id": "check-head",
+              "working-directory": "verify-rust-std",
+              "continue-on-error": "true",
+              "run": "kani verify-std -Z unstable-options ./library --target-dir ${{ runner.temp }} -Z function-contracts \\\n  -Z mem-predicates -Z loop-contracts --cbmc-args --object-bits 12\n"
+            },
+            {
+              "name": "Checkout BASE",
+              "working-directory": "kani",
+              "if": "steps.check-head.outcome != 'success' && github.event_name == 'pull_request'",
+              "run": "BASE_REF=${{ github.event.pull_request.base.sha }}\ngit checkout ${BASE_REF}\n"
+            },
+            {
+              "name": "Setup Kani Dependencies BASE",
+              "uses": "./kani/.github/actions/setup",
+              "if": "steps.check-head.outcome != 'success' && github.event_name == 'pull_request'",
+              "with": {
+                "os": "${{ matrix.os }}",
+                "kani_dir": "kani"
+              }
+            },
+            {
+              "name": "Build Kani BASE",
+              "working-directory": "kani",
+              "if": "steps.check-head.outcome != 'success' && github.event_name == 'pull_request'",
+              "run": "cargo build-dev\n"
+            },
+            {
+              "name": "Run verification with BASE",
+              "id": "check-base",
+              "if": "steps.check-head.outcome != 'success' && github.event_name == 'pull_request'",
+              "working-directory": "verify-rust-std",
+              "continue-on-error": "true",
+              "run": "kani verify-std -Z unstable-options ./library --target-dir ${{ runner.temp }} -Z function-contracts \\\n  -Z mem-predicates -Z loop-contracts --cbmc-args --object-bits 12\n"
+            },
+            {
+              "name": "Compare PR results",
+              "if": "steps.check-head.outcome != 'success' && steps.check-head.outcome != steps.check-base.outcome",
+              "run": "echo \"New failure introduced by this change\"\necho \"HEAD: ${{ steps.check-head.outcome }}\"\necho \"BASE: ${{ steps.check-base.outcome }}\"\nexit 1\n"
+            }
+          ]
+        }
+      }
+    },
+    "z3-update.yml": {
+      "path": ".github/workflows/z3-update.yml",
+      "sha256": "83e06af88fe864b471d4b1af10022519c3f81cc63d62e00d64d73e77234a9553",
+      "name": "Attempt Z3 update",
+      "on": {
+        "schedule": [
+          {
+            "cron": "45 4 * * Mon"
+          }
+        ],
+        "workflow_dispatch": ""
+      },
+      "concurrency": null,
+      "jobs": {
+        "create-z3-update-pr": {
+          "if": "github.repository == 'model-checking/kani'",
+          "runs-on": "ubuntu-24.04",
+          "steps": [
+            {
+              "name": "Checkout Kani",
+              "uses": "actions/checkout@v6"
+            },
+            {
+              "name": "Compare Z3 versions and determine next step",
+              "env": {
+                "GH_TOKEN": "${{ github.token }}"
+              },
+              "run": "source kani-dependencies\necho \"Z3_VERSION=$Z3_VERSION\" >> $GITHUB_ENV\n# The latest release that is not a pre-release (Z3 also publishes nightly builds).\nZ3_LATEST=$(gh release view -R Z3Prover/z3 --json tagName --jq .tagName | sed 's/^z3-//')\necho \"Z3_LATEST=$Z3_LATEST\" >> $GITHUB_ENV\nassets=$(gh release view -R Z3Prover/z3 \"z3-$Z3_LATEST\" --json assets --jq '.assets[].name')\n# How many open issues already report a failed upgrade to this version. This is its own\n# command, not part of the `elif` below, so that a failing `gh` call fails the step\n# instead of reading as \"no issue\".\nfailure_issues=$(gh issue list -S \"Z3 upgrade to $Z3_LATEST failed\" --json title --jq length)\nif [ \"x$Z3_LATEST\" = \"x$Z3_VERSION\" ]; then\n  echo \"next_step=none\" >> $GITHUB_ENV\n# A PR or a failure issue for this version already exists.\nelif git ls-remote --exit-code origin \"z3-$Z3_LATEST\" > /dev/null || \\\n    [ \"$failure_issues\" -gt 0 ]; then\n  echo \"next_step=none\" >> $GITHUB_ENV\n# `scripts/setup/macos/install_deps.sh` downloads these two archives.\nelif ! echo \"$assets\" | grep -qx \"z3-$Z3_LATEST-arm64-osx-13.3.zip\" || \\\n    ! echo \"$assets\" | grep -qx \"z3-$Z3_LATEST-x64-osx-13.3.zip\"; then\n  echo \"next_step=create_issue\" >> $GITHUB_ENV\nelse\n  sed -i \"s/^Z3_VERSION=.*/Z3_VERSION=\\\"$Z3_LATEST\\\"/\" kani-dependencies\n  git diff\n  echo \"next_step=create_pr\" >> $GITHUB_ENV\nfi\n"
+            },
+            {
+              "name": "Create Pull Request",
+              "if": "${{ env.next_step == 'create_pr' }}",
+              "uses": "peter-evans/create-pull-request@v8",
+              "with": {
+                "commit-message": "Upgrade Z3 from ${{ env.Z3_VERSION }} to ${{ env.Z3_LATEST }}",
+                "branch": "z3-${{ env.Z3_LATEST }}",
+                "delete-branch": "true",
+                "title": "Automatic upgrade of Z3 from ${{ env.Z3_VERSION }} to ${{ env.Z3_LATEST }}",
+                "body": "Upgrade the Z3 release that the macOS CI jobs install to its latest version. The macOS regression jobs on this PR are what test it.\n"
+              }
+            },
+            {
+              "name": "Create Issue",
+              "if": "${{ env.next_step == 'create_issue' }}",
+              "uses": "dacbd/create-issue-action@cdb57ab6ff8862aa09fee2be6ba77a59581921c2",
+              "with": {
+                "token": "${{ github.token }}",
+                "title": "Z3 upgrade to ${{ env.Z3_LATEST }} failed",
+                "body": "Z3 ${{ env.Z3_LATEST }} does not have the `arm64-osx-13.3` and `x64-osx-13.3` archives that `scripts/setup/macos/install_deps.sh` downloads, so the pin in `kani-dependencies` stays at ${{ env.Z3_VERSION }}. Update the asset names in that script, then bump `Z3_VERSION`.\nThe automated run [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

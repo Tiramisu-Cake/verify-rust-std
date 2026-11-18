@@ -1,0 +1,459 @@
+{
+  "schema": "issue4591-regression-oracle-v1",
+  "expected_only": true,
+  "source_head": "e6aa083da3c93f3189039077795cc9a0d67d3a6d",
+  "source_tree": "01140856c15e161ff6fc4c1ce460fd4208a298cd",
+  "harnesses": [
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "provider",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_overflow",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "verified_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "verified_postcondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "provider_postcondition",
+      "attributes": [
+        "#[kani::proof_for_contract(bad_contract)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "unstubbed_postcondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "unstubbed_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(bad_contract, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_postcondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, bad_contract)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_provider_postcondition",
+      "attributes": [
+        "#[kani::proof_for_contract(discriminating_replacement)]",
+        "#[kani::stub(f, discriminating_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "w11_01": {
+        "exact_target": "discriminating_replacement",
+        "direct_call": "discriminating_replacement(0)",
+        "direct_expected": "POSTCONDITION_PASS",
+        "copied_call": "f(1)",
+        "copied_expected": "POSTCONDITION_FAILURE",
+        "postcondition": "|result| *result == 0",
+        "body": "x",
+        "basis": "source-only input discrimination; native NOT_RUN"
+      }
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, restricted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_verified_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_verified_result",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_issue_4591.rs",
+      "harness": "check_caller",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(abs_val, stub_abs_val)]"
+      ],
+      "expected_fixed": "VERIFICATION_FAILURE_CALLER_OVERFLOW",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_overlap.rs",
+      "harness": "overlapping_contract_target",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]",
+        "#[kani::stub_verified(f)]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "COMPILE_ERROR_ORIGINAL_CONTRACT_CLOSURE",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "provider",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ordinary_stub",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ordinary_stub_outside_target_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "requires_only_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "requires_only_verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ensures_only_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(ensures_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ensures_only_verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(ensures_only)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "multiple_targets",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(requires_only, g)]",
+        "#[kani::stub(ensures_only, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(recursive)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(recursive)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_target",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(recursive, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "generic_instances",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(generic, generic_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "uncontracted_target",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(uncontracted, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "transitive_replacement",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, requires_only)]",
+        "#[kani::stub(requires_only, g)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(contracted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_contract",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, contracted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_verified_contract",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, contracted_replacement)]",
+        "#[kani::stub_verified(contracted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_contract_target",
+      "attributes": [
+        "#[kani::proof_for_contract(contracted_replacement)]",
+        "#[kani::stub(f, contracted_replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN",
+      "w11_01": {
+        "exact_target": "contracted_replacement",
+        "direct_call": "contracted_replacement(0)",
+        "copied_call": "f(kani::any())",
+        "expected": "both provider Check paths satisfy own pre/postconditions",
+        "basis": "source-only; native NOT_RUN"
+      }
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "ordinary_stub_original_mode",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, replacement)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "provider",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "expected_fixed": "VERIFICATION_SUCCESS",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "replacement_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(replacement)]",
+        "#[kani::should_panic]"
+      ],
+      "expected_fixed": "EXPECTED_PANIC_POSTCONDITION",
+      "main_new_native": "NOT_RUN",
+      "fixed_new_native": "NOT_RUN"
+    }
+  ],
+  "original_intake": {
+    "run": 44380273557,
+    "attempt": 1,
+    "intake_g0_commit": "75de8b41bcdfcd202d066e3d5cfaf514f681f9e9",
+    "author_g0_commit": "5bb7ec9a01099148242421b0eb837c496e209c66",
+    "native_head": "e9f0e9a38bf679fead630c44eec3bc08ebb9202b",
+    "ordinary_exit": 1,
+    "diagnostic": "Failed to find contract closure `__kani_recursion_check_f` in function `stub_contract_confirm::f`",
+    "provider_exit": 0,
+    "verified_exit": 0,
+    "controls_native_marker": "VERIFICATION:- SUCCESSFUL",
+    "retained_producer_classification": "INCONCLUSIVE",
+    "retained_owner_policy_classification": "INCONCLUSIVE",
+    "new_candidate_credit": false,
+    "immutable_read_inputs": {
+      "RESULT.md": "7c29118443b1fc38213a9dcc29f965585e3339cd5dc3f685c486af02019705c7",
+      "PROVENANCE.json": "3f1ee7b445e104f6a537425f895f63c9a8fe2c28aa5de493acd359b68c6b92f9",
+      "INPUTS.json": "2d4d28a3d46438c1603cb03667e8a0f26c304badb223059fbc386c6ebfae0930",
+      "ISSUE-DRAFT.md": "1e6679bc364bc5f6c13c6781164017634c54f1f7593eb7dd341923b77b5efa46"
+    }
+  }
+}
