@@ -1,19 +1,20 @@
 # Root / obligation / options / capacity matrix
 
 All new selectors below are **proposed**, NOT_REGISTERED / NOT_RUN. They need
-new source/request/profile hashes. R5 outcome column is owner-reported pending
-W11 committed intake. No row is an independently admitted proof here.
+new source/request/profile hashes. R5 outcomes use committed W11 intake ebd77a9
+(INTAKE-UPDATE.md); no artifact investigation was repeated. No row is an
+independently admitted proof here.
 
 ## Existing roots and exact information to buy next
 
 | Frozen root | R5 selection / observation | Next changed root or gate | Exact obligation closed only if proved/admitted |
 |---|---|---|---|
-|swap_pfc|selected; SUCCESS reported|intake/context check; `s3_swap_u8_geometry` for uncovered cases|actual pair transfer+full frame for each claimed backing/base/a,b domain; admit existing success only within confirmed domain|
+|swap_pfc|selected; native SUCCESS, strict match false/NOT_GRANTED (4 unreachable checks+3 absent labels)|literal roles+strict-gate analysis; `s3_swap_u8_geometry` for uncovered cases|fresh strict qualification plus actual pair transfer+full frame for each claimed backing/base/a,b domain; no current admitted leaf|
 |checker_order_corrupt, checker_count_corrupt|selected; generic FAILED, not expected match|same operands with literal roles|intended independent order/count failures actually reached; checker sensitivity, not sorting leaf proof|
 |sort13_weak|selected; generic FAILED, not expected match|literal role on unchanged seam/copy|omitting swap sorting effects is observable in this faithful caller copy|
 |merge32_real|selected; external child600wall|`s3_merge_u8_cap32_pfc` with checked invariant/geometry|actual merge normal post, initialization and frame on all declared n/geometry, including n32; not a timeout rerun|
 |sort13_assumed|selected; external child600wall|`s3_sort13_u8_composed` after qualified swap, checked network cuts|actual 13-network full-byte order/permutation+frame, with same-context provider, fresh consumer proof|
-|merge_count_corrupt|selected; interrupted compilation/global snapshot stop|intake-based snapshot repair + literal intended failure|reliable invocation snapshot lifecycle, then actual merge/count mutation detection; no current result|
+|merge_count_corrupt|selected; supervisor ProcessLookupError, worker-15, required AFTER absent|localized finalization/error diagnostics with fail-closed snapshots + literal intended failure|reliable invocation snapshot lifecycle, then actual merge/count mutation detection; no current native result|
 |merge_order_corrupt|selected; NOT_RUN|literal intended failure with intact snapshots|actual merge/order mutation detection; no current result|
 |summary_witness|selected; NOT_RUN|retain model diagnostic separately; do not put unchanged heavy fixture first|constructive consistency only, never proof of actual helpers|
 |general32_assumed|deferred / NOT_SELECTED|`s3_general32_u8_qualified` only after all leaves|fresh actual consumer, precondition implications and scratch/guard/frame composition; no upgrade from assumed PASS|

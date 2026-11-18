@@ -1,4 +1,4 @@
-# READY — offline decision draft, pending exact W11 dependency
+# READY — offline decision plan with committed W11 intake
 
 Task `taska6b52a0aa3c145cfabb5989b2e1e49780275c6bb`; owner22:40 `/new13`;
 Fast OFF, no subagents. Recommendation **FOLD_INTO_FIRST_S3**. Every proposed
@@ -9,7 +9,7 @@ is intentionally excluded from its files. No push or dispatch is requested.
 Read PLAN.md for the decision, MATRIX.md for roots/full-domain obligations,
 options and six-attempt arithmetic, LABELS.md for all six literal negative
 sites plus16 supporting sites, SNAPSHOT.md for conditional fail-closed repair.
-INPUTS.json pins 41 exact Git dependencies with blobs/SHA256, source/control/tool
+INPUTS.json pins 48 exact Git dependencies with blobs/SHA256, source/control/tool
 identities, all22 planned sites and full11/20/6 obligation inventory.
 MANIFEST.sha256 seals every other package file; it excludes itself only.
 
@@ -22,13 +22,18 @@ proof, Kani induction, native fit or independent B1/B2 proof credit. No existing
 pilot suite or source/control module was executed/imported. Proof obligations
 closed0. Actual compiler/verifier/fullrunner/CI executions0.
 
-W11 exact committed intake remains **PENDING_ROOT_SUPPLIED_COMMITTED_SHA**.
-At closeout, no commit for `ch8-s2/run-44375519132/` was available in local Git;
-uncommitted W11 output was not consumed. No download, raw evidence/log read,
-cost/order re-investigation or issue-intake work was done. Root may request one
-bounded update after supplying W11 SHA: add exact verdict/context and snapshot
-facts, choose the matching repair branch, update dependency hashes and manifest.
-Do not diagnose a changed path or implement snapshot repair from generic STOP.
+W11 committed intake `ebd77a955b2b8d1b4e8079cfbf569386bcf0b130` became
+available during closeout and is incorporated by a bounded update. Read
+INTAKE-UPDATE.md: required AFTER evidence was absent after supervisor
+ProcessLookupError/worker-15; no actual immutable-byte drift or generated-output
+misclassification is established. Exact syscall/path/traceback remains UNKNOWN.
+Swap native SUCCESS is preserved but strict qualification NOT_GRANTED: four
+unreachable checks and three absent named success roles. Three generic negative
+FAILs remain unadmitted; checker_count also has actual assertion.2 versus .1.
+Only committed reports/inputs/manifest were read, their hashes and frozen input
+identities checked. No artifact/raw log read or repeated collector/order/cost
+investigation. The pending intake dependency is resolved; source-level fixes
+remain NOT_APPLIED, with missing after/exception details explicitly unavailable.
 
 Working capacity is2S3+2S4+1S5+1reserve, not guaranteed or reserved. Standalone
 r6 is conditional only on the named S3_INTAKE_SNAPSHOT_EPOCH blocker with a
