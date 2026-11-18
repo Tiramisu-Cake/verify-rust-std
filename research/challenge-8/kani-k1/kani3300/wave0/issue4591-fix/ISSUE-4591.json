@@ -1,0 +1,109 @@
+{
+  "issue": {
+    "issue": {
+      "id": 4318045903,
+      "url": "https://github.com/model-checking/kani/issues/4591",
+      "title": "`#[kani::stub]` on contracted functions",
+      "issue_number": 4591,
+      "body": "Using `#[kani::stub(target, replacement)]` where `target` has a `#[kani::ensures]` contract produces a compilation error: `Failed to find contract closure __kani_recursion_check_<fn_name>`.\n\n### Minimal reproducer\n\n```rust\n#[kani::ensures(|result: &i32| *result >= 0)]\nfn abs_val(x: i32) -> i32 {\n    if x < 0 { -x } else { x }\n}\n\nfn stub_abs_val(_x: i32) -> i32 {\n    let r: i32 = kani::any();\n    kani::assume(r >= 0);\n    r\n}\n\nfn caller(x: i32) -> i32 {\n    abs_val(x) + 1\n}\n\n#[kani::proof]\n#[kani::stub(abs_val, stub_abs_val)]\nfn check_caller() {\n    let x: i32 = kani::any();\n    let result = caller(x);\n    assert!(result >= 1);\n}\n```\n\n```\n$ cargo kani -Z function-contracts -Z stubbing\nerror: Failed to find contract closure `__kani_recursion_check_abs_val` in function `abs_val`\n```\n\n### Expected behavior\n\n`#[kani::stub]` should work on functions that have contracts. The stub replaces the function body entirely, so the contract instrumentation should be irrelevant.\n\n### Impact\n\nThis prevents compositional verification where a function has been proved correct via `proof_for_contract` and callers want to use a standard stub (not `stub_verified`) to abstract it away. The workaround is to remove the `ensures` contract from the target function, but this breaks the `proof_for_contract` harness.",
+      "state": "open",
+      "user": {
+        "login": "feliperodri",
+        "name": "feliperodri",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/4294522?v=4",
+        "id": 4294522
+      },
+      "assignees": [
+        {
+          "login": "feliperodri",
+          "name": "feliperodri",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/4294522?v=4",
+          "id": 4294522
+        }
+      ],
+      "labels": [
+        {
+          "name": "[C] Bug",
+          "color": "72D9B7",
+          "description": "This is a bug. Something isn't working."
+        },
+        {
+          "name": "[F] Crash",
+          "color": "E99695",
+          "description": "Kani crashed"
+        },
+        {
+          "name": "Z-Contracts",
+          "color": "FEF2C0",
+          "description": "Issue related to code contracts"
+        }
+      ],
+      "milestone": 31,
+      "state_reason": null,
+      "comments": 2,
+      "created_at": "2026-04-23T18:35:32Z",
+      "updated_at": "2026-11-17T20:48:51Z",
+      "closed_at": null,
+      "display_url": "https://github.com/model-checking/kani/issues/4591",
+      "display_title": "`#[kani::stub]` on contracted functions"
+    },
+    "url": "https://github.com/model-checking/kani/issues/4591",
+    "title": "`#[kani::stub]` on contracted functions",
+    "display_url": "https://github.com/model-checking/kani/issues/4591",
+    "display_title": "`#[kani::stub]` on contracted functions"
+  },
+  "comments": {
+    "comments": [
+      {
+        "url": "https://github.com/model-checking/kani/issues/4591#issuecomment-4942566154",
+        "body": "It would help to clarify whether stubbing a contracted target is intended to bypass the target contract entirely or require the replacement to satisfy it. A regression matrix should cover `ensures`, `requires`, and recursion contracts independently, because the missing `__kani_recursion_check_*` closure may be generated only for one contract-lowering path.\n",
+        "user": {
+          "login": "hiSandog",
+          "name": "hiSandog",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/24449799?v=4",
+          "id": 24449799
+        },
+        "id": 4942566154,
+        "pull_request_review_id": null,
+        "in_reply_to_id": null,
+        "created_at": null,
+        "updated_at": null,
+        "review": null,
+        "side": null,
+        "line": null,
+        "start_line": null,
+        "path": null,
+        "body_html": "<p dir=\"auto\">It would help to clarify whether stubbing a contracted target is intended to bypass the target contract entirely or require the replacement to satisfy it. A regression matrix should cover <code class=\"notranslate\">ensures</code>, <code class=\"notranslate\">requires</code>, and recursion contracts independently, because the missing <code class=\"notranslate\">__kani_recursion_check_*</code> closure may be generated only for one contract-lowering path.</p>"
+      },
+      {
+        "url": "https://github.com/model-checking/kani/issues/4591#issuecomment-4946988101",
+        "body": "Thanks, @hiSandog! I think this currently reflects a tooling limitation rather than intended semantics. With `#[kani::stub(abs_val, stub_abs_val)]`, the `abs_val` body should be fully abstracted away for that harness, so requiring contract-generated closure symbols from `abs_val` (e.g. `__kani_recursion_check_abs_val`) appears inconsistent.\n\nIn other words, stubbing and contract instrumentation are not composed correctly yet: the pipeline still resolves contract artifacts for the original target even when the call is redirected. I believe expected behavior is that plain stub works regardless of whether the target has `#[kani::ensures]` (unless we explicitly document otherwise).\n\n*[Note to self]* Proposed fix direction: adjust ordering/resolution so contract closure lookup is skipped or redirected when a stub replacement is active, and add this reproducer as a regression test.\n\n",
+        "user": {
+          "login": "feliperodri",
+          "name": "feliperodri",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/4294522?v=4",
+          "id": 4294522
+        },
+        "id": 4946988101,
+        "pull_request_review_id": null,
+        "in_reply_to_id": null,
+        "created_at": null,
+        "updated_at": null,
+        "review": null,
+        "side": null,
+        "line": null,
+        "start_line": null,
+        "path": null,
+        "body_html": "<p dir=\"auto\">Thanks, <a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/hiSandog/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/hiSandog\">@hiSandog</a>! I think this currently reflects a tooling limitation rather than intended semantics. With <code class=\"notranslate\">#[kani::stub(abs_val, stub_abs_val)]</code>, the <code class=\"notranslate\">abs_val</code> body should be fully abstracted away for that harness, so requiring contract-generated closure symbols from <code class=\"notranslate\">abs_val</code> (e.g. <code class=\"notranslate\">__kani_recursion_check_abs_val</code>) appears inconsistent.</p>\n<p dir=\"auto\">In other words, stubbing and contract instrumentation are not composed correctly yet: the pipeline still resolves contract artifacts for the original target even when the call is redirected. I believe expected behavior is that plain stub works regardless of whether the target has <code class=\"notranslate\">#[kani::ensures]</code> (unless we explicitly document otherwise).</p>\n<p dir=\"auto\"><em>[Note to self]</em> Proposed fix direction: adjust ordering/resolution so contract closure lookup is skipped or redirected when a stub replacement is active, and add this reproducer as a regression test.</p>"
+      }
+    ],
+    "url": "https://github.com/model-checking/kani/issues/4591",
+    "title": "model-checking/kani Issue #4591 comments",
+    "display_url": "https://github.com/model-checking/kani/issues/4591",
+    "display_title": "model-checking/kani Issue #4591 comments"
+  }
+}

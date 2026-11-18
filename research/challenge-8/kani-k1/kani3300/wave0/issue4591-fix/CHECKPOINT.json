@@ -1,0 +1,44 @@
+{
+  "status": "READY_FOR_INDEPENDENT11_REVIEW",
+  "g0_task_commit": "7afd3d52d959a246df4e968e9cc8a66f029fbedf",
+  "g0_delivery_commit": "the commit containing this exact package; full SHA reported in delivery message",
+  "source_head": "a7bca98c91cbfa595bdc2a1bdc6bd4d0a4fa796a",
+  "source_tree": "98fae98ce9e783bed0393d35657674da09c3aa31",
+  "source_parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "main": {
+    "sha": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+    "parent": "a3c8b8610739aab7d2c864bd4021086a5e7c0d94"
+  },
+  "source_worktree": "/root/kani-issue4591-fix-w15",
+  "patches": {
+    "fix.patch": "ec159a83dbe1ff897480c30ab9a142de5859c57490999fb929cdc2c2c61f5e7b",
+    "regression-main.patch": "022becec7aec832f47376b9e7c2992a5264da65a9227f7a720e2eb574fb6f218",
+    "full-main.patch": "27827ec2b099599bdb8e0b07538854860c288bb750038196d7301d51a089e3f7"
+  },
+  "test_paths": [
+    "tests/expected/function-contract/ordinary_stub_fail.expected",
+    "tests/expected/function-contract/ordinary_stub_fail.rs",
+    "tests/expected/function-contract/ordinary_stub_issue_4591.expected",
+    "tests/expected/function-contract/ordinary_stub_issue_4591.rs",
+    "tests/expected/function-contract/ordinary_stub_overlap.expected",
+    "tests/expected/function-contract/ordinary_stub_overlap.rs",
+    "tests/kani/FunctionContracts/ordinary_stub.rs",
+    "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs"
+  ],
+  "ci_request_sha256": "083f69cc2e6c1abf6dff2a50550712d6f58efd76fa6b5908059080bdb5e4b53c",
+  "native_main_and_fixed": "NOT_RUN",
+  "independent11": "PENDING_NOT_AUTHORED_BY_W15",
+  "root_go": "NOT_REQUESTED_PENDING_INDEPENDENT11",
+  "future_final_head": {
+    "sha": "NOT_CREATED",
+    "tree": "98fae98ce9e783bed0393d35657674da09c3aa31",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "relation": "new nonskip same-tree sibling of candidate; main..final is exactly one new commit",
+    "candidate_in_pushed_range": false,
+    "owner": "OWNER_OR_COORDINATOR_AFTER_INDEPENDENT11_AND_ROOT_GO"
+  },
+  "ci_push_pr_issues_ledger": "NOT_RUN",
+  "next": "Independent11 review of exact g0 package/source/tree, then root GO request; separate owner dispatch and owner PR publication command",
+  "remaining_semantic_scope": "Same-target explicit PFC/verified + ordinary overlap retains main error behavior; source/test trace explicit"
+}
