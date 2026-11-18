@@ -1,0 +1,106 @@
+{
+  "schema": "ch8-s2-w14-combined-r2-review-v1",
+  "verdict": "APPROVE",
+  "scope": "SOURCE_AND_REPAIRED_RUNNER_AND_EXACT_FINAL_INTEGRATION",
+  "pins": "PINS.json",
+  "final_package_commit": "5a9e715ad9e303fbd10600ee379313301c87e9b3",
+  "source_sha": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+  "source_tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+  "control_sha": "2ce62b5bb31abd44824dc8e358f77e63d539ed98",
+  "control_tree": "dadbd710770720cd360529188c81c6d19a8de61c",
+  "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+  "request_sha256": "008c6868bd466fc7dfb2c1e3239f94157262b0d5c5ac14fac00be0e37fdaae38",
+  "workflow_sha256": "973944169dd4d7f2fc169582b1327cc8e31fa96710a2a597ed0a126ef37e4a2e",
+  "findings": [
+    {
+      "id": "B-01",
+      "priority": "P1",
+      "original_owner": "11 via coordinator",
+      "status": "CLOSED",
+      "scope": "repaired472 plus byte-identical final2ce",
+      "evidence": "REPRODUCTIONS.json#/checks/0",
+      "cases": 8,
+      "conclusion": "Expected selected/fallback/row group inventory survives both missing streams and execution interruptions. Global completeness is false; source receipts/native exit42/UNKNOWN are preserved."
+    },
+    {
+      "id": "B-02",
+      "priority": "P2",
+      "original_owner": "11 via coordinator",
+      "status": "CLOSED",
+      "scope": "repaired472 plus byte-identical final2ce",
+      "evidence": "REPRODUCTIONS.json#/checks/1",
+      "cases": 12,
+      "conclusion": "Both streams retain the full original165-byte suggestion plus following context; ANSI/split/chunk variants preserve original byte coordinates and exact packed text below unchanged caps."
+    }
+  ],
+  "blocking_findings": [],
+  "source_owner": "13",
+  "composition_owner": "13",
+  "integration_gate": {
+    "status": "CLOSED",
+    "evidence": "INTEGRATION-GATE.json",
+    "binding_received": "Coordinator message supplied full5a9e/control2ce/tree/request pins during active review; independently matched committed packet."
+  },
+  "source_review": {
+    "status": "APPROVE_STATIC_DIAGNOSTIC_MODEL",
+    "both_general32_roots": "ORDINARY_DIAGNOSTIC_SORT8_EXACT_ACTIVE_REPLACEMENT",
+    "cfg_contexts": 11,
+    "covers": 20,
+    "negative_oracles": 6,
+    "remaining_verified_stubs": "EXACT_ACTIVE_PFC_REGISTRATION_ONLY_NO_QUALIFICATION",
+    "ordinary_replacements": "EXACT_ACTIVE_DECLARATIONS_INCLUDING_UNSELECTED",
+    "sort13_and_general32": "DIAGNOSTIC_ASSUMED",
+    "runtime_production_delta": "NONE",
+    "summary_witness_and_useful_return": "UNCHANGED; native nonvacuity NOT_RUN"
+  },
+  "runner_review": {
+    "status": "APPROVE_STATIC_AND_BOUNDED_SYNTHETIC",
+    "B-01": "CLOSED",
+    "B-02": "CLOSED",
+    "independent_tests": 33,
+    "preview_test_included": true,
+    "runs": 1,
+    "independent_reproductions": {
+      "B01": 8,
+      "B02": 12,
+      "actual_baseline_long_middle": 1
+    },
+    "historical_preview_failure": "PRESERVED_NOT_DISPROVEN_BY_CURRENT_PASS; see REVIEW.md"
+  },
+  "source_cfg_model_tests": {
+    "count": 19,
+    "failures": 0,
+    "errors": 0,
+    "runs": 1,
+    "executed_control": "2d00b9cc14f5a093ccaa0288a0f691fddf3ee84a source-policy slice only",
+    "inherited_to_final": "EXACT_TEST_POLICY_FIXTURE_BYTES; source/runtime runner conclusions reviewed separately"
+  },
+  "author_final79": {
+    "status": "AUTHOR_REPORTED_EXACT_FINAL_PASS_WITH_BOUND_PROVENANCE",
+    "independently_rerun": false
+  },
+  "old2d00_or_b678_approval": false,
+  "native_compile_model_production_retention": "NOT_RUN",
+  "historical_run44284869572_cause": "UNKNOWN",
+  "qualification": "NOT_RUN",
+  "B1_B2_R8": "NOT_ESTABLISHED",
+  "proof_credit": "NONE",
+  "closed_proof_obligations": 0,
+  "GO": "COORDINATOR_MAY_PREPARE_EXACT_GO_REQUEST; OWNER_DECISION_REQUIRED",
+  "retry_accounting": "OWNER_ONLY; unchanged item1 28/29,item2 provisional10/14,total38/43 reference",
+  "external_actions": {
+    "compiler": 0,
+    "verifier": 0,
+    "full_runner": 0,
+    "CI": 0,
+    "push": 0,
+    "PR": 0,
+    "cancel": 0,
+    "ledger": 0,
+    "reservation": 0,
+    "budget_changes": 0,
+    "author_edits": 0,
+    "subagents": 0
+  },
+  "settings": "CURRENT_MODEL_UNCHANGED; FAST_NOT_TOGGLED"
+}

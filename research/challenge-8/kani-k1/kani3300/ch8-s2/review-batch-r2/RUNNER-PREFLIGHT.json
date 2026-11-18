@@ -1,0 +1,70 @@
+{
+  "state": "PASS",
+  "control": {
+    "sha": "472be8c3794d7a4530760ab7d5eae4ce950aa01c",
+    "tree": "4835c615d20e6606ddcdc64bbb8314973cec141b",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "worktree": "/root/kani-ch8-s2-diagnostics-r2-r1-w11",
+    "stock_base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "baseline": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+    "baseline_tree": "beb2346615ffbb7027b2f1ea8ea33a149952aa0b",
+    "request_sha256": "8efb33417013116119602d9cf8e62a01de7b25ed2d2bbde6b9abd5d6457dd212",
+    "workflow_sha256": "973944169dd4d7f2fc169582b1327cc8e31fa96710a2a597ed0a126ef37e4a2e"
+  },
+  "source": {
+    "std_sha": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+    "std_tree": "64d96010b0b4b896322e26d700c253f834ba9fd6",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "changed_file_sha256": {
+      "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+      "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "library/core/src/slice/sort/shared/smallsort.rs": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+    }
+  },
+  "source_unchanged": true,
+  "baseline_worktree_untouched": true,
+  "immutable_request_fields": "UNCHANGED",
+  "roots": 11,
+  "covers": 20,
+  "negative_oracles": 6,
+  "cfg_pfc_rows": 11,
+  "preflight": {
+    "control_sha": "472be8c3794d7a4530760ab7d5eae4ce950aa01c",
+    "status": "STATIC_PASS",
+    "proof_credit": "NONE"
+  },
+  "patches": [
+    {
+      "path": "CONTROL-REPAIR.patch",
+      "base": "b678fb6cdd5edf69a4e952167422f36a45a3d6cb",
+      "target_tree": "4835c615d20e6606ddcdc64bbb8314973cec141b",
+      "sha256": "faa38a6371854d3b82011aee56151cfcd990981fbbef0a0fd2978e09e682aa86",
+      "replayed_tree": "4835c615d20e6606ddcdc64bbb8314973cec141b",
+      "result": "EXACT_TREE_MATCH"
+    },
+    {
+      "path": "CONTROL-DELTA.patch",
+      "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "target_tree": "4835c615d20e6606ddcdc64bbb8314973cec141b",
+      "sha256": "f3371e216a83cc51a52946af6b10465753157efc5886a3ff3cf8c6d558ed1383",
+      "replayed_tree": "4835c615d20e6606ddcdc64bbb8314973cec141b",
+      "result": "EXACT_TREE_MATCH"
+    },
+    {
+      "path": "CONTROL-CANDIDATE.patch",
+      "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "target_tree": "4835c615d20e6606ddcdc64bbb8314973cec141b",
+      "sha256": "075b4fc574dd24cd564c9fbe2597328b6852814196ef1f66d556cad81e3d1ba2",
+      "replayed_tree": "4835c615d20e6606ddcdc64bbb8314973cec141b",
+      "result": "EXACT_TREE_MATCH"
+    }
+  ],
+  "runtime_CI_retention": "NOT_RUN",
+  "proof_credit": "NONE"
+}

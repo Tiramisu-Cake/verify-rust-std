@@ -1,0 +1,228 @@
+{
+  "state": "PASS",
+  "checks": [
+    {
+      "finding": "B-01",
+      "status": "CLOSED",
+      "cases": [
+        {
+          "case": "exact-fallback",
+          "state": "NOT_RUN_OR_INTERRUPTED",
+          "reasons": [
+            "EXECUTION_DIAGNOSTICS_INCOMPLETE",
+            "EXECUTION_STATE:NOT_RUN_OR_INTERRUPTED",
+            "stderr:DIAGNOSTIC_RECEIPT_UNAVAILABLE",
+            "stdout:DIAGNOSTIC_RECEIPT_UNAVAILABLE"
+          ],
+          "global_complete": false,
+          "source_receipts_unchanged": true
+        },
+        {
+          "case": "both-streams-removed",
+          "state": "FAILED",
+          "reasons": [
+            "stderr:DIAGNOSTIC_RECEIPT_UNAVAILABLE",
+            "stdout:DIAGNOSTIC_RECEIPT_UNAVAILABLE"
+          ],
+          "global_complete": false,
+          "source_receipts_unchanged": true
+        },
+        {
+          "case": "selected-group-absent",
+          "state": "RECEIPT_UNAVAILABLE",
+          "reasons": [
+            "EXECUTION_RECEIPT_UNAVAILABLE",
+            "stderr:DIAGNOSTIC_RECEIPT_UNAVAILABLE",
+            "stdout:DIAGNOSTIC_RECEIPT_UNAVAILABLE"
+          ],
+          "global_complete": false,
+          "source_receipts_unchanged": true
+        },
+        {
+          "case": "row-group-absent",
+          "state": "RECEIPT_UNAVAILABLE",
+          "reasons": [
+            "EXECUTION_RECEIPT_UNAVAILABLE",
+            "stderr:DIAGNOSTIC_RECEIPT_UNAVAILABLE",
+            "stdout:DIAGNOSTIC_RECEIPT_UNAVAILABLE"
+          ],
+          "global_complete": false,
+          "source_receipts_unchanged": true
+        },
+        {
+          "case": "NOT_RUN",
+          "state": "NOT_RUN",
+          "reasons": [
+            "EXECUTION_STATE:NOT_RUN"
+          ],
+          "global_complete": false,
+          "source_receipts_unchanged": true
+        },
+        {
+          "case": "NOT_RUN_OR_INTERRUPTED",
+          "state": "NOT_RUN_OR_INTERRUPTED",
+          "reasons": [
+            "EXECUTION_STATE:NOT_RUN_OR_INTERRUPTED"
+          ],
+          "global_complete": false,
+          "source_receipts_unchanged": true
+        },
+        {
+          "case": "IN_PROGRESS",
+          "state": "IN_PROGRESS",
+          "reasons": [
+            "EXECUTION_STATE:IN_PROGRESS"
+          ],
+          "global_complete": false,
+          "source_receipts_unchanged": true
+        },
+        {
+          "case": "INTERRUPTED",
+          "state": "INTERRUPTED",
+          "reasons": [
+            "EXECUTION_STATE:INTERRUPTED"
+          ],
+          "global_complete": false,
+          "source_receipts_unchanged": true
+        }
+      ]
+    },
+    {
+      "finding": "B-02",
+      "status": "CLOSED",
+      "original_fixture_bytes": 165,
+      "cases": [
+        {
+          "stream": "stdout",
+          "chunk": 1,
+          "ansi": false,
+          "original_start": 31,
+          "original_end": 236,
+          "text_sha256": "f50fc23ea494ab53ed2ecea5249ee6e4ba142aa6a43de426c5219b0f9fa4259b",
+          "packed_exact": true
+        },
+        {
+          "stream": "stdout",
+          "chunk": 1,
+          "ansi": true,
+          "original_start": 31,
+          "original_end": 254,
+          "text_sha256": "f50fc23ea494ab53ed2ecea5249ee6e4ba142aa6a43de426c5219b0f9fa4259b",
+          "packed_exact": true
+        },
+        {
+          "stream": "stdout",
+          "chunk": 7,
+          "ansi": false,
+          "original_start": 31,
+          "original_end": 236,
+          "text_sha256": "f50fc23ea494ab53ed2ecea5249ee6e4ba142aa6a43de426c5219b0f9fa4259b",
+          "packed_exact": true
+        },
+        {
+          "stream": "stdout",
+          "chunk": 7,
+          "ansi": true,
+          "original_start": 31,
+          "original_end": 254,
+          "text_sha256": "f50fc23ea494ab53ed2ecea5249ee6e4ba142aa6a43de426c5219b0f9fa4259b",
+          "packed_exact": true
+        },
+        {
+          "stream": "stdout",
+          "chunk": 4096,
+          "ansi": false,
+          "original_start": 31,
+          "original_end": 236,
+          "text_sha256": "f50fc23ea494ab53ed2ecea5249ee6e4ba142aa6a43de426c5219b0f9fa4259b",
+          "packed_exact": true
+        },
+        {
+          "stream": "stdout",
+          "chunk": 4096,
+          "ansi": true,
+          "original_start": 31,
+          "original_end": 254,
+          "text_sha256": "f50fc23ea494ab53ed2ecea5249ee6e4ba142aa6a43de426c5219b0f9fa4259b",
+          "packed_exact": true
+        },
+        {
+          "stream": "stderr",
+          "chunk": 1,
+          "ansi": false,
+          "original_start": 31,
+          "original_end": 236,
+          "text_sha256": "f50fc23ea494ab53ed2ecea5249ee6e4ba142aa6a43de426c5219b0f9fa4259b",
+          "packed_exact": true
+        },
+        {
+          "stream": "stderr",
+          "chunk": 1,
+          "ansi": true,
+          "original_start": 31,
+          "original_end": 254,
+          "text_sha256": "f50fc23ea494ab53ed2ecea5249ee6e4ba142aa6a43de426c5219b0f9fa4259b",
+          "packed_exact": true
+        },
+        {
+          "stream": "stderr",
+          "chunk": 7,
+          "ansi": false,
+          "original_start": 31,
+          "original_end": 236,
+          "text_sha256": "f50fc23ea494ab53ed2ecea5249ee6e4ba142aa6a43de426c5219b0f9fa4259b",
+          "packed_exact": true
+        },
+        {
+          "stream": "stderr",
+          "chunk": 7,
+          "ansi": true,
+          "original_start": 31,
+          "original_end": 254,
+          "text_sha256": "f50fc23ea494ab53ed2ecea5249ee6e4ba142aa6a43de426c5219b0f9fa4259b",
+          "packed_exact": true
+        },
+        {
+          "stream": "stderr",
+          "chunk": 4096,
+          "ansi": false,
+          "original_start": 31,
+          "original_end": 236,
+          "text_sha256": "f50fc23ea494ab53ed2ecea5249ee6e4ba142aa6a43de426c5219b0f9fa4259b",
+          "packed_exact": true
+        },
+        {
+          "stream": "stderr",
+          "chunk": 4096,
+          "ansi": true,
+          "original_start": 31,
+          "original_end": 254,
+          "text_sha256": "f50fc23ea494ab53ed2ecea5249ee6e4ba142aa6a43de426c5219b0f9fa4259b",
+          "packed_exact": true
+        }
+      ]
+    },
+    {
+      "check": "actual-baseline-vs-candidate-long-middle",
+      "result": "PASS",
+      "baseline_runner_sha256": "fd298f6157a4157115a504d630d51a5a3c234d2cb8cf7d9521b22182b02effd9",
+      "input_bytes": 168090,
+      "input_sha256": "02f5a2777b81517b82db357c965025b3e16eca53a3764552bb71fe735bfbdaa8",
+      "baseline_and_candidate_preview_equal": true,
+      "baseline_missing_error": true,
+      "candidate_retained_exact_block": true,
+      "block": {
+        "stream": "stdout",
+        "start_byte": 84005,
+        "end_byte": 84085,
+        "text": "error[E9999]: UNIQUE_MIDDLE_REVIEW14\n --> a.rs:1:1\n  = note: preserved context\n\n",
+        "complete": true,
+        "dropped_bytes": 0
+      }
+    }
+  ],
+  "assurance": "BOUNDED_OFFLINE_SYNTHETIC",
+  "native": "NOT_RUN",
+  "historical_cause": "UNKNOWN",
+  "proof_credit": "NONE"
+}

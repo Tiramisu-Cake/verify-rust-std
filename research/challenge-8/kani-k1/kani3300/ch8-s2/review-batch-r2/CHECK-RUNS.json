@@ -1,0 +1,83 @@
+[
+  {
+    "output": "COMPONENT-BINDINGS-INITIAL-ERROR.txt",
+    "argv": [
+      "/usr/bin/python",
+      "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s2/review-batch-r2/verify_components.py"
+    ],
+    "cwd": "/root/verify-rust-std-kani3300-g0",
+    "exit": 1,
+    "selection_runs": 1,
+    "note": "Initial reviewer fixture path failure; superseded only by the explicit corrected static check below."
+  },
+  {
+    "output": "REPRODUCTIONS.json",
+    "argv": [
+      "/usr/bin/python",
+      "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s2/review-batch-r2/reproduce_repairs.py"
+    ],
+    "cwd": "/root/kani-ch8-s2-diagnostics-r2-r1-w11",
+    "exit": 0,
+    "selection_runs": 1
+  },
+  {
+    "output": "RUNNER-PREFLIGHT.json",
+    "argv": [
+      "/usr/bin/python",
+      "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s2/runner-diagnostics-r2-r1/validate_package.py"
+    ],
+    "cwd": "/root/verify-rust-std-kani3300-g0",
+    "exit": 0,
+    "selection_runs": 1
+  },
+  {
+    "output": "RUNNER-33-TESTS.txt",
+    "argv": [
+      "/usr/bin/python",
+      "-"
+    ],
+    "cwd": "/root/kani-ch8-s2-diagnostics-r2-r1-w11/ch8-s1-control",
+    "exit": 0,
+    "selection_runs": 1
+  },
+  {
+    "output": "SOURCE-CFG-MODEL-TESTS.txt",
+    "argv": [
+      "/usr/bin/python",
+      "-m",
+      "unittest",
+      "-v",
+      "test_cfg_pfc"
+    ],
+    "cwd": "/tmp/w14-static-control-vd8j6e8a/ch8-s1-control",
+    "exit": 0,
+    "selection_runs": 1
+  },
+  {
+    "output": "COMPONENT-BINDINGS.json",
+    "argv": [
+      "python",
+      "verify_components.py"
+    ],
+    "exit": 0,
+    "reason": "Correct reviewer fixture dependency and item-name index; no repeat of synthetic suites"
+  },
+  {
+    "output": "INTEGRATION-GATE.json",
+    "argv": [
+      "python",
+      "verify_integration.py"
+    ],
+    "exit": 0,
+    "reason": "New exact final packet became available"
+  },
+  {
+    "output": "FINAL-PREFLIGHT.json",
+    "argv": [
+      "python",
+      "../batch-r2-r1/validate_package.py"
+    ],
+    "exit": 0,
+    "reason": "Exact final static preflight and checkout7/5/2; no tests/native runner invoked"
+  }
+]
