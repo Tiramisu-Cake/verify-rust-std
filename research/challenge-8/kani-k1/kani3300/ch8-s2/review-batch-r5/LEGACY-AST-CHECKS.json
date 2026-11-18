@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "file": "s2_policy.py",
+      "legacy_function": "validate_request",
+      "new_name": "validate_legacy_request",
+      "AST": "IDENTICAL_EXCEPT_NAME"
+    },
+    {
+      "file": "collect.py",
+      "legacy_function": "collect",
+      "new_name": "legacy_collect",
+      "AST": "IDENTICAL_EXCEPT_NAME"
+    },
+    {
+      "file": "check_package.py",
+      "legacy_function": "fallback",
+      "new_name": "legacy_fallback",
+      "AST": "IDENTICAL_EXCEPT_NAME"
+    },
+    {
+      "file": "check_package.py",
+      "legacy_function": "build",
+      "new_name": "build",
+      "AST": "IDENTICAL_EXCEPT_NAME"
+    }
+  ]
+}

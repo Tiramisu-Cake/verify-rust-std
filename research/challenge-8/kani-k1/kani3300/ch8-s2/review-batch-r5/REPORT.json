@@ -1,0 +1,121 @@
+{
+  "schema": "ch8-s2-r5-independent-review-v1",
+  "verdict": "CHANGES_REQUIRED",
+  "reviewed_package": "53008fd4de6bb5719fd232b1ddb7e875b5112012",
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r5-package-w13",
+    "sha": "4e97d370aba4adc480fcc3701b111d02658aa94d",
+    "tree": "d4e0b1f74b609c67f984fe157b940330ac8d323a",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+    "request_sha256": "ef4efdd6a4753b01de13b9a22000646a9a56e029c115426d40fd061df406102b",
+    "workflow_sha256": "c48ae57ed944b74a155b4d57877ec3a088e5f642a7c1151481dd892ed933aeb0"
+  },
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "bd62e54df1b4749154790aa3db3cc7978f547f75"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "findings": [
+    {
+      "id": "R14-R5-01",
+      "priority": "HIGH",
+      "title": "Original Validate cap misses required 1.5x host timing margin",
+      "file": ".github/workflows/ch8-s2.yml",
+      "line": 33,
+      "observed": {
+        "tests": 130,
+        "elapsed_seconds": 403.420022367,
+        "cap_seconds": 600,
+        "margin": 1.4872836416982966,
+        "minimum_cap_seconds": 605.1300335505
+      },
+      "requested_fix": "Original13: R5-only Validate11min and exact cap assertions/derived bindings, legacy10min remains strict; exact immutable committed repair. Host timing inherited on4e97, final repair execution not claimed.",
+      "evidence": [
+        "VALIDATE-MARGIN.json",
+        "REEXECUTED-VALIDATION.json"
+      ]
+    },
+    {
+      "id": "R14-R5-02",
+      "priority": "HIGH",
+      "title": "Completed root seal references log files omitted from the uploaded structured artifact",
+      "file": "ch8-s1-control/r5_campaign.py",
+      "line": 197,
+      "related": [
+        "ch8-s1-control/r5_campaign.py:46",
+        "ch8-s1-control/r5_campaign.py:268",
+        "ch8-s1-control/pack_evidence.py:100",
+        "ch8-s1-control/collect.py:37",
+        ".github/workflows/ch8-s2.yml:109"
+      ],
+      "observed": "Production _run_group creates stdout.log/stderr.log. root_outcome seals every group file. pack_evidence includes only *.json. Upload contains only group-evidence.json.gz. Archive-only sealed() and r5 collect() raise KeyError even when artifact is PACKAGED and row receipt bytes match.",
+      "requested_fix": "Original13: make the portable completion seal cover the bounded structured inventory actually uploaded; preserve all required request/source/binary/compile/export/rich/diagnostic binding checks. Keep raw logs local and label any local-only digests explicitly; do not start reading/uploading raw logs or weaken existing protected decoders. Add a regression using fresh archive-only directory after completed prefix plus later failure/fallback; verify exact prefix and replay collection, not just artifact existence. Handle compact-cap omissions truthfully. New immutable repair and same14 delta review required.",
+      "evidence": [
+        "UPLOADED-PREFIX-REPRO.json",
+        "reproduce_uploaded_prefix.py",
+        "CODE-EVIDENCE.json"
+      ]
+    }
+  ],
+  "reviewer_validation": {
+    "targeted_service_tests": 23,
+    "exit": 0,
+    "seconds": 25.83181921,
+    "full_Validate": "author-recorded130PASS on exact original4e97; command/transcript/timing identities rechecked, not rerun",
+    "static": "75 committed package files/74 manifest hashes; exact request/workflow, full stock payload inventory, source gates, protected bytes, six patch replays, actual shallow7/5/2, four independent legacy AST comparisons PASS",
+    "new_reproduction": "archive-only prefix seal and collector failure reproduced"
+  },
+  "review_coverage": {
+    "singleton_order_native_selection": "reviewed scheduler/argv/jobs1/native-start guards and service tests; actual native starts NOT_RUN",
+    "selected_deferred_full": "9/16/5 selected; two general32 deferred;11/20/6 full preserved",
+    "fresh_bindings": "fresh UUID target, singleton export, source/cfg/stub/PFC/native metadata/binary snapshots reviewed; compiler-instance and assertion-origin gaps UNKNOWN",
+    "lifecycle": "local error continuation after owned cleanup; source/tool/request/binary/containment/global deadline abort; cutoff latch; durable prefix local preservation reviewed",
+    "packing": "BLOCKED R14-R5-02: portable completion seal cannot replay uploaded-only artifact",
+    "caps": "compile180 inside child600; worker710+publication10 inside slot720;9x720+180+240=6900;7500/8100/7560/setup1800/job10800 and sampled6GiB/outer12GiB/headroom2GiB scopes reviewed",
+    "aggregate_limits": "shared stdout/stderr/export/artifact census and remainder; one monotonic clock; no retries/reuse reviewed",
+    "oracles_controls": "exact sole intended negatives/covers/diagnostic completeness/B01B02 and lexical gate preserved; no proof qualification"
+  },
+  "limitations": [
+    "Native compilation/stock children/compiler/verifier/full runner/CI NOT_RUN",
+    "Future GitHub duration UNKNOWN; host timing does not establish future timing",
+    "Assumed and caller-copy/source-reported limitations preserved; no independent B1/B2 or native qualification",
+    "general32 pair remains DEFERRED_NOT_SELECTED, UNKNOWN; zero proof obligations closed",
+    "A cap-only11min repair fixes only R14-R5-01; R14-R5-02 remains open until exact new repair review"
+  ],
+  "blockers": [
+    "R14-R5-01",
+    "R14-R5-02"
+  ],
+  "next": "Root routes localized findings to original13; exact committed immutable repair pins; same14 integration/delta review; coordinator GO only after APPROVE/no blockers. No GO now.",
+  "actions": {
+    "candidate_edit": 0,
+    "source_edit": 0,
+    "compiler": 0,
+    "verifier": 0,
+    "full_runner": 0,
+    "CI": 0,
+    "push": 0,
+    "PR": 0,
+    "issue": 0,
+    "ledger": 0,
+    "budget": 0,
+    "reservation": 0,
+    "subagent": 0
+  },
+  "Fast": "OFF_NOT_TOGGLED",
+  "settings": "PRESERVED",
+  "proof_credit": "NONE",
+  "independent_B1_B2": "NONE",
+  "closed_proof_obligations": 0
+}
