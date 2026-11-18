@@ -1,0 +1,432 @@
+{
+  "schema": "r3-all11-root-mode-map-v1",
+  "source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+  "stock_tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "rows": [
+    {
+      "id": "swap_pfc",
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::swap_pfc",
+      "root_declaration_mode": "PFC",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "source_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 73
+      },
+      "verified_stubs": [],
+      "ordinary_stubs": [],
+      "swap_call_path": "direct sorting_s2_batch.rs:80",
+      "swap_contract_mode": "SimpleCheck",
+      "body_searched": "original swap_if_less MIR",
+      "mark_unused": "YES if visited",
+      "lookup_if_entry": "__kani_recursion_check_swap_if_less FIRST, then __kani_check_swap_if_less, __kani_replace_swap_if_less, __kani_assert_swap_if_less",
+      "notes": "PFC target has no recursion attribute; full pair relation/frame assertions at 79-86",
+      "MIR_instance_reachability": "UNKNOWN; lexical paths and modes are source deductions, not observed monomorphization",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "summary_witness",
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::summary_witness",
+      "root_declaration_mode": "Original",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "source_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 101
+      },
+      "verified_stubs": [],
+      "ordinary_stubs": [],
+      "swap_call_path": "none: fixture insertion + pair model only, batch.rs:90-113",
+      "swap_contract_mode": "NOT_REACHED",
+      "body_searched": "no swap body required by lexical graph",
+      "mark_unused": "NO lexical entry",
+      "lookup_if_entry": "__kani_recursion_check_swap_if_less FIRST, then __kani_check_swap_if_less, __kani_replace_swap_if_less, __kani_assert_swap_if_less",
+      "notes": "Model witness, not actual callee or PFC",
+      "MIR_instance_reachability": "UNKNOWN; lexical paths and modes are source deductions, not observed monomorphization",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "merge32_real",
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge32_real",
+      "root_declaration_mode": "Original",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "source_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 28
+      },
+      "verified_stubs": [],
+      "ordinary_stubs": [],
+      "swap_call_path": "none: merge() -> bidirectional_merge -> merge_up/down; batch.rs:13-36",
+      "swap_contract_mode": "NOT_REACHED",
+      "body_searched": "no swap body on lexical algorithm path",
+      "mark_unused": "NO lexical entry",
+      "lookup_if_entry": "__kani_recursion_check_swap_if_less FIRST, then __kani_check_swap_if_less, __kani_replace_swap_if_less, __kani_assert_swap_if_less",
+      "notes": "Actual merge is Original; its own four closures are still looked up",
+      "MIR_instance_reachability": "UNKNOWN; lexical paths and modes are source deductions, not observed monomorphization",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "sort13_assumed",
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_assumed",
+      "root_declaration_mode": "Original",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "source_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 41
+      },
+      "verified_stubs": [
+        {
+          "target": "core::slice::sort::shared::smallsort::swap_if_less",
+          "mode": "Replace; original target body until set_mode; all four lookups first"
+        }
+      ],
+      "ordinary_stubs": [],
+      "swap_call_path": "transitive sort13_optimal -> 45 swap calls, smallsort.rs:549-609; batch.rs:45",
+      "swap_contract_mode": "Replace",
+      "body_searched": "original swap_if_less MIR; replacement contract generated inside it",
+      "mark_unused": "YES if visited",
+      "lookup_if_entry": "__kani_recursion_check_swap_if_less FIRST, then __kani_check_swap_if_less, __kani_replace_swap_if_less, __kani_assert_swap_if_less",
+      "notes": "DIAGNOSTIC_ASSUMED; retains full pair old-state relation in replacement, unqualified",
+      "MIR_instance_reachability": "UNKNOWN; lexical paths and modes are source deductions, not observed monomorphization",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "general32_assumed",
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed",
+      "root_declaration_mode": "Original",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "source_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 58
+      },
+      "verified_stubs": [
+        {
+          "target": "core::slice::sort::shared::smallsort::insert_tail",
+          "mode": "Replace; original target body until set_mode; all four lookups first"
+        },
+        {
+          "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+          "mode": "Replace; original target body until set_mode; all four lookups first"
+        }
+      ],
+      "ordinary_stubs": [
+        {
+          "target": "core::slice::sort::shared::smallsort::sort8_stable",
+          "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::diagnostic_sort8",
+          "location": 54,
+          "semantics": "body substitution before contract pass; original FnDef attributes still queried",
+          "target_has_contract_under_effective_cfg": true,
+          "target_contract_mode": "Original",
+          "searched_body": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::diagnostic_sort8 MIR, while attributes belong to core::slice::sort::shared::smallsort::sort8_stable",
+          "expected_first_lookup": "__kani_recursion_check_sort8_stable",
+          "mark_unused": "YES if target instance is visited; body substitution does not bypass original attributes",
+          "source_ref": "smallsort.rs:406-459 (swap),814-817 (sort8),925-935 (merge); sorting_s2_batch.rs:141,151-188"
+        }
+      ],
+      "swap_call_path": "no swap: small_sort_general -> with_scratch -> ordinary diagnostic_sort8; insert_tail/merge verified; batch.rs:54-62,169-188; smallsort.rs:226-311",
+      "swap_contract_mode": "NOT_REACHED",
+      "body_searched": "no swap required by intended path",
+      "mark_unused": "NO lexical entry",
+      "lookup_if_entry": "__kani_recursion_check_swap_if_less FIRST, then __kani_check_swap_if_less, __kani_replace_swap_if_less, __kani_assert_swap_if_less",
+      "notes": "DIAGNOSTIC_ASSUMED; original sort8 IS contracted under S2 (smallsort.rs:814-817). Ordinary diagnostic_sort8 body can trigger independent __kani_recursion_check_sort8_stable miss. Not swap evidence.",
+      "MIR_instance_reachability": "UNKNOWN; lexical paths and modes are source deductions, not observed monomorphization",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "merge_order_corrupt",
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_order_corrupt",
+      "root_declaration_mode": "Original",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "source_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 117
+      },
+      "verified_stubs": [],
+      "ordinary_stubs": [],
+      "swap_call_path": "none: merge() then corrupt order, batch.rs:117-120",
+      "swap_contract_mode": "NOT_REACHED",
+      "body_searched": "no swap body required",
+      "mark_unused": "NO lexical entry",
+      "lookup_if_entry": "__kani_recursion_check_swap_if_less FIRST, then __kani_check_swap_if_less, __kani_replace_swap_if_less, __kani_assert_swap_if_less",
+      "notes": "Negative control; merge Original still enters its own mark_unused",
+      "MIR_instance_reachability": "UNKNOWN; lexical paths and modes are source deductions, not observed monomorphization",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "merge_count_corrupt",
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::merge_count_corrupt",
+      "root_declaration_mode": "Original",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "source_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 124
+      },
+      "verified_stubs": [],
+      "ordinary_stubs": [],
+      "swap_call_path": "none: merge() then corrupt count, batch.rs:124-127",
+      "swap_contract_mode": "NOT_REACHED",
+      "body_searched": "no swap body required",
+      "mark_unused": "NO lexical entry",
+      "lookup_if_entry": "__kani_recursion_check_swap_if_less FIRST, then __kani_check_swap_if_less, __kani_replace_swap_if_less, __kani_assert_swap_if_less",
+      "notes": "Negative control; merge Original still enters its own mark_unused",
+      "MIR_instance_reachability": "UNKNOWN; lexical paths and modes are source deductions, not observed monomorphization",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "root_declaration_mode": "Original",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "source_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 131
+      },
+      "verified_stubs": [],
+      "ordinary_stubs": [],
+      "swap_call_path": "none: model::snapshot/post only, batch.rs:131-134",
+      "swap_contract_mode": "NOT_REACHED",
+      "body_searched": "no swap body required",
+      "mark_unused": "NO lexical entry",
+      "lookup_if_entry": "__kani_recursion_check_swap_if_less FIRST, then __kani_check_swap_if_less, __kani_replace_swap_if_less, __kani_assert_swap_if_less",
+      "notes": "Pure model negative",
+      "MIR_instance_reachability": "UNKNOWN; lexical paths and modes are source deductions, not observed monomorphization",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "checker_order_corrupt",
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "root_declaration_mode": "Original",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "source_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 137
+      },
+      "verified_stubs": [],
+      "ordinary_stubs": [],
+      "swap_call_path": "none: model::snapshot/post only, batch.rs:137-140",
+      "swap_contract_mode": "NOT_REACHED",
+      "body_searched": "no swap body required",
+      "mark_unused": "NO lexical entry",
+      "lookup_if_entry": "__kani_recursion_check_swap_if_less FIRST, then __kani_check_swap_if_less, __kani_replace_swap_if_less, __kani_assert_swap_if_less",
+      "notes": "Pure model negative",
+      "MIR_instance_reachability": "UNKNOWN; lexical paths and modes are source deductions, not observed monomorphization",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "sort13_weak",
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "root_declaration_mode": "Original",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "source_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 145
+      },
+      "verified_stubs": [],
+      "ordinary_stubs": [
+        {
+          "target": "core::slice::sort::shared::smallsort::swap_if_less",
+          "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_swap",
+          "location": 143,
+          "semantics": "body substitution before contract pass; original FnDef attributes still queried",
+          "target_has_contract_under_effective_cfg": true,
+          "target_contract_mode": "Original",
+          "searched_body": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_swap MIR, while attributes belong to core::slice::sort::shared::smallsort::swap_if_less",
+          "expected_first_lookup": "__kani_recursion_check_swap_if_less",
+          "mark_unused": "YES if target instance is visited; body substitution does not bypass original attributes",
+          "source_ref": "smallsort.rs:406-459 (swap),814-817 (sort8),925-935 (merge); sorting_s2_batch.rs:141,151-188"
+        }
+      ],
+      "swap_call_path": "transitive sort13_optimal -> swap_if_less, batch.rs:143-148",
+      "swap_contract_mode": "Original",
+      "body_searched": "FnStubPass replaces swap body with weak_swap MIR (batch.rs:141), retaining original instance/attrs",
+      "mark_unused": "YES if original swap instance visited",
+      "lookup_if_entry": "__kani_recursion_check_swap_if_less FIRST, then __kani_check_swap_if_less, __kani_replace_swap_if_less, __kani_assert_swap_if_less",
+      "notes": "Source-supported wrong-body path: recursion name from original attributes absent from empty ordinary stub; cannot infer actual failed unit from sole error",
+      "MIR_instance_reachability": "UNKNOWN; lexical paths and modes are source deductions, not observed monomorphization",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "general32_weak",
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_weak",
+      "root_declaration_mode": "Original",
+      "effective_cfg": [
+        "kani",
+        "kani_smallsort_controls",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_sorting"
+      ],
+      "source_location": {
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "line": 159
+      },
+      "verified_stubs": [
+        {
+          "target": "core::slice::sort::shared::smallsort::insert_tail",
+          "mode": "Replace; original target body until set_mode; all four lookups first"
+        }
+      ],
+      "ordinary_stubs": [
+        {
+          "target": "core::slice::sort::shared::smallsort::sort8_stable",
+          "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::diagnostic_sort8",
+          "location": 155,
+          "semantics": "body substitution before contract pass; original FnDef attributes still queried",
+          "target_has_contract_under_effective_cfg": true,
+          "target_contract_mode": "Original",
+          "searched_body": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::diagnostic_sort8 MIR, while attributes belong to core::slice::sort::shared::smallsort::sort8_stable",
+          "expected_first_lookup": "__kani_recursion_check_sort8_stable",
+          "mark_unused": "YES if target instance is visited; body substitution does not bypass original attributes",
+          "source_ref": "smallsort.rs:406-459 (swap),814-817 (sort8),925-935 (merge); sorting_s2_batch.rs:141,151-188"
+        },
+        {
+          "target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+          "replacement": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_merge",
+          "location": 157,
+          "semantics": "body substitution before contract pass; original FnDef attributes still queried",
+          "target_has_contract_under_effective_cfg": true,
+          "target_contract_mode": "Original",
+          "searched_body": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::weak_merge MIR, while attributes belong to core::slice::sort::shared::smallsort::bidirectional_merge",
+          "expected_first_lookup": "__kani_recursion_check_bidirectional_merge",
+          "mark_unused": "YES if target instance is visited; body substitution does not bypass original attributes",
+          "source_ref": "smallsort.rs:406-459 (swap),814-817 (sort8),925-935 (merge); sorting_s2_batch.rs:141,151-188"
+        }
+      ],
+      "swap_call_path": "no intended swap: general -> diagnostic_sort8 + insert_tail verified + weak_merge ordinary; batch.rs:151-162",
+      "swap_contract_mode": "NOT_REACHED",
+      "body_searched": "no swap required; merge receives weak_merge body under original merge attrs",
+      "mark_unused": "NO swap lexical entry; YES merge if visited",
+      "lookup_if_entry": "__kani_recursion_check_swap_if_less FIRST, then __kani_check_swap_if_less, __kani_replace_swap_if_less, __kani_assert_swap_if_less",
+      "notes": "Two analogous ordinary-stub mismatch paths: sort8_stable->diagnostic_sort8 and bidirectional_merge->weak_merge. Expected miss names differ from reported swap; ordering/visited instances UNKNOWN.",
+      "MIR_instance_reachability": "UNKNOWN; lexical paths and modes are source deductions, not observed monomorphization",
+      "proof_credit": "NONE"
+    }
+  ],
+  "flags": {
+    "no_assert_contracts": true,
+    "stubbing": true,
+    "jobs": 1,
+    "exact": true,
+    "unwind": 34
+  },
+  "scope": "All11 effective roots from exact batch request; NOT_REACHED means no lexical algorithm edge, not a compiler-proven reachability exclusion. Packet row label Original is not the callee contract mode.",
+  "all_modes": {
+    "Original": "all four unused",
+    "RecursiveCheck": "replace/check/assert unused",
+    "SimpleCheck": "replace/recursion/assert unused",
+    "Replace": "recursion/check/assert unused",
+    "Assert": "recursion/check/replace unused"
+  },
+  "mode_invariant": "All five modes first look up all four closures in same supplied body (contracts.rs:659-696); error does not identify selected mode.",
+  "unselected_providers": [
+    {
+      "file": "helper_contracts.rs",
+      "PFC_lines": [
+        49,
+        55,
+        61,
+        121,
+        127,
+        271
+      ],
+      "functions": [
+        "swap_safety_u8_backing4",
+        "swap_safety_u64_backing4",
+        "swap_safety_bytes17_backing4",
+        "swap_safety_u8_backing9",
+        "swap_safety_u8_backing13",
+        "rejects_swap_comparator_writing_outside_frame_u8"
+      ],
+      "mode_if_selected": "SimpleCheck",
+      "targets": "swap_if_less; arbitrary_less fn-item or mutating closure, not KeyLess",
+      "verified_consumer_lines": [
+        69,
+        89,
+        97
+      ],
+      "mode_if_selected_consumer": "Replace"
+    },
+    {
+      "file": "helper_contracts_wide.rs",
+      "PFC_lines": [
+        75,
+        81
+      ],
+      "functions": [
+        "swap_safety_u8_backing32",
+        "swap_safety_u64_backing32"
+      ],
+      "mode_if_selected": "SimpleCheck",
+      "verified_consumer_lines": [
+        90
+      ],
+      "mode_if_selected_consumer": "Replace"
+    },
+    {
+      "file": "helper_contracts.rs + helper_contracts_wide.rs",
+      "merge_PFC_lines": {
+        "helper_contracts.rs": [
+          240,
+          247
+        ],
+        "helper_contracts_wide.rs": [
+          102
+        ]
+      },
+      "effect": "register merge PFC targets; no automatic swap provider traversal"
+    },
+    {
+      "file": "merge/profiles.rs + network.rs",
+      "effect": "swap_profile is a separate contracted wrapper/target; source import/call can reach actual swap if selected; registration is not evidence the wrapper or actual swap MIR was traversed by current11"
+    }
+  ],
+  "registration_vs_traversal": "Attributes may be checked for unselected declarations; codegen_units.rs:86-96,357-393 selects roots then groups by contract/stub usage; reachability.rs:141-178 loads transformed bodies per collected instance. init_contracts is free(NULL) hook (hooks.rs:792-834), not a loop over all providers. Existing matching PFC declarations do not select them or establish qualification.",
+  "conditional_path": "FnStubPass:46-55 passes replacement body on; BodyTransformation:158-165 retains instance across passes; contracts.rs:325-341 uses original FnDef attrs; hence ordinary-stub mismatch independent of old or no-assert-contracts if target instance is visited."
+}

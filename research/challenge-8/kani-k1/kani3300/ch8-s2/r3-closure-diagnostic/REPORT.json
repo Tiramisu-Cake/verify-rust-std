@@ -1,0 +1,102 @@
+{
+  "schema": "r3-closure-diagnostic-report-v1",
+  "task_commit": "043412f645521ca2d6b40eb85a69390df6329caa",
+  "state": "READY_FOR_REVIEW14",
+  "cause_verdict": "UNKNOWN_ACTUAL_R3_CAUSE",
+  "precise_unknown": "Sole reported missing recursion name does not identify failing unit/instance/mode or provenance/content of supplied body.var_debug_info. It cannot distinguish ordinary-stub body substitution from missing/non-Closure metadata in original swap body.",
+  "established": [
+    {
+      "id": "E1",
+      "claim": "Stock mark_unused performs four name lookups in all five modes before set_mode; recursion name is always first.",
+      "source": "0aac16ef62da9e9d5645782d458593e5d78143ba:kani-compiler/src/kani_middle/transform/contracts.rs:340-341,659-733"
+    },
+    {
+      "id": "E2",
+      "claim": "FnStubPass substitutes replacement body; later contract pass still uses original instance/FnDef attributes.",
+      "source": "0aac16ef62da9e9d5645782d458593e5d78143ba:kani-compiler/src/kani_middle/transform/mod.rs:115-123,158-165; transform/stubs.rs:46-55"
+    },
+    {
+      "id": "E3",
+      "claim": "All11 root declarations, cfg and ordinary/verified stub declarations mapped; S2 ordinary targets swap, sort8 and merge are contracted.",
+      "source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade:library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:26-188; smallsort.rs:406-459,814-817,925-935"
+    },
+    {
+      "id": "E4",
+      "claim": "Swap signature/body, modifies and all five actual safety predicates preserved from S1; old-state ensures is added; genericity/unsafe status unchanged.",
+      "source": "SOURCE-TRACE.md section5; exact source consistency checks in PROVENANCE.json"
+    }
+  ],
+  "source_supported": [
+    {
+      "id": "S1",
+      "claim": "sort13_weak can give original swap contract names to weak_swap body without generated closures; concrete route to reported name, independent of old().",
+      "actual_event": "UNKNOWN"
+    },
+    {
+      "id": "S2",
+      "claim": "general32_assumed and general32_weak can analogously mismatch S2 sort8 attrs with diagnostic_sort8 body; weak general also mismatches merge/weak_merge.",
+      "actual_event": "UNKNOWN; distinct expected recursion names; do not infer visited ordering"
+    },
+    {
+      "id": "S3",
+      "claim": "Old-only change alters remember/body contents but outer recursion naming/insertion has no old/generic/unsafe branch.",
+      "actual_MIR": "UNKNOWN"
+    }
+  ],
+  "unknown": [
+    "Observed failing codegen unit/root, instantiated generic args, selected mode and body owner/provenance",
+    "Actual expanded token/MIR and var_debug_info names, types, scopes before/after FnStub",
+    "Whether original-body optimization/debug loss occurs, and any causal Rust pass",
+    "All future compilation/root/proof results; R1 original diagnostic"
+  ],
+  "owner_reported": {
+    "source": "owner16:14/task text ONLY; no independent run/log inspection",
+    "run": "44310254730/1",
+    "compile": "FAILED",
+    "compile_seconds": 21.9,
+    "roots_started": 0,
+    "diagnostic": "Failed to find contract closure __kani_recursion_check_swap_if_less",
+    "r2_same_diagnostic": "OWNER_REPORTED",
+    "r1_original_diagnostic": "UNKNOWN",
+    "path_normalization": "DID_NOT_REMOVE_R3_FAILURE; retired as remedy"
+  },
+  "root_map": "ROOT-MODE-MAP.json",
+  "workarounds": {
+    "old_free": "Not equivalent reusable contract; loses entry-byte transfer/multiplicity in verified consumers. Harness exact snapshots retain only separately checked bounded actual-body relation. Still reaches mark_unused.",
+    "wrapper": "Additive wrapper still reaches contracted original. Complete S2-only contract relocation + all-consumer retargeting could preserve guarantees only with actual-body PFC/frame/domain/init/negative controls and separate review/GO. Still old-sensitive and ordinary-stub metadata risk if repeated on wrapper."
+  },
+  "next_discriminator": {
+    "first": "V-W: one exact sort13_weak root on exact S2/stock pins",
+    "second": "V-R: same root, remove only ordinary stub(swap_if_less,weak_swap) attribute",
+    "if_W_fail_R_pass": "SOURCE_SUPPORTED ordinary replacement dependence; bounded V-I if actual cause attribution needs body/debug provenance",
+    "if_original_body_fails": "V-P/V-O old-only comparison; conditional common-provider S1/S2 V-A/V-B, no generic/unsafe/modifies sweep",
+    "execution": "NOT_APPLIED/NOT_RUN; independent14 review and separate GO per execution"
+  },
+  "validation": {
+    "static_checks": 18,
+    "result": "PASS",
+    "location": "PROVENANCE.json /validation",
+    "native": "NOT_RUN",
+    "closed_proof_obligations": 0,
+    "proof_credit": "NONE"
+  },
+  "preservation": {
+    "Fast": "OFF; not toggled",
+    "model_tier": "UNCHANGED",
+    "source_tool_runner_request_edits": 0,
+    "compiler_CI_full_runner": 0,
+    "push_PR_external_messages": 0,
+    "ledger_reservation_budget_edits": 0,
+    "subagents": 0
+  },
+  "accounting": {
+    "ledger": "a4e8bdd22fc18919640fbff56e52eec69dc3f34a",
+    "item1": "29/29",
+    "item2": "9/14",
+    "total": "38/43",
+    "r0_r1_r2_r3_charged": 0,
+    "real_cost": "PRESERVED; not recomputed or modified"
+  },
+  "retired": "R3 path normalization as remedy; same failure owner-reported, not causal proof for R1",
+  "stop_reason": "Authorized source investigation, all11 mapping, two workaround analyses and bounded reviewable follow-up design complete; no real blocker to packet completion. Execution outside authorization."
+}

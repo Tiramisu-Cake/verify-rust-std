@@ -1,0 +1,263 @@
+{
+  "schema": "r3-closure-minimal-diagnostic-plan-v1",
+  "authorization": "PROPOSAL_ONLY; independent review14 and separate coordinator/owner GO for EVERY execution, no inherited dispatch authority",
+  "variants": [
+    {
+      "id": "V-W",
+      "source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+      "root": "sorting_s2_batch::sort13_weak",
+      "parent": "owner-reported exact full11 R3 baseline",
+      "single_factor": "select one exact root; source and providers unchanged",
+      "patch_data": null,
+      "prediction": "Wrong-body Hstub predicts recursion swap lookup failure after FnStub replacement; original-body Hmir may also fail, so this alone is not discriminating. If no original swap visit occurs, UNKNOWN collection/selection mismatch.",
+      "controls": {
+        "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "cfg": [
+          "kani",
+          "kani_smallsort_sorting",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed"
+        ],
+        "no_assert_contracts": true,
+        "stubbing": true,
+        "exact": true,
+        "unwind": 34,
+        "root_prefix": "slice::sort::shared::smallsort::verify::",
+        "provider_scope": "all declarations retained from pinned source; exact filter selects one root, no global stub union",
+        "stage": "compile only if independently reviewed stage-stop is available; otherwise NO_GO until root-start accounting decided",
+        "patch_status": "NOT_APPLIED",
+        "run_status": "NOT_RUN",
+        "future_git_sha": "NOT_CREATED"
+      },
+      "recipe_sha256": "1fc14c4f733b40f97037ae303a3601fe0f271b674758971ffc8f76f975918020"
+    },
+    {
+      "id": "V-R",
+      "source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+      "root": "sorting_s2_batch::sort13_weak",
+      "parent": "V-W",
+      "single_factor": "remove only ordinary swap stub attribute",
+      "patch_data": {
+        "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "anchor_line": 143,
+        "remove_exact_line": "#[kani::stub(swap_if_less,weak_swap)]",
+        "replacement": ""
+      },
+      "prediction": "Hstub: swap original body now has eligible closure entries and compilation passes that lookup. Hmir: same missing recursion persists in original swap body. Named weak-sort failure is NOT an expected result of this diagnostic because mutation has been removed; do not qualify it.",
+      "controls": {
+        "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "cfg": [
+          "kani",
+          "kani_smallsort_sorting",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed"
+        ],
+        "no_assert_contracts": true,
+        "stubbing": true,
+        "exact": true,
+        "unwind": 34,
+        "root_prefix": "slice::sort::shared::smallsort::verify::",
+        "provider_scope": "all declarations retained from pinned source; exact filter selects one root, no global stub union",
+        "stage": "compile only if independently reviewed stage-stop is available; otherwise NO_GO until root-start accounting decided",
+        "patch_status": "NOT_APPLIED",
+        "run_status": "NOT_RUN",
+        "future_git_sha": "NOT_CREATED"
+      },
+      "recipe_sha256": "a909d62407ce5ec71076958fe3eedaf4eaa56cb71134865f0f80679447f34b03"
+    },
+    {
+      "id": "V-P",
+      "source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+      "root": "sorting_s2_batch::swap_pfc",
+      "parent": "owner-reported exact full11 R3 baseline",
+      "single_factor": "select one PFC root only; source/providers unchanged",
+      "patch_data": null,
+      "prediction": "No ordinary swap stub. If original swap metadata healthy, SimpleCheck lookup succeeds. If same name missing, prioritize original-body path, not weak replacement.",
+      "controls": {
+        "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "cfg": [
+          "kani",
+          "kani_smallsort_sorting",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed"
+        ],
+        "no_assert_contracts": true,
+        "stubbing": true,
+        "exact": true,
+        "unwind": 34,
+        "root_prefix": "slice::sort::shared::smallsort::verify::",
+        "provider_scope": "all declarations retained from pinned source; exact filter selects one root, no global stub union",
+        "stage": "compile only if independently reviewed stage-stop is available; otherwise NO_GO until root-start accounting decided",
+        "patch_status": "NOT_APPLIED",
+        "run_status": "NOT_RUN",
+        "future_git_sha": "NOT_CREATED"
+      },
+      "recipe_sha256": "816b60904255be4ad671b74f773ecb2e8e0f87c84779a4317bb050a14580fb0b"
+    },
+    {
+      "id": "V-O",
+      "source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+      "root": "sorting_s2_batch::swap_pfc",
+      "parent": "V-P",
+      "single_factor": "remove old() wrapper only at swap ensures",
+      "patch_data": {
+        "path": "library/core/src/slice/sort/shared/smallsort.rs",
+        "anchor_line": 459,
+        "replace_exact": "old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos))",
+        "with_exact": "verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)"
+      },
+      "prediction": "With all else fixed and V-P failing in original body, passing lookup here supports an old/remember-sensitive interaction, not proof of an optimizer mechanism. If failure identical, old is not necessary for that repro; no further old-free semantic weakening justified. Harness keeps owned pre-state exact transfer/frame checks.",
+      "controls": {
+        "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "cfg": [
+          "kani",
+          "kani_smallsort_sorting",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed"
+        ],
+        "no_assert_contracts": true,
+        "stubbing": true,
+        "exact": true,
+        "unwind": 34,
+        "root_prefix": "slice::sort::shared::smallsort::verify::",
+        "provider_scope": "all declarations retained from pinned source; exact filter selects one root, no global stub union",
+        "stage": "compile only if independently reviewed stage-stop is available; otherwise NO_GO until root-start accounting decided",
+        "patch_status": "NOT_APPLIED",
+        "run_status": "NOT_RUN",
+        "future_git_sha": "NOT_CREATED"
+      },
+      "recipe_sha256": "b395fda581109d32adb6ecce0e2fdf39b0e2a39c42fd898efd1f3ac24c127748"
+    },
+    {
+      "id": "V-A",
+      "source": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "root": "helper_contracts::swap_safety_u8_backing13",
+      "parent": "accepted S1 baseline (not a claim of this exact cfg/run)",
+      "single_factor": "baseline anchor on exact accepted S1 with common unchanged provider",
+      "patch_data": null,
+      "prediction": "Establishes compilation/debug metadata behavior on exact S1 for shared root. Outcome unobserved; acceptance elsewhere does not establish it.",
+      "controls": {
+        "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "cfg": [
+          "kani",
+          "kani_smallsort_sorting",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed"
+        ],
+        "no_assert_contracts": true,
+        "stubbing": true,
+        "exact": true,
+        "unwind": 34,
+        "root_prefix": "slice::sort::shared::smallsort::verify::",
+        "provider_scope": "all declarations retained from pinned source; exact filter selects one root, no global stub union",
+        "stage": "compile only if independently reviewed stage-stop is available; otherwise NO_GO until root-start accounting decided",
+        "patch_status": "NOT_APPLIED",
+        "run_status": "NOT_RUN",
+        "future_git_sha": "NOT_CREATED"
+      },
+      "recipe_sha256": "0ec9677bfe7458d76674eb178359ad465bb27d80dc241cac82e0154a24c034f5"
+    },
+    {
+      "id": "V-B",
+      "source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+      "root": "helper_contracts::swap_safety_u8_backing13",
+      "parent": "V-A",
+      "single_factor": "baseline source revision comparison only; contains multiple semantic source deltas, NOT a causal one-factor experiment",
+      "patch_data": null,
+      "prediction": "Same provider bytes and arbitrary_less function-item domain; conditional pair model inactive. A pass/B fail isolates S2 revision dependence, but not old alone, attribute rewrite, genericity or unsafe status.",
+      "controls": {
+        "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "cfg": [
+          "kani",
+          "kani_smallsort_sorting",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed"
+        ],
+        "no_assert_contracts": true,
+        "stubbing": true,
+        "exact": true,
+        "unwind": 34,
+        "root_prefix": "slice::sort::shared::smallsort::verify::",
+        "provider_scope": "all declarations retained from pinned source; exact filter selects one root, no global stub union",
+        "stage": "compile only if independently reviewed stage-stop is available; otherwise NO_GO until root-start accounting decided",
+        "patch_status": "NOT_APPLIED",
+        "run_status": "NOT_RUN",
+        "future_git_sha": "NOT_CREATED"
+      },
+      "recipe_sha256": "4f881478cc2eb6fc6c3b03e20c81b8a9d093c6276d0357cdf594ce460ec39d6b"
+    },
+    {
+      "id": "V-I",
+      "source": "478dbf10d3fccd1119f4de7ac596c96d6dbe8ade",
+      "root": "SAME_AS_MINIMAL_FAILING_VARIANT",
+      "parent": "first minimal variant reproducing error",
+      "single_factor": "bounded observation-only instrumentation; no fallback, no lookup suppression",
+      "patch_data": {
+        "status": "DESIGN_ONLY; no source/tool edits prepared",
+        "sites": [
+          "BodyTransformation::body_ref before/after FnStubPass",
+          "FunctionWithContractPass::transform before mark_unused",
+          "find_closure on miss only"
+        ],
+        "fields": [
+          "source/tool/request identities",
+          "codegen unit sorted harness selectors and stub map",
+          "original instance DefId/name/generic args",
+          "replacement instance identity if any",
+          "contract mode and four expected names",
+          "before/after body owner identity supplied by caller; if Body has no owner field label provenance separately",
+          "debug entries name + Place/Const + resolved TyKind + ClosureDef + source scope",
+          "entry counts and truncation flag"
+        ],
+        "caps": {
+          "matching_debug_entries": 16,
+          "nearby_nonmatching_names": 8,
+          "events": 4,
+          "total_bytes": 8192
+        },
+        "on_truncation": "UNKNOWN; no automatic broader dump; review a targeted follow-up"
+      },
+      "prediction": "Original-body eligible name before FnStub and replacement owner/no name afterwards with original attrs establishes Hstub for that event. No name in original pre-stub body supports Hmir metadata loss but cannot identify Rust pass without separate controlled stage observations. Eligible name present at actual find_closure requires recheck exact identity/type/equality rather than inventing absent closure.",
+      "controls": {
+        "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "cfg": [
+          "kani",
+          "kani_smallsort_sorting",
+          "kani_smallsort_controls",
+          "kani_smallsort_s2_assumed"
+        ],
+        "no_assert_contracts": true,
+        "stubbing": true,
+        "exact": true,
+        "unwind": 34,
+        "root_prefix": "slice::sort::shared::smallsort::verify::",
+        "provider_scope": "all declarations retained from pinned source; exact filter selects one root, no global stub union",
+        "stage": "compile only if independently reviewed stage-stop is available; otherwise NO_GO until root-start accounting decided",
+        "patch_status": "NOT_APPLIED",
+        "run_status": "NOT_RUN",
+        "future_git_sha": "NOT_CREATED"
+      },
+      "recipe_sha256": "84832ceb19cce1ff77cf6d725d49a5af7e6c25a806f41c0739620ceeeee5c33a"
+    }
+  ],
+  "caps": {
+    "parallel": 1,
+    "max_executions_per_new_GO_packet": 1,
+    "max_executions_across_this_conditional_plan": 7,
+    "compile_seconds": 900,
+    "rss_kib": 6291456,
+    "root_execution": "0 intended; enforce reviewed compile-only stage or decide accounting before GO",
+    "diagnostic_output_bytes": 8192,
+    "automatic_retry": false,
+    "solver_sweep": false
+  },
+  "decision_tree": [
+    "V-W first. If wrong error or no reproducer, stop dependent diagnosis and use V-P only with new review/GO.",
+    "If V-W reproduces, V-R changes only ordinary-stub attribute. Failure W/pass R supports Hstub. Obtain bounded V-I on reproducer only if required to establish actual body identity; then stop, no old/modifies/generic sweep.",
+    "If V-R or V-P reproduces with original body, compare V-P/V-O for old factor. V-A/V-B are conditional common-provider S1/S2 anchors when revision/active-model distinction remains relevant, never causal substitutes for old-only pair.",
+    "All providers remain compiled in these root-filter variants. If unrelated registration blocks before target, STOP that branch UNKNOWN; propose separately reviewed one-provider cfg fixture and hashes before any execution.",
+    "No modifies removal or generic/unsafe rewriting is authorized by this plan: existing source has no generation branch on genericity/unsafe, and modifies is identical A/S. They are not justified next factors absent new bounded evidence."
+  ],
+  "billing": "Only confirmed compile failure before first root may qualify charged0 under independent accounting; compile success, stage-stop, timeout, unknown/partial root start or a root outcome needs accounting decision. Report wall cost always; do not write current ledger.",
+  "identities": "recipe_sha256 identifies immutable proposal DATA, not a future source commit or executed request. Materialization must publish full source/tool/config/request hashes and review delta before GO. No existing request edit."
+}
