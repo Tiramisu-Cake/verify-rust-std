@@ -1,0 +1,120 @@
+{
+  "schema": "issue4591-full-standard-push-ci-go-v1",
+  "status": "READY_FOR_DELEGATED_COORDINATOR_GO",
+  "root_consent": "AGREE_ONE_FULL_STANDARD_PUSH_CI_ATTEMPT",
+  "prepared_at_utc": "2026-11-18T21:13:21.760342+00:00",
+  "owner_authority": "owner night delegation: root + user coordinator decide work/GO within approved budget; publication remains owner-only",
+  "immutable_inputs": {
+    "package_g0": "ad50aaeaabe8b3a84dbf64a88d0214a16f4ee316",
+    "package_path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-fix-main-r2",
+    "review_g0": "0f4e2830d9053cd3b031c36b9efd64a4c3a9160d",
+    "review_path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-fix-main-review-w11-r2",
+    "review_verdict": "APPROVE",
+    "W11-01": "CLOSED",
+    "ci_request_sha256": "50da6854da282d718e28ee93953cd5d27c0bf47b366f538248cd5f461b71fdbe",
+    "ci_request_path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-fix-main-r2/CI-REQUEST.json"
+  },
+  "source": {
+    "local_candidate_sha": "3a770b5db51ba07acffce3483bde0901e6533f3a",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "sole_parent_main": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "main_tree": "c9a832dc1647c51ac3036429e5f97e73eb717ba7",
+    "worktree": "/root/kani-issue4591-fix-main-r2-w15",
+    "candidate_skip_ci": true,
+    "candidate_must_not_be_pushed": true
+  },
+  "final_head_requirements": {
+    "sha": "NOT_CREATED",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "parents": [
+      "969f4648980a8e66cd0ca32fd3e714a55ac32cef"
+    ],
+    "relation": "new nonskip same-tree direct sibling; exactly one commit in969f..final; skipped candidate excluded",
+    "branch": "user coordinator selects non-main future PR branch with no open PR; no existing open PR branch push authorized",
+    "read_only_gate": [
+      "python3",
+      "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/issue4591-fix-main-r2/check_push_head.py",
+      "/root/kani-issue4591-fix-main-r2-w15",
+      "FINAL_FULL_SHA"
+    ],
+    "gate_required": "exit0, status MATCH, errors empty; actual final SHA recorded before push",
+    "upstream_recheck": "must still match969f immediately before launch; drift goes back to root/coordinator",
+    "no_force_push": true
+  },
+  "ci_bundle": {
+    "repository": "Tiramisu-Cake/kani",
+    "event": "push",
+    "workflow_files": [
+      "kani.yml",
+      "format-check.yml",
+      "deny.yml"
+    ],
+    "regression_os": [
+      "macos-15-intel",
+      "ubuntu-22.04",
+      "ubuntu-24.04",
+      "macos-15",
+      "ubuntu-24.04-arm"
+    ],
+    "remaining_kani_jobs": [
+      "benchcomp-tests",
+      "perf",
+      "llbc-regression",
+      "documentation"
+    ],
+    "format_jobs": [
+      "format-check",
+      "clippy-check"
+    ],
+    "deny_jobs": [
+      "audit"
+    ],
+    "native_instances": 12,
+    "scope": "all unchanged native push jobs/matrices/steps/conditions/native retries; no subset/custom workflow/enable/cron/workflow_dispatch",
+    "pr_only_deferred": [
+      "release.yml",
+      "verify-std-check.yml",
+      "bench-pr.yml",
+      "extra_jobs.yml"
+    ],
+    "workflow_attempts": 1,
+    "external_automatic_rerun": false
+  },
+  "required_receipts": [
+    "actual final SHA/tree/single parent/full nonskip range and gate result",
+    "remote branch/head and native push event",
+    "three workflow run IDs/attempts and every native job/matrix conclusion",
+    "actual checkout SHA/tree if exposed; checkout step success alone insufficient",
+    "named regression outcomes and failure descriptions when available; suite-only evidence labeled",
+    "new actual advisory/infrastructure/performance evidence; old F4 outcomes not carried forward"
+  ],
+  "limits": [
+    "all new current-main/fixed native/typechecking/compiler/Kani/CBMC/performance results NOT_RUN",
+    "historical faff MRE remains historical INCONCLUSIVE; no new-main native credit",
+    "explicit same-target PFC/verified/ordinary overlap policy remains unchanged; no generalized conflict policy",
+    "native missing/red/cancelled/skipped jobs remain native outcomes; no all-green/full-matrix claim from partial coverage"
+  ],
+  "accounting": {
+    "ledger_reference": "243f3301a70047af08425d2ab25ce96dce82c6ae",
+    "current": {
+      "item1": "30/31",
+      "item2": "11/17",
+      "total": "41/48"
+    },
+    "prospective_after_this_bundle": {
+      "item1": "31/31",
+      "item2": "11/17",
+      "total": "42/48"
+    },
+    "changed_here": false,
+    "reservation": false,
+    "owner": "user coordinator only"
+  },
+  "action_boundary": {
+    "root_prepares_and_consents_only": true,
+    "dispatch_and_new_ci_branch_push": "user coordinator after actual final-head gate; no extra owner wait under delegation",
+    "PR_issue_comment_or_open_PR_branch_push": "requires owner approval; NOT authorized here",
+    "compiler_verifier_fullrunner_ci_push_publication_ledger_actions_performed": false
+  },
+  "next": "user coordinator creates final nonskip same-tree sibling above969f, runs read-only gate, binds actual head, launches once and records receipts; root intake preparation follows terminal run authorization"
+}

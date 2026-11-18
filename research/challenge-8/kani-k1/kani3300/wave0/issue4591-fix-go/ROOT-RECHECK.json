@@ -1,0 +1,43 @@
+{
+  "schema": "issue4591-root-go-audit-v1",
+  "observed_at_utc": "2026-11-18T21:13:21.760342+00:00",
+  "package": "ad50aaeaabe8b3a84dbf64a88d0214a16f4ee316",
+  "review": "0f4e2830d9053cd3b031c36b9efd64a4c3a9160d",
+  "review_verdict": "APPROVE",
+  "finding": "W11-01 CLOSED by independent source review",
+  "counts": {
+    "issue4591-fix-main-r2": {
+      "committed_files": 27,
+      "manifest_entries": 26
+    },
+    "issue4591-fix-main-review-w11-r2": {
+      "committed_files": 11,
+      "manifest_entries": 10
+    }
+  },
+  "root_read_only_checks": [
+    "all manifest entries and manifest files equal exact committed objects",
+    "source HEAD/tree/sole parent/clean status and changed-file hashes",
+    "new-main workflow/action/script/library/dependency/toolchain invariance",
+    "normalized repaired delta identical to frozen r1",
+    "CI request exact hash and review-to-candidate binding",
+    "current ledger used/cap reference read-only"
+  ],
+  "upstream_main": {
+    "interface": "connected GitHub commits/main",
+    "sha": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "tree": "c9a832dc1647c51ac3036429e5f97e73eb717ba7",
+    "parent": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "result": "MATCH_NO_DRIFT",
+    "commit_time_utc": "2026-11-18T19:47:32Z"
+  },
+  "validation_counts": {
+    "independent_review_static_mock": 407,
+    "author_static_mock": 237,
+    "provenance": "reported by exact committed independent review; root did not rerun those tests"
+  },
+  "native_current_main_fixed": "NOT_RUN",
+  "final_publication_head": "NOT_CREATED",
+  "no_ci_push_publication_accounting": true,
+  "ledger_reference": "243f3301a70047af08425d2ab25ce96dce82c6ae"
+}
