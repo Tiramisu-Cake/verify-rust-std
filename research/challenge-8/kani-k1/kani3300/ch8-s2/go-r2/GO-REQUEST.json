@@ -1,0 +1,141 @@
+{
+  "schema": "ch8-s2-r2-go-request-v1",
+  "status": "READY_FOR_OWNER_GO_CONDITIONAL_TRIGGER_AND_SOURCE_PUBLICATION",
+  "package_g0": "5a9e715ad9e303fbd10600ee379313301c87e9b3",
+  "review_g0": "a2d6428b35930282b03f91eeadba72eaf3cbef9b",
+  "review_verdict": "APPROVE",
+  "blocking_findings": [],
+  "B-01": "CLOSED",
+  "B-02": "CLOSED",
+  "integration_gate": "CLOSED",
+  "source_sha": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+  "source_tree": "4563e06722871ae5eafdf6d288afa21a406b6ba8",
+  "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+  "control_sha": "2ce62b5bb31abd44824dc8e358f77e63d539ed98",
+  "control_tree": "dadbd710770720cd360529188c81c6d19a8de61c",
+  "request_sha256": "008c6868bd466fc7dfb2c1e3239f94157262b0d5c5ac14fac00be0e37fdaae38",
+  "workflow_sha256": "973944169dd4d7f2fc169582b1327cc8e31fa96710a2a597ed0a126ef37e4a2e",
+  "cfg_pfc_checker_sha256": "9cd4a9c1c069365ccfa1ab8bfb7569dc88dfb5b8add41a7ca158e6d7c9be6d28",
+  "runner_diagnostics_component": {
+    "package_g0": "a8e3cb30c617a6dee07fa847f1f23470d59783e3",
+    "control_sha": "472be8c3794d7a4530760ab7d5eae4ce950aa01c",
+    "control_tree": "4835c615d20e6606ddcdc64bbb8314973cec141b",
+    "final_binding": "Reviewed exact code invariance except source identity literals and derived payload bindings"
+  },
+  "required_trigger": {
+    "prepared": false,
+    "tree": "dadbd710770720cd360529188c81c6d19a8de61c",
+    "single_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "topology": "same-tree sibling, not child of reviewed control",
+    "repository": "Tiramisu-Cake/kani",
+    "branch_pattern": "uninit-ci/ch8-s2-batch3probes-*",
+    "suggested_branch": "uninit-ci/ch8-s2-batch3probes-r2-YYYYMMDD",
+    "checkout_depths": {
+      "control": 7,
+      "source": 5,
+      "tool": 2
+    },
+    "skip_gate": "Final trigger and pushed range must allow intended native push event"
+  },
+  "source_publication": {
+    "performed": false,
+    "repository": "Tiramisu-Cake/verify-rust-std",
+    "required_sha": "efb1aba7fc6445cba6cd75154713b598c9e2579d",
+    "suggested_branch": "experiment/ch8-s2-batch3probes-r2-YYYYMMDD"
+  },
+  "requested_new_workflow_attempts": 1,
+  "automatic_rerun": false,
+  "old_run_rerun_authorized": false,
+  "scope": {
+    "group": "s2-batch3probes-u34",
+    "rows": [
+      "swap_pfc",
+      "summary_witness",
+      "merge32_real",
+      "sort13_assumed",
+      "general32_assumed",
+      "merge_order_corrupt",
+      "merge_count_corrupt",
+      "checker_count_corrupt",
+      "checker_order_corrupt",
+      "sort13_weak",
+      "general32_weak"
+    ],
+    "required_covers": 20,
+    "exact_negatives": 6,
+    "backend_harness_s": 600,
+    "compile_s": 900,
+    "root_cap_sum_s": 6600,
+    "group_child_s": 7500,
+    "phase_s": 8100,
+    "job_minutes": 180,
+    "jobs": 1,
+    "max_parallel": 1,
+    "group_RSS_GiB": 12,
+    "headroom_GiB": 2,
+    "phase_step_s": 7560,
+    "setup_s": 1800
+  },
+  "reviewed_static": {
+    "independent_runner_tests": 33,
+    "independent_runner_runs": 1,
+    "independent_source_cfg_model_controls": 19,
+    "cfg_contexts": 11,
+    "B01_cases": 8,
+    "B02_cases": 12,
+    "final_patch_replays": 7,
+    "author_final_tests": 79,
+    "author_test_status": "REPORTED_ON_EXACT_FINAL_NOT_INDEPENDENTLY_RERUN"
+  },
+  "coordinator_receipt": {
+    "package_committed_files_checked": 45,
+    "review_committed_files_checked": 22,
+    "all_manifests_checked": true,
+    "source_and_control_exact_clean": true,
+    "review_json_sha256": "de33ff6e602961e2707ea6cc7ff941a822f51494c89d2f58c83dbc0cdb28d875"
+  },
+  "compile": "NOT_RUN_ON_R2",
+  "proof_credit": "NONE",
+  "PFC_registration_qualification": false,
+  "diagnostic_assumed": [
+    "sort13_assumed",
+    "general32_assumed"
+  ],
+  "model_delta": "Remove sort8_registration_only; both general32 probes use ordinary diagnostic_sort8 full sortedness/multiplicity/frame/init relation, exact u8/KeyLess domain. Not a proved semantic leaf.",
+  "limits": [
+    "Historical r1 rustc cause UNKNOWN; r2 is risk reduction, not established causal fix.",
+    "Preview timing failure remains in evidence; one independent PASS does not establish absence of a timing race.",
+    "Native diagnostics/compile/probe/model/nonvacuity/qualification NOT_RUN.",
+    "Actual merge32 claim limited to exact u8/32 sorted-halves/allocation domain; no S3/general length qualification.",
+    "Body/model/checker/summary/driver wall and per-root aggregate6GiB target UNKNOWN unless measured; no group/nonsimultaneous peaks substituted.",
+    "TIMEOUT600s is censored; missing/NOT_RUN is not zero; no causal speedup comparison to r1 zero roots."
+  ],
+  "accounting_reference_only": {
+    "owner_cap_grant_ledger": "968342e0af6dcb542ca7727d7d6d629283639873",
+    "r1_outcome_ledger": "40a3b47eb8",
+    "current_item1_used": 28,
+    "item1_cap": 29,
+    "current_item2_provisional_used": 10,
+    "item2_cap": 14,
+    "current_total_provisional_used": 38,
+    "total_cap": 43,
+    "r0_charge": 0,
+    "r1_charge": "OWNER_DECISION_PENDING",
+    "r2_charge_and_next_number": "OWNER_ONLY_NO_ASSUMPTION",
+    "new_attempts_consumed": 0,
+    "reservation": false,
+    "ledger_change": false
+  },
+  "actions": {
+    "trigger_preparation": false,
+    "source_publication": false,
+    "push": false,
+    "dispatch": false,
+    "rerun": false,
+    "reservation": false,
+    "ledger_change": false
+  },
+  "next_intake": "After owner GO/new terminal run, bind exact r2 source/request/run/attempt, one compact artifact,11rows/controls/covers,cost/partial/censoring/assumed boundaries; old r0/r1 zero-root data never spliced."
+}
