@@ -1,0 +1,66 @@
+{
+  "schema": "issue4591-standard-full-push-intake-inputs-v1",
+  "status": "PREPARED_NOT_ISSUED",
+  "issue_gate": "all three exact native runs terminal, then check no duplicate stage and issue fresh free15 preserving settings",
+  "repository": "Tiramisu-Cake/kani",
+  "event": "push",
+  "branch": "fix/stub-contracted-function",
+  "expected_attempt": 1,
+  "final_head": {
+    "sha": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "tree": "7a3d5c05b5d663d515c198b2bfa7c4926ae133ac",
+    "sole_parent": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "message": "Support ordinary stubs of contracted functions",
+    "read_only_final_gate": "root independently executed: exit0/statusMATCH/errors[]; actual one-commit nonskip969f..final range"
+  },
+  "runs": {
+    "kani": 44399789701,
+    "format": 44399789719,
+    "deny": 44399789794
+  },
+  "initial_connected_metadata": {
+    "observed_at_utc": "2026-11-18T21:19:37.204064+00:00",
+    "kani": "queued",
+    "format": "in_progress",
+    "deny": "completed/success",
+    "all_run_identities": "MATCH head/branch/event/attempt"
+  },
+  "author_package": {
+    "g0": "ad50aaeaabe8b3a84dbf64a88d0214a16f4ee316",
+    "path": "kani3300/wave0/issue4591-fix-main-r2/",
+    "source": "3a770b5db51ba07acffce3483bde0901e6533f3a",
+    "ci_request_sha256": "50da6854da282d718e28ee93953cd5d27c0bf47b366f538248cd5f461b71fdbe",
+    "source_oracle_sha256": "2f6f4d8c061b7878447dcf364e138115bb31c39bef0f051d596f4dfe83c8baf2",
+    "workflow_inventory_sha256": "6c23846734741a67a22f57393cd7c6330ede83bf4aeacd084b0ee250b27cc02f"
+  },
+  "independent_review": {
+    "g0": "0f4e2830d9053cd3b031c36b9efd64a4c3a9160d",
+    "path": "kani3300/wave0/issue4591-fix-main-review-w11-r2/",
+    "verdict": "APPROVE",
+    "W11-01": "CLOSED"
+  },
+  "root_GO": {
+    "g0": "1a32f0ad574d2ab2772363e0395f7808fbea5e08",
+    "path": "kani3300/wave0/issue4591-fix-go/",
+    "request_sha256": "86dc3bb99a3e7a63a59f7b8f81516a4c2cafe40812923475c5de16d34645e28f"
+  },
+  "style": {
+    "path": "STYLE-UPSTREAM-RULES.md",
+    "sha256": "5932c080cd5938ad7fcb159b1847e663df828beffc17196716b001e6a5cb9e7a"
+  },
+  "evidence_policy": "connected native metadata/job/step/check summaries and explicitly allowed compact reports only; no full/raw logs/archive/GCS bypass",
+  "expected_native_instances": 12,
+  "native_before_intake": "NOT_YET_OBSERVED; latest initial metadata is not a terminal result",
+  "output": "kani3300/wave0/issue4591-fix-ci-intake/head-6fca00af80/",
+  "external_PR_draft_target": "/root/smallsort-pr-drafts/PR-4591-DRAFT.md",
+  "sole_testing_link": "https://github.com/Tiramisu-Cake/kani/actions/runs/44399789701",
+  "publication": "OWNER_PROOFREADING_ONLY; never publish PR/issues/comments/push",
+  "accounting_reference": {
+    "ledger_with_ids": "c625ab9d3bd7322730a80606f6fdeeff96145835",
+    "owner_dispatch_ledger_prefix": "24aa05281f",
+    "item1": "31/31",
+    "item2": "11/17",
+    "total": "42/48",
+    "write": false
+  }
+}
