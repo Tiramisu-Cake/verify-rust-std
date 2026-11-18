@@ -1,0 +1,35 @@
+{
+  "schema": "s3-before-intake-result-v1",
+  "task_g0": "f4c2a494bb6a00f4174fb957b1e2d08feabea07d",
+  "run": 44405927807,
+  "status": "READY_EXACT_READER_CAUSE_WITH_BOUNDED_PHYSICAL_IDENTITY_UNKNOWNS",
+  "cause": "PATH_STRING_REPRESENTATION_MISMATCH_WITH_EQUAL_RECORDED_HASHES",
+  "failed_fields": [
+    "kani_driver.path",
+    "kani_compiler.path"
+  ],
+  "all_recorded_binary_sha256_equal": true,
+  "authentic_rejection_reproduced": true,
+  "native_job": "completed/failure",
+  "campaign_state": "STOPPED",
+  "sealed_roots": 0,
+  "selected_launched": 1,
+  "selected_not_run": 8,
+  "deferred_not_selected": 8,
+  "native_first_verdict": "FAILURE_SOURCE_REPORTED_S2_NEG_CHECKER_ORDER",
+  "qualification": 0,
+  "closed_obligations": 0,
+  "independent_B1_B2_credit": "NONE",
+  "proposal": "NOT_APPLIED",
+  "budget_reference": {
+    "ledger": "01f36372c07082a1cd592f29fe5702606926112b",
+    "item1": "31/31",
+    "item2": "11/17",
+    "total": "42/48",
+    "S3_1_charge": "0 by coordinator case-specific controller abort before any root completed; root agreed case, no blanket refund rule",
+    "write": false
+  },
+  "accounting_note": "case-specific coordinator charge0 retained; no blanket refund rule or accounting recomputation from new native observation",
+  "next": "root reviews committed intake -> original13 localized repair/regression -> same14 delta -> newGO; no automatic rerun",
+  "constraints": "No source/control/test edits, compiler/native runner/CI/push/ledger/subagents/model/settings changes; only owned intake outputs"
+}

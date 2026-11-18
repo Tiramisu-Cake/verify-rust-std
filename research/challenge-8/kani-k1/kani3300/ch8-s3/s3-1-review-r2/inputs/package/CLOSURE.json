@@ -1,0 +1,75 @@
+{
+  "status": "READY_FOR_SAME14_DELTA",
+  "control": {
+    "worktree": "/root/kani-ch8-s3-1-r2-control-w13",
+    "sha": "cb63033ffcde918f4341146e56373476b8eeb569",
+    "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s3-1-final-w13",
+    "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+    "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "request_sha256": "efbc150280f5f9641c9e8b48fb4486122ae8c3cfa318f78a42486394e1de7656",
+  "workflow_sha256": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709",
+  "final_validation": {
+    "state": "OFFLINE_FINAL_PASS_NOT_NATIVE",
+    "final_record": "FINAL-VALIDATE.json",
+    "final_record_sha256": "1b868552f853a2a53b76146a30654133cffe321c7042612db867d29ca8142106",
+    "test_summary": {
+      "elapsed_seconds": 533.7115775053389,
+      "errors": 0,
+      "failures": 0,
+      "legacy_tests": 136,
+      "native_compile": "NOT_RUN",
+      "proof_credit": "NONE",
+      "s3_tests": 56,
+      "schema": "ch8-s3-validate-v1",
+      "success": true
+    },
+    "tests": 192,
+    "actual_final_elapsed_seconds": 534.581739554,
+    "step_cap_seconds": 1080,
+    "margin": 2.0202710270295445,
+    "execution_count": 1,
+    "source_preflight": "SOURCE-GATES.json",
+    "targeted": "TARGETED.json",
+    "frozen_defect": "FROZEN-DEFECT.stderr.txt",
+    "native_compile_proof_fit": "NOT_RUN",
+    "historical_status": "UNCHANGED_STOPPED_PREFIX0",
+    "qualification": 0,
+    "proof_credit": 0
+  },
+  "scope_preserved": [
+    "ROOT-BINDINGS.json",
+    "ROLE-COVER-MAP.json",
+    "DOMAIN-UNWIND.json",
+    "PROVIDER-DAG.json",
+    "U-SITE-PROPOSAL.json",
+    "FULL-OBLIGATIONS.md"
+  ],
+  "immutable_historical_inputs": [
+    "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+    "fc29b93b1e333b73e55e2872701c80d9927f3b02",
+    "0902ad2d84e5e5c4d9bb3b01d5c7f7671e84b38d",
+    "27040e2cd8d3564e5d0a929b8f68ca38a5a61432",
+    "99291133b2ee82d3ccd03a116f8f4cf4855f7e86"
+  ],
+  "proof_obligations_closed": 0,
+  "qualification": 0,
+  "proof_credit": 0,
+  "native_compile_proof_fit": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "push_PR_issues_comments_ledger_budget_reservation": "NOT_PERFORMED",
+  "same14_delta": "PENDING",
+  "new_root_GO": "REQUIRED_AFTER_APPROVE",
+  "closure_reason": "Authorized offline path repair, exact real-writer regression, frozen reproduction, patch/identity closure and once-only final validation completed. Required next independent SAME14 delta and root GO belong to separate roles; no source/tool or optional feature work authorized."
+}

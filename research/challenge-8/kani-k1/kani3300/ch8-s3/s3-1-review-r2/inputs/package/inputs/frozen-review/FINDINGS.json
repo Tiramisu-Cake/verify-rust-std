@@ -1,0 +1,71 @@
+{
+  "schema": "ch8-s3-1-independent14-delta-findings-v1",
+  "disposition": "APPROVE",
+  "candidate_g0": "0902ad2d84e5e5c4d9bb3b01d5c7f7671e84b38d",
+  "control": {
+    "worktree": "/root/kani-ch8-s3-1-r1-control-w13",
+    "sha": "fc29b93b1e333b73e55e2872701c80d9927f3b02",
+    "tree": "c0368fa64ab474e4f64861aedd75a8f2639b1c29",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s3-1-final-w13",
+    "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+    "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "request_sha256": "17f7cfba45ca5e572b7e32bea25d31add90885dc2378b725783737e1a6577604",
+  "workflow_sha256": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709",
+  "frozen_review": "610dcd6858415792050a9aba7e0d7859afd7d727",
+  "findings": [
+    {
+      "id": "R14-02",
+      "priority": "P1",
+      "status": "CLOSED",
+      "blocking": false,
+      "closure": "Shared protected reader runs independent of worker state before local sealing and on portable replay. Affirmative error/drift cannot be erased by matching controller AFTER; unknown/malformed required evidence rejects. Verified interrupted absence remains recoverable. Original errors/exits and completed prefix survive stopped replays.",
+      "locations": [
+        "ch8-s1-control/s3_evidence.py:21",
+        "ch8-s1-control/s3_campaign.py:188",
+        "ch8-s1-control/s3_campaign.py:362"
+      ],
+      "evidence": [
+        "tests/review-execution.json",
+        "tests/test_delta14.py",
+        "tests/recovery-execution.json",
+        "tests/test_recovery14.py"
+      ]
+    },
+    {
+      "id": "R14-01",
+      "priority": "P2",
+      "status": "CLOSED",
+      "blocking": false,
+      "closure": "Actual S3 CompileMonitor and source_under_test_record use explicit request-derived std/tool SHA/tree. Current base_std_sha equals source513; historical patch ancestry is separate. Same strict provenance reader runs at local finalization and portable replay; all four identity fields reject missing/null/type/stale mismatches. Legacy defaults/fixtures/policy remain invariant.",
+      "locations": [
+        "ch8-s1-control/runner.py:507",
+        "ch8-s1-control/runner.py:1041",
+        "ch8-s1-control/runner.py:1090",
+        "ch8-s1-control/s3_evidence.py:58"
+      ],
+      "evidence": [
+        "tests/review-execution.json",
+        "tests/test_delta14.py",
+        "INPUT-AUDIT.json"
+      ]
+    }
+  ],
+  "blocking_findings": [],
+  "new_findings": [],
+  "native_compile_proof_fit_CI": "NOT_RUN",
+  "proof_credit": "NONE",
+  "B1_B2_credit": "NONE",
+  "GO": "ROOT_GO_REQUEST_ONLY; root decision and coordinator launch still separate",
+  "budget_action": "NONE; latest owner reference31/31+11/17=42/48 supersedes frozen41"
+}

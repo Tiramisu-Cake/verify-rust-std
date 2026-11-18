@@ -1,0 +1,96 @@
+{
+  "status": "READY_FOR_SAME14_DELTA",
+  "runtime": "Codex original13; high/FastOFF; no subagents/model/settings changes",
+  "task": "e2ea94d04c9d9977ac9cde891c13a73ee65f2ec4",
+  "intake": "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+  "control": {
+    "worktree": "/root/kani-ch8-s3-1-r2-control-w13",
+    "sha": "cb63033ffcde918f4341146e56373476b8eeb569",
+    "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s3-1-final-w13",
+    "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+    "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "claims": [
+    {
+      "claim": "Future S3 entry canonical path fixes observed string mismatch; strict readers/legacy unchanged",
+      "assurance": "Exact four-path delta plus real-file synthetic service regression",
+      "evidence": [
+        "CONTROL-DELTA.patch",
+        "TARGETED.json",
+        "REGRESSION.md"
+      ]
+    },
+    {
+      "claim": "Final offline checks pass on exact committed bytes",
+      "assurance": "Static/synthetic only",
+      "evidence": [
+        "FINAL-VALIDATE.json",
+        "SOURCE-GATES.json",
+        "VALIDATION.json"
+      ]
+    }
+  ],
+  "validation": {
+    "state": "OFFLINE_FINAL_PASS_NOT_NATIVE",
+    "final_record": "FINAL-VALIDATE.json",
+    "final_record_sha256": "1b868552f853a2a53b76146a30654133cffe321c7042612db867d29ca8142106",
+    "test_summary": {
+      "elapsed_seconds": 533.7115775053389,
+      "errors": 0,
+      "failures": 0,
+      "legacy_tests": 136,
+      "native_compile": "NOT_RUN",
+      "proof_credit": "NONE",
+      "s3_tests": 56,
+      "schema": "ch8-s3-validate-v1",
+      "success": true
+    },
+    "tests": 192,
+    "actual_final_elapsed_seconds": 534.581739554,
+    "step_cap_seconds": 1080,
+    "margin": 2.0202710270295445,
+    "execution_count": 1,
+    "source_preflight": "SOURCE-GATES.json",
+    "targeted": "TARGETED.json",
+    "frozen_defect": "FROZEN-DEFECT.stderr.txt",
+    "native_compile_proof_fit": "NOT_RUN",
+    "historical_status": "UNCHANGED_STOPPED_PREFIX0",
+    "qualification": 0,
+    "proof_credit": 0
+  },
+  "decisions": [
+    {
+      "choice": "Canonicalize only S3 tool input before E0; reuse without resolving again in invoke",
+      "reason": "Observed path serialization is only tool fingerprints; std controller records pinned hashes rather than directory path",
+      "rejected": [
+        "hash-only/basename comparisons",
+        "retrospective normalization",
+        "rebaseline after drift",
+        "legacy writer change"
+      ]
+    }
+  ],
+  "blocker": null,
+  "open": [
+    "SAME14 independent exact delta disposition",
+    "new root GO after APPROVE",
+    "native future compile/proof/fit NOT_RUN; no launch authorized"
+  ],
+  "next": "SAME14 uses REVIEW14-DELTA-REQUEST.md and TASK-W14 input; new immutable s3-1-review-r2. Coordinator owns prospective12/17.",
+  "historical_status": "STOPPED/prefix0/firstrowINTERRUPTED-UNKNOWN/later8NOT_RUN/deferred8NOT_SELECTED/8U; physical identityUNKNOWN",
+  "accounting_reference": "31/31+11/17=42/48; coordinator charge0 case decision; no agent action",
+  "proof_credit": 0,
+  "proof_obligations_closed": 0,
+  "closure_reason": "Authorized offline path repair, exact real-writer regression, frozen reproduction, patch/identity closure and once-only final validation completed. Required next independent SAME14 delta and root GO belong to separate roles; no source/tool or optional feature work authorized."
+}

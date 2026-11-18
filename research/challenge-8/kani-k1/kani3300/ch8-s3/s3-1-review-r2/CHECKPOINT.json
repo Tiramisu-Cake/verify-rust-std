@@ -1,0 +1,51 @@
+{
+  "status": "APPROVE_NEW_ROOT_GO_DECISION_ONLY",
+  "runtime": "Codex high/FastOFF; no subagents/model/settings changes",
+  "package": "008fcb7705e658643582668ebfabb5f2e340e95d",
+  "task": "e2ea94d04c9d9977ac9cde891c13a73ee65f2ec4",
+  "control": {
+    "worktree": "/root/kani-ch8-s3-1-r2-control-w13",
+    "sha": "cb63033ffcde918f4341146e56373476b8eeb569",
+    "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s3-1-final-w13",
+    "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+    "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "claims": [
+    {
+      "claim": "Future writer canonical path before E0; strict guards and legacy unchanged",
+      "assurance": "exact byte delta plus independent real-file synthetic service checks",
+      "evidence": [
+        "INPUT-AUDIT.json",
+        "tests/candidate-execution.json",
+        "tests/frozen-execution.json",
+        "REPORT.md"
+      ]
+    }
+  ],
+  "blocker": null,
+  "open": [
+    "Separate root newGO decision",
+    "Coordinator owns prospective12/17",
+    "Native compile/proof/fit remains NOT_RUN",
+    "Inherited general proof gaps unchanged"
+  ],
+  "historical": "STOPPED/prefix0/firstrowINTERRUPTED-UNKNOWN/later8NOT_RUN/deferred8NOT_SELECTED/8U; physical identityUNKNOWN",
+  "accounting_reference": "31/31+11/17=42/48 unchanged; no agent action",
+  "proof_obligations_closed": 0,
+  "qualification": 0,
+  "proof_credit": 0,
+  "next": "Root newGO decision only after this exact APPROVE; no dispatch authorized here",
+  "closure_reason": "All authorized path delta review, exact-input audit, distinguishing regressions, static source gates and timing audit completed. Source/tool changes, native/CI execution and GO/dispatch belong outside this review scope.",
+  "finalized_utc": "2026-11-18T22:51:40.846786+00:00"
+}

@@ -1,0 +1,104 @@
+{
+  "control": "fc29b93b1e333b73e55e2872701c80d9927f3b02",
+  "local_root_outcome_error": "worker protected/provenance evidence rejected: recorded worker binary drift: before",
+  "protected_original": {
+    "accepted_by_protected": false,
+    "error": "recorded worker binary drift: before"
+  },
+  "diagnostic_counterfactual_paths_only": {
+    "accepted_by_protected": true,
+    "return": {
+      "inner_after_absent": [],
+      "controller_recovery_used": false,
+      "observed_errors_ignored": false
+    }
+  },
+  "recorded_hash_drift_control": {
+    "accepted_by_protected": false,
+    "error": "recorded worker binary drift: before"
+  },
+  "missing_before_control": {
+    "accepted_by_protected": false,
+    "error": "worker binary before incomplete/malformed"
+  },
+  "counterfactual_is_not_repair_or_identity_proof": true,
+  "local_upload_equal": true,
+  "completed_prefix": [],
+  "collector_state": "GLOBAL_STOPPED_PENDING_REVIEW",
+  "global_stop": true,
+  "selected_missing_groups": [],
+  "global_stops": [
+    {
+      "reason": "GlobalFailure: worker protected/provenance evidence rejected: recorded worker binary drift: before",
+      "state": "STOPPED",
+      "request_sha256": "17f7cfba45ca5e572b7e32bea25d31add90885dc2378b725783737e1a6577604",
+      "worker_evidence": [
+        {
+          "id": "checker_order_corrupt",
+          "state": "COMPLETE",
+          "snapshot_errors": [],
+          "binary_identity": "MATCH",
+          "original_exit_code": 1,
+          "signal": null
+        }
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "id": "checker_order_corrupt",
+      "status": "INTERRUPTED",
+      "outcome": "UNKNOWN",
+      "reason": "GlobalFailure: worker protected/provenance evidence rejected: recorded worker binary drift: before"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "status": "NOT_RUN",
+      "outcome": "UNKNOWN",
+      "reason": "group source/completion/binary snapshot mismatch"
+    },
+    {
+      "id": "s3_swap_u8_geometry",
+      "status": "NOT_RUN",
+      "outcome": "UNKNOWN",
+      "reason": "group source/completion/binary snapshot mismatch"
+    },
+    {
+      "id": "s3_sort4_u8_separate",
+      "status": "NOT_RUN",
+      "outcome": "UNKNOWN",
+      "reason": "group source/completion/binary snapshot mismatch"
+    },
+    {
+      "id": "s3_sort4_u8_same_alloc",
+      "status": "NOT_RUN",
+      "outcome": "UNKNOWN",
+      "reason": "group source/completion/binary snapshot mismatch"
+    },
+    {
+      "id": "s3_insert_tail_u8_rel16",
+      "status": "NOT_RUN",
+      "outcome": "UNKNOWN",
+      "reason": "group source/completion/binary snapshot mismatch"
+    },
+    {
+      "id": "s3_merge8_u8_separate",
+      "status": "NOT_RUN",
+      "outcome": "UNKNOWN",
+      "reason": "group source/completion/binary snapshot mismatch"
+    },
+    {
+      "id": "s3_merge8_u8_same_alloc",
+      "status": "NOT_RUN",
+      "outcome": "UNKNOWN",
+      "reason": "group source/completion/binary snapshot mismatch"
+    },
+    {
+      "id": "sort13_weak",
+      "status": "NOT_RUN",
+      "outcome": "UNKNOWN",
+      "reason": "group source/completion/binary snapshot mismatch"
+    }
+  ],
+  "portable_scope": "No sealed roots; collector preserves STOP and worker observations. The unsealed worker is diagnosed by direct protected/root_outcome replay, not admitted by collect."
+}

@@ -1,0 +1,112 @@
+{
+  "schema": "independent14-path-delta-input-audit-v1",
+  "package": "008fcb7705e658643582668ebfabb5f2e340e95d",
+  "started_utc": "2026-11-18T22:48:26.482728+00:00",
+  "checks": {
+    "package": {
+      "files": 65,
+      "manifest_entries": 64,
+      "complete": true,
+      "status": "EXACT_COMMITTED_BYTES_MATCH"
+    },
+    "s3-1-r1_immutable": {
+      "commit": "0902ad2d84e5e5c4d9bb3b01d5c7f7671e84b38d",
+      "files": 34,
+      "status": "EXACT_BYTES_MATCH"
+    },
+    "s3-1-review-r1_immutable": {
+      "commit": "27040e2cd8d3564e5d0a929b8f68ca38a5a61432",
+      "files": 70,
+      "status": "EXACT_BYTES_MATCH"
+    },
+    "run-44405927807_immutable": {
+      "commit": "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+      "files": 28,
+      "status": "EXACT_BYTES_MATCH"
+    },
+    "dependency_copies": {
+      "count": 18,
+      "status": "COMMIT_BLOB_HASH_BYTES_MATCH"
+    },
+    "control": {
+      "worktree": "/root/kani-ch8-s3-1-r2-control-w13",
+      "sha": "cb63033ffcde918f4341146e56373476b8eeb569",
+      "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+      "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "clean": true
+    },
+    "source": {
+      "worktree": "/root/verify-rust-std-ch8-s3-1-final-w13",
+      "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+      "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+      "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "clean": true
+    },
+    "tool": {
+      "worktree": "/root/kani-upstream-ch8-s1",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+      "clean": true
+    },
+    "request_workflow": {
+      "request_sha256": "efbc150280f5f9641c9e8b48fb4486122ae8c3cfa318f78a42486394e1de7656",
+      "workflow_sha256": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709",
+      "changed_request_keys": [
+        "ci_changed_paths",
+        "ci_payload_sha256",
+        "s3_path_control_precursor"
+      ],
+      "payloads_and_source_hashes": "MATCH"
+    },
+    "six_source_maps": "EXACT_BYTES_MATCH; source semantic review inherited only for frozen identities",
+    "patch_replays": [
+      {
+        "patch": "CONTROL-PARENT.patch",
+        "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+        "status": "EXACT_TREE_MATCH"
+      },
+      {
+        "patch": "CONTROL-DELTA.patch",
+        "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+        "status": "EXACT_TREE_MATCH"
+      },
+      {
+        "patch": "CONTROL-CANDIDATE.patch",
+        "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+        "status": "EXACT_TREE_MATCH"
+      },
+      {
+        "patch": "SOURCE-PARENT.patch",
+        "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+        "status": "EXACT_TREE_MATCH"
+      }
+    ],
+    "ancestry": "7/5/2 MATCH",
+    "delta_paths": [
+      "ch8-s1-control/CI-REQUEST.json",
+      "ch8-s1-control/s3_campaign.py",
+      "ch8-s1-control/s3_validate.py",
+      "ch8-s1-control/test_s3_paths.py"
+    ],
+    "author_final_validate": {
+      "tests": 192,
+      "recorded_execution_count": 1,
+      "tracked_files": 3887,
+      "elapsed_seconds": 534.581739554,
+      "margin": 2.0202710270295445,
+      "receipt_script_transcripts_and_exact_tree": "MATCH",
+      "independently_witnessed": false,
+      "rerun": false
+    },
+    "historical_intake": {
+      "status": "UNCHANGED_STOPPED_PREFIX0",
+      "physical_identity": "UNKNOWN",
+      "native": "SOURCE_REPORTED_LITERAL_ONLY",
+      "qualification": 0,
+      "proof_credit": 0
+    }
+  },
+  "ended_utc": "2026-11-18T22:48:30.495692+00:00",
+  "status": "PASS"
+}
