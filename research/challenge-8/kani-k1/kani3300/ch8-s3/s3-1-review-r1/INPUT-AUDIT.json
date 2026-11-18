@@ -1,0 +1,75 @@
+{
+  "schema": "independent14-delta-input-audit-v1",
+  "package": "0902ad2d84e5e5c4d9bb3b01d5c7f7671e84b38d",
+  "checks": {
+    "package_files_manifest": {
+      "files": 34,
+      "manifest_entries": 33,
+      "status": "MATCH"
+    },
+    "s3-1_immutable": {
+      "files": 55,
+      "commit": "e8a8e5328a941af8a07b778122604b0c9bf4579b",
+      "status": "MATCH"
+    },
+    "s3-1-review_immutable": {
+      "files": 19,
+      "commit": "610dcd6858415792050a9aba7e0d7859afd7d727",
+      "status": "MATCH"
+    },
+    "source": {
+      "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+      "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+      "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "clean": true
+    },
+    "control": {
+      "sha": "fc29b93b1e333b73e55e2872701c80d9927f3b02",
+      "tree": "c0368fa64ab474e4f64861aedd75a8f2639b1c29",
+      "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "clean": true
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+      "clean": true
+    },
+    "request_workflow_payloads": "MATCH",
+    "six_frozen_maps": "EXACT_BYTES_MATCH",
+    "patches": [
+      {
+        "patch": "CONTROL-PARENT.patch",
+        "tree": "c0368fa64ab474e4f64861aedd75a8f2639b1c29",
+        "status": "EXACT_TREE_MATCH"
+      },
+      {
+        "patch": "CONTROL-DELTA.patch",
+        "tree": "c0368fa64ab474e4f64861aedd75a8f2639b1c29",
+        "status": "EXACT_TREE_MATCH"
+      },
+      {
+        "patch": "CONTROL-CANDIDATE.patch",
+        "tree": "c0368fa64ab474e4f64861aedd75a8f2639b1c29",
+        "status": "EXACT_TREE_MATCH"
+      }
+    ],
+    "ancestry": "7/5/2 MATCH",
+    "author_final_validate": {
+      "tests": 182,
+      "elapsed_seconds": 490.471224626,
+      "margin": 2.2019640414655,
+      "receipt_and_transcript": "MATCH",
+      "independently_rerun": false
+    },
+    "delta_paths": [
+      "ch8-s1-control/CI-REQUEST.json",
+      "ch8-s1-control/runner.py",
+      "ch8-s1-control/s3_campaign.py",
+      "ch8-s1-control/s3_evidence.py",
+      "ch8-s1-control/s3_validate.py",
+      "ch8-s1-control/test_s3.py",
+      "ch8-s1-control/test_s3_repair.py"
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "classification": "REVIEW_HARNESS_PRECURSOR",
+  "state": "CORRECTED",
+  "error": "KeyError: ci_control_sha256 in initial reviewer audit helper",
+  "cause": "Reviewer helper used incorrect request payload-map key; corrected to existing ci_payload_sha256.",
+  "candidate_changes": "NONE",
+  "subsequent_audit": "INPUT-AUDIT.json PASS",
+  "final_evidence": false
+}

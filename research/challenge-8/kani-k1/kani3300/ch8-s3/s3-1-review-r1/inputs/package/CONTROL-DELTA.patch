@@ -1,0 +1,560 @@
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index 70b04cb48..ddcffb47d 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -1,8 +1,8 @@
+ {
+   "schema": "ch8-s3-1-v1",
+   "status": "READY",
+-  "authorization": "PREPARATION_ONLY; independent14 review then separately issued GO; no dispatch",
+-  "entry_g0": "7afd3d52d959a246df4e968e9cc8a66f029fbedf",
++  "authorization": "PREPARATION_ONLY; SAME14 delta then separately authorized root GO; no dispatch",
++  "entry_g0": "cd90cf0bde2d7658a2dfe690dd2887bdd72aefb6",
+   "std_sha": "513341f41ce53833a279571401c924bdddddb6c8",
+   "std_tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+   "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+@@ -166,7 +166,7 @@
+   "proof_credit": "NONE",
+   "runtime_smallsort_base_sha256": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+   "ci_request_hash_policy": "Request excluded from its own payload map; exact request SHA in g0 package and every invocation receipt.",
+-  "control_reference": "63535098ab85c70c8707eee0afd65f53c9ef566a",
++  "control_reference": "1dfc267b66abd83d536eb41a17052a4f3d767d2b",
+   "profile": "ch8-s3-1-actual-fullbyte-v1",
+   "native_status": "NOT_RUN",
+   "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+@@ -1398,14 +1398,15 @@
+     "ch8-s1-control/r5_profile.py": "e237b05f7bbc26b2820173254c92035572b22280c4a0b7ee66481bfb41f64f4d",
+     "ch8-s1-control/r5_runtime.py": "e796129e9da910879026cbe9a2037cf4834793f97032b2ff21bdf128268c697f",
+     "ch8-s1-control/rich_evidence.py": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+-    "ch8-s1-control/runner.py": "b991b05d5771b8eb71deb4dd7d96cc9a66b7e04a664750381b61a4fe97c46982",
++    "ch8-s1-control/runner.py": "4cbd68b17213748e3fed5a307764e1b217f91be13523d5e03271b9ae8d1ab847",
+     "ch8-s1-control/rustc_diagnostics.py": "0c94acd85a9f2f7a241958a2c5b9dffce09517bd8d08ddf30bfbdd81ef839b32",
+     "ch8-s1-control/s108_package.py": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237",
+     "ch8-s1-control/s2_correspondence.py": "46f2cd69373b4ebd3a3395d455338aadff3d473df5df2734e1bd5d4d2432dd4f",
+     "ch8-s1-control/s2_policy.py": "d87ce00811570c0ad7ea999fec3062166af542e576b188682308301519cb319c",
+-    "ch8-s1-control/s3_campaign.py": "4b46e6ad1006372b64e6a678019497242a25b836670e38bcbc59c3e90b342b96",
++    "ch8-s1-control/s3_campaign.py": "6c3bea496b2079f20c96e19df5c1a931c5c604dd0ea1f61da9f8622dae51c136",
+     "ch8-s1-control/s3_cfg_pfc.py": "a757a156456c36c33bc09b0e7a3a8a4457601e599a320f6f74dbcb91fb823ed3",
+     "ch8-s1-control/s3_contract_stacks.py": "ad7cea13149e6d684ee8e380ce62ab4aeab68887a0786c43055f829ee97f2f5e",
++    "ch8-s1-control/s3_evidence.py": "ba97ad3a307223127dfa41f9e7ddaff235ab97402a1be1b1c609d525190ebf69",
+     "ch8-s1-control/s3_lexical_bindings.py": "fbe3ca43fc800bded1e4da79ace4989233d7e8019c4a823979379921f74e4c5d",
+     "ch8-s1-control/s3_ordinary_contracts.py": "deb591972314484bcd95df5f7ce5415abc3bb85dbbfc24e9ac372b47c40b4de7",
+     "ch8-s1-control/s3_package.py": "d5c3b715912c8e1f206f44a240608309bf2329ef569817c4983ec50fb618b484",
+@@ -1414,7 +1415,7 @@
+     "ch8-s1-control/s3_profile.py": "27cd765264b95ee7e7505870b7aa5a6269c0586820e1a1624e9b8a3df7db3216",
+     "ch8-s1-control/s3_runtime.py": "2de7a74b746efcde1dd47ad6f5a5686889665481274ae6555ea53f274ef9ef70",
+     "ch8-s1-control/s3_snapshots.py": "c5a1776d927660061f2f853fdf6a5413a2a7b5ea6ffa54e4d748bfb5fff2fb33",
+-    "ch8-s1-control/s3_validate.py": "1d12ec8a901666b4c0e143ac342154ebee58137c2e1062fb8ae5d688bd554881",
++    "ch8-s1-control/s3_validate.py": "77f995fa48c5800802c0ede3afd8192ed79dbeff8bd14f31deb5dad29773a3aa",
+     "ch8-s1-control/test_cfg_pfc.py": "96c7e07fd3d78cb6c6769a5c018d49b1f1e1d28eee39db6322cba63ea31a91ea",
+     "ch8-s1-control/test_contract_stacks.py": "28175e593a49600fc3478a61a7488b4066b0d9d06ef33b082418f19db1eba75d",
+     "ch8-s1-control/test_package.py": "70f00d0726b7011db8a02339c1b031bda49b4af3c2f7e881b68d06b7663b5ca7",
+@@ -1428,7 +1429,8 @@
+     "ch8-s1-control/test_s108.py": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854",
+     "ch8-s1-control/test_s108r1.py": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03",
+     "ch8-s1-control/test_s2.py": "1c57b2de286916bdc0a5ce78a4aa111fdb1bbc66a8357a32214fc56df42cbfd2",
+-    "ch8-s1-control/test_s3.py": "2256c09e79e2c207600137714630325d1a1f8f45bd2d9f49de4bc14ce47b9ecd",
++    "ch8-s1-control/test_s3.py": "314e5f08ee929de9b92e33e929e3af2362799e436f6c43ebb29d62d1511c1542",
++    "ch8-s1-control/test_s3_repair.py": "3480cf7e888b6969ba3a863bf4a17e462c26297357b974214feadd7d4f8891f1",
+     ".github/workflows/ch8-s2.yml": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709"
+   },
+   "ci_changed_paths": [
+@@ -1491,6 +1493,7 @@
+     "ch8-s1-control/s3_campaign.py",
+     "ch8-s1-control/s3_cfg_pfc.py",
+     "ch8-s1-control/s3_contract_stacks.py",
++    "ch8-s1-control/s3_evidence.py",
+     "ch8-s1-control/s3_lexical_bindings.py",
+     "ch8-s1-control/s3_ordinary_contracts.py",
+     "ch8-s1-control/s3_package.py",
+@@ -1513,7 +1516,8 @@
+     "ch8-s1-control/test_s108.py",
+     "ch8-s1-control/test_s108r1.py",
+     "ch8-s1-control/test_s2.py",
+-    "ch8-s1-control/test_s3.py"
++    "ch8-s1-control/test_s3.py",
++    "ch8-s1-control/test_s3_repair.py"
+   ],
+   "cfg_pfc_source_sha256": {
+     "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+@@ -1597,5 +1601,6 @@
+     "library/core/src/intrinsics/mod.rs": "95bad83ea99a46bcbdbd4163e42112866fdfadc4660ca1d1c4298fed57b1c5fc",
+     "library/core/src/prelude/v1.rs": "b57d120c6762622bd33114f46267dab8ba6c88be38f1433adb62d4ba36cd3a68"
+   },
+-  "s3_control_precursor": "6684bf345c2be55f32d8044949ceeade048e7faf"
++  "s3_control_precursor": "1dfc267b66abd83d536eb41a17052a4f3d767d2b",
++  "repair_review": "610dcd6858415792050a9aba7e0d7859afd7d727"
+ }
+diff --git a/ch8-s1-control/runner.py b/ch8-s1-control/runner.py
+index afc14f149..631f5280d 100644
+--- a/ch8-s1-control/runner.py
++++ b/ch8-s1-control/runner.py
+@@ -504,11 +504,15 @@ def _stream_preview(state: dict[str, Any], stream: str) -> dict[str, Any]:
+ class CompileMonitor:
+     """The stock initial export marker is written after std_project, before verification."""
+     def __init__(self, receipt_path: Path, export: Path, selectors: list[str],
+-                 seconds: float = COMPILE_SECONDS):
++                 seconds: float = COMPILE_SECONDS, *, identities=None):
+         self.path, self.export, self.selectors, self.seconds = receipt_path, export, selectors, seconds
++        source_tool={"std_sha":STD_SHA,"tool_sha":TOOL_SHA} if identities is None else dict(identities)
++        if identities is not None:
++            from s3_evidence import identity
++            source_tool=identity(source_tool)
+         self.receipt: dict[str, Any] = {
+             "schema": "ch8-s1-compile-receipt-v1", "state": "IN_PROGRESS",
+-            "limit_seconds": seconds, "std_sha": STD_SHA, "tool_sha": TOOL_SHA,
++            "limit_seconds": seconds, **source_tool,
+             "request_sha256": sha256(REQUEST_PATH), "selectors": selectors,
+             "scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+             "proof_credit": "NONE", "elapsed_upper_bound_seconds": None}
+@@ -1034,6 +1038,17 @@ def _artifact_size(out: Path) -> int:
+     return total
+ 
+ 
++def source_under_test_record(request,variant,variant_files,patch):
++    value={'base_std_sha':STD_SHA,'variant':variant,
++           'file_sha256':{**request['changed_file_sha256'],**variant_files},
++           'patch_sha256':sha256(patch) if patch is not None else None}
++    if request.get('schema')=='ch8-s3-1-v1':
++        from s3_evidence import identity
++        value.update(identity(request),base_std_sha=request['std_sha'],
++                     historical_patch_base_std_sha=request['base_std_sha'])
++    return value
++
++
+ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+                group: dict[str, Any], phase_deadline: float, isolated_limits=None) -> tuple[list[dict[str, Any]], str | None]:
+     if isolated_limits is not None:
+@@ -1072,7 +1087,12 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+         rich=NativeStarts(selectors,std.resolve())
+     else:
+         rich = rich_evidence.RegularEvidence(selectors, std.resolve())
+-    monitor = CompileMonitor(dest / "compile/receipt.json", export, selectors, seconds=compile_limit)
++    s3=request.get("schema")=="ch8-s3-1-v1"
++    if s3:
++        from s3_evidence import identity
++        receipt.update(identity(request))
++    monitor = CompileMonitor(dest / "compile/receipt.json", export, selectors, seconds=compile_limit,
++                             **({"identities":identity(request)} if s3 else {}))
+     try:
+         _write_json(dest / "receipt.json", receipt)
+         for result in results:
+@@ -1088,9 +1108,7 @@ def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
+             memory['rss_scope']='POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup'
+         patch, variant_files = _run_variant(std, group["variant"], request)
+         receipt.update(source_before=source_before, tool_fingerprints_before=before,
+-                       memory=memory, source_under_test={"base_std_sha": STD_SHA,
+-                       "variant": group["variant"], "file_sha256": {**request["changed_file_sha256"], **variant_files},
+-                       "patch_sha256": sha256(patch) if patch is not None else None})
++                       memory=memory, source_under_test=source_under_test_record(request,group["variant"],variant_files,patch))
+         child_env = ci_env(std,request) if request.get("schema")=="ch8-s3-1-v1" else ci_env(std)
+         # Fresh namespace prevents old/native-cache metadata from being labelled
+         # as this invocation. This is a runner key, not a compiler instance ID.
+diff --git a/ch8-s1-control/s3_campaign.py b/ch8-s1-control/s3_campaign.py
+index 2c2c22f1e..9566d0270 100644
+--- a/ch8-s1-control/s3_campaign.py
++++ b/ch8-s1-control/s3_campaign.py
+@@ -7,6 +7,7 @@ import s3_profile as p
+ import s3_runtime as rt
+ import s3_policy
+ import s3_snapshots as snapshots
++import s3_evidence as evidence
+ import uuid
+ 
+ class GlobalFailure(RuntimeError):pass
+@@ -183,15 +184,11 @@ def root_outcome(out,request,rid,supervision):
+         or life['context'].get('control_parent')!=request['control_parent']):
+         raise GlobalFailure('lifecycle root/rank/parent mismatch')
+     if life['context']['request_sha256']!=r.sha256(r.REQUEST_PATH):raise GlobalFailure('lifecycle request drift')
+-    if doc.get('state')=='COMPLETE':
+-        expected={**identity(request),'changed_file_sha256':request['changed_file_sha256']}
+-        if (doc.get('request_sha256')!=r.sha256(r.REQUEST_PATH) or doc.get('source_before')!=expected or doc.get('source_after')!=expected
+-            or doc.get('binary_identity')!='MATCH' or doc.get('snapshot_errors')):
+-            raise GlobalFailure('worker_snapshot_drift_or_unavailable')
+-    elif not doc:
+-        doc={'state':'INTERRUPTED','group':'s3-'+rid,'reason':'NO_DURABLE_WORKER_GROUP',
+-             'controller_lifecycle':str(Path('workers')/(rid+'-lifecycle.json')),'proof_credit':'NONE'}
+-        atomic(gp,doc)
++    try:
++        protected=evidence.protected(doc,request,read(out/'baseline.json'),supervision,r.sha256(r.REQUEST_PATH))
++        evidence.provenance(doc,read(gp.parent/'compile/receipt.json'),request,rid,r.sha256(r.REQUEST_PATH))
++    except (evidence.EvidenceError,OSError,ValueError) as exc:
++        raise GlobalFailure('worker protected/provenance evidence rejected: '+str(exc)) from exc
+     events=doc.get('native_start_events',[]);selector=group(request,rid)['rows'][0]['selector']
+     if any(x.get('selector')!=selector for x in events) or len(events)>1:
+         raise GlobalFailure('native_selector_start_mismatch')
+@@ -217,6 +214,7 @@ def root_outcome(out,request,rid,supervision):
+         props=next((x for x in rich.get('harnesses',[]) if x.get('name')==selector),{})
+         result['s3_expected_match']=s3_policy.expected_observation(group(request,rid)['rows'][0],result.get('export',{}),props)
+     else:result['s3_expected_match']=False
++    result['worker_protected_evidence']=protected
+     result['assurance']=expected_row['assurance']
+     result['invocation_original_exit']=doc.get('execution',{}).get('original_exit_code')
+     result['invocation_signal']=doc.get('execution',{}).get('signal')
+@@ -330,11 +328,30 @@ def worker(std,tool,out,request,rid,limits):
+ def collect(roots,request):
+     import collect as c
+     result=c.legacy_collect(roots,p.view(request))
++    stops=[]
+     for root in roots:
+         terminal=c.read(root/'receipt.json');meta=terminal.get('s3_campaign',{})
++        if terminal.get('state') not in ('STOPPED','SELECTED_PARTIAL','SELECTED_RECORDED_FULL_INVENTORY_INCOMPLETE'):
++            raise GlobalFailure('unknown/malformed campaign terminal state')
++        if (terminal['state']=='STOPPED')!=(terminal.get('stop_reason') is not None):
++            raise GlobalFailure('campaign global stop state/reason mismatch')
+         if meta.get('profile')!=p.PROFILE or meta.get('launch_order')!=list(p.ORDER) or meta.get('deferred')!=list(p.DEFERRED):
+             raise GlobalFailure('S3 terminal selection mismatch')
++        if terminal.get('stop_reason') is not None:
++            if not isinstance(terminal['stop_reason'],str) or not terminal['stop_reason']:raise GlobalFailure('malformed global stop reason')
++            stops.append({'reason':terminal['stop_reason'],'state':terminal.get('state'),'request_sha256':terminal.get('request_sha256')})
+         done=sealed(root,c.read_bytes,meta.get('completed',[]))
++        if terminal['state']=='STOPPED':
++            stops[-1]['worker_evidence']=[]
++            for rid in p.ORDER:
++                if rid in done:continue
++                worker=c.read(root/'groups'/('s3-'+rid)/'receipt.json')
++                if worker.get('state')=='NOT_RUN':continue
++                execution=worker.get('execution')
++                execution=execution if isinstance(execution,dict) else {}
++                stops[-1]['worker_evidence'].append({'id':rid,'state':worker.get('state'),
++                    **{key:worker[key] for key in ('reason','source_before_error','source_after_error','snapshot_errors','binary_identity','original_exception') if key in worker},
++                    'original_exit_code':execution.get('original_exit_code'),'signal':execution.get('signal')})
+         if list(done)!=list(p.ORDER[:len(done)]):raise GlobalFailure('non-prefix sealed root order')
+         invocation_ids=set()
+         controller_ids=set()
+@@ -342,6 +359,10 @@ def collect(roots,request):
+             sup=seal.get('supervision',{})
+             if not sup.get('containment',{}).get('verified'):raise GlobalFailure('unverified root containment')
+             row=c.read(root/rid/'receipt.json');gp=c.read(root/'groups'/('s3-'+rid)/'receipt.json')
++            try:
++                evidence.protected(gp,request,c.read(root/'baseline.json'),sup,terminal['request_sha256'])
++                evidence.provenance(gp,c.read(root/'groups'/('s3-'+rid)/'compile/receipt.json'),request,rid,terminal['request_sha256'])
++            except evidence.EvidenceError as exc:raise GlobalFailure('replay protected/provenance evidence rejected: '+str(exc)) from exc
+             validate_owned_groups(gp,sup)
+             if row.get('s3_supervision')!=sup:raise GlobalFailure('row/seal supervision mismatch')
+             life=c.read(root/'workers'/(rid+'-lifecycle.json'))
+@@ -388,7 +409,8 @@ def collect(roots,request):
+                     or compile_receipt.get('selectors')!=[selector]
+                     or compile_receipt.get('request_sha256')!=terminal['request_sha256']):
+                     raise GlobalFailure('S3 fresh compile binding mismatch')
+-    result.update(state='SELECTED_OBSERVATIONS_PENDING_REVIEW_FULL_INVENTORY_INCOMPLETE',
++    result.update(state='GLOBAL_STOPPED_PENDING_REVIEW' if stops else 'SELECTED_OBSERVATIONS_PENDING_REVIEW_FULL_INVENTORY_INCOMPLETE',
++                  global_stops=stops,global_stop=bool(stops),
+                   selected_missing_groups=[x for x in result['missing_groups'] if x not in ['s3-'+rid for rid in p.DEFERRED]],
+                   deferred=list(p.DEFERRED),full_inventory_complete=False)
+     for row in result['rows']:
+diff --git a/ch8-s1-control/s3_evidence.py b/ch8-s1-control/s3_evidence.py
+new file mode 100644
+index 000000000..4d6be5085
+--- /dev/null
++++ b/ch8-s1-control/s3_evidence.py
+@@ -0,0 +1,78 @@
++"""S3 request-derived provenance and observed protected-evidence rejection.
++
++Pure readers are shared by local finalization and structured portable replay.
++Controller recovery can fill an interrupted capture's absence, never erase an
++observed error, mismatch, unreadability or contradictory identity.
++"""
++import re
++IDENTITIES=('std_sha','std_tree','tool_sha','tool_tree')
++
++class EvidenceError(ValueError):pass
++
++def need(ok,reason):
++    if not ok:raise EvidenceError(reason)
++
++def identity(request):
++    values={k:request[k] for k in IDENTITIES}
++    need(all(isinstance(v,str) and re.fullmatch('[0-9a-f]{40}',v) for v in values.values()),'invalid requested source/tool identity')
++    return values
++
++def protected(doc,request,baseline,supervision,request_hash):
++    import runner as r
++    need(isinstance(doc,dict) and doc,'missing worker protected receipt')
++    # These fields only exist when capture raised. Even null/empty/malformed
++    # error records cannot be interpreted as a successful measurement.
++    for key in ('source_before_error','source_after_error','tool_fingerprints_before_error','tool_fingerprints_after_error'):
++        need(key not in doc,'recorded worker protected error: '+key)
++    errors=doc.get('snapshot_errors')
++    need(isinstance(errors,list) and not errors,'recorded/malformed worker snapshot_errors')
++    need(doc.get('request_sha256')==request_hash,'worker request snapshot mismatch/unavailable')
++    expected={**identity(request),'changed_file_sha256':request['changed_file_sha256']}
++    need(doc.get('source_before')==expected,'worker source_before mismatch/unavailable')
++    if 'source_after' in doc:need(doc['source_after']==expected,'worker source_after mismatch/malformed')
++    need(doc.get('state') in ('COMPLETE','FAILED','IN_PROGRESS','INTERRUPTED'),'unknown/malformed worker state')
++    complete=doc['state']=='COMPLETE'
++    exit_code=supervision.get('worker_exit')
++    interrupted=(type(exit_code) is int and exit_code<0) or supervision.get('cutoff') in ('slot_wall','slot_wall_during_cleanup')
++    recovery=(not complete and interrupted and isinstance(supervision.get('containment'),dict)
++              and supervision['containment'].get('verified') is True)
++    before=doc.get('tool_fingerprints_before')
++    need(r.fingerprints_match(before,before),'worker binary before incomplete/malformed')
++    for stage in ('before','after'):
++        key='tool_fingerprints_'+stage
++        if key not in doc:
++            need(stage=='after' and recovery,'worker binary capture absent without verified interruption')
++            continue
++        snap=doc[key]
++        need(r.fingerprints_match(snap,snap),'recorded worker binary capture unreadable/malformed: '+stage)
++        need(r.fingerprints_match(baseline['binaries'],snap),'recorded worker binary drift: '+stage)
++        if 'state' in snap:need(snap['state']=='COMPLETE','recorded incomplete worker binary capture')
++        if 'snapshot_completed' in snap:need(snap['snapshot_completed'] is True,'recorded unfinished worker binary capture')
++        need(not snap.get('missing_binaries') and not snap.get('error'),'recorded worker binary capture error')
++    if 'binary_identity' in doc:
++        need(doc['binary_identity']=='MATCH','recorded unknown/mismatched worker binary identity')
++        need('tool_fingerprints_after' in doc,'contradictory MATCH without inner binary AFTER')
++    else:need(recovery,'missing worker binary identity without verified interruption')
++    missing=[k for k in ('source_after','tool_fingerprints_after') if k not in doc]
++    need(not missing or recovery,'worker post-state absent without verified interruption')
++    return {'inner_after_absent':missing,'controller_recovery_used':bool(missing),'observed_errors_ignored':False}
++
++def provenance(doc,compile_receipt,request,rid,request_hash):
++    need(isinstance(doc,dict),'worker provenance receipt wrong type')
++    wanted=identity(request)
++    for key,value in wanted.items():need(doc.get(key)==value,'worker identity missing/malformed/stale: '+key)
++    under=doc.get('source_under_test')
++    need(isinstance(under,dict),'source_under_test missing/null/wrong type')
++    for key,value in wanted.items():need(under.get(key)==value,'source_under_test identity missing/malformed/stale: '+key)
++    need(under.get('base_std_sha')==request['std_sha'],'source_under_test current pre-overlay base_std_sha mismatch')
++    need(under.get('historical_patch_base_std_sha')==request['base_std_sha'],'historical patch ancestry mismatch')
++    need(under.get('variant')=='production' and under.get('patch_sha256') is None
++         and under.get('file_sha256')==request['changed_file_sha256'],'source_under_test variant/file/patch mismatch')
++    need(isinstance(compile_receipt,dict),'compile identity receipt missing/null/wrong type')
++    for key,value in wanted.items():need(compile_receipt.get(key)==value,'compile identity missing/malformed/stale: '+key)
++    row=next(x for x in request['rows'] if x['id']==rid)
++    need(compile_receipt.get('request_sha256')==request_hash and compile_receipt.get('selectors')==[row['selector']]
++         and compile_receipt.get('limit_seconds')==180 and compile_receipt.get('state') in ('COMPLETE','FAILED','IN_PROGRESS'),
++         'compile request/selector/limit/state mismatch')
++    if doc.get('state')=='COMPLETE':need(compile_receipt['state']=='COMPLETE','completed group without completed compilation')
++    return True
+diff --git a/ch8-s1-control/s3_validate.py b/ch8-s1-control/s3_validate.py
+index f9d09ee49..d76cb8c41 100644
+--- a/ch8-s1-control/s3_validate.py
++++ b/ch8-s1-control/s3_validate.py
+@@ -40,7 +40,7 @@ def legacy_suite():
+ def main():
+     start=time.monotonic()
+     legacy=legacy_suite()
+-    current=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromName('test_s3'))
++    current=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromNames(('test_s3','test_s3_repair')))
+     result={'schema':'ch8-s3-validate-v1','elapsed_seconds':time.monotonic()-start,
+         'legacy_tests':legacy.testsRun,'s3_tests':current.testsRun,
+         'failures':len(legacy.failures)+len(current.failures),'errors':len(legacy.errors)+len(current.errors),
+diff --git a/ch8-s1-control/test_s3.py b/ch8-s1-control/test_s3.py
+index 45a467e6c..615b6e080 100644
+--- a/ch8-s1-control/test_s3.py
++++ b/ch8-s1-control/test_s3.py
+@@ -205,11 +205,18 @@ class CampaignTests(unittest.TestCase):
+             'native_start_events':[{'selector':name,'monotonic':time.monotonic()}],'native_start_verified':True,
+             'execution':{'original_exit_code':1 if row['expected']=='DETECTED' else 0,'stdout_bytes':1,'stderr_bytes':0,
+                          'process_identity':{'pid':2,'pgid':2,'start_ticks':22}}}
++        doc.update({k:self.req[k] for k in ('std_sha','std_tree','tool_sha','tool_tree')})
++        doc['source_under_test']=r.source_under_test_record(self.req,'production',{},None)
++        marker=gp/'synthetic-compile-marker.json'
++        monitor=r.CompileMonitor(gp/'compile/receipt.json',marker,[name],180,identities={k:self.req[k] for k in ('std_sha','std_tree','tool_sha','tool_tree')})
++        marker.write_text(json.dumps(fixtures.export(selector=name)))
++        monitor.poll(.01,{})
++        marker.unlink()
+         result={**r._row_base(row,'OBSERVED'),'group':'s3-'+rid,'outcome':'RECORDED','export':parsed}
+         sup=supervision()
+         if case=='timeout':
+             sup.update(cutoff='slot_wall',worker_exit=-15)
+-            doc.update(state='IN_PROGRESS');doc.pop('source_after');doc.pop('tool_fingerprints_after')
++            doc.update(state='IN_PROGRESS');doc.pop('source_after');doc.pop('tool_fingerprints_after');doc.pop('binary_identity')
+             doc['execution'].update(original_exit_code=-15,signal=15)
+             doc['execution_exception']={'type':'SyntheticInterruption','message':'original error retained'}
+             result.update(outcome='UNKNOWN')
+@@ -384,6 +391,8 @@ class SingletonRunnerTests(unittest.TestCase):
+ 
+ class PortableReplayTests(unittest.TestCase):
+     def test_same_invocation_stock_rich_metadata_and_upload_only_replay(self):
++        self.exercise()
++    def exercise(self,fault=None,replay_hook=None):
+         req=r.load_request()
+         with tempfile.TemporaryDirectory() as d:
+             root=Path(d);std=root/'std';std.mkdir();tool=root/'tool';out=root/'out'
+@@ -410,11 +419,15 @@ class PortableReplayTests(unittest.TestCase):
+                         'stdout_bytes':sum(len(x)+1 for x in lines),'stderr_bytes':0,'child_shutdown_verified':True,'process_identity':{'pid':2,'pgid':2,'start_ticks':22}}
+             def invoke(std,tool,path,request,rid,limits,slot):
+                 r._run_group(std,tool,path,req,c.group(req,rid),time.monotonic()+710,isolated_limits=limits)
++                if fault is not None:fault(path,rid)
+                 return supervision()
+             with mock.patch.object(r,'verify_source',return_value=source),mock.patch.object(r,'binary_fingerprints',return_value=binary()),mock.patch.object(r,'group_memory_budget',return_value={'group_cap_kib':6*1024*1024}),mock.patch.object(r,'_run_variant',return_value=(None,{})),mock.patch.object(r,'execute',side_effect=execute),mock.patch.object(c.snapshots,'capture',side_effect=synthetic_capture):
+-                self.assertEqual(c.run_campaign(std,tool,out,req,invoker=invoke),0)
++                self.assertEqual(c.run_campaign(std,tool,out,req,invoker=invoke),0 if fault is None else 1)
+             collected=c.collect([out],req);self.assertEqual(len(collected['rows']),9)
+-            self.assertTrue(all(x.get('s3_expected_match') is True for x in collected['rows']))
++            if fault is None:self.assertTrue(all(x.get('s3_expected_match') is True for x in collected['rows']))
++            else:self.assertTrue(collected['global_stop']);self.assertTrue(collected['global_stops'])
+             pack_evidence.pack(out)
+             upload=root/'upload';upload.mkdir();(upload/pack_evidence.NAME).write_bytes((out/pack_evidence.NAME).read_bytes())
++            if replay_hook is not None:replay_hook(out,upload,req)
+             replay=c.collect([upload],req);self.assertEqual(replay,collected)
++            return collected
+diff --git a/ch8-s1-control/test_s3_repair.py b/ch8-s1-control/test_s3_repair.py
+new file mode 100644
+index 000000000..0d0646877
+--- /dev/null
++++ b/ch8-s1-control/test_s3_repair.py
+@@ -0,0 +1,161 @@
++"""R14 distinguishing regressions: actual writers, all states, portable readers."""
++import copy,gzip,hashlib,json,tempfile,time,unittest
++from pathlib import Path
++from unittest import mock
++import runner as r
++import s3_campaign as c
++import s3_evidence as ev
++import test_s3 as f
++import collect as collector
++import pack_evidence
++
++
++class ProvenanceRepairTests(unittest.TestCase):
++    def actual(self):
++        writes=[];original=r._write_json;case=f.SingletonRunnerTests()
++        def record(path,value):
++            writes.append((str(path),copy.deepcopy(value)));return original(path,value)
++        try:
++            with mock.patch.object(r,'_write_json',side_effect=record):rows,fatal,gp,_=case.exercise()
++            self.assertIsNone(fatal)
++            compiles=[v for path,v in writes if path.endswith('/compile/receipt.json')]
++            self.assertTrue(compiles)
++            return r.load_request(),gp,compiles
++        finally:case.doCleanups()
++    def test_actual_writers_and_metadata_use_request_not_legacy_patch_base(self):
++        req,gp,compiles=self.actual();wanted=ev.identity(req)
++        self.assertNotEqual(req['std_sha'],r.STD_SHA)
++        for comp in compiles:self.assertEqual({k:comp[k] for k in ev.IDENTITIES},wanted)
++        self.assertEqual({k:gp['source_under_test'][k] for k in ev.IDENTITIES},wanted)
++        self.assertEqual(gp['source_under_test']['base_std_sha'],req['std_sha'])
++        self.assertEqual(gp['source_under_test']['historical_patch_base_std_sha'],req['base_std_sha'])
++        self.assertTrue(ev.provenance(gp,compiles[-1],req,req['rows'][3]['id'],r.sha256(r.REQUEST_PATH)))
++    def test_provenance_readers_reject_missing_null_wrong_type_stale_source_tool(self):
++        req,gp,compiles=self.actual();rid=req['rows'][3]['id'];comp=compiles[-1]
++        for location in ('compile','source_under_test','group'):
++            for key in ev.IDENTITIES:
++                for value in ('MISSING',None,[],17,r.STD_SHA if key.startswith('std') else 'f'*40):
++                    doc=copy.deepcopy(gp);compile_doc=copy.deepcopy(comp)
++                    target=compile_doc if location=='compile' else doc['source_under_test'] if location=='source_under_test' else doc
++                    if value=='MISSING':target.pop(key)
++                    else:target[key]=value
++                    with self.subTest(location=location,key=key,value=value),self.assertRaises(ev.EvidenceError):
++                        ev.provenance(doc,compile_doc,req,rid,r.sha256(r.REQUEST_PATH))
++        for key in ('base_std_sha','historical_patch_base_std_sha'):
++            doc=copy.deepcopy(gp);doc['source_under_test'][key]=None
++            with self.assertRaises(ev.EvidenceError):ev.provenance(doc,comp,req,rid,r.sha256(r.REQUEST_PATH))
++    def test_local_finalizer_rejects_faults_in_actual_compile_writer(self):
++        req=r.load_request()
++        for field,value in (('std_sha',r.STD_SHA),('tool_sha',None),('std_tree',[]),('tool_tree','MISSING')):
++            fixture=f.CampaignTests();fixture.setUp();original=r._write_json
++            def badwrite(path,doc):
++                if str(path).endswith('s3-'+c.p.ORDER[2]+'/compile/receipt.json'):
++                    doc=copy.deepcopy(doc)
++                    if value=='MISSING':doc.pop(field,None)
++                    else:doc[field]=value
++                return original(path,doc)
++            with tempfile.TemporaryDirectory() as d,mock.patch.object(r,'_write_json',side_effect=badwrite):
++                code,launches,terminal=fixture.run_case(Path(d),{})
++                self.assertEqual(code,1);self.assertEqual(launches,list(c.p.ORDER[:3]));self.assertIn('compile identity',terminal['stop_reason'])
++    def test_local_finalizer_rejects_actual_source_under_test_writer_fault(self):
++        original=r.source_under_test_record
++        def bad(*args):
++            value=original(*args);value['base_std_sha']=r.STD_SHA;return value
++        fixture=f.CampaignTests();fixture.setUp()
++        with tempfile.TemporaryDirectory() as d,mock.patch.object(r,'source_under_test_record',side_effect=bad):
++            code,launches,terminal=fixture.run_case(Path(d),{})
++            self.assertEqual(code,1);self.assertEqual(launches,list(c.p.ORDER[:1]));self.assertIn('base_std_sha',terminal['stop_reason'])
++    def test_legacy_compile_and_source_under_test_defaults_preserved(self):
++        with tempfile.TemporaryDirectory() as d:
++            path=Path(d);mon=r.CompileMonitor(path/'receipt.json',path/'export.json',['legacy'])
++            self.assertEqual(mon.receipt['std_sha'],r.STD_SHA);self.assertEqual(mon.receipt['tool_sha'],r.TOOL_SHA)
++            self.assertNotIn('std_tree',mon.receipt)
++            under=r.source_under_test_record({'changed_file_sha256':{}},'production',{},None)
++            self.assertEqual(under['base_std_sha'],r.STD_SHA);self.assertNotIn('historical_patch_base_std_sha',under)
++
++
++class SnapshotRepairTests(unittest.TestCase):
++    def test_recorded_errors_stop_in_every_state_with_matching_controller_post(self):
++        for state in ('COMPLETE','FAILED','IN_PROGRESS','INTERRUPTED',None,'UNKNOWN'):
++            for error in ('source_after_error','binary_unreadable','source_mismatch'):
++                fixture=f.CampaignTests();fixture.setUp();launches=[]
++                def invoke(std,tool,out,request,rid,limits,slot):
++                    launches.append(rid);sup=fixture.emit(out,rid)
++                    if rid==c.p.ORDER[2]:
++                        gp=out/'groups'/('s3-'+rid)/'receipt.json';doc=c.read(gp)
++                        doc.update(state=state,status='FAILED',reason='original protected failure')
++                        doc['execution'].update(original_exit_code=-15,signal=15)
++                        if error=='source_after_error':
++                            doc.pop('source_after');doc['source_after_error']={'operation':'snapshot.source_after','message':'std HEAD drift','errno':5}
++                        elif error=='binary_unreadable':
++                            doc['snapshot_errors']=[{'stage':'after','binary':'cbmc','error':'unreadable'}];doc['binary_identity']='UNKNOWN';doc['tool_fingerprints_after']['required_hashes_present']=False
++                        else:doc['source_after']={}
++                        c.atomic(gp,doc)
++                    return sup
++                with self.subTest(state=state,error=error),tempfile.TemporaryDirectory() as d:
++                    out=Path(d)
++                    with mock.patch.object(c.snapshots,'capture',side_effect=f.synthetic_capture):
++                        self.assertEqual(c.run_campaign(Path('/std'),Path('/tool'),out,fixture.req,invoker=invoke),1)
++                    self.assertEqual(launches,list(c.p.ORDER[:3]));terminal=c.read(out/'receipt.json')
++                    self.assertTrue(terminal['stop_reason']);self.assertEqual(len(c.sealed(out)),2)
++                    self.assertTrue(all(x['status']=='NOT_RUN' for x in terminal['rows'][3:]))
++                    doc=c.read(out/'groups'/('s3-'+c.p.ORDER[2])/'receipt.json')
++                    self.assertEqual(doc['execution']['original_exit_code'],-15);self.assertEqual(doc['reason'],'original protected failure')
++                    self.assertEqual(c.read(out/'workers'/(c.p.ORDER[2]+'-lifecycle.json'))['post']['state'],'COMPLETE')
++    def test_malformed_and_unknown_worker_protected_records_reject(self):
++        fixture=f.CampaignTests();fixture.setUp()
++        with tempfile.TemporaryDirectory() as d:
++            out=Path(d);sup=fixture.emit(out,c.p.ORDER[0]);doc=c.read(out/'groups'/('s3-'+c.p.ORDER[0])/'receipt.json');base={'binaries':f.binary()}
++            self.assertFalse(ev.protected(doc,fixture.req,base,sup,r.sha256(r.REQUEST_PATH))['controller_recovery_used'])
++            for field,value in [('snapshot_errors',None),('snapshot_errors',{}),('source_after',None),('source_before',[]),('tool_fingerprints_after',None),('binary_identity','UNKNOWN'),('state',None),('request_sha256',None),('source_after_error',{}),('source_before_error',None)]:
++                bad=copy.deepcopy(doc);bad[field]=value
++                with self.subTest(field=field,value=value),self.assertRaises(ev.EvidenceError):ev.protected(bad,fixture.req,base,sup,r.sha256(r.REQUEST_PATH))
++    def test_missing_after_requires_real_verified_interruption_not_failed_label(self):
++        fixture=f.CampaignTests();fixture.setUp()
++        with tempfile.TemporaryDirectory() as d:
++            out=Path(d);sup=fixture.emit(out,c.p.ORDER[0],'timeout');doc=c.read(out/'groups'/('s3-'+c.p.ORDER[0])/'receipt.json');base={'binaries':f.binary()}
++            self.assertTrue(ev.protected(doc,fixture.req,base,sup,r.sha256(r.REQUEST_PATH))['controller_recovery_used'])
++            for changed in ({'worker_exit':0,'cutoff':None},{'containment':{'verified':False}}):
++                with self.assertRaises(ev.EvidenceError):ev.protected(doc,fixture.req,base,{**sup,**changed},r.sha256(r.REQUEST_PATH))
++            doc['source_after_error']={'message':'unreadable'}
++            with self.assertRaises(ev.EvidenceError):ev.protected(doc,fixture.req,base,sup,r.sha256(r.REQUEST_PATH))
++
++
++class PortableRepairTests(unittest.TestCase):
++    def test_stopped_failure_remains_visible_in_local_and_upload_only_replay(self):
++        def fault(out,rid):
++            if rid!=c.p.ORDER[2]:return
++            path=out/'groups'/('s3-'+rid)/'receipt.json';doc=c.read(path);doc.update(state='FAILED')
++            doc.pop('source_after');doc['source_after_error']={'operation':'snapshot.source_after','message':'original drift'};c.atomic(path,doc)
++        result=f.PortableReplayTests().exercise(fault=fault)
++        records=result['global_stops'][0]['worker_evidence']
++        self.assertEqual(records[0]['source_after_error']['message'],'original drift')
++        self.assertEqual(records[0]['original_exit_code'],0)
++    def test_resealed_portable_missing_null_wrong_type_stale_compile_and_source_ids_reject(self):
++        def hook(out,upload,req):
++            archive=upload/pack_evidence.NAME;original=archive.read_bytes();raw=json.loads(gzip.decompress(original));rid=c.p.ORDER[0];gid='s3-'+rid
++            def encode(value):return json.dumps(value,indent=2,sort_keys=True).encode()+b'\n'
++            for location in ('compile','source_under_test'):
++                for value in ('MISSING',None,[],r.STD_SHA):
++                    packet=copy.deepcopy(raw)
++                    def read(name):return json.loads(packet['files'][name]['text'])
++                    def put(name,obj):
++                        data=encode(obj);packet['files'][name]={'text':data.decode(),'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest(),'encoding':'utf-8'}
++                    group_name='groups/'+gid+'/receipt.json';meta_name='groups/'+gid+'/binding-metadata.json';compile_name='groups/'+gid+'/compile/receipt.json'
++                    gp=read(group_name);meta=read(meta_name);comp=read(compile_name)
++                    target=comp if location=='compile' else gp['source_under_test']
++                    if value=='MISSING':target.pop('std_sha')
++                    else:target['std_sha']=value
++                    if location=='compile':
++                        put(compile_name,comp)
++                        for item in meta['artifacts']:
++                            if item['path']=='compile/receipt.json':item.update(bytes=packet['files'][compile_name]['bytes'],sha256=packet['files'][compile_name]['sha256'])
++                    else:meta['source_under_test']=copy.deepcopy(gp['source_under_test'])
++                    put(meta_name,meta);gp['binding_metadata'].update(bytes=packet['files'][meta_name]['bytes'],sha256=packet['files'][meta_name]['sha256']);put(group_name,gp)
++                    seal_name='completed/'+rid+'.json';seal=read(seal_name)
++                    for name in seal['files']:seal['files'][name]=packet['files'][name]['sha256']
++                    put(seal_name,seal);archive.write_bytes(gzip.compress(json.dumps(packet).encode(),mtime=0))
++                    with self.subTest(location=location,value=value),self.assertRaisesRegex(c.GlobalFailure,'replay protected/provenance'):
++                        c.collect([upload],req)
++            archive.write_bytes(original)
++        f.PortableReplayTests().exercise(replay_hook=hook)

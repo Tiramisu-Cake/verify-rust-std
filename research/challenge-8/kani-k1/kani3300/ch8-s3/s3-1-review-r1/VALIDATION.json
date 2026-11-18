@@ -1,0 +1,79 @@
+{
+  "schema": "ch8-s3-1-independent14-delta-validation-v1",
+  "disposition": "APPROVE",
+  "independent_tests": {
+    "main": {
+      "schema": "independent14-delta-test-execution-v1",
+      "state": "PASS",
+      "started_utc": "2026-11-18T21:38:36.821998+00:00",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "unittest",
+        "-v",
+        "test_s3_repair",
+        "test_s3.CampaignTests",
+        "test_s3.SingletonRunnerTests",
+        "test_s3.PortableReplayTests",
+        "test_delta14"
+      ],
+      "cwd": "/root/kani-ch8-s3-1-r1-control-w13/ch8-s1-control",
+      "control_sha": "fc29b93b1e333b73e55e2872701c80d9927f3b02",
+      "scope": "Python synthetic/static service tests only",
+      "native": "NOT_RUN",
+      "full_validate_rerun": false,
+      "proof_credit": "NONE",
+      "exit_code": 0,
+      "monotonic_start_ns": 2532252162908100,
+      "monotonic_end_ns": 2532491564657512,
+      "elapsed_seconds": 239.401749412,
+      "ended_utc": "2026-11-18T21:42:36.232109+00:00",
+      "artifacts": {
+        "review.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "review.stderr.txt": "1b73405cadc067758442b66ce27acc92ded9c6ac3f1ced8afef6be61d4180895",
+        "test_delta14.py": "7444a43c30ea4f3d853b483f372f910b5c2075fba62655ab769a20330c4594dd",
+        "run_review.py": "27c612d6e496bc190047b1461f7719c8c8b8659154cbb79f9b254f7379d607da"
+      }
+    },
+    "main_tests": 26,
+    "interrupted_recovery": {
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "unittest",
+        "-v",
+        "test_recovery14"
+      ],
+      "cwd": "/root/kani-ch8-s3-1-r1-control-w13/ch8-s1-control",
+      "state": "PASS",
+      "exit_code": 0,
+      "monotonic_start_ns": 2532331158941840,
+      "monotonic_end_ns": 2532341974337679,
+      "elapsed_seconds": 10.815395839,
+      "scope": "synthetic real-writer-shaped interrupted absence with local and upload-only replay",
+      "native": "NOT_RUN",
+      "proof_credit": "NONE",
+      "artifacts": {
+        "test_recovery14.py": "db9fdc0ee30fbbf1c69d05511172526d780c592d6cc381650031a795eca4851b",
+        "recovery.stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "recovery.stderr.txt": "8121277188335504c21e5fcfc978a0aaa8867174c435b5999a5bee9b72f86f3f"
+      }
+    },
+    "recovery_tests": 1,
+    "total": 27
+  },
+  "input_audit": "INPUT-AUDIT.json",
+  "author_final_validate": {
+    "tests": 182,
+    "elapsed_seconds": 490.471224626,
+    "margin": 2.2019640414655,
+    "receipt_and_transcript": "MATCH",
+    "independently_rerun": false
+  },
+  "full_validate_rerun": false,
+  "author_frozen_reproduction": "Three PASS checks reproduce old bugs on1dfc only; inherited frozen record, not independent repair acceptance.",
+  "interrupted_precursor": "PRECURSORS.json; excluded from final counts",
+  "review_harness_precursor": "tests/AUDIT-PRECURSOR.json; incorrect metadata key corrected before successful audit; no candidate edit",
+  "native_compile_Kani_CBMC_full_native_runner_fit_CI": "NOT_RUN",
+  "proof_credit": "NONE"
+}
