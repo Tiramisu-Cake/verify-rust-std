@@ -50,9 +50,11 @@ Worktree `/root/verify-rust-std-kani3300-g0`; paths below relative to
   INFRASTRUCTURE_NO_RUNNER, coverage NOT_RUN, not a demonstrated F4 defect.
   Connected job summaries independently confirm CANCELLED, seven other jobs
   SUCCESS and macos-15-intel (`134698399326`) IN_PROGRESS at this snapshot.
-  Preserve diagnosis provenance and missing arm64 execution. A single-job retry
-  is an extra attempt beyond 28/28 and requires a separate owner GO; none is
-  authorized here. Still wait for all three workflows terminal before intake.
+  Preserve diagnosis provenance and missing arm64 execution. Later owner decision
+  recorded in ledger `807c69995344ed9a6f4bff2b1a040a3e48360042`: **do not rerun
+  macos-15**; macOS coverage is deferred to upstream PR CI. This is a decision to
+  defer coverage, not an arm64 execution/pass. Still wait for all three workflows
+  terminal before intake. No retry request is pending from this task.
 
 ## Intake
 

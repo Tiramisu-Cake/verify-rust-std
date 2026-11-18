@@ -1,0 +1,230 @@
+{
+  "schema": "ch8-s2-r1-postrun-inputs-v1",
+  "status": "PREPARED_NOT_ISSUED",
+  "owner_authority": "Owner executed S2 r1 GO; prepare intake after terminal and coordinator issuance; exactly one attempt, no automatic rerun.",
+  "run": {
+    "repository": "Tiramisu-Cake/kani",
+    "id": 44284869572,
+    "expected_attempt": 1,
+    "url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44284869572",
+    "branch": "uninit-ci/ch8-s2-batch3probes-r1-20261118",
+    "trigger_sha": "bdedeae662cf6f03dc7593638d263dec21d0a135",
+    "tree": "b04ce6fd7a2c937bf72fcda7a262eef65a9f45bb",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "reviewed_control_sha": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+    "published_source_branch": "experiment/ch8-s2-batch3probes-r1-20261118",
+    "terminal_status": "NOT_YET_INTAKEN"
+  },
+  "source": {
+    "sha": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+    "tree": "64d96010b0b4b896322e26d700c253f834ba9fd6"
+  },
+  "tool": {
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "change": "NONE_STOCK"
+  },
+  "request": {
+    "path": "../batch-r1/CI-REQUEST.json",
+    "sha256": "779126ddc8aa3e5cabd9b9968f0e1cd853c4e1b60a95a21ff4eb42d5a0c7ca74",
+    "workflow_sha256": "7dca25a36813d294548ce26c27dfe38b9b06d3f4091785eaad4f00be2a437455",
+    "cfg_pfc_checker_sha256": "d533349c1046c105b7ecaaf897041e949c19aafe989ed2198b9d5fda9c132a19"
+  },
+  "package_g0": "0a4cef493f858d0e91d3ebccfbbab0b8d32d0119",
+  "package_review_g0": "e40ac8e8dd8ab071879ff9ab60f4b14149af0c11",
+  "GO_request_g0": "1ce52e417eedcd43d200f358ce2ef7c911dbfe21",
+  "pilot_g0": "c8e4ab764d58bd8b684b660d92c62374530623d4",
+  "pilot_scope": "OFFLINE_DIAGNOSTIC_ONLY; Kani induction/PFC/S3 NOT_RUN",
+  "artifact": {
+    "name": "ch8-s2-batch3probes-44284869572-1",
+    "members": [
+      "group-evidence.json.gz"
+    ],
+    "count": 1,
+    "full_raw_logs_archives": "NOT_AUTHORIZED",
+    "digest": "VERIFY_GITHUB_ZIP_BEFORE_EXTRACTION_AND_EMBEDDED_HASHES"
+  },
+  "selection": {
+    "group_ids": [
+      "s2-batch3probes-u34"
+    ],
+    "row_ids": [
+      "swap_pfc",
+      "summary_witness",
+      "merge32_real",
+      "sort13_assumed",
+      "general32_assumed",
+      "merge_order_corrupt",
+      "merge_count_corrupt",
+      "checker_count_corrupt",
+      "checker_order_corrupt",
+      "sort13_weak",
+      "general32_weak"
+    ],
+    "expected": [
+      {
+        "id": "swap_pfc",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_SWAP_EQUAL",
+          "S2_SWAP_TAKEN",
+          "S2_SWAP_REVERSE",
+          "S2_SWAP_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "summary_witness",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_WITNESS_UNSORTED",
+          "S2_WITNESS_NONCONSTANT",
+          "S2_WITNESS_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "merge32_real",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_MERGE_RIGHT_FIRST",
+          "S2_MERGE_LEFT_FIRST",
+          "S2_MERGE_TIE",
+          "S2_MERGE_NONCONSTANT",
+          "S2_MERGE_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "sort13_assumed",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_SORT13_UNSORTED",
+          "S2_SORT13_DUPLICATE",
+          "S2_SORT13_NONCONSTANT",
+          "S2_SORT13_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "general32_assumed",
+        "outcome": "SUCCESS",
+        "failure_description": null,
+        "required_cover_messages": [
+          "S2_GENERAL32_UNSORTED",
+          "S2_GENERAL32_DUPLICATE",
+          "S2_GENERAL32_NONCONSTANT",
+          "S2_GENERAL32_USEFUL_RETURN"
+        ]
+      },
+      {
+        "id": "merge_order_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_MERGE_ORDER",
+        "required_cover_messages": []
+      },
+      {
+        "id": "merge_count_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_MERGE_COUNT",
+        "required_cover_messages": []
+      },
+      {
+        "id": "checker_count_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_CHECKER_COUNT",
+        "required_cover_messages": []
+      },
+      {
+        "id": "checker_order_corrupt",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_CHECKER_ORDER",
+        "required_cover_messages": []
+      },
+      {
+        "id": "sort13_weak",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_SORT13_WEAK",
+        "required_cover_messages": []
+      },
+      {
+        "id": "general32_weak",
+        "outcome": "DETECTED",
+        "failure_description": "S2_NEG_GENERAL32_WEAK",
+        "required_cover_messages": []
+      }
+    ],
+    "formal_expected_inventory": [
+      "merge32_real"
+    ],
+    "diagnostic_assumed_inventory": [
+      "sort13_assumed",
+      "general32_assumed"
+    ],
+    "qualification": "NOT_GRANTED_BY_INTAKE"
+  },
+  "caps": {
+    "backend_harness_s": 600,
+    "compile_s": 900,
+    "group_child_s": 7500,
+    "phase_s": 8100,
+    "job_minutes": 180,
+    "jobs": 1,
+    "max_parallel": 1,
+    "group_RSS_max_GiB": 12,
+    "memory_headroom_GiB": 2,
+    "per_root_RSS_target_GiB": 6,
+    "per_root_RSS_measurement": "UNKNOWN_UNLESS_ACTUALLY_OBSERVED",
+    "root_cap_sum_s": 6600,
+    "phase_step_s": 7560,
+    "setup_s": 1800,
+    "checkout_depths": {
+      "control": 7,
+      "source": 5,
+      "tool": 2
+    }
+  },
+  "known_limits": [
+    "body/model/checker/summary/driver phases unavailable from unchanged producer",
+    "group/comm sampled peaks do not establish simultaneous per-root aggregate",
+    "raw verification_time_s not full process wall",
+    "TIMEOUT censored and missing never zero",
+    "diagnostic assumed consumers confer no formal proof credit",
+    "partial group remains incomplete despite healthy source observations",
+    "Added unselected sort8 proof_for_contract registration is static cfg lookup repair, not an executed/qualified leaf."
+  ],
+  "nonblocking_request_metadata": "S2-W14-N1 resolved in r1: unused planning fields corrected to6600/1; runtime completeness/cost still require actual evidence.",
+  "prior_run": {
+    "id": 44264952389,
+    "outcome": "COMPILE_FAILED_ZERO_ROOTS",
+    "charged": false,
+    "accounting_authority": "owner decision recorded807c699953",
+    "proof_or_cost_reuse": false,
+    "old_inputs_remain_immutable": "../postrun/INPUTS.json"
+  },
+  "accounting_reference_only": {
+    "reservation_g0": "807c69995344ed9a6f4bff2b1a040a3e48360042",
+    "run_record_g0": "7ea8c8ed6e3e8699e657ef1c244cf202228a8667",
+    "item2_used": 10,
+    "item2_cap": 14,
+    "item1_used": 28,
+    "item1_cap": 28,
+    "total_used": 38,
+    "total_cap": 42,
+    "new_runs_reservations_ledger_changes_authorized": 0
+  },
+  "activation": {
+    "intake13": "AFTER_TERMINAL_RUN_AND_COORDINATOR_ISSUE",
+    "review14": "NOT_ISSUED; needs exact committed intake and separate coordination",
+    "issue_workers_now": false,
+    "runtime": "fresh/current pane model and owner-enabled /fast preserved; no nested delegation"
+  },
+  "outputs": {
+    "intake": "../run-44284869572/ except review/"
+  },
+  "preparation_observation": {
+    "run_metadata": "IN_PROGRESS",
+    "expected_attempt_and_head_ref_event": "MATCH",
+    "trigger_tree_and_single_parent": "MATCH via connected GitHub commit metadata; source/workflow hashes bound by approved package"
+  }
+}
