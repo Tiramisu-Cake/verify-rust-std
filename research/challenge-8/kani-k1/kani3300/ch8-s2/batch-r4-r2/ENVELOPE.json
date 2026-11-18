@@ -1,0 +1,81 @@
+{
+  "budgets": {
+    "jobs": 1,
+    "max_parallel": 1,
+    "workflow_minutes": 180,
+    "setup_seconds": 1800,
+    "phase_seconds": 8100,
+    "reserve_seconds": 900,
+    "row_seconds": 600,
+    "rss_kib": 6291456,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456,
+    "planned_rows_seconds": 6600,
+    "rss_cap_kib": 6291456,
+    "compile_seconds": 900,
+    "planned_compile_seconds_per_group": 30,
+    "group_rss_max_kib": 12582912,
+    "memory_reserve_kib": 2097152,
+    "projected_group_count": 1
+  },
+  "flags": {
+    "unstable": [
+      "function-contracts",
+      "mem-predicates",
+      "float-lib",
+      "c-ffi",
+      "loop-contracts",
+      "quantifiers",
+      "stubbing",
+      "export-json"
+    ],
+    "assert_contracts": false,
+    "jobs": 1,
+    "harness_timeout": "600s",
+    "exact": true,
+    "default_unwind": 34,
+    "cbmc_args": [
+      "--object-bits",
+      "12"
+    ],
+    "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed"
+  },
+  "execution_groups": [
+    {
+      "id": "s2-batch3probes-u34",
+      "variant": "production",
+      "unwind": 34,
+      "row_ids": [
+        "swap_pfc",
+        "summary_witness",
+        "merge32_real",
+        "sort13_assumed",
+        "general32_assumed",
+        "merge_order_corrupt",
+        "merge_count_corrupt",
+        "checker_count_corrupt",
+        "checker_order_corrupt",
+        "sort13_weak",
+        "general32_weak"
+      ]
+    }
+  ],
+  "backend_seconds": 600,
+  "compile_seconds": 900,
+  "root_sum_seconds": 6600,
+  "group_seconds": 7500,
+  "internal_seconds": 8100,
+  "step_seconds": 7560,
+  "setup_seconds": 1800,
+  "job_minutes": 180,
+  "serial": 1,
+  "RSS_GiB": 12,
+  "headroom_GiB": 2,
+  "checkout": {
+    "control": 7,
+    "source": 5,
+    "tool": 2
+  }
+}

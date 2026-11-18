@@ -1,0 +1,368 @@
+diff --git a/.github/workflows/ch8-s2.yml b/.github/workflows/ch8-s2.yml
+index 860ce8149161a8cd6a3497fb65bb72698b7ea2e1..4bb4b7a4e8d661f397ae2a33785c3ebe5dc6079c 100644
+--- a/.github/workflows/ch8-s2.yml
++++ b/.github/workflows/ch8-s2.yml
+@@ -28,13 +28,13 @@ jobs:
+         fetch-depth: 7
+         persist-credentials: false
+     - name: Validate control and synthetic wrapper
+-      timeout-minutes: 1
++      timeout-minutes: 10
+       working-directory: control/ch8-s1-control
+       env:
+         PYTHONDONTWRITEBYTECODE: '1'
+       run: 'python3 check_package.py control --repo ..
+ 
+-        python3 -m unittest -v test_runner.py test_s107.FinalizationTests test_s2.py test_cfg_pfc.py test_rustc_diagnostics.py test_contract_stacks.py
++        python3 -m unittest -v test_runner.py test_s107.FinalizationTests test_s2.py test_cfg_pfc.py test_rustc_diagnostics.py test_contract_stacks.py test_r1403_lexical.py
+ 
+         '
+     - name: Read immutable export pins
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index 1275975c9fd5caa768553d70ee908c48f47db8cc..854455c3f10567fe94b9d0132c8dacf415f7f47f 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -2,7 +2,7 @@
+   "schema": "ch8-s2-batch3probes-v1",
+   "status": "READY",
+   "authorization": "PREPARATION_ONLY; review14 then separate coordinator GO; dispatch not authorized",
+-  "entry_g0": "cf40e805eb47a5f11efdf27a62b06caf2bc2adff",
++  "entry_g0": "16a4f1d3e9ca438396d9226ea3d13ffaa88150fe",
+   "std_sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+   "std_tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+   "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+@@ -674,6 +674,7 @@
+     "ch8-s1-control/test_cfg_pfc.py",
+     "ch8-s1-control/test_contract_stacks.py",
+     "ch8-s1-control/test_package.py",
++    "ch8-s1-control/test_r1403_lexical.py",
+     "ch8-s1-control/test_runner.py",
+     "ch8-s1-control/test_rustc_diagnostics.py",
+     "ch8-s1-control/test_s104.py",
+@@ -684,7 +685,7 @@
+     "ch8-s1-control/test_s2.py"
+   ],
+   "ci_payload_sha256": {
+-    ".github/workflows/ch8-s2.yml": "93521eefcbd83c50218d8484b2f8bbc044ff9acd2dd2b003749fe0e316c0ea6c",
++    ".github/workflows/ch8-s2.yml": "b70c7dff34fe5ae12985dc0ba44f2791cca3bb288e774416f1eb405ab90b090b",
+     "ch8-s1-control/ORACLE-SOURCES.json": "69bf8d8494094a079a6ac3422ab90f30b7b5093b53e91ee6ce393a043538eaa2",
+     "ch8-s1-control/ROLE-MAP.json": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d",
+     "ch8-s1-control/S2-SOURCE.json": "950631f2d0594b7b14dc0c203d12379d48e3aeeba612f1651f029691b376daa6",
+@@ -692,7 +693,7 @@
+     "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+     "ch8-s1-control/binding_metadata.py": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030",
+     "ch8-s1-control/cfg_pfc.py": "e72ba0cff247613a3db7f4a5bd237cfeab64cb49d2410c61e85b3f80e91ecb11",
+-    "ch8-s1-control/check_package.py": "bf65515325970226b58c50a310b2989ec31f55c437b90defcd3b9db5ef6d1873",
++    "ch8-s1-control/check_package.py": "66e60b5d39af550e6a8a7b6ad7dc56e155a861252ad9cc2f6e28c00565f803b9",
+     "ch8-s1-control/collect.py": "bb9170a58af1e0cfcb93d9758730265f2ae78b019c7a0a9b50d348cca45cd6e7",
+     "ch8-s1-control/contract_stacks.py": "c4b0f92fe2ede42399f2743071e58380806e61339bfbc0d1beccbf6b2a11ea0d",
+     "ch8-s1-control/fixtures/s104-rich-fragment.json": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc",
+@@ -703,7 +704,7 @@
+     "ch8-s1-control/fixtures/s2-r2-smallsort.rs.txt": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0",
+     "ch8-s1-control/fixtures/s2-r3-batch.rs.txt": "00abe964a5e2eac63f1f864455d6f9be1903422a0c5b28398360cf2039cc08d5",
+     "ch8-s1-control/fixtures/s2-r4-batch.rs.txt": "794fb18e5f6aa5a79f79b6e200b9cf5a4074442ddf51bdba9df4ea5f32567ef7",
+-    "ch8-s1-control/lexical_bindings.py": "e248c33e4982c911510847f49af83fee5c0252967b0cb4975dca772273bb894c",
++    "ch8-s1-control/lexical_bindings.py": "31abcb93bdb52bb1205e59ce6f4c8fe2206c2c63c9b2f82142492c8752f3e484",
+     "ch8-s1-control/negative_oracle.py": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c",
+     "ch8-s1-control/oracle_source.py": "75a9a665b7a9fc1c64cd51c1c8d281fd323f22411aee83c017d08f37a27f20ce",
+     "ch8-s1-control/ordinary_contracts.py": "bdbdbe13fa2da6dae8d6dfb7a57a66caed1e52b6d93c1586e8effecaa16cb78e",
+@@ -717,6 +718,7 @@
+     "ch8-s1-control/test_cfg_pfc.py": "96c7e07fd3d78cb6c6769a5c018d49b1f1e1d28eee39db6322cba63ea31a91ea",
+     "ch8-s1-control/test_contract_stacks.py": "28175e593a49600fc3478a61a7488b4066b0d9d06ef33b082418f19db1eba75d",
+     "ch8-s1-control/test_package.py": "70f00d0726b7011db8a02339c1b031bda49b4af3c2f7e881b68d06b7663b5ca7",
++    "ch8-s1-control/test_r1403_lexical.py": "5518422d03b2db340a09f7dbc9d074651ca607ef028e592e8dd7c4ac938b9c61",
+     "ch8-s1-control/test_runner.py": "91be0156d1d8e55bc2e768891996f69cb1cd248096521d1ff5358dc8f57daaa4",
+     "ch8-s1-control/test_rustc_diagnostics.py": "fadad233e902b6fdaaea2a308e2a6321a3c594e8d0ba3492531459cbef0ac88d",
+     "ch8-s1-control/test_s104.py": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+@@ -724,10 +726,10 @@
+     "ch8-s1-control/test_s107.py": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0",
+     "ch8-s1-control/test_s108.py": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854",
+     "ch8-s1-control/test_s108r1.py": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03",
+-    "ch8-s1-control/test_s2.py": "879ef4eb3fc3ffb548b5801c84f3cf7d48d786d0c4c19a598b6a5fff8e1dcc0e"
++    "ch8-s1-control/test_s2.py": "9362dc8c8a41bfee17f2da62e218c4f8f47ca8499bb8791a2b3ad1cab0ee6718"
+   },
+   "ci_request_hash_policy": "Request excluded from its own payload map; exact request SHA in g0 package and every invocation receipt.",
+-  "control_reference": "db81e62d76cfa193b1d7fe8e8ebbecead7e20ef8",
++  "control_reference": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+   "cfg_pfc_source_sha256": {
+     "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+     "library/core/src/slice/mod.rs": "1c94e306a979f2c59a4e3687a32a3e4efbeef967b7bf5eeb8d1977371c2c17dd",
+diff --git a/ch8-s1-control/check_package.py b/ch8-s1-control/check_package.py
+index 0c623d9961feaed9383fe64c7c842569111c60c3..5a2566cded67c844c90a04a359ed8262cc4138c7 100644
+--- a/ch8-s1-control/check_package.py
++++ b/ch8-s1-control/check_package.py
+@@ -86,7 +86,7 @@ def check_yaml(path):
+     assert 'strategy' not in job and 'needs' not in job
+     assert job['if']=="${{ github.repository == 'Tiramisu-Cake/kani' && github.event_name == 'push' }}"
+     steps=job['steps']
+-    assert sum(s['timeout-minutes'] for s in steps)==177
++    assert sum(s['timeout-minutes'] for s in steps)==186
+     checkouts={s['with']['path']:s['with'] for s in steps if s.get('uses','').startswith('actions/checkout@')}
+     assert {k:v['fetch-depth'] for k,v in checkouts.items()}==CHECKOUT_DEPTHS
+     assert all(v['persist-credentials'] is False for v in checkouts.values())
+@@ -102,6 +102,14 @@ def check_yaml(path):
+     assert steps[-1]['with']['if-no-files-found']=='error'
+     assert steps[-1]['with']['path']=='${{ env.RECEIPT_ROOT }}/group-evidence.json.gz'
+     byname={s['name']:s for s in steps}
++    # Exact approved setup caps; aggregate setup clock remains independent.
++    assert [(s['name'],s['timeout-minutes']) for s in steps] == [
++        ('Begin setup budget',1),('Checkout CI control',2),
++        ('Validate control and synthetic wrapper',10),('Read immutable export pins',1),
++        ('Checkout production model export',5),('Checkout immutable upstream tool',2),
++        ('Check all source identities',1),('Setup exact stock tool',15),
++        ('Build exact stock tool once',15),('Run S2 batch3probes with bounded observations',126),
++        ('Materialize bounded fallback',2),('Upload bounded evidence',6)]
+     assert byname['Checkout immutable upstream tool']['with']['repository']=='model-checking/kani'
+     assert byname['Checkout production model export']['with']['repository']=='Tiramisu-Cake/verify-rust-std'
+     assert byname['Setup exact stock tool']['uses']=='./tool/.github/actions/setup'
+@@ -112,8 +120,11 @@ def check_yaml(path):
+     assert names.index('Checkout production model export') < names.index('Check all source identities') < names.index('Setup exact stock tool') < names.index('Build exact stock tool once') < names.index('Run S2 batch3probes with bounded observations')
+     assert not any(byname['Check all source identities'].get(k) for k in ('if','continue-on-error'))
+     assert 'test_runner.py test_s107.FinalizationTests test_s2.py test_cfg_pfc.py' in byname['Validate control and synthetic wrapper']['run']
++    assert byname['Validate control and synthetic wrapper']['run'].splitlines() == [
++        'python3 check_package.py control --repo ..',
++        'python3 -m unittest -v test_runner.py test_s107.FinalizationTests test_s2.py test_cfg_pfc.py test_rustc_diagnostics.py test_contract_stacks.py test_r1403_lexical.py']
+     assert steps[-2]['if']=='always()' and 'fallback' in steps[-2]['run'] and 'pack_evidence.py' in steps[-2]['run']
+-    return {'jobs':1,'serial':True,'max_runner_minutes':180,'step_timeout_sum_minutes':177,'checkout_depths':CHECKOUT_DEPTHS}
++    return {'jobs':1,'serial':True,'max_runner_minutes':180,'step_timeout_sum_minutes':186,'checkout_depths':CHECKOUT_DEPTHS}
+ 
+ 
+ def control(repo):
+diff --git a/ch8-s1-control/lexical_bindings.py b/ch8-s1-control/lexical_bindings.py
+index fbd097a3b2ee549014beffa3bce0f569ddef25b4..10e94feb2cb57409c5ca7d603b42f3684ff6f8b8 100644
+--- a/ch8-s1-control/lexical_bindings.py
++++ b/ch8-s1-control/lexical_bindings.py
+@@ -53,7 +53,23 @@ def angle(ts, start):
+ 
+ 
+ def call_paths(ts):
+-    """Extract static paths and dot methods, including calls inside macro args."""
++    """Extract supported paths; unwrap balanced callable parentheses iteratively.
++
++    Group/index/block/call-result expressions used as callees must be handled
++    explicitly or rejected. This is a token guard, not Rust expression typing.
++    Dot method calls retain their existing dispatch-only inventory.
++    """
++    pairs, stack = {}, []
++    closing = {')': '(', ']': '[', '}': '{'}
++    for at, (token, line) in enumerate(ts):
++        if token in ('(', '[', '{'):
++            stack.append(at)
++        elif token in closing:
++            c.need(stack and ts[stack[-1]][0] == closing[token],
++                   'name gate: unbalanced callable delimiter at line ' + str(line))
++            pairs[at] = stack.pop()
++    c.need(not stack, 'name gate: unterminated callable delimiter')
++    covered = set()
+     i = 0
+     while i < len(ts):
+         t, line = ts[i]
+@@ -74,14 +90,33 @@ def call_paths(ts):
+                 j += 1
+             c.need(j < len(ts) and ts[j][0].isidentifier(), 'name gate: unsupported static path')
+             path.append(ts[j][0]); j += 1
+-        # Method turbofish has the same spelling as path turbofish.
+-        if j+1 < len(ts) and ts[j][0] == ')' and ts[j+1][0] == '(' and i and ts[i-1][0] == '(':
++        # Strip any number of complete parentheses around this exact path.
++        # Include an already-supported leading :: in the grouping boundary.
++        begin = i-1 if i and ts[i-1][0] == '::' else i
++        end = j
++        while end < len(ts) and ts[end][0] == ')' and begin > 0 and pairs.get(end) == begin-1:
++            begin -= 1
++            end += 1
++        if end > j and end < len(ts) and ts[end][0] == '(':
++            # f(arg)() is invocation of a call result, not invocation of arg.
++            previous = ts[begin-1][0] if begin else None
++            c.need(previous is None or not (previous.isidentifier() and previous not in KEYWORDS
++                   or previous in (')', ']', '}', '>', '!')),
++                   'name gate: unsupported call-result/parenthesized callable expression at line ' + str(line))
++            covered.add(end-1)
+             yield tuple(path), line, 'STATIC', i
+         elif j < len(ts) and ts[j][0] == '(':
+             yield tuple(path), line, 'METHOD' if i and ts[i-1][0] == '.' else 'STATIC', i
+         elif j < len(ts) and ts[j][0] == '!':
+             yield tuple(path), line, 'MACRO', i
+         i = max(i+1, j)
++    # No required call ending in a group/index/block may disappear from both
++    # the static and dispatch inventories. Reject unsupported expression forms.
++    for at in range(1, len(ts)):
++        if ts[at][0] == '(' and ts[at-1][0] in (')', ']', '}'):
++            c.need(at-1 in covered,
++                   'name gate: unsupported callable expression ending ' + ts[at-1][0]
++                   + ' at line ' + str(ts[at][1]))
+ 
+ 
+ def value_scopes(ts):
+diff --git a/ch8-s1-control/test_r1403_lexical.py b/ch8-s1-control/test_r1403_lexical.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..55b8ec6c15b3dfdeb4e6fb37acf41648ec201b21
+--- /dev/null
++++ b/ch8-s1-control/test_r1403_lexical.py
+@@ -0,0 +1,116 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Gate-only R14-03 regressions; Rust strings are scanned, never executed."""
++import copy
++import json
++from pathlib import Path
++import tempfile
++import unittest
++import cfg_pfc as c
++import lexical_bindings as l
++import runner
++
++HERE = Path(__file__).resolve().parent
++
++
++def wrapped(path, depth):
++    return '(' * depth + path + ')' * depth
++
++
++class ExtractorTests(unittest.TestCase):
++    def test_arbitrary_depth_paths_are_single_records(self):
++        for depth in (0, 1, 2, 3, 8, 128, 2048):
++            for path, expected in [('missing_static', ('missing_static',)),
++                  ('super::super::sort4_stable', ('super','super','sort4_stable')),
++                  ('::core::mem::size_of::<u8>', ('core','mem','size_of'))]:
++                source = wrapped(path, depth) + '();'
++                with self.subTest(depth=depth, path=path):
++                    records = list(l.call_paths(c.tokens(source)))
++                    self.assertEqual(len(records), 1)
++                    self.assertEqual(records[0][:3], (expected, 1, 'STATIC'))
++                    self.assertEqual(c.tokens(source)[records[0][3]][0], expected[0])
++
++    def test_arguments_scopes_comments_and_literals(self):
++        source = '((callee))(((argument)()), obj.method()); "((hidden))()"; /* ((hidden))() */'
++        records = list(l.call_paths(c.tokens(source)))
++        self.assertEqual([(r[0],r[2]) for r in records],
++                         [(('callee',),'STATIC'), (('argument',),'STATIC'), (('method',),'METHOD')])
++        self.assertEqual(list(l.call_paths(c.tokens('((callee)); (left, right);'))), [])
++        self.assertEqual(list(l.call_paths(c.tokens('return ((callee))();')))[0][0], ('callee',))
++
++    def test_unsupported_callable_expressions_fail_closed(self):
++        for expression in ('(left,right)()', '(*pointer)()', '(obj.method)()',
++              '(obj.method())()', 'factory()()', 'factory(argument)()', 'factory((argument))()',
++              '((factory()))()', '((callee))()()', 'callbacks[0]()', '[callback]()',
++              '{callback}()', '({callback})()', '(|| {})()', 'macro!()()'):
++            with self.subTest(expression=expression), self.assertRaisesRegex(c.GateError, 'unsupported .*callable|unsupported call-result'):
++                list(l.call_paths(c.tokens(expression)))
++
++    def test_method_receivers_remain_dispatch_only(self):
++        records = list(l.call_paths(c.tokens('((receiver)).method(); receiver.method::<u8>();')))
++        self.assertEqual([(r[0],r[2]) for r in records], [(('method',),'METHOD'), (('method',),'METHOD')])
++
++
++class ActualGateTests(unittest.TestCase):
++    def setUp(self):
++        self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
++        self.root = Path(self.tmp.name)
++        self.sources = json.loads((HERE/'S2-SOURCE.json').read_text())
++        for rel,text in self.sources.items():
++            p=self.root/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(text)
++        self.exact_request = runner.load_request()
++        self.request = copy.deepcopy(self.exact_request)
++        self.removed = self.request.pop('lexical_source_sha256')
++        self.assertEqual(set(self.exact_request)-set(self.request), {'lexical_source_sha256'})
++        self.assertTrue(all(v == self.request[k] for k,v in self.exact_request.items() if k!='lexical_source_sha256'))
++
++    def source(self, expression, imports=''):
++        text=self.sources[l.BATCH]
++        if imports:
++            first, rest=text.split('\n',1);text=first+'\n'+imports+'\n'+rest
++        text=text.replace('fn sort13_weak() {', 'fn sort13_weak() { '+expression, 1)
++        (self.root/l.BATCH).write_text(text)
++
++    def check(self):
++        return l.check(self.root,self.request)
++
++    def test_exact_frozen_source_acceptance(self):
++        doc=l.check(self.root,self.exact_request)
++        self.assertEqual(len(doc['functions']),8)
++        self.assertEqual(sum(len(x['static_calls']) for x in doc['functions']),77)
++        self.assertEqual(len(doc['contexts']),11)
++
++    def test_exact_review_and_direct_single_deeper_unbound_reject(self):
++        for depth in (0,1,2,8):
++            self.source(wrapped('missing_static',depth)+'();')
++            with self.subTest(depth=depth), self.assertRaisesRegex(c.GateError,'unresolved static path.*missing_static'):
++                self.check()
++
++    def test_bound_full_paths_aliases_local_functions_and_values(self):
++        expressions=[]
++        for depth in (0,1,2,8):
++            for path in ('super::super::sort4_stable', 'four', 'sort13_fault_network', 'callable'):
++                expressions.append(wrapped(path,depth)+'();')
++        self.source('let callable = || {}; '+' '.join(expressions),
++                    'use super::super::sort4_stable as four;')
++        doc=self.check()
++        record=next(x for x in doc['functions'] if x['function']=='sort13_weak')
++        calls=record['static_calls'][:16]
++        self.assertEqual(len(calls),16)
++        for at,call in enumerate(calls):
++            if at%4 in (0,1):self.assertEqual(call['identity'],'::'.join(c.SM+('sort4_stable',)))
++            if at%4==2:self.assertEqual(call['binding']['kind'],'LOCAL_FN')
++            if at%4==3:self.assertEqual(call['binding']['kind'],'LOCAL_VALUE_CALLABLE')
++
++    def test_nested_callable_values_obey_scope_and_order(self):
++        for expression in ('((callable))(); let callable = || {};',
++                           '{ let callable = || {}; }; ((callable))();'):
++            self.source(expression)
++            with self.subTest(expression=expression),self.assertRaisesRegex(c.GateError,'unresolved static path.*callable'):
++                self.check()
++
++    def test_unsupported_expression_reaches_actual_gate_guard(self):
++        for expression in ('((sort13_fault_network()))();','[sort13_fault_network][0]();'):
++            self.source(expression)
++            with self.subTest(expression=expression),self.assertRaisesRegex(c.GateError,'unsupported callable expression'):
++                self.check()
+diff --git a/ch8-s1-control/test_s2.py b/ch8-s1-control/test_s2.py
+index 39e6ec0282a540d3198507b4022afc377cdb09fe..554711a91641feb783d6bedde7e74cb01bedfa79 100644
+--- a/ch8-s1-control/test_s2.py
++++ b/ch8-s1-control/test_s2.py
+@@ -71,13 +71,45 @@ class S2Tests(unittest.TestCase):
+ 
+     def test_workflow_caps_types_and_single_serial_job(self):
+         path=HERE.parent/'.github/workflows/ch8-s2.yml'
+-        self.assertEqual(cp.check_yaml(path)['step_timeout_sum_minutes'],177)
++        self.assertEqual(cp.check_yaml(path)['step_timeout_sum_minutes'],186)
+         text=path.read_text()
+         for before,after in [('timeout-minutes: 180','timeout-minutes: 181'),('fetch-depth: 7','fetch-depth: 6'),('persist-credentials: false','persist-credentials: true'),('timeout-minutes: 126','timeout-minutes: 135')]:
+             with tempfile.TemporaryDirectory() as d:
+                 f=Path(d)/'bad.yml';f.write_text(text.replace(before,after,1))
+                 with self.assertRaises(AssertionError):cp.check_yaml(f)
+ 
++    def test_timeout_caps_and_order_reject_redistribution(self):
++        import yaml
++        original=cp.load_yaml((HERE.parent/'.github/workflows/ch8-s2.yml').read_text())
++        for case in ('validate','source','redistribute','order'):
++            doc=copy.deepcopy(original);steps=doc['jobs']['s2_batch']['steps']
++            if case=='validate':steps[2]['timeout-minutes']=1
++            if case=='source':steps[6]['timeout-minutes']=10
++            if case=='redistribute':
++                steps[2]['timeout-minutes']-=1;steps[6]['timeout-minutes']+=1
++            if case=='order':steps[2],steps[6]=steps[6],steps[2]
++            with self.subTest(case=case),tempfile.TemporaryDirectory() as d:
++                path=Path(d)/'bad.yml';path.write_text(yaml.safe_dump(doc))
++                with self.assertRaises(AssertionError):cp.check_yaml(path)
++
++    def test_setup_aggregate_remaining_boundary_without_compiler(self):
++        good={'original_exit_code':0,'timed_out':False,'termination_reason':None,
++              'stdout_truncated':False,'stderr_truncated':False}
++        with tempfile.TemporaryDirectory() as d:
++            root=Path(d);epoch=root/'epoch';epoch.write_text('1000')
++            # elapsed setup includes earlier validation/source/checkout time.
++            for elapsed,expected in ((0,900),(600,900),(900,900),(901,899),(1799,1)):
++                with mock.patch.object(cp.time,'time',return_value=1000+elapsed),mock.patch.object(r,'execute',return_value=good.copy()) as call:
++                    self.assertEqual(cp.build(root,epoch,root/str(elapsed))['setup'],'COMPLETE')
++                    self.assertEqual(call.call_args.args[3],expected)
++            for elapsed in (1800,1801):
++                with mock.patch.object(cp.time,'time',return_value=1000+elapsed),mock.patch.object(r,'execute') as call:
++                    with self.assertRaises(AssertionError):cp.build(root,epoch,root/'expired')
++                    call.assert_not_called()
++            with mock.patch.object(cp.time,'time',side_effect=[2799,2801]),mock.patch.object(r,'execute',return_value=good.copy()):
++                with self.assertRaises(AssertionError):cp.build(root,epoch,root/'overrun')
++                self.assertEqual(json.loads((root/'overrun/receipt.json').read_text())['setup_total_seconds'],1801)
++
+     def test_sampled_component_metrics_are_group_only(self):
+         with tempfile.TemporaryDirectory() as d:
+             info=r.execute([sys.executable,'-c','pass'],Path(d),Path(d)/'out',2)

@@ -1,0 +1,63 @@
+{
+  "task_id": "task16a4f1d3e9ca438396d9226ea3d13ffaa88150fe",
+  "state": "READY_FOR_SAME14_FINAL_COMBINED_DELTA_REVIEW",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "bd62e54df1b4749154790aa3db3cc7978f547f75"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r4-r2-final-w13",
+    "sha": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+    "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "request_sha256": "d7f4561810178e9eb553d83a04de343f2512aff18bbca0dbd4864472712d4d73",
+    "workflow_sha256": "b70c7dff34fe5ae12985dc0ba44f2791cca3bb288e774416f1eb405ab90b090b"
+  },
+  "gate_dependency": {
+    "status": "APPROVED_EXACT_GATE_BYTES_INTEGRATED",
+    "R14-03": "CLOSED_GATE_ONLY",
+    "candidate_package": "4eccefc670602b58f25f9c55a27da2d844cdcf18",
+    "candidate_control": "0e97a487d8b7f8e8cbced5dbe2b6909c7150c695",
+    "patch_sha256": "1dfaf5a1fa2d748e81bea4093018eb65972d7cfc807e47c0d1f7ad39565f8cba",
+    "review": "ccb6a60731866bcc8fc6dd6e6cbdf4c2a9fd4653 APPROVE/CLOSED exact gate-only",
+    "review_commit": "ccb6a60731866bcc8fc6dd6e6cbdf4c2a9fd4653",
+    "integrated": true
+  },
+  "review14": "PENDING_SAME14_FINAL_DELTA_REVIEW",
+  "claims": [
+    "Validate step timeout1 ->10min only",
+    "All setup caps audited; check-source kept1min on actual local timing",
+    "Aggregate1800/job180/proofcaps preserved",
+    "Full actual final Validate and check-source each executed once offline with monotonic/object provenance",
+    "Source/tool unchanged; exact ccb6-approved gate bytes integrated and explicit CI module wired"
+  ],
+  "closed_proof_obligations": 0,
+  "proof_credit": "NONE",
+  "native_compile": "NOT_RUN",
+  "causal_repair": "NOT_RUN",
+  "actual_causal_CI_unit": "UNKNOWN",
+  "next_step": "SAME14 final combined delta review of exact d33a control/package/request/workflow; then separate root GO-request r4-r2 only; coordinator alone GO/dispatch/accounting. No rerun of final measurements or gate stage.",
+  "limits": "Future GitHub duration UNKNOWN; not dispatch-ready; spent one-run GO not transferred",
+  "ledger_reference_only": "a48799887ccf28ef48e2841f55e817a8398e5f32;29/29+9/14=38/43",
+  "external_actions": {
+    "compiler": 0,
+    "CI": 0,
+    "push": 0,
+    "PR": 0,
+    "issue": 0,
+    "ledger": 0,
+    "reservation": 0,
+    "budget": 0
+  },
+  "Fast": "OFF_PER_OWNER_NOT_TOGGLED",
+  "model_tier": "PRESERVED",
+  "subagents": 0,
+  "closure_reason": "Authorized final combined preparation complete. Exact gate-only APPROVE ccb6/root confirmation inherited; independent final combined review PENDING. Source/tool/model/CI/publication/accounting changes outside task boundaries.",
+  "recorded_utc": "2026-11-18T15:17:54.453381+00:00"
+}

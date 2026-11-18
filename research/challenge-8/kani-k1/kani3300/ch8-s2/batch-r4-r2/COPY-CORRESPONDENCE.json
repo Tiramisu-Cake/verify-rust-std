@@ -1,0 +1,42 @@
+{
+  "copies": [
+    {
+      "original": "sort13_optimal",
+      "copy": "sort13_fault_network",
+      "renames_only": {
+        "sort13_optimal": "sort13_fault_network",
+        "swap_if_less": "s2_swap_seam"
+      },
+      "original_line": 549,
+      "copy_line": 188,
+      "operation_tokens": "EXACT_AFTER_RENAMES"
+    },
+    {
+      "original": "small_sort_general",
+      "copy": "general_fault_copy",
+      "renames_only": {
+        "small_sort_general": "general_fault_copy",
+        "small_sort_general_with_scratch": "general_fault_scratch"
+      },
+      "original_line": 226,
+      "copy_line": 251,
+      "operation_tokens": "EXACT_AFTER_RENAMES"
+    },
+    {
+      "original": "small_sort_general_with_scratch",
+      "copy": "general_fault_scratch",
+      "renames_only": {
+        "small_sort_general_with_scratch": "general_fault_scratch",
+        "bidirectional_merge": "s2_merge_seam"
+      },
+      "original_line": 241,
+      "copy_line": 266,
+      "operation_tokens": "EXACT_AFTER_RENAMES"
+    }
+  ],
+  "sort8_relation": "UNCHANGED_ORIGINAL_CONTRACT_FULL_VALUE_POST_AND_TWO_SPAN_MODIFIES",
+  "registration": "ACTIVE_SAME_CFG_ONLY_NOT_SELECTED_NOT_QUALIFIED",
+  "negative_coverage_change": "LOCAL_OPERATION_IDENTICAL_COPIES_INSTEAD_OF_ORIGINAL_CALLER_IDENTITIES",
+  "native_execution": "NOT_RUN",
+  "proof_credit": "NONE"
+}

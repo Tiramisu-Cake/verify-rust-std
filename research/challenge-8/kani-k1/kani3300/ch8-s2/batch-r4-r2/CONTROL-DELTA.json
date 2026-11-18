@@ -1,0 +1,32 @@
+{
+  "reference": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+  "target": {
+    "worktree": "/root/kani-ch8-s2-r4-r2-final-w13",
+    "sha": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+    "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "request_sha256": "d7f4561810178e9eb553d83a04de343f2512aff18bbca0dbd4864472712d4d73",
+    "workflow_sha256": "b70c7dff34fe5ae12985dc0ba44f2791cca3bb288e774416f1eb405ab90b090b"
+  },
+  "paths": [
+    ".github/workflows/ch8-s2.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/lexical_bindings.py",
+    "ch8-s1-control/test_r1403_lexical.py",
+    "ch8-s1-control/test_s2.py"
+  ],
+  "gate_patch_integrated": true,
+  "workflow_delta": "Validate timeout1 ->10min; explicit CI unittest list appends approved test_r1403_lexical.py",
+  "check_yaml_delta": "Exact timeout/order and final actual Validate command enforcement; sum177 ->186; no aggregate cap change",
+  "tests_delta": "test_s2: updated sum, redistribution/order/caps and mocked aggregate clock boundaries",
+  "request_delta": [
+    "entry_g0",
+    "control_reference",
+    "ci_changed_paths appends new approved regression module",
+    "ci_payload_sha256 for workflow/check_package/test_s2/lexical_bindings/test_r1403_lexical"
+  ],
+  "CI_module_list": "explicit test_r1403_lexical.py included; actual integrated final Validate measured ONCE after final commit"
+}

@@ -1,0 +1,1 @@
+Static/offline package validation only. Actual command receipts are recorded once, never rerun by validate_package.py. Native compile/causal repair NOT_RUN; actual R3 unit UNKNOWN; proof credit NONE. See VALIDATION.json and TIMEOUT-AUDIT.md.

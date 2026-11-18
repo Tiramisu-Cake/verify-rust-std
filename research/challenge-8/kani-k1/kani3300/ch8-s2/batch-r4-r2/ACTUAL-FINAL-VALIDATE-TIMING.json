@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "command": "python3 check_package.py control --repo ..\npython3 -m unittest -v test_runner.py test_s107.FinalizationTests test_s2.py test_cfg_pfc.py test_rustc_diagnostics.py test_contract_stacks.py test_r1403_lexical.py\n",
+  "shell": [
+    "bash",
+    "--noprofile",
+    "--norc",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c"
+  ],
+  "cwd": "/root/kani-ch8-s2-r4-r2-final-w13/ch8-s1-control",
+  "provenance": {
+    "source": {
+      "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+      "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+      "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    },
+    "control": {
+      "worktree": "/root/kani-ch8-s2-r4-r2-final-w13",
+      "sha": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+      "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+      "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+    },
+    "tool": {
+      "worktree": "/root/kani-upstream-ch8-s1",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    },
+    "request_sha256": "d7f4561810178e9eb553d83a04de343f2512aff18bbca0dbd4864472712d4d73",
+    "workflow_sha256": "b70c7dff34fe5ae12985dc0ba44f2791cca3bb288e774416f1eb405ab90b090b"
+  },
+  "started_utc": "2026-11-18T15:11:26.702308+00:00",
+  "monotonic_start_ns": 2509022035040653,
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "GITHUB_REPOSITORY": "Tiramisu-Cake/kani",
+    "GITHUB_EVENT_NAME": "push",
+    "GITHUB_REF": "refs/heads/uninit-ci/ch8-s2-batch3probes-r4-r2-w13",
+    "GITHUB_RUN_ATTEMPT": "1",
+    "GITHUB_SHA": "d33a0900da19d865f20ccaa76e1ee27065c5a671"
+  },
+  "host": "Linux-6.8.0-136-generic-x86_64-with-glibc2.39",
+  "machine_duration_scope": "THIS_MACHINE_ONLY; GitHub future duration UNKNOWN",
+  "proof_credit": "NONE",
+  "exit_code": 0,
+  "ended_utc": "2026-11-18T15:17:46.915592+00:00",
+  "monotonic_end_ns": 2509402046615724,
+  "elapsed_seconds": 380.011575071,
+  "transcript_sha256": "6833f035516bc450cf4dd814b907a74727f832a9930b1cc7604b410c1cf98005"
+}
