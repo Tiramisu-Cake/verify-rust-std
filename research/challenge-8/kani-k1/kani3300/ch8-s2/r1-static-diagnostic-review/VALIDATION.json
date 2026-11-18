@@ -1,0 +1,200 @@
+{
+  "schema": "ch8-s2-r1-static-review-validation-v1",
+  "result": "PASS",
+  "author_commit": "7de045996987af5454052c33c448eaf31e910a32",
+  "scope": "A",
+  "method": "Read-only Git blobs, SHA256, byte/line comparisons; no compiler or project imports",
+  "author_packet_files": 7,
+  "author_manifest_entries_verified": 6,
+  "author_manifest_sha256": "30e8bb6140588f47d92ee3ceebb12ba2ea4880c9465c547206ae3036bae30d40",
+  "source_tool_control": [
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "tree": "64d96010b0b4b896322e26d700c253f834ba9fd6",
+      "parent_checked": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "parent_checked": null
+    },
+    {
+      "commit": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+      "tree": "b04ce6fd7a2c937bf72fcda7a262eef65a9f45bb",
+      "parent_checked": "9e14e033f9ee31522b571c127609dcdff76d230b"
+    }
+  ],
+  "source_control_worktrees_clean": true,
+  "provenance_inputs_verified": 6,
+  "prior_source_manifest_entries_verified": 12,
+  "file_identities": [
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/lib.rs",
+      "blob": "0a13f55e1796e4382147dd2d3040fc86879a2a9e",
+      "sha256": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504"
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/mod.rs",
+      "blob": "a65ecd0bb1c6147359594fbbe38a1bdc6cf6aa9d",
+      "sha256": "1c94e306a979f2c59a4e3687a32a3e4efbeef967b7bf5eeb8d1977371c2c17dd"
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/mod.rs",
+      "blob": "79852708b81ea31b9e07c38d354e64b5ce863b4e",
+      "sha256": "f67551bff44a854a3f03901db10a099bdab3b67b47d8724bef43858d97134f3c"
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/mod.rs",
+      "blob": "e1977d79f32076488e37048d17be77e37a321b0c",
+      "sha256": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8"
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "blob": "232b87fd0bcde3bce9285cb5a453261a5a72f000",
+      "sha256": "603762bb0cabb64e82114501b8da686f6e7d941f8e2227eebb956bc7062e7fe0"
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "blob": "396354bf70bc15d3622397b9df9de1694b8b5078",
+      "sha256": "e11d2f0c5b58e71f16594192a6dbb8598f6781185f5a0cd623996da3c6a7885d"
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+      "blob": "100c4d46a82cf90ee840a4f1028010a2318754e6",
+      "sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6"
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "blob": "0d0a9f1441e77acc793175a16270dd8ff9fac43d",
+      "sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18"
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs",
+      "blob": "d59ebef20bc0b94900f766f0e1211aa57b09f5ae",
+      "sha256": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61"
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "blob": "4ff2c7c17130e6c2206ac44eeebcf7156e234069",
+      "sha256": "207f05964330722a66a98212fa8801b6baf9d2c55ba7cd608ae73d80d69fd5e2"
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+      "blob": "52977f4b1f39637dc16c1620390a16c47dc48edb",
+      "sha256": "86bac48e888365eab2187756dfd8ffbce059d6cc2ce35b1d8ab7b39d788118ac"
+    },
+    {
+      "commit": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+      "path": "library/core/src/ub_checks.rs",
+      "blob": "2e05943aafc82942b2178e16610cb50f304e2e2d",
+      "sha256": "ba00cbb0481643a42823f21ab3dac50e5b074094bbbd716d8fb2bf7a4fe0d502"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/mod.rs",
+      "blob": "580f670930c46cbae77401804282057ef68b70f9",
+      "sha256": "7ec87e829711d05928c3026249e6c79bd20e5c7e9499fe401b53a3647cd76979"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/initialize.rs",
+      "blob": "12c1338a9e7564d99d026a885cf43b695baafa28",
+      "sha256": "dad2dcfdd2aa348a33f0162a81459ae4539946bc027ccac7d2593bf09bd2e95b"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/shared.rs",
+      "blob": "7171806b571de45d5cdf17218b01494a1141c93c",
+      "sha256": "a8df9244d86742adaf1bdfd991d1b6882962a6797b764d6824306f02024360e7"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+      "blob": "365627d101b5c66d853628dca59a2fef842cbff2",
+      "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/replace.rs",
+      "blob": "c44de8f9984c27a83ccd9d8db8662c751713362d",
+      "sha256": "6bd51d3234c0778c5e0a465d1009d4efdee21dc2565e626b6d309f25c6791f05"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/assert.rs",
+      "blob": "c795a2981f0e797ede2ac17b088c7ebbd974fda9",
+      "sha256": "ec6480d46c29038b58cdac5d96ef962bd004e2d4fd16be6b9b64ee143f9cd5b4"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/bootstrap.rs",
+      "blob": "400b24cb73541f9b7311ac11e024cfca2cfe2fac",
+      "sha256": "d9e0988bfe8eef7f90b9378300ec4b77d425677ee60dc845f841939d073e9507"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_macros/src/sysroot/contracts/helpers.rs",
+      "blob": "1298e09f258f9d3f02653291851eba00f0d67216",
+      "sha256": "710d7ef9ca4ca6e2fc277a56d3f1f1b1008ae7162eaf7d8f3fc0c1826810fd30"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_core/src/lib.rs",
+      "blob": "41ebc98272aec6e64656f0a4075c648133adef6b",
+      "sha256": "fd4936db12f998df2419b9e6240f9171643f8287654840596ea2db40cfd76bc0"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_core/src/mem.rs",
+      "blob": "42875177f699d98360a67bb1e050efdbb8296df7",
+      "sha256": "598428730a32f2c4034091688b50dde5a44deb69e2e3c61e08a0d394a5e42844"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-compiler/src/kani_middle/mod.rs",
+      "blob": "6093b083178e7b16e0f505d71c9438fdb924d334",
+      "sha256": "6e73911b203b9d8237a0725ca67f1c46342d106b572ad485a2ceb06b61739a41"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-compiler/src/kani_middle/attributes.rs",
+      "blob": "ec2d5f8d691876b0f0f22a05cd9b6e3a27dc3ba1",
+      "sha256": "0b7cfe3b74e1958770b94a763fc89bc5b8156a1d120a69e8bdac67ada630078e"
+    },
+    {
+      "commit": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+      "path": "ch8-s1-control/runner.py",
+      "blob": "9c47b3228ffc1984cb2895e345fd47d5d4c9e029",
+      "sha256": "fd298f6157a4157115a504d630d51a5a3c234d2cb8cf7d9521b22182b02effd9"
+    },
+    {
+      "commit": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+      "path": ".github/workflows/ch8-s2.yml",
+      "blob": "279dceb3b64e8ecceaa8ef7d6d43cf9d33149655",
+      "sha256": "7dca25a36813d294548ce26c27dfe38b9b06d3f4091785eaad4f00be2a437455"
+    }
+  ],
+  "exact_excerpts_verified": 63,
+  "roots_verified": 11,
+  "request_sha256": "779126ddc8aa3e5cabd9b9968f0e1cd853c4e1b60a95a21ff4eb42d5a0c7ca74",
+  "provider_references_verified": 13,
+  "request_control_bytes_equal": true,
+  "delta": {
+    "files": 1,
+    "added_lines": 13,
+    "removed_lines": 0,
+    "old_prefix_identical": true
+  },
+  "limits": "Identity/coordinate checks support the accompanying manual static review; no AST, macro expansion, Rust type/borrow check, runtime input binding, or compilation result"
+}
