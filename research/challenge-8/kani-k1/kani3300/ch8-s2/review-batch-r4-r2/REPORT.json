@@ -1,0 +1,199 @@
+{
+  "schema": "ch8-s2-r4-r2-final-combined-delta-review-v1",
+  "task_id": "task16a4f1d3e9ca438396d9226ea3d13ffaa88150fe",
+  "issued": "owner18:19 combined review; explicit /new overrides task reuse-context",
+  "verdict": "APPROVE",
+  "package_commit": "3cdec7455c52d93903a31e005c7e42204fa502e1",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+    "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+    "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "derivation_source": "bd62e54df1b4749154790aa3db3cc7978f547f75"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s2-r4-r2-final-w13",
+    "sha": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+    "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "derivation_control": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+    "request_sha256": "d7f4561810178e9eb553d83a04de343f2512aff18bbca0dbd4864472712d4d73",
+    "workflow_sha256": "b70c7dff34fe5ae12985dc0ba44f2791cca3bb288e774416f1eb405ab90b090b"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "request_sha256": "d7f4561810178e9eb553d83a04de343f2512aff18bbca0dbd4864472712d4d73",
+  "workflow_sha256": "b70c7dff34fe5ae12985dc0ba44f2791cca3bb288e774416f1eb405ab90b090b",
+  "scope": "Final six-path combined delta relative to frozen0e8 only; inherit unchanged f5/e783/ccb6 facts; no compiler or broad source audit",
+  "changed_paths": [
+    ".github/workflows/ch8-s2.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/lexical_bindings.py",
+    "ch8-s1-control/test_r1403_lexical.py",
+    "ch8-s1-control/test_s2.py"
+  ],
+  "dependencies": {
+    "review-batch-r4": "f5dd71722f82ac59e37152927a5f4dd9eee6ea1a",
+    "review-batch-r4-r1": "e7837b0f70e235399e53f8da1b48a4a84b33f693",
+    "r14-03-gate-backlog-review": "ccb6a60731866bcc8fc6dd6e6cbdf4c2a9fd4653",
+    "batch-r4-r1": "474e0b4209554bdd69c4303410192d2d472af4a2",
+    "r14-03-gate-backlog": "4eccefc670602b58f25f9c55a27da2d844cdcf18"
+  },
+  "original_findings": [
+    {
+      "id": "R14-01",
+      "status": "CLOSED_INHERITED",
+      "basis": "Unchanged exact bd62 source and f5/e783 review dependencies; no native compilation claim"
+    },
+    {
+      "id": "R14-02",
+      "status": "CLOSED_INHERITED",
+      "basis": "Unchanged ordinary/CFG/contract gates, source and all request policy fields"
+    },
+    {
+      "id": "R14-03",
+      "status": "CLOSED",
+      "basis": "ccb6 exact gate-only APPROVE/CLOSED; approved lexical extractor and new regression module bytes inherited exactly; actual explicit final Validate command includes the module"
+    }
+  ],
+  "new_findings": [],
+  "assessment": [
+    "Workflow is structurally identical to frozen0e8 except Validate timeout1->10min and appended reviewed test module; no other cap or action changed",
+    "check_package AST outside check_yaml is identical, including build/control/fallback/types. New exact cap/order/list assertions strengthen integration checks; sum177->186 is a maxima accounting change only",
+    "Request delta is exactly entry_g0/control_reference/ci_changed_paths/ci_payload_sha256. Full-stock, parent and frozen-delta inventories match all paths and endpoint blobs/hashes, including deleted stock paths; payload hashes cover every present changed file except self-request",
+    "Source delta is empty; source fixtures/maps and all protected runner/collector/packer/diagnostic/decoder/oracle bytes match inherited candidate; no algorithm/model/domain/contracts/oracles delta",
+    "Every timeout-audit step matches the final workflow command/action/inputs/cap. Keep source60s on recorded host13.638509s; other setup caps stay unchanged with duration UNKNOWN. No evidence warrants speculative increases",
+    "Aggregate clock begins inside Begin setup budget after job initialization; subsequent actual setup reduces min(900,int(1800-elapsed)) build allowance. Expired remainder rejects before execute; end>1800 rejects with receipt. Setup maxima3120s and all-step maxima186min grant no additional elapsed budget",
+    "Pinned final Validate records107 tests PASS380.011575s; check-source PASS13.638509s. Exact commands, monotonic arithmetic, source/control/tool/request/workflow identities and transcript hashes match; module loader inventories107 tests, including9 gate tests. These are recorded host measurements, not reviewer remeasurements",
+    "Earlier timeout-only precursor remains separate with no final acceptance credit. OldCI remains coordinator-supplied PREBUILD_VALIDATION_TIMEOUT, partial tests not suitePASS; historical packets/GO/ledger remain unchanged"
+  ],
+  "validation": {
+    "input_package": "65_FILES_64_HASHES_COMMITTED_MATCH",
+    "dependency_manifests": "ALL_COMMITTED_BYTES_MATCH",
+    "full_inventories": {
+      "source_delta": 0,
+      "source_parent": 2,
+      "source_candidate": 6,
+      "control_delta": 6,
+      "control_parent": 23,
+      "control_candidate": 59
+    },
+    "patch_replays": "6_EXACT_TREE_MATCH",
+    "checkout_depths": {
+      "control": 7,
+      "source": 5,
+      "tool": 2
+    },
+    "workflow_mutations_rejected": [
+      "drop-module",
+      "drop-preflight",
+      "reverse-commands",
+      "extra-command",
+      "redistribute-cap",
+      "swap-source-validate"
+    ],
+    "reviewer_targeted_tests": {
+      "control": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+      "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+      "cwd": "/root/kani-ch8-s2-r4-r2-final-w13/ch8-s1-control",
+      "argv": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "-v",
+        "test_s2.S2Tests.test_workflow_caps_types_and_single_serial_job",
+        "test_s2.S2Tests.test_timeout_caps_and_order_reject_redistribution",
+        "test_s2.S2Tests.test_setup_aggregate_remaining_boundary_without_compiler"
+      ],
+      "exit_code": 0,
+      "count": 3,
+      "transcript_sha256": "243a56d29234b7815cb0935d504198e0fac3394799325dcdc99334026d96b2a8",
+      "scope": "Changed workflow/cap/order and mocked aggregate-boundary tests only; build execute mocked; no compiler or full suite; no new final-command/check-source timing"
+    },
+    "inherited_final_tests": {
+      "count": 107,
+      "exit_code": 0,
+      "elapsed_seconds": 380.011575071,
+      "scope": "RECORDED_EXACT_FINAL_COMMITTED_OBJECT; NOT_RERUN"
+    },
+    "inherited_check_source": {
+      "exit_code": 0,
+      "elapsed_seconds": 13.63850858,
+      "scope": "RECORDED_EXACT_FINAL_COMMITTED_OBJECT; NOT_RERUN"
+    },
+    "evidence": [
+      "INPUTS.json",
+      "CHECKS.json",
+      "TARGETED-TESTS.json",
+      "TARGETED-TESTS.txt",
+      "review_checks.py"
+    ]
+  },
+  "invariants": {
+    "aggregate_setup_seconds": 1800,
+    "job_minutes": 180,
+    "backend_seconds": 600,
+    "compile_seconds": 900,
+    "root_sum_seconds": 6600,
+    "group_seconds": 7500,
+    "internal_seconds": 8100,
+    "proof_step_seconds": 7560,
+    "rss_GiB": 12,
+    "headroom_GiB": 2,
+    "serial": 1,
+    "roots": 11,
+    "covers": 20,
+    "exact_negatives": 6,
+    "DIAGNOSTIC_ASSUMED": "PRESERVED",
+    "copy_identity_limits": "PRESERVED",
+    "B01_B02": "PRESERVED"
+  },
+  "historical_CI": {
+    "run": "44328364855/1",
+    "assurance": "OWNER_COORDINATOR_SUPPLIED_NOT_REAUDITED",
+    "classification": "PREBUILD_VALIDATION_TIMEOUT",
+    "step4": "Native FAILURE72s; partial tests not suitePASS",
+    "later_stages": "SKIPPED",
+    "roots": 0,
+    "charge": 0,
+    "accounting": "REFERENCE_ONLY_NO_EDITS"
+  },
+  "limits": [
+    "Offline static/synthetic combined integration review only",
+    "Finite lexical extractor scope and method/macro/type/MIR limits inherited from ccb6; no syntax-completeness or compiler-success claim",
+    "Future GitHub timing/timeout outcome and actual CI setup remainder UNKNOWN",
+    "Native compile/causal repair NOT_RUN; actual R3 failing unit UNKNOWN",
+    "No independent B1/B2 proof credit or closed proof obligations",
+    "Approval is not CI GO; spent one-run exception does not transfer"
+  ],
+  "native_compile": "NOT_RUN",
+  "causal_repair": "NOT_RUN",
+  "actual_r3_unit": "UNKNOWN",
+  "proof_credit": "NONE",
+  "closed_proof_obligations": 0,
+  "external_actions": {
+    "compiler": 0,
+    "verifier": 0,
+    "full_runner": 0,
+    "CI": 0,
+    "push": 0,
+    "PR": 0,
+    "issue": 0,
+    "ledger": 0,
+    "reservation": 0,
+    "budget": 0,
+    "source_edits": 0,
+    "subagents": 0
+  },
+  "settings": "CURRENT_PRESERVED; FAST_OFF_PER_OWNER; NO_SETTINGS_TOGGLES",
+  "next": "Separate root GO-request for these exact r4-r2 pins only; coordinator alone authorizes GO/dispatch/accounting",
+  "review_commit": "Containing commit; full SHA in READY; self-reference excluded"
+}

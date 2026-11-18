@@ -1,0 +1,391 @@
+{
+  "status": "PASS",
+  "scope": "FINAL_COMBINED_SIX_PATH_DELTA_ONLY",
+  "checks": {
+    "identities": {
+      "control": {
+        "sha": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+        "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+        "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "dirty": ""
+      },
+      "source": {
+        "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+        "dirty": ""
+      },
+      "tool": {
+        "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+        "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+        "dirty": ""
+      }
+    },
+    "six_path_delta": [
+      ".github/workflows/ch8-s2.yml",
+      "ch8-s1-control/CI-REQUEST.json",
+      "ch8-s1-control/check_package.py",
+      "ch8-s1-control/lexical_bindings.py",
+      "ch8-s1-control/test_r1403_lexical.py",
+      "ch8-s1-control/test_s2.py"
+    ],
+    "inventories": {
+      "source_delta": 0,
+      "source_parent": 2,
+      "source_candidate": 6,
+      "control_delta": 6,
+      "control_parent": 23,
+      "control_candidate": 59
+    },
+    "request_rebinding": {
+      "changed_fields": [
+        "ci_changed_paths",
+        "ci_payload_sha256",
+        "control_reference",
+        "entry_g0"
+      ],
+      "payload_files": 42,
+      "rows_covers_negatives": [
+        11,
+        20,
+        6
+      ],
+      "all_other_request_fields": "IDENTICAL"
+    },
+    "gate_dependency": {
+      "review_commit": "ccb6a60731866bcc8fc6dd6e6cbdf4c2a9fd4653",
+      "verdict": "APPROVE",
+      "R14-03": "CLOSED",
+      "package": "4eccefc670602b58f25f9c55a27da2d844cdcf18",
+      "approved_control": {
+        "worktree": "/root/kani-ch8-s2-r14-03-gate-backlog-w13",
+        "sha": "0e97a487d8b7f8e8cbced5dbe2b6909c7150c695",
+        "tree": "b980862474e3630c459ee147def4fa45f3ea42fd",
+        "parent": "0e8c836857344866564e1423ad5d8d28bbc4106b"
+      },
+      "patch_sha256": "1dfaf5a1fa2d748e81bea4093018eb65972d7cfc807e47c0d1f7ad39565f8cba",
+      "exact_inherited_files": {
+        "ch8-s1-control/lexical_bindings.py": "31abcb93bdb52bb1205e59ce6f4c8fe2206c2c63c9b2f82142492c8752f3e484",
+        "ch8-s1-control/test_r1403_lexical.py": "5518422d03b2db340a09f7dbc9d074651ca607ef028e592e8dd7c4ac938b9c61"
+      },
+      "integration_delta": [
+        "workflow actual explicit validation list appends test_r1403_lexical.py",
+        "check_yaml enforces exact final two-command validation list",
+        "ci_changed_paths and ci_payload_sha256 rebound for exact integrated candidate"
+      ],
+      "source": "UNCHANGED",
+      "gate_review_does_not_approve_integration": true,
+      "final_delta_review": "PENDING",
+      "GO": "PENDING"
+    },
+    "check_package_outside_check_yaml": "AST_IDENTICAL_INCLUDING_BUILD_CONTROL_FALLBACK_TYPES",
+    "workflow": {
+      "only_changes": "VALIDATE_1_TO_10_AND_APPEND_REVIEWED_MODULE",
+      "rejected_mutations": [
+        "drop-module",
+        "drop-preflight",
+        "reverse-commands",
+        "extra-command",
+        "redistribute-cap",
+        "swap-source-validate"
+      ],
+      "caps_minutes": [
+        1,
+        2,
+        10,
+        1,
+        5,
+        2,
+        1,
+        15,
+        15,
+        126,
+        2,
+        6
+      ],
+      "job_minutes": 180
+    },
+    "timeout_audit": {
+      "steps": 12,
+      "exact_commands_caps_actions": "MATCH",
+      "aggregate_seconds": 1800,
+      "maxima_not_elapsed": true,
+      "actual_CI_remaining": "UNKNOWN"
+    },
+    "timing_provenance": {
+      "status": "CONSISTENT_PINNED_HOST_RECORDS",
+      "final_tests": 107,
+      "gate_module_tests": 9,
+      "suite_rerun": false,
+      "source_timing_rerun": false,
+      "execution_counts": "RECORDED_ONE_EACH; NOT_REMEASURED",
+      "receipts": {
+        "ACTUAL-FINAL-VALIDATE": {
+          "status": "PASS",
+          "command": "python3 check_package.py control --repo ..\npython3 -m unittest -v test_runner.py test_s107.FinalizationTests test_s2.py test_cfg_pfc.py test_rustc_diagnostics.py test_contract_stacks.py test_r1403_lexical.py\n",
+          "shell": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-c"
+          ],
+          "cwd": "/root/kani-ch8-s2-r4-r2-final-w13/ch8-s1-control",
+          "provenance": {
+            "source": {
+              "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+              "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+              "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+              "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+            },
+            "control": {
+              "worktree": "/root/kani-ch8-s2-r4-r2-final-w13",
+              "sha": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+              "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+              "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+            },
+            "tool": {
+              "worktree": "/root/kani-upstream-ch8-s1",
+              "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+              "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+              "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+            },
+            "request_sha256": "d7f4561810178e9eb553d83a04de343f2512aff18bbca0dbd4864472712d4d73",
+            "workflow_sha256": "b70c7dff34fe5ae12985dc0ba44f2791cca3bb288e774416f1eb405ab90b090b"
+          },
+          "started_utc": "2026-11-18T15:11:26.702308+00:00",
+          "monotonic_start_ns": 2509022035040653,
+          "environment": {
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "GITHUB_REPOSITORY": "Tiramisu-Cake/kani",
+            "GITHUB_EVENT_NAME": "push",
+            "GITHUB_REF": "refs/heads/uninit-ci/ch8-s2-batch3probes-r4-r2-w13",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_SHA": "d33a0900da19d865f20ccaa76e1ee27065c5a671"
+          },
+          "host": "Linux-6.8.0-136-generic-x86_64-with-glibc2.39",
+          "machine_duration_scope": "THIS_MACHINE_ONLY; GitHub future duration UNKNOWN",
+          "proof_credit": "NONE",
+          "exit_code": 0,
+          "ended_utc": "2026-11-18T15:17:46.915592+00:00",
+          "monotonic_end_ns": 2509402046615724,
+          "elapsed_seconds": 380.011575071,
+          "transcript_sha256": "6833f035516bc450cf4dd814b907a74727f832a9930b1cc7604b410c1cf98005"
+        },
+        "ACTUAL-CHECK-SOURCE": {
+          "status": "PASS",
+          "command": "python3 control/ch8-s1-control/runner.py check-source --std export --tool tool",
+          "shell": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-c"
+          ],
+          "cwd": "/tmp/r4-r2-check-source-layout-3jl_kvf9",
+          "provenance": {
+            "source": {
+              "worktree": "/root/verify-rust-std-ch8-s2-r4-r1-w13",
+              "sha": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+              "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+              "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+            },
+            "control": {
+              "worktree": "/root/kani-ch8-s2-r4-r2-final-w13",
+              "sha": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+              "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+              "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+            },
+            "tool": {
+              "worktree": "/root/kani-upstream-ch8-s1",
+              "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+              "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+              "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+            },
+            "request_sha256": "d7f4561810178e9eb553d83a04de343f2512aff18bbca0dbd4864472712d4d73",
+            "workflow_sha256": "b70c7dff34fe5ae12985dc0ba44f2791cca3bb288e774416f1eb405ab90b090b"
+          },
+          "started_utc": "2026-11-18T15:11:12.556400+00:00",
+          "monotonic_start_ns": 2509007889109773,
+          "environment": {
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "GITHUB_REPOSITORY": "Tiramisu-Cake/kani",
+            "GITHUB_EVENT_NAME": "push",
+            "GITHUB_REF": "refs/heads/uninit-ci/ch8-s2-batch3probes-r4-r2-w13",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_SHA": "d33a0900da19d865f20ccaa76e1ee27065c5a671"
+          },
+          "host": "Linux-6.8.0-136-generic-x86_64-with-glibc2.39",
+          "machine_duration_scope": "THIS_MACHINE_ONLY; GitHub future duration UNKNOWN",
+          "proof_credit": "NONE",
+          "exit_code": 0,
+          "ended_utc": "2026-11-18T15:11:26.428819+00:00",
+          "monotonic_end_ns": 2509021527618353,
+          "elapsed_seconds": 13.63850858,
+          "transcript_sha256": "b0cde3f3de798f900d76bc48dde308197e9e04a24e5ad362d109c5024761f095"
+        }
+      },
+      "future_CI_duration": "UNKNOWN"
+    },
+    "patch_replays": [
+      {
+        "patch": "SOURCE-DELTA.patch",
+        "base": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "status": "EXACT_TREE_MATCH",
+        "empty_patch": true
+      },
+      {
+        "patch": "SOURCE-PARENT.patch",
+        "base": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+        "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "status": "EXACT_TREE_MATCH",
+        "empty_patch": false
+      },
+      {
+        "patch": "SOURCE-CANDIDATE.patch",
+        "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+        "tree": "dc2e7a7f258719a05c65bbb9b1e2c7f1e8271ac8",
+        "status": "EXACT_TREE_MATCH",
+        "empty_patch": false
+      },
+      {
+        "patch": "CONTROL-DELTA.patch",
+        "base": "0e8c836857344866564e1423ad5d8d28bbc4106b",
+        "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+        "status": "EXACT_TREE_MATCH",
+        "empty_patch": false
+      },
+      {
+        "patch": "CONTROL-PARENT.patch",
+        "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+        "status": "EXACT_TREE_MATCH",
+        "empty_patch": false
+      },
+      {
+        "patch": "CONTROL-CANDIDATE.patch",
+        "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tree": "fe7c05829a6374da2cb11a3b3c993aaf9082a7c7",
+        "status": "EXACT_TREE_MATCH",
+        "empty_patch": false
+      }
+    ],
+    "shallow": [
+      {
+        "head": "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+        "depth": 7,
+        "endpoint": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "retained_chain": [
+          "d33a0900da19d865f20ccaa76e1ee27065c5a671",
+          "9e14e033f9ee31522b571c127609dcdff76d230b",
+          "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+          "9208b373c0a08a265fa0d7493a6529e331065271",
+          "b25dd39a46ba90b167500997d546a5f2f5bd8f3b",
+          "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+          "0aac16ef62da9e9d5645782d458593e5d78143ba"
+        ],
+        "endpoint_diff_paths": [
+          ".github/workflows/bench-compiler.yml",
+          ".github/workflows/bench-e2e.yml",
+          ".github/workflows/bench-pr.yml",
+          ".github/workflows/cargo-update.yml",
+          ".github/workflows/cbmc-latest.yml",
+          ".github/workflows/cbmc-update.yml",
+          ".github/workflows/ch8-s2.yml",
+          ".github/workflows/charon-update.yml",
+          ".github/workflows/deny.yml",
+          ".github/workflows/extra_jobs.yml",
+          ".github/workflows/format-check.yml",
+          ".github/workflows/kani.yml",
+          ".github/workflows/release.yml",
+          ".github/workflows/slow-tests.yml",
+          ".github/workflows/toolchain-upgrade.yml",
+          ".github/workflows/verify-std-check.yml",
+          ".github/workflows/z3-update.yml",
+          "ch8-s1-control/CI-REQUEST.json",
+          "ch8-s1-control/ORACLE-SOURCES.json",
+          "ch8-s1-control/ROLE-MAP.json",
+          "ch8-s1-control/S2-SOURCE.json",
+          "ch8-s1-control/activation-default.patch",
+          "ch8-s1-control/activation-override.patch",
+          "ch8-s1-control/binding_metadata.py",
+          "ch8-s1-control/cfg_pfc.py",
+          "ch8-s1-control/check_package.py",
+          "ch8-s1-control/collect.py",
+          "ch8-s1-control/contract_stacks.py",
+          "ch8-s1-control/fixtures/s104-rich-fragment.json",
+          "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
+          "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+          "ch8-s1-control/fixtures/s2-old97ac-batch.rs.txt",
+          "ch8-s1-control/fixtures/s2-r1-batch.rs.txt",
+          "ch8-s1-control/fixtures/s2-r2-smallsort.rs.txt",
+          "ch8-s1-control/fixtures/s2-r3-batch.rs.txt",
+          "ch8-s1-control/fixtures/s2-r4-batch.rs.txt",
+          "ch8-s1-control/lexical_bindings.py",
+          "ch8-s1-control/negative_oracle.py",
+          "ch8-s1-control/oracle_source.py",
+          "ch8-s1-control/ordinary_contracts.py",
+          "ch8-s1-control/pack_evidence.py",
+          "ch8-s1-control/rich_evidence.py",
+          "ch8-s1-control/runner.py",
+          "ch8-s1-control/rustc_diagnostics.py",
+          "ch8-s1-control/s108_package.py",
+          "ch8-s1-control/s2_correspondence.py",
+          "ch8-s1-control/s2_policy.py",
+          "ch8-s1-control/test_cfg_pfc.py",
+          "ch8-s1-control/test_contract_stacks.py",
+          "ch8-s1-control/test_package.py",
+          "ch8-s1-control/test_r1403_lexical.py",
+          "ch8-s1-control/test_runner.py",
+          "ch8-s1-control/test_rustc_diagnostics.py",
+          "ch8-s1-control/test_s104.py",
+          "ch8-s1-control/test_s105.py",
+          "ch8-s1-control/test_s107.py",
+          "ch8-s1-control/test_s108.py",
+          "ch8-s1-control/test_s108r1.py",
+          "ch8-s1-control/test_s2.py"
+        ],
+        "status": "PASS_REAL_SHALLOW_METADATA_SHARED_OBJECTS"
+      },
+      {
+        "head": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+        "depth": 5,
+        "endpoint": "99e8456d200fff1299ee5756279cddb23921dc65",
+        "retained_chain": [
+          "bd62e54df1b4749154790aa3db3cc7978f547f75",
+          "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+          "55dc6ca6cd055bb5bb6b8570d86cf55cc62fcc19",
+          "4092c170cb7615d9a1bee3178ac877126d6e8058",
+          "99e8456d200fff1299ee5756279cddb23921dc65"
+        ],
+        "endpoint_diff_paths": [
+          "library/core/Cargo.toml",
+          "library/core/src/slice/sort/shared/smallsort.rs",
+          "library/core/src/slice/sort/shared/smallsort/verify.rs",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+          "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs"
+        ],
+        "status": "PASS_REAL_SHALLOW_METADATA_SHARED_OBJECTS"
+      },
+      {
+        "head": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "depth": 2,
+        "endpoint": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "retained_chain": [
+          "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+        ],
+        "endpoint_diff_paths": [],
+        "status": "PASS_REAL_SHALLOW_METADATA_SHARED_OBJECTS"
+      }
+    ]
+  },
+  "static_helper_reuse": "Pinned validate_package.py replay/shallow only; main not executed; no input writes"
+}
