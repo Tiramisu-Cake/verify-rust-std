@@ -1,0 +1,278 @@
+{
+  "native_job_steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1,
+      "started_at": "2026-11-18T21:52:31Z",
+      "completed_at": "2026-11-18T21:52:32Z"
+    },
+    {
+      "name": "Begin setup budget",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2,
+      "started_at": "2026-11-18T21:52:32Z",
+      "completed_at": "2026-11-18T21:52:32Z"
+    },
+    {
+      "name": "Checkout CI control",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3,
+      "started_at": "2026-11-18T21:52:32Z",
+      "completed_at": "2026-11-18T21:52:34Z"
+    },
+    {
+      "name": "Validate control and synthetic wrapper",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4,
+      "started_at": "2026-11-18T21:52:34Z",
+      "completed_at": "2026-11-18T21:55:03Z"
+    },
+    {
+      "name": "Read immutable export pins",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 5,
+      "started_at": "2026-11-18T21:55:03Z",
+      "completed_at": "2026-11-18T21:55:03Z"
+    },
+    {
+      "name": "Checkout production model export",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 6,
+      "started_at": "2026-11-18T21:55:03Z",
+      "completed_at": "2026-11-18T21:55:07Z"
+    },
+    {
+      "name": "Checkout immutable upstream tool",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 7,
+      "started_at": "2026-11-18T21:55:07Z",
+      "completed_at": "2026-11-18T21:55:08Z"
+    },
+    {
+      "name": "Check all source identities",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 8,
+      "started_at": "2026-11-18T21:55:08Z",
+      "completed_at": "2026-11-18T21:55:13Z"
+    },
+    {
+      "name": "Setup exact stock tool",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 9,
+      "started_at": "2026-11-18T21:55:13Z",
+      "completed_at": "2026-11-18T21:56:32Z"
+    },
+    {
+      "name": "Build exact stock tool once",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 10,
+      "started_at": "2026-11-18T21:56:32Z",
+      "completed_at": "2026-11-18T22:01:43Z"
+    },
+    {
+      "name": "Run S3 actual leaves with bounded observations",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 11,
+      "started_at": "2026-11-18T22:01:43Z",
+      "completed_at": "2026-11-18T22:02:24Z"
+    },
+    {
+      "name": "Materialize bounded fallback",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 12,
+      "started_at": "2026-11-18T22:02:24Z",
+      "completed_at": "2026-11-18T22:02:24Z"
+    },
+    {
+      "name": "Upload bounded evidence",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 13,
+      "started_at": "2026-11-18T22:02:24Z",
+      "completed_at": "2026-11-18T22:02:26Z"
+    },
+    {
+      "name": "Post Checkout immutable upstream tool",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 24,
+      "started_at": "2026-11-18T22:02:26Z",
+      "completed_at": "2026-11-18T22:02:26Z"
+    },
+    {
+      "name": "Post Checkout production model export",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 25,
+      "started_at": "2026-11-18T22:02:26Z",
+      "completed_at": "2026-11-18T22:02:26Z"
+    },
+    {
+      "name": "Post Checkout CI control",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 26,
+      "started_at": "2026-11-18T22:02:26Z",
+      "completed_at": "2026-11-18T22:02:26Z"
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 27,
+      "started_at": "2026-11-18T22:02:26Z",
+      "completed_at": "2026-11-18T22:02:26Z"
+    }
+  ],
+  "setup_build": {
+    "elapsed_seconds": 310.365,
+    "setup_total_seconds": 550.7530262470245,
+    "original_exit_code": 0,
+    "signal": null,
+    "timed_out": false,
+    "rss_peak_kib": 1452632,
+    "rss_status": "SAMPLED_PROCESS_GROUP",
+    "rss_sample_period_seconds": 0.05,
+    "child_shutdown_verified": true
+  },
+  "campaign_phase_elapsed_seconds": 41.2439071,
+  "first_root": {
+    "id": "checker_order_corrupt",
+    "compile": {
+      "state": "COMPLETE",
+      "boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+      "scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+      "elapsed_upper_bound_seconds": 40.32,
+      "observed_run_state": "INCOMPLETE",
+      "limit_seconds": 180,
+      "marker_sha256": "f5a20b72647920e32b3cb0ace0b7526408ce1bd603d0ce0f3879e389753f999b"
+    },
+    "driver_execution": {
+      "elapsed_seconds": 40.437,
+      "original_exit_code": 1,
+      "signal": null,
+      "timed_out": false,
+      "child_shutdown_verified": true,
+      "rss_peak_kib": 1927052,
+      "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+      "rss_sample_period_seconds": 0.05,
+      "component_group_peak_kib": {
+        "backend": 13828,
+        "compiler": 1885344,
+        "driver": 6984,
+        "other": 149888
+      },
+      "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous"
+    },
+    "worker_supervision": {
+      "elapsed_seconds": 40.77790262199994,
+      "monotonic_start": 572.064468282,
+      "monotonic_end": 612.842370681,
+      "worker_exit": 0,
+      "cutoff": null,
+      "outer_sampled_peak_kib": 1950184,
+      "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+      "worker_wall_limit_seconds": 710,
+      "limit_initiated": false,
+      "supervisor_error": null,
+      "orphan_survivors_at_worker_exit": []
+    },
+    "cleanup": {
+      "verified": true,
+      "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+      "elapsed_seconds": 0.011897822000037195,
+      "signals": [],
+      "reaped_adopted": [],
+      "worker_exit": 0
+    },
+    "native_verification_time_s": 0.045636733,
+    "native_export_wall_time_s": 0.129903507,
+    "symex_time_s": "UNKNOWN_NOT_EXPORTED",
+    "backend_phase_time_s": "UNKNOWN_NOT_EXPORTED",
+    "symex_steps": "UNKNOWN_NOT_EXPORTED",
+    "VCC": "UNKNOWN_NOT_EXPORTED",
+    "true_peak_rss": "UNKNOWN_NOT_MEASURED"
+  },
+  "other_selected": [
+    {
+      "id": "checker_count_corrupt",
+      "status": "NOT_RUN",
+      "compile_time": "NOT_RUN",
+      "verification_time": "NOT_RUN"
+    },
+    {
+      "id": "s3_swap_u8_geometry",
+      "status": "NOT_RUN",
+      "compile_time": "NOT_RUN",
+      "verification_time": "NOT_RUN"
+    },
+    {
+      "id": "s3_sort4_u8_separate",
+      "status": "NOT_RUN",
+      "compile_time": "NOT_RUN",
+      "verification_time": "NOT_RUN"
+    },
+    {
+      "id": "s3_sort4_u8_same_alloc",
+      "status": "NOT_RUN",
+      "compile_time": "NOT_RUN",
+      "verification_time": "NOT_RUN"
+    },
+    {
+      "id": "s3_insert_tail_u8_rel16",
+      "status": "NOT_RUN",
+      "compile_time": "NOT_RUN",
+      "verification_time": "NOT_RUN"
+    },
+    {
+      "id": "s3_merge8_u8_separate",
+      "status": "NOT_RUN",
+      "compile_time": "NOT_RUN",
+      "verification_time": "NOT_RUN"
+    },
+    {
+      "id": "s3_merge8_u8_same_alloc",
+      "status": "NOT_RUN",
+      "compile_time": "NOT_RUN",
+      "verification_time": "NOT_RUN"
+    },
+    {
+      "id": "sort13_weak",
+      "status": "NOT_RUN",
+      "compile_time": "NOT_RUN",
+      "verification_time": "NOT_RUN"
+    }
+  ],
+  "limits": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "interpretation": "phase elapsed includes controller and worker. Compile marker is an upper bound, not precise compiler time; verification excludes compilation. RSS is sampled PGID/owned-process scope, not true kernel/tree peak. No matched historical timing pair established."
+}

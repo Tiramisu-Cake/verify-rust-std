@@ -1,0 +1,359 @@
+{
+  "schema": "s3-before-comparison-v1",
+  "control": "fc29b93b1e333b73e55e2872701c80d9927f3b02",
+  "cause": "PATH_STRING_REPRESENTATION_MISMATCH_WITH_EQUAL_RECORDED_HASHES",
+  "failing_expression": "fingerprints_match(baseline['binaries'],doc['tool_fingerprints_before']) -> before['binaries'] == after['binaries']",
+  "failing_key": "binaries.{kani_driver,kani_compiler}.path",
+  "order_note": "dict equality returns false; guard does not report a first binary. Both mismatched entries are enumerated here.",
+  "comparisons": [
+    {
+      "binary": "kani_driver",
+      "expected": {
+        "path": "tool/target/kani/bin/kani-driver",
+        "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "actual": {
+        "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+        "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      },
+      "sha256_equal": true,
+      "path_equal": false,
+      "entry_equal": false,
+      "differing_fields": [
+        {
+          "field": "path",
+          "expected_present": true,
+          "actual_present": true,
+          "expected": "tool/target/kani/bin/kani-driver",
+          "actual": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver"
+        }
+      ],
+      "unknown_not_recorded": [
+        "size",
+        "resolved_realpath",
+        "symlink",
+        "mtime",
+        "inode",
+        "existence_stat",
+        "device"
+      ]
+    },
+    {
+      "binary": "kani_compiler",
+      "expected": {
+        "path": "tool/target/kani/bin/kani-compiler",
+        "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+      },
+      "actual": {
+        "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+        "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+      },
+      "sha256_equal": true,
+      "path_equal": false,
+      "entry_equal": false,
+      "differing_fields": [
+        {
+          "field": "path",
+          "expected_present": true,
+          "actual_present": true,
+          "expected": "tool/target/kani/bin/kani-compiler",
+          "actual": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler"
+        }
+      ],
+      "unknown_not_recorded": [
+        "size",
+        "resolved_realpath",
+        "symlink",
+        "mtime",
+        "inode",
+        "existence_stat",
+        "device"
+      ]
+    },
+    {
+      "binary": "cbmc",
+      "expected": {
+        "path": "/usr/bin/cbmc",
+        "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+      },
+      "actual": {
+        "path": "/usr/bin/cbmc",
+        "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+      },
+      "sha256_equal": true,
+      "path_equal": true,
+      "entry_equal": true,
+      "differing_fields": [],
+      "unknown_not_recorded": [
+        "size",
+        "resolved_realpath",
+        "symlink",
+        "mtime",
+        "inode",
+        "existence_stat",
+        "device"
+      ]
+    }
+  ],
+  "observations": {
+    "E0": {
+      "member": "baseline.json",
+      "member_sha256": "5d0fcfba3aaf82377847541531d729c6209f70284013c7cfda764ae404e40668",
+      "pointer": "/binaries",
+      "value": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "BEFORE_CHILD",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "unknown_not_recorded": [
+        "size",
+        "resolved_realpath",
+        "symlink",
+        "mtime",
+        "inode",
+        "existence_stat",
+        "device"
+      ],
+      "error_field_presence": "MISSING",
+      "reported_versions_presence": "PRESENT_NULL"
+    },
+    "E1.pre": {
+      "member": "workers/checker_order_corrupt-lifecycle.json",
+      "member_sha256": "340ad57ebfe08410c7d2c90761a36b8677e4bc68615bea24fb4cb82e0aaa2bf4",
+      "pointer": "/pre/binaries",
+      "value": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "BEFORE_CHILD",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "unknown_not_recorded": [
+        "size",
+        "resolved_realpath",
+        "symlink",
+        "mtime",
+        "inode",
+        "existence_stat",
+        "device"
+      ],
+      "error_field_presence": "MISSING",
+      "reported_versions_presence": "PRESENT_NULL"
+    },
+    "worker.BEFORE": {
+      "member": "groups/s3-checker_order_corrupt/receipt.json",
+      "member_sha256": "447ef2de15c60d148d653c3cb4c2ca7a17c5307d66cf9e6ee39ed11f695eedaf",
+      "pointer": "/tool_fingerprints_before",
+      "value": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "BEFORE_CHILD",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "unknown_not_recorded": [
+        "size",
+        "resolved_realpath",
+        "symlink",
+        "mtime",
+        "inode",
+        "existence_stat",
+        "device"
+      ],
+      "error_field_presence": "MISSING",
+      "reported_versions_presence": "PRESENT_NULL"
+    },
+    "worker.AFTER": {
+      "member": "groups/s3-checker_order_corrupt/receipt.json",
+      "member_sha256": "447ef2de15c60d148d653c3cb4c2ca7a17c5307d66cf9e6ee39ed11f695eedaf",
+      "pointer": "/tool_fingerprints_after",
+      "value": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "AFTER_CHILD_SHUTDOWN",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "unknown_not_recorded": [
+        "size",
+        "resolved_realpath",
+        "symlink",
+        "mtime",
+        "inode",
+        "existence_stat",
+        "device"
+      ],
+      "error_field_presence": "MISSING",
+      "reported_versions_presence": "PRESENT_NULL"
+    },
+    "E1.post": {
+      "member": "workers/checker_order_corrupt-lifecycle.json",
+      "member_sha256": "340ad57ebfe08410c7d2c90761a36b8677e4bc68615bea24fb4cb82e0aaa2bf4",
+      "pointer": "/post/binaries",
+      "value": {
+        "binaries": {
+          "cbmc": {
+            "path": "/usr/bin/cbmc",
+            "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+          },
+          "kani_compiler": {
+            "path": "tool/target/kani/bin/kani-compiler",
+            "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+          },
+          "kani_driver": {
+            "path": "tool/target/kani/bin/kani-driver",
+            "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+          }
+        },
+        "missing_binaries": [],
+        "phase": "AFTER_CHILD_SHUTDOWN",
+        "reported_versions": null,
+        "required_binaries": [
+          "kani_driver",
+          "kani_compiler",
+          "cbmc"
+        ],
+        "required_hashes_present": true,
+        "snapshot_completed": true,
+        "state": "COMPLETE"
+      },
+      "unknown_not_recorded": [
+        "size",
+        "resolved_realpath",
+        "symlink",
+        "mtime",
+        "inode",
+        "existence_stat",
+        "device"
+      ],
+      "error_field_presence": "MISSING",
+      "reported_versions_presence": "PRESENT_NULL"
+    }
+  },
+  "match_matrix": {
+    "E0": {
+      "E0": true,
+      "E1.pre": true,
+      "worker.BEFORE": false,
+      "worker.AFTER": false,
+      "E1.post": true
+    },
+    "E1.pre": {
+      "E0": true,
+      "E1.pre": true,
+      "worker.BEFORE": false,
+      "worker.AFTER": false,
+      "E1.post": true
+    },
+    "worker.BEFORE": {
+      "E0": false,
+      "E1.pre": false,
+      "worker.BEFORE": true,
+      "worker.AFTER": true,
+      "E1.post": false
+    },
+    "worker.AFTER": {
+      "E0": false,
+      "E1.pre": false,
+      "worker.BEFORE": true,
+      "worker.AFTER": true,
+      "E1.post": false
+    },
+    "E1.post": {
+      "E0": true,
+      "E1.pre": true,
+      "worker.BEFORE": false,
+      "worker.AFTER": false,
+      "E1.post": true
+    }
+  },
+  "unknowns": {
+    "physical_identity": "UNKNOWN: no recorded realpath/readlink/stat/device/inode/size/mtime; equal recorded hashes do not bind a filesystem object.",
+    "setup_build_fingerprints": "NOT_RECORDED: setup receipt has execution metrics, no binary snapshots. E0 is first available post-build fingerprint.",
+    "byte_change": "NO_RECORDED_HASH_CHANGE across all five observations; unobserved intermediate changes UNKNOWN.",
+    "worker_snapshot_epoch": "before/after phase fields recorded; separate worker capture timestamp/epoch MISSING.",
+    "installer_rebuild_symlink_cause": "UNKNOWN_NOT_NEEDED_FOR_REPRODUCED_READER_REJECTION"
+  }
+}
