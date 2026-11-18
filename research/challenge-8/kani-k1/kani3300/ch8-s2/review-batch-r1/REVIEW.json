@@ -1,0 +1,114 @@
+{
+  "schema": "ch8-s2-w14-r1-independent-delta-review-v1",
+  "scope": "S2_CFG_PFC_R1_ONLY",
+  "verdict": "APPROVE",
+  "approval_scope": "Exact committed bounded diagnostic preparation package; actual compilation and proof qualification remain unestablished; separate owner GO/accounting required.",
+  "inputs": {
+    "task_id": "task7b829344c9cdd8c25ec59294bb9015201638a879",
+    "candidate_g0": "0a4cef493f858d0e91d3ebccfbbab0b8d32d0119",
+    "package": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch-r1/",
+    "source_sha": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+    "source_tree": "64d96010b0b4b896322e26d700c253f834ba9fd6",
+    "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "source_base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "control_sha": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+    "control_tree": "b04ce6fd7a2c937bf72fcda7a262eef65a9f45bb",
+    "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "control_reviewed_reference": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "request_sha256": "779126ddc8aa3e5cabd9b9968f0e1cd853c4e1b60a95a21ff4eb42d5a0c7ca74",
+    "workflow_sha256": "7dca25a36813d294548ce26c27dfe38b9b06d3f4091785eaad4f00be2a437455",
+    "cfg_pfc_checker_sha256": "d533349c1046c105b7ecaaf897041e949c19aafe989ed2198b9d5fda9c132a19",
+    "shared_INPUTS_sha256": "980c513826dcb1b38470278910dbb21707826f80d7bb362dbbf6e860f71436ad",
+    "old_immutable": {
+      "g0": "ae8f7b2feb739fd51fe72063d4aa71fe36b90790",
+      "source": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "control": "fc058c97335e4a064c7827b8534b3af2f7460bc3",
+      "review": "0468ccf26c879a03ca83b1d5955be5e860c2b442",
+      "GO_request": "13dc947ad2",
+      "failed_run": "44264952389"
+    }
+  },
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "inherited_finding_disposition": [
+    {
+      "id": "S2-W14-N1",
+      "state": "RESOLVED_IN_R1",
+      "owner": "original13 via coordinator",
+      "evidence": "CI-REQUEST.json budgets metadata6600/1; executable limits unchanged"
+    }
+  ],
+  "criteria": {
+    "committed_package_files_checked": 28,
+    "actual_row_cfg_contexts": 11,
+    "row_stub_verified_uses": 6,
+    "checked_active_provider_slice_uses": 11,
+    "other_existing_uses": "Two helper_contracts_wide plus four profile-control uses, targets/providers/module declarations unchanged by exact source delta; registration sites inspected; no new full-source audit.",
+    "source_delta": {
+      "files": 1,
+      "added_lines": 13,
+      "removed_lines": 0,
+      "all_original_source_bytes": "UNCHANGED",
+      "purpose": "nonexecuted sort8 same-cfg registration"
+    },
+    "target_matching": "Active full paths, explicit aliases, cfg/cfg_attr all/any/not; wrongcfg/missing/foreign target rejected independently with resealed hashes.",
+    "gate_wiring": "workflow check-source -> verify_source -> s2_policy.validate_source -> cfg_pfc.check before setup/build/verifier; local validate_package.py invokes same gate; not skipped or ignored",
+    "primary_probes": 3,
+    "roots": 11,
+    "required_covers": 20,
+    "exact_negatives": 6,
+    "service_synthetic_tests_passed": 58,
+    "independent_cfg_target_fixtures": 14,
+    "independent_workflow_mutations_rejected": 4,
+    "patch_replays_to_exact_trees": 5,
+    "shallow_depths": {
+      "control": 7,
+      "source": 5,
+      "tool": 2
+    },
+    "control_delta_paths": 10,
+    "unchanged_control_payload_files": 21,
+    "request_leaf_deltas_reviewed": 38,
+    "runtime_bodies_contracts_semantics_geometry_domain_flags_solver_checks": "UNCHANGED",
+    "planned_metadata": "6600/1; S2-W14-N1 resolved",
+    "actual_caps": "UNCHANGED",
+    "old_package_review_go_postrun": "IMMUTABLE_UNCHANGED"
+  },
+  "validation": "VALIDATION.json",
+  "review_text": "REVIEW.md",
+  "handoff": "HANDOFF.md",
+  "limitations": [
+    "Static/synthetic delta review only. No compiler/verifier/full runner/workflow/CI execution. Actual r1 compile/proof/witness/covers/negative-control/cost results NOT_RUN.",
+    "Checker is a bounded Rust item/cfg/alias parser with a conservative two-module registration-provider slice, not a Rust type resolver, macro expander or successful compiler-instance binding.",
+    "PFC registration establishes active full-target lookup presence only. Existing helper u64 safety PFCs and the new nonexecuted sort8 registration do not qualify u8 semantic summaries.",
+    "sort13_assumed/general32_assumed remain DIAGNOSTIC_ASSUMED; no positive promotion of weak stubs, witness results or formal proof credit.",
+    "600s bounds stock backend time; full per-root instrumentation wall/RSS and R8 remain UNKNOWN. Independent component RSS maxima cannot be summed as observed aggregate peak.",
+    "Native compiler-instance, resolved-contract and property-origin edges and separate body/model/checker/summary/driver wall phases remain UNKNOWN.",
+    "Old run44264952389 failure is owner-supplied context; independently reproduced here only as static old97 missing-sort8 rejection, without obtaining run evidence.",
+    "APPROVE authorizes no GO/repeat/accounting/charge/refund/reservation/push/publication/CI/ledger action. Owner decides separately at10/14."
+  ],
+  "proof_credit": "NONE",
+  "independently_closed_proof_obligations": 0,
+  "qualification_from_registration": false,
+  "runtime_model_fast": "CURRENT_UNCHANGED",
+  "subagents": 0,
+  "external_actions": {
+    "CI": 0,
+    "push": 0,
+    "cancel": 0,
+    "reservation": 0,
+    "refund": 0,
+    "charge": 0,
+    "ledger_changes": 0,
+    "publication": 0
+  },
+  "accounting_reference": {
+    "ledger_g0": "4076fb01d5de93191f6f012540ee98b2514d36e5",
+    "S2_item2_used": 10,
+    "S2_item2_cap": 14,
+    "future_decision": "OWNER_ONLY",
+    "changed": false
+  }
+}

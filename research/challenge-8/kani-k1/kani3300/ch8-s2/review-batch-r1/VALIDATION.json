@@ -1,0 +1,111 @@
+{
+  "schema": "ch8-s2-w14-r1-validation-v1",
+  "status": "PASS_STATIC_SYNTHETIC_ONLY",
+  "inputs": {
+    "task_id": "task7b829344c9cdd8c25ec59294bb9015201638a879",
+    "candidate_g0": "0a4cef493f858d0e91d3ebccfbbab0b8d32d0119",
+    "package": "research/challenge-8/kani-k1/kani3300/ch8-s2/batch-r1/",
+    "source_sha": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+    "source_tree": "64d96010b0b4b896322e26d700c253f834ba9fd6",
+    "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "source_base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "control_sha": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+    "control_tree": "b04ce6fd7a2c937bf72fcda7a262eef65a9f45bb",
+    "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "control_reviewed_reference": "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "request_sha256": "779126ddc8aa3e5cabd9b9968f0e1cd853c4e1b60a95a21ff4eb42d5a0c7ca74",
+    "workflow_sha256": "7dca25a36813d294548ce26c27dfe38b9b06d3f4091785eaad4f00be2a437455",
+    "cfg_pfc_checker_sha256": "d533349c1046c105b7ecaaf897041e949c19aafe989ed2198b9d5fda9c132a19",
+    "shared_INPUTS_sha256": "980c513826dcb1b38470278910dbb21707826f80d7bb362dbbf6e860f71436ad",
+    "old_immutable": {
+      "g0": "ae8f7b2feb739fd51fe72063d4aa71fe36b90790",
+      "source": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "control": "fc058c97335e4a064c7827b8534b3af2f7460bc3",
+      "review": "0468ccf26c879a03ca83b1d5955be5e860c2b442",
+      "GO_request": "13dc947ad2",
+      "failed_run": "44264952389"
+    }
+  },
+  "checks": [
+    {
+      "name": "exact package/source/control/request delta and identities",
+      "status": "PASS",
+      "artifact": "independent-checks.json"
+    },
+    {
+      "name": "58 mandatory service/error/decoder/snapshot/PFC tests",
+      "status": "PASS",
+      "duration_seconds": 50.193,
+      "artifact": "SYNTHETIC-TESTS.txt"
+    },
+    {
+      "name": "14 independently authored source cfg/target fixtures with hashes resealed; 12 reject, two parser-only accept",
+      "status": "PASS",
+      "artifact": "independent-checks.json"
+    },
+    {
+      "name": "four independent workflow order/skip/continue-on-error/test removal mutations",
+      "status": "PASS",
+      "artifact": "independent-checks.json"
+    },
+    {
+      "name": "five exact patch replays and real shallow7/5/2 metadata; parent/payload/trigger/caps/source anchors",
+      "status": "PASS",
+      "artifact": "package-validation.json"
+    }
+  ],
+  "old97ac_rejection": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:54 core::slice::sort::shared::smallsort::verify::sorting_s2_batch::general32_assumed: active stub_verified(core::slice::sort::shared::smallsort::sort8_stable) has no active matching proof_for_contract in same core crate/cfg",
+  "receipts": [
+    {
+      "file": "package-validation.json",
+      "sha256": "1f3a3804649b9a51696c19f9d04fc66691b3e404ed0a2c585ba159cf1f3d1364",
+      "bytes": 44408
+    },
+    {
+      "file": "SYNTHETIC-TESTS.txt",
+      "sha256": "80ab8c50531553930e9e8733c85680c6187a58fc25e4fe841026e66469db43ff",
+      "bytes": 7923
+    },
+    {
+      "file": "independent-checks.py",
+      "sha256": "4ea0cd65165ff8ff00272ef7e7ab2e4128245913725245bb62b77b923e13e740",
+      "bytes": 12307
+    },
+    {
+      "file": "independent-checks.json",
+      "sha256": "2693bb05acd4eb753bb9757e16ff97c61848f885c19aafae79afb71f33f0b081",
+      "bytes": 56055
+    }
+  ],
+  "guarantee_transfer": "Exact old source/control bytes and request values only; old approval/history is not rewritten or treated as evidence that failed compilation succeeded.",
+  "actual_compilation_verification_full_runner_CI": "NOT_RUN",
+  "proof_credit": "NONE",
+  "limitations": [
+    "Static/synthetic delta review only. No compiler/verifier/full runner/workflow/CI execution. Actual r1 compile/proof/witness/covers/negative-control/cost results NOT_RUN.",
+    "Checker is a bounded Rust item/cfg/alias parser with a conservative two-module registration-provider slice, not a Rust type resolver, macro expander or successful compiler-instance binding.",
+    "PFC registration establishes active full-target lookup presence only. Existing helper u64 safety PFCs and the new nonexecuted sort8 registration do not qualify u8 semantic summaries.",
+    "sort13_assumed/general32_assumed remain DIAGNOSTIC_ASSUMED; no positive promotion of weak stubs, witness results or formal proof credit.",
+    "600s bounds stock backend time; full per-root instrumentation wall/RSS and R8 remain UNKNOWN. Independent component RSS maxima cannot be summed as observed aggregate peak.",
+    "Native compiler-instance, resolved-contract and property-origin edges and separate body/model/checker/summary/driver wall phases remain UNKNOWN.",
+    "Old run44264952389 failure is owner-supplied context; independently reproduced here only as static old97 missing-sort8 rejection, without obtaining run evidence.",
+    "APPROVE authorizes no GO/repeat/accounting/charge/refund/reservation/push/publication/CI/ledger action. Owner decides separately at10/14."
+  ],
+  "concurrent_untracked_paths_preserved_outside_scope": [
+    "research/challenge-8/kani-k1/kani3300/wave0/f4-fix/CHECKPOINT.json",
+    "research/challenge-8/kani-k1/kani3300/wave0/f4-fix/CI-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/wave0/f4-fix/CI-REQUEST.md",
+    "research/challenge-8/kani-k1/kani3300/wave0/f4-fix/HANDOFF.md",
+    "research/challenge-8/kani-k1/kani3300/wave0/f4-fix/MAIN-CHECK.json",
+    "research/challenge-8/kani-k1/kani3300/wave0/f4-fix/MANIFEST.json",
+    "research/challenge-8/kani-k1/kani3300/wave0/f4-fix/PR-DRAFT.md",
+    "research/challenge-8/kani-k1/kani3300/wave0/f4-fix/REGRESSION-ORACLE.md",
+    "research/challenge-8/kani-k1/kani3300/wave0/f4-fix/SOURCE-LIFECYCLE.md",
+    "research/challenge-8/kani-k1/kani3300/wave0/f4-fix/VALIDATION.json",
+    "research/challenge-8/kani-k1/kani3300/wave0/f4-fix/VALIDATION.md",
+    "research/challenge-8/kani-k1/kani3300/wave0/f4-fix/fix.patch",
+    "research/challenge-8/kani-k1/kani3300/wave0/f4-fix/regression-main.patch",
+    "research/challenge-8/kani-k1/kani3300/wave0/f4-fix/validate.py"
+  ]
+}
