@@ -1,0 +1,116 @@
+{
+  "schema": "issue4591-owner-morning-pr-draft-v1",
+  "task_commit": "e61fdc2c3f0af10106451f8372f8f9c05e960778",
+  "start_head": "e61fdc2c3f0af10106451f8372f8f9c05e960778",
+  "author_delivery_commit": "5162af47e12611de4102ba20b0135b17c1d79d7d",
+  "independent_review_commit": "19079d13154e3b814a3abeca9d9b38f0188b731d",
+  "source": {
+    "commit": "f82934ca97caaa1270d5279054aa950173868be5",
+    "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+    "sole_parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "main": "969f4648980a8e66cd0ca32fd3e714a55ac32cef"
+  },
+  "review": {
+    "verdict": "APPROVE",
+    "assurance": "pinned independent static review; no new semantic review"
+  },
+  "immutable_document_inputs": [
+    {
+      "commit": "e61fdc2c3f0af10106451f8372f8f9c05e960778",
+      "path": "research/challenge-8/kani-k1/TASK-KANI-4591-MORNING-PR-DRAFT-W15.md",
+      "sha256": "f7a698e90da1f1a39de5733e9031501a448cecae8b7efed5d6cd63243f1c24aa"
+    },
+    {
+      "commit": "e61fdc2c3f0af10106451f8372f8f9c05e960778",
+      "path": "research/challenge-8/kani-k1/STYLE-UPSTREAM-RULES.md",
+      "sha256": "5932c080cd5938ad7fcb159b1847e663df828beffc17196716b001e6a5cb9e7a"
+    },
+    {
+      "commit": "5162af47e12611de4102ba20b0135b17c1d79d7d",
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/PR-DRAFT.md",
+      "sha256": "2cb964a6d9eb07f06a70ec8d2b00c1429f62868830e10e6c0cc5d7d616b6b5a0"
+    },
+    {
+      "commit": "5162af47e12611de4102ba20b0135b17c1d79d7d",
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/PROVENANCE.json",
+      "sha256": "4a48ab6ebb5a1069f4e672d8da1f171699e402d81cac83a45b67c23a89030702"
+    },
+    {
+      "commit": "5162af47e12611de4102ba20b0135b17c1d79d7d",
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/CURRENT-TASK.md",
+      "sha256": "ac98855315d808715705f2c7247f9f4f63693f5109f40d39a0389ef1f897c663"
+    },
+    {
+      "commit": "5162af47e12611de4102ba20b0135b17c1d79d7d",
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/CHECKPOINT.json",
+      "sha256": "bec268008e0c1a0cdba998c4231854fd6caca8c31a2c431c89328c6a946f8c42"
+    },
+    {
+      "commit": "5162af47e12611de4102ba20b0135b17c1d79d7d",
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/HANDOFF.md",
+      "sha256": "f90198d7426dcf012a4ad8ed60b4e981e9e16139365c37e3de4e511a598a6180"
+    },
+    {
+      "commit": "5162af47e12611de4102ba20b0135b17c1d79d7d",
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/VALIDATION.md",
+      "sha256": "bffd94b2e069ef450ebe6f30b08f6b3c28335c1c5de647a1ba3ff87bbeea4faf"
+    },
+    {
+      "commit": "5162af47e12611de4102ba20b0135b17c1d79d7d",
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/compiler-main.patch",
+      "sha256": "af782bc5473f4b45852ed253aefd929a0ca78746b5fa20452483bdc128cea6cd"
+    },
+    {
+      "commit": "19079d13154e3b814a3abeca9d9b38f0188b731d",
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-review-w11-r3/REPORT.md",
+      "sha256": "402254aeb414437a7fc1bf52b4cb4b80223f8c4b70f4826adfea2b79ee8ae267"
+    },
+    {
+      "commit": "19079d13154e3b814a3abeca9d9b38f0188b731d",
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-review-w11-r3/CHECKPOINT.json",
+      "sha256": "63532c509b8e14a28f3d765a0646e7b0525659c10515f0870adc802de40da4c5"
+    }
+  ],
+  "source_file_sha256": {
+    "tests/kani/FunctionContracts/ordinary_stub.rs": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+    "tests/expected/function-contract/ordinary_stub_fail.rs": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+    "kani-compiler/src/kani_middle/transform/contracts.rs": "c8433cc928a57285e3d7d117a4b8d5187db2ec6ebcec819c4b6744612470bf91",
+    "kani-compiler/src/kani_middle/transform/mod.rs": "cee27768c3a4a4ad71c75d411e237d4aadedf9ff20a5962d4e93ecbf660c8ee9",
+    "kani-compiler/src/kani_middle/transform/stubs.rs": "04dd329ee7cf8b35d38a9c62d2ba9b853d1b7009e4cfd6cfcc10468b63d090b2"
+  },
+  "license_source": {
+    "commit": "5162af47e12611de4102ba20b0135b17c1d79d7d",
+    "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/PR-DRAFT.md",
+    "note": "STYLE specifies license placement; exact sentence retained from immutable own draft"
+  },
+  "disclosure_source": {
+    "commit": "e61fdc2c3f0af10106451f8372f8f9c05e960778",
+    "path": "research/challenge-8/kani-k1/STYLE-UPSTREAM-RULES.md"
+  },
+  "external_copy": {
+    "requested_path": "/root/smallsort-pr-drafts/PR-4591-DRAFT.md",
+    "actual_path": "/root/smallsort-pr-drafts/PR-4591-DRAFT.md",
+    "sha256": "2c0f2ea90cb46f3b18ea0129f83d355d6f216332a9aadd471181a2cbb5a8cd9c",
+    "identical_at_write": true,
+    "owner_edits_preserved": false
+  },
+  "native_repair": "NOT_RUN",
+  "style_eligibility": "PENDING_CI",
+  "pending": [
+    "actual main-fails/fixed-passes regression evidence",
+    "actual full standard CI evidence",
+    "one future full standard CI link in Testing"
+  ],
+  "old_failed_ci_used_as_repair_validation": false,
+  "hold_go_reference": "14ab756d308db8ec962d8062810570ecd80cebca",
+  "item1": "31/31 EXHAUSTED",
+  "extra_item1_grant": "NOT_GRANTED",
+  "scope": "new documentation only; no source/test/compiler/control/CI/GO/budget/publication changes",
+  "execution": {
+    "reasoning": "high unchanged",
+    "Fast": "OFF unchanged",
+    "subagents": false,
+    "model_changes": false
+  },
+  "assurance": "Git identities, immutable own documents, source reading, draft structure and equality only; no native proof credit"
+}

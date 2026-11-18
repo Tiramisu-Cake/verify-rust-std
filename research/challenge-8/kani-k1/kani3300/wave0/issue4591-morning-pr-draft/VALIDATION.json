@@ -1,0 +1,24 @@
+{
+  "schema": "issue4591-draft-validation-v1",
+  "result": "PASS_DOCUMENTATION_CHECKS",
+  "checks": {
+    "exact_task_and_style_inputs": true,
+    "source_commit_tree_sole_parent": true,
+    "review_exact_candidate_approve": true,
+    "two_substantive_paragraphs": true,
+    "concrete_kani_invocation_first_sentence": true,
+    "final_support_and_repaired_caller_semantics_reviewed": true,
+    "requires_ensures_combined_and_controls": true,
+    "single_checked_caller_and_negative_provider_post": true,
+    "safe_verification_intent_and_i32_max_caller_overflow": true,
+    "one_future_ci_link_slot_no_url": true,
+    "resolves_issue": true,
+    "exact_license_and_disclosure": true,
+    "no_sha_internal_research_or_history_in_public_draft": true,
+    "no_invented_main_fail_fixed_pass_or_native_result": true,
+    "external_identical_at_write": true
+  },
+  "native_repair": "NOT_RUN",
+  "complete_style_eligibility": "PENDING_CI",
+  "limits": "Documentation and pinned-source review only; no compiler, verifier or CI run."
+}
