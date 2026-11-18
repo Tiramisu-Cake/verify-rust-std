@@ -1,0 +1,68 @@
+{
+  "schema": "ch8-s2-cost-fields-v1",
+  "state": "NOT_RUN",
+  "fields": [
+    {
+      "field": "verification_time_s",
+      "source": "stock harness.resources.verification_time_s",
+      "scope": "per root source-reported total verifier time",
+      "state": "NOT_RUN"
+    },
+    {
+      "field": "compile_elapsed_upper_bound_s",
+      "source": "CompileMonitor initial export marker",
+      "scope": "one group std_project compilation/link upper bound",
+      "state": "NOT_RUN"
+    },
+    {
+      "field": "group_wall_s",
+      "source": "execute elapsed_seconds",
+      "scope": "process group wall including instrumentation/backend",
+      "state": "NOT_RUN"
+    },
+    {
+      "field": "aggregate_group_peak_kib",
+      "source": "/proc group sampler at50ms",
+      "scope": "all processes in current invocation group; sampled",
+      "state": "NOT_RUN"
+    },
+    {
+      "field": "driver_group_peak_kib",
+      "source": "/proc comm categorization sampler",
+      "scope": "group-level kani/cargo-kani processes, independent sample peaks",
+      "state": "NOT_RUN"
+    },
+    {
+      "field": "backend_group_peak_kib",
+      "source": "/proc comm sampler",
+      "scope": "group-level cbmc/goto processes; no per-root attribution",
+      "state": "NOT_RUN"
+    },
+    {
+      "field": "compiler_group_peak_kib",
+      "source": "/proc comm sampler",
+      "scope": "group-level rustc/kani-compiler",
+      "state": "NOT_RUN"
+    },
+    {
+      "field": "other_group_peak_kib",
+      "source": "/proc comm sampler",
+      "scope": "group-level uncategorized processes",
+      "state": "NOT_RUN"
+    },
+    {
+      "field": "body/model/checker/summary_wall_s",
+      "source": "not exported by stock0aac",
+      "scope": "separate phases unavailable",
+      "state": "UNKNOWN_NOT_EXPORTED_BY_STOCK"
+    },
+    {
+      "field": "driver/backend/aggregate_root_rss_kib",
+      "source": "no exact harness boundary binding in producer",
+      "scope": "per-root unavailable; never substitute group peak",
+      "state": "UNKNOWN_NOT_EXPORTED_BY_STOCK"
+    }
+  ],
+  "all_results": "NOT_RUN; no inferred PASS or R8 fit600/6GiB credit",
+  "proof_credit": "NONE"
+}

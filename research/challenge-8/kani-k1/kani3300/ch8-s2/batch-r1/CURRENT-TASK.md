@@ -1,0 +1,1 @@
+W13 S2 cfg/PFC repair; task7b829344c9cdd8c25ec59294bb9015201638a879. Runtime: Codex. Contract: ../../../TASK-CH8-S2-CFG-FIX-W13.md (from kani-k1 root). Canonical state CHECKPOINT.json. No subagents/local compiler/CI/push/ledger. Next exact committed delta-review14.

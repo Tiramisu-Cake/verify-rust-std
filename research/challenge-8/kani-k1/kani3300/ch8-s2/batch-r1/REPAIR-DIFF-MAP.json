@@ -1,0 +1,130 @@
+{
+  "schema": "ch8-s2-cfg-repair-delta-v1",
+  "source_delta": {
+    "old": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "new": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+    "paths": [
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs"
+    ],
+    "lines_added": 13,
+    "lines_removed": 0,
+    "old_batch_prefix_sha256": "37125e0d65bbce0b70fc6626960cbf0c17dab3d2d07675c183cf15407a37c850",
+    "all_old_bytes_preserved": true,
+    "registration_only": "sort8_registration_only",
+    "affected_rows": [
+      "general32_assumed",
+      "general32_weak"
+    ],
+    "runtime_algorithms_contracts_domains_geometry_solver_checks": "UNCHANGED"
+  },
+  "control_delta": {
+    "old": "fc058c97335e4a064c7827b8534b3af2f7460bc3",
+    "new": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "shape": "new sibling above9e14; strictfc protections carried forward",
+    "unchanged_reviewed_payload": [
+      {
+        "file": "ch8-s1-control/ORACLE-SOURCES.json",
+        "sha256": "69bf8d8494094a079a6ac3422ab90f30b7b5093b53e91ee6ce393a043538eaa2"
+      },
+      {
+        "file": "ch8-s1-control/ROLE-MAP.json",
+        "sha256": "bad63e0616c0061bf40d7e8d5c72324c8089574624a20f07a1f98a2806e5043d"
+      },
+      {
+        "file": "ch8-s1-control/activation-default.patch",
+        "sha256": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3"
+      },
+      {
+        "file": "ch8-s1-control/activation-override.patch",
+        "sha256": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356"
+      },
+      {
+        "file": "ch8-s1-control/binding_metadata.py",
+        "sha256": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030"
+      },
+      {
+        "file": "ch8-s1-control/collect.py",
+        "sha256": "bb9170a58af1e0cfcb93d9758730265f2ae78b019c7a0a9b50d348cca45cd6e7"
+      },
+      {
+        "file": "ch8-s1-control/fixtures/s104-rich-fragment.json",
+        "sha256": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc"
+      },
+      {
+        "file": "ch8-s1-control/fixtures/s108r1-smallsort.rs.txt",
+        "sha256": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651"
+      },
+      {
+        "file": "ch8-s1-control/fixtures/s108r1-sorting_model_controls.rs.txt",
+        "sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d"
+      },
+      {
+        "file": "ch8-s1-control/negative_oracle.py",
+        "sha256": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c"
+      },
+      {
+        "file": "ch8-s1-control/oracle_source.py",
+        "sha256": "75a9a665b7a9fc1c64cd51c1c8d281fd323f22411aee83c017d08f37a27f20ce"
+      },
+      {
+        "file": "ch8-s1-control/pack_evidence.py",
+        "sha256": "833004929291e3a6a96011c8579852fce7520e5dea6abd3af2c7611675619e8b"
+      },
+      {
+        "file": "ch8-s1-control/rich_evidence.py",
+        "sha256": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139"
+      },
+      {
+        "file": "ch8-s1-control/s108_package.py",
+        "sha256": "8f1443262d41b6ba755b89d089ffa7515692734f0986a80789a2bf89c7900237"
+      },
+      {
+        "file": "ch8-s1-control/test_package.py",
+        "sha256": "70f00d0726b7011db8a02339c1b031bda49b4af3c2f7e881b68d06b7663b5ca7"
+      },
+      {
+        "file": "ch8-s1-control/test_runner.py",
+        "sha256": "91be0156d1d8e55bc2e768891996f69cb1cd248096521d1ff5358dc8f57daaa4"
+      },
+      {
+        "file": "ch8-s1-control/test_s104.py",
+        "sha256": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d"
+      },
+      {
+        "file": "ch8-s1-control/test_s105.py",
+        "sha256": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e"
+      },
+      {
+        "file": "ch8-s1-control/test_s107.py",
+        "sha256": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0"
+      },
+      {
+        "file": "ch8-s1-control/test_s108.py",
+        "sha256": "c8f694e0f35abfffa5aa8adc51598cf69e2d66dcdf996f8e33750ae006d6e854"
+      },
+      {
+        "file": "ch8-s1-control/test_s108r1.py",
+        "sha256": "cd23ab865dd05bf7beef1b312e747512bebc5ae61e9ce382d284da2014b06f03"
+      }
+    ]
+  },
+  "invariants": {
+    "primary_probes": 3,
+    "manifest_roots": 11,
+    "required_covers": 20,
+    "exact_negatives": 6,
+    "rows_equal_except_source_file_sha256": true,
+    "row_locations": "UNCHANGED; appended registration only",
+    "summary_assurance": "DIAGNOSTIC_ASSUMED",
+    "qualification_from_registration": false,
+    "proof_credit": "NONE"
+  },
+  "metadata_fix": {
+    "finding": "S2-W14-N1",
+    "planned_rows_seconds": 6600,
+    "projected_group_count": 1,
+    "runtime_limits_changed": false
+  },
+  "reuse_boundary": "Old review guarantees transferred by exact bytes for listed files and all original source bytes; changed checker/wiring/request and extra registration require exact committed delta-review14."
+}

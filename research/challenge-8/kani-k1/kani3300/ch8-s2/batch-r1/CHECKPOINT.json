@@ -1,0 +1,56 @@
+{
+  "schema": "ch8-s2-cfg-r1-checkpoint-v1",
+  "state": "READY_FOR_DELTA_REVIEW14",
+  "task_id": "task7b829344c9cdd8c25ec59294bb9015201638a879",
+  "entry_g0": "7b829344c9cdd8c25ec59294bb9015201638a879",
+  "source_sha": "9fd558c9dab5ec26abdb1226eb5f2b9cd9ffbff6",
+  "control_sha": "2ecf5e839f898f6bb1cd96edd6cc6bf677acb4c8",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "identities": "IDENTITIES.json",
+  "claims": [
+    {
+      "claim": "Minimal same-cfg sort8 registration for both general32 roots; all original source bytes retained",
+      "assurance": "STATIC_SOURCE_ONLY",
+      "evidence": [
+        "SOURCE-REPAIR.patch",
+        "REPAIR-DIFF-MAP.json"
+      ]
+    },
+    {
+      "claim": "All11 rows have matching registered targets under actual cfg; old97ac rejected; checker runs before build",
+      "assurance": "STATIC_AND_SYNTHETIC_ONLY",
+      "evidence": [
+        "CFG-PFC-MAP.json",
+        "VALIDATION.json",
+        "SYNTHETIC-TESTS.txt"
+      ]
+    }
+  ],
+  "open": [
+    "Exact committed delta-review14",
+    "Actual r1 compile/proof/witness/covers/negative controls/cost NOT_RUN",
+    "Semantic summary qualification and B1/B2/R8 NOT_ESTABLISHED"
+  ],
+  "blocker": null,
+  "next_step": "delta-review14, then owner-only decision on separate GO/accounting; no rerun now",
+  "proof_credit": "NONE",
+  "closed_proof_obligations": 0,
+  "accounting_reference": {
+    "ledger_g0": "4076fb01d5de93191f6f012540ee98b2514d36e5",
+    "item2_used": 10,
+    "item2_cap": 14,
+    "future_accounting": "OWNER_ONLY",
+    "changed": false
+  },
+  "external_actions": {
+    "CI": 0,
+    "push": 0,
+    "cancel": 0,
+    "reservation": 0,
+    "ledger_changes": 0,
+    "publication": 0
+  },
+  "subagents": 0,
+  "current_model_fast": "UNCHANGED",
+  "closure_reason": "All authorized static repair/package work completed; handoff to separately assigned exact committed delta-review14"
+}
