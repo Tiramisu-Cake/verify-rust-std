@@ -1,0 +1,186 @@
+{
+  "schema": "ch8-f4-uninit-only-push-go-request-v1",
+  "status": "READY_FOR_OWNER_GO_CONDITIONAL_HEAD_BINDING",
+  "package_g0": "a16ef717e18ca8263e360c24058b13a3ef4d4605",
+  "review_g0": "516bf3aea71ba7477ce06a1cab5bc956a00be23a",
+  "reviewer": 11,
+  "reviewer_authority": "Owner14:14 substitutes independent11 for planned14;14 remains on S2",
+  "review_verdict": "APPROVE",
+  "blocking_findings": [],
+  "candidate_sha": "ca1452227d6ad319f1b9bc1ad33bf618120733eb",
+  "candidate_tree": "baedd51d92073ecb2b96991bae7dc562ee8f58a2",
+  "candidate_parent": "b5a9678fd7c2a0f67c3fcafd90057fc2afaf9b5d",
+  "candidate_is_local_skip_ci": true,
+  "source_worktree": "/root/kani-f4-uninit-only-w15",
+  "request_path": "../f4-uninit-only/CI-REQUEST.json",
+  "request_sha256": "437469f988cf424a16639c15bb694bb9c89f66e41f4e769bff7bf36a508a76fa",
+  "author_manifest_sha256": "7505380840720271b790e9ea3d34cb42cd4b235aaee013d01bff771e05b2c7a6",
+  "scope": "Whole transformer isolation iff DelayedUbPass enabled; otherwise shared transformer; existing regression checks both flag modes and both cfg call paths. Native new-head runtime NOT_RUN.",
+  "requested_action": "One full native push-CI bundle on owner-created final head, prospective last item1 29/29",
+  "required_final_head": {
+    "sha": "NOT_CREATED",
+    "tree": "baedd51d92073ecb2b96991bae7dc562ee8f58a2",
+    "parent": "b5a9678fd7c2a0f67c3fcafd90057fc2afaf9b5d",
+    "relation": "no-skip same-tree sibling of reviewed candidate; direct child of b5",
+    "pushed_range": "b5..HEAD contains only final sibling and no skip directives",
+    "candidate_in_pushed_range": false,
+    "creation_and_publication_owner": "OWNER_OR_COORDINATOR_AFTER_REVIEW_AND_GO",
+    "read_only_gate": "python3 check_push_head.py /root/kani-f4-uninit-only-w15 FUTURE_FINAL_FULL_SHA"
+  },
+  "native_event": "push to non-main candidate branch, branch filter **; no workflow_dispatch",
+  "workflow_inventory": {
+    "kani.yml": {
+      "jobs": {
+        "regression": {
+          "matrix_os": [
+            "macos-15-intel",
+            "ubuntu-22.04",
+            "ubuntu-24.04",
+            "macos-15",
+            "ubuntu-24.04-arm"
+          ],
+          "command": "./scripts/kani-regression.sh",
+          "strategy": "unchanged; default fail-fast=true; all matrix entries included"
+        },
+        "benchcomp-tests": {
+          "command": "frozen benchcomp unit/regression tests and release build"
+        },
+        "perf": {
+          "command": "./scripts/kani-perf.sh",
+          "job_timeout_minutes": 380,
+          "retry": {
+            "action": "nick-fields/retry@v4",
+            "timeout_minutes": 180,
+            "max_attempts": 2
+          },
+          "env": {
+            "RUST_TEST_THREADS": 1
+          }
+        },
+        "llbc-regression": {
+          "command": "frozen Charon build and ./scripts/kani-llbc-regression.sh"
+        },
+        "documentation": {
+          "command": "./scripts/build-docs.sh",
+          "publish": "native main-only condition; expected skipped on candidate branch"
+        }
+      },
+      "job_set": "ALL_NATIVE_JOBS"
+    },
+    "format-check.yml": {
+      "jobs": {
+        "format-check": {
+          "checks": [
+            "copyright",
+            "C formatting",
+            "Python formatting"
+          ],
+          "c_format_continue_on_error": true
+        },
+        "clippy-check": {
+          "checks": [
+            "both frozen Clippy commands",
+            "statistics with frozen || true"
+          ]
+        }
+      }
+    },
+    "deny.yml": {
+      "jobs": {
+        "audit": {
+          "action": "EmbarkStudios/cargo-deny-action@v2",
+          "arguments": "--all-features --workspace",
+          "command_arguments": "-s",
+          "toolchain": "stable",
+          "continue_on_error": false
+        }
+      }
+    }
+  },
+  "workflow_preservation": {
+    "count": 16,
+    "hashes_reference": "../f4-uninit-only/CI-REQUEST.json#/preserve/workflow_sha256",
+    "changed": false
+  },
+  "required_receipt": [
+    "review11 exact package/source/tree approval",
+    "root GO identity and prospective item1 29/29",
+    "final full SHA/tree/parent and whole pushed-range skip gate",
+    "remote head full SHA and native event/ref",
+    "workflow run IDs/attempts and every job/matrix conclusion",
+    "actual checkout SHA/tree when available; do not infer from successful checkout step",
+    "two-mode named-regression result/property evidence if available; distinguish suite-level success",
+    "perf native outcome and any measured metrics; unmeasured values UNKNOWN",
+    "deny native failure/advisory and macOS infrastructure failures retained as observed"
+  ],
+  "outcome_policy": "Preserve native SUCCESS/FAILURE/CANCELLED/SKIPPED/NOT_RUN and infrastructure/advisory distinctions. Missing/red/nonexecuted required jobs prevent an all-green/full-matrix claim; any exception requires owner classification, not silent rerun.",
+  "old_ci": {
+    "head": "b5a9678fd7c2a0f67c3fcafd90057fc2afaf9b5d",
+    "kani_run": 44274306776,
+    "kani": "8 SUCCESS; macos-15 NO_RUNNER/NOT_RUN",
+    "format": "SUCCESS",
+    "deny": "EXTERNAL_ADVISORY/native FAILURE",
+    "coverage_of_new_head": false,
+    "old_macos_rerun": "OWNER_NO_RERUN"
+  },
+  "compiler_build": "NOT_RUN_ON_NEW_HEAD",
+  "native_two_mode_regression": "NOT_RUN",
+  "performance": "NOT_RUN_ON_NEW_HEAD",
+  "before_dispatch": [
+    "Independent11 exact package/source/tree approval and no unresolved blockers.",
+    "Separate owner/coordinator dispatch and publication GO; existing +1 increases cap only.",
+    "Create/check no-skip same-tree sibling with direct parentb5; never push local skipped candidate. Record exact full final SHA/tree/parent and full b5..HEAD skip check.",
+    "Bind remote branch/head, native events and all workflow/run/attempt/job/matrix conclusions to the new head. No workflow_dispatch shortcut or old-run acceptance.",
+    "Recheck upstream-main drift read-only before publication; relevant change requires explicit handoff, no silent rebase."
+  ],
+  "automatic_manual_reruns": false,
+  "native_retries": "Preserve frozen workflows including native perf retry; no new manual workflow/job retry authorization.",
+  "accounting_reference_only": {
+    "owner_cap_grant_ledger": "968342e0af6dcb542ca7727d7d6d629283639873",
+    "item1_used": 28,
+    "item1_cap": 29,
+    "requested_item1_attempt": 29,
+    "item2_provisional_used": 10,
+    "item2_cap": 14,
+    "total_provisional_used": 38,
+    "total_cap": 43,
+    "S2_r1_charge": "OWNER_DECISION",
+    "new_attempts_consumed": 0,
+    "reservation": false,
+    "ledger_modified": false
+  },
+  "actions_performed": {
+    "trigger_created": false,
+    "push": false,
+    "ci_dispatch": false,
+    "workflow_or_job_rerun": false,
+    "PR_publication": false,
+    "labels": false,
+    "ledger": false,
+    "reservation": false
+  },
+  "deferred_to_owner_upstream_pr": {
+    "release.yml": "full native PR bundle builds/test matrices; release publication stays tag-only",
+    "verify-std-check.yml": "ubuntu-22.04 and macos-15 native PR/workflow_call",
+    "bench-pr.yml": "Z-EndToEndBenchCI and Z-CompilerBenchCI; frozen PR events and concurrency",
+    "extra_jobs.yml": "PR metadata/labels; no candidate proof credit"
+  },
+  "push_head_checker": {
+    "path": "../f4-uninit-only/check_push_head.py",
+    "sha256": "1165f664d7e0e785ba8c6d199e5bc804d5c9c5001082abb071c69b05646c9622",
+    "command_template": [
+      "python3",
+      "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/wave0/f4-uninit-only/check_push_head.py",
+      "/root/kani-f4-uninit-only-w15",
+      "FUTURE_FINAL_FULL_SHA"
+    ]
+  },
+  "coordinator_receipt": {
+    "author_committed_files_checked": 17,
+    "review_committed_files_checked": 10,
+    "all_package_review_manifest_hashes_checked": true,
+    "exact_source_parent_tree_clean": true,
+    "review_json_sha256": "0f6bca2c813e2030bd82cbe803ded924035ca258c9fb81f18a9d014e8d780415",
+    "independent_review": "15author replay groups+14mocked cases+15independent gate rejections, static/synthetic only"
+  }
+}
