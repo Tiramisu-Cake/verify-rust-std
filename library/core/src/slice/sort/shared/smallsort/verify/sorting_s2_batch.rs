@@ -51,7 +51,7 @@ fn sort13_assumed() {
     kani::cover(true, "S2_SORT13_USEFUL_RETURN");
 }
 #[kani::proof]
-#[kani::stub_verified(sort8_stable)]
+#[kani::stub(sort8_stable,diagnostic_sort8)]
 #[kani::stub_verified(insert_tail)]
 #[kani::stub_verified(bidirectional_merge)]
 #[kani::unwind(34)]
@@ -152,7 +152,7 @@ unsafe fn weak_merge<T:crate::slice::sort::shared::FreezeMarker,F:FnMut(&T,&T)->
     unsafe { ptr::copy_nonoverlapping(v.as_ptr(),dst,v.len()) };
 }
 #[kani::proof]
-#[kani::stub_verified(sort8_stable)]
+#[kani::stub(sort8_stable,diagnostic_sort8)]
 #[kani::stub_verified(insert_tail)]
 #[kani::stub(bidirectional_merge,weak_merge)]
 #[kani::unwind(34)]
@@ -160,4 +160,29 @@ fn general32_weak() {
     let mut v = [2u8;32]; for i in 16..32 { v[i] = 1; } let before = v;
     small_sort_general(&mut v,&mut KeyLess::<u8>::new());
     assert!(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), "S2_NEG_GENERAL32_WEAK");
+}
+
+// Ordinary DIAGNOSTIC_ASSUMED relation, restricted to u8/KeyLess<u8>.
+// Same signature as the actual callee; no Copy bound or comparator invocation.
+// Read only initialized source8. Havoc only dst8/temp8, then constrain the full
+// sorted permutation of the owned pre-state. Never read uninitialized outputs.
+unsafe fn diagnostic_sort8<T:crate::slice::sort::shared::FreezeMarker,F:FnMut(&T,&T)->bool>(
+    v_base:*mut T,dst:*mut T,scratch_base:*mut T,_is_less:&mut F,
+) {
+    assert!(span::active::<T,F>());
+    assert!(crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(v_base,8))
+        && crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst,8))
+        && crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(scratch_base,8))
+        && super::super::merge_contract_regions_disjoint(v_base,dst,8)
+        && super::super::merge_contract_regions_disjoint(v_base,scratch_base,8)
+        && super::super::merge_contract_regions_disjoint(dst,scratch_base,8));
+    // active is true exactly for u8/KeyLess<u8>; these casts never admit another T.
+    let before = span::capture::<T,F>(v_base,8);
+    for i in 0..8 {
+        unsafe {
+            dst.cast::<u8>().add(i).write(kani::any::<u8>());
+            scratch_base.cast::<u8>().add(i).write(kani::any::<u8>());
+        }
+    }
+    kani::assume(span::post::<T,F>(before,dst,8));
 }
