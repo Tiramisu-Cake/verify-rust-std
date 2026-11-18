@@ -1,0 +1,35 @@
+{
+  "changed_intake_boundary_tests": {
+    "rejected_corruptions": 8,
+    "status": "PASS",
+    "summary_independence": "PASS"
+  },
+  "classification": "DEFECT_PRESENT",
+  "digest_before_extraction": "PASS",
+  "exact_native_ids_preserved": true,
+  "failed_property_instances": 7,
+  "final_validation_commands": [
+    "git diff --no-index --check /dev/null EACH_OWN_FILE",
+    "git status --porcelain --untracked-files=all",
+    "read-only replay + --self-test",
+    "manifest SHA256/namespace checks"
+  ],
+  "git_whitespace_check": "PASS (all own files checked including untracked files via git diff --no-index --check)",
+  "namespace_and_member_bounds": "PASS",
+  "native_execution": "NOT_RUN",
+  "native_property_instances": 247,
+  "normalization": "reviewed ordinal suffix only",
+  "pins": "PASS",
+  "preflight_and_service_controls": "Successful remote steps + unchanged snapshots; not rerun locally",
+  "proof_credit": "NONE",
+  "raw_export_or_stream_reparse": "NOT_RUN_BY_DESIGN; see PROVENANCE adapter boundary",
+  "replay_command": "PYTHONDONTWRITEBYTECODE=1 python3 research/challenge-8/kani-k1/kani3300/wave0/f4-confirm-intake/run-44177926794/replay.py",
+  "schema": "ch8-f4-intake-validation-v1",
+  "self_test_command": "PYTHONDONTWRITEBYTECODE=1 python3 research/challenge-8/kani-k1/kani3300/wave0/f4-confirm-intake/run-44177926794/replay.py --self-test",
+  "semantic_multisets_preserve_multiplicity": true,
+  "seven_slot_compact_property_oracle_replay": "PASS",
+  "source_profile_workflow_payload_hashes": "PASS",
+  "status": "PASS",
+  "summary_independence": "PASS",
+  "write_scope_check": "PASS; only exact run output paths changed"
+}

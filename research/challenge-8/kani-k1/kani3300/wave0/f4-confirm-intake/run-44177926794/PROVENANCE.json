@@ -1,0 +1,86 @@
+{
+  "adapter_limit": "These discarded fields were checked by exact reviewed producer. Adapter supplies them only to replay retained property checks, not to claim independent raw-export schema verification.",
+  "adapter_synthetic_fields": [
+    "schema_version=0.1.0",
+    "run_state=COMPLETE",
+    "outcome.kind=COMPLETED",
+    "harness outcome.kind=COMPLETED",
+    "harness is_automatically_generated=false",
+    "harness is_bounded=false",
+    "harness covers.total=0"
+  ],
+  "api_urls": [
+    "https://api.github.com/repos/Tiramisu-Cake/kani/actions/runs/44177926794",
+    "https://api.github.com/repos/Tiramisu-Cake/kani/actions/runs/44177926794/artifacts",
+    "https://api.github.com/repos/Tiramisu-Cake/kani/actions/runs/44177926794/jobs"
+  ],
+  "artifact_download_tool": "mcp__codex_apps__github_download_workflow_artifact(14369704819)",
+  "digest_chain": {
+    "archive_bytes": 14719,
+    "archive_retained": false,
+    "archive_sha256": "31ded0b6f857536d41b5e25ce07a198193fe6f0c45557a9d4654b15c04e595ed",
+    "artifact_id": 14369704819,
+    "digest_checked_before_extraction": true,
+    "members": [
+      {
+        "bytes": 226672,
+        "name": "result.json",
+        "sha256": "8c15b1a13b4daa89f8eb2827a60d135c4280a60ad4746083790615b5f3a16576"
+      }
+    ]
+  },
+  "limits_and_unknowns": {
+    "actual_compilation_order": "UNKNOWN; cfg/feature routing and verification output do not measure compiler processing order",
+    "actual_underlying_cargo_rustc_binary_hashes": "UNKNOWN; recorded cargo/rustc path hashes identify rustup proxies, with native rustc version separately retained",
+    "both_compilation_order_directions_covered": "UNKNOWN",
+    "discarded_export_envelope": "Original schema/run_state/outcome/harness kind/cover flags not retained verbatim; acceptance is bound to exact reviewed producer",
+    "discarded_native_exports_and_streams": "Not available by design; hashes are producer-recorded, not independently recomputed from raw bytes",
+    "download_verified": "NOT_SET",
+    "formal_proof_credit": "NONE; bounded fixture reproduction only",
+    "full_inherited_environment_and_nested_compiler_argv": "UNKNOWN; recorded native invocation argv and selected environment keys are preserved, full descendant argv/env are not retained",
+    "old_run43882466907_exact_Cargo_error": "UNKNOWN; no historical raw evidence fetched and no inference from the current success",
+    "per_root_timing_and_RSS": "UNKNOWN; only per-invocation elapsed_seconds measured",
+    "post_run_native_binary_rehash": "UNKNOWN; source_after checks source/profile, not binary hashes",
+    "process_group_shutdown": "UNKNOWN; completed parent exit and signal=null retained, no explicit descendant/process-group shutdown field",
+    "runtime_causal_cache_trace": "UNKNOWN; shared-body source trace supports a hypothesis, not runtime causality"
+  },
+  "local_git": "Trigger/control/base objects checked against remote git-commit metadata; exact tree source hashed independently",
+  "metadata_source": "connected GitHub read-only API tools; response content retained in github-*.json",
+  "namespace": "Exactly result.json, uncompressed 226672 bytes <=2MiB; no directories or symlink; no other artifact or member",
+  "native_tool_identities": {
+    "cargo": {
+      "path": "/home/runner/.cargo/bin/cargo",
+      "resolved": "/home/runner/.cargo/bin/rustup",
+      "sha256": "b1c8cb14e30889e7e2999e6b69e62d9e9b9ffc0f4df8180564d306d9680e6c55"
+    },
+    "cbmc": {
+      "path": "/usr/bin/cbmc",
+      "resolved": "/usr/bin/cbmc",
+      "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+    },
+    "kani-compiler": {
+      "path": "/home/runner/work/kani/kani/target/kani/bin/kani-compiler",
+      "sha256": "ecf67eb7db81aa5a74276ba1c4d36f552e881ffd7b5c41352424563986ba2fd5"
+    },
+    "kani-driver": {
+      "path": "/home/runner/work/kani/kani/target/kani/bin/kani-driver",
+      "sha256": "fa0bd114d60805fd6bfc214ef8595684c14dcf92e22fb0eaec6e40b21561f9dc"
+    },
+    "rustc": {
+      "path": "/home/runner/.cargo/bin/rustc",
+      "resolved": "/home/runner/.cargo/bin/rustup",
+      "sha256": "b1c8cb14e30889e7e2999e6b69e62d9e9b9ffc0f4df8180564d306d9680e6c55"
+    }
+  },
+  "native_versions": {
+    "cbmc": "6.11.0 (cbmc-6.11.0)",
+    "kani": "0.68.0",
+    "rustc": "1.102.0-nightly (3ef0c22cd 2026-11-11)"
+  },
+  "normalization": "Reviewed signature removes only final .digits from native property IDs and runtime ROOT prefix in locations. Original IDs/locations retained. Failure source cross-check renders absolute export file relative to recorded cwd.",
+  "reconstruction_prohibited": "No omitted field treated as directly observed; raw stream/export digests are producer-attested; no rawlogs, full logs, Cloud data, historical artifact or ledger read/write.",
+  "replay": "AST selects only Unknown/require/parse_document/argv_for/environment/signature/classify from exact trigger runner; no service.execute, compiler, verifier, build or runner entrypoint",
+  "schema": "ch8-f4-intake-provenance-v1",
+  "source_gates": "source_before/source_run/source_after source hashes/profile/head/tree/control/changes unchanged; all problems=[]; workflow step summaries confirm preflight/service controls success",
+  "transport": "Only compact ZIP bytes obtained via tool-provided file reference, bounded <=1MiB, hashed in memory before ZIP parsing; archive not retained"
+}

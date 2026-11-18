@@ -1,0 +1,304 @@
+{
+  "accounting_reference_only": {
+    "item1": "27/28",
+    "item2": "9/14",
+    "ledger_changed": false,
+    "ledger_reference": "e3087aee6850f2fd62705aeb3103549ee0563ddc",
+    "total": "36/42"
+  },
+  "actions": {
+    "CI": false,
+    "PR": false,
+    "fix": false,
+    "ledger": false,
+    "model_changed": false,
+    "native_or_full_runner_execution": false,
+    "push": false,
+    "rawlogs": false,
+    "subagents": false
+  },
+  "attempt": 1,
+  "cfg_variants": {
+    "control_first": "feature disabled: delayed->read_value; initialized->read_indirect->read_value",
+    "delayed_first": "feature delayed-first enabled: delayed->read_indirect->read_value; initialized->read_value"
+  },
+  "classification": "DEFECT_PRESENT",
+  "comparison": "initialized control SUCCESS/13 checks alone -> FAILURE/20 checks paired, +6 SUCCESS and +1 FAILURE properties, no removals; delayed harness unchanged",
+  "compiler_fix": "ABSENT",
+  "control": "1ec3318f5e2c39afb701aa7a5578d4ea0a721224",
+  "differences": [
+    {
+      "harness": "initialized_control_harness",
+      "mode": "delayed_first"
+    },
+    {
+      "harness": "initialized_control_harness",
+      "mode": "control_first"
+    }
+  ],
+  "evidence_boundary": "Independent archive/member/pin/source/compact consistency and oracle replay; native measurements are exact-reviewed-producer observations, not a second native execution.",
+  "limits_and_unknowns": {
+    "actual_compilation_order": "UNKNOWN; cfg/feature routing and verification output do not measure compiler processing order",
+    "actual_underlying_cargo_rustc_binary_hashes": "UNKNOWN; recorded cargo/rustc path hashes identify rustup proxies, with native rustc version separately retained",
+    "both_compilation_order_directions_covered": "UNKNOWN",
+    "discarded_export_envelope": "Original schema/run_state/outcome/harness kind/cover flags not retained verbatim; acceptance is bound to exact reviewed producer",
+    "discarded_native_exports_and_streams": "Not available by design; hashes are producer-recorded, not independently recomputed from raw bytes",
+    "download_verified": "NOT_SET",
+    "formal_proof_credit": "NONE; bounded fixture reproduction only",
+    "full_inherited_environment_and_nested_compiler_argv": "UNKNOWN; recorded native invocation argv and selected environment keys are preserved, full descendant argv/env are not retained",
+    "old_run43882466907_exact_Cargo_error": "UNKNOWN; no historical raw evidence fetched and no inference from the current success",
+    "per_root_timing_and_RSS": "UNKNOWN; only per-invocation elapsed_seconds measured",
+    "post_run_native_binary_rehash": "UNKNOWN; source_after checks source/profile, not binary hashes",
+    "process_group_shutdown": "UNKNOWN; completed parent exit and signal=null retained, no explicit descendant/process-group shutdown field",
+    "runtime_causal_cache_trace": "UNKNOWN; shared-body source trace supports a hypothesis, not runtime causality"
+  },
+  "main": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "main_tree": "09b828b47c93e90e140e8c41f9048109a2f4a786",
+  "native_slots": [
+    {
+      "elapsed_seconds": 0.717,
+      "exit": 1,
+      "first_meaningful_retained_reason": {
+        "class": "safety_check",
+        "description": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+        "file": "/home/runner/work/kani/kani/tests/script-based-pre/delayed-shared-body/control.rs",
+        "id": "uninitialized_control.safety_check.2",
+        "line": "16",
+        "status": "FAILURE",
+        "trace_available": true
+      },
+      "harnesses": {
+        "uninitialized_control": {
+          "failure": 1,
+          "success": 32,
+          "total": 33,
+          "unreachable": 0,
+          "verdict": "FAILURE"
+        }
+      },
+      "label": "uninitialized_control",
+      "missing_fields": [
+        "process_group_shutdown_confirmation",
+        "per_root_elapsed_seconds",
+        "per_root_peak_RSS_bytes",
+        "full_inherited_environment",
+        "nested_compiler_argv"
+      ],
+      "signal": null,
+      "source_stage": "native property verification after successful build",
+      "stderr_error": "NONE_RETAINED; stderr contains compilation progress/warnings, not the safety failure",
+      "termination": "EXITED"
+    },
+    {
+      "elapsed_seconds": 0.465,
+      "exit": 1,
+      "first_meaningful_retained_reason": {
+        "class": "safety_check",
+        "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+        "file": "src/lib.rs",
+        "id": "read_value.safety_check.1",
+        "line": "12",
+        "status": "FAILURE",
+        "trace_available": true
+      },
+      "harnesses": {
+        "delayed_harness": {
+          "failure": 1,
+          "success": 36,
+          "total": 37,
+          "unreachable": 0,
+          "verdict": "FAILURE"
+        }
+      },
+      "label": "delayed_first/delayed_alone",
+      "missing_fields": [
+        "process_group_shutdown_confirmation",
+        "per_root_elapsed_seconds",
+        "per_root_peak_RSS_bytes",
+        "full_inherited_environment",
+        "nested_compiler_argv"
+      ],
+      "signal": null,
+      "source_stage": "native property verification after successful build",
+      "stderr_error": "NONE_RETAINED; stderr contains compilation progress/warnings, not the safety failure",
+      "termination": "EXITED"
+    },
+    {
+      "elapsed_seconds": 0.315,
+      "exit": 0,
+      "first_meaningful_retained_reason": null,
+      "harnesses": {
+        "initialized_control_harness": {
+          "failure": 0,
+          "success": 13,
+          "total": 13,
+          "unreachable": 0,
+          "verdict": "SUCCESS"
+        }
+      },
+      "label": "delayed_first/control_alone",
+      "missing_fields": [
+        "process_group_shutdown_confirmation",
+        "per_root_elapsed_seconds",
+        "per_root_peak_RSS_bytes",
+        "full_inherited_environment",
+        "nested_compiler_argv"
+      ],
+      "signal": null,
+      "source_stage": "native property verification after successful build",
+      "stderr_error": "NONE_RETAINED; stderr contains compilation progress/warnings, not the safety failure",
+      "termination": "EXITED"
+    },
+    {
+      "elapsed_seconds": 0.616,
+      "exit": 1,
+      "first_meaningful_retained_reason": {
+        "class": "safety_check",
+        "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+        "file": "src/lib.rs",
+        "id": "read_value.safety_check.1",
+        "line": "12",
+        "status": "FAILURE",
+        "trace_available": true
+      },
+      "harnesses": {
+        "delayed_harness": {
+          "failure": 1,
+          "success": 36,
+          "total": 37,
+          "unreachable": 0,
+          "verdict": "FAILURE"
+        },
+        "initialized_control_harness": {
+          "failure": 1,
+          "success": 19,
+          "total": 20,
+          "unreachable": 0,
+          "verdict": "FAILURE"
+        }
+      },
+      "label": "delayed_first/paired",
+      "missing_fields": [
+        "process_group_shutdown_confirmation",
+        "per_root_elapsed_seconds",
+        "per_root_peak_RSS_bytes",
+        "full_inherited_environment",
+        "nested_compiler_argv"
+      ],
+      "signal": null,
+      "source_stage": "native property verification after successful build",
+      "stderr_error": "NONE_RETAINED; stderr contains compilation progress/warnings, not the safety failure",
+      "termination": "EXITED"
+    },
+    {
+      "elapsed_seconds": 0.415,
+      "exit": 1,
+      "first_meaningful_retained_reason": {
+        "class": "safety_check",
+        "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+        "file": "src/lib.rs",
+        "id": "read_value.safety_check.1",
+        "line": "12",
+        "status": "FAILURE",
+        "trace_available": true
+      },
+      "harnesses": {
+        "delayed_harness": {
+          "failure": 1,
+          "success": 36,
+          "total": 37,
+          "unreachable": 0,
+          "verdict": "FAILURE"
+        }
+      },
+      "label": "control_first/delayed_alone",
+      "missing_fields": [
+        "process_group_shutdown_confirmation",
+        "per_root_elapsed_seconds",
+        "per_root_peak_RSS_bytes",
+        "full_inherited_environment",
+        "nested_compiler_argv"
+      ],
+      "signal": null,
+      "source_stage": "native property verification after successful build",
+      "stderr_error": "NONE_RETAINED; stderr contains compilation progress/warnings, not the safety failure",
+      "termination": "EXITED"
+    },
+    {
+      "elapsed_seconds": 0.315,
+      "exit": 0,
+      "first_meaningful_retained_reason": null,
+      "harnesses": {
+        "initialized_control_harness": {
+          "failure": 0,
+          "success": 13,
+          "total": 13,
+          "unreachable": 0,
+          "verdict": "SUCCESS"
+        }
+      },
+      "label": "control_first/control_alone",
+      "missing_fields": [
+        "process_group_shutdown_confirmation",
+        "per_root_elapsed_seconds",
+        "per_root_peak_RSS_bytes",
+        "full_inherited_environment",
+        "nested_compiler_argv"
+      ],
+      "signal": null,
+      "source_stage": "native property verification after successful build",
+      "stderr_error": "NONE_RETAINED; stderr contains compilation progress/warnings, not the safety failure",
+      "termination": "EXITED"
+    },
+    {
+      "elapsed_seconds": 0.616,
+      "exit": 1,
+      "first_meaningful_retained_reason": {
+        "class": "safety_check",
+        "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+        "file": "src/lib.rs",
+        "id": "read_value.safety_check.1",
+        "line": "12",
+        "status": "FAILURE",
+        "trace_available": true
+      },
+      "harnesses": {
+        "delayed_harness": {
+          "failure": 1,
+          "success": 36,
+          "total": 37,
+          "unreachable": 0,
+          "verdict": "FAILURE"
+        },
+        "initialized_control_harness": {
+          "failure": 1,
+          "success": 19,
+          "total": 20,
+          "unreachable": 0,
+          "verdict": "FAILURE"
+        }
+      },
+      "label": "control_first/paired",
+      "missing_fields": [
+        "process_group_shutdown_confirmation",
+        "per_root_elapsed_seconds",
+        "per_root_peak_RSS_bytes",
+        "full_inherited_environment",
+        "nested_compiler_argv"
+      ],
+      "signal": null,
+      "source_stage": "native property verification after successful build",
+      "stderr_error": "NONE_RETAINED; stderr contains compilation progress/warnings, not the safety failure",
+      "termination": "EXITED"
+    }
+  ],
+  "next": "Coordinator accepts reproduction and decides separate reviewed fix/CI stage; no dispatch authorized here; S2 waits owner and is outside scope",
+  "pins_digest_and_compact_oracle_status": "PASS",
+  "reproduction": "CONFIRMED for the observed fixture in both cfg variants",
+  "run_id": 44177926794,
+  "schema": "ch8-f4-confirm-intake-v1",
+  "summary_used_as_oracle": false,
+  "task": "task2933a2494eaef6a838884914990d1f940524d441",
+  "tree": "34a402bd4ebbabf3ec611327097475c8cb46cfba",
+  "trigger": "bbbe2d18d2f6e1be7fd410e1d6f746c98bb92b79"
+}
