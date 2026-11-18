@@ -1,0 +1,2777 @@
+{
+  "schema": "ch8-s3-2-offline-plan-r1-selectors-v1",
+  "mode": "PLANONLY_NOT_APPLIED",
+  "source": "513341f41ce53833a279571401c924bdddddb6c8",
+  "reviewed_control": "fc29b93b1e333b73e55e2872701c80d9927f3b02",
+  "control_repository": "/root/kani-ch8-s3-1-r1-control-w13",
+  "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "S4": "9e013a2683afbf64de762e570a052c11917e52f7",
+  "S3_1_native_results": "UNKNOWN; no native result/status/collector consulted",
+  "current_registration_assurance": "source declarations only, not proof qualification",
+  "actual_source_refs": {
+    "sort4_stable": {
+      "dependency": "D14",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": 764,
+      "body_end_line": 810,
+      "signature": "pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>(\n    v_base: *const T,\n    dst: *mut T,\n    is_less: &mut F,\n) {"
+    },
+    "sort8_stable": {
+      "dependency": "D14",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": 818,
+      "body_end_line": 835,
+      "signature": "unsafe fn sort8_stable<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(\n    v_base: *mut T,\n    dst: *mut T,\n    scratch_base: *mut T,\n    is_less: &mut F,\n) {"
+    },
+    "swap_if_less": {
+      "dependency": "D14",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": 460,
+      "body_end_line": 492,
+      "signature": "unsafe fn swap_if_less<T, F>(v_base: *mut T, a_pos: usize, b_pos: usize, is_less: &mut F)\nwhere\n    F: FnMut(&T, &T) -> bool,\n{"
+    },
+    "sort9_optimal": {
+      "dependency": "D14",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": 500,
+      "body_end_line": 541,
+      "signature": "fn sort9_optimal<T, F>(v: &mut [T], is_less: &mut F)\nwhere\n    F: FnMut(&T, &T) -> bool,\n{"
+    },
+    "sort13_optimal": {
+      "dependency": "D14",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": 549,
+      "body_end_line": 610,
+      "signature": "fn sort13_optimal<T, F>(v: &mut [T], is_less: &mut F)\nwhere\n    F: FnMut(&T, &T) -> bool,\n{"
+    },
+    "insert_tail": {
+      "dependency": "D14",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": 667,
+      "body_end_line": 702,
+      "signature": "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {"
+    },
+    "insertion_sort_shift_left": {
+      "dependency": "D14",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": 709,
+      "body_end_line": 737,
+      "signature": "pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(\n    v: &mut [T],\n    offset: usize,\n    is_less: &mut F,\n) {"
+    },
+    "bidirectional_merge": {
+      "dependency": "D14",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": 937,
+      "body_end_line": 1018,
+      "signature": "unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(\n    v: &[T],\n    dst: *mut T,\n    is_less: &mut F,\n) {"
+    },
+    "small_sort_fallback": {
+      "dependency": "D14",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": 220,
+      "body_end_line": 224,
+      "signature": "fn small_sort_fallback<T, F: FnMut(&T, &T) -> bool>(v: &mut [T], is_less: &mut F) {"
+    },
+    "small_sort_general": {
+      "dependency": "D14",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": 226,
+      "body_end_line": 239,
+      "signature": "fn small_sort_general<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(v: &mut [T], is_less: &mut F) {"
+    },
+    "small_sort_general_with_scratch": {
+      "dependency": "D14",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": 241,
+      "body_end_line": 314,
+      "signature": "fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(\n    v: &mut [T],\n    scratch: &mut [MaybeUninit<T>],\n    is_less: &mut F,\n) {"
+    },
+    "small_sort_network": {
+      "dependency": "D14",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "file": "library/core/src/slice/sort/shared/smallsort.rs",
+      "line": 332,
+      "body_end_line": 392,
+      "signature": "fn small_sort_network<T, F>(v: &mut [T], is_less: &mut F)\nwhere\n    T: FreezeMarker,\n    F: FnMut(&T, &T) -> bool,\n{"
+    }
+  },
+  "NEXT_candidates": [
+    {
+      "id": "next_sort8_u8_n32_left_real_pfc",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_next_leaf::next_sort8_u8_n32_left_real_pfc",
+      "source": {
+        "dependency": "D14",
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 818,
+        "body_end_line": 835,
+        "signature": "unsafe fn sort8_stable<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(\n    v_base: *mut T,\n    dst: *mut T,\n    scratch_base: *mut T,\n    is_less: &mut F,\n) {"
+      },
+      "mode_proposal": "PFC actual body",
+      "type": "u8",
+      "comparator": "sorting_model::KeyLess<u8>, full independent bytes0..255, pure stateless <",
+      "effective_cfg_proposal": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf",
+      "domain": "V34 fully initialized, srcV+1; S48 whollyMU, dstS+0/tempS+32.",
+      "requires": "Existing sort8 requires initialized readable src8, writable dst8/temp8, pairwise disjoint8-ranges, valid aligned/nonwrapping provenance. Exact separateV34 and commonS48 geometry.",
+      "modifies_obligation": "only dst8 and temp8",
+      "semantic_post_obligation": "dst8 sorted with equal length/full-value multiplicity to old src8; dst8 and temp8 initialized before typed/spec reads. Temp consists of two sorted4 halves, source preserved. Existing contract has dst sorted/count post and modifies dst+temp, not an explicit complete init/temp summary.",
+      "initialization_obligation": "Actual two sort4 writes initialize temp before merge; merge initializes dst. No synthetic initialization of outside scratch.",
+      "frame_obligation": "allV34 including canaries0/33 unchanged; unread MU outside exact scratch writes protected by actual PFC modifies, not typed reads of MU.",
+      "loop_maxima": {
+        "fixture_or_frame_upper": 48,
+        "source_frame": 34,
+        "spec_snapshot_count": 8,
+        "merge_iterations": 4
+      },
+      "unwind_source_proposal": 50,
+      "bound_limit": "NOT_SEALED: source-derived per-loop proposal, not native fit. Any additional generated/spec loop requires raising/reviewing bounds; default unwind assertions remain enabled.",
+      "provider_registration": "Future selected proof_for_contract(sort8_stable) in proposed opt-in module; frozen sort8_registration_only is merely registration, not proof. Two sort4 and merge bodies run actual/inlined, no verified or ordinary stubs. Modular consumers additionally need a checked explicit init/temp post and domain rebind.",
+      "prerequisites": [
+        "S3-1 native evidence considered; no result assumed now",
+        "new exact source/control/request/cfg review and stock encoding preflight",
+        "no inability to express/check partial-MU frame/init may be replaced by an assumed post"
+      ],
+      "role_cover_obligations": [
+        "literal activation and semantic/count/init/frame roles with exact future source anchors",
+        "unsorted-input/nonconstant/duplicate or tie witnesses, meaningful useful return",
+        "same-invocation complete stock/rich inventory, dynamic unique producer IDs; IDs/counts UNKNOWN until native evidence"
+      ],
+      "native_cost_seconds": null,
+      "native_fit": "UNKNOWN",
+      "status": "PROPOSED_NOT_REGISTERED_NOT_RUN",
+      "proof_credit": 0
+    },
+    {
+      "id": "next_sort9_u8_v34_base1_len9_real",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_next_leaf::next_sort9_u8_v34_base1_len9_real",
+      "source": {
+        "dependency": "D14",
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 500,
+        "body_end_line": 541,
+        "signature": "fn sort9_optimal<T, F>(v: &mut [T], is_less: &mut F)\nwhere\n    F: FnMut(&T, &T) -> bool,\n{"
+      },
+      "mode_proposal": "Original actual positive",
+      "type": "u8",
+      "comparator": "sorting_model::KeyLess<u8>, full independent bytes0..255, pure stateless <",
+      "effective_cfg_proposal": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf",
+      "domain": "V34 initialized; region base1,L9. Real25 swaps.",
+      "requires": "Exclusive initialized region len>=9; actual full-byte KeyLess, valid swap pairs. No current target contract.",
+      "modifies_obligation": "prefix9 only",
+      "semantic_post_obligation": "prefix9 sorted/full count of old prefix9; suffix/exterior unchanged; normal useful return.",
+      "initialization_obligation": "All input/output stays initialized in-place; no scratch.",
+      "frame_obligation": "fullV34 outside prefix9 unchanged.",
+      "loop_maxima": {
+        "backing_init_and_frame": 34,
+        "prefix_spec": 9,
+        "straight_line_swap_sites_not_loop": 25
+      },
+      "unwind_source_proposal": 36,
+      "bound_limit": "NOT_SEALED: source-derived per-loop proposal, not native fit. Any additional generated/spec loop requires raising/reviewing bounds; default unwind assertions remain enabled.",
+      "provider_registration": "No current sort9 contract/PFC. This actual Original theorem cannot be passed to stub_verified; future guarded semantic prefix contract plus fresh checked PFC/registration is a distinct prerequisite.",
+      "prerequisites": [
+        "same source/cfg model, actual swaps inline, no unproved summaries",
+        "literal positive roles/nonvacuity/default checks; no ordinary replacement"
+      ],
+      "role_cover_obligations": [
+        "literal activation and semantic/count/init/frame roles with exact future source anchors",
+        "unsorted-input/nonconstant/duplicate or tie witnesses, meaningful useful return",
+        "same-invocation complete stock/rich inventory, dynamic unique producer IDs; IDs/counts UNKNOWN until native evidence"
+      ],
+      "native_cost_seconds": null,
+      "native_fit": "UNKNOWN",
+      "status": "PROPOSED_NOT_REGISTERED_NOT_RUN",
+      "proof_credit": 0
+    },
+    {
+      "id": "next_sort8_u8_v34_s48_context34_real_pfc",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_next_leaf::next_sort8_u8_v34_s48_context34_real_pfc",
+      "source": {
+        "dependency": "D14",
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 818,
+        "body_end_line": 835,
+        "signature": "unsafe fn sort8_stable<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(\n    v_base: *mut T,\n    dst: *mut T,\n    scratch_base: *mut T,\n    is_less: &mut F,\n) {"
+      },
+      "mode_proposal": "PFC actual body",
+      "type": "u8",
+      "comparator": "sorting_model::KeyLess<u8>, full independent bytes0..255, pure stateless <",
+      "effective_cfg_proposal": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf",
+      "domain": "All34 (n16..32,side0/1) contexts below: srcV=1+side*h,dstS=side*h,tempS=n+8*side.",
+      "requires": "Existing sort8 requires initialized readable src8, writable dst8/temp8, pairwise disjoint8-ranges, valid aligned/nonwrapping provenance. Exact separateV34 and commonS48 geometry.",
+      "modifies_obligation": "only the two dst8/temp8 ranges",
+      "semantic_post_obligation": "dst8 sorted with equal length/full-value multiplicity to old src8; dst8 and temp8 initialized before typed/spec reads. Temp consists of two sorted4 halves, source preserved. Existing contract has dst sorted/count post and modifies dst+temp, not an explicit complete init/temp summary.",
+      "initialization_obligation": "side0: allS MU; side1: only prior [0,8) and[n,n+8) initialized to arbitrary u8, restMU. Arbitrary values overapprox prior-call correlations without assuming sortedness or a summary.",
+      "frame_obligation": "V34 preserved; initialized prior scratch intervals preserved; MU outside write set kept unread. Arbitrary other init masks remain OPEN.",
+      "loop_maxima": {
+        "scratch_fixture_upper": 48,
+        "V_frame": 34,
+        "spec_snapshot_count": 8,
+        "merge_iterations": 4
+      },
+      "unwind_source_proposal": 50,
+      "bound_limit": "NOT_SEALED: source-derived per-loop proposal, not native fit. Any additional generated/spec loop requires raising/reviewing bounds; default unwind assertions remain enabled.",
+      "provider_registration": "Future selected proof_for_contract(sort8_stable) in proposed opt-in module; frozen sort8_registration_only is merely registration, not proof. Two sort4 and merge bodies run actual/inlined, no verified or ordinary stubs. Modular consumers additionally need a checked explicit init/temp post and domain rebind.",
+      "prerequisites": [
+        "fixed sort8 discriminator admissible and within approved envelope",
+        "same34 intervals/partial-init states sealed explicitly",
+        "first-call result must supply dst/temp initialization before second-call composition"
+      ],
+      "role_cover_obligations": [
+        "literal activation and semantic/count/init/frame roles with exact future source anchors",
+        "unsorted-input/nonconstant/duplicate or tie witnesses, meaningful useful return",
+        "same-invocation complete stock/rich inventory, dynamic unique producer IDs; IDs/counts UNKNOWN until native evidence"
+      ],
+      "native_cost_seconds": null,
+      "native_fit": "UNKNOWN",
+      "status": "PROPOSED_NOT_REGISTERED_NOT_RUN",
+      "proof_credit": 0
+    },
+    {
+      "id": "next_sort9_u8_v34_context11_real",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_next_leaf::next_sort9_u8_v34_context11_real",
+      "source": {
+        "dependency": "D14",
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 500,
+        "body_end_line": 541,
+        "signature": "fn sort9_optimal<T, F>(v: &mut [T], is_less: &mut F)\nwhere\n    F: FnMut(&T, &T) -> bool,\n{"
+      },
+      "mode_proposal": "Original actual positive",
+      "type": "u8",
+      "comparator": "sorting_model::KeyLess<u8>, full independent bytes0..255, pure stateless <",
+      "effective_cfg_proposal": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf",
+      "domain": "All19 S4 caller rows /11 distinct(base,L) pairs in network9 table; L9..12.",
+      "requires": "V34 fully initialized; exact valid region; real swaps, same T/F.",
+      "modifies_obligation": "prefix9 only",
+      "semantic_post_obligation": "prefix9 sorted/full-value count; suffix[9,L) and exterior preserved.",
+      "initialization_obligation": "In-place initialized u8; no scratch.",
+      "frame_obligation": "fullV34 outside the width9 prefix.",
+      "loop_maxima": {
+        "backing_init_and_frame": 34,
+        "prefix_spec": 9,
+        "straight_line_swap_sites_not_loop": 25
+      },
+      "unwind_source_proposal": 36,
+      "bound_limit": "NOT_SEALED: source-derived per-loop proposal, not native fit. Any additional generated/spec loop requires raising/reviewing bounds; default unwind assertions remain enabled.",
+      "provider_registration": "Original positive only; future semantic PFC summary qualification remains separate.",
+      "prerequisites": [
+        "fixed actual9 discriminator passes; exact caller preconditions/alias/lifetime state established",
+        "identical callee tuples may reuse the same qualified domain only after source/cfg/instance binding; parent caller still proved"
+      ],
+      "role_cover_obligations": [
+        "literal activation and semantic/count/init/frame roles with exact future source anchors",
+        "unsorted-input/nonconstant/duplicate or tie witnesses, meaningful useful return",
+        "same-invocation complete stock/rich inventory, dynamic unique producer IDs; IDs/counts UNKNOWN until native evidence"
+      ],
+      "native_cost_seconds": null,
+      "native_fit": "UNKNOWN",
+      "status": "PROPOSED_NOT_REGISTERED_NOT_RUN",
+      "proof_credit": 0
+    },
+    {
+      "id": "next_sort13_u8_v34_base1_len13_real",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_next_leaf::next_sort13_u8_v34_base1_len13_real",
+      "source": {
+        "dependency": "D14",
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 549,
+        "body_end_line": 610,
+        "signature": "fn sort13_optimal<T, F>(v: &mut [T], is_less: &mut F)\nwhere\n    F: FnMut(&T, &T) -> bool,\n{"
+      },
+      "mode_proposal": "Original actual positive",
+      "type": "u8",
+      "comparator": "sorting_model::KeyLess<u8>, full independent bytes0..255, pure stateless <",
+      "effective_cfg_proposal": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf",
+      "domain": "V34 initialized; region base1,L13, real45 swaps; changed actual-inline encoding relative to old sort13_assumed.",
+      "requires": "Exclusive initialized len>=13, lawful pure KeyLess; all actual pair indices valid. No current target contract.",
+      "modifies_obligation": "prefix13 only",
+      "semantic_post_obligation": "prefix13 sorted/full-value count, initialized and exterior frame.",
+      "initialization_obligation": "No assumed swap havoc/summary; actual in-place transfers.",
+      "frame_obligation": "fullV34 outside prefix13.",
+      "loop_maxima": {
+        "backing_init_and_frame": 34,
+        "prefix_spec": 13,
+        "straight_line_swap_sites_not_loop": 45
+      },
+      "unwind_source_proposal": 36,
+      "bound_limit": "NOT_SEALED: source-derived per-loop proposal, not native fit. Any additional generated/spec loop requires raising/reviewing bounds; default unwind assertions remain enabled.",
+      "provider_registration": "No current positive sort13 PFC contract. Original finite semantics cannot be promoted to a verified contract summary.",
+      "prerequisites": [
+        "cheap sort8/9 observations considered first",
+        "explicit reviewed encoding delta; never select unchanged sort13_assumed",
+        "native cost/fit UNKNOWN; no600s success promise"
+      ],
+      "role_cover_obligations": [
+        "literal activation and semantic/count/init/frame roles with exact future source anchors",
+        "unsorted-input/nonconstant/duplicate or tie witnesses, meaningful useful return",
+        "same-invocation complete stock/rich inventory, dynamic unique producer IDs; IDs/counts UNKNOWN until native evidence"
+      ],
+      "native_cost_seconds": null,
+      "native_fit": "UNKNOWN",
+      "status": "PROPOSED_NOT_REGISTERED_NOT_RUN",
+      "proof_credit": 0
+    },
+    {
+      "id": "next_sort13_u8_v34_context13_real",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_next_leaf::next_sort13_u8_v34_context13_real",
+      "source": {
+        "dependency": "D14",
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 549,
+        "body_end_line": 610,
+        "signature": "fn sort13_optimal<T, F>(v: &mut [T], is_less: &mut F)\nwhere\n    F: FnMut(&T, &T) -> bool,\n{"
+      },
+      "mode_proposal": "Original actual positive",
+      "type": "u8",
+      "comparator": "sorting_model::KeyLess<u8>, full independent bytes0..255, pure stateless <",
+      "effective_cfg_proposal": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf",
+      "domain": "All20 S4 caller rows /13 distinct(base,L) pairs in network13 table; L13..17 including mixed25 right.",
+      "requires": "Same initialized V34/T/F; exact valid region.",
+      "modifies_obligation": "prefix13 only",
+      "semantic_post_obligation": "prefix13 sorted/full-value count; suffix[13,L) and all exterior unchanged.",
+      "initialization_obligation": "In-place initialized values, all real swaps.",
+      "frame_obligation": "fullV34 outside prefix13.",
+      "loop_maxima": {
+        "backing_init_and_frame": 34,
+        "prefix_spec": 13,
+        "straight_line_swap_sites_not_loop": 45
+      },
+      "unwind_source_proposal": 36,
+      "bound_limit": "NOT_SEALED: source-derived per-loop proposal, not native fit. Any additional generated/spec loop requires raising/reviewing bounds; default unwind assertions remain enabled.",
+      "provider_registration": "Original only; future reviewed guarded prefix contracts/PFC registration and fresh evidence required for summary use.",
+      "prerequisites": [
+        "fixed actual13 discriminator admissible; otherwise this root NOT_RUN",
+        "do not infer contextual or generic theorem from weak13 negative"
+      ],
+      "role_cover_obligations": [
+        "literal activation and semantic/count/init/frame roles with exact future source anchors",
+        "unsorted-input/nonconstant/duplicate or tie witnesses, meaningful useful return",
+        "same-invocation complete stock/rich inventory, dynamic unique producer IDs; IDs/counts UNKNOWN until native evidence"
+      ],
+      "native_cost_seconds": null,
+      "native_fit": "UNKNOWN",
+      "status": "PROPOSED_NOT_REGISTERED_NOT_RUN",
+      "proof_credit": 0
+    }
+  ],
+  "later_DAG_only": [
+    {
+      "id": "later_insert_actual_contexts",
+      "selector_family_proposal": "slice::sort::shared::smallsort::verify::sorting_s3_next_leaf::later_insert_actual_contexts",
+      "source": {
+        "dependency": "D14",
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 667,
+        "body_end_line": 702,
+        "signature": "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {"
+      },
+      "mode_proposal": "PFC actual family",
+      "effective_cfg": "Future exact reviewed cfg; frozenS3 flags are reference only, not a new source decision",
+      "domain": "V34 network bases1/1+h, p perS4 through16; S48 general bases0/h with only live prefix+tail initialized. Cell/NonCopy are distinct typed families.",
+      "requires": "existing begin<tail, same allocation readable/writable initialized span and sorted prefix, active len2..17",
+      "modifies_obligation": "inclusive begin..tail only",
+      "post_obligation": "span sorted/full multiplicity, gap restored/initialized",
+      "init_obligation": "source prefix+tail initialized before old/spec loads; outside scratch not presumed initialized",
+      "frame_obligation": "all outside span, including existing live sibling regions; unreadMU via checked footprint",
+      "loop_maxima": {
+        "S48_frame_fixture": 48,
+        "V34_frame": 34,
+        "sift": 16,
+        "post": 17
+      },
+      "unwind_source_proposal": {
+        "V34": 36,
+        "S48": 50
+      },
+      "prerequisites": [
+        "p coverage alone is not backing/init/source-instance coverage",
+        "network32 right absolute begin17 exceeds S3-1 begin1..16"
+      ],
+      "provider_registration": "Existing insert PFC registration only qualifies its actually proved domain; matching new PFCs needed.",
+      "selected_in_NEXT": false,
+      "native_cost_fit": "UNKNOWN",
+      "status": "PROPOSED_NOT_REGISTERED_NOT_RUN"
+    },
+    {
+      "id": "later_shift_regions",
+      "selector_family_proposal": "slice::sort::shared::smallsort::verify::sorting_s3_next_leaf::later_shift_regions",
+      "source": {
+        "dependency": "D14",
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 709,
+        "body_end_line": 737,
+        "signature": "pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(\n    v: &mut [T],\n    offset: usize,\n    is_less: &mut F,\n) {"
+      },
+      "mode_proposal": "new semantic PFC family",
+      "effective_cfg": "Future exact reviewed cfg; frozenS3 flags are reference only, not a new source decision",
+      "domain": "V34 regionL2..17 offsets1/9/13<=L; fallback typedV18 through16 separately.",
+      "requires": "existing offset!=0<=len; future checked sorted-prefix premise",
+      "modifies_obligation": "region only",
+      "post_obligation": "whole region sorted/full count/init; zero-iteration offset==L included",
+      "init_obligation": "derive each next tail initialized, sorted prefix and restored gap from prior iteration",
+      "frame_obligation": "region exterior and sibling region preserved",
+      "loop_maxima": {
+        "V34_frame": 34,
+        "shift": 16,
+        "sift": 16,
+        "post": 17
+      },
+      "unwind_source_proposal": 36,
+      "prerequisites": [
+        "qualified insert exact domain or actual body inline",
+        "checked loop induction and offset9/13 empty-loop boundaries"
+      ],
+      "provider_registration": "Current shift contract is safety-only; semantic post/PFC registration must be added and checked before a summary is used.",
+      "selected_in_NEXT": false,
+      "native_cost_fit": "UNKNOWN",
+      "status": "PROPOSED_NOT_REGISTERED_NOT_RUN"
+    },
+    {
+      "id": "later_merge_general_final",
+      "selector_family_proposal": "slice::sort::shared::smallsort::verify::sorting_s3_next_leaf::later_merge_general_final",
+      "source": {
+        "dependency": "D14",
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 937,
+        "body_end_line": 1018,
+        "signature": "unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(\n    v: &[T],\n    dst: *mut T,\n    is_less: &mut F,\n) {"
+      },
+      "mode_proposal": "changed invariant actual PFC family",
+      "effective_cfg": "Future exact reviewed cfg; frozenS3 flags are reference only, not a new source decision",
+      "domain": "n2..32, S48[0,n) -> V34[1,1+n), floor/ceil sorted halves; mostlyMU outside S live source.",
+      "requires": "existing n>=2, src initialized, dst writable/disjoint, active<=32 ordered halves",
+      "modifies_obligation": "dstn only",
+      "post_obligation": "sorted full count/init, exact source frame; both fronts consume once, odd center initialized and lawful-order abort unreachable",
+      "init_obligation": "seed/insert proofs establish source halves; no wholeS initialization assumption",
+      "frame_obligation": "all initialized source and outside dst; unreadMU stays outside footprint",
+      "loop_maxima": {
+        "frame_fixture": 48,
+        "post_snapshot_count": 32,
+        "merge_pairs": 16,
+        "odd_center_loop": 0
+      },
+      "unwind_source_proposal": 50,
+      "prerequisites": [
+        "reviewed K0..K8 invariant or another decision-changing checked encoding",
+        "cheap changed odd/even discriminators before n32; no unchanged merge32_real retry"
+      ],
+      "provider_registration": "Frozen merge8 registrations are not proofs for these other lengths/backings.",
+      "selected_in_NEXT": false,
+      "native_cost_fit": "UNKNOWN",
+      "status": "PROPOSED_NOT_REGISTERED_NOT_RUN"
+    },
+    {
+      "id": "later_merge_network_final",
+      "selector_family_proposal": "slice::sort::shared::smallsort::verify::sorting_s3_next_leaf::later_merge_network_final",
+      "source": {
+        "dependency": "D14",
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 937,
+        "body_end_line": 1018,
+        "signature": "unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(\n    v: &[T],\n    dst: *mut T,\n    is_less: &mut F,\n) {"
+      },
+      "mode_proposal": "actual PFC family",
+      "effective_cfg": "Future exact reviewed cfg; frozenS3 flags are reference only, not a new source decision",
+      "domain": "n18..32, V34+1 -> privateMU32+0; reversed allocation roles from general final merge.",
+      "requires": "existing merge requires for exact source/destination/provenance",
+      "modifies_obligation": "dstn only",
+      "post_obligation": "sorted/full count/init, source preserved; odd center and fronts correct",
+      "init_obligation": "dstMU initially; read/copy only initialized prefixn",
+      "frame_obligation": "V34 full frame; privateMU suffix32-n remains outside writes",
+      "loop_maxima": {
+        "V34_frame": 34,
+        "MU_capacity": 32,
+        "post": 32,
+        "merge_pairs": 16
+      },
+      "unwind_source_proposal": 36,
+      "prerequisites": [
+        "same invariant is not an automatic geometry/provenance proof",
+        "actual network half-sorted premises"
+      ],
+      "provider_registration": "New exact direction qualification; source/dst10/10 merge8 cannot substitute.",
+      "selected_in_NEXT": false,
+      "native_cost_fit": "UNKNOWN",
+      "status": "PROPOSED_NOT_REGISTERED_NOT_RUN"
+    },
+    {
+      "id": "later_general_full0_32",
+      "selector_family_proposal": "slice::sort::shared::smallsort::verify::sorting_s3_next_leaf::later_general_full0_32",
+      "source": {
+        "dependency": "D14",
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 241,
+        "body_end_line": 314,
+        "signature": "fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(\n    v: &mut [T],\n    scratch: &mut [MaybeUninit<T>],\n    is_less: &mut F,\n) {"
+      },
+      "mode_proposal": "actual consumers then exact entry PFCs",
+      "effective_cfg": "Future exact reviewed cfg; frozenS3 flags are reference only, not a new source decision",
+      "domain": "AllG0/G1/G2/G3S rows u8V34/base1; stackS48; stable exactC=n+16, physical48 viewC, physical48 view48 separated.",
+      "requires": "entry threshold, n>=2 scratch>=n+16, initialized v, valid disjoint v/scratch views",
+      "modifies_obligation": "v and exact scratch seed/extension/temp/final ranges",
+      "post_obligation": "full activev sorted/count/init; two half seeds, insertion, final merge and guard/forget compose",
+      "init_obligation": "prove each half initialized before merge; typed scratch outside footprints not assumed initialized",
+      "frame_obligation": "full exterior and live-range frames; stable same-parent/larger scratch remain separate",
+      "loop_maxima": {
+        "scratch_fixture": 48,
+        "post": 32,
+        "half_loop": 2,
+        "sift": 15,
+        "merge": 16
+      },
+      "unwind_source_proposal": 50,
+      "prerequisites": [
+        "sort4/sort8/insert/final merge exact-domain providers or actual bodies inline",
+        "copy seeds/extensions, CopyOnDrop and fresh consumer proof",
+        "all stable scratch view/allocation preconditions"
+      ],
+      "provider_registration": "Wrapper has no helper semantic contract; existing trait-entry contracts/S1 N0..3 smoke do not establish full thresholds.",
+      "selected_in_NEXT": false,
+      "native_cost_fit": "UNKNOWN",
+      "status": "PROPOSED_NOT_REGISTERED_NOT_RUN"
+    },
+    {
+      "id": "later_network_full0_32",
+      "selector_family_proposal": "slice::sort::shared::smallsort::verify::sorting_s3_next_leaf::later_network_full0_32",
+      "source": {
+        "dependency": "D14",
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 332,
+        "body_end_line": 392,
+        "signature": "fn small_sort_network<T, F>(v: &mut [T], is_less: &mut F)\nwhere\n    T: FreezeMarker,\n    F: FnMut(&T, &T) -> bool,\n{"
+      },
+      "mode_proposal": "actual consumers then Copy/forwarding entry PFCs",
+      "effective_cfg": "Future exact reviewed cfg; frozenS3 flags are reference only, not a new source decision",
+      "domain": "AllN0..N6 u8V34/base1, actual privateMU32, mixed25 and n17/tail16 retained.",
+      "requires": "n<=32 initialized v; actual trait-selected route where claimed",
+      "modifies_obligation": "v externally; private scratch prefixn internally",
+      "post_obligation": "wholev sorted/full count/init after prefixes, shift, final merge and copy-back",
+      "init_obligation": "prove private dst initialized before copy-back; do not infer init from safety-only summaries",
+      "frame_obligation": "between regions, suffix until insertion and V34 exterior",
+      "loop_maxima": {
+        "V34_frame": 34,
+        "post": 32,
+        "regions": 2,
+        "sift": 16,
+        "merge": 16,
+        "copy": 32
+      },
+      "unwind_source_proposal": 36,
+      "prerequisites": [
+        "positive9/13 actual theorem plus semantic PFC provider if stubbing; otherwise inline",
+        "shift, network-direction merge, copy-back and exact dispatch proofs"
+      ],
+      "provider_registration": "New helper contract/PFC or real consumer proof; weak13 and assumed positive are not providers.",
+      "selected_in_NEXT": false,
+      "native_cost_fit": "UNKNOWN",
+      "status": "PROPOSED_NOT_REGISTERED_NOT_RUN"
+    },
+    {
+      "id": "later_cell_fallback0_16",
+      "selector_family_proposal": "slice::sort::shared::smallsort::verify::sorting_s3_next_leaf::later_cell_fallback0_16",
+      "source": {
+        "dependency": "D14",
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 220,
+        "body_end_line": 224,
+        "signature": "fn small_sort_fallback<T, F: FnMut(&T, &T) -> bool>(v: &mut [T], is_less: &mut F) {"
+      },
+      "mode_proposal": "typed actual/entry family",
+      "effective_cfg": "Future exact reviewed cfg; frozenS3 flags are reference only, not a new source decision",
+      "domain": "Cell<u8>/KeyLess<Cell<u8>>, V18/base1 n0..16; stable scratch unused.",
+      "requires": "typed initialized Cells and correct default specialization",
+      "modifies_obligation": "activev only, no scratch writes",
+      "post_obligation": "logical full-byte sortedness/count, typed init and frame",
+      "init_obligation": "typed insert/shift validity; no u8 or Freeze/Copy premise substitution",
+      "frame_obligation": "V18 exterior and unused stable scratch",
+      "loop_maxima": {
+        "V18_frame": 18,
+        "post": 16,
+        "shift_sift": 15
+      },
+      "unwind_source_proposal": 20,
+      "prerequisites": [
+        "fresh typed insert/shift or actual body proof",
+        "source model active for this exactpair only"
+      ],
+      "provider_registration": "Finite model support is not admitted typed leaf evidence.",
+      "selected_in_NEXT": false,
+      "native_cost_fit": "UNKNOWN",
+      "status": "PROPOSED_NOT_REGISTERED_NOT_RUN"
+    },
+    {
+      "id": "later_noncopy_general0_32",
+      "selector_family_proposal": "slice::sort::shared::smallsort::verify::sorting_s3_next_leaf::later_noncopy_general0_32",
+      "source": {
+        "dependency": "D14",
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort.rs",
+        "line": 226,
+        "body_end_line": 239,
+        "signature": "fn small_sort_general<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(v: &mut [T], is_less: &mut F) {"
+      },
+      "mode_proposal": "typed actual/entry family",
+      "effective_cfg": "Future exact reviewed cfg; frozenS3 flags are reference only, not a new source decision",
+      "domain": "NonCopyByte/KeyLess<NonCopyByte>, V34/base1 n0..32, scratch variants of general.",
+      "requires": "actual Freeze/non-Copy instance, initialized source and declared scratch",
+      "modifies_obligation": "v plus actual scratch footprint",
+      "post_obligation": "logical-byte sorted/count/init plus typed ownership/frame",
+      "init_obligation": "new typed leaves/seeds/guard/copies; repr/size equality alone is not proof",
+      "frame_obligation": "all declared typed exterior state",
+      "loop_maxima": {
+        "fixture": 48,
+        "post": 32,
+        "sift": 15,
+        "merge": 16
+      },
+      "unwind_source_proposal": 50,
+      "prerequisites": [
+        "fresh typed providers or independently checked representation theorem",
+        "actual Freeze-default/stable entry selection"
+      ],
+      "provider_registration": "Separate instantiation; u8 PFC success cannot be promoted.",
+      "selected_in_NEXT": false,
+      "native_cost_fit": "UNKNOWN",
+      "status": "PROPOSED_NOT_REGISTERED_NOT_RUN"
+    }
+  ],
+  "merge8_contexts34": [
+    {
+      "n": 16,
+      "side": 0,
+      "s4_pointer": "/length_instances/33/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 16,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          16,
+          24
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 32,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 16,
+      "side": 1,
+      "s4_pointer": "/length_instances/33/merge8_scratch_src_dst/1",
+      "v34_source_base": 9,
+      "scratch48_src": 24,
+      "scratch48_dst": 8,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          16,
+          24
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          16,
+          32
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 32,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 17,
+      "side": 0,
+      "s4_pointer": "/length_instances/35/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 17,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          17,
+          25
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 33,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 17,
+      "side": 1,
+      "s4_pointer": "/length_instances/35/merge8_scratch_src_dst/1",
+      "v34_source_base": 9,
+      "scratch48_src": 25,
+      "scratch48_dst": 8,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          17,
+          25
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          17,
+          33
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 33,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 18,
+      "side": 0,
+      "s4_pointer": "/length_instances/37/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 18,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          18,
+          26
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 34,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 18,
+      "side": 1,
+      "s4_pointer": "/length_instances/37/merge8_scratch_src_dst/1",
+      "v34_source_base": 10,
+      "scratch48_src": 26,
+      "scratch48_dst": 9,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          18,
+          26
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          18,
+          34
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 34,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 19,
+      "side": 0,
+      "s4_pointer": "/length_instances/39/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 19,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          19,
+          27
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 35,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 19,
+      "side": 1,
+      "s4_pointer": "/length_instances/39/merge8_scratch_src_dst/1",
+      "v34_source_base": 10,
+      "scratch48_src": 27,
+      "scratch48_dst": 9,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          19,
+          27
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          19,
+          35
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 35,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 20,
+      "side": 0,
+      "s4_pointer": "/length_instances/41/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 20,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          20,
+          28
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 36,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 20,
+      "side": 1,
+      "s4_pointer": "/length_instances/41/merge8_scratch_src_dst/1",
+      "v34_source_base": 11,
+      "scratch48_src": 28,
+      "scratch48_dst": 10,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          20,
+          28
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          20,
+          36
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 36,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 21,
+      "side": 0,
+      "s4_pointer": "/length_instances/43/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 21,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          21,
+          29
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 37,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 21,
+      "side": 1,
+      "s4_pointer": "/length_instances/43/merge8_scratch_src_dst/1",
+      "v34_source_base": 11,
+      "scratch48_src": 29,
+      "scratch48_dst": 10,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          21,
+          29
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          21,
+          37
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 37,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 22,
+      "side": 0,
+      "s4_pointer": "/length_instances/45/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 22,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          22,
+          30
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 38,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 22,
+      "side": 1,
+      "s4_pointer": "/length_instances/45/merge8_scratch_src_dst/1",
+      "v34_source_base": 12,
+      "scratch48_src": 30,
+      "scratch48_dst": 11,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          22,
+          30
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          22,
+          38
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 38,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 23,
+      "side": 0,
+      "s4_pointer": "/length_instances/47/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 23,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          23,
+          31
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 39,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 23,
+      "side": 1,
+      "s4_pointer": "/length_instances/47/merge8_scratch_src_dst/1",
+      "v34_source_base": 12,
+      "scratch48_src": 31,
+      "scratch48_dst": 11,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          23,
+          31
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          23,
+          39
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 39,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 24,
+      "side": 0,
+      "s4_pointer": "/length_instances/49/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 24,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          24,
+          32
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 40,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 24,
+      "side": 1,
+      "s4_pointer": "/length_instances/49/merge8_scratch_src_dst/1",
+      "v34_source_base": 13,
+      "scratch48_src": 32,
+      "scratch48_dst": 12,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          24,
+          32
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          24,
+          40
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 40,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 25,
+      "side": 0,
+      "s4_pointer": "/length_instances/51/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 25,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          25,
+          33
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 41,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 25,
+      "side": 1,
+      "s4_pointer": "/length_instances/51/merge8_scratch_src_dst/1",
+      "v34_source_base": 13,
+      "scratch48_src": 33,
+      "scratch48_dst": 12,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          25,
+          33
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          25,
+          41
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 41,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 26,
+      "side": 0,
+      "s4_pointer": "/length_instances/53/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 26,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          26,
+          34
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 42,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 26,
+      "side": 1,
+      "s4_pointer": "/length_instances/53/merge8_scratch_src_dst/1",
+      "v34_source_base": 14,
+      "scratch48_src": 34,
+      "scratch48_dst": 13,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          26,
+          34
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          26,
+          42
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 42,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 27,
+      "side": 0,
+      "s4_pointer": "/length_instances/55/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 27,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          27,
+          35
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 43,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 27,
+      "side": 1,
+      "s4_pointer": "/length_instances/55/merge8_scratch_src_dst/1",
+      "v34_source_base": 14,
+      "scratch48_src": 35,
+      "scratch48_dst": 13,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          27,
+          35
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          27,
+          43
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 43,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 28,
+      "side": 0,
+      "s4_pointer": "/length_instances/57/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 28,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          28,
+          36
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 44,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 28,
+      "side": 1,
+      "s4_pointer": "/length_instances/57/merge8_scratch_src_dst/1",
+      "v34_source_base": 15,
+      "scratch48_src": 36,
+      "scratch48_dst": 14,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          28,
+          36
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          28,
+          44
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 44,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 29,
+      "side": 0,
+      "s4_pointer": "/length_instances/59/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 29,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          29,
+          37
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 45,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 29,
+      "side": 1,
+      "s4_pointer": "/length_instances/59/merge8_scratch_src_dst/1",
+      "v34_source_base": 15,
+      "scratch48_src": 37,
+      "scratch48_dst": 14,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          29,
+          37
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          29,
+          45
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 45,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 30,
+      "side": 0,
+      "s4_pointer": "/length_instances/61/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 30,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          30,
+          38
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 46,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 30,
+      "side": 1,
+      "s4_pointer": "/length_instances/61/merge8_scratch_src_dst/1",
+      "v34_source_base": 16,
+      "scratch48_src": 38,
+      "scratch48_dst": 15,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          30,
+          38
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          30,
+          46
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 46,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 31,
+      "side": 0,
+      "s4_pointer": "/length_instances/63/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 31,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          31,
+          39
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 47,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 31,
+      "side": 1,
+      "s4_pointer": "/length_instances/63/merge8_scratch_src_dst/1",
+      "v34_source_base": 16,
+      "scratch48_src": 39,
+      "scratch48_dst": 15,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          31,
+          39
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          31,
+          47
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 47,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 32,
+      "side": 0,
+      "s4_pointer": "/length_instances/65/merge8_scratch_src_dst/0",
+      "v34_source_base": 1,
+      "scratch48_src": 32,
+      "scratch48_dst": 0,
+      "known_initialized_before_sort8": [],
+      "known_initialized_before_merge8": [
+        [
+          32,
+          40
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 32,
+      "minimum_scratch_length": 48,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    },
+    {
+      "n": 32,
+      "side": 1,
+      "s4_pointer": "/length_instances/65/merge8_scratch_src_dst/1",
+      "v34_source_base": 17,
+      "scratch48_src": 40,
+      "scratch48_dst": 16,
+      "known_initialized_before_sort8": [
+        [
+          0,
+          8
+        ],
+        [
+          32,
+          40
+        ]
+      ],
+      "known_initialized_before_merge8": [
+        [
+          0,
+          8
+        ],
+        [
+          32,
+          48
+        ]
+      ],
+      "outside_dst_uninitialized_slots_in_exact_stack_case": 16,
+      "minimum_scratch_length": 48,
+      "S3_1_numeric_offset_match": true,
+      "S3_1_full_context_discharged": false
+    }
+  ],
+  "network_contexts": {
+    "9": {
+      "caller_contexts": [
+        {
+          "n": 9,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 9,
+          "s4_pointer": "/length_instances/76/regions/0"
+        },
+        {
+          "n": 10,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 10,
+          "s4_pointer": "/length_instances/77/regions/0"
+        },
+        {
+          "n": 11,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 11,
+          "s4_pointer": "/length_instances/78/regions/0"
+        },
+        {
+          "n": 12,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 12,
+          "s4_pointer": "/length_instances/79/regions/0"
+        },
+        {
+          "n": 18,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 9,
+          "s4_pointer": "/length_instances/85/regions/0"
+        },
+        {
+          "n": 18,
+          "side": 1,
+          "absolute_base_in_V34": 10,
+          "region_length": 9,
+          "s4_pointer": "/length_instances/85/regions/1"
+        },
+        {
+          "n": 19,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 9,
+          "s4_pointer": "/length_instances/86/regions/0"
+        },
+        {
+          "n": 19,
+          "side": 1,
+          "absolute_base_in_V34": 10,
+          "region_length": 10,
+          "s4_pointer": "/length_instances/86/regions/1"
+        },
+        {
+          "n": 20,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 10,
+          "s4_pointer": "/length_instances/87/regions/0"
+        },
+        {
+          "n": 20,
+          "side": 1,
+          "absolute_base_in_V34": 11,
+          "region_length": 10,
+          "s4_pointer": "/length_instances/87/regions/1"
+        },
+        {
+          "n": 21,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 10,
+          "s4_pointer": "/length_instances/88/regions/0"
+        },
+        {
+          "n": 21,
+          "side": 1,
+          "absolute_base_in_V34": 11,
+          "region_length": 11,
+          "s4_pointer": "/length_instances/88/regions/1"
+        },
+        {
+          "n": 22,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 11,
+          "s4_pointer": "/length_instances/89/regions/0"
+        },
+        {
+          "n": 22,
+          "side": 1,
+          "absolute_base_in_V34": 12,
+          "region_length": 11,
+          "s4_pointer": "/length_instances/89/regions/1"
+        },
+        {
+          "n": 23,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 11,
+          "s4_pointer": "/length_instances/90/regions/0"
+        },
+        {
+          "n": 23,
+          "side": 1,
+          "absolute_base_in_V34": 12,
+          "region_length": 12,
+          "s4_pointer": "/length_instances/90/regions/1"
+        },
+        {
+          "n": 24,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 12,
+          "s4_pointer": "/length_instances/91/regions/0"
+        },
+        {
+          "n": 24,
+          "side": 1,
+          "absolute_base_in_V34": 13,
+          "region_length": 12,
+          "s4_pointer": "/length_instances/91/regions/1"
+        },
+        {
+          "n": 25,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 12,
+          "s4_pointer": "/length_instances/92/regions/0"
+        }
+      ],
+      "caller_context_count": 19,
+      "distinct_callee_base_length_pairs": [
+        [
+          1,
+          9
+        ],
+        [
+          1,
+          10
+        ],
+        [
+          1,
+          11
+        ],
+        [
+          1,
+          12
+        ],
+        [
+          10,
+          9
+        ],
+        [
+          10,
+          10
+        ],
+        [
+          11,
+          10
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          12,
+          11
+        ],
+        [
+          12,
+          12
+        ],
+        [
+          13,
+          12
+        ]
+      ],
+      "distinct_callee_count": 11,
+      "actual_swap_sites": 25,
+      "potential_S3_swap_match": "Only counterfactual: same initialized V34, u8/KeyLess, base1..17 within0..20 and indices<13. Exact future source/tool/effective-cfg/provider binding is still required. Network ordering/count/frame theorem absent."
+    },
+    "13": {
+      "caller_contexts": [
+        {
+          "n": 13,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 13,
+          "s4_pointer": "/length_instances/80/regions/0"
+        },
+        {
+          "n": 14,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 14,
+          "s4_pointer": "/length_instances/81/regions/0"
+        },
+        {
+          "n": 15,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 15,
+          "s4_pointer": "/length_instances/82/regions/0"
+        },
+        {
+          "n": 16,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 16,
+          "s4_pointer": "/length_instances/83/regions/0"
+        },
+        {
+          "n": 17,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 17,
+          "s4_pointer": "/length_instances/84/regions/0"
+        },
+        {
+          "n": 25,
+          "side": 1,
+          "absolute_base_in_V34": 13,
+          "region_length": 13,
+          "s4_pointer": "/length_instances/92/regions/1"
+        },
+        {
+          "n": 26,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 13,
+          "s4_pointer": "/length_instances/93/regions/0"
+        },
+        {
+          "n": 26,
+          "side": 1,
+          "absolute_base_in_V34": 14,
+          "region_length": 13,
+          "s4_pointer": "/length_instances/93/regions/1"
+        },
+        {
+          "n": 27,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 13,
+          "s4_pointer": "/length_instances/94/regions/0"
+        },
+        {
+          "n": 27,
+          "side": 1,
+          "absolute_base_in_V34": 14,
+          "region_length": 14,
+          "s4_pointer": "/length_instances/94/regions/1"
+        },
+        {
+          "n": 28,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 14,
+          "s4_pointer": "/length_instances/95/regions/0"
+        },
+        {
+          "n": 28,
+          "side": 1,
+          "absolute_base_in_V34": 15,
+          "region_length": 14,
+          "s4_pointer": "/length_instances/95/regions/1"
+        },
+        {
+          "n": 29,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 14,
+          "s4_pointer": "/length_instances/96/regions/0"
+        },
+        {
+          "n": 29,
+          "side": 1,
+          "absolute_base_in_V34": 15,
+          "region_length": 15,
+          "s4_pointer": "/length_instances/96/regions/1"
+        },
+        {
+          "n": 30,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 15,
+          "s4_pointer": "/length_instances/97/regions/0"
+        },
+        {
+          "n": 30,
+          "side": 1,
+          "absolute_base_in_V34": 16,
+          "region_length": 15,
+          "s4_pointer": "/length_instances/97/regions/1"
+        },
+        {
+          "n": 31,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 15,
+          "s4_pointer": "/length_instances/98/regions/0"
+        },
+        {
+          "n": 31,
+          "side": 1,
+          "absolute_base_in_V34": 16,
+          "region_length": 16,
+          "s4_pointer": "/length_instances/98/regions/1"
+        },
+        {
+          "n": 32,
+          "side": 0,
+          "absolute_base_in_V34": 1,
+          "region_length": 16,
+          "s4_pointer": "/length_instances/99/regions/0"
+        },
+        {
+          "n": 32,
+          "side": 1,
+          "absolute_base_in_V34": 17,
+          "region_length": 16,
+          "s4_pointer": "/length_instances/99/regions/1"
+        }
+      ],
+      "caller_context_count": 20,
+      "distinct_callee_base_length_pairs": [
+        [
+          1,
+          13
+        ],
+        [
+          1,
+          14
+        ],
+        [
+          1,
+          15
+        ],
+        [
+          1,
+          16
+        ],
+        [
+          1,
+          17
+        ],
+        [
+          13,
+          13
+        ],
+        [
+          14,
+          13
+        ],
+        [
+          14,
+          14
+        ],
+        [
+          15,
+          14
+        ],
+        [
+          15,
+          15
+        ],
+        [
+          16,
+          15
+        ],
+        [
+          16,
+          16
+        ],
+        [
+          17,
+          16
+        ]
+      ],
+      "distinct_callee_count": 13,
+      "actual_swap_sites": 45,
+      "potential_S3_swap_match": "Only counterfactual: same initialized V34, u8/KeyLess, base1..17 within0..20 and indices<13. Exact future source/tool/effective-cfg/provider binding is still required. Network ordering/count/frame theorem absent."
+    }
+  },
+  "all_S4_row_refs100": [
+    {
+      "class": "F0",
+      "n": 0,
+      "size_case": null,
+      "pointer": "/length_instances/0"
+    },
+    {
+      "class": "F0",
+      "n": 1,
+      "size_case": null,
+      "pointer": "/length_instances/1"
+    },
+    {
+      "class": "F1",
+      "n": 2,
+      "size_case": null,
+      "pointer": "/length_instances/2"
+    },
+    {
+      "class": "F1",
+      "n": 3,
+      "size_case": null,
+      "pointer": "/length_instances/3"
+    },
+    {
+      "class": "F1",
+      "n": 4,
+      "size_case": null,
+      "pointer": "/length_instances/4"
+    },
+    {
+      "class": "F1",
+      "n": 5,
+      "size_case": null,
+      "pointer": "/length_instances/5"
+    },
+    {
+      "class": "F1",
+      "n": 6,
+      "size_case": null,
+      "pointer": "/length_instances/6"
+    },
+    {
+      "class": "F1",
+      "n": 7,
+      "size_case": null,
+      "pointer": "/length_instances/7"
+    },
+    {
+      "class": "F1",
+      "n": 8,
+      "size_case": null,
+      "pointer": "/length_instances/8"
+    },
+    {
+      "class": "F1",
+      "n": 9,
+      "size_case": null,
+      "pointer": "/length_instances/9"
+    },
+    {
+      "class": "F1",
+      "n": 10,
+      "size_case": null,
+      "pointer": "/length_instances/10"
+    },
+    {
+      "class": "F1",
+      "n": 11,
+      "size_case": null,
+      "pointer": "/length_instances/11"
+    },
+    {
+      "class": "F1",
+      "n": 12,
+      "size_case": null,
+      "pointer": "/length_instances/12"
+    },
+    {
+      "class": "F1",
+      "n": 13,
+      "size_case": null,
+      "pointer": "/length_instances/13"
+    },
+    {
+      "class": "F1",
+      "n": 14,
+      "size_case": null,
+      "pointer": "/length_instances/14"
+    },
+    {
+      "class": "F1",
+      "n": 15,
+      "size_case": null,
+      "pointer": "/length_instances/15"
+    },
+    {
+      "class": "F1",
+      "n": 16,
+      "size_case": null,
+      "pointer": "/length_instances/16"
+    },
+    {
+      "class": "G0",
+      "n": 0,
+      "size_case": "all",
+      "pointer": "/length_instances/17"
+    },
+    {
+      "class": "G0",
+      "n": 1,
+      "size_case": "all",
+      "pointer": "/length_instances/18"
+    },
+    {
+      "class": "G1",
+      "n": 2,
+      "size_case": "all",
+      "pointer": "/length_instances/19"
+    },
+    {
+      "class": "G1",
+      "n": 3,
+      "size_case": "all",
+      "pointer": "/length_instances/20"
+    },
+    {
+      "class": "G1",
+      "n": 4,
+      "size_case": "all",
+      "pointer": "/length_instances/21"
+    },
+    {
+      "class": "G1",
+      "n": 5,
+      "size_case": "all",
+      "pointer": "/length_instances/22"
+    },
+    {
+      "class": "G1",
+      "n": 6,
+      "size_case": "all",
+      "pointer": "/length_instances/23"
+    },
+    {
+      "class": "G1",
+      "n": 7,
+      "size_case": "all",
+      "pointer": "/length_instances/24"
+    },
+    {
+      "class": "G2",
+      "n": 8,
+      "size_case": "all",
+      "pointer": "/length_instances/25"
+    },
+    {
+      "class": "G2",
+      "n": 9,
+      "size_case": "all",
+      "pointer": "/length_instances/26"
+    },
+    {
+      "class": "G2",
+      "n": 10,
+      "size_case": "all",
+      "pointer": "/length_instances/27"
+    },
+    {
+      "class": "G2",
+      "n": 11,
+      "size_case": "all",
+      "pointer": "/length_instances/28"
+    },
+    {
+      "class": "G2",
+      "n": 12,
+      "size_case": "all",
+      "pointer": "/length_instances/29"
+    },
+    {
+      "class": "G2",
+      "n": 13,
+      "size_case": "all",
+      "pointer": "/length_instances/30"
+    },
+    {
+      "class": "G2",
+      "n": 14,
+      "size_case": "all",
+      "pointer": "/length_instances/31"
+    },
+    {
+      "class": "G2",
+      "n": 15,
+      "size_case": "all",
+      "pointer": "/length_instances/32"
+    },
+    {
+      "class": "G3S",
+      "n": 16,
+      "size_case": "<=16",
+      "pointer": "/length_instances/33"
+    },
+    {
+      "class": "G3L",
+      "n": 16,
+      "size_case": ">16",
+      "pointer": "/length_instances/34"
+    },
+    {
+      "class": "G3S",
+      "n": 17,
+      "size_case": "<=16",
+      "pointer": "/length_instances/35"
+    },
+    {
+      "class": "G3L",
+      "n": 17,
+      "size_case": ">16",
+      "pointer": "/length_instances/36"
+    },
+    {
+      "class": "G3S",
+      "n": 18,
+      "size_case": "<=16",
+      "pointer": "/length_instances/37"
+    },
+    {
+      "class": "G3L",
+      "n": 18,
+      "size_case": ">16",
+      "pointer": "/length_instances/38"
+    },
+    {
+      "class": "G3S",
+      "n": 19,
+      "size_case": "<=16",
+      "pointer": "/length_instances/39"
+    },
+    {
+      "class": "G3L",
+      "n": 19,
+      "size_case": ">16",
+      "pointer": "/length_instances/40"
+    },
+    {
+      "class": "G3S",
+      "n": 20,
+      "size_case": "<=16",
+      "pointer": "/length_instances/41"
+    },
+    {
+      "class": "G3L",
+      "n": 20,
+      "size_case": ">16",
+      "pointer": "/length_instances/42"
+    },
+    {
+      "class": "G3S",
+      "n": 21,
+      "size_case": "<=16",
+      "pointer": "/length_instances/43"
+    },
+    {
+      "class": "G3L",
+      "n": 21,
+      "size_case": ">16",
+      "pointer": "/length_instances/44"
+    },
+    {
+      "class": "G3S",
+      "n": 22,
+      "size_case": "<=16",
+      "pointer": "/length_instances/45"
+    },
+    {
+      "class": "G3L",
+      "n": 22,
+      "size_case": ">16",
+      "pointer": "/length_instances/46"
+    },
+    {
+      "class": "G3S",
+      "n": 23,
+      "size_case": "<=16",
+      "pointer": "/length_instances/47"
+    },
+    {
+      "class": "G3L",
+      "n": 23,
+      "size_case": ">16",
+      "pointer": "/length_instances/48"
+    },
+    {
+      "class": "G3S",
+      "n": 24,
+      "size_case": "<=16",
+      "pointer": "/length_instances/49"
+    },
+    {
+      "class": "G3L",
+      "n": 24,
+      "size_case": ">16",
+      "pointer": "/length_instances/50"
+    },
+    {
+      "class": "G3S",
+      "n": 25,
+      "size_case": "<=16",
+      "pointer": "/length_instances/51"
+    },
+    {
+      "class": "G3L",
+      "n": 25,
+      "size_case": ">16",
+      "pointer": "/length_instances/52"
+    },
+    {
+      "class": "G3S",
+      "n": 26,
+      "size_case": "<=16",
+      "pointer": "/length_instances/53"
+    },
+    {
+      "class": "G3L",
+      "n": 26,
+      "size_case": ">16",
+      "pointer": "/length_instances/54"
+    },
+    {
+      "class": "G3S",
+      "n": 27,
+      "size_case": "<=16",
+      "pointer": "/length_instances/55"
+    },
+    {
+      "class": "G3L",
+      "n": 27,
+      "size_case": ">16",
+      "pointer": "/length_instances/56"
+    },
+    {
+      "class": "G3S",
+      "n": 28,
+      "size_case": "<=16",
+      "pointer": "/length_instances/57"
+    },
+    {
+      "class": "G3L",
+      "n": 28,
+      "size_case": ">16",
+      "pointer": "/length_instances/58"
+    },
+    {
+      "class": "G3S",
+      "n": 29,
+      "size_case": "<=16",
+      "pointer": "/length_instances/59"
+    },
+    {
+      "class": "G3L",
+      "n": 29,
+      "size_case": ">16",
+      "pointer": "/length_instances/60"
+    },
+    {
+      "class": "G3S",
+      "n": 30,
+      "size_case": "<=16",
+      "pointer": "/length_instances/61"
+    },
+    {
+      "class": "G3L",
+      "n": 30,
+      "size_case": ">16",
+      "pointer": "/length_instances/62"
+    },
+    {
+      "class": "G3S",
+      "n": 31,
+      "size_case": "<=16",
+      "pointer": "/length_instances/63"
+    },
+    {
+      "class": "G3L",
+      "n": 31,
+      "size_case": ">16",
+      "pointer": "/length_instances/64"
+    },
+    {
+      "class": "G3S",
+      "n": 32,
+      "size_case": "<=16",
+      "pointer": "/length_instances/65"
+    },
+    {
+      "class": "G3L",
+      "n": 32,
+      "size_case": ">16",
+      "pointer": "/length_instances/66"
+    },
+    {
+      "class": "N0",
+      "n": 0,
+      "size_case": null,
+      "pointer": "/length_instances/67"
+    },
+    {
+      "class": "N0",
+      "n": 1,
+      "size_case": null,
+      "pointer": "/length_instances/68"
+    },
+    {
+      "class": "N1",
+      "n": 2,
+      "size_case": null,
+      "pointer": "/length_instances/69"
+    },
+    {
+      "class": "N1",
+      "n": 3,
+      "size_case": null,
+      "pointer": "/length_instances/70"
+    },
+    {
+      "class": "N1",
+      "n": 4,
+      "size_case": null,
+      "pointer": "/length_instances/71"
+    },
+    {
+      "class": "N1",
+      "n": 5,
+      "size_case": null,
+      "pointer": "/length_instances/72"
+    },
+    {
+      "class": "N1",
+      "n": 6,
+      "size_case": null,
+      "pointer": "/length_instances/73"
+    },
+    {
+      "class": "N1",
+      "n": 7,
+      "size_case": null,
+      "pointer": "/length_instances/74"
+    },
+    {
+      "class": "N1",
+      "n": 8,
+      "size_case": null,
+      "pointer": "/length_instances/75"
+    },
+    {
+      "class": "N2",
+      "n": 9,
+      "size_case": null,
+      "pointer": "/length_instances/76"
+    },
+    {
+      "class": "N2",
+      "n": 10,
+      "size_case": null,
+      "pointer": "/length_instances/77"
+    },
+    {
+      "class": "N2",
+      "n": 11,
+      "size_case": null,
+      "pointer": "/length_instances/78"
+    },
+    {
+      "class": "N2",
+      "n": 12,
+      "size_case": null,
+      "pointer": "/length_instances/79"
+    },
+    {
+      "class": "N3",
+      "n": 13,
+      "size_case": null,
+      "pointer": "/length_instances/80"
+    },
+    {
+      "class": "N3",
+      "n": 14,
+      "size_case": null,
+      "pointer": "/length_instances/81"
+    },
+    {
+      "class": "N3",
+      "n": 15,
+      "size_case": null,
+      "pointer": "/length_instances/82"
+    },
+    {
+      "class": "N3",
+      "n": 16,
+      "size_case": null,
+      "pointer": "/length_instances/83"
+    },
+    {
+      "class": "N3",
+      "n": 17,
+      "size_case": null,
+      "pointer": "/length_instances/84"
+    },
+    {
+      "class": "N4",
+      "n": 18,
+      "size_case": null,
+      "pointer": "/length_instances/85"
+    },
+    {
+      "class": "N4",
+      "n": 19,
+      "size_case": null,
+      "pointer": "/length_instances/86"
+    },
+    {
+      "class": "N4",
+      "n": 20,
+      "size_case": null,
+      "pointer": "/length_instances/87"
+    },
+    {
+      "class": "N4",
+      "n": 21,
+      "size_case": null,
+      "pointer": "/length_instances/88"
+    },
+    {
+      "class": "N4",
+      "n": 22,
+      "size_case": null,
+      "pointer": "/length_instances/89"
+    },
+    {
+      "class": "N4",
+      "n": 23,
+      "size_case": null,
+      "pointer": "/length_instances/90"
+    },
+    {
+      "class": "N4",
+      "n": 24,
+      "size_case": null,
+      "pointer": "/length_instances/91"
+    },
+    {
+      "class": "N5",
+      "n": 25,
+      "size_case": null,
+      "pointer": "/length_instances/92"
+    },
+    {
+      "class": "N6",
+      "n": 26,
+      "size_case": null,
+      "pointer": "/length_instances/93"
+    },
+    {
+      "class": "N6",
+      "n": 27,
+      "size_case": null,
+      "pointer": "/length_instances/94"
+    },
+    {
+      "class": "N6",
+      "n": 28,
+      "size_case": null,
+      "pointer": "/length_instances/95"
+    },
+    {
+      "class": "N6",
+      "n": 29,
+      "size_case": null,
+      "pointer": "/length_instances/96"
+    },
+    {
+      "class": "N6",
+      "n": 30,
+      "size_case": null,
+      "pointer": "/length_instances/97"
+    },
+    {
+      "class": "N6",
+      "n": 31,
+      "size_case": null,
+      "pointer": "/length_instances/98"
+    },
+    {
+      "class": "N6",
+      "n": 32,
+      "size_case": null,
+      "pointer": "/length_instances/99"
+    }
+  ],
+  "S4_class_refs14": [
+    {
+      "id": "F0",
+      "pointer": "/consumer_classes/0"
+    },
+    {
+      "id": "F1",
+      "pointer": "/consumer_classes/1"
+    },
+    {
+      "id": "G0",
+      "pointer": "/consumer_classes/2"
+    },
+    {
+      "id": "G1",
+      "pointer": "/consumer_classes/3"
+    },
+    {
+      "id": "G2",
+      "pointer": "/consumer_classes/4"
+    },
+    {
+      "id": "G3S",
+      "pointer": "/consumer_classes/5"
+    },
+    {
+      "id": "G3L",
+      "pointer": "/consumer_classes/6"
+    },
+    {
+      "id": "N0",
+      "pointer": "/consumer_classes/7"
+    },
+    {
+      "id": "N1",
+      "pointer": "/consumer_classes/8"
+    },
+    {
+      "id": "N2",
+      "pointer": "/consumer_classes/9"
+    },
+    {
+      "id": "N3",
+      "pointer": "/consumer_classes/10"
+    },
+    {
+      "id": "N4",
+      "pointer": "/consumer_classes/11"
+    },
+    {
+      "id": "N5",
+      "pointer": "/consumer_classes/12"
+    },
+    {
+      "id": "N6",
+      "pointer": "/consumer_classes/13"
+    }
+  ],
+  "dispatch6": [
+    {
+      "body": "StableSmallSortTypeImpl default",
+      "T": "default/non-Freeze (finite Cell<u8>)",
+      "route": "fallback insertion",
+      "threshold": 16,
+      "refs": [
+        "stable_default"
+      ]
+    },
+    {
+      "body": "StableSmallSortTypeImpl FreezeMarker",
+      "T": "FreezeMarker including non-Copy, all sizes",
+      "route": "general_with_scratch; caller scratch n+16 if n>=2",
+      "threshold": 32,
+      "refs": [
+        "stable_freeze"
+      ]
+    },
+    {
+      "body": "UnstableSmallSortTypeImpl default",
+      "T": "default/non-Freeze (finite Cell<u8>)",
+      "route": "small_sort_fallback",
+      "threshold": 16,
+      "refs": [
+        "unstable_default"
+      ]
+    },
+    {
+      "body": "UnstableSmallSortTypeImpl FreezeMarker",
+      "T": "FreezeMarker",
+      "route": "forward to UnstableSmallSortFreezeTypeImpl specialized body",
+      "threshold": "delegated",
+      "refs": [
+        "unstable_forward"
+      ]
+    },
+    {
+      "body": "UnstableSmallSortFreezeTypeImpl default",
+      "T": "FreezeMarker without selected CopyMarker specialization (finite NonCopyByte)",
+      "route": "size*48<=4096: general_stack48; else fallback",
+      "threshold": "32 or16",
+      "refs": [
+        "freeze_default"
+      ]
+    },
+    {
+      "body": "UnstableSmallSortFreezeTypeImpl CopyMarker",
+      "T": "FreezeMarker+CopyMarker (finite u8)",
+      "route": "size<=8 && size*32<=4096: network; else size*48<=4096: general; else fallback",
+      "threshold": "32/32/16",
+      "refs": [
+        "freeze_copy",
+        "efficient"
+      ]
+    }
+  ],
+  "size_classes": [
+    {
+      "bytes": "0/ZST",
+      "copy_unstable": "network under exact original guards",
+      "noncopy_freeze_unstable": "general",
+      "stable_freeze": "general/G3S",
+      "open": "no active ZST model or pointer/alias lifting"
+    },
+    {
+      "bytes": "1..8",
+      "copy_unstable": "network",
+      "noncopy_freeze_unstable": "general",
+      "stable_freeze": "general/G3S"
+    },
+    {
+      "bytes": "9..16",
+      "copy_unstable": "general",
+      "noncopy_freeze_unstable": "general",
+      "stable_freeze": "general/G3S"
+    },
+    {
+      "bytes": "17..85",
+      "copy_unstable": "general",
+      "noncopy_freeze_unstable": "general",
+      "stable_freeze": "general/G3L"
+    },
+    {
+      "bytes": ">=86",
+      "copy_unstable": "fallback16",
+      "noncopy_freeze_unstable": "fallback16",
+      "stable_freeze": "general/G3L with external scratch, not gated by MAX_STACK_ARRAY_SIZE"
+    }
+  ],
+  "size_guard_limits": "Intervals describe nonoverflowing original multiplication. Keep exact size<=8 and size*32/48<=4096 guards; no generic overflow/size/type theorem. Inactive guarded posts prove nothing for new types.",
+  "reuse_rules": [
+    "No admitted S3-1 leaf currently inferred; even a future PASS applies only to its declared exact source/cfg/T/F/provenance/init/frame domain.",
+    "Equal concrete callee argument tuple may be reusable after admitted same-context provider binding and proved caller preconditions. Equal integer length/address alone is insufficient.",
+    "No cross-physical-allocation-size, initialization-mask, comparator/type or source-version lift without checked proof and review.",
+    "Network11/13 dedup concerns callee V34/base/L tuples, not automatic proof of all parent consumers.",
+    "Model snapshots cover active spans<=32 only; never snapshot entire V34/S48 as if model CAP were larger.",
+    "Original network positives need checked guarded prefix contracts/PFCs before stock verified summaries; unproved/registration-only summaries remain DIAGNOSTIC_ASSUMED."
+  ],
+  "scratch_scope_matrix": [
+    {
+      "form": "exact physicalC=n+16",
+      "status": "distinct physical allocations forC18..48; C48 matches physical48 only atn32; no generic capacity lifting"
+    },
+    {
+      "form": "physical48, viewn+16 vs view48",
+      "status": "raw callee tuple may be identical if proven; parent slice metadata/borrow/guard/write-frame obligations still differ"
+    },
+    {
+      "form": "physical capacity>48/interior offsets",
+      "status": "OPEN; finite example cannot establish arbitrary locality"
+    },
+    {
+      "form": "v and scratch disjoint in same physical allocation",
+      "status": "OPEN; separate V34/S48 fixtures are not that geometry"
+    }
+  ],
+  "frontiers": {
+    "general16": "two sort8 (S16->0,S24->8), no insertion forsize<=16, finalmerge16. Size>16 instead two sort4 +p4..7 perhalf.",
+    "network16": "actual13 prefix +p13..15, no finalmerge; whole length16 not established by prefix13 alone.",
+    "general32": "two sort8 thenp8..15 perhalf (or size>16 sort4+p4..15), finalmerge32; guard/copy/init compose.",
+    "network32": "two13 prefixes +p13..15 perhalf, finalmerge32 toMU32, copyn32 back; right begin17 missing fromS3-1 insert.",
+    "network17": "prefix13+p13..16, relative tail16/span17 retained.",
+    "network25": "left12 uses9+p9..11, right13 uses13 with zero insertion; oddmerge25 and copy."
+  },
+  "NEXT_campaign": {
+    "state": "ONE_CONDITIONAL_PROPOSAL_NOT_REGISTERED_NOT_GRANTED",
+    "order": [
+      "next_sort8_u8_n32_left_real_pfc",
+      "next_sort9_u8_v34_base1_len9_real",
+      "next_sort8_u8_v34_s48_context34_real_pfc",
+      "next_sort9_u8_v34_context11_real",
+      "next_sort13_u8_v34_base1_len13_real",
+      "next_sort13_u8_v34_context13_real"
+    ],
+    "root_limit": 6,
+    "proof_encoding": "all real bodies; no verified or ordinary helper replacements in NEXT",
+    "entry_conditions": [
+      "actual S3-1 terminal evidence and strict domain/role/U/identity qualification examined; currently UNKNOWN",
+      "separate root task authorizes implementation; new exact source/control/request/workflow, static gates and independent review/GO required",
+      "stock0aac only; no experimental #4591/#4691 or newmain969f",
+      "explicit init/partialMU footprint and PFC/MIR binding supported without new trusted premises",
+      "full owner window/resource/budget envelope fits; no reservation made here"
+    ],
+    "continuation_conditions": [
+      "fixed8 before34-context8; fixed9 before11-context9; changed fixed actual13 before13-context13",
+      "STOP rather than run broad targets if discriminator compilation/MIR/snapshot/containment/role/U/default-check or semantic qualification fails",
+      "later roots NOT_RUN on unmet prerequisites; no automatic retry or domain/unwind/timeout cuts",
+      "do not dynamically replace root list; any changed list/encoding needs new exact review/GO",
+      "Preserve reviewed fc29 fail-closed snapshot/protected-error/precise-ESRCH/lifecycle checks and fresh-prefix negative controls under the new exact future request; no stale-result admission."
+    ],
+    "cap_reference_estimate": {
+      "child_seconds_including_compile": 600,
+      "compile_subcap_seconds": 180,
+      "slot_seconds": 720,
+      "six_slots_plus_controller180_cleanup240_seconds": 4740,
+      "reference_campaign_cap_seconds": 6900,
+      "shared_tool_setup_jobs": 1,
+      "native_cost_fit": "UNKNOWN; these are caps/envelope arithmetic, not measured predictions",
+      "rss_limit_gib": 6
+    },
+    "do_not_run": [
+      "unchanged merge32_real/sort13_assumed/general32_assumed",
+      "reduced-alphabet replacement for fullu8",
+      "later_DAG consumers/all remaining typed or locality obligations as extra NEXT roots",
+      "new tool/waiver/assumed summary to conceal stock limitation"
+    ]
+  },
+  "stock_encoding_limits": {
+    "ordinary_stubs": "Contracted actual target ordinary replacements prohibited; use actual body or qualified verified provider, never an exception.",
+    "registration": "same core crate/effective cfg matching target PFC is necessary but not sufficient; current sort8_registration_only never qualified.",
+    "MIR": "reviewed fc29 binding_metadata retains UNKNOWN compilation_id/harness_instance/resolved_target/contract clauses/assertion-property-origin/wrapper edges. Name/hash/coordinates alone do not establish these.",
+    "U": "reference policy rejectsALL U; source-local disabled proposal is not an admission rule for NEXT; any policy change requires explicit review/GO.",
+    "init": "stock-supported explicit output/temp init and unread-MU write-frame encoding remains an implementation question. If it needs an unsupported API or unproved premise, report blocker instead of assuming success."
+  },
+  "budget_reference": {
+    "source": "root resume message and committed GO99291133",
+    "item1": "31/31",
+    "item2": "11/17",
+    "total": "42/48",
+    "remaining_item2": 6,
+    "working_allocation": "2S3 including S3-1+conditionalNEXT,2S4,S5,reserve; estimate only",
+    "conditional_arithmetic": "IfS3-1 andNEXT each later counted once,13/17 and44/48; actual coordinator state/accounting UNKNOWN here.",
+    "reservation": false,
+    "grant": false,
+    "writes": 0
+  },
+  "unresolved_questions": [
+    "Can stock0aac express/check output+temp initialization and unread-MU frame in the exact34 sort8 fixtures without an unsupported or trusted assumption?",
+    "After actual9/13 positives, which checked prefix contracts/PFC and source/cfg rebind mechanism will justify modular summaries?",
+    "Which stable physical scratch sizes/views/same-parent contexts and Cell/non-Copy/large-type full-value models will S4 select; what checked locality/representation result closes unbounded gaps?"
+  ],
+  "native_cost_fit": "UNKNOWN",
+  "proof_credit": 0,
+  "proof_obligations_closed": 0
+}

@@ -1,0 +1,279 @@
+{
+  "schema": "ch8-s3-2-offline-plan-r1-inputs-v1",
+  "task": "6c51f15073a19564ff9144f7b8162933d872fb25",
+  "resume_authority": "root message after review27040 approval and GO99291133 preparation; bounded PLANONLY only",
+  "immutable_checkpoint": "56edd773a58d40be0f1da6799364448f59303529",
+  "latest_package": "0902ad2d84e5e5c4d9bb3b01d5c7f7671e84b38d",
+  "review": "27040e2cd8d3564e5d0a929b8f68ca38a5a61432",
+  "GO": "99291133b2ee82d3ccd03a116f8f4cf4855f7e86",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s3-1-final-w13",
+    "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+    "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s3-1-r1-control-w13",
+    "sha": "fc29b93b1e333b73e55e2872701c80d9927f3b02",
+    "tree": "c0368fa64ab474e4f64861aedd75a8f2639b1c29",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "dependencies": [
+    {
+      "id": "D01",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "6c51f15073a19564ff9144f7b8162933d872fb25",
+      "path": "research/challenge-8/kani-k1/TASK-CH8-S3-2-OFFLINE-PLAN-W13.md",
+      "blob": "6e9a50e294f0e8952af9928f909cfb039b9df938",
+      "sha256": "d39e1d3c420ce087caaee6e9ce2b9d0f74699cbfe995da29622e2207e6625582",
+      "bytes": 3082,
+      "read_scope": "whole structured document"
+    },
+    {
+      "id": "D02",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "56edd773a58d40be0f1da6799364448f59303529",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-2-offline-plan/MANIFEST.sha256",
+      "blob": "22c1ccdfd0cfd4e664fa36b4717dcc3dda15f2da",
+      "sha256": "529bea9374ef8fc6b59bd59eac55ce1a3b01663389b83fb15da95671872d1601",
+      "bytes": 392,
+      "read_scope": "immutable earlier checkpoint identity"
+    },
+    {
+      "id": "D03",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "9e013a2683afbf64de762e570a052c11917e52f7",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/offline-matrix/MATRIX.json",
+      "blob": "62818843502a5079d57b5f266e970e2b61670a72",
+      "sha256": "a8b9d2ba94c699f25eb563bf4aa20d05acff3ad15aa23741028746586e628e6e",
+      "bytes": 80619,
+      "read_scope": "whole structured document"
+    },
+    {
+      "id": "D04",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "9e013a2683afbf64de762e570a052c11917e52f7",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/offline-matrix/MATRIX.md",
+      "blob": "874cb51941bca6f4ec3417d97c17dae236fd550f",
+      "sha256": "73cf758b3130a5bb6005ffdb2ee8e3d07514754e9564352eb46cd524c980bdcb",
+      "bytes": 7981,
+      "read_scope": "whole structured document"
+    },
+    {
+      "id": "D05",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "9e013a2683afbf64de762e570a052c11917e52f7",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/offline-matrix/INPUTS.json",
+      "blob": "2cb719ee5aaaf3a056b23d83f700477cb2ed3934",
+      "sha256": "9ebd6daea75fdc1e1fe5213c6fbd247aaaa1a357c5420d9627c4181271d8544d",
+      "bytes": 12094,
+      "read_scope": "whole structured document"
+    },
+    {
+      "id": "D06",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "9e013a2683afbf64de762e570a052c11917e52f7",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/offline-matrix/MANIFEST.sha256",
+      "blob": "21a01f484fc1ca79961593b6bf8b42de3b0cbbae",
+      "sha256": "9e68561cf9187efa2dc8243ad95c2fe061c1bfd638599359266aff7d919a6853",
+      "bytes": 309,
+      "read_scope": "whole structured document"
+    },
+    {
+      "id": "D07",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "0902ad2d84e5e5c4d9bb3b01d5c7f7671e84b38d",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-r1/PINS.json",
+      "blob": "84a7c2f055226bfb03a18c7162596bd227c8b290",
+      "sha256": "4b550c751f5c40405ba0b99b889ddab28351fe81914f8c0f238c52e600280380",
+      "bytes": 1381,
+      "read_scope": "whole structured document"
+    },
+    {
+      "id": "D08",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "0902ad2d84e5e5c4d9bb3b01d5c7f7671e84b38d",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-r1/DOMAIN-UNWIND.json",
+      "blob": "af360f0fc5e05c9f0162442a9ca7839b5a4a5827",
+      "sha256": "1b172bb42808faf313c645a7b80782f5f55f37130afe5053e1f520a202cc6b82",
+      "bytes": 5798,
+      "read_scope": "whole structured document"
+    },
+    {
+      "id": "D09",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "0902ad2d84e5e5c4d9bb3b01d5c7f7671e84b38d",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-r1/PROVIDER-DAG.json",
+      "blob": "5c81474720c4c8b258b6c98a0baabd2927b1de24",
+      "sha256": "a06cfcf8d7f9b3aaeb121c297dec7a01bb9bc6e6f4c1d2738d69eadec62dcb32",
+      "bytes": 2343,
+      "read_scope": "whole structured document"
+    },
+    {
+      "id": "D10",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "0902ad2d84e5e5c4d9bb3b01d5c7f7671e84b38d",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-r1/U-SITE-PROPOSAL.json",
+      "blob": "337a53692a40f020ec79afb7dd6aeda6703583ea",
+      "sha256": "dd8303db023ca4c36aace9ac7bd7d74ada6a1d274b3dedd0afdd751ee5f92819",
+      "bytes": 5804,
+      "read_scope": "whole structured document"
+    },
+    {
+      "id": "D11",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "0902ad2d84e5e5c4d9bb3b01d5c7f7671e84b38d",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-r1/MANIFEST.sha256",
+      "blob": "82a0c1d816f8fd321482c449ab7c7c70cc7565fa",
+      "sha256": "2143e1e89fa60ebaa592312a4c3c6aedea4e5beb1effc7ceaf72cf73d18219ec",
+      "bytes": 2773,
+      "read_scope": "whole structured document"
+    },
+    {
+      "id": "D12",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "27040e2cd8d3564e5d0a929b8f68ca38a5a61432",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-review-r1/HANDOFF.md",
+      "blob": "516b87ffa7f71210c2801fb7ccf9fc0380f6ea83",
+      "sha256": "ae7dd38ea28c97c19d17b6d047b33c52766ac5dd77a220ff160c56cded97b987",
+      "bytes": 1426,
+      "read_scope": "exact approval scope and no native credit"
+    },
+    {
+      "id": "D13",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "99291133b2ee82d3ccd03a116f8f4cf4855f7e86",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-go/GO-REQUEST.md",
+      "blob": "a4dc42924c351006419e67a75d669ab078853acb",
+      "sha256": "962c972d92df3e4010c63d7fd0bdb349a333d2916f0bee5dc6c07247c50243f3",
+      "bytes": 3099,
+      "read_scope": "root GO/accounting reference only; no coordinator/status/run query"
+    },
+    {
+      "id": "D14",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "blob": "700605e2afe2943da5aa5b5015db0e788c084730",
+      "sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "bytes": 46080,
+      "read_scope": "routing/thresholds, helper declarations/contracts/bodies; diff to bd62"
+    },
+    {
+      "id": "D15",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "blob": "0d0a9f1441e77acc793175a16270dd8ff9fac43d",
+      "sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "bytes": 4816,
+      "read_scope": "exact comparator/model/cap/current root/registration and frame-init domains"
+    },
+    {
+      "id": "D16",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+      "blob": "100c4d46a82cf90ee840a4f1028010a2318754e6",
+      "sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "bytes": 2255,
+      "read_scope": "exact comparator/model/cap/current root/registration and frame-init domains"
+    },
+    {
+      "id": "D17",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs",
+      "blob": "d59ebef20bc0b94900f766f0e1211aa57b09f5ae",
+      "sha256": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "bytes": 2693,
+      "read_scope": "exact comparator/model/cap/current root/registration and frame-init domains"
+    },
+    {
+      "id": "D18",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "blob": "05dc4200a41f9049bb9e0b9b2f4da9abc5b36587",
+      "sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+      "bytes": 14901,
+      "read_scope": "exact comparator/model/cap/current root/registration and frame-init domains"
+    },
+    {
+      "id": "D19",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+      "blob": "a40da8b91c917891a39f944799e16dba3c3b8383",
+      "sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+      "bytes": 9998,
+      "read_scope": "exact comparator/model/cap/current root/registration and frame-init domains"
+    },
+    {
+      "id": "D20",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "blob": "161bcecc13b2e509b901fba8d2fac8a635b6db0e",
+      "sha256": "16c4cd102e8597e146ce62c98ac57464658f99bbc09b1ac99a8408ab6ee6c83a",
+      "bytes": 5825,
+      "read_scope": "actual module cfg gates"
+    },
+    {
+      "id": "D21",
+      "repository": "/root/kani-ch8-s3-1-r1-control-w13",
+      "commit": "fc29b93b1e333b73e55e2872701c80d9927f3b02",
+      "path": "ch8-s1-control/CI-REQUEST.json",
+      "blob": "ddcffb47dd4f25a14b3918580a32fd48715b7b23",
+      "sha256": "17f7cfba45ca5e572b7e32bea25d31add90885dc2378b725783737e1a6577604",
+      "bytes": 79953,
+      "read_scope": "reviewed flags/roots/domain/resource identities"
+    },
+    {
+      "id": "D22",
+      "repository": "/root/kani-ch8-s3-1-r1-control-w13",
+      "commit": "fc29b93b1e333b73e55e2872701c80d9927f3b02",
+      "path": "ch8-s1-control/binding_metadata.py",
+      "blob": "ab3d66efba9bd22869d56d02bdceacb5e162ecec",
+      "sha256": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030",
+      "bytes": 7271,
+      "read_scope": "stock native compiler-instance/contract/property-origin gaps remain UNKNOWN"
+    },
+    {
+      "id": "D23",
+      "repository": "/root/kani-ch8-s3-1-r1-control-w13",
+      "commit": "fc29b93b1e333b73e55e2872701c80d9927f3b02",
+      "path": "ch8-s1-control/ordinary_contracts.py",
+      "blob": "db82ad4af7afe997668a8db64777c487ba3ded8d",
+      "sha256": "bdbdbe13fa2da6dae8d6dfb7a57a66caed1e52b6d93c1586e8effecaa16cb78e",
+      "bytes": 10241,
+      "read_scope": "ordinary-stub contracted-target prohibition; source-bound static gate"
+    },
+    {
+      "id": "D24",
+      "repository": "/root/verify-rust-std-kani3300-g0",
+      "commit": "da89127150a550ccb3861a7bfc5b6205c6409e61",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/r6-s3-plan-r1/MATRIX.md",
+      "blob": "8756d15aac2c9a6096a002e1d34c5f8d14fa499e",
+      "sha256": "97077b7fef2b08e3e9520557248e2dcf4a7e637b3a8872774826c89787bbf88f",
+      "bytes": 13399,
+      "read_scope": "full provider DAG and merge invariant K0..K8"
+    }
+  ],
+  "source_comparison": "bd62->513341 production smallsort diff adds one guarded sort4 ensures only; runtime bodies/signatures/routes unchanged. S4 references remain explicitly bound to bd62; actual helper citations use513341.",
+  "status_boundary": "APPROVE is controller/static/service review, GO is separate coordinator authority. Native S3 results UNKNOWN and no native/cost evidence consumed.",
+  "validation": "static JSON/context interval/reference arithmetic only;34/39/100 counts are source-derived, not proof outcomes",
+  "actions": {
+    "source_control_runtime_test_edits_or_runs": 0,
+    "compiler_cargo_rustfmt_Kani_CBMC_fullrunner_CI": 0,
+    "push_PR_issue_ledger_reservation": 0,
+    "subagents_modelchanges": 0
+  },
+  "proof_credit": 0
+}
