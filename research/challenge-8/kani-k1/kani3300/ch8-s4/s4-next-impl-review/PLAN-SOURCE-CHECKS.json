@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "scope": "source-level finite normal-return candidates only",
+  "rows": [
+    {
+      "n": 8,
+      "literal_slice": "[1..9]",
+      "assertions": 4,
+      "covers": 6,
+      "default_unwind_argv": 36,
+      "original_null": true,
+      "full34_frame_canary": true,
+      "merge_reached": false
+    },
+    {
+      "n": 9,
+      "literal_slice": "[1..10]",
+      "assertions": 4,
+      "covers": 6,
+      "default_unwind_argv": 36,
+      "original_null": true,
+      "full34_frame_canary": true,
+      "merge_reached": false
+    },
+    {
+      "n": 13,
+      "literal_slice": "[1..14]",
+      "assertions": 4,
+      "covers": 6,
+      "default_unwind_argv": 36,
+      "original_null": true,
+      "full34_frame_canary": true,
+      "merge_reached": false
+    },
+    {
+      "n": 17,
+      "literal_slice": "[1..18]",
+      "assertions": 4,
+      "covers": 6,
+      "default_unwind_argv": 36,
+      "original_null": true,
+      "full34_frame_canary": true,
+      "merge_reached": false
+    }
+  ],
+  "resource_snapshot": "EXACT_PLAN_MATCH",
+  "negative_unwinds": [
+    34,
+    34,
+    34,
+    36
+  ],
+  "native_argv_resolution": "NOT_OBSERVED; source builder only",
+  "final_Validate": "PREPARED_NOT_RUN",
+  "600_second_fit": "UNKNOWN",
+  "lowered_unwind_sufficiency": "UNKNOWN",
+  "proof_credit": "NONE"
+}

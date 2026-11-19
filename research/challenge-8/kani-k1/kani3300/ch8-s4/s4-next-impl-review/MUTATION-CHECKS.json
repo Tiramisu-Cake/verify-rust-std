@@ -1,0 +1,28 @@
+{
+  "status": "PASS_MUTANTS_DETECTED",
+  "mutants": [
+    {
+      "mutant": "domain_gate_accepts_wrong_call_snapshot_post_domain_frame",
+      "detected": true,
+      "tests": 1,
+      "failures": 25,
+      "errors": 0
+    },
+    {
+      "mutant": "native_gate_accepts_nonSAT_covers_and_failed_assertions",
+      "detected": true,
+      "tests": 1,
+      "failures": 200,
+      "errors": 0
+    },
+    {
+      "mutant": "runner_loses_new_profile_cfg",
+      "detected": true,
+      "tests": 1,
+      "failures": 1,
+      "errors": 0
+    }
+  ],
+  "method": "in-memory monkeypatches; candidate bytes unchanged",
+  "native_CI": "NOT_RUN"
+}

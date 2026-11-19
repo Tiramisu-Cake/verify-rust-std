@@ -1,0 +1,80 @@
+{
+  "status": "PASS",
+  "package": "f485968493d3512f3e719825ef4490866808d120",
+  "manifest_entries": 59,
+  "identities": {
+    "source": {
+      "sha": "7b31b060b90ce286e94547993f6a698c549bc5fa",
+      "tree": "fccf3284bd678626c8f8cea72bbe6ec72964dbd9",
+      "sole_parent": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+      "changed_paths": [
+        "library/core/src/slice/sort/shared/smallsort/verify.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs"
+      ]
+    },
+    "control": {
+      "sha": "65a9ea656a4b5f1e66f7b31eceffb5eefeba7541",
+      "tree": "09938d27a127351f5c51b6c9f451602d797a1c0f",
+      "sole_parent": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+      "changed_paths": [
+        ".github/workflows/ch8-s2.yml",
+        "ch8-s1-control/CI-REQUEST.json",
+        "ch8-s1-control/S4P3-INVENTORY.json",
+        "ch8-s1-control/S4P3-ROLE-CONTRACT.json",
+        "ch8-s1-control/S4P3-SOURCE.json",
+        "ch8-s1-control/check_package.py",
+        "ch8-s1-control/collect.py",
+        "ch8-s1-control/fixtures/s4p2r2-request.json",
+        "ch8-s1-control/fixtures/s4p2r2-workflow.yml",
+        "ch8-s1-control/runner.py",
+        "ch8-s1-control/s4p3_campaign.py",
+        "ch8-s1-control/s4p3_cfg_pfc.py",
+        "ch8-s1-control/s4p3_contract_stacks.py",
+        "ch8-s1-control/s4p3_domain.py",
+        "ch8-s1-control/s4p3_lexical_bindings.py",
+        "ch8-s1-control/s4p3_ordinary_contracts.py",
+        "ch8-s1-control/s4p3_package.py",
+        "ch8-s1-control/s4p3_pins.py",
+        "ch8-s1-control/s4p3_policy.py",
+        "ch8-s1-control/s4p3_profile.py",
+        "ch8-s1-control/s4p3_validate.py",
+        "ch8-s1-control/test_s4p3.py",
+        "ch8-s1-control/test_s4p3_domain.py"
+      ]
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    }
+  },
+  "payload_hashes": 173,
+  "source_hash_tables": 5,
+  "dependency_records": 15,
+  "negative_rows_and_bindings": "PARENT_IDENTICAL_FIRST_FOUR",
+  "flags_budgets": "PARENT_IDENTICAL",
+  "parent_and_stock_patch_replays": [
+    {
+      "file": "SOURCE-PARENT.patch",
+      "tree": "fccf3284bd678626c8f8cea72bbe6ec72964dbd9"
+    },
+    {
+      "file": "SOURCE-STOCK.patch",
+      "tree": "fccf3284bd678626c8f8cea72bbe6ec72964dbd9"
+    },
+    {
+      "file": "CONTROL-PARENT.patch",
+      "tree": "09938d27a127351f5c51b6c9f451602d797a1c0f"
+    },
+    {
+      "file": "CONTROL-STOCK.patch",
+      "tree": "09938d27a127351f5c51b6c9f451602d797a1c0f"
+    }
+  ],
+  "campaign": "EXACT_NAMESPACE_COPY",
+  "acceptance_and_role_ASTs": "IDENTICAL",
+  "shared_runtime_inverse_dispatch": "PARENT_BYTE_IDENTICAL",
+  "required_ancestry_within_depth": true,
+  "native_CI": "NOT_RUN",
+  "proof_credit": "NONE"
+}
