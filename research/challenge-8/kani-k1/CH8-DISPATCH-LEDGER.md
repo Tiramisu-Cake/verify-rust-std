@@ -242,3 +242,34 @@ are unestablished. Published PR#752 and its source/tool pins are unchanged by ad
 Admission/review costs0 additional dispatches; this note changes no reservation,
 budget or historical run record. Owner requested planning only after S1: no new tasks,
 CI/rerun/cancel/push/publication. Codex limit23% until2026-11-18 13:34 (owner report).
+
+
+## S3-r2 exact location admission — 2026-11-19, coordinator+planner
+
+Explicit coordinator03:15 + planner/root agreement under owner night delegation:
+**ADMITTED_EXACT_LOCATION_METADATA_GATE_ONLY**, reversible, for run44416629057/
+attempt1 and the original authenticated same-invocation evidence only.
+Exact id AND display_id:
+`slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.unreachable.1`;
+class `unreachable`, status `SUCCESS`, description `unreachable code`, file/line
+both present-null, exact display `library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc`.
+
+Decision/pins/constraints:
+[kani3300/ch8-s3/admission-r2-location/ADMISSION.md](kani3300/ch8-s3/admission-r2-location/ADMISSION.md)
+and [ADMISSION.json](kani3300/ch8-s3/admission-r2-location/ADMISSION.json).
+Independent review `a9fe0055aab3279e3f5bb71bde9667925da80e65`; intake
+`d29ab46dbbb45d7106fa30c3ac04bb419a2ac286`. Preserve exact head7497/source513/
+stocktool0aac/controlcb6303/requestefbc/workflow8d5/compact/member/invocation
+identities, 363properties/356checks/351SUCCESS/5U/0FAILURE/7SAT, exactly one missing
+location, all5 located SUCCESS roles/all7 located SAT covers, every U separately
+argued and all other strict checks/guards/protected identities. True positive
+source origin remains UNKNOWN. No global/future-run/ID/prefix/stdlib waiver.
+
+The original producer UNKNOWN/rejection, REJECT_ALL/proposalDISABLED/0-of9 and
+historical evidence are unchanged; no decoder/request/runtime patch. This admits
+only the exact metadata gate at SOURCE_REPORTED S1 assurance, not full leaf,
+caller/generic/init/B1/B2 proof or an assumed summary. Overall qualification
+awaits W14-01/W14-02 reporting corrections and SAME14 delta; other gates remain.
+Reversible by a later append-only decision; coordinator informs owner morning.
+**Accounting/reservation unchanged:** item1 **31/31**, item2 **12/17**, total
+**43/48**. No dispatch, charge/refund, extra item1 grant or publication authorized.
