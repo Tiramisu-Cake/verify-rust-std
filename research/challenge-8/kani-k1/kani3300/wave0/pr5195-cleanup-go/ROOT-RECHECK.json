@@ -1,0 +1,323 @@
+{
+  "schema": "root-pr5195-and-s4-next-recheck-v1",
+  "checked_at": "2026-11-19T16:51:14.064723+00:00",
+  "checks_passed": 73,
+  "checks": [
+    "Cleanup HEAD exact",
+    "Cleanup worktree clean",
+    "Cleanup tree exact",
+    "Cleanup sole parent exact",
+    "Exactly one cleanup commit",
+    "Source NONSKIP",
+    "Exactly four allowed test-only paths; all other tree entries unchanged",
+    "Source diff whitespace check",
+    "Compiler frozen kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+    "Compiler frozen kani-compiler/src/kani_middle/transform/mod.rs",
+    "Only feature/cfg rename Cargo.toml",
+    "Only feature/cfg rename src/lib.rs",
+    "Retained fixture byte exact config.yml",
+    "Retained fixture byte exact expected",
+    "Retained fixture byte exact test.sh",
+    "Retained checker function AST require",
+    "Retained checker function AST inventory",
+    "Retained checker function AST signature",
+    "Retained checker function AST ordinary_control",
+    "Retained checker function AST probe",
+    "Checker syntax only; not executed",
+    "Git directory exists: wave0/pr5195-cleanup",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/wave0/pr5195-cleanup/FINDINGS.md",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/wave0/pr5195-cleanup/HANDOFF.md",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/wave0/pr5195-cleanup/PROPOSED-PR.md",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/wave0/pr5195-cleanup/STATIC-CHECKS.json",
+    "Git directory exists: wave0/pr5195-cleanup-review",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/wave0/pr5195-cleanup-review/HANDOFF.md",
+    "Independent review APPROVE binds exact source/tree",
+    "Full workflow unchanged .github/workflows/kani.yml",
+    "Full workflow unchanged .github/workflows/format-check.yml",
+    "Full workflow unchanged .github/workflows/deny.yml",
+    "Git directory exists: ch8-s4/s4-full-lengths-next-plan",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/BRIDGES.md",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/CHECKPOINT.json",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/COVERAGE.json",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/COVERAGE.md",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/CURRENT-TASK.md",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/HANDOFF.md",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/LOOP-COST.md",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/MANIFEST.json",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/MANIFEST.sha256",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/NEXT-PACKAGE.json",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/PLAN.md",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/PROVENANCE.json",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/VALIDATION.json",
+    "Git directory exists: ch8-s4/s4-full-lengths-next-plan-review",
+    "Current bytes equal committed research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan-review/HANDOFF.md",
+    "Plan manifest BRIDGES.md",
+    "Plan manifest CHECKPOINT.json",
+    "Plan manifest COVERAGE.json",
+    "Plan manifest COVERAGE.md",
+    "Plan manifest CURRENT-TASK.md",
+    "Plan manifest HANDOFF.md",
+    "Plan manifest LOOP-COST.md",
+    "Plan manifest NEXT-PACKAGE.json",
+    "Plan manifest PLAN.md",
+    "Plan manifest PROVENANCE.json",
+    "Plan manifest VALIDATION.json",
+    "S4 exact eight rows and four lengths",
+    "S4 Original/null all roots",
+    "S4 each positive unwind36/four roles/six covers",
+    "S4 exact literal actual call N8",
+    "S4 exact literal actual call N9",
+    "S4 exact literal actual call N13",
+    "S4 exact literal actual call N17",
+    "All ten S4 resource fields unchanged",
+    "N17 does not reach final merge",
+    "Independent S4 plan review APPROVE exact plan",
+    "Original open PR branch remains unchanged",
+    "Already published cleanup branch has exact reviewed source/tree/parent",
+    "Three full standard workflow runs already created",
+    "Actual campaign source/ref/push/attempt identities exact",
+    "New immutable GO directory absent before creation"
+  ],
+  "source_changed_paths": [
+    "tests/script-based-pre/delayed-shared-body/Cargo.toml",
+    "tests/script-based-pre/delayed-shared-body/check.py",
+    "tests/script-based-pre/delayed-shared-body/control.rs",
+    "tests/script-based-pre/delayed-shared-body/src/lib.rs"
+  ],
+  "compiler_sha256": {
+    "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs": "14cf16762c3475238941c254fc4080b00149c1618a156a5baab8dbdc7de78db3",
+    "kani-compiler/src/kani_middle/transform/mod.rs": "0901d9ee2f60efb02949200822406713a4a1e6f068ecb52d053716a6c07957b7"
+  },
+  "author_files": {
+    "research/challenge-8/kani-k1/kani3300/wave0/pr5195-cleanup/FINDINGS.md": {
+      "sha256": "25408c0b7f6acf808331a729a0b8192236b3b59c1b7a41b61d66ec77d6199577",
+      "bytes": 5488,
+      "git_blob": "4fc95e2640462c518449faf136bcd5259ad3f968"
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/pr5195-cleanup/HANDOFF.md": {
+      "sha256": "5528492ecd700a60a63a3bbbb23a44237df0d6d0dc8a3a6239d007a6468f3ec7",
+      "bytes": 9502,
+      "git_blob": "47981c776228409b44dd35b22af15b78314af120"
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/pr5195-cleanup/PROPOSED-PR.md": {
+      "sha256": "53d6e6cd28ab76f8ed7c96432ec3238b688e4f4b6bef41031106fb935f635b7c",
+      "bytes": 964,
+      "git_blob": "e7458081b8e632c00a6a32b35e0e9a33d2b8670a"
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/pr5195-cleanup/STATIC-CHECKS.json": {
+      "sha256": "6428c25c3d7fa4fc428151a6276bfd979ec2a12b5bde49380a635873c4ac0a9d",
+      "bytes": 3205,
+      "git_blob": "ae36a7321fc7f13f952b7f5af357b7d95f124661"
+    }
+  },
+  "review_files": {
+    "research/challenge-8/kani-k1/kani3300/wave0/pr5195-cleanup-review/HANDOFF.md": {
+      "sha256": "1a3dd9bc6dfbaf010e9e29f333e45faee64aad5347cc7fc0d6b2c870ccbb12a2",
+      "bytes": 14792,
+      "git_blob": "04a12955807e0224f0af955a7e6d7b10cafb0df2"
+    }
+  },
+  "plan_files": {
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/BRIDGES.md": {
+      "sha256": "eaef29471db47b8a894b3f7b80939ff9a0e29e04cfb3ec4a9f8f4121ca389c94",
+      "bytes": 6409,
+      "git_blob": "ec9283742abad8be1c799c6ae9e86ee123ed6467"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/CHECKPOINT.json": {
+      "sha256": "e8222d8c73460c33e4071d0e3e59d79c988b9210a387e4633bc5f055d89b9a7c",
+      "bytes": 3026,
+      "git_blob": "669e56e90b89bbbf258ee574aa983110f58032b4"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/COVERAGE.json": {
+      "sha256": "249baac38a72488dcbd3505742d9d55810bf8f3109c40184fc5e19a771569bef",
+      "bytes": 263447,
+      "git_blob": "118071b7d54cc6e7f683ecffa9692a85ae77a5ee"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/COVERAGE.md": {
+      "sha256": "fab181c219c71f21a1f59a53fc490fe6655037e1aac1e481663dcce9e2360eaa",
+      "bytes": 10961,
+      "git_blob": "a666fb6a5d800c6a723b5a263f706c27b5050e61"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/CURRENT-TASK.md": {
+      "sha256": "5de04f9c8d6f7f1c245056f9c7f741606eb7dd4cf971272ab866aa13b52eaa01",
+      "bytes": 1055,
+      "git_blob": "ada092cb481f8de091ee6924810758f423b20b4a"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/HANDOFF.md": {
+      "sha256": "63c7ae0315c7d3379e757023f3a0c4b9e58da2639af26fb2b83a1ea54f025e55",
+      "bytes": 2451,
+      "git_blob": "b1764e6d666e1e06c4b0f103a47548a8dc2b7792"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/LOOP-COST.md": {
+      "sha256": "d8e0e6430a12281267e32dc9d590e1ea1ebfd554a06c6af56057f5cad3e56fb8",
+      "bytes": 7321,
+      "git_blob": "e172cf8663e095b7d1c0829e702861d8bcf9335c"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/MANIFEST.json": {
+      "sha256": "a6d0f7c8c7211c3be9327e202cc69a83acdf579bc78828528596f2cc3ca1b647",
+      "bytes": 2005,
+      "git_blob": "8beb1df174d606369e4664a6338551bf82bb5c0e"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/MANIFEST.sha256": {
+      "sha256": "1acf993f738ad21cb547cafb128c84b6fbce265e9f49d173e48186e9f6279dfd",
+      "bytes": 957,
+      "git_blob": "b1ee88b25265206937393370d10dd4d2b72b21b1"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/NEXT-PACKAGE.json": {
+      "sha256": "335d1e351fbc2600dc817eab44b8b18414b21d23d98c90fd86278b011cf37f7e",
+      "bytes": 25790,
+      "git_blob": "7749caf5500b83127c321b4fd824c46eb4a701bf"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/PLAN.md": {
+      "sha256": "2dcc59c92e2dbef885aeffc20af4c4bcd93845088165be474e2030eebd708902",
+      "bytes": 7956,
+      "git_blob": "abf2ad05bbcb96ca4c6aa61b6d33c86a42990264"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/PROVENANCE.json": {
+      "sha256": "168bb24bb60bfefbca9449576deaddb2028e9a9cbf6aec6ee29e9bb3ee59e04c",
+      "bytes": 6905,
+      "git_blob": "1b48fca356d78e81f0579f5af2828963b9442fda"
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/VALIDATION.json": {
+      "sha256": "f260dd552f920ae64930f7b437db3e9b9b769a0052ec48216d158bbd59bc767c",
+      "bytes": 16040,
+      "git_blob": "fcc61bc68a6875cf8b381b34764b3f8831004d42"
+    }
+  },
+  "plan_review_files": {
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan-review/HANDOFF.md": {
+      "sha256": "133c9fc13756d673c5797a1b0772f9cb6ecd317a4e5e88616b1b6bbbe5187223",
+      "bytes": 10347,
+      "git_blob": "60a84d5596230e537eaf292c246f395842687217"
+    }
+  },
+  "connected_snapshot": {
+    "checked_at": "2026-11-19T16:49:39.683Z",
+    "open_pr": {
+      "state": "open",
+      "head": "9b67828707f8d7d5e691484896a82475dcf34d28",
+      "ref": "fix/per-harness-global-transforms"
+    },
+    "cleanup_ref": {
+      "ref": "refs/heads/cleanup/pr5195-20261119",
+      "node_id": "REF_kwDOVp9vW9oAInJlZnMvaGVhZHMvY2xlYW51cC9wcjUxOTUtMjAyNjExMTk",
+      "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/refs/heads/cleanup/pr5195-20261119",
+      "object": {
+        "sha": "153be639a0c048e3be3d1f1f006e47060fd74e83",
+        "type": "commit",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/commits/153be639a0c048e3be3d1f1f006e47060fd74e83"
+      }
+    },
+    "cleanup_commit": {
+      "sha": "153be639a0c048e3be3d1f1f006e47060fd74e83",
+      "node_id": "C_kwDOVp9vW9oAKDE1M2JlNjM5YTBjMDQ4ZTNiZTNkMWYxZjAwNmU0NzA2MGZkNzRlODM",
+      "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/commits/153be639a0c048e3be3d1f1f006e47060fd74e83",
+      "html_url": "https://github.com/Tiramisu-Cake/kani/commit/153be639a0c048e3be3d1f1f006e47060fd74e83",
+      "author": {
+        "name": "Tiramisu-Cake",
+        "email": "igkharin@gmail.com",
+        "date": "2026-11-19T16:29:04Z"
+      },
+      "committer": {
+        "name": "Tiramisu-Cake",
+        "email": "igkharin@gmail.com",
+        "date": "2026-11-19T16:29:04Z"
+      },
+      "tree": {
+        "sha": "7f784cca53dc02589d5c8459a2fe4217395122bf",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/trees/7f784cca53dc02589d5c8459a2fe4217395122bf"
+      },
+      "message": "Simplify shared-body regression coverage and call-path labels",
+      "parents": [
+        {
+          "sha": "9b67828707f8d7d5e691484896a82475dcf34d28",
+          "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/commits/9b67828707f8d7d5e691484896a82475dcf34d28",
+          "html_url": "https://github.com/Tiramisu-Cake/kani/commit/9b67828707f8d7d5e691484896a82475dcf34d28"
+        }
+      ],
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "actual_runs": [
+      {
+        "id": 44570271305,
+        "name": "Kani CI",
+        "path": ".github/workflows/kani.yml",
+        "head_sha": "153be639a0c048e3be3d1f1f006e47060fd74e83",
+        "head_branch": "cleanup/pr5195-20261119",
+        "event": "push",
+        "run_attempt": 1,
+        "status": "queued",
+        "conclusion": null,
+        "created_at": "2026-11-19T16:48:36Z"
+      },
+      {
+        "id": 44570271333,
+        "name": "Cargo Deny",
+        "path": ".github/workflows/deny.yml",
+        "head_sha": "153be639a0c048e3be3d1f1f006e47060fd74e83",
+        "head_branch": "cleanup/pr5195-20261119",
+        "event": "push",
+        "run_attempt": 1,
+        "status": "in_progress",
+        "conclusion": null,
+        "created_at": "2026-11-19T16:48:36Z"
+      },
+      {
+        "id": 44570271286,
+        "name": "Kani Format Check",
+        "path": ".github/workflows/format-check.yml",
+        "head_sha": "153be639a0c048e3be3d1f1f006e47060fd74e83",
+        "head_branch": "cleanup/pr5195-20261119",
+        "event": "push",
+        "run_attempt": 1,
+        "status": "in_progress",
+        "conclusion": null,
+        "created_at": "2026-11-19T16:48:36Z"
+      }
+    ]
+  },
+  "s4_offline_consent": {
+    "root": "AGREE_OFFLINE_IMPLEMENTATION_W15",
+    "plan": "c0de8471801ac22b38e3290c7a6b75742135af6b",
+    "review": "762a2a678eb624d1ddd18f0764a365e7787392c0",
+    "source_baseline": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+    "control_baseline": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+    "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "admission": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+    "rows": [
+      "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt",
+      "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n08_fullbyte",
+      "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n09_fullbyte",
+      "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n13_fullbyte",
+      "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n17_fullbyte"
+    ],
+    "scope": "Four unchanged negatives, actual network u8/KeyLess literal N8/N9/N13/N17, initialized V34/base1/all34 independent full-u8, unchanged sortedness/full count/full outside frame/canary. Original/null; no assumed summaries. N17 has no final merge.",
+    "required_gates": [
+      "Exact source/control pins and frozen old kernel/model/harness/runtime bytes; scoped new fixture/profile/binding changes only",
+      "All prior controls/schema/selected-count/gate/error-path invariants preserved; four SUCCESS roles and all six SAT covers required per positive",
+      "Unwind36 positives and safety/unwinding checks ON; flags/tool/caps unchanged; native sufficiency and fit600 remain UNKNOWN",
+      "New per-invocation U/location/model/builtin reasoning; no transfer of historical admission exceptions",
+      "Offline source/static/service/preflight checks; freeze final Validate command and pins for one final measurement, preserve actual timing and precursors",
+      "Independent exact-package review, then separate joint CI GO, coordinator publication/dispatch/ledger; no CI or push from this consent"
+    ],
+    "native_credit": "NONE; future cost/fit/sufficiency UNKNOWN",
+    "excluded": [
+      "Cell N16 package",
+      "init-on/tool upgrade",
+      "kernel/model/oracle/domain weakening",
+      "provider/generic/fullN16N32 credit",
+      "PR publication",
+      "CI launch"
+    ]
+  },
+  "limits": "Read-only Git/Python/source/native-metadata recheck only; no regression/native/compiler/CI execution, push, external publication, or ledger/accounting action by root."
+}
