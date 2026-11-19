@@ -1,0 +1,87 @@
+{
+  "assurance": "Static source/diff/driver review and byte/blob/hash integrity; native and CI claims in PR remain SOURCE_REPORTED",
+  "candidate_source_edits": false,
+  "checks": "STATIC-CHECK.json",
+  "connected_reviews": "Pinned CONNECTED-PR snapshot contains one bot review recommending approval; zero inline comments. No independent native credit inferred.",
+  "methods": [
+    "read pinned task/input/style/connected PR/body/diff",
+    "inspect all17 changed files plus surrounding type serialization/symbol completion",
+    "trace test discovery/flag dispatch/expected matching semantics",
+    "map every14 harness and helper to distinct type/layout/copy/index/control path",
+    "five pure Python assertions for proposed complete-summary versus mixed-success output oracle"
+  ],
+  "not_run": [
+    "native/compiler/rustfmt/cargo/Kani/CBMC/expansion/verifier/fullrunner",
+    "CI/logs/archives/GCS",
+    "push/publication/PR edits/external drafts",
+    "ledger/accounting",
+    "subagents/model/Fast changes"
+  ],
+  "output_scope": "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-review/pr-5176",
+  "published_head": "3d9a1809388f74c62ea9fb7320e123db0b8b37fa",
+  "review_commit": "Containing commit binds MANIFEST.json; fullSHA returned externally",
+  "review_inputs": "INPUTS.json",
+  "schema": "pr5176-static-review-provenance-v1",
+  "surrounding_references": {
+    "cprover_bindings/src/goto_program/typ.rs": {
+      "git_blob": "01148089e7d5091e5a9b7de8e870766895b78fad",
+      "sha256": "ade325a1e884f3d6a648a64fe668c8f5e821c0ba42fcff419d4b2f9532b33871"
+    },
+    "cprover_bindings/src/irep/to_irep.rs": {
+      "git_blob": "5ae646571ecd76fe4e82189773e4713b2975cd21",
+      "sha256": "bda4f823aafe43d547476d540cf264e62293dc8693df861c65864566413d7b0c"
+    },
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs": {
+      "git_blob": "311a5ab714868080d9be21419b92de12be85ccd0",
+      "sha256": "0613ee6cf6140699d5e88dd5c9b43620e9f93bdd557b4a2c586f092b575c84be"
+    },
+    "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs": {
+      "git_blob": "fd44d0801fe6a6d976f7ea26a36fe2156e1cd8da",
+      "sha256": "c6866a138950f347533bf7cd34c2b2f1a4a2009b08f463f26b0ed0d68fff346d"
+    },
+    "tests/expected/MemPredicates/thin_ptr_validity.rs": {
+      "git_blob": "519a072971926b10c8cdc39aac6dd2f48873c2de",
+      "sha256": "2c4b14296f230e5edd4ec2673a4d353d32efa35f5c0e7b6c15f15ed208c1158f"
+    },
+    "tests/expected/uninit/unions.rs": {
+      "git_blob": "979120fb566c195d0fe38922b7de64b5c9ca0a12",
+      "sha256": "304e5efcff64657d5cb98671a5e972143950b1e2f5568863c7bcfab83392385e"
+    },
+    "tests/expected/union/union_transmute.expected": {
+      "git_blob": "5b8455cf8bda014e006cd7e6d9f7f514fbe3a8dc",
+      "sha256": "1bfe8a40e0215691b6d134e7666b729da767ddb71efe6bc112f72556ec891290"
+    },
+    "tests/expected/union/union_transmute.rs": {
+      "git_blob": "b0b6cbdccbf8cb5756cd618b0f184902876250d8",
+      "sha256": "020c275d14007e91c7b0627cf0a0caee34d0dcae7130db4b8b4d47e814f90e6f"
+    },
+    "tests/expected/valid-value-checks/maybe_uninit.expected": {
+      "git_blob": "4fb1154627d6ee88ce37c92c7e22ae1770cafc6d",
+      "sha256": "d12d8f0a1fb25383e0d1c10f947b11f4a34cb0c531c3a045a60c41ecc6deca83"
+    },
+    "tests/expected/valid-value-checks/maybe_uninit.rs": {
+      "git_blob": "926277a744dcb5889eac6c54d99b4f72fb718183",
+      "sha256": "bec6d85fb6fb433e0668cb010bd107a8e4dccce78825639080df16e7eeb22a6d"
+    },
+    "tests/kani/Array/array-zst.rs": {
+      "git_blob": "b64b7a930650b099ee85feed4e6b421d31c3ccda",
+      "sha256": "ff404767d2d409495518378a98d28e7fadb0dc691ab75f2020c8376852da66e0"
+    },
+    "tests/kani/Unit/main.rs": {
+      "git_blob": "e06baf4b3b1abdf62e19a0bc732ae4c412259f3d",
+      "sha256": "e7fdee00088a25c5dd133dc899a3250b3e28172d9b015a96598dc7190d8e3529"
+    },
+    "tools/compiletest/src/common.rs": {
+      "git_blob": "cbd8f2f9b474d44d886d1eb348f20b109eda6fb8",
+      "sha256": "97c6201dc6aff338b1615a2040cb0447a26c7524bea28dcc138139543a4de7ff"
+    },
+    "tools/compiletest/src/main.rs": {
+      "git_blob": "d60c3bbc7f49117b04b083cbce7e0384167950dd",
+      "sha256": "9e15ceb4c5dc7bc505081d3ec2be8a4af8bdb8fdf0cd0e5ffcbc137ea36dc412"
+    },
+    "tools/compiletest/src/runtest.rs": {
+      "git_blob": "4438547071f5426caa8f0990fecfd727cf86352b",
+      "sha256": "7ab3d25a027144d8b4b669990793d8f76b980d7a9f9ed59130af8a95749797a4"
+    }
+  }
+}
