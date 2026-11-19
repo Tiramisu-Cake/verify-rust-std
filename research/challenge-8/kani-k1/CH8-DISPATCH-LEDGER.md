@@ -408,3 +408,45 @@ proposalDISABLED/old evidence and nulls unchanged. No parser/runtime/request/
 source/policy patch. Reversible only by append-only decision.
 Accounting unchanged: item1used32,item2used15,total47, tracking-only reference.
 This admission adds0 runs and no charge/refund/reservation/grant/CI/publication.
+
+
+## S4P2-r2 network admission — coordinator + root, 2026-11-19
+
+Координатор запросил admission после независимого APPROVE; root согласен
+после проверки точных intake/review/pins/119 structured members и всех1,143
+нативных свойств. Решение: [ADMISSION.md](kani3300/ch8-s4/admission-s4p2-r2-network/ADMISSION.md),
+[ADMISSION.json](kani3300/ch8-s4/admission-s4p2-r2-network/ADMISSION.json).
+
+Приняты FOUR QUALIFIED_BOUNDED_SOURCE_REPORTED cases:
+- s4p2r2_network_b01_n02_fullbyte;
+- s4p2r2_network_b01_n03_fullbyte;
+- s4p2r2_network_b01_n04_fullbyte;
+- s4p2r2_network_b01_n00_01_fullbyte.
+
+Это actual Original small_sort_network<u8,KeyLess<u8>> на initializedV34/base1,
+all34independentfullu8, с полными sortedness/count/frame/canary. Точный
+дизъюнктный union — N0..4 в этом контексте. Intake7c66fb85b99f77801ff10e99ccc5d37761ba5442;
+review2d872340cdea8c5ff39fbf2cc181af823dcb36a6 APPROVE/zero blockers.
+Run44548842328/1, head d88fac48cf50a742f9f00026ba66e5e4353e1019; source8faf8e62af8f82b5c46af020086f8df591b6757e;
+stocktool0aac16ef62da9e9d5645782d458593e5d78143ba. Все полные request/workflow/member/
+payload/invocation/namespace/source/property/protected fingerprints — в решении.
+
+Каждый positive имеет4 SUCCESS-роли; SAT covers6/6/6/3, обе длиныN01 достигнуты.
+49 positive U получают только exact per-instance S1 source-аргументы:
+25 source-path exclusions и24 generated failure-edge exclusions. Из всех67
+проверены16 merge U через actual helper branching;18 negative U остаются
+наблюдениями контролей без нового admission. У12 positive SUCCESS guards
+статусы сохранены;12 model/builtin records разобраны по точным tuple.
+Missing/zero locations нет: нового location exception или общего правила нет.
+Причина native U classification и backend builtin/MIR origin остаётся UNKNOWN.
+
+Исторические workflow FAILURE/SELECTED_PARTIAL/strict0of8/REJECT_ALL/disabledproposal/
+s3_expected_match=False/все исходные статусы и receipts не изменены.
+N2/N3/N4 экспортируют0 residual unwind assertions;N01 —1 SUCCESS; resolved36
+и complete export зафиксированы без выдуманного unexported/MIR safety credit.
+Provider/initmask/generic/caller/ownership/panic/Drop/summary/fullN16N32/MIR/B1B2
+OPEN. Старый S1 smoke-domain и прежние location admissions не переписаны.
+
+ADMISSION_ONLY, append-only. Accounting unchanged; runs_added0.
+Нет нового dispatch/charge/refund/reservation/grant/source/parser/policy/CI/push/publication.
+Отзыв — только следующей append-only записью при нарушении любого exact premise.
