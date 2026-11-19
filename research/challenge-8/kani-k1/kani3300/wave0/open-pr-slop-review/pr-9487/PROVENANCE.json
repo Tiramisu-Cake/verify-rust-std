@@ -1,0 +1,146 @@
+{
+  "task_commit": "98784e2ade6135d3177b0ad14c9ab88777ab6aa2",
+  "input_references": {
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-next-inputs-20261119/ROOT-DECISION.md": {
+      "sha256": "649e98f42a3a9f4fcb43ded3dee59bf5aabe126029a9702564d7d42e795149aa",
+      "bytes": 1630
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-next-inputs-20261119/STYLE-UPSTREAM-RULES.snapshot.md": {
+      "sha256": "5932c080cd5938ad7fcb159b1847e663df828beffc17196716b001e6a5cb9e7a",
+      "bytes": 3240
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-next-inputs-20261119/pr-9487/INPUTS.json": {
+      "sha256": "fd56c7cb5107a6255cb2ae755be593fcb8d47b390cdff31a3af88712c64de6c3",
+      "bytes": 3299
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-next-inputs-20261119/pr-9487/CONNECTED-PR.json": {
+      "sha256": "6e7eb2360a522c622006aa1c8d8bcfb593824d5d4b56058e9426b3938a3b9dfa",
+      "bytes": 4943
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-next-inputs-20261119/pr-9487/CONNECTED-MERGEBASE.json": {
+      "sha256": "5d82f5f0a970cd56910ced5d4ec03943254e2bef9c5719a5e6062ac0b225ab69",
+      "bytes": 217
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-next-inputs-20261119/pr-9487/PR-BODY.snapshot.md": {
+      "sha256": "a43a9b50e632436e654d61407ad20a4f11e9809a65dc4fbb251cce11a7a2bcf2",
+      "bytes": 3403
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-next-inputs-20261119/pr-9487/SOURCE.patch": {
+      "sha256": "dc94afb14a6611d19a0583b661dd1633f95afdc7c884de69b94898a7bdd152f5",
+      "bytes": 6836
+    }
+  },
+  "source_head": "9f2d01ec2bf115879c86e22203d403ba156d22e5",
+  "source_tree": "00ef6af1359f247f574bbfab6e6a514442118ba9",
+  "connected_current_base": "57c8ad710ee2f581895478ff4645cebec2f53c49",
+  "merge_base": "107a1e504cd69a2f3483717c8bcfcfa59814c557",
+  "current_base_local_object": false,
+  "head_local_parent": "107a1e504cd69a2f3483717c8bcfcfa59814c557",
+  "changed_files_checked": [
+    {
+      "path": "regression/cbmc/byte_extract_empty_struct_array/main.c",
+      "git_blob": "e42bc94e65c67633f9446c2f5749b4cb77f99292",
+      "sha256": "3ac1d5e0050f451b6d034d72c51a60184998275b602d07996ed15c7c1b273b22",
+      "bytes": 544,
+      "status": "added"
+    },
+    {
+      "path": "regression/cbmc/byte_extract_empty_struct_array/test.desc",
+      "git_blob": "24ec8ffbe2c34a43c57e4364cc566a06906eb094",
+      "sha256": "f03240a34a9b7aa49f490fedb072ac1f28dfd9f1ee714475d7c5a3ee34870d99",
+      "bytes": 370,
+      "status": "added"
+    },
+    {
+      "path": "src/util/simplify_utils.cpp",
+      "git_blob": "c9655c02fad97bf02a3d27545db66192bf81e284",
+      "sha256": "47a4fed8fd01c8f108a4f322b2abb321cf537d4e739c22941a891ed7d20dff74",
+      "bytes": 13571,
+      "status": "modified"
+    },
+    {
+      "path": "unit/util/simplify_expr.cpp",
+      "git_blob": "37545a8351bfc90259bc7a24beabc26ec428f768",
+      "sha256": "c22c92b677e182a13dcd645aa34b8773b264e7d3187532179189a6f2df41cb4b",
+      "bytes": 29064,
+      "status": "modified"
+    }
+  ],
+  "diff_sha256": "dc94afb14a6611d19a0583b661dd1633f95afdc7c884de69b94898a7bdd152f5",
+  "context_files": {
+    "AGENTS.md": {
+      "sha256": "fbe963e1489366d4842874dc8e7e6af18921241b34957a7c30cbd90c995e7bf8",
+      "bytes": 28085
+    },
+    "LICENSE": {
+      "sha256": "858c0e744b9bab750f6b2801c6921db8c64076d90201977d6219666a75eba0f9",
+      "bytes": 1960
+    },
+    "CODING_STANDARD.md": {
+      "sha256": "039bea77d65ba6caa84de9d770010c5c85c82d2f546718306c26b274230ed2f0",
+      "bytes": 19327
+    },
+    ".github/pull_request_template.md": {
+      "sha256": "a48f21f9e32fc94d4998d325fd8ba26ea17bb3f38df6d717656cb0783a6055f2",
+      "bytes": 1464
+    },
+    "src/util/pointer_offset_size.cpp": {
+      "sha256": "658691154d144e8b554de3d201e38e012c68b1ce11148c9218172b86f775eb3b",
+      "bytes": 29393
+    },
+    "src/util/endianness_map.cpp": {
+      "sha256": "772359b0d9511b1bb1a5619022a4263421eed7578b30c96c90d9085e17bf538a",
+      "bytes": 3049
+    },
+    "src/ansi-c/c_typecheck_type.cpp": {
+      "sha256": "338bfadd6fcdd07bbb86b47307da21076a3ed21124b379f2823b32cd22b195be",
+      "bytes": 50971
+    },
+    "src/ansi-c/padding.cpp": {
+      "sha256": "dbd93b17fd1816e413dda8691c8c3566f3072406d65bf0127f0c71cd19e53e5c",
+      "bytes": 15226
+    },
+    "regression/test.pl": {
+      "sha256": "2592ac81b64ad8c1ad5d6c2f42b14f01329d5bce47a075f7c331a44fd551d4c1",
+      "bytes": 17911
+    },
+    "regression/CMakeLists.txt": {
+      "sha256": "ccb5905dfdfa31a3e5db344d85dfb0488dc883afe6c02ca98db91fa366003274",
+      "bytes": 6461
+    },
+    "regression/cbmc/CMakeLists.txt": {
+      "sha256": "c0c54a120f0e394032cbfb0808e52c35ce6eaa891ec03da7a65ae5049738d58e",
+      "bytes": 1266
+    },
+    "regression/cbmc/Makefile": {
+      "sha256": "354ae6e30aee1107b315599272fdce0dd80ada88f90eab0c9b109b94df1bbfe4",
+      "bytes": 1281
+    },
+    "regression/cbmc/empty_compound_type4/main.c": {
+      "sha256": "cca245473f3039c1a75b61dd938df8fbef1f3b1522b2da1d10ee2049263f2096",
+      "bytes": 199
+    },
+    "regression/cbmc/empty_compound_type4/test.desc": {
+      "sha256": "155edb1ef69f5f42db4c7f26b4b61cc5c89dd834cb6c80cbf1001bb7cb7d160a",
+      "bytes": 261
+    },
+    "unit/util/lower_byte_operators.cpp": {
+      "sha256": "cb10765fbc47f2f8d6aa47c95f6412658357293c400a8811a0a2f0c22d8e9d82",
+      "bytes": 17162
+    },
+    "unit/CMakeLists.txt": {
+      "sha256": "225c736ee963d4714cd459c5d2cbf8fd15c92c22a527024d07e4077adb5b2a8a",
+      "bytes": 3703
+    },
+    "unit/Makefile": {
+      "sha256": "64b85a00066d588b41d38bf89f6beb9bbe24ba10d23c59e447abb30b7b1344c7",
+      "bytes": 15437
+    }
+  },
+  "connected_metadata_assurance": "Exact root-pinned snapshots; no fresh live PR/CI request, no current-base source-equivalence claim",
+  "source_worktree_clean": true,
+  "subagents": 0,
+  "native_tools_or_test_driver_executed": false,
+  "external_writes": false,
+  "ledger_or_model_changes": false
+}

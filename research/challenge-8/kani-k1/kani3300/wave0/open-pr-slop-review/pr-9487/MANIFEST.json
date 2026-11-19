@@ -1,0 +1,52 @@
+{
+  "schema": "cbmc-9487-offline-slop-review-manifest-v1",
+  "status": "READY",
+  "recommendation": "CHANGES_RECOMMENDED_DESCRIPTOR_FIX_RETAIN_IMPLEMENTATION_AND_COVERAGE",
+  "files": {
+    "CODE-COMMENT-EDITS.md": {
+      "bytes": 1930,
+      "sha256": "72a3844c71a8358e3d228ee17894dcedcffd7bab2bc1fe0489bf1365c5a8522d"
+    },
+    "COVERAGE-EDITS.md": {
+      "bytes": 5873,
+      "sha256": "ebc718e0531b7a71dfdbb2919359ccdaf78ea4a5d7061eb7251868c4d60d5fc4"
+    },
+    "FINDINGS.json": {
+      "bytes": 2061,
+      "sha256": "24a4704d387767ee8489dd6355ac0745dc32205e673aa305ec7500f2f3b6b3f8"
+    },
+    "HANDOFF.md": {
+      "bytes": 3210,
+      "sha256": "b50608900ab70edec7a1a54a9ba2cac3e84c253b885785f28c029c8a0f550479"
+    },
+    "INPUTS.json": {
+      "bytes": 3889,
+      "sha256": "f6fb1b969229c5b09dc42edd20496d158af8c06a45b13cd31f12978a12aef37f"
+    },
+    "PROVENANCE.json": {
+      "bytes": 6009,
+      "sha256": "95b043e89eaaf4b0b6f519ef36b980f5b52e0b9fc77fcc77f23d831867521db8"
+    },
+    "REPORT.md": {
+      "bytes": 10641,
+      "sha256": "05ceae7d06aefc653187a852a57ec1976dc0955fafff9e1bf45278728afccd7d"
+    },
+    "STATIC-CHECK.json": {
+      "bytes": 2724,
+      "sha256": "db54513ba3e532942018bbf71887c56bcb3896b6a97e35614f2ba84a4f7bb11b"
+    },
+    "SUGGESTED-PR.md": {
+      "bytes": 2039,
+      "sha256": "60e2337a3d060ffd9119c99b11bdf288bff303a5585a9bb1d111f4fd82909712"
+    },
+    "static_check.py": {
+      "bytes": 7697,
+      "sha256": "811270ec7d4264f71e7636a5ab2a57c6ab7c8acdd90710b979bb0a04b38ed202"
+    }
+  },
+  "excluded": [
+    "MANIFEST.json"
+  ],
+  "identity": "Exact containing commit seals this manifest; full40 commit returned with HANDOFF",
+  "scope": "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-review/pr-9487"
+}

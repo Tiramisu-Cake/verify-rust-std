@@ -1,0 +1,47 @@
+{
+  "schema": "cbmc-9487-offline-review-findings-v1",
+  "recommendation": "CHANGES_RECOMMENDED_DESCRIPTOR_FIX_RETAIN_IMPLEMENTATION_AND_COVERAGE",
+  "source_head": "9f2d01ec2bf115879c86e22203d403ba156d22e5",
+  "merge_base": "107a1e504cd69a2f3483717c8bcfcfa59814c557",
+  "production_correctness": "No defect found within inspected reconstruction/type paths; static review only",
+  "findings": [
+    {
+      "id": "F1",
+      "priority": "P2",
+      "file": "regression/cbmc/byte_extract_empty_struct_array/test.desc",
+      "line": 4,
+      "title": "Restore EXIT=0 as an evaluated result pattern",
+      "cause": "test.pl unconditionally consumes line4 as grep_options; -e only checks EXIT/SIGNAL strings exist somewhere",
+      "consequence": "Synthetic VERIFICATION SUCCESSFUL / EXIT=7 / SIGNAL=0 is accepted under current evaluated patterns",
+      "proposed_fix": "Insert a blank fourth header line before ^EXIT=0$; keep all required and forbidden patterns",
+      "evidence": [
+        "STATIC-CHECK.json",
+        "REPORT.md",
+        "CODE-COMMENT-EDITS.md"
+      ],
+      "actual_native_escape_observed": false,
+      "original_invariant_abort_still_rejected": true
+    },
+    {
+      "id": "F2",
+      "priority": "P3",
+      "file": "regression/cbmc/byte_extract_empty_struct_array/test.desc",
+      "line": 11,
+      "title": "Describe current reconstruction behavior and shorten the PR narrative",
+      "proposed_fix": "Replace historical descriptor prose with supplied two-line behavior comment; use supplied concise PR text with real issue/disclosure/CBMC checklist and pending final-revision standard CI",
+      "evidence": [
+        "CODE-COMMENT-EDITS.md",
+        "SUGGESTED-PR.md"
+      ]
+    }
+  ],
+  "all_four_changed_files_disposition": "REPORT.md and COVERAGE-EDITS.md",
+  "unit_cases_keep": 3,
+  "unit_cases_remove": 0,
+  "regression_directories_keep": 1,
+  "new_helpers_or_framework": 0,
+  "new_native_tests_executed": 0,
+  "source_changed": false,
+  "external_draft_or_PR_written": false,
+  "implementation_or_CI_authorized": false
+}

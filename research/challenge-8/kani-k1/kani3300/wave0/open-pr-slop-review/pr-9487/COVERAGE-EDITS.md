@@ -1,0 +1,29 @@
+# Exact coverage dispositions
+
+No removals or case merges are recommended. All source locations are at head `9f2d01ec2bf115879c86e22203d403ba156d22e5`. These are source-inspected oracles; no native result is asserted.
+
+| File / exact case, helper or oracle | Current property | Proposed edit | Why coverage remains meaningful |
+|---|---|---|---|
+| `regression/cbmc/byte_extract_empty_struct_array/main.c::main` | Constant8-byte storage read as an aggregate containing `struct empty z[2]`; loop checks all four `a` bytes and all four `b` bytes | KEEP all source | Exercises frontend/typed-read/byte-extract reconstruction, not just direct helper invocation. Keeps a real passing-verdict regression for the reported invariant. |
+| `main.c::struct empty` / `struct with_empty_structs` | Complete GNU empty struct, nonzero-count array, byte siblings | KEEP declarations and GNU comment | Targets zero-width elements, rather than replacing them with a zero-count array or unsupported incomplete type. |
+| `main.c` `<string.h>` / `memset` | Concrete constant-byte construction | KEEP | No new abstraction or fixture rewrite needed; retains the reported trigger. |
+| `main.c` assertions **bytes before the empty structs** / **bytes after the empty structs** | Both sides preserve0x5a, all eight bytes checked | KEEP both labels and conditions | Do not replace with process-only success or a single byte check. Nonuniform typed siblings also have a separate unit oracle below. |
+| `test.desc` `CORE gcc-only`, `main.c`, blank options | Standard discovery and GNU/MSVC boundary | KEEP | No new flags, ignores, knownbug mode or widened platform exclusions. |
+| `test.desc` `^EXIT=0$` | Present but consumed as `grep_options` at line4 | INSERT a blank fourth line | Makes the intended exit check part of @results. Synthetic success-marker/nonzero-exit output then rejects. |
+| `test.desc` `^SIGNAL=0$`, `^VERIFICATION SUCCESSFUL$` | Evaluated success markers | KEEP both | Signal and proof verdict remain required after restoring the exit oracle. |
+| `test.desc` `^warning: ignoring`, `Invariant check failed` | Evaluated forbidden diagnostics | KEEP both | An ignored construct or internal invariant cannot become the expected golden result. |
+| `test.desc` final four comment lines | Historical branch comparison | Replace with two current-behavior lines in CODE-COMMENT-EDITS.md | Description-only; pattern sections retain their semantics. |
+| `unit/util/simplify_expr.cpp` **bits2expr reconstructs empty structs and arrays** | Direct empty struct; counts0/1/2; ID/type/count/typed children; empty encode/decode; reject one supplied bit | KEEP whole case and both endian iterations | Cardinality and recursive typing cannot be inferred from the fact that all encodings are empty. Nonempty-input rejection is a meaningful negative. |
+| Same case: `bits2expr("", empty,...)` control | Recursive empty-struct base behavior | KEEP three checks | Supplies a valid recursive base control; no new helper introduced. |
+| Same case: `for(count : {0u,1u,2u})` | Empty outer cardinality, one child, repeated zero-width children | KEEP all three counts | Removing1/2 would miss dropping actual operands. This tiny loop needs no quota-driven pruning. |
+| Same case: `REQUIRE_FALSE(bits2expr("1",type,...).has_value())` | Nonzero bits rejected for zero-width type | KEEP | Guards width agreement without making invalid programs or process crashes expected. |
+| **bits2expr reconstructs nested zero-width arrays** | Outer count2; inner empty-struct count3 versus ordinary-byte count0; exact row/element types; round trip | KEEP whole case, both inner types and both endian directions | Zero width and zero count have different recursive shapes. No equivalent preexisting test was established. |
+| **bits2expr preserves tagged zero-width elements and nonzero siblings** | Namespace type symbol, tagged elements, typed array count2, full struct equality,48-bit expression, union member `w`, round trips | KEEP whole case | Detects tag loss, sibling corruption, and incorrect union selection; covers a different path from plain/nested arrays. |
+| Same case: `symbol_table` / `empty_symbol` / `ns` | Local tag resolution with failed insertion check | KEEP setup | Necessary type-resolution fixture, not unnecessary framework. |
+| Same case: `expected` / `union_type` | Distinct head/word/tail, too-small first union member | KEEP both expected-expression assertions | Exact typed comparisons are stronger than zero-length encoding or has_value alone. |
+| `src/util/simplify_utils.cpp::bits2expr` array guard/loop | Known nonnegative width, exact count and original array type, recursive children | KEEP one-line production change and existing loop | No zero-width shortcut or generic replacement helper needed. |
+| Existing **expr2bits and bits2expr respect bit order** (`unit/util/simplify_expr.cpp:66`) | Nonzero scalar/bitfield ordering in both byte directions | KEEP unchanged upstream control | Specific preserved baseline; no claim of a fresh execution. |
+| Existing **byte extract and bits** (`unit/util/lower_byte_operators.cpp:25`) | Ordinary one-bit-element array reconstruction and lowering, both endians | KEEP unchanged | Concrete nonzero array baseline; not a substitute for zero-width cardinality/tag coverage. |
+| Existing `regression/cbmc/empty_compound_type4` | Union read of an empty struct, intended assertion failure, forbidden internal diagnostics | KEEP outside this diff | Different trigger and outcome; cannot replace the new array-containing success regression. |
+
+Genuine remaining validation: the descriptor repair needs execution on the eventual authorized cleanup revision, followed by targeted unit/regression checks and standard CI. Existing body claims are not refreshed here. No additional coverage directory, generated cross-product or audit framework is proposed.

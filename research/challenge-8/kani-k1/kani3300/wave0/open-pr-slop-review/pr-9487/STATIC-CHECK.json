@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "pin_and_blob_validation": "4 exact published blobs, head/tree/mergebase, exact diff and PR body digest MATCH; read-only source clean",
+  "production_edit": "Exactly one >0 to >=0 guard change; remaining production file identical to merge base",
+  "descriptor_model_scope": "Bounded Python transcription of the inspected test.pl four-field header and line-regex matching for this exact descriptor; no Perl driver or CBMC execution; no general replacement parser",
+  "current_descriptor": {
+    "level": "CORE gcc-only",
+    "main": "main.c",
+    "options": "",
+    "grep_options": "^EXIT=0$",
+    "required": [
+      "^SIGNAL=0$",
+      "^VERIFICATION SUCCESSFUL$"
+    ],
+    "forbidden": [
+      "^warning: ignoring",
+      "Invariant check failed"
+    ]
+  },
+  "recommended_descriptor": {
+    "level": "CORE gcc-only",
+    "main": "main.c",
+    "options": "",
+    "grep_options": "",
+    "required": [
+      "^EXIT=0$",
+      "^SIGNAL=0$",
+      "^VERIFICATION SUCCESSFUL$"
+    ],
+    "forbidden": [
+      "^warning: ignoring",
+      "Invariant check failed"
+    ]
+  },
+  "synthetic_cases": [
+    {
+      "name": "success",
+      "synthetic_output": "VERIFICATION SUCCESSFUL\nEXIT=0\nSIGNAL=0\n",
+      "current_accepts": true,
+      "blank_line_fix_accepts": true
+    },
+    {
+      "name": "nonzero_exit_after_success",
+      "synthetic_output": "VERIFICATION SUCCESSFUL\nEXIT=7\nSIGNAL=0\n",
+      "current_accepts": true,
+      "blank_line_fix_accepts": false
+    },
+    {
+      "name": "signal",
+      "synthetic_output": "VERIFICATION SUCCESSFUL\nEXIT=0\nSIGNAL=15\n",
+      "current_accepts": false,
+      "blank_line_fix_accepts": false
+    },
+    {
+      "name": "invariant_even_with_success",
+      "synthetic_output": "VERIFICATION SUCCESSFUL\nInvariant check failed\nEXIT=0\nSIGNAL=0\n",
+      "current_accepts": false,
+      "blank_line_fix_accepts": false
+    },
+    {
+      "name": "original_abort_shape",
+      "synthetic_output": "Invariant check failed\nEXIT=134\nSIGNAL=0\n",
+      "current_accepts": false,
+      "blank_line_fix_accepts": false
+    },
+    {
+      "name": "failed_verification",
+      "synthetic_output": "VERIFICATION FAILED\nEXIT=10\nSIGNAL=0\n",
+      "current_accepts": false,
+      "blank_line_fix_accepts": false
+    },
+    {
+      "name": "ignored_construct",
+      "synthetic_output": "warning: ignoring construct\nVERIFICATION SUCCESSFUL\nEXIT=0\nSIGNAL=0\n",
+      "current_accepts": false,
+      "blank_line_fix_accepts": false
+    }
+  ],
+  "native_old_failure_new_pass": "NOT_RUN; old CHECK_RETURN failure path established by source, original release repro/CI claims remain author-reported",
+  "full_source_coverage_or_native_success_claim": false
+}

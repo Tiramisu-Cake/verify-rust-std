@@ -1,0 +1,73 @@
+{
+  "task_commit": "98784e2ade6135d3177b0ad14c9ab88777ab6aa2",
+  "authority": "Root explicitly issued PR9487 offline recommendation review to same currentW14 after completed S4P2 intake; no new/reset/subagents/model/Fast changes",
+  "pinned_inputs": {
+    "schema": "open-pr-following-slop-review-inputs-v1",
+    "PR": 9487,
+    "repo": "diffblue/cbmc",
+    "url": "https://github.com/diffblue/cbmc/pull/9487",
+    "connected_checked_at": "2026-11-19T11:33:03.763Z",
+    "head": "9f2d01ec2bf115879c86e22203d403ba156d22e5",
+    "head_tree": "00ef6af1359f247f574bbfab6e6a514442118ba9",
+    "head_ref": "fix/array-zero-width-elements-v2",
+    "head_repo": "Tiramisu-Cake/cbmc",
+    "base_snapshot": "57c8ad710ee2f581895478ff4645cebec2f53c49",
+    "base_ref": "develop",
+    "merge_base": "107a1e504cd69a2f3483717c8bcfcfa59814c557",
+    "source_worktree": "/root/cbmc-pr9487-slop-readonly-20261119",
+    "source_policy": "READ_ONLY exact detached published head; do not edit/commit this source or execute test drivers.",
+    "state": "open",
+    "mergeable": true,
+    "mergeable_state": "blocked",
+    "changed_file_count": 4,
+    "changed_files": {
+      "regression/cbmc/byte_extract_empty_struct_array/main.c": {
+        "git_blob": "e42bc94e65c67633f9446c2f5749b4cb77f99292",
+        "sha256": "3ac1d5e0050f451b6d034d72c51a60184998275b602d07996ed15c7c1b273b22",
+        "bytes": 544,
+        "status": "added"
+      },
+      "regression/cbmc/byte_extract_empty_struct_array/test.desc": {
+        "git_blob": "24ec8ffbe2c34a43c57e4364cc566a06906eb094",
+        "sha256": "f03240a34a9b7aa49f490fedb072ac1f28dfd9f1ee714475d7c5a3ee34870d99",
+        "bytes": 370,
+        "status": "added"
+      },
+      "src/util/simplify_utils.cpp": {
+        "git_blob": "c9655c02fad97bf02a3d27545db66192bf81e284",
+        "sha256": "47a4fed8fd01c8f108a4f322b2abb321cf537d4e739c22941a891ed7d20dff74",
+        "bytes": 13571,
+        "status": "modified"
+      },
+      "unit/util/simplify_expr.cpp": {
+        "git_blob": "37545a8351bfc90259bc7a24beabc26ec428f768",
+        "sha256": "c22c92b677e182a13dcd645aa34b8773b264e7d3187532179189a6f2df41cb4b",
+        "bytes": 29064,
+        "status": "modified"
+      }
+    },
+    "diff_sha256": "dc94afb14a6611d19a0583b661dd1633f95afdc7c884de69b94898a7bdd152f5",
+    "diff_numstat": [
+      "29\t0\tregression/cbmc/byte_extract_empty_struct_array/main.c",
+      "14\t0\tregression/cbmc/byte_extract_empty_struct_array/test.desc",
+      "1\t1\tsrc/util/simplify_utils.cpp",
+      "106\t0\tunit/util/simplify_expr.cpp"
+    ],
+    "PR_body_sha256": "a43a9b50e632436e654d61407ad20a4f11e9809a65dc4fbb251cce11a7a2bcf2",
+    "reviews_count": 0,
+    "inline_comments_count": 0,
+    "scope": "Offline code/comments/tests/PR body review; specific justified edits. No source changes, native tools, CI, push, PR writes or accounting.",
+    "style": "Kani: STYLE-UPSTREAM-RULES snapshot. CBMC: readability principles plus actual CBMC contribution/license/PR conventions; do not inject Kani Apache2/MIT text into CBMC. Preserve real linked issue/disclosure, do not invent one.",
+    "no_implementation_authority": true,
+    "mergebase_provenance": {
+      "base": "57c8ad710ee2f581895478ff4645cebec2f53c49",
+      "head": "9f2d01ec2bf115879c86e22203d403ba156d22e5",
+      "merge_base": "107a1e504cd69a2f3483717c8bcfcfa59814c557",
+      "status": "diverged",
+      "total_commits": 1,
+      "explanation": "Connected GitHub compare confirms actual PR merge base; current upstream base57 is not a local object, so diff/read source uses verified local ancestor107a, not a guessed direct current-base diff. No current-upstream native/source-equivalence claim."
+    }
+  },
+  "source_policy": "READ_ONLY; exact local diff uses connected-confirmed107a, current upstream57 unavailable locally",
+  "output": "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-review/pr-9487"
+}
