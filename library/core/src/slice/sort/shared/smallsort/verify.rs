@@ -120,3 +120,7 @@ pub(super) mod sorting_s4_network_partition;
 // S4P2 r2 concrete actual-call slices; old partitions remain unchanged.
 #[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf, kani_smallsort_s4_partition))]
 pub(super) mod sorting_s4_network_r2;
+
+// S4P3 concrete network N8/N9/N13/N17; no summary replacements.
+#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf, kani_smallsort_s4_partition))]
+pub(super) mod sorting_s4_full_lengths_next;
