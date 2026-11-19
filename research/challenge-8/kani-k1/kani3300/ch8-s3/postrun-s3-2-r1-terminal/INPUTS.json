@@ -1,0 +1,323 @@
+{
+  "schema": "ch8-s3-2-r1-terminal-qualification-location-inputs-v1",
+  "status": "ISSUED_FRESH11_COORDINATOR_05_18",
+  "owner_authorization": "Coordinator05:18 explicitly /new11 intake, qualification, same-system-location comparison, insertion cap/cost; then independent14 review. Rule proposal only, no automatic admission.",
+  "repository": "Tiramisu-Cake/kani",
+  "run": 44439462279,
+  "attempt": 1,
+  "event": "push",
+  "branch": "uninit-ci/ch8-s3-2-r1-20261119",
+  "trigger": {
+    "sha": "474a9d1617d77f34566e6992debc604c70a9e9ea",
+    "tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "relation": "NONSKIP same-tree sibling of reviewed775; exactly one commit above9e14; request/workflow hashes MATCH localGit"
+  },
+  "candidate_g0": "792ca31fa8e5e80380498d9903d9115cdae42d40",
+  "review_g0": "b5a0878d35b6a3de4e65ef68dbd86d711340e75a",
+  "review": "APPROVE zero blocking findings",
+  "GO_g0": "1c9272aaa86b38aeb27a4db0d6d07d14b45f97d3",
+  "GO_path": "kani3300/ch8-s3/s3-2-r1-go/GO-REQUEST.json",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s3-2-r1-w13",
+    "sha": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+    "tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+    "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "frozen_reference": "513341f41ce53833a279571401c924bdddddb6c8",
+    "delta_paths": [
+      "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs"
+    ],
+    "production_kernel_and_old_contract_model_bytes": "EXACT_FROZEN_REFERENCE"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "upgrade_or_patch": false,
+    "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "control_candidate": {
+    "worktree": "/root/kani-ch8-s3-2-r1-control-w13",
+    "sha": "775574eb2f361ef90eade30330ff0d608530287f",
+    "tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "frozen_reference": "cb63033ffcde918f4341146e56373476b8eeb569",
+    "shared_runtime_changes": "Explicit new schema/profile routing only; protected lifecycle/snapshots/decoders retained"
+  },
+  "request": {
+    "path": "ch8-s1-control/CI-REQUEST.json",
+    "schema": "ch8-s3-2-v1",
+    "profile": "ch8-s3-2-capped-fullbyte-v1",
+    "sha256": "75603378a45639991f837ea1ea259f9a56cc452426c6f306cda6d53f5e51e47c",
+    "workflow_path": ".github/workflows/ch8-s2.yml",
+    "workflow_sha256": "0fde14cf5513f81565bc2eea37864013e7d30f82dc3062788ba2fb34b575939f",
+    "canonical_bytes_must_remain_exact": true,
+    "historical_fields": [
+      "accounting_reference",
+      "control_reference",
+      "repair_review",
+      "s3_control_precursor",
+      "s3_path_control_precursor"
+    ],
+    "frozen_control_reference": "1dfc267b66abd83d536eb41a17052a4f3d767d2b",
+    "historical_fields_are_not_future_head_or_accounting_grants": true,
+    "current_runtime_accounting": "NONE; actual coordinator ledger below governs"
+  },
+  "checkout_depths": {
+    "control": 7,
+    "source": 5,
+    "tool": 2
+  },
+  "source_publication": {
+    "branch": "experiment/ch8-s3-2-r1-20261119",
+    "sha": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+    "basis": "Coordinator04:50 published; intake must verify native checkout/source receipts"
+  },
+  "initial_connected_metadata": {
+    "status": "in_progress",
+    "conclusion": null,
+    "identities": "MATCH native run/head/ref/event/attempt/workflow/tree",
+    "observed_at_utc": "2026-11-19T01:47:54.345Z",
+    "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/runs/44439462279"
+  },
+  "ordered_rows": [
+    {
+      "id": "checker_order_corrupt",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "mode": "Original",
+      "unwind": 34,
+      "expected": "DETECTED",
+      "failure_description": "S2_NEG_CHECKER_ORDER",
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "checker_count_corrupt",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "mode": "Original",
+      "unwind": 34,
+      "expected": "DETECTED",
+      "failure_description": "S2_NEG_CHECKER_COUNT",
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "sort13_weak",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "mode": "Original",
+      "unwind": 34,
+      "expected": "DETECTED",
+      "failure_description": "S2_NEG_SORT13_WEAK",
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "i_p01_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::i_p01_b1_16",
+      "mode": "PFC",
+      "unwind": 36,
+      "expected": "SUCCESS",
+      "failure_description": null,
+      "scope_classification": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "m8_s32_d00_allinit",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+      "mode": "PFC",
+      "unwind": 50,
+      "expected": "SUCCESS",
+      "failure_description": null,
+      "scope_classification": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "i_p16_b1_16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::i_p16_b1_16",
+      "mode": "PFC",
+      "unwind": 36,
+      "expected": "SUCCESS",
+      "failure_description": null,
+      "scope_classification": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "m8_s32_d00_partial_diag",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag",
+      "mode": "PFC",
+      "unwind": 50,
+      "expected": "SUCCESS",
+      "failure_description": null,
+      "scope_classification": {
+        "category": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "OPEN_UNPROVED",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "m8_s40_d16_partial_diag",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag",
+      "mode": "PFC",
+      "unwind": 50,
+      "expected": "SUCCESS",
+      "failure_description": null,
+      "scope_classification": {
+        "category": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "OPEN_UNPROVED",
+        "proof_credit": "NONE"
+      }
+    }
+  ],
+  "selected_counts": {
+    "rows": 8,
+    "fixed_negative_controls": 3,
+    "bounded_actual_body_PFC_candidates": 3,
+    "partial_diagnostic_only_initialization_open": 2,
+    "source_literal_sites": 58,
+    "source_assertions_including_3_expected_failures": 26,
+    "source_cover_sites": 32,
+    "compiled_property_counts": "UNKNOWN_UNTIL_SAME_INVOCATION_EXPORT"
+  },
+  "caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "setup_seconds": 1800,
+  "job_minutes": 180,
+  "validate_minutes": 18,
+  "policy": {
+    "unreachable_admission": {
+      "mode": "REJECT_ALL",
+      "proposal": "S3-U-SITE-REVIEW-v1",
+      "enabled": false,
+      "unknown": "REJECT",
+      "role_unreachable": "REJECT"
+    },
+    "native_status_guard_location_role_cover_source_identity": "STRICT; no missing/tampered/partial/unknown success or nonempty-guard waiver",
+    "partial_rows": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN; qualification/init/provider-summary eligibilityfalse even if nativeSUCCESS",
+    "actual_initialization_mask_and_dstinit": "OPEN_UNPROVED; no vacuousinitializedness role/manualghostmask or flagchange",
+    "footprint": "actual source-reported stock PFC modifies/footprint scope only, no emitted byte-state/init theorem",
+    "old_exact_location_exception": "f740 originalrun44416629057/1 ONLY; NOT reused for newrun/source/IDs",
+    "prior_admission": "b487 seven boundedSOURCE_REPORTEDcases only; not universal provider contracts or new source qualification",
+    "coverage_limit": "At most32/256originalinsertpairs and1/1122originalallinitmergepair if later admitted; partialcontexts close0qualifiedmask/providercontexts; all34sort8init/callercontexts remainOPEN",
+    "open_obligations_path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-2-r1/FULL-OBLIGATIONS.md",
+    "native_compile_proof_cost_fit": "NOT_RUN",
+    "qualified_new_leaves": 0,
+    "proof_obligations_closed": 0,
+    "independent_AST_MIR_B1_B2_init_generic_caller_fullN16_N32_credit": "NONE",
+    "future_method_plan": "d8f4b4a5f9 source-only futureprerequisites; no ON experiment/method implementation/lane change in this GO"
+  },
+  "artifact": {
+    "id": 14491314048,
+    "name": "ch8-s3-2-44439462279-1",
+    "transport_bytes": 422238,
+    "digest": "sha256:1aa9d08e0533747d26bd583b53494c695615c21f3a967554b3ad150945741d61",
+    "expired": false,
+    "only_allowed_member": "group-evidence.json.gz",
+    "access": "existing authorized connected compact bounded reporting, digest before extraction; no savedZIP/raw/full logs/archives/GCS bypass"
+  },
+  "output": "kani3300/ch8-s3/run-44439462279/",
+  "accounting_reference": {
+    "latest_ledger_commit": "74ac92892cd227c2d860f471734ba3e78f6d0883",
+    "owner_dispatch_reservation": "cb5706b055262cebee38431cf889fd8cfa6e4c7d",
+    "item1": "31/31 EXHAUSTED",
+    "item2": "13/17",
+    "total": "44/48",
+    "write": false,
+    "ledger": "df305d47173284dfd54ad55d6b7567c892790c87",
+    "status": "terminal attempt counted by coordinator, item2 13/17,total44/48; worker/root write false"
+  },
+  "no_automatic_admission_policy_waiver_newrun": true,
+  "prior_S3_1_bounded_admission": {
+    "g0": "b4879b203e42e265f38ce1b44fe767aa78bb43fc",
+    "scope": "seven originalrun44416629057 bounded SOURCE_REPORTED cases ONLY; no automatic new-run/U/location/init/provider admission"
+  },
+  "method_plan": {
+    "g0": "d8f4b4a5f9de694c5c47e8e498b251e17f49ba1f",
+    "status": "PLANONLY future prerequisites, not current flags/init proof or execution authorization"
+  },
+  "native_terminal_metadata": {
+    "id": 44439462279,
+    "status": "completed",
+    "conclusion": "failure",
+    "run_attempt": 1,
+    "event": "push",
+    "head_sha": "474a9d1617d77f34566e6992debc604c70a9e9ea",
+    "head_branch": "uninit-ci/ch8-s3-2-r1-20261119",
+    "workflow": ".github/workflows/ch8-s2.yml",
+    "updated_at": "2026-11-19T02:16:56Z",
+    "observed_at_utc": "2026-11-19T02:20:19.747Z",
+    "source": "connected GitHub native metadata",
+    "identities": "MATCH"
+  },
+  "coordinator_reported_not_yet_independently_intaken": {
+    "campaign": "SELECTED_PARTIAL",
+    "elapsed_s_approx": 1069,
+    "global_stop": false,
+    "negative_controls": "three nativeFAIL at own literal labels",
+    "native_success_reported_s": {
+      "m8_s32_d00_allinit": 197,
+      "m8_s32_d00_partial_diag": 195,
+      "m8_s40_d16_partial_diag": 199
+    },
+    "success_receipts": "UNKNOWN rich metadata incomplete file/line missing; coordinator suggests same lib.rs:0:0 systemcheck",
+    "insertions": "i_p01_b1_16 and i_p16_b1_16 interrupted/capped; actual RSS vs wall cause UNKNOWN until intake"
+  },
+  "location_boundary": {
+    "old_exact_admission": "f74025e493a627962842e8f7bc6a2766d33dd300",
+    "old_scope": "originalrun44416629057 only; not transferred",
+    "new_scope": "same-system identity comparison and narrow rule proposal NOT_APPLIED; review14 before root/coordinator decision",
+    "no_general_lib_rs_zero_waiver": true,
+    "diagnostics_remain_initialization_open": true
+  },
+  "review_prepared_task": "TASK-CH8-S3-2-R1-INTAKE-LOCATION-REVIEW-W14.md; PREPARED_NOT_ISSUED until exact committed intake READY"
+}
