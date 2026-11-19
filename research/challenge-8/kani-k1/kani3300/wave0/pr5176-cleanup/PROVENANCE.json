@@ -1,0 +1,57 @@
+{
+  "cleanup_commit": "06e1533360605f52f82c69764dc4940b7afcc21b",
+  "cleanup_parent": "3d9a1809388f74c62ea9fb7320e123db0b8b37fa",
+  "cleanup_tree": "71a429da6e114fb4fd34f20605b47590d60a62c8",
+  "branch": "cleanup/pr5176-20261119",
+  "candidate_commit_count": 1,
+  "source_worktree_clean": true,
+  "author_and_committer": "Tiramisu-Cake <igkharin@gmail.com>",
+  "commit_message": "Consolidate zero-sized union regression fixtures",
+  "changed_paths": [
+    "tests/expected/zst-union-arm/expected",
+    "tests/expected/zst-union-arm/main.expected",
+    "tests/expected/zst-union-arm/main.rs",
+    "tests/expected/zst-union-arm/recursive-arm.expected",
+    "tests/expected/zst-union-arm/recursive-arm.rs",
+    "tests/expected/zst-union-arm/recursive-zst-arm.expected",
+    "tests/expected/zst-union-arm/recursive-zst-arm.rs",
+    "tests/expected/zst-union-edge-aligned-array/expected",
+    "tests/expected/zst-union-edge-aligned-array/main.rs",
+    "tests/expected/zst-union-edge-array-first/expected",
+    "tests/expected/zst-union-edge-array-first/main.rs",
+    "tests/expected/zst-union-edge-nested-empty-byte-array/expected",
+    "tests/expected/zst-union-edge-nested-empty-byte-array/main.rs",
+    "tests/expected/zst-union-edge-nested-unit-array/expected",
+    "tests/expected/zst-union-edge-nested-unit-array/main.rs",
+    "tests/expected/zst-union-edge-struct-array/expected",
+    "tests/expected/zst-union-edge-struct-array/main.rs"
+  ],
+  "final_files": {
+    "tests/expected/zst-union-arm/main.expected": {
+      "git_blob": "fc649c2ae31f721bfd034634405c7e2f65d0713d",
+      "sha256": "70e9e7c2cdd4ce5dadd17609923664bf7abc4eca0c37cbf15e17ee0e86108796"
+    },
+    "tests/expected/zst-union-arm/main.rs": {
+      "git_blob": "8babbfc4dce07b310edacfde4e21aaf69373ace8",
+      "sha256": "98e084c1b889dd436c83343fd8ff4ffa2b06982fc4f3fd1a6856a7b733d42686"
+    },
+    "tests/expected/zst-union-arm/recursive-arm.expected": {
+      "git_blob": "8ac0980edcc4af060e7de5ff7dfc503f95210192",
+      "sha256": "1b99d0895a119c7f0c427eed7a35961711db8f7a270510122632eb1321bfab4d"
+    },
+    "tests/expected/zst-union-arm/recursive-arm.rs": {
+      "git_blob": "5a7861509a52ea0e07a9ccd97faeec62f6cff20c",
+      "sha256": "ac04104f1d61778ee2365a8f0b68d817f2c7bc93b2c6d04321f84e7031c0bf6f"
+    },
+    "tests/expected/zst-union-arm/recursive-zst-arm.expected": {
+      "git_blob": "9ea50da4875dd98086c0dc9a771836caed7545ca",
+      "sha256": "8918d49b274ed945efc72836e9d6e432806f69cd9a578aa31049f492aaf49fa6"
+    },
+    "tests/expected/zst-union-arm/recursive-zst-arm.rs": {
+      "git_blob": "9ddc17159c08284b5270261eee3482bf39495ffb",
+      "sha256": "a4dc737a7ce6aaa1a67576865c5f3b4faa436791f84ee845bd771b547797e623"
+    }
+  },
+  "pr_snapshot_sha256": "dc608ce7ff9e19af1175d9d5cb0682b00874eef2c2a1418295285f64754ff6ce",
+  "finding_record_sha256": "e428e3c72dcafb4689503673ef3a2497eaae029256bfa24f7163b51db8bb9c4f"
+}

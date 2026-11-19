@@ -1,0 +1,56 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "initial_head": "3d9a1809388f74c62ea9fb7320e123db0b8b37fa",
+  "compiler_file_sha256_unchanged": "0613ee6cf6140699d5e88dd5c9b43620e9f93bdd557b4a2c586f092b575c84be",
+  "original_main_sha256_unchanged_prefix": "152372c88000ecddd7ecdb5e60f265a385f791b0658306fb5a8484dc7c97ae12",
+  "all_14_harness_bodies_sha256_unchanged_after_deindent": {
+    "array_typed_copy": "f4c04fe6376e4be63d6593c3f9f3e61865b13d5d36c893edf6218efa3608df79",
+    "padded_typed_copy_c": "0da2093536b350a745cc9f02eba6f1c313af2afba201c3902b315ee8d522df6c",
+    "padded_typed_copy_rust": "9a6156385df55a5f00284e842f5002db2eaa61ccb449f83ffa557e395237517d",
+    "aligned_zst_typed_copy": "666b89e0368ae451747ee000178318b033a1656192fd236d1c2dd7c4f27a13f5",
+    "zst_arm_at_nonzero_offset": "869597ac3835af82550c95116b5c0fee20f1dabfd876d7415d1e6e1cd0837beb",
+    "all_zst_union": "e9eb6ed2df75377de3e7825d2cfb757d54984c5a3bb4c199937613a7a9454ab0",
+    "zst_array_indexing": "6344d2151d0a99af31a5ea82b0f64f0343483222e7d3deb86f8f4c53fc435918",
+    "copy_array_first": "e54559b58b9c97d271bcf802592aed864df6ed47f70a88572b017ac709e932e8",
+    "copy_nested_unit_array": "f2a90adf524424b4fc7a468c82778d2ba67d1fb9c513b0039bcbf9d4c53487d1",
+    "copy_nested_empty_byte_array": "96c764438d20b795c12944fb96f644e59d218d6903922de11fb2fded9c29d06c",
+    "copy_aligned_array": "e80319f331927861f4952bcaae4e895e5fe012e55e84386661e9114d0255c570",
+    "copy_struct_array": "a5f5976ef26a2427957006d1adb02aae3edb9cf80ee79645110eff78186b70f4",
+    "recursive_arm": "a5b302860fdeaca69a3fe91550526917c646630e494d0b9df03b1e2979cee8d7",
+    "recursive_zst_arm": "a0af693ff0e580381c6aab498b742dd0b7a2451a50055832698050bd885531f8"
+  },
+  "source_based_discovery": [
+    {
+      "source": "tests/expected/zst-union-arm/main.rs",
+      "expected": "tests/expected/zst-union-arm/main.expected",
+      "harnesses": 12,
+      "covers": [
+        "copy_array_first post-copy data and projection",
+        "copy_nested_unit_array post-copy data and projection",
+        "copy_nested_empty_byte_array post-copy data and projection",
+        "copy_aligned_array post-copy data and projection",
+        "copy_struct_array post-copy data and projection"
+      ]
+    },
+    {
+      "source": "tests/expected/zst-union-arm/recursive-arm.rs",
+      "expected": "tests/expected/zst-union-arm/recursive-arm.expected",
+      "harnesses": 1,
+      "covers": [
+        "recursive_arm retained null root"
+      ]
+    },
+    {
+      "source": "tests/expected/zst-union-arm/recursive-zst-arm.rs",
+      "expected": "tests/expected/zst-union-arm/recursive-zst-arm.expected",
+      "harnesses": 1,
+      "covers": [
+        "recursive_zst_arm retained null root"
+      ]
+    }
+  ],
+  "oracle_negative_controls_rejected": 33,
+  "license_and_disclosure_byte_identical": true,
+  "native_compilation_discovery_verification_CI": "NOT_RUN",
+  "execution_evidence_credit": "NONE"
+}
