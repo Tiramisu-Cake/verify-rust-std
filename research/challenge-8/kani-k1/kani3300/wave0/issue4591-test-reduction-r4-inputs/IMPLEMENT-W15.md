@@ -1,0 +1,7 @@
+# Fresh W15 — implement exact reviewed test reduction
+
+Read TASK-KANI-4591-TEST-REDUCTION-W15.md from base58a74, this INPUTS.json and ROOT-DECISION, then exact committed review2ed6/COVERAGE-EDITS.md. This addendum supplies all previously missing pins and supersedes prepared PR-proposal/context-reuse steps: fresh /new15, source/tests ONLY, no PR artifacts or external writes.
+
+Create new isolated source worktree/branch exactly as INPUTS; sole parent031, preserve all compiler bytes and production/library/workflows/scripts, issue repro pair exact. Implement COVERAGE-EDITS.md named 38-to-7 recipe and only allowed six changed/deleted paths. New immutable package at kani3300/wave0/issue4591-test-reduction-r4/: INPUTS/source pins/head/tree/sole parent, changed-path and invariance receipt, full and narrow source patches/replay receipts, compact source/static coverage/oracle checks, manifest, HANDOFF and DELTA-REVIEW11-REQUEST. Preserve historical packets. Expected native compiler/proof/CI results NOT_RUN, source intentions distinct. Report full g0 package SHA and source candidate SHA/tree; do not insert circular package SHA into own manifest. Commit only own source candidate and g0 package paths [skip ci], identity Tiramisu-Cake <igkharin@gmail.com>.
+
+No compiler/cargo/rustc/rustfmt/Kani/CBMC/expansion/verifier/native/fullrunner/CI/push/PR/issues/comments/raw/full/GCS/ledger/accounting/subagents/model changes. High/FastOFF. Independent S4 run not this task. Exact package goes back SAME current W11; no root/coordinator CI before approval and separate GO.
