@@ -1,0 +1,229 @@
+{
+  "schema": "ch8-s4p2-terminal-intake-inputs-v1",
+  "stage": "PREPARED_NOT_ISSUED_WAIT_NATIVE_TERMINAL",
+  "authority": "User13:27 launches S4P2 under rootGO9123 and authorizes intake after actualnativeTERMINAL includingfailure/cancelled",
+  "native_snapshot": {
+    "checked_at": "2026-11-19T10:28:29.766Z",
+    "id": 44505531344,
+    "status": "in_progress",
+    "conclusion": null,
+    "run_attempt": 1,
+    "event": "push",
+    "head_sha": "9c63491609f7d4c9dba9f9fbb4598b79625316d7",
+    "head_branch": "uninit-ci/ch8-s4p-2-20261119",
+    "workflow_path": ".github/workflows/ch8-s2.yml",
+    "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+    "parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "message": "Bind S4P2 fallback to terminal file presence before validation",
+    "source_publication": {
+      "repository": "Tiramisu-Cake/verify-rust-std",
+      "ref": "experiment/ch8-s4p-2-20261119",
+      "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+      "parents": [
+        "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      ],
+      "connected_ref_match": true,
+      "actual_run_checkout": "TO_BE_OBSERVED_OR_UNKNOWN"
+    }
+  },
+  "expected_run": {
+    "repository": "Tiramisu-Cake/kani",
+    "run_id": 44505531344,
+    "attempt": 1,
+    "event": "push",
+    "head": "9c63491609f7d4c9dba9f9fbb4598b79625316d7",
+    "ref": "uninit-ci/ch8-s4p-2-20261119",
+    "workflow_path": ".github/workflows/ch8-s2.yml",
+    "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+    "parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ]
+  },
+  "root_trigger_gate": {
+    "head": "9c63491609f7d4c9dba9f9fbb4598b79625316d7",
+    "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+    "parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "range_count": 1,
+    "message": "Bind S4P2 fallback to terminal file presence before validation",
+    "status": "LOCAL_MATCH"
+  },
+  "author": {
+    "commit": "90d861e59f996d35b23a5cb843e311b29efdabf7",
+    "path": "kani3300/ch8-s4/s4p-2",
+    "manifest_sha256": "91344de1af175f054f59da47cf8995e3b0104fb1808469c0583d0b18b456bfd8"
+  },
+  "independent_review": {
+    "g0": "8a0083897bf4f09068fbe886497c85cd3df25f32",
+    "path": "kani3300/ch8-s4/s4p-2-review",
+    "manifest_sha256": "5bc21200028490ea4bcf52a225868153e0f2d0cee392900110a66ef15aa2de54",
+    "verdict": "APPROVE",
+    "blockers": [],
+    "closed_findings": [
+      {
+        "evidence": "FALLBACK-DIFFERENTIAL.json",
+        "final": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+        "id": "AUTHOR-FALLBACK-EMPTY-OBJECT",
+        "precursor": "321c266daf58309ae3eadc6d5c3f358766938ac0",
+        "reason": "True precursor replaces present{}; final rejects and preserves exact bytes; actual missing receipt remains recoverable. Fourteen independently observed differential cases.",
+        "status": "INDEPENDENTLY_CLOSED_ON_EXACT_FINAL_OBJECT"
+      }
+    ],
+    "scope": "Full exact source/controller/profile/runtime/gates/sourceidentity package, not only plan approval"
+  },
+  "rootGO": {
+    "commit": "9123b93890708ba418494a72b7fed2f30663279d",
+    "path": "kani3300/ch8-s4/s4p-2-go",
+    "consent": "AGREE_ONE_BOUNDED_EIGHT_ROOT_S4P2_ATTEMPT",
+    "consumed_by_this_one_run": true
+  },
+  "source": {
+    "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+    "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+    "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+    "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "clean": true,
+    "depth": 5,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+  },
+  "control_reviewed": {
+    "repo": "/root/kani-ch8-s4p-2-r1-control-w13",
+    "sha": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+    "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "clean": true,
+    "depth": 7,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+  },
+  "tool": {
+    "repo": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+    "clean": true,
+    "depth": 2,
+    "author_committer": "Ivo Matijašević <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+  },
+  "source_publication": {
+    "repository": "Tiramisu-Cake/verify-rust-std",
+    "ref": "experiment/ch8-s4p-2-20261119",
+    "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+    "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+    "parents": [
+      "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    ],
+    "connected_ref_match": true,
+    "actual_run_checkout": "TO_BE_OBSERVED_OR_UNKNOWN"
+  },
+  "request": {
+    "schema": "ch8-s4p-2-v1",
+    "profile": "ch8-s4p-2-network-fullbyte-singletons-v1",
+    "sha256": "c6abee25796842b0a1af44009921045c3da82b36e0fead42a342e7c5d8e74969",
+    "workflow_sha256": "4500edba80fbb48258c5b0a29c4d73a97fbb37fb26017da9f8251c147f30bd7f",
+    "payload_files": 137,
+    "selfhash_excluded": true
+  },
+  "schemas": {
+    "terminal": "ch8-s4p-2-campaign-v1",
+    "seal": "ch8-s4p-2-portable-seal-v1"
+  },
+  "checkout_depths": {
+    "control": 7,
+    "source": 5,
+    "tool": 2
+  },
+  "ordered_rows": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "sort13_weak",
+    "s4p_cell_count_corrupt",
+    "s4p2_network_b01_n02_fullbyte",
+    "s4p2_network_b01_n03_fullbyte",
+    "s4p2_network_b01_n04_fullbyte",
+    "s4p2_network_b01_n00_01_fullbyte"
+  ],
+  "modes": "ALL_Original",
+  "targets": null,
+  "positive_role_count_each": 4,
+  "declared_cover_counts_execution_order": [
+    6,
+    6,
+    6,
+    3
+  ],
+  "structural_NA": "OnlyexactN01 omittedimpossiblepair/maxhi sites, not exportedUNSAT waiver",
+  "source_assertion_sites": 21,
+  "source_cover_sites": 21,
+  "native_property_counts": "UNKNOWN_UNTIL_ACTUAL_SAME_INVOCATION_EXPORT",
+  "caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "setup_seconds": 1800,
+  "job_minutes": 180,
+  "Validate_minutes": 18,
+  "memory_scope": "NominalsampledownedPGIDVmRSS/outerownedcensus; Ceff=min(6,12,A-2)GiB actualcap observed; notkernel/cgroup/whole-treepeak",
+  "workflow": {
+    "path": ".github/workflows/ch8-s2.yml",
+    "job": "s3_leaf",
+    "runner": "ubuntu-24.04",
+    "job_timeout_minutes": 180,
+    "profile_env": {
+      "S3_PROFILE": "ch8-s4p-2-network-fullbyte-singletons-v1"
+    },
+    "Validate_command": "python3 check_package.py control --repo ..\npython3 s4p2_validate.py\n",
+    "Validate_timeout_minutes": 18,
+    "artifact_name": "ch8-s3-2-${{ github.run_id }}-${{ github.run_attempt }}",
+    "artifact_prefix_historical_intentional": true,
+    "allowed_postrun_member": "group-evidence.json.gz",
+    "run_and_finish": "Exact unchanged reviewed workflow/137payload/request; no subset/dispatch/cron/enable/custom flags"
+  },
+  "artifact": {
+    "name": "ch8-s3-2-44505531344-1",
+    "member": "group-evidence.json.gz",
+    "metadata_digest": "QUERY_AFTER_NATIVE_TERMINAL",
+    "historical_prefix_intentional": true,
+    "policy": "ONEauthorizedcompactmemberonly/metadata+digestfirst/connectedboundedreporting/no savedZIP/raw/fullarchives/GCS/newbypass"
+  },
+  "policies": {
+    "producer_U": "REJECT_ALL",
+    "proposal": "DISABLED",
+    "unsupported_guards": "Retain allrecords/status inclSUCCESS",
+    "native_strict_S1_admission": "Separate partitions; no intake admission",
+    "old_location_admissions": "Originalruns/IDs only; no futuretransfer or commonemitterrule from551",
+    "common_emitter": "UNKNOWN",
+    "newqualification_credit": "NONE untilactualevidence+review+separateadmission"
+  },
+  "scope_limits": "Atmostexactdirectu8/KeyLess initializedV34/base1 fullbytes finiteN0..4, no assumedsummary/provider/init/caller/generic/MIR/B1B2/fullN16N32",
+  "accounting_reference": {
+    "policy": "TRACKING_ONLY_NOT_LIMITING; everyactualrun review+root/coordinatorGO+ledger",
+    "reservation_commit": "071d664043886b7ee50307170fc237630843492e",
+    "run_record_commit": "0311951e3cc4cfb1b7819900b56e126956aedd6e",
+    "item1_used": 32,
+    "item2_used": 16,
+    "total_used": 48,
+    "ledger_sha256_at_preparation": "924b02d047d8f03cec504db80ff37fd6fd9c4a6db5e43f984374863167189c70",
+    "root_worker_write": false
+  },
+  "output": "kani3300/ch8-s4/run-44505531344/",
+  "native_terminal_result": "NOT_YET_OBSERVED",
+  "no_automatic_followon_CI": true
+}
