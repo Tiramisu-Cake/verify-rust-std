@@ -1,0 +1,99 @@
+{
+  "status": "PASS",
+  "assurance": "Static source/byte and synthetic matcher audit only",
+  "base_head": "78f745bb696c85095a9582f959d4854ec494c4f5",
+  "worktree": "/root/kani-pr5159-cleanup-w13",
+  "compiler_sha256": "09a6e3f017471549fc5c7a45471a321157339409c42a29471f0bd3f8f035bed7",
+  "compiler_byte_identical": true,
+  "findings_sha256_before_edits": "54bfa7b449d4f5fcf256f3ebdd4a5866db705e9ed45c5352b892581ec393d525",
+  "changed_paths": [
+    "tests/expected/intrinsics/volatile_load/zst_unaligned.expected",
+    "tests/expected/intrinsics/volatile_load/zst_unaligned.rs",
+    "tests/expected/intrinsics/volatile_load/zst_uninhabited.expected",
+    "tests/expected/intrinsics/volatile_load/zst_uninhabited.rs",
+    "tests/kani/Intrinsics/Volatile/load_zst.rs"
+  ],
+  "file_level_comment_edits_only": 3,
+  "byte_identical_proof_functions": {
+    "read_volatile_unit_reference": {
+      "path": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "sha256": "8c3b043d03914f0b04c76e1d7320c3bb397a729178a18fb85fb3ed4363620cc9"
+    },
+    "read_volatile_dangling_unit": {
+      "path": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "sha256": "301dc871d4feb6392d83b4fcf5fd87298d0bac27b4dce6d5b16d839a7d1099c3"
+    },
+    "read_volatile_overaligned_zst": {
+      "path": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "sha256": "06cb8cfa3dccc73d58bcc132c89ba5dc9f67b69bf537b95838409650d2b58d00"
+    },
+    "read_volatile_null_zsts": {
+      "path": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "sha256": "dcdbe2749aee458f5c3bd5411adf54aa6e115828483c79ef798eee712b6b7d79"
+    },
+    "intrinsic_volatile_load_zsts": {
+      "path": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "sha256": "a0e731df616d86be8d10a33e1dc1c179133aaa04996198121a4a6bc23922422d"
+    },
+    "read_volatile_aggregate_zsts": {
+      "path": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "sha256": "c6ab55c53091d62e68445684dd9d11af8dedc825e30aa0631be7b99e486c88c4"
+    },
+    "misaligned_zst": {
+      "path": "tests/expected/intrinsics/volatile_load/zst_unaligned.rs",
+      "sha256": "79234c2cdb974f1fc7f99b0df20373e63d18b562225ff7568cb99a579e1b89ee"
+    },
+    "uninhabited_zst": {
+      "path": "tests/expected/intrinsics/volatile_load/zst_uninhabited.rs",
+      "sha256": "f4303842fd3a5966e7ffdeed43453b80e7e2ce84a2e47a540e3466e816414684"
+    }
+  },
+  "proof_count": 8,
+  "positive_proofs": 6,
+  "negative_proofs": 2,
+  "oracle_checks": [
+    {
+      "path": "tests/expected/intrinsics/volatile_load/zst_unaligned.expected",
+      "reason": "`src` must be properly aligned",
+      "preserved_original_body_sha256": "9f3eab866ee2b4e1aac9512bf1cceb412e1a0c539cf306438ee23aa507617684",
+      "synthetic_accepts": 4,
+      "synthetic_rejects": [
+        "setup_only",
+        "incomplete_error_tail",
+        "missing_header",
+        "wrong_header",
+        "missing_completion",
+        "wrong_completion_counts",
+        "wrong_reason",
+        "missing_failed_checks",
+        "wrong_verdict",
+        "wrong_property_status",
+        "broken_status_reason_adjacency"
+      ],
+      "complete_output_plus_error_tail_still_matches": true
+    },
+    {
+      "path": "tests/expected/intrinsics/volatile_load/zst_uninhabited.expected",
+      "reason": "volatile load of an uninhabited type has undefined behavior",
+      "preserved_original_body_sha256": "83f4dee2edd6964e3ba1d7f69e47b4343a9f311e139a9bd52c238afa2cfa0156",
+      "synthetic_accepts": 4,
+      "synthetic_rejects": [
+        "setup_only",
+        "incomplete_error_tail",
+        "missing_header",
+        "wrong_header",
+        "missing_completion",
+        "wrong_completion_counts",
+        "wrong_reason",
+        "missing_failed_checks",
+        "wrong_verdict",
+        "wrong_property_status",
+        "broken_status_reason_adjacency"
+      ],
+      "complete_output_plus_error_tail_still_matches": true
+    }
+  ],
+  "source_and_output_limits": "No native execution, MIR-route evidence, exit-code enforcement or proof credit",
+  "native_tests": "NOT_RUN",
+  "CI": "NOT_RUN"
+}

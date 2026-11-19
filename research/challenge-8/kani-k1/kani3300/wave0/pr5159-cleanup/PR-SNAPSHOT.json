@@ -1,0 +1,11 @@
+{
+  "url": "https://github.com/model-checking/kani/pull/5159",
+  "state": "open",
+  "head": "fix/volatile-zst-5072",
+  "head_repo_full_name": "Tiramisu-Cake/kani",
+  "head_sha": "78f745bb696c85095a9582f959d4854ec494c4f5",
+  "base_sha": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "body": "`ptr::read_volatile` on an inhabited zero-sized type can fail pointer checks even for `read_volatile(&())`. `codegen_volatile_load` lowers it to a dereference although no memory is accessed. Construct the ZST value directly instead, preserving the alignment check and adding no non-null requirement. Non-ZST loads are unchanged.\n\nReject volatile loads of uninhabited ZSTs with a safety check, including calls without a MIR return target.\n\nRegression tests cover the reproducer, dangling and null pointers, over-aligned and aggregate ZSTs, and direct intrinsic calls. Expected-output tests check misalignment and an uninhabited ZST.\n\nThe regression suites passed in [fork CI](https://github.com/Tiramisu-Cake/kani/actions/runs/42947192933) at `70d9288` on Ubuntu 22.04, Ubuntu 24.04, Ubuntu 24.04 ARM, and macOS 15 Intel; the macOS 14 job was cancelled because its runner was unavailable.\n\nResolves #5072\n\nBy submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 and MIT licenses.\n\n*Disclosure: this change and description were prepared with the help of AI assistants.*\n",
+  "body_sha256": "9c9f09520c537f20ca55154cbc5352c7e7900d79fca579c5f78bea67b4e3167d",
+  "provenance": "Connected GitHub fetch_pr read during this stage confirmed these fields and exact body against the pinned snapshot. No PR mutation or CI query."
+}

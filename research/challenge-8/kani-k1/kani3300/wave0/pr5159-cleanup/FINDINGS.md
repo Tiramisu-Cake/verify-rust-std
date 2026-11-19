@@ -1,0 +1,37 @@
+# PR 5159 — finding verification, 2026-11-19
+
+STEP 1 recorded before candidate edits. New worktree
+`/root/kani-pr5159-cleanup-w13`, branch `cleanup/pr5159-20261119`, initial HEAD
+`78f745bb696c85095a9582f959d4854ec494c4f5`, tree
+`b9c008a20c87cb3cffd93605da184d592fc49daa`; initially clean.
+Connected GitHub read confirms open model-checking/kani#5159 at that exact head,
+in `Tiramisu-Cake:fix/volatile-zst-5072`, base
+`faffcee3bca2770c03bd21c3bde89cc8f6f7a14e`. No PR mutation.
+
+Read the recommendation's REPORT, FINDINGS, COVERAGE-EDITS,
+CODE-COMMENT-EDITS, PR-BODY and HANDOFF. Decisions below follow the actual pinned
+Kani source. All source line references refer to this initial HEAD.
+
+| Finding / proposed edit | Decision | Evidence and disposition |
+| --- | --- | --- |
+| R1: require each named harness and completed 0/1/1 summary | CONFIRMED | `tools/compiletest/src/runtest.rs:488-499` selects the same-stem expected file, checks output and checks process success only with `require_success`. `common.rs:156-158` documents that default; `main.rs:189` makes it opt-in. `runtest.rs:528-598` combines stdout/stderr and searches independent substring blocks, joining lines only with trailing backslash. Both current four-line files lack header and completion. A fresh bounded port accepts synthetic intended-reason output with an incomplete internal-error tail under the old oracle, rejects it with the additions, and accepts a source-derived complete failure transcript. This is an oracle weakness, not an observed crash. |
+| R1: retain the concrete reasons and FAILURE/description adjacency | CONFIRMED | Alignment reason is emitted by `kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs:1925-1929`. The uninhabited reason is emitted at :98-101 and :1935-1938; `codegen/assert.rs:214-231` implements assert-assume-false, not a compiler abort. `kani-driver/src/cbmc_property_renderer.rs:333-340` emits adjacent Status and quoted Description lines; `cbmc_output_parser.rs:388-395` renders failed status as FAILURE. Renderer :406-408 and :481-502 emit `Failed Checks: {description}`; :415-432 emits `VERIFICATION:- FAILED`. Keep each original four-line expected body byte-for-byte. No invented generic failure or panic text. |
+| R1: exact header spelling | CONFIRMED | `kani-compiler/src/kani_middle/metadata.rs:22-46` creates manual proof metadata using `readable_name`; `kani_middle/mod.rs:28-37` strips the local crate prefix. Both negative proof functions are at crate root. `kani-driver/src/harness_runner.rs:250-280` emits `Checking harness {pretty_name}...`; optional thread prefixes still permit substring matching. Use `misaligned_zst` and `uninhabited_zst`. |
+| R1: a one-harness failure really has a completion summary | CONFIRMED | `kani-driver/src/harness_runner.rs:308-317` partitions manual results by Success and counts successes/failures. :331-340 prints the manual summary and `Complete - {succeeding} successfully verified harnesses, {failing} failures, {total} total.` whenever total > 0. `kani-driver/src/main.rs:223-226` prints it unless quiet, before conclude; `harness_runner.rs:380-386` then exits 1 for failures. Each negative file has one manual proof and only edition2021 compile flags; no quiet or autoharness mode. Thus a completed intended failure prints exactly `Complete - 0 successfully verified harnesses, 1 failures, 1 total.` |
+| R1: infer normal exit or reject every crash from the stronger oracle | WITHDRAWN | Output containment cannot enforce an exit code or reject arbitrary extra text. The fresh matcher port also accepts a complete intended transcript followed by a synthetic error tail. The additions reject missing completion and wrong reasons, but native validation remains pending. No fresh proof or crash-freedom credit. |
+| R2: retain compiler implementation and dispatch structure | CONFIRMED | `intrinsic.rs:54-65` separates returning and non-returning calls. :92-102 rejects uninhabited ZSTs without a return target; :1922-1948 checks alignment before constructing an inhabited, correctly typed ZST, and retains non-ZST dereference. `cprover_bindings/src/goto_program/expr.rs:1171-1173` requires zero-bit type and returns nondet of that type. Preserve the entire compiler file byte-identically, including valid-for-reads wording and the initialization TODO/#920. |
+| R2: shorten compiler comments at intrinsic.rs:91 and :1933 | WITHDRAWN | Both proposed style edits exist, but the explicit byte-identical compiler-fix constraint takes precedence. Preserve the whole file. |
+| R2: shorten load_zst.rs:5 regression comment | CONFIRMED | The six proofs at :14-53 cover reference, dangling, aligned Z, null, direct intrinsic and aggregate ZST results. Replace only the file-level comment with `Volatile loads of inhabited ZSTs accept aligned reference, dangling and null pointers (#5072).` It is outside every harness. |
+| R2: delete load_zst.rs:40 direct-intrinsic comment | WITHDRAWN | The comment is redundant, but lies inside `intrinsic_volatile_load_zsts`. Preserve all eight proof functions, including comments and whitespace, byte-for-byte. |
+| R2: shorten zst_unaligned.rs:5 comment | CONFIRMED | `repr(align(8))` Z and `without_provenance::<Z>(1)` at :8-14 isolate misalignment. Use `An over-aligned ZST requires an aligned source address.` Only the file-level comment changes. |
+| R2: shorten zst_uninhabited.rs:5 comment | CONFIRMED | Empty enum and its dangling pointer at :8-13 isolate an uninhabited result. Use `Loading an uninhabited ZST requires a safety diagnostic.` Only the file-level comment changes. |
+| Keep all eight harnesses and their separate modes | CONFIRMED | Six positive proofs remain together in `tests/kani/Intrinsics/Volatile/load_zst.rs`; each negative remains its own `.rs` and same-stem `.expected`. `tools/compiletest/src/main.rs:376-381,501-516` discovers Expected sources independently; `runtest.rs:349-370` invokes Kani once per source. No fixture consolidation, deletion, filter, verify-fail, new ignore or added assumption. |
+| Optional argument-evaluation counter | WITHDRAWN | No new correctness defect was reproduced. An extra counter would change a harness and violate the byte-preservation contract. Returning operand conversion at `intrinsic.rs:56` remains unchanged. |
+| Claim both actual MIR return-target routes are exercised | WITHDRAWN | Both compiler paths exist in source, but the one uninhabited negative source does not establish which MIR route executes. No MIR/native tools are authorized. Preserve the distinction between source coverage and observed execution. |
+| R3: shorten PR description and remove historical CI bookkeeping | CONFIRMED | The live body matches the pinned snapshot, including the historical CI claim at pre-merge `70d9288`; current head is the later merge `78f745b`. Remove platform/cancellation bookkeeping; retain behavior, #5072, exact license and AI disclosure lines. Use an explicit pending validation statement in the local draft only. No fresh CI claim, no live body update. |
+| Adopt old CI/review as current candidate validation | WITHDRAWN | The historical body claim and Copilot COMMENTED review establish no execution of this cleanup candidate. No CI results/logs were fetched. |
+
+STEP 1 result: apply only two header/summary additions and three file-level
+comment replacements. Preserve the two four-line reason bodies, every proof
+function, imports, types, flags, assertions, and the entire compiler file.
+No cargo/rustc/Kani/CBMC, format runner, CI, push or subagents were used.
