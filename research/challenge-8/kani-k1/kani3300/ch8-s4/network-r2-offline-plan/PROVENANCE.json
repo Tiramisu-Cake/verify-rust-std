@@ -1,0 +1,486 @@
+{
+  "schema": "network-r2-offline-plan-provenance-v1",
+  "status": "READY_PLAN_ONLY",
+  "authority_commit": "fba20047718b69ad279feffdf7bf44d37d0abcae",
+  "intake_commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+  "dependencies": [
+    {
+      "kind": "authority",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "fba20047718b69ad279feffdf7bf44d37d0abcae",
+      "path": "research/challenge-8/kani-k1/TASK-CH8-NETWORK-R2-OFFLINE-PLAN-W13.md",
+      "bytes": 2244,
+      "sha256": "35ae38b7d22027d3b438c0c1ee93889f7fa2f9dc20aae3fa6949d3a18c10a9c4"
+    },
+    {
+      "kind": "authority",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "fba20047718b69ad279feffdf7bf44d37d0abcae",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-plan-inputs/INPUTS.json",
+      "bytes": 6539,
+      "sha256": "87354b865e6532f22d74a7d0516fbe6c5bc35a550e276169a21ae1a783c78511"
+    },
+    {
+      "kind": "authority",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "fba20047718b69ad279feffdf7bf44d37d0abcae",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-plan-inputs/MANIFEST.json",
+      "bytes": 739,
+      "sha256": "241c3a2d1e728f7a0f6ed2b29f4a7982a9793b8426b704d02ed2e285bdea76f2"
+    },
+    {
+      "kind": "authority",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "fba20047718b69ad279feffdf7bf44d37d0abcae",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-plan-inputs/ROOT-INTAKE-CHECK.json",
+      "bytes": 2676,
+      "sha256": "4476d3e37446d0266ecc1f6f1d8bc38cba5c48c7986f706ced2d9367b6aaf202"
+    },
+    {
+      "kind": "authority",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "fba20047718b69ad279feffdf7bf44d37d0abcae",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-plan-inputs/SOURCE-FACTS.json",
+      "bytes": 889,
+      "sha256": "4e9dfcb45f6d955de1e9b4e835e8773cc360e45112ba8d3c8cc16b7654102d53"
+    },
+    {
+      "kind": "authority",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "fba20047718b69ad279feffdf7bf44d37d0abcae",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-plan-inputs/USER-STEERING.md",
+      "bytes": 896,
+      "sha256": "38960d2871f17329da888ae049e6d5ef19720fd683955b342ff0625a7c1cc99d"
+    },
+    {
+      "kind": "authority",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "fba20047718b69ad279feffdf7bf44d37d0abcae",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-plan-inputs/ROOT-DECISION.md",
+      "bytes": 3001,
+      "sha256": "f40aa542425b17ec18152d89a50b12d7407da5569ff7c216150e1063a47647e6"
+    },
+    {
+      "kind": "base_prepared_task_superseded_destination",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "248cfebd4b3c6f433fd809656ea70041258fd69c",
+      "path": "research/challenge-8/kani-k1/TASK-CH8-S4P2-NETWORK-COST-PLAN.md",
+      "bytes": 3117,
+      "sha256": "c9e115b97357995e178d68f7d8fd4271217c5878c3cb35759cdf567aeec6e8cd"
+    },
+    {
+      "kind": "intake_ref_independently_hash_checked",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/HANDOFF.md",
+      "sha256": "0ba37cdc03ec19f2f996925a8fe29279b284e0b4d9659ee9bb2f5025842b5a38",
+      "bytes": 7789
+    },
+    {
+      "kind": "intake_ref_independently_hash_checked",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/MANIFEST.json",
+      "sha256": "7a86cd56cee22c8ce60b8b5b9e13593c6ec06dd9f9937ddeb06e4b182474540b",
+      "bytes": 5963
+    },
+    {
+      "kind": "intake_ref_independently_hash_checked",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/COST.json",
+      "sha256": "8605a8059bad236faf53fc201e41faab6524bfe578fa3eed57314e6d8e2d994d",
+      "bytes": 453761
+    },
+    {
+      "kind": "intake_ref_independently_hash_checked",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/N01-COST-PATH.md",
+      "sha256": "3f542e38749b719966bd32f69b5b44e4c5566b4085e18ffe17b422416f3d052b",
+      "bytes": 9995
+    },
+    {
+      "kind": "intake_ref_independently_hash_checked",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/PHASE-OBSERVATIONS.json",
+      "sha256": "75dafdc65d327d146e82cc1772800691d270dc47ab1d330759f07b3ef270aa5d",
+      "bytes": 46347
+    },
+    {
+      "kind": "intake_ref_independently_hash_checked",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/SOURCE-COST-PATH.json",
+      "sha256": "a215f11820c71b301267a8ca2789fb3a7c0df61f43dc9846d1a7592e36089a80",
+      "bytes": 20941
+    },
+    {
+      "kind": "intake_ref_independently_hash_checked",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/QUALIFICATION.json",
+      "sha256": "84a6e0afa9d1ee86331b1a78b63acfc7293776ac9655c89f432c0f220f61be1b",
+      "bytes": 104778
+    },
+    {
+      "kind": "intake_ref_independently_hash_checked",
+      "repo": "/root/verify-rust-std-kani3300-g0",
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/ROOTS.json",
+      "sha256": "03b3fc89b9e11175542d1c0741a5aea67c410a50f03a4bea41a6a8d4de8c05f7",
+      "bytes": 184741
+    }
+  ],
+  "source_citations": [
+    {
+      "label": "harness",
+      "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+      "commit": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_partition.rs",
+      "git_blob": "9f174b03918375534700013d4a67079915741e3e",
+      "bytes": 5180,
+      "sha256": "051e869d52f78f43ee8c1faaf5bad0a91c4e8d9ea21a1e8c1d83991a89e0f574",
+      "ranges": [
+        {
+          "first_line": 8,
+          "last_line": 19,
+          "sha256": "4d30bf895e35d964b68bff3db4073ac4cb01b5ed5b5ee2c820dde8eee313d70a"
+        },
+        {
+          "first_line": 21,
+          "last_line": 44,
+          "sha256": "d32ad3695d06712fb1ebd5ed2d4af48049c4d872ea3f00ec28d5301943146d4a"
+        },
+        {
+          "first_line": 46,
+          "last_line": 69,
+          "sha256": "72734305f0a77d5879c32106c99497765131e91f07aa2c32266392c8c1f96aa6"
+        },
+        {
+          "first_line": 71,
+          "last_line": 94,
+          "sha256": "36c41a9312765bdd1286812902ed3e44d69acd42d365db5c7f9152bcb235a038"
+        },
+        {
+          "first_line": 96,
+          "last_line": 116,
+          "sha256": "5bb164067f0a3aeb8b5c0d8924e55083906e324a088ecc32eee7ee96cc1f3edf"
+        }
+      ]
+    },
+    {
+      "label": "model",
+      "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+      "commit": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "git_blob": "0d0a9f1441e77acc793175a16270dd8ff9fac43d",
+      "bytes": 4816,
+      "sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "ranges": [
+        {
+          "first_line": 9,
+          "last_line": 9,
+          "sha256": "f90a037a982d5f8b7194d4e4828b282445903cd36a6810e228dd70f34537c9ef"
+        },
+        {
+          "first_line": 21,
+          "last_line": 62,
+          "sha256": "d728aec40947c7f0fcbf4a5d6f5075245350bdac8eda3b911cfcda87c8cdc163"
+        },
+        {
+          "first_line": 64,
+          "last_line": 120,
+          "sha256": "b67b85bfe523a84740667f1398e01a11cf9349984dd9fbdfe905e8324478765c"
+        },
+        {
+          "first_line": 137,
+          "last_line": 158,
+          "sha256": "21b3d4d243c0aae20b8ddcd4fad7a2475e2d743f1016bb4d134127db4938d4bc"
+        }
+      ]
+    },
+    {
+      "label": "span",
+      "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+      "commit": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+      "git_blob": "100c4d46a82cf90ee840a4f1028010a2318754e6",
+      "bytes": 2255,
+      "sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "ranges": [
+        {
+          "first_line": 1,
+          "last_line": 53,
+          "sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6"
+        }
+      ]
+    },
+    {
+      "label": "pair",
+      "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+      "commit": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs",
+      "git_blob": "d59ebef20bc0b94900f766f0e1211aa57b09f5ae",
+      "bytes": 2693,
+      "sha256": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "ranges": [
+        {
+          "first_line": 1,
+          "last_line": 72,
+          "sha256": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61"
+        }
+      ]
+    },
+    {
+      "label": "kernel",
+      "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+      "commit": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "git_blob": "700605e2afe2943da5aa5b5015db0e788c084730",
+      "bytes": 46080,
+      "sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "ranges": [
+        {
+          "first_line": 210,
+          "last_line": 213,
+          "sha256": "bdb696b8f39cb154b91c66f2f48567a09c8382dc4ff18e6b22d11462ed23d748"
+        },
+        {
+          "first_line": 316,
+          "last_line": 392,
+          "sha256": "21e7d57519068de979369af712947bed3e6150396121026f5ddf842bef5f9154"
+        },
+        {
+          "first_line": 494,
+          "last_line": 555,
+          "sha256": "4b2d6287e030494c655aa5294c062a9f411df7f3d86a5bd602467f2b4e0169bd"
+        },
+        {
+          "first_line": 665,
+          "last_line": 736,
+          "sha256": "3fb38d3db6d44a56535399f0949e806f28007ad01da62f55a70f7a10d04a083b"
+        },
+        {
+          "first_line": 740,
+          "last_line": 768,
+          "sha256": "24bd3d1e1d44e6087eb1c859fa0eaca6b8a816b9eb0621f6b505693ae41f0b3e"
+        },
+        {
+          "first_line": 937,
+          "last_line": 1025,
+          "sha256": "90acd6a699c22ccd5cc11f0b22c938fa6b6b85ada4337e39cfcdd3c100f0a176"
+        }
+      ]
+    },
+    {
+      "label": "TOOL arbitrary",
+      "repo": "/root/kani-upstream-ch8-s1",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_core/src/arbitrary.rs",
+      "git_blob": "99bcbdd2fbcd21bde0c8550a03b3366d846768f7",
+      "bytes": 25210,
+      "sha256": "cdd7aa7e5c4cf7f1e977b965b9551cb2a5fdd2fe340e83051cf8df6a6ad53070",
+      "ranges": [
+        {
+          "first_line": 25,
+          "last_line": 44,
+          "sha256": "33b3e412f007bdb68c38fb9a34ba1d59b66823c1c8a415aaeeee39e39a1a065c"
+        },
+        {
+          "first_line": 63,
+          "last_line": 70,
+          "sha256": "5ac320484fcffe9a2f58af3e33e97698837a4118c458f5b57ff8366351d6d0a8"
+        },
+        {
+          "first_line": 125,
+          "last_line": 131,
+          "sha256": "e3fbb598285b87525f1f3b9b77d9d467fb56f23274ba317d77d03f46afd50161"
+        }
+      ]
+    },
+    {
+      "label": "TOOL lib",
+      "repo": "/root/kani-upstream-ch8-s1",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_core/src/lib.rs",
+      "git_blob": "41ebc98272aec6e64656f0a4075c648133adef6b",
+      "bytes": 42462,
+      "sha256": "fd4936db12f998df2419b9e6240f9171643f8287654840596ea2db40cfd76bc0",
+      "ranges": [
+        {
+          "first_line": 530,
+          "last_line": 546,
+          "sha256": "b928cd6dbe567f46c7f2ecf8b4f9a6cf01dc7f4ac385d3eb6cc914ebbb880f1a"
+        }
+      ]
+    },
+    {
+      "label": "TOOL call_cbmc",
+      "repo": "/root/kani-upstream-ch8-s1",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-driver/src/call_cbmc.rs",
+      "git_blob": "d89471545d8d9b7d6e10ba5e2f75e734c9bf88a6",
+      "bytes": 52425,
+      "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+      "ranges": [
+        {
+          "first_line": 270,
+          "last_line": 273,
+          "sha256": "f493b4bce8397bf96f43f44c2bf23376de34eeb91abde77339efff6d79f1a601"
+        },
+        {
+          "first_line": 346,
+          "last_line": 350,
+          "sha256": "aeb987249adad515cb09b6699392201c6db6313fe0c1aa4a5b779d07031e746d"
+        },
+        {
+          "first_line": 762,
+          "last_line": 769,
+          "sha256": "88a9cfffb4af907b850e75a6315e5571f76a4fd3c8d60d4af1723e250ce46465"
+        }
+      ]
+    },
+    {
+      "label": "TOOL args",
+      "repo": "/root/kani-upstream-ch8-s1",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-driver/src/args/mod.rs",
+      "git_blob": "ebf620d9edc467760e96372cbf13ec28bc60763e",
+      "bytes": 59912,
+      "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+      "ranges": [
+        {
+          "first_line": 626,
+          "last_line": 628,
+          "sha256": "5618c371270b747548052cc1b48ae9b7b96e993f5fe498db0efcdb4739830cc9"
+        },
+        {
+          "first_line": 826,
+          "last_line": 838,
+          "sha256": "bb91ff8f84d633e7ed80308c50f190890bd88509b7ba6fac89c275bf796669ae"
+        }
+      ]
+    }
+  ],
+  "repo_identities": [
+    {
+      "label": "source",
+      "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+      "commit": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "working_tree": "CLEAN_AT_PLAN_CHECK"
+    },
+    {
+      "label": "stock_tool",
+      "repo": "/root/kani-upstream-ch8-s1",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+      "working_tree": "CLEAN_AT_PLAN_CHECK"
+    },
+    {
+      "label": "reviewed_control",
+      "repo": "/root/kani-ch8-s4p-2-r1-control-w13",
+      "commit": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+      "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "working_tree": "CLEAN_AT_PLAN_CHECK"
+    }
+  ],
+  "actual_ci_control_same_tree": {
+    "commit": "9c63491609f7d4c9dba9f9fbb4598b79625316d7",
+    "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+    "same_tree_as_reviewed_control": true
+  },
+  "intake_audit_attribution": {
+    "source": {
+      "commit": "fba20047718b69ad279feffdf7bf44d37d0abcae",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-plan-inputs/ROOT-INTAKE-CHECK.json"
+    },
+    "committed_files": 42,
+    "manifest_hashes": 41,
+    "compact_members": 119,
+    "digests": {
+      "transport_sha256": "3cd97c3dc14f54ff799782bca6d4600f80d05a6e61e2b69994e7803bc5ca7e7c",
+      "member_sha256": "adb1df5b923730b5a6b36d18063a32b73b6a9213dc5faa75c5a88caeeff328fb",
+      "payload_sha256": "9e6bf2747bd999102c10afc84600d2282a9ca1ef5e50ddd513a106caa658a20c"
+    },
+    "scope": "Root-verified archive-member identities retained; this plan hashes only the eight supplied committed refs. No archive acquisition/extraction or reader replay."
+  },
+  "independent_plan_checks": {
+    "intake_refs": 8,
+    "manifest_declared_entries": 41,
+    "authority_and_base_files": 8,
+    "cited_source_files": 9
+  },
+  "source_claim_limits": "Git byte and line binding does not establish AST/MIR/ADT/parser-input binding, dynamic execution or a qualified proof provider.",
+  "structured_observations": [
+    {
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/ROOTS.json",
+      "json_pointer": "/rows/0/argv",
+      "default_unwind_flag_index": 25,
+      "default_unwind": 34,
+      "explicit_global_unwind_override": false
+    },
+    {
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/ROOTS.json",
+      "json_pointer": "/rows/1/argv",
+      "default_unwind_flag_index": 25,
+      "default_unwind": 34,
+      "explicit_global_unwind_override": false
+    },
+    {
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/ROOTS.json",
+      "json_pointer": "/rows/2/argv",
+      "default_unwind_flag_index": 25,
+      "default_unwind": 34,
+      "explicit_global_unwind_override": false
+    },
+    {
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/ROOTS.json",
+      "json_pointer": "/rows/3/argv",
+      "default_unwind_flag_index": 25,
+      "default_unwind": 36,
+      "explicit_global_unwind_override": false
+    },
+    {
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/ROOTS.json",
+      "json_pointer": "/rows/4/argv",
+      "default_unwind_flag_index": 25,
+      "default_unwind": 36,
+      "explicit_global_unwind_override": false
+    },
+    {
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/ROOTS.json",
+      "json_pointer": "/rows/5/argv",
+      "default_unwind_flag_index": 25,
+      "default_unwind": 36,
+      "explicit_global_unwind_override": false
+    },
+    {
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/ROOTS.json",
+      "json_pointer": "/rows/6/argv",
+      "default_unwind_flag_index": 25,
+      "default_unwind": 36,
+      "explicit_global_unwind_override": false
+    },
+    {
+      "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/ROOTS.json",
+      "json_pointer": "/rows/7/argv",
+      "default_unwind_flag_index": 25,
+      "default_unwind": 36,
+      "explicit_global_unwind_override": false
+    }
+  ]
+}

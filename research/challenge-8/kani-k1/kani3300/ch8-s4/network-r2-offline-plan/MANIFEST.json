@@ -1,0 +1,50 @@
+{
+  "schema": "network-r2-offline-plan-manifest-v1",
+  "status": "READY_PLAN_ONLY",
+  "authority_commit": "fba20047718b69ad279feffdf7bf44d37d0abcae",
+  "intake_commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+  "implementation": "NOT_PREPARED",
+  "new_native_CI": "NOT_RUN",
+  "files": {
+    "ACCEPTANCE-GATES.md": {
+      "bytes": 4136,
+      "sha256": "26c9a3e9a18a0a571baab30de55c8e7e0caff528d0059f35eb68162a79d679c7"
+    },
+    "CHECKPOINT.json": {
+      "bytes": 2534,
+      "sha256": "fda5222ec2b79a5742ed4934da2f874202303b0c9512b4682ca2f28297c5bac8"
+    },
+    "COST.json": {
+      "bytes": 8290,
+      "sha256": "164cfd7f5e4fce2309cf15c79681148772e705c4518ba4777ce8ea15e4932be4"
+    },
+    "HANDOFF.md": {
+      "bytes": 2206,
+      "sha256": "2788eab6c0e3acd84740c61422689712068f01762c2ed839f28ffba916f80743"
+    },
+    "INPUTS.json": {
+      "bytes": 6539,
+      "sha256": "87354b865e6532f22d74a7d0516fbe6c5bc35a550e276169a21ae1a783c78511"
+    },
+    "LOOP-OBLIGATIONS.md": {
+      "bytes": 6932,
+      "sha256": "e7fa91c6a9af0a95f7d6381757233c939069246f8683217d83634a27726de513"
+    },
+    "OPTIONS-AND-DAG.md": {
+      "bytes": 8506,
+      "sha256": "7b0c37ff9a856bd6ec091c5259039749307ac953ccdbc3e5ce4d295c2bdb18ff"
+    },
+    "PLAN.md": {
+      "bytes": 5938,
+      "sha256": "ca37b944266589df3633928bac252efd3a798725cbbcd916cd331032cb5023c4"
+    },
+    "PROVENANCE.json": {
+      "bytes": 18919,
+      "sha256": "6485512df31eb44bc3ccd97a569ff45863dfb52fd02850226fc01b0396dccc5d"
+    }
+  },
+  "excluded": [
+    "MANIFEST.json: self hash excluded; containing Git commit binds manifest"
+  ],
+  "scope": "Recommendation only. No implementation, exact-package approval, GO, dispatch, admission, accounting or settings changes."
+}

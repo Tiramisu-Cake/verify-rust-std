@@ -1,0 +1,60 @@
+{
+  "schema": "network-r2-offline-plan-checkpoint-v1",
+  "status": "READY_PLAN_ONLY",
+  "implementation": "NOT_PREPARED",
+  "new_native_or_CI": "NOT_RUN",
+  "validation": {
+    "kind": "SOURCE_DOCUMENT_AND_PIN_CHECKS_ONLY",
+    "pinned_intake_refs_bytes_sha256": "PASS_8",
+    "authority_and_prepared_base_dependencies": "PASS_8",
+    "cited_Git_blobs_working_bytes_line_ranges": "PASS_9",
+    "source_tool_reviewed_control_heads_trees_clean": "PASS",
+    "actual_CI_control_same_tree": "PASS",
+    "intake_manifest_supplied_refs_consistency": "PASS",
+    "positive_cost_pointer_rows_and_rootcheck_match": "PASS_4",
+    "source_role_cover_cardinalities": [
+      {
+        "source_id": "s4p2_network_b01_n02_fullbyte",
+        "assertion_role_sites": 4,
+        "cover_sites": 6,
+        "declared_unwind": 36
+      },
+      {
+        "source_id": "s4p2_network_b01_n03_fullbyte",
+        "assertion_role_sites": 4,
+        "cover_sites": 6,
+        "declared_unwind": 36
+      },
+      {
+        "source_id": "s4p2_network_b01_n04_fullbyte",
+        "assertion_role_sites": 4,
+        "cover_sites": 6,
+        "declared_unwind": 36
+      },
+      {
+        "source_id": "s4p2_network_b01_n00_01_fullbyte",
+        "assertion_role_sites": 4,
+        "cover_sites": 3,
+        "declared_unwind": 36
+      }
+    ],
+    "finite_domain_correspondence": "PASS_SINGLETONS_AND_BOOL_0_1",
+    "campaign_arithmetic": "PASS_6180_WITH720_SLACK_AND6900_WITH0_SLACK",
+    "runtime_proof_credit": "NONE",
+    "actual_default_unwind_argv": "PASS_34_34_34_36_36_36_36_36_NO_CLI_OVERRIDE"
+  },
+  "root_attributed_intake_validation": "42files/41hashes/119members, no member acquisition or replay in this task",
+  "settings": "No model/Fast/settings calls; preserve SolHigh/FastOFF",
+  "scope": "Only new network-r2-offline-plan packet; no old packet edits",
+  "forbidden_actions_performed": [],
+  "open": [
+    "Actual source/GOTO/MIR/assumption binding and cause of N01 symbolic progress",
+    "Future implementation, targeted checks, final offline Validate and exact review",
+    "Root GO/coordinator phase/launch/native export completeness and strict qualification",
+    "Provider/caller/general-domain/init/MIR/B1/B2 proofs and ledger credit"
+  ],
+  "preseal_corrections": [
+    "Citation checker rejected an overlong pair-model range; corrected endpoint to actual line72.",
+    "Actual committed argv rejected the inherited default50 premise; corrected to positives36 and controls34/34/34/36. Effective positive harness bound36 unchanged."
+  ]
+}
