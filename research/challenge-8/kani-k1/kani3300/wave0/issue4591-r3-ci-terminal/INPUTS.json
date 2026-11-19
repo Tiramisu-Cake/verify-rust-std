@@ -1,0 +1,71 @@
+{
+  "schema": "issue4591-r3-terminal-intake-addendum-v1",
+  "base_task": "0d36282d44664af05a69eb3ee47686952786a261",
+  "base_task_file": "TASK-KANI-4591-R3-FULL-CI-INTAKE-W15.md",
+  "base_inputs": "kani3300/wave0/issue4591-r3-ci-postrun/INPUTS.json",
+  "task_sha256": "0e5fbfd14a56a9b1cb631324562b698b6a30385bf5adf3a3bea853d0cbf54b48",
+  "terminal_gate": "ALL3TERMINAL_VERIFIED_ACTUALFREE15_NO_DUPLICATE",
+  "head": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+  "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+  "sole_parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+  "attempt": 1,
+  "branch": "fix/stub-contracted-function",
+  "event": "push",
+  "runs": {
+    "kani": {
+      "id": 44461123962,
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    "format": {
+      "id": 44461124056,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "deny": {
+      "id": 44461124017,
+      "status": "completed",
+      "conclusion": "success"
+    }
+  },
+  "native_job_counts": {
+    "total": 12,
+    "success": 11,
+    "failure": 1,
+    "regression_OS_success": 5
+  },
+  "perf": {
+    "job": 135347866235,
+    "native_conclusion": "failure",
+    "native_failed_step": "Execute Kani performance tests",
+    "reason_coordinator_reported": "runner has received a shutdown signal",
+    "phase_coordinator_reported": "s2n-quic-core",
+    "classification_coordinator_reported": "infrastructure",
+    "independent_diagnostic_scope": "UNKNOWN_NOT_EXPOSED_IN_ALLOWED_NATIVE_METADATA; no raw fallback",
+    "previous_perf_success": [
+      {
+        "id": 135139352074,
+        "head": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+        "conclusion": "success",
+        "status": "completed"
+      }
+    ],
+    "previous_success_substitutes_current_failure": false
+  },
+  "source_delta_paths": [
+    "tests/expected/function-contract/ordinary_stub_fail.rs",
+    "tests/kani/FunctionContracts/ordinary_stub.rs"
+  ],
+  "PR_text_override": {
+    "coordinator_owns_text": true,
+    "worker_PR_DRAFT_output": false,
+    "external_write": false,
+    "style_rewrite": false,
+    "only_testing_facts_for_handoff": true
+  },
+  "output": "kani3300/wave0/issue4591-r3-ci-intake/head-031fc085cd/",
+  "accounting_ledger": "ecfc94f3bcfb9093a0b5eeb93eb0effa4ef6b7c6",
+  "budget_policy": "TRACKING_ONLY_NO_ROOT_WORKER_WRITES",
+  "evidence_policy": "connected metadata/job/step/check summaries+explicitlyallowedcompactstructured reports only; no raw/full/ZIP/GCS",
+  "future_stage": "ROOT_CHECK_AND_COORDINATOR_HANDOFF_ONLY_NO_AUTOMATIC_CI_FIX_OR_PUBLICATION"
+}
