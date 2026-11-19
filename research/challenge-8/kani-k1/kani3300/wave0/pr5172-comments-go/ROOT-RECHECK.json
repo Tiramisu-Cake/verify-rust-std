@@ -1,0 +1,424 @@
+{
+  "schema": "root-pr5172-approved-comments-recheck-v1",
+  "checked_at": "2026-11-19T21:21:48.509944+00:00",
+  "checks_passed": 96,
+  "checks": [
+    "Exact comment candidate HEAD/tree/sole parent",
+    "Candidate clean",
+    "Exact isolated fork branch",
+    "Exactly one direct fast-forward commit above current fork head",
+    "PR delta exact code fix then comments",
+    "Existing fork head is ancestor",
+    "Author/committer exact",
+    "New source NONSKIP",
+    "No co-author trailer added",
+    "Independent text review exact committed input",
+    "Exact four comment paths only",
+    "Exact old full-line comment block points_to/points_to_analysis.rs:348",
+    "Exact replacement text present in independent review /// Resolve a supported direct callee and return its checked MIR body.",
+    "Exact replacement text present in independent review /// Intrinsics and foreign items return no body.",
+    "Whole file reconstructed by only approved literal comment edits points_to/points_to_analysis.rs",
+    "All non-full-line-comment bytes identical points_to/points_to_analysis.rs",
+    "Exact old full-line comment block transform/check_uninit/delayed_ub/initial_target_visitor.rs:132",
+    "Whole file reconstructed by only approved literal comment edits transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "All non-full-line-comment bytes identical transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "Exact old full-line comment block transform/check_uninit/delayed_ub/instrumentation_visitor.rs:106",
+    "Exact replacement text present in independent review // The local visitor checks call operands and reports unsupported calls.",
+    "Whole file reconstructed by only approved literal comment edits transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "All non-full-line-comment bytes identical transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "Exact old full-line comment block transform/check_uninit/ptr_uninit/uninit_visitor.rs:816",
+    "Exact old full-line comment block transform/check_uninit/ptr_uninit/uninit_visitor.rs:777",
+    "Exact replacement text present in independent review /// Check for unions or unclassified types in a shim's by-value storage.",
+    "Exact replacement text present in independent review /// Follow aggregate fields and captures; stop at pointers and references.",
+    "Exact old full-line comment block transform/check_uninit/ptr_uninit/uninit_visitor.rs:768",
+    "Exact replacement text present in independent review /// Resolve a call operand and discard the checked body.",
+    "Exact old full-line comment block transform/check_uninit/ptr_uninit/uninit_visitor.rs:415",
+    "Exact replacement text present in independent review // Model foreign allocation calls here. Calls with MIR bodies store",
+    "Exact replacement text present in independent review // initialization state for union arguments.",
+    "Exact old full-line comment block transform/check_uninit/ptr_uninit/uninit_visitor.rs:287",
+    "Exact replacement text present in independent review // Publish entry loads and operand checks through the terminator epilogue.",
+    "Whole file reconstructed by only approved literal comment edits transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "All non-full-line-comment bytes identical transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "Exactly9 inserted/16 removed lines",
+    "Nine approved comment lines within source width",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Every inserted/deleted diff line full-line comment/doc",
+    "Candidate diff whitespace",
+    "Protected source/test/config byte identity tests",
+    "Protected source/test/config byte identity library",
+    "Protected source/test/config byte identity kani-driver",
+    "Protected source/test/config byte identity kani_metadata",
+    "Protected source/test/config byte identity tools",
+    "Protected source/test/config byte identity scripts",
+    "Protected source/test/config byte identity .github",
+    "Protected source/test/config byte identity Cargo.toml",
+    "Protected source/test/config byte identity Cargo.lock",
+    "Protected source/test/config byte identity rust-toolchain.toml",
+    "Protected source/test/config byte identity rustfmt.toml",
+    "Committed package pr5172-slop-r2",
+    "Current package exact committed bytes research/challenge-8/kani-k1/kani3300/wave0/pr5172-slop-r2/HANDOFF.md",
+    "Committed package pr5172-comments",
+    "Current package exact committed bytes research/challenge-8/kani-k1/kani3300/wave0/pr5172-comments/HANDOFF.md",
+    "Committed package pr5172-copilot-review",
+    "Current package exact committed bytes research/challenge-8/kani-k1/kani3300/wave0/pr5172-copilot-review/HANDOFF.md",
+    "Underlying code exact independent APPROVE",
+    "Fork branch matches unchanged standard push trigger .github/workflows/kani.yml",
+    "Fork branch matches unchanged standard push trigger .github/workflows/format-check.yml",
+    "Fork branch matches unchanged standard push trigger .github/workflows/deny.yml",
+    "Full five-OS matrix",
+    "Full twelve native standard instances",
+    "Connected fork branch currently exact parent cea",
+    "Fork CI branch is not an open upstream PR head",
+    "Connected PR original head/ref unchanged",
+    "Original PR auto-merge absent at current snapshot",
+    "Previous exact fork campaign all three workflows terminal",
+    "Previous Kani8success observed",
+    "Old macos15 cancelled without assigned runner/steps; no native pass",
+    "All returned current-head upstream workflows terminal at snapshot",
+    "New immutable GO directory absent"
+  ],
+  "source": "be926954f97d39628227c51a27fd702ea5eb0c98",
+  "tree": "d49c05df7916b7ab62821c042b735531959392ad",
+  "sole_parent": "cea872ac973f98daef320e056987b6d5365d9e8b",
+  "original_PR_head": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+  "identity": [
+    "Tiramisu-Cake <igkharin@gmail.com>",
+    "Tiramisu-Cake <igkharin@gmail.com>"
+  ],
+  "message": "Tighten comments in unresolved-call handling\n\n",
+  "changed_paths": [
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs"
+  ],
+  "literal_edit_ranges_and_replacements": {
+    "points_to/points_to_analysis.rs": [
+      [
+        348,
+        351,
+        [
+          "/// Resolve a supported direct callee and return its checked MIR body.",
+          "/// Intrinsics and foreign items return no body."
+        ]
+      ]
+    ],
+    "transform/check_uninit/delayed_ub/initial_target_visitor.rs": [
+      [
+        132,
+        132,
+        []
+      ]
+    ],
+    "transform/check_uninit/delayed_ub/instrumentation_visitor.rs": [
+      [
+        106,
+        107,
+        [
+          "// The local visitor checks call operands and reports unsupported calls."
+        ]
+      ]
+    ],
+    "transform/check_uninit/ptr_uninit/uninit_visitor.rs": [
+      [
+        287,
+        288,
+        [
+          "// Publish entry loads and operand checks through the terminator epilogue."
+        ]
+      ],
+      [
+        415,
+        416,
+        [
+          "// Model foreign allocation calls here. Calls with MIR bodies store",
+          "// initialization state for union arguments."
+        ]
+      ],
+      [
+        768,
+        768,
+        [
+          "/// Resolve a call operand and discard the checked body."
+        ]
+      ],
+      [
+        777,
+        779,
+        [
+          "/// Check for unions or unclassified types in a shim's by-value storage.",
+          "/// Follow aggregate fields and captures; stop at pointers and references."
+        ]
+      ],
+      [
+        816,
+        816,
+        []
+      ]
+    ]
+  },
+  "comment_stripped_sha256": {
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs": "b9cc741ca52d3a6f5f2d2d34eef8b9769f883e9c340cf60c4d2da7456556ff43",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs": "d728522d89a0bacf028eceb42e9f7557b4ba2c11e4d28e94b69881a0ce3e81e7",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs": "98e607924cd9da05e820cbad2e2fd6eca829ac421dee88c5260a22ea0f8cbdd9",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": "cfd6929581d5a5bf366436cc5d54e1baa9a422ea924c76a3aadf905f7d342c62"
+  },
+  "package_git_bindings": {
+    "pr5172-slop-r2": {
+      "commit": "16b5608bf91a469099866ae6677a4f859c19b0c9",
+      "files": {
+        "research/challenge-8/kani-k1/kani3300/wave0/pr5172-slop-r2/HANDOFF.md": {
+          "sha256": "50fb9154ce57fc7beb6c57be60a438fd1e44edef33c43a05f26be63662f15f43",
+          "bytes": 11130,
+          "git_blob": "f7ec818baa50144084ad8cc5343ac6edaf74bfce"
+        }
+      }
+    },
+    "pr5172-comments": {
+      "commit": "1b1785e15aa029d55c68085c9e3a27dd2eed5b19",
+      "files": {
+        "research/challenge-8/kani-k1/kani3300/wave0/pr5172-comments/HANDOFF.md": {
+          "sha256": "06e5874ec7b50a4ec19cb624df31047a768fe1dbae1bb24b284485e80a4e71af",
+          "bytes": 9833,
+          "git_blob": "28eb0bf9eda7934b617b101e1939bb9127e4531d"
+        }
+      }
+    },
+    "pr5172-copilot-review": {
+      "commit": "0a52785cc06e99841210b720d2bd554cb1a800d6",
+      "files": {
+        "research/challenge-8/kani-k1/kani3300/wave0/pr5172-copilot-review/HANDOFF.md": {
+          "sha256": "8d0599087e24575c9f7b8c7c1767fc90236e7df7a10c15f2898d9ad39c9c3668",
+          "bytes": 17811,
+          "git_blob": "88d35561713e626743818f3216d23b9c4b3c2c24"
+        }
+      }
+    }
+  },
+  "connected_snapshot": {
+    "checked_at": "2026-11-19T21:20:02.540Z",
+    "pr": {
+      "number": 5172,
+      "state": "open",
+      "head_sha": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+      "head_ref": "fix/kani-uninit-unresolved-call-v3",
+      "head_repo": "Tiramisu-Cake/kani",
+      "base_sha": "0997d11c14cb2da0824efc34e2c4001e53ac0faf",
+      "auto_merge": null
+    },
+    "fork_ref": {
+      "ref": "refs/heads/fix/pr5172-copilot-20261119",
+      "node_id": "REF_kwDOVp9vW9oAJnJlZnMvaGVhZHMvZml4L3ByNTE3Mi1jb3BpbG90LTIwMjYxMTE5",
+      "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/refs/heads/fix/pr5172-copilot-20261119",
+      "object": {
+        "sha": "cea872ac973f98daef320e056987b6d5365d9e8b",
+        "type": "commit",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/commits/cea872ac973f98daef320e056987b6d5365d9e8b"
+      }
+    },
+    "prs_for_fork_ref": [],
+    "old_fork_runs": [
+      {
+        "id": 44594829822,
+        "name": "Cargo Deny",
+        "head_sha": "cea872ac973f98daef320e056987b6d5365d9e8b",
+        "head_branch": "fix/pr5172-copilot-20261119",
+        "status": "completed",
+        "conclusion": "success",
+        "event": "push",
+        "run_attempt": 1,
+        "path": ".github/workflows/deny.yml"
+      },
+      {
+        "id": 44594829848,
+        "name": "Kani Format Check",
+        "head_sha": "cea872ac973f98daef320e056987b6d5365d9e8b",
+        "head_branch": "fix/pr5172-copilot-20261119",
+        "status": "completed",
+        "conclusion": "success",
+        "event": "push",
+        "run_attempt": 1,
+        "path": ".github/workflows/format-check.yml"
+      },
+      {
+        "id": 44594829817,
+        "name": "Kani CI",
+        "head_sha": "cea872ac973f98daef320e056987b6d5365d9e8b",
+        "head_branch": "fix/pr5172-copilot-20261119",
+        "status": "completed",
+        "conclusion": "failure",
+        "event": "push",
+        "run_attempt": 1,
+        "path": ".github/workflows/kani.yml"
+      }
+    ],
+    "old_fork_jobs": [
+      {
+        "id": 135810183417,
+        "name": "documentation",
+        "status": "completed",
+        "conclusion": "success",
+        "runner_id": 1000002518,
+        "step_count": 7
+      },
+      {
+        "id": 135810183650,
+        "name": "perf",
+        "status": "completed",
+        "conclusion": "success",
+        "runner_id": 1000002522,
+        "step_count": 6
+      },
+      {
+        "id": 135810183766,
+        "name": "regression (macos-15)",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "runner_id": 0,
+        "step_count": 0
+      },
+      {
+        "id": 135810183852,
+        "name": "llbc-regression",
+        "status": "completed",
+        "conclusion": "success",
+        "runner_id": 1000002523,
+        "step_count": 7
+      },
+      {
+        "id": 135810183864,
+        "name": "regression (ubuntu-24.04-arm)",
+        "status": "completed",
+        "conclusion": "success",
+        "runner_id": 1000002512,
+        "step_count": 6
+      },
+      {
+        "id": 135810183901,
+        "name": "regression (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "success",
+        "runner_id": 1000002528,
+        "step_count": 6
+      },
+      {
+        "id": 135810183950,
+        "name": "benchcomp-tests",
+        "status": "completed",
+        "conclusion": "success",
+        "runner_id": 1000002530,
+        "step_count": 8
+      },
+      {
+        "id": 135810183996,
+        "name": "regression (macos-15-intel)",
+        "status": "completed",
+        "conclusion": "success",
+        "runner_id": 1000002534,
+        "step_count": 6
+      },
+      {
+        "id": 135810184031,
+        "name": "regression (ubuntu-22.04)",
+        "status": "completed",
+        "conclusion": "success",
+        "runner_id": 1000002516,
+        "step_count": 6
+      }
+    ],
+    "upstream_runs": [
+      {
+        "id": 44587489162,
+        "name": "Kani Benchmarks",
+        "head_sha": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "status": "completed",
+        "conclusion": "failure",
+        "event": "pull_request",
+        "run_attempt": 2,
+        "path": ".github/workflows/bench-pr.yml"
+      },
+      {
+        "id": 44587489048,
+        "name": "Kani Format Check",
+        "head_sha": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "status": "completed",
+        "conclusion": "failure",
+        "event": "pull_request",
+        "run_attempt": 2,
+        "path": ".github/workflows/format-check.yml"
+      },
+      {
+        "id": 44587489557,
+        "name": "Kani CI",
+        "head_sha": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "status": "completed",
+        "conclusion": "failure",
+        "event": "pull_request",
+        "run_attempt": 2,
+        "path": ".github/workflows/kani.yml"
+      },
+      {
+        "id": 44587489242,
+        "name": "Cargo Deny",
+        "head_sha": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "status": "completed",
+        "conclusion": "success",
+        "event": "pull_request",
+        "run_attempt": 2,
+        "path": ".github/workflows/deny.yml"
+      },
+      {
+        "id": 44587489113,
+        "name": "Check Std Verification",
+        "head_sha": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "status": "completed",
+        "conclusion": "failure",
+        "event": "pull_request",
+        "run_attempt": 2,
+        "path": ".github/workflows/verify-std-check.yml"
+      },
+      {
+        "id": 44587489072,
+        "name": "Release Bundle",
+        "head_sha": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "status": "completed",
+        "conclusion": "failure",
+        "event": "pull_request",
+        "run_attempt": 2,
+        "path": ".github/workflows/release.yml"
+      }
+    ],
+    "upstream_total_count": 6,
+    "scope": "Selected connected native metadata only; no logs or per-harness CI output"
+  },
+  "limit": "Exact approved full-line comment reconstruction and non-comment-byte equality; no general Rust lexer, compiler/MIR equivalence, local formatter or native execution claimed."
+}

@@ -1,0 +1,13 @@
+# PR5172 approved comments — one fast-forward fork CI
+
+**ROOT AGREE** to one normal fast-forward push of exact NONSKIP `be926954f97d39628227c51a27fd702ea5eb0c98` to existing fork branch `Tiramisu-Cake/kani:fix/pr5172-copilot-20261119`. Tree `d49c05df7916b7ab62821c042b735531959392ad`, sole parent `cea872ac973f98daef320e056987b6d5365d9e8b` — the exact current fork ref. No force push, squash or sibling.
+
+Underlying code review `0a52785cc06e99841210b720d2bd554cb1a800d6` remains applicable; independent text review `16b5608bf91a469099866ae6677a4f859c19b0c9` produced the exact owner-approved replacements, implemented in package `1b1785e15aa029d55c68085c9e3a27dd2eed5b19`. Root reconstructed all eight literal edits against cea; the whole four files match, all non-full-line-comment bytes are identical, and every other tree entry is unchanged. Delta9+/16-, comments/docs only, including the factual StoreArgument correction. **No additional worker review required.** This is source preservation, not compiler/MIR output identity; line numbers and doc metadata may change.
+
+One full unchanged standard campaign: Kani five OS regressions plus benchcomp/perf/LLBC/docs, Format/Clippy and Deny — twelve native instances. **No manual rerun authorized.** Existing internal workflow behavior stays unchanged. Coordinator rechecks exact source/tree/parent/NONSKIP, remote fork ref==cea, no PR uses that fork CI branch, and original PR head==ac030 immediately before the single push. Matching existing be926 refs/runs must be inspected without duplication. Ledger and actual run IDs belong to the coordinator; root does neither.
+
+The previous fork campaign is terminal: eight Kani jobs SUCCESS, macos15 CANCELLED with runner0/no steps, aggregate Kani FAILURE; separate Format/Deny SUCCESS. Those are historical results, not validation of be926. Native new-head compilation/format/Clippy/tests remain NOT_RUN.
+
+Original PR branch `fix/kani-uninit-unresolved-call-v3` is **not authorized for update here**. After new CI, the coordinator may bring the owner a push package. At that future time require fresh final-head/review/CI evidence, PR head stillac030 or reviewed reconciliation, ALL upstream CI idle, auto-merge off, owner command and standing merge-only/no-force rules. Current snapshot shows all returned upstream workflows terminal and auto-merge absent; recheck later. This GO posts no body or Copilot replies. The proposed CI paragraph refers to cea and must not be relabelled as a new-head run.
+
+After all three new workflows terminate, bounded factual intake; no automatic fix/retry/publication. All earlier evidence/accounting records and source worktrees remain preserved.
