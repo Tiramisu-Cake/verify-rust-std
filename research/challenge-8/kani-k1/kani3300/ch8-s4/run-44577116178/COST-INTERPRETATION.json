@@ -1,0 +1,353 @@
+{
+  "run": 44577116178,
+  "attempt": 1,
+  "campaign_elapsed_seconds": 1722.9530094749998,
+  "rows": [
+    {
+      "root": "checker_order_corrupt",
+      "native_verification_time_s": 0.042380139,
+      "whole_child_seconds_including_compile": 33.384,
+      "initial_export_compile_marker_upper_seconds": 33.271,
+      "sampled_PGID_peak_kib": 1975120,
+      "sampled_outer_peak_kib": 2008040,
+      "cost_status": "NONE_COMPLETED"
+    },
+    {
+      "root": "checker_count_corrupt",
+      "native_verification_time_s": 0.30304353,
+      "whole_child_seconds_including_compile": 32.602,
+      "initial_export_compile_marker_upper_seconds": 32.194,
+      "sampled_PGID_peak_kib": 1939012,
+      "sampled_outer_peak_kib": 1963660,
+      "cost_status": "NONE_COMPLETED"
+    },
+    {
+      "root": "sort13_weak",
+      "native_verification_time_s": 0.08412151,
+      "whole_child_seconds_including_compile": 32.361,
+      "initial_export_compile_marker_upper_seconds": 32.187,
+      "sampled_PGID_peak_kib": 1942332,
+      "sampled_outer_peak_kib": 1965916,
+      "cost_status": "NONE_COMPLETED"
+    },
+    {
+      "root": "s4p_cell_count_corrupt",
+      "native_verification_time_s": 0.393660163,
+      "whole_child_seconds_including_compile": 34.437,
+      "initial_export_compile_marker_upper_seconds": 32.762,
+      "sampled_PGID_peak_kib": 2450256,
+      "sampled_outer_peak_kib": 2549108,
+      "cost_status": "NONE_COMPLETED"
+    },
+    {
+      "root": "s4p3_network_b01_n08_fullbyte",
+      "native_verification_time_s": 109.308341638,
+      "whole_child_seconds_including_compile": 143.32,
+      "initial_export_compile_marker_upper_seconds": 32.395,
+      "sampled_PGID_peak_kib": 2630940,
+      "sampled_outer_peak_kib": 2620252,
+      "cost_status": "NONE_COMPLETED"
+    },
+    {
+      "root": "s4p3_network_b01_n09_fullbyte",
+      "native_verification_time_s": 207.137589015,
+      "whole_child_seconds_including_compile": 242.435,
+      "initial_export_compile_marker_upper_seconds": 33.393,
+      "sampled_PGID_peak_kib": 2590232,
+      "sampled_outer_peak_kib": 2621996,
+      "cost_status": "NONE_COMPLETED"
+    },
+    {
+      "root": "s4p3_network_b01_n13_fullbyte",
+      "native_verification_time_s": null,
+      "whole_child_seconds_including_compile": 600.071,
+      "initial_export_compile_marker_upper_seconds": 33.869,
+      "sampled_PGID_peak_kib": 2566044,
+      "sampled_outer_peak_kib": 2487416,
+      "cost_status": "CHILD_WALL_TIMEOUT_CENSORED"
+    },
+    {
+      "root": "s4p3_network_b01_n17_fullbyte",
+      "native_verification_time_s": null,
+      "whole_child_seconds_including_compile": 600.152,
+      "initial_export_compile_marker_upper_seconds": 32.884,
+      "sampled_PGID_peak_kib": 2643720,
+      "sampled_outer_peak_kib": 2598588,
+      "cost_status": "CHILD_WALL_TIMEOUT_CENSORED"
+    }
+  ],
+  "censored_cases": [
+    {
+      "root": "s4p3_network_b01_n13_fullbyte",
+      "invocation_id": "2db2b7d35b6f4e9f983d6e787d5a025b",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/2db2b7d35b6f4e9f983d6e787d5a025b",
+      "receipt_identity": {
+        "member": "groups/s3-s4p3_network_b01_n13_fullbyte/receipt.json",
+        "bytes": 26553,
+        "sha256": "418c726b8f8be410e32f9f170dbda53bdf132380dcf90fc366fbab7022764152"
+      },
+      "initial_export_compile_marker_upper_seconds": 33.869,
+      "child_elapsed_seconds_including_compile_and_termination": 600.071,
+      "elapsed_difference_after_initial_marker_seconds": 566.202,
+      "difference_scope": "Arithmetic difference of reported whole-child elapsed and initial-export observation upper bound, not exclusive solver/CPU time. No backend-completion time is observed.",
+      "native_verification_time_s": null,
+      "native_verification_cost_status": "UNKNOWN_CENSORED",
+      "termination": {
+        "timed_out": true,
+        "termination_reason": "timeout",
+        "signal": 15,
+        "original_exit_code": -15,
+        "child_shutdown_verified": true
+      },
+      "sampled_PGID_peak_kib": 2566044,
+      "sampled_component_peaks_kib": {
+        "backend": 636152,
+        "compiler": 2516348,
+        "driver": 7120,
+        "other": 133264
+      },
+      "outer_sampled_peak_kib": 2487416,
+      "effective_cap_kib": 6291456,
+      "outer_cutoff": null,
+      "outer_limit_initiated": false,
+      "compact_stdout": {
+        "observed_bytes": 176422,
+        "scope": "COMPACT_STRUCTURED_RECEIPT_HEAD_TAIL_NOT_FULL_LOG",
+        "capture_metadata": {
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 110886,
+          "captured_bytes": 65536,
+          "original_bytes": 176422,
+          "preview_omitted_bytes": 61440,
+          "sha256": "79a05b1d502234dda52e56ef65f0064fa00ff4fc2c96592c1e3ae968d4b92b88",
+          "state": "CAPTURED"
+        },
+        "head_characters": 2048,
+        "tail_characters": 2048,
+        "tail": "ll_lengths_next.rs line 14 column 5 function slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::descending thread 0\nUnwinding loop _RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify28sorting_s4_full_lengths_next10descending.0 iteration 12 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs line 14 column 5 function slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::descending thread 0\nRuntime Symex: 3.62284s\nsize of program expression: 106518 steps\nslicing removed 70168 assignments\nGenerated 7885 VCC(s), 1976 remaining after simplification\nRuntime Postprocess Equation: 0.137042s\nPassing problem to propositional reduction\nconverting SSA\nRuntime Convert SSA: 0.528227s\nRunning propositional reduction\nPost-processing\nRuntime Post-process: 0.0761535s\nSolving with CaDiCaL 3.0.0\n455495 variables, 761349 clauses\nSAT checker: instance is SATISFIABLE\nRuntime Solver: 0.985696s\nRuntime decision procedure: 1.53099s\nRunning propositional reduction\nSolving with CaDiCaL 3.0.0\n455496 variables, 761350 clauses\nSAT checker: instance is SATISFIABLE\nRuntime Solver: 0.0968963s\nRuntime decision procedure: 0.101121s\nRunning propositional reduction\nSolving with CaDiCaL 3.0.0\n455497 variables, 761351 clauses\nSAT checker: instance is SATISFIABLE\nRuntime Solver: 0.0532742s\nRuntime decision procedure: 0.0831585s\nRunning propositional reduction\nSolving with CaDiCaL 3.0.0\n455498 variables, 761352 clauses\nSAT checker: instance is SATISFIABLE\nRuntime Solver: 0.0955284s\nRuntime decision procedure: 0.0996182s\nRunning propositional reduction\nSolving with CaDiCaL 3.0.0\n455499 variables, 761353 clauses\nSAT checker: instance is SATISFIABLE\nRuntime Solver: 0.0806469s\nRuntime decision procedure: 0.0861844s\nRunning propositional reduction\nSolving with CaDiCaL 3.0.0\n455500 variables, 761354 clauses\nSAT checker: instance is SATISFIABLE\nRuntime Solver: 3.02797s\nRuntime decision procedure: 3.03251s\nRunning propositional reduction\n"
+      },
+      "bounded_backend_observations": {
+        "symex_seconds_printed": [
+          "3.62284"
+        ],
+        "program_expression_steps": [
+          "106518"
+        ],
+        "slicing_removed_assignments": [
+          "70168"
+        ],
+        "VCCs_generated_remaining": [
+          [
+            "7885",
+            "1976"
+          ]
+        ],
+        "postprocess_equation_seconds_printed": [
+          "0.137042"
+        ],
+        "convert_SSA_seconds_printed": [
+          "0.528227"
+        ],
+        "post_process_seconds_printed": [
+          "0.0761535"
+        ],
+        "variables_clauses_pairs_printed": [
+          [
+            "455495",
+            "761349"
+          ],
+          [
+            "455496",
+            "761350"
+          ],
+          [
+            "455497",
+            "761351"
+          ],
+          [
+            "455498",
+            "761352"
+          ],
+          [
+            "455499",
+            "761353"
+          ],
+          [
+            "455500",
+            "761354"
+          ]
+        ],
+        "solver_seconds_completed_printed": [
+          "0.985696",
+          "0.0968963",
+          "0.0532742",
+          "0.0955284",
+          "0.0806469",
+          "3.02797"
+        ],
+        "decision_procedure_seconds_completed_printed": [
+          "1.53099",
+          "0.101121",
+          "0.0831585",
+          "0.0996182",
+          "0.0861844",
+          "3.03251"
+        ],
+        "SATISFIABLE_messages_printed": 6,
+        "last_retained_line": "Running propositional reduction"
+      },
+      "unattributed_cost": "Remaining wall time cannot be allocated to a property, SSA/reduction, solver, helper body or oracle. Tail has no timestamps or complete phase inventory. Final Running propositional reduction is last observed text, not proof of state at termination.",
+      "cover_warning": "SATISFIABLE backend messages have no completed native property IDs. None establishes any of the six declared covers SAT or the four required roles SUCCESS.",
+      "native_safety_unwind_U_location_inventory": "UNKNOWN_NOT_ZERO",
+      "per_root_RSS_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "diagnostics_complete": false,
+      "lifecycle_events_retained": 64,
+      "lifecycle_events_omitted": 116,
+      "merge_note": "Pinned caller has len<18 and returns before merge; source-only fact, not proof success."
+    },
+    {
+      "root": "s4p3_network_b01_n17_fullbyte",
+      "invocation_id": "bde7d953e8d542d9a05f74cd268ef8eb",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/bde7d953e8d542d9a05f74cd268ef8eb",
+      "receipt_identity": {
+        "member": "groups/s3-s4p3_network_b01_n17_fullbyte/receipt.json",
+        "bytes": 26547,
+        "sha256": "c9b68547edfbb1a11a7e0460e3bbf2614c8deccc28ff30c9a3aa4db3ee89875f"
+      },
+      "initial_export_compile_marker_upper_seconds": 32.884,
+      "child_elapsed_seconds_including_compile_and_termination": 600.152,
+      "elapsed_difference_after_initial_marker_seconds": 567.268,
+      "difference_scope": "Arithmetic difference of reported whole-child elapsed and initial-export observation upper bound, not exclusive solver/CPU time. No backend-completion time is observed.",
+      "native_verification_time_s": null,
+      "native_verification_cost_status": "UNKNOWN_CENSORED",
+      "termination": {
+        "timed_out": true,
+        "termination_reason": "timeout",
+        "signal": 15,
+        "original_exit_code": -15,
+        "child_shutdown_verified": true
+      },
+      "sampled_PGID_peak_kib": 2643720,
+      "sampled_component_peaks_kib": {
+        "backend": 895776,
+        "compiler": 2596416,
+        "driver": 7364,
+        "other": 175432
+      },
+      "outer_sampled_peak_kib": 2598588,
+      "effective_cap_kib": 6291456,
+      "outer_cutoff": null,
+      "outer_limit_initiated": false,
+      "compact_stdout": {
+        "observed_bytes": 247239,
+        "scope": "COMPACT_STRUCTURED_RECEIPT_HEAD_TAIL_NOT_FULL_LOG",
+        "capture_metadata": {
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 181703,
+          "captured_bytes": 65536,
+          "original_bytes": 247239,
+          "preview_omitted_bytes": 61440,
+          "sha256": "1b8b05abf1cb0f4104390e18a0e820cf68887ca2655a36ea2e682a1dbf3093c4",
+          "state": "CAPTURED"
+        },
+        "head_characters": 2048,
+        "tail_characters": 2048,
+        "tail": "e5slice4sort6shared9smallsort6verify28sorting_s4_full_lengths_next10descending.0 iteration 15 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs line 14 column 5 function slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::descending thread 0\nUnwinding loop _RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify28sorting_s4_full_lengths_next10descending.0 iteration 16 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs line 14 column 5 function slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::descending thread 0\nRuntime Symex: 5.69742s\nsize of program expression: 149116 steps\nslicing removed 97629 assignments\nGenerated 13277 VCC(s), 2914 remaining after simplification\nRuntime Postprocess Equation: 0.178315s\nPassing problem to propositional reduction\nconverting SSA\nRuntime Convert SSA: 0.669993s\nRunning propositional reduction\nPost-processing\nRuntime Post-process: 0.08877s\nSolving with CaDiCaL 3.0.0\n608369 variables, 1005707 clauses\nSAT checker: instance is SATISFIABLE\nRuntime Solver: 1.38556s\nRuntime decision procedure: 2.07727s\nRunning propositional reduction\nSolving with CaDiCaL 3.0.0\n608370 variables, 1005708 clauses\nSAT checker: instance is SATISFIABLE\nRuntime Solver: 0.268959s\nRuntime decision procedure: 0.275622s\nRunning propositional reduction\nSolving with CaDiCaL 3.0.0\n608371 variables, 1005709 clauses\nSAT checker: instance is SATISFIABLE\nRuntime Solver: 0.0961858s\nRuntime decision procedure: 0.103683s\nRunning propositional reduction\nSolving with CaDiCaL 3.0.0\n608372 variables, 1005710 clauses\nSAT checker: instance is SATISFIABLE\nRuntime Solver: 1.0232s\nRuntime decision procedure: 1.02899s\nRunning propositional reduction\nSolving with CaDiCaL 3.0.0\n608373 variables, 1005711 clauses\nSAT checker: instance is SATISFIABLE\nRuntime Solver: 7.63886s\nRuntime decision procedure: 7.64343s\nRunning propositional reduction\n"
+      },
+      "bounded_backend_observations": {
+        "symex_seconds_printed": [
+          "5.69742"
+        ],
+        "program_expression_steps": [
+          "149116"
+        ],
+        "slicing_removed_assignments": [
+          "97629"
+        ],
+        "VCCs_generated_remaining": [
+          [
+            "13277",
+            "2914"
+          ]
+        ],
+        "postprocess_equation_seconds_printed": [
+          "0.178315"
+        ],
+        "convert_SSA_seconds_printed": [
+          "0.669993"
+        ],
+        "post_process_seconds_printed": [
+          "0.08877"
+        ],
+        "variables_clauses_pairs_printed": [
+          [
+            "608369",
+            "1005707"
+          ],
+          [
+            "608370",
+            "1005708"
+          ],
+          [
+            "608371",
+            "1005709"
+          ],
+          [
+            "608372",
+            "1005710"
+          ],
+          [
+            "608373",
+            "1005711"
+          ]
+        ],
+        "solver_seconds_completed_printed": [
+          "1.38556",
+          "0.268959",
+          "0.0961858",
+          "1.0232",
+          "7.63886"
+        ],
+        "decision_procedure_seconds_completed_printed": [
+          "2.07727",
+          "0.275622",
+          "0.103683",
+          "1.02899",
+          "7.64343"
+        ],
+        "SATISFIABLE_messages_printed": 5,
+        "last_retained_line": "Running propositional reduction"
+      },
+      "unattributed_cost": "Remaining wall time cannot be allocated to a property, SSA/reduction, solver, helper body or oracle. Tail has no timestamps or complete phase inventory. Final Running propositional reduction is last observed text, not proof of state at termination.",
+      "cover_warning": "SATISFIABLE backend messages have no completed native property IDs. None establishes any of the six declared covers SAT or the four required roles SUCCESS.",
+      "native_safety_unwind_U_location_inventory": "UNKNOWN_NOT_ZERO",
+      "per_root_RSS_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "diagnostics_complete": false,
+      "lifecycle_events_retained": 64,
+      "lifecycle_events_omitted": 126,
+      "merge_note": "Pinned caller has len<18 and returns before merge; source-only fact, not proof success."
+    }
+  ],
+  "scopes": "Native exported verification, whole-child, setup, campaign and connected job times are distinct. Sampled non-atomic PGID/owned-census VmRSS is not kernel/cgroup/full-tree peak; component peaks are not simultaneous. Initial-export marker is a compile/link observation upper bound. Printed backend metrics are partial textual observations, not an exclusive phase profile.",
+  "exact_speedup_factor": null,
+  "completed_time_for_N13_N17": null,
+  "options_for_next_attempt": [
+    {
+      "option": "Prepare bounded stage/property timing instrumentation first",
+      "purpose": "Source-preserving producer/controller diagnostics with exact property ID, monotonic phase boundaries and limited counters in sole compact member; independently review reporting and timeout/error paths before new GO. Resolves attribution, does not itself close proof."
+    },
+    {
+      "option": "Separately reviewed higher child wall cap",
+      "purpose": "Keep same full-byte domain, literal calls, safety/unwind checks, required roles/covers and strict history. Recalculate child/slot/campaign/outer/phase/step envelopes, memory and cleanup reserve; obtain fresh GO and ledger authorization. 600s censoring provides no guaranteed sufficient next cap; no new run authorized here."
+    },
+    {
+      "option": "Profile and improve source-preserving backend/checker performance",
+      "purpose": "Any source/tool change needs exact new pins, equivalence argument preserving full sortedness/value-count/frame/canary, all checks/covers/controls and independent review. No assumptions, unchecked summaries, weakened byte domains or dropped checks. Current packet cannot identify the expensive property; choose optimization only after measurements."
+    },
+    {
+      "option": "Isolate N13 before N17 in a new diagnostic plan",
+      "purpose": "Already serial one-harness invocations: fewer campaign roots alone cannot fix a per-child 600s timeout. Preserve required negative controls, no incompatible cross-run property composition, and no automatic retry or admission."
+    }
+  ],
+  "no_change_or_authorization": "No CI/push/ledger/cap/source/tool/policy changes. N8/N9 go only to exact candidate review; N13/N17 remain BLOCKER."
+}

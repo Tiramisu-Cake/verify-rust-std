@@ -1,0 +1,344 @@
+{
+  "missing_location_cases": [],
+  "non_std_location_cases": [
+    {
+      "root": "s4p_cell_count_corrupt",
+      "property": {
+        "class": "unreachable",
+        "description": "unreachable code",
+        "display_id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+        "file": "/home/runner/work/kani/kani/export/library/kani_core/src/models.rs",
+        "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+        "line": "203",
+        "location_display": "library/kani_core/src/models.rs:203:17 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize",
+        "status": "SUCCESS"
+      },
+      "invocation_id": "966b051eab3c428cbff0a334935deb1e",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/966b051eab3c428cbff0a334935deb1e",
+      "members": {
+        "receipt.json": {
+          "member": "groups/s3-s4p_cell_count_corrupt/receipt.json",
+          "bytes": 26036,
+          "sha256": "e881fb201e1e3d98638242a7016a4bfc51ade010242ea52d5c3ff80cdf544e5e"
+        },
+        "compile/receipt.json": {
+          "member": "groups/s3-s4p_cell_count_corrupt/compile/receipt.json",
+          "bytes": 15343,
+          "sha256": "ef1ca77ec871d6989c0afbbcc7f0f5a3293e847a5cac95c45d76e578ef2e1d53"
+        },
+        "binding-metadata.json": {
+          "member": "groups/s3-s4p_cell_count_corrupt/binding-metadata.json",
+          "bytes": 209787,
+          "sha256": "6471f1ea102b5d16f0c89ba367c8206a14a3fbbbbb40f70ccd189a8369eec6a9"
+        },
+        "export.json": {
+          "member": "groups/s3-s4p_cell_count_corrupt/export.json",
+          "bytes": 4092,
+          "sha256": "8465ddf7f26851d626db2c35c55d2cf2f8322c00a64c6e310a6c5d3ebf52d6c9"
+        },
+        "properties.json": {
+          "member": "groups/s3-s4p_cell_count_corrupt/properties.json",
+          "bytes": 40290,
+          "sha256": "32b1b7a20a1d1384c1e2a4fb4845d18403fe940f472d541e26214c466de775a8"
+        }
+      },
+      "source_file": "library/kani_core/src/models.rs",
+      "source_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "source_sha256": "547ff8ab08feb9d26cc70d03f4be9b8267a52148695ddb10264c75f81ee4a39f",
+      "source_context": "198:                     self\n199:                 }\n200:             }\n201: \n202:             impl ToISize for usize {\n203:                 fn to_isize(self) -> isize {\n204:                     if let Ok(val) = self.try_into() {\n205:                         val\n206:                     } else {\n207:                         kani::safety_check(false, \"Offset value overflows isize\");\n208:                         unreachable!();",
+      "assessment": "S1_SOURCE_REPORTED_LOCATION_CANDIDATE",
+      "argument": "The native display names the exact stock Kani ToISize model, not a std implementation. Pinned tool models.rs:203 defines usize::to_isize; a failed conversion executes its separate safety_check(false) before unreachable!. Preserve this SUCCESS system check and all sibling safety checks. Native normalization prepends the export root to the relative display; no physical std file or independent MIR source mapping is claimed. Retain the exact full dictionary and complete same-invocation inventory. No missing-location waiver or generic conversion theorem is proposed.",
+      "admitted": false
+    },
+    {
+      "root": "s4p3_network_b01_n08_fullbyte",
+      "property": {
+        "class": "unreachable",
+        "description": "unreachable code",
+        "display_id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+        "file": "/home/runner/work/kani/kani/export/library/kani_core/src/models.rs",
+        "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+        "line": "203",
+        "location_display": "library/kani_core/src/models.rs:203:17 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize",
+        "status": "SUCCESS"
+      },
+      "invocation_id": "fe373c1bdded4ac4803b3ca7136359c0",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/fe373c1bdded4ac4803b3ca7136359c0",
+      "members": {
+        "receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/receipt.json",
+          "bytes": 26099,
+          "sha256": "39449ddf70b5da476d2f711d6c054d305e2810a3bf6452cacea897753320cda1"
+        },
+        "compile/receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/compile/receipt.json",
+          "bytes": 15360,
+          "sha256": "00489e11e7703c6e68090faf4c88fc1a26626b1c6b9cc84e03be36b281a53bec"
+        },
+        "binding-metadata.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/binding-metadata.json",
+          "bytes": 209953,
+          "sha256": "b1ade18ef2c5d15f9554fad2ac08f04c55b196f97852b3242ef263a7f856890b"
+        },
+        "export.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/export.json",
+          "bytes": 6348,
+          "sha256": "d778c158a642d75b4ca326dc06cc41e7bc1eed31369ff6756de114eb4e5cb5ed"
+        },
+        "properties.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/properties.json",
+          "bytes": 179292,
+          "sha256": "f49a1fc0ee290e9bd9699becdb3a4d9d24d7a348266b9079ca699f0f989a3a88"
+        }
+      },
+      "source_file": "library/kani_core/src/models.rs",
+      "source_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "source_sha256": "547ff8ab08feb9d26cc70d03f4be9b8267a52148695ddb10264c75f81ee4a39f",
+      "source_context": "198:                     self\n199:                 }\n200:             }\n201: \n202:             impl ToISize for usize {\n203:                 fn to_isize(self) -> isize {\n204:                     if let Ok(val) = self.try_into() {\n205:                         val\n206:                     } else {\n207:                         kani::safety_check(false, \"Offset value overflows isize\");\n208:                         unreachable!();",
+      "assessment": "S1_SOURCE_REPORTED_LOCATION_CANDIDATE",
+      "argument": "The native display names the exact stock Kani ToISize model, not a std implementation. Pinned tool models.rs:203 defines usize::to_isize; a failed conversion executes its separate safety_check(false) before unreachable!. Preserve this SUCCESS system check and all sibling safety checks. Native normalization prepends the export root to the relative display; no physical std file or independent MIR source mapping is claimed. Retain the exact full dictionary and complete same-invocation inventory. No missing-location waiver or generic conversion theorem is proposed.",
+      "admitted": false
+    },
+    {
+      "root": "s4p3_network_b01_n08_fullbyte",
+      "property": {
+        "class": "pointer",
+        "description": "same object violation in (const unsigned char *)(void *)src >= (const unsigned char *)(void *)dst + (signed long int)(count * sizeof(unsigned char) /*1*/ )",
+        "display_id": "memcpy.pointer.1",
+        "file": "/home/runner/work/kani/kani/export/<builtin-library-memcpy>",
+        "id": "memcpy.pointer.1",
+        "line": "33",
+        "location_display": "<builtin-library-memcpy>:33 in function memcpy",
+        "status": "SUCCESS"
+      },
+      "invocation_id": "fe373c1bdded4ac4803b3ca7136359c0",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/fe373c1bdded4ac4803b3ca7136359c0",
+      "members": {
+        "receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/receipt.json",
+          "bytes": 26099,
+          "sha256": "39449ddf70b5da476d2f711d6c054d305e2810a3bf6452cacea897753320cda1"
+        },
+        "compile/receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/compile/receipt.json",
+          "bytes": 15360,
+          "sha256": "00489e11e7703c6e68090faf4c88fc1a26626b1c6b9cc84e03be36b281a53bec"
+        },
+        "binding-metadata.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/binding-metadata.json",
+          "bytes": 209953,
+          "sha256": "b1ade18ef2c5d15f9554fad2ac08f04c55b196f97852b3242ef263a7f856890b"
+        },
+        "export.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/export.json",
+          "bytes": 6348,
+          "sha256": "d778c158a642d75b4ca326dc06cc41e7bc1eed31369ff6756de114eb4e5cb5ed"
+        },
+        "properties.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/properties.json",
+          "bytes": 179292,
+          "sha256": "f49a1fc0ee290e9bd9699becdb3a4d9d24d7a348266b9079ca699f0f989a3a88"
+        }
+      },
+      "protected_identity": "PROTECTED.json exact E0/pre/BEFORE/AFTER/post CBMC binary hashes",
+      "assessment": "S1_SOURCE_REPORTED_LOCATION_CANDIDATE",
+      "argument": "This exact SUCCESS pointer-system property reports a CBMC builtin memcpy pseudo-file at native line33 or34; it is not a missing coordinate or a Rust source site. Retain the exact id/class/description/location_display/canonical file/line, successful native check, complete counts, roles, SAT covers and all other safety properties for this invocation. The protected backend identity binds the source-reported producer observation. As with the S3-1-r2/S4P1 exact system-record method, unknown actual source/lowering origin is disclosed rather than replaced by a guessed std coordinate. This is a per-record metadata candidate at S1 source-reported level only; no new general parser waiver, backend-library-source correctness or independent AST/MIR claim.",
+      "backend_builtin_source_identity": "UNKNOWN_NOT_EXPORTED; no raw library/binary/log inspection performed",
+      "admitted": false
+    },
+    {
+      "root": "s4p3_network_b01_n08_fullbyte",
+      "property": {
+        "class": "pointer",
+        "description": "same object violation in (const unsigned char *)(void *)dst >= (const unsigned char *)(void *)src + (signed long int)(count * sizeof(unsigned char) /*1*/ )",
+        "display_id": "memcpy.pointer.2",
+        "file": "/home/runner/work/kani/kani/export/<builtin-library-memcpy>",
+        "id": "memcpy.pointer.2",
+        "line": "34",
+        "location_display": "<builtin-library-memcpy>:34 in function memcpy",
+        "status": "SUCCESS"
+      },
+      "invocation_id": "fe373c1bdded4ac4803b3ca7136359c0",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/fe373c1bdded4ac4803b3ca7136359c0",
+      "members": {
+        "receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/receipt.json",
+          "bytes": 26099,
+          "sha256": "39449ddf70b5da476d2f711d6c054d305e2810a3bf6452cacea897753320cda1"
+        },
+        "compile/receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/compile/receipt.json",
+          "bytes": 15360,
+          "sha256": "00489e11e7703c6e68090faf4c88fc1a26626b1c6b9cc84e03be36b281a53bec"
+        },
+        "binding-metadata.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/binding-metadata.json",
+          "bytes": 209953,
+          "sha256": "b1ade18ef2c5d15f9554fad2ac08f04c55b196f97852b3242ef263a7f856890b"
+        },
+        "export.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/export.json",
+          "bytes": 6348,
+          "sha256": "d778c158a642d75b4ca326dc06cc41e7bc1eed31369ff6756de114eb4e5cb5ed"
+        },
+        "properties.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/properties.json",
+          "bytes": 179292,
+          "sha256": "f49a1fc0ee290e9bd9699becdb3a4d9d24d7a348266b9079ca699f0f989a3a88"
+        }
+      },
+      "protected_identity": "PROTECTED.json exact E0/pre/BEFORE/AFTER/post CBMC binary hashes",
+      "assessment": "S1_SOURCE_REPORTED_LOCATION_CANDIDATE",
+      "argument": "This exact SUCCESS pointer-system property reports a CBMC builtin memcpy pseudo-file at native line33 or34; it is not a missing coordinate or a Rust source site. Retain the exact id/class/description/location_display/canonical file/line, successful native check, complete counts, roles, SAT covers and all other safety properties for this invocation. The protected backend identity binds the source-reported producer observation. As with the S3-1-r2/S4P1 exact system-record method, unknown actual source/lowering origin is disclosed rather than replaced by a guessed std coordinate. This is a per-record metadata candidate at S1 source-reported level only; no new general parser waiver, backend-library-source correctness or independent AST/MIR claim.",
+      "backend_builtin_source_identity": "UNKNOWN_NOT_EXPORTED; no raw library/binary/log inspection performed",
+      "admitted": false
+    },
+    {
+      "root": "s4p3_network_b01_n09_fullbyte",
+      "property": {
+        "class": "unreachable",
+        "description": "unreachable code",
+        "display_id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+        "file": "/home/runner/work/kani/kani/export/library/kani_core/src/models.rs",
+        "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+        "line": "203",
+        "location_display": "library/kani_core/src/models.rs:203:17 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize",
+        "status": "SUCCESS"
+      },
+      "invocation_id": "a44f674c95fa4dc8acd37fd9253aa9e4",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/a44f674c95fa4dc8acd37fd9253aa9e4",
+      "members": {
+        "receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/receipt.json",
+          "bytes": 26103,
+          "sha256": "9577488329873e84100072190716ead28c938ad5318d2913caec302be144f284"
+        },
+        "compile/receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/compile/receipt.json",
+          "bytes": 15363,
+          "sha256": "b944ec5bafc4ec396bf9751eb69f2c97ba87c0a350d83f203fa1c803a2facc8e"
+        },
+        "binding-metadata.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/binding-metadata.json",
+          "bytes": 209956,
+          "sha256": "5db181fafbf64700a5839c30ea4068307a03fde821f661aee821042895c35002"
+        },
+        "export.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/export.json",
+          "bytes": 6348,
+          "sha256": "8aa9ab15ca0978f8652b691cec6164b814d3c1d837f497a5510926bc7b501946"
+        },
+        "properties.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/properties.json",
+          "bytes": 179292,
+          "sha256": "5695215d9afaee6a7cc19f5ecac5912ad2b56ed907be2856dda44eb09a74791e"
+        }
+      },
+      "source_file": "library/kani_core/src/models.rs",
+      "source_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "source_sha256": "547ff8ab08feb9d26cc70d03f4be9b8267a52148695ddb10264c75f81ee4a39f",
+      "source_context": "198:                     self\n199:                 }\n200:             }\n201: \n202:             impl ToISize for usize {\n203:                 fn to_isize(self) -> isize {\n204:                     if let Ok(val) = self.try_into() {\n205:                         val\n206:                     } else {\n207:                         kani::safety_check(false, \"Offset value overflows isize\");\n208:                         unreachable!();",
+      "assessment": "S1_SOURCE_REPORTED_LOCATION_CANDIDATE",
+      "argument": "The native display names the exact stock Kani ToISize model, not a std implementation. Pinned tool models.rs:203 defines usize::to_isize; a failed conversion executes its separate safety_check(false) before unreachable!. Preserve this SUCCESS system check and all sibling safety checks. Native normalization prepends the export root to the relative display; no physical std file or independent MIR source mapping is claimed. Retain the exact full dictionary and complete same-invocation inventory. No missing-location waiver or generic conversion theorem is proposed.",
+      "admitted": false
+    },
+    {
+      "root": "s4p3_network_b01_n09_fullbyte",
+      "property": {
+        "class": "pointer",
+        "description": "same object violation in (const unsigned char *)(void *)src >= (const unsigned char *)(void *)dst + (signed long int)(count * sizeof(unsigned char) /*1*/ )",
+        "display_id": "memcpy.pointer.1",
+        "file": "/home/runner/work/kani/kani/export/<builtin-library-memcpy>",
+        "id": "memcpy.pointer.1",
+        "line": "33",
+        "location_display": "<builtin-library-memcpy>:33 in function memcpy",
+        "status": "SUCCESS"
+      },
+      "invocation_id": "a44f674c95fa4dc8acd37fd9253aa9e4",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/a44f674c95fa4dc8acd37fd9253aa9e4",
+      "members": {
+        "receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/receipt.json",
+          "bytes": 26103,
+          "sha256": "9577488329873e84100072190716ead28c938ad5318d2913caec302be144f284"
+        },
+        "compile/receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/compile/receipt.json",
+          "bytes": 15363,
+          "sha256": "b944ec5bafc4ec396bf9751eb69f2c97ba87c0a350d83f203fa1c803a2facc8e"
+        },
+        "binding-metadata.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/binding-metadata.json",
+          "bytes": 209956,
+          "sha256": "5db181fafbf64700a5839c30ea4068307a03fde821f661aee821042895c35002"
+        },
+        "export.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/export.json",
+          "bytes": 6348,
+          "sha256": "8aa9ab15ca0978f8652b691cec6164b814d3c1d837f497a5510926bc7b501946"
+        },
+        "properties.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/properties.json",
+          "bytes": 179292,
+          "sha256": "5695215d9afaee6a7cc19f5ecac5912ad2b56ed907be2856dda44eb09a74791e"
+        }
+      },
+      "protected_identity": "PROTECTED.json exact E0/pre/BEFORE/AFTER/post CBMC binary hashes",
+      "assessment": "S1_SOURCE_REPORTED_LOCATION_CANDIDATE",
+      "argument": "This exact SUCCESS pointer-system property reports a CBMC builtin memcpy pseudo-file at native line33 or34; it is not a missing coordinate or a Rust source site. Retain the exact id/class/description/location_display/canonical file/line, successful native check, complete counts, roles, SAT covers and all other safety properties for this invocation. The protected backend identity binds the source-reported producer observation. As with the S3-1-r2/S4P1 exact system-record method, unknown actual source/lowering origin is disclosed rather than replaced by a guessed std coordinate. This is a per-record metadata candidate at S1 source-reported level only; no new general parser waiver, backend-library-source correctness or independent AST/MIR claim.",
+      "backend_builtin_source_identity": "UNKNOWN_NOT_EXPORTED; no raw library/binary/log inspection performed",
+      "admitted": false
+    },
+    {
+      "root": "s4p3_network_b01_n09_fullbyte",
+      "property": {
+        "class": "pointer",
+        "description": "same object violation in (const unsigned char *)(void *)dst >= (const unsigned char *)(void *)src + (signed long int)(count * sizeof(unsigned char) /*1*/ )",
+        "display_id": "memcpy.pointer.2",
+        "file": "/home/runner/work/kani/kani/export/<builtin-library-memcpy>",
+        "id": "memcpy.pointer.2",
+        "line": "34",
+        "location_display": "<builtin-library-memcpy>:34 in function memcpy",
+        "status": "SUCCESS"
+      },
+      "invocation_id": "a44f674c95fa4dc8acd37fd9253aa9e4",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/a44f674c95fa4dc8acd37fd9253aa9e4",
+      "members": {
+        "receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/receipt.json",
+          "bytes": 26103,
+          "sha256": "9577488329873e84100072190716ead28c938ad5318d2913caec302be144f284"
+        },
+        "compile/receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/compile/receipt.json",
+          "bytes": 15363,
+          "sha256": "b944ec5bafc4ec396bf9751eb69f2c97ba87c0a350d83f203fa1c803a2facc8e"
+        },
+        "binding-metadata.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/binding-metadata.json",
+          "bytes": 209956,
+          "sha256": "5db181fafbf64700a5839c30ea4068307a03fde821f661aee821042895c35002"
+        },
+        "export.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/export.json",
+          "bytes": 6348,
+          "sha256": "8aa9ab15ca0978f8652b691cec6164b814d3c1d837f497a5510926bc7b501946"
+        },
+        "properties.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/properties.json",
+          "bytes": 179292,
+          "sha256": "5695215d9afaee6a7cc19f5ecac5912ad2b56ed907be2856dda44eb09a74791e"
+        }
+      },
+      "protected_identity": "PROTECTED.json exact E0/pre/BEFORE/AFTER/post CBMC binary hashes",
+      "assessment": "S1_SOURCE_REPORTED_LOCATION_CANDIDATE",
+      "argument": "This exact SUCCESS pointer-system property reports a CBMC builtin memcpy pseudo-file at native line33 or34; it is not a missing coordinate or a Rust source site. Retain the exact id/class/description/location_display/canonical file/line, successful native check, complete counts, roles, SAT covers and all other safety properties for this invocation. The protected backend identity binds the source-reported producer observation. As with the S3-1-r2/S4P1 exact system-record method, unknown actual source/lowering origin is disclosed rather than replaced by a guessed std coordinate. This is a per-record metadata candidate at S1 source-reported level only; no new general parser waiver, backend-library-source correctness or independent AST/MIR claim.",
+      "backend_builtin_source_identity": "UNKNOWN_NOT_EXPORTED; no raw library/binary/log inspection performed",
+      "admitted": false
+    }
+  ],
+  "count": 7,
+  "blockers": [],
+  "admitted": false,
+  "scope": "Per-instance source-reported metadata candidates only. No native null/zero coordinate and no syntactic location waiver required. Backend builtin source/lowering identity UNKNOWN, not established by these coordinates."
+}

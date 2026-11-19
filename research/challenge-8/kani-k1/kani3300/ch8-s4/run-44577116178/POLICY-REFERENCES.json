@@ -1,0 +1,126 @@
+{
+  "references": [
+    {
+      "commit": "8a1ea2ac1c2a4a06273f38784208a70ecc31d7c6",
+      "path": "research/challenge-8/kani-k1/S1-ACCEPTANCE-DECISION-2026-11-17.md",
+      "bytes": 2888,
+      "sha256": "14bc6712211665d5d3a7ebb2dbad2bed68ec9e73c0b3ab6a4327df1e6a4356ec"
+    },
+    {
+      "commit": "8a1ea2ac1c2a4a06273f38784208a70ecc31d7c6",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-1-r2/U-SITE-PROPOSAL.json",
+      "bytes": 5804,
+      "sha256": "dd8303db023ca4c36aace9ac7bd7d74ada6a1d274b3dedd0afdd751ee5f92819"
+    },
+    {
+      "commit": "8a1ea2ac1c2a4a06273f38784208a70ecc31d7c6",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/admission-r2-qualified/ACCEPTANCE.md",
+      "bytes": 2789,
+      "sha256": "572b4b3da2fd7cb73bf52e80a23ead6bc84d9b8cc8a08b574a86c319a22d805f"
+    },
+    {
+      "commit": "8a1ea2ac1c2a4a06273f38784208a70ecc31d7c6",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/admission-r2-location/ADMISSION.md",
+      "bytes": 2540,
+      "sha256": "4c5444b84543c32414e59bc0e4f426cf1919c6afee45a7738c8a5b37c3ae0836"
+    },
+    {
+      "commit": "8a1ea2ac1c2a4a06273f38784208a70ecc31d7c6",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/admission-s4p1-r1-fallback/ADMISSION.md",
+      "bytes": 1280,
+      "sha256": "c226d234e864a576b484adc509e67034d012c211a6aba40c257003fe55466073"
+    },
+    {
+      "commit": "8a1ea2ac1c2a4a06273f38784208a70ecc31d7c6",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/admission-s4p1-r1-fallback/ADMISSION.json",
+      "bytes": 143199,
+      "sha256": "e254197aef66a8bbf6239b0d7e55f2b2fcfbee448318c1b29523241fefb96824"
+    },
+    {
+      "commit": "8a1ea2ac1c2a4a06273f38784208a70ecc31d7c6",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/replay.py",
+      "bytes": 44116,
+      "sha256": "6938e33f8282badbd1d82ff31b985ecd38b682bbb270ac2c5c8921b7bf7947a7"
+    },
+    {
+      "commit": "8a1ea2ac1c2a4a06273f38784208a70ecc31d7c6",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/acquire.py",
+      "bytes": 2384,
+      "sha256": "1542421e1fe0d7ec335ba3b576e3050348b7fc815b74a55f8e9c3b4deb15ddb0"
+    }
+  ],
+  "method": "S1 exact per-site arithmetic/bounds arguments and complete same-invocation role/cover/guard/status inventory, then independent review and separate admission. S3-1-r2 and S4P1 exact missing-location admissions do not transfer.",
+  "tool_guard_semantics": [
+    {
+      "file": "library/kani_core/src/mem.rs",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "sha256": "598428730a32f2c4034091688b50dde5a44deb69e2e3c61e08a0d394a5e42844",
+      "lines": [
+        261,
+        273
+      ],
+      "context": "261:         pub(super) mod cbmc {\n262:             use super::*;\n263:             /// CBMC specific implementation of [super::same_allocation].\n264:             pub fn same_allocation(addr1: *const (), addr2: *const ()) -> bool {\n265:                 let obj1 = crate::kani::mem::pointer_object(addr1);\n266:                 (obj1 == crate::kani::mem::pointer_object(addr2)) && {\n267:                     if !unsafe { is_allocated(addr1, 0) || is_allocated(addr2, 0) } {\n268:                         crate::kani::unsupported(\n269:                             \"Kani does not support reasoning about pointer to unallocated memory\",\n270:                         );\n271:                     }\n272:                     unsafe { is_allocated(addr1, 0) && is_allocated(addr2, 0) }\n273:                 }"
+    },
+    {
+      "file": "library/kani_core/src/lib.rs",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "sha256": "fd4936db12f998df2419b9e6240f9171643f8287654840596ea2db40cfd76bc0",
+      "lines": [
+        585,
+        596
+      ],
+      "context": "585:         /// This should indicate that Kani does not support a certain operation.\n586:         #[doc(hidden)]\n587:         #[allow(dead_code)]\n588:         #[kanitool::fn_marker = \"UnsupportedCheckHook\"]\n589:         #[inline(never)]\n590:         #[allow(clippy::diverging_sub_expression)]\n591:         pub(crate) fn unsupported(msg: &'static str) -> ! {\n592:             #[cfg(not(feature = \"concrete_playback\"))]\n593:             return kani_intrinsic();\n594: \n595:             #[cfg(feature = \"concrete_playback\")]\n596:             unimplemented!(\"Unsupported Kani operation: {msg}\")"
+    },
+    {
+      "file": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "sha256": "0a4db90716504402fae801e39481d1afabb18b2b8b6e8d65a4c68ed4ef56c1c6",
+      "lines": [
+        129,
+        146
+      ],
+      "context": "129:     pub fn codegen_assert_assume(\n130:         &self,\n131:         cond: Expr,\n132:         property_class: PropertyClass,\n133:         message: &str,\n134:         loc: Location,\n135:     ) -> Stmt {\n136:         if property_class == PropertyClass::Assertion && self.queries.args().prove_safety_only {\n137:             Stmt::assume(cond, loc)\n138:         } else {\n139:             let property_name = property_class.as_str();\n140:             Stmt::block(\n141:                 vec![\n142:                     Stmt::assert(cond.clone(), property_name, message, loc),\n143:                     Stmt::assume(cond, loc),\n144:                 ],\n145:                 loc,\n146:             )"
+    },
+    {
+      "file": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "sha256": "0a4db90716504402fae801e39481d1afabb18b2b8b6e8d65a4c68ed4ef56c1c6",
+      "lines": [
+        270,
+        299
+      ],
+      "context": "270:     /// Kani does not currently support all MIR constructs.\n271:     ///\n272:     /// This action will\n273:     ///\n274:     /// 1. Fail verification in a machine-detectable manner if reachable\n275:     /// 2. Warn about unsupported features at compile-time\n276:     ///\n277:     /// Control flow will not proceed forward from this assertion failure.\n278:     pub fn codegen_unimplemented_stmt(\n279:         &mut self,\n280:         operation_name: &str,\n281:         loc: Location,\n282:         url: &str,\n283:     ) -> Stmt {\n284:         debug!(\"codegen_unimplemented: {} at {}\", operation_name, loc.short_string());\n285: \n286:         // Save this occurrence so we can emit a warning in the compilation report.\n287:         let key: InternedString = operation_name.into();\n288:         let entry = self.unsupported_constructs.entry(key).or_default();\n289:         entry.push(loc);\n290: \n291:         self.codegen_assert_assume(\n292:             Expr::bool_false(),\n293:             PropertyClass::UnsupportedConstruct,\n294:             &GotocCtx::unsupported_msg(operation_name, Some(url)),\n295:             loc,\n296:         )\n297:     }\n298: \n299:     /// There are a handful of location where we want to codegen unimplemented... but also"
+    },
+    {
+      "file": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "sha256": "ad73c82580f8f9ba3528ce9b6b371c6a4f717443e31a86b1fad6bad0a2c80d64",
+      "lines": [
+        202,
+        225
+      ],
+      "context": "202: struct UnsupportedCheck;\n203: impl GotocHook for UnsupportedCheck {\n204:     fn hook_applies(\n205:         &self,\n206:         _tcx: TyCtxt,\n207:         _instance: Instance,\n208:         _instance_name: &str,\n209:         _kani_tool_attr: Option<&String>,\n210:     ) -> bool {\n211:         unreachable!(\"{UNEXPECTED_CALL}\")\n212:     }\n213: \n214:     fn handle(\n215:         &self,\n216:         gcx: &mut GotocCtx,\n217:         _instance: Instance,\n218:         mut fargs: Vec<Expr>,\n219:         _assign_to: &Place,\n220:         target: Option<BasicBlockIdx>,\n221:         span: Span,\n222:     ) -> Stmt {\n223:         assert_eq!(fargs.len(), 1);\n224:         let msg = fargs.pop().unwrap();\n225:         let msg = extract_msg_or_err(gcx, &msg, span, \"unsupported\");"
+    },
+    {
+      "file": "kani-compiler/src/codegen_cprover_gotoc/codegen/foreign_function.rs",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "sha256": "65e49c1c3380eb01d0c2675cdb1bde2864aea43219c63ae136b11b029a27c706",
+      "lines": [
+        245,
+        262
+      ],
+      "context": "245:             )\n246:         } else {\n247:             let conv = instance.fn_abi().unwrap().conv;\n248:             let url = if conv == CallConvention::C {\n249:                 \"https://github.com/model-checking/kani/issues/2423\"\n250:             } else {\n251:                 \"https://github.com/model-checking/kani/issues/new/choose\"\n252:             };\n253:             (format!(\"{conv:?}\"), url)\n254:         };\n255:         let msg = format!(\"call to foreign \\\"{call_conv}\\\" function `{fn_name}`\");\n256:         self.codegen_assert_assume(\n257:             Expr::bool_false(),\n258:             PropertyClass::UnsupportedConstruct,\n259:             &GotocCtx::unsupported_msg(&msg, Some(url)),\n260:             loc,\n261:         )\n262:     }"
+    },
+    {
+      "file": "kani-compiler/src/intrinsics.rs",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "sha256": "53230c07d1950d5676ed320ca30430d0f99da7cd1ba9243441a1a576a4d54c83",
+      "lines": [
+        298,
+        304
+      ],
+      "context": "298:             \"caller_location\" => {\n299:                 assert_sig_matches!(sig, => RigidTy::Ref(_, _, Mutability::Not));\n300:                 Self::Unimplemented {\n301:                     name: intrinsic_str,\n302:                     issue_link: \"https://github.com/model-checking/kani/issues/374\".into(),\n303:                 }\n304:             }"
+    }
+  ],
+  "independent_compiler_proof": "UNKNOWN_NOT_CLAIMED"
+}

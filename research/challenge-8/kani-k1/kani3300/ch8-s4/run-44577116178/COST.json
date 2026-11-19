@@ -1,0 +1,4291 @@
+{
+  "campaign_elapsed_seconds": 1722.9530094749998,
+  "caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "setup": {
+    "original_exit_code": 0,
+    "signal": null,
+    "timed_out": false,
+    "rss_peak_kib": 1454068,
+    "rss_status": "SAMPLED_PROCESS_GROUP",
+    "output_truncated": false,
+    "output_bytes": 38186,
+    "stdout_bytes": 1977,
+    "stderr_bytes": 36209,
+    "component_group_peak_kib": {
+      "driver": 0,
+      "backend": 0,
+      "compiler": 1378760,
+      "other": 264816
+    },
+    "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+    "child_shutdown_verified": true,
+    "stdout_truncated": false,
+    "stderr_truncated": false,
+    "rss_peak_gib": 1.3867073059082031,
+    "rss_sample_period_seconds": 0.05,
+    "elapsed_seconds": 262.443,
+    "setup_total_seconds": 739.5956292152405
+  },
+  "job": {
+    "id": 135747479975,
+    "started_at": "2026-11-19T17:27:59Z",
+    "completed_at": "2026-11-19T18:09:09Z"
+  },
+  "rows": [
+    {
+      "id": "checker_order_corrupt",
+      "compile": {
+        "schema": "ch8-s1-compile-receipt-v1",
+        "boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+        "scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+        "state": "COMPLETE",
+        "elapsed_upper_bound_seconds": 33.271,
+        "limit_seconds": 180,
+        "observed_run_state": "INCOMPLETE",
+        "marker_sha256": "8a8777281b3769d7736f4ccd1eb086f2c13fef7e80916b9c2a724690dcf71333",
+        "selectors": [
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt"
+        ]
+      },
+      "native_verification_time_s": 0.042380139,
+      "native_wall_time_s": 0.114086917,
+      "execution": {
+        "elapsed_seconds": 33.384,
+        "original_exit_code": 1,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 1975120,
+        "rss_peak_gib": 1.8836212158203125,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 15304,
+          "compiler": 1931936,
+          "driver": 7088,
+          "other": 164444
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "output_truncated": false,
+        "stdout_truncated": false,
+        "stderr_truncated": false
+      },
+      "memory_admission": {
+        "available_kib": 14790648,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 14790648,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "limits": {
+        "child_wall_seconds": 600,
+        "compile_seconds_inside_child": 180,
+        "inner_backend_timeout_seconds": 600,
+        "output_remaining": {
+          "export_bytes": 8388608,
+          "stderr_bytes": 1048576,
+          "stdout_bytes": 16777216
+        },
+        "rss_effective_kib": 6291456,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 33.662084883000034,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 2008040,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "worker_wall_limit_seconds": 710,
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": [],
+        "lifecycle_events_omitted": 85
+      },
+      "containment": {
+        "elapsed_seconds": 0.008666266000091127,
+        "observed": [
+          {
+            "pgid": 8378,
+            "pid": 8378,
+            "ppid": 8292,
+            "start_ticks": 80971,
+            "state": "Z"
+          },
+          {
+            "pgid": 8378,
+            "pid": 8385,
+            "ppid": 8378,
+            "start_ticks": 80977,
+            "state": "R"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8416,
+            "ppid": 8409,
+            "start_ticks": 80986,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8421,
+            "ppid": 8416,
+            "start_ticks": 80987,
+            "state": "R"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8409,
+            "ppid": 8378,
+            "start_ticks": 80985,
+            "state": "Z"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8460,
+            "ppid": 8416,
+            "start_ticks": 81007,
+            "state": "R"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8443,
+            "ppid": 8416,
+            "start_ticks": 81001,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8444,
+            "ppid": 8416,
+            "start_ticks": 81001,
+            "state": "R"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8445,
+            "ppid": 8416,
+            "start_ticks": 81001,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8480,
+            "ppid": 8477,
+            "start_ticks": 81017,
+            "state": "R"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8476,
+            "ppid": 8443,
+            "start_ticks": 81017,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8477,
+            "ppid": 8476,
+            "start_ticks": 81017,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8479,
+            "ppid": 8416,
+            "start_ticks": 81017,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8513,
+            "ppid": 8416,
+            "start_ticks": 81026,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8517,
+            "ppid": 8416,
+            "start_ticks": 81027,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8552,
+            "ppid": 8416,
+            "start_ticks": 81038,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8554,
+            "ppid": 8552,
+            "start_ticks": 81038,
+            "state": "R"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8569,
+            "ppid": 8517,
+            "start_ticks": 81047,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8570,
+            "ppid": 8569,
+            "start_ticks": 81048,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8560,
+            "ppid": 8416,
+            "start_ticks": 81040,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8564,
+            "ppid": 8416,
+            "start_ticks": 81042,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8571,
+            "ppid": 8570,
+            "start_ticks": 81048,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8582,
+            "ppid": 8416,
+            "start_ticks": 81053,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8596,
+            "ppid": 8416,
+            "start_ticks": 81060,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8597,
+            "ppid": 8596,
+            "start_ticks": 81060,
+            "state": "R"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8614,
+            "ppid": 8416,
+            "start_ticks": 81069,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8602,
+            "ppid": 8416,
+            "start_ticks": 81061,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8630,
+            "ppid": 8416,
+            "start_ticks": 81078,
+            "state": "R"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8640,
+            "ppid": 8416,
+            "start_ticks": 81094,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8649,
+            "ppid": 8640,
+            "start_ticks": 81109,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8658,
+            "ppid": 8416,
+            "start_ticks": 81113,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8683,
+            "ppid": 8416,
+            "start_ticks": 81288,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8697,
+            "ppid": 8416,
+            "start_ticks": 81309,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8703,
+            "ppid": 8416,
+            "start_ticks": 83382,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8707,
+            "ppid": 8416,
+            "start_ticks": 83480,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8708,
+            "ppid": 8416,
+            "start_ticks": 83480,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8712,
+            "ppid": 8416,
+            "start_ticks": 83486,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8715,
+            "ppid": 8416,
+            "start_ticks": 83490,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8718,
+            "ppid": 8416,
+            "start_ticks": 83494,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8721,
+            "ppid": 8416,
+            "start_ticks": 83506,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8724,
+            "ppid": 8416,
+            "start_ticks": 83516,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8727,
+            "ppid": 8416,
+            "start_ticks": 83543,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8730,
+            "ppid": 8416,
+            "start_ticks": 83579,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8737,
+            "ppid": 8416,
+            "start_ticks": 83683,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8733,
+            "ppid": 8416,
+            "start_ticks": 83683,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8735,
+            "ppid": 8416,
+            "start_ticks": 83683,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8742,
+            "ppid": 8416,
+            "start_ticks": 83694,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8744,
+            "ppid": 8416,
+            "start_ticks": 83695,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8748,
+            "ppid": 8416,
+            "start_ticks": 83699,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8751,
+            "ppid": 8416,
+            "start_ticks": 83700,
+            "state": "R"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8754,
+            "ppid": 8416,
+            "start_ticks": 83717,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8757,
+            "ppid": 8416,
+            "start_ticks": 83854,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8760,
+            "ppid": 8416,
+            "start_ticks": 83946,
+            "state": "R"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8765,
+            "ppid": 8416,
+            "start_ticks": 84183,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8768,
+            "ppid": 8416,
+            "start_ticks": 84230,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8770,
+            "ppid": 8409,
+            "start_ticks": 84242,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8773,
+            "ppid": 8770,
+            "start_ticks": 84242,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8774,
+            "ppid": 8773,
+            "start_ticks": 84243,
+            "state": "D"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8784,
+            "ppid": 8409,
+            "start_ticks": 84310,
+            "state": "S"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8785,
+            "ppid": 8784,
+            "start_ticks": 84310,
+            "state": "R"
+          },
+          {
+            "pgid": 8409,
+            "pid": 8799,
+            "ppid": 8409,
+            "start_ticks": 84316,
+            "state": "S"
+          },
+          {
+            "pgid": 8378,
+            "pid": 8817,
+            "ppid": 8378,
+            "start_ticks": 84329,
+            "state": "S"
+          }
+        ],
+        "reaped_adopted": [],
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "signals": [],
+        "verified": true,
+        "worker_exit": 0
+      },
+      "cutoff": "NONE_COMPLETED"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "compile": {
+        "schema": "ch8-s1-compile-receipt-v1",
+        "boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+        "scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+        "state": "COMPLETE",
+        "elapsed_upper_bound_seconds": 32.194,
+        "limit_seconds": 180,
+        "observed_run_state": "INCOMPLETE",
+        "marker_sha256": "fcd28fbed56f84d89ee4f1694ec8af5171b13da5035d0ce653d84caee5b21be0",
+        "selectors": [
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt"
+        ]
+      },
+      "native_verification_time_s": 0.30304353,
+      "native_wall_time_s": 0.372798062,
+      "execution": {
+        "elapsed_seconds": 32.602,
+        "original_exit_code": 1,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 1939012,
+        "rss_peak_gib": 1.8491859436035156,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 33484,
+          "compiler": 1900132,
+          "driver": 25260,
+          "other": 178028
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "output_truncated": false,
+        "stdout_truncated": false,
+        "stderr_truncated": false
+      },
+      "memory_admission": {
+        "available_kib": 14623836,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 14623836,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "limits": {
+        "child_wall_seconds": 600,
+        "compile_seconds_inside_child": 180,
+        "inner_backend_timeout_seconds": 600,
+        "output_remaining": {
+          "export_bytes": 8384278,
+          "stderr_bytes": 1046083,
+          "stdout_bytes": 16683633
+        },
+        "rss_effective_kib": 6291456,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 32.884905806000006,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 1963660,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "worker_wall_limit_seconds": 710,
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": [],
+        "lifecycle_events_omitted": 74
+      },
+      "containment": {
+        "elapsed_seconds": 0.008116222000012385,
+        "observed": [
+          {
+            "pgid": 8918,
+            "pid": 8918,
+            "ppid": 8292,
+            "start_ticks": 84360,
+            "state": "Z"
+          },
+          {
+            "pgid": 8918,
+            "pid": 8925,
+            "ppid": 8918,
+            "start_ticks": 84366,
+            "state": "R"
+          },
+          {
+            "pgid": 8949,
+            "pid": 8956,
+            "ppid": 8949,
+            "start_ticks": 84375,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 8949,
+            "ppid": 8918,
+            "start_ticks": 84374,
+            "state": "Z"
+          },
+          {
+            "pgid": 8949,
+            "pid": 8980,
+            "ppid": 8956,
+            "start_ticks": 84382,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 8983,
+            "ppid": 8956,
+            "start_ticks": 84382,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 8981,
+            "ppid": 8956,
+            "start_ticks": 84382,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 8982,
+            "ppid": 8956,
+            "start_ticks": 84382,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 8997,
+            "ppid": 8956,
+            "start_ticks": 84388,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9000,
+            "ppid": 8982,
+            "start_ticks": 84390,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9001,
+            "ppid": 9000,
+            "start_ticks": 84391,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9002,
+            "ppid": 9001,
+            "start_ticks": 84391,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9057,
+            "ppid": 8956,
+            "start_ticks": 84406,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9055,
+            "ppid": 8956,
+            "start_ticks": 84406,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9061,
+            "ppid": 8956,
+            "start_ticks": 84407,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9083,
+            "ppid": 8956,
+            "start_ticks": 84418,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9120,
+            "ppid": 8956,
+            "start_ticks": 84436,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9122,
+            "ppid": 9057,
+            "start_ticks": 84438,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9123,
+            "ppid": 9122,
+            "start_ticks": 84439,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9124,
+            "ppid": 9123,
+            "start_ticks": 84439,
+            "state": "R"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9114,
+            "ppid": 8956,
+            "start_ticks": 84433,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9156,
+            "ppid": 8956,
+            "start_ticks": 84448,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9138,
+            "ppid": 8956,
+            "start_ticks": 84443,
+            "state": "R"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9170,
+            "ppid": 8956,
+            "start_ticks": 84456,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9177,
+            "ppid": 8956,
+            "start_ticks": 84471,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9195,
+            "ppid": 8956,
+            "start_ticks": 84492,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9220,
+            "ppid": 8956,
+            "start_ticks": 84669,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9226,
+            "ppid": 9220,
+            "start_ticks": 84685,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9234,
+            "ppid": 8956,
+            "start_ticks": 84691,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9239,
+            "ppid": 8956,
+            "start_ticks": 86722,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9244,
+            "ppid": 8956,
+            "start_ticks": 86834,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9243,
+            "ppid": 8956,
+            "start_ticks": 86834,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9248,
+            "ppid": 8956,
+            "start_ticks": 86836,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9251,
+            "ppid": 8956,
+            "start_ticks": 86844,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9254,
+            "ppid": 8956,
+            "start_ticks": 86852,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9257,
+            "ppid": 8956,
+            "start_ticks": 86864,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9261,
+            "ppid": 8956,
+            "start_ticks": 86896,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9267,
+            "ppid": 8956,
+            "start_ticks": 86938,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9272,
+            "ppid": 8956,
+            "start_ticks": 87033,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9273,
+            "ppid": 8956,
+            "start_ticks": 87033,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9274,
+            "ppid": 8956,
+            "start_ticks": 87033,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9282,
+            "ppid": 8956,
+            "start_ticks": 87044,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9285,
+            "ppid": 8956,
+            "start_ticks": 87048,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9279,
+            "ppid": 8956,
+            "start_ticks": 87043,
+            "state": "R"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9288,
+            "ppid": 8956,
+            "start_ticks": 87054,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9291,
+            "ppid": 8956,
+            "start_ticks": 87071,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9294,
+            "ppid": 8956,
+            "start_ticks": 87200,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9297,
+            "ppid": 8956,
+            "start_ticks": 87300,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9300,
+            "ppid": 8956,
+            "start_ticks": 87530,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9303,
+            "ppid": 8956,
+            "start_ticks": 87578,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9305,
+            "ppid": 8949,
+            "start_ticks": 87589,
+            "state": "R"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9324,
+            "ppid": 8949,
+            "start_ticks": 87595,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9325,
+            "ppid": 9324,
+            "start_ticks": 87595,
+            "state": "S"
+          },
+          {
+            "pgid": 8949,
+            "pid": 9334,
+            "ppid": 8949,
+            "start_ticks": 87599,
+            "state": "R"
+          },
+          {
+            "pgid": 8918,
+            "pid": 9352,
+            "ppid": 8918,
+            "start_ticks": 87639,
+            "state": "S"
+          }
+        ],
+        "reaped_adopted": [],
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "signals": [],
+        "verified": true,
+        "worker_exit": 0
+      },
+      "cutoff": "NONE_COMPLETED"
+    },
+    {
+      "id": "sort13_weak",
+      "compile": {
+        "schema": "ch8-s1-compile-receipt-v1",
+        "boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+        "scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+        "state": "COMPLETE",
+        "elapsed_upper_bound_seconds": 32.187,
+        "limit_seconds": 180,
+        "observed_run_state": "INCOMPLETE",
+        "marker_sha256": "d85446f2768e55fbb3667ee6281fc13d9702f33bd87a97b23131be0d1ec05e2d",
+        "selectors": [
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak"
+        ]
+      },
+      "native_verification_time_s": 0.08412151,
+      "native_wall_time_s": 0.161686291,
+      "execution": {
+        "elapsed_seconds": 32.361,
+        "original_exit_code": 1,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 1942332,
+        "rss_peak_gib": 1.8523521423339844,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 23440,
+          "compiler": 1903244,
+          "driver": 7088,
+          "other": 176748
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "output_truncated": false,
+        "stdout_truncated": false,
+        "stderr_truncated": false
+      },
+      "memory_admission": {
+        "available_kib": 14448388,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 14448388,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "limits": {
+        "child_wall_seconds": 600,
+        "compile_seconds_inside_child": 180,
+        "inner_backend_timeout_seconds": 600,
+        "output_remaining": {
+          "export_bytes": 8380636,
+          "stderr_bytes": 1043783,
+          "stdout_bytes": 16556287
+        },
+        "rss_effective_kib": 6291456,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 32.64340743999992,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 1965916,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "worker_wall_limit_seconds": 710,
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": [],
+        "lifecycle_events_omitted": 90
+      },
+      "containment": {
+        "elapsed_seconds": 0.008091642000067623,
+        "observed": [
+          {
+            "pgid": 9453,
+            "pid": 9453,
+            "ppid": 8292,
+            "start_ticks": 87673,
+            "state": "Z"
+          },
+          {
+            "pgid": 9453,
+            "pid": 9460,
+            "ppid": 9453,
+            "start_ticks": 87679,
+            "state": "R"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9491,
+            "ppid": 9484,
+            "start_ticks": 87688,
+            "state": "R"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9484,
+            "ppid": 9453,
+            "start_ticks": 87687,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9514,
+            "ppid": 9491,
+            "start_ticks": 87695,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9515,
+            "ppid": 9491,
+            "start_ticks": 87695,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9517,
+            "ppid": 9491,
+            "start_ticks": 87695,
+            "state": "R"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9518,
+            "ppid": 9491,
+            "start_ticks": 87695,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9541,
+            "ppid": 9518,
+            "start_ticks": 87707,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9542,
+            "ppid": 9541,
+            "start_ticks": 87708,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9543,
+            "ppid": 9542,
+            "start_ticks": 87708,
+            "state": "R"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9529,
+            "ppid": 9491,
+            "start_ticks": 87700,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9585,
+            "ppid": 9491,
+            "start_ticks": 87719,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9589,
+            "ppid": 9491,
+            "start_ticks": 87720,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9594,
+            "ppid": 9491,
+            "start_ticks": 87721,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9596,
+            "ppid": 9491,
+            "start_ticks": 87722,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9627,
+            "ppid": 9491,
+            "start_ticks": 87729,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9636,
+            "ppid": 9491,
+            "start_ticks": 87735,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9643,
+            "ppid": 9585,
+            "start_ticks": 87742,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9672,
+            "ppid": 9491,
+            "start_ticks": 87754,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9662,
+            "ppid": 9491,
+            "start_ticks": 87750,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9702,
+            "ppid": 9491,
+            "start_ticks": 87770,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9692,
+            "ppid": 9491,
+            "start_ticks": 87766,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9712,
+            "ppid": 9491,
+            "start_ticks": 87785,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9730,
+            "ppid": 9491,
+            "start_ticks": 87806,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9755,
+            "ppid": 9491,
+            "start_ticks": 87987,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9761,
+            "ppid": 9755,
+            "start_ticks": 88003,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9762,
+            "ppid": 9761,
+            "start_ticks": 88003,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9763,
+            "ppid": 9762,
+            "start_ticks": 88003,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9769,
+            "ppid": 9491,
+            "start_ticks": 88009,
+            "state": "R"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9775,
+            "ppid": 9491,
+            "start_ticks": 90051,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9779,
+            "ppid": 9491,
+            "start_ticks": 90164,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9780,
+            "ppid": 9491,
+            "start_ticks": 90164,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9784,
+            "ppid": 9491,
+            "start_ticks": 90165,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9793,
+            "ppid": 9491,
+            "start_ticks": 90188,
+            "state": "R"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9790,
+            "ppid": 9491,
+            "start_ticks": 90179,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9796,
+            "ppid": 9491,
+            "start_ticks": 90199,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9799,
+            "ppid": 9491,
+            "start_ticks": 90228,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9802,
+            "ppid": 9491,
+            "start_ticks": 90266,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9810,
+            "ppid": 9491,
+            "start_ticks": 90359,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9811,
+            "ppid": 9491,
+            "start_ticks": 90359,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9812,
+            "ppid": 9491,
+            "start_ticks": 90359,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9817,
+            "ppid": 9491,
+            "start_ticks": 90369,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9820,
+            "ppid": 9491,
+            "start_ticks": 90371,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9823,
+            "ppid": 9491,
+            "start_ticks": 90374,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9826,
+            "ppid": 9491,
+            "start_ticks": 90382,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9829,
+            "ppid": 9491,
+            "start_ticks": 90394,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9832,
+            "ppid": 9491,
+            "start_ticks": 90533,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9835,
+            "ppid": 9491,
+            "start_ticks": 90605,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9840,
+            "ppid": 9491,
+            "start_ticks": 90840,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9843,
+            "ppid": 9491,
+            "start_ticks": 90890,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9854,
+            "ppid": 9484,
+            "start_ticks": 90904,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9855,
+            "ppid": 9854,
+            "start_ticks": 90905,
+            "state": "S"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9864,
+            "ppid": 9484,
+            "start_ticks": 90908,
+            "state": "R"
+          },
+          {
+            "pgid": 9484,
+            "pid": 9874,
+            "ppid": 9484,
+            "start_ticks": 90912,
+            "state": "R"
+          },
+          {
+            "pgid": 9453,
+            "pid": 9892,
+            "ppid": 9453,
+            "start_ticks": 90928,
+            "state": "S"
+          }
+        ],
+        "reaped_adopted": [],
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "signals": [],
+        "verified": true,
+        "worker_exit": 0
+      },
+      "cutoff": "NONE_COMPLETED"
+    },
+    {
+      "id": "s4p_cell_count_corrupt",
+      "compile": {
+        "schema": "ch8-s1-compile-receipt-v1",
+        "boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+        "scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+        "state": "COMPLETE",
+        "elapsed_upper_bound_seconds": 32.762,
+        "limit_seconds": 180,
+        "observed_run_state": "INCOMPLETE",
+        "marker_sha256": "19fd0fc5d450e4dc475404b8b76de9fb04a154dd42b662dbbdcd94ebec74f0cd",
+        "selectors": [
+          "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt"
+        ]
+      },
+      "native_verification_time_s": 0.393660163,
+      "native_wall_time_s": 1.645695256,
+      "execution": {
+        "elapsed_seconds": 34.437,
+        "original_exit_code": 1,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 2450256,
+        "rss_peak_gib": 2.3367462158203125,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 100724,
+          "compiler": 2401528,
+          "driver": 16660,
+          "other": 149204
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "output_truncated": false,
+        "stdout_truncated": false,
+        "stderr_truncated": false
+      },
+      "memory_admission": {
+        "available_kib": 14622376,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 14622376,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "limits": {
+        "child_wall_seconds": 600,
+        "compile_seconds_inside_child": 180,
+        "inner_backend_timeout_seconds": 600,
+        "output_remaining": {
+          "export_bytes": 8376237,
+          "stderr_bytes": 1041483,
+          "stdout_bytes": 16458267
+        },
+        "rss_effective_kib": 6291456,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 34.70072409199997,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 2549108,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "worker_wall_limit_seconds": 710,
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": [],
+        "lifecycle_events_omitted": 94
+      },
+      "containment": {
+        "elapsed_seconds": 0.008749045999934424,
+        "observed": [
+          {
+            "pgid": 9993,
+            "pid": 9993,
+            "ppid": 8292,
+            "start_ticks": 90960,
+            "state": "Z"
+          },
+          {
+            "pgid": 9993,
+            "pid": 10000,
+            "ppid": 9993,
+            "start_ticks": 90966,
+            "state": "R"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10024,
+            "ppid": 9993,
+            "start_ticks": 90974,
+            "state": "Z"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10031,
+            "ppid": 10024,
+            "start_ticks": 90975,
+            "state": "R"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10054,
+            "ppid": 10031,
+            "start_ticks": 90982,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10057,
+            "ppid": 10031,
+            "start_ticks": 90982,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10058,
+            "ppid": 10031,
+            "start_ticks": 90982,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10069,
+            "ppid": 10031,
+            "start_ticks": 90986,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10099,
+            "ppid": 10031,
+            "start_ticks": 90999,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10100,
+            "ppid": 10069,
+            "start_ticks": 90999,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10101,
+            "ppid": 10100,
+            "start_ticks": 91000,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10102,
+            "ppid": 10101,
+            "start_ticks": 91000,
+            "state": "R"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10126,
+            "ppid": 10031,
+            "start_ticks": 91004,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10131,
+            "ppid": 10031,
+            "start_ticks": 91006,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10136,
+            "ppid": 10031,
+            "start_ticks": 91007,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10139,
+            "ppid": 10031,
+            "start_ticks": 91010,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10160,
+            "ppid": 10031,
+            "start_ticks": 91021,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10181,
+            "ppid": 10031,
+            "start_ticks": 91030,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10182,
+            "ppid": 10126,
+            "start_ticks": 91030,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10184,
+            "ppid": 10182,
+            "start_ticks": 91030,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10185,
+            "ppid": 10184,
+            "start_ticks": 91030,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10197,
+            "ppid": 10031,
+            "start_ticks": 91037,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10201,
+            "ppid": 10181,
+            "start_ticks": 91041,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10203,
+            "ppid": 10201,
+            "start_ticks": 91041,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10204,
+            "ppid": 10203,
+            "start_ticks": 91041,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10217,
+            "ppid": 10031,
+            "start_ticks": 91045,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10229,
+            "ppid": 10031,
+            "start_ticks": 91050,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10246,
+            "ppid": 10031,
+            "start_ticks": 91062,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10252,
+            "ppid": 10031,
+            "start_ticks": 91068,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10262,
+            "ppid": 10252,
+            "start_ticks": 91084,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10263,
+            "ppid": 10262,
+            "start_ticks": 91085,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10264,
+            "ppid": 10263,
+            "start_ticks": 91085,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10270,
+            "ppid": 10031,
+            "start_ticks": 91089,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10295,
+            "ppid": 10031,
+            "start_ticks": 91268,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10301,
+            "ppid": 10295,
+            "start_ticks": 91284,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10302,
+            "ppid": 10301,
+            "start_ticks": 91285,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10303,
+            "ppid": 10302,
+            "start_ticks": 91285,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10309,
+            "ppid": 10031,
+            "start_ticks": 91290,
+            "state": "R"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10313,
+            "ppid": 10031,
+            "start_ticks": 93349,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10317,
+            "ppid": 10031,
+            "start_ticks": 93472,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10318,
+            "ppid": 10031,
+            "start_ticks": 93472,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10322,
+            "ppid": 10031,
+            "start_ticks": 93484,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10325,
+            "ppid": 10031,
+            "start_ticks": 93492,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10328,
+            "ppid": 10031,
+            "start_ticks": 93493,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10331,
+            "ppid": 10031,
+            "start_ticks": 93508,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10336,
+            "ppid": 10031,
+            "start_ticks": 93535,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10334,
+            "ppid": 10031,
+            "start_ticks": 93535,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10340,
+            "ppid": 10031,
+            "start_ticks": 93579,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10345,
+            "ppid": 10031,
+            "start_ticks": 93677,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10346,
+            "ppid": 10031,
+            "start_ticks": 93677,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10347,
+            "ppid": 10031,
+            "start_ticks": 93677,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10352,
+            "ppid": 10031,
+            "start_ticks": 93688,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10354,
+            "ppid": 10031,
+            "start_ticks": 93689,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10358,
+            "ppid": 10031,
+            "start_ticks": 93695,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10360,
+            "ppid": 10031,
+            "start_ticks": 93696,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10365,
+            "ppid": 10031,
+            "start_ticks": 93712,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10368,
+            "ppid": 10031,
+            "start_ticks": 93859,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10371,
+            "ppid": 10031,
+            "start_ticks": 93918,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10375,
+            "ppid": 10031,
+            "start_ticks": 94147,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10378,
+            "ppid": 10031,
+            "start_ticks": 94195,
+            "state": "S"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10380,
+            "ppid": 10024,
+            "start_ticks": 94205,
+            "state": "R"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10389,
+            "ppid": 10024,
+            "start_ticks": 94250,
+            "state": "R"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10394,
+            "ppid": 10024,
+            "start_ticks": 94288,
+            "state": "R"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10401,
+            "ppid": 10024,
+            "start_ticks": 94340,
+            "state": "R"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10406,
+            "ppid": 10024,
+            "start_ticks": 94363,
+            "state": "R"
+          },
+          {
+            "pgid": 10024,
+            "pid": 10411,
+            "ppid": 10024,
+            "start_ticks": 94375,
+            "state": "R"
+          },
+          {
+            "pgid": 9993,
+            "pid": 10422,
+            "ppid": 9993,
+            "start_ticks": 94422,
+            "state": "R"
+          }
+        ],
+        "reaped_adopted": [],
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "signals": [],
+        "verified": true,
+        "worker_exit": 0
+      },
+      "cutoff": "NONE_COMPLETED"
+    },
+    {
+      "id": "s4p3_network_b01_n08_fullbyte",
+      "compile": {
+        "schema": "ch8-s1-compile-receipt-v1",
+        "boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+        "scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+        "state": "COMPLETE",
+        "elapsed_upper_bound_seconds": 32.395,
+        "limit_seconds": 180,
+        "observed_run_state": "INCOMPLETE",
+        "marker_sha256": "22bd30e31b8b1c2ebb30103d1da498e3deff1c68fb099b43a4988b2b03f9df60",
+        "selectors": [
+          "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n08_fullbyte"
+        ]
+      },
+      "native_verification_time_s": 109.308341638,
+      "native_wall_time_s": 110.886315865,
+      "execution": {
+        "elapsed_seconds": 143.32,
+        "original_exit_code": 0,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 2630940,
+        "rss_peak_gib": 2.5090599060058594,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 224328,
+          "compiler": 2589856,
+          "driver": 775080,
+          "other": 155224
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "output_truncated": false,
+        "stdout_truncated": false,
+        "stderr_truncated": false
+      },
+      "memory_admission": {
+        "available_kib": 14666344,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 14666344,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "limits": {
+        "child_wall_seconds": 600,
+        "compile_seconds_inside_child": 180,
+        "inner_backend_timeout_seconds": 600,
+        "output_remaining": {
+          "export_bytes": 8372145,
+          "stderr_bytes": 1039183,
+          "stdout_bytes": 16352998
+        },
+        "rss_effective_kib": 6291456,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 143.5876893049999,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 2620252,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "worker_wall_limit_seconds": 710,
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": [],
+        "lifecycle_events_omitted": 103
+      },
+      "containment": {
+        "elapsed_seconds": 0.008587622000050033,
+        "observed": [
+          {
+            "pgid": 10530,
+            "pid": 10530,
+            "ppid": 8292,
+            "start_ticks": 94454,
+            "state": "R"
+          },
+          {
+            "pgid": 10530,
+            "pid": 10537,
+            "ppid": 10530,
+            "start_ticks": 94460,
+            "state": "R"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10568,
+            "ppid": 10561,
+            "start_ticks": 94469,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10561,
+            "ppid": 10530,
+            "start_ticks": 94468,
+            "state": "Z"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10592,
+            "ppid": 10568,
+            "start_ticks": 94476,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10593,
+            "ppid": 10568,
+            "start_ticks": 94476,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10595,
+            "ppid": 10568,
+            "start_ticks": 94476,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10606,
+            "ppid": 10568,
+            "start_ticks": 94480,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10628,
+            "ppid": 10568,
+            "start_ticks": 94491,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10629,
+            "ppid": 10592,
+            "start_ticks": 94491,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10632,
+            "ppid": 10629,
+            "start_ticks": 94491,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10633,
+            "ppid": 10632,
+            "start_ticks": 94492,
+            "state": "R"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10663,
+            "ppid": 10568,
+            "start_ticks": 94498,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10665,
+            "ppid": 10568,
+            "start_ticks": 94499,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10673,
+            "ppid": 10568,
+            "start_ticks": 94503,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10678,
+            "ppid": 10568,
+            "start_ticks": 94508,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10683,
+            "ppid": 10678,
+            "start_ticks": 94511,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10684,
+            "ppid": 10683,
+            "start_ticks": 94512,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10685,
+            "ppid": 10684,
+            "start_ticks": 94512,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10697,
+            "ppid": 10568,
+            "start_ticks": 94519,
+            "state": "R"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10726,
+            "ppid": 10568,
+            "start_ticks": 94530,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10731,
+            "ppid": 10568,
+            "start_ticks": 94532,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10738,
+            "ppid": 10673,
+            "start_ticks": 94537,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10739,
+            "ppid": 10738,
+            "start_ticks": 94537,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10740,
+            "ppid": 10739,
+            "start_ticks": 94538,
+            "state": "R"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10754,
+            "ppid": 10568,
+            "start_ticks": 94543,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10762,
+            "ppid": 10568,
+            "start_ticks": 94546,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10774,
+            "ppid": 10568,
+            "start_ticks": 94559,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10779,
+            "ppid": 10568,
+            "start_ticks": 94564,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10806,
+            "ppid": 10568,
+            "start_ticks": 94584,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10832,
+            "ppid": 10568,
+            "start_ticks": 94768,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10838,
+            "ppid": 10832,
+            "start_ticks": 94783,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10839,
+            "ppid": 10838,
+            "start_ticks": 94784,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10840,
+            "ppid": 10839,
+            "start_ticks": 94784,
+            "state": "R"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10846,
+            "ppid": 10568,
+            "start_ticks": 94789,
+            "state": "R"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10850,
+            "ppid": 10568,
+            "start_ticks": 96817,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10853,
+            "ppid": 10568,
+            "start_ticks": 96913,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10855,
+            "ppid": 10568,
+            "start_ticks": 96913,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10859,
+            "ppid": 10568,
+            "start_ticks": 96926,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10861,
+            "ppid": 10568,
+            "start_ticks": 96926,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10869,
+            "ppid": 10568,
+            "start_ticks": 96966,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10872,
+            "ppid": 10568,
+            "start_ticks": 96980,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10878,
+            "ppid": 10568,
+            "start_ticks": 97018,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10881,
+            "ppid": 10568,
+            "start_ticks": 97036,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10884,
+            "ppid": 10568,
+            "start_ticks": 97128,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10886,
+            "ppid": 10568,
+            "start_ticks": 97128,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10888,
+            "ppid": 10568,
+            "start_ticks": 97128,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10893,
+            "ppid": 10568,
+            "start_ticks": 97139,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10896,
+            "ppid": 10568,
+            "start_ticks": 97141,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10899,
+            "ppid": 10568,
+            "start_ticks": 97143,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10902,
+            "ppid": 10568,
+            "start_ticks": 97146,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10905,
+            "ppid": 10568,
+            "start_ticks": 97167,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10908,
+            "ppid": 10568,
+            "start_ticks": 97322,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10911,
+            "ppid": 10568,
+            "start_ticks": 97364,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10914,
+            "ppid": 10568,
+            "start_ticks": 97589,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10917,
+            "ppid": 10568,
+            "start_ticks": 97640,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10919,
+            "ppid": 10561,
+            "start_ticks": 97650,
+            "state": "R"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10928,
+            "ppid": 10561,
+            "start_ticks": 97703,
+            "state": "R"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10933,
+            "ppid": 10561,
+            "start_ticks": 97744,
+            "state": "R"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10944,
+            "ppid": 10561,
+            "start_ticks": 97807,
+            "state": "R"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10949,
+            "ppid": 10561,
+            "start_ticks": 97837,
+            "state": "R"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10952,
+            "ppid": 10949,
+            "start_ticks": 97843,
+            "state": "S"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10953,
+            "ppid": 10952,
+            "start_ticks": 97843,
+            "state": "R"
+          },
+          {
+            "pgid": 10561,
+            "pid": 10954,
+            "ppid": 10561,
+            "start_ticks": 97860,
+            "state": "Z"
+          },
+          {
+            "pgid": 10530,
+            "pid": 10981,
+            "ppid": 10530,
+            "start_ticks": 108805,
+            "state": "R"
+          }
+        ],
+        "reaped_adopted": [],
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "signals": [],
+        "verified": true,
+        "worker_exit": 0
+      },
+      "cutoff": "NONE_COMPLETED"
+    },
+    {
+      "id": "s4p3_network_b01_n09_fullbyte",
+      "compile": {
+        "schema": "ch8-s1-compile-receipt-v1",
+        "boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+        "scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+        "state": "COMPLETE",
+        "elapsed_upper_bound_seconds": 33.393,
+        "limit_seconds": 180,
+        "observed_run_state": "INCOMPLETE",
+        "marker_sha256": "4b8bb48807f6a62fdd7ec715e6c6405e65f9571c9cb7cd2148373e6aaf279c76",
+        "selectors": [
+          "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n09_fullbyte"
+        ]
+      },
+      "native_verification_time_s": 207.137589015,
+      "native_wall_time_s": 208.969917284,
+      "execution": {
+        "elapsed_seconds": 242.435,
+        "original_exit_code": 0,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 2590232,
+        "rss_peak_gib": 2.4702377319335938,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 381704,
+          "compiler": 2579544,
+          "driver": 1560820,
+          "other": 140816
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "output_truncated": false,
+        "stdout_truncated": false,
+        "stderr_truncated": false
+      },
+      "memory_admission": {
+        "available_kib": 14701904,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 14701904,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "limits": {
+        "child_wall_seconds": 600,
+        "compile_seconds_inside_child": 180,
+        "inner_backend_timeout_seconds": 600,
+        "output_remaining": {
+          "export_bytes": 8365797,
+          "stderr_bytes": 1036883,
+          "stdout_bytes": 16120644
+        },
+        "rss_effective_kib": 6291456,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 242.7065860539999,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 2621996,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "worker_wall_limit_seconds": 710,
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": [],
+        "lifecycle_events_omitted": 80
+      },
+      "containment": {
+        "elapsed_seconds": 0.008251181999867185,
+        "observed": [
+          {
+            "pgid": 11085,
+            "pid": 11085,
+            "ppid": 8292,
+            "start_ticks": 108836,
+            "state": "R"
+          },
+          {
+            "pgid": 11085,
+            "pid": 11092,
+            "ppid": 11085,
+            "start_ticks": 108842,
+            "state": "R"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11123,
+            "ppid": 11116,
+            "start_ticks": 108851,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11116,
+            "ppid": 11085,
+            "start_ticks": 108850,
+            "state": "Z"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11146,
+            "ppid": 11123,
+            "start_ticks": 108858,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11149,
+            "ppid": 11123,
+            "start_ticks": 108858,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11150,
+            "ppid": 11123,
+            "start_ticks": 108858,
+            "state": "R"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11190,
+            "ppid": 11123,
+            "start_ticks": 108875,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11192,
+            "ppid": 11123,
+            "start_ticks": 108875,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11163,
+            "ppid": 11123,
+            "start_ticks": 108864,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11212,
+            "ppid": 11123,
+            "start_ticks": 108879,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11222,
+            "ppid": 11123,
+            "start_ticks": 108881,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11227,
+            "ppid": 11123,
+            "start_ticks": 108883,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11237,
+            "ppid": 11123,
+            "start_ticks": 108896,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11242,
+            "ppid": 11237,
+            "start_ticks": 108900,
+            "state": "R"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11268,
+            "ppid": 11123,
+            "start_ticks": 108909,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11273,
+            "ppid": 11262,
+            "start_ticks": 108911,
+            "state": "Z"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11262,
+            "ppid": 11123,
+            "start_ticks": 108907,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11307,
+            "ppid": 11123,
+            "start_ticks": 108920,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11310,
+            "ppid": 11123,
+            "start_ticks": 108921,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11316,
+            "ppid": 11123,
+            "start_ticks": 108925,
+            "state": "R"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11319,
+            "ppid": 11123,
+            "start_ticks": 108927,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11337,
+            "ppid": 11123,
+            "start_ticks": 108941,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11344,
+            "ppid": 11123,
+            "start_ticks": 108951,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11362,
+            "ppid": 11123,
+            "start_ticks": 108971,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11387,
+            "ppid": 11123,
+            "start_ticks": 109150,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11393,
+            "ppid": 11387,
+            "start_ticks": 109167,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11394,
+            "ppid": 11393,
+            "start_ticks": 109167,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11395,
+            "ppid": 11394,
+            "start_ticks": 109167,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11401,
+            "ppid": 11123,
+            "start_ticks": 109173,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11405,
+            "ppid": 11123,
+            "start_ticks": 111234,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11409,
+            "ppid": 11123,
+            "start_ticks": 111331,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11410,
+            "ppid": 11123,
+            "start_ticks": 111331,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11414,
+            "ppid": 11123,
+            "start_ticks": 111344,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11417,
+            "ppid": 11123,
+            "start_ticks": 111345,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11420,
+            "ppid": 11123,
+            "start_ticks": 111391,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11423,
+            "ppid": 11123,
+            "start_ticks": 111410,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11426,
+            "ppid": 11123,
+            "start_ticks": 111420,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11429,
+            "ppid": 11123,
+            "start_ticks": 111439,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11432,
+            "ppid": 11123,
+            "start_ticks": 111448,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11437,
+            "ppid": 11123,
+            "start_ticks": 111567,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11438,
+            "ppid": 11123,
+            "start_ticks": 111567,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11439,
+            "ppid": 11123,
+            "start_ticks": 111567,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11444,
+            "ppid": 11123,
+            "start_ticks": 111580,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11446,
+            "ppid": 11123,
+            "start_ticks": 111581,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11448,
+            "ppid": 11123,
+            "start_ticks": 111581,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11453,
+            "ppid": 11123,
+            "start_ticks": 111586,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11456,
+            "ppid": 11123,
+            "start_ticks": 111598,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11460,
+            "ppid": 11123,
+            "start_ticks": 111737,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11463,
+            "ppid": 11123,
+            "start_ticks": 111828,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11466,
+            "ppid": 11123,
+            "start_ticks": 112071,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11469,
+            "ppid": 11123,
+            "start_ticks": 112120,
+            "state": "S"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11471,
+            "ppid": 11116,
+            "start_ticks": 112131,
+            "state": "R"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11480,
+            "ppid": 11116,
+            "start_ticks": 112189,
+            "state": "R"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11486,
+            "ppid": 11116,
+            "start_ticks": 112241,
+            "state": "R"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11497,
+            "ppid": 11116,
+            "start_ticks": 112314,
+            "state": "R"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11503,
+            "ppid": 11116,
+            "start_ticks": 112348,
+            "state": "R"
+          },
+          {
+            "pgid": 11116,
+            "pid": 11508,
+            "ppid": 11116,
+            "start_ticks": 112372,
+            "state": "Z"
+          },
+          {
+            "pgid": 11085,
+            "pid": 11540,
+            "ppid": 11085,
+            "start_ticks": 133099,
+            "state": "R"
+          }
+        ],
+        "reaped_adopted": [],
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "signals": [],
+        "verified": true,
+        "worker_exit": 0
+      },
+      "cutoff": "NONE_COMPLETED"
+    },
+    {
+      "id": "s4p3_network_b01_n13_fullbyte",
+      "compile": {
+        "schema": "ch8-s1-compile-receipt-v1",
+        "boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+        "scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+        "state": "COMPLETE",
+        "elapsed_upper_bound_seconds": 33.869,
+        "limit_seconds": 180,
+        "observed_run_state": "INCOMPLETE",
+        "marker_sha256": "61bfaedcfd847d3bfcdef263115867a69304e0e2d0c015121486a1bf368ad259",
+        "selectors": [
+          "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n13_fullbyte"
+        ]
+      },
+      "native_verification_time_s": null,
+      "native_wall_time_s": "UNKNOWN_NOT_EXPORTED",
+      "execution": {
+        "elapsed_seconds": 600.071,
+        "original_exit_code": -15,
+        "signal": 15,
+        "timed_out": true,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 2566044,
+        "rss_peak_gib": 2.4471702575683594,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 636152,
+          "compiler": 2516348,
+          "driver": 7120,
+          "other": 133264
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "output_truncated": false,
+        "stdout_truncated": false,
+        "stderr_truncated": false
+      },
+      "memory_admission": {
+        "available_kib": 14515656,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 14515656,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "limits": {
+        "child_wall_seconds": 600,
+        "compile_seconds_inside_child": 180,
+        "inner_backend_timeout_seconds": 600,
+        "output_remaining": {
+          "export_bytes": 8359449,
+          "stderr_bytes": 1034583,
+          "stdout_bytes": 15892229
+        },
+        "rss_effective_kib": 6291456,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 600.3431444380001,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 2487416,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "worker_wall_limit_seconds": 710,
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": [],
+        "lifecycle_events_omitted": 116
+      },
+      "containment": {
+        "elapsed_seconds": 0.008748490000016318,
+        "observed": [
+          {
+            "pgid": 11641,
+            "pid": 11641,
+            "ppid": 8292,
+            "start_ticks": 133131,
+            "state": "R"
+          },
+          {
+            "pgid": 11641,
+            "pid": 11648,
+            "ppid": 11641,
+            "start_ticks": 133137,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11672,
+            "ppid": 11641,
+            "start_ticks": 133145,
+            "state": "Z"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11679,
+            "ppid": 11672,
+            "start_ticks": 133146,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11704,
+            "ppid": 11679,
+            "start_ticks": 133152,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11705,
+            "ppid": 11679,
+            "start_ticks": 133152,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11702,
+            "ppid": 11679,
+            "start_ticks": 133152,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11706,
+            "ppid": 11679,
+            "start_ticks": 133152,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11719,
+            "ppid": 11679,
+            "start_ticks": 133158,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11723,
+            "ppid": 11705,
+            "start_ticks": 133162,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11726,
+            "ppid": 11723,
+            "start_ticks": 133163,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11727,
+            "ppid": 11726,
+            "start_ticks": 133163,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11746,
+            "ppid": 11679,
+            "start_ticks": 133169,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11775,
+            "ppid": 11774,
+            "start_ticks": 133177,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11772,
+            "ppid": 11679,
+            "start_ticks": 133176,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11774,
+            "ppid": 11679,
+            "start_ticks": 133177,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11779,
+            "ppid": 11679,
+            "start_ticks": 133178,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11782,
+            "ppid": 11679,
+            "start_ticks": 133178,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11789,
+            "ppid": 11679,
+            "start_ticks": 133187,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11810,
+            "ppid": 11679,
+            "start_ticks": 133199,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11845,
+            "ppid": 11679,
+            "start_ticks": 133213,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11848,
+            "ppid": 11782,
+            "start_ticks": 133213,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11849,
+            "ppid": 11848,
+            "start_ticks": 133213,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11850,
+            "ppid": 11849,
+            "start_ticks": 133213,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11834,
+            "ppid": 11679,
+            "start_ticks": 133207,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11877,
+            "ppid": 11679,
+            "start_ticks": 133228,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11859,
+            "ppid": 11679,
+            "start_ticks": 133217,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11885,
+            "ppid": 11877,
+            "start_ticks": 133235,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11886,
+            "ppid": 11885,
+            "start_ticks": 133235,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11887,
+            "ppid": 11886,
+            "start_ticks": 133235,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11894,
+            "ppid": 11679,
+            "start_ticks": 133240,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11902,
+            "ppid": 11679,
+            "start_ticks": 133249,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11910,
+            "ppid": 11902,
+            "start_ticks": 133265,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11911,
+            "ppid": 11910,
+            "start_ticks": 133266,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11912,
+            "ppid": 11911,
+            "start_ticks": 133266,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11918,
+            "ppid": 11679,
+            "start_ticks": 133269,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11943,
+            "ppid": 11679,
+            "start_ticks": 133456,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11957,
+            "ppid": 11679,
+            "start_ticks": 133477,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11962,
+            "ppid": 11679,
+            "start_ticks": 135575,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11967,
+            "ppid": 11679,
+            "start_ticks": 135690,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11965,
+            "ppid": 11679,
+            "start_ticks": 135690,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11971,
+            "ppid": 11679,
+            "start_ticks": 135702,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11974,
+            "ppid": 11679,
+            "start_ticks": 135705,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11977,
+            "ppid": 11679,
+            "start_ticks": 135724,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11980,
+            "ppid": 11679,
+            "start_ticks": 135763,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11983,
+            "ppid": 11679,
+            "start_ticks": 135778,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11986,
+            "ppid": 11679,
+            "start_ticks": 135782,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11989,
+            "ppid": 11679,
+            "start_ticks": 135805,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11995,
+            "ppid": 11679,
+            "start_ticks": 135908,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11996,
+            "ppid": 11679,
+            "start_ticks": 135908,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 11997,
+            "ppid": 11679,
+            "start_ticks": 135908,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12002,
+            "ppid": 11679,
+            "start_ticks": 135918,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12005,
+            "ppid": 11679,
+            "start_ticks": 135921,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12008,
+            "ppid": 11679,
+            "start_ticks": 135925,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12011,
+            "ppid": 11679,
+            "start_ticks": 135927,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12014,
+            "ppid": 11679,
+            "start_ticks": 135945,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12017,
+            "ppid": 11679,
+            "start_ticks": 136100,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12020,
+            "ppid": 11679,
+            "start_ticks": 136168,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12024,
+            "ppid": 11679,
+            "start_ticks": 136407,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12027,
+            "ppid": 11679,
+            "start_ticks": 136459,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12029,
+            "ppid": 11672,
+            "start_ticks": 136469,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12038,
+            "ppid": 11672,
+            "start_ticks": 136530,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12043,
+            "ppid": 11672,
+            "start_ticks": 136582,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12052,
+            "ppid": 12043,
+            "start_ticks": 136603,
+            "state": "S"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12054,
+            "ppid": 11672,
+            "start_ticks": 136652,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12059,
+            "ppid": 11672,
+            "start_ticks": 136685,
+            "state": "R"
+          },
+          {
+            "pgid": 11672,
+            "pid": 12064,
+            "ppid": 8292,
+            "start_ticks": 136711,
+            "state": "Z"
+          },
+          {
+            "pgid": 11641,
+            "pid": 12120,
+            "ppid": 11641,
+            "start_ticks": 193157,
+            "state": "R"
+          }
+        ],
+        "reaped_adopted": [
+          {
+            "pid": 12064,
+            "start_ticks": 136711,
+            "status": 3840
+          }
+        ],
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "signals": [],
+        "verified": true,
+        "worker_exit": 0
+      },
+      "cutoff": "CHILD_WALL_TIMEOUT_CENSORED"
+    },
+    {
+      "id": "s4p3_network_b01_n17_fullbyte",
+      "compile": {
+        "schema": "ch8-s1-compile-receipt-v1",
+        "boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+        "scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+        "state": "COMPLETE",
+        "elapsed_upper_bound_seconds": 32.884,
+        "limit_seconds": 180,
+        "observed_run_state": "INCOMPLETE",
+        "marker_sha256": "6c4a0bbc1f0dd5540af28dda6ff0212fba93ece3e1304ebf4182e7b0e60707b7",
+        "selectors": [
+          "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n17_fullbyte"
+        ]
+      },
+      "native_verification_time_s": null,
+      "native_wall_time_s": "UNKNOWN_NOT_EXPORTED",
+      "execution": {
+        "elapsed_seconds": 600.152,
+        "original_exit_code": -15,
+        "signal": 15,
+        "timed_out": true,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 2643720,
+        "rss_peak_gib": 2.5212478637695312,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 895776,
+          "compiler": 2596416,
+          "driver": 7364,
+          "other": 175432
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "output_truncated": false,
+        "stdout_truncated": false,
+        "stderr_truncated": false
+      },
+      "memory_admission": {
+        "available_kib": 14985028,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 14985028,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "limits": {
+        "child_wall_seconds": 600,
+        "compile_seconds_inside_child": 180,
+        "inner_backend_timeout_seconds": 600,
+        "output_remaining": {
+          "export_bytes": 8358173,
+          "stderr_bytes": 1032283,
+          "stdout_bytes": 15715807
+        },
+        "rss_effective_kib": 6291456,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 600.4338038569997,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 2598588,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "worker_wall_limit_seconds": 710,
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": [],
+        "lifecycle_events_omitted": 126
+      },
+      "containment": {
+        "elapsed_seconds": 0.00931662499988306,
+        "observed": [
+          {
+            "pgid": 12222,
+            "pid": 12222,
+            "ppid": 8292,
+            "start_ticks": 193188,
+            "state": "Z"
+          },
+          {
+            "pgid": 12222,
+            "pid": 12229,
+            "ppid": 12222,
+            "start_ticks": 193194,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12260,
+            "ppid": 12253,
+            "start_ticks": 193203,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12266,
+            "ppid": 12260,
+            "start_ticks": 193205,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12253,
+            "ppid": 12222,
+            "start_ticks": 193202,
+            "state": "Z"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12286,
+            "ppid": 12260,
+            "start_ticks": 193210,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12284,
+            "ppid": 12260,
+            "start_ticks": 193210,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12287,
+            "ppid": 12260,
+            "start_ticks": 193210,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12300,
+            "ppid": 12260,
+            "start_ticks": 193216,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12308,
+            "ppid": 12286,
+            "start_ticks": 193221,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12309,
+            "ppid": 12308,
+            "start_ticks": 193221,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12310,
+            "ppid": 12309,
+            "start_ticks": 193221,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12356,
+            "ppid": 12260,
+            "start_ticks": 193234,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12358,
+            "ppid": 12356,
+            "start_ticks": 193234,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12328,
+            "ppid": 12260,
+            "start_ticks": 193229,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12346,
+            "ppid": 12328,
+            "start_ticks": 193232,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12347,
+            "ppid": 12346,
+            "start_ticks": 193233,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12348,
+            "ppid": 12347,
+            "start_ticks": 193233,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12350,
+            "ppid": 12260,
+            "start_ticks": 193233,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12362,
+            "ppid": 12260,
+            "start_ticks": 193236,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12364,
+            "ppid": 12260,
+            "start_ticks": 193236,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12368,
+            "ppid": 12260,
+            "start_ticks": 193239,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12374,
+            "ppid": 12368,
+            "start_ticks": 193244,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12375,
+            "ppid": 12374,
+            "start_ticks": 193244,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12376,
+            "ppid": 12375,
+            "start_ticks": 193244,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12389,
+            "ppid": 12260,
+            "start_ticks": 193249,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12396,
+            "ppid": 12389,
+            "start_ticks": 193254,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12397,
+            "ppid": 12396,
+            "start_ticks": 193254,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12398,
+            "ppid": 12397,
+            "start_ticks": 193255,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12419,
+            "ppid": 12260,
+            "start_ticks": 193263,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12425,
+            "ppid": 12260,
+            "start_ticks": 193266,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12431,
+            "ppid": 12364,
+            "start_ticks": 193270,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12432,
+            "ppid": 12431,
+            "start_ticks": 193270,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12433,
+            "ppid": 12432,
+            "start_ticks": 193270,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12453,
+            "ppid": 12260,
+            "start_ticks": 193280,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12439,
+            "ppid": 12260,
+            "start_ticks": 193273,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12465,
+            "ppid": 12260,
+            "start_ticks": 193288,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12484,
+            "ppid": 12260,
+            "start_ticks": 193307,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12500,
+            "ppid": 12260,
+            "start_ticks": 193325,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12525,
+            "ppid": 12260,
+            "start_ticks": 193489,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12531,
+            "ppid": 12525,
+            "start_ticks": 193506,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12532,
+            "ppid": 12531,
+            "start_ticks": 193506,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12533,
+            "ppid": 12532,
+            "start_ticks": 193507,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12539,
+            "ppid": 12260,
+            "start_ticks": 193512,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12544,
+            "ppid": 12260,
+            "start_ticks": 195555,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12548,
+            "ppid": 12260,
+            "start_ticks": 195650,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12549,
+            "ppid": 12260,
+            "start_ticks": 195650,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12553,
+            "ppid": 12260,
+            "start_ticks": 195663,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12556,
+            "ppid": 12260,
+            "start_ticks": 195666,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12559,
+            "ppid": 12260,
+            "start_ticks": 195707,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12562,
+            "ppid": 12260,
+            "start_ticks": 195720,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12565,
+            "ppid": 12260,
+            "start_ticks": 195746,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12568,
+            "ppid": 12260,
+            "start_ticks": 195758,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12571,
+            "ppid": 12260,
+            "start_ticks": 195777,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12576,
+            "ppid": 12260,
+            "start_ticks": 195867,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12577,
+            "ppid": 12260,
+            "start_ticks": 195867,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12578,
+            "ppid": 12260,
+            "start_ticks": 195867,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12583,
+            "ppid": 12260,
+            "start_ticks": 195878,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12586,
+            "ppid": 12260,
+            "start_ticks": 195881,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12589,
+            "ppid": 12260,
+            "start_ticks": 195885,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12592,
+            "ppid": 12260,
+            "start_ticks": 195886,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12595,
+            "ppid": 12260,
+            "start_ticks": 195912,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12599,
+            "ppid": 12260,
+            "start_ticks": 196030,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12602,
+            "ppid": 12260,
+            "start_ticks": 196127,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12605,
+            "ppid": 12260,
+            "start_ticks": 196370,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12608,
+            "ppid": 12260,
+            "start_ticks": 196423,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12610,
+            "ppid": 12253,
+            "start_ticks": 196433,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12619,
+            "ppid": 12253,
+            "start_ticks": 196489,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12625,
+            "ppid": 12253,
+            "start_ticks": 196536,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12634,
+            "ppid": 12625,
+            "start_ticks": 196556,
+            "state": "S"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12636,
+            "ppid": 12253,
+            "start_ticks": 196604,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12641,
+            "ppid": 12253,
+            "start_ticks": 196637,
+            "state": "R"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12646,
+            "ppid": 8292,
+            "start_ticks": 196659,
+            "state": "Z"
+          },
+          {
+            "pgid": 12253,
+            "pid": 12649,
+            "ppid": 12646,
+            "start_ticks": 196660,
+            "state": "S"
+          },
+          {
+            "pgid": 12222,
+            "pid": 12758,
+            "ppid": 12222,
+            "start_ticks": 253222,
+            "state": "S"
+          }
+        ],
+        "reaped_adopted": [
+          {
+            "pid": 12646,
+            "start_ticks": 196659,
+            "status": 3840
+          }
+        ],
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "signals": [],
+        "verified": true,
+        "worker_exit": 0
+      },
+      "cutoff": "CHILD_WALL_TIMEOUT_CENSORED"
+    }
+  ],
+  "compiler_metric": "Initial-export marker upper bound includes compilation/link and observation delay, not exclusive compile CPU",
+  "native_metric": "Stock resources.verification_time_s, not exclusive backend time",
+  "RSS_metric": "50ms sampled non-atomic owned PGID VmRSS; component peaks not simultaneous, not kernel/cgroup/full-tree peaks",
+  "internal_symex_solver_phases": "No complete structured per-phase inventory; bounded textual observations assessed separately in COST-INTERPRETATION.json",
+  "accounting_changed": false
+}

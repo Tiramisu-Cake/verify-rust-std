@@ -1,0 +1,55 @@
+{
+  "status": "HANDOFF",
+  "run": 44577116178,
+  "attempt": 1,
+  "classification": "SELECTED_PARTIAL; 2_NATIVE_POSITIVE_SUCCESS; 2_UNKNOWN_TIMEOUT; 4_INTENDED_NEGATIVE_FAILURE; STRICT0; NO_ADMISSION",
+  "claims": [
+    {
+      "claim": "All8 worker completions sealed;6 complete native inventories with655 properties;2 incomplete native inventories UNKNOWN",
+      "assurance": "BOUNDED_NATIVE_SOURCE_REPORTED",
+      "evidence": [
+        "QUALIFICATION.json",
+        "NATIVE-PROPERTIES.json",
+        "PREFIX.json",
+        "PROVENANCE.json"
+      ]
+    },
+    {
+      "claim": "N8/N9 exact S1 candidates: all4 required roles SUCCESS and all6 declared covers SAT each;11 per-instance U arguments each",
+      "assurance": "S1_SOURCE_REPORTED_CANDIDATE_ONLY",
+      "evidence": [
+        "U-DOMAIN-ARGUMENTS.json",
+        "HELPER-BRANCH-BINDING.json",
+        "NON-VACUITY.json"
+      ]
+    }
+  ],
+  "blocker": {
+    "N13": "INCOMPLETE_NATIVE_EXPORT_CHILD_WALL_TIMEOUT",
+    "N17": "INCOMPLETE_NATIVE_EXPORT_CHILD_WALL_TIMEOUT"
+  },
+  "open": [
+    "Independent exact intake/candidate review then separate coordinator admission",
+    "Backend builtin source/lowering and independent AST/MIR/compiler/emitter/caller provenance UNKNOWN",
+    "N13/N17 completed property inventories and costs UNKNOWN_CENSORED",
+    "Residual lengths/types/generic/provider/initmask/ownership/panic/Drop/B1B2/fullN16N32 remain OPEN"
+  ],
+  "proof_obligations_closed": 0,
+  "qualified_new_leaves": 0,
+  "admission": false,
+  "proof_credit": "NONE",
+  "closure_reason": "Requested one-stage intake and HANDOFF completed; no admission decision, CI, push or ledger authorized.",
+  "next": "Independent review of N8/N9 exact candidates; planner selects separately authorized N13/N17 cost investigation or attempt",
+  "subagents": 0,
+  "planner_addendum": {
+    "status": "APPLIED",
+    "U_instances": 40,
+    "source_site_exclusions": 28,
+    "generated_failure_edge_exclusions": 12,
+    "merge_U_instances_branch_bound": 8,
+    "source_level_U_blockers_observed": 0,
+    "positive_cases_ready_for_review": 2,
+    "positive_cases_BLOCKER": 2,
+    "exact_speedup_factor": null
+  }
+}

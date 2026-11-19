@@ -1,0 +1,408 @@
+{
+  "schema": "s4p3-helper-domain-branch-binding-v1",
+  "source_sha": "7b31b060b90ce286e94547993f6a698c549bc5fa",
+  "helper_source": {
+    "source_sha": "7b31b060b90ce286e94547993f6a698c549bc5fa",
+    "file": "library/core/src/slice/sort/shared/smallsort.rs",
+    "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+    "lines": [
+      332,
+      391
+    ],
+    "text": "332: fn small_sort_network<T, F>(v: &mut [T], is_less: &mut F)\n333: where\n334:     T: FreezeMarker,\n335:     F: FnMut(&T, &T) -> bool,\n336: {\n337:     // This implementation is tuned to be efficient for integer types.\n338: \n339:     let len = v.len();\n340:     if len < 2 {\n341:         return;\n342:     }\n343: \n344:     if len > SMALL_SORT_NETWORK_SCRATCH_LEN {\n345:         intrinsics::abort_immediate();\n346:     }\n347: \n348:     let mut stack_array = MaybeUninit::<[T; SMALL_SORT_NETWORK_SCRATCH_LEN]>::uninit();\n349: \n350:     let len_div_2 = len / 2;\n351:     let no_merge = len < 18;\n352: \n353:     let v_base = v.as_mut_ptr();\n354:     let initial_region_len = if no_merge { len } else { len_div_2 };\n355:     // SAFETY: Both possible values of `initial_region_len` are in-bounds.\n356:     let mut region = unsafe { slice::from_raw_parts_mut(v_base, initial_region_len) };\n357: \n358:     // Avoid compiler unrolling, we *really* don't want that to happen here for binary-size reasons.\n359:     loop {\n360:         let presorted_len = if region.len() >= 13 {\n361:             sort13_optimal(region, is_less);\n362:             13\n363:         } else if region.len() >= 9 {\n364:             sort9_optimal(region, is_less);\n365:             9\n366:         } else {\n367:             1\n368:         };\n369: \n370:         insertion_sort_shift_left(region, presorted_len, is_less);\n371: \n372:         if no_merge {\n373:             return;\n374:         }\n375: \n376:         if region.as_ptr() != v_base {\n377:             break;\n378:         }\n379: \n380:         // SAFETY: The right side of `v` based on `len_div_2` is guaranteed in-bounds.\n381:         unsafe { region = slice::from_raw_parts_mut(v_base.add(len_div_2), len - len_div_2) };\n382:     }\n383: \n384:     // SAFETY: We checked that T is Freeze and thus observation safe.\n385:     // Should is_less panic v was not modified in parity_merge and retains it's original input.\n386:     // scratch and v must not alias and scratch has v.len() space.\n387:     unsafe {\n388:         let scratch_base = stack_array.as_mut_ptr() as *mut T;\n389:         bidirectional_merge(slice::from_raw_parts_mut(v_base, len), scratch_base, is_less);\n390:         ptr::copy_nonoverlapping(scratch_base, v_base, len);\n391:     }"
+  },
+  "exact_branch_anchors": {
+    "339": "    let len = v.len();",
+    "340": "    if len < 2 {",
+    "341": "        return;",
+    "350": "    let len_div_2 = len / 2;",
+    "351": "    let no_merge = len < 18;",
+    "354": "    let initial_region_len = if no_merge { len } else { len_div_2 };",
+    "360": "        let presorted_len = if region.len() >= 13 {",
+    "363": "        } else if region.len() >= 9 {",
+    "370": "        insertion_sort_shift_left(region, presorted_len, is_less);",
+    "372": "        if no_merge {",
+    "373": "            return;",
+    "381": "        unsafe { region = slice::from_raw_parts_mut(v_base.add(len_div_2), len - len_div_2) };",
+    "389": "        bidirectional_merge(slice::from_raw_parts_mut(v_base, len), scratch_base, is_less);"
+  },
+  "cases": [
+    {
+      "root": "s4p3_network_b01_n08_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n08_fullbyte",
+      "invocation_id": "fe373c1bdded4ac4803b3ca7136359c0",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/fe373c1bdded4ac4803b3ca7136359c0",
+      "domain": {
+        "length_interval": [
+          8,
+          8
+        ],
+        "allocation": 34,
+        "base": 1,
+        "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+        "initialized": true,
+        "type": "u8",
+        "comparator": "KeyLess<u8>",
+        "summary_edges": []
+      },
+      "harness_source": {
+        "source_sha": "7b31b060b90ce286e94547993f6a698c549bc5fa",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+        "file_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+        "lines": [
+          23,
+          43
+        ],
+        "text": "23: fn s4p3_network_b01_n08_fullbyte() {\n24:     kani::assert(active_u8(), \"S4P3_N_08_ACTIVE_CONCRETE_MODEL\");\n25:     let mut v: [u8; 34] = kani::any();\n26:     let bytes = v;\n27:     let n: usize = 8;\n28:     let before = snapshot::<u8, KeyLess<u8>>(&v[1..9]);\n29:     small_sort_network(&mut v[1..9], &mut KeyLess::<u8>::new());\n30:     kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..9]), \"S4P3_N_08_SORTED_FULL_VALUE_COUNT\");\n31:     for i in 0..34 {\n32:         kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P3_N_08_FULL_OUTSIDE_FRAME\");\n33:     }\n34:     let canary: usize = kani::any();\n35:     kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));\n36:     kani::assert(v[canary] == bytes[canary], \"S4P3_N_08_ARBITRARY_OUTSIDE_CANARY\");\n37:     kani::cover(n == 8, \"S4P3_N_08_N08\");\n38:     kani::cover(n >= 2 && bytes[1] > bytes[n], \"S4P3_N_08_UNSORTED\");\n39:     kani::cover(n >= 2 && bytes[1] == bytes[n], \"S4P3_N_08_DUPLICATE\");\n40:     kani::cover(n >= 2 && v[1] < v[n], \"S4P3_N_08_NONCONSTANT\");\n41:     kani::cover(n == 8 && descending(&bytes[1..9]), \"S4P3_N_08_MAX_DESCENDING\");\n42:     kani::cover(true, \"S4P3_N_08_USEFUL_RETURN\");\n43: }"
+      },
+      "literal_helper_calls": [
+        {
+          "line": 29,
+          "source": "    small_sort_network(&mut v[1..9], &mut KeyLess::<u8>::new());"
+        }
+      ],
+      "native_registration": {
+        "pretty_name": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n08_fullbyte",
+        "mangled_name": "_RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify28sorting_s4_full_lengths_next29s4p3_network_b01_n08_fullbyte",
+        "crate_name": "core",
+        "original_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+        "original_start_line": 23,
+        "original_end_line": 43,
+        "goto_file": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/fe373c1bdded4ac4803b3ca7136359c0/x86_64-unknown-linux-gnu/debug/build/core/7fa4b9278c1b140b/out/core-7fa4b9278c1b140b__RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify28sorting_s4_full_lengths_next29s4p3_network_b01_n08_fullbyte.symtab.out",
+        "attributes": {
+          "kind": "Proof",
+          "should_panic": false,
+          "solver": null,
+          "unwind_value": 36,
+          "stubs": [],
+          "verified_stubs": []
+        },
+        "contract": null,
+        "has_loop_contracts": false,
+        "is_automatically_generated": false,
+        "is_bounded": false,
+        "is_ctor_based": false,
+        "metadata_path": "x86_64-unknown-linux-gnu/debug/build/core/7fa4b9278c1b140b/out/core-7fa4b9278c1b140b.kani-metadata.json",
+        "metadata_sha256": "67143d3ad1e574bb057efbb9ade103f77dd6738eb975fb8f6620ef1f2015b3a2"
+      },
+      "member_identities": {
+        "receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/receipt.json",
+          "bytes": 26099,
+          "sha256": "39449ddf70b5da476d2f711d6c054d305e2810a3bf6452cacea897753320cda1"
+        },
+        "compile/receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/compile/receipt.json",
+          "bytes": 15360,
+          "sha256": "00489e11e7703c6e68090faf4c88fc1a26626b1c6b9cc84e03be36b281a53bec"
+        },
+        "binding-metadata.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/binding-metadata.json",
+          "bytes": 209953,
+          "sha256": "b1ade18ef2c5d15f9554fad2ac08f04c55b196f97852b3242ef263a7f856890b"
+        },
+        "export.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/export.json",
+          "bytes": 6348,
+          "sha256": "d778c158a642d75b4ca326dc06cc41e7bc1eed31369ff6756de114eb4e5cb5ed"
+        },
+        "properties.json": {
+          "member": "groups/s3-s4p3_network_b01_n08_fullbyte/properties.json",
+          "bytes": 179292,
+          "sha256": "f49a1fc0ee290e9bd9699becdb3a4d9d24d7a348266b9079ca699f0f989a3a88"
+        }
+      },
+      "source_branch_argument": "Literal slice length=8; len<2 at340 is false. At351 no_merge=(8<18)=true; initial_region_len at354 is exactly len. In the first region, region.len=8 fails both >=13 and >=9, hence presorted_len=1; insertion processes suffix indices1..7. At370 insertion_sort_shift_left is called. If it returns normally, unchanged no_merge forces return at372-373; otherwise no normal continuation reaches merge. Thus neither second-region update381 nor bidirectional_merge call389 is reachable. This argument uses exact caller branches, never the callee intrinsics::assume. For censored roots this is source branching only, not a successful native theorem.",
+      "merge_call_389_reachable": false,
+      "source_origin_assurance": "Frozen Original source/registration context; no independent AST/MIR/emitter cause claimed"
+    },
+    {
+      "root": "s4p3_network_b01_n09_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n09_fullbyte",
+      "invocation_id": "a44f674c95fa4dc8acd37fd9253aa9e4",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/a44f674c95fa4dc8acd37fd9253aa9e4",
+      "domain": {
+        "length_interval": [
+          9,
+          9
+        ],
+        "allocation": 34,
+        "base": 1,
+        "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+        "initialized": true,
+        "type": "u8",
+        "comparator": "KeyLess<u8>",
+        "summary_edges": []
+      },
+      "harness_source": {
+        "source_sha": "7b31b060b90ce286e94547993f6a698c549bc5fa",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+        "file_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+        "lines": [
+          46,
+          66
+        ],
+        "text": "46: fn s4p3_network_b01_n09_fullbyte() {\n47:     kani::assert(active_u8(), \"S4P3_N_09_ACTIVE_CONCRETE_MODEL\");\n48:     let mut v: [u8; 34] = kani::any();\n49:     let bytes = v;\n50:     let n: usize = 9;\n51:     let before = snapshot::<u8, KeyLess<u8>>(&v[1..10]);\n52:     small_sort_network(&mut v[1..10], &mut KeyLess::<u8>::new());\n53:     kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..10]), \"S4P3_N_09_SORTED_FULL_VALUE_COUNT\");\n54:     for i in 0..34 {\n55:         kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P3_N_09_FULL_OUTSIDE_FRAME\");\n56:     }\n57:     let canary: usize = kani::any();\n58:     kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));\n59:     kani::assert(v[canary] == bytes[canary], \"S4P3_N_09_ARBITRARY_OUTSIDE_CANARY\");\n60:     kani::cover(n == 9, \"S4P3_N_09_N09\");\n61:     kani::cover(n >= 2 && bytes[1] > bytes[n], \"S4P3_N_09_UNSORTED\");\n62:     kani::cover(n >= 2 && bytes[1] == bytes[n], \"S4P3_N_09_DUPLICATE\");\n63:     kani::cover(n >= 2 && v[1] < v[n], \"S4P3_N_09_NONCONSTANT\");\n64:     kani::cover(n == 9 && descending(&bytes[1..10]), \"S4P3_N_09_MAX_DESCENDING\");\n65:     kani::cover(true, \"S4P3_N_09_USEFUL_RETURN\");\n66: }"
+      },
+      "literal_helper_calls": [
+        {
+          "line": 52,
+          "source": "    small_sort_network(&mut v[1..10], &mut KeyLess::<u8>::new());"
+        }
+      ],
+      "native_registration": {
+        "pretty_name": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n09_fullbyte",
+        "mangled_name": "_RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify28sorting_s4_full_lengths_next29s4p3_network_b01_n09_fullbyte",
+        "crate_name": "core",
+        "original_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+        "original_start_line": 46,
+        "original_end_line": 66,
+        "goto_file": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/a44f674c95fa4dc8acd37fd9253aa9e4/x86_64-unknown-linux-gnu/debug/build/core/fd0b4cf204eec117/out/core-fd0b4cf204eec117__RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify28sorting_s4_full_lengths_next29s4p3_network_b01_n09_fullbyte.symtab.out",
+        "attributes": {
+          "kind": "Proof",
+          "should_panic": false,
+          "solver": null,
+          "unwind_value": 36,
+          "stubs": [],
+          "verified_stubs": []
+        },
+        "contract": null,
+        "has_loop_contracts": false,
+        "is_automatically_generated": false,
+        "is_bounded": false,
+        "is_ctor_based": false,
+        "metadata_path": "x86_64-unknown-linux-gnu/debug/build/core/fd0b4cf204eec117/out/core-fd0b4cf204eec117.kani-metadata.json",
+        "metadata_sha256": "3b857c847b2c8d52af21213b07c3f67a61cc837d2c5249e3d201cfbd280af802"
+      },
+      "member_identities": {
+        "receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/receipt.json",
+          "bytes": 26103,
+          "sha256": "9577488329873e84100072190716ead28c938ad5318d2913caec302be144f284"
+        },
+        "compile/receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/compile/receipt.json",
+          "bytes": 15363,
+          "sha256": "b944ec5bafc4ec396bf9751eb69f2c97ba87c0a350d83f203fa1c803a2facc8e"
+        },
+        "binding-metadata.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/binding-metadata.json",
+          "bytes": 209956,
+          "sha256": "5db181fafbf64700a5839c30ea4068307a03fde821f661aee821042895c35002"
+        },
+        "export.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/export.json",
+          "bytes": 6348,
+          "sha256": "8aa9ab15ca0978f8652b691cec6164b814d3c1d837f497a5510926bc7b501946"
+        },
+        "properties.json": {
+          "member": "groups/s3-s4p3_network_b01_n09_fullbyte/properties.json",
+          "bytes": 179292,
+          "sha256": "5695215d9afaee6a7cc19f5ecac5912ad2b56ed907be2856dda44eb09a74791e"
+        }
+      },
+      "source_branch_argument": "Literal slice length=9; len<2 at340 is false. At351 no_merge=(9<18)=true; initial_region_len at354 is exactly len. In the first region, region.len=9 fails >=13 and takes >=9: actual sort9_optimal runs, presorted_len=9; insertion has no suffix. At370 insertion_sort_shift_left is called. If it returns normally, unchanged no_merge forces return at372-373; otherwise no normal continuation reaches merge. Thus neither second-region update381 nor bidirectional_merge call389 is reachable. This argument uses exact caller branches, never the callee intrinsics::assume. For censored roots this is source branching only, not a successful native theorem.",
+      "merge_call_389_reachable": false,
+      "source_origin_assurance": "Frozen Original source/registration context; no independent AST/MIR/emitter cause claimed"
+    },
+    {
+      "root": "s4p3_network_b01_n13_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n13_fullbyte",
+      "invocation_id": "2db2b7d35b6f4e9f983d6e787d5a025b",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/2db2b7d35b6f4e9f983d6e787d5a025b",
+      "domain": {
+        "length_interval": [
+          13,
+          13
+        ],
+        "allocation": 34,
+        "base": 1,
+        "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+        "initialized": true,
+        "type": "u8",
+        "comparator": "KeyLess<u8>",
+        "summary_edges": []
+      },
+      "harness_source": {
+        "source_sha": "7b31b060b90ce286e94547993f6a698c549bc5fa",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+        "file_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+        "lines": [
+          69,
+          89
+        ],
+        "text": "69: fn s4p3_network_b01_n13_fullbyte() {\n70:     kani::assert(active_u8(), \"S4P3_N_13_ACTIVE_CONCRETE_MODEL\");\n71:     let mut v: [u8; 34] = kani::any();\n72:     let bytes = v;\n73:     let n: usize = 13;\n74:     let before = snapshot::<u8, KeyLess<u8>>(&v[1..14]);\n75:     small_sort_network(&mut v[1..14], &mut KeyLess::<u8>::new());\n76:     kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..14]), \"S4P3_N_13_SORTED_FULL_VALUE_COUNT\");\n77:     for i in 0..34 {\n78:         kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P3_N_13_FULL_OUTSIDE_FRAME\");\n79:     }\n80:     let canary: usize = kani::any();\n81:     kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));\n82:     kani::assert(v[canary] == bytes[canary], \"S4P3_N_13_ARBITRARY_OUTSIDE_CANARY\");\n83:     kani::cover(n == 13, \"S4P3_N_13_N13\");\n84:     kani::cover(n >= 2 && bytes[1] > bytes[n], \"S4P3_N_13_UNSORTED\");\n85:     kani::cover(n >= 2 && bytes[1] == bytes[n], \"S4P3_N_13_DUPLICATE\");\n86:     kani::cover(n >= 2 && v[1] < v[n], \"S4P3_N_13_NONCONSTANT\");\n87:     kani::cover(n == 13 && descending(&bytes[1..14]), \"S4P3_N_13_MAX_DESCENDING\");\n88:     kani::cover(true, \"S4P3_N_13_USEFUL_RETURN\");\n89: }"
+      },
+      "literal_helper_calls": [
+        {
+          "line": 75,
+          "source": "    small_sort_network(&mut v[1..14], &mut KeyLess::<u8>::new());"
+        }
+      ],
+      "native_registration": {
+        "pretty_name": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n13_fullbyte",
+        "mangled_name": "_RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify28sorting_s4_full_lengths_next29s4p3_network_b01_n13_fullbyte",
+        "crate_name": "core",
+        "original_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+        "original_start_line": 69,
+        "original_end_line": 89,
+        "goto_file": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/2db2b7d35b6f4e9f983d6e787d5a025b/x86_64-unknown-linux-gnu/debug/build/core/2798a13c63324a47/out/core-2798a13c63324a47__RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify28sorting_s4_full_lengths_next29s4p3_network_b01_n13_fullbyte.symtab.out",
+        "attributes": {
+          "kind": "Proof",
+          "should_panic": false,
+          "solver": null,
+          "unwind_value": 36,
+          "stubs": [],
+          "verified_stubs": []
+        },
+        "contract": null,
+        "has_loop_contracts": false,
+        "is_automatically_generated": false,
+        "is_bounded": false,
+        "is_ctor_based": false,
+        "metadata_path": "x86_64-unknown-linux-gnu/debug/build/core/2798a13c63324a47/out/core-2798a13c63324a47.kani-metadata.json",
+        "metadata_sha256": "9030e44392fb3f9959050df1075b028160bd14bfc42e655f477997e01052698f"
+      },
+      "member_identities": {
+        "receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n13_fullbyte/receipt.json",
+          "bytes": 26553,
+          "sha256": "418c726b8f8be410e32f9f170dbda53bdf132380dcf90fc366fbab7022764152"
+        },
+        "compile/receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n13_fullbyte/compile/receipt.json",
+          "bytes": 15562,
+          "sha256": "d79b159fe7b14871780974bb01915a9a3834ee1b408de00042a389a5de67c922"
+        },
+        "binding-metadata.json": {
+          "member": "groups/s3-s4p3_network_b01_n13_fullbyte/binding-metadata.json",
+          "bytes": 210591,
+          "sha256": "3bff1dc20e5afa6368e0a41874e1d4e279ca46606a72b022b3aad15c19e3d673"
+        },
+        "export.json": {
+          "member": "groups/s3-s4p3_network_b01_n13_fullbyte/export.json",
+          "bytes": 1276,
+          "sha256": "61bfaedcfd847d3bfcdef263115867a69304e0e2d0c015121486a1bf368ad259"
+        },
+        "properties.json": {
+          "member": "groups/s3-s4p3_network_b01_n13_fullbyte/properties.json",
+          "bytes": 450,
+          "sha256": "fa1f5f97d8d55abea1bbc687ccf1db377504c4d680c279ac4cb97a86235e9e1b"
+        }
+      },
+      "source_branch_argument": "Literal slice length=13; len<2 at340 is false. At351 no_merge=(13<18)=true; initial_region_len at354 is exactly len. In the first region, region.len=13 takes >=13: actual sort13_optimal runs, presorted_len=13; insertion has no suffix. At370 insertion_sort_shift_left is called. If it returns normally, unchanged no_merge forces return at372-373; otherwise no normal continuation reaches merge. Thus neither second-region update381 nor bidirectional_merge call389 is reachable. This argument uses exact caller branches, never the callee intrinsics::assume. For censored roots this is source branching only, not a successful native theorem.",
+      "merge_call_389_reachable": false,
+      "source_origin_assurance": "Frozen Original source/registration context; no independent AST/MIR/emitter cause claimed"
+    },
+    {
+      "root": "s4p3_network_b01_n17_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n17_fullbyte",
+      "invocation_id": "bde7d953e8d542d9a05f74cd268ef8eb",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/bde7d953e8d542d9a05f74cd268ef8eb",
+      "domain": {
+        "length_interval": [
+          17,
+          17
+        ],
+        "allocation": 34,
+        "base": 1,
+        "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+        "initialized": true,
+        "type": "u8",
+        "comparator": "KeyLess<u8>",
+        "summary_edges": []
+      },
+      "harness_source": {
+        "source_sha": "7b31b060b90ce286e94547993f6a698c549bc5fa",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+        "file_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+        "lines": [
+          92,
+          112
+        ],
+        "text": "92: fn s4p3_network_b01_n17_fullbyte() {\n93:     kani::assert(active_u8(), \"S4P3_N_17_ACTIVE_CONCRETE_MODEL\");\n94:     let mut v: [u8; 34] = kani::any();\n95:     let bytes = v;\n96:     let n: usize = 17;\n97:     let before = snapshot::<u8, KeyLess<u8>>(&v[1..18]);\n98:     small_sort_network(&mut v[1..18], &mut KeyLess::<u8>::new());\n99:     kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..18]), \"S4P3_N_17_SORTED_FULL_VALUE_COUNT\");\n100:     for i in 0..34 {\n101:         kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P3_N_17_FULL_OUTSIDE_FRAME\");\n102:     }\n103:     let canary: usize = kani::any();\n104:     kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));\n105:     kani::assert(v[canary] == bytes[canary], \"S4P3_N_17_ARBITRARY_OUTSIDE_CANARY\");\n106:     kani::cover(n == 17, \"S4P3_N_17_N17\");\n107:     kani::cover(n >= 2 && bytes[1] > bytes[n], \"S4P3_N_17_UNSORTED\");\n108:     kani::cover(n >= 2 && bytes[1] == bytes[n], \"S4P3_N_17_DUPLICATE\");\n109:     kani::cover(n >= 2 && v[1] < v[n], \"S4P3_N_17_NONCONSTANT\");\n110:     kani::cover(n == 17 && descending(&bytes[1..18]), \"S4P3_N_17_MAX_DESCENDING\");\n111:     kani::cover(true, \"S4P3_N_17_USEFUL_RETURN\");\n112: }"
+      },
+      "literal_helper_calls": [
+        {
+          "line": 98,
+          "source": "    small_sort_network(&mut v[1..18], &mut KeyLess::<u8>::new());"
+        }
+      ],
+      "native_registration": {
+        "pretty_name": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n17_fullbyte",
+        "mangled_name": "_RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify28sorting_s4_full_lengths_next29s4p3_network_b01_n17_fullbyte",
+        "crate_name": "core",
+        "original_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+        "original_start_line": 92,
+        "original_end_line": 112,
+        "goto_file": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/bde7d953e8d542d9a05f74cd268ef8eb/x86_64-unknown-linux-gnu/debug/build/core/30934e072c317a2f/out/core-30934e072c317a2f__RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify28sorting_s4_full_lengths_next29s4p3_network_b01_n17_fullbyte.symtab.out",
+        "attributes": {
+          "kind": "Proof",
+          "should_panic": false,
+          "solver": null,
+          "unwind_value": 36,
+          "stubs": [],
+          "verified_stubs": []
+        },
+        "contract": null,
+        "has_loop_contracts": false,
+        "is_automatically_generated": false,
+        "is_bounded": false,
+        "is_ctor_based": false,
+        "metadata_path": "x86_64-unknown-linux-gnu/debug/build/core/30934e072c317a2f/out/core-30934e072c317a2f.kani-metadata.json",
+        "metadata_sha256": "c94861f762c14c6e697ebc06991f6a51c1bb0576bd633732a07e907ae48ecbbe"
+      },
+      "member_identities": {
+        "receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n17_fullbyte/receipt.json",
+          "bytes": 26547,
+          "sha256": "c9b68547edfbb1a11a7e0460e3bbf2614c8deccc28ff30c9a3aa4db3ee89875f"
+        },
+        "compile/receipt.json": {
+          "member": "groups/s3-s4p3_network_b01_n17_fullbyte/compile/receipt.json",
+          "bytes": 15562,
+          "sha256": "ef7c9ed8c9e00dc9c3bf357a59ab96364f467aebdfd4b6ff4b7dd9a3c64600f4"
+        },
+        "binding-metadata.json": {
+          "member": "groups/s3-s4p3_network_b01_n17_fullbyte/binding-metadata.json",
+          "bytes": 210592,
+          "sha256": "5f775a9d4790f9038677c7341a5d66ac258a4c72b39f9bcb393f6216d27cf10a"
+        },
+        "export.json": {
+          "member": "groups/s3-s4p3_network_b01_n17_fullbyte/export.json",
+          "bytes": 1276,
+          "sha256": "6c4a0bbc1f0dd5540af28dda6ff0212fba93ece3e1304ebf4182e7b0e60707b7"
+        },
+        "properties.json": {
+          "member": "groups/s3-s4p3_network_b01_n17_fullbyte/properties.json",
+          "bytes": 450,
+          "sha256": "8e03640fe51256cf07f6fcf6b2fde6a6352766c1eb8fda3b6e5fdbe763e01ddf"
+        }
+      },
+      "source_branch_argument": "Literal slice length=17; len<2 at340 is false. At351 no_merge=(17<18)=true; initial_region_len at354 is exactly len. In the first region, region.len=17 takes >=13: actual sort13_optimal handles prefix13, presorted_len=13; insertion processes indices13..16. At370 insertion_sort_shift_left is called. If it returns normally, unchanged no_merge forces return at372-373; otherwise no normal continuation reaches merge. Thus neither second-region update381 nor bidirectional_merge call389 is reachable. This argument uses exact caller branches, never the callee intrinsics::assume. For censored roots this is source branching only, not a successful native theorem.",
+      "merge_call_389_reachable": false,
+      "source_origin_assurance": "Frozen Original source/registration context; no independent AST/MIR/emitter cause claimed"
+    }
+  ],
+  "merge_properties_source": {
+    "source_sha": "7b31b060b90ce286e94547993f6a698c549bc5fa",
+    "file": "library/core/src/slice/sort/shared/smallsort.rs",
+    "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+    "lines": [
+      971,
+      1006
+    ],
+    "text": "971:     let len = v.len();\n972:     let src = v.as_ptr();\n973: \n974:     let len_div_2 = len / 2;\n975: \n976:     // SAFETY: The caller has to ensure that len >= 2.\n977:     unsafe {\n978:         intrinsics::assume(len_div_2 != 0); // This can avoid useless code-gen.\n979:     }\n980: \n981:     // SAFETY: no matter what the result of the user-provided comparison function\n982:     // is, all 4 read pointers will always be in-bounds. Writing `dst` and `dst_rev`\n983:     // will always be in bounds if the caller guarantees that `dst` is valid for\n984:     // `v.len()` writes.\n985:     unsafe {\n986:         let mut left = src;\n987:         let mut right = src.add(len_div_2);\n988:         let mut dst = dst;\n989: \n990:         let mut left_rev = src.add(len_div_2 - 1);\n991:         let mut right_rev = src.add(len - 1);\n992:         let mut dst_rev = dst.add(len - 1);\n993: \n994:         for _ in 0..len_div_2 {\n995:             (left, right, dst) = merge_up(left, right, dst, is_less);\n996:             (left_rev, right_rev, dst_rev) = merge_down(left_rev, right_rev, dst_rev, is_less);\n997:         }\n998: \n999:         let left_end = left_rev.wrapping_add(1);\n1000:         let right_end = right_rev.wrapping_add(1);\n1001: \n1002:         // Odd length, so one element is left unconsumed in the input.\n1003:         if !len.is_multiple_of(2) {\n1004:             let left_nonempty = left < left_end;\n1005:             let last_src = if left_nonempty { left } else { right };\n1006:             ptr::copy_nonoverlapping(last_src, dst, 1);"
+  },
+  "insertion_source": {
+    "source_sha": "7b31b060b90ce286e94547993f6a698c549bc5fa",
+    "file": "library/core/src/slice/sort/shared/smallsort.rs",
+    "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+    "lines": [
+      709,
+      737
+    ],
+    "text": "709: pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(\n710:     v: &mut [T],\n711:     offset: usize,\n712:     is_less: &mut F,\n713: ) {\n714:     let len = v.len();\n715:     if offset == 0 || offset > len {\n716:         intrinsics::abort_immediate();\n717:     }\n718: \n719:     // SAFETY: see individual comments.\n720:     unsafe {\n721:         // We write this basic loop directly using pointers, as when we use a\n722:         // for loop LLVM likes to unroll this loop which we do not want.\n723:         // SAFETY: v_end is the one-past-end pointer, and we checked that\n724:         // offset <= len, thus tail is also in-bounds.\n725:         let v_base = v.as_mut_ptr();\n726:         let v_end = v_base.add(len);\n727:         let mut tail = v_base.add(offset);\n728:         while tail != v_end {\n729:             // SAFETY: v_base and tail are both valid pointers to elements, and\n730:             // v_base < tail since we checked offset != 0.\n731:             insert_tail(v_base, tail, is_less);\n732: \n733:             // SAFETY: we checked that tail is not yet the one-past-end pointer.\n734:             tail = tail.add(1);\n735:         }\n736:     }\n737: }"
+  },
+  "assurance": "Bounded source-reported branch argument; not inferred from native UNREACHABLE status; no callee intrinsics::assume used as proof premise"
+}
