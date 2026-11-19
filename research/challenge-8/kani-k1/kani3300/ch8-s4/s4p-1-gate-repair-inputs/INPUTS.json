@@ -1,0 +1,154 @@
+{
+  "schema": "s4p1-gate-repair-inputs-v1",
+  "authorization": "Owner09:51 explicitlyfresh13 localizedrepair thenSAME14delta/rootGO; noCI/publication/accounting",
+  "recorded_at_utc": "2026-11-19T06:54:03.050748+00:00",
+  "frozen_author": {
+    "g0": "590dd6360f5b4c92eab9fff30aa0d2e7d8d942ce",
+    "path": "kani3300/ch8-s4/s4p-1/",
+    "manifest_sha256": "5551ad46995e6f9647731abef1ec8e7cdf980f2df2cb2ed2f78226fa6663bed9"
+  },
+  "independent_review": {
+    "g0": "4856a87f39d2606adbbed747d3cae9a73fb80d52",
+    "path": "kani3300/ch8-s4/s4p-1-review/",
+    "verdict": "REQUEST_CHANGES",
+    "manifest_sha256": "7ff4e2d05c43306fd99d428ea412a9e086ed01331543f89a9e003b07ac8947d8",
+    "findings": [
+      "R14-01",
+      "R14-02"
+    ],
+    "prior_root_check": "18committedfiles17manifesthashes/fullpinsMATCH"
+  },
+  "source_EXACT_UNCHANGED": {
+    "repo": "/root/verify-rust-std-ch8-s4p-1-w13",
+    "sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+    "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+    "parents": [
+      "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    ],
+    "clean": true,
+    "depth": 5,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+    "reference": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+    "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "tool_EXACT_UNCHANGED": {
+    "repo": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parents": [
+      "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    ],
+    "clean": true,
+    "depth": 2,
+    "author_committer": "Ivo Matija\u0161evi\u0107 <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+  },
+  "control_reference": {
+    "repo": "/root/kani-ch8-s4p-1-control-w13",
+    "sha": "e941155517a02f67ea9bac1adb81c1d5f6f85638",
+    "tree": "a1ea7697041b043d98d34bdb1d7d703879726a8e",
+    "parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "clean": true,
+    "depth": 7,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+    "reference": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "newcontrol_soleparent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+  "source_change_authorized": false,
+  "resource_or_scope_change_authorized": false,
+  "old_request": {
+    "schema": "ch8-s4p-1-v1",
+    "profile": "ch8-s4p-1-fullbyte-length-blocks-v1",
+    "sha256": "ff5d370fec4577527a03a84a42fa72db97d30efe34a86adbee02a05f80ac4f47",
+    "workflow_sha256": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+    "payload_files": 117,
+    "selfhash_excluded": true
+  },
+  "ordered_rows": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "sort13_weak",
+    "s4p_cell_count_corrupt",
+    "s4p_fallback_b01_n00_02_fullbyte",
+    "s4p_fallback_b01_n03_04_fullbyte",
+    "s4p_network_b01_n00_02_fullbyte",
+    "s4p_network_b01_n03_04_fullbyte"
+  ],
+  "flags": {
+    "unstable": [
+      "function-contracts",
+      "mem-predicates",
+      "float-lib",
+      "c-ffi",
+      "loop-contracts",
+      "quantifiers",
+      "stubbing",
+      "export-json"
+    ],
+    "assert_contracts": false,
+    "jobs": 1,
+    "harness_timeout": "600s",
+    "exact": true,
+    "default_unwind": 50,
+    "cbmc_args": [
+      "--object-bits",
+      "12"
+    ],
+    "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf --cfg=kani_smallsort_s4_partition"
+  },
+  "caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "setup_seconds": 1800,
+  "job_minutes": 180,
+  "validate_minutes": 18,
+  "terminal_schema_required": "ch8-s4p-1-campaign-v1",
+  "cfg_power_set": {
+    "independent_keys": 5,
+    "unique_projections": 32,
+    "sorting_enabled": 16,
+    "ACTIVE_guard_contexts": 4
+  },
+  "old_final_validate": {
+    "actual_final_validate_execution_count": 1,
+    "tests": 302,
+    "test_counts": {
+      "bridge1": 40,
+      "legacy": 136,
+      "s3": 56,
+      "s32": 35,
+      "s4p": 35
+    },
+    "exit_code": 0,
+    "elapsed_seconds": 554.090277033858,
+    "internal_elapsed_seconds": 553.0314540234394,
+    "margin_at_18_minutes": 1.9491408616325638,
+    "required_margin": 1.5,
+    "control_sha": "e941155517a02f67ea9bac1adb81c1d5f6f85638",
+    "control_tree": "a1ea7697041b043d98d34bdb1d7d703879726a8e",
+    "request_sha256": "ff5d370fec4577527a03a84a42fa72db97d30efe34a86adbee02a05f80ac4f47"
+  },
+  "output": "kani3300/ch8-s4/s4p-1-r1/",
+  "review_output": "kani3300/ch8-s4/s4p-1-review-r1/",
+  "future_GO_output": "kani3300/ch8-s4/s4p-1-go/",
+  "native_compile_proof_cost_fit": "NOT_RUN",
+  "budget": "TRACKING_ONLY_NO_ROOT_WORKER_LEDGER_WRITES",
+  "otherstage4591": "intake28cdROOTCHECKED DONE; coordinatorownsPRtext; no new15/fix/CI/publication"
+}
