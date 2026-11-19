@@ -1,0 +1,172 @@
+{
+  "schema": "pr5195-offline-review-checks-v1",
+  "result": "PASS",
+  "head": "9b67828707f8d7d5e691484896a82475dcf34d28",
+  "tree": "baedd51d92073ecb2b96991bae7dc562ee8f58a2",
+  "merge_base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "changed_files": {
+    "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs": {
+      "sha256": "14cf16762c3475238941c254fc4080b00149c1618a156a5baab8dbdc7de78db3",
+      "bytes": 42092
+    },
+    "kani-compiler/src/kani_middle/transform/mod.rs": {
+      "sha256": "0901d9ee2f60efb02949200822406713a4a1e6f068ecb52d053716a6c07957b7",
+      "bytes": 16951
+    },
+    "tests/script-based-pre/delayed-shared-body/Cargo.toml": {
+      "sha256": "cf02a2b65e63502da1cd590218e7871e3fe3980a9e89aa41b3df391a70be0bac",
+      "bytes": 193
+    },
+    "tests/script-based-pre/delayed-shared-body/check.py": {
+      "sha256": "1504c3928084a2e29886b0392d9d8624fc32375c5494807864c80fc82e680ba3",
+      "bytes": 9593
+    },
+    "tests/script-based-pre/delayed-shared-body/config.yml": {
+      "sha256": "f6ac7ffc9bfa654dd81c7263d1af76a0e989860d4f001e89aede0881fa09be33",
+      "bytes": 110
+    },
+    "tests/script-based-pre/delayed-shared-body/control.rs": {
+      "sha256": "95c37703c78422dcac06033d423fa4c5a0ab0975475e97f80bfe901b42f811a6",
+      "bytes": 382
+    },
+    "tests/script-based-pre/delayed-shared-body/expected": {
+      "sha256": "fc24e4757ef87883ebb1d0127be0550016232039a4e4776237627eae9215f6c8",
+      "bytes": 65
+    },
+    "tests/script-based-pre/delayed-shared-body/src/lib.rs": {
+      "sha256": "70dd61fec47556d11fd158f50bc5729c6fcfbe0170f43a8be788d6d2612431c9",
+      "bytes": 899
+    },
+    "tests/script-based-pre/delayed-shared-body/test.sh": {
+      "sha256": "da984231aaf9c6743a66fca67b29f02b72fab8f92e973f24f9b03164f6378f36",
+      "bytes": 130
+    }
+  },
+  "snapshot_files": {
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-inputs-20261119/pr-5195/INPUTS.json": {
+      "sha256": "877b581ec79175d3a6bd0c82e3588e269c8539f77738d68c0133437e54b03892",
+      "bytes": 4891
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-inputs-20261119/pr-5195/SOURCE.patch": {
+      "sha256": "d86e29104d70d4654e64bbdfd294027ae2501e58609b0f033d04117c1dea8118",
+      "bytes": 18796
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-inputs-20261119/pr-5195/PR-BODY.snapshot.md": {
+      "sha256": "23a38613cf5692966a85337c51962b88ff2b29fff7f9ea9861721cb198a60ea0",
+      "bytes": 1692
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-inputs-20261119/pr-5195/CONNECTED-PR.json": {
+      "sha256": "c5f6ddf02c31dbab2d8ddcaa74daaadace229e1f79afc7919886462138f929fc",
+      "bytes": 4332
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-inputs-20261119/STYLE-UPSTREAM-RULES.snapshot.md": {
+      "sha256": "5932c080cd5938ad7fcb159b1847e663df828beffc17196716b001e6a5cb9e7a",
+      "bytes": 3240
+    },
+    "research/challenge-8/kani-k1/TASK-OPEN-PR-5195-SLOP-REVIEW.md": {
+      "sha256": "8946859a89143f8304c6d718823e3648447226cad298ee6ba4afcfc7d16b697d",
+      "bytes": 4762
+    }
+  },
+  "source_detached_and_clean": true,
+  "source_patch_exact": true,
+  "diff_check": "PASS",
+  "current_check_py_lines": 193,
+  "pure_python_method": "AST extraction of only require/inventory/parse/signature/unsafe_control/ordinary_control/compare and literal NAMES/UNINIT; subprocess, probe, main and top-level source imports never executed. Synthetic in-memory docs/properties only.",
+  "pure_cases": [
+    {
+      "case": "complete synthetic matrix True",
+      "result": "ACCEPTED"
+    },
+    {
+      "case": "lost initialized assertion",
+      "result": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "case": "missing unsafe failure",
+      "result": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "case": "wrong failure reason",
+      "result": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "case": "wrong unsafe source line",
+      "result": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "case": "extra paired property",
+      "result": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "case": "complete synthetic matrix False",
+      "result": "ACCEPTED"
+    },
+    {
+      "case": "partial export",
+      "result": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "case": "missing harness",
+      "result": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "case": "wrong features",
+      "result": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "case": "empty properties",
+      "result": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "case": "unresolved status",
+      "result": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "case": "missing property location",
+      "result": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "case": "disabled memory checks",
+      "result": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "case": "wrong process exit",
+      "result": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "case": "duplicate stdout harness",
+      "result": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "case": "inventory harness/property association",
+      "result": "ACCEPTED"
+    }
+  ],
+  "pure_case_count": 17,
+  "native": "NOT_RUN",
+  "limits": "No compiler, Kani/CBMC, driver execution, macro expansion or actual output samples; synthetic acceptance/rejection validates only these bounded parser/oracle hypotheses.",
+  "context_sha256": {
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs": "ceb62c0b22f8c29a7b859df161e113954bef42f6b42ea498222cc86efff6e9be",
+    "kani-compiler/src/kani_middle/codegen_order.rs": "0720ac46af93da658cd0cfaa1de4fa1ff41e6dfb929e095ceae0c128d34b3159",
+    "kani-driver/src/frontend/schema_utils.rs": "6cf7b1311b3ebfd6ec1ce61efb1875b33d067fc2a89d2e7d1ccf8bf6995b1a64",
+    "kani-driver/src/cbmc_property_renderer.rs": "f2f6be1b2a2e29e340e17c5859fa5a0f5c7d90bacb9287d082af23d442737c42",
+    "kani-driver/src/harness_runner.rs": "4ddabb49fcbc59990e1cce5b6d2985eae33d12724fe1efe2af2534cc4ba0f480",
+    "library/std/src/lib.rs": "e8b112123b7df891a6aed0853a1a9930bf71769f1fa386ec41131c36ba24f0d5",
+    "tools/compiletest/src/main.rs": "9e15ceb4c5dc7bc505081d3ec2be8a4af8bdb8fdf0cd0e5ffcbc137ea36dc412",
+    "tools/compiletest/src/runtest.rs": "7ab3d25a027144d8b4b669990793d8f76b980d7a9f9ed59130af8a95749797a4",
+    "scripts/kani-regression.sh": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+    "tests/expected/uninit/access-padding-uninit/access-padding-uninit.rs": "fc3aebaade4e5a78788173c7be767a90a1cc32bf42575193ecb1f70733211706",
+    "tests/expected/uninit/access-padding-uninit/access-padding-uninit.expected": "b688767b3904eb9ba035259ae503749e6833c9f7876b48fadc8c167a3a7dead7",
+    "tests/kani/Uninit/access-padding-init.rs": "11cf816e47630141e8e1fdf766a45ce756edd5c01b6430abd51f3478e9d70749"
+  },
+  "packet_checks": {
+    "source_unchanged_clean_at_closeout": true,
+    "source_context_and_cited_baselines_unchanged_vs_base": true,
+    "snapshots_unchanged": true,
+    "all_14_current_invocations_dispositioned": true,
+    "recommended_uninit_probes": 6,
+    "recommended_ordinary_probes": 2,
+    "proposed_PR_two_substance_paragraphs_one_pending_link_exact_disclosures": true
+  }
+}
