@@ -1,0 +1,532 @@
+{
+  "schema": "root-pr5159-followup-main-format-v2-recheck-v1",
+  "checked_at": "2026-11-19T23:54:46.805165+00:00",
+  "checks_passed": 55,
+  "checks": [
+    "Exact candidate commit/tree/sole reviewed main parent",
+    "Exact separate local v2 branch binds reviewed candidate",
+    "Published v1 worktree restored clean at73ed; candidate read from exact v2 commit/ref without checkout",
+    "One replacement source commit on unchanged approved main base",
+    "v1 and v2 are siblings with same sole parent",
+    "Original reviewed message retained",
+    "Exact new commit NONSKIP",
+    "Exact author/committer identity",
+    "Exactly one formatter-delta path",
+    "Exact single old block and new expression arm located",
+    "Whole compiler file reconstructed by only the reported single formatter hunk",
+    "Every newly formatted arm line at most100 columns; not a formatter run",
+    "Removed block has only the same tail call; no statement/local/attribute/label lost",
+    "Existing long-line maximum unchanged outside format hunk",
+    "Full-index formatting delta has one hunk",
+    "Exact formatting delta5insertions7deletions",
+    "Only the two reviewed original scope files differ from main",
+    "Full final delta17insertions14deletions",
+    "Entire reviewed volatile test file byte-identical",
+    "Six reviewed positive harnesses retained",
+    "Reviewed protected subtree/file unchanged: tests",
+    "Reviewed protected subtree/file unchanged: library",
+    "Reviewed protected subtree/file unchanged: kani-driver",
+    "Reviewed protected subtree/file unchanged: kani_metadata",
+    "Reviewed protected subtree/file unchanged: scripts",
+    "Reviewed protected subtree/file unchanged: tools",
+    "Reviewed protected subtree/file unchanged: .github",
+    "Reviewed protected subtree/file unchanged: Cargo.toml",
+    "Reviewed protected subtree/file unchanged: Cargo.lock",
+    "Reviewed protected subtree/file unchanged: rust-toolchain.toml",
+    "Independent temporary-index single-hunk replay yields exact new whole tree",
+    "Full final patch whitespace check",
+    "Abandoned wrong-worktree commit is not in final ancestry",
+    "No local refs retain abandoned wrong-worktree commit",
+    "Original reviewed worktree restored exactly to a197 and clean",
+    "Original reviewed-port GO manifest: GO-REQUEST.json",
+    "Original reviewed-port GO manifest: GO-REQUEST.md",
+    "Original reviewed-port GO manifest: REVIEWED-PORT.patch",
+    "Original reviewed-port GO manifest: ROOT-RECHECK.json",
+    "Original root-approved port/review/base exact pins",
+    "Exact independent APPROVE inherited except root-reviewed mechanical format arm",
+    "Specified new fork ref triggers standard workflow: .github/workflows/kani.yml",
+    "Specified new fork ref triggers standard workflow: .github/workflows/format-check.yml",
+    "Specified new fork ref triggers standard workflow: .github/workflows/deny.yml",
+    "All five standard OS regressions retained",
+    "All twelve native standard workflow instances retained",
+    "Unchanged exact inherited toolchain",
+    "New destination absent; no open PR uses it",
+    "Old published fork branch still exact73ed; no overwrite or force intended",
+    "Original native CI exact old-head identity",
+    "Original campaign still active; no overall terminal/PASS invented",
+    "Original perf remains in progress, not assumed successful",
+    "Native failed regression/LLBC steps match reported formatter contexts; exact reason coordinator-reported",
+    "Separate original Format/Deny successes retained without overriding embedded script format failure",
+    "New immutable GO output absent"
+  ],
+  "source": "19f7c1af19bab7b9671305afdc4753b34709524b",
+  "tree": "b6e76ef8012640c4060c85d0463883d50baf5e51",
+  "parent": "fca73e13186782e62d286ef89c43d2fcc4bb3a51",
+  "identity": [
+    "Tiramisu-Cake <igkharin@gmail.com>",
+    "Tiramisu-Cake <igkharin@gmail.com>"
+  ],
+  "message": "Exercise local ZST volatile reads and simplify load diagnostics\n\n",
+  "single_hunk_sha256": "19e9ff38c120038e74a7ff4ef2779cc55db56cd4215eee1e7829652cb633726c",
+  "temporary_index_replay_tree": "b6e76ef8012640c4060c85d0463883d50baf5e51",
+  "line_width": {
+    "old_file_max": 138,
+    "new_file_max": 138,
+    "new_hunk_max": 98,
+    "scope": "Inherited compiler file has existing lines over100; no whole-file width or native formatter PASS claimed"
+  },
+  "independent_review_handoff": {
+    "commit": "534a9c1a0cc34629b01f619d42080572b4adc5b1",
+    "path": "research/challenge-8/kani-k1/kani3300/wave0/pr5159-followup-review/HANDOFF.md",
+    "sha256": "1a37a93db329c5b372a71a1d3ed8dafba59ac19da2f6bdb1ab16eae1f0c9127c"
+  },
+  "connected_snapshot": {
+    "checked_at": "2026-11-19T23:51:48.702Z",
+    "run": {
+      "id": 44632134521,
+      "name": "Kani CI",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+      "head_branch": "fix/volatile-zst-test-followup-main",
+      "event": "push",
+      "run_attempt": 1
+    },
+    "jobs": [
+      {
+        "id": 135941245657,
+        "name": "regression (macos-15)",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "head_sha": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+        "steps": [],
+        "started_at": "2026-11-19T22:49:11Z",
+        "completed_at": "2026-11-19T22:51:15Z"
+      },
+      {
+        "id": 135941245686,
+        "name": "llbc-regression",
+        "status": "completed",
+        "conclusion": "failure",
+        "head_sha": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Setup Kani Dependencies",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Build Kani with Charon",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run tests",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "name": "Post Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "started_at": "2026-11-19T22:49:13Z",
+        "completed_at": "2026-11-19T22:53:15Z"
+      },
+      {
+        "id": 135941245784,
+        "name": "perf",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Setup Kani Dependencies",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Execute Kani performance tests",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "name": "Post Checkout Kani",
+            "status": "completed",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Complete job",
+            "status": "in_progress",
+            "conclusion": null
+          }
+        ],
+        "started_at": "2026-11-19T22:49:14Z",
+        "completed_at": null
+      },
+      {
+        "id": 135941245798,
+        "name": "documentation",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install book dependencies",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Build Documentation",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Publish Documentation",
+            "status": "completed",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Post Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "started_at": "2026-11-19T22:49:14Z",
+        "completed_at": "2026-11-19T22:50:52Z"
+      },
+      {
+        "id": 135941245802,
+        "name": "regression (macos-15-intel)",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "head_sha": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Setup Kani Dependencies",
+            "status": "completed",
+            "conclusion": "cancelled"
+          },
+          {
+            "name": "Execute Kani regression",
+            "status": "completed",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Post Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "started_at": "2026-11-19T22:49:15Z",
+        "completed_at": "2026-11-19T22:51:25Z"
+      },
+      {
+        "id": 135941245865,
+        "name": "benchcomp-tests",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install benchcomp dependencies",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Setup Kani Dependencies",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Build Kani using release mode",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run benchcomp unit and regression tests",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "started_at": "2026-11-19T22:49:14Z",
+        "completed_at": "2026-11-19T22:53:31Z"
+      },
+      {
+        "id": 135941245919,
+        "name": "regression (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "failure",
+        "head_sha": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Setup Kani Dependencies",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Execute Kani regression",
+            "status": "completed",
+            "conclusion": "failure"
+          },
+          {
+            "name": "Post Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "started_at": "2026-11-19T22:49:14Z",
+        "completed_at": "2026-11-19T22:51:15Z"
+      },
+      {
+        "id": 135941245931,
+        "name": "regression (ubuntu-22.04)",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "head_sha": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Setup Kani Dependencies",
+            "status": "completed",
+            "conclusion": "cancelled"
+          },
+          {
+            "name": "Execute Kani regression",
+            "status": "completed",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Post Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "started_at": "2026-11-19T22:49:13Z",
+        "completed_at": "2026-11-19T22:51:31Z"
+      },
+      {
+        "id": 135941246361,
+        "name": "regression (ubuntu-24.04-arm)",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "head_sha": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Setup Kani Dependencies",
+            "status": "completed",
+            "conclusion": "cancelled"
+          },
+          {
+            "name": "Execute Kani regression",
+            "status": "completed",
+            "conclusion": "skipped"
+          },
+          {
+            "name": "Post Checkout Kani",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "started_at": "2026-11-19T22:49:16Z",
+        "completed_at": "2026-11-19T22:51:31Z"
+      }
+    ],
+    "new_ref": {
+      "error": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}",
+      "error_code": "NOT_FOUND",
+      "error_data": {
+        "message": "Not Found",
+        "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+        "status": "404"
+      }
+    },
+    "old_ref": {
+      "ref": "refs/heads/fix/volatile-zst-test-followup-main",
+      "node_id": "REF_kwDOVp9vW9oALnJlZnMvaGVhZHMvZml4L3ZvbGF0aWxlLXpzdC10ZXN0LWZvbGxvd3VwLW1haW4",
+      "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/refs/heads/fix/volatile-zst-test-followup-main",
+      "object": {
+        "sha": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+        "type": "commit",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/commits/73edbdd8aec2608fae63338cc4a9df7a7c792cbb"
+      }
+    },
+    "open_pr": [],
+    "main": {
+      "ref": "refs/heads/main",
+      "node_id": "MDM6UmVmMzUxODgyMTY0OnJlZnMvaGVhZHMvbWFpbg==",
+      "url": "https://api.github.com/repos/model-checking/kani/git/refs/heads/main",
+      "object": {
+        "sha": "5d80a641d333c929e00ed1e1255c637265f15749",
+        "type": "commit",
+        "url": "https://api.github.com/repos/model-checking/kani/git/commits/5d80a641d333c929e00ed1e1255c637265f15749"
+      }
+    },
+    "old_runs": [
+      {
+        "id": 44632134521,
+        "name": "Kani CI",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+        "event": "push",
+        "run_attempt": 1,
+        "path": ".github/workflows/kani.yml"
+      },
+      {
+        "id": 44632134508,
+        "name": "Kani Format Check",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+        "event": "push",
+        "run_attempt": 1,
+        "path": ".github/workflows/format-check.yml"
+      },
+      {
+        "id": 44632134531,
+        "name": "Cargo Deny",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+        "event": "push",
+        "run_attempt": 1,
+        "path": ".github/workflows/deny.yml"
+      }
+    ],
+    "reported_format_failure": {
+      "provenance": "COORDINATOR_REPORTED_FROM_LOG; root did not read raw logs",
+      "location": "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs:92",
+      "shape": "Replace match-arm block containing only tail diagnostic call with same call expression and arm comma",
+      "jobs": [
+        "regression (ubuntu-24.04)",
+        "llbc-regression"
+      ]
+    },
+    "abandoned_local_commit": {
+      "prefix": "950dff2fb",
+      "never_pushed": "COORDINATOR_REPORTED; root verifies it absent from candidate ancestry/local references and relevant published branch heads"
+    }
+  },
+  "limits": "Root reviewed exact mechanical expression-arm substitution; original independent source review preserved. No local native/formatter run, no formal semantic equivalence claim about compiler MIR, no whole-file<=100 claim. Old perf remains active; no overall prior campaign conclusion inferred."
+}

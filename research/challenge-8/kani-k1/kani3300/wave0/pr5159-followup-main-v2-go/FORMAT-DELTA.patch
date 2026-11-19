@@ -1,0 +1,23 @@
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs b/kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs
+index 7f8cc8bcaa8b3fcf7b7b40f2f8c16653edfa3fc0..035c0c469a8b5007f3de273e39a6b42350b9def8 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs
+@@ -92,13 +92,11 @@ pub fn codegen_never_return_intrinsic(&mut self, instance: Instance, span: Span)
+                 span,
+             ),
+             // Reject uninhabited ZST results even when MIR has no return target.
+-            "volatile_load" if self.returns_uninhabited_zst(instance) => {
+-                self.codegen_fatal_error(
+-                    PropertyClass::SafetyCheck,
+-                    VOLATILE_LOAD_UNINHABITED,
+-                    span,
+-                )
+-            }
++            "volatile_load" if self.returns_uninhabited_zst(instance) => self.codegen_fatal_error(
++                PropertyClass::SafetyCheck,
++                VOLATILE_LOAD_UNINHABITED,
++                span,
++            ),
+             _ => self.codegen_fatal_error(
+                 PropertyClass::UnsupportedConstruct,
+                 &format!("Unsupported intrinsic {intrinsic}"),
