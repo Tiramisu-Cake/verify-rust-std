@@ -1,0 +1,447 @@
+{
+  "reviewed_head": "80e5d6fabc0103b0b3117440007ad2d9475f9a9c",
+  "files": [
+    {
+      "file": "kani-compiler/src/kani_middle/points_to/mod.rs",
+      "kind": "compiler source",
+      "reviewed": true,
+      "disposition": "RETAIN export of resolve_call and run_points_to_analysis",
+      "rationale": "Shared fallible resolution is used by both consumers; optional diagnostic-function sharing needs only a small internal re-export, not a new API layer."
+    },
+    {
+      "file": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "kind": "compiler source",
+      "reviewed": true,
+      "disposition": "RETAIN semantic resolver/dataflow changes; optional wording-only doc cleanup",
+      "rationale": "Keep distinct FnPtr/Virtual/LlvmIntrinsic/unresolved Item/bodyless Item-or-Shim reasons, intrinsic/foreign acceptance, instance checked_body and preserved caller graph. The unsupported guard is what makes unknown-call edge omission safe."
+    },
+    {
+      "file": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "kind": "compiler source",
+      "reviewed": true,
+      "disposition": "RETAIN .ok(); remove redundant added comment if desired",
+      "rationale": "Optional copy-target discovery must skip unresolved instances rather than unwrap. Do not force this limited intrinsic classifier through the full body-availability resolver."
+    },
+    {
+      "file": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+      "kind": "compiler source",
+      "reviewed": true,
+      "disposition": "RETAIN moved diagnostic ownership and removed locals; shorten added explanatory comment",
+      "rationale": "Local instrumentation runs independently of delayed targets. Reintroducing duplicate ownership or removing the local unsupported operation would lose isolation or checks."
+    },
+    {
+      "file": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "kind": "compiler source",
+      "reviewed": true,
+      "disposition": "RETAIN constructor tcx/instance wiring",
+      "rationale": "Both are used by shared instance resolution and entry/call-site shim guards; not unused framework state."
+    },
+    {
+      "file": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "kind": "compiler source",
+      "reviewed": true,
+      "disposition": "RETAIN semantic fix and both shim guards; inline single-use adapter; correct return-state comment",
+      "rationale": "Preserve one super_terminator visit, operand checks followed by Unsupported and common target epilogue. Keep recursive by-value union/unknown classifier and separate entry/call guards; added ordinary-call comment overstates return-state transfer."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/direct-plain.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "RETAIN_EXACT_PROPERTY_ORACLE",
+      "replacement": null,
+      "rationale": "direct(42)==42 succeeds; one completed successful harness."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/direct-plain.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_ISOLATED_SOURCE",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Ordinary direct-call acceptance without and with an explicit copy target; catches an overbroad unsupported-call policy. Existing multiple-instrumentations.rs exercises helper calls with delayed targets, but does not replace the explicit plain control. No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/direct-seeded.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "RETAIN_EXACT_PROPERTY_ORACLE",
+      "replacement": null,
+      "rationale": "direct(42)==42 succeeds; one completed successful harness."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/direct-seeded.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_HARNESSES_SHARE_IDENTICAL_COPY_HELPER",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Ordinary direct-call acceptance without and with an explicit copy target; catches an overbroad unsupported-call policy. Existing multiple-instrumentations.rs exercises helper calls with delayed targets, but does not replace the explicit plain control. Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "RETAIN_EXACT_PROPERTY_ORACLE",
+      "replacement": null,
+      "rationale": "indirect.safety_check.* SUCCESS for u32; unsupported function-pointer diagnostic FAILURE; completed verification failure."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_ISOLATED_SOURCE",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "A statement-free callee entry must load initialized union argument state before the operand check. It distinguishes lost LoadArgument or indiscriminate failure from the partial-union case. No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "RETAIN_EXACT_PROPERTY_ORACLE",
+      "replacement": null,
+      "rationale": "indirect.safety_check.* SUCCESS for u32; unsupported function-pointer diagnostic FAILURE; completed verification failure."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_HARNESSES_SHARE_IDENTICAL_COPY_HELPER",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "A statement-free callee entry must load initialized union argument state before the operand check. It distinguishes lost LoadArgument or indiscriminate failure from the partial-union case. Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/entry-partial-plain.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "RETAIN_EXACT_PROPERTY_ORACLE",
+      "replacement": null,
+      "rationale": "indirect.safety_check.* FAILURE for u32 plus the specific unsupported diagnostic FAILURE; completed verification failure."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_ISOLATED_SOURCE",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Same entry shape with only the u8 field initialized: catches omission of the operand check and lost argument-state loading. Keep both expected status and description, never just process failure. No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "RETAIN_EXACT_PROPERTY_ORACLE",
+      "replacement": null,
+      "rationale": "indirect.safety_check.* FAILURE for u32 plus the specific unsupported diagnostic FAILURE; completed verification failure."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_HARNESSES_SHARE_IDENTICAL_COPY_HELPER",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Same entry shape with only the u8 field initialized: catches omission of the operand check and lost argument-state loading. Keep both expected status and description, never just process failure. Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "MERGE_BYTE_IDENTICAL_DIRECTORY_FALLBACK",
+      "replacement": "tests/expected/uninit/unresolved-calls/expected",
+      "rationale": "Specific function-pointer unsupported diagnostic and one completed failing harness."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_ISOLATED_SOURCE",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Pointer cast erases the u8 pointee type; preserves fail-closed behavior when effect reasoning cannot rely on a concrete pointer pointee. No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "MERGE_BYTE_IDENTICAL_DIRECTORY_FALLBACK",
+      "replacement": "tests/expected/uninit/unresolved-calls/expected",
+      "rationale": "Specific function-pointer unsupported diagnostic and one completed failing harness."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_HARNESSES_SHARE_IDENTICAL_COPY_HELPER",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Pointer cast erases the u8 pointee type; preserves fail-closed behavior when effect reasoning cannot rely on a concrete pointer pointee. Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/fn-pointer-plain.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "MERGE_BYTE_IDENTICAL_DIRECTORY_FALLBACK",
+      "replacement": "tests/expected/uninit/unresolved-calls/expected",
+      "rationale": "Specific function-pointer unsupported diagnostic and one completed failing harness."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/fn-pointer-plain.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_ISOLATED_SOURCE",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Baseline FnPtr rejection even with scalar arguments/results; a pointer-argument-only diagnostic would miss this control. No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "MERGE_BYTE_IDENTICAL_DIRECTORY_FALLBACK",
+      "replacement": "tests/expected/uninit/unresolved-calls/expected",
+      "rationale": "Specific function-pointer unsupported diagnostic and one completed failing harness."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_HARNESSES_SHARE_IDENTICAL_COPY_HELPER",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Baseline FnPtr rejection even with scalar arguments/results; a pointer-argument-only diagnostic would miss this control. Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "RETAIN_EXACT_PROPERTY_ORACLE",
+      "replacement": null,
+      "rationale": "Failed Checks: specific function-pointer unsupported message; completed verification failure."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_ISOLATED_SOURCE",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "A resolved Fn-trait function-item/shim route can lead to an indirect call internally; syntactic FnPtr-only checking at the outer call is insufficient. This golden pins a documented unsupported verdict, not an ICE. No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "RETAIN_EXACT_PROPERTY_ORACLE",
+      "replacement": null,
+      "rationale": "Failed Checks: specific function-pointer unsupported message; completed verification failure."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_HARNESSES_SHARE_IDENTICAL_COPY_HELPER",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "A resolved Fn-trait function-item/shim route can lead to an indirect call internally; syntactic FnPtr-only checking at the outer call is insufficient. This golden pins a documented unsupported verdict, not an ICE. Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/generated-positive-plain.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "RETAIN_EXACT_PROPERTY_ORACLE",
+      "replacement": null,
+      "rationale": "Both named harnesses SUCCESSFUL; Complete2success/0fail/2total."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/generated-positive-plain.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_ISOLATED_SOURCE",
+      "named_items": [
+        "generated_function_item",
+        "drop_closure_glue"
+      ],
+      "rationale": "Function-item Fn dispatch and FnOnce closure/drop side effects are distinct source-intended generated-body positives. Dropping either, or executing both sequentially in one proof harness, can hide the second path behind an earlier failure. Actual emitted InstanceKind is not established offline. No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "RETAIN_EXACT_PROPERTY_ORACLE",
+      "replacement": null,
+      "rationale": "Both named harnesses SUCCESSFUL; Complete2success/0fail/2total."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_HARNESSES_SHARE_IDENTICAL_COPY_HELPER",
+      "named_items": [
+        "generated_function_item",
+        "drop_closure_glue"
+      ],
+      "rationale": "Function-item Fn dispatch and FnOnce closure/drop side effects are distinct source-intended generated-body positives. Dropping either, or executing both sequentially in one proof harness, can hide the second path behind an earlier failure. Actual emitted InstanceKind is not established offline. Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/global-escaped-plain.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "MERGE_BYTE_IDENTICAL_DIRECTORY_FALLBACK",
+      "replacement": "tests/expected/uninit/unresolved-calls/expected",
+      "rationale": "Specific function-pointer unsupported diagnostic and one completed failing harness."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/global-escaped-plain.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_ISOLATED_SOURCE",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Callee writes through a global pointer with no pointer argument to inspect. Retains conservative treatment of hidden effects. No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/global-escaped-seeded.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "MERGE_BYTE_IDENTICAL_DIRECTORY_FALLBACK",
+      "replacement": "tests/expected/uninit/unresolved-calls/expected",
+      "rationale": "Specific function-pointer unsupported diagnostic and one completed failing harness."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_HARNESSES_SHARE_IDENTICAL_COPY_HELPER",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Callee writes through a global pointer with no pointer argument to inspect. Retains conservative treatment of hidden effects. Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/pending-ops-plain.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "RETAIN_EXACT_PROPERTY_ORACLE",
+      "replacement": null,
+      "rationale": "indirect.safety_check.* FAILURE with exact *constu8 description plus specific unsupported diagnostic FAILURE; completed verification failure."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/pending-ops-plain.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_ISOLATED_SOURCE",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Custom MIR keeps *pointer as a Call operand; heap byte0 initialized/byte1 uninitialized distinguishes pending operand checks from generic rejection. Preserve initialization, null handling and deallocation source. No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "RETAIN_EXACT_PROPERTY_ORACLE",
+      "replacement": null,
+      "rationale": "indirect.safety_check.* FAILURE with exact *constu8 description plus specific unsupported diagnostic FAILURE; completed verification failure."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_HARNESSES_SHARE_IDENTICAL_COPY_HELPER",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Custom MIR keeps *pointer as a Call operand; heap byte0 initialized/byte1 uninitialized distinguishes pending operand checks from generic rejection. Preserve initialization, null handling and deallocation source. Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/virtual-plain.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "RETAIN_EXACT_PROPERTY_ORACLE",
+      "replacement": null,
+      "rationale": "Specific trait-object-method unsupported diagnostic and one completed failing harness."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/virtual-plain.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_ISOLATED_SOURCE",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Separate Virtual instance kind with a vtable call, receiver and mutable pointee effect; does not collapse into a source FnPtr test. No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/virtual-seeded.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "RETAIN_EXACT_PROPERTY_ORACLE",
+      "replacement": null,
+      "rationale": "Specific trait-object-method unsupported diagnostic and one completed failing harness."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/virtual-seeded.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_HARNESSES_SHARE_IDENTICAL_COPY_HELPER",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Separate Virtual instance kind with a vtable call, receiver and mutable pointee effect; does not collapse into a source FnPtr test. Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "MERGE_BYTE_IDENTICAL_DIRECTORY_FALLBACK",
+      "replacement": "tests/expected/uninit/unresolved-calls/expected",
+      "rationale": "Specific function-pointer unsupported diagnostic and one completed failing harness."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_ISOLATED_SOURCE",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Effectful address is nested in an aggregate passed by value; preserves a guard against policies that only inspect top-level raw-pointer arguments. No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.expected",
+      "kind": "test oracle",
+      "reviewed": true,
+      "disposition": "MERGE_BYTE_IDENTICAL_DIRECTORY_FALLBACK",
+      "replacement": "tests/expected/uninit/unresolved-calls/expected",
+      "rationale": "Specific function-pointer unsupported diagnostic and one completed failing harness."
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs",
+      "kind": "test source",
+      "reviewed": true,
+      "disposition": "RETAIN_HARNESSES_SHARE_IDENTICAL_COPY_HELPER",
+      "named_items": [
+        "check"
+      ],
+      "rationale": "Effectful address is nested in an aggregate passed by value; preserves a guard against policies that only inspect top-level raw-pointer arguments. Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain."
+    }
+  ],
+  "all50_dispositioned": true,
+  "source_edits_applied": false
+}

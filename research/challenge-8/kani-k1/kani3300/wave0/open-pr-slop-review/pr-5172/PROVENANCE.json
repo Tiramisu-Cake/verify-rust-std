@@ -1,0 +1,148 @@
+{
+  "task_commit": "3dfa44344bd9c91a7307236d3bd9e5c9f6a848cc",
+  "head": "80e5d6fabc0103b0b3117440007ad2d9475f9a9c",
+  "tree": "64adc9337b59f93d0d3acc1960666f0b1a42fb6b",
+  "head_ref": "fix/kani-uninit-unresolved-call-v3",
+  "head_repo": "Tiramisu-Cake/kani",
+  "base_snapshot": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "merge_base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "source_worktree": "/root/kani-pr5172-slop-readonly-20261119",
+  "source_policy": "READ_ONLY; detached clean exact published object; no source edits or native tools",
+  "snapshot_files": {
+    "kani3300/wave0/open-pr-slop-inputs-20261119/pr-5172/INPUTS.json": {
+      "sha256": "fc7be18aa190c0949663bf1590043dad90ddc929d2f9c5e7c391334dde8af083",
+      "bytes": 19587
+    },
+    "kani3300/wave0/open-pr-slop-inputs-20261119/pr-5172/CONNECTED-PR.json": {
+      "sha256": "9ee7c7c9f8afdb7538ffd4575557d990f5e55939b897bc4018c67bbda7ad933e",
+      "bytes": 16161
+    },
+    "kani3300/wave0/open-pr-slop-inputs-20261119/pr-5172/PR-BODY.snapshot.md": {
+      "sha256": "09eb0ccd45ce870ea58eccb5c2038e353e5d680bf77722267795eded30531c56",
+      "bytes": 4084
+    },
+    "kani3300/wave0/open-pr-slop-inputs-20261119/pr-5172/SOURCE.patch": {
+      "sha256": "e1434be376fd3861ae4eee5c07bcf9cd3ffcd4de0bd44698114178ffb6457cce",
+      "bytes": 62752
+    },
+    "kani3300/wave0/open-pr-slop-inputs-20261119/STYLE-UPSTREAM-RULES.snapshot.md": {
+      "sha256": "5932c080cd5938ad7fcb159b1847e663df828beffc17196716b001e6a5cb9e7a",
+      "bytes": 3240
+    }
+  },
+  "references": [
+    {
+      "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+      "head_and_base_identical": true,
+      "git_blob": "b3e05b267eecc948fdb4e5df5c21cee9dfcd5d97",
+      "sha256": "bb573077d6d0e20349ffa0ff17756b9cc03ef1d21de783c5d5ca11dd7016514c"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/mod.rs",
+      "head_and_base_identical": true,
+      "git_blob": "6093b083178e7b16e0f505d71c9438fdb924d334",
+      "sha256": "6e73911b203b9d8237a0725ca67f1c46342d106b572ad485a2ceb06b61739a41"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/reachability.rs",
+      "head_and_base_identical": true,
+      "git_blob": "a200fd33099eed4c0e457eba552bb1b3af84297b",
+      "sha256": "5c285768493d14fd2d6ab6391e41688bc208f071891ea82971a6598e582016a1"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "head_and_base_identical": true,
+      "git_blob": "2e0f44e455bf907d6499f8f3742746192d4e4dcb",
+      "sha256": "3eca97a08fdbf39c4d008f9c3074ab4ee94e4dd1d8b6b46892c58f6d07e41dce"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/body.rs",
+      "head_and_base_identical": true,
+      "git_blob": "ae984c26e220b2fc689c7f16fecd970b7cbe0a20",
+      "sha256": "930636ad1ab2290fb2b10f1970f2283f6e29c52de9a7b1696c7767c041a469d5"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "head_and_base_identical": true,
+      "git_blob": "5326c704e544bb85167b6e721e6706d0a908343a",
+      "sha256": "487138ede144c9cea764b1da8562a90525cfdcab7ba110e044d46a3b75ce502e"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "head_and_base_identical": true,
+      "git_blob": "973dde0b840ab9eb975ee9efd3eb0650c8814748",
+      "sha256": "326ddfe7b112e88f61f7af8606d433fc8be29fe959565ad3b4071a875f8230a9"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "head_and_base_identical": true,
+      "git_blob": "ca96dabf6686ad6116bec9441c22544a0798f382",
+      "sha256": "ceb62c0b22f8c29a7b859df161e113954bef42f6b42ea498222cc86efff6e9be"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+      "head_and_base_identical": true,
+      "git_blob": "cf5feb8a4191c99ecbfc6d52897b7459a64ae9f9",
+      "sha256": "ad73c82580f8f9ba3528ce9b6b371c6a4f717443e31a86b1fad6bad0a2c80d64"
+    },
+    {
+      "path": "tools/compiletest/src/main.rs",
+      "head_and_base_identical": true,
+      "git_blob": "d60c3bbc7f49117b04b083cbce7e0384167950dd",
+      "sha256": "9e15ceb4c5dc7bc505081d3ec2be8a4af8bdb8fdf0cd0e5ffcbc137ea36dc412"
+    },
+    {
+      "path": "tools/compiletest/src/runtest.rs",
+      "head_and_base_identical": true,
+      "git_blob": "4438547071f5426caa8f0990fecfd727cf86352b",
+      "sha256": "7ab3d25a027144d8b4b669990793d8f76b980d7a9f9ed59130af8a95749797a4"
+    },
+    {
+      "path": "tools/compiletest/src/header.rs",
+      "head_and_base_identical": true,
+      "git_blob": "06f5637b35c46dc0e6361ee88582861bb4a1285d",
+      "sha256": "9ea266041cff8aaeee82f5270431f0c5f10e1ffa11ce4fd544ac733ab7dbc6e7"
+    },
+    {
+      "path": "scripts/kani-regression.sh",
+      "head_and_base_identical": true,
+      "git_blob": "9927fae1d0b6d2dfad930a23624c178550db6813",
+      "sha256": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b"
+    },
+    {
+      "path": "tests/kani/Uninit/delayed_ub_fn_ptr_in_std.rs",
+      "head_and_base_identical": true,
+      "git_blob": "d2f680cf939a36893503415fd512504bb17a2622",
+      "sha256": "23e5fa50d22f54d0e6331660de43cfd9ec086e48d55a3f3205cb7cdc2b9eda6d"
+    },
+    {
+      "path": "tests/expected/uninit/multiple-instrumentations.rs",
+      "head_and_base_identical": true,
+      "git_blob": "8f61bb82b6d6d08d7e2593ea7e2282a0a8cd0c3b",
+      "sha256": "0af1dfb508e04881cb075be6d883cb6154e4537fa32bda3e6fed7654421e74be"
+    },
+    {
+      "path": "tests/expected/uninit/unions.rs",
+      "head_and_base_identical": true,
+      "git_blob": "979120fb566c195d0fe38922b7de64b5c9ca0a12",
+      "sha256": "304e5efcff64657d5cb98671a5e972143950b1e2f5568863c7bcfab83392385e"
+    },
+    {
+      "path": "tests/expected/uninit/delayed-ub-unsupported-call/main.rs",
+      "head_and_base_identical": true,
+      "git_blob": "2f0b42e279266d51a4f387b180d19f3304257b3e",
+      "sha256": "b464e866a3ce94fcb20589e16b47c74589ef821ea2f7ed7e2666febf63aac1fd"
+    },
+    {
+      "path": "tests/expected/uninit/delayed-ub-unsupported-call/expected",
+      "head_and_base_identical": true,
+      "git_blob": "50ed98d19581c12641eda49d01980073465e282f",
+      "sha256": "7008546b9c6963fdc4e6c0507852732014aaf7abf7ef05423d7a9c0806d9e89c"
+    }
+  ],
+  "all50_changed_blobs": "STATIC-CHECKS.json; exact INPUTS retains50blobSHA+SHA256+bytes",
+  "runtime": "High/FastOFF unchanged; no subagents/model/settings changes",
+  "native_CI_push_publication_ledger": "NOT_RUN_NOT_PERFORMED",
+  "proof_credit": "NONE",
+  "delivery_commit": "Containing commit returned externally binds MANIFEST.json"
+}

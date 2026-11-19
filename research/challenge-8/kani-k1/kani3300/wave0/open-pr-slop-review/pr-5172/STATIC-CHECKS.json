@@ -1,0 +1,127 @@
+{
+  "status": "STATIC_CHECKS_PASS",
+  "task": "3dfa44344bd9c91a7307236d3bd9e5c9f6a848cc",
+  "head": "80e5d6fabc0103b0b3117440007ad2d9475f9a9c",
+  "tree": "64adc9337b59f93d0d3acc1960666f0b1a42fb6b",
+  "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "changed_files_verified": 50,
+  "changed_code_files": 6,
+  "test_source_files": 22,
+  "test_expected_files": 22,
+  "proof_harnesses": 24,
+  "identical_copy_helpers": 11,
+  "shared_default_oracle_candidate_files": [
+    "erased-pointer-plain.expected",
+    "erased-pointer-seeded.expected",
+    "fn-pointer-plain.expected",
+    "fn-pointer-seeded.expected",
+    "global-escaped-plain.expected",
+    "global-escaped-seeded.expected",
+    "wrapped-pointer-plain.expected",
+    "wrapped-pointer-seeded.expected"
+  ],
+  "distinct_expected_contents": 8,
+  "flags_by_file": {
+    "direct-plain.rs": [
+      "-Z uninit-checks",
+      "-D warnings"
+    ],
+    "direct-seeded.rs": [
+      "-Z uninit-checks",
+      "-D warnings"
+    ],
+    "entry-initialized-plain.rs": [
+      "-Z uninit-checks",
+      "--edition 2021 -C panic=abort -D warnings"
+    ],
+    "entry-initialized-seeded.rs": [
+      "-Z uninit-checks",
+      "--edition 2021 -C panic=abort -D warnings"
+    ],
+    "entry-partial-plain.rs": [
+      "-Z uninit-checks",
+      "--edition 2021 -C panic=abort -D warnings"
+    ],
+    "entry-partial-seeded.rs": [
+      "-Z uninit-checks",
+      "--edition 2021 -C panic=abort -D warnings"
+    ],
+    "erased-pointer-plain.rs": [
+      "-Z uninit-checks",
+      "-D warnings"
+    ],
+    "erased-pointer-seeded.rs": [
+      "-Z uninit-checks",
+      "-D warnings"
+    ],
+    "fn-pointer-plain.rs": [
+      "-Z uninit-checks",
+      "-D warnings"
+    ],
+    "fn-pointer-seeded.rs": [
+      "-Z uninit-checks",
+      "-D warnings"
+    ],
+    "fn-trait-pointer-plain.rs": [
+      "-Z uninit-checks",
+      "-D warnings"
+    ],
+    "fn-trait-pointer-seeded.rs": [
+      "-Z uninit-checks",
+      "-D warnings"
+    ],
+    "generated-positive-plain.rs": [
+      "-Z uninit-checks",
+      "--edition 2021 -D warnings"
+    ],
+    "generated-positive-seeded.rs": [
+      "-Z uninit-checks",
+      "--edition 2021 -D warnings"
+    ],
+    "global-escaped-plain.rs": [
+      "-Z uninit-checks",
+      "-D warnings"
+    ],
+    "global-escaped-seeded.rs": [
+      "-Z uninit-checks",
+      "-D warnings"
+    ],
+    "pending-ops-plain.rs": [
+      "-Z uninit-checks",
+      "--edition 2021 -C panic=abort -D warnings"
+    ],
+    "pending-ops-seeded.rs": [
+      "-Z uninit-checks",
+      "--edition 2021 -C panic=abort -D warnings"
+    ],
+    "virtual-plain.rs": [
+      "-Z uninit-checks",
+      "-D warnings"
+    ],
+    "virtual-seeded.rs": [
+      "-Z uninit-checks",
+      "-D warnings"
+    ],
+    "wrapped-pointer-plain.rs": [
+      "-Z uninit-checks",
+      "-D warnings"
+    ],
+    "wrapped-pointer-seeded.rs": [
+      "-Z uninit-checks",
+      "-D warnings"
+    ]
+  },
+  "checks": [
+    "all50 published blobs/bytes/SHA256 and exact diff match",
+    "body and STYLE snapshot hashes match; connected body equal",
+    "22 independently discovered .rs files,24 explicit proof harnesses",
+    "all11 copy helpers identical; auxiliary is excluded by actual discovery",
+    "8 expected files identical and eligible for existing directory fallback",
+    "all expected files require verification + completed inventory; no golden ICE",
+    "ported existing substring matcher rejects setup-only output",
+    "naive merged initialized/partial expected outputs accept swapped safety statuses; retain separate or bind fully qualified property identities"
+  ],
+  "native_compiler_CI": "NOT_RUN",
+  "source_changed": false,
+  "proof_credit": "NONE"
+}

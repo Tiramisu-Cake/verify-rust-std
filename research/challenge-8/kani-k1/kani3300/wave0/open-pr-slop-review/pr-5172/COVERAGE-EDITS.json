@@ -1,0 +1,428 @@
+{
+  "current_test_source_files": 22,
+  "current_expected_files": 22,
+  "current_proof_harnesses": 24,
+  "recommended_harness_removals": [],
+  "recommended_harness_merges": [],
+  "shared_fixture": "tests/expected/uninit/unresolved-calls/auxiliary/analysis_target.rs::check_byte_copy",
+  "shared_fixture_policy": "Exactly the existing seed() body with a descriptive public name and inline(never); one import in each seeded source only; auxiliary excluded by actual discovery.",
+  "shared_expected_default": "tests/expected/uninit/unresolved-calls/expected",
+  "exact_named_expected_removals": [
+    "tests/expected/uninit/unresolved-calls/erased-pointer-plain.expected",
+    "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.expected",
+    "tests/expected/uninit/unresolved-calls/fn-pointer-plain.expected",
+    "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.expected",
+    "tests/expected/uninit/unresolved-calls/global-escaped-plain.expected",
+    "tests/expected/uninit/unresolved-calls/global-escaped-seeded.expected",
+    "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.expected",
+    "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.expected"
+  ],
+  "conditional_file_arithmetic": "If both optional fixture/oracle cleanups are implemented:22 source crates and24 harnesses remain;44 current test artifacts become38 (one auxiliary helper plus one default expected, minus8 named expected files). This is bookkeeping, not a quota or measured speedup.",
+  "constraints": [
+    "Keep plain/seeded codegen units separate. Target emptiness is a future native/MIR observation, not inferred from a filename.",
+    "Keep custom-MIR edition2021/panic=abort flags on their exact cases; ordinary and Fn-trait flags unchanged.",
+    "Do not naively combine initialized and partial expected status checks. Existing matcher accepts groups anywhere.",
+    "Keep both generated-positive harnesses; retain specific failed-property/unsupported text plus completed summaries.",
+    "Each retained file still has an explicit oracle disposition; no ignored tests or generic exit-only expectations."
+  ],
+  "rows": [
+    {
+      "source": "tests/expected/uninit/unresolved-calls/direct-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/direct-plain.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "direct",
+      "action": "KEEP two positive ordinary Item-call controls",
+      "helper_edit": "Keep separate compilation without an explicit copy helper; do not import the seeded helper.",
+      "oracle_edit": "RETAIN named .expected with current positive/negative property and completed-summary requirements.",
+      "oracle": "direct(42)==42 succeeds; one completed successful harness.",
+      "unique_rationale": "Ordinary direct-call acceptance without and with an explicit copy target; catches an overbroad unsupported-call policy. Existing multiple-instrumentations.rs exercises helper calls with delayed targets, but does not replace the explicit plain control.",
+      "mode_rationale": "No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/direct-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/direct-seeded.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "direct; seed",
+      "action": "KEEP two positive ordinary Item-call controls",
+      "helper_edit": "Replace local seed() with auxiliary::check_byte_copy(); helper retains inline(never), the exact copy operation and destination assertion.",
+      "oracle_edit": "RETAIN named .expected with current positive/negative property and completed-summary requirements.",
+      "oracle": "direct(42)==42 succeeds; one completed successful harness.",
+      "unique_rationale": "Ordinary direct-call acceptance without and with an explicit copy target; catches an overbroad unsupported-call policy. Existing multiple-instrumentations.rs exercises helper calls with delayed targets, but does not replace the explicit plain control.",
+      "mode_rationale": "Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "Word; identity; indirect",
+      "action": "KEEP isolated initialized entry control",
+      "helper_edit": "Keep separate compilation without an explicit copy helper; do not import the seeded helper.",
+      "oracle_edit": "RETAIN named .expected with current positive/negative property and completed-summary requirements.",
+      "oracle": "indirect.safety_check.* SUCCESS for u32; unsupported function-pointer diagnostic FAILURE; completed verification failure.",
+      "unique_rationale": "A statement-free callee entry must load initialized union argument state before the operand check. It distinguishes lost LoadArgument or indiscriminate failure from the partial-union case.",
+      "mode_rationale": "No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: --edition 2021 -C panic=abort -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "Word; identity; indirect; seed",
+      "action": "KEEP isolated initialized entry control",
+      "helper_edit": "Replace local seed() with auxiliary::check_byte_copy(); helper retains inline(never), the exact copy operation and destination assertion.",
+      "oracle_edit": "RETAIN named .expected with current positive/negative property and completed-summary requirements.",
+      "oracle": "indirect.safety_check.* SUCCESS for u32; unsupported function-pointer diagnostic FAILURE; completed verification failure.",
+      "unique_rationale": "A statement-free callee entry must load initialized union argument state before the operand check. It distinguishes lost LoadArgument or indiscriminate failure from the partial-union case.",
+      "mode_rationale": "Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: --edition 2021 -C panic=abort -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/entry-partial-plain.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "Word; identity; indirect",
+      "action": "KEEP isolated partial union regression",
+      "helper_edit": "Keep separate compilation without an explicit copy helper; do not import the seeded helper.",
+      "oracle_edit": "RETAIN named .expected with current positive/negative property and completed-summary requirements.",
+      "oracle": "indirect.safety_check.* FAILURE for u32 plus the specific unsupported diagnostic FAILURE; completed verification failure.",
+      "unique_rationale": "Same entry shape with only the u8 field initialized: catches omission of the operand check and lost argument-state loading. Keep both expected status and description, never just process failure.",
+      "mode_rationale": "No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: --edition 2021 -C panic=abort -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "Word; identity; indirect; seed",
+      "action": "KEEP isolated partial union regression",
+      "helper_edit": "Replace local seed() with auxiliary::check_byte_copy(); helper retains inline(never), the exact copy operation and destination assertion.",
+      "oracle_edit": "RETAIN named .expected with current positive/negative property and completed-summary requirements.",
+      "oracle": "indirect.safety_check.* FAILURE for u32 plus the specific unsupported diagnostic FAILURE; completed verification failure.",
+      "unique_rationale": "Same entry shape with only the u8 field initialized: catches omission of the operand check and lost argument-state loading. Keep both expected status and description, never just process failure.",
+      "mode_rationale": "Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: --edition 2021 -C panic=abort -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "write; indirect; std::ffi::c_void",
+      "action": "KEEP erased-pointee negative control",
+      "helper_edit": "Keep separate compilation without an explicit copy helper; do not import the seeded helper.",
+      "oracle_edit": "MERGE exact identical bytes into unresolved-calls/expected; remove this named .expected only after fallback selection is confirmed.",
+      "oracle": "Specific function-pointer unsupported diagnostic and one completed failing harness.",
+      "unique_rationale": "Pointer cast erases the u8 pointee type; preserves fail-closed behavior when effect reasoning cannot rely on a concrete pointer pointee.",
+      "mode_rationale": "No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "write; indirect; std::ffi::c_void; seed",
+      "action": "KEEP erased-pointee negative control",
+      "helper_edit": "Replace local seed() with auxiliary::check_byte_copy(); helper retains inline(never), the exact copy operation and destination assertion.",
+      "oracle_edit": "MERGE exact identical bytes into unresolved-calls/expected; remove this named .expected only after fallback selection is confirmed.",
+      "oracle": "Specific function-pointer unsupported diagnostic and one completed failing harness.",
+      "unique_rationale": "Pointer cast erases the u8 pointee type; preserves fail-closed behavior when effect reasoning cannot rely on a concrete pointer pointee.",
+      "mode_rationale": "Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/fn-pointer-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/fn-pointer-plain.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "identity; indirect",
+      "action": "KEEP scalar function-pointer negative control",
+      "helper_edit": "Keep separate compilation without an explicit copy helper; do not import the seeded helper.",
+      "oracle_edit": "MERGE exact identical bytes into unresolved-calls/expected; remove this named .expected only after fallback selection is confirmed.",
+      "oracle": "Specific function-pointer unsupported diagnostic and one completed failing harness.",
+      "unique_rationale": "Baseline FnPtr rejection even with scalar arguments/results; a pointer-argument-only diagnostic would miss this control.",
+      "mode_rationale": "No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "identity; indirect; seed",
+      "action": "KEEP scalar function-pointer negative control",
+      "helper_edit": "Replace local seed() with auxiliary::check_byte_copy(); helper retains inline(never), the exact copy operation and destination assertion.",
+      "oracle_edit": "MERGE exact identical bytes into unresolved-calls/expected; remove this named .expected only after fallback selection is confirmed.",
+      "oracle": "Specific function-pointer unsupported diagnostic and one completed failing harness.",
+      "unique_rationale": "Baseline FnPtr rejection even with scalar arguments/results; a pointer-argument-only diagnostic would miss this control.",
+      "mode_rationale": "Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "identity; indirect; std::ops::Fn::call",
+      "action": "KEEP Fn-trait indirect-call control",
+      "helper_edit": "Keep separate compilation without an explicit copy helper; do not import the seeded helper.",
+      "oracle_edit": "RETAIN named .expected with current positive/negative property and completed-summary requirements.",
+      "oracle": "Failed Checks: specific function-pointer unsupported message; completed verification failure.",
+      "unique_rationale": "A resolved Fn-trait function-item/shim route can lead to an indirect call internally; syntactic FnPtr-only checking at the outer call is insufficient. This golden pins a documented unsupported verdict, not an ICE.",
+      "mode_rationale": "No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "identity; indirect; std::ops::Fn::call; seed",
+      "action": "KEEP Fn-trait indirect-call control",
+      "helper_edit": "Replace local seed() with auxiliary::check_byte_copy(); helper retains inline(never), the exact copy operation and destination assertion.",
+      "oracle_edit": "RETAIN named .expected with current positive/negative property and completed-summary requirements.",
+      "oracle": "Failed Checks: specific function-pointer unsupported message; completed verification failure.",
+      "unique_rationale": "A resolved Fn-trait function-item/shim route can lead to an indirect call internally; syntactic FnPtr-only checking at the outer call is insufficient. This golden pins a documented unsupported verdict, not an ICE.",
+      "mode_rationale": "Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/generated-positive-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/generated-positive-plain.expected",
+      "harnesses": [
+        "generated_function_item",
+        "drop_closure_glue"
+      ],
+      "helpers_types_and_statics": "identity; invoke<F>; DropCounter; DropCounter::drop",
+      "action": "KEEP BOTH generated_function_item and drop_closure_glue in each file",
+      "helper_edit": "Keep separate compilation without an explicit copy helper; do not import the seeded helper.",
+      "oracle_edit": "RETAIN named .expected with current positive/negative property and completed-summary requirements.",
+      "oracle": "Both named harnesses SUCCESSFUL; Complete2success/0fail/2total.",
+      "unique_rationale": "Function-item Fn dispatch and FnOnce closure/drop side effects are distinct source-intended generated-body positives. Dropping either, or executing both sequentially in one proof harness, can hide the second path behind an earlier failure. Actual emitted InstanceKind is not established offline.",
+      "mode_rationale": "No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: --edition 2021 -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.expected",
+      "harnesses": [
+        "generated_function_item",
+        "drop_closure_glue"
+      ],
+      "helpers_types_and_statics": "identity; invoke<F>; DropCounter; DropCounter::drop; seed",
+      "action": "KEEP BOTH generated_function_item and drop_closure_glue in each file",
+      "helper_edit": "Replace local seed() with auxiliary::check_byte_copy(); helper retains inline(never), the exact copy operation and destination assertion.",
+      "oracle_edit": "RETAIN named .expected with current positive/negative property and completed-summary requirements.",
+      "oracle": "Both named harnesses SUCCESSFUL; Complete2success/0fail/2total.",
+      "unique_rationale": "Function-item Fn dispatch and FnOnce closure/drop side effects are distinct source-intended generated-body positives. Dropping either, or executing both sequentially in one proof harness, can hide the second path behind an earlier failure. Actual emitted InstanceKind is not established offline.",
+      "mode_rationale": "Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: --edition 2021 -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/global-escaped-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/global-escaped-plain.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "ESCAPED; write; indirect",
+      "action": "KEEP no-argument/global-effect negative control",
+      "helper_edit": "Keep separate compilation without an explicit copy helper; do not import the seeded helper.",
+      "oracle_edit": "MERGE exact identical bytes into unresolved-calls/expected; remove this named .expected only after fallback selection is confirmed.",
+      "oracle": "Specific function-pointer unsupported diagnostic and one completed failing harness.",
+      "unique_rationale": "Callee writes through a global pointer with no pointer argument to inspect. Retains conservative treatment of hidden effects.",
+      "mode_rationale": "No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/global-escaped-seeded.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "ESCAPED; write; indirect; seed",
+      "action": "KEEP no-argument/global-effect negative control",
+      "helper_edit": "Replace local seed() with auxiliary::check_byte_copy(); helper retains inline(never), the exact copy operation and destination assertion.",
+      "oracle_edit": "MERGE exact identical bytes into unresolved-calls/expected; remove this named .expected only after fallback selection is confirmed.",
+      "oracle": "Specific function-pointer unsupported diagnostic and one completed failing harness.",
+      "unique_rationale": "Callee writes through a global pointer with no pointer argument to inspect. Retains conservative treatment of hidden effects.",
+      "mode_rationale": "Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/pending-ops-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/pending-ops-plain.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "identity; indirect",
+      "action": "KEEP isolated original operand-read regression",
+      "helper_edit": "Keep separate compilation without an explicit copy helper; do not import the seeded helper.",
+      "oracle_edit": "RETAIN named .expected with current positive/negative property and completed-summary requirements.",
+      "oracle": "indirect.safety_check.* FAILURE with exact *constu8 description plus specific unsupported diagnostic FAILURE; completed verification failure.",
+      "unique_rationale": "Custom MIR keeps *pointer as a Call operand; heap byte0 initialized/byte1 uninitialized distinguishes pending operand checks from generic rejection. Preserve initialization, null handling and deallocation source.",
+      "mode_rationale": "No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: --edition 2021 -C panic=abort -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "identity; indirect; seed",
+      "action": "KEEP isolated original operand-read regression",
+      "helper_edit": "Replace local seed() with auxiliary::check_byte_copy(); helper retains inline(never), the exact copy operation and destination assertion.",
+      "oracle_edit": "RETAIN named .expected with current positive/negative property and completed-summary requirements.",
+      "oracle": "indirect.safety_check.* FAILURE with exact *constu8 description plus specific unsupported diagnostic FAILURE; completed verification failure.",
+      "unique_rationale": "Custom MIR keeps *pointer as a Call operand; heap byte0 initialized/byte1 uninitialized distinguishes pending operand checks from generic rejection. Preserve initialization, null handling and deallocation source.",
+      "mode_rationale": "Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: --edition 2021 -C panic=abort -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/virtual-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/virtual-plain.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "Writer::write; ByteWriter; ByteWriter::write; indirect",
+      "action": "KEEP virtual-dispatch negative control",
+      "helper_edit": "Keep separate compilation without an explicit copy helper; do not import the seeded helper.",
+      "oracle_edit": "RETAIN named .expected with current positive/negative property and completed-summary requirements.",
+      "oracle": "Specific trait-object-method unsupported diagnostic and one completed failing harness.",
+      "unique_rationale": "Separate Virtual instance kind with a vtable call, receiver and mutable pointee effect; does not collapse into a source FnPtr test.",
+      "mode_rationale": "No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/virtual-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/virtual-seeded.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "Writer::write; ByteWriter; ByteWriter::write; indirect; seed",
+      "action": "KEEP virtual-dispatch negative control",
+      "helper_edit": "Replace local seed() with auxiliary::check_byte_copy(); helper retains inline(never), the exact copy operation and destination assertion.",
+      "oracle_edit": "RETAIN named .expected with current positive/negative property and completed-summary requirements.",
+      "oracle": "Specific trait-object-method unsupported diagnostic and one completed failing harness.",
+      "unique_rationale": "Separate Virtual instance kind with a vtable call, receiver and mutable pointee effect; does not collapse into a source FnPtr test.",
+      "mode_rationale": "Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "Wrapped; write; indirect",
+      "action": "KEEP aggregate-pointer negative control",
+      "helper_edit": "Keep separate compilation without an explicit copy helper; do not import the seeded helper.",
+      "oracle_edit": "MERGE exact identical bytes into unresolved-calls/expected; remove this named .expected only after fallback selection is confirmed.",
+      "oracle": "Specific function-pointer unsupported diagnostic and one completed failing harness.",
+      "unique_rationale": "Effectful address is nested in an aggregate passed by value; preserves a guard against policies that only inspect top-level raw-pointer arguments.",
+      "mode_rationale": "No explicit copy target is added. Actual emptiness of the whole reachable analysis-target set is not established offline.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: -D warnings"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.expected",
+      "harnesses": [
+        "check"
+      ],
+      "helpers_types_and_statics": "Wrapped; write; indirect; seed",
+      "action": "KEEP aggregate-pointer negative control",
+      "helper_edit": "Replace local seed() with auxiliary::check_byte_copy(); helper retains inline(never), the exact copy operation and destination assertion.",
+      "oracle_edit": "MERGE exact identical bytes into unresolved-calls/expected; remove this named .expected only after fallback selection is confirmed.",
+      "oracle": "Specific function-pointer unsupported diagnostic and one completed failing harness.",
+      "unique_rationale": "Effectful address is nested in an aggregate passed by value; preserves a guard against policies that only inspect top-level raw-pointer arguments.",
+      "mode_rationale": "Explicit copy creates an analysis target and exercises points-to/global analysis; preserve separate compilation from plain.",
+      "flags": [
+        "// kani-flags: -Z uninit-checks",
+        "// compile-flags: -D warnings"
+      ]
+    }
+  ]
+}

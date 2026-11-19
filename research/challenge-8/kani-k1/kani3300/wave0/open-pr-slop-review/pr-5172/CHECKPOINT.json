@@ -1,0 +1,47 @@
+{
+  "schema": "pr5172-offline-review-checkpoint-v1",
+  "status": "READY_REVIEW_COMPLETE_RECOMMENDATION_ONLY",
+  "task": "3dfa44344bd9c91a7307236d3bd9e5c9f6a848cc",
+  "published_head": "80e5d6fabc0103b0b3117440007ad2d9475f9a9c",
+  "published_tree": "64adc9337b59f93d0d3acc1960666f0b1a42fb6b",
+  "base_merge_base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "reviewed_files": 50,
+  "test_source_files": 22,
+  "proof_harnesses": 24,
+  "claims": [
+    {
+      "claim": "Exact50 blobs/diff/body/STYLE verified; every changedfile has a disposition",
+      "assurance": "STATIC_HASH_AND_SOURCE_REVIEW",
+      "evidence": [
+        "PROVENANCE.json",
+        "STATIC-CHECKS.json",
+        "FILE-DISPOSITIONS.json"
+      ]
+    },
+    {
+      "claim": "Fixture/oracle sharing recommendations preserve all24 distinct harnesses and plain/seeded separate codegen",
+      "assurance": "STATIC_DRIVER_AND_MATCHER_CHECK",
+      "evidence": [
+        "COVERAGE-EDITS.json",
+        "REPORT.md"
+      ]
+    },
+    {
+      "claim": "Generated-shim rejection negatives are missing from the changed corpus",
+      "assurance": "SOURCE_COVERAGE_GAP_ONLY_NOT_REPRODUCED_UNSOUNDNESS",
+      "evidence": [
+        "SOUNDNESS-FOLLOWUP.md"
+      ]
+    }
+  ],
+  "open": [
+    "Root choice of later scoped cleanup implementation",
+    "Separately scoped generated-shim rejection and instance/guard coverage",
+    "Native main-vs-updated-head regression results and truthful current standard CI before owner publication"
+  ],
+  "blocker": null,
+  "next": "Return sealed fullSHA/HANDOFF to root; do not implement or auto-start another PR",
+  "runtime": "High/FastOFF unchanged; no subagents/model/settings changes",
+  "source_native_CI_push_PR_ledger_changes": "NONE",
+  "proof_credit": "NONE"
+}

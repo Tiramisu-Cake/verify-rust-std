@@ -1,0 +1,69 @@
+{
+  "schema": "pr5172-offline-cleanup-review-findings-v1",
+  "head": "80e5d6fabc0103b0b3117440007ad2d9475f9a9c",
+  "disposition": "RECOMMEND_TARGETED_CLEANUP_AND_SEPARATE_SHIM_COVERAGE_FOLLOWUP",
+  "findings": [
+    {
+      "id": "R1",
+      "priority": "HIGH",
+      "kind": "SEPARATE_SOUNDNESS_COVERAGE_FOLLOWUP",
+      "location": "uninit_visitor.rs:69-81,291-305,774-801; generated-positive-{plain,seeded}.rs",
+      "finding": "The new recursive generated-shim rejection policy has no targeted union/unclassified argument/result negative fixture in the changed corpus.",
+      "evidence": [
+        "SOUNDNESS-FOLLOWUP.md",
+        "STATIC-CHECKS.json",
+        "COVERAGE-EDITS.json"
+      ],
+      "recommendation": "Keep both guards and classifier; root should scope actual instance/MIR-bound negative coverage separately, preserving positive controls and distinguishing an earlier unsupported/setup failure.",
+      "confidence": "SOURCE_VERIFIED_COVERAGE_GAP; no unsound execution reproduced",
+      "implementation_in_this_review": false
+    },
+    {
+      "id": "R2",
+      "priority": "MEDIUM",
+      "kind": "FIXTURE_AND_ORACLE_DUPLICATION",
+      "location": "All11 seeded source files; eight expected files named in COVERAGE-EDITS.json",
+      "finding": "The same copy helper is defined11times; eight function-pointer diagnostic oracle files are byte-identical.",
+      "recommendation": "Share exact helper in the excluded auxiliary directory, only in seeded compilations. Use the current driver directory expected fallback for only the eight identical oracles. Keep all24 proof harnesses and all distinctions.",
+      "evidence": [
+        "STATIC-CHECKS.json",
+        "COVERAGE-EDITS.md",
+        "COVERAGE-EDITS.json"
+      ],
+      "confidence": "BYTE_IDENTITY_AND_DRIVER_SOURCE_VERIFIED; native outcome after edits pending",
+      "implementation_in_this_review": false
+    },
+    {
+      "id": "R3",
+      "priority": "MEDIUM",
+      "kind": "INACCURATE_COMMENT_AND_SMALL_CODE_CLEANUP",
+      "location": "uninit_visitor.rs:409-410,763-770; small added comments in other changed compiler files",
+      "finding": "The new Item|Shim comment claims return-state transfer, while that branch emits union StoreArgument operations only. A single-use resolution adapter adds an avoidable indirection.",
+      "recommendation": "Apply the exact current-code wording/adapter edits in CODE-COMMENT-EDITS.md, preserving source behavior, diagnostics and upstream base comments.",
+      "evidence": [
+        "CODE-COMMENT-EDITS.md",
+        "REPORT.md"
+      ],
+      "confidence": "SOURCE_VERIFIED",
+      "implementation_in_this_review": false
+    },
+    {
+      "id": "R4",
+      "priority": "MEDIUM",
+      "kind": "PR_DESCRIPTION",
+      "location": "PR-BODY.snapshot.md",
+      "finding": "The body counts22harnesses instead of24 and expands into bookkeeping, internal target terminology and multiple historical CI links. Current-run claims were not independently checked by this offline review.",
+      "recommendation": "Use concise behavior/change paragraphs and one truthful CI reference or pending placeholder. Preserve issue3300, license and exact AI disclosure; proposed text stays in this packet.",
+      "evidence": [
+        "PR-BODY.suggested.md",
+        "STATIC-CHECKS.json",
+        "REPORT.md"
+      ],
+      "confidence": "COUNTS_AND_TEXT_VERIFIED; linked CI status not checked",
+      "implementation_in_this_review": false
+    }
+  ],
+  "confirmed_new_soundness_bug": "NONE_ESTABLISHED_OFFLINE",
+  "recommended_current_harness_removals": 0,
+  "review_authorizes_implementation_CI_publication": false
+}
