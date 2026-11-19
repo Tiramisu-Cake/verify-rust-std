@@ -1,0 +1,164 @@
+{
+  "schema": "root-cleanup-recheck-v1",
+  "checked_at": "2026-11-19T16:54:22.779905+00:00",
+  "source": {
+    "pr": 5176,
+    "repo": "/root/kani-pr5176-cleanup-w13",
+    "source": "06e1533360605f52f82c69764dc4940b7afcc21b",
+    "tree": "71a429da6e114fb4fd34f20605b47590d60a62c8",
+    "parent": "3d9a1809388f74c62ea9fb7320e123db0b8b37fa",
+    "author": "64ed31eaa4a4302b5869447f45699f82c1e6a50f",
+    "review": "a522e9fa611b462b698c28939cb0025f213f1f19",
+    "pr_branch": "fix/zst-union-codegen-v4"
+  },
+  "checks_passed": 61,
+  "checks": [
+    "Exact cleanup HEAD",
+    "Clean candidate worktree",
+    "Exact cleanup tree",
+    "Sole parent is original PR head",
+    "One cleanup commit",
+    "Source NONSKIP",
+    "No added co-author trailer",
+    "Diff whitespace check",
+    "author package committed",
+    "Committed package bytes research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup/FINDINGS.md",
+    "Committed package bytes research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup/HANDOFF.md",
+    "Committed package bytes research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup/PR-BODY.md",
+    "Committed package bytes research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup/PR-SNAPSHOT.json",
+    "Committed package bytes research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup/PROVENANCE.json",
+    "Committed package bytes research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup/STATIC-CHECK.json",
+    "Committed package bytes research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup/validate_static.py",
+    "review package committed",
+    "Committed package bytes research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup-review/HANDOFF.md",
+    "Independent APPROVE binds exact source/tree",
+    "Unchanged standard workflow .github/workflows/kani.yml",
+    "Unchanged standard workflow .github/workflows/format-check.yml",
+    "Unchanged standard workflow .github/workflows/deny.yml",
+    "Exactly 21 fixture-only paths with rename detection disabled; all other tree entries unchanged",
+    "Whole typ.rs frozen",
+    "Original main exact prefix",
+    "Unique harness name array_typed_copy",
+    "Unique harness name padded_typed_copy_c",
+    "Unique harness name padded_typed_copy_rust",
+    "Unique harness name aligned_zst_typed_copy",
+    "Unique harness name zst_arm_at_nonzero_offset",
+    "Unique harness name all_zst_union",
+    "Unique harness name zst_array_indexing",
+    "Unique harness name copy_aligned_array",
+    "Unique harness name copy_array_first",
+    "Unique harness name copy_nested_empty_byte_array",
+    "Unique harness name copy_nested_unit_array",
+    "Unique harness name copy_struct_array",
+    "Unique harness name recursive_arm",
+    "Unique harness name recursive_zst_arm",
+    "Unique harness name array_typed_copy",
+    "Unique harness name padded_typed_copy_c",
+    "Unique harness name padded_typed_copy_rust",
+    "Unique harness name aligned_zst_typed_copy",
+    "Unique harness name zst_arm_at_nonzero_offset",
+    "Unique harness name all_zst_union",
+    "Unique harness name zst_array_indexing",
+    "Unique harness name copy_array_first",
+    "Unique harness name copy_nested_unit_array",
+    "Unique harness name copy_nested_empty_byte_array",
+    "Unique harness name copy_aligned_array",
+    "Unique harness name copy_struct_array",
+    "Unique harness name recursive_arm",
+    "Unique harness name recursive_zst_arm",
+    "All fourteen proof bodies preserved modulo relocation indentation",
+    "Three sources retain 12+1+1 harnesses",
+    "All seven cover sites retained",
+    "Complete summary oracle main",
+    "Complete summary oracle recursive-arm",
+    "Complete summary oracle recursive-zst-arm",
+    "Connected original PR remains on pinned head/ref",
+    "New cleanup fork branch absent at connected recheck",
+    "New immutable GO output absent"
+  ],
+  "changed_paths_no_renames": [
+    "tests/expected/zst-union-arm/expected",
+    "tests/expected/zst-union-arm/main.expected",
+    "tests/expected/zst-union-arm/main.rs",
+    "tests/expected/zst-union-arm/recursive-arm.expected",
+    "tests/expected/zst-union-arm/recursive-arm.rs",
+    "tests/expected/zst-union-arm/recursive-zst-arm.expected",
+    "tests/expected/zst-union-arm/recursive-zst-arm.rs",
+    "tests/expected/zst-union-edge-aligned-array/expected",
+    "tests/expected/zst-union-edge-aligned-array/main.rs",
+    "tests/expected/zst-union-edge-array-first/expected",
+    "tests/expected/zst-union-edge-array-first/main.rs",
+    "tests/expected/zst-union-edge-nested-empty-byte-array/expected",
+    "tests/expected/zst-union-edge-nested-empty-byte-array/main.rs",
+    "tests/expected/zst-union-edge-nested-unit-array/expected",
+    "tests/expected/zst-union-edge-nested-unit-array/main.rs",
+    "tests/expected/zst-union-edge-struct-array/expected",
+    "tests/expected/zst-union-edge-struct-array/main.rs",
+    "tests/expected/zst-union-recursive-arm/expected",
+    "tests/expected/zst-union-recursive-arm/main.rs",
+    "tests/expected/zst-union-recursive-zst-arm/expected",
+    "tests/expected/zst-union-recursive-zst-arm/main.rs"
+  ],
+  "package_git_bindings": {
+    "author": {
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup/FINDINGS.md": {
+        "sha256": "e428e3c72dcafb4689503673ef3a2497eaae029256bfa24f7163b51db8bb9c4f",
+        "bytes": 8345,
+        "git_blob": "b1f7b03574450137c00645826823c53800a24daa"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup/HANDOFF.md": {
+        "sha256": "e14ca8a9c31230f31186ed9fbe70d1f7ca488053e1c871f26de04eb0c8e20dc3",
+        "bytes": 4196,
+        "git_blob": "4f01bc4e05235cd6ff777d0f5eeea3cb7204f9cc"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup/PR-BODY.md": {
+        "sha256": "a502a79934436e58ebc83721a6b440c93bcea40110993eb590aedfe867fc23d3",
+        "bytes": 1021,
+        "git_blob": "d66fe151abe6e5695ec0bc787bdca7e010915730"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup/PR-SNAPSHOT.json": {
+        "sha256": "dc608ce7ff9e19af1175d9d5cb0682b00874eef2c2a1418295285f64754ff6ce",
+        "bytes": 5049,
+        "git_blob": "164da08711aae13339b5843e33feb09abd65b444"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup/PROVENANCE.json": {
+        "sha256": "182c621a50e92feb615da9d1e16caf3b35b22c214d389859cafa53a185e677ee",
+        "bytes": 2905,
+        "git_blob": "9c699e49174aca085f79a6f10a021fdc8dd64eb4"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup/STATIC-CHECK.json": {
+        "sha256": "93068371299f7462ecded5257dcdb5e5c87a390983041d56fdbace8c61cea299",
+        "bytes": 2921,
+        "git_blob": "23821e7215df044ea4f22ec1ce0f110192557a59"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup/validate_static.py": {
+        "sha256": "6792375a69c25127856fd19146a1af6f597bb897d1957ff7bdeef952f4768cc4",
+        "bytes": 8115,
+        "git_blob": "f4132078f8e3bcdfa48cd16ee78465b3f2b96bb9"
+      }
+    },
+    "review": {
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5176-cleanup-review/HANDOFF.md": {
+        "sha256": "98685c1ca10ee9f88ecf6da3bacd7ce7d2911d351f141d58527d1bc217fe19a0",
+        "bytes": 15438,
+        "git_blob": "3b802f31a3152eb613afb0ca98f5aade94ba4b54"
+      }
+    }
+  },
+  "connected_checked_at": "2026-11-19T16:52:54.733Z",
+  "connected_pr": {
+    "state": "open",
+    "head": "3d9a1809388f74c62ea9fb7320e123db0b8b37fa",
+    "ref": "fix/zst-union-codegen-v4"
+  },
+  "connected_new_branch": {
+    "error": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}",
+    "error_code": "NOT_FOUND",
+    "error_data": {
+      "message": "Not Found",
+      "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+      "status": "404"
+    }
+  },
+  "native_credit": "NONE; compilation/discovery/regression/performance/CI NOT_RUN by root"
+}

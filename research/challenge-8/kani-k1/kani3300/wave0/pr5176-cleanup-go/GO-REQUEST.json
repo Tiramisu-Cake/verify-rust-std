@@ -1,0 +1,69 @@
+{
+  "schema": "open-pr-cleanup-full-ci-go-v1",
+  "root_consent": "AGREE_ONE_FULL_STANDARD_CAMPAIGN",
+  "pr": 5176,
+  "source_commit": "06e1533360605f52f82c69764dc4940b7afcc21b",
+  "tree": "71a429da6e114fb4fd34f20605b47590d60a62c8",
+  "sole_parent": "3d9a1809388f74c62ea9fb7320e123db0b8b37fa",
+  "author_package": "64ed31eaa4a4302b5869447f45699f82c1e6a50f",
+  "independent_review": "a522e9fa611b462b698c28939cb0025f213f1f19",
+  "fork": "Tiramisu-Cake/kani",
+  "new_branch": "cleanup/pr5176-20261119",
+  "publish_exact_source_commit": true,
+  "source_non_skip": true,
+  "sibling_required": false,
+  "full_standard": {
+    "expected_native_instances": 12,
+    "kani_regression_os": [
+      "macos-15-intel",
+      "ubuntu-22.04",
+      "ubuntu-24.04",
+      "macos-15",
+      "ubuntu-24.04-arm"
+    ],
+    "kani_other": [
+      "docs",
+      "LLBC",
+      "benchcomp",
+      "perf"
+    ],
+    "format": [
+      "format",
+      "clippy"
+    ],
+    "deny": [
+      "audit"
+    ],
+    "workflow_bindings": {
+      ".github/workflows/kani.yml": {
+        "sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+        "git_blob": "3e34d8ac3c0844d9ac9409790e7cb0a669381dad"
+      },
+      ".github/workflows/format-check.yml": {
+        "sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8",
+        "git_blob": "9d21eeb4569234292401f90c66c833f6960f06fb"
+      },
+      ".github/workflows/deny.yml": {
+        "sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf",
+        "git_blob": "c54ce6bbcb075df881984f714589011c4b88d5e4"
+      }
+    }
+  },
+  "attempts_authorized": 1,
+  "manual_rerun_authorized": false,
+  "internal_workflow_behavior": "Preserve unchanged, including existing internal retry steps",
+  "pre_push_gate": [
+    "Recheck exact source/tree/parent and NONSKIP identity",
+    "New branch still absent; if it already points to this commit inspect existing runs and do not duplicate push/launch",
+    "Push exact source commit to specified new fork branch once; never push packaging commit",
+    "Coordinator adds item-1 ledger row and binds actual workflow run IDs"
+  ],
+  "original_pr_branch": "fix/zst-union-codegen-v4",
+  "original_pr_branch_push": "NOT_AUTHORIZED; owner command and fresh review/CI/head gates required later",
+  "pr_body_comments_publication": "NOT_AUTHORIZED",
+  "source_scope": "14 proof bodies retained, 7 cover sites, source invocations 12+1+1; original main exact prefix; whole compiler/runner/workflows unchanged. Native discovery and oracle execution remain NOT_RUN.",
+  "actual_future_head": "06e1533360605f52f82c69764dc4940b7afcc21b",
+  "actual_future_run_ids": "UNKNOWN_UNTIL_COORDINATOR_DISPATCH",
+  "postrun": "After all three workflows terminal, bounded factual intake; source intent vs actual suite/named checks retained. Historical perf failure is not an advance waiver.",
+  "root_actions": "Read-only Git/Python/native metadata plus local GO commit only; no push/CI/accounting"
+}
