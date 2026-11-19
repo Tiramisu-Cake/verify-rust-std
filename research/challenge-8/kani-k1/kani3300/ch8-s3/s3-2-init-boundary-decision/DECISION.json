@@ -1,0 +1,87 @@
+{
+  "schema": "ch8-s3-2-root-initialization-boundary-decision-v1",
+  "status": "OFFLINE_IMPLEMENTATION_BOUNDARY_APPROVED_NOT_CI_GO",
+  "decision_utc": "2026-11-19T00:47:33.100227+00:00",
+  "authority": "Root routine design resolution under user03:27 S3-2 implementation authorization/nightdelegation; reviewed exactpackage and coordinator GO still required",
+  "implementation_task": "be42098995b302cade928d8caf6135adf7a1cc0d",
+  "plan": "86f5bcc11acd0dbc512e9576514dc52c733b46b6",
+  "stock_tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "source_citations": [
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_core/src/mem.rs",
+      "file_sha256": "598428730a32f2c4034091688b50dde5a44deb69e2e3c61e08a0d394a5e42844",
+      "line_start": 245,
+      "line_end": 259,
+      "range_sha256": "011d6d0107266673840ea7d363d27c3961d167fff907d97b8cfdc7dcd39d26fe"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-compiler/src/kani_middle/transform/kani_intrinsics.rs",
+      "file_sha256": "62242895cd5608f1631b68ed1a4bfffc0b9dfc593809778a029de8ec4c5fb840",
+      "line_start": 199,
+      "line_end": 234,
+      "range_sha256": "02e49be900102539c07ffa1bc4bdfa68d312fc20eb7f6c80ef53389edd4fbd27"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani/src/shadow.rs",
+      "file_sha256": "a3e9fe9fa8b844ae05ab51d03a391c178016e7fa3d33b8d4a458647eae97fe65",
+      "line_start": 13,
+      "line_end": 27,
+      "range_sha256": "5942c204c3817a0f13575cf50addb6782e769acb02948e6d089cd5ed05142792"
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani/src/shadow.rs",
+      "file_sha256": "a3e9fe9fa8b844ae05ab51d03a391c178016e7fa3d33b8d4a458647eae97fe65",
+      "line_start": 70,
+      "line_end": 82,
+      "range_sha256": "8e97309f51c064aee3829d6edb6ea005cc06a21a700b5895a13dad4ac7a33756"
+    }
+  ],
+  "established_static_facts": [
+    "is_initialized is pub(crate) intrinsic; on !enable_uninit intrinsic body returns true.",
+    "Current frozen lane flags do not enable real-store uninitialized-memory instrumentation.",
+    "ShadowMem is explicitly manual metadata; calling set does not establish production-store tracking.",
+    "Typed post-call loads and current value/frame checks do not independently establish actual initialization-mask preservation/destination initializedness."
+  ],
+  "approved_boundary": {
+    "selected_total": 8,
+    "unchanged_negative_controls": 3,
+    "bounded_actual_body_PFC_candidates": 3,
+    "partial_MU_diagnostic_only_rows": 2,
+    "diagnostic_ids": [
+      "m8_s32_d00_partial_diag",
+      "m8_s40_d16_partial_diag"
+    ],
+    "partial_observations": [
+      "actualbody full-byte sortedness/multiplicity functional relation",
+      "frame of source/other known-initialized values that is actually checked",
+      "PFC modifies/footprint only at actual source-reported executed/declared assurance, not an invented store/init oracle"
+    ],
+    "initialization_mask_and_destination_init": "OPEN_UNPROVED",
+    "eligible_as_qualified_init_leaf_or_provider_summary": false,
+    "unproved_relation_or_manual_ghostmask_assumption": false,
+    "existing_contracts_algorithms_oracles": "UNCHANGED; no deletion or weakening of existing checks",
+    "tool_flags_and_caps": "UNCHANGED",
+    "source_compilation_or_native_result": "NOT_RUN"
+  },
+  "implementation_requirements": [
+    "Seal author concrete static BLOCKER as immutable sibling, preserve it and exact citations.",
+    "Explicit diagnostic inventory/classification/newIDs and role descriptions; nativeSUCCESS cannot promote these two rows to qualified init proof or reusable provider.",
+    "Never add a vacuous initializedness success role through disabled intrinsic/manual ShadowMem; retain sourceconstruction/known-init-frame limits honestly.",
+    "Do not claim checked dstwritefootprint unless actual stock obligation/evidence supports it; otherwise mark declared/source-reported and keep unknowns.",
+    "Every strict identity/metadata/status/U/guard/role/cover/lifecycle/resource gate remains; diagnostic classification is not an error waiver.",
+    "Alternative uninit-instrumented lane design/review is NOT_ISSUED here; no flag change/compiler patch/newrun from this decision.",
+    "Final independent14 implementationreview must review this changed boundary and all planpremises before root/coordinator GO."
+  ],
+  "admitted_S3_r2_cases": "b4879b203e42e265f38ce1b44fe767aa78bb43fc unchanged boundedSOURCE_REPORTED, not independentinit theorem",
+  "accounting": {
+    "changed": false,
+    "item1": "31/31",
+    "item2": "12/17",
+    "total": "43/48"
+  },
+  "CI_push_publication_authorized": false
+}
