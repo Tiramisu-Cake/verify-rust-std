@@ -1,0 +1,11 @@
+# Issue5206 formatting v2 — one full standard fork CI
+
+**ROOT AGREE** to one initial push of exact NONSKIP `a65ffdbdccfe5c3620b50c416870f1085a987d30` to new fork branch `Tiramisu-Cake/kani:fix/stub-contract-target-conflict-v2`. Tree `3b62ab0119dd49d6ef0dac37774fd4664e6b2535`, sole parent `0997d11c14cb2da0824efc34e2c4001e53ac0faf`. The entire delta from reviewed squash `e17417b570e8783cae38169bee9af0dcf72fa6d4` is one stubbing/mod.rs formatting hunk (4 additions/2 deletions); exact replacement reconstructs the new file and preserves token order. All other tree entries, tests, dependencies, toolchain, driver and workflows are unchanged.
+
+**No new worker review required.** Final source review `b9a7905ffa554724cdb2b347ee5ea7b0750e3e6b` remains applicable to the code; root independently approves the exact formatting delta. The earlier static formatting prediction did not establish formatter execution. Old run44594824154 remains FAILURE: regression/LLBC failed and four other regressions were CANCELLED. The precise rustfmt-log attribution is coordinator-reported; root used native metadata and Git, without raw log access. Separate Format/Deny successes and docs/perf/benchcomp successes remain historical results, not new-head validation.
+
+One full unchanged Kani CI (all five OS regressions, docs, LLBC, benchcomp and perf), Format/Clippy and Deny: twelve native instances. **No manual rerun authorized.** Existing internal workflow retries are unchanged. Immediately before the one push, coordinator rechecks exact source/tree/parent/NONSKIP and unused v2 ref; matching existing refs/runs must be inspected without duplication. Coordinator records the item-1 ledger row and actual run IDs. Root does not push, dispatch or account.
+
+This is a new source revision and a new fork branch campaign, not a rerun of the old failed run. No force push or update to the old branch or any open PR branch is authorized. Future upstream PR publication, comments/body and later PR-branch pushes remain owner-command only with fresh current-head/review/CI gates.
+
+Native compilation, formatting, regressions and new-head results remain NOT_RUN before this campaign. After all workflows terminate, hand off bounded factual conclusions, retaining cancelled/unknown/not-run distinctions. No automatic retry, source fix, publication or advance perf waiver.

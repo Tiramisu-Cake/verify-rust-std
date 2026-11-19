@@ -1,0 +1,224 @@
+{
+  "schema": "root-issue5206-format-delta-recheck-v1",
+  "checked_at": "2026-11-19T21:09:35.990423+00:00",
+  "checks_passed": 46,
+  "checks": [
+    "Exact new HEAD/tree/single parent",
+    "Candidate worktree clean",
+    "New source is one commit on reviewed base",
+    "Old reviewed squash same base",
+    "Old squash inherited final reviewed tree",
+    "Author/committer exact",
+    "New source NONSKIP",
+    "No co-author trailer added",
+    "Only stubbing/mod.rs differs from reviewed squash",
+    "Entire compiler file reconstructed by exact sole formatting hunk",
+    "Hunk token characters/order unchanged; only whitespace between existing Rust tokens",
+    "Exact four additions/two deletions",
+    "Protected subtree/file unchanged tests",
+    "Protected subtree/file unchanged library",
+    "Protected subtree/file unchanged kani-driver",
+    "Protected subtree/file unchanged kani_metadata",
+    "Protected subtree/file unchanged tools",
+    "Protected subtree/file unchanged scripts",
+    "Protected subtree/file unchanged .github",
+    "Protected subtree/file unchanged Cargo.toml",
+    "Protected subtree/file unchanged Cargo.lock",
+    "Protected subtree/file unchanged rust-toolchain.toml",
+    "Full candidate diff whitespace check",
+    "Final independent review artifact exact",
+    "Inherited exact final APPROVE",
+    "Historical GO artifact unchanged research/challenge-8/kani-k1/kani3300/wave0/issue5206-go/GO-REQUEST.json",
+    "Historical GO artifact unchanged research/challenge-8/kani-k1/kani3300/wave0/issue5206-go/GO-REQUEST.md",
+    "Historical GO artifact unchanged research/challenge-8/kani-k1/kani3300/wave0/issue5206-go/MANIFEST.json",
+    "Historical GO artifact unchanged research/challenge-8/kani-k1/kani3300/wave0/issue5206-go/ROOT-RECHECK.json",
+    "Old GO manifest GO-REQUEST.json",
+    "Old GO manifest GO-REQUEST.md",
+    "Old GO manifest ROOT-RECHECK.json",
+    "Standard workflow exact .github/workflows/kani.yml",
+    "New ref matches push trigger .github/workflows/kani.yml",
+    "Standard workflow exact .github/workflows/format-check.yml",
+    "New ref matches push trigger .github/workflows/format-check.yml",
+    "Standard workflow exact .github/workflows/deny.yml",
+    "New ref matches push trigger .github/workflows/deny.yml",
+    "All five platform regressions selected",
+    "All twelve full-standard native job instances",
+    "Old failed run exact identity",
+    "All three old workflows terminal on exact old source",
+    "Old standard conclusions preserved",
+    "Old Kani 3 success/2 failure/4 cancelled retained",
+    "New v2 branch absent and no open upstream PR for new head",
+    "New immutable GO output absent"
+  ],
+  "source": "a65ffdbdccfe5c3620b50c416870f1085a987d30",
+  "tree": "3b62ab0119dd49d6ef0dac37774fd4664e6b2535",
+  "sole_parent": "0997d11c14cb2da0824efc34e2c4001e53ac0faf",
+  "source_identity": [
+    "Tiramisu-Cake <igkharin@gmail.com>",
+    "Tiramisu-Cake <igkharin@gmail.com>"
+  ],
+  "message": "Reject ordinary stubs of contract targets\n\n",
+  "review_inheritance": {
+    "review": "b9a7905ffa554724cdb2b347ee5ea7b0750e3e6b",
+    "review_sha256": "249bd6479d13dde631e026e1a85fb531fcc43f6781c2dfae99be3808e13dafab",
+    "old_squash": "e17417b570e8783cae38169bee9af0dcf72fa6d4",
+    "old_reviewed_revision": "a5ebb0bf8ac2ad141f7e8f173ae5e8548948b097",
+    "root_format_delta_review": "Exact sole replacement; stripped hunk characters and order equal; no comments/literals changed inside hunk"
+  },
+  "format_delta": {
+    "path": "kani-compiler/src/kani_middle/stubbing/mod.rs",
+    "old": "    for target in\n        attributes.interpret_stub_verified_attribute().into_iter().unique_by(|target| target.def_id())\n",
+    "new": "    for target in attributes\n        .interpret_stub_verified_attribute()\n        .into_iter()\n        .unique_by(|target| target.def_id())\n",
+    "old_file_sha256": "337e0e59bc3cf17c1e9f73603ce28e4160deb7a088ae3f474aaa4272dc34e364",
+    "new_file_sha256": "f91309a8e0e5a67e83be9b1bcd6e14981451f7010e3e0b7bc5eb772433496759",
+    "patch_sha256": "0abb1cb0153b33ac2fa0e1f51d1da3c07c9f0a11d4a80f478b5d28806f71694c"
+  },
+  "historical_GO_blobs": {
+    "research/challenge-8/kani-k1/kani3300/wave0/issue5206-go/GO-REQUEST.json": {
+      "sha256": "4b5dcd3944ec84ac9c19511c12d3a568b4795c3f63b234c56075ac76d9db990e",
+      "bytes": 5199
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/issue5206-go/GO-REQUEST.md": {
+      "sha256": "6c4baaaceb58c123c41b13167e58630fa3a0201c39967005193692d96f5e3999",
+      "bytes": 2655
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/issue5206-go/MANIFEST.json": {
+      "sha256": "89ae8e6d9aa9331fad5d43ef46c6cc11a6deefcc32f1c5034befaa37078981c4",
+      "bytes": 526
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/issue5206-go/ROOT-RECHECK.json": {
+      "sha256": "072807c7e1dd8b851d2d117826f94c934ae258423a2d294b26d20ee57729fa9e",
+      "bytes": 20449
+    }
+  },
+  "connected_snapshot": {
+    "checked_at": "2026-11-19T21:08:05.303Z",
+    "old_run": {
+      "id": 44594824154,
+      "name": "Kani CI",
+      "head_sha": "e17417b570e8783cae38169bee9af0dcf72fa6d4",
+      "head_branch": "fix/stub-contract-target-conflict",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "push",
+      "run_attempt": 1,
+      "path": ".github/workflows/kani.yml"
+    },
+    "old_runs": [
+      {
+        "id": 44594824179,
+        "name": "Cargo Deny",
+        "head_sha": "e17417b570e8783cae38169bee9af0dcf72fa6d4",
+        "head_branch": "fix/stub-contract-target-conflict",
+        "status": "completed",
+        "conclusion": "success",
+        "event": "push",
+        "run_attempt": 1,
+        "path": ".github/workflows/deny.yml"
+      },
+      {
+        "id": 44594824149,
+        "name": "Kani Format Check",
+        "head_sha": "e17417b570e8783cae38169bee9af0dcf72fa6d4",
+        "head_branch": "fix/stub-contract-target-conflict",
+        "status": "completed",
+        "conclusion": "success",
+        "event": "push",
+        "run_attempt": 1,
+        "path": ".github/workflows/format-check.yml"
+      },
+      {
+        "id": 44594824154,
+        "name": "Kani CI",
+        "head_sha": "e17417b570e8783cae38169bee9af0dcf72fa6d4",
+        "head_branch": "fix/stub-contract-target-conflict",
+        "status": "completed",
+        "conclusion": "failure",
+        "event": "push",
+        "run_attempt": 1,
+        "path": ".github/workflows/kani.yml"
+      }
+    ],
+    "old_jobs": [
+      {
+        "id": 135810162699,
+        "name": "documentation",
+        "status": "completed",
+        "conclusion": "success",
+        "failed_steps": []
+      },
+      {
+        "id": 135810163079,
+        "name": "llbc-regression",
+        "status": "completed",
+        "conclusion": "failure",
+        "failed_steps": [
+          "Run tests"
+        ]
+      },
+      {
+        "id": 135810163186,
+        "name": "regression (macos-15-intel)",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "failed_steps": []
+      },
+      {
+        "id": 135810163230,
+        "name": "regression (ubuntu-24.04-arm)",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "failed_steps": []
+      },
+      {
+        "id": 135810163350,
+        "name": "perf",
+        "status": "completed",
+        "conclusion": "success",
+        "failed_steps": []
+      },
+      {
+        "id": 135810163358,
+        "name": "benchcomp-tests",
+        "status": "completed",
+        "conclusion": "success",
+        "failed_steps": []
+      },
+      {
+        "id": 135810163359,
+        "name": "regression (ubuntu-22.04)",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "failed_steps": []
+      },
+      {
+        "id": 135810163433,
+        "name": "regression (macos-15)",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "failed_steps": []
+      },
+      {
+        "id": 135810163438,
+        "name": "regression (ubuntu-24.04)",
+        "status": "completed",
+        "conclusion": "failure",
+        "failed_steps": [
+          "Execute Kani regression"
+        ]
+      }
+    ],
+    "new_ref": {
+      "error": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}",
+      "error_code": "NOT_FOUND",
+      "error_data": {
+        "message": "Not Found",
+        "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+        "status": "404"
+      }
+    },
+    "open_prs_for_new_head": [],
+    "format_hunk_origin": "COORDINATOR_REPORTED: formatter diff printed at stubbing/mod.rs:52; root independently verified exact candidate hunk, no raw log access"
+  },
+  "limits": "Formatter output attribution is coordinator-reported. Root independently checked exact formatting delta and native metadata, not raw logs or formatter execution. All historical review/run data retained."
+}
