@@ -1,0 +1,89 @@
+{
+  "schema": "kani-4591-r4-perf-disposition-source-check-v1",
+  "checked_at": "2026-11-19T14:24:40.332042+00:00",
+  "r2_head": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+  "r4_head": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+  "r2_to_r4_changed_paths": [
+    "tests/expected/function-contract/ordinary_stub_fail.expected",
+    "tests/expected/function-contract/ordinary_stub_fail.rs",
+    "tests/expected/function-contract/ordinary_stub_overlap.expected",
+    "tests/expected/function-contract/ordinary_stub_overlap.rs",
+    "tests/kani/FunctionContracts/ordinary_stub.rs",
+    "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs"
+  ],
+  "equal_relevant_repository_objects": [
+    {
+      "path": "tests/perf",
+      "r2_git_object": "30fb619478d5086f383b7148772290007c2582ce",
+      "r4_git_object": "30fb619478d5086f383b7148772290007c2582ce",
+      "equal": true
+    },
+    {
+      "path": "kani-compiler",
+      "r2_git_object": "712d5307f14c5ad079ce676a74ef470e9316361a",
+      "r4_git_object": "712d5307f14c5ad079ce676a74ef470e9316361a",
+      "equal": true
+    },
+    {
+      "path": "library",
+      "r2_git_object": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932",
+      "r4_git_object": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932",
+      "equal": true
+    },
+    {
+      "path": "scripts",
+      "r2_git_object": "17ce41a6b9744224defd3a87247736f82992e550",
+      "r4_git_object": "17ce41a6b9744224defd3a87247736f82992e550",
+      "equal": true
+    },
+    {
+      "path": ".github/workflows",
+      "r2_git_object": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0",
+      "r4_git_object": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0",
+      "equal": true
+    },
+    {
+      "path": ".github/actions",
+      "r2_git_object": "0c34b505ea7f29754d2ff655da2579bf26afa9b2",
+      "r4_git_object": "0c34b505ea7f29754d2ff655da2579bf26afa9b2",
+      "equal": true
+    },
+    {
+      "path": "tools",
+      "r2_git_object": "e064563ef304c3fcb90c62f83ae534bd130ce267",
+      "r4_git_object": "e064563ef304c3fcb90c62f83ae534bd130ce267",
+      "equal": true
+    },
+    {
+      "path": "Cargo.lock",
+      "r2_git_object": "33700f4be8c8108ed8b1afcb067dd092e8c32a4b",
+      "r4_git_object": "33700f4be8c8108ed8b1afcb067dd092e8c32a4b",
+      "equal": true
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "r2_git_object": "1cdf94ea9b42256403997a5114d3b9ec10785d2d",
+      "r4_git_object": "1cdf94ea9b42256403997a5114d3b9ec10785d2d",
+      "equal": true
+    }
+  ],
+  "perf_selection": "scripts/kani-perf.sh sets PERF_DIR to tests/perf and compiletest suite=perf/mode=cargo-kani-test",
+  "input_equality_scope": "Pinned repository content. Runtime environment, dependency download state, VM capacity and concurrent load are not established equal.",
+  "root_decision": "AGREE_STOP_PERF_RERUNS_NO_W15_MEMORY_INVESTIGATION_NOW",
+  "operational_classification": "LIKELY_FORK_RUNNER_INFRASTRUCTURE_INSTABILITY",
+  "independent_root_cause": "UNKNOWN",
+  "coordinator_report": {
+    "attempt2_reason": "hosted runner lost communication; approximately 13:03-14:18Z",
+    "fork_history_since_2026_11_16": "6 failures in13 attempts on unrelated branches, approximately72-80min",
+    "upstream_history_same_window": "8/8SUCCESS",
+    "previous_r2_perf": "SUCCESS at6fca00af80; source/workflow content equal to r4 as checked above",
+    "provenance": "Latest user/coordinator API audit. Aggregate fork/upstream counts and runner-loss reason were not independently re-enumerated by this root check."
+  },
+  "previous_intake": "0f75827e2271a9c0059fb7db1a5a23304870ce1c attempt1 remains immutable FAILURE",
+  "retry_GO": "ca0f669dfafa916ca5d8d5ef412846848253a0d9 consumed by this sole perf retry",
+  "historical_r2_native_context": "Prior root-verified intake28cd7f0a87b4fda68df320fab7422d2491b24839 contains previous perf job135139352074 SUCCESS at6f. Direct GitHub actions/jobs endpoint is unsupported (INVALID_ARGUMENT); no raw/alternate-transport fallback.",
+  "publication_gate": "Owner publish command still required; root consent to send evidence for that decision is not publication authorization.",
+  "PR_text": "Coordinator-owned; no edits by root",
+  "ledger": "3681c92598 coordinator reference only; no root writes/accounting",
+  "new_CI_or_worker_task": false
+}
