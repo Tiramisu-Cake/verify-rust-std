@@ -1,0 +1,173 @@
+{
+  "schema": "root-pr5172-copilot-recheck-v1",
+  "checked_at": "2026-11-19T19:04:53.400800+00:00",
+  "checks_passed": 42,
+  "checks": [
+    "Exact candidate HEAD/tree/sole parent",
+    "Exact isolated candidate branch",
+    "Clean candidate worktree",
+    "One fix commit above maintainer merge",
+    "Pinned parent is maintainer main merge",
+    "Merged main base exact",
+    "Author/committer exact",
+    "NONSKIP source",
+    "No added co-author trailer",
+    "Only two reviewed compiler paths",
+    "Candidate diff whitespace check",
+    "Protected source/test/config entry unchanged tests",
+    "Protected source/test/config entry unchanged library",
+    "Protected source/test/config entry unchanged kani-driver",
+    "Protected source/test/config entry unchanged kani_metadata",
+    "Protected source/test/config entry unchanged tools",
+    "Protected source/test/config entry unchanged scripts",
+    "Protected source/test/config entry unchanged .github",
+    "Protected source/test/config entry unchanged Cargo.toml",
+    "Protected source/test/config entry unchanged Cargo.lock",
+    "Protected source/test/config entry unchanged rust-toolchain.toml",
+    "Reviewed pinned nightly unchanged",
+    "Exact borrowed-args compile fix",
+    "Fresh per-classification visited instantiated type set",
+    "Union/conservative fallback retained",
+    "Reviewed instance/optional checked-body return preserved",
+    "Ordinary-call consumer reuses checked body",
+    "Local resolver caller adapts tuple back to instance",
+    "Committed package pr5172-copilot",
+    "Current package equals pinned Git research/challenge-8/kani-k1/kani3300/wave0/pr5172-copilot/HANDOFF.md",
+    "Committed package pr5172-copilot-review",
+    "Current package equals pinned Git research/challenge-8/kani-k1/kani3300/wave0/pr5172-copilot-review/HANDOFF.md",
+    "Independent committed APPROVE exact source/parent",
+    "New branch matches standard push trigger .github/workflows/kani.yml",
+    "New branch matches standard push trigger .github/workflows/format-check.yml",
+    "New branch matches standard push trigger .github/workflows/deny.yml",
+    "Full five-platform matrix",
+    "Full twelve native standard job instances unchanged",
+    "Connected open PR still at exact maintainer merge head",
+    "New fork destination branch absent",
+    "Observed upstream run metadata bound to current PR head",
+    "New immutable GO output absent"
+  ],
+  "source": "cea872ac973f98daef320e056987b6d5365d9e8b",
+  "tree": "b8292f033398718060c4c68c52594fb2328fb1c5",
+  "sole_parent": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+  "parent_merge_parents": [
+    "80e5d6fabc0103b0b3117440007ad2d9475f9a9c",
+    "0997d11c14cb2da0824efc34e2c4001e53ac0faf"
+  ],
+  "source_identity": [
+    "Tiramisu-Cake <igkharin@gmail.com>",
+    "Tiramisu-Cake <igkharin@gmail.com>"
+  ],
+  "message": "Fix shim type inspection and reuse checked call bodies\n\n",
+  "changed_paths": [
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs"
+  ],
+  "package_git_bindings": {
+    "pr5172-copilot": {
+      "commit": "0725d3efb66c9f4f377f342743335877e9f34c93",
+      "files": {
+        "research/challenge-8/kani-k1/kani3300/wave0/pr5172-copilot/HANDOFF.md": {
+          "sha256": "4e9374ec646049654f8f39ab34dec63f60984c9ff09349c87fb9b69fc12888d8",
+          "bytes": 8594,
+          "git_blob": "4333afdb0edfe0bfdc4cdc0e3b2278ae57145702"
+        }
+      }
+    },
+    "pr5172-copilot-review": {
+      "commit": "0a52785cc06e99841210b720d2bd554cb1a800d6",
+      "files": {
+        "research/challenge-8/kani-k1/kani3300/wave0/pr5172-copilot-review/HANDOFF.md": {
+          "sha256": "8d0599087e24575c9f7b8c7c1767fc90236e7df7a10c15f2898d9ad39c9c3668",
+          "bytes": 17811,
+          "git_blob": "88d35561713e626743818f3216d23b9c4b3c2c24"
+        }
+      }
+    }
+  },
+  "connected_snapshot": {
+    "checked_at": "2026-11-19T19:03:25.317Z",
+    "pr": {
+      "number": 5172,
+      "state": "open",
+      "head_sha": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+      "head_ref": "fix/kani-uninit-unresolved-call-v3",
+      "head_repo": "Tiramisu-Cake/kani",
+      "base_sha": "0997d11c14cb2da0824efc34e2c4001e53ac0faf"
+    },
+    "new_ref": {
+      "error": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}",
+      "error_code": "NOT_FOUND",
+      "error_data": {
+        "message": "Not Found",
+        "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+        "status": "404"
+      }
+    },
+    "upstream_runs": [
+      {
+        "id": 44587489048,
+        "name": "Kani Format Check",
+        "status": "completed",
+        "conclusion": "failure",
+        "head_sha": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+        "event": "pull_request",
+        "run_attempt": 2,
+        "path": ".github/workflows/format-check.yml"
+      },
+      {
+        "id": 44587489557,
+        "name": "Kani CI",
+        "status": "completed",
+        "conclusion": "failure",
+        "head_sha": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+        "event": "pull_request",
+        "run_attempt": 2,
+        "path": ".github/workflows/kani.yml"
+      },
+      {
+        "id": 44587489242,
+        "name": "Cargo Deny",
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+        "event": "pull_request",
+        "run_attempt": 2,
+        "path": ".github/workflows/deny.yml"
+      },
+      {
+        "id": 44587489113,
+        "name": "Check Std Verification",
+        "status": "completed",
+        "conclusion": "failure",
+        "head_sha": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+        "event": "pull_request",
+        "run_attempt": 2,
+        "path": ".github/workflows/verify-std-check.yml"
+      },
+      {
+        "id": 44587489162,
+        "name": "Kani Benchmarks",
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+        "event": "pull_request",
+        "run_attempt": 2,
+        "path": ".github/workflows/bench-pr.yml"
+      },
+      {
+        "id": 44587489072,
+        "name": "Release Bundle",
+        "status": "completed",
+        "conclusion": "failure",
+        "head_sha": "ac0304a8bfde3002ef0411ae0e73f94ce0cd7878",
+        "event": "pull_request",
+        "run_attempt": 2,
+        "path": ".github/workflows/release.yml"
+      }
+    ],
+    "upstream_run_total_count": 6,
+    "scope": "Selected connected PR/ref/run metadata fields only; no raw logs or native property inspection"
+  },
+  "limits": "Read-only static/Git/metadata check. Reviewer checked exact nightly APIs independently; root did not re-run or claim compiler/rustfmt/Clippy/native results. Upstream benchmark still pending at snapshot.",
+  "candidate_pr_evidence_policy_ledger_unchanged": true
+}
