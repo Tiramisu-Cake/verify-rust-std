@@ -1,0 +1,127 @@
+{
+  "schema": "ch8-s4-init-on-plan-inputs-v1",
+  "authority": "Direct coordinator w14 one-stage PLAN ONLY; document commit [skip ci] and HANDOFF, then stop",
+  "g0_base": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+  "branch": "experiment/kani-k1-kani3300g0-20261111",
+  "source": {
+    "commit": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+    "tree": "91f097cdb4085d30c4b94afbb843aeb34f1d3287"
+  },
+  "tool": {
+    "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "declared_rust_toolchain": "nightly-2026-10-23",
+    "g0_repository_default_not_used": "# This version should be updated whenever there is a change that makes this version of kani\n# incompatible with the verify-std repo.\n\n[kani]\ncommit = \"f046b70644e113be0df9c22c2e6ea44a65a57566\"\n"
+  },
+  "control": {
+    "commit": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+    "tree": "628a9aa91c86a2e5f72efee626b58f1715ec3dbf"
+  },
+  "frozen_caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "frozen_request_budgets": {
+    "jobs": 1,
+    "max_parallel": 1,
+    "workflow_minutes": 180,
+    "setup_seconds": 1800,
+    "phase_seconds": 8100,
+    "row_seconds": 600,
+    "rss_kib": 6291456,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456,
+    "planned_rows_seconds": null,
+    "rss_cap_kib": 6291456,
+    "compile_seconds": 900,
+    "group_rss_max_kib": 12582912,
+    "memory_reserve_kib": 2097152,
+    "projected_group_count": 8,
+    "child_compile_subcap_seconds": 180,
+    "whole_child_including_compile_seconds": 600,
+    "shared_campaign_seconds": 6900
+  },
+  "frozen_profile": "ch8-s4p-2r2-network-fullbyte-concrete-calls-v1",
+  "historical_root_unwinds": [
+    34,
+    34,
+    34,
+    36,
+    36,
+    36,
+    36,
+    36
+  ],
+  "proposed_ON_default_unwind": 36,
+  "caps_changed": false,
+  "flags_applied": false,
+  "summary_provider_edges": [],
+  "dependencies": [
+    {
+      "base_commit": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/admission-s4p2-r2-network/ADMISSION.md",
+      "git_blob": "f1285ae4825b81c16ebd2b7eb36b1a8818d38b23",
+      "sha256": "dfd31a7b53eab0d1c7d5dd6a1c82a06725d96b464bccba8645f26ee65d47d26b",
+      "bytes": 3700,
+      "use": "committed curated document/data; not raw evidence"
+    },
+    {
+      "base_commit": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/admission-s4p2-r2-network/ADMISSION.json",
+      "git_blob": "a0c670c8eec7a37e03501484304c7462752bf57f",
+      "sha256": "67e14fd780d9e223504d5667439ead15a20f6195b1ad60690a0c5e5ecc3c4a29",
+      "bytes": 340536,
+      "use": "committed curated document/data; not raw evidence"
+    },
+    {
+      "base_commit": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44548842328/COST-INTERPRETATION.json",
+      "git_blob": "3bb908f1a4bd45e9bd1393dc241f3f37ce5e68fe",
+      "sha256": "2a5b88dfca76086d86710b2e29fb7655fb6e57a90d7e8eb69496d9689bdab838",
+      "bytes": 3199,
+      "use": "committed curated document/data; not raw evidence"
+    },
+    {
+      "base_commit": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44548842328/PROVENANCE.json",
+      "git_blob": "cb0b8c71886e5784369943f9a652f92d5f0dc0bb",
+      "sha256": "79b0d47769dea2a1570fc86732e8c02ed84306e79047d005353966dc3e1aea40",
+      "bytes": 29914,
+      "use": "committed curated document/data; not raw evidence"
+    },
+    {
+      "base_commit": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/init-mask-enabled-feasibility/PLAN.md",
+      "git_blob": "a5678658138cd6b4bed1d832164f334a212ad5a2",
+      "sha256": "fabaae1cdb852dedff2261110768736d2b98ba3efc5b8455ddec6d4ba8fb1cd1",
+      "bytes": 13882,
+      "use": "committed curated document/data; not raw evidence"
+    },
+    {
+      "base_commit": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/init-mask-enabled-feasibility/SOURCE-CITATIONS.json",
+      "git_blob": "734381d8c5e781f10d3296c310bac187c3baa389",
+      "sha256": "e79a7b8fd6bac4b5dac8250e587fd2a8789a20a4d48df5dd445f48079fff5031",
+      "bytes": 55627,
+      "use": "committed curated document/data; not raw evidence"
+    }
+  ],
+  "execution_status": "NOT_RUN",
+  "proof_credit": "NONE"
+}

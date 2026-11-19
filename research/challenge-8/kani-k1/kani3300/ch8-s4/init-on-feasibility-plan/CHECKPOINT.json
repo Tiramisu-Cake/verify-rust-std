@@ -1,0 +1,53 @@
+{
+  "schema": "ch8-s4-init-on-plan-checkpoint-v1",
+  "status": "HANDOFF",
+  "stage": "PLAN_ONLY_COMPLETE",
+  "input_base_head": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+  "observed_precommit_head": "c0de8471801ac22b38e3290c7a6b75742135af6b",
+  "claims": [
+    {
+      "claim": "Exact pin has opt-in init checking and a non-reading u8 assertion oracle, subject to mandatory path blockers",
+      "assurance": "STATIC_SOURCE_ONLY",
+      "evidence": [
+        "PLAN.md",
+        "SOURCE-CITATIONS.json"
+      ]
+    },
+    {
+      "claim": "Correct partial-init / intentional hole-read controls and helper I/R/W/P sets specified",
+      "assurance": "UNEXECUTED_DESIGN",
+      "evidence": [
+        "CONTROLS.md",
+        "HELPERS.md"
+      ]
+    }
+  ],
+  "blockers": [
+    "B-LAYOUT",
+    "B-COPY-OFFSET",
+    "B-COPY-EXTENT",
+    "B-ADDRESS",
+    "B-MASK",
+    "B-CONTRACT",
+    "B-PIPELINE",
+    "B-LANE"
+  ],
+  "open": [
+    "Mandatory path support and exact MIR/check/assigns binding",
+    "Versioned ON package, independent semantic review and future execution authorization",
+    "Complete negative-space mask theorem",
+    "Generic, ownership, panic/Drop, full matrix, independent AST-MIR/B1/B2"
+  ],
+  "proof_obligations_closed": 0,
+  "qualified_new_leaves": 0,
+  "provider_edges_added": 0,
+  "proof_credit": "NONE",
+  "execution": "NOT_RUN",
+  "caps_changed": false,
+  "ledger_changed": false,
+  "OFF_changed": false,
+  "closure_reason": "One-stage coordinator plan goal fulfilled; document commit [skip ci], HANDOFF and SHA, then stop as explicitly requested. No implementation, CI or push authorized.",
+  "next": "Coordinator reviews plan; new assignment for implementation/execution",
+  "foreign_changes": "Concurrent research commits/untracked paths preserved; see VALIDATION.json",
+  "subagents": 0
+}
