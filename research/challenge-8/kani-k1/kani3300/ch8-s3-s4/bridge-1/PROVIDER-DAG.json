@@ -1,0 +1,75 @@
+{
+  "schema": "bridge1-dependency-roles-v1",
+  "current_new_providers": [],
+  "nodes": [
+    {
+      "id": "checker_order_corrupt",
+      "role": "FIXED_NEGATIVE_CONTROL",
+      "mode": "Original",
+      "proof_credit": "NONE",
+      "may_be_used_as_assumed_summary": false
+    },
+    {
+      "id": "checker_count_corrupt",
+      "role": "FIXED_NEGATIVE_CONTROL",
+      "mode": "Original",
+      "proof_credit": "NONE",
+      "may_be_used_as_assumed_summary": false
+    },
+    {
+      "id": "sort13_weak",
+      "role": "FIXED_NEGATIVE_CONTROL",
+      "mode": "Original",
+      "proof_credit": "NONE",
+      "may_be_used_as_assumed_summary": false
+    },
+    {
+      "id": "i_p01_b01_fullu8",
+      "role": "NEW_BOUNDED_CANDIDATE_ONLY",
+      "mode": "PFC",
+      "proof_credit": "NONE",
+      "may_be_used_as_assumed_summary": false
+    },
+    {
+      "id": "sort9_v34_b01_len09_real",
+      "role": "NEW_BOUNDED_CANDIDATE_ONLY",
+      "mode": "Original",
+      "proof_credit": "NONE",
+      "may_be_used_as_assumed_summary": false
+    },
+    {
+      "id": "fallback_cell_b01_n00_16",
+      "role": "NEW_BOUNDED_CANDIDATE_ONLY",
+      "mode": "Original",
+      "proof_credit": "NONE",
+      "may_be_used_as_assumed_summary": false
+    },
+    {
+      "id": "network_u8_b01_n00_08",
+      "role": "NEW_BOUNDED_CANDIDATE_ONLY",
+      "mode": "Original",
+      "proof_credit": "NONE",
+      "may_be_used_as_assumed_summary": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "fallback_cell_b01_n00_16",
+      "to": "actual insert_tail body via insertion_sort_shift_left",
+      "kind": "ACTUAL_CALL_NOT_ASSUMED_SUMMARY"
+    },
+    {
+      "from": "network_u8_b01_n00_08",
+      "to": "actual insert_tail body via insertion_sort_shift_left(seed1)",
+      "kind": "ACTUAL_CALL_NOT_ASSUMED_SUMMARY"
+    },
+    {
+      "from": "sort9_v34_b01_len09_real",
+      "to": "25actual swap_if_less bodies",
+      "kind": "ACTUAL_CALL_NOT_ASSUMED_SUMMARY"
+    }
+  ],
+  "open_future_decomposition": "plan7749 logical gap/drop/count/domain/caller DAG remains future unproved, no typedhole/assumeinvariant/manualghostinit or trustedrule added",
+  "existing_allinit_merge8": "ff193 prior exact boundedSOURCE_REPORTED case only; not a new universal/provider summary",
+  "proof_credit": "NONE"
+}

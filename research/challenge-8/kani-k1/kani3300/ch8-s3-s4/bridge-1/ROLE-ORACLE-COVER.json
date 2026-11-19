@@ -1,0 +1,809 @@
+{
+  "schema": "bridge1-literal-role-cover-v1",
+  "std_sha": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+  "rows": [
+    {
+      "id": "checker_order_corrupt",
+      "mode": "Original",
+      "target": null,
+      "required_success_messages": [],
+      "required_cover_messages": [],
+      "required_cover_count": 0,
+      "failure_description": "S2_NEG_CHECKER_ORDER",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_CHECKER_ORDER",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 140,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_ORDER\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "checker_count_corrupt",
+      "mode": "Original",
+      "target": null,
+      "required_success_messages": [],
+      "required_cover_messages": [],
+      "required_cover_count": 0,
+      "failure_description": "S2_NEG_CHECKER_COUNT",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_CHECKER_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 134,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_COUNT\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "sort13_weak",
+      "mode": "Original",
+      "target": null,
+      "required_success_messages": [],
+      "required_cover_messages": [],
+      "required_cover_count": 0,
+      "failure_description": "S2_NEG_SORT13_WEAK",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_SORT13_WEAK",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 149,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_SORT13_WEAK\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "i_p01_b01_fullu8",
+      "mode": "PFC",
+      "target": "insert_tail",
+      "required_success_messages": [
+        "B1_I_ACTIVE",
+        "B1_I_SORTED_FULL_COUNT",
+        "B1_I_OUTSIDE_FRAME",
+        "B1_I_CANARY"
+      ],
+      "required_cover_messages": [
+        "B1_I_EARLY_RETURN",
+        "B1_I_FULL_SIFT",
+        "B1_I_DUPLICATE",
+        "B1_I_NONCONSTANT",
+        "B1_I_USEFUL_RETURN"
+      ],
+      "required_cover_count": 5,
+      "failure_description": null,
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_I_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 24,
+          "source_line": "    kani::assert(active_u8(), \"B1_I_ACTIVE\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_I_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 31,
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[1..3]), &v[1..3]), \"B1_I_SORTED_FULL_COUNT\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_I_OUTSIDE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 33,
+          "source_line": "        kani::assert((1 <= i && i < 3) || v[i] == before[i], \"B1_I_OUTSIDE_FRAME\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_I_CANARY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 37,
+          "source_line": "    kani::assert(v[canary] == before[canary], \"B1_I_CANARY\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_I_EARLY_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 38,
+          "source_line": "    kani::cover(before[2] >= before[1], \"B1_I_EARLY_RETURN\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_I_FULL_SIFT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 39,
+          "source_line": "    kani::cover(before[2] < before[1], \"B1_I_FULL_SIFT\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_I_DUPLICATE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 40,
+          "source_line": "    kani::cover(before[2] == before[1], \"B1_I_DUPLICATE\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_I_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 41,
+          "source_line": "    kani::cover(v[1] < v[2], \"B1_I_NONCONSTANT\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_I_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 42,
+          "source_line": "    kani::cover(true, \"B1_I_USEFUL_RETURN\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "sort9_v34_b01_len09_real",
+      "mode": "Original",
+      "target": null,
+      "required_success_messages": [
+        "B1_S9_ACTIVE",
+        "B1_S9_SORTED_FULL_COUNT",
+        "B1_S9_OUTSIDE_FRAME",
+        "B1_S9_CANARY"
+      ],
+      "required_cover_messages": [
+        "B1_S9_UNSORTED",
+        "B1_S9_DUPLICATE",
+        "B1_S9_NONCONSTANT",
+        "B1_S9_DESCENDING",
+        "B1_S9_USEFUL_RETURN"
+      ],
+      "required_cover_count": 5,
+      "failure_description": null,
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_S9_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 48,
+          "source_line": "    kani::assert(active_u8(), \"B1_S9_ACTIVE\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_S9_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 52,
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[1..10]), &v[1..10]), \"B1_S9_SORTED_FULL_COUNT\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_S9_OUTSIDE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 54,
+          "source_line": "        kani::assert((1 <= i && i < 10) || v[i] == before[i], \"B1_S9_OUTSIDE_FRAME\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_S9_CANARY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 58,
+          "source_line": "    kani::assert(v[canary] == before[canary], \"B1_S9_CANARY\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_S9_UNSORTED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 59,
+          "source_line": "    kani::cover(before[1] > before[9], \"B1_S9_UNSORTED\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_S9_DUPLICATE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 60,
+          "source_line": "    kani::cover(before[1] == before[9], \"B1_S9_DUPLICATE\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_S9_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 61,
+          "source_line": "    kani::cover(v[1] < v[9], \"B1_S9_NONCONSTANT\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_S9_DESCENDING",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 62,
+          "source_line": "    kani::cover(descending(&before[1..10]), \"B1_S9_DESCENDING\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_S9_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 63,
+          "source_line": "    kani::cover(true, \"B1_S9_USEFUL_RETURN\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "fallback_cell_b01_n00_16",
+      "mode": "Original",
+      "target": null,
+      "required_success_messages": [
+        "B1_F_ACTIVE",
+        "B1_F_SORTED_FULL_COUNT",
+        "B1_F_OUTSIDE_FRAME",
+        "B1_F_CANARY"
+      ],
+      "required_cover_messages": [
+        "B1_F_N00",
+        "B1_F_N01",
+        "B1_F_N02",
+        "B1_F_N03",
+        "B1_F_N04",
+        "B1_F_N05",
+        "B1_F_N06",
+        "B1_F_N07",
+        "B1_F_N08",
+        "B1_F_N09",
+        "B1_F_N10",
+        "B1_F_N11",
+        "B1_F_N12",
+        "B1_F_N13",
+        "B1_F_N14",
+        "B1_F_N15",
+        "B1_F_N16",
+        "B1_F_UNSORTED",
+        "B1_F_DUPLICATE",
+        "B1_F_NONCONSTANT",
+        "B1_F_MAX_DESCENDING",
+        "B1_F_USEFUL_RETURN"
+      ],
+      "required_cover_count": 22,
+      "failure_description": null,
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_F_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 69,
+          "source_line": "    kani::assert(enabled::<Cell<u8>, KeyLess<Cell<u8>>>(), \"B1_F_ACTIVE\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_F_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 77,
+          "source_line": "    kani::assert(post::<Cell<u8>, KeyLess<Cell<u8>>>(before, &v[1..1 + n]), \"B1_F_SORTED_FULL_COUNT\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_F_OUTSIDE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 79,
+          "source_line": "        kani::assert((1 <= i && i < 1 + n) || v[i].get() == bytes[i], \"B1_F_OUTSIDE_FRAME\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_F_CANARY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 83,
+          "source_line": "    kani::assert(v[canary].get() == bytes[canary], \"B1_F_CANARY\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N00",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 84,
+          "source_line": "    kani::cover(n == 0, \"B1_F_N00\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N01",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 85,
+          "source_line": "    kani::cover(n == 1, \"B1_F_N01\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N02",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 86,
+          "source_line": "    kani::cover(n == 2, \"B1_F_N02\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N03",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 87,
+          "source_line": "    kani::cover(n == 3, \"B1_F_N03\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N04",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 88,
+          "source_line": "    kani::cover(n == 4, \"B1_F_N04\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N05",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 89,
+          "source_line": "    kani::cover(n == 5, \"B1_F_N05\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N06",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 90,
+          "source_line": "    kani::cover(n == 6, \"B1_F_N06\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N07",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 91,
+          "source_line": "    kani::cover(n == 7, \"B1_F_N07\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N08",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 92,
+          "source_line": "    kani::cover(n == 8, \"B1_F_N08\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N09",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 93,
+          "source_line": "    kani::cover(n == 9, \"B1_F_N09\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N10",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 94,
+          "source_line": "    kani::cover(n == 10, \"B1_F_N10\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N11",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 95,
+          "source_line": "    kani::cover(n == 11, \"B1_F_N11\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N12",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 96,
+          "source_line": "    kani::cover(n == 12, \"B1_F_N12\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N13",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 97,
+          "source_line": "    kani::cover(n == 13, \"B1_F_N13\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N14",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 98,
+          "source_line": "    kani::cover(n == 14, \"B1_F_N14\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N15",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 99,
+          "source_line": "    kani::cover(n == 15, \"B1_F_N15\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_N16",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 100,
+          "source_line": "    kani::cover(n == 16, \"B1_F_N16\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_UNSORTED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 101,
+          "source_line": "    kani::cover(n >= 2 && bytes[1] > bytes[n], \"B1_F_UNSORTED\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_DUPLICATE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 102,
+          "source_line": "    kani::cover(n >= 2 && bytes[1] == bytes[n], \"B1_F_DUPLICATE\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 103,
+          "source_line": "    kani::cover(n >= 2 && v[1].get() < v[n].get(), \"B1_F_NONCONSTANT\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_MAX_DESCENDING",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 104,
+          "source_line": "    kani::cover(n == 16 && descending(&bytes[1..17]), \"B1_F_MAX_DESCENDING\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_F_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 105,
+          "source_line": "    kani::cover(true, \"B1_F_USEFUL_RETURN\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "network_u8_b01_n00_08",
+      "mode": "Original",
+      "target": null,
+      "required_success_messages": [
+        "B1_N_ACTIVE",
+        "B1_N_SORTED_FULL_COUNT",
+        "B1_N_OUTSIDE_FRAME",
+        "B1_N_CANARY"
+      ],
+      "required_cover_messages": [
+        "B1_N_N00",
+        "B1_N_N01",
+        "B1_N_N02",
+        "B1_N_N03",
+        "B1_N_N04",
+        "B1_N_N05",
+        "B1_N_N06",
+        "B1_N_N07",
+        "B1_N_N08",
+        "B1_N_UNSORTED",
+        "B1_N_DUPLICATE",
+        "B1_N_NONCONSTANT",
+        "B1_N_MAX_DESCENDING",
+        "B1_N_USEFUL_RETURN"
+      ],
+      "required_cover_count": 14,
+      "failure_description": null,
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_N_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 111,
+          "source_line": "    kani::assert(active_u8(), \"B1_N_ACTIVE\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_N_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 117,
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[1..1 + n]), &v[1..1 + n]), \"B1_N_SORTED_FULL_COUNT\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_N_OUTSIDE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 119,
+          "source_line": "        kani::assert((1 <= i && i < 1 + n) || v[i] == before[i], \"B1_N_OUTSIDE_FRAME\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "B1_N_CANARY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 123,
+          "source_line": "    kani::assert(v[canary] == before[canary], \"B1_N_CANARY\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_N_N00",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 124,
+          "source_line": "    kani::cover(n == 0, \"B1_N_N00\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_N_N01",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 125,
+          "source_line": "    kani::cover(n == 1, \"B1_N_N01\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_N_N02",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 126,
+          "source_line": "    kani::cover(n == 2, \"B1_N_N02\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_N_N03",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 127,
+          "source_line": "    kani::cover(n == 3, \"B1_N_N03\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_N_N04",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 128,
+          "source_line": "    kani::cover(n == 4, \"B1_N_N04\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_N_N05",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 129,
+          "source_line": "    kani::cover(n == 5, \"B1_N_N05\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_N_N06",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 130,
+          "source_line": "    kani::cover(n == 6, \"B1_N_N06\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_N_N07",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 131,
+          "source_line": "    kani::cover(n == 7, \"B1_N_N07\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_N_N08",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 132,
+          "source_line": "    kani::cover(n == 8, \"B1_N_N08\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_N_UNSORTED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 133,
+          "source_line": "    kani::cover(n >= 2 && before[1] > before[n], \"B1_N_UNSORTED\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_N_DUPLICATE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 134,
+          "source_line": "    kani::cover(n >= 2 && before[1] == before[n], \"B1_N_DUPLICATE\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_N_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 135,
+          "source_line": "    kani::cover(n >= 2 && v[1] < v[n], \"B1_N_NONCONSTANT\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_N_MAX_DESCENDING",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 136,
+          "source_line": "    kani::cover(n == 8 && descending(&before[1..9]), \"B1_N_MAX_DESCENDING\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "B1_N_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+          "line": 137,
+          "source_line": "    kani::cover(true, \"B1_N_USEFUL_RETURN\");",
+          "source_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    }
+  ],
+  "source_assertion_sites": 19,
+  "source_cover_sites": 46,
+  "compiled_check_counts": "UNKNOWN_UNTIL_SAME_INVOCATION_EXPORT",
+  "producer_IDs": "UNKNOWN_UNTIL_SAME_INVOCATION_EXPORT",
+  "native_compile_proof": "NOT_RUN",
+  "proof_credit": "NONE"
+}

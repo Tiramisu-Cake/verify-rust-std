@@ -1,0 +1,29 @@
+{
+  "initial_targeted_gate_run": {
+    "candidate": "uncommitted bridge worktree before finalcandidate",
+    "command": "python3 -m unittest -v test_s34_boundary.BoundaryTests test_s34_boundary.CellGateTests.test_cell_missing_constructor_or_method_anchor_fails_closed test_s34.SourceTests.test_complete_new_cfg_all_gates_and_literal22 test_s34.WorkflowTests",
+    "tests": 9,
+    "failures": 1,
+    "errors": 0,
+    "elapsed_seconds": 29.029,
+    "exit_code": 1,
+    "reason": "test lengthcover selection used startswith B1_F_N and incorrectly included B1_F_NONCONSTANT; corrected selection requires digit-only suffix; no harness/model relaxation",
+    "raw_stdout_stderr": "not redirected; exact failure retained in tasktool transcript; no invented rawfiles"
+  },
+  "path_preparation_errors": "Two local document-edit helper attempts used wrongrelativecwd; file-not-found, no edits from those statements. Fixed with absolute paths before finalcandidate. No native execution.",
+  "targeted_services": {
+    "tests": 16,
+    "elapsed_seconds": 5.154,
+    "exit_code": 0,
+    "stdout_file": "validation/targeted-services.stdout",
+    "stderr_file": "validation/targeted-services.stderr"
+  },
+  "targeted_gates": {
+    "tests": 2,
+    "exit_code": 0,
+    "stdout_file": "validation/targeted-gates.stdout",
+    "stderr_file": "validation/targeted-gates.stderr"
+  },
+  "final_validate": "one execution on exact committed candidate; separate final receipt",
+  "proof_credit": "NONE"
+}

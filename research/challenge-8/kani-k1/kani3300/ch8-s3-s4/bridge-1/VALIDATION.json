@@ -1,0 +1,86 @@
+{
+  "schema": "bridge1-final-offline-validation-v1",
+  "status": "PASS",
+  "actual_final_validate_execution_count": 1,
+  "result": {
+    "bridge1_tests": 36,
+    "control_sha": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+    "control_tree": "73bf04293a09ce129a713035f6d13d5a438bb773",
+    "elapsed_seconds": 618.9740174426697,
+    "errors": 0,
+    "failures": 0,
+    "legacy_tests": 136,
+    "margin_at_18_minutes": 1.744822835152416,
+    "native_compile_proof_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "protected_s3_1_tests": 56,
+    "protected_s3_2_tests": 35,
+    "request_sha256": "1257fd62bdc65ce504913d7bd01cec1180ebc92f0450816c17aafa591cdfdd06",
+    "schema": "ch8-s3s4-bridge1-validate-v1",
+    "success": true
+  },
+  "process_receipt": "validation/final-validate.json",
+  "stdout": "validation/final-validate.stdout",
+  "stderr": "validation/final-validate.stderr",
+  "elapsed_seconds": 619.2504397919402,
+  "cap_seconds": 1080,
+  "margin_at_18_minutes": 1.7440439773653864,
+  "required_margin": 1.5,
+  "source_preflight": {
+    "control_sha": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+    "control_tree": "73bf04293a09ce129a713035f6d13d5a438bb773",
+    "control_parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "tracked_clean": true,
+    "name": "source-preflight",
+    "argv": [
+      "python3",
+      "runner.py",
+      "check-source",
+      "--std",
+      "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "--tool",
+      "/root/kani-upstream-ch8-s1"
+    ],
+    "cwd": "/root/kani-ch8-s3s4-bridge1-control-w13/ch8-s1-control",
+    "start_utc": "2026-11-19T03:37:25.711435+00:00",
+    "wall_cap_seconds": 180,
+    "native_compile_proof_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "exit_code": 0,
+    "elapsed_seconds": 20.756658025085926,
+    "end_utc": "2026-11-19T03:37:46.468461+00:00",
+    "head_after": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+    "tracked_clean_after": true
+  },
+  "control_preflight": {
+    "control_sha": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+    "control_tree": "73bf04293a09ce129a713035f6d13d5a438bb773",
+    "control_parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "tracked_clean": true,
+    "name": "control-preflight",
+    "argv": [
+      "python3",
+      "check_package.py",
+      "control",
+      "--repo",
+      ".."
+    ],
+    "cwd": "/root/kani-ch8-s3s4-bridge1-control-w13/ch8-s1-control",
+    "start_utc": "2026-11-19T03:37:25.317555+00:00",
+    "wall_cap_seconds": 180,
+    "native_compile_proof_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "exit_code": 0,
+    "elapsed_seconds": 0.36906457180157304,
+    "end_utc": "2026-11-19T03:37:25.686681+00:00",
+    "head_after": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+    "tracked_clean_after": true
+  },
+  "environment_limit": "Controlpreflight supplied synthetic GITHUB_REPOSITORY/EVENT_NAME/REF/RUN_ATTEMPT/SHA strings only; not a realref/run/publication. Nativecompile/proof/cost/fit NOT_RUN",
+  "no_postpass_code_edits": true,
+  "proof_credit": "NONE"
+}

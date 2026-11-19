@@ -1,0 +1,17 @@
+import subprocess,json,time,sys,os,datetime
+from pathlib import Path
+control=Path('/root/kani-ch8-s3s4-bridge1-control-w13');here=control/'ch8-s1-control';out=Path('/root/bridge1-w13-validation')
+git=lambda *args:subprocess.check_output(['git','-C',str(control),*args],text=True).strip()
+identity={'control_sha':git('rev-parse','HEAD'),'control_tree':git('rev-parse','HEAD^{tree}'),'control_parents':git('rev-list','--parents','-n','1','HEAD').split()[1:],'tracked_clean':not git('status','--porcelain','--untracked-files=no')}
+commands=[('control-preflight',['python3','check_package.py','control','--repo','..'],180),('source-preflight',['python3','runner.py','check-source','--std','/root/verify-rust-std-ch8-s3s4-bridge1-w13','--tool','/root/kani-upstream-ch8-s1'],180),('final-validate',['python3','s34_validate.py'],1080)]
+env=dict(os.environ,GITHUB_REPOSITORY='Tiramisu-Cake/kani',GITHUB_EVENT_NAME='push',GITHUB_REF='refs/heads/uninit-ci/ch8-s3s4-offline-candidate',GITHUB_RUN_ATTEMPT='1',GITHUB_SHA=identity['control_sha'])
+for name,argv,cap in commands:
+ receipt={**identity,'name':name,'argv':argv,'cwd':str(here),'start_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'wall_cap_seconds':cap,'native_compile_proof_fit':'NOT_RUN','proof_credit':'NONE'}
+ started=time.monotonic()
+ with (out/(name+'.stdout')).open('wb') as stdout,(out/(name+'.stderr')).open('wb') as stderr:
+  try:run=subprocess.run(argv,cwd=here,env=env,stdout=stdout,stderr=stderr,timeout=cap);code=run.returncode
+  except subprocess.TimeoutExpired:code=124;receipt['timed_out']=True
+ receipt.update(exit_code=code,elapsed_seconds=time.monotonic()-started,end_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),head_after=git('rev-parse','HEAD'),tracked_clean_after=not git('status','--porcelain','--untracked-files=no'))
+ if name=='final-validate':receipt['margin_at_18_minutes']=1080/receipt['elapsed_seconds']
+ (out/(name+'.json')).write_text(json.dumps(receipt,indent=2)+'\n');print(name,code,receipt['elapsed_seconds'],flush=True)
+ if code:sys.exit(code)
