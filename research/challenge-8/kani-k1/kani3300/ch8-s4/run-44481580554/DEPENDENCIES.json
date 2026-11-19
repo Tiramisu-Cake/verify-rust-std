@@ -1,0 +1,70 @@
+{
+  "validated_manifests": [
+    {
+      "kind": "package",
+      "commit": "5b0ed64d86c6cd7ac18bb3c7b7b7fd124dcb504c",
+      "manifest_sha256": "c36e27950018fb4eb890cadb2b337c29f5f4ba1165e121c9df21678e97c2951d",
+      "validated_files": 61
+    },
+    {
+      "kind": "independent_review",
+      "commit": "eff6c707a3a99d4adb47367d7ee0ee60f73eb4fb",
+      "manifest_sha256": "1c20c8d492ff2b0fcfde495bf8a45bedeeeb40697c3b94dbbf9be290fdc77406",
+      "validated_files": 28
+    }
+  ],
+  "review": {
+    "commit": "eff6c707a3a99d4adb47367d7ee0ee60f73eb4fb",
+    "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/s4p-1-review-r1/FINDINGS.json",
+    "sha256": "236eb390a0413e7de8aa8e399d040a77113052481df4a9ecb67a30c5ca4e07fb",
+    "findings": {
+      "schema": "ch8-s4p-1-independent14-delta-findings-v1",
+      "verdict": "APPROVE",
+      "repair_author_commit": "5b0ed64d86c6cd7ac18bb3c7b7b7fd124dcb504c",
+      "control_sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+      "findings": [
+        {
+          "id": "R14-01",
+          "priority": "P2",
+          "status": "CLOSED",
+          "blocking_exact_approval": false,
+          "file": "ch8-s1-control/s4p_contract_stacks.py",
+          "line": 110,
+          "basis": "Actual prebuild gate:32 unique powerset contexts,16 sorting and4 ACTIVE. Every ACTIVE comparison exercises safety-wrapper to direct-Kani normalization with unchanged op/predicate tokens. Fresh actual four reports match committed JSON; source/hash/required-path checks retained. Meaningful regression is CI-selected and passed.",
+          "evidence": [
+            "PREFLIGHT.json",
+            "TARGETED-TESTS.json",
+            "AUDIT.json"
+          ]
+        },
+        {
+          "id": "R14-02",
+          "priority": "P2",
+          "status": "CLOSED",
+          "blocking_exact_approval": false,
+          "file": "ch8-s1-control/s4p_campaign.py",
+          "line": 342,
+          "basis": "Trusted exact string schema check before legacy collection. Real public LOCAL/UPLOAD_ONLY paths reject78 malformed cases including all original24 with zero legacy collection calls and only terminal read;6 genuine controls accept. Genuine prefixes0..8 and selected_roots int8 pass both routes.",
+          "evidence": [
+            "TERMINAL-SCHEMA-MATRIX.json",
+            "PREFIXES.json",
+            "TARGETED-TESTS.json"
+          ]
+        }
+      ],
+      "new_findings": [],
+      "blockers": [],
+      "exact_candidate_approval": true,
+      "frozen_review_unchanged": "REQUEST_CHANGES on590/E941 remains historical; this is new delta closure",
+      "GO": "NOT_AUTHORIZED",
+      "proof_credit": "NONE"
+    }
+  },
+  "rootGO": {
+    "commit": "1f9f9d999578e1aec0ee55bb106ed732e196132f",
+    "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/s4p-1-go/ROOT-RECHECK.json",
+    "sha256": "7e50bc2c9942e7b4a01903b05b3b53c3abddaf2f7cbbd7228e103fd513549cd8",
+    "status": "Exact identity tuple matches; consumed one campaign only"
+  },
+  "host305": "Prior source/control regression evidence only; not native proof or fit evidence"
+}

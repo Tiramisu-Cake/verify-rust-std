@@ -1,0 +1,298 @@
+{
+  "reviews": [
+    {
+      "review_commit": "a9fe0055aab3279e3f5bb71bde9667925da80e65",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/LOCATION-DECISION.json",
+      "sha256": "c7fd4f268d2df3fa716ef173895ef44d18fae098c6cabc2b3ec7b79be9fbd942",
+      "recommendation": "RECOMMEND_ADMIT_EXACT_LOCATION_ONLY_CASE",
+      "status": "NOT_APPLIED_ROOT_COORDINATOR_ADMISSION_PENDING",
+      "properties": [
+        {
+          "id": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.unreachable.1",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.unreachable.1",
+          "class": "unreachable",
+          "status": "SUCCESS",
+          "description": "unreachable code",
+          "file": null,
+          "line": null,
+          "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc"
+        }
+      ],
+      "findings": {
+        "schema": "W14-independent-intake-review-v1",
+        "status": "READY",
+        "task": "84aac8e779dbfaeb6300d92557fd122f4dea29f1",
+        "intake": "d29ab46dbbb45d7106fa30c3ac04bb419a2ac286",
+        "disposition": "REQUEST_CHANGES",
+        "blockers_to_unqualified_intake_approval": 2,
+        "findings": [
+          {
+            "id": "W14-01",
+            "severity": "MEDIUM",
+            "owner": "original11/CURRENT102",
+            "category": "REPORTING_DOMAIN",
+            "locations": [
+              "../run-44416629057/QUALIFICATION.json#/rows/8/bindings/source_domain",
+              "../run-44416629057/replay.py:176"
+            ],
+            "observed": "13 arbitrary independent full bytes claimed for sort13_weak",
+            "evidence": "source513341f41ce53833a279571401c924bdddddb6c8:library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:147 initializes fixed [12u8,11,10,9,8,7,6,5,4,3,2,1,0]",
+            "required_correction": "Report fixed descending length13 fixture and exact ordinary weak_swap seam in new immutable correction; no arbitrary-byte negative claim.",
+            "impact": "Negative role failure and all8 U arguments remain valid for fixed fixture; inaccurate domain blocks unqualified intake approval."
+          },
+          {
+            "id": "W14-02",
+            "severity": "MEDIUM",
+            "owner": "original11/CURRENT102",
+            "category": "REPORTING_INVENTORY",
+            "locations": [
+              "../run-44416629057/QUALIFICATION.md:20",
+              "../run-44416629057/render.py:20"
+            ],
+            "observed": "exported unsupported_constructs arrays described as empty",
+            "evidence": [
+              {
+                "id": "s3_swap_u8_geometry",
+                "unsupported_constructs": [
+                  {
+                    "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+                    "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+                    "line": "110",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  },
+                  {
+                    "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+                    "description": "Kani does not support reasoning about pointer to unallocated memory",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+                    "line": "358",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  },
+                  {
+                    "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+                    "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+                    "line": "185",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  },
+                  {
+                    "id": "kani::mem::is_inbounds::<u8>.unsupported_construct.1",
+                    "description": "Kani does not support reasoning about pointer to unallocated memory",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+                    "line": "358",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  }
+                ]
+              },
+              {
+                "id": "s3_sort4_u8_separate",
+                "unsupported_constructs": [
+                  {
+                    "id": "kani::mem::is_inbounds::<[u8]>.unsupported_construct.1",
+                    "description": "Kani does not support reasoning about pointer to unallocated memory",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+                    "line": "358",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  },
+                  {
+                    "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+                    "description": "Kani does not support reasoning about pointer to unallocated memory",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+                    "line": "358",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  },
+                  {
+                    "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+                    "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+                    "line": "185",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  },
+                  {
+                    "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+                    "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+                    "line": "110",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  }
+                ]
+              },
+              {
+                "id": "s3_sort4_u8_same_alloc",
+                "unsupported_constructs": [
+                  {
+                    "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+                    "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+                    "line": "185",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  },
+                  {
+                    "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+                    "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+                    "line": "110",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  },
+                  {
+                    "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+                    "description": "Kani does not support reasoning about pointer to unallocated memory",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+                    "line": "358",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  },
+                  {
+                    "id": "kani::mem::is_inbounds::<[u8]>.unsupported_construct.1",
+                    "description": "Kani does not support reasoning about pointer to unallocated memory",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+                    "line": "358",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  }
+                ]
+              },
+              {
+                "id": "s3_merge8_u8_separate",
+                "unsupported_constructs": [
+                  {
+                    "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+                    "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+                    "line": "110",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  },
+                  {
+                    "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+                    "description": "Kani does not support reasoning about pointer to unallocated memory",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+                    "line": "358",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  },
+                  {
+                    "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+                    "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+                    "line": "185",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  },
+                  {
+                    "id": "kani::mem::is_inbounds::<[u8]>.unsupported_construct.1",
+                    "description": "Kani does not support reasoning about pointer to unallocated memory",
+                    "class": "unsupported_construct",
+                    "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+                    "line": "358",
+                    "trace_available": false,
+                    "status": "SUCCESS"
+                  }
+                ]
+              }
+            ],
+            "required_correction": "Retain and accurately report four SUCCESS unsupported-guard records per completed positive root, sixteen total; no artifact or status changes.",
+            "impact": "No extra failure established. Strict S3 expected_observation rejects nonempty arrays too. Source-reported case assessment may retain exact successful guards as in S1 composite method."
+          }
+        ],
+        "integrity": "PASS",
+        "six_provisional_cases": "SOUND within corrected domains at SOURCE_REPORTED assurance",
+        "sort4same": "SOUND conditional exact location-only decision; NOT_ADMITTED",
+        "location_recommendation": "RECOMMEND_ADMIT_EXACT_LOCATION_ONLY_CASE",
+        "final_admission": "ROOT_COORDINATOR_NOT_GRANTED_BY_REVIEW",
+        "strict_producer_expected_matches": "0/9_UNCHANGED",
+        "proof_credit": "NONE",
+        "followup": "New immutable author correction; preserve old intake/artifact; SAME14 exact delta. No reviewer source edits."
+      },
+      "comparison": "Same display-zero/null/class/status/description structure; new run/IDs/namespace/source/control/request/protected tuple differ. Existing old review/admission never transfers; shared emitter or source/MIR origin UNKNOWN."
+    },
+    {
+      "review_commit": "028531727fc48ef9f26f16dfb95c2b2666c96dd7",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44439462279-review-w14/LOCATION-DECISION.json",
+      "sha256": "c7c9258f1fe01d9af9264d493d27fa9138a7f1686a825765f6e310f6a5a116f0",
+      "recommendation": "RECOMMEND_EXACT_CASES",
+      "status": "NOT_APPLIED",
+      "properties": [
+        {
+          "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.unreachable.1",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.unreachable.1",
+          "class": "unreachable",
+          "status": "SUCCESS",
+          "description": "unreachable code",
+          "file": null,
+          "line": null,
+          "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.unreachable.1",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.unreachable.1",
+          "class": "unreachable",
+          "status": "SUCCESS",
+          "description": "unreachable code",
+          "file": null,
+          "line": null,
+          "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.unreachable.1",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.unreachable.1",
+          "class": "unreachable",
+          "status": "SUCCESS",
+          "description": "unreachable code",
+          "file": null,
+          "line": null,
+          "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag"
+        }
+      ],
+      "findings": {
+        "disposition": "APPROVE_INTAKE_WITH_PRESERVED_LIMITS",
+        "blocking_findings": [],
+        "blocking_findings_count": 0,
+        "location_recommendation": "RECOMMEND_EXACT_CASES",
+        "location_status": "NOT_APPLIED",
+        "general_rule": "PENDING",
+        "admission": false,
+        "qualification": "Three fixed negative observations; one provisional bounded allinit PFC candidate pending separate decision; two DIAG_INIT_OPEN nonproviders; two RSS-censored insertions",
+        "open_limits": [
+          "Shared actual emitter/positive source-MIR origin UNKNOWN",
+          "Strict expected matches0/8; U REJECT_ALL and disabled proposal unchanged",
+          "Both partial masks/dstinit/provider eligibility OPEN/false",
+          "Independent AST/MIR/B1/B2/init/generic/caller/fullN16N32 credit NONE",
+          "All34 sort8 initialization/caller contexts OPEN"
+        ],
+        "repair_required": false,
+        "policy_ledger_code_CI_native_changes": false
+      },
+      "comparison": "Same display-zero/null/class/status/description structure; new run/IDs/namespace/source/control/request/protected tuple differ. Existing old review/admission never transfers; shared emitter or source/MIR origin UNKNOWN."
+    }
+  ],
+  "old_admissions": "LOCATION-PROPOSAL.json old_packets pins f740/ff193 exact original decisions",
+  "new_cases": "Two exact fallback cases proposed NOT_APPLIED only",
+  "shared_emitter": "UNKNOWN",
+  "new_waiver_or_admission": false
+}
