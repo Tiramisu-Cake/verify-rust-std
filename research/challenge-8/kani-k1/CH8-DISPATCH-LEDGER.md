@@ -273,3 +273,38 @@ awaits W14-01/W14-02 reporting corrections and SAME14 delta; other gates remain.
 Reversible by a later append-only decision; coordinator informs owner morning.
 **Accounting/reservation unchanged:** item1 **31/31**, item2 **12/17**, total
 **43/48**. No dispatch, charge/refund, extra item1 grant or publication authorized.
+
+
+## S3-1-r2 admission — 2026-11-19, coordinator+planner
+
+User03:27 explicitly authorized admission after committed APPROVE. Planner/root
+records **ADMITTED_BOUNDED_SOURCE_REPORTED_S3_1_R2_CASES:7/7 completedcases QUALIFIED**:
+4 actual-body bounded PFC leaves (swapgeometry,sort4separate,sort4same,merge8separate)
++3 intendednegativefixtures (checkerorder,checkercount,sort13weak).
+Acceptedintake31c1dbfc7ca2df34b28bb5eb7ee81bc207ee5642; independentdelta
+657b1e0f97244bdc0ce67fa90c6581bff35fdb84 APPROVE/W14-01+02CLOSED.
+Decision [ACCEPTANCE.md](kani3300/ch8-s3/admission-r2-qualified/ACCEPTANCE.md),
+[ACCEPTANCE.json](kani3300/ch8-s3/admission-r2-qualified/ACCEPTANCE.json).
+
+Exact S1/Profilesv4 SOURCE_REPORTED bindings:42 per-site source-local U arguments,
+16 located SUCCESS roles,3 intended FAILURE roles,24 located SATcovers (43literal
+sites). Corrected sort13weak domain=fixeddescendinglen13[12..0]/sourceboundcaller
+copy+weak_swap seam; no arbitrarybytes/actualsort13proof. FourSUCCESSunsupported
+records perpositive/16total retained; no empty-array claim/FAILED-UNKNOWN waiver.
+Exact reversible f740 originalrun sort4same systemSUCCESS.unreachable.1 location
+exception only, fulltuple/count/invocation/protectedidentities/nulls/originUNKNOWN
+preserved. No global/future-case/reader/runtime exception. Originald29/reviewa9fe/
+nativeevidence/producerUNKNOWN/REJECT_ALL/proposalDISABLED/strict0of9 untouched.
+
+Run44416629057/1/head7497/source513/tool0aac/controlcb6303/requestefbc/workflow8d5/
+compactb9a024 remain bound. All9 sealed/noglobalstop;2 capped roots remainUNKNOWN
+(insertRSS112.349s,merge8samechild600.205s),8sourceIDsdeferred. NotfullS3/N16/N32,
+not universalfunctioncontract/assumedsummary/caller/generic/allallocation/init/
+AST/MIR/compiler/B1/B2/fit600 theorem. Exactdomain/frame/init/provider/type/cfg/
+caller restrictions in ACCEPTANCE.json remain mandatory for everyfutureuse.
+
+**Accounting/reservation unchanged:item1 31/31,item2 12/17,total43/48**. Admission
+adds0 dispatches, no budgetgrant/charge/refund/CI/push/publication. User03:27
+separatelyauthorized offlineS3-2implementationplan86f/taskbe420 afteradmission;
+finalexactpackage independentreview/root+coordinatorGO before anynewworkflow.
+All earlier ledger bytes/historicalrecords retained unchanged.
