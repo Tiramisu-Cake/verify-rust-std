@@ -1,0 +1,289 @@
+{
+  "schema": "s3-2-blocker-preserved-roots-v1",
+  "rows": [
+    {
+      "order": 1,
+      "id": "checker_order_corrupt",
+      "planned_selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "domain": {
+        "input": [
+          1,
+          2
+        ],
+        "output": [
+          2,
+          1
+        ],
+        "failure_description": "S2_NEG_CHECKER_ORDER"
+      },
+      "state": "NOT_IMPLEMENTED_NO_NATIVE_RUN",
+      "required_oracle": [
+        "exact intended literal negative only"
+      ],
+      "unwind_proposal": 34
+    },
+    {
+      "order": 2,
+      "id": "checker_count_corrupt",
+      "planned_selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "domain": {
+        "input": "[1u8;32]",
+        "output": "input with out[31]=2",
+        "failure_description": "S2_NEG_CHECKER_COUNT"
+      },
+      "state": "NOT_IMPLEMENTED_NO_NATIVE_RUN",
+      "required_oracle": [
+        "exact intended literal negative only"
+      ],
+      "unwind_proposal": 34
+    },
+    {
+      "order": 3,
+      "id": "sort13_weak",
+      "planned_selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "domain": {
+        "input": [
+          12,
+          11,
+          10,
+          9,
+          8,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0
+        ],
+        "length": 13,
+        "caller_copy": "sort13_fault_network",
+        "ordinary_seam": "s2_swap_seam -> weak_swap",
+        "failure_description": "S2_NEG_SORT13_WEAK",
+        "claim": "fixed-fixture negative; not arbitrary-byte or actual sort13 proof"
+      },
+      "state": "NOT_IMPLEMENTED_NO_NATIVE_RUN",
+      "required_oracle": [
+        "exact intended literal negative only"
+      ],
+      "unwind_proposal": 34
+    },
+    {
+      "order": 4,
+      "id": "i_p01_b1_16",
+      "planned_selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p01_b1_16",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 1,
+        "span": 2,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "state": "NOT_IMPLEMENTED_NO_NATIVE_RUN",
+      "required_oracle": [
+        "active guards",
+        "actual insert_tail pre/post and precise active-span modifies",
+        "existing post(snapshot(old active),new active): order AND full-value multiplicity",
+        "every V34 byte outside active span unchanged; active span initialized on return"
+      ],
+      "unwind_proposal": 36
+    },
+    {
+      "order": 5,
+      "id": "m8_s32_d00_allinit",
+      "planned_selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::m8_s32_d00_allinit",
+      "domain": {
+        "backing": "[MaybeUninit<u8>;48]",
+        "src": 32,
+        "dst": 0,
+        "span": 8,
+        "source_sorted_halves": [
+          4,
+          4
+        ],
+        "initialized_intervals": [
+          [
+            8,
+            48
+          ]
+        ],
+        "uninitialized": "complement in [0,48), including dst",
+        "prior_initialized_values": "arbitrary full bytes, source halves alone sorted",
+        "original_allinit_pairs": 1,
+        "sort8_n32_side": null
+      },
+      "state": "NOT_IMPLEMENTED_NO_NATIVE_RUN",
+      "required_oracle": [
+        "active guards",
+        "actual bidirectional_merge8 pre/post and dst-only modifies",
+        "dst8 initialized before typed/spec read",
+        "existing post(snapshot(old src8),out8): order AND full-value multiplicity",
+        "src8 and all initialized outside-dst values unchanged",
+        "outside init mask preserved; no MU spec reads",
+        "shared-src/raw-dst provenance and separation established, not assumed from addresses"
+      ],
+      "unwind_proposal": 50
+    },
+    {
+      "order": 6,
+      "id": "i_p16_b1_16",
+      "planned_selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::i_p16_b1_16",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 16,
+        "span": 17,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "state": "NOT_IMPLEMENTED_NO_NATIVE_RUN",
+      "required_oracle": [
+        "active guards",
+        "actual insert_tail pre/post and precise active-span modifies",
+        "existing post(snapshot(old active),new active): order AND full-value multiplicity",
+        "every V34 byte outside active span unchanged; active span initialized on return"
+      ],
+      "unwind_proposal": 36
+    },
+    {
+      "order": 7,
+      "id": "m8_s32_d00_partial",
+      "planned_selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::m8_s32_d00_partial",
+      "domain": {
+        "backing": "[MaybeUninit<u8>;48]",
+        "src": 32,
+        "dst": 0,
+        "span": 8,
+        "source_sorted_halves": [
+          4,
+          4
+        ],
+        "initialized_intervals": [
+          [
+            32,
+            40
+          ]
+        ],
+        "uninitialized": "complement in [0,48), including dst",
+        "prior_initialized_values": "arbitrary full bytes, source halves alone sorted",
+        "original_allinit_pairs": 0,
+        "sort8_n32_side": 0
+      },
+      "state": "NOT_IMPLEMENTED_NO_NATIVE_RUN",
+      "required_oracle": [
+        "active guards",
+        "actual bidirectional_merge8 pre/post and dst-only modifies",
+        "dst8 initialized before typed/spec read",
+        "existing post(snapshot(old src8),out8): order AND full-value multiplicity",
+        "src8 and all initialized outside-dst values unchanged",
+        "outside init mask preserved; no MU spec reads",
+        "shared-src/raw-dst provenance and separation established, not assumed from addresses"
+      ],
+      "unwind_proposal": 50
+    },
+    {
+      "order": 8,
+      "id": "m8_s40_d16_partial",
+      "planned_selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_capped_candidate::m8_s40_d16_partial",
+      "domain": {
+        "backing": "[MaybeUninit<u8>;48]",
+        "src": 40,
+        "dst": 16,
+        "span": 8,
+        "source_sorted_halves": [
+          4,
+          4
+        ],
+        "initialized_intervals": [
+          [
+            0,
+            8
+          ],
+          [
+            32,
+            48
+          ]
+        ],
+        "uninitialized": "complement in [0,48), including dst",
+        "prior_initialized_values": "arbitrary full bytes, source halves alone sorted",
+        "original_allinit_pairs": 0,
+        "sort8_n32_side": 1
+      },
+      "state": "NOT_IMPLEMENTED_NO_NATIVE_RUN",
+      "required_oracle": [
+        "active guards",
+        "actual bidirectional_merge8 pre/post and dst-only modifies",
+        "dst8 initialized before typed/spec read",
+        "existing post(snapshot(old src8),out8): order AND full-value multiplicity",
+        "src8 and all initialized outside-dst values unchanged",
+        "outside init mask preserved; no MU spec reads",
+        "shared-src/raw-dst provenance and separation established, not assumed from addresses"
+      ],
+      "unwind_proposal": 50
+    }
+  ],
+  "row_count": 8,
+  "changed_order_or_domains": false,
+  "mask_obligations": {
+    "L": {
+      "src": 32,
+      "dst": 0,
+      "initial": [
+        [
+          32,
+          40
+        ]
+      ],
+      "required_post": [
+        [
+          0,
+          8
+        ],
+        [
+          32,
+          40
+        ]
+      ]
+    },
+    "R": {
+      "src": 40,
+      "dst": 16,
+      "initial": [
+        [
+          0,
+          8
+        ],
+        [
+          32,
+          48
+        ]
+      ],
+      "required_post": [
+        [
+          0,
+          8
+        ],
+        [
+          16,
+          24
+        ],
+        [
+          32,
+          48
+        ]
+      ]
+    },
+    "distinguishing_offset": 8,
+    "direct_core_check": "!crate::kani::mem::is_initialized(p.add(8))",
+    "fixed_flag_reduction": "!true = false",
+    "assurance": "Static pinned-source reduction, not native execution or fixture proof"
+  }
+}

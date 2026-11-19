@@ -1,0 +1,24 @@
+{
+  "schema": "s3-2-blocker-checkpoint-v1",
+  "status": "BLOCKED_REQUIRED_PARTIAL_MU_ORACLE_BINDING",
+  "task": "be42098995b302cade928d8caf6135adf7a1cc0d",
+  "runtime": "Codex high/FastOFF; no subagents/model changes",
+  "claims": [
+    {
+      "claim": "Fixed allowed flags disable actual initialization hook; necessary negative MU check reduces to false",
+      "assurance": "Static source-bound observation; no native compile/proof",
+      "citations": "SOURCE-CITATIONS.json; BLOCKER.md"
+    }
+  ],
+  "blocker": "Cannot bind required actual init/MU-mask oracle under unchanged stock0aac/currentflags; expected/manual masks are not actual production-store state",
+  "not_blocker": "pub(crate) visibility: in-core macro expansion makes the hook reachable",
+  "rows_preserved": 8,
+  "alternative": "Same8 actual full-byte fixtures/full post/known-initialized-value frame/PFC dst footprint/source-local store argument; actual mask binding OPEN, NOT_APPLIED pending root boundary decision",
+  "next": "Root decision on allowed proof/reporting boundary or separately authorized instrumentation design; do not narrow rows or change flags autonomously",
+  "native_compile_proof_cost_fit": "NOT_RUN",
+  "final_Validate": "NOT_RUN_NO_CANDIDATE",
+  "independent_implementation_review_ready": false,
+  "qualified_new_leaves": 0,
+  "proof_credit": 0,
+  "closure_reason": "Concrete expressibility gate reported to root as task requires before narrowing or deleting roots/obligations; other source/control/runtime work depends on that gate."
+}

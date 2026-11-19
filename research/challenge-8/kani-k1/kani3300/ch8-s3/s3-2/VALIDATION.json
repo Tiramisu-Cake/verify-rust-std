@@ -1,0 +1,21 @@
+{
+  "schema": "s3-2-blocker-validation-v1",
+  "status": "PASS_BOUNDED_SOURCE_FLAG_DOCUMENT_CONSISTENCY_ONLY",
+  "dependency_blob_sha256_bytes_matches": 15,
+  "citation_range_digest_matches": 16,
+  "retained_ordered_rows": 8,
+  "partial_fixture_integer_masks_checked": 2,
+  "decisive_static_branch": "enable_uninit false => is_initialized true; negative slot8 check false",
+  "visibility_correction": "in-core kani_lib!(core) expansion makes pub(crate) hook reachable; not a blocker",
+  "scope_limits": [
+    "No compiler/expansion/native PFC execution",
+    "No service/source gate/full Validate/six patch replays: no semantic candidate",
+    "No claim that a source-local store/footprint argument is impossible; alternative requires root decision",
+    "No independent initialization/frame/provenance proof",
+    "No new artifact analysis or source/control/CI/accounting mutation"
+  ],
+  "final_Validate": "NOT_RUN_NO_CANDIDATE",
+  "native_compile_proof_fit": "NOT_RUN",
+  "ready_for_implementation_review": false,
+  "proof_credit": 0
+}
