@@ -1,0 +1,604 @@
+{
+  "status": "PASS",
+  "authentic_cases": 3,
+  "negative_controls": [
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "wrong_id",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "wrong_display_id",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "wrong_class",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "status_FAILURE",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "status_UNREACHABLE",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "status_UNKNOWN",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "wrong_description",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "wrong_raw_display",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "wrong_root",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "record_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "record_duplicate",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "second_unknown_location",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "role_location_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "cover_location_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "U_location_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "file_key_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "line_key_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "file_wrong_type",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "line_wrong_type",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "mixed_invocation",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "mixed_member",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "wrong_request",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "wrong_source",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "wrong_tool",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "wrong_cfg",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "wrong_namespace",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "wrong_export_schema",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "changed_protected_identity",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "changed_guard_status",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "changed_control",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "changed_head",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "changed_workflow",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "mutation": "changed_run",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "wrong_id",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "wrong_display_id",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "wrong_class",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "status_FAILURE",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "status_UNREACHABLE",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "status_UNKNOWN",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "wrong_description",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "wrong_raw_display",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "wrong_root",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "record_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "record_duplicate",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "second_unknown_location",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "role_location_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "cover_location_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "U_location_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "file_key_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "line_key_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "file_wrong_type",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "line_wrong_type",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "mixed_invocation",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "mixed_member",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "wrong_request",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "wrong_source",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "wrong_tool",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "wrong_cfg",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "wrong_namespace",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "wrong_export_schema",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "changed_protected_identity",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "changed_guard_status",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "changed_control",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "changed_head",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "changed_workflow",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "mutation": "changed_run",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "wrong_id",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "wrong_display_id",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "wrong_class",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "status_FAILURE",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "status_UNREACHABLE",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "status_UNKNOWN",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "wrong_description",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "wrong_raw_display",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "wrong_root",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "record_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "record_duplicate",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "second_unknown_location",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "role_location_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "cover_location_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "U_location_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "file_key_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "line_key_missing",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "file_wrong_type",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "line_wrong_type",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "mixed_invocation",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "mixed_member",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "wrong_request",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "wrong_source",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "wrong_tool",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "wrong_cfg",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "wrong_namespace",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "wrong_export_schema",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "changed_protected_identity",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "changed_guard_status",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "changed_control",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "changed_head",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "changed_workflow",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "mutation": "changed_run",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    }
+  ],
+  "scope": "Bounded authentic-record mutations with existing frozen streaming parser/stock inventory/protected readers and separate exact-case model. NOT runtime policy activation.",
+  "frozen_reader": "All3 unchanged REJECT rich metadata incomplete: file/line missing",
+  "hypothetical_cases": "All3 exact authentic ACCEPT; all mutations REJECT",
+  "proposal_applied": false
+}

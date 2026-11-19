@@ -1,0 +1,17 @@
+# Location proposal — NOT_APPLIED
+
+Recommend three separately enumerated metadata-only extension candidates for independent14 and root/coordinator consideration. No runtime reader/request/policy/admission/history is changed. Actual shared emitter identity remains UNKNOWN; the optional general metadata-only rule is PENDING and not recommended for activation without authentic emitter/MIR-origin binding.
+
+|Root|Exact property|Invocation|Allowed missing cardinality|Qualification effect|
+|---|---|---|---|---|
+|m8_s32_d00_allinit|slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.unreachable.1|189628db8bdc48279407d1b3ee938808|1|Only location decision proposed; bounded PFC S1 qualification remains separate root/coordinator decision|
+|m8_s32_d00_partial_diag|slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.unreachable.1|684bfd6aab514f55bb6a9cb250b2b8b0|1|DIAG_INIT_OPEN permanently remains diagnostic/init-provider eligibility false|
+|m8_s40_d16_partial_diag|slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.unreachable.1|74b9eae5ed164a8ea4732993b42e4de1|1|DIAG_INIT_OPEN permanently remains diagnostic/init-provider eligibility false|
+
+Every semantic fingerprint fixes classunreachable, statusSUCCESS, descriptionunreachable code, present-null file/line, exact ID/display ID/harness function/raw0:0 display, exactly one allowed record, and exclusion from roles/covers/statusUNREACHABLE U. Structural packet fingerprints and full source/tool/control/head/request/workflow/run/attempt/root/invocation/namespace/argv/cfg/export/property/binding/compile-member hashes pin each exact observed case. Tool0aac, stock schema0.1.0, rich schema ch8-s1-05-rich-v1 and exact rich parser SHA256 `1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139` remain pinned by LOCATION-PROPOSAL.json. (Full exact fingerprints, counts, all U/guard/role records are in that JSON.)
+
+Required gates remain: complete stock/schema/config/native selector/unwind and same-invocation partitions; exact5positive SUCCESS assertions and6SAT covers; individually assessed8U; every other role/cover/U/guard positive location; all4SUCCESS guards retained; no failed/error/unknown/undetermined or duplicate/missing/extra-location record; source/compile/native start/contract/frame/caller/protected snapshot/cleanup/seal bindings. U REJECT_ALL/proposalDISABLED remains immutable. A metadata proposal does not grant an initialization, safety, U or role waiver.
+
+The separate exact-case test model accepts each authentic observed packet and rejects33 mutations per case (99 total): ID/display/class, statusesFAILURE/UNREACHABLE/UNKNOWN, description/raw display/root, missing/duplicate record, second bad location, role/cover/U missing location, absent keys/wrong types, mixed invocation/member, changed request/source/tool/cfg/namespace/schema/protected binary/control/head/workflow/run, changed guard status. Existing frozen streaming/stock inventory/protected readers are reused; the actual reader still rejects every authentic new case. Three additional bounded portable-seal/protected-reader adverse checks reject missing/tampered members and changed binary. These tests do not activate runtime policy.
+
+Partial rows permanently remain DIAG_INIT_OPEN in this proposal, qualification/init/provider eligibility false, with actual mask/dstinit/provider contexts OPEN. No original producer record or historical decision is rewritten.

@@ -1,0 +1,13 @@
+# READY — owned immutable intake for root, then independent14
+
+Task `e5a9d8f40c82408abf033466e0d50e94d77fad31`, base `8ea5bbbf8872fdb9a3f4b207b390e79dea3fcff5`. Native run44439462279/1 completed/failure and identities MATCH. Canonical package only: kani3300/ch8-s3/run-44439462279/. Preserve current high/FastOFF; no subagents/model change. Commit identifier is supplied in the final handoff, since a commit cannot embed its own hash.
+
+Read RESULT → QUALIFICATION → METADATA-GAP/LOCATION-PROPOSAL → COST → PREFIX-REPLAY, each md/json. Evidence digest-first, one compact only,119 structured members, eight completed seals. Frozen public upload-only collector equals materialized replay. Validation1120 checks,102 adverse controls; source STATIC_PASS; no native/fullValidate execution.
+
+Three exact labelled negativeFAILs;3merge nativeSUCCESS;2insertion RSS-censored/no completed inventory. Strict0/8, producer3OBSERVED/5UNKNOWN unchanged.41U occurrence arguments and12SUCCESS unsupported guards retained. Allinit is a provisional bounded PFC S1 candidate pending exact location/review/root/coordinator decision. Both partial rows remain DIAG_INIT_OPEN, actual mask/dstinit/provider eligibility false/OPEN. New qualified leaves0, init/provider contexts closed0, independent proof NONE.
+
+Both insertion stops are local sampled PGID RSS, not child600/compile180/slot720/global wall:131.465s/6361996KiB and126.130s/6330308KiB, cap6291456, exit-15/signal15, cleanup verified and next roots continued. Native merge verification resources197.389008141/195.062798708/198.946209131s are distinct from236.409/232.507/238.029s whole-child elapsed. Sampled RSS is not kernel/tree peak; changed geometry yields no matched speedup/full-domain fit600 claim.
+
+Exactly one lib.rs:0:0 classunreachable/statusSUCCESS system record per merge; all roles/covers/individually assessedU and guards located. Actual shared emitter or positive source/MIR origin UNKNOWN. Old f740 exact original-run decision is not transferred. Three explicitly pinned metadata-only candidates are NOT_APPLIED; optional general rule stays PENDING, no wildcard. Authentic cases pass separate hypothetical model;33 mutations per case reject; actual frozen reader continues to reject.
+
+Root checks full committed READY paths/pins/manifests/provenance/replay/cost, then coordinator separately issues independent14 against exact sealed fullg0. No review/stage is launched here. No source/control/runtime/parser/policy/ledger/accounting/CI/native compiler edits or actions, no push, no raw/full archives/logs/GCS bypass. All34sort8 initialization/caller contexts and generic/fullN16N32 remain OPEN; partial diagnostics close0 qualified contexts.
