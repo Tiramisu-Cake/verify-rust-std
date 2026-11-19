@@ -1,0 +1,206 @@
+{
+  "schema": "s3-3-insert-plan-inputs-v1",
+  "task": "1f8c6fb3153527fe887af40fe024371268377ee7",
+  "status": "READY_PLANONLY_INPUTS_BOUND",
+  "source": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+  "source_tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+  "control": "775574eb2f361ef90eade30330ff0d608530287f",
+  "control_tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+  "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+  "intake": "5d9439a7641c929838bf075c6aa6533a353ee92d",
+  "run": 44439462279,
+  "attempt": 1,
+  "intake_assurance": "Root-verified intake bindings plus exact independent14 reporting/qualification assessment; SOURCE_REPORTED method associations, no independent B1/B2/MIR/init proof",
+  "root_verification_report": "35files/33manifest hashes plus55g0 dependency files/41source/6tool/84control bindings checked by root; not repeated here",
+  "independent_review_commit": "028531727fc48ef9f26f16dfb95c2b2666c96dd7",
+  "independent_review_status": "APPROVE_INTAKE_WITH_PRESERVED_LIMITS;zero blockers;1529checks/108controls per root",
+  "root_session_followup": "Confirmed Ceff=min(L,12GiB,A-2GiB), A at actual epoch; outer12 not14;6.5 proposal only/full-cap A>=8.5; preserve p1 full-byte scope/full goals; seal pending rather than wait",
+  "runtime": "CURRENT13 high/FastOFF; no subagents/model change",
+  "censored_insertions": {
+    "i_p01_b1_16": {
+      "relative_tail": 1,
+      "span": 2,
+      "begin": [
+        1,
+        16
+      ],
+      "compile_observation_upper_seconds": 33.306,
+      "whole_child_seconds": 131.465,
+      "sampled_local_trigger_kib": 6361996,
+      "outer_sampled_peak_kib": 6380208,
+      "cutoff": "LOCAL_SAMPLED_PGID_RSS",
+      "cap_kib": 6291456,
+      "original_exit": -15,
+      "signal": 15,
+      "timed_out": false,
+      "compile_state": "COMPLETE",
+      "cleanup_verified": true,
+      "next_root_continued": true,
+      "native_verification_time": "UNKNOWN_CENSORED",
+      "completion_memory_needed": "UNKNOWN",
+      "phase": "AFTER_STOCK_INITIAL_EXPORT; exact backend/symex UNKNOWN",
+      "rss_at_signal_or_kernel_tree_peak": "UNKNOWN"
+    },
+    "i_p16_b1_16": {
+      "relative_tail": 16,
+      "span": 17,
+      "begin": [
+        1,
+        16
+      ],
+      "compile_observation_upper_seconds": 31.836,
+      "whole_child_seconds": 126.13,
+      "sampled_local_trigger_kib": 6330308,
+      "outer_sampled_peak_kib": 6348352,
+      "cutoff": "LOCAL_SAMPLED_PGID_RSS",
+      "cap_kib": 6291456,
+      "original_exit": -15,
+      "signal": 15,
+      "timed_out": false,
+      "compile_state": "COMPLETE",
+      "cleanup_verified": true,
+      "next_root_continued": true,
+      "native_verification_time": "UNKNOWN_CENSORED",
+      "completion_memory_needed": "UNKNOWN",
+      "phase": "AFTER_STOCK_INITIAL_EXPORT; exact backend/symex UNKNOWN",
+      "rss_at_signal_or_kernel_tree_peak": "UNKNOWN"
+    }
+  },
+  "other_source_reported_observations": {
+    "merge_native_verification_seconds": [
+      197.389008141,
+      195.062798708,
+      198.946209131
+    ],
+    "merge_whole_child_seconds": [
+      236.409,
+      232.507,
+      238.029
+    ],
+    "controls_whole_child_seconds": [
+      34.224,
+      33.017,
+      32.899
+    ],
+    "setup_total_seconds": 721.402300596,
+    "tool_build_subprocess_seconds": 267.439,
+    "strict_matches": "0/8 unchanged; producerUNKNOWN preserved",
+    "U_occurrences": 41,
+    "SUCCESS_guards": 12,
+    "location_exact_cases": "3 NOT_APPLIED; shared emitter identity UNKNOWN; oldf740 original-run only",
+    "independent_proof_credit": "NONE",
+    "qualified_new_leaves_at_original_intake": 0,
+    "qualification_at_original_intake": "allinit provisional bounded PFC pending location/review; partials DIAG_INIT_OPEN even after any location decision"
+  },
+  "current_caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "setup_seconds": 1800,
+  "job_minutes": 180,
+  "flags": {
+    "unstable": [
+      "function-contracts",
+      "mem-predicates",
+      "float-lib",
+      "c-ffi",
+      "loop-contracts",
+      "quantifiers",
+      "stubbing",
+      "export-json"
+    ],
+    "assert_contracts": false,
+    "jobs": 1,
+    "harness_timeout": "600s",
+    "exact": true,
+    "default_unwind": 50,
+    "cbmc_args": [
+      "--object-bits",
+      "12"
+    ],
+    "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf"
+  },
+  "accounting_reference": {
+    "ledger": "df305d47173284dfd54ad55d6b7567c892790c87",
+    "item1": "31/31",
+    "item2": "13/17",
+    "total": "44/48",
+    "remaining_attempts": 4,
+    "hypothetical": [
+      "one S3-3",
+      "one S4",
+      "one S5",
+      "one failure reserve"
+    ],
+    "reservation_or_mutation": false,
+    "admission_append_only_note": "ff193cc35690a5daabaa849d412c58d9f286d893"
+  },
+  "forbidden_actions_performed": false,
+  "artifact_acquisition_or_analysis_repeated": false,
+  "actual_run_head_from_review": "474a9d1617d77f34566e6992debc604c70a9e9ea",
+  "review_root_verification_report": "Root reports19files/17hashes verified; W13 consumed only exact HANDOFF/REPORT, no duplicate property/compact audit",
+  "admission_commit": "ff193cc35690a5daabaa849d412c58d9f286d893",
+  "admission_status": "ADMITTED_EXACT_METADATA_CASES_AND_ONE_BOUNDED_SOURCE_REPORTED_CASE",
+  "review_location_recommendation": {
+    "status": "RECOMMEND_EXACT_CASES",
+    "cases": 3,
+    "applied_by_review": false,
+    "general_rule": "PENDING",
+    "actual_shared_emitter_and_positive_source_MIR_origin": "UNKNOWN",
+    "oldf740": "original-run only"
+  },
+  "current_exact_admission": {
+    "metadata_cases": 3,
+    "bounded_SOURCE_REPORTED_cases": 1,
+    "case_id": "m8_s32_d00_allinit",
+    "case_status": "QUALIFIED_BOUNDED_SOURCE_REPORTED",
+    "scope": "Functional/known-initialized-value frame at one original allinit geometry, not byte-state initialization theorem/universal contract/provider summary",
+    "diagnostic_rows": [
+      {
+        "id": "m8_s32_d00_partial_diag",
+        "metadata_gate": "EXACT_CASE_ADMITTED_ONLY",
+        "status": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+        "native_verdict": "SUCCESS",
+        "qualification_as_init_leaf_provider_summary": false,
+        "actual_mask_dstinit": "OPEN",
+        "closed_qualified_init_provider_contexts": 0
+      },
+      {
+        "id": "m8_s40_d16_partial_diag",
+        "metadata_gate": "EXACT_CASE_ADMITTED_ONLY",
+        "status": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+        "native_verdict": "SUCCESS",
+        "qualification_as_init_leaf_provider_summary": false,
+        "actual_mask_dstinit": "OPEN",
+        "closed_qualified_init_provider_contexts": 0
+      }
+    ],
+    "negative_controls": "Reviewed observations; no additional qualification in this note",
+    "insertions": "RSS_CENSORED_UNKNOWN_UNQUALIFIED",
+    "general_rule": {
+      "status": "PENDING_NOT_ADMITTED",
+      "actual_shared_emitter": "UNKNOWN",
+      "positive_source_MIR_origin": "UNKNOWN",
+      "no_wildcard_for_lib_rs_zero_or_unreachable_suffix": true,
+      "old_f740": "UNCHANGED_ORIGINAL_RUN_ONLY; no transfer",
+      "next_requirement": "Authentic common emitter/normalization identity and reviewed rule contract before any separate general metadata decision"
+    },
+    "strict0of8_and_producer_history": "UNCHANGED",
+    "accounting_change": false
+  }
+}

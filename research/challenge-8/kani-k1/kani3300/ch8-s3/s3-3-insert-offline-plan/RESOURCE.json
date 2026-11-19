@@ -1,0 +1,76 @@
+{
+  "schema": "s3-3-resource-comparison-v1",
+  "unit": "GiB=1048576KiB",
+  "current_L_kib": 6291456,
+  "outer_kib": 12582912,
+  "available_reserve_kib": 2097152,
+  "effective_formula": "min(L,12GiB,A-2GiB), reject nonpositive available budget",
+  "A": "min(host MemAvailable,finite configured cgroup memory.max-memory.current), measured at its actual admission epoch; future A UNKNOWN",
+  "outer14_claim": false,
+  "sampling": "Local50ms PGID/outer20ms owned live-PID VmRSS; non-atomic, overshoot possible, no kernel/cgroup/tree peak guarantee",
+  "threshold": "cutoff when observed RSS > cap, not >=",
+  "options": [
+    {
+      "local_GiB": "6.25",
+      "local_kib": 6553600,
+      "increase_from6_kib": 262144,
+      "full_local_admission_A_kib": 8650752,
+      "outer12_minus_local_kib": 6029312,
+      "above_max_prior_trigger_kib": 191604,
+      "status": "PROPOSED_NOT_APPLIED",
+      "default_memory_alternative": false
+    },
+    {
+      "local_GiB": "6.5",
+      "local_kib": 6815744,
+      "increase_from6_kib": 524288,
+      "full_local_admission_A_kib": 8912896,
+      "outer12_minus_local_kib": 5767168,
+      "above_max_prior_trigger_kib": 453748,
+      "status": "PROPOSED_NOT_APPLIED",
+      "default_memory_alternative": true
+    },
+    {
+      "local_GiB": "7",
+      "local_kib": 7340032,
+      "increase_from6_kib": 1048576,
+      "full_local_admission_A_kib": 9437184,
+      "outer12_minus_local_kib": 5242880,
+      "above_max_prior_trigger_kib": 978036,
+      "status": "PROPOSED_NOT_APPLIED",
+      "default_memory_alternative": false
+    },
+    {
+      "local_GiB": "8",
+      "local_kib": 8388608,
+      "increase_from6_kib": 2097152,
+      "full_local_admission_A_kib": 10485760,
+      "outer12_minus_local_kib": 4194304,
+      "above_max_prior_trigger_kib": 2026612,
+      "status": "PROPOSED_NOT_APPLIED",
+      "default_memory_alternative": false
+    }
+  ],
+  "smallest_useful_memory_proposal": "6.5GiB,0.5GiB step chosen as bounded discrimination design, not a measured optimum or fit prediction",
+  "future_admission_requirement": "A>=8.5GiB AND effective cap exactly6815744KiB for named6.5 experiment; otherwise defer/refuse, no reserve bypass",
+  "planning_room_limit": "For comparison keep L<=outer12-reserve2=10GiB, leaving arithmetic room for owned overhead; this extra planning guard is not a current runtime guarantee",
+  "bindings_needing_consistent_future_profile": [
+    "runner request budget validation",
+    "profile-specific local clamp; keep legacy6GiB",
+    "receipt actual cap/admission snapshot",
+    "strict local and upload readers",
+    "new exact request/profile/snapshots/payload hashes"
+  ],
+  "unchanged_constraints": [
+    "outer12GiB",
+    "available reserve2GiB",
+    "child600 inclcompile180",
+    "slot720",
+    "campaign6900",
+    "setup1800/job180",
+    "strict cleanup/provenance/prefix/output/status gates"
+  ],
+  "new_information": "Exact same-domain D1 completion or a new censored memory/time boundary; not minimum memory needed or a p16/full-domain theorem",
+  "automatic_escalation_or_rerun": false,
+  "runtime_or_cap_edits": false
+}

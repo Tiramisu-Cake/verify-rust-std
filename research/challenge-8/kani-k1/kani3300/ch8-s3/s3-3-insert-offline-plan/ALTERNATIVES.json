@@ -1,0 +1,403 @@
+{
+  "schema": "s3-3-insert-alternatives-v1",
+  "status": "READY_PLANONLY_INPUTS_BOUND",
+  "common": {
+    "type": "u8",
+    "comparator": "actual sorting_model::KeyLess<u8>, pure stateless full-byte <",
+    "alphabet": "Every logical byte0..255; only explicit sorted-prefix/branch premises restrict values",
+    "backing_default": "initialized V34",
+    "source_algorithm": "frozen1b4a904 insert_tail/CopyOnDrop, unchanged contracts/CFG",
+    "oracles": [
+      "active model guards",
+      "actual body/full current PFC ensures",
+      "existing sortedness AND full-value multiplicity post",
+      "every outside active byte frame",
+      "arbitrary initialized outside canary",
+      "stock safety/unwind checks"
+    ],
+    "proof_status": "NOT_REGISTERED_NOT_RUN_NO_CREDIT",
+    "provider_scope": "A restricted PFC cannot qualify universal insert contract or new caller; no verified/ordinary summary substitution",
+    "init_scope": "Input initialized by typed fixture construction; no independent actual-state init theorem inferred from current flags"
+  },
+  "domain_alternatives": [
+    {
+      "id": "i_p01_b01_fullu8",
+      "kind": "FIXED_BASE_FULL_BYTE_PFC_DISCRIMINATOR",
+      "domain": {
+        "backing": 34,
+        "begin": 1,
+        "p": 1,
+        "span": 2,
+        "prefix_sorted_length": 1
+      },
+      "geometry_pairs": 1,
+      "original_total_pairs": 256,
+      "retained_I_D1_pairs": [
+        1,
+        16
+      ],
+      "missing_original_pairs": 255,
+      "selected_preferred": true,
+      "covers": [
+        "EARLY_RETURN",
+        "FULL_SIFT",
+        "DUPLICATE",
+        "NONCONSTANT",
+        "USEFUL_RETURN"
+      ],
+      "forbidden_covers": [
+        "BASE_LAST_16"
+      ],
+      "selector_proposed": "slice::sort::shared::smallsort::verify::sorting_s3_3_future::i_p01_b01_fullu8",
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "unwind_proposal": 36,
+      "positive_assertion_roles_proposed": [
+        "ACTIVE",
+        "SORTED_FULL_COUNT",
+        "OUTSIDE_FRAME",
+        "CANARY"
+      ]
+    },
+    {
+      "id": "i_p16_b01_fullu8",
+      "kind": "FIXED_BASE_FULL_BYTE_PFC_ALTERNATIVE",
+      "domain": {
+        "backing": 34,
+        "begin": 1,
+        "p": 16,
+        "span": 17,
+        "prefix_sorted_length": 16
+      },
+      "geometry_pairs": 1,
+      "original_total_pairs": 256,
+      "retained_I_D16_pairs": [
+        1,
+        16
+      ],
+      "missing_original_pairs": 255,
+      "selected_preferred": false,
+      "defer_reason": "Do not repeat p16 until a smaller discriminator gives new information",
+      "covers": [
+        "EARLY_RETURN",
+        "FULL_SIFT",
+        "DUPLICATE",
+        "NONCONSTANT",
+        "USEFUL_RETURN"
+      ],
+      "selector_proposed": "slice::sort::shared::smallsort::verify::sorting_s3_3_future::i_p16_b01_fullu8",
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "unwind_proposal": 36,
+      "positive_assertion_roles_proposed": [
+        "ACTIVE",
+        "SORTED_FULL_COUNT",
+        "OUTSIDE_FRAME",
+        "CANARY"
+      ]
+    },
+    {
+      "id": "i_p08_b1_16_fullu8",
+      "kind": "SHORTER_THAN_P16_DISTINCT_LENGTH",
+      "domain": {
+        "backing": 34,
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "p": 8,
+        "span": 9,
+        "prefix_sorted_length": 8
+      },
+      "geometry_pairs": 16,
+      "original_total_pairs": 256,
+      "missing_original_pairs": 240,
+      "relation_to_current_p16": "Different length, not a proof of fixed p16 or a value subset of that fixture",
+      "selected_preferred": false,
+      "use": "General half-growth p8 after sort8, but actual MU48/base0,h context not covered",
+      "covers": [
+        "BASE_FIRST",
+        "BASE_LAST",
+        "EARLY_RETURN",
+        "FULL_SIFT",
+        "DUPLICATE",
+        "NONCONSTANT",
+        "USEFUL_RETURN"
+      ],
+      "selector_proposed": "slice::sort::shared::smallsort::verify::sorting_s3_3_future::i_p08_b1_16_fullu8",
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "unwind_proposal": 36,
+      "positive_assertion_roles_proposed": [
+        "ACTIVE",
+        "SORTED_FULL_COUNT",
+        "OUTSIDE_FRAME",
+        "CANARY"
+      ]
+    },
+    {
+      "id": "i_p01_b1_16_early_fullu8",
+      "kind": "EXPLICIT_DATA_PARTITION",
+      "domain": {
+        "backing": 34,
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "p": 1,
+        "span": 2,
+        "data_premise": "x>=A[0]"
+      },
+      "geometry_pairs": 16,
+      "full_data_coverage_of_each_geometry": false,
+      "value_pairs_per_geometry": 32896,
+      "selected_preferred": false,
+      "covers": [
+        "BASE_FIRST",
+        "BASE_LAST",
+        "EARLY_RETURN",
+        "DUPLICATE",
+        "NONCONSTANT",
+        "USEFUL_RETURN"
+      ],
+      "forbidden_covers": [
+        "FULL_SIFT",
+        "UNSORTED_INPUT"
+      ],
+      "selector_proposed": "slice::sort::shared::smallsort::verify::sorting_s3_3_future::i_p01_b1_16_early_fullu8",
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "unwind_proposal": 36,
+      "positive_assertion_roles_proposed": [
+        "ACTIVE",
+        "SORTED_FULL_COUNT",
+        "OUTSIDE_FRAME",
+        "CANARY"
+      ]
+    },
+    {
+      "id": "i_p01_b1_16_sift_fullu8",
+      "kind": "EXPLICIT_DATA_PARTITION",
+      "domain": {
+        "backing": 34,
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "p": 1,
+        "span": 2,
+        "data_premise": "x<A[0]"
+      },
+      "geometry_pairs": 16,
+      "full_data_coverage_of_each_geometry": false,
+      "value_pairs_per_geometry": 32640,
+      "selected_preferred": false,
+      "covers": [
+        "BASE_FIRST",
+        "BASE_LAST",
+        "FULL_SIFT",
+        "NONCONSTANT",
+        "USEFUL_RETURN"
+      ],
+      "forbidden_covers": [
+        "DUPLICATE",
+        "EARLY_RETURN"
+      ],
+      "selector_proposed": "slice::sort::shared::smallsort::verify::sorting_s3_3_future::i_p01_b1_16_sift_fullu8",
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "unwind_proposal": 36,
+      "positive_assertion_roles_proposed": [
+        "ACTIVE",
+        "SORTED_FULL_COUNT",
+        "OUTSIDE_FRAME",
+        "CANARY"
+      ]
+    },
+    {
+      "id": "i_p01_b00_v02_fullu8",
+      "kind": "REJECTED_AS_NEXT_DIFFERENT_BACKING_DIAGNOSTIC",
+      "domain": {
+        "backing": 2,
+        "begin": 0,
+        "p": 1,
+        "span": 2
+      },
+      "geometry_pairs_in_original_V34": 0,
+      "selected_preferred": false,
+      "reason": "No original full-V34 exterior/canary scope; incomparable allocation without checked locality theorem. Do not drop old frame/canary requirements or register impossible outside witnesses.",
+      "selector_proposed": "slice::sort::shared::smallsort::verify::sorting_s3_3_future::i_p01_b00_v02_fullu8",
+      "state": "NOT_REGISTERED_NOT_RUN",
+      "unwind_proposal": "NOT_SELECTED",
+      "positive_assertion_roles_proposed": "NOT_SELECTED_NO_ORIGINAL_FRAME_CLAIM"
+    }
+  ],
+  "source_specific_value_partitions": {
+    "p1": "E:x>=A[0],S:x<A[0]; disjoint exhaustive65536 ordered byte pairs per geometry",
+    "geometry_union": "16 pairs, NOT32",
+    "p_ge2": "E:x>=last,F:x<first,M:first<=x<last with sorted prefix first<=last",
+    "p1_interior": "EMPTY; not registered or given impossible cover",
+    "assurance": "Predicate/integer coverage only, not proof actual body/Drop/frame/count"
+  },
+  "positive_network_alternative": {
+    "id": "sort9_v34_b01_len09_real",
+    "selector_proposed": "slice::sort::shared::smallsort::verify::sorting_s3_3_future::sort9_v34_b01_len09_real",
+    "mode": "Original",
+    "state": "NOT_REGISTERED_NOT_RUN",
+    "actual_target": "sort9_optimal",
+    "domain": {
+      "backing": 34,
+      "active_interval": [
+        1,
+        10
+      ],
+      "length": 9,
+      "values": "independent fullu8 on entire initialized V34",
+      "outside_positions": 25,
+      "input_order_premise": "NONE"
+    },
+    "body": "Actual25 swap_if_less calls; no stubs/copies/summary assumptions",
+    "oracles": [
+      "active guard",
+      "current post(snapshot(old active9),new active9): full order/count",
+      "all25 exterior values unchanged",
+      "arbitrary exterior canary",
+      "stock checks and retained unwind assertions"
+    ],
+    "covers": [
+      "UNSORTED_INPUT",
+      "DUPLICATE",
+      "NONCONSTANT_OUTPUT",
+      "USEFUL_RETURN"
+    ],
+    "unwind_proposal": 36,
+    "init_mode_boundaries": "Initialized in-place V34; no partialMU or independent init proof. Original actual-body observation, no network contract/PFC provider summary.",
+    "remaining": [
+      "other bases and caller slice lengths10..12",
+      "positive13",
+      "prefix extension and full callers",
+      "exact source/tool/cfg/provider/provenance/frame entailment"
+    ]
+  },
+  "negative_controls": [
+    {
+      "id": "checker_order_corrupt",
+      "domain": "fixed[1,2] ->[2,1]",
+      "expected_label": "S2_NEG_CHECKER_ORDER",
+      "mode": "Original",
+      "expected": "Exactly intended literal FAILURE; no unrelated failure/U/status/guard/location waiver",
+      "unwind": 34,
+      "existing_native_selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "current_admission_scope": "Reviewed exact negative observations in current run, no additional qualification by ff193cc"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "domain": "fixed[1u8;32],out[31]=2",
+      "expected_label": "S2_NEG_CHECKER_COUNT",
+      "mode": "Original",
+      "expected": "Exactly intended literal FAILURE; no unrelated failure/U/status/guard/location waiver",
+      "unwind": 34,
+      "existing_native_selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "current_admission_scope": "Reviewed exact negative observations in current run, no additional qualification by ff193cc"
+    },
+    {
+      "id": "sort13_weak",
+      "domain": "fixed descending[12..0],len13, source-bound sort13_fault_network with ordinary uncontracted s2_swap_seam->weak_swap",
+      "expected_label": "S2_NEG_SORT13_WEAK",
+      "mode": "Original",
+      "expected": "Exactly intended literal FAILURE; no unrelated failure/U/status/guard/location waiver",
+      "unwind": 34,
+      "existing_native_selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "current_admission_scope": "Reviewed exact negative observations in current run, no additional qualification by ff193cc"
+    }
+  ],
+  "preferred_workflow": {
+    "authorization": "NONE; review0285317/admissionff193cc now bound for prior exact cases only; root selection then separate exact implementation/review/GO required",
+    "attempts_proposed_max": 1,
+    "order": [
+      "checker_order_corrupt",
+      "checker_count_corrupt",
+      "sort13_weak",
+      "i_p01_b01_fullu8",
+      "sort9_v34_b01_len09_real"
+    ],
+    "slots": 5,
+    "serial_fresh_singleton": true,
+    "local_rss_kib": 6291456,
+    "compile_each": "Fresh per-root upper cap180 included in600 child",
+    "envelope_seconds": 4020,
+    "remaining_inside6900_seconds": 2880,
+    "caps": "All existing caps unchanged",
+    "costs_next_native_compile_verification_and_RSS": "UNKNOWN; no fit extrapolation",
+    "coverage_if_new_bounded_results_admitted": "One full-byte insertion geometry of256 plus one actual positive9 fixed-base/len9 case; no full N16/32 or provider theorem",
+    "root_priority": "Smallest original insertion span/fixed base, then independent actual9. No unchanged p16 repeat.",
+    "continuation": "A local RSS stop can continue to independent9 only under existing verified cleanup/protected post. Global failures stop/laterNOT_RUN. No dynamic root substitution."
+  },
+  "memory_only_workflow_alternative": {
+    "mutually_exclusive_with_preferred": true,
+    "authorization": "NONE",
+    "profile_proposed_id": "S3-3-RSS6P5-ONE-INSERT",
+    "order": [
+      "checker_order_corrupt",
+      "checker_count_corrupt",
+      "sort13_weak",
+      "i_p01_b1_16"
+    ],
+    "existing_native_selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::i_p01_b1_16",
+    "source": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+    "domain": "Same V34/b1..16/p1/fullbyte/PFC/oracles as capped I-D1; only intended local RSS resource boundary changes",
+    "slots": 4,
+    "envelope_seconds": 3300,
+    "proposed_local_rss_kib": 6815744,
+    "required_available_A_kib": 8912896,
+    "required_effective_cap_kib": 6815744,
+    "child_compile_slot_unchanged": [
+      600,
+      180,
+      720
+    ],
+    "extra_p16_or_cap_ladder": false,
+    "source_control_profile_implementation": "NOT_CREATED_NOT_AUTHORIZED"
+  },
+  "defer_conditions": [
+    "Any further review finding/report binding discrepancy or unresolved prospective location/admission boundary; report0285317 approved intake with preserved limits, not new root/CI admission",
+    "Root judges strict missing-location/admission path makes information unusable without separate prospective diagnostic decision",
+    "Future intended resource availability/effective cap cannot be established",
+    "Source/cfg/full post/frame/control/role/cover/provenance checks unsupported",
+    "Fixed-base p1 caps again: return to checked decomposition design, not unchanged p16/cap-ladder retries"
+  ],
+  "budget_reference": {
+    "ledger": "df305d47173284dfd54ad55d6b7567c892790c87",
+    "item1": "31/31",
+    "item2": "13/17",
+    "total": "44/48",
+    "remaining_attempts": 4,
+    "hypothetical": [
+      "one S3-3",
+      "one S4",
+      "one S5",
+      "one failure reserve"
+    ],
+    "reservation_or_mutation": false
+  },
+  "qualification_and_credit": {
+    "proof_credit": "NONE",
+    "review_or_native_SUCCESS_not_admission": true,
+    "new_S3_3_qualified_leaves": 0,
+    "prior_S3_2_allinit_admitted_bounded_cases": 1
+  },
+  "original_full_goal": {
+    "backing": 34,
+    "begin_inclusive": [
+      1,
+      16
+    ],
+    "relative_tail_inclusive": [
+      1,
+      16
+    ],
+    "active_span_inclusive": [
+      2,
+      17
+    ],
+    "geometries": 256,
+    "full_active_length16_p15": "OPEN_ALL_BASES_FULL_BYTE",
+    "max_tail16_prefix16_active17": "OPEN_ALL_BASES_FULL_BYTE",
+    "p1_does_not_discharge_long_lengths": true
+  }
+}

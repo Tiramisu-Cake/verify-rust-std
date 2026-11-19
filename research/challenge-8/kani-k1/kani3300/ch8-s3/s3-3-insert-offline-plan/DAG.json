@@ -1,0 +1,100 @@
+{
+  "schema": "s3-3-full-obligation-decomposition-v1",
+  "source": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+  "nodes": [
+    {
+      "id": "D0_DOMAIN",
+      "requires": [],
+      "obligation": "u8/KeyLess,V34,b1..16,p1..16,sorted prefix,live initialized writable span2..17,provenance/alignment/nonwrap,precise outside frame",
+      "status": "UNPROVED_EXACT_CALLEE_AND_CALLER_ENTAILMENT"
+    },
+    {
+      "id": "D1_EARLY",
+      "requires": [
+        "D0_DOMAIN"
+      ],
+      "obligation": "Actual comparison/return path x>=last; identity transfer implies order/count/frame under sorted prefix",
+      "status": "NO_COMPLETED_INSERT_PROOF"
+    },
+    {
+      "id": "D2_GAP_START",
+      "requires": [
+        "D0_DOMAIN"
+      ],
+      "obligation": "Actual tail.read/ManuallyDrop tmp/CopyOnDrop fields; establish logical value gap at p, held x, no typed spec read of gap",
+      "status": "UNPROVED_LOGICAL_RELATION_NOT_ACTUAL_INIT_BITS"
+    },
+    {
+      "id": "D3_STEP",
+      "requires": [
+        "D2_GAP_START"
+      ],
+      "obligation": "Actual copy at688 moves old A[g-1] into gap g; update guard.dst, pointer bounds, moved>x, logical multiset/precise frame; no assume-invariant",
+      "status": "UNPROVED_SOURCE_TO_ACTUAL_BODY_BINDING"
+    },
+    {
+      "id": "D4_STOP",
+      "requires": [
+        "D3_STEP"
+      ],
+      "obligation": "g decreases; actual stopg0 or predecessor<=x, no extra source reads; only bounded normal return",
+      "status": "UNPROVED"
+    },
+    {
+      "id": "D5_DROP",
+      "requires": [
+        "D4_STOP"
+      ],
+      "obligation": "Actual CopyOnDrop::drop316-329 len1 copies held tmp to actual gap; exact tmp/dst permissions and disjointness; no universal Drop/panic theorem",
+      "status": "NO_QUALIFIED_INSERT_DROP_SUMMARY_SUPPLIED"
+    },
+    {
+      "id": "D6_FULL_POST",
+      "requires": [
+        "D1_EARLY",
+        "D5_DROP"
+      ],
+      "obligation": "Checked final sequence A[0,g),x,A[g,p) gives full-value counts for every q:u8 and sortedness; checked equivalence to unchanged snapshot/post, full exterior/canary",
+      "status": "UNPROVED_LEMMAS; ORIGINAL_ENSURES_RETAINED"
+    },
+    {
+      "id": "D7_DOMAIN_UNION",
+      "requires": [
+        "D6_FULL_POST"
+      ],
+      "obligation": "Checked branch and finite b/p partitions cover claimed full-domain valuation set; source types/cfg/provenance exact; no few-keys/alphabet lift",
+      "status": "ONLY_STATIC_PREDICATE_COVERAGE_HERE"
+    },
+    {
+      "id": "D8_CALLERS",
+      "requires": [
+        "D7_DOMAIN_UNION"
+      ],
+      "obligation": "Exact bounded wrappers or actual inline caller proof; insertion induction,network17 p16,network32 base17,general MU48 base0/h,init/frame/typed/Drop/allocation/locality",
+      "status": "OPEN_NO_UNIVERSAL_SUMMARY_FROM_PFC_REGISTRATION"
+    }
+  ],
+  "logical_gap_invariant": {
+    "g": "p-k for checked k actual shifts,0<=g<=p; matched to actual guard.dst by checked relation, not address-equality ownership",
+    "unchanged_prefix": "A[0,g)",
+    "shifted_region": "new[g+1,p] = old A[g,p), all shifted values>x",
+    "held": "tmp=x; guard.dst=begin+g",
+    "counts": "Count(active excluding logical gap plus held x,q)=Count(old active,q) for every q:u8",
+    "init_boundary": "Logical ownership/value accounting is not physical uninitializedness; no typed hole read/manual init mask. Real init/permissions/model coupling remain separate."
+  },
+  "already_available_bounded_source_reported": {
+    "prior_b487": "swap geometry V34;sort4 separate6/same48;merge8 separate10;3fixed negative fixtures, only within admitted exact scope",
+    "not_available": [
+      "completed insert body",
+      "qualified Drop transition summary",
+      "universal swap/merge/insert contract",
+      "actual masked sort8 provider/caller theorem",
+      "independent init/MIR/origin/ownership bridge"
+    ],
+    "intake5d9439a_as_recorded": "3 intended negative observations;allinit merge nativeSUCCESS/provisional pending location;2partial nativeSUCCESS remainDIAG_INIT_OPEN;inserts censored",
+    "current_exact_ff193cc": "One qualified bounded allinit functional/known-value-frame case at MU48/src32,dst0; three exact metadata packets admitted. No insert/Drop/universal/init provider summary; partials remain diagnostics."
+  },
+  "root_design_decision_before_any_decomposition_implementation": "Which supported stock0aac checked loop/state/drop relation can bind to actual unchanged transformed body and existing post? If unsupported, retain direct bounded roots and return method/binding question; no unchecked summaries, assume-invariant, weakened checker or flagON implementation.",
+  "methodplan_d8f": "Enabled-init u8 assertion abstraction and MU48 storage/layout/negative-mask prerequisites remain separate and OPEN; NOT_IMPLEMENTED here",
+  "proof_credit": "NONE"
+}

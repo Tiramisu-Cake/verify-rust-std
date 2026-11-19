@@ -1,0 +1,12 @@
+{
+  "scope": "Bounded document checker preparation, not native/service/evidence failure",
+  "observed": "Initial inline validation AssertionError before receipt write",
+  "cause": "Checked admission universal_contract_or_assumed_summary_credit as boolean false, while exact schema value is enum string NONE",
+  "correction": "Read exact admission schema and compare NONE; source/input/admission reports left unchanged",
+  "native": "NOT_RUN",
+  "policy_or_cap_change": false,
+  "additional_document_check": {
+    "observed": "DAG dependency check rejected D8 reference D7_DOMAIN (node absent)",
+    "correction": "Bind D8 to actual D7_DOMAIN_UNION; no source/obligation weakening"
+  }
+}
