@@ -1,0 +1,674 @@
+{
+  "schema": "network-plan-w14-source-checks-v1",
+  "status": "PASS",
+  "citations": [
+    {
+      "id": "S01",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "git_blob": "700605e2afe2943da5aa5b5015db0e788c084730",
+      "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "ranges": [
+        {
+          "start": 78,
+          "end": 118,
+          "sha256": "a979e4ff2c73671aa038fff8a84003cc2293a51ed09f95e7aa390f0d4d98eda8"
+        },
+        {
+          "start": 123,
+          "end": 191,
+          "sha256": "f026add4115e2b135a8dd2b85fee446afaf10c95737a3b8729623ac4bd7e41e4"
+        },
+        {
+          "start": 193,
+          "end": 218,
+          "sha256": "17aed9176dcb3ee7d5e43485fee5ea3bc503fe42c23ce405254ef5441d070d6b"
+        },
+        {
+          "start": 1040,
+          "end": 1044,
+          "sha256": "abd69b0ee2238e05f0ef8e146fd3964c92595a09232e60ca5d0400e7d71915f1"
+        }
+      ],
+      "finding": "Unstable forwarding/Copy+Freeze dispatch predicates; threshold32 and u8 size heuristic. Direct helper roots do not prove trait dispatch.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY; no compiler/MIR/native proof",
+      "independent_status": "MATCH"
+    },
+    {
+      "id": "S02",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "git_blob": "700605e2afe2943da5aa5b5015db0e788c084730",
+      "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "ranges": [
+        {
+          "start": 332,
+          "end": 392,
+          "sha256": "1bb5b8c10545f832fe175ed8a434e42cac123a620ef1dbabc8a147fcc9492cd2"
+        }
+      ],
+      "finding": "Actual small_sort_network; N0/1 return, N2..4 no_merge insertion offset1; no network seeding or final merge.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY; no compiler/MIR/native proof",
+      "independent_status": "MATCH"
+    },
+    {
+      "id": "S03",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "git_blob": "700605e2afe2943da5aa5b5015db0e788c084730",
+      "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "ranges": [
+        {
+          "start": 614,
+          "end": 702,
+          "sha256": "1abc6553a589a96669cfd261ba9117ec64122022ec33c5c5376516c17188f30c"
+        },
+        {
+          "start": 704,
+          "end": 737,
+          "sha256": "952b904814c53528ca1d98a5b3d89a337c2084ccb3f99bf713e62d29c336a225"
+        },
+        {
+          "start": 316,
+          "end": 329,
+          "sha256": "d4e9032905c60b25ae438ad3b786f95abc3ee2205063566445ccaa760c4de328"
+        }
+      ],
+      "finding": "Actual insert_tail contracts/body, insertion pointer loop and CopyOnDrop restoration. Normal-return full-count post is distinct from panic/ownership proof.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY; no compiler/MIR/native proof",
+      "independent_status": "MATCH"
+    },
+    {
+      "id": "S04",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "git_blob": "700605e2afe2943da5aa5b5015db0e788c084730",
+      "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "ranges": [
+        {
+          "start": 394,
+          "end": 491,
+          "sha256": "20acbc5486bfbb16c25c1c9bb45092e3a06eec98ef1cf99b8d80bba165c22fe5"
+        },
+        {
+          "start": 494,
+          "end": 541,
+          "sha256": "799af06043de01bc78db6572bbea2267a01d80db76419a9d30512526bee7e406"
+        }
+      ],
+      "finding": "swap_if_less exact pair contract/body; called by sort9, not network N<=4.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY; no compiler/MIR/native proof",
+      "independent_status": "MATCH"
+    },
+    {
+      "id": "S05",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "git_blob": "700605e2afe2943da5aa5b5015db0e788c084730",
+      "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "ranges": [
+        {
+          "start": 739,
+          "end": 809,
+          "sha256": "7c94ae3c0a3990db1790b5fb890f081049aae7927d4084997c591ee9c124b698"
+        },
+        {
+          "start": 812,
+          "end": 860,
+          "sha256": "95da32f3e4f9e23b7972d620a5f971afeca5e4538a90ba35099222a26a4cfe0b"
+        }
+      ],
+      "finding": "sort4_stable separate source/destination contract and body; used by sort8/general, not the selected network path.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY; no compiler/MIR/native proof",
+      "independent_status": "MATCH"
+    },
+    {
+      "id": "S06",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+      "git_blob": "edea5aac77dbe168d0a7e7152c954af636656c1a",
+      "file_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+      "ranges": [
+        {
+          "start": 8,
+          "end": 19,
+          "sha256": "4d30bf895e35d964b68bff3db4073ac4cb01b5ed5b5ee2c820dde8eee313d70a"
+        },
+        {
+          "start": 88,
+          "end": 139,
+          "sha256": "980d50125e1bbd72fc44e224b7b4966d150da141bdf6c36d49c42650106276be"
+        }
+      ],
+      "finding": "Original two selected symbolic full-byte network roots, unwind36, V34/base1, all outside frame/canary and covers.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY; no compiler/MIR/native proof",
+      "independent_status": "MATCH"
+    },
+    {
+      "id": "S07",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "git_blob": "0d0a9f1441e77acc793175a16270dd8ff9fac43d",
+      "file_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "ranges": [
+        {
+          "start": 9,
+          "end": 9,
+          "sha256": "f90a037a982d5f8b7194d4e4828b282445903cd36a6810e228dd70f34537c9ef"
+        },
+        {
+          "start": 21,
+          "end": 62,
+          "sha256": "d728aec40947c7f0fcbf4a5d6f5075245350bdac8eda3b911cfcda87c8cdc163"
+        },
+        {
+          "start": 64,
+          "end": 121,
+          "sha256": "36884752adb371aa48e8335712a5238650f6e140b5f856075bc87fdceaaead59"
+        },
+        {
+          "start": 123,
+          "end": 158,
+          "sha256": "d861b223dfbe412923c2c14378613afa507a541d79967a8ad895e44495eab613"
+        }
+      ],
+      "finding": "Stateless exact comparator, owned snapshot, sortedness and full value counts; active concrete models.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY; no compiler/MIR/native proof",
+      "independent_status": "MATCH"
+    },
+    {
+      "id": "S08",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+      "git_blob": "100c4d46a82cf90ee840a4f1028010a2318754e6",
+      "file_sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "ranges": [
+        {
+          "start": 1,
+          "end": 53,
+          "sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6"
+        }
+      ],
+      "finding": "Active only u8/KeyLess; capture reads initialized spans; default inactive. Module label does not qualify any summary.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY; no compiler/MIR/native proof",
+      "independent_status": "MATCH"
+    },
+    {
+      "id": "S09",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs",
+      "git_blob": "d59ebef20bc0b94900f766f0e1211aa57b09f5ae",
+      "file_sha256": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "ranges": [
+        {
+          "start": 1,
+          "end": 72,
+          "sha256": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61"
+        }
+      ],
+      "finding": "Concrete pair transfer predicate; no universal target proof.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY; no compiler/MIR/native proof",
+      "independent_status": "MATCH"
+    },
+    {
+      "id": "S10",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+      "git_blob": "a90f927b5fc5a12cf4128eb10ad1a73c3fc29a20",
+      "file_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+      "ranges": [
+        {
+          "start": 21,
+          "end": 64,
+          "sha256": "a805e42dd4285ee41efd1129add9869acdbecb56d025a63feca9105f315d7e56"
+        },
+        {
+          "start": 108,
+          "end": 138,
+          "sha256": "a2ca38407e7cb3b12dc1c5086715fcc78baf77f3b4f4b0f4daea7162e4cea5be"
+        }
+      ],
+      "finding": "Existing prefix1 PFC fixture and Original exact sort9; bounded reports cannot become general summaries.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY; no compiler/MIR/native proof",
+      "independent_status": "MATCH"
+    },
+    {
+      "id": "S11",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+      "git_blob": "a40da8b91c917891a39f944799e16dba3c3b8383",
+      "file_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+      "ranges": [
+        {
+          "start": 1,
+          "end": 102,
+          "sha256": "8210ca2eaa9b16f23e6e22dc404f61b380e84e73f38a2e2fd0b941dfa949992c"
+        },
+        {
+          "start": 130,
+          "end": 188,
+          "sha256": "0750f66a1b83bec1c737acc28ce1a95b09ae00d58114b5fb1646cce7561c1075"
+        }
+      ],
+      "finding": "Bounded swap/sort4/merge8 fixtures and geometry; inspect provider compatibility before reuse.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY; no compiler/MIR/native proof",
+      "independent_status": "MATCH"
+    },
+    {
+      "id": "S12",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "git_blob": "26cdfde598249cc649708f1a96f67025baa2bb6d",
+      "file_sha256": "e21c033b817945a51d3c172d600b616cde6518d650b16642ab489a87dbe926cf",
+      "ranges": [
+        {
+          "start": 22,
+          "end": 58,
+          "sha256": "d8f5fe6d49c3bd011431e5b9e4d623a65a1d023dbbfe474c365d547dc8cd7574"
+        },
+        {
+          "start": 83,
+          "end": 114,
+          "sha256": "562ba14e18e4286d1d31645d08d9d72b91f8146650b8724973b17acab1d317c6"
+        }
+      ],
+      "finding": "Verification domain restrictions and cfg registration; registration is not compiler/MIR or caller evidence.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY; no compiler/MIR/native proof",
+      "independent_status": "MATCH"
+    }
+  ],
+  "citations_count": 12,
+  "ranges_count": 26,
+  "DAG": {
+    "schema": "ch8-network-caller-dag-v1",
+    "source": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+    "rows": [
+      {
+        "n": 0,
+        "T": "u8",
+        "F": "KeyLess<u8>",
+        "allocation": "one fully initialized [u8;34]",
+        "base": 1,
+        "active_range": [
+          1,
+          1
+        ],
+        "logical_values": "all34 independent full bytes 0..255; no order assumptions",
+        "mode": "proposed Original; no stub_verified",
+        "source_path": "early return at len<2",
+        "insert_calls": [],
+        "private_scratch": "not constructed for n<2; MaybeUninit<[u8;32]> constructed but never read/written for n2..4",
+        "absent_actual_calls": [
+          "swap_if_less",
+          "sort4_stable",
+          "sort9_optimal",
+          "sort13_optimal",
+          "sort8_stable",
+          "bidirectional_merge"
+        ],
+        "return_frame": "all34 outside active unchanged and arbitrary outside canary",
+        "unwind": 36,
+        "loop_bounds": {
+          "network_region_iterations": 0,
+          "insertion_tail_iterations": 0,
+          "insert_tail_max_shift": 0,
+          "frame_iterations": 34,
+          "snapshot_and_count_each_at_most": 0
+        },
+        "native_exhaustion": "OPEN; require emitted unwind/validity/UB checks and SUCCESS, source bound alone insufficient"
+      },
+      {
+        "n": 1,
+        "T": "u8",
+        "F": "KeyLess<u8>",
+        "allocation": "one fully initialized [u8;34]",
+        "base": 1,
+        "active_range": [
+          1,
+          2
+        ],
+        "logical_values": "all34 independent full bytes 0..255; no order assumptions",
+        "mode": "proposed Original; no stub_verified",
+        "source_path": "early return at len<2",
+        "insert_calls": [],
+        "private_scratch": "not constructed for n<2; MaybeUninit<[u8;32]> constructed but never read/written for n2..4",
+        "absent_actual_calls": [
+          "swap_if_less",
+          "sort4_stable",
+          "sort9_optimal",
+          "sort13_optimal",
+          "sort8_stable",
+          "bidirectional_merge"
+        ],
+        "return_frame": "all34 outside active unchanged and arbitrary outside canary",
+        "unwind": 36,
+        "loop_bounds": {
+          "network_region_iterations": 0,
+          "insertion_tail_iterations": 0,
+          "insert_tail_max_shift": 0,
+          "frame_iterations": 34,
+          "snapshot_and_count_each_at_most": 1
+        },
+        "native_exhaustion": "OPEN; require emitted unwind/validity/UB checks and SUCCESS, source bound alone insufficient"
+      },
+      {
+        "n": 2,
+        "T": "u8",
+        "F": "KeyLess<u8>",
+        "allocation": "one fully initialized [u8;34]",
+        "base": 1,
+        "active_range": [
+          1,
+          3
+        ],
+        "logical_values": "all34 independent full bytes 0..255; no order assumptions",
+        "mode": "proposed Original; no stub_verified",
+        "source_path": "no_merge=true; region.len=n<9; presorted_len=1; insertion_sort_shift_left(region,1); return",
+        "insert_calls": [
+          {
+            "prefix": 1,
+            "begin_absolute": 1,
+            "tail_relative": 1,
+            "tail_absolute": 2,
+            "span": [
+              1,
+              3
+            ],
+            "requires": "same allocation, readable/writable initialized prefix+tail, prefix ordered; exact source/tool/cfg and u8/KeyLess",
+            "frame": "outside [1,p+2) unchanged, including untouched later active suffix",
+            "post": "ordered prefix+tail and equal full byte counts; initializedness and native obligations separate",
+            "binding": "OPEN: static call geometry is known; emitted target/contract/provider/caller implication not established"
+          }
+        ],
+        "private_scratch": "not constructed for n<2; MaybeUninit<[u8;32]> constructed but never read/written for n2..4",
+        "absent_actual_calls": [
+          "swap_if_less",
+          "sort4_stable",
+          "sort9_optimal",
+          "sort13_optimal",
+          "sort8_stable",
+          "bidirectional_merge"
+        ],
+        "return_frame": "all34 outside active unchanged and arbitrary outside canary",
+        "unwind": 36,
+        "loop_bounds": {
+          "network_region_iterations": 1,
+          "insertion_tail_iterations": 1,
+          "insert_tail_max_shift": 1,
+          "frame_iterations": 34,
+          "snapshot_and_count_each_at_most": 2
+        },
+        "native_exhaustion": "OPEN; require emitted unwind/validity/UB checks and SUCCESS, source bound alone insufficient"
+      },
+      {
+        "n": 3,
+        "T": "u8",
+        "F": "KeyLess<u8>",
+        "allocation": "one fully initialized [u8;34]",
+        "base": 1,
+        "active_range": [
+          1,
+          4
+        ],
+        "logical_values": "all34 independent full bytes 0..255; no order assumptions",
+        "mode": "proposed Original; no stub_verified",
+        "source_path": "no_merge=true; region.len=n<9; presorted_len=1; insertion_sort_shift_left(region,1); return",
+        "insert_calls": [
+          {
+            "prefix": 1,
+            "begin_absolute": 1,
+            "tail_relative": 1,
+            "tail_absolute": 2,
+            "span": [
+              1,
+              3
+            ],
+            "requires": "same allocation, readable/writable initialized prefix+tail, prefix ordered; exact source/tool/cfg and u8/KeyLess",
+            "frame": "outside [1,p+2) unchanged, including untouched later active suffix",
+            "post": "ordered prefix+tail and equal full byte counts; initializedness and native obligations separate",
+            "binding": "OPEN: static call geometry is known; emitted target/contract/provider/caller implication not established"
+          },
+          {
+            "prefix": 2,
+            "begin_absolute": 1,
+            "tail_relative": 2,
+            "tail_absolute": 3,
+            "span": [
+              1,
+              4
+            ],
+            "requires": "same allocation, readable/writable initialized prefix+tail, prefix ordered; exact source/tool/cfg and u8/KeyLess",
+            "frame": "outside [1,p+2) unchanged, including untouched later active suffix",
+            "post": "ordered prefix+tail and equal full byte counts; initializedness and native obligations separate",
+            "binding": "OPEN: static call geometry is known; emitted target/contract/provider/caller implication not established"
+          }
+        ],
+        "private_scratch": "not constructed for n<2; MaybeUninit<[u8;32]> constructed but never read/written for n2..4",
+        "absent_actual_calls": [
+          "swap_if_less",
+          "sort4_stable",
+          "sort9_optimal",
+          "sort13_optimal",
+          "sort8_stable",
+          "bidirectional_merge"
+        ],
+        "return_frame": "all34 outside active unchanged and arbitrary outside canary",
+        "unwind": 36,
+        "loop_bounds": {
+          "network_region_iterations": 1,
+          "insertion_tail_iterations": 2,
+          "insert_tail_max_shift": 2,
+          "frame_iterations": 34,
+          "snapshot_and_count_each_at_most": 3
+        },
+        "native_exhaustion": "OPEN; require emitted unwind/validity/UB checks and SUCCESS, source bound alone insufficient"
+      },
+      {
+        "n": 4,
+        "T": "u8",
+        "F": "KeyLess<u8>",
+        "allocation": "one fully initialized [u8;34]",
+        "base": 1,
+        "active_range": [
+          1,
+          5
+        ],
+        "logical_values": "all34 independent full bytes 0..255; no order assumptions",
+        "mode": "proposed Original; no stub_verified",
+        "source_path": "no_merge=true; region.len=n<9; presorted_len=1; insertion_sort_shift_left(region,1); return",
+        "insert_calls": [
+          {
+            "prefix": 1,
+            "begin_absolute": 1,
+            "tail_relative": 1,
+            "tail_absolute": 2,
+            "span": [
+              1,
+              3
+            ],
+            "requires": "same allocation, readable/writable initialized prefix+tail, prefix ordered; exact source/tool/cfg and u8/KeyLess",
+            "frame": "outside [1,p+2) unchanged, including untouched later active suffix",
+            "post": "ordered prefix+tail and equal full byte counts; initializedness and native obligations separate",
+            "binding": "OPEN: static call geometry is known; emitted target/contract/provider/caller implication not established"
+          },
+          {
+            "prefix": 2,
+            "begin_absolute": 1,
+            "tail_relative": 2,
+            "tail_absolute": 3,
+            "span": [
+              1,
+              4
+            ],
+            "requires": "same allocation, readable/writable initialized prefix+tail, prefix ordered; exact source/tool/cfg and u8/KeyLess",
+            "frame": "outside [1,p+2) unchanged, including untouched later active suffix",
+            "post": "ordered prefix+tail and equal full byte counts; initializedness and native obligations separate",
+            "binding": "OPEN: static call geometry is known; emitted target/contract/provider/caller implication not established"
+          },
+          {
+            "prefix": 3,
+            "begin_absolute": 1,
+            "tail_relative": 3,
+            "tail_absolute": 4,
+            "span": [
+              1,
+              5
+            ],
+            "requires": "same allocation, readable/writable initialized prefix+tail, prefix ordered; exact source/tool/cfg and u8/KeyLess",
+            "frame": "outside [1,p+2) unchanged, including untouched later active suffix",
+            "post": "ordered prefix+tail and equal full byte counts; initializedness and native obligations separate",
+            "binding": "OPEN: static call geometry is known; emitted target/contract/provider/caller implication not established"
+          }
+        ],
+        "private_scratch": "not constructed for n<2; MaybeUninit<[u8;32]> constructed but never read/written for n2..4",
+        "absent_actual_calls": [
+          "swap_if_less",
+          "sort4_stable",
+          "sort9_optimal",
+          "sort13_optimal",
+          "sort8_stable",
+          "bidirectional_merge"
+        ],
+        "return_frame": "all34 outside active unchanged and arbitrary outside canary",
+        "unwind": 36,
+        "loop_bounds": {
+          "network_region_iterations": 1,
+          "insertion_tail_iterations": 3,
+          "insert_tail_max_shift": 3,
+          "frame_iterations": 34,
+          "snapshot_and_count_each_at_most": 4
+        },
+        "native_exhaustion": "OPEN; require emitted unwind/validity/UB checks and SUCCESS, source bound alone insufficient"
+      }
+    ],
+    "summary_edges": [
+      {
+        "id": "INSERT_PREFIX_1",
+        "callee": "insert_tail<u8,KeyLess<u8>>",
+        "consumers": [
+          "network n=2",
+          "network n=3",
+          "network n=4"
+        ],
+        "domain": "full-u8; sorted prefix1 plus arbitrary tail, V34/base1, all34 initialized",
+        "offset": {
+          "begin": 1,
+          "tail_relative": 1,
+          "tail_absolute": 2
+        },
+        "frame": "modifies active prefix+tail only; all later active and outside bytes retained",
+        "mode": "future PFC provider plus checked caller proof only if separately implemented",
+        "provider": "sorting_bridge1::i_p01_b01_fullu8 bounded SOURCE_REPORTED exact fixture",
+        "existing_provider_report": "97eaff96cd28267e36af69fe98077dd08737eea6",
+        "current_frozen_source_provider_proof": "OPEN",
+        "caller_binding": "OPEN",
+        "summary_edge_status": "OPEN",
+        "use_in_recommended_campaign": "NONE; execute actual callee body",
+        "future_required_checks": [
+          "actual callee/contract/source/tool/cfg identity",
+          "concrete T/F/model ACTIVE, no callback side effects",
+          "same V34 geometry, relative tail, initialized span, provenance and exact frame",
+          "PFC target proof covers every consumer state; sorted-prefix premise proved from prior iteration, never assumed",
+          "native provider and caller inventories/roles/SAT/U/guards/unwind/status pass; independent review and admission",
+          "full count composition from snapshots and outside-frame retention; no uniform arbitrary-allocation lifting"
+        ]
+      },
+      {
+        "id": "INSERT_PREFIX_2",
+        "callee": "insert_tail<u8,KeyLess<u8>>",
+        "consumers": [
+          "network n=3",
+          "network n=4"
+        ],
+        "domain": "full-u8; sorted prefix2 plus arbitrary tail, V34/base1, all34 initialized",
+        "offset": {
+          "begin": 1,
+          "tail_relative": 2,
+          "tail_absolute": 3
+        },
+        "frame": "modifies active prefix+tail only; all later active and outside bytes retained",
+        "mode": "future PFC provider plus checked caller proof only if separately implemented",
+        "provider": "NONE for this plan; old aggregate insert timeout is not a provider",
+        "existing_provider_report": null,
+        "current_frozen_source_provider_proof": "OPEN",
+        "caller_binding": "OPEN",
+        "summary_edge_status": "OPEN",
+        "use_in_recommended_campaign": "NONE; execute actual callee body",
+        "future_required_checks": [
+          "actual callee/contract/source/tool/cfg identity",
+          "concrete T/F/model ACTIVE, no callback side effects",
+          "same V34 geometry, relative tail, initialized span, provenance and exact frame",
+          "PFC target proof covers every consumer state; sorted-prefix premise proved from prior iteration, never assumed",
+          "native provider and caller inventories/roles/SAT/U/guards/unwind/status pass; independent review and admission",
+          "full count composition from snapshots and outside-frame retention; no uniform arbitrary-allocation lifting"
+        ]
+      },
+      {
+        "id": "INSERT_PREFIX_3",
+        "callee": "insert_tail<u8,KeyLess<u8>>",
+        "consumers": [
+          "network n=4"
+        ],
+        "domain": "full-u8; sorted prefix3 plus arbitrary tail, V34/base1, all34 initialized",
+        "offset": {
+          "begin": 1,
+          "tail_relative": 3,
+          "tail_absolute": 4
+        },
+        "frame": "modifies active prefix+tail only; all later active and outside bytes retained",
+        "mode": "future PFC provider plus checked caller proof only if separately implemented",
+        "provider": "NONE for this plan; old aggregate insert timeout is not a provider",
+        "existing_provider_report": null,
+        "current_frozen_source_provider_proof": "OPEN",
+        "caller_binding": "OPEN",
+        "summary_edge_status": "OPEN",
+        "use_in_recommended_campaign": "NONE; execute actual callee body",
+        "future_required_checks": [
+          "actual callee/contract/source/tool/cfg identity",
+          "concrete T/F/model ACTIVE, no callback side effects",
+          "same V34 geometry, relative tail, initialized span, provenance and exact frame",
+          "PFC target proof covers every consumer state; sorted-prefix premise proved from prior iteration, never assumed",
+          "native provider and caller inventories/roles/SAT/U/guards/unwind/status pass; independent review and admission",
+          "full count composition from snapshots and outside-frame retention; no uniform arbitrary-allocation lifting"
+        ]
+      }
+    ],
+    "proposed_summary_edges_enabled": [],
+    "induction": {
+      "base": "prefix1 trivially ordered for n>=2",
+      "step": "ordered p + arbitrary tail -> actual insert_tail -> ordered p+1 and equal full counts; frame retains suffix/outside",
+      "termination": "p=n; compose full counts to entry snapshot and all outside frame",
+      "status": "SOURCE_OBLIGATIONS_ONLY; no compiled/provider/caller proof"
+    },
+    "dispatch": {
+      "source": "u8 is Freeze+Copy, size1<=8, 1*32<=4096; source selects network in specialized unstable route",
+      "status": "OPEN actual trait-instantiation/caller binding; selected roots call helper directly",
+      "excluded": "Cell fallback, stable general and generic T/F are distinct proofs"
+    },
+    "comparison_edges": [
+      {
+        "edge": "swap -> sort9 -> network",
+        "status": "NOT_REACHED_N_LE_4",
+        "reason": "sort9 threshold9; swap is not called by insertion; substituting it would prove a changed algorithm"
+      },
+      {
+        "edge": "sort4 -> sort8/general -> network N4",
+        "status": "NO_SUCH_SOURCE_EDGE",
+        "reason": "sort4 is out-of-place into disjoint dst; small_sort_network n4 does insertion; cannot rename stable sort4 as network4"
+      },
+      {
+        "edge": "merge8 -> network",
+        "status": "NOT_REACHED_N_LE_4",
+        "reason": "no_merge returns before scratch/merge; old allinit or partial fixtures cannot be imported"
+      }
+    ],
+    "nonproviders": [
+      "bounded swap/sort4/merge8 PFC reports are not universal contracts or implicit stub_verified summaries",
+      "Original sort9 SOURCE_REPORTED has no semantic PFC provider",
+      "partial merge DIAG_INIT_OPEN is never a provider",
+      "Cell fallback two SUCCESS cases and NOT_APPLIED metadata proposal give no u8-network or generic dispatch credit"
+    ]
+  },
+  "semantic_assessment": "Source-selected N0/1 return before scratch; N2..4 no_merge=true, region=n<9, presorted_len1, insertion offset1, absolute tails2..n. No swap/sort4 substitution, summary/caller/provider edges remain OPEN. Direct roots do not prove trait dispatch.",
+  "assurance": "STATIC_ONLY; sourceunwind36 does not prove native exhaustion; no compiler/export/MIR/verification executed"
+}

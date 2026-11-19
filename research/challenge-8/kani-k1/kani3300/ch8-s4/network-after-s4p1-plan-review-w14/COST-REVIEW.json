@@ -1,0 +1,59 @@
+{
+  "status": "SOURCE_REPORTED_COST_MATCH",
+  "actual": [
+    {
+      "id": "s4p_network_b01_n00_02_fullbyte",
+      "wholechild_seconds": 601.428,
+      "compile_elapsed_upper_bound_seconds": 48.195,
+      "sampled_rss_peak_kib": 3515064,
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "CHILD600_WALL_INCLUDING_COMPILE",
+      "cutoff_phase": "AFTER_INITIAL_EXPORT_AND_NATIVE_START; exact subphase UNKNOWN",
+      "native_verification_time_s": "UNKNOWN_CENSORED",
+      "censoring": "UNFINISHED_NATIVE_RESULT_UNKNOWN",
+      "signal": 15,
+      "child_shutdown_verified": true,
+      "arithmetic_600_minus_compile_marker": 551.805
+    },
+    {
+      "id": "s4p_network_b01_n03_04_fullbyte",
+      "wholechild_seconds": 601.401,
+      "compile_elapsed_upper_bound_seconds": 45.976,
+      "sampled_rss_peak_kib": 3516320,
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "CHILD600_WALL_INCLUDING_COMPILE",
+      "cutoff_phase": "AFTER_INITIAL_EXPORT_AND_NATIVE_START; exact subphase UNKNOWN",
+      "native_verification_time_s": "UNKNOWN_CENSORED",
+      "censoring": "UNFINISHED_NATIVE_RESULT_UNKNOWN",
+      "signal": 15,
+      "child_shutdown_verified": true,
+      "arithmetic_600_minus_compile_marker": 554.024
+    }
+  ],
+  "caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "setup_seconds": 1800,
+  "job_minutes": 180,
+  "eight_row_arithmetic_seconds": 6180,
+  "remaining_campaign_arithmetic_seconds": 720,
+  "five_singleton_alternative_arithmetic_seconds": 6900,
+  "fit": "UNKNOWN; future exact package nested envelope/deadline/setup/reserve check mandatory",
+  "memory_increase": "NOT_SELECTED; no observed RSS trigger or evidence more memory cures wall timeout",
+  "subphase_uncensored_time_peak": "UNKNOWN"
+}
