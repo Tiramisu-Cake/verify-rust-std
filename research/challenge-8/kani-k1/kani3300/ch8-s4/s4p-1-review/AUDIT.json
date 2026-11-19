@@ -1,0 +1,290 @@
+{
+  "schema": "s4p-1-independent14-audit-v1",
+  "author": "590dd6360f5b4c92eab9fff30aa0d2e7d8d942ce",
+  "native_CI_full_validate_raw_GCS": "NOT_RUN",
+  "proof_credit": "NONE",
+  "identities": {
+    "source": {
+      "sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+      "parents": [
+        "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      ],
+      "dirty": ""
+    },
+    "control": {
+      "sha": "e941155517a02f67ea9bac1adb81c1d5f6f85638",
+      "tree": "a1ea7697041b043d98d34bdb1d7d703879726a8e",
+      "parents": [
+        "9e14e033f9ee31522b571c127609dcdff76d230b"
+      ],
+      "dirty": ""
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "parents": [
+        "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+      ],
+      "dirty": ""
+    }
+  },
+  "packet": {
+    "files": 54,
+    "hashes": 53,
+    "manifest_sha256": "5551ad46995e6f9647731abef1ec8e7cdf980f2df2cb2ed2f78226fa6663bed9",
+    "exact_author_bytes": true
+  },
+  "source_preservation": {
+    "whole_tree_delta": [
+      "M\tlibrary/core/src/slice/sort/shared/smallsort/verify.rs",
+      "A\tlibrary/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs"
+    ],
+    "old_verify_prefix_unchanged": true
+  },
+  "control_preservation": {
+    "exact_delta_paths": [
+      ".github/workflows/ch8-s2.yml",
+      "ch8-s1-control/CI-REQUEST.json",
+      "ch8-s1-control/S4P-SOURCE.json",
+      "ch8-s1-control/check_package.py",
+      "ch8-s1-control/collect.py",
+      "ch8-s1-control/fixtures/s34-request.json",
+      "ch8-s1-control/fixtures/s34-workflow.yml",
+      "ch8-s1-control/runner.py",
+      "ch8-s1-control/s4p_campaign.py",
+      "ch8-s1-control/s4p_cfg_pfc.py",
+      "ch8-s1-control/s4p_contract_stacks.py",
+      "ch8-s1-control/s4p_lexical_bindings.py",
+      "ch8-s1-control/s4p_ordinary_contracts.py",
+      "ch8-s1-control/s4p_package.py",
+      "ch8-s1-control/s4p_pins.py",
+      "ch8-s1-control/s4p_policy.py",
+      "ch8-s1-control/s4p_profile.py",
+      "ch8-s1-control/s4p_validate.py",
+      "ch8-s1-control/test_s4p.py",
+      "ch8-s1-control/test_s4p_boundary.py",
+      "ch8-s1-control/test_s4p_paths.py",
+      "ch8-s1-control/validate_tokens.py"
+    ],
+    "all_other_reference_tree_entries": "IDENTICAL"
+  },
+  "independent_patch_replays": [
+    {
+      "patch": "SOURCE-PARENT.patch",
+      "base": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+      "status": "EXACT_TREE_PASS"
+    },
+    {
+      "patch": "SOURCE-DELTA.patch",
+      "base": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+      "status": "EXACT_TREE_PASS"
+    },
+    {
+      "patch": "SOURCE-STOCK.patch",
+      "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+      "status": "EXACT_TREE_PASS"
+    },
+    {
+      "patch": "CONTROL-PARENT.patch",
+      "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "tree": "a1ea7697041b043d98d34bdb1d7d703879726a8e",
+      "status": "EXACT_TREE_PASS"
+    },
+    {
+      "patch": "CONTROL-DELTA.patch",
+      "base": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "tree": "a1ea7697041b043d98d34bdb1d7d703879726a8e",
+      "status": "EXACT_TREE_PASS"
+    },
+    {
+      "patch": "CONTROL-STOCK.patch",
+      "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "a1ea7697041b043d98d34bdb1d7d703879726a8e",
+      "status": "EXACT_TREE_PASS"
+    }
+  ],
+  "source_and_payload": {
+    "source_files": 40,
+    "control_payload_hashes": 117,
+    "request_sha256": "ff5d370fec4577527a03a84a42fa72db97d30efe34a86adbee02a05f80ac4f47",
+    "workflow_sha256": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a"
+  },
+  "fresh_source_gates": {
+    "ordinary": {
+      "status": "STATIC_PASS",
+      "files": 27
+    },
+    "cfg_pfc": {
+      "status": "STATIC_PASS",
+      "files": 12
+    },
+    "contract_stacks": {
+      "status": "STATIC_PASS",
+      "files": 27
+    },
+    "lexical": {
+      "status": "STATIC_PASS",
+      "files": 21
+    }
+  },
+  "reproduced_finding": {
+    "id": "R14-01",
+    "file": "ch8-s1-control/s4p_contract_stacks.py",
+    "line": 109,
+    "keys": [
+      "kani",
+      "kani_smallsort_s2_assumed",
+      "kani_smallsort_s3_leaf",
+      "kani_smallsort_s4_partition",
+      "kani_smallsort_sorting"
+    ],
+    "expected_combinations": 32,
+    "actual_combinations": 16,
+    "sorting_flag_present_in_any_projection": false,
+    "active_s2_guard_projection_count": 0,
+    "projection_cfgs": [
+      [],
+      [
+        "kani"
+      ],
+      [
+        "kani_smallsort_s2_assumed"
+      ],
+      [
+        "kani",
+        "kani_smallsort_s2_assumed"
+      ],
+      [
+        "kani_smallsort_s3_leaf"
+      ],
+      [
+        "kani",
+        "kani_smallsort_s3_leaf"
+      ],
+      [
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_s3_leaf"
+      ],
+      [
+        "kani",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_s3_leaf"
+      ],
+      [
+        "kani_smallsort_s4_partition"
+      ],
+      [
+        "kani",
+        "kani_smallsort_s4_partition"
+      ],
+      [
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_s4_partition"
+      ],
+      [
+        "kani",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_s4_partition"
+      ],
+      [
+        "kani_smallsort_s3_leaf",
+        "kani_smallsort_s4_partition"
+      ],
+      [
+        "kani",
+        "kani_smallsort_s3_leaf",
+        "kani_smallsort_s4_partition"
+      ],
+      [
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_s3_leaf",
+        "kani_smallsort_s4_partition"
+      ],
+      [
+        "kani",
+        "kani_smallsort_s2_assumed",
+        "kani_smallsort_s3_leaf",
+        "kani_smallsort_s4_partition"
+      ]
+    ]
+  },
+  "workflow_static": {
+    "jobs": 1,
+    "serial": true,
+    "max_runner_minutes": 180,
+    "checkout_depths": {
+      "control": 7,
+      "export": 5,
+      "tool": 2
+    },
+    "step_timeout_sum_minutes": 196,
+    "setup_aggregate_seconds": 1800,
+    "campaign_envelope_seconds": 6180,
+    "native_status": "NOT_RUN",
+    "proof_credit": "NONE"
+  },
+  "author_final_validate": {
+    "assurance": "RETAINED_EXACT_LOCAL_TEST_RECORD_CHECKED; NOT_REEXECUTED",
+    "tests": 302,
+    "suite_counts": {
+      "bridge1": 40,
+      "legacy": 136,
+      "s3": 56,
+      "s32": 35,
+      "s4p": 35
+    },
+    "exit": 0,
+    "wall_seconds": 554.090277033858,
+    "margin": 1.9491408616325638
+  },
+  "lexer_cache": {
+    "equivalence": "PASS",
+    "full_text_and_line_coordinates": "PASS",
+    "fresh_lists": "PASS",
+    "exceptions_uncached": "PASS",
+    "normal_and_exceptional_restore": "PASS",
+    "callers": [
+      "s4p_validate.py",
+      "test_s4p_boundary.py"
+    ],
+    "stats": {
+      "cfg_pfc": {
+        "hits": 21,
+        "misses": 9,
+        "maxsize": 32,
+        "currsize": 7
+      },
+      "s3_cfg_pfc": {
+        "hits": 21,
+        "misses": 9,
+        "maxsize": 32,
+        "currsize": 7
+      },
+      "s32_cfg_pfc": {
+        "hits": 21,
+        "misses": 9,
+        "maxsize": 32,
+        "currsize": 7
+      },
+      "s34_cfg_pfc": {
+        "hits": 21,
+        "misses": 9,
+        "maxsize": 32,
+        "currsize": 7
+      },
+      "s4p_cfg_pfc": {
+        "hits": 21,
+        "misses": 9,
+        "maxsize": 32,
+        "currsize": 7
+      }
+    },
+    "scope": "PURE_LEXER_ONLY; NO_GATE_SOURCE_IDENTITY_RESULT_OR_EXCEPTION_CACHE"
+  },
+  "elapsed_seconds": 24.4549030829221,
+  "status": "REVIEW_FINDING_REPRODUCED_OTHER_CHECKS_PASS"
+}

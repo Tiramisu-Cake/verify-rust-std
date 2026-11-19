@@ -1,0 +1,38 @@
+{
+  "schema": "ch8-s4p-1-review-findings-v1",
+  "verdict": "REQUEST_CHANGES",
+  "control_sha": "e941155517a02f67ea9bac1adb81c1d5f6f85638",
+  "findings": [
+    {
+      "id": "R14-01",
+      "priority": "P2",
+      "blocking_exact_approval": true,
+      "file": "ch8-s1-control/s4p_contract_stacks.py",
+      "line": 110,
+      "title": "Enumerate all five cfg keys instead of silently omitting every sorting-enabled projection",
+      "observed": "Fresh actual gate and committed map both contain only16 of32 combinations; sorting flag absent in all16; zero ACTIVE-guard contexts.",
+      "evidence": [
+        "AUDIT.json#/reproduced_finding"
+      ],
+      "requested_fix": "Derive power set from len(keys); regression requires all32 unique sets and four complete ACTIVE-guard contexts; refresh exact map/payload/packet.",
+      "limit": "Validation completeness defect; no current production contract semantic counterexample established."
+    },
+    {
+      "id": "R14-02",
+      "priority": "P2",
+      "blocking_exact_approval": true,
+      "file": "ch8-s1-control/s4p_campaign.py",
+      "line": 340,
+      "title": "Validate exact terminal campaign schema before collection on both routes",
+      "observed": "Only schema changed: missing/null/old bridge schema/int123 all accepted locally and upload-only for full8, PARTIAL0 and STOPPED0. Full case retains8 RECORDED observations.",
+      "evidence": [
+        "TERMINAL-SCHEMA-MATRIX.json",
+        "TERMINAL-SCHEMA.json",
+        "reproduce_schema.py"
+      ],
+      "requested_fix": "Require exact ch8-s4p-1-campaign-v1 terminal schema before observation; add Validate wrong/missing/null/type/old-schema regressions on both routes and preserve genuine prefixes and old profile schemas.",
+      "limit": "Other identity and role gates still apply; independent proof credit remains NONE."
+    }
+  ],
+  "repair_route": "ROOT -> ORIGINAL_FRESH13_CURRENT26d -> NEW_IMMUTABLE_CANDIDATE_PACKET -> SAME14_DELTA_NEW_REVIEW_OUTPUT"
+}

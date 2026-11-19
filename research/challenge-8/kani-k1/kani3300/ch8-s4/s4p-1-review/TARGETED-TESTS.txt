@@ -1,0 +1,29 @@
+test_exact_eight_original_null_and_length_roles (test_s4p_boundary.BoundaryTests.test_exact_eight_original_null_and_length_roles) ... ok
+test_legacy_counts_profiles_and_runtime_caps_preserved (test_s4p_boundary.BoundaryTests.test_legacy_counts_profiles_and_runtime_caps_preserved) ... ok
+test_request_rejects_domain_provider_count_cover_and_waiver_mutations (test_s4p_boundary.BoundaryTests.test_request_rejects_domain_provider_count_cover_and_waiver_mutations) ... ok
+test_cell_count_requires_active_success_and_exact_failure (test_s4p_boundary.BoundaryTests.test_cell_count_requires_active_success_and_exact_failure) ... ok
+test_cell_checker_source_count_vs_order_distinguishing_fixtures (test_s4p_boundary.BoundaryTests.test_cell_checker_source_count_vs_order_distinguishing_fixtures) ... ok
+test_required_path_unknown_callable_and_cell_projection_fail_closed (test_s4p_boundary.SourceTests.test_required_path_unknown_callable_and_cell_projection_fail_closed) ... ok
+test_missing_new_cfg_module_and_wrong_contract_target_fail_closed (test_s4p_boundary.SourceTests.test_missing_new_cfg_module_and_wrong_contract_target_fail_closed) ... ok
+test_literal_intended_roles_all_seven_dynamic_producer_ids (test_s4p.RoleTests.test_literal_intended_roles_all_seven_dynamic_producer_ids) ... ok
+test_loop_source_instance_set_kept (test_s4p.RoleTests.test_loop_source_instance_set_kept) ... ok
+test_missing_duplicate_wrong_class_status_file_line_cfg_and_unrelated_failure (test_s4p.RoleTests.test_missing_duplicate_wrong_class_status_file_line_cfg_and_unrelated_failure) ... ok
+test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch (test_s4p.SingletonRunnerTests.test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch) ... ok
+test_original_positive_rejects_fake_pfc_and_preserves_null_target (test_s4p.SingletonRunnerTests.test_original_positive_rejects_fake_pfc_and_preserves_null_target) ... ok
+test_selected_count_without_completions (test_s4p_paths.RealPathWriterTests.test_selected_count_without_completions) ... ERROR
+
+======================================================================
+ERROR: test_selected_count_without_completions (test_s4p_paths.RealPathWriterTests.test_selected_count_without_completions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s4p-1-control-w13/ch8-s1-control/test_s4p_paths.py", line 188, in test_selected_count_without_completions
+    self.assertTrue(all(row['outcome']=='UNKNOWN' for row in c.collect([fix[3]],fix[4])['rows']))
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/kani-ch8-s4p-1-control-w13/ch8-s1-control/s4p_campaign.py", line 337, in collect
+    import collect as c
+ModuleNotFoundError: No module named 'collect'
+
+----------------------------------------------------------------------
+Ran 13 tests in 16.397s
+
+FAILED (errors=1)

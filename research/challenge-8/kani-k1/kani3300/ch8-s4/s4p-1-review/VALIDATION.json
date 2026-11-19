@@ -1,0 +1,36 @@
+{
+  "schema": "ch8-s4p-1-independent14-validation-v1",
+  "author_readonly_static_checker": {
+    "status": "STATIC_READY_PACKET_PASS",
+    "checks": 576,
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 research/challenge-8/kani-k1/kani3300/ch8-s4/s4p-1/check_static.py"
+  },
+  "independent_audit": "AUDIT.json",
+  "independent_shallow_fetches": "SHALLOW.json",
+  "distinct_targeted_tests_passed": 16,
+  "initial_test_record": "TARGETED-TESTS.json",
+  "initial_harness_error": "stdin sys.path empty string became invalid after fixture cwd change; preserved, not a candidate defect",
+  "corrected_path_test_record": "TARGETED-PATHS.json",
+  "finding_reproductions": [
+    "AUDIT.json#/reproduced_finding",
+    "TERMINAL-SCHEMA-MATRIX.json"
+  ],
+  "author_final_validate": {
+    "assurance": "RETAINED_EXACT_LOCAL_TEST_RECORD_CHECKED; NOT_REEXECUTED",
+    "tests": 302,
+    "suite_counts": {
+      "bridge1": 40,
+      "legacy": 136,
+      "s3": 56,
+      "s32": 35,
+      "s4p": 35
+    },
+    "exit": 0,
+    "wall_seconds": 554.090277033858,
+    "margin": 1.9491408616325638
+  },
+  "full_validate_reexecuted": false,
+  "native_CI_raw_GCS": "NOT_RUN",
+  "source_control_authorpacket_edits": false,
+  "proof_credit": "NONE"
+}
