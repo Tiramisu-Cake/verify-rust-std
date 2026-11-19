@@ -1,0 +1,143 @@
+{
+  "checked_at": "2026-11-19T08:25:48.559Z",
+  "run": {
+    "id": 44481580554,
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "563a899dce27024d276bb6fa8f4402f3b5ddc67c",
+    "head_branch": "uninit-ci/ch8-s4p-1-r1-20261119",
+    "event": "push",
+    "run_attempt": 1,
+    "workflow_path": ".github/workflows/ch8-s2.yml",
+    "tree": "96b03b52cdd121965690544945c17b175253c6cd"
+  },
+  "jobs": [
+    {
+      "id": 135414830720,
+      "name": "s3_leaf",
+      "status": "completed",
+      "conclusion": "failure",
+      "steps": [
+        {
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Begin setup budget",
+          "number": 2,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Checkout CI control",
+          "number": 3,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate control and synthetic wrapper",
+          "number": 4,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Read immutable export pins",
+          "number": 5,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Checkout production model export",
+          "number": 6,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Checkout immutable upstream tool",
+          "number": 7,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check all source identities",
+          "number": 8,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Setup exact stock tool",
+          "number": 9,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build exact stock tool once",
+          "number": 10,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run S3 actual leaves with bounded observations",
+          "number": 11,
+          "status": "completed",
+          "conclusion": "failure"
+        },
+        {
+          "name": "Materialize bounded fallback",
+          "number": 12,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Upload bounded evidence",
+          "number": 13,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Checkout immutable upstream tool",
+          "number": 24,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Checkout production model export",
+          "number": 25,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Checkout CI control",
+          "number": 26,
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "number": 27,
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "artifact": {
+    "id": 14510873270,
+    "name": "ch8-s3-2-44481580554-1",
+    "size_in_bytes": 416580,
+    "digest": "sha256:fbc9aa5f701b0c29d7459a2cf48ba0c564003d25771339c21a8cb4a2e7d50f9f",
+    "expired": false,
+    "workflow_run": {
+      "id": 44481580554,
+      "repository_id": 1453289307,
+      "head_repository_id": 1453289307,
+      "head_branch": "uninit-ci/ch8-s4p-1-r1-20261119",
+      "head_sha": "563a899dce27024d276bb6fa8f4402f3b5ddc67c"
+    },
+    "member": "group-evidence.json.gz",
+    "policy": "ONE_COMPACT_MEMBER_ONLY_METADATA_DIGEST_FIRST_CONNECTED_BOUNDED_REPORTING_NO_SAVED_ZIP_RAW_FULL_GCS",
+    "transport_digest_is_not_member_or_payload_digest": true
+  }
+}
