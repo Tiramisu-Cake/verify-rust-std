@@ -1,0 +1,276 @@
+{
+  "schema": "ch8-s4p2-exact-go-request-v1",
+  "status": "READY_FOR_DELEGATED_COORDINATOR_GO_AFTER_PUBLICATION_AND_FINALHEAD_GATES",
+  "root_consent": "AGREE_ONE_BOUNDED_EIGHT_ROOT_S4P2_ATTEMPT",
+  "prepared_at_utc": "2026-11-19T10:22:42.603063+00:00",
+  "authority": "User13:19 asks GO/consent and launches separately; owner morning delegates work/GO to root+usercoordinator, accounting tracking-only",
+  "package": {
+    "g0": "90d861e59f996d35b23a5cb843e311b29efdabf7",
+    "path": "kani3300/ch8-s4/s4p-2",
+    "manifest_sha256": "91344de1af175f054f59da47cf8995e3b0104fb1808469c0583d0b18b456bfd8",
+    "source": {
+      "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+      "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "clean": true,
+      "depth": 5,
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+    },
+    "control": {
+      "repo": "/root/kani-ch8-s4p-2-r1-control-w13",
+      "sha": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+      "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "clean": true,
+      "depth": 7,
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+    },
+    "tool": {
+      "repo": "/root/kani-upstream-ch8-s1",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+      "clean": true,
+      "depth": 2,
+      "author_committer": "Ivo Matijašević <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+    }
+  },
+  "independent_review": {
+    "g0": "8a0083897bf4f09068fbe886497c85cd3df25f32",
+    "path": "kani3300/ch8-s4/s4p-2-review",
+    "manifest_sha256": "5bc21200028490ea4bcf52a225868153e0f2d0cee392900110a66ef15aa2de54",
+    "verdict": "APPROVE",
+    "blockers": [],
+    "closed_findings": [
+      {
+        "evidence": "FALLBACK-DIFFERENTIAL.json",
+        "final": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+        "id": "AUTHOR-FALLBACK-EMPTY-OBJECT",
+        "precursor": "321c266daf58309ae3eadc6d5c3f358766938ac0",
+        "reason": "True precursor replaces present{}; final rejects and preserves exact bytes; actual missing receipt remains recoverable. Fourteen independently observed differential cases.",
+        "status": "INDEPENDENTLY_CLOSED_ON_EXACT_FINAL_OBJECT"
+      }
+    ],
+    "scope": "Full exact source/controller/profile/runtime/gates/sourceidentity package, not only plan approval"
+  },
+  "request": {
+    "path": "ch8-s1-control/CI-REQUEST.json",
+    "schema": "ch8-s4p-2-v1",
+    "profile": "ch8-s4p-2-network-fullbyte-singletons-v1",
+    "sha256": "c6abee25796842b0a1af44009921045c3da82b36e0fead42a342e7c5d8e74969",
+    "workflow_sha256": "4500edba80fbb48258c5b0a29c4d73a97fbb37fb26017da9f8251c147f30bd7f",
+    "payload_files": 137,
+    "selfhash_excluded": true,
+    "workflow_path": ".github/workflows/ch8-s2.yml",
+    "frozen_bytes_must_remain_exact": true
+  },
+  "schemas": {
+    "terminal": "ch8-s4p-2-campaign-v1",
+    "seal": "ch8-s4p-2-portable-seal-v1"
+  },
+  "future_trigger": {
+    "repository": "Tiramisu-Cake/kani",
+    "actual_head": "UNKNOWN_NOT_CREATED",
+    "actual_ref": "UNKNOWN_UNTIL_COORDINATOR_BINDING",
+    "actual_run_ID": "UNKNOWN",
+    "actual_attempt": "UNKNOWN",
+    "expected_first_attempt": 1,
+    "event": "push",
+    "branch_filter": "uninit-ci/ch8-s4p-*",
+    "proposed_ref": "uninit-ci/ch8-s4p-2-20261119",
+    "proposed_ref_snapshot": "ABSENT_404; recheck before push",
+    "required_tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+    "required_parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "topology": "NEW NONSKIP SAME-TREE SIBLING of reviewed4059; NOT its child; exactly1commit9e14..FINAL; skippedcandidate excluded",
+    "message_gate": "No skip-CI directives including skip-checks:true with whitespace variants",
+    "final_gate": "Before one new-ref push bind actualfullSHA/ref/tree/soleparent/range1/nonskip/request/workflow/source fetchability; unexpected existing ref returns coordinator, no force or root push"
+  },
+  "source_publication": {
+    "repository": "Tiramisu-Cake/verify-rust-std",
+    "exact_sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+    "exact_tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+    "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "proposed_ref": "experiment/ch8-s4p-2-20261119",
+    "snapshot": "NOT_YET_PUBLIC_422; proposedref404",
+    "required_before_control_push": "Coordinator publishes EXACTsourcec128 and read-only connected commit/fetchability/tree/soleparent match; no substitution or regeneration",
+    "performed_by_root": false
+  },
+  "tool": {
+    "repository": "model-checking/kani",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+    "policy": "EXACT_STOCK0AAC; no4591/c25/969f/uninitON"
+  },
+  "checkout_depths": {
+    "control": 7,
+    "source": 5,
+    "tool": 2
+  },
+  "workflow": {
+    "path": ".github/workflows/ch8-s2.yml",
+    "job": "s3_leaf",
+    "runner": "ubuntu-24.04",
+    "job_timeout_minutes": 180,
+    "profile_env": {
+      "S3_PROFILE": "ch8-s4p-2-network-fullbyte-singletons-v1"
+    },
+    "Validate_command": "python3 check_package.py control --repo ..\npython3 s4p2_validate.py\n",
+    "Validate_timeout_minutes": 18,
+    "artifact_name": "ch8-s3-2-${{ github.run_id }}-${{ github.run_attempt }}",
+    "artifact_prefix_historical_intentional": true,
+    "allowed_postrun_member": "group-evidence.json.gz",
+    "run_and_finish": "Exact unchanged reviewed workflow/137payload/request; no subset/dispatch/cron/enable/custom flags"
+  },
+  "selection": {
+    "planned_selected_roots": 8,
+    "count_rule": "type(selected_roots)isint ==8 from validated planned request even partial/STOPPED0; not completedcount",
+    "ordered_rows": [
+      "checker_order_corrupt",
+      "checker_count_corrupt",
+      "sort13_weak",
+      "s4p_cell_count_corrupt",
+      "s4p2_network_b01_n02_fullbyte",
+      "s4p2_network_b01_n03_fullbyte",
+      "s4p2_network_b01_n04_fullbyte",
+      "s4p2_network_b01_n00_01_fullbyte"
+    ],
+    "modes": "ALL_Original",
+    "targets": null,
+    "negative_controls": 4,
+    "positive_candidates": 4,
+    "domain": "InitializedV34/base1/all34 independentfullu8, exactN2,N3,N4,N0..1, actualsmall_sort_network<u8,KeyLess<u8>> insertionpath/fullsortedcount/everyoutsideframe/canary",
+    "positive_SUCCESS_roles_each": 4,
+    "declared_SAT_covers_execution_order": [
+      6,
+      6,
+      6,
+      3
+    ],
+    "structural_NA": "Only four impossible pair/maxhi sourcecover sites omitted for exactnewN01; no UNSAT exportedcover waiver",
+    "source_literal_assertion_sites": 21,
+    "source_literal_cover_sites": 21,
+    "native_counts": "UNKNOWN_UNTIL_SAME_INVOCATION_EXPORT",
+    "enabled_summary_edges": [],
+    "future_coverage": "At most exact directhelper finiteN0..4 after actual completeevidence+review+separateadmission; largerN/general/type/caller/init/provider/ownership/panic/MIR/B1B2/fullN16N32 OPEN"
+  },
+  "caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "setup_seconds": 1800,
+  "job_minutes": 180,
+  "Validate_minutes": 18,
+  "inner_cap_formula": "min(local6GiB,outer12GiB,available-2GiB); actualeffectivecap recorded",
+  "memory_scope": "Nominal sampled ownedPGID VmRSS/outerownedcensus, no cgroup/kernel/wholetree truepeak guarantee",
+  "child_includes_compile": true,
+  "eight_slot_envelope_seconds": 6180,
+  "campaign_fit": "UNKNOWN; hostelapsed and envelope do not prove nativefit",
+  "policies": {
+    "U": "REJECT_ALL; proposalDISABLED",
+    "unsupported_guards": "Retain every status includingSUCCESS",
+    "location": "All previous exact admissions are originalrun/ID-only; no transfer/common-emitter rule",
+    "protected_runtime": "All-state observeddrift/readerrorGLOBALSTOP/canonicalpreE0/verifiedcleanup/interruptedrecovery/durableportableprefix remain exact reviewed implementation",
+    "native_compile_proof_cost_fit": "NOT_RUN",
+    "new_qualified_leaves": 0,
+    "proof_credit": "NONE"
+  },
+  "offline_validation": {
+    "actual_final_execution_count_on4059": 1,
+    "tests": 344,
+    "groups": {
+      "bridge1": 40,
+      "legacy": 136,
+      "s3": 56,
+      "s32": 35,
+      "s4p": 38,
+      "s4p2": 39
+    },
+    "elapsed_seconds": 679.1141679468565,
+    "internal_elapsed_seconds": 677.9576758593321,
+    "limit_seconds": 1080,
+    "margin": 1.5903069777871495,
+    "receipt_sha256": "a1aba59b084130bbac5e6117362da5ff6bf19d3adc2bf99882a87f4f1b9f2533",
+    "is_native_proof": false,
+    "precursor": "321oneearlierfullmeasurement727.578margin1.484 retained, differentobject;19minproposalunselected; no finalcredit transfer"
+  },
+  "connected_remote_snapshot": {
+    "recorded_at_utc": "2026-11-19T10:22:42.603063+00:00",
+    "interface": "CONNECTED_GITHUB_READONLY_METADATA",
+    "source_commit": {
+      "status": "NOT_YET_PUBLIC_422_NO_COMMIT_FOUND",
+      "repository": "Tiramisu-Cake/verify-rust-std",
+      "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3"
+    },
+    "source_proposed_ref": {
+      "ref": "experiment/ch8-s4p-2-20261119",
+      "status": "ABSENT_404"
+    },
+    "control_base": {
+      "sha": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "tree": "4b1d95766c2a8a820f6cf15ff00008b0f5a0c65b",
+      "parents": [
+        "7c41333f9bfcfd7eb4e0ede7bd316443090c9025"
+      ],
+      "status": "CONNECTED_MATCH"
+    },
+    "control_proposed_ref": {
+      "ref": "uninit-ci/ch8-s4p-2-20261119",
+      "status": "ABSENT_404"
+    }
+  },
+  "attempts": {
+    "authorized": 1,
+    "automatic_retry": false,
+    "automatic_cancel": false,
+    "automatic_followup_CI": false
+  },
+  "accounting_reference": {
+    "latest_ledger": "9bb6e2b7a18e338f532ec817f8acfd7515fc2fc9",
+    "last_accounting_outcome": "150775d8a4487cd59871c51c08553cb09affed53",
+    "policy": "TRACKING_ONLY_NOT_LIMITING; review+root/coordinatorGO+ledger mandatory eachactualrun",
+    "current_used": {
+      "item1": 32,
+      "item2": 15,
+      "total": 47
+    },
+    "prospective_if_counted": {
+      "item1": 32,
+      "item2": 16,
+      "total": 48
+    },
+    "forecast_is_reservation_or_charge": false,
+    "ledger_sha256_at_root_check": "aa584a4e76c99be0acfa68a5df48394afd44afb20f4a7d57736d3205a9b5ab9a",
+    "changed_by_root": false
+  },
+  "root_actions": {
+    "committed_GO_only": true,
+    "CI_dispatch_push_sourcepublication": false,
+    "accounting_charge_refund_reservation": false,
+    "PR_issue_comment_openPRpush": false
+  },
+  "coordinator_handoff_required": [
+    "Exactsourcepublication/fetchability tuple MATCH",
+    "Actualnonskipfinalhead/ref/tree/sole9e14/range1/request/workflow bindings before push",
+    "Separate coordinatorGO/ONEpush then actualnative runID/attempt/head/ref/event binding",
+    "Coordinator ledger row only afteractualrun accordingtrackingpolicy"
+  ],
+  "postrun": "Afteractualterminal intakeauthorizedcompactmember/digestfirst/native-vs-producer-vs-S1qualification distinct; no automaticadmission/policy/newCI"
+}

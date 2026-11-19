@@ -1,0 +1,203 @@
+{
+  "review": "8a0083897bf4f09068fbe886497c85cd3df25f32",
+  "author": "90d861e59f996d35b23a5cb843e311b29efdabf7",
+  "manifests": {
+    "8a0083897bf4f09068fbe886497c85cd3df25f32": {
+      "files": 23,
+      "hashes": 22,
+      "manifest_sha256": "5bc21200028490ea4bcf52a225868153e0f2d0cee392900110a66ef15aa2de54"
+    },
+    "90d861e59f996d35b23a5cb843e311b29efdabf7": {
+      "files": 92,
+      "hashes": 91,
+      "manifest_sha256": "91344de1af175f054f59da47cf8995e3b0104fb1808469c0583d0b18b456bfd8"
+    }
+  },
+  "verdict": "APPROVE",
+  "findings": [],
+  "closed_finding": "AUTHOR-FALLBACK-EMPTY-OBJECT",
+  "gitpins": {
+    "source": {
+      "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+      "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "clean": true,
+      "depth": 5,
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+    },
+    "control": {
+      "repo": "/root/kani-ch8-s4p-2-r1-control-w13",
+      "sha": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+      "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "clean": true,
+      "depth": 7,
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+    },
+    "tool": {
+      "repo": "/root/kani-upstream-ch8-s1",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+      "clean": true,
+      "depth": 2,
+      "author_committer": "Ivo Matijašević <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+    }
+  },
+  "ledger_sha256": "aa584a4e76c99be0acfa68a5df48394afd44afb20f4a7d57736d3205a9b5ab9a",
+  "status": "MATCH_READY_FOR_CONDITIONAL_COORDINATOR_HANDOFF",
+  "review_input_pins_author_exact": true,
+  "all_four_independent_maps_match_author": true,
+  "shared_fallback_finding": "INDEPENDENTLY_CLOSED_ON_EXACT_FINAL_OBJECT",
+  "differential_cases": 14,
+  "full_Validate_reexecuted_by_root": false,
+  "host_Validate": {
+    "tests": 344,
+    "elapsed_seconds": 679.1141679468565,
+    "margin": 1.5903069777871495,
+    "limit_seconds": 1080
+  },
+  "prior_root_author_check": {
+    "g0": "90d861e59f996d35b23a5cb843e311b29efdabf7",
+    "files": 92,
+    "hashes": 91,
+    "gitpins": {
+      "source": {
+        "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+        "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+        "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+        "clean": true,
+        "repo": "/root/verify-rust-std-ch8-s4p-2-w13"
+      },
+      "control": {
+        "sha": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+        "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+        "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "clean": true,
+        "repo": "/root/kani-ch8-s4p-2-r1-control-w13"
+      },
+      "tool": {
+        "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+        "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+        "clean": true,
+        "repo": "/root/kani-upstream-ch8-s1"
+      }
+    },
+    "request_sha256": "c6abee25796842b0a1af44009921045c3da82b36e0fead42a342e7c5d8e74969",
+    "workflow_sha256": "4500edba80fbb48258c5b0a29c4d73a97fbb37fb26017da9f8251c147f30bd7f",
+    "payload": 137,
+    "source_delta": [
+      "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_partition.rs"
+    ],
+    "counts": [
+      136,
+      56,
+      35,
+      40,
+      38,
+      39
+    ],
+    "elapsed": 679.1141679468565,
+    "margin": 1.5903069777871495,
+    "status": "MATCH",
+    "protected_old_control_files": 114,
+    "protected_source_files": 11,
+    "control_delta_paths": [
+      ".github/workflows/ch8-s2.yml",
+      "ch8-s1-control/CI-REQUEST.json",
+      "ch8-s1-control/S4P2-INVENTORY.json",
+      "ch8-s1-control/S4P2-ROLE-CONTRACT.json",
+      "ch8-s1-control/S4P2-SOURCE.json",
+      "ch8-s1-control/check_package.py",
+      "ch8-s1-control/collect.py",
+      "ch8-s1-control/fixtures/s4p-request.json",
+      "ch8-s1-control/fixtures/s4p-workflow.yml",
+      "ch8-s1-control/runner.py",
+      "ch8-s1-control/s4p2_campaign.py",
+      "ch8-s1-control/s4p2_cfg_pfc.py",
+      "ch8-s1-control/s4p2_contract_stacks.py",
+      "ch8-s1-control/s4p2_lexical_bindings.py",
+      "ch8-s1-control/s4p2_ordinary_contracts.py",
+      "ch8-s1-control/s4p2_package.py",
+      "ch8-s1-control/s4p2_pins.py",
+      "ch8-s1-control/s4p2_policy.py",
+      "ch8-s1-control/s4p2_profile.py",
+      "ch8-s1-control/s4p2_validate.py",
+      "ch8-s1-control/test_s4p2.py",
+      "ch8-s1-control/test_s4p2_boundary.py",
+      "ch8-s1-control/test_s4p2_gate_repair.py",
+      "ch8-s1-control/test_s4p2_paths.py"
+    ],
+    "source_assertions": 21,
+    "source_covers": 21,
+    "new_CI_tests": 39,
+    "prior_CI_tests": 305,
+    "preflight64_32_8": true,
+    "preflight_actual_seconds": 68.6992448461242,
+    "root_patch_trees": [
+      {
+        "file": "SOURCE-PARENT.patch",
+        "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+        "status": "EXACT_TREE_PASS"
+      },
+      {
+        "file": "SOURCE-DELTA.patch",
+        "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+        "status": "EXACT_TREE_PASS"
+      },
+      {
+        "file": "SOURCE-STOCK.patch",
+        "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+        "status": "EXACT_TREE_PASS"
+      },
+      {
+        "file": "CONTROL-PARENT.patch",
+        "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+        "status": "EXACT_TREE_PASS"
+      },
+      {
+        "file": "CONTROL-DELTA.patch",
+        "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+        "status": "EXACT_TREE_PASS"
+      },
+      {
+        "file": "CONTROL-STOCK.patch",
+        "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+        "status": "EXACT_TREE_PASS"
+      }
+    ],
+    "root_patch_method": "All six --full-index patch bytes matched Git; independent tempindex read-tree/apply--cached/write-tree passed before a report-shape assertion; no candidate mutation",
+    "bounded_ancestry_windows": "7control/5source/2tool required commits MATCH",
+    "precursor_provenance": "321precursor one +4059final one; both retained",
+    "ready_for_independent_review": true
+  },
+  "connected_remote": {
+    "recorded_at_utc": "2026-11-19T10:22:42.603063+00:00",
+    "interface": "CONNECTED_GITHUB_READONLY_METADATA",
+    "source_commit": {
+      "status": "NOT_YET_PUBLIC_422_NO_COMMIT_FOUND",
+      "repository": "Tiramisu-Cake/verify-rust-std",
+      "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3"
+    },
+    "source_proposed_ref": {
+      "ref": "experiment/ch8-s4p-2-20261119",
+      "status": "ABSENT_404"
+    },
+    "control_base": {
+      "sha": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "tree": "4b1d95766c2a8a820f6cf15ff00008b0f5a0c65b",
+      "parents": [
+        "7c41333f9bfcfd7eb4e0ede7bd316443090c9025"
+      ],
+      "status": "CONNECTED_MATCH"
+    },
+    "control_proposed_ref": {
+      "ref": "uninit-ci/ch8-s4p-2-20261119",
+      "status": "ABSENT_404"
+    }
+  },
+  "accounting_changed": false
+}
