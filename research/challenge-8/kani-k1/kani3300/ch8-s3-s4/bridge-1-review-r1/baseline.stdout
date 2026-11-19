@@ -1,0 +1,82 @@
+{
+  "status": "PASS",
+  "kind": "baseline",
+  "control": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+  "module_origins": {
+    "test_s34_paths": "/root/kani-ch8-s3s4-bridge1-control-w13/ch8-s1-control/test_s34_paths.py",
+    "s34_campaign": "/root/kani-ch8-s3s4-bridge1-control-w13/ch8-s1-control/s34_campaign.py",
+    "collect": "/root/kani-ch8-s3s4-bridge1-control-w13/ch8-s1-control/collect.py",
+    "pack_evidence": "/root/kani-ch8-s3s4-bridge1-control-w13/ch8-s1-control/pack_evidence.py"
+  },
+  "observations": [
+    {
+      "scenario": "full7",
+      "state": "SELECTED_RECORDED_FULL_INVENTORY_INCOMPLETE",
+      "launched": 7,
+      "completed": 7,
+      "writer_type": "int",
+      "writer_selected": 8,
+      "remaining_statuses": [],
+      "collector_outcomes": [
+        "RECORDED",
+        "RECORDED",
+        "RECORDED",
+        "RECORDED",
+        "RECORDED",
+        "RECORDED",
+        "RECORDED"
+      ],
+      "public_routes": [
+        {
+          "case": "int7",
+          "local": "ACCEPT",
+          "upload_only": "ACCEPT"
+        },
+        {
+          "case": "missing",
+          "local": "ACCEPT",
+          "upload_only": "ACCEPT"
+        },
+        {
+          "case": "null",
+          "local": "ACCEPT",
+          "upload_only": "ACCEPT"
+        },
+        {
+          "case": "bool",
+          "local": "ACCEPT",
+          "upload_only": "ACCEPT"
+        },
+        {
+          "case": "string",
+          "local": "ACCEPT",
+          "upload_only": "ACCEPT"
+        },
+        {
+          "case": "float",
+          "local": "ACCEPT",
+          "upload_only": "ACCEPT"
+        },
+        {
+          "case": "zero",
+          "local": "ACCEPT",
+          "upload_only": "ACCEPT"
+        },
+        {
+          "case": "six",
+          "local": "ACCEPT",
+          "upload_only": "ACCEPT"
+        },
+        {
+          "case": "eight",
+          "local": "ACCEPT",
+          "upload_only": "ACCEPT"
+        }
+      ],
+      "nonterminal_structured_bytes_preserved": true
+    }
+  ],
+  "invalid_inventory_checks": 0,
+  "native_execution": "SYNTHETIC_ONLY",
+  "proof_credit": "NONE"
+}

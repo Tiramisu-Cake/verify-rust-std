@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "source": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+  "control": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+  "reports": {
+    "ordinary": {
+      "status": "STATIC_PASS",
+      "files": 26,
+      "limits": []
+    },
+    "cfg_pfc": {
+      "status": "STATIC_PASS",
+      "files": 11,
+      "limits": []
+    },
+    "contract_stacks": {
+      "status": "STATIC_PASS",
+      "files": 26,
+      "limits": []
+    },
+    "lexical": {
+      "status": "STATIC_PASS",
+      "files": 20,
+      "limits": [
+        "lexical paths only; no type, generic bound, borrow, method, macro expansion, MIR or compilation validation",
+        "body-local items/imports and unsupported paths fail closed; callable parameters are lexical only"
+      ]
+    }
+  },
+  "proof_credit": "NONE",
+  "type_MIR_resolution": "NOT_ESTABLISHED"
+}

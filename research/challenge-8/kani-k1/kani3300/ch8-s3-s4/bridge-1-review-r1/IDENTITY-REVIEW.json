@@ -1,0 +1,310 @@
+{
+  "candidate": "9c4ce67e06a652413fa72d9678f93962da5a2e1e",
+  "task": "0414fdbdf784f07abb1ca6a7c020d1c8064c8e39",
+  "baseline_candidate": "bcc103354d1418feeda043c6b955b38bb4393598",
+  "inherited_full_review": "4bd906e8fe1e2dc78afef74d32db8b9e14c2db7e",
+  "identities": {
+    "source": {
+      "sha": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0",
+      "parents": [
+        "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      ],
+      "clean": true,
+      "depth": 5,
+      "required_commits_available": [
+        "f1bdf11902252ad1178f42403c253ae710fecbaf",
+        "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+        "99e8456d200fff1299ee5756279cddb23921dc65"
+      ],
+      "shallow_check": "PASS",
+      "worktree": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "reference": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+      "verified_ancestors": [
+        "f1bdf11902252ad1178f42403c253ae710fecbaf",
+        "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+        "55dc6ca6cd055bb5bb6b8570d86cf55cc62fcc19",
+        "4092c170cb7615d9a1bee3178ac877126d6e8058",
+        "99e8456d200fff1299ee5756279cddb23921dc65"
+      ]
+    },
+    "control": {
+      "sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "parents": [
+        "9e14e033f9ee31522b571c127609dcdff76d230b"
+      ],
+      "clean": true,
+      "depth": 7,
+      "required_commits_available": [
+        "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+        "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "0aac16ef62da9e9d5645782d458593e5d78143ba"
+      ],
+      "shallow_check": "PASS",
+      "worktree": "/root/kani-ch8-s3s4-bridge1-r1-control-w13",
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "reference": "775574eb2f361ef90eade30330ff0d608530287f",
+      "verified_ancestors": [
+        "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+        "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "7c41333f9bfcfd7eb4e0ede7bd316443090c9025",
+        "9208b373c0a08a265fa0d7493a6529e331065271",
+        "b25dd39a46ba90b167500997d546a5f2f5bd8f3b",
+        "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+        "0aac16ef62da9e9d5645782d458593e5d78143ba"
+      ]
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "parents": [
+        "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+      ],
+      "clean": true,
+      "depth": 2,
+      "required_commits_available": [
+        "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+      ],
+      "shallow_check": "PASS",
+      "worktree": "/root/kani-upstream-ch8-s1",
+      "author_committer": "Ivo Matijašević <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>",
+      "verified_ancestors": [
+        "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+      ]
+    }
+  },
+  "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+  "workflow_sha256": "317f92181bee9470ddf65471def7154fcacbf1e6fb7913220ca1f154ca915a55",
+  "tracked_files": 56,
+  "manifest_hashes": 55,
+  "changed_paths": [
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/s34_campaign.py",
+    "ch8-s1-control/s34_validate.py",
+    "ch8-s1-control/test_s34.py",
+    "ch8-s1-control/test_s34_paths.py"
+  ],
+  "patch_replays": [
+    {
+      "file": "SOURCE-PARENT.patch",
+      "sha256": "cd76bba1f64f704ddb1154ba6e422a018173199ad56b753fad1c11b75ea6bfa4",
+      "base": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "tip": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "expected_tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0",
+      "replayed_tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0",
+      "status": "EXACT_TREE_PASS",
+      "native_compile": "NOT_RUN",
+      "independent_tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0"
+    },
+    {
+      "file": "SOURCE-DELTA.patch",
+      "sha256": "b887b59c049ec6d9db3ab83b53888baa675b3ab879d435a5f79c2fabc249b1e7",
+      "base": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+      "tip": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "expected_tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0",
+      "replayed_tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0",
+      "status": "EXACT_TREE_PASS",
+      "native_compile": "NOT_RUN",
+      "independent_tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0"
+    },
+    {
+      "file": "SOURCE-STOCK.patch",
+      "sha256": "de5fe9bef41b462fdc0d5cb638e2c4a9f33636d4a7541cfc5596a2d66369aaa2",
+      "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "tip": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "expected_tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0",
+      "replayed_tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0",
+      "status": "EXACT_TREE_PASS",
+      "native_compile": "NOT_RUN",
+      "independent_tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0"
+    },
+    {
+      "file": "CONTROL-PARENT.patch",
+      "sha256": "4edd05157f38b44fbf4a20d71bba0488b1509d5cd3c9ac39e8293cae52cf8ae8",
+      "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "tip": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "expected_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "replayed_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "status": "EXACT_TREE_PASS",
+      "native_compile": "NOT_RUN",
+      "independent_tree": "6280a305cba669f59ae82119fcf5374115ecacf7"
+    },
+    {
+      "file": "CONTROL-DELTA.patch",
+      "sha256": "54a8d8139d060943307554f1db40f51243a1eb5b704081d0983070daa7b0b87b",
+      "base": "775574eb2f361ef90eade30330ff0d608530287f",
+      "tip": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "expected_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "replayed_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "status": "EXACT_TREE_PASS",
+      "native_compile": "NOT_RUN",
+      "independent_tree": "6280a305cba669f59ae82119fcf5374115ecacf7"
+    },
+    {
+      "file": "CONTROL-STOCK.patch",
+      "sha256": "657c650b96cb0055c181cc409c8315c5301c05790aee8fac97343a05de97908b",
+      "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tip": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "expected_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "replayed_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "status": "EXACT_TREE_PASS",
+      "native_compile": "NOT_RUN",
+      "independent_tree": "6280a305cba669f59ae82119fcf5374115ecacf7"
+    }
+  ],
+  "full_review_inheritance": "Exact source/tool objects, all non-delta control tree entries, all request semantics and8 scope maps; no new broad source review or proof credit",
+  "author_validation": {
+    "schema": "bridge1-r1-final-offline-validation-v1",
+    "status": "PASS",
+    "actual_final_validate_execution_count": 1,
+    "result": {
+      "bridge1_tests": 40,
+      "control_sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "control_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "elapsed_seconds": 632.1776101361029,
+      "errors": 0,
+      "failures": 0,
+      "legacy_tests": 136,
+      "margin_at_18_minutes": 1.7083806555051586,
+      "native_compile_proof_fit": "NOT_RUN",
+      "proof_credit": "NONE",
+      "protected_s3_1_tests": 56,
+      "protected_s3_2_tests": 35,
+      "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+      "schema": "ch8-s3s4-bridge1-validate-v1",
+      "success": true
+    },
+    "process_receipt": "validation/final-validate.json",
+    "stdout": "validation/final-validate.stdout",
+    "stderr": "validation/final-validate.stderr",
+    "elapsed_seconds": 632.5823326697573,
+    "cap_seconds": 1080,
+    "margin_at_18_minutes": 1.7072876433996447,
+    "required_margin": 1.5,
+    "source_preflight": {
+      "control_sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "control_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "control_parents": [
+        "9e14e033f9ee31522b571c127609dcdff76d230b"
+      ],
+      "tracked_clean": true,
+      "name": "source-preflight",
+      "argv": [
+        "python3",
+        "-B",
+        "runner.py",
+        "check-source",
+        "--std",
+        "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+        "--tool",
+        "/root/kani-upstream-ch8-s1"
+      ],
+      "cwd": "/root/kani-ch8-s3s4-bridge1-r1-control-w13/ch8-s1-control",
+      "start_utc": "2026-11-19T04:13:27.581679+00:00",
+      "wall_cap_seconds": 180,
+      "native_compile_proof_fit": "NOT_RUN",
+      "proof_credit": "NONE",
+      "exit_code": 0,
+      "elapsed_seconds": 24.242099224124104,
+      "end_utc": "2026-11-19T04:13:51.823845+00:00",
+      "head_after": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "tracked_clean_after": true
+    },
+    "control_preflight": {
+      "control_sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "control_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "control_parents": [
+        "9e14e033f9ee31522b571c127609dcdff76d230b"
+      ],
+      "tracked_clean": true,
+      "name": "control-preflight",
+      "argv": [
+        "python3",
+        "-B",
+        "check_package.py",
+        "control",
+        "--repo",
+        ".."
+      ],
+      "cwd": "/root/kani-ch8-s3s4-bridge1-r1-control-w13/ch8-s1-control",
+      "start_utc": "2026-11-19T04:13:26.909181+00:00",
+      "wall_cap_seconds": 180,
+      "native_compile_proof_fit": "NOT_RUN",
+      "proof_credit": "NONE",
+      "exit_code": 0,
+      "elapsed_seconds": 0.5771422758698463,
+      "end_utc": "2026-11-19T04:13:27.486358+00:00",
+      "head_after": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "tracked_clean_after": true
+    },
+    "targeted_count": {
+      "control_sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "control_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "control_parents": [
+        "9e14e033f9ee31522b571c127609dcdff76d230b"
+      ],
+      "tracked_clean": true,
+      "name": "targeted-count",
+      "argv": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "-v",
+        "test_s34_paths.RealPathWriterTests.test_selected_count_real_writer_and_both_readers",
+        "test_s34_paths.RealPathWriterTests.test_selected_count_stopped_and_partial_prefix",
+        "test_s34_paths.RealPathWriterTests.test_selected_count_without_completions",
+        "test_s34_paths.RealPathWriterTests.test_selected_count_requires_validated_request_inventory"
+      ],
+      "cwd": "/root/kani-ch8-s3s4-bridge1-r1-control-w13/ch8-s1-control",
+      "start_utc": "2026-11-19T04:12:58.523600+00:00",
+      "wall_cap_seconds": 180,
+      "native_compile_proof_fit": "NOT_RUN",
+      "proof_credit": "NONE",
+      "exit_code": 0,
+      "elapsed_seconds": 12.857104813214391,
+      "end_utc": "2026-11-19T04:13:11.380772+00:00",
+      "head_after": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "tracked_clean_after": true
+    },
+    "standalone_corrected_test": {
+      "control_sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "control_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "control_parents": [
+        "9e14e033f9ee31522b571c127609dcdff76d230b"
+      ],
+      "tracked_clean": true,
+      "name": "standalone-portable",
+      "argv": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "-v",
+        "test_s34.PortableReplayTests.test_same_invocation_stock_rich_metadata_and_upload_only_replay"
+      ],
+      "cwd": "/root/kani-ch8-s3s4-bridge1-r1-control-w13/ch8-s1-control",
+      "start_utc": "2026-11-19T04:13:11.451645+00:00",
+      "wall_cap_seconds": 180,
+      "native_compile_proof_fit": "NOT_RUN",
+      "proof_credit": "NONE",
+      "exit_code": 0,
+      "elapsed_seconds": 3.583464222960174,
+      "end_utc": "2026-11-19T04:13:15.035208+00:00",
+      "head_after": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "tracked_clean_after": true
+    },
+    "exact_test_list": "TEST-LIST.json",
+    "environment_limit": "Controlpreflight supplied synthetic GITHUB_REPOSITORY/EVENT_NAME/REF/RUN_ATTEMPT/SHA strings only; not a realref/run/publication. Nativecompile/proof/cost/fit NOT_RUN",
+    "source_preflight_execution_count": 1,
+    "no_postpass_control_source_tool_code_edits": true,
+    "proof_credit": "NONE"
+  },
+  "reviewer_fullValidate_runs": 0
+}

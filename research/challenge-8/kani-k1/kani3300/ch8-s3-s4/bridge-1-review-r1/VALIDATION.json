@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "static_checks": 465,
+  "independent_patch_tree_replays": 6,
+  "source_static_gates": 4,
+  "reviewer_independent_count_matrix": {
+    "baseline_control": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+    "baseline_full_scenarios": 1,
+    "baseline_route_acceptances": 18,
+    "repaired_control": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "repaired_scenarios": [
+      "full7",
+      "stopped2",
+      "partial2",
+      "stopped0",
+      "partial0"
+    ],
+    "repaired_route_acceptances": 10,
+    "repaired_adverse_route_rejections": 80,
+    "invalid_inventory_rejections": 6,
+    "evidence": [
+      "baseline.stdout",
+      "repaired.stdout"
+    ]
+  },
+  "reviewer_targeted_tests": 5,
+  "reviewer_targeted_elapsed_seconds": 15.829660935793072,
+  "reviewer_fullValidate_executions": 0,
+  "author_final_validation": {
+    "assurance": "Committed source-reported execution receipts independently checked for identity, ordered267 individual statuses, exits and arithmetic; no reviewer fullValidate rerun",
+    "tests": 267,
+    "exit_code": 0,
+    "reported_execution_count": 1,
+    "elapsed_seconds": 632.5823326697573,
+    "internal_elapsed_seconds": 632.1776101361029,
+    "margin_at_18_minutes": 1.7072876433996447,
+    "source_preflight_reported_execution_count": 1,
+    "source_preflight_seconds": 24.242099224124104,
+    "control_preflight_seconds": 0.5771422758698463
+  },
+  "native_compile_proof_fit": "NOT_RUN",
+  "type_MIR_init_generic_proof": "NOT_ESTABLISHED",
+  "proof_credit": "NONE"
+}

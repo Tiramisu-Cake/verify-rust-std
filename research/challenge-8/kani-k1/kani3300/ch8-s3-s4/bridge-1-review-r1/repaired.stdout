@@ -1,0 +1,374 @@
+{
+  "status": "PASS",
+  "kind": "repaired",
+  "control": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+  "module_origins": {
+    "test_s34_paths": "/root/kani-ch8-s3s4-bridge1-r1-control-w13/ch8-s1-control/test_s34_paths.py",
+    "s34_campaign": "/root/kani-ch8-s3s4-bridge1-r1-control-w13/ch8-s1-control/s34_campaign.py",
+    "collect": "/root/kani-ch8-s3s4-bridge1-r1-control-w13/ch8-s1-control/collect.py",
+    "pack_evidence": "/root/kani-ch8-s3s4-bridge1-r1-control-w13/ch8-s1-control/pack_evidence.py"
+  },
+  "observations": [
+    {
+      "scenario": "full7",
+      "state": "SELECTED_RECORDED_FULL_INVENTORY_INCOMPLETE",
+      "launched": 7,
+      "completed": 7,
+      "writer_type": "int",
+      "writer_selected": 7,
+      "remaining_statuses": [],
+      "collector_outcomes": [
+        "RECORDED",
+        "RECORDED",
+        "RECORDED",
+        "RECORDED",
+        "RECORDED",
+        "RECORDED",
+        "RECORDED"
+      ],
+      "public_routes": [
+        {
+          "case": "int7",
+          "local": "ACCEPT",
+          "upload_only": "ACCEPT"
+        },
+        {
+          "case": "missing",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "null",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "bool",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "string",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "float",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "zero",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "six",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "eight",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        }
+      ],
+      "nonterminal_structured_bytes_preserved": true
+    },
+    {
+      "scenario": "stopped2",
+      "state": "STOPPED",
+      "launched": 3,
+      "completed": 2,
+      "writer_type": "int",
+      "writer_selected": 7,
+      "remaining_statuses": [
+        "INTERRUPTED",
+        "NOT_RUN",
+        "NOT_RUN",
+        "NOT_RUN",
+        "NOT_RUN"
+      ],
+      "collector_outcomes": [
+        "RECORDED",
+        "RECORDED",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN"
+      ],
+      "public_routes": [
+        {
+          "case": "int7",
+          "local": "ACCEPT",
+          "upload_only": "ACCEPT"
+        },
+        {
+          "case": "missing",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "null",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "bool",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "string",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "float",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "zero",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "six",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "eight",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        }
+      ],
+      "nonterminal_structured_bytes_preserved": true
+    },
+    {
+      "scenario": "partial2",
+      "state": "SELECTED_PARTIAL",
+      "launched": 3,
+      "completed": 2,
+      "writer_type": "int",
+      "writer_selected": 7,
+      "remaining_statuses": [
+        "INTERRUPTED",
+        "NOT_RUN",
+        "NOT_RUN",
+        "NOT_RUN",
+        "NOT_RUN"
+      ],
+      "collector_outcomes": [
+        "RECORDED",
+        "RECORDED",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN"
+      ],
+      "public_routes": [
+        {
+          "case": "int7",
+          "local": "ACCEPT",
+          "upload_only": "ACCEPT"
+        },
+        {
+          "case": "missing",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "null",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "bool",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "string",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "float",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "zero",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "six",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "eight",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        }
+      ],
+      "nonterminal_structured_bytes_preserved": true
+    },
+    {
+      "scenario": "stopped0",
+      "state": "STOPPED",
+      "launched": 0,
+      "completed": 0,
+      "writer_type": "int",
+      "writer_selected": 7,
+      "remaining_statuses": [
+        "NOT_RUN",
+        "NOT_RUN",
+        "NOT_RUN",
+        "NOT_RUN",
+        "NOT_RUN",
+        "NOT_RUN",
+        "NOT_RUN"
+      ],
+      "collector_outcomes": [
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN"
+      ],
+      "public_routes": [
+        {
+          "case": "int7",
+          "local": "ACCEPT",
+          "upload_only": "ACCEPT"
+        },
+        {
+          "case": "missing",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "null",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "bool",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "string",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "float",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "zero",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "six",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "eight",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        }
+      ],
+      "nonterminal_structured_bytes_preserved": true
+    },
+    {
+      "scenario": "partial0",
+      "state": "SELECTED_PARTIAL",
+      "launched": 0,
+      "completed": 0,
+      "writer_type": "int",
+      "writer_selected": 7,
+      "remaining_statuses": [
+        "NOT_RUN",
+        "NOT_RUN",
+        "NOT_RUN",
+        "NOT_RUN",
+        "NOT_RUN",
+        "NOT_RUN",
+        "NOT_RUN"
+      ],
+      "collector_outcomes": [
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN",
+        "UNKNOWN"
+      ],
+      "public_routes": [
+        {
+          "case": "int7",
+          "local": "ACCEPT",
+          "upload_only": "ACCEPT"
+        },
+        {
+          "case": "missing",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "null",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "bool",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "string",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "float",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "zero",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "six",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        },
+        {
+          "case": "eight",
+          "local": "REJECT",
+          "upload_only": "REJECT"
+        }
+      ],
+      "nonterminal_structured_bytes_preserved": true
+    }
+  ],
+  "invalid_inventory_checks": 6,
+  "native_execution": "SYNTHETIC_ONLY",
+  "proof_credit": "NONE"
+}

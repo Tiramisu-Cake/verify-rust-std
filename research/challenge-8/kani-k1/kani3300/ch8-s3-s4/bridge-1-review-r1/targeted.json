@@ -1,0 +1,21 @@
+{
+  "name": "targeted",
+  "argv": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "test_s34_paths.RealPathWriterTests.test_selected_count_real_writer_and_both_readers",
+    "test_s34_paths.RealPathWriterTests.test_selected_count_stopped_and_partial_prefix",
+    "test_s34_paths.RealPathWriterTests.test_selected_count_without_completions",
+    "test_s34_paths.RealPathWriterTests.test_selected_count_requires_validated_request_inventory",
+    "test_s34.PortableReplayTests.test_same_invocation_stock_rich_metadata_and_upload_only_replay"
+  ],
+  "cwd": "/root/kani-ch8-s3s4-bridge1-r1-control-w13/ch8-s1-control",
+  "start_utc": "2026-11-19T04:32:50.579224+00:00",
+  "end_utc": "2026-11-19T04:33:06.408845+00:00",
+  "elapsed_seconds": 15.829660935793072,
+  "exit_code": 0,
+  "scope": "Independent Python synthetic service tests; native/fullValidate NOT_RUN"
+}
