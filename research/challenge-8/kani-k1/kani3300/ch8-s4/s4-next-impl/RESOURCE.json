@@ -1,0 +1,71 @@
+{
+  "caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "budgets": {
+    "jobs": 1,
+    "max_parallel": 1,
+    "workflow_minutes": 180,
+    "setup_seconds": 1800,
+    "phase_seconds": 8100,
+    "row_seconds": 600,
+    "rss_kib": 6291456,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456,
+    "planned_rows_seconds": null,
+    "rss_cap_kib": 6291456,
+    "compile_seconds": 900,
+    "group_rss_max_kib": 12582912,
+    "memory_reserve_kib": 2097152,
+    "projected_group_count": 8,
+    "child_compile_subcap_seconds": 180,
+    "whole_child_including_compile_seconds": 600,
+    "shared_campaign_seconds": 6900
+  },
+  "flags": {
+    "unstable": [
+      "function-contracts",
+      "mem-predicates",
+      "float-lib",
+      "c-ffi",
+      "loop-contracts",
+      "quantifiers",
+      "stubbing",
+      "export-json"
+    ],
+    "assert_contracts": false,
+    "jobs": 1,
+    "harness_timeout": "600s",
+    "exact": true,
+    "default_unwind": 50,
+    "cbmc_args": [
+      "--object-bits",
+      "12"
+    ],
+    "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf --cfg=kani_smallsort_s4_partition"
+  },
+  "slot_envelope_seconds": 6180,
+  "campaign_reserve_seconds": 720,
+  "cost_fit": "UNKNOWN_NOT_RUN",
+  "validate_deadline_seconds": 1080,
+  "validate_margin_required": 1.5,
+  "validate_maximum_elapsed_for_margin_seconds": 720,
+  "strict_peak_memory_assurance": "NOT_ESTABLISHED; unchanged sampled-PGID/owned-census semantics"
+}

@@ -1,0 +1,1767 @@
+diff --git a/library/core/Cargo.toml b/library/core/Cargo.toml
+index a8243cee3d1b89c224ee4296ec5368c3b04cc604..901df1fc6946e068113c3a4b1b0a22615bfd0dac 100644
+--- a/library/core/Cargo.toml
++++ b/library/core/Cargo.toml
+@@ -48,6 +48,7 @@ check-cfg = [
+     'cfg(kani_smallsort_controls)',
+     # Opt-in sorting contracts and mechanism smoke; distinct from ordinary roots.
+     'cfg(kani_smallsort_sorting)',
++    'cfg(kani_smallsort_s2_assumed)',
+     'cfg(flux)',
+     'cfg(rapx)',
+     # Prevents use of a static variable for providing platform specific RawOsError
+diff --git a/library/core/src/slice/sort/shared/smallsort.rs b/library/core/src/slice/sort/shared/smallsort.rs
+index 4587a72c51325a25cca1c20138a6ee1d1aa2233f..700605e2afe2943da5aa5b5015db0e788c084730 100644
+--- a/library/core/src/slice/sort/shared/smallsort.rs
++++ b/library/core/src/slice/sort/shared/smallsort.rs
+@@ -403,33 +403,60 @@ where
+ // comparators that write nowhere else, and only the proved element, comparator, and
+ // allocation domains listed in verify.rs. One successful contract proof does not justify
+ // a new consumer.
+-#[safety::requires(
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(
+     a_pos.checked_mul(size_of::<T>()).is_some_and(|offset| {
+         offset <= isize::MAX as usize
+             && (v_base as isize).checked_add(offset as isize).is_some()
+             && ptr::byte_offset_does_not_wrap(v_base, offset as isize)
+     })
+-)]
+-#[safety::requires(
++))]
++#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(
++    a_pos.checked_mul(size_of::<T>()).is_some_and(|offset| {
++        offset <= isize::MAX as usize
++            && (v_base as isize).checked_add(offset as isize).is_some()
++            && ptr::byte_offset_does_not_wrap(v_base, offset as isize)
++    })
++))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(
+     b_pos.checked_mul(size_of::<T>()).is_some_and(|offset| {
+         offset <= isize::MAX as usize
+             && (v_base as isize).checked_add(offset as isize).is_some()
+             && ptr::byte_offset_does_not_wrap(v_base, offset as isize)
+     })
+-)]
+-#[safety::requires(
++))]
++#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(
++    b_pos.checked_mul(size_of::<T>()).is_some_and(|offset| {
++        offset <= isize::MAX as usize
++            && (v_base as isize).checked_add(offset as isize).is_some()
++            && ptr::byte_offset_does_not_wrap(v_base, offset as isize)
++    })
++))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(
+     crate::ub_checks::same_allocation(v_base, v_base.wrapping_add(a_pos))
+         && crate::ub_checks::same_allocation(v_base, v_base.wrapping_add(b_pos))
+-)]
+-#[safety::requires(
++))]
++#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(
++    crate::ub_checks::same_allocation(v_base, v_base.wrapping_add(a_pos))
++        && crate::ub_checks::same_allocation(v_base, v_base.wrapping_add(b_pos))
++))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(
+     crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))
+         && crate::ub_checks::can_write(v_base.wrapping_add(a_pos))
+-)]
+-#[safety::requires(
++))]
++#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(
++    crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))
++        && crate::ub_checks::can_write(v_base.wrapping_add(a_pos))
++))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(
+     crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))
+         && crate::ub_checks::can_write(v_base.wrapping_add(b_pos))
+-)]
++))]
++#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(
++    crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))
++        && crate::ub_checks::can_write(v_base.wrapping_add(b_pos))
++))]
+ #[cfg_attr(kani, crate::kani::modifies(v_base.wrapping_add(a_pos), v_base.wrapping_add(b_pos)))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::ensures(|_| !verify::sorting_s2_swap::enabled::<T,F>() || verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos)))]
+ unsafe fn swap_if_less<T, F>(v_base: *mut T, a_pos: usize, b_pos: usize, is_less: &mut F)
+ where
+     F: FnMut(&T, &T) -> bool,
+@@ -604,7 +631,7 @@ fn insert_tail_contract_len<T>(begin: *mut T, tail: *mut T) -> usize {
+ /// # Safety
+ /// begin < tail and p must be valid and initialized for all begin <= p <= tail.
+ // The Kani callback frame and domain restrictions above swap_if_less also apply here.
+-#[safety::requires(
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(
+     begin < tail
+         && insert_tail_contract_len(begin, tail) > 1
+         && crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(
+@@ -615,7 +642,19 @@ fn insert_tail_contract_len<T>(begin: *mut T, tail: *mut T) -> usize {
+             begin,
+             insert_tail_contract_len(begin, tail),
+         ))
+-)]
++))]
++#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(
++    begin < tail
++        && insert_tail_contract_len(begin, tail) > 1
++        && crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(
++            begin,
++            insert_tail_contract_len(begin, tail),
++        ))
++        && crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(
++            begin,
++            insert_tail_contract_len(begin, tail),
++        ))
++))]
+ #[cfg_attr(
+     kani,
+     crate::kani::modifies(ptr::slice_from_raw_parts_mut(
+@@ -623,6 +662,8 @@ fn insert_tail_contract_len<T>(begin: *mut T, tail: *mut T) -> usize {
+         insert_tail_contract_len(begin, tail)
+     ))
+ )]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(!verify::sorting_s2_span::active::<T,F>() || (insert_tail_contract_len(begin,tail) >= 2 && insert_tail_contract_len(begin,tail) <= 17 && verify::sorting_s2_span::ordered::<T,F>(begin,insert_tail_contract_len(begin,tail)-1))))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::ensures(|_| !verify::sorting_s2_span::active::<T,F>() || verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(begin,insert_tail_contract_len(begin,tail))),begin,insert_tail_contract_len(begin,tail))))]
+ unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {
+     // SAFETY: see individual comments.
+     unsafe {
+@@ -662,7 +703,8 @@ unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T,
+ 
+ /// Sort `v` assuming `v[..offset]` is already sorted.
+ // The Kani callback frame and domain restrictions above swap_if_less also apply here.
+-#[safety::requires(offset != 0 && offset <= v.len())]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(offset != 0 && offset <= v.len()))]
++#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(offset != 0 && offset <= v.len()))]
+ #[cfg_attr(kani, crate::kani::modifies(v))]
+ pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(
+     v: &mut [T],
+@@ -707,12 +749,18 @@ fn sort4_contract_regions_disjoint<T>(src: *const T, dst: *mut T) -> bool {
+ /// SAFETY: The caller MUST guarantee that `v_base` is valid for 4 reads and
+ /// `dst` is valid for 4 writes. The result will be stored in `dst[0..4]`.
+ // The Kani callback frame and domain restrictions above swap_if_less also apply here.
+-#[safety::requires(
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(
+     crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(v_base, 4))
+         && crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst, 4))
+         && sort4_contract_regions_disjoint(v_base, dst)
+-)]
++))]
++#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(
++    crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(v_base, 4))
++        && crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst, 4))
++        && sort4_contract_regions_disjoint(v_base, dst)
++))]
+ #[cfg_attr(kani, crate::kani::modifies(ptr::slice_from_raw_parts_mut(dst, 4)))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf), crate::kani::ensures(|_| !verify::sorting_s2_span::active::<T,F>() || verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(v_base,4)),dst,4)))]
+ pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>(
+     v_base: *const T,
+     dst: *mut T,
+@@ -764,6 +812,9 @@ pub unsafe fn sort4_stable<T, F: FnMut(&T, &T) -> bool>(
+ /// SAFETY: The caller MUST guarantee that `v_base` is valid for 8 reads and
+ /// writes, `scratch_base` and `dst` MUST be valid for 8 writes. The result will
+ /// be stored in `dst[0..8]`.
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(v_base,8)) && crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst,8)) && crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(scratch_base,8)) && merge_contract_regions_disjoint(v_base,dst,8) && merge_contract_regions_disjoint(v_base,scratch_base,8) && merge_contract_regions_disjoint(dst,scratch_base,8)))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::modifies(ptr::slice_from_raw_parts_mut(dst,8), ptr::slice_from_raw_parts_mut(scratch_base,8)))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::ensures(|_| !verify::sorting_s2_span::active::<T,F>() || verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(v_base,8)),dst,8)))]
+ unsafe fn sort8_stable<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
+     v_base: *mut T,
+     dst: *mut T,
+@@ -872,11 +923,17 @@ fn merge_contract_regions_disjoint<T>(src: *const T, dst: *mut T, len: usize) ->
+ /// Note that T must be Freeze, the comparison function is evaluated on outdated
+ /// temporary 'copies' that may not end up in the final array.
+ // The Kani callback frame and domain restrictions above swap_if_less also apply here.
+-#[safety::requires(v.len() >= 2)]
+-#[safety::requires(crate::ub_checks::can_dereference(v as *const [T]))]
+-#[safety::requires(crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst, v.len())))]
+-#[safety::requires(merge_contract_regions_disjoint(v.as_ptr(), dst, v.len()))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(v.len() >= 2))]
++#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(v.len() >= 2))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(crate::ub_checks::can_dereference(v as *const [T])))]
++#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(crate::ub_checks::can_dereference(v as *const [T])))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst, v.len()))))]
++#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(crate::ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst, v.len()))))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(merge_contract_regions_disjoint(v.as_ptr(), dst, v.len())))]
++#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(merge_contract_regions_disjoint(v.as_ptr(), dst, v.len())))]
+ #[cfg_attr(kani, crate::kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(!verify::sorting_s2_span::active::<T,F>() || (v.len() <= 32 && verify::sorting_s2_span::ordered::<T,F>(v.as_ptr(),v.len()/2) && verify::sorting_s2_span::ordered::<T,F>(v.as_ptr().wrapping_add(v.len()/2),v.len()-v.len()/2))))]
++#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::ensures(|_| !verify::sorting_s2_span::active::<T,F>() || verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(v.as_ptr(),v.len())),dst,v.len())))]
+ unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
+     v: &[T],
+     dst: *mut T,
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify.rs b/library/core/src/slice/sort/shared/smallsort/verify.rs
+index 94660db8971b112ed627aaeb8c5d4ba6acd6cd35..ea70837c02f3121f41aab172196009b525384822 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify.rs
+@@ -88,3 +88,39 @@ mod sorting_entry_smoke;
+ mod sorting_model_controls;
+ #[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_controls))]
+ mod sorting_entry_controls;
++
++// S2 cost experiment: every module is explicitly opt-in, separate from S1.
++#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed))]
++pub(super) mod sorting_s2_swap;
++#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed))]
++pub(super) mod sorting_s2_span;
++#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed))]
++pub(super) mod sorting_s2_batch;
++
++// S3 actual-body leaf candidate. No assumed consumers are selected.
++#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf))]
++pub(super) mod sorting_s3_leaf;
++
++// S3-2 bounded candidates and explicitly initialization-open partial diagnostics.
++#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf))]
++pub(super) mod sorting_s3_2_leaf;
++
++// Combined S3/S4 direct-helper candidates; no assumed replacement.
++#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf))]
++pub(super) mod sorting_bridge1;
++
++// S4 direct full-byte length partitions; no assumed replacements.
++#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf, kani_smallsort_s4_partition))]
++pub(super) mod sorting_s4_partition;
++
++// S4P2 exact network singletons and N0..1; no assumed replacements.
++#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf, kani_smallsort_s4_partition))]
++pub(super) mod sorting_s4_network_partition;
++
++// S4P2 r2 concrete actual-call slices; old partitions remain unchanged.
++#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf, kani_smallsort_s4_partition))]
++pub(super) mod sorting_s4_network_r2;
++
++// S4P3 concrete network N8/N9/N13/N17; no summary replacements.
++#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf, kani_smallsort_s4_partition))]
++pub(super) mod sorting_s4_full_lengths_next;
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..a90f927b5fc5a12cf4128eb10ad1a73c3fc29a20
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs
+@@ -0,0 +1,138 @@
++//! Seven-root bridge: bounded full-byte normal-return candidates, no proof credit.
++//! Cell bytes are logical whole values; no trait-dispatch or mutable-comparator theorem.
++use super::super::{insert_tail, sort9_optimal, small_sort_fallback, small_sort_network};
++use super::sorting_model::{KeyLess, enabled, snapshot, post};
++use super::{sorting_s2_span as span, sorting_s2_swap as pair};
++use crate::{kani, cell::Cell};
++
++fn active_u8() -> bool {
++    enabled::<u8, KeyLess<u8>>() && span::active::<u8, KeyLess<u8>>()
++        && pair::enabled::<u8, KeyLess<u8>>()
++}
++fn descending(v: &[u8]) -> bool {
++    let mut i = 1;
++    while i < v.len() {
++        if v[i - 1] <= v[i] { return false; }
++        i += 1;
++    }
++    true
++}
++
++#[kani::proof_for_contract(insert_tail)]
++#[kani::unwind(36)]
++fn i_p01_b01_fullu8() {
++    kani::assert(active_u8(), "B1_I_ACTIVE");
++    let mut v: [u8; 34] = kani::any();
++    let before = v;
++    let begin = 1;
++    let tail = 1;
++    let p = unsafe { v.as_mut_ptr().add(begin) };
++    unsafe { insert_tail(p, p.add(tail), &mut KeyLess::<u8>::new()) };
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[1..3]), &v[1..3]), "B1_I_SORTED_FULL_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 3) || v[i] == before[i], "B1_I_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 3));
++    kani::assert(v[canary] == before[canary], "B1_I_CANARY");
++    kani::cover(before[2] >= before[1], "B1_I_EARLY_RETURN");
++    kani::cover(before[2] < before[1], "B1_I_FULL_SIFT");
++    kani::cover(before[2] == before[1], "B1_I_DUPLICATE");
++    kani::cover(v[1] < v[2], "B1_I_NONCONSTANT");
++    kani::cover(true, "B1_I_USEFUL_RETURN");
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn sort9_v34_b01_len09_real() {
++    kani::assert(active_u8(), "B1_S9_ACTIVE");
++    let mut v: [u8; 34] = kani::any();
++    let before = v;
++    sort9_optimal(&mut v[1..10], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[1..10]), &v[1..10]), "B1_S9_SORTED_FULL_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 10) || v[i] == before[i], "B1_S9_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 10));
++    kani::assert(v[canary] == before[canary], "B1_S9_CANARY");
++    kani::cover(before[1] > before[9], "B1_S9_UNSORTED");
++    kani::cover(before[1] == before[9], "B1_S9_DUPLICATE");
++    kani::cover(v[1] < v[9], "B1_S9_NONCONSTANT");
++    kani::cover(descending(&before[1..10]), "B1_S9_DESCENDING");
++    kani::cover(true, "B1_S9_USEFUL_RETURN");
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn fallback_cell_b01_n00_16() {
++    kani::assert(enabled::<Cell<u8>, KeyLess<Cell<u8>>>(), "B1_F_ACTIVE");
++    let bytes: [u8; 34] = kani::any();
++    let mut v = [const { Cell::new(0u8) }; 34];
++    for i in 0..34 { v[i].set(bytes[i]); }
++    let n: usize = kani::any();
++    kani::assume(n <= 16);
++    let before = snapshot::<Cell<u8>, KeyLess<Cell<u8>>>(&v[1..1 + n]);
++    small_sort_fallback(&mut v[1..1 + n], &mut KeyLess::<Cell<u8>>::new());
++    kani::assert(post::<Cell<u8>, KeyLess<Cell<u8>>>(before, &v[1..1 + n]), "B1_F_SORTED_FULL_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i].get() == bytes[i], "B1_F_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary].get() == bytes[canary], "B1_F_CANARY");
++    kani::cover(n == 0, "B1_F_N00");
++    kani::cover(n == 1, "B1_F_N01");
++    kani::cover(n == 2, "B1_F_N02");
++    kani::cover(n == 3, "B1_F_N03");
++    kani::cover(n == 4, "B1_F_N04");
++    kani::cover(n == 5, "B1_F_N05");
++    kani::cover(n == 6, "B1_F_N06");
++    kani::cover(n == 7, "B1_F_N07");
++    kani::cover(n == 8, "B1_F_N08");
++    kani::cover(n == 9, "B1_F_N09");
++    kani::cover(n == 10, "B1_F_N10");
++    kani::cover(n == 11, "B1_F_N11");
++    kani::cover(n == 12, "B1_F_N12");
++    kani::cover(n == 13, "B1_F_N13");
++    kani::cover(n == 14, "B1_F_N14");
++    kani::cover(n == 15, "B1_F_N15");
++    kani::cover(n == 16, "B1_F_N16");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "B1_F_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "B1_F_DUPLICATE");
++    kani::cover(n >= 2 && v[1].get() < v[n].get(), "B1_F_NONCONSTANT");
++    kani::cover(n == 16 && descending(&bytes[1..17]), "B1_F_MAX_DESCENDING");
++    kani::cover(true, "B1_F_USEFUL_RETURN");
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn network_u8_b01_n00_08() {
++    kani::assert(active_u8(), "B1_N_ACTIVE");
++    let mut v: [u8; 34] = kani::any();
++    let before = v;
++    let n: usize = kani::any();
++    kani::assume(n <= 8);
++    small_sort_network(&mut v[1..1 + n], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[1..1 + n]), &v[1..1 + n]), "B1_N_SORTED_FULL_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == before[i], "B1_N_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == before[canary], "B1_N_CANARY");
++    kani::cover(n == 0, "B1_N_N00");
++    kani::cover(n == 1, "B1_N_N01");
++    kani::cover(n == 2, "B1_N_N02");
++    kani::cover(n == 3, "B1_N_N03");
++    kani::cover(n == 4, "B1_N_N04");
++    kani::cover(n == 5, "B1_N_N05");
++    kani::cover(n == 6, "B1_N_N06");
++    kani::cover(n == 7, "B1_N_N07");
++    kani::cover(n == 8, "B1_N_N08");
++    kani::cover(n >= 2 && before[1] > before[n], "B1_N_UNSORTED");
++    kani::cover(n >= 2 && before[1] == before[n], "B1_N_DUPLICATE");
++    kani::cover(n >= 2 && v[1] < v[n], "B1_N_NONCONSTANT");
++    kani::cover(n == 8 && descending(&before[1..9]), "B1_N_MAX_DESCENDING");
++    kani::cover(true, "B1_N_USEFUL_RETURN");
++}
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..05dc4200a41f9049bb9e0b9b2f4da9abc5b36587
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs
+@@ -0,0 +1,339 @@
++//! Three cost probes. Assumed consumers are DIAGNOSTIC_ASSUMED, never proof credit.
++use super::super::{bidirectional_merge, sort13_optimal, small_sort_general,
++    swap_if_less, sort8_stable, sort4_stable, insert_tail, CopyOnDrop, SMALL_SORT_GENERAL_SCRATCH_LEN};
++use super::sorting_model::{KeyLess, snapshot, post, enabled};
++use super::{sorting_s2_span as span, sorting_s2_swap as pair};
++use crate::{kani, mem::{self, MaybeUninit, size_of}, ptr, slice, intrinsics};
++use crate::slice::sort::shared::FreezeMarker;
++
++fn ordered(v: &[u8]) -> bool {
++    let mut i = 1;
++    while i < v.len() { if v[i] < v[i-1] { return false; } i += 1; }
++    true
++}
++fn merge() -> ([u8;32],[u8;32]) {
++    let src: [u8;32] = kani::any();
++    kani::assume(ordered(&src[..16]) && ordered(&src[16..]));
++    let original = src;
++    let mut dst = [MaybeUninit::<u8>::uninit();34];
++    dst[0].write(0xa5); dst[33].write(0x5a);
++    unsafe { bidirectional_merge(&src,dst.as_mut_ptr().add(1).cast(),&mut KeyLess::<u8>::new()) };
++    let mut out = [0u8;32];
++    for i in 0..32 { out[i] = unsafe { dst[i+1].assume_init() }; }
++    kani::assert(src == original, "S2_MERGE_SOURCE_FRAME");
++    kani::assert(unsafe { dst[0].assume_init() == 0xa5 && dst[33].assume_init() == 0x5a }, "S2_MERGE_CANARIES");
++    (src,out)
++}
++#[kani::proof]
++#[kani::unwind(34)]
++fn merge32_real() {
++    kani::assert(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), "S2_ACTIVE_MERGE32_REAL");
++    let (src,out) = merge();
++    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), "S2_MERGE32_SORTED_FULL_COUNT");
++    kani::cover(src[0] > src[16], "S2_MERGE_RIGHT_FIRST");
++    kani::cover(src[0] < src[16], "S2_MERGE_LEFT_FIRST");
++    kani::cover(src[15] == src[16], "S2_MERGE_TIE");
++    kani::cover(out[0] < out[31], "S2_MERGE_NONCONSTANT");
++    kani::cover(true, "S2_MERGE_USEFUL_RETURN");
++}
++#[kani::proof]
++#[kani::stub_verified(swap_if_less)]
++#[kani::unwind(34)]
++fn sort13_assumed() {
++    kani::assert(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), "S2_ACTIVE_SORT13_ASSUMED");
++    let mut v: [u8;15] = kani::any();
++    let before = v;
++    sort13_optimal(&mut v[1..14],&mut KeyLess::<u8>::new());
++    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before[1..14]),&v[1..14]), "S2_SORT13_SORTED_FULL_COUNT");
++    kani::assert(v[0] == before[0] && v[14] == before[14], "S2_SORT13_CANARIES");
++    kani::cover(before[1] > before[13], "S2_SORT13_UNSORTED");
++    kani::cover(before[1] == before[13], "S2_SORT13_DUPLICATE");
++    kani::cover(v[1] < v[13], "S2_SORT13_NONCONSTANT");
++    kani::cover(true, "S2_SORT13_USEFUL_RETURN");
++}
++#[kani::proof]
++#[kani::stub_verified(sort8_stable)]
++#[kani::stub_verified(insert_tail)]
++#[kani::stub_verified(bidirectional_merge)]
++#[kani::unwind(34)]
++fn general32_assumed() {
++    kani::assert(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), "S2_ACTIVE_GENERAL32_ASSUMED");
++    let mut v: [u8;34] = kani::any();
++    let before = v;
++    small_sort_general(&mut v[1..33],&mut KeyLess::<u8>::new());
++    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before[1..33]),&v[1..33]), "S2_GENERAL32_SORTED_FULL_COUNT");
++    kani::assert(v[0] == before[0] && v[33] == before[33], "S2_GENERAL32_CANARIES");
++    kani::cover(before[1] > before[32], "S2_GENERAL32_UNSORTED");
++    kani::cover(before[1] == before[32], "S2_GENERAL32_DUPLICATE");
++    kani::cover(v[1] < v[32], "S2_GENERAL32_NONCONSTANT");
++    kani::cover(true, "S2_GENERAL32_USEFUL_RETURN");
++}
++// Same candidate, actual swap; qualification remains NOT_RUN until exact evidence.
++#[kani::proof_for_contract(swap_if_less)]
++#[kani::unwind(34)]
++fn swap_pfc() {
++    kani::assert(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), "S2_ACTIVE_SWAP_PFC");
++    let mut v: [u8;15] = kani::any();
++    let before = v;
++    let a: usize = kani::any(); let b: usize = kani::any();
++    kani::assume(a < 13 && b < 13);
++    let pre = pair::capture::<u8,KeyLess<u8>>(v[1..].as_ptr(),a,b);
++    unsafe { swap_if_less(v.as_mut_ptr().add(1),a,b,&mut KeyLess::<u8>::new()) };
++    kani::assert(pair::post::<u8,KeyLess<u8>>(pre,v[1..].as_ptr(),a,b), "S2_SWAP_EXACT_TRANSFER");
++    for i in 0..15 { kani::assert(i == a+1 || i == b+1 || v[i] == before[i], "S2_SWAP_FULL_FRAME"); }
++    kani::cover(a == b, "S2_SWAP_EQUAL");
++    kani::cover(a == 0 && b == 12 && before[13] < before[1], "S2_SWAP_TAKEN");
++    kani::cover(a == 12 && b == 0 && before[13] <= before[1], "S2_SWAP_REVERSE");
++    kani::cover(true, "S2_SWAP_USEFUL_RETURN");
++}
++// Constructive witness over each summary length, with no assumed sorting oracle.
++// This sorts only a ghost fixture; all actual runtime bodies remain unchanged.
++fn witness(input: &[u8]) {
++    let mut output = [0u8;32];
++    output[..input.len()].copy_from_slice(input);
++    for i in 1..input.len() {
++        let mut j = i;
++        while j > 0 && output[j] < output[j-1] { output.swap(j,j-1); j -= 1; }
++    }
++    kani::assert(span::post::<u8,KeyLess<u8>>(span::capture::<u8,KeyLess<u8>>(input.as_ptr(),input.len()),output.as_ptr(),input.len()), "S2_SUMMARY_WITNESS_FULL_COUNT");
++}
++#[kani::proof]
++#[kani::unwind(34)]
++fn summary_witness() {
++    kani::assert(enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>(), "S2_ACTIVE_SUMMARY_WITNESS");
++    let input: [u8;32] = kani::any();
++    // sort8; each insert-tail p8..15; final merge32. This witness is stronger
++    // than the corresponding sorted-prefix/halves premises and shares full values.
++    for n in 8..17 { witness(&input[..n]); }
++    witness(&input);
++    let pairpre = pair::capture::<u8,KeyLess<u8>>(input.as_ptr(),0,1);
++    let outpair = if input[1] < input[0] { [input[1],input[0]] } else { [input[0],input[1]] };
++    kani::assert(pair::post::<u8,KeyLess<u8>>(pairpre,outpair.as_ptr(),0,1), "S2_PAIR_WITNESS");
++    kani::cover(input[0] > input[31], "S2_WITNESS_UNSORTED");
++    kani::cover(input[0] != input[31], "S2_WITNESS_NONCONSTANT");
++    kani::cover(true, "S2_WITNESS_USEFUL_RETURN");
++}
++#[kani::proof]
++#[kani::unwind(34)]
++fn merge_order_corrupt() {
++    let (src,mut out) = merge();
++    kani::assume(out[0] < out[31]); out.swap(0,31);
++    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), "S2_NEG_MERGE_ORDER");
++}
++#[kani::proof]
++#[kani::unwind(34)]
++fn merge_count_corrupt() {
++    let (src,mut out) = merge();
++    kani::assume(src == [1u8;32]); out[31] = 2;
++    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&src),&out), "S2_NEG_MERGE_COUNT");
++}
++#[kani::proof]
++#[kani::unwind(34)]
++fn checker_count_corrupt() {
++    let input = [1u8;32]; let mut out = input; out[31] = 2;
++    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), "S2_NEG_CHECKER_COUNT");
++}
++#[kani::proof]
++#[kani::unwind(34)]
++fn checker_order_corrupt() {
++    let input = [1u8,2]; let out = [2u8,1];
++    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), "S2_NEG_CHECKER_ORDER");
++}
++unsafe fn weak_swap<T,F:FnMut(&T,&T)->bool>(_v:*mut T,_a:usize,_b:usize,_f:&mut F) {}
++#[kani::proof]
++#[kani::stub(s2_swap_seam,weak_swap)]
++#[kani::unwind(34)]
++fn sort13_weak() {
++    let mut v = [12u8,11,10,9,8,7,6,5,4,3,2,1,0]; let before = v;
++    sort13_fault_network(&mut v,&mut KeyLess::<u8>::new());
++    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), "S2_NEG_SORT13_WEAK");
++}
++// Copy is safety/frame-compatible, but contains no sorting guarantee.
++unsafe fn weak_merge<T:crate::slice::sort::shared::FreezeMarker,F:FnMut(&T,&T)->bool>(v:&[T],dst:*mut T,_f:&mut F) {
++    unsafe { ptr::copy_nonoverlapping(v.as_ptr(),dst,v.len()) };
++}
++#[kani::proof]
++#[kani::stub_verified(sort8_stable)]
++#[kani::stub_verified(insert_tail)]
++#[kani::stub(s2_merge_seam,weak_merge)]
++#[kani::unwind(34)]
++fn general32_weak() {
++    let mut v = [2u8;32]; for i in 16..32 { v[i] = 1; } let before = v;
++    general_fault_copy(&mut v,&mut KeyLess::<u8>::new());
++    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), "S2_NEG_GENERAL32_WEAK");
++}
++
++// Registration for Kani's stub_verified lookup in this same opt-in crate/cfg.
++// NOT EXECUTED by the 11-root request; registration is NOT qualification.
++// All S2 assumed consumers remain DIAGNOSTIC_ASSUMED with proof credit NONE.
++#[kani::proof_for_contract(sort8_stable)]
++#[kani::unwind(34)]
++fn sort8_registration_only() {
++    let mut src: [u8;8] = kani::any();
++    let mut dst = [MaybeUninit::<u8>::uninit();8];
++    let mut scratch = [MaybeUninit::<u8>::uninit();8];
++    unsafe { sort8_stable(src.as_mut_ptr(),dst.as_mut_ptr().cast(),
++        scratch.as_mut_ptr().cast(),&mut KeyLess::<u8>::new()) };
++}
++
++// S2-local fault seams are deliberately uncontracted. Ordinary stubs target only
++// these functions. The positive probes still call the original production code.
++unsafe fn s2_swap_seam<T,F:FnMut(&T,&T)->bool>(v:*mut T,a:usize,b:usize,f:&mut F) {
++    unsafe { swap_if_less(v,a,b,f) };
++}
++unsafe fn s2_merge_seam<T:crate::slice::sort::shared::FreezeMarker,F:FnMut(&T,&T)->bool>(v:&[T],dst:*mut T,f:&mut F) {
++    unsafe { bidirectional_merge(v,dst,f) };
++}
++// Faithful source copies: only function names and the fault seam call differ.
++fn sort13_fault_network<T, F>(v: &mut [T], is_less: &mut F)
++where
++    F: FnMut(&T, &T) -> bool,
++{
++    if v.len() < 13 {
++        intrinsics::abort_immediate();
++    }
++
++    let v_base = v.as_mut_ptr();
++
++    // Optimal sorting network see:
++    // https://bertdobbelaere.github.io/sorting_networks.html.
++
++    // SAFETY: We checked the len.
++    unsafe {
++        s2_swap_seam(v_base, 0, 12, is_less);
++        s2_swap_seam(v_base, 1, 10, is_less);
++        s2_swap_seam(v_base, 2, 9, is_less);
++        s2_swap_seam(v_base, 3, 7, is_less);
++        s2_swap_seam(v_base, 5, 11, is_less);
++        s2_swap_seam(v_base, 6, 8, is_less);
++        s2_swap_seam(v_base, 1, 6, is_less);
++        s2_swap_seam(v_base, 2, 3, is_less);
++        s2_swap_seam(v_base, 4, 11, is_less);
++        s2_swap_seam(v_base, 7, 9, is_less);
++        s2_swap_seam(v_base, 8, 10, is_less);
++        s2_swap_seam(v_base, 0, 4, is_less);
++        s2_swap_seam(v_base, 1, 2, is_less);
++        s2_swap_seam(v_base, 3, 6, is_less);
++        s2_swap_seam(v_base, 7, 8, is_less);
++        s2_swap_seam(v_base, 9, 10, is_less);
++        s2_swap_seam(v_base, 11, 12, is_less);
++        s2_swap_seam(v_base, 4, 6, is_less);
++        s2_swap_seam(v_base, 5, 9, is_less);
++        s2_swap_seam(v_base, 8, 11, is_less);
++        s2_swap_seam(v_base, 10, 12, is_less);
++        s2_swap_seam(v_base, 0, 5, is_less);
++        s2_swap_seam(v_base, 3, 8, is_less);
++        s2_swap_seam(v_base, 4, 7, is_less);
++        s2_swap_seam(v_base, 6, 11, is_less);
++        s2_swap_seam(v_base, 9, 10, is_less);
++        s2_swap_seam(v_base, 0, 1, is_less);
++        s2_swap_seam(v_base, 2, 5, is_less);
++        s2_swap_seam(v_base, 6, 9, is_less);
++        s2_swap_seam(v_base, 7, 8, is_less);
++        s2_swap_seam(v_base, 10, 11, is_less);
++        s2_swap_seam(v_base, 1, 3, is_less);
++        s2_swap_seam(v_base, 2, 4, is_less);
++        s2_swap_seam(v_base, 5, 6, is_less);
++        s2_swap_seam(v_base, 9, 10, is_less);
++        s2_swap_seam(v_base, 1, 2, is_less);
++        s2_swap_seam(v_base, 3, 4, is_less);
++        s2_swap_seam(v_base, 5, 7, is_less);
++        s2_swap_seam(v_base, 6, 8, is_less);
++        s2_swap_seam(v_base, 2, 3, is_less);
++        s2_swap_seam(v_base, 4, 5, is_less);
++        s2_swap_seam(v_base, 6, 7, is_less);
++        s2_swap_seam(v_base, 8, 9, is_less);
++        s2_swap_seam(v_base, 3, 4, is_less);
++        s2_swap_seam(v_base, 5, 6, is_less);
++    }
++}
++
++fn general_fault_copy<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(v: &mut [T], is_less: &mut F) {
++    let mut stack_array = MaybeUninit::<[T; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit();
++
++    // SAFETY: The memory is backed by `stack_array`, and the operation is safe as long as the len
++    // is the same.
++    let scratch = unsafe {
++        slice::from_raw_parts_mut(
++            stack_array.as_mut_ptr() as *mut MaybeUninit<T>,
++            SMALL_SORT_GENERAL_SCRATCH_LEN,
++        )
++    };
++
++    general_fault_scratch(v, scratch, is_less);
++}
++
++fn general_fault_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
++    v: &mut [T],
++    scratch: &mut [MaybeUninit<T>],
++    is_less: &mut F,
++) {
++    let len = v.len();
++    if len < 2 {
++        return;
++    }
++
++    if scratch.len() < len + 16 {
++        intrinsics::abort_immediate();
++    }
++
++    let v_base = v.as_mut_ptr();
++    let len_div_2 = len / 2;
++
++    // SAFETY: See individual comments.
++    unsafe {
++        let scratch_base = scratch.as_mut_ptr() as *mut T;
++
++        let presorted_len = if const { size_of::<T>() <= 16 } && len >= 16 {
++            // SAFETY: scratch_base is valid and has enough space.
++            sort8_stable(v_base, scratch_base, scratch_base.add(len), is_less);
++            sort8_stable(
++                v_base.add(len_div_2),
++                scratch_base.add(len_div_2),
++                scratch_base.add(len + 8),
++                is_less,
++            );
++
++            8
++        } else if len >= 8 {
++            // SAFETY: scratch_base is valid and has enough space.
++            sort4_stable(v_base, scratch_base, is_less);
++            sort4_stable(v_base.add(len_div_2), scratch_base.add(len_div_2), is_less);
++
++            4
++        } else {
++            ptr::copy_nonoverlapping(v_base, scratch_base, 1);
++            ptr::copy_nonoverlapping(v_base.add(len_div_2), scratch_base.add(len_div_2), 1);
++
++            1
++        };
++
++        for offset in [0, len_div_2] {
++            // SAFETY: at this point dst is initialized with presorted_len elements.
++            // We extend this to desired_len, src is valid for desired_len elements.
++            let src = v_base.add(offset);
++            let dst = scratch_base.add(offset);
++            let desired_len = if offset == 0 { len_div_2 } else { len - len_div_2 };
++
++            for i in presorted_len..desired_len {
++                ptr::copy_nonoverlapping(src.add(i), dst.add(i), 1);
++                insert_tail(dst, dst.add(i), is_less);
++            }
++        }
++
++        // SAFETY: see comment in `CopyOnDrop::drop`.
++        let drop_guard = CopyOnDrop { src: scratch_base, dst: v_base, len };
++
++        // SAFETY: at this point scratch_base is fully initialized, allowing us
++        // to use it as the source of our merge back into the original array.
++        // If a panic occurs we ensure the original array is restored to a valid
++        // permutation of the input through drop_guard. This technique is similar
++        // to ping-pong merging.
++        s2_merge_seam(
++            slice::from_raw_parts(drop_guard.src, drop_guard.len),
++            drop_guard.dst,
++            is_less,
++        );
++        mem::forget(drop_guard);
++    }
++}
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..100c4d46a82cf90ee840a4f1028010a2318754e6
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs
+@@ -0,0 +1,53 @@
++//! Opt-in DIAGNOSTIC_ASSUMED spec predicates; no qualified semantic leaves.
++//! Active only for u8/default KeyLess. Inactive specialization never reads storage.
++use super::sorting_model::{self, KeyLess, Snapshot};
++use crate::slice;
++trait Span<T, F> {
++    fn active() -> bool;
++    fn capture(p: *const T, n: usize) -> Snapshot;
++    fn post(s: Snapshot, p: *const T, n: usize) -> bool;
++    fn ordered(p: *const T, n: usize) -> bool;
++}
++impl<T, F> Span<T, F> for () {
++    default fn active() -> bool { false }
++    default fn capture(_p: *const T, _n: usize) -> Snapshot {
++        sorting_model::snapshot::<u8, ()>(&[])
++    }
++    default fn post(_s: Snapshot, _p: *const T, _n: usize) -> bool { true }
++    default fn ordered(_p: *const T, _n: usize) -> bool { true }
++}
++impl Span<u8, KeyLess<u8>> for () {
++    fn active() -> bool { true }
++    fn capture(p: *const u8, n: usize) -> Snapshot {
++        if n > 32 { return sorting_model::snapshot::<u8, ()>(&[]); }
++        if n == 0 { return sorting_model::snapshot::<u8, KeyLess<u8>>(&[]); }
++        // SAFETY: requires establishes initialized readable n-span before spec read.
++        unsafe { sorting_model::snapshot::<u8, KeyLess<u8>>(slice::from_raw_parts(p, n)) }
++    }
++    fn post(s: Snapshot, p: *const u8, n: usize) -> bool {
++        if n > 32 { return false; }
++        if n == 0 { return sorting_model::post::<u8, KeyLess<u8>>(s, &[]); }
++        unsafe { sorting_model::post::<u8, KeyLess<u8>>(s, slice::from_raw_parts(p, n)) }
++    }
++    fn ordered(p: *const u8, n: usize) -> bool {
++        if n > 32 { return false; }
++        let mut i = 1;
++        while i < n {
++            if unsafe { *p.add(i) < *p.add(i - 1) } { return false; }
++            i += 1;
++        }
++        true
++    }
++}
++pub(in crate::slice::sort::shared::smallsort) fn active<T, F>() -> bool {
++    <() as Span<T,F>>::active()
++}
++pub(in crate::slice::sort::shared::smallsort) fn capture<T, F>(p: *const T,n: usize) -> Snapshot {
++    <() as Span<T,F>>::capture(p,n)
++}
++pub(in crate::slice::sort::shared::smallsort) fn post<T, F>(s: Snapshot,p: *const T,n: usize) -> bool {
++    <() as Span<T,F>>::post(s,p,n)
++}
++pub(in crate::slice::sort::shared::smallsort) fn ordered<T, F>(p: *const T,n: usize) -> bool {
++    <() as Span<T,F>>::ordered(p,n)
++}
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..d59ebef20bc0b94900f766f0e1211aa57b09f5ae
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs
+@@ -0,0 +1,72 @@
++//! S2 proposal: exact full-byte transfer for the actual swap_if_less contract.
++//! Register under kani_smallsort_sorting only after integration of the attrs in
++//! the W11 S2 INTERFACE. This module does not attach a contract by itself.
++//! Only u8/KeyLess<u8> is active here; S1's other pairs are not swap-qualified.
++
++use super::sorting_model::KeyLess;
++
++#[derive(Clone, Copy)]
++pub(in crate::slice::sort::shared::smallsort) struct PairSnapshot {
++    a: u8,
++    b: u8,
++    valid: bool,
++}
++
++impl PairSnapshot {
++    fn invalid() -> Self { Self { a: 0, b: 0, valid: false } }
++}
++
++trait SwapModel<T, F> {
++    fn enabled() -> bool;
++    fn capture(base: *const T, a: usize, b: usize) -> PairSnapshot;
++    fn post(pre: PairSnapshot, base: *const T, a: usize, b: usize) -> bool;
++}
++
++impl<T, F> SwapModel<T, F> for () {
++    default fn enabled() -> bool { false }
++    default fn capture(_base: *const T, _a: usize, _b: usize) -> PairSnapshot {
++        PairSnapshot::invalid()
++    }
++    default fn post(_pre: PairSnapshot, _base: *const T, _a: usize, _b: usize) -> bool {
++        true
++    }
++}
++
++impl SwapModel<u8, KeyLess<u8>> for () {
++    fn enabled() -> bool { true }
++    fn capture(base: *const u8, a: usize, b: usize) -> PairSnapshot {
++        // SAFETY: the actual callee's existing requires establish both initialized,
++        // readable positions, nonwrapping offsets and a common allocation first.
++        unsafe { PairSnapshot { a: *base.add(a), b: *base.add(b), valid: true } }
++    }
++    fn post(pre: PairSnapshot, base: *const u8, a: usize, b: usize) -> bool {
++        if !pre.valid { return false; }
++        let now = <() as SwapModel<u8, KeyLess<u8>>>::capture(base, a, b);
++        if pre.b < pre.a {
++            now.a == pre.b && now.b == pre.a
++        } else {
++            now.a == pre.a && now.b == pre.b
++        }
++    }
++}
++
++/// Unconditional generic facade; no new T/F bounds on the actual helper.
++pub(in crate::slice::sort::shared::smallsort) fn enabled<T, F>() -> bool {
++    <() as SwapModel<T, F>>::enabled()
++}
++
++/// Spec-only read: active callers must establish the actual swap requires first.
++/// Inactive calls do not inspect pointers, indices or pointed-to bytes.
++pub(in crate::slice::sort::shared::smallsort) fn capture<T, F>(
++    base: *const T, a: usize, b: usize,
++) -> PairSnapshot {
++    <() as SwapModel<T, F>>::capture(base, a, b)
++}
++
++/// Exact conditional transfer implies pair order and preservation of both full
++/// bytes, including equal positions. The actual modifies clause supplies frame.
++pub(in crate::slice::sort::shared::smallsort) fn post<T, F>(
++    pre: PairSnapshot, base: *const T, a: usize, b: usize,
++) -> bool {
++    <() as SwapModel<T, F>>::post(pre, base, a, b)
++}
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..c9b1377104a78cf7732f2324f25aed5ea0eb77ff
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs
+@@ -0,0 +1,193 @@
++//! S3-2 actual-body full-byte finite fixtures; normal-return observations only.
++//! Partial-MU diagnostics do not qualify initialization leaves or providers.
++//! Disabled initialization instrumentation is not an initializedness oracle.
++use super::super::{insert_tail, bidirectional_merge};
++use super::sorting_model::{KeyLess, enabled, snapshot, post};
++use super::{sorting_s2_span as span, sorting_s2_swap as pair};
++use crate::{kani, mem::MaybeUninit, slice};
++
++fn active() -> bool {
++    enabled::<u8, KeyLess<u8>>() && span::active::<u8, KeyLess<u8>>()
++        && pair::enabled::<u8, KeyLess<u8>>()
++}
++fn ordered(v: &[u8]) -> bool {
++    let mut i = 1;
++    while i < v.len() {
++        if v[i] < v[i - 1] { return false; }
++        i += 1;
++    }
++    true
++}
++
++#[kani::proof_for_contract(insert_tail)]
++#[kani::unwind(36)]
++fn i_p01_b1_16() {
++    kani::assert(active(), "S32_I_D1_ACTIVE");
++    let mut v: [u8; 34] = kani::any();
++    let begin: usize = kani::any();
++    kani::assume(1 <= begin && begin <= 16);
++    let tail = 1;
++    kani::assume(ordered(&v[begin..begin + tail]));
++    let before = v;
++    let p = unsafe { v.as_mut_ptr().add(begin) };
++    unsafe { insert_tail(p, p.add(tail), &mut KeyLess::<u8>::new()) };
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[begin..begin + tail + 1]), &v[begin..begin + tail + 1]), "S32_I_D1_SORTED_FULL_COUNT");
++    for i in 0..34 {
++        kani::assert((begin <= i && i <= begin + tail) || v[i] == before[i], "S32_I_D1_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < begin || canary > begin + tail));
++    kani::assert(v[canary] == before[canary], "S32_I_D1_CANARY");
++    kani::cover(begin == 1, "S32_I_D1_BASE_FIRST");
++    kani::cover(begin == 16, "S32_I_D1_BASE_LAST");
++    kani::cover(before[begin + tail] >= before[begin + tail - 1], "S32_I_D1_EARLY_RETURN");
++    kani::cover(before[begin + tail] < before[begin], "S32_I_D1_FULL_SIFT");
++    kani::cover(before[begin + tail] == before[begin], "S32_I_D1_DUPLICATE");
++    kani::cover(v[begin] < v[begin + tail], "S32_I_D1_NONCONSTANT");
++    kani::cover(true, "S32_I_D1_USEFUL_RETURN");
++}
++
++#[kani::proof_for_contract(insert_tail)]
++#[kani::unwind(36)]
++fn i_p16_b1_16() {
++    kani::assert(active(), "S32_I_D16_ACTIVE");
++    let mut v: [u8; 34] = kani::any();
++    let begin: usize = kani::any();
++    kani::assume(1 <= begin && begin <= 16);
++    let tail = 16;
++    kani::assume(ordered(&v[begin..begin + tail]));
++    let before = v;
++    let p = unsafe { v.as_mut_ptr().add(begin) };
++    unsafe { insert_tail(p, p.add(tail), &mut KeyLess::<u8>::new()) };
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[begin..begin + tail + 1]), &v[begin..begin + tail + 1]), "S32_I_D16_SORTED_FULL_COUNT");
++    for i in 0..34 {
++        kani::assert((begin <= i && i <= begin + tail) || v[i] == before[i], "S32_I_D16_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < begin || canary > begin + tail));
++    kani::assert(v[canary] == before[canary], "S32_I_D16_CANARY");
++    kani::cover(begin == 1, "S32_I_D16_BASE_FIRST");
++    kani::cover(begin == 16, "S32_I_D16_BASE_LAST");
++    kani::cover(before[begin + tail] >= before[begin + tail - 1], "S32_I_D16_EARLY_RETURN");
++    kani::cover(before[begin + tail] < before[begin], "S32_I_D16_FULL_SIFT");
++    kani::cover(before[begin + tail] == before[begin], "S32_I_D16_DUPLICATE");
++    kani::cover(v[begin] < v[begin + tail], "S32_I_D16_NONCONSTANT");
++    kani::cover(true, "S32_I_D16_USEFUL_RETURN");
++}
++
++// Bounded PFC candidate: fixed offsets, full outside-dst initialized fixture.
++#[kani::proof_for_contract(bidirectional_merge)]
++#[kani::unwind(50)]
++fn m8_s32_d00_allinit() {
++    kani::assert(active(), "S32_M8_ALL_ACTIVE");
++    let before: [u8; 48] = kani::any();
++    let mut v = [MaybeUninit::<u8>::uninit(); 48];
++    let src = 32;
++    let dst = 0;
++    kani::assume(ordered(&before[src..src + 4]) && ordered(&before[src + 4..src + 8]));
++    for i in 0..48 {
++        if i >= 8 { v[i].write(before[i]); }
++    }
++    let p = v.as_mut_ptr().cast::<u8>();
++    // Only src is borrowed; disjoint dst keeps raw provenance. Init is not inferred.
++    unsafe { bidirectional_merge(slice::from_raw_parts(p.add(src), 8), p.add(dst), &mut KeyLess::<u8>::new()) };
++    let mut out = [0u8; 8];
++    // These typed loads retain stock checks but establish no independent init theorem.
++    for i in 0..8 { out[i] = unsafe { v[dst+i].assume_init() }; }
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 8]), &out), "S32_M8_ALL_FUNCTIONAL_SORTED_FULL_COUNT");
++    for i in 0..48 {
++        if (i >= 8) && (i < dst || i >= dst + 8) {
++            kani::assert(unsafe { v[i].assume_init() } == before[i], "S32_M8_ALL_KNOWN_VALUE_FRAME");
++        }
++    }
++    for i in 0..8 {
++        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], "S32_M8_ALL_SOURCE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 48 && (canary >= 8) && (canary < dst || canary >= dst + 8));
++    kani::assert(unsafe { v[canary].assume_init() } == before[canary], "S32_M8_ALL_KNOWN_CANARY");
++    kani::cover(before[src] < before[src + 4], "S32_M8_ALL_LEFT_FIRST");
++    kani::cover(before[src] > before[src + 4], "S32_M8_ALL_RIGHT_FIRST");
++    kani::cover(before[src + 3] == before[src + 4], "S32_M8_ALL_TIE");
++    kani::cover(before[src + 3] > before[src + 4], "S32_M8_ALL_UNSORTED");
++    kani::cover(out[0] < out[7], "S32_M8_ALL_NONCONSTANT");
++    kani::cover(true, "S32_M8_ALL_USEFUL_RETURN");
++}
++
++// DIAGNOSTIC_ONLY_INITIALIZATION_OPEN: no init-mask/provider eligibility.
++#[kani::proof_for_contract(bidirectional_merge)]
++#[kani::unwind(50)]
++fn m8_s32_d00_partial_diag() {
++    kani::assert(active(), "S32_M8_L_DIAG_ACTIVE");
++    let before: [u8; 48] = kani::any();
++    let mut v = [MaybeUninit::<u8>::uninit(); 48];
++    let src = 32;
++    let dst = 0;
++    kani::assume(ordered(&before[src..src + 4]) && ordered(&before[src + 4..src + 8]));
++    for i in 0..48 {
++        if 32 <= i && i < 40 { v[i].write(before[i]); }
++    }
++    let p = v.as_mut_ptr().cast::<u8>();
++    // Only src is borrowed; disjoint dst keeps raw provenance. Init is not inferred.
++    unsafe { bidirectional_merge(slice::from_raw_parts(p.add(src), 8), p.add(dst), &mut KeyLess::<u8>::new()) };
++    let mut out = [0u8; 8];
++    // These typed loads retain stock checks but establish no independent init theorem.
++    for i in 0..8 { out[i] = unsafe { v[dst+i].assume_init() }; }
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 8]), &out), "S32_M8_L_DIAG_FUNCTIONAL_SORTED_FULL_COUNT");
++    for i in 0..48 {
++        if (32 <= i && i < 40) && (i < dst || i >= dst + 8) {
++            kani::assert(unsafe { v[i].assume_init() } == before[i], "S32_M8_L_DIAG_KNOWN_VALUE_FRAME");
++        }
++    }
++    for i in 0..8 {
++        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], "S32_M8_L_DIAG_SOURCE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 48 && (32 <= canary && canary < 40) && (canary < dst || canary >= dst + 8));
++    kani::assert(unsafe { v[canary].assume_init() } == before[canary], "S32_M8_L_DIAG_KNOWN_CANARY");
++    kani::cover(before[src] < before[src + 4], "S32_M8_L_DIAG_LEFT_FIRST");
++    kani::cover(before[src] > before[src + 4], "S32_M8_L_DIAG_RIGHT_FIRST");
++    kani::cover(before[src + 3] == before[src + 4], "S32_M8_L_DIAG_TIE");
++    kani::cover(before[src + 3] > before[src + 4], "S32_M8_L_DIAG_UNSORTED");
++    kani::cover(out[0] < out[7], "S32_M8_L_DIAG_NONCONSTANT");
++    kani::cover(true, "S32_M8_L_DIAG_USEFUL_RETURN");
++}
++
++// DIAGNOSTIC_ONLY_INITIALIZATION_OPEN: no init-mask/provider eligibility.
++#[kani::proof_for_contract(bidirectional_merge)]
++#[kani::unwind(50)]
++fn m8_s40_d16_partial_diag() {
++    kani::assert(active(), "S32_M8_R_DIAG_ACTIVE");
++    let before: [u8; 48] = kani::any();
++    let mut v = [MaybeUninit::<u8>::uninit(); 48];
++    let src = 40;
++    let dst = 16;
++    kani::assume(ordered(&before[src..src + 4]) && ordered(&before[src + 4..src + 8]));
++    for i in 0..48 {
++        if i < 8 || i >= 32 { v[i].write(before[i]); }
++    }
++    let p = v.as_mut_ptr().cast::<u8>();
++    // Only src is borrowed; disjoint dst keeps raw provenance. Init is not inferred.
++    unsafe { bidirectional_merge(slice::from_raw_parts(p.add(src), 8), p.add(dst), &mut KeyLess::<u8>::new()) };
++    let mut out = [0u8; 8];
++    // These typed loads retain stock checks but establish no independent init theorem.
++    for i in 0..8 { out[i] = unsafe { v[dst+i].assume_init() }; }
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 8]), &out), "S32_M8_R_DIAG_FUNCTIONAL_SORTED_FULL_COUNT");
++    for i in 0..48 {
++        if (i < 8 || i >= 32) && (i < dst || i >= dst + 8) {
++            kani::assert(unsafe { v[i].assume_init() } == before[i], "S32_M8_R_DIAG_KNOWN_VALUE_FRAME");
++        }
++    }
++    for i in 0..8 {
++        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], "S32_M8_R_DIAG_SOURCE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 48 && (canary < 8 || canary >= 32) && (canary < dst || canary >= dst + 8));
++    kani::assert(unsafe { v[canary].assume_init() } == before[canary], "S32_M8_R_DIAG_KNOWN_CANARY");
++    kani::cover(before[src] < before[src + 4], "S32_M8_R_DIAG_LEFT_FIRST");
++    kani::cover(before[src] > before[src + 4], "S32_M8_R_DIAG_RIGHT_FIRST");
++    kani::cover(before[src + 3] == before[src + 4], "S32_M8_R_DIAG_TIE");
++    kani::cover(before[src + 3] > before[src + 4], "S32_M8_R_DIAG_UNSORTED");
++    kani::cover(out[0] < out[7], "S32_M8_R_DIAG_NONCONSTANT");
++    kani::cover(true, "S32_M8_R_DIAG_USEFUL_RETURN");
++}
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..a40da8b91c917891a39f944799e16dba3c3b8383
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs
+@@ -0,0 +1,193 @@
++//! S3-1 bounded actual-body PFCs. No assumed callee or panic stub is used here.
++//! Full independent bytes, concrete u8/KeyLess<u8>, normal-return correctness.
++//! Backing sizes/offsets below are part of the claim; no allocation lifting.
++use super::super::{swap_if_less, sort4_stable, insert_tail, bidirectional_merge};
++use super::sorting_model::{KeyLess, enabled, snapshot, post};
++use super::{sorting_s2_span as span, sorting_s2_swap as pair};
++use crate::{kani, mem::MaybeUninit, slice};
++
++fn active() -> bool {
++    enabled::<u8, KeyLess<u8>>() && span::active::<u8, KeyLess<u8>>()
++        && pair::enabled::<u8, KeyLess<u8>>()
++}
++fn ordered(v: &[u8]) -> bool {
++    let mut i = 1;
++    while i < v.len() {
++        if v[i] < v[i - 1] { return false; }
++        i += 1;
++    }
++    true
++}
++
++#[kani::proof_for_contract(swap_if_less)]
++#[kani::unwind(36)]
++fn s3_swap_u8_geometry() {
++    kani::assert(active(), "S3_SWAP_ACTIVE");
++    let mut v: [u8; 34] = kani::any();
++    let before = v;
++    let base: usize = kani::any();
++    let a: usize = kani::any();
++    let b: usize = kani::any();
++    kani::assume(base <= 20 && a < 13 && b < 13);
++    let p = unsafe { v.as_mut_ptr().add(base) };
++    let pre = pair::capture::<u8, KeyLess<u8>>(p, a, b);
++    unsafe { swap_if_less(p, a, b, &mut KeyLess::<u8>::new()) };
++    kani::assert(pair::post::<u8, KeyLess<u8>>(pre, p, a, b), "S3_SWAP_EXACT_TRANSFER");
++    for i in 0..34 {
++        kani::assert(i == base + a || i == base + b || v[i] == before[i], "S3_SWAP_FULL_FRAME");
++    }
++    kani::cover(a == b, "S3_SWAP_EQUAL");
++    kani::cover(a < b && before[base + b] < before[base + a], "S3_SWAP_TAKEN");
++    kani::cover(a > b && before[base + b] >= before[base + a], "S3_SWAP_REVERSE_UNTAKEN");
++    kani::cover(a != b && before[base + a] == before[base + b], "S3_SWAP_DUPLICATE");
++    kani::cover(base == 0, "S3_SWAP_BASE_ZERO");
++    kani::cover(base == 20, "S3_SWAP_BASE_LAST");
++    kani::cover(true, "S3_SWAP_USEFUL_RETURN");
++}
++
++#[kani::proof_for_contract(sort4_stable)]
++#[kani::unwind(8)]
++fn s3_sort4_u8_separate() {
++    kani::assert(active(), "S3_SORT4_SEPARATE_ACTIVE");
++    let src: [u8; 6] = kani::any();
++    let before = src;
++    let mut dst = [MaybeUninit::<u8>::uninit(); 6];
++    dst[0].write(0xa5); dst[5].write(0x5a);
++    unsafe { sort4_stable(src.as_ptr().add(1), dst.as_mut_ptr().add(1).cast(), &mut KeyLess::<u8>::new()) };
++    // Typed loads retain stock initialization checks, after all actual writes.
++    let out = unsafe { [dst[1].assume_init(), dst[2].assume_init(), dst[3].assume_init(), dst[4].assume_init()] };
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[1..5]), &out), "S3_SORT4_SEPARATE_SORTED_FULL_COUNT");
++    kani::assert(src == before, "S3_SORT4_SEPARATE_SOURCE_FRAME");
++    kani::assert(unsafe { dst[0].assume_init() == 0xa5 && dst[5].assume_init() == 0x5a }, "S3_SORT4_SEPARATE_CANARIES");
++    kani::cover(!ordered(&before[1..5]), "S3_SORT4_SEPARATE_UNSORTED");
++    kani::cover(before[1] == before[4], "S3_SORT4_SEPARATE_DUPLICATE");
++    kani::cover(out[0] < out[3], "S3_SORT4_SEPARATE_NONCONSTANT");
++    kani::cover(true, "S3_SORT4_SEPARATE_USEFUL_RETURN");
++}
++
++#[kani::proof_for_contract(sort4_stable)]
++#[kani::unwind(50)]
++fn s3_sort4_u8_same_alloc() {
++    kani::assert(active(), "S3_SORT4_SAME_ACTIVE");
++    let before: [u8; 48] = kani::any();
++    let mut v = [MaybeUninit::<u8>::uninit(); 48];
++    let src: usize = kani::any();
++    let dst: usize = kani::any();
++    kani::assume(src <= 44 && dst <= 44);
++    kani::assume(src + 4 <= dst || dst + 4 <= src);
++    for i in 0..48 {
++        if i < dst || i >= dst + 4 { v[i].write(before[i]); }
++    }
++    let p = v.as_mut_ptr().cast::<u8>();
++    unsafe { sort4_stable(p.add(src), p.add(dst), &mut KeyLess::<u8>::new()) };
++    let out = unsafe { [v[dst].assume_init(), v[dst+1].assume_init(), v[dst+2].assume_init(), v[dst+3].assume_init()] };
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 4]), &out), "S3_SORT4_SAME_SORTED_FULL_COUNT");
++    for i in 0..48 {
++        kani::assert((dst <= i && i < dst + 4) || unsafe { v[i].assume_init() } == before[i], "S3_SORT4_SAME_OUTSIDE_FRAME");
++    }
++    for i in 0..4 {
++        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], "S3_SORT4_SAME_SOURCE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 48 && (canary < dst || canary >= dst + 4));
++    kani::assert(unsafe { v[canary].assume_init() } == before[canary], "S3_SORT4_SAME_CANARY");
++    kani::cover(src + 4 == dst, "S3_SORT4_SAME_FORWARD_ADJACENT");
++    kani::cover(dst + 4 == src, "S3_SORT4_SAME_REVERSE_ADJACENT");
++    kani::cover(src == 44 && dst == 0, "S3_SORT4_SAME_EXTREME");
++    kani::cover(!ordered(&before[src..src + 4]), "S3_SORT4_SAME_UNSORTED");
++    kani::cover(before[src] == before[src + 3], "S3_SORT4_SAME_DUPLICATE");
++    kani::cover(out[0] < out[3], "S3_SORT4_SAME_NONCONSTANT");
++    kani::cover(true, "S3_SORT4_SAME_USEFUL_RETURN");
++}
++
++#[kani::proof_for_contract(insert_tail)]
++#[kani::unwind(36)]
++fn s3_insert_tail_u8_rel16() {
++    kani::assert(active(), "S3_INSERT_ACTIVE");
++    let mut v: [u8; 34] = kani::any();
++    let begin: usize = kani::any();
++    let tail: usize = kani::any();
++    kani::assume(1 <= begin && begin <= 16 && 1 <= tail && tail <= 16);
++    kani::assume(ordered(&v[begin..begin + tail]));
++    let before = v;
++    let p = unsafe { v.as_mut_ptr().add(begin) };
++    unsafe { insert_tail(p, p.add(tail), &mut KeyLess::<u8>::new()) };
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[begin..begin + tail + 1]), &v[begin..begin + tail + 1]), "S3_INSERT_SORTED_FULL_COUNT");
++    for i in 0..34 {
++        kani::assert((begin <= i && i <= begin + tail) || v[i] == before[i], "S3_INSERT_OUTSIDE_FRAME");
++    }
++    kani::cover(tail == 1, "S3_INSERT_LENGTH2");
++    kani::cover(tail == 16, "S3_INSERT_LENGTH17");
++    kani::cover(begin == 1, "S3_INSERT_BASE_FIRST");
++    kani::cover(begin == 16, "S3_INSERT_BASE_LAST");
++    kani::cover(before[begin + tail] >= before[begin + tail - 1], "S3_INSERT_EARLY_RETURN");
++    kani::cover(before[begin + tail] < before[begin], "S3_INSERT_FULL_SIFT");
++    kani::cover(before[begin + tail] == before[begin], "S3_INSERT_DUPLICATE");
++    kani::cover(v[begin] < v[begin + tail], "S3_INSERT_NONCONSTANT");
++    kani::cover(true, "S3_INSERT_USEFUL_RETURN");
++}
++
++#[kani::proof_for_contract(bidirectional_merge)]
++#[kani::unwind(12)]
++fn s3_merge8_u8_separate() {
++    kani::assert(active(), "S3_MERGE8_SEPARATE_ACTIVE");
++    let src: [u8; 10] = kani::any();
++    kani::assume(ordered(&src[1..5]) && ordered(&src[5..9]));
++    let before = src;
++    let mut dst = [MaybeUninit::<u8>::uninit(); 10];
++    dst[0].write(0xa5); dst[9].write(0x5a);
++    unsafe { bidirectional_merge(&src[1..9], dst.as_mut_ptr().add(1).cast(), &mut KeyLess::<u8>::new()) };
++    let mut out = [0u8; 8];
++    for i in 0..8 { out[i] = unsafe { dst[i + 1].assume_init() }; }
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[1..9]), &out), "S3_MERGE8_SEPARATE_SORTED_FULL_COUNT");
++    kani::assert(src == before, "S3_MERGE8_SEPARATE_SOURCE_FRAME");
++    kani::assert(unsafe { dst[0].assume_init() == 0xa5 && dst[9].assume_init() == 0x5a }, "S3_MERGE8_SEPARATE_CANARIES");
++    kani::cover(src[1] < src[5], "S3_MERGE8_SEPARATE_LEFT_FIRST");
++    kani::cover(src[1] > src[5], "S3_MERGE8_SEPARATE_RIGHT_FIRST");
++    kani::cover(src[4] == src[5], "S3_MERGE8_SEPARATE_TIE");
++    kani::cover(src[4] > src[5], "S3_MERGE8_SEPARATE_UNSORTED");
++    kani::cover(out[0] < out[7], "S3_MERGE8_SEPARATE_NONCONSTANT");
++    kani::cover(true, "S3_MERGE8_SEPARATE_USEFUL_RETURN");
++}
++
++#[kani::proof_for_contract(bidirectional_merge)]
++#[kani::unwind(50)]
++fn s3_merge8_u8_same_alloc() {
++    kani::assert(active(), "S3_MERGE8_SAME_ACTIVE");
++    let before: [u8; 48] = kani::any();
++    let mut v = [MaybeUninit::<u8>::uninit(); 48];
++    let src: usize = kani::any();
++    let dst: usize = kani::any();
++    kani::assume(src <= 40 && dst <= 40);
++    kani::assume(src + 8 <= dst || dst + 8 <= src);
++    kani::assume(ordered(&before[src..src + 4]) && ordered(&before[src + 4..src + 8]));
++    for i in 0..48 {
++        if i < dst || i >= dst + 8 { v[i].write(before[i]); }
++    }
++    let p = v.as_mut_ptr().cast::<u8>();
++    // Only the source range is borrowed. The disjoint destination retains raw provenance.
++    unsafe { bidirectional_merge(slice::from_raw_parts(p.add(src), 8), p.add(dst), &mut KeyLess::<u8>::new()) };
++    let mut out = [0u8; 8];
++    for i in 0..8 { out[i] = unsafe { v[dst+i].assume_init() }; }
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 8]), &out), "S3_MERGE8_SAME_SORTED_FULL_COUNT");
++    for i in 0..48 {
++        kani::assert((dst <= i && i < dst + 8) || unsafe { v[i].assume_init() } == before[i], "S3_MERGE8_SAME_OUTSIDE_FRAME");
++    }
++    for i in 0..8 {
++        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], "S3_MERGE8_SAME_SOURCE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 48 && (canary < dst || canary >= dst + 8));
++    kani::assert(unsafe { v[canary].assume_init() } == before[canary], "S3_MERGE8_SAME_CANARY");
++    kani::cover(src + 8 == dst, "S3_MERGE8_SAME_FORWARD_ADJACENT");
++    kani::cover(dst + 8 == src, "S3_MERGE8_SAME_REVERSE_ADJACENT");
++    kani::cover(src == 40 && dst == 0, "S3_MERGE8_SAME_EXTREME");
++    kani::cover(before[src] < before[src + 4], "S3_MERGE8_SAME_LEFT_FIRST");
++    kani::cover(before[src] > before[src + 4], "S3_MERGE8_SAME_RIGHT_FIRST");
++    kani::cover(before[src + 3] == before[src + 4], "S3_MERGE8_SAME_TIE");
++    kani::cover(before[src + 3] > before[src + 4], "S3_MERGE8_SAME_UNSORTED");
++    kani::cover(out[0] < out[7], "S3_MERGE8_SAME_NONCONSTANT");
++    kani::cover(src == 32 && dst == 0, "S3_MERGE8_SAME_SORT8_FIRST_GEOMETRY");
++    kani::cover(src == 40 && dst == 16, "S3_MERGE8_SAME_SORT8_SECOND_GEOMETRY");
++    kani::cover(true, "S3_MERGE8_SAME_USEFUL_RETURN");
++}
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..619badfd8f413756475e8f4ea38af36597502902
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs
+@@ -0,0 +1,112 @@
++//! S4P3 concrete-call network boundaries: finite normal-return candidates, no proof credit.
++//! All 34 logical bytes are independent; initialized V34, base1, no summaries.
++use super::super::small_sort_network;
++use super::sorting_model::{KeyLess, enabled, snapshot, post};
++use super::{sorting_s2_span as span, sorting_s2_swap as pair};
++use crate::kani;
++
++fn active_u8() -> bool {
++    enabled::<u8, KeyLess<u8>>() && span::active::<u8, KeyLess<u8>>()
++        && pair::enabled::<u8, KeyLess<u8>>()
++}
++fn descending(v: &[u8]) -> bool {
++    let mut i = 1;
++    while i < v.len() {
++        if v[i - 1] <= v[i] { return false; }
++        i += 1;
++    }
++    true
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p3_network_b01_n08_fullbyte() {
++    kani::assert(active_u8(), "S4P3_N_08_ACTIVE_CONCRETE_MODEL");
++    let mut v: [u8; 34] = kani::any();
++    let bytes = v;
++    let n: usize = 8;
++    let before = snapshot::<u8, KeyLess<u8>>(&v[1..9]);
++    small_sort_network(&mut v[1..9], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..9]), "S4P3_N_08_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], "S4P3_N_08_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == bytes[canary], "S4P3_N_08_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 8, "S4P3_N_08_N08");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "S4P3_N_08_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "S4P3_N_08_DUPLICATE");
++    kani::cover(n >= 2 && v[1] < v[n], "S4P3_N_08_NONCONSTANT");
++    kani::cover(n == 8 && descending(&bytes[1..9]), "S4P3_N_08_MAX_DESCENDING");
++    kani::cover(true, "S4P3_N_08_USEFUL_RETURN");
++}
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p3_network_b01_n09_fullbyte() {
++    kani::assert(active_u8(), "S4P3_N_09_ACTIVE_CONCRETE_MODEL");
++    let mut v: [u8; 34] = kani::any();
++    let bytes = v;
++    let n: usize = 9;
++    let before = snapshot::<u8, KeyLess<u8>>(&v[1..10]);
++    small_sort_network(&mut v[1..10], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..10]), "S4P3_N_09_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], "S4P3_N_09_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == bytes[canary], "S4P3_N_09_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 9, "S4P3_N_09_N09");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "S4P3_N_09_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "S4P3_N_09_DUPLICATE");
++    kani::cover(n >= 2 && v[1] < v[n], "S4P3_N_09_NONCONSTANT");
++    kani::cover(n == 9 && descending(&bytes[1..10]), "S4P3_N_09_MAX_DESCENDING");
++    kani::cover(true, "S4P3_N_09_USEFUL_RETURN");
++}
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p3_network_b01_n13_fullbyte() {
++    kani::assert(active_u8(), "S4P3_N_13_ACTIVE_CONCRETE_MODEL");
++    let mut v: [u8; 34] = kani::any();
++    let bytes = v;
++    let n: usize = 13;
++    let before = snapshot::<u8, KeyLess<u8>>(&v[1..14]);
++    small_sort_network(&mut v[1..14], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..14]), "S4P3_N_13_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], "S4P3_N_13_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == bytes[canary], "S4P3_N_13_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 13, "S4P3_N_13_N13");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "S4P3_N_13_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "S4P3_N_13_DUPLICATE");
++    kani::cover(n >= 2 && v[1] < v[n], "S4P3_N_13_NONCONSTANT");
++    kani::cover(n == 13 && descending(&bytes[1..14]), "S4P3_N_13_MAX_DESCENDING");
++    kani::cover(true, "S4P3_N_13_USEFUL_RETURN");
++}
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p3_network_b01_n17_fullbyte() {
++    kani::assert(active_u8(), "S4P3_N_17_ACTIVE_CONCRETE_MODEL");
++    let mut v: [u8; 34] = kani::any();
++    let bytes = v;
++    let n: usize = 17;
++    let before = snapshot::<u8, KeyLess<u8>>(&v[1..18]);
++    small_sort_network(&mut v[1..18], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..18]), "S4P3_N_17_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], "S4P3_N_17_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == bytes[canary], "S4P3_N_17_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 17, "S4P3_N_17_N17");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "S4P3_N_17_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "S4P3_N_17_DUPLICATE");
++    kani::cover(n >= 2 && v[1] < v[n], "S4P3_N_17_NONCONSTANT");
++    kani::cover(n == 17 && descending(&bytes[1..18]), "S4P3_N_17_MAX_DESCENDING");
++    kani::cover(true, "S4P3_N_17_USEFUL_RETURN");
++}
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_partition.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_partition.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..9f174b03918375534700013d4a67079915741e3e
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_partition.rs
+@@ -0,0 +1,117 @@
++//! S4P2 exact network partitions: finite normal-return candidates, no proof credit.
++//! All 34 logical bytes are independent; initialized V34, base1, no summaries.
++use super::super::small_sort_network;
++use super::sorting_model::{KeyLess, enabled, snapshot, post};
++use super::{sorting_s2_span as span, sorting_s2_swap as pair};
++use crate::kani;
++
++fn active_u8() -> bool {
++    enabled::<u8, KeyLess<u8>>() && span::active::<u8, KeyLess<u8>>()
++        && pair::enabled::<u8, KeyLess<u8>>()
++}
++fn descending(v: &[u8]) -> bool {
++    let mut i = 1;
++    while i < v.len() {
++        if v[i - 1] <= v[i] { return false; }
++        i += 1;
++    }
++    true
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p2_network_b01_n02_fullbyte() {
++    kani::assert(active_u8(), "S4P2_N_02_ACTIVE_CONCRETE_MODEL");
++    let mut v: [u8; 34] = kani::any();
++    let bytes = v;
++    let n: usize = kani::any();
++    kani::assume(2 <= n && n <= 2);
++    let before = snapshot::<u8, KeyLess<u8>>(&v[1..1 + n]);
++    small_sort_network(&mut v[1..1 + n], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..1 + n]), "S4P2_N_02_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], "S4P2_N_02_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == bytes[canary], "S4P2_N_02_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 2, "S4P2_N_02_N02");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "S4P2_N_02_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "S4P2_N_02_DUPLICATE");
++    kani::cover(n >= 2 && v[1] < v[n], "S4P2_N_02_NONCONSTANT");
++    kani::cover(n == 2 && descending(&bytes[1..3]), "S4P2_N_02_MAX_DESCENDING");
++    kani::cover(true, "S4P2_N_02_USEFUL_RETURN");
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p2_network_b01_n03_fullbyte() {
++    kani::assert(active_u8(), "S4P2_N_03_ACTIVE_CONCRETE_MODEL");
++    let mut v: [u8; 34] = kani::any();
++    let bytes = v;
++    let n: usize = kani::any();
++    kani::assume(3 <= n && n <= 3);
++    let before = snapshot::<u8, KeyLess<u8>>(&v[1..1 + n]);
++    small_sort_network(&mut v[1..1 + n], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..1 + n]), "S4P2_N_03_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], "S4P2_N_03_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == bytes[canary], "S4P2_N_03_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 3, "S4P2_N_03_N03");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "S4P2_N_03_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "S4P2_N_03_DUPLICATE");
++    kani::cover(n >= 2 && v[1] < v[n], "S4P2_N_03_NONCONSTANT");
++    kani::cover(n == 3 && descending(&bytes[1..4]), "S4P2_N_03_MAX_DESCENDING");
++    kani::cover(true, "S4P2_N_03_USEFUL_RETURN");
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p2_network_b01_n04_fullbyte() {
++    kani::assert(active_u8(), "S4P2_N_04_ACTIVE_CONCRETE_MODEL");
++    let mut v: [u8; 34] = kani::any();
++    let bytes = v;
++    let n: usize = kani::any();
++    kani::assume(4 <= n && n <= 4);
++    let before = snapshot::<u8, KeyLess<u8>>(&v[1..1 + n]);
++    small_sort_network(&mut v[1..1 + n], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..1 + n]), "S4P2_N_04_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], "S4P2_N_04_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == bytes[canary], "S4P2_N_04_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 4, "S4P2_N_04_N04");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "S4P2_N_04_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "S4P2_N_04_DUPLICATE");
++    kani::cover(n >= 2 && v[1] < v[n], "S4P2_N_04_NONCONSTANT");
++    kani::cover(n == 4 && descending(&bytes[1..5]), "S4P2_N_04_MAX_DESCENDING");
++    kani::cover(true, "S4P2_N_04_USEFUL_RETURN");
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p2_network_b01_n00_01_fullbyte() {
++    kani::assert(active_u8(), "S4P2_N_00_01_ACTIVE_CONCRETE_MODEL");
++    let mut v: [u8; 34] = kani::any();
++    let bytes = v;
++    let n: usize = kani::any();
++    kani::assume(0 <= n && n <= 1);
++    let before = snapshot::<u8, KeyLess<u8>>(&v[1..1 + n]);
++    small_sort_network(&mut v[1..1 + n], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..1 + n]), "S4P2_N_00_01_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], "S4P2_N_00_01_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == bytes[canary], "S4P2_N_00_01_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 0, "S4P2_N_00_01_N00");
++    kani::cover(n == 1, "S4P2_N_00_01_N01");
++    kani::cover(true, "S4P2_N_00_01_USEFUL_RETURN");
++}
++
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..cb1eec3567de50048cdbbeb19c4f20ddb8938b98
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs
+@@ -0,0 +1,118 @@
++//! S4P2 r2 concrete-call network partitions: finite normal-return candidates, no proof credit.
++//! All 34 logical bytes are independent; initialized V34, base1, no summaries.
++use super::super::small_sort_network;
++use super::sorting_model::{KeyLess, enabled, snapshot, post};
++use super::{sorting_s2_span as span, sorting_s2_swap as pair};
++use crate::kani;
++
++fn active_u8() -> bool {
++    enabled::<u8, KeyLess<u8>>() && span::active::<u8, KeyLess<u8>>()
++        && pair::enabled::<u8, KeyLess<u8>>()
++}
++fn descending(v: &[u8]) -> bool {
++    let mut i = 1;
++    while i < v.len() {
++        if v[i - 1] <= v[i] { return false; }
++        i += 1;
++    }
++    true
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p2r2_network_b01_n02_fullbyte() {
++    kani::assert(active_u8(), "S4P2R2_N_02_ACTIVE_CONCRETE_MODEL");
++    let mut v: [u8; 34] = kani::any();
++    let bytes = v;
++    let n: usize = 2;
++    let before = snapshot::<u8, KeyLess<u8>>(&v[1..3]);
++    small_sort_network(&mut v[1..3], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..3]), "S4P2R2_N_02_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], "S4P2R2_N_02_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == bytes[canary], "S4P2R2_N_02_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 2, "S4P2R2_N_02_N02");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "S4P2R2_N_02_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "S4P2R2_N_02_DUPLICATE");
++    kani::cover(n >= 2 && v[1] < v[n], "S4P2R2_N_02_NONCONSTANT");
++    kani::cover(n == 2 && descending(&bytes[1..3]), "S4P2R2_N_02_MAX_DESCENDING");
++    kani::cover(true, "S4P2R2_N_02_USEFUL_RETURN");
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p2r2_network_b01_n03_fullbyte() {
++    kani::assert(active_u8(), "S4P2R2_N_03_ACTIVE_CONCRETE_MODEL");
++    let mut v: [u8; 34] = kani::any();
++    let bytes = v;
++    let n: usize = 3;
++    let before = snapshot::<u8, KeyLess<u8>>(&v[1..4]);
++    small_sort_network(&mut v[1..4], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..4]), "S4P2R2_N_03_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], "S4P2R2_N_03_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == bytes[canary], "S4P2R2_N_03_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 3, "S4P2R2_N_03_N03");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "S4P2R2_N_03_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "S4P2R2_N_03_DUPLICATE");
++    kani::cover(n >= 2 && v[1] < v[n], "S4P2R2_N_03_NONCONSTANT");
++    kani::cover(n == 3 && descending(&bytes[1..4]), "S4P2R2_N_03_MAX_DESCENDING");
++    kani::cover(true, "S4P2R2_N_03_USEFUL_RETURN");
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p2r2_network_b01_n04_fullbyte() {
++    kani::assert(active_u8(), "S4P2R2_N_04_ACTIVE_CONCRETE_MODEL");
++    let mut v: [u8; 34] = kani::any();
++    let bytes = v;
++    let n: usize = 4;
++    let before = snapshot::<u8, KeyLess<u8>>(&v[1..5]);
++    small_sort_network(&mut v[1..5], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..5]), "S4P2R2_N_04_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], "S4P2R2_N_04_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == bytes[canary], "S4P2R2_N_04_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 4, "S4P2R2_N_04_N04");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "S4P2R2_N_04_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "S4P2R2_N_04_DUPLICATE");
++    kani::cover(n >= 2 && v[1] < v[n], "S4P2R2_N_04_NONCONSTANT");
++    kani::cover(n == 4 && descending(&bytes[1..5]), "S4P2R2_N_04_MAX_DESCENDING");
++    kani::cover(true, "S4P2R2_N_04_USEFUL_RETURN");
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p2r2_network_b01_n00_01_fullbyte() {
++    kani::assert(active_u8(), "S4P2R2_N_00_01_ACTIVE_CONCRETE_MODEL");
++    let mut v: [u8; 34] = kani::any();
++    let bytes = v;
++    let one: bool = kani::any();
++    let n: usize = if one { 1 } else { 0 };
++    let before = snapshot::<u8, KeyLess<u8>>(&v[1..1 + n]);
++    if one {
++        small_sort_network(&mut v[1..2], &mut KeyLess::<u8>::new());
++    } else {
++        small_sort_network(&mut v[1..1], &mut KeyLess::<u8>::new());
++    }
++    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..1 + n]), "S4P2R2_N_00_01_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], "S4P2R2_N_00_01_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == bytes[canary], "S4P2R2_N_00_01_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 0, "S4P2R2_N_00_01_N00");
++    kani::cover(n == 1, "S4P2R2_N_00_01_N01");
++    kani::cover(true, "S4P2R2_N_00_01_USEFUL_RETURN");
++}
++
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..edea5aac77dbe168d0a7e7152c954af636656c1a
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs
+@@ -0,0 +1,139 @@
++//! S4 full-byte length blocks: finite normal-return candidates, no proof credit.
++//! All 34 logical bytes are independent; initialized V34, base1, no summaries.
++use super::super::{small_sort_fallback, small_sort_network};
++use super::sorting_model::{KeyLess, enabled, snapshot, post};
++use super::{sorting_s2_span as span, sorting_s2_swap as pair};
++use crate::{kani, cell::Cell};
++
++fn active_u8() -> bool {
++    enabled::<u8, KeyLess<u8>>() && span::active::<u8, KeyLess<u8>>()
++        && pair::enabled::<u8, KeyLess<u8>>()
++}
++fn descending(v: &[u8]) -> bool {
++    let mut i = 1;
++    while i < v.len() {
++        if v[i - 1] <= v[i] { return false; }
++        i += 1;
++    }
++    true
++}
++
++// Checker-only count corruption: sorted [0,0] is not a permutation of [0,1].
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p_cell_count_corrupt() {
++    kani::assert(enabled::<Cell<u8>, KeyLess<Cell<u8>>>(), "S4_NEG_CELL_ACTIVE");
++    let v = [const { Cell::new(0u8) }; 34];
++    v[2].set(1);
++    let before = snapshot::<Cell<u8>, KeyLess<Cell<u8>>>(&v[1..3]);
++    v[2].set(0);
++    kani::assert(post::<Cell<u8>, KeyLess<Cell<u8>>>(before, &v[1..3]), "S4_NEG_CELL_COUNT");
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p_fallback_b01_n00_02_fullbyte() {
++    kani::assert(enabled::<Cell<u8>, KeyLess<Cell<u8>>>(), "S4P_F_00_02_ACTIVE_CONCRETE_MODEL");
++    let bytes: [u8; 34] = kani::any();
++    let mut v = [const { Cell::new(0u8) }; 34];
++    for i in 0..34 { v[i].set(bytes[i]); }
++    let n: usize = kani::any();
++    kani::assume(0 <= n && n <= 2);
++    let before = snapshot::<Cell<u8>, KeyLess<Cell<u8>>>(&v[1..1 + n]);
++    small_sort_fallback(&mut v[1..1 + n], &mut KeyLess::<Cell<u8>>::new());
++    kani::assert(post::<Cell<u8>, KeyLess<Cell<u8>>>(before, &v[1..1 + n]), "S4P_F_00_02_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i].get() == bytes[i], "S4P_F_00_02_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary].get() == bytes[canary], "S4P_F_00_02_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 0, "S4P_F_00_02_N00");
++    kani::cover(n == 1, "S4P_F_00_02_N01");
++    kani::cover(n == 2, "S4P_F_00_02_N02");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "S4P_F_00_02_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "S4P_F_00_02_DUPLICATE");
++    kani::cover(n >= 2 && v[1].get() < v[n].get(), "S4P_F_00_02_NONCONSTANT");
++    kani::cover(n == 2 && descending(&bytes[1..3]), "S4P_F_00_02_MAX_DESCENDING");
++    kani::cover(true, "S4P_F_00_02_USEFUL_RETURN");
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p_fallback_b01_n03_04_fullbyte() {
++    kani::assert(enabled::<Cell<u8>, KeyLess<Cell<u8>>>(), "S4P_F_03_04_ACTIVE_CONCRETE_MODEL");
++    let bytes: [u8; 34] = kani::any();
++    let mut v = [const { Cell::new(0u8) }; 34];
++    for i in 0..34 { v[i].set(bytes[i]); }
++    let n: usize = kani::any();
++    kani::assume(3 <= n && n <= 4);
++    let before = snapshot::<Cell<u8>, KeyLess<Cell<u8>>>(&v[1..1 + n]);
++    small_sort_fallback(&mut v[1..1 + n], &mut KeyLess::<Cell<u8>>::new());
++    kani::assert(post::<Cell<u8>, KeyLess<Cell<u8>>>(before, &v[1..1 + n]), "S4P_F_03_04_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i].get() == bytes[i], "S4P_F_03_04_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary].get() == bytes[canary], "S4P_F_03_04_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 3, "S4P_F_03_04_N03");
++    kani::cover(n == 4, "S4P_F_03_04_N04");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "S4P_F_03_04_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "S4P_F_03_04_DUPLICATE");
++    kani::cover(n >= 2 && v[1].get() < v[n].get(), "S4P_F_03_04_NONCONSTANT");
++    kani::cover(n == 4 && descending(&bytes[1..5]), "S4P_F_03_04_MAX_DESCENDING");
++    kani::cover(true, "S4P_F_03_04_USEFUL_RETURN");
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p_network_b01_n00_02_fullbyte() {
++    kani::assert(active_u8(), "S4P_N_00_02_ACTIVE_CONCRETE_MODEL");
++    let mut v: [u8; 34] = kani::any();
++    let bytes = v;
++    let n: usize = kani::any();
++    kani::assume(0 <= n && n <= 2);
++    let before = snapshot::<u8, KeyLess<u8>>(&v[1..1 + n]);
++    small_sort_network(&mut v[1..1 + n], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..1 + n]), "S4P_N_00_02_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], "S4P_N_00_02_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == bytes[canary], "S4P_N_00_02_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 0, "S4P_N_00_02_N00");
++    kani::cover(n == 1, "S4P_N_00_02_N01");
++    kani::cover(n == 2, "S4P_N_00_02_N02");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "S4P_N_00_02_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "S4P_N_00_02_DUPLICATE");
++    kani::cover(n >= 2 && v[1] < v[n], "S4P_N_00_02_NONCONSTANT");
++    kani::cover(n == 2 && descending(&bytes[1..3]), "S4P_N_00_02_MAX_DESCENDING");
++    kani::cover(true, "S4P_N_00_02_USEFUL_RETURN");
++}
++
++#[kani::proof]
++#[kani::unwind(36)]
++fn s4p_network_b01_n03_04_fullbyte() {
++    kani::assert(active_u8(), "S4P_N_03_04_ACTIVE_CONCRETE_MODEL");
++    let mut v: [u8; 34] = kani::any();
++    let bytes = v;
++    let n: usize = kani::any();
++    kani::assume(3 <= n && n <= 4);
++    let before = snapshot::<u8, KeyLess<u8>>(&v[1..1 + n]);
++    small_sort_network(&mut v[1..1 + n], &mut KeyLess::<u8>::new());
++    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..1 + n]), "S4P_N_03_04_SORTED_FULL_VALUE_COUNT");
++    for i in 0..34 {
++        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], "S4P_N_03_04_FULL_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));
++    kani::assert(v[canary] == bytes[canary], "S4P_N_03_04_ARBITRARY_OUTSIDE_CANARY");
++    kani::cover(n == 3, "S4P_N_03_04_N03");
++    kani::cover(n == 4, "S4P_N_03_04_N04");
++    kani::cover(n >= 2 && bytes[1] > bytes[n], "S4P_N_03_04_UNSORTED");
++    kani::cover(n >= 2 && bytes[1] == bytes[n], "S4P_N_03_04_DUPLICATE");
++    kani::cover(n >= 2 && v[1] < v[n], "S4P_N_03_04_NONCONSTANT");
++    kani::cover(n == 4 && descending(&bytes[1..5]), "S4P_N_03_04_MAX_DESCENDING");
++    kani::cover(true, "S4P_N_03_04_USEFUL_RETURN");
++}

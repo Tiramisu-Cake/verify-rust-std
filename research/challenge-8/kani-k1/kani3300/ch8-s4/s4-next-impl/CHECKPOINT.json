@@ -1,0 +1,80 @@
+{
+  "schema": "s4-next-offline-checkpoint-v1",
+  "runtime": "Codex",
+  "status": "HANDOFF",
+  "stage": "OFFLINE_IMPLEMENTATION_ONLY",
+  "source_commit": "7b31b060b90ce286e94547993f6a698c549bc5fa",
+  "control_commit": "65a9ea656a4b5f1e66f7b31eceffb5eefeba7541",
+  "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "request_sha256": "693e12689bfee859560d5042a36fd8b80051e9fca4082fd1a612642d7e389e30",
+  "plan": "c0de8471801ac22b38e3290c7a6b75742135af6b",
+  "plan_review": "762a2a678eb624d1ddd18f0764a365e7787392c0",
+  "authority_origin": "0a9b091f2112391e16ea2086b50c6afd7f5c80ef",
+  "task_containing_snapshot_used_by_request": "778418b5a6c59e9b649435fd4bbc7a61ae0cd2ec",
+  "claims": [
+    {
+      "claim": "Exact approved four-controls-first network8/9/13/17 package implemented with no callee/oracle change",
+      "assurance": "STATIC_SOURCE_CORRESPONDENCE_ONLY",
+      "evidence": [
+        "DOMAIN-EQUIVALENCE.md",
+        "PLAN-CONFORMANCE.json",
+        "ROOTS.json",
+        "PRESERVATION.json"
+      ]
+    },
+    {
+      "claim": "New23 and retained30 targeted synthetic tests pass on final exact control; all366 old tests selected with23 new for389 final tests",
+      "assurance": "TARGETED_SYNTHETIC_PASS_FINAL_VALIDATE_NOT_RUN",
+      "evidence": [
+        "tests/targeted-final.json",
+        "tests/old-targeted-final.json",
+        "TEST-LIST.json"
+      ]
+    },
+    {
+      "claim": "Preflight, control gate, four exact patch trees, source7/control9/tool2 shallow identities and immutable payload checked",
+      "assurance": "OFFLINE_STATIC_ONLY",
+      "evidence": [
+        "PREFLIGHT.json",
+        "CONTROL-GATE.json",
+        "PATCHES.json",
+        "PINS.json",
+        "FORMAT-CHECK.json"
+      ]
+    }
+  ],
+  "open": [
+    "Independent exact-package review",
+    "Prepared final Validate execution and measured elapsed/margin on exact control",
+    "Publication, coordinator GO and any native execution require separate stages",
+    "Actual compile/MIR, inventories/producer IDs/role origins/covers SAT, lowered unwind sufficiency and600s whole-child fit UNKNOWN",
+    "N17 does not reach merge; N18+ merge, fallback/general/gaps/type/caller/provider/initmask/dstinit/ownership/Drop/unwind/unexported safety/B1/B2 remain OPEN"
+  ],
+  "decisions": [
+    "Keep the approved concrete singleton architecture and same oracle/callee",
+    "No new U/location/guard exceptions; ZERO_U and REJECT_ALL preserved",
+    "Add only namespace dispatch; inverse byte and acceptance AST preservation checked",
+    "Retain every old test and immutable r2/S4P2 fixture; final Validate prepared only",
+    "Shared G0 HEAD advanced independently; own CURRENT-TASK remains byte-identical at the request-pinned snapshot; unrelated files/commits are outside this task",
+    "Required Luna High unavailable; main thread handled bounded work and no subagents were used"
+  ],
+  "precursors": "PRECURSORS.json; earlier rejected binding candidate and wrong offline test namespace retained without final result transfer",
+  "final_validate": {
+    "status": "PREPARED_NOT_RUN",
+    "execution_count": 0,
+    "deadline_seconds": 1080,
+    "margin_required": 1.5,
+    "maximum_elapsed_seconds_for_margin": 720,
+    "measured_elapsed": null
+  },
+  "new_qualified_cases": 0,
+  "independent_proof_obligations_closed": 0,
+  "independent_B1_B2_credit": "NONE",
+  "provider_summary_admissions": 0,
+  "push_CI_compiler_verifier_count": 0,
+  "ledger_changes_by_this_task": false,
+  "subagents": 0,
+  "blocker": null,
+  "closure_reason": "Authorized one-stage offline implementation, checks, immutable pins/manifest and HANDOFF completed. Stop for exact-package review; final Validate execution and later stages are not authorized here.",
+  "next": "Coordinator may issue separate exact-package review on these SHAs; do not run prepared Validate in this stage"
+}

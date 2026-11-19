@@ -1,0 +1,1040 @@
+{
+  "rows": [
+    {
+      "id": "checker_order_corrupt",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "mode": "Original",
+      "variant": "production",
+      "unwind": 34,
+      "expected": "DETECTED",
+      "failure_description": "S2_NEG_CHECKER_ORDER",
+      "required_cover_count": 0,
+      "required_cover_messages": [],
+      "required_success_messages": [],
+      "timeout_seconds": 600,
+      "planned_seconds": null,
+      "state": "NOT_RUN",
+      "assurance": "NEGATIVE_CONTROL",
+      "proof_credit": "NONE",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_CHECKER_ORDER",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 140,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_ORDER\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ],
+      "target": null,
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "checker_count_corrupt",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "mode": "Original",
+      "variant": "production",
+      "unwind": 34,
+      "expected": "DETECTED",
+      "failure_description": "S2_NEG_CHECKER_COUNT",
+      "required_cover_count": 0,
+      "required_cover_messages": [],
+      "required_success_messages": [],
+      "timeout_seconds": 600,
+      "planned_seconds": null,
+      "state": "NOT_RUN",
+      "assurance": "NEGATIVE_CONTROL",
+      "proof_credit": "NONE",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_CHECKER_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 134,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_COUNT\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ],
+      "target": null,
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "sort13_weak",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "mode": "Original",
+      "variant": "production",
+      "unwind": 34,
+      "expected": "DETECTED",
+      "failure_description": "S2_NEG_SORT13_WEAK",
+      "required_cover_count": 0,
+      "required_cover_messages": [],
+      "required_success_messages": [],
+      "timeout_seconds": 600,
+      "planned_seconds": null,
+      "state": "NOT_RUN",
+      "assurance": "NEGATIVE_CONTROL",
+      "proof_credit": "NONE",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_SORT13_WEAK",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 149,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_SORT13_WEAK\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ],
+      "target": null,
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "s4p_cell_count_corrupt",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt",
+      "mode": "Original",
+      "variant": "production",
+      "unwind": 36,
+      "expected": "DETECTED",
+      "failure_description": "S4_NEG_CELL_COUNT",
+      "required_cover_count": 0,
+      "required_cover_messages": [],
+      "required_success_messages": [
+        "S4_NEG_CELL_ACTIVE"
+      ],
+      "timeout_seconds": 600,
+      "planned_seconds": null,
+      "state": "NOT_RUN",
+      "assurance": "CHECKER_ONLY_NEGATIVE_CONTROL",
+      "proof_credit": "NONE",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4_NEG_CELL_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+          "line": 25,
+          "source_line": "    kani::assert(enabled::<Cell<u8>, KeyLess<Cell<u8>>>(), \"S4_NEG_CELL_ACTIVE\");",
+          "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S4_NEG_CELL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+          "line": 30,
+          "source_line": "    kani::assert(post::<Cell<u8>, KeyLess<Cell<u8>>>(before, &v[1..3]), \"S4_NEG_CELL_COUNT\");",
+          "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ],
+      "target": null,
+      "scope_classification": {
+        "category": "CELL_CHECKER_ONLY_NEGATIVE",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "s4p3_network_b01_n08_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n08_fullbyte",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n08_fullbyte",
+      "mode": "Original",
+      "variant": "production",
+      "unwind": 36,
+      "expected": "SUCCESS",
+      "failure_description": null,
+      "required_cover_count": 6,
+      "required_cover_messages": [
+        "S4P3_N_08_N08",
+        "S4P3_N_08_UNSORTED",
+        "S4P3_N_08_DUPLICATE",
+        "S4P3_N_08_NONCONSTANT",
+        "S4P3_N_08_MAX_DESCENDING",
+        "S4P3_N_08_USEFUL_RETURN"
+      ],
+      "required_success_messages": [
+        "S4P3_N_08_ACTIVE_CONCRETE_MODEL",
+        "S4P3_N_08_SORTED_FULL_VALUE_COUNT",
+        "S4P3_N_08_FULL_OUTSIDE_FRAME",
+        "S4P3_N_08_ARBITRARY_OUTSIDE_CANARY"
+      ],
+      "timeout_seconds": 600,
+      "planned_seconds": null,
+      "state": "NOT_RUN",
+      "assurance": "PARTIAL_BOUNDED_ACTUAL_BODY_ORIGINAL_CANDIDATE",
+      "proof_credit": "NONE",
+      "roles": [
+        {
+          "description": "S4P3_N_08_ACTIVE_CONCRETE_MODEL",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 24,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::assert(active_u8(), \"S4P3_N_08_ACTIVE_CONCRETE_MODEL\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "ACTIVE_CONCRETE_MODEL",
+          "predicate_tokens": "active_u8()"
+        },
+        {
+          "description": "S4P3_N_08_SORTED_FULL_VALUE_COUNT",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 30,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..9]), \"S4P3_N_08_SORTED_FULL_VALUE_COUNT\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "SORTED_FULL_VALUE_COUNT",
+          "predicate_tokens": "post::<u8,KeyLess<u8>>(before,&v[1..9])"
+        },
+        {
+          "description": "S4P3_N_08_FULL_OUTSIDE_FRAME",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 32,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P3_N_08_FULL_OUTSIDE_FRAME\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "FULL_OUTSIDE_FRAME",
+          "predicate_tokens": "(1<=i&&i<1+n)||v[i]==bytes[i]"
+        },
+        {
+          "description": "S4P3_N_08_ARBITRARY_OUTSIDE_CANARY",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 36,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::assert(v[canary] == bytes[canary], \"S4P3_N_08_ARBITRARY_OUTSIDE_CANARY\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "ARBITRARY_OUTSIDE_CANARY",
+          "predicate_tokens": "v[canary]==bytes[canary]"
+        },
+        {
+          "description": "S4P3_N_08_N08",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 37,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n == 8, \"S4P3_N_08_N08\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "N08",
+          "predicate_tokens": "n==8"
+        },
+        {
+          "description": "S4P3_N_08_UNSORTED",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 38,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n >= 2 && bytes[1] > bytes[n], \"S4P3_N_08_UNSORTED\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "UNSORTED",
+          "predicate_tokens": "n>=2&&bytes[1]>bytes[n]"
+        },
+        {
+          "description": "S4P3_N_08_DUPLICATE",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 39,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n >= 2 && bytes[1] == bytes[n], \"S4P3_N_08_DUPLICATE\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "DUPLICATE",
+          "predicate_tokens": "n>=2&&bytes[1]==bytes[n]"
+        },
+        {
+          "description": "S4P3_N_08_NONCONSTANT",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 40,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n >= 2 && v[1] < v[n], \"S4P3_N_08_NONCONSTANT\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "NONCONSTANT",
+          "predicate_tokens": "n>=2&&v[1]<v[n]"
+        },
+        {
+          "description": "S4P3_N_08_MAX_DESCENDING",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 41,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n == 8 && descending(&bytes[1..9]), \"S4P3_N_08_MAX_DESCENDING\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "MAX_DESCENDING",
+          "predicate_tokens": "n==8&&descending(&bytes[1..9])"
+        },
+        {
+          "description": "S4P3_N_08_USEFUL_RETURN",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 42,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(true, \"S4P3_N_08_USEFUL_RETURN\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "USEFUL_RETURN",
+          "predicate_tokens": "true"
+        }
+      ],
+      "target": null,
+      "scope_classification": {
+        "category": "S4P3_FULLBYTE_NETWORK_BOUNDARY_ACTUAL_BODY_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "design_id": "PLAN_N08_V34_B01_FULLU8",
+      "structurally_not_applicable_roles": [],
+      "structural_na_binding": null
+    },
+    {
+      "id": "s4p3_network_b01_n09_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n09_fullbyte",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n09_fullbyte",
+      "mode": "Original",
+      "variant": "production",
+      "unwind": 36,
+      "expected": "SUCCESS",
+      "failure_description": null,
+      "required_cover_count": 6,
+      "required_cover_messages": [
+        "S4P3_N_09_N09",
+        "S4P3_N_09_UNSORTED",
+        "S4P3_N_09_DUPLICATE",
+        "S4P3_N_09_NONCONSTANT",
+        "S4P3_N_09_MAX_DESCENDING",
+        "S4P3_N_09_USEFUL_RETURN"
+      ],
+      "required_success_messages": [
+        "S4P3_N_09_ACTIVE_CONCRETE_MODEL",
+        "S4P3_N_09_SORTED_FULL_VALUE_COUNT",
+        "S4P3_N_09_FULL_OUTSIDE_FRAME",
+        "S4P3_N_09_ARBITRARY_OUTSIDE_CANARY"
+      ],
+      "timeout_seconds": 600,
+      "planned_seconds": null,
+      "state": "NOT_RUN",
+      "assurance": "PARTIAL_BOUNDED_ACTUAL_BODY_ORIGINAL_CANDIDATE",
+      "proof_credit": "NONE",
+      "roles": [
+        {
+          "description": "S4P3_N_09_ACTIVE_CONCRETE_MODEL",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 47,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::assert(active_u8(), \"S4P3_N_09_ACTIVE_CONCRETE_MODEL\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "ACTIVE_CONCRETE_MODEL",
+          "predicate_tokens": "active_u8()"
+        },
+        {
+          "description": "S4P3_N_09_SORTED_FULL_VALUE_COUNT",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 53,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..10]), \"S4P3_N_09_SORTED_FULL_VALUE_COUNT\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "SORTED_FULL_VALUE_COUNT",
+          "predicate_tokens": "post::<u8,KeyLess<u8>>(before,&v[1..10])"
+        },
+        {
+          "description": "S4P3_N_09_FULL_OUTSIDE_FRAME",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 55,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P3_N_09_FULL_OUTSIDE_FRAME\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "FULL_OUTSIDE_FRAME",
+          "predicate_tokens": "(1<=i&&i<1+n)||v[i]==bytes[i]"
+        },
+        {
+          "description": "S4P3_N_09_ARBITRARY_OUTSIDE_CANARY",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 59,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::assert(v[canary] == bytes[canary], \"S4P3_N_09_ARBITRARY_OUTSIDE_CANARY\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "ARBITRARY_OUTSIDE_CANARY",
+          "predicate_tokens": "v[canary]==bytes[canary]"
+        },
+        {
+          "description": "S4P3_N_09_N09",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 60,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n == 9, \"S4P3_N_09_N09\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "N09",
+          "predicate_tokens": "n==9"
+        },
+        {
+          "description": "S4P3_N_09_UNSORTED",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 61,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n >= 2 && bytes[1] > bytes[n], \"S4P3_N_09_UNSORTED\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "UNSORTED",
+          "predicate_tokens": "n>=2&&bytes[1]>bytes[n]"
+        },
+        {
+          "description": "S4P3_N_09_DUPLICATE",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 62,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n >= 2 && bytes[1] == bytes[n], \"S4P3_N_09_DUPLICATE\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "DUPLICATE",
+          "predicate_tokens": "n>=2&&bytes[1]==bytes[n]"
+        },
+        {
+          "description": "S4P3_N_09_NONCONSTANT",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 63,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n >= 2 && v[1] < v[n], \"S4P3_N_09_NONCONSTANT\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "NONCONSTANT",
+          "predicate_tokens": "n>=2&&v[1]<v[n]"
+        },
+        {
+          "description": "S4P3_N_09_MAX_DESCENDING",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 64,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n == 9 && descending(&bytes[1..10]), \"S4P3_N_09_MAX_DESCENDING\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "MAX_DESCENDING",
+          "predicate_tokens": "n==9&&descending(&bytes[1..10])"
+        },
+        {
+          "description": "S4P3_N_09_USEFUL_RETURN",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 65,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(true, \"S4P3_N_09_USEFUL_RETURN\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "USEFUL_RETURN",
+          "predicate_tokens": "true"
+        }
+      ],
+      "target": null,
+      "scope_classification": {
+        "category": "S4P3_FULLBYTE_NETWORK_BOUNDARY_ACTUAL_BODY_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "design_id": "PLAN_N09_V34_B01_FULLU8",
+      "structurally_not_applicable_roles": [],
+      "structural_na_binding": null
+    },
+    {
+      "id": "s4p3_network_b01_n13_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n13_fullbyte",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n13_fullbyte",
+      "mode": "Original",
+      "variant": "production",
+      "unwind": 36,
+      "expected": "SUCCESS",
+      "failure_description": null,
+      "required_cover_count": 6,
+      "required_cover_messages": [
+        "S4P3_N_13_N13",
+        "S4P3_N_13_UNSORTED",
+        "S4P3_N_13_DUPLICATE",
+        "S4P3_N_13_NONCONSTANT",
+        "S4P3_N_13_MAX_DESCENDING",
+        "S4P3_N_13_USEFUL_RETURN"
+      ],
+      "required_success_messages": [
+        "S4P3_N_13_ACTIVE_CONCRETE_MODEL",
+        "S4P3_N_13_SORTED_FULL_VALUE_COUNT",
+        "S4P3_N_13_FULL_OUTSIDE_FRAME",
+        "S4P3_N_13_ARBITRARY_OUTSIDE_CANARY"
+      ],
+      "timeout_seconds": 600,
+      "planned_seconds": null,
+      "state": "NOT_RUN",
+      "assurance": "PARTIAL_BOUNDED_ACTUAL_BODY_ORIGINAL_CANDIDATE",
+      "proof_credit": "NONE",
+      "roles": [
+        {
+          "description": "S4P3_N_13_ACTIVE_CONCRETE_MODEL",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 70,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::assert(active_u8(), \"S4P3_N_13_ACTIVE_CONCRETE_MODEL\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "ACTIVE_CONCRETE_MODEL",
+          "predicate_tokens": "active_u8()"
+        },
+        {
+          "description": "S4P3_N_13_SORTED_FULL_VALUE_COUNT",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 76,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..14]), \"S4P3_N_13_SORTED_FULL_VALUE_COUNT\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "SORTED_FULL_VALUE_COUNT",
+          "predicate_tokens": "post::<u8,KeyLess<u8>>(before,&v[1..14])"
+        },
+        {
+          "description": "S4P3_N_13_FULL_OUTSIDE_FRAME",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 78,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P3_N_13_FULL_OUTSIDE_FRAME\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "FULL_OUTSIDE_FRAME",
+          "predicate_tokens": "(1<=i&&i<1+n)||v[i]==bytes[i]"
+        },
+        {
+          "description": "S4P3_N_13_ARBITRARY_OUTSIDE_CANARY",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 82,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::assert(v[canary] == bytes[canary], \"S4P3_N_13_ARBITRARY_OUTSIDE_CANARY\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "ARBITRARY_OUTSIDE_CANARY",
+          "predicate_tokens": "v[canary]==bytes[canary]"
+        },
+        {
+          "description": "S4P3_N_13_N13",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 83,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n == 13, \"S4P3_N_13_N13\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "N13",
+          "predicate_tokens": "n==13"
+        },
+        {
+          "description": "S4P3_N_13_UNSORTED",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 84,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n >= 2 && bytes[1] > bytes[n], \"S4P3_N_13_UNSORTED\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "UNSORTED",
+          "predicate_tokens": "n>=2&&bytes[1]>bytes[n]"
+        },
+        {
+          "description": "S4P3_N_13_DUPLICATE",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 85,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n >= 2 && bytes[1] == bytes[n], \"S4P3_N_13_DUPLICATE\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "DUPLICATE",
+          "predicate_tokens": "n>=2&&bytes[1]==bytes[n]"
+        },
+        {
+          "description": "S4P3_N_13_NONCONSTANT",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 86,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n >= 2 && v[1] < v[n], \"S4P3_N_13_NONCONSTANT\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "NONCONSTANT",
+          "predicate_tokens": "n>=2&&v[1]<v[n]"
+        },
+        {
+          "description": "S4P3_N_13_MAX_DESCENDING",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 87,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n == 13 && descending(&bytes[1..14]), \"S4P3_N_13_MAX_DESCENDING\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "MAX_DESCENDING",
+          "predicate_tokens": "n==13&&descending(&bytes[1..14])"
+        },
+        {
+          "description": "S4P3_N_13_USEFUL_RETURN",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 88,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(true, \"S4P3_N_13_USEFUL_RETURN\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "USEFUL_RETURN",
+          "predicate_tokens": "true"
+        }
+      ],
+      "target": null,
+      "scope_classification": {
+        "category": "S4P3_FULLBYTE_NETWORK_BOUNDARY_ACTUAL_BODY_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "design_id": "PLAN_N13_V34_B01_FULLU8",
+      "structurally_not_applicable_roles": [],
+      "structural_na_binding": null
+    },
+    {
+      "id": "s4p3_network_b01_n17_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n17_fullbyte",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n17_fullbyte",
+      "mode": "Original",
+      "variant": "production",
+      "unwind": 36,
+      "expected": "SUCCESS",
+      "failure_description": null,
+      "required_cover_count": 6,
+      "required_cover_messages": [
+        "S4P3_N_17_N17",
+        "S4P3_N_17_UNSORTED",
+        "S4P3_N_17_DUPLICATE",
+        "S4P3_N_17_NONCONSTANT",
+        "S4P3_N_17_MAX_DESCENDING",
+        "S4P3_N_17_USEFUL_RETURN"
+      ],
+      "required_success_messages": [
+        "S4P3_N_17_ACTIVE_CONCRETE_MODEL",
+        "S4P3_N_17_SORTED_FULL_VALUE_COUNT",
+        "S4P3_N_17_FULL_OUTSIDE_FRAME",
+        "S4P3_N_17_ARBITRARY_OUTSIDE_CANARY"
+      ],
+      "timeout_seconds": 600,
+      "planned_seconds": null,
+      "state": "NOT_RUN",
+      "assurance": "PARTIAL_BOUNDED_ACTUAL_BODY_ORIGINAL_CANDIDATE",
+      "proof_credit": "NONE",
+      "roles": [
+        {
+          "description": "S4P3_N_17_ACTIVE_CONCRETE_MODEL",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 93,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::assert(active_u8(), \"S4P3_N_17_ACTIVE_CONCRETE_MODEL\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "ACTIVE_CONCRETE_MODEL",
+          "predicate_tokens": "active_u8()"
+        },
+        {
+          "description": "S4P3_N_17_SORTED_FULL_VALUE_COUNT",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 99,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..18]), \"S4P3_N_17_SORTED_FULL_VALUE_COUNT\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "SORTED_FULL_VALUE_COUNT",
+          "predicate_tokens": "post::<u8,KeyLess<u8>>(before,&v[1..18])"
+        },
+        {
+          "description": "S4P3_N_17_FULL_OUTSIDE_FRAME",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 101,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P3_N_17_FULL_OUTSIDE_FRAME\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "FULL_OUTSIDE_FRAME",
+          "predicate_tokens": "(1<=i&&i<1+n)||v[i]==bytes[i]"
+        },
+        {
+          "description": "S4P3_N_17_ARBITRARY_OUTSIDE_CANARY",
+          "class": "assertion",
+          "status": "SUCCESS",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 105,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::assert(v[canary] == bytes[canary], \"S4P3_N_17_ARBITRARY_OUTSIDE_CANARY\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "ARBITRARY_OUTSIDE_CANARY",
+          "predicate_tokens": "v[canary]==bytes[canary]"
+        },
+        {
+          "description": "S4P3_N_17_N17",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 106,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n == 17, \"S4P3_N_17_N17\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "N17",
+          "predicate_tokens": "n==17"
+        },
+        {
+          "description": "S4P3_N_17_UNSORTED",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 107,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n >= 2 && bytes[1] > bytes[n], \"S4P3_N_17_UNSORTED\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "UNSORTED",
+          "predicate_tokens": "n>=2&&bytes[1]>bytes[n]"
+        },
+        {
+          "description": "S4P3_N_17_DUPLICATE",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 108,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n >= 2 && bytes[1] == bytes[n], \"S4P3_N_17_DUPLICATE\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "DUPLICATE",
+          "predicate_tokens": "n>=2&&bytes[1]==bytes[n]"
+        },
+        {
+          "description": "S4P3_N_17_NONCONSTANT",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 109,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n >= 2 && v[1] < v[n], \"S4P3_N_17_NONCONSTANT\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "NONCONSTANT",
+          "predicate_tokens": "n>=2&&v[1]<v[n]"
+        },
+        {
+          "description": "S4P3_N_17_MAX_DESCENDING",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 110,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(n == 17 && descending(&bytes[1..18]), \"S4P3_N_17_MAX_DESCENDING\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "MAX_DESCENDING",
+          "predicate_tokens": "n==17&&descending(&bytes[1..18])"
+        },
+        {
+          "description": "S4P3_N_17_USEFUL_RETURN",
+          "class": "cover",
+          "status": "SATISFIED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+          "line": 111,
+          "source_sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+          "source_line": "    kani::cover(true, \"S4P3_N_17_USEFUL_RETURN\");",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+          "semantic_role": "USEFUL_RETURN",
+          "predicate_tokens": "true"
+        }
+      ],
+      "target": null,
+      "scope_classification": {
+        "category": "S4P3_FULLBYTE_NETWORK_BOUNDARY_ACTUAL_BODY_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "design_id": "PLAN_N17_V34_B01_FULLU8",
+      "structurally_not_applicable_roles": [],
+      "structural_na_binding": null
+    }
+  ],
+  "source_bindings": {
+    "checker_order_corrupt": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "mode": "Original",
+      "target": null,
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+      "locations": [
+        {
+          "line": 136,
+          "source": "#[kani::proof]"
+        },
+        {
+          "line": 138,
+          "source": "fn checker_order_corrupt() {"
+        }
+      ]
+    },
+    "checker_count_corrupt": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "mode": "Original",
+      "target": null,
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+      "locations": [
+        {
+          "line": 130,
+          "source": "#[kani::proof]"
+        },
+        {
+          "line": 132,
+          "source": "fn checker_count_corrupt() {"
+        }
+      ]
+    },
+    "sort13_weak": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "mode": "Original",
+      "target": null,
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+      "locations": [
+        {
+          "line": 143,
+          "source": "#[kani::proof]"
+        },
+        {
+          "line": 146,
+          "source": "fn sort13_weak() {"
+        }
+      ]
+    },
+    "s4p_cell_count_corrupt": {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt",
+      "mode": "Original",
+      "target": null,
+      "crate": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+      "sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+      "locations": [
+        {
+          "line": 22,
+          "source": "#[kani::proof]"
+        },
+        {
+          "line": 24,
+          "source": "fn s4p_cell_count_corrupt() {"
+        }
+      ]
+    },
+    "s4p3_network_b01_n08_fullbyte": {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+      "sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n08_fullbyte",
+      "mode": "Original",
+      "target": null,
+      "locations": [
+        {
+          "line": 21,
+          "source": "#[kani::proof]"
+        },
+        {
+          "line": 23,
+          "source": "fn s4p3_network_b01_n08_fullbyte() {"
+        }
+      ],
+      "crate": "core"
+    },
+    "s4p3_network_b01_n09_fullbyte": {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+      "sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n09_fullbyte",
+      "mode": "Original",
+      "target": null,
+      "locations": [
+        {
+          "line": 44,
+          "source": "#[kani::proof]"
+        },
+        {
+          "line": 46,
+          "source": "fn s4p3_network_b01_n09_fullbyte() {"
+        }
+      ],
+      "crate": "core"
+    },
+    "s4p3_network_b01_n13_fullbyte": {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+      "sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n13_fullbyte",
+      "mode": "Original",
+      "target": null,
+      "locations": [
+        {
+          "line": 67,
+          "source": "#[kani::proof]"
+        },
+        {
+          "line": 69,
+          "source": "fn s4p3_network_b01_n13_fullbyte() {"
+        }
+      ],
+      "crate": "core"
+    },
+    "s4p3_network_b01_n17_fullbyte": {
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs",
+      "sha256": "0e6daec453a699b85955e30eca71769330f0c2080998952d20a7a9f945b0cad6",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n17_fullbyte",
+      "mode": "Original",
+      "target": null,
+      "locations": [
+        {
+          "line": 90,
+          "source": "#[kani::proof]"
+        },
+        {
+          "line": 92,
+          "source": "fn s4p3_network_b01_n17_fullbyte() {"
+        }
+      ],
+      "crate": "core"
+    }
+  },
+  "domains": {
+    "s4p3_network_b01_n08_fullbyte": {
+      "length_interval": [
+        8,
+        8
+      ],
+      "allocation": 34,
+      "base": 1,
+      "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+      "initialized": true,
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "summary_edges": []
+    },
+    "s4p3_network_b01_n09_fullbyte": {
+      "length_interval": [
+        9,
+        9
+      ],
+      "allocation": 34,
+      "base": 1,
+      "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+      "initialized": true,
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "summary_edges": []
+    },
+    "s4p3_network_b01_n13_fullbyte": {
+      "length_interval": [
+        13,
+        13
+      ],
+      "allocation": 34,
+      "base": 1,
+      "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+      "initialized": true,
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "summary_edges": []
+    },
+    "s4p3_network_b01_n17_fullbyte": {
+      "length_interval": [
+        17,
+        17
+      ],
+      "allocation": 34,
+      "base": 1,
+      "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+      "initialized": true,
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "summary_edges": []
+    }
+  },
+  "unwind": [
+    34,
+    34,
+    34,
+    36,
+    36,
+    36,
+    36,
+    36
+  ],
+  "source_positive_assertions": 16,
+  "source_positive_covers": [
+    6,
+    6,
+    6,
+    6
+  ],
+  "native_property_counts": "UNKNOWN",
+  "producer_ids": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+  "proof_credit": "NONE"
+}

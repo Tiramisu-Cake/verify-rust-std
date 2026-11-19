@@ -1,0 +1,13 @@
+{
+  "command": [
+    "python3",
+    "-c",
+    "import s4p2r2_validate as r2,s4p3_validate as v; a=r2.old_s4p2_suite(('test_s4p2.RoleTests','test_s4p2.WorkflowTests','test_s4p2.SingletonRunnerTests')); b=v.old_s4p2r2_suite(); print({'tests':a.testsRun+b.testsRun,'failures':len(a.failures)+len(b.failures),'errors':len(a.errors)+len(b.errors)}); raise SystemExit(not (a.wasSuccessful() and b.wasSuccessful()))"
+  ],
+  "exit_code": 0,
+  "seconds": 20.659249000251293,
+  "control_sha": "65a9ea656a4b5f1e66f7b31eceffb5eefeba7541",
+  "control_tree": "09938d27a127351f5c51b6c9f451602d797a1c0f",
+  "request_sha256": "693e12689bfee859560d5042a36fd8b80051e9fca4082fd1a612642d7e389e30",
+  "scope": "Eight S4P2 routing + all22 network-r2 tests with immutable fixtures; final Validate NOT_RUN"
+}

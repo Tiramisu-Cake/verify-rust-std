@@ -1,0 +1,30 @@
+{
+  "schema": "s4-next-offline-precursors-v1",
+  "records": [
+    {
+      "control": "34dde7785beed7abc97d19f63851b20342e77a0c",
+      "request_sha256": "9d3a31e3c0189843538476c3b5300f9e2184838ef54f74fe1d9b62237ce8c5f8",
+      "check": "runner.load_request",
+      "result": "REJECTED",
+      "exact_exception": "runner.RunnerError: invalid source binding: s4p3_network_b01_n08_fullbyte",
+      "cause": "New positive source bindings omitted required crate=core metadata",
+      "correction": "Add crate=core to all four positive bindings; preserve strict validation and all semantic source/map bytes",
+      "native_CI": "NOT_RUN",
+      "final_result_transfer": false,
+      "local_preservation_branch": "experiment/ch8-s4-next-control-precursor-w15"
+    },
+    {
+      "control": "65a9ea656a4b5f1e66f7b31eceffb5eefeba7541",
+      "check": "offline run_targeted.py selection",
+      "result": "FAILED_WRONG_TEST_NAMESPACE",
+      "cause": "Offline helper selected old network-r2 role/campaign/workflow/runner classes against new default request; new domain tests passed",
+      "correction": "Select test_s4p3 classes; no control/source/request/flags/caps delta",
+      "preserved": [
+        "tests/targeted-selection-error.json",
+        "tests/targeted-selection-error.stdout",
+        "tests/targeted-selection-error.stderr"
+      ],
+      "final_result_transfer": false
+    }
+  ]
+}
