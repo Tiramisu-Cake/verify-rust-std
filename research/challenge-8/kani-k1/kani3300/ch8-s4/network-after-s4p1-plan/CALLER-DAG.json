@@ -1,0 +1,390 @@
+{
+  "schema": "ch8-network-caller-dag-v1",
+  "source": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+  "rows": [
+    {
+      "n": 0,
+      "T": "u8",
+      "F": "KeyLess<u8>",
+      "allocation": "one fully initialized [u8;34]",
+      "base": 1,
+      "active_range": [
+        1,
+        1
+      ],
+      "logical_values": "all34 independent full bytes 0..255; no order assumptions",
+      "mode": "proposed Original; no stub_verified",
+      "source_path": "early return at len<2",
+      "insert_calls": [],
+      "private_scratch": "not constructed for n<2; MaybeUninit<[u8;32]> constructed but never read/written for n2..4",
+      "absent_actual_calls": [
+        "swap_if_less",
+        "sort4_stable",
+        "sort9_optimal",
+        "sort13_optimal",
+        "sort8_stable",
+        "bidirectional_merge"
+      ],
+      "return_frame": "all34 outside active unchanged and arbitrary outside canary",
+      "unwind": 36,
+      "loop_bounds": {
+        "network_region_iterations": 0,
+        "insertion_tail_iterations": 0,
+        "insert_tail_max_shift": 0,
+        "frame_iterations": 34,
+        "snapshot_and_count_each_at_most": 0
+      },
+      "native_exhaustion": "OPEN; require emitted unwind/validity/UB checks and SUCCESS, source bound alone insufficient"
+    },
+    {
+      "n": 1,
+      "T": "u8",
+      "F": "KeyLess<u8>",
+      "allocation": "one fully initialized [u8;34]",
+      "base": 1,
+      "active_range": [
+        1,
+        2
+      ],
+      "logical_values": "all34 independent full bytes 0..255; no order assumptions",
+      "mode": "proposed Original; no stub_verified",
+      "source_path": "early return at len<2",
+      "insert_calls": [],
+      "private_scratch": "not constructed for n<2; MaybeUninit<[u8;32]> constructed but never read/written for n2..4",
+      "absent_actual_calls": [
+        "swap_if_less",
+        "sort4_stable",
+        "sort9_optimal",
+        "sort13_optimal",
+        "sort8_stable",
+        "bidirectional_merge"
+      ],
+      "return_frame": "all34 outside active unchanged and arbitrary outside canary",
+      "unwind": 36,
+      "loop_bounds": {
+        "network_region_iterations": 0,
+        "insertion_tail_iterations": 0,
+        "insert_tail_max_shift": 0,
+        "frame_iterations": 34,
+        "snapshot_and_count_each_at_most": 1
+      },
+      "native_exhaustion": "OPEN; require emitted unwind/validity/UB checks and SUCCESS, source bound alone insufficient"
+    },
+    {
+      "n": 2,
+      "T": "u8",
+      "F": "KeyLess<u8>",
+      "allocation": "one fully initialized [u8;34]",
+      "base": 1,
+      "active_range": [
+        1,
+        3
+      ],
+      "logical_values": "all34 independent full bytes 0..255; no order assumptions",
+      "mode": "proposed Original; no stub_verified",
+      "source_path": "no_merge=true; region.len=n<9; presorted_len=1; insertion_sort_shift_left(region,1); return",
+      "insert_calls": [
+        {
+          "prefix": 1,
+          "begin_absolute": 1,
+          "tail_relative": 1,
+          "tail_absolute": 2,
+          "span": [
+            1,
+            3
+          ],
+          "requires": "same allocation, readable/writable initialized prefix+tail, prefix ordered; exact source/tool/cfg and u8/KeyLess",
+          "frame": "outside [1,p+2) unchanged, including untouched later active suffix",
+          "post": "ordered prefix+tail and equal full byte counts; initializedness and native obligations separate",
+          "binding": "OPEN: static call geometry is known; emitted target/contract/provider/caller implication not established"
+        }
+      ],
+      "private_scratch": "not constructed for n<2; MaybeUninit<[u8;32]> constructed but never read/written for n2..4",
+      "absent_actual_calls": [
+        "swap_if_less",
+        "sort4_stable",
+        "sort9_optimal",
+        "sort13_optimal",
+        "sort8_stable",
+        "bidirectional_merge"
+      ],
+      "return_frame": "all34 outside active unchanged and arbitrary outside canary",
+      "unwind": 36,
+      "loop_bounds": {
+        "network_region_iterations": 1,
+        "insertion_tail_iterations": 1,
+        "insert_tail_max_shift": 1,
+        "frame_iterations": 34,
+        "snapshot_and_count_each_at_most": 2
+      },
+      "native_exhaustion": "OPEN; require emitted unwind/validity/UB checks and SUCCESS, source bound alone insufficient"
+    },
+    {
+      "n": 3,
+      "T": "u8",
+      "F": "KeyLess<u8>",
+      "allocation": "one fully initialized [u8;34]",
+      "base": 1,
+      "active_range": [
+        1,
+        4
+      ],
+      "logical_values": "all34 independent full bytes 0..255; no order assumptions",
+      "mode": "proposed Original; no stub_verified",
+      "source_path": "no_merge=true; region.len=n<9; presorted_len=1; insertion_sort_shift_left(region,1); return",
+      "insert_calls": [
+        {
+          "prefix": 1,
+          "begin_absolute": 1,
+          "tail_relative": 1,
+          "tail_absolute": 2,
+          "span": [
+            1,
+            3
+          ],
+          "requires": "same allocation, readable/writable initialized prefix+tail, prefix ordered; exact source/tool/cfg and u8/KeyLess",
+          "frame": "outside [1,p+2) unchanged, including untouched later active suffix",
+          "post": "ordered prefix+tail and equal full byte counts; initializedness and native obligations separate",
+          "binding": "OPEN: static call geometry is known; emitted target/contract/provider/caller implication not established"
+        },
+        {
+          "prefix": 2,
+          "begin_absolute": 1,
+          "tail_relative": 2,
+          "tail_absolute": 3,
+          "span": [
+            1,
+            4
+          ],
+          "requires": "same allocation, readable/writable initialized prefix+tail, prefix ordered; exact source/tool/cfg and u8/KeyLess",
+          "frame": "outside [1,p+2) unchanged, including untouched later active suffix",
+          "post": "ordered prefix+tail and equal full byte counts; initializedness and native obligations separate",
+          "binding": "OPEN: static call geometry is known; emitted target/contract/provider/caller implication not established"
+        }
+      ],
+      "private_scratch": "not constructed for n<2; MaybeUninit<[u8;32]> constructed but never read/written for n2..4",
+      "absent_actual_calls": [
+        "swap_if_less",
+        "sort4_stable",
+        "sort9_optimal",
+        "sort13_optimal",
+        "sort8_stable",
+        "bidirectional_merge"
+      ],
+      "return_frame": "all34 outside active unchanged and arbitrary outside canary",
+      "unwind": 36,
+      "loop_bounds": {
+        "network_region_iterations": 1,
+        "insertion_tail_iterations": 2,
+        "insert_tail_max_shift": 2,
+        "frame_iterations": 34,
+        "snapshot_and_count_each_at_most": 3
+      },
+      "native_exhaustion": "OPEN; require emitted unwind/validity/UB checks and SUCCESS, source bound alone insufficient"
+    },
+    {
+      "n": 4,
+      "T": "u8",
+      "F": "KeyLess<u8>",
+      "allocation": "one fully initialized [u8;34]",
+      "base": 1,
+      "active_range": [
+        1,
+        5
+      ],
+      "logical_values": "all34 independent full bytes 0..255; no order assumptions",
+      "mode": "proposed Original; no stub_verified",
+      "source_path": "no_merge=true; region.len=n<9; presorted_len=1; insertion_sort_shift_left(region,1); return",
+      "insert_calls": [
+        {
+          "prefix": 1,
+          "begin_absolute": 1,
+          "tail_relative": 1,
+          "tail_absolute": 2,
+          "span": [
+            1,
+            3
+          ],
+          "requires": "same allocation, readable/writable initialized prefix+tail, prefix ordered; exact source/tool/cfg and u8/KeyLess",
+          "frame": "outside [1,p+2) unchanged, including untouched later active suffix",
+          "post": "ordered prefix+tail and equal full byte counts; initializedness and native obligations separate",
+          "binding": "OPEN: static call geometry is known; emitted target/contract/provider/caller implication not established"
+        },
+        {
+          "prefix": 2,
+          "begin_absolute": 1,
+          "tail_relative": 2,
+          "tail_absolute": 3,
+          "span": [
+            1,
+            4
+          ],
+          "requires": "same allocation, readable/writable initialized prefix+tail, prefix ordered; exact source/tool/cfg and u8/KeyLess",
+          "frame": "outside [1,p+2) unchanged, including untouched later active suffix",
+          "post": "ordered prefix+tail and equal full byte counts; initializedness and native obligations separate",
+          "binding": "OPEN: static call geometry is known; emitted target/contract/provider/caller implication not established"
+        },
+        {
+          "prefix": 3,
+          "begin_absolute": 1,
+          "tail_relative": 3,
+          "tail_absolute": 4,
+          "span": [
+            1,
+            5
+          ],
+          "requires": "same allocation, readable/writable initialized prefix+tail, prefix ordered; exact source/tool/cfg and u8/KeyLess",
+          "frame": "outside [1,p+2) unchanged, including untouched later active suffix",
+          "post": "ordered prefix+tail and equal full byte counts; initializedness and native obligations separate",
+          "binding": "OPEN: static call geometry is known; emitted target/contract/provider/caller implication not established"
+        }
+      ],
+      "private_scratch": "not constructed for n<2; MaybeUninit<[u8;32]> constructed but never read/written for n2..4",
+      "absent_actual_calls": [
+        "swap_if_less",
+        "sort4_stable",
+        "sort9_optimal",
+        "sort13_optimal",
+        "sort8_stable",
+        "bidirectional_merge"
+      ],
+      "return_frame": "all34 outside active unchanged and arbitrary outside canary",
+      "unwind": 36,
+      "loop_bounds": {
+        "network_region_iterations": 1,
+        "insertion_tail_iterations": 3,
+        "insert_tail_max_shift": 3,
+        "frame_iterations": 34,
+        "snapshot_and_count_each_at_most": 4
+      },
+      "native_exhaustion": "OPEN; require emitted unwind/validity/UB checks and SUCCESS, source bound alone insufficient"
+    }
+  ],
+  "summary_edges": [
+    {
+      "id": "INSERT_PREFIX_1",
+      "callee": "insert_tail<u8,KeyLess<u8>>",
+      "consumers": [
+        "network n=2",
+        "network n=3",
+        "network n=4"
+      ],
+      "domain": "full-u8; sorted prefix1 plus arbitrary tail, V34/base1, all34 initialized",
+      "offset": {
+        "begin": 1,
+        "tail_relative": 1,
+        "tail_absolute": 2
+      },
+      "frame": "modifies active prefix+tail only; all later active and outside bytes retained",
+      "mode": "future PFC provider plus checked caller proof only if separately implemented",
+      "provider": "sorting_bridge1::i_p01_b01_fullu8 bounded SOURCE_REPORTED exact fixture",
+      "existing_provider_report": "97eaff96cd28267e36af69fe98077dd08737eea6",
+      "current_frozen_source_provider_proof": "OPEN",
+      "caller_binding": "OPEN",
+      "summary_edge_status": "OPEN",
+      "use_in_recommended_campaign": "NONE; execute actual callee body",
+      "future_required_checks": [
+        "actual callee/contract/source/tool/cfg identity",
+        "concrete T/F/model ACTIVE, no callback side effects",
+        "same V34 geometry, relative tail, initialized span, provenance and exact frame",
+        "PFC target proof covers every consumer state; sorted-prefix premise proved from prior iteration, never assumed",
+        "native provider and caller inventories/roles/SAT/U/guards/unwind/status pass; independent review and admission",
+        "full count composition from snapshots and outside-frame retention; no uniform arbitrary-allocation lifting"
+      ]
+    },
+    {
+      "id": "INSERT_PREFIX_2",
+      "callee": "insert_tail<u8,KeyLess<u8>>",
+      "consumers": [
+        "network n=3",
+        "network n=4"
+      ],
+      "domain": "full-u8; sorted prefix2 plus arbitrary tail, V34/base1, all34 initialized",
+      "offset": {
+        "begin": 1,
+        "tail_relative": 2,
+        "tail_absolute": 3
+      },
+      "frame": "modifies active prefix+tail only; all later active and outside bytes retained",
+      "mode": "future PFC provider plus checked caller proof only if separately implemented",
+      "provider": "NONE for this plan; old aggregate insert timeout is not a provider",
+      "existing_provider_report": null,
+      "current_frozen_source_provider_proof": "OPEN",
+      "caller_binding": "OPEN",
+      "summary_edge_status": "OPEN",
+      "use_in_recommended_campaign": "NONE; execute actual callee body",
+      "future_required_checks": [
+        "actual callee/contract/source/tool/cfg identity",
+        "concrete T/F/model ACTIVE, no callback side effects",
+        "same V34 geometry, relative tail, initialized span, provenance and exact frame",
+        "PFC target proof covers every consumer state; sorted-prefix premise proved from prior iteration, never assumed",
+        "native provider and caller inventories/roles/SAT/U/guards/unwind/status pass; independent review and admission",
+        "full count composition from snapshots and outside-frame retention; no uniform arbitrary-allocation lifting"
+      ]
+    },
+    {
+      "id": "INSERT_PREFIX_3",
+      "callee": "insert_tail<u8,KeyLess<u8>>",
+      "consumers": [
+        "network n=4"
+      ],
+      "domain": "full-u8; sorted prefix3 plus arbitrary tail, V34/base1, all34 initialized",
+      "offset": {
+        "begin": 1,
+        "tail_relative": 3,
+        "tail_absolute": 4
+      },
+      "frame": "modifies active prefix+tail only; all later active and outside bytes retained",
+      "mode": "future PFC provider plus checked caller proof only if separately implemented",
+      "provider": "NONE for this plan; old aggregate insert timeout is not a provider",
+      "existing_provider_report": null,
+      "current_frozen_source_provider_proof": "OPEN",
+      "caller_binding": "OPEN",
+      "summary_edge_status": "OPEN",
+      "use_in_recommended_campaign": "NONE; execute actual callee body",
+      "future_required_checks": [
+        "actual callee/contract/source/tool/cfg identity",
+        "concrete T/F/model ACTIVE, no callback side effects",
+        "same V34 geometry, relative tail, initialized span, provenance and exact frame",
+        "PFC target proof covers every consumer state; sorted-prefix premise proved from prior iteration, never assumed",
+        "native provider and caller inventories/roles/SAT/U/guards/unwind/status pass; independent review and admission",
+        "full count composition from snapshots and outside-frame retention; no uniform arbitrary-allocation lifting"
+      ]
+    }
+  ],
+  "proposed_summary_edges_enabled": [],
+  "induction": {
+    "base": "prefix1 trivially ordered for n>=2",
+    "step": "ordered p + arbitrary tail -> actual insert_tail -> ordered p+1 and equal full counts; frame retains suffix/outside",
+    "termination": "p=n; compose full counts to entry snapshot and all outside frame",
+    "status": "SOURCE_OBLIGATIONS_ONLY; no compiled/provider/caller proof"
+  },
+  "dispatch": {
+    "source": "u8 is Freeze+Copy, size1<=8, 1*32<=4096; source selects network in specialized unstable route",
+    "status": "OPEN actual trait-instantiation/caller binding; selected roots call helper directly",
+    "excluded": "Cell fallback, stable general and generic T/F are distinct proofs"
+  },
+  "comparison_edges": [
+    {
+      "edge": "swap -> sort9 -> network",
+      "status": "NOT_REACHED_N_LE_4",
+      "reason": "sort9 threshold9; swap is not called by insertion; substituting it would prove a changed algorithm"
+    },
+    {
+      "edge": "sort4 -> sort8/general -> network N4",
+      "status": "NO_SUCH_SOURCE_EDGE",
+      "reason": "sort4 is out-of-place into disjoint dst; small_sort_network n4 does insertion; cannot rename stable sort4 as network4"
+    },
+    {
+      "edge": "merge8 -> network",
+      "status": "NOT_REACHED_N_LE_4",
+      "reason": "no_merge returns before scratch/merge; old allinit or partial fixtures cannot be imported"
+    }
+  ],
+  "nonproviders": [
+    "bounded swap/sort4/merge8 PFC reports are not universal contracts or implicit stub_verified summaries",
+    "Original sort9 SOURCE_REPORTED has no semantic PFC provider",
+    "partial merge DIAG_INIT_OPEN is never a provider",
+    "Cell fallback two SUCCESS cases and NOT_APPLIED metadata proposal give no u8-network or generic dispatch credit"
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "schema": "ch8-network-plan-resource-v1",
+  "status": "PROPOSALS_ONLY_NOT_APPLIED_NO_RESERVATION",
+  "actual": [
+    {
+      "id": "s4p_network_b01_n00_02_fullbyte",
+      "wholechild_seconds": 601.428,
+      "compile_elapsed_upper_bound_seconds": 48.195,
+      "sampled_rss_peak_kib": 3515064,
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "CHILD600_WALL_INCLUDING_COMPILE",
+      "cutoff_phase": "AFTER_INITIAL_EXPORT_AND_NATIVE_START; exact subphase UNKNOWN",
+      "native_verification_time_s": "UNKNOWN_CENSORED",
+      "censoring": "UNFINISHED_NATIVE_RESULT_UNKNOWN",
+      "signal": 15,
+      "child_shutdown_verified": true,
+      "arithmetic_600_minus_compile_marker": 551.805
+    },
+    {
+      "id": "s4p_network_b01_n03_04_fullbyte",
+      "wholechild_seconds": 601.401,
+      "compile_elapsed_upper_bound_seconds": 45.976,
+      "sampled_rss_peak_kib": 3516320,
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "CHILD600_WALL_INCLUDING_COMPILE",
+      "cutoff_phase": "AFTER_INITIAL_EXPORT_AND_NATIVE_START; exact subphase UNKNOWN",
+      "native_verification_time_s": "UNKNOWN_CENSORED",
+      "censoring": "UNFINISHED_NATIVE_RESULT_UNKNOWN",
+      "signal": 15,
+      "child_shutdown_verified": true,
+      "arithmetic_600_minus_compile_marker": 554.024
+    }
+  ],
+  "measurement_limits": [
+    "50ms nominal non-atomic sampled owned PGID VmRSS, not kernel/cgroup/strict tree peak; peaks about3.3522/3.3534GiB",
+    "no observed RSS/compile180/outer/slot/global cutoff; wholechild600 killed after initial export/native start",
+    "exact symex/backend/subphase, VCCs, uncensored runtime/peak, signal timestamp UNKNOWN",
+    "600 minus observed compile marker is arithmetic, not measured verification time or remaining proof budget guarantee",
+    "no inference that more memory cures wall timeout or runtime scales with lengths, bytes or root count"
+  ],
+  "defaults": {
+    "child_seconds": 600,
+    "compile_seconds_inside_child": 180,
+    "slot_seconds": 720,
+    "local_sampled_owned_pgid_gib": 6,
+    "outer_owned_gib": 12,
+    "reserve_available_gib": 2,
+    "Ceff": "min(6,12,A-2) GiB",
+    "campaign_seconds": 6900,
+    "setup_seconds": 1800,
+    "job_minutes": 180,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "unchanged": true
+  },
+  "scenarios": [
+    {
+      "name": "Recommended four positive partitions + four existing negative controls",
+      "positive_roots": 4,
+      "negative_roots": 4,
+      "serial_slots": 8,
+      "slot_envelope_seconds": 5760,
+      "controller_plus_cleanup_envelope_seconds": 420,
+      "campaign_arithmetic_envelope_seconds": 6180,
+      "remaining_campaign_arithmetic_seconds": 720,
+      "qualification": "screening arithmetic only; exact frozen runtime nesting/setup/outer/phase/job/deadline/reserve eligibility must be checked on separately reviewed package by root/coordinator; no guaranteed fit or reservation"
+    },
+    {
+      "name": "Five exact lengths + four negative controls",
+      "serial_slots": 9,
+      "slot_envelope_seconds": 6480,
+      "controller_plus_cleanup_envelope_seconds": 420,
+      "campaign_arithmetic_envelope_seconds": 6900,
+      "remaining_campaign_arithmetic_seconds": 0,
+      "qualification": "no spare campaign margin in this conservative screening; do not dispatch without a justified measured exact envelope/reserve; not preferred"
+    },
+    {
+      "name": "Illustrative per-root finish scenario",
+      "assumed_wholechild_positive_seconds": [
+        120,
+        300,
+        600
+      ],
+      "four_positive_totals_seconds": [
+        480,
+        1200,
+        2400
+      ],
+      "qualification": "hypothetical totals only; controls/setup/cleanup extra; 600 may be censored with overshoot, never counted as completed proof; no probability or speedup claim"
+    },
+    {
+      "name": "Compile-only overhead comparison",
+      "marker_range_seconds": [
+        45.976,
+        48.195
+      ],
+      "four_roots_arithmetic_seconds": [
+        183.904,
+        192.78
+      ],
+      "five_roots_arithmetic_seconds": [
+        229.88,
+        240.975
+      ],
+      "qualification": "reuse of observed old markers only illustrates repeated project setup cost, not forecast/exclusive compile CPU or future upper bounds"
+    }
+  ],
+  "future_resource_option": {
+    "selected": false,
+    "reason": "Only consider after exact full-u8 split results show recurring wall censoring and independent review identifies actual phase; no repeat of old heavy selectors by default",
+    "illustration": "one selected nontrivial exact root child900/compile180 and slot1020, with local6/outer12/reserve2 unchanged",
+    "changes_requiring_separate_decision": [
+      "child600->900 and slot720->1020 plus all nested wrapper/workflow/deadline consistency",
+      "exact package independent review and required runner success/error/timeout/partial schema tests + existing preflight",
+      "root/coordinator GO and ledger; owner budget remains TRACKING_ONLY"
+    ],
+    "envelope_note": "For one positive+4 unchanged control slots:1020+4*720+420=4320s screening, not an executable request; all other controls/phase/setup envelope must still be demonstrated",
+    "memory_option": "No proposed memory increase: measured cap not reached and uncensored peak UNKNOWN"
+  },
+  "budget": "TRACKING_ONLY; no ledger/accounting edit, reservation or execution"
+}

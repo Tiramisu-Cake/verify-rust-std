@@ -1,0 +1,351 @@
+{
+  "schema": "ch8-network-plan-static-validation-v1",
+  "status": "PASS",
+  "checks": 68,
+  "results": [
+    {
+      "check": "JSON_PARSE",
+      "status": "PASS",
+      "detail": "Six plan JSON documents parse; static validation only"
+    },
+    {
+      "check": "DEPENDENCY:research/challenge-8/kani-k1/TASK-CH8-S4-NETWORK-AFTER-S4P1-PLAN-W13.md",
+      "status": "PASS",
+      "detail": "Exact committed dependency bytes/hash MATCH"
+    },
+    {
+      "check": "DEPENDENCY:research/challenge-8/kani-k1/kani3300/ch8-s4/s4p1-intake-review-network-plan-inputs/INPUTS.json",
+      "status": "PASS",
+      "detail": "Exact committed dependency bytes/hash MATCH"
+    },
+    {
+      "check": "DEPENDENCY:research/challenge-8/kani-k1/kani3300/ch8-s4/s4p1-intake-review-network-plan-inputs/ROOT-DECISION.md",
+      "status": "PASS",
+      "detail": "Exact committed dependency bytes/hash MATCH"
+    },
+    {
+      "check": "DEPENDENCY:research/challenge-8/kani-k1/kani3300/ch8-s4/run-44481580554/HANDOFF.md",
+      "status": "PASS",
+      "detail": "Exact committed dependency bytes/hash MATCH"
+    },
+    {
+      "check": "DEPENDENCY:research/challenge-8/kani-k1/kani3300/ch8-s4/run-44481580554/COST.json",
+      "status": "PASS",
+      "detail": "Exact committed dependency bytes/hash MATCH"
+    },
+    {
+      "check": "DEPENDENCY:research/challenge-8/kani-k1/kani3300/ch8-s4/run-44481580554/MANIFEST.json",
+      "status": "PASS",
+      "detail": "Exact committed dependency bytes/hash MATCH"
+    },
+    {
+      "check": "DEPENDENCY:research/challenge-8/kani-k1/kani3300/ch8-s4/s4p-1-r1/CI-REQUEST.json",
+      "status": "PASS",
+      "detail": "Exact committed dependency bytes/hash MATCH"
+    },
+    {
+      "check": "DEPENDENCY:research/challenge-8/kani-k1/kani3300/ch8-s3-s4/s4-next-after-bridge-plan/LEAF-APPLICABILITY.json",
+      "status": "PASS",
+      "detail": "Exact committed dependency bytes/hash MATCH"
+    },
+    {
+      "check": "PIN:source",
+      "status": "PASS",
+      "detail": "Frozen full SHA/tree/sole parent MATCH in recorded object repository"
+    },
+    {
+      "check": "PIN:tool",
+      "status": "PASS",
+      "detail": "Frozen full SHA/tree/sole parent MATCH in recorded object repository"
+    },
+    {
+      "check": "PIN:control",
+      "status": "PASS",
+      "detail": "Frozen full SHA/tree/sole parent MATCH in recorded object repository"
+    },
+    {
+      "check": "PIN:trigger",
+      "status": "PASS",
+      "detail": "Frozen full SHA/tree/sole parent MATCH in recorded object repository"
+    },
+    {
+      "check": "INTAKE_MEMBER:HANDOFF.md",
+      "status": "PASS",
+      "detail": "Only consumed HANDOFF/COST checked against supplied committed manifest; no duplicate packet replay/audit"
+    },
+    {
+      "check": "INTAKE_MEMBER:COST.json",
+      "status": "PASS",
+      "detail": "Only consumed HANDOFF/COST checked against supplied committed manifest; no duplicate packet replay/audit"
+    },
+    {
+      "check": "INTAKE_MANIFEST",
+      "status": "PASS",
+      "detail": "Exact supplied root manifest identity MATCH"
+    },
+    {
+      "check": "SOURCE:S01",
+      "status": "PASS",
+      "detail": "Pinned source file/blob identity MATCH; no compiler/MIR claim"
+    },
+    {
+      "check": "LINES:S01:78-118",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "LINES:S01:123-191",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "LINES:S01:193-218",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "LINES:S01:1040-1044",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "SOURCE:S02",
+      "status": "PASS",
+      "detail": "Pinned source file/blob identity MATCH; no compiler/MIR claim"
+    },
+    {
+      "check": "LINES:S02:332-392",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "SOURCE:S03",
+      "status": "PASS",
+      "detail": "Pinned source file/blob identity MATCH; no compiler/MIR claim"
+    },
+    {
+      "check": "LINES:S03:614-702",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "LINES:S03:704-737",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "LINES:S03:316-329",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "SOURCE:S04",
+      "status": "PASS",
+      "detail": "Pinned source file/blob identity MATCH; no compiler/MIR claim"
+    },
+    {
+      "check": "LINES:S04:394-491",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "LINES:S04:494-541",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "SOURCE:S05",
+      "status": "PASS",
+      "detail": "Pinned source file/blob identity MATCH; no compiler/MIR claim"
+    },
+    {
+      "check": "LINES:S05:739-809",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "LINES:S05:812-860",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "SOURCE:S06",
+      "status": "PASS",
+      "detail": "Pinned source file/blob identity MATCH; no compiler/MIR claim"
+    },
+    {
+      "check": "LINES:S06:8-19",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "LINES:S06:88-139",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "SOURCE:S07",
+      "status": "PASS",
+      "detail": "Pinned source file/blob identity MATCH; no compiler/MIR claim"
+    },
+    {
+      "check": "LINES:S07:9-9",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "LINES:S07:21-62",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "LINES:S07:64-121",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "LINES:S07:123-158",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "SOURCE:S08",
+      "status": "PASS",
+      "detail": "Pinned source file/blob identity MATCH; no compiler/MIR claim"
+    },
+    {
+      "check": "LINES:S08:1-53",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "SOURCE:S09",
+      "status": "PASS",
+      "detail": "Pinned source file/blob identity MATCH; no compiler/MIR claim"
+    },
+    {
+      "check": "LINES:S09:1-72",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "SOURCE:S10",
+      "status": "PASS",
+      "detail": "Pinned source file/blob identity MATCH; no compiler/MIR claim"
+    },
+    {
+      "check": "LINES:S10:21-64",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "LINES:S10:108-138",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "SOURCE:S11",
+      "status": "PASS",
+      "detail": "Pinned source file/blob identity MATCH; no compiler/MIR claim"
+    },
+    {
+      "check": "LINES:S11:1-102",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "LINES:S11:130-188",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "SOURCE:S12",
+      "status": "PASS",
+      "detail": "Pinned source file/blob identity MATCH; no compiler/MIR claim"
+    },
+    {
+      "check": "LINES:S12:22-58",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "LINES:S12:83-114",
+      "status": "PASS",
+      "detail": "Inclusive in-file coordinates/excerpt hash MATCH"
+    },
+    {
+      "check": "UNION",
+      "status": "PASS",
+      "detail": "Disjoint exact union N0..4; source/value-domain design only"
+    },
+    {
+      "check": "NO_SUMMARY",
+      "status": "PASS",
+      "detail": "All four recommended design IDs Original without summary edges"
+    },
+    {
+      "check": "CALLER:n0",
+      "status": "PASS",
+      "detail": "Exact static V34/base1 insert-tail geometry; native bindings OPEN"
+    },
+    {
+      "check": "CALLER:n1",
+      "status": "PASS",
+      "detail": "Exact static V34/base1 insert-tail geometry; native bindings OPEN"
+    },
+    {
+      "check": "CALLER:n2",
+      "status": "PASS",
+      "detail": "Exact static V34/base1 insert-tail geometry; native bindings OPEN"
+    },
+    {
+      "check": "CALLER:n3",
+      "status": "PASS",
+      "detail": "Exact static V34/base1 insert-tail geometry; native bindings OPEN"
+    },
+    {
+      "check": "CALLER:n4",
+      "status": "PASS",
+      "detail": "Exact static V34/base1 insert-tail geometry; native bindings OPEN"
+    },
+    {
+      "check": "EDGES_OPEN",
+      "status": "PASS",
+      "detail": "p1/p2/p3 provider/caller summary promotion disabled"
+    },
+    {
+      "check": "COST:s4p_network_b01_n00_02_fullbyte",
+      "status": "PASS",
+      "detail": "Consumed cost/censoring exact MATCH; no fit/subphase/uncensored peak inferred"
+    },
+    {
+      "check": "COST:s4p_network_b01_n03_04_fullbyte",
+      "status": "PASS",
+      "detail": "Consumed cost/censoring exact MATCH; no fit/subphase/uncensored peak inferred"
+    },
+    {
+      "check": "ENVELOPE_ARITHMETIC",
+      "status": "PASS",
+      "detail": "Conservative screening only; actual nesting/setup/deadline eligibility remains OPEN"
+    },
+    {
+      "check": "REVIEW_CONDITIONAL",
+      "status": "PASS",
+      "detail": "Root actual14 SHA/verdict/constraints not supplied; no unconditional recommendation"
+    },
+    {
+      "check": "PLANONLY_FILES",
+      "status": "PASS",
+      "detail": "Text/JSON only; no executable package/source/control/tests"
+    },
+    {
+      "check": "NO_TRACKED_EDITS",
+      "status": "PASS",
+      "detail": "This task created only its owned plan directory; concurrent untracked review files excluded"
+    }
+  ],
+  "preseal_validation_correction": "First identity attempt used g0 object database for tool0aac; object absent there. Rechecked in pinned /root/kani-upstream-ch8-s1; no acquisition or repository mutation.",
+  "scope": "Static JSON/hashes/identities/source coordinates/coverage/call geometry/cost arithmetic; no compiler/exporter/verifier/native/CI/replay/Validate/test execution",
+  "proof_credit": "NONE",
+  "review": "CONDITIONAL_PENDING_REVIEW"
+}

@@ -1,0 +1,270 @@
+{
+  "schema": "ch8-network-source-citations-v1",
+  "source": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+  "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "items": [
+    {
+      "id": "S01",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "git_blob": "700605e2afe2943da5aa5b5015db0e788c084730",
+      "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "ranges": [
+        {
+          "start": 78,
+          "end": 118,
+          "sha256": "a979e4ff2c73671aa038fff8a84003cc2293a51ed09f95e7aa390f0d4d98eda8"
+        },
+        {
+          "start": 123,
+          "end": 191,
+          "sha256": "f026add4115e2b135a8dd2b85fee446afaf10c95737a3b8729623ac4bd7e41e4"
+        },
+        {
+          "start": 193,
+          "end": 218,
+          "sha256": "17aed9176dcb3ee7d5e43485fee5ea3bc503fe42c23ce405254ef5441d070d6b"
+        },
+        {
+          "start": 1040,
+          "end": 1044,
+          "sha256": "abd69b0ee2238e05f0ef8e146fd3964c92595a09232e60ca5d0400e7d71915f1"
+        }
+      ],
+      "finding": "Unstable forwarding/Copy+Freeze dispatch predicates; threshold32 and u8 size heuristic. Direct helper roots do not prove trait dispatch.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY"
+    },
+    {
+      "id": "S02",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "git_blob": "700605e2afe2943da5aa5b5015db0e788c084730",
+      "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "ranges": [
+        {
+          "start": 332,
+          "end": 392,
+          "sha256": "1bb5b8c10545f832fe175ed8a434e42cac123a620ef1dbabc8a147fcc9492cd2"
+        }
+      ],
+      "finding": "Actual small_sort_network; N0/1 return, N2..4 no_merge insertion offset1; no network seeding or final merge.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY"
+    },
+    {
+      "id": "S03",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "git_blob": "700605e2afe2943da5aa5b5015db0e788c084730",
+      "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "ranges": [
+        {
+          "start": 614,
+          "end": 702,
+          "sha256": "1abc6553a589a96669cfd261ba9117ec64122022ec33c5c5376516c17188f30c"
+        },
+        {
+          "start": 704,
+          "end": 737,
+          "sha256": "952b904814c53528ca1d98a5b3d89a337c2084ccb3f99bf713e62d29c336a225"
+        },
+        {
+          "start": 316,
+          "end": 329,
+          "sha256": "d4e9032905c60b25ae438ad3b786f95abc3ee2205063566445ccaa760c4de328"
+        }
+      ],
+      "finding": "Actual insert_tail contracts/body, insertion pointer loop and CopyOnDrop restoration. Normal-return full-count post is distinct from panic/ownership proof.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY"
+    },
+    {
+      "id": "S04",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "git_blob": "700605e2afe2943da5aa5b5015db0e788c084730",
+      "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "ranges": [
+        {
+          "start": 394,
+          "end": 491,
+          "sha256": "20acbc5486bfbb16c25c1c9bb45092e3a06eec98ef1cf99b8d80bba165c22fe5"
+        },
+        {
+          "start": 494,
+          "end": 541,
+          "sha256": "799af06043de01bc78db6572bbea2267a01d80db76419a9d30512526bee7e406"
+        }
+      ],
+      "finding": "swap_if_less exact pair contract/body; called by sort9, not network N<=4.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY"
+    },
+    {
+      "id": "S05",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "git_blob": "700605e2afe2943da5aa5b5015db0e788c084730",
+      "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "ranges": [
+        {
+          "start": 739,
+          "end": 809,
+          "sha256": "7c94ae3c0a3990db1790b5fb890f081049aae7927d4084997c591ee9c124b698"
+        },
+        {
+          "start": 812,
+          "end": 860,
+          "sha256": "95da32f3e4f9e23b7972d620a5f971afeca5e4538a90ba35099222a26a4cfe0b"
+        }
+      ],
+      "finding": "sort4_stable separate source/destination contract and body; used by sort8/general, not the selected network path.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY"
+    },
+    {
+      "id": "S06",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+      "git_blob": "edea5aac77dbe168d0a7e7152c954af636656c1a",
+      "file_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+      "ranges": [
+        {
+          "start": 8,
+          "end": 19,
+          "sha256": "4d30bf895e35d964b68bff3db4073ac4cb01b5ed5b5ee2c820dde8eee313d70a"
+        },
+        {
+          "start": 88,
+          "end": 139,
+          "sha256": "980d50125e1bbd72fc44e224b7b4966d150da141bdf6c36d49c42650106276be"
+        }
+      ],
+      "finding": "Original two selected symbolic full-byte network roots, unwind36, V34/base1, all outside frame/canary and covers.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY"
+    },
+    {
+      "id": "S07",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "git_blob": "0d0a9f1441e77acc793175a16270dd8ff9fac43d",
+      "file_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "ranges": [
+        {
+          "start": 9,
+          "end": 9,
+          "sha256": "f90a037a982d5f8b7194d4e4828b282445903cd36a6810e228dd70f34537c9ef"
+        },
+        {
+          "start": 21,
+          "end": 62,
+          "sha256": "d728aec40947c7f0fcbf4a5d6f5075245350bdac8eda3b911cfcda87c8cdc163"
+        },
+        {
+          "start": 64,
+          "end": 121,
+          "sha256": "36884752adb371aa48e8335712a5238650f6e140b5f856075bc87fdceaaead59"
+        },
+        {
+          "start": 123,
+          "end": 158,
+          "sha256": "d861b223dfbe412923c2c14378613afa507a541d79967a8ad895e44495eab613"
+        }
+      ],
+      "finding": "Stateless exact comparator, owned snapshot, sortedness and full value counts; active concrete models.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY"
+    },
+    {
+      "id": "S08",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+      "git_blob": "100c4d46a82cf90ee840a4f1028010a2318754e6",
+      "file_sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "ranges": [
+        {
+          "start": 1,
+          "end": 53,
+          "sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6"
+        }
+      ],
+      "finding": "Active only u8/KeyLess; capture reads initialized spans; default inactive. Module label does not qualify any summary.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY"
+    },
+    {
+      "id": "S09",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs",
+      "git_blob": "d59ebef20bc0b94900f766f0e1211aa57b09f5ae",
+      "file_sha256": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "ranges": [
+        {
+          "start": 1,
+          "end": 72,
+          "sha256": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61"
+        }
+      ],
+      "finding": "Concrete pair transfer predicate; no universal target proof.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY"
+    },
+    {
+      "id": "S10",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+      "git_blob": "a90f927b5fc5a12cf4128eb10ad1a73c3fc29a20",
+      "file_sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+      "ranges": [
+        {
+          "start": 21,
+          "end": 64,
+          "sha256": "a805e42dd4285ee41efd1129add9869acdbecb56d025a63feca9105f315d7e56"
+        },
+        {
+          "start": 108,
+          "end": 138,
+          "sha256": "a2ca38407e7cb3b12dc1c5086715fcc78baf77f3b4f4b0f4daea7162e4cea5be"
+        }
+      ],
+      "finding": "Existing prefix1 PFC fixture and Original exact sort9; bounded reports cannot become general summaries.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY"
+    },
+    {
+      "id": "S11",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+      "git_blob": "a40da8b91c917891a39f944799e16dba3c3b8383",
+      "file_sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+      "ranges": [
+        {
+          "start": 1,
+          "end": 102,
+          "sha256": "8210ca2eaa9b16f23e6e22dc404f61b380e84e73f38a2e2fd0b941dfa949992c"
+        },
+        {
+          "start": 130,
+          "end": 188,
+          "sha256": "0750f66a1b83bec1c737acc28ce1a95b09ae00d58114b5fb1646cce7561c1075"
+        }
+      ],
+      "finding": "Bounded swap/sort4/merge8 fixtures and geometry; inspect provider compatibility before reuse.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY"
+    },
+    {
+      "id": "S12",
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "git_blob": "26cdfde598249cc649708f1a96f67025baa2bb6d",
+      "file_sha256": "e21c033b817945a51d3c172d600b616cde6518d650b16642ab489a87dbe926cf",
+      "ranges": [
+        {
+          "start": 22,
+          "end": 58,
+          "sha256": "d8f5fe6d49c3bd011431e5b9e4d623a65a1d023dbbfe474c365d547dc8cd7574"
+        },
+        {
+          "start": 83,
+          "end": 114,
+          "sha256": "562ba14e18e4286d1d31645d08d9d72b91f8146650b8724973b17acab1d317c6"
+        }
+      ],
+      "finding": "Verification domain restrictions and cfg registration; registration is not compiler/MIR or caller evidence.",
+      "assurance": "STATIC_PINNED_SOURCE_ONLY"
+    }
+  ],
+  "limits": "Line/file identities bind source text only; actual emitted roots, target, AST/MIR, native provider/caller and causal bindings remain OPEN. No compilation/export performed."
+}
