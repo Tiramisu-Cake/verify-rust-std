@@ -1,0 +1,630 @@
+{
+  "campaign_elapsed_seconds": 1454.1355149669998,
+  "caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "rows": [
+    {
+      "id": "checker_order_corrupt",
+      "compile_elapsed_upper_bound_seconds": 34.621,
+      "compile_scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+      "compile_boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+      "compile_state": "COMPLETE",
+      "native_verification_time_s": 0.047798802,
+      "native_wall_time_s": 0.140564194,
+      "execution": {
+        "elapsed_seconds": 34.801,
+        "original_exit_code": 1,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 1926164,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 15788,
+          "compiler": 1884068,
+          "driver": 7132,
+          "other": 182012
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous"
+      },
+      "worker_supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 35.13241886200001,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 1949756,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": []
+      },
+      "containment": {
+        "verified": true,
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "elapsed_seconds": 0.010993116999998165,
+        "signals": [],
+        "reaped_adopted": [],
+        "worker_exit": 0
+      },
+      "censoring": "NONE_NATIVE_COMPLETED",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "RSS_at_kill_and_phase": "UNKNOWN_NO_TRIGGER_SAMPLE_OR_PHASE_TELEMETRY; recorded PGID and component maxima are separate samples",
+      "verification_budget_after_compile_upper_bound_seconds": 565.379,
+      "not_backend_duration": true,
+      "next_root": "checker_count_corrupt"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "compile_elapsed_upper_bound_seconds": 35.267,
+      "compile_scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+      "compile_boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+      "compile_state": "COMPLETE",
+      "native_verification_time_s": 0.366425888,
+      "native_wall_time_s": 0.450561391,
+      "execution": {
+        "elapsed_seconds": 35.763,
+        "original_exit_code": 1,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 1946768,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 33592,
+          "compiler": 1908644,
+          "driver": 21676,
+          "other": 228024
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous"
+      },
+      "worker_supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 36.077790478,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 1973364,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": []
+      },
+      "containment": {
+        "verified": true,
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "elapsed_seconds": 0.011503668999921501,
+        "signals": [],
+        "reaped_adopted": [],
+        "worker_exit": 0
+      },
+      "censoring": "NONE_NATIVE_COMPLETED",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "RSS_at_kill_and_phase": "UNKNOWN_NO_TRIGGER_SAMPLE_OR_PHASE_TELEMETRY; recorded PGID and component maxima are separate samples",
+      "verification_budget_after_compile_upper_bound_seconds": 564.733,
+      "not_backend_duration": true,
+      "next_root": "s3_swap_u8_geometry"
+    },
+    {
+      "id": "s3_swap_u8_geometry",
+      "compile_elapsed_upper_bound_seconds": 34.816,
+      "compile_scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+      "compile_boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+      "compile_state": "COMPLETE",
+      "native_verification_time_s": 27.29707652,
+      "native_wall_time_s": 28.175406683,
+      "execution": {
+        "elapsed_seconds": 62.995,
+        "original_exit_code": 0,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 1932796,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 322640,
+          "compiler": 1894064,
+          "driver": 534396,
+          "other": 175008
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous"
+      },
+      "worker_supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 63.340230580000025,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 1956412,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": []
+      },
+      "containment": {
+        "verified": true,
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "elapsed_seconds": 0.011339421000002403,
+        "signals": [],
+        "reaped_adopted": [],
+        "worker_exit": 0
+      },
+      "censoring": "NONE_NATIVE_COMPLETED",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "RSS_at_kill_and_phase": "UNKNOWN_NO_TRIGGER_SAMPLE_OR_PHASE_TELEMETRY; recorded PGID and component maxima are separate samples",
+      "verification_budget_after_compile_upper_bound_seconds": 565.184,
+      "not_backend_duration": true,
+      "next_root": "s3_sort4_u8_separate"
+    },
+    {
+      "id": "s3_sort4_u8_separate",
+      "compile_elapsed_upper_bound_seconds": 36.017,
+      "compile_scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+      "compile_boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+      "compile_state": "COMPLETE",
+      "native_verification_time_s": 78.983176885,
+      "native_wall_time_s": 84.698818497,
+      "execution": {
+        "elapsed_seconds": 120.782,
+        "original_exit_code": 0,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 2566336,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 781548,
+          "compiler": 2530084,
+          "driver": 463276,
+          "other": 162740
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous"
+      },
+      "worker_supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 121.111001568,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 2536352,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": []
+      },
+      "containment": {
+        "verified": true,
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "elapsed_seconds": 0.01157274399997732,
+        "signals": [],
+        "reaped_adopted": [],
+        "worker_exit": 0
+      },
+      "censoring": "NONE_NATIVE_COMPLETED",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "RSS_at_kill_and_phase": "UNKNOWN_NO_TRIGGER_SAMPLE_OR_PHASE_TELEMETRY; recorded PGID and component maxima are separate samples",
+      "verification_budget_after_compile_upper_bound_seconds": 563.983,
+      "not_backend_duration": true,
+      "next_root": "s3_sort4_u8_same_alloc"
+    },
+    {
+      "id": "s3_sort4_u8_same_alloc",
+      "compile_elapsed_upper_bound_seconds": 36.942,
+      "compile_scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+      "compile_boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+      "compile_state": "COMPLETE",
+      "native_verification_time_s": 212.237510446,
+      "native_wall_time_s": 217.731076132,
+      "execution": {
+        "elapsed_seconds": 254.769,
+        "original_exit_code": 0,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 2297976,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 1167636,
+          "compiler": 2126768,
+          "driver": 2298388,
+          "other": 132220
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous"
+      },
+      "worker_supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 255.09843401299986,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 2324480,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": []
+      },
+      "containment": {
+        "verified": true,
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "elapsed_seconds": 0.011429133999854457,
+        "signals": [],
+        "reaped_adopted": [],
+        "worker_exit": 0
+      },
+      "censoring": "NONE_NATIVE_COMPLETED",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "RSS_at_kill_and_phase": "UNKNOWN_NO_TRIGGER_SAMPLE_OR_PHASE_TELEMETRY; recorded PGID and component maxima are separate samples",
+      "verification_budget_after_compile_upper_bound_seconds": 563.058,
+      "not_backend_duration": true,
+      "next_root": "s3_insert_tail_u8_rel16"
+    },
+    {
+      "id": "s3_insert_tail_u8_rel16",
+      "compile_elapsed_upper_bound_seconds": 34.68,
+      "compile_scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+      "compile_boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+      "compile_state": "COMPLETE",
+      "native_verification_time_s": "UNKNOWN_NO_COMPLETED_NATIVE_RESOURCE",
+      "native_wall_time_s": "UNKNOWN",
+      "execution": {
+        "elapsed_seconds": 112.349,
+        "original_exit_code": -15,
+        "signal": 15,
+        "timed_out": false,
+        "termination_reason": "rss_cap",
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 6326988,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 6312480,
+          "compiler": 2497892,
+          "driver": 8364,
+          "other": 160900
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous"
+      },
+      "worker_supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 112.67337853900017,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 6344420,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": []
+      },
+      "containment": {
+        "verified": true,
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "elapsed_seconds": 0.011382467999965229,
+        "signals": [],
+        "reaped_adopted": [
+          {
+            "pid": 11571,
+            "start_ticks": 113053,
+            "status": 3840
+          }
+        ],
+        "worker_exit": 0
+      },
+      "censoring": "TERMINATED_UNFINISHED",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "RSS_at_kill_and_phase": "Trigger sample6326988KiB reconstructed from recorded peak and exact runner first-overcap break; each previous PGID sample<=6291456KiB. RSS at subsequent signal/kill UNKNOWN. Post-compilation; precise symex/backend phase UNKNOWN.",
+      "verification_budget_after_compile_upper_bound_seconds": 565.32,
+      "not_backend_duration": true,
+      "next_root": "s3_merge8_u8_separate"
+    },
+    {
+      "id": "s3_merge8_u8_separate",
+      "compile_elapsed_upper_bound_seconds": 34.998,
+      "compile_scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+      "compile_boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+      "compile_state": "COMPLETE",
+      "native_verification_time_s": 150.963607091,
+      "native_wall_time_s": 156.709341522,
+      "execution": {
+        "elapsed_seconds": 191.767,
+        "original_exit_code": 0,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 2572460,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 1270044,
+          "compiler": 2523596,
+          "driver": 1141080,
+          "other": 178612
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous"
+      },
+      "worker_supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 192.07814767499985,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 2624596,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": []
+      },
+      "containment": {
+        "verified": true,
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "elapsed_seconds": 0.010933247999901141,
+        "signals": [],
+        "reaped_adopted": [],
+        "worker_exit": 0
+      },
+      "censoring": "NONE_NATIVE_COMPLETED",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "RSS_at_kill_and_phase": "UNKNOWN_NO_TRIGGER_SAMPLE_OR_PHASE_TELEMETRY; recorded PGID and component maxima are separate samples",
+      "verification_budget_after_compile_upper_bound_seconds": 565.002,
+      "not_backend_duration": true,
+      "next_root": "s3_merge8_u8_same_alloc"
+    },
+    {
+      "id": "s3_merge8_u8_same_alloc",
+      "compile_elapsed_upper_bound_seconds": 35.105,
+      "compile_scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+      "compile_boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+      "compile_state": "COMPLETE",
+      "native_verification_time_s": "UNKNOWN_NO_COMPLETED_NATIVE_RESOURCE",
+      "native_wall_time_s": "UNKNOWN",
+      "execution": {
+        "elapsed_seconds": 600.205,
+        "original_exit_code": -15,
+        "signal": 15,
+        "timed_out": true,
+        "termination_reason": "timeout",
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 2558128,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 1994896,
+          "compiler": 2505952,
+          "driver": 7580,
+          "other": 143120
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous"
+      },
+      "worker_supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 600.5397475970001,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 2556920,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": []
+      },
+      "containment": {
+        "verified": true,
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "elapsed_seconds": 0.011113132999980735,
+        "signals": [],
+        "reaped_adopted": [
+          {
+            "pid": 12693,
+            "start_ticks": 143655,
+            "status": 3840
+          }
+        ],
+        "worker_exit": 0
+      },
+      "censoring": "TERMINATED_UNFINISHED",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "RSS_at_kill_and_phase": "UNKNOWN_NO_TRIGGER_SAMPLE_OR_PHASE_TELEMETRY; recorded PGID and component maxima are separate samples",
+      "verification_budget_after_compile_upper_bound_seconds": 564.895,
+      "not_backend_duration": true,
+      "next_root": "sort13_weak"
+    },
+    {
+      "id": "sort13_weak",
+      "compile_elapsed_upper_bound_seconds": 34.782,
+      "compile_scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+      "compile_boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+      "compile_state": "COMPLETE",
+      "native_verification_time_s": 0.103120149,
+      "native_wall_time_s": 0.207078953,
+      "execution": {
+        "elapsed_seconds": 35.027,
+        "original_exit_code": 1,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 1924228,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 17172,
+          "compiler": 1885604,
+          "driver": 11468,
+          "other": 123108
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous"
+      },
+      "worker_supervision": {
+        "worker_exit": 0,
+        "cutoff": null,
+        "elapsed_seconds": 35.33677191400011,
+        "limit_initiated": false,
+        "outer_sampled_peak_kib": 1947476,
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "supervisor_error": null,
+        "orphan_survivors_at_worker_exit": []
+      },
+      "containment": {
+        "verified": true,
+        "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+        "elapsed_seconds": 0.0106201029998374,
+        "signals": [],
+        "reaped_adopted": [],
+        "worker_exit": 0
+      },
+      "censoring": "NONE_NATIVE_COMPLETED",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "RSS_at_kill_and_phase": "UNKNOWN_NO_TRIGGER_SAMPLE_OR_PHASE_TELEMETRY; recorded PGID and component maxima are separate samples",
+      "verification_budget_after_compile_upper_bound_seconds": 565.218,
+      "not_backend_duration": true,
+      "next_root": null
+    }
+  ],
+  "job_steps": [
+    {
+      "name": "Set up job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 1,
+      "started_at": "2026-11-18T22:59:00Z",
+      "completed_at": "2026-11-18T22:59:01Z"
+    },
+    {
+      "name": "Begin setup budget",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 2,
+      "started_at": "2026-11-18T22:59:01Z",
+      "completed_at": "2026-11-18T22:59:01Z"
+    },
+    {
+      "name": "Checkout CI control",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 3,
+      "started_at": "2026-11-18T22:59:01Z",
+      "completed_at": "2026-11-18T22:59:02Z"
+    },
+    {
+      "name": "Validate control and synthetic wrapper",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 4,
+      "started_at": "2026-11-18T22:59:02Z",
+      "completed_at": "2026-11-18T23:01:31Z"
+    },
+    {
+      "name": "Read immutable export pins",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 5,
+      "started_at": "2026-11-18T23:01:31Z",
+      "completed_at": "2026-11-18T23:01:31Z"
+    },
+    {
+      "name": "Checkout production model export",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 6,
+      "started_at": "2026-11-18T23:01:31Z",
+      "completed_at": "2026-11-18T23:01:34Z"
+    },
+    {
+      "name": "Checkout immutable upstream tool",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 7,
+      "started_at": "2026-11-18T23:01:34Z",
+      "completed_at": "2026-11-18T23:01:35Z"
+    },
+    {
+      "name": "Check all source identities",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 8,
+      "started_at": "2026-11-18T23:01:35Z",
+      "completed_at": "2026-11-18T23:01:40Z"
+    },
+    {
+      "name": "Setup exact stock tool",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 9,
+      "started_at": "2026-11-18T23:01:40Z",
+      "completed_at": "2026-11-18T23:02:48Z"
+    },
+    {
+      "name": "Build exact stock tool once",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 10,
+      "started_at": "2026-11-18T23:02:48Z",
+      "completed_at": "2026-11-18T23:07:07Z"
+    },
+    {
+      "name": "Run S3 actual leaves with bounded observations",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 11,
+      "started_at": "2026-11-18T23:07:07Z",
+      "completed_at": "2026-11-18T23:31:22Z"
+    },
+    {
+      "name": "Materialize bounded fallback",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 12,
+      "started_at": "2026-11-18T23:31:22Z",
+      "completed_at": "2026-11-18T23:31:22Z"
+    },
+    {
+      "name": "Upload bounded evidence",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 13,
+      "started_at": "2026-11-18T23:31:22Z",
+      "completed_at": "2026-11-18T23:31:23Z"
+    },
+    {
+      "name": "Post Checkout immutable upstream tool",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 24,
+      "started_at": "2026-11-18T23:31:23Z",
+      "completed_at": "2026-11-18T23:31:23Z"
+    },
+    {
+      "name": "Post Checkout production model export",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 25,
+      "started_at": "2026-11-18T23:31:23Z",
+      "completed_at": "2026-11-18T23:31:23Z"
+    },
+    {
+      "name": "Post Checkout CI control",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 26,
+      "started_at": "2026-11-18T23:31:23Z",
+      "completed_at": "2026-11-18T23:31:23Z"
+    },
+    {
+      "name": "Complete job",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 27,
+      "started_at": "2026-11-18T23:31:23Z",
+      "completed_at": "2026-11-18T23:31:24Z"
+    }
+  ],
+  "job_started_at": "2026-11-18T22:59:00Z",
+  "job_completed_at": "2026-11-18T23:31:25Z",
+  "compiler_metric": "compile receipt elapsed_upper_bound_seconds is observation to first stock initial export, not exact compiler CPU or separately measured exclusive compile time.",
+  "RSS_limits": "Local PGID polled 6GiB; outer sampled census12GiB+2GiB headroom. Neither is true kernel/cgroup/tree peak. Component maxima are non-simultaneous; trigger RSS and kill phase not separately exported.",
+  "no_speedup_claim": "No matched problem/binary/control comparison."
+}

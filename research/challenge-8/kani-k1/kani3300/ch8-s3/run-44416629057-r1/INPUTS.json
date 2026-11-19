@@ -1,0 +1,224 @@
+{
+  "schema": "ch8-s3-1-r2-terminal-intake-inputs-v1",
+  "status": "TERMINAL_READY_FOR_OWNER0233_QUALIFICATION_INTAKE",
+  "owner_authorization": "coordinator02:33 explicitly /new14 or11 intake qualification per S1 criteria, incomplete metadata/caps/cost; then S3-2 plan",
+  "repository": "Tiramisu-Cake/kani",
+  "run": 44416629057,
+  "attempt": 1,
+  "event": "push",
+  "branch": "uninit-ci/ch8-s3-1-r2-20261119",
+  "trigger": {
+    "sha": "7497ecdb3934585634f5f04e4ff7c6cc42450c0b",
+    "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "relation": "same-tree nonskip sibling of reviewedcb6303, one commit above9e14, local Git verified",
+    "commit_message": "Canonicalize S3 tool input before E0 with real-writer regressions",
+    "request_workflow_hashes": "MATCH exactreviewedtree"
+  },
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s3-1-final-w13",
+    "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+    "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+    "parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "source_publication": {
+    "branch": "experiment/ch8-s3-1-20261119",
+    "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+    "provenance": "user coordinator02:01 reports source513 already published; actual checkout/source receipts must be reconciled by intake"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "control_candidate": {
+    "worktree": "/root/kani-ch8-s3-1-r2-control-w13",
+    "sha": "cb63033ffcde918f4341146e56373476b8eeb569",
+    "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+    "parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "candidate_g0": "008fcb7705e658643582668ebfabb5f2e340e95d",
+  "review_g0": "12c4dc55029d89559a1857537621f9453f23c29d",
+  "review": "APPROVE zero blockers in canonical path delta; prior R14-01/R14-02 closures inherited by exact bytes",
+  "GO_g0": "c59d410e993805d346b336920180011118c69c49",
+  "request_sha256": "efbc150280f5f9641c9e8b48fb4486122ae8c3cfa318f78a42486394e1de7656",
+  "workflow_sha256": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709",
+  "checkout_depths": [
+    7,
+    5,
+    2
+  ],
+  "initial_connected_metadata": {
+    "status": "in_progress",
+    "conclusion": null,
+    "identities": "MATCH run/head/ref/event/attempt",
+    "api_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/runs/44416629057",
+    "observed_at_utc": "2026-11-18T23:01:28.531510+00:00",
+    "source": "connected GitHub metadata; not inferred from coordinator report"
+  },
+  "artifact": {
+    "name": "ch8-s3-1-44416629057-1",
+    "only_member": "group-evidence.json.gz",
+    "access": "existing authorized compact reporting/connected interface; metadata+digest first; no full/raw archives/logs/GCS bypass",
+    "artifact_id": 14482022386,
+    "digest": "sha256:885fa419e00f4ad83d427d2d03c8c38fd51291dea0f9d04ee5c6e71030e904c0",
+    "transport_bytes": 481904,
+    "expired": false,
+    "metadata_source": "connected GitHub run artifacts independently checked",
+    "digest_scope": "transport artifact; separately retain compact member digest"
+  },
+  "ordered_rows": [
+    {
+      "id": "checker_order_corrupt",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "unwind": 34
+    },
+    {
+      "id": "checker_count_corrupt",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "unwind": 34
+    },
+    {
+      "id": "s3_swap_u8_geometry",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_swap_u8_geometry",
+      "unwind": 36
+    },
+    {
+      "id": "s3_sort4_u8_separate",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_separate",
+      "unwind": 8
+    },
+    {
+      "id": "s3_sort4_u8_same_alloc",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc",
+      "unwind": 50
+    },
+    {
+      "id": "s3_insert_tail_u8_rel16",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_insert_tail_u8_rel16",
+      "unwind": 36
+    },
+    {
+      "id": "s3_merge8_u8_separate",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_separate",
+      "unwind": 12
+    },
+    {
+      "id": "s3_merge8_u8_same_alloc",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_same_alloc",
+      "unwind": 50
+    },
+    {
+      "id": "sort13_weak",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "unwind": 34
+    }
+  ],
+  "selected_counts": {
+    "rows": 9,
+    "actual_PFC_candidates": 6,
+    "negative_controls": 3,
+    "source_cover_sites": 44,
+    "source_literal_role_cover_sites": 71,
+    "compiled_property_counts": "UNKNOWN_UNTIL_NATIVE_EXPORT"
+  },
+  "deferred": [
+    "swap_pfc",
+    "summary_witness",
+    "merge32_real",
+    "sort13_assumed",
+    "general32_assumed",
+    "merge_order_corrupt",
+    "merge_count_corrupt",
+    "general32_weak"
+  ],
+  "caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "U_policy": {
+    "mode": "REJECT_ALL",
+    "proposal": "S3-U-SITE-REVIEW-v1",
+    "enabled": false,
+    "unknown": "REJECT",
+    "role_unreachable": "REJECT"
+  },
+  "output": "kani3300/ch8-s3/run-44416629057/",
+  "accounting_reference": {
+    "ledger": "af484c6a935bf341db8a5ade2ea76f234b686f1e",
+    "owner_dispatch_commit": "8909eaa6f5626447ad142bbd04d141eac3bd3cf2",
+    "item1": "31/31",
+    "item2": "12/17",
+    "total": "43/48",
+    "write": false
+  },
+  "no_automatic_acceptance_policy_waiver_newrun": true,
+  "offline_U_proposal": {
+    "g0": "93f158e9ab64d48706f0b638204aee743d74ecfd",
+    "status": "DISABLED_CONDITIONAL_SOURCE_ARGUMENT_ONLY",
+    "not_an_admission_or_count_override": true
+  },
+  "historical_first_S3": {
+    "run": 44405927807,
+    "intake_g0": "1d8a06c8bd418de6261a1cbbb24ea0f35bae1712",
+    "status": "STOPPED_PREFIX0_NO_ADMISSION; no retrospective normalization",
+    "charge0": "existing coordinator case-specific decision, not a general refund rule"
+  },
+  "native_terminal_metadata": {
+    "id": 44416629057,
+    "run_attempt": 1,
+    "status": "completed",
+    "conclusion": "failure",
+    "event": "push",
+    "head_sha": "7497ecdb3934585634f5f04e4ff7c6cc42450c0b",
+    "head_branch": "uninit-ci/ch8-s3-1-r2-20261119",
+    "updated_at": "2026-11-18T23:31:26Z",
+    "observed_at_utc": "2026-11-18T23:33:42.057464+00:00",
+    "source": "connected GitHub independently checked"
+  },
+  "coordinator_reported_NOT_YET_INTAKE_VERIFIED": {
+    "campaign": "SELECTED_PARTIAL; 1454s; no global stop",
+    "negatives": [
+      "S2_NEG_CHECKER_ORDER",
+      "S2_NEG_CHECKER_COUNT",
+      "S2_NEG_SORT13_WEAK"
+    ],
+    "native_success_seconds": {
+      "s3_swap_u8_geometry": 27,
+      "s3_sort4_u8_separate": 79,
+      "s3_merge8_u8_separate": 151,
+      "s3_sort4_u8_same_alloc": 212
+    },
+    "sort4_same_receipt": "UNKNOWN rich metadata incomplete: file/line missing",
+    "interrupted_or_capped": [
+      "s3_insert_tail_u8_rel16",
+      "s3_merge8_u8_same_alloc"
+    ]
+  },
+  "task_g0": "03ad6ec5bba2085c5a46419f77a4ec0ee6f3d294",
+  "settings": "high/FastOFF preserved; no subagents",
+  "execution_scope": "OFFLINE_INTAKE_ONLY",
+  "reporting_correction": {
+    "task_commit": "f74025e493a627962842e8f7bc6a2766d33dd300",
+    "base_intake": "d29ab46dbbb45d7106fa30c3ac04bb419a2ac286",
+    "review": "a9fe0055aab3279e3f5bb71bde9667925da80e65",
+    "admission": "f74025e493a627962842e8f7bc6a2766d33dd300",
+    "settings": "high/FastOFF; no subagents",
+    "scope": "Reporting/generator checks only; no source/parser/control/CI/accounting/policy changes."
+  }
+}

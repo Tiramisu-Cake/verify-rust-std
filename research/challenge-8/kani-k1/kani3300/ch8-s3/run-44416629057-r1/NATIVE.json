@@ -1,0 +1,1121 @@
+{
+  "checker_order_corrupt": {
+    "export": {
+      "run_state": "COMPLETE",
+      "outcome": {
+        "kind": "COMPLETED"
+      },
+      "configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "harness_selection": {
+        "requested_filters": [
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt"
+        ],
+        "exact": true,
+        "unmatched_filters": [],
+        "matched_count": 1
+      },
+      "enabled_unstable_features": [
+        "c-ffi",
+        "export-json",
+        "float-lib",
+        "function-contracts",
+        "loop-contracts",
+        "mem-predicates",
+        "quantifiers",
+        "stubbing",
+        "unstable-options"
+      ],
+      "kani_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "kani_commit_dirty": false,
+      "summary": {
+        "total": 1,
+        "successful": 0,
+        "failed": 1,
+        "checks_total": 24,
+        "checks_success": 15,
+        "covers_total": 0,
+        "covers_satisfied": 0
+      }
+    },
+    "harness": {
+      "name": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 138,
+      "contract": null,
+      "attributes": {
+        "kind": "Proof",
+        "should_panic": false,
+        "solver": null,
+        "unwind_value": 34,
+        "stubs": [],
+        "verified_stubs": []
+      },
+      "outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "resources": {
+        "verification_time_s": 0.047798802
+      },
+      "resolved_unwind": 34,
+      "resolved_solver": "cadical",
+      "n_properties": 24,
+      "n_failed": 1,
+      "failure_kind": "PANICS_ONLY",
+      "failed_properties": [
+        {
+          "id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt.assertion.1",
+          "description": "S2_NEG_CHECKER_ORDER",
+          "class": "assertion",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": "140",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "checks": {
+        "total": 24,
+        "success": 15,
+        "failure": [
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt.assertion.1"
+        ],
+        "unreachable": [
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "covers": {
+        "total": 0,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "unsupported_constructs": [],
+      "warnings": []
+    }
+  },
+  "checker_count_corrupt": {
+    "export": {
+      "run_state": "COMPLETE",
+      "outcome": {
+        "kind": "COMPLETED"
+      },
+      "configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "harness_selection": {
+        "requested_filters": [
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt"
+        ],
+        "exact": true,
+        "unmatched_filters": [],
+        "matched_count": 1
+      },
+      "enabled_unstable_features": [
+        "c-ffi",
+        "export-json",
+        "float-lib",
+        "function-contracts",
+        "loop-contracts",
+        "mem-predicates",
+        "quantifiers",
+        "stubbing",
+        "unstable-options"
+      ],
+      "kani_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "kani_commit_dirty": false,
+      "summary": {
+        "total": 1,
+        "successful": 0,
+        "failed": 1,
+        "checks_total": 26,
+        "checks_success": 24,
+        "covers_total": 0,
+        "covers_satisfied": 0
+      }
+    },
+    "harness": {
+      "name": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 132,
+      "contract": null,
+      "attributes": {
+        "kind": "Proof",
+        "should_panic": false,
+        "solver": null,
+        "unwind_value": 34,
+        "stubs": [],
+        "verified_stubs": []
+      },
+      "outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "resources": {
+        "verification_time_s": 0.366425888
+      },
+      "resolved_unwind": 34,
+      "resolved_solver": "cadical",
+      "n_properties": 26,
+      "n_failed": 1,
+      "failure_kind": "PANICS_ONLY",
+      "failed_properties": [
+        {
+          "id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt.assertion.2",
+          "description": "S2_NEG_CHECKER_COUNT",
+          "class": "assertion",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": "134",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "checks": {
+        "total": 26,
+        "success": 24,
+        "failure": [
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt.assertion.2"
+        ],
+        "unreachable": [
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "covers": {
+        "total": 0,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "unsupported_constructs": [],
+      "warnings": []
+    }
+  },
+  "s3_swap_u8_geometry": {
+    "export": {
+      "run_state": "COMPLETE",
+      "outcome": {
+        "kind": "COMPLETED"
+      },
+      "configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "harness_selection": {
+        "requested_filters": [
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_swap_u8_geometry"
+        ],
+        "exact": true,
+        "unmatched_filters": [],
+        "matched_count": 1
+      },
+      "enabled_unstable_features": [
+        "c-ffi",
+        "export-json",
+        "float-lib",
+        "function-contracts",
+        "loop-contracts",
+        "mem-predicates",
+        "quantifiers",
+        "stubbing",
+        "unstable-options"
+      ],
+      "kani_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "kani_commit_dirty": false,
+      "summary": {
+        "total": 1,
+        "successful": 1,
+        "failed": 0,
+        "checks_total": 313,
+        "checks_success": 309,
+        "covers_total": 7,
+        "covers_satisfied": 7
+      }
+    },
+    "harness": {
+      "name": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_swap_u8_geometry",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+      "line": 24,
+      "contract": {
+        "contracted_function_name": "_RNCNCINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort12swap_if_lesshINtNtNtB6_6verify13sorting_model7KeyLesshEEs0_0s1_0Be_",
+        "recursion_tracker": null
+      },
+      "attributes": {
+        "kind": {
+          "ProofForContract": {
+            "target_fn": "swap_if_less"
+          }
+        },
+        "should_panic": false,
+        "solver": null,
+        "unwind_value": 36,
+        "stubs": [],
+        "verified_stubs": []
+      },
+      "outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "resources": {
+        "verification_time_s": 27.29707652
+      },
+      "resolved_unwind": 36,
+      "resolved_solver": "cadical",
+      "n_properties": 320,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failed_properties": [],
+      "checks": {
+        "total": 313,
+        "success": 309,
+        "failure": [],
+        "unreachable": [
+          "fmt::Arguments::<'_>::from_str.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.2",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "covers": {
+        "total": 7,
+        "satisfied": [
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_swap_u8_geometry.cover.1",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_swap_u8_geometry.cover.2",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_swap_u8_geometry.cover.3",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_swap_u8_geometry.cover.4",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_swap_u8_geometry.cover.5",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_swap_u8_geometry.cover.6",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_swap_u8_geometry.cover.7"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "unsupported_constructs": [
+        {
+          "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+          "line": "110",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "line": "358",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "kani::mem::is_inbounds::<u8>.unsupported_construct.1",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "line": "358",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "warnings": []
+    }
+  },
+  "s3_sort4_u8_separate": {
+    "export": {
+      "run_state": "COMPLETE",
+      "outcome": {
+        "kind": "COMPLETED"
+      },
+      "configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "harness_selection": {
+        "requested_filters": [
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_separate"
+        ],
+        "exact": true,
+        "unmatched_filters": [],
+        "matched_count": 1
+      },
+      "enabled_unstable_features": [
+        "c-ffi",
+        "export-json",
+        "float-lib",
+        "function-contracts",
+        "loop-contracts",
+        "mem-predicates",
+        "quantifiers",
+        "stubbing",
+        "unstable-options"
+      ],
+      "kani_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "kani_commit_dirty": false,
+      "summary": {
+        "total": 1,
+        "successful": 1,
+        "failed": 0,
+        "checks_total": 316,
+        "checks_success": 309,
+        "covers_total": 4,
+        "covers_satisfied": 4
+      }
+    },
+    "harness": {
+      "name": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_separate",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+      "line": 50,
+      "contract": {
+        "contracted_function_name": "_RNCNCINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort12sort4_stablehINtNtNtB6_6verify13sorting_model7KeyLesshEEs0_0s_0Be_",
+        "recursion_tracker": null
+      },
+      "attributes": {
+        "kind": {
+          "ProofForContract": {
+            "target_fn": "sort4_stable"
+          }
+        },
+        "should_panic": false,
+        "solver": null,
+        "unwind_value": 8,
+        "stubs": [],
+        "verified_stubs": []
+      },
+      "outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "resources": {
+        "verification_time_s": 78.983176885
+      },
+      "resolved_unwind": 8,
+      "resolved_solver": "cadical",
+      "n_properties": 320,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failed_properties": [],
+      "checks": {
+        "total": 316,
+        "success": 309,
+        "failure": [],
+        "unreachable": [
+          "fmt::Arguments::<'_>::from_str.assertion.1",
+          "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "ub_checks::is_valid_allocation_size.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.2",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "covers": {
+        "total": 4,
+        "satisfied": [
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_separate.cover.1",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_separate.cover.2",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_separate.cover.3",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_separate.cover.4"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "unsupported_constructs": [
+        {
+          "id": "kani::mem::is_inbounds::<[u8]>.unsupported_construct.1",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "line": "358",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "line": "358",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+          "line": "110",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "warnings": []
+    }
+  },
+  "s3_sort4_u8_same_alloc": {
+    "export": {
+      "run_state": "COMPLETE",
+      "outcome": {
+        "kind": "COMPLETED"
+      },
+      "configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "harness_selection": {
+        "requested_filters": [
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc"
+        ],
+        "exact": true,
+        "unmatched_filters": [],
+        "matched_count": 1
+      },
+      "enabled_unstable_features": [
+        "c-ffi",
+        "export-json",
+        "float-lib",
+        "function-contracts",
+        "loop-contracts",
+        "mem-predicates",
+        "quantifiers",
+        "stubbing",
+        "unstable-options"
+      ],
+      "kani_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "kani_commit_dirty": false,
+      "summary": {
+        "total": 1,
+        "successful": 1,
+        "failed": 0,
+        "checks_total": 356,
+        "checks_success": 351,
+        "covers_total": 7,
+        "covers_satisfied": 7
+      }
+    },
+    "harness": {
+      "name": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+      "line": 70,
+      "contract": {
+        "contracted_function_name": "_RNCNCINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort12sort4_stablehINtNtNtB6_6verify13sorting_model7KeyLesshEEs0_0s_0Be_",
+        "recursion_tracker": null
+      },
+      "attributes": {
+        "kind": {
+          "ProofForContract": {
+            "target_fn": "sort4_stable"
+          }
+        },
+        "should_panic": false,
+        "solver": null,
+        "unwind_value": 50,
+        "stubs": [],
+        "verified_stubs": []
+      },
+      "outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "resources": {
+        "verification_time_s": 212.237510446
+      },
+      "resolved_unwind": 50,
+      "resolved_solver": "cadical",
+      "n_properties": 363,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failed_properties": [],
+      "checks": {
+        "total": 356,
+        "success": 351,
+        "failure": [],
+        "unreachable": [
+          "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "ub_checks::is_valid_allocation_size.assertion.1",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+          "fmt::Arguments::<'_>::from_str.assertion.1"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "covers": {
+        "total": 7,
+        "satisfied": [
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.cover.1",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.cover.2",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.cover.3",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.cover.4",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.cover.5",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.cover.6",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.cover.7"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "unsupported_constructs": [
+        {
+          "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+          "line": "110",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "line": "358",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "kani::mem::is_inbounds::<[u8]>.unsupported_construct.1",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "line": "358",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "warnings": []
+    }
+  },
+  "s3_insert_tail_u8_rel16": {
+    "export": {
+      "run_state": "INCOMPLETE",
+      "configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "harness_selection": {
+        "requested_filters": [
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_insert_tail_u8_rel16"
+        ],
+        "exact": true,
+        "unmatched_filters": [],
+        "matched_count": 1
+      },
+      "enabled_unstable_features": [
+        "c-ffi",
+        "export-json",
+        "float-lib",
+        "function-contracts",
+        "loop-contracts",
+        "mem-predicates",
+        "quantifiers",
+        "stubbing",
+        "unstable-options"
+      ],
+      "kani_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "kani_commit_dirty": false
+    },
+    "harness": {}
+  },
+  "s3_merge8_u8_separate": {
+    "export": {
+      "run_state": "COMPLETE",
+      "outcome": {
+        "kind": "COMPLETED"
+      },
+      "configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "harness_selection": {
+        "requested_filters": [
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_separate"
+        ],
+        "exact": true,
+        "unmatched_filters": [],
+        "matched_count": 1
+      },
+      "enabled_unstable_features": [
+        "c-ffi",
+        "export-json",
+        "float-lib",
+        "function-contracts",
+        "loop-contracts",
+        "mem-predicates",
+        "quantifiers",
+        "stubbing",
+        "unstable-options"
+      ],
+      "kani_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "kani_commit_dirty": false,
+      "summary": {
+        "total": 1,
+        "successful": 1,
+        "failed": 0,
+        "checks_total": 378,
+        "checks_success": 369,
+        "covers_total": 6,
+        "covers_satisfied": 6
+      }
+    },
+    "harness": {
+      "name": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_separate",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+      "line": 132,
+      "contract": {
+        "contracted_function_name": "_RNCNCINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort19bidirectional_mergehINtNtNtB6_6verify13sorting_model7KeyLesshEEs0_0s_0Be_",
+        "recursion_tracker": null
+      },
+      "attributes": {
+        "kind": {
+          "ProofForContract": {
+            "target_fn": "bidirectional_merge"
+          }
+        },
+        "should_panic": false,
+        "solver": null,
+        "unwind_value": 12,
+        "stubs": [],
+        "verified_stubs": []
+      },
+      "outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "resources": {
+        "verification_time_s": 150.963607091
+      },
+      "resolved_unwind": 12,
+      "resolved_solver": "cadical",
+      "n_properties": 384,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failed_properties": [],
+      "checks": {
+        "total": 378,
+        "success": 369,
+        "failure": [],
+        "unreachable": [
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+          "fmt::Arguments::<'_>::from_str.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "ub_checks::is_valid_allocation_size.assertion.1"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "covers": {
+        "total": 6,
+        "satisfied": [
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_separate.cover.1",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_separate.cover.2",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_separate.cover.3",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_separate.cover.4",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_separate.cover.5",
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_separate.cover.6"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "unsupported_constructs": [
+        {
+          "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+          "line": "110",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "line": "358",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "kani::mem::is_inbounds::<[u8]>.unsupported_construct.1",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "line": "358",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "warnings": []
+    }
+  },
+  "s3_merge8_u8_same_alloc": {
+    "export": {
+      "run_state": "INCOMPLETE",
+      "configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "harness_selection": {
+        "requested_filters": [
+          "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_merge8_u8_same_alloc"
+        ],
+        "exact": true,
+        "unmatched_filters": [],
+        "matched_count": 1
+      },
+      "enabled_unstable_features": [
+        "c-ffi",
+        "export-json",
+        "float-lib",
+        "function-contracts",
+        "loop-contracts",
+        "mem-predicates",
+        "quantifiers",
+        "stubbing",
+        "unstable-options"
+      ],
+      "kani_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "kani_commit_dirty": false
+    },
+    "harness": {}
+  },
+  "sort13_weak": {
+    "export": {
+      "run_state": "COMPLETE",
+      "outcome": {
+        "kind": "COMPLETED"
+      },
+      "configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "harness_selection": {
+        "requested_filters": [
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak"
+        ],
+        "exact": true,
+        "unmatched_filters": [],
+        "matched_count": 1
+      },
+      "enabled_unstable_features": [
+        "c-ffi",
+        "export-json",
+        "float-lib",
+        "function-contracts",
+        "loop-contracts",
+        "mem-predicates",
+        "quantifiers",
+        "stubbing",
+        "unstable-options"
+      ],
+      "kani_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "kani_commit_dirty": false,
+      "summary": {
+        "total": 1,
+        "successful": 0,
+        "failed": 1,
+        "checks_total": 25,
+        "checks_success": 16,
+        "covers_total": 0,
+        "covers_satisfied": 0
+      }
+    },
+    "harness": {
+      "name": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line": 146,
+      "contract": null,
+      "attributes": {
+        "kind": "Proof",
+        "should_panic": false,
+        "solver": null,
+        "unwind_value": 34,
+        "stubs": [
+          {
+            "original": "s2_swap_seam",
+            "replacement": "weak_swap"
+          }
+        ],
+        "verified_stubs": []
+      },
+      "outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "resources": {
+        "verification_time_s": 0.103120149
+      },
+      "resolved_unwind": 34,
+      "resolved_solver": "cadical",
+      "n_properties": 25,
+      "n_failed": 1,
+      "failure_kind": "PANICS_ONLY",
+      "failed_properties": [
+        {
+          "id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak.assertion.1",
+          "description": "S2_NEG_SORT13_WEAK",
+          "class": "assertion",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": "149",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "checks": {
+        "total": 25,
+        "success": 16,
+        "failure": [
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak.assertion.1"
+        ],
+        "unreachable": [
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "covers": {
+        "total": 0,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "unsupported_constructs": [],
+      "warnings": []
+    }
+  }
+}

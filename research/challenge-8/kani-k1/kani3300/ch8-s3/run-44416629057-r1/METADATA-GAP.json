@@ -1,0 +1,76 @@
+{
+  "id": "s3_sort4_u8_same_alloc",
+  "offending_records": [
+    {
+      "class": "unreachable",
+      "description": "unreachable code",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.unreachable.1",
+      "file": null,
+      "id": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.unreachable.1",
+      "line": null,
+      "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc",
+      "status": "SUCCESS"
+    }
+  ],
+  "count": 1,
+  "rich_missing_sites": [
+    {
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.unreachable.1",
+      "harness": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc",
+      "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc",
+      "reason": "file/line missing"
+    }
+  ],
+  "rich_error": null,
+  "stock_export_representation": "Successful property details are omitted; success count and non-success ID buckets only. No per-property SourceLocation in stock JSON.",
+  "rich_fields": {
+    "file": "PRESENT_NULL",
+    "line": "PRESENT_NULL",
+    "location_display": "PRESENT lib.rs:0:0 plus exact harness function"
+  },
+  "cause": "Display preserves a file with zero line/column; rich _record positive-line regex rejects :0:0 and sets both normalized file/line to null. validate requires positive line or exact preexisting location_exception; this harness is absent from that map.",
+  "source_trace": {
+    "control_commit": "cb63033ffcde918f4341146e56373476b8eeb569",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "reader": "ch8-s1-control/rich_evidence.py:148-173,213-217",
+    "producer_display": "kani-driver/src/cbmc_output_parser.rs:261-310; cbmc_property_renderer.rs:274 onward"
+  },
+  "native_location_recovery": "Display file library/core/src/lib.rs, line token 0 and column token 0 recovered; zero is a sentinel, not a valid source coordinate. Real originating source line UNKNOWN. No raw CBMC per-check sourceLocation retained in compact export.",
+  "classification": {
+    "role": false,
+    "cover": false,
+    "class": "unreachable",
+    "status": "SUCCESS",
+    "description": "unreachable code",
+    "failed": false,
+    "unwinding": false,
+    "panic": "No failure; successful absence-of-unreachable-code system check; compiler lowering origin UNKNOWN",
+    "safety": "system reachability/UB check, retain intact"
+  },
+  "actual_reader_condition": "all(valid nonempty file and positive decimal line OR location_exception(harness,p))",
+  "call_chain": [
+    "runner._run_group:1178 rich.validate(raw)",
+    "rich_evidence.RegularEvidence.validate:213-217 positive coordinates OR exact exception",
+    "runner._run_group except:1236 properties.json persisted INCOMPLETE",
+    "s3_campaign.root_outcome records UNKNOWN, seals and continues"
+  ],
+  "original_exception": {
+    "epoch": "WORKER",
+    "errno": null,
+    "message": "rich metadata incomplete: file/line missing",
+    "monotonic": 1089.952547662,
+    "operation": "runner._run_group",
+    "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/runner.py\", line 1178, in _run_group\n    rich.validate(raw)\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/rich_evidence.py\", line 213, in validate\n    require(all(isinstance(p.get('file'), str) and p['file'] and\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/rich_evidence.py\", line 53, in require\n    raise ValueError(message)\nValueError: rich metadata incomplete: file/line missing\n",
+    "traceback_truncated": false,
+    "type": "ValueError"
+  },
+  "all_literal_roles_bound": true,
+  "all_native_inventory_counts_and_statuses_match": true,
+  "offline_reader_rejection_reproduced": "rich metadata incomplete: file/line missing",
+  "reconstruction_scope": "One record reconstructed only from authentic structured fields; ordinal1 for isolated parser test, not original stream ordinal.",
+  "policy_location_exception_matches": false,
+  "repair_proposal": "NOT_APPLIED: original worker/reviewer can add a narrowly reviewed location-only exception for this exact harness/id/display_id/class=unreachable/status=SUCCESS/description/display tuple, preserving null coordinates, same-invocation totals/status validation, strict U and role gates; alternatively producer provides authentic positive origin. Never global missing-location allowance.",
+  "regression_proposal": "Feed authentic compact offending display record to existing RichParser; require normalized nulls and current rejection. Any reviewed exception must reject changed harness/id/class/status/description/display, locationless literal roles and extra missing-site records; valid role bindings remain unchanged.",
+  "remaining": "Exact reversible location metadata gate accepted coordinator+planner at f74025e493a627962842e8f7bc6a2766d33dd300; overall qualification pending reporting delta and root/coordinator case assessment. Actual source origin remains UNKNOWN; runtime repair NOT_APPLIED.",
+  "location_metadata_admission_reference": "ADMISSION-REFERENCE.json"
+}

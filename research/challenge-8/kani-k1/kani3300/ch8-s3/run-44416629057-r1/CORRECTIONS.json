@@ -1,0 +1,61 @@
+{
+  "status": "READY_AUTHOR_CORRECTIONS_COMPLETE_PENDING_SAME14_DELTA",
+  "task_commit": "f74025e493a627962842e8f7bc6a2766d33dd300",
+  "base_commit": "d29ab46dbbb45d7106fa30c3ac04bb419a2ac286",
+  "review_commit": "a9fe0055aab3279e3f5bb71bde9667925da80e65",
+  "admission_commit": "f74025e493a627962842e8f7bc6a2766d33dd300",
+  "overall_qualification": "PENDING_SAME14_DELTA_AND_ROOT_COORDINATOR_CASE_ASSESSMENT",
+  "findings": [
+    {
+      "id": "W14-01",
+      "author_disposition": "CLOSED_BY_AUTHOR_PENDING_SAME14_DELTA",
+      "change": "Fixed descending length13 domain and exact ordinary weak_swap seam/caller copy in generator, binding and all summaries.",
+      "source_binding": {
+        "commit": "513341f41ce53833a279571401c924bdddddb6c8",
+        "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+        "sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+        "fixture_line": 147,
+        "fixture": [
+          12,
+          11,
+          10,
+          9,
+          8,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0
+        ],
+        "ordinary_stub": "s2_swap_seam -> weak_swap",
+        "stub_attribute_line": 144,
+        "caller_line": 148,
+        "literal_failure_line": 149,
+        "negative_scope": "fixed fixture only"
+      },
+      "new_binding": "QUALIFICATION.json#/rows/8/bindings",
+      "preserved": "One intended literal negative failure, all eight U arguments for exact fixture; full-byte positive domains unchanged."
+    },
+    {
+      "id": "W14-02",
+      "author_disposition": "CLOSED_BY_AUTHOR_PENDING_SAME14_DELTA",
+      "change": "Four exact SUCCESS unsupported guards per completed positive/16 total, projected in qualification/inventory/report; native arrays unchanged.",
+      "roots": [
+        "s3_swap_u8_geometry",
+        "s3_sort4_u8_separate",
+        "s3_sort4_u8_same_alloc",
+        "s3_merge8_u8_separate"
+      ],
+      "native_records": "NATIVE.json",
+      "new_inventory": "QUALIFICATION.json#/successful_unsupported_guard_inventory",
+      "regressions": "Reject missing/empty/altered native inventory and every non-SUCCESS status; actual pinned strict predicate rejects nonempty arrays independently of U."
+    }
+  ],
+  "validation": "VALIDATION.json; bounded reporting/generator checks only; broad exact prior audit inherited, not rerun.",
+  "next": "Root supplies this exact committed correction to SAME14 CURRENT110 for short delta; no external message sent.",
+  "unchanged": "Compact payload/digests/native counts and statuses/policy/42 U/roles/covers/PFC/context/provenance/prefix/cost; no source/control/CI/accounting actions.",
+  "proof_credit": "NONE"
+}
