@@ -1,0 +1,178 @@
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index f3de9dc774cd17509733cd2498b9a694182b98a9..6c24bdd0d2e0f25fb93bb2a5cc9139fd1c7b7cc0 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -1310,7 +1310,7 @@
+     "ch8-s1-control/s32_policy.py": "42e167de7eab1e59e68e8a4bcabb34ab52bf1c34dfd166cb1a56ec08ebab2f84",
+     "ch8-s1-control/s32_profile.py": "e0d0af635ac3fee467022ad2a95da7e936d212025dd97bcf6b11684f45988a3e",
+     "ch8-s1-control/s32_validate.py": "9e4bef1b89b82fec4a9edafa6eb6f8655bc9bd6f47860678ba81efbd8a7efea6",
+-    "ch8-s1-control/s34_campaign.py": "4f526a719d3641b2e633a0c4c185c5b1023fa1a79fb226cbcb9706a9214d1136",
++    "ch8-s1-control/s34_campaign.py": "c0dab94621918543944d5d4fa94f627839ffc658c6486ef6d597a7b0956b62e0",
+     "ch8-s1-control/s34_cfg_pfc.py": "70ba0268d34493a9379e44233931271684ef58beb3cc6a7c886b0b2ba2a5125b",
+     "ch8-s1-control/s34_contract_stacks.py": "dde13c0da0991a06d80596d7e82fc549cd9231f7d5774bd8c1abe905279c68e0",
+     "ch8-s1-control/s34_lexical_bindings.py": "39197751685fd36a705b62944e634da99221b5cbf8726d4990ee9d9689dadad0",
+@@ -1319,7 +1319,7 @@
+     "ch8-s1-control/s34_pins.py": "81a42dfb2660f5ac1c4c3b198abd02096c1aeeac728a0c96d980c42db36e60c3",
+     "ch8-s1-control/s34_policy.py": "fa281119197e80f8ecff6c62e33c716c68961408cdd42621bde3240577a79db3",
+     "ch8-s1-control/s34_profile.py": "e01d09f59e06d7983af472a6e8e341027bf2007ac826acf31b97bdf2a8db6d9d",
+-    "ch8-s1-control/s34_validate.py": "9a7586aca059dcea0610015eda3cb21384c208e34d601f21df65fc8b56f99063",
++    "ch8-s1-control/s34_validate.py": "32435888b7d6440b9a4959691e54d34c663059f3cabb7701d304a44094035b4e",
+     "ch8-s1-control/s3_campaign.py": "ea5890eb02b0b5e0f4837a4c22dd77efd7abd5a4f39e6053f2a99c81d81c5e10",
+     "ch8-s1-control/s3_cfg_pfc.py": "a757a156456c36c33bc09b0e7a3a8a4457601e599a320f6f74dbcb91fb823ed3",
+     "ch8-s1-control/s3_contract_stacks.py": "ad7cea13149e6d684ee8e380ce62ab4aeab68887a0786c43055f829ee97f2f5e",
+@@ -1350,9 +1350,9 @@
+     "ch8-s1-control/test_s32.py": "cfdc9de4d11e33f33166b514cb466e93137fd35b34e418b0189775471b02031e",
+     "ch8-s1-control/test_s32_boundary.py": "92c2117f00f7442da1a3d42163726e7534cb892837ca41e373fa5bee54e171de",
+     "ch8-s1-control/test_s32_paths.py": "17451366423abfadfbf96256e6dc55b157c54d3a40dea64e7925fe1e2d51dc45",
+-    "ch8-s1-control/test_s34.py": "67c19c47f112a11c6f04bfd6b9278f522092307ce713b57414d4eb9cac66e85a",
++    "ch8-s1-control/test_s34.py": "01b78124c21d0a37c67857d3b94357f8f7a4a0dcf421e1cfa8ea22cd63cdae14",
+     "ch8-s1-control/test_s34_boundary.py": "3d38bff25179297b1b07a9fd980de413dbdd327095aa8e5670e073e65126bd48",
+-    "ch8-s1-control/test_s34_paths.py": "83f13854dd1f8d197544d279db5c9e3603df86e4869eacf3b0ed4379976731eb",
++    "ch8-s1-control/test_s34_paths.py": "1549226a791ed1bff0f4d94815cda8eea7c78a523ab5279478ec5c18980039c6",
+     "ch8-s1-control/test_s3_paths.py": "6fd0e44d6215a56867fc5d8404be24e7e380f1411b4a52f3e84f6cdb9da7ea90",
+     "ch8-s1-control/test_s3_repair.py": "3480cf7e888b6969ba3a863bf4a17e462c26297357b974214feadd7d4f8891f1"
+   },
+diff --git a/ch8-s1-control/s34_campaign.py b/ch8-s1-control/s34_campaign.py
+index 9b2b6a561eb94b352210a7c2d0fc8f6cb1c10d4a..66a5be6484a87a7fd1ad81ff02e8bdee24e2c604 100644
+--- a/ch8-s1-control/s34_campaign.py
++++ b/ch8-s1-control/s34_campaign.py
+@@ -127,7 +127,7 @@ def finalize(out,request,stop_reason=None,elapsed=None):
+          **start_doc.get('identity',identity(request)),'request_sha256':(start_doc['request_sha256'] if 'request_sha256' in start_doc else r.sha256(r.REQUEST_PATH)),'selected_groups':['s3-'+rid for rid in p.ORDER],
+          'rows':rows,'stop_reason':stop_reason,'phase_elapsed_seconds':elapsed,'proof_credit':'NONE',
+          's3_campaign':{'profile':p.PROFILE,'launch_order':list(p.ORDER),'deferred':list(p.DEFERRED),
+-                        'completed':list(done),'unselected':[{'id':rid,'state':'NOT_SELECTED','proof_credit':'NONE'} for rid in p.DEFERRED],'full_inventory_complete':False,'selected_roots':8,'covers_required':sum(x['required_cover_count'] for x in request['rows']),'exact_negatives_required':3,
++                        'completed':list(done),'unselected':[{'id':rid,'state':'NOT_SELECTED','proof_credit':'NONE'} for rid in p.DEFERRED],'full_inventory_complete':False,'selected_roots':len(request['rows']),'covers_required':sum(x['required_cover_count'] for x in request['rows']),'exact_negatives_required':3,
+                         'global_caps':p.CAPS,'scope':'STATIC/SOURCE_REPORTED_OBSERVATIONS; independent proof credit NONE'}}
+     atomic(out/'receipt.json',doc);return doc
+ 
+@@ -335,6 +335,13 @@ def worker(std,tool,out,request,rid,limits):
+ 
+ def collect(roots,request):
+     import collect as c
++    p.validate(request)
++    selected_count=len(request['rows'])
++    for root in roots:
++        meta=c.read(root/'receipt.json').get('s3_campaign')
++        if (not isinstance(meta,dict) or type(meta.get('selected_roots')) is not int
++                or meta['selected_roots']!=selected_count):
++            raise GlobalFailure('S3 terminal selected-root cardinality mismatch')
+     result=c.legacy_collect(roots,p.view(request))
+     stops=[]
+     for root in roots:
+diff --git a/ch8-s1-control/s34_validate.py b/ch8-s1-control/s34_validate.py
+index 17b0921bb8db6cff4cb0ff9c7ccb825f950689c7..fd1eb78edc16c621e1501e10e6f812fc205b018d 100644
+--- a/ch8-s1-control/s34_validate.py
++++ b/ch8-s1-control/s34_validate.py
+@@ -10,6 +10,10 @@ NEW=('test_s34.SourceTests','test_s34.RoleTests','test_s34.CampaignTests',
+      'test_s34.WorkflowTests','test_s34.SingletonRunnerTests','test_s34_boundary.BoundaryTests',
+      'test_s34_boundary.CellGateTests.test_cell_missing_constructor_or_method_anchor_fails_closed',
+      'test_s34_paths.RealPathWriterTests.test_workflow_relative_entry_real_writer_and_portable_replay',
++     'test_s34_paths.RealPathWriterTests.test_selected_count_real_writer_and_both_readers',
++     'test_s34_paths.RealPathWriterTests.test_selected_count_stopped_and_partial_prefix',
++     'test_s34_paths.RealPathWriterTests.test_selected_count_without_completions',
++     'test_s34_paths.RealPathWriterTests.test_selected_count_requires_validated_request_inventory',
+      'test_s34_paths.RealPathWriterTests.test_missing_binary_and_real_read_error_fail_closed',
+      'test_s34_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery',
+      'test_s34_paths.RealPathWriterTests.test_genuine_absent_after_interruption_and_original_exit_preserved')
+diff --git a/ch8-s1-control/test_s34.py b/ch8-s1-control/test_s34.py
+index ae1a5495b185e317be9dfd36ab64e97939e95803..e980a9391d74231bb2287dffdc72d62b718da8fa 100644
+--- a/ch8-s1-control/test_s34.py
++++ b/ch8-s1-control/test_s34.py
+@@ -427,7 +427,8 @@ class PortableReplayTests(unittest.TestCase):
+                 return supervision()
+             with mock.patch.object(r,'verify_source',return_value=source),mock.patch.object(r,'binary_fingerprints',return_value=binary()),mock.patch.object(r,'group_memory_budget',return_value={'group_cap_kib':6*1024*1024}),mock.patch.object(r,'_run_variant',return_value=(None,{})),mock.patch.object(r,'execute',side_effect=execute),mock.patch.object(c.snapshots,'capture',side_effect=synthetic_capture):
+                 self.assertEqual(c.run_campaign(std,tool,out,req,invoker=invoke),0 if fault is None else 1)
+-            collected=c.collect([out],req);self.assertEqual(len(collected['rows']),9)
++            c.p.validate(req)
++            collected=c.collect([out],req);self.assertEqual(len(collected['rows']),len(req['rows']))
+             if fault is None:self.assertTrue(all(x.get('s3_expected_match') is True for x in collected['rows']))
+             else:self.assertTrue(collected['global_stop']);self.assertTrue(collected['global_stops'])
+             pack_evidence.pack(out)
+diff --git a/ch8-s1-control/test_s34_paths.py b/ch8-s1-control/test_s34_paths.py
+index 2d616851db4954391dd0a5078f9eb49dd02f958d..6743cca9b49a19cbf4419c3395dc3a688cefc79d 100644
+--- a/ch8-s1-control/test_s34_paths.py
++++ b/ch8-s1-control/test_s34_paths.py
+@@ -112,6 +112,83 @@ class RealPathWriterTests(unittest.TestCase):
+             self.assertTrue(all(x.get('s3_expected_match') for x in self.portable(fix)['rows']))
+             self.assertTrue(all(x['proof_credit']=='NONE' for x in terminal['rows']))
+ 
++    def count_routes(self,fix,terminal):
++        """Authentic writer bytes, public dispatch, and compact-only upload route."""
++        import collect as public
++        out,req=fix[3],fix[4];c.p.validate(req)
++        selected=len(req['rows']);self.assertEqual(selected,7)
++        self.assertIs(type(terminal['s3_campaign']['selected_roots']),int)
++        self.assertEqual(terminal['s3_campaign']['selected_roots'],selected)
++        path=out/'receipt.json';authentic=path.read_bytes()
++        frozen={str(p.relative_to(out)):p.read_bytes() for p in out.rglob('*.json') if p!=path}
++        upload=fix[0]/'count-upload';upload.mkdir(exist_ok=True)
++        cases=(('genuine',7),('eight',8),('missing','DELETE'),('null',None),
++               ('bool',True),('string','7'),('float',7.0),('zero',0),('six',6))
++        try:
++            for name,value in cases:
++                doc=json.loads(authentic)
++                if name=='missing':del doc['s3_campaign']['selected_roots']
++                else:doc['s3_campaign']['selected_roots']=value
++                c.atomic(path,doc);pack_evidence.pack(out)
++                (upload/pack_evidence.NAME).write_bytes((out/pack_evidence.NAME).read_bytes())
++                self.assertEqual([p.name for p in upload.iterdir()],[pack_evidence.NAME])
++                local=None
++                for route in (out,upload):
++                    with self.subTest(state=terminal['state'],case=name,route=route.name):
++                        if name=='genuine':
++                            result=public.collect([route],req)
++                            if local is None:local=result
++                            else:self.assertEqual(result,local)
++                            self.assertEqual(len(result['rows']),selected)
++                        else:
++                            with self.assertRaisesRegex(c.GlobalFailure,'selected-root cardinality'):
++                                public.collect([route],req)
++        finally:path.write_bytes(authentic)
++        self.assertEqual(frozen,{str(p.relative_to(out)):p.read_bytes() for p in out.rglob('*.json') if p!=path})
++
++    def test_selected_count_real_writer_and_both_readers(self):
++        with self.fixture() as fix:
++            code,terminal=self.run_fixture(fix);self.assertEqual(code,0)
++            self.assertEqual(fix[6],list(c.p.ORDER))
++            self.assertEqual(terminal['s3_campaign']['completed'],list(c.p.ORDER))
++            self.count_routes(fix,terminal)
++
++    def test_selected_count_stopped_and_partial_prefix(self):
++        def fault(root,out,rid,tool,sup):
++            if rid==c.p.ORDER[2]:raise c.GlobalFailure('synthetic stop after two seals')
++        with self.fixture(fault=fault) as fix:
++            code,terminal=self.run_fixture(fix);self.assertEqual(code,1);self.prefix(fix,terminal)
++            self.assertEqual(terminal['state'],'STOPPED');self.count_routes(fix,terminal)
++            # Re-finalizing retains completed bytes; unfinished work remains UNKNOWN.
++            terminal=c.finalize(fix[3],fix[4])
++            self.assertEqual(terminal['state'],'SELECTED_PARTIAL');self.prefix(fix,terminal)
++            self.assertEqual(c.collect([fix[3]],fix[4])['rows'][2]['outcome'],'UNKNOWN')
++            self.count_routes(fix,terminal)
++
++    def test_selected_count_without_completions(self):
++        with self.fixture() as fix:
++            with mock.patch.object(c,'check_usage',side_effect=c.GlobalFailure('synthetic prelaunch stop')):
++                code,terminal=self.run_fixture(fix)
++            self.assertEqual(code,1);self.assertEqual(fix[6],[])
++            self.assertEqual(terminal['s3_campaign']['completed'],[])
++            self.assertEqual(terminal['state'],'STOPPED')
++            self.assertTrue(all(row['status']=='NOT_RUN' for row in terminal['rows']))
++            self.assertTrue(all(row['outcome']=='UNKNOWN' for row in c.collect([fix[3]],fix[4])['rows']))
++            self.count_routes(fix,terminal)
++            terminal=c.finalize(fix[3],fix[4]);self.assertEqual(terminal['state'],'SELECTED_PARTIAL')
++            self.count_routes(fix,terminal)
++
++    def test_selected_count_requires_validated_request_inventory(self):
++        with self.fixture() as fix:
++            self.assertEqual(self.run_fixture(fix)[0],0)
++            before=(fix[3]/'receipt.json').read_bytes()
++            for rows in (fix[4]['rows'][:-1],fix[4]['rows'][::-1]):
++                bad=copy.deepcopy(fix[4]);bad['rows']=rows
++                with self.assertRaises(AssertionError):c.finalize(fix[3],bad)
++                for route in (c.collect,__import__('collect').collect):
++                    with self.assertRaises(AssertionError):route([fix[3]],bad)
++                self.assertEqual((fix[3]/'receipt.json').read_bytes(),before)
++
+     def test_absolute_parent_cwd_and_directory_symlink_inputs(self):
+         for arg in ('ABSOLUTE','./tool','nested/../tool','alias'):
+             with self.subTest(arg=arg),self.fixture(arg) as fix:

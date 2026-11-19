@@ -1,0 +1,26 @@
+from pathlib import Path
+import json,hashlib,shutil,subprocess,re
+out=Path('/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1-r1')
+read=lambda name:json.loads((out/name).read_text())
+def put(name,data):(out/name).write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n')
+final=read('validation/final-validate.json');result=json.loads((out/'validation/final-validate.stdout').read_text().splitlines()[-1]);pins=read('PINS.json')
+assert final['exit_code']==0 and result['success'] and final['control_sha']==result['control_sha']==pins['control']['sha']
+assert final['tracked_clean'] and final['tracked_clean_after'] and final['head_after']==final['control_sha']
+assert final['control_tree']==result['control_tree']==pins['control']['tree']
+assert result['request_sha256']==pins['request']['sha256']
+margin=1080/final['elapsed_seconds'];assert margin>=1.5,('Margin insufficient; preserve run, no repeat',margin)
+summary={'schema':'bridge1-r1-final-offline-validation-v1','status':'PASS','actual_final_validate_execution_count':1,'result':result,'process_receipt':'validation/final-validate.json','stdout':'validation/final-validate.stdout','stderr':'validation/final-validate.stderr','elapsed_seconds':final['elapsed_seconds'],'cap_seconds':1080,'margin_at_18_minutes':margin,'required_margin':1.5,'source_preflight':read('validation/source-preflight.json'),'control_preflight':read('validation/control-preflight.json'),'targeted_count':read('validation/targeted-count.json'),'standalone_corrected_test':read('validation/standalone-portable.json'),'exact_test_list':'TEST-LIST.json','environment_limit':'Controlpreflight supplied synthetic GITHUB_REPOSITORY/EVENT_NAME/REF/RUN_ATTEMPT/SHA strings only; not a realref/run/publication. Nativecompile/proof/cost/fit NOT_RUN','source_preflight_execution_count':1,'no_postpass_control_source_tool_code_edits':True,'proof_credit':'NONE'}
+put('VALIDATION.json',summary)
+total=sum(result[k] for k in ('legacy_tests','protected_s3_1_tests','protected_s3_2_tests','bridge1_tests'));assert total==267
+pins.update(status='READY_FOR_SAME14_DELTA_NOT_GO',offline_validation={'tests':total,'actual_final_validate_execution_count':1,'elapsed_seconds':final['elapsed_seconds'],'internal_elapsed_seconds':result['elapsed_seconds'],'margin_at_18_minutes':margin,'required_margin':1.5,'exit_code':0,'control_sha':result['control_sha'],'request_sha256':result['request_sha256']})
+put('PINS.json',pins)
+put('CHECKPOINT.json',{'status':pins['status'],'task':pins['implementation_task'],'source':pins['source']['sha'],'control':pins['control']['sha'],'control_tree':pins['control']['tree'],'tool':pins['tool']['sha'],'author_closures':['W14-B1-01','W14-B1-02'],'independent_delta_review':'PENDING_SAME14','blockers_in_author_implementation':[],'native_compile_proof_cost_fit':'NOT_RUN','qualified_new_leaves':[],'proof_credit':'NONE','accounting_changed':False,'publication_or_dispatch':False,'next':'root recheck immutable fullg0 READY -> SAME14 delta exact APPROVE+bothclosures/no blockers -> rootGOrequest only/usercoordinator separate GO and ONE dispatch'})
+with (out/'HANDOFF.md').open('a') as f:f.write(f"\nActual final Validate ONCE: {total} tests PASS (legacy{result['legacy_tests']} + S3-1 {result['protected_s3_1_tests']} + S3-2 {result['protected_s3_2_tests']} + bridge{result['bridge1_tests']}), exit0. Wrapper {final['elapsed_seconds']:.9f}s; internal {result['elapsed_seconds']:.9f}s; 18min margin {margin:.9f} >=1.5. Control/source preflight PASS; sourcepreflight once {summary['source_preflight']['elapsed_seconds']:.6f}s. Request SHA256 {result['request_sha256']}; workflow SHA256 {pins['request']['workflow_sha256']}. No source/tool/control edits after this run.\n")
+for src,name in [('/tmp/bridge1_r1_checks.py','host-command-wrapper.py.txt'),('/tmp/bridge1_r1_package.py','package-replay-wrapper.py.txt'),('/tmp/bridge1_r1_seal.py','seal-wrapper.py.txt')]:shutil.copyfile(src,out/'validation'/name)
+manifest=[]
+for file in sorted(out.rglob('*')):
+ if file.is_file() and file.name!='MANIFEST.sha256' and '__pycache__' not in file.parts:
+  manifest.append(hashlib.sha256(file.read_bytes()).hexdigest()+'  '+str(file.relative_to(out)))
+(out/'MANIFEST.sha256').write_text('\n'.join(manifest)+'\n')
+subprocess.run(['python3','-B',str(out/'check_static.py')],check=True)
+print(json.dumps(pins['offline_validation'],sort_keys=True))

@@ -1,0 +1,147 @@
+{
+  "schema": "bridge1-r1-final-offline-validation-v1",
+  "status": "PASS",
+  "actual_final_validate_execution_count": 1,
+  "result": {
+    "bridge1_tests": 40,
+    "control_sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "control_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+    "elapsed_seconds": 632.1776101361029,
+    "errors": 0,
+    "failures": 0,
+    "legacy_tests": 136,
+    "margin_at_18_minutes": 1.7083806555051586,
+    "native_compile_proof_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "protected_s3_1_tests": 56,
+    "protected_s3_2_tests": 35,
+    "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+    "schema": "ch8-s3s4-bridge1-validate-v1",
+    "success": true
+  },
+  "process_receipt": "validation/final-validate.json",
+  "stdout": "validation/final-validate.stdout",
+  "stderr": "validation/final-validate.stderr",
+  "elapsed_seconds": 632.5823326697573,
+  "cap_seconds": 1080,
+  "margin_at_18_minutes": 1.7072876433996447,
+  "required_margin": 1.5,
+  "source_preflight": {
+    "control_sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "control_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+    "control_parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "tracked_clean": true,
+    "name": "source-preflight",
+    "argv": [
+      "python3",
+      "-B",
+      "runner.py",
+      "check-source",
+      "--std",
+      "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "--tool",
+      "/root/kani-upstream-ch8-s1"
+    ],
+    "cwd": "/root/kani-ch8-s3s4-bridge1-r1-control-w13/ch8-s1-control",
+    "start_utc": "2026-11-19T04:13:27.581679+00:00",
+    "wall_cap_seconds": 180,
+    "native_compile_proof_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "exit_code": 0,
+    "elapsed_seconds": 24.242099224124104,
+    "end_utc": "2026-11-19T04:13:51.823845+00:00",
+    "head_after": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "tracked_clean_after": true
+  },
+  "control_preflight": {
+    "control_sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "control_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+    "control_parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "tracked_clean": true,
+    "name": "control-preflight",
+    "argv": [
+      "python3",
+      "-B",
+      "check_package.py",
+      "control",
+      "--repo",
+      ".."
+    ],
+    "cwd": "/root/kani-ch8-s3s4-bridge1-r1-control-w13/ch8-s1-control",
+    "start_utc": "2026-11-19T04:13:26.909181+00:00",
+    "wall_cap_seconds": 180,
+    "native_compile_proof_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "exit_code": 0,
+    "elapsed_seconds": 0.5771422758698463,
+    "end_utc": "2026-11-19T04:13:27.486358+00:00",
+    "head_after": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "tracked_clean_after": true
+  },
+  "targeted_count": {
+    "control_sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "control_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+    "control_parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "tracked_clean": true,
+    "name": "targeted-count",
+    "argv": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "-v",
+      "test_s34_paths.RealPathWriterTests.test_selected_count_real_writer_and_both_readers",
+      "test_s34_paths.RealPathWriterTests.test_selected_count_stopped_and_partial_prefix",
+      "test_s34_paths.RealPathWriterTests.test_selected_count_without_completions",
+      "test_s34_paths.RealPathWriterTests.test_selected_count_requires_validated_request_inventory"
+    ],
+    "cwd": "/root/kani-ch8-s3s4-bridge1-r1-control-w13/ch8-s1-control",
+    "start_utc": "2026-11-19T04:12:58.523600+00:00",
+    "wall_cap_seconds": 180,
+    "native_compile_proof_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "exit_code": 0,
+    "elapsed_seconds": 12.857104813214391,
+    "end_utc": "2026-11-19T04:13:11.380772+00:00",
+    "head_after": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "tracked_clean_after": true
+  },
+  "standalone_corrected_test": {
+    "control_sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "control_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+    "control_parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "tracked_clean": true,
+    "name": "standalone-portable",
+    "argv": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "-v",
+      "test_s34.PortableReplayTests.test_same_invocation_stock_rich_metadata_and_upload_only_replay"
+    ],
+    "cwd": "/root/kani-ch8-s3s4-bridge1-r1-control-w13/ch8-s1-control",
+    "start_utc": "2026-11-19T04:13:11.451645+00:00",
+    "wall_cap_seconds": 180,
+    "native_compile_proof_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "exit_code": 0,
+    "elapsed_seconds": 3.583464222960174,
+    "end_utc": "2026-11-19T04:13:15.035208+00:00",
+    "head_after": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "tracked_clean_after": true
+  },
+  "exact_test_list": "TEST-LIST.json",
+  "environment_limit": "Controlpreflight supplied synthetic GITHUB_REPOSITORY/EVENT_NAME/REF/RUN_ATTEMPT/SHA strings only; not a realref/run/publication. Nativecompile/proof/cost/fit NOT_RUN",
+  "source_preflight_execution_count": 1,
+  "no_postpass_control_source_tool_code_edits": true,
+  "proof_credit": "NONE"
+}

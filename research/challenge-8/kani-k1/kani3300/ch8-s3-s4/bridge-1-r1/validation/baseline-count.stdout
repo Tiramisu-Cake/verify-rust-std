@@ -1,0 +1,71 @@
+{
+  "candidate": "bcc103354d1418feeda043c6b955b38bb4393598",
+  "writer_declares": 8,
+  "actual_completed": 7,
+  "native_execution": "SYNTHETIC_ONLY",
+  "observed": [
+    {
+      "case": "consistent_seven",
+      "value": 7,
+      "actual_local": "ACCEPT",
+      "actual_upload_only": "ACCEPT",
+      "expected": "ACCEPT"
+    },
+    {
+      "case": "writer_wrong_eight",
+      "value": 8,
+      "actual_local": "ACCEPT",
+      "actual_upload_only": "ACCEPT",
+      "expected": "REJECT"
+    },
+    {
+      "case": "missing",
+      "value": "DELETE",
+      "actual_local": "ACCEPT",
+      "actual_upload_only": "ACCEPT",
+      "expected": "REJECT"
+    },
+    {
+      "case": "null",
+      "value": null,
+      "actual_local": "ACCEPT",
+      "actual_upload_only": "ACCEPT",
+      "expected": "REJECT"
+    },
+    {
+      "case": "bool",
+      "value": true,
+      "actual_local": "ACCEPT",
+      "actual_upload_only": "ACCEPT",
+      "expected": "REJECT"
+    },
+    {
+      "case": "string",
+      "value": "7",
+      "actual_local": "ACCEPT",
+      "actual_upload_only": "ACCEPT",
+      "expected": "REJECT"
+    },
+    {
+      "case": "float",
+      "value": 7.0,
+      "actual_local": "ACCEPT",
+      "actual_upload_only": "ACCEPT",
+      "expected": "REJECT"
+    },
+    {
+      "case": "zero",
+      "value": 0,
+      "actual_local": "ACCEPT",
+      "actual_upload_only": "ACCEPT",
+      "expected": "REJECT"
+    },
+    {
+      "case": "wrong_count_six",
+      "value": 6,
+      "actual_local": "ACCEPT",
+      "actual_upload_only": "ACCEPT",
+      "expected": "REJECT"
+    }
+  ]
+}

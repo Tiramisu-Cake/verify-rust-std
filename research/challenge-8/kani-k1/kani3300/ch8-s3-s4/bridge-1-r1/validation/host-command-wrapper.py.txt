@@ -1,0 +1,26 @@
+import subprocess,json,time,sys,os,datetime
+from pathlib import Path
+control=Path('/root/kani-ch8-s3s4-bridge1-r1-control-w13');here=control/'ch8-s1-control'
+out=Path('/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1-r1/validation')
+git=lambda *args:subprocess.check_output(['git','-C',str(control),*args],text=True).strip()
+identity={'control_sha':git('rev-parse','HEAD'),'control_tree':git('rev-parse','HEAD^{tree}'),'control_parents':git('rev-list','--parents','-n','1','HEAD').split()[1:],'tracked_clean':not git('status','--porcelain=v1')}
+names=['test_selected_count_real_writer_and_both_readers','test_selected_count_stopped_and_partial_prefix','test_selected_count_without_completions','test_selected_count_requires_validated_request_inventory']
+commands={
+ 'targeted-count':(['python3','-B','-m','unittest','-v',*['test_s34_paths.RealPathWriterTests.'+name for name in names]],180),
+ 'standalone-portable':(['python3','-B','-m','unittest','-v','test_s34.PortableReplayTests.test_same_invocation_stock_rich_metadata_and_upload_only_replay'],180),
+ 'control-preflight':(['python3','-B','check_package.py','control','--repo','..'],180),
+ 'source-preflight':(['python3','-B','runner.py','check-source','--std','/root/verify-rust-std-ch8-s3s4-bridge1-w13','--tool','/root/kani-upstream-ch8-s1'],180),
+ 'final-validate':(['python3','-B','s34_validate.py'],1080)}
+env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',GITHUB_REPOSITORY='Tiramisu-Cake/kani',GITHUB_EVENT_NAME='push',GITHUB_REF='refs/heads/uninit-ci/ch8-s3s4-offline-count-repair',GITHUB_RUN_ATTEMPT='1',GITHUB_SHA=identity['control_sha'])
+assert identity['tracked_clean']
+for name in sys.argv[1:]:
+ argv,cap=commands[name];assert not (out/(name+'.json')).exists(), 'do not overwrite receipts'
+ receipt={**identity,'name':name,'argv':argv,'cwd':str(here),'start_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'wall_cap_seconds':cap,'native_compile_proof_fit':'NOT_RUN','proof_credit':'NONE'}
+ started=time.monotonic()
+ with (out/(name+'.stdout')).open('xb') as stdout,(out/(name+'.stderr')).open('xb') as stderr:
+  try:run=subprocess.run(argv,cwd=here,env=env,stdout=stdout,stderr=stderr,timeout=cap);code=run.returncode
+  except subprocess.TimeoutExpired:code=124;receipt['timed_out']=True
+ receipt.update(exit_code=code,elapsed_seconds=time.monotonic()-started,end_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),head_after=git('rev-parse','HEAD'),tracked_clean_after=not git('status','--porcelain=v1'))
+ if name=='final-validate':receipt['margin_at_18_minutes']=1080/receipt['elapsed_seconds']
+ (out/(name+'.json')).write_text(json.dumps(receipt,indent=2)+'\n');print(name,code,receipt['elapsed_seconds'],flush=True)
+ if code:sys.exit(code)

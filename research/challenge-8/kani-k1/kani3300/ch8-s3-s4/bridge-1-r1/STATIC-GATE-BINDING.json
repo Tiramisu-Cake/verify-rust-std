@@ -1,0 +1,43 @@
+{
+  "schema": "bridge1-source-preflight-gate-binding-v1",
+  "execution_receipt": "validation/source-preflight.json",
+  "command": "runner.py check-source --std PINNED_SOURCE --tool PINNED_TOOL",
+  "prebuild_argument": true,
+  "gates": [
+    "s34_ordinary_contracts.check",
+    "s34_cfg_pfc.check",
+    "s34_contract_stacks.check",
+    "s34_lexical_bindings.check"
+  ],
+  "call_path": "main check-source -> verify_source(prebuild=True) -> s34_policy.validate_source -> all four check functions, roles/source bytes/correspondence; any exception fails command",
+  "result": "PASS by real sourcepreflight exit0, no mocks",
+  "report_limitation": "Per-gate report values are computed by policy and not emitted by runner; receipt retains command exit, source/tool identities and exact code binding. No second sourcepreflight run performed.",
+  "code_bindings": [
+    {
+      "control_sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "file": "ch8-s1-control/runner.py",
+      "sha256": "444bee432be575b3dc633ccbe4c3259f7e09371119f5bb3f139331a53afd90c9",
+      "start_line": 203,
+      "end_line": 258,
+      "range_sha256": "6b618cc3e9b56bb03fe8c52ef980c0d8f57e0b3deac45867ded7c2e1923b49d4"
+    },
+    {
+      "control_sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "file": "ch8-s1-control/runner.py",
+      "sha256": "444bee432be575b3dc633ccbe4c3259f7e09371119f5bb3f139331a53afd90c9",
+      "start_line": 1352,
+      "end_line": 1353,
+      "range_sha256": "b61e65fa63720ff94973de00b3b3fa1ae441842510daced306b2ef8e31fc3a2a"
+    },
+    {
+      "control_sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "file": "ch8-s1-control/s34_policy.py",
+      "sha256": "fa281119197e80f8ecff6c62e33c716c68961408cdd42621bde3240577a79db3",
+      "start_line": 71,
+      "end_line": 84,
+      "range_sha256": "f26a8784ae588caa3969b8e2815bb193e7a71710b0ca4d20c57f9f102fcf4ed0"
+    }
+  ],
+  "native_compile_proof": "NOT_RUN",
+  "proof_credit": "NONE"
+}

@@ -1,0 +1,171 @@
+{
+  "schema": "ch8-s3s4-bridge1-pins-v1",
+  "status": "READY_FOR_SAME14_DELTA_NOT_GO",
+  "implementation_task": "0414fdbdf784f07abb1ca6a7c020d1c8064c8e39",
+  "runtime": "FRESH13 high/FastOFF; no subagents/model changes",
+  "frozen_inputs": {
+    "plan": "7749b8517ba42b400c41f0b4f7a7212a4fdcab8a",
+    "intake": "5d9439a7641c929838bf075c6aa6533a353ee92d",
+    "intake_review": "028531727fc48ef9f26f16dfb95c2b2666c96dd7",
+    "exact_admission": "ff193cc35690a5daabaa849d412c58d9f286d893",
+    "S4_inventory": "9e013a2683afbf64de762e570a052c11917e52f7",
+    "source_reference": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+    "control_reference": "775574eb2f361ef90eade30330ff0d608530287f",
+    "count_repair_task": "0414fdbdf784f07abb1ca6a7c020d1c8064c8e39",
+    "full_review": "4bd906e8fe1e2dc78afef74d32db8b9e14c2db7e"
+  },
+  "source": {
+    "sha": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+    "tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0",
+    "parents": [
+      "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    ],
+    "clean": true,
+    "depth": 5,
+    "required_commits_available": [
+      "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "99e8456d200fff1299ee5756279cddb23921dc65"
+    ],
+    "shallow_check": "PASS",
+    "worktree": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+    "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "reference": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d"
+  },
+  "control": {
+    "sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+    "parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "clean": true,
+    "depth": 7,
+    "required_commits_available": [
+      "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "0aac16ef62da9e9d5645782d458593e5d78143ba"
+    ],
+    "shallow_check": "PASS",
+    "worktree": "/root/kani-ch8-s3s4-bridge1-r1-control-w13",
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "reference": "775574eb2f361ef90eade30330ff0d608530287f"
+  },
+  "tool": {
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parents": [
+      "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    ],
+    "clean": true,
+    "depth": 2,
+    "required_commits_available": [
+      "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    ],
+    "shallow_check": "PASS",
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "author_committer": "Ivo Matijašević <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+  },
+  "request": {
+    "schema": "ch8-s3s4-bridge1-v1",
+    "profile": "ch8-s3s4-bridge1-fullbyte-v1",
+    "sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+    "workflow_sha256": "317f92181bee9470ddf65471def7154fcacbf1e6fb7913220ca1f154ca915a55",
+    "payload_hashes": 100,
+    "ci_changed_paths": 117,
+    "ci_deleted_paths": 16,
+    "selfhash_excluded": true,
+    "operative_identities": "request-derived at writers/readers; pinnedsource/tool; Originaltargetnull",
+    "historical_provenance": "explicit nested historical_provenance only; not operative authorization"
+  },
+  "ordered_rows": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "sort13_weak",
+    "i_p01_b01_fullu8",
+    "sort9_v34_b01_len09_real",
+    "fallback_cell_b01_n00_16",
+    "network_u8_b01_n00_08"
+  ],
+  "flags": {
+    "unstable": [
+      "function-contracts",
+      "mem-predicates",
+      "float-lib",
+      "c-ffi",
+      "loop-contracts",
+      "quantifiers",
+      "stubbing",
+      "export-json"
+    ],
+    "assert_contracts": false,
+    "jobs": 1,
+    "harness_timeout": "600s",
+    "exact": true,
+    "default_unwind": 50,
+    "cbmc_args": [
+      "--object-bits",
+      "12"
+    ],
+    "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf"
+  },
+  "caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "setup_seconds": 1800,
+  "job_minutes": 180,
+  "validate_minutes": 18,
+  "campaign_envelope_seconds": 5460,
+  "qualified_new_leaves": [],
+  "proof_credit": "NONE",
+  "native_compile_proof_cost_fit": "NOT_RUN",
+  "accounting_reference": {
+    "ledger_g0": "df305d47173284dfd54ad55d6b7567c892790c87",
+    "item1_used": 31,
+    "item1_cap": 31,
+    "item2_used": 13,
+    "item2_cap": 17,
+    "total_used": 44,
+    "total_cap": 48,
+    "future_accounting": "COORDINATOR_ONLY; hypothetical counted attempt14/17,total45/48; no reservation or grant",
+    "latest_admission_only": "ff193cc35690a5daabaa849d412c58d9f286d893",
+    "reservation": false,
+    "changed": false
+  },
+  "publication": "NOT_PERFORMED; separate reviewed rootGO/usercoordinator only",
+  "future_run_head_ref_ID": "UNKNOWN",
+  "same_tree_future_trigger": "nonskip sibling sole9e14, never preauthorized by package",
+  "offline_validation": {
+    "tests": 267,
+    "actual_final_validate_execution_count": 1,
+    "elapsed_seconds": 632.5823326697573,
+    "internal_elapsed_seconds": 632.1776101361029,
+    "margin_at_18_minutes": 1.7072876433996447,
+    "required_margin": 1.5,
+    "exit_code": 0,
+    "control_sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3"
+  },
+  "repair_baseline": {
+    "candidate": "bcc103354d1418feeda043c6b955b38bb4393598",
+    "control": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+    "review": "4bd906e8fe1e2dc78afef74d32db8b9e14c2db7e"
+  }
+}

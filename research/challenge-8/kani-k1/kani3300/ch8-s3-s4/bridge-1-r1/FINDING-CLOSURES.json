@@ -1,0 +1,75 @@
+{
+  "schema": "bridge1-count-repair-author-closures-v1",
+  "authority": "Author closure claims, pending SAME14 independent delta confirmation",
+  "baseline_candidate": "bcc103354d1418feeda043c6b955b38bb4393598",
+  "baseline_control": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+  "full_review": "4bd906e8fe1e2dc78afef74d32db8b9e14c2db7e",
+  "repaired_control": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+  "repaired_tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+  "findings": [
+    {
+      "id": "W14-B1-01",
+      "author_status": "CLOSED_PENDING_SAME14",
+      "writer": "finalize first validates profile/order/request via p.validate; emits len(request[rows]) as real int7; never completed-prefix cardinality",
+      "reader": "Shared campaign collector validates request then requires dict metadata, exact type(value) is int and equality to validated selected count before legacy observations; public local and upload-only dispatch share this gate",
+      "tests": [
+        "test_selected_count_real_writer_and_both_readers",
+        "test_selected_count_stopped_and_partial_prefix",
+        "test_selected_count_without_completions",
+        "test_selected_count_requires_validated_request_inventory"
+      ],
+      "scenarios": [
+        {
+          "state": "SELECTED_RECORDED_FULL_INVENTORY_INCOMPLETE",
+          "completed": 7,
+          "selected": 7
+        },
+        {
+          "state": "STOPPED",
+          "completed": 2,
+          "selected": 7
+        },
+        {
+          "state": "SELECTED_PARTIAL",
+          "completed": 2,
+          "selected": 7
+        },
+        {
+          "state": "STOPPED",
+          "completed": 0,
+          "selected": 7
+        },
+        {
+          "state": "SELECTED_PARTIAL",
+          "completed": 0,
+          "selected": 7
+        }
+      ],
+      "routes": [
+        "public collect local",
+        "public collect compact-only upload"
+      ],
+      "per_scenario_cases": {
+        "genuine_int7": "ACCEPT both routes",
+        "eight_missing_null_bool_string_float_zero_six": "REJECT both routes with exact cardinality failure"
+      },
+      "total_route_cases": 90,
+      "total_accepts": 10,
+      "total_rejects": 80,
+      "prefix_invariants": "Every structured JSON except terminal byte-identical across cardinality mutation, packed replay and terminal restoration; two sealed rows retained, third unsealed UNKNOWN, later NOT_RUN; prelaunch STOP has no completions/launches",
+      "CI_Validate": "All four regression names explicitly present in committed s34_validate.NEW"
+    },
+    {
+      "id": "W14-B1-02",
+      "author_status": "CLOSED_PENDING_SAME14",
+      "change": "Standalone PortableReplayTests validates request and checks len(rows) against validated request inventory, replacing stale9; original identity/protected/upload checks retained",
+      "receipt": "validation/standalone-portable.json",
+      "result": "single corrected test PASS, exit0",
+      "historical_failure": "Preserved at committed review4bd906; never relabelled finalPASS",
+      "original_263_PASS": "Preserved on b9; not evidence of execution on repaired bytes"
+    }
+  ],
+  "native_compile_proof_fit": "NOT_RUN",
+  "proof_credit": "NONE",
+  "approval_or_GO": false
+}

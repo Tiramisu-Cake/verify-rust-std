@@ -1,0 +1,94 @@
+{
+  "historical_immutable": [
+    {
+      "commit": "bcc103354d1418feeda043c6b955b38bb4393598",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1/PINS.json",
+      "sha256": "376849e047c95a0010d57f8cea79ae4f9b455781145d90db25f9a56dd23593af"
+    },
+    {
+      "commit": "bcc103354d1418feeda043c6b955b38bb4393598",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1/VALIDATION.json",
+      "sha256": "0ed16693a86a3b24bee73199793df817dbb3a20b3b870d4f21c9efe947fa2ee6"
+    },
+    {
+      "commit": "bcc103354d1418feeda043c6b955b38bb4393598",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1/PRECURSORS.json",
+      "sha256": "9e14a2ddadf6f4d2be66f55758a7bfc387173a220189675f3fc8883e7f2e9f5d"
+    },
+    {
+      "commit": "bcc103354d1418feeda043c6b955b38bb4393598",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1/MANIFEST.sha256",
+      "sha256": "f8b4e27958009ea3e5b3efc87d2ef9344f178b49d4f456762f5a0e982e680160"
+    },
+    {
+      "commit": "bcc103354d1418feeda043c6b955b38bb4393598",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1/validation/final-validate.json",
+      "sha256": "d657aaee4479282a0aec0bd81b79a76d3c7af85a37a13cf212f04ea39e77982a"
+    },
+    {
+      "commit": "bcc103354d1418feeda043c6b955b38bb4393598",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1/validation/final-validate.stdout",
+      "sha256": "0bff472d7c3ed24809b0061192c347147afefdcdfd3bd5c7719c6962edd5d0b7"
+    },
+    {
+      "commit": "bcc103354d1418feeda043c6b955b38bb4393598",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1/validation/final-validate.stderr",
+      "sha256": "8937b95819df64dca07d39b11a8fee3f1ffd8e0936ad818717b169442da34ee1"
+    },
+    {
+      "commit": "4bd906e8fe1e2dc78afef74d32db8b9e14c2db7e",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1-review/REPORT.md",
+      "sha256": "14f6d7f4fa712c005a1a41c6e82158eca5874e8b0b10df7b2e793484e19ea5b0"
+    },
+    {
+      "commit": "4bd906e8fe1e2dc78afef74d32db8b9e14c2db7e",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1-review/FINDINGS.json",
+      "sha256": "8bd9c81c795ed2a8db1e03371ce1deea54635a02805a752dc64013a2664155be"
+    },
+    {
+      "commit": "4bd906e8fe1e2dc78afef74d32db8b9e14c2db7e",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1-review/COUNT-GATE-REPRODUCER.json",
+      "sha256": "1a0df6af7ae27865c487671986172101f1ca07795797902dd6e954335e6da8b1"
+    },
+    {
+      "commit": "4bd906e8fe1e2dc78afef74d32db8b9e14c2db7e",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1-review/count_reproducer.py",
+      "sha256": "199296ad8323a05ac30ea4f3040503693d90caa012ee0a332bbc2b60a805b661"
+    },
+    {
+      "commit": "4bd906e8fe1e2dc78afef74d32db8b9e14c2db7e",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1-review/standalone-portable.json",
+      "sha256": "b640502caf1646768172c6bc9b510346fd508a36c295897a93eed74def6462cc"
+    },
+    {
+      "commit": "4bd906e8fe1e2dc78afef74d32db8b9e14c2db7e",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1-review/standalone-portable.stderr",
+      "sha256": "620947a538bd9b7fc30da3a45698eaa47a1fafa7aecd48d2e210ca43b0372f8a"
+    },
+    {
+      "commit": "4bd906e8fe1e2dc78afef74d32db8b9e14c2db7e",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1-review/standalone-portable.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "historical_final_validate": {
+    "control": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+    "tests": 263,
+    "status": "PASS",
+    "execution_count": 1,
+    "elapsed_seconds": 619.2504397919402,
+    "credit_for_repaired_control": false
+  },
+  "historical_standalone": {
+    "control": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+    "status": "FAIL",
+    "failure": "AssertionError: 7 != 9",
+    "outside_original_263": true,
+    "not_relabelled": true
+  },
+  "baseline_reproduction": "validation/baseline-count.json and baseline-count.stdout; exact committed review script, pinned old module directory, separate Python -B process",
+  "repair_targeted": "validation/targeted-count.json: 4 tests PASS before final Validate",
+  "repair_standalone": "validation/standalone-portable.json: single corrected test PASS before final Validate",
+  "old_initial_precursors": "See immutable original PRECURSORS.json; no previous failure/receipt overwritten",
+  "proof_credit": "NONE"
+}

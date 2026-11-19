@@ -1,0 +1,64 @@
+from pathlib import Path
+import subprocess,json,hashlib,tempfile,os,shutil
+main=Path('/root/verify-rust-std-kani3300-g0');std=Path('/root/verify-rust-std-ch8-s3s4-bridge1-w13');control=Path('/root/kani-ch8-s3s4-bridge1-r1-control-w13');tool=Path('/root/kani-upstream-ch8-s1')
+out=main/'research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1-r1';out.mkdir(parents=True,exist_ok=True)
+sha=lambda b:hashlib.sha256(b).hexdigest()
+def git(repo,*args):return subprocess.check_output(['git','-C',str(repo),*args])
+def text(repo,*args):return git(repo,*args).decode().strip()
+def put(name,data): (out/name).write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n')
+r=json.loads((control/'ch8-s1-control/CI-REQUEST.json').read_text());source=r['std_sha'];ctrl=text(control,'rev-parse','HEAD');ctree=text(control,'rev-parse','HEAD^{tree}')
+patches=[]
+for label,repo,base,tip,expect in [('SOURCE-PARENT',std,r['source_parent'],source,r['std_tree']),('SOURCE-DELTA',std,'1b4a904f8144172f0a3682f84f1bd4afd80eaf5d',source,r['std_tree']),('SOURCE-STOCK',std,r['base_std_sha'],source,r['std_tree']),('CONTROL-PARENT',control,r['control_parent'],ctrl,ctree),('CONTROL-DELTA',control,'775574eb2f361ef90eade30330ff0d608530287f',ctrl,ctree),('CONTROL-STOCK',control,r['tool_sha'],ctrl,ctree)]:
+ data=git(repo,'diff','--binary','--full-index',base,tip);path=out/(label+'.patch');path.write_bytes(data)
+ with tempfile.TemporaryDirectory(prefix='bridge1-replay-') as td:
+  env=dict(os.environ,GIT_INDEX_FILE=td+'/index')
+  subprocess.run(['git','-C',str(repo),'read-tree',base],env=env,check=True)
+  subprocess.run(['git','-C',str(repo),'apply','--cached','--whitespace=nowarn',str(path)],env=env,check=True)
+  tree=subprocess.check_output(['git','-C',str(repo),'write-tree'],env=env,text=True).strip();assert tree==expect
+ patches.append({'file':path.name,'sha256':sha(data),'base':base,'tip':tip,'expected_tree':expect,'replayed_tree':tree,'status':'EXACT_TREE_PASS','native_compile':'NOT_RUN'})
+put('PATCHES.json',patches)
+ancestry={}
+for label,repo,tip,depth,required in [('source',std,source,5,[source,r['source_parent'],r['base_std_sha']]),('control',control,ctrl,7,[ctrl,r['control_parent'],r['tool_sha']]),('tool',tool,r['tool_sha'],2,[r['tool_sha'],'3e095c22a231de1d7acd2410b71f0fc8e6970c19'])]:
+ parents=text(repo,'rev-list','--parents','-n','1',tip).split()[1:];clean=not text(repo,'status','--porcelain=v1');assert clean
+ if label!='tool':assert parents==[r[label+'_parent'] if label=='source' else r['control_parent']]
+ with tempfile.TemporaryDirectory(prefix='bridge1-shallow-') as td:
+  branch=text(repo,'symbolic-ref','-q','--short','HEAD') if False else None
+  # Clone the exact detached HEAD; local file transport respects explicit depth.
+  subprocess.run(['git','clone','--quiet','--no-checkout','--single-branch','--depth='+str(depth),'file://'+str(repo),td+'/clone'],check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+  shallow=Path(td)/'clone'
+  assert text(shallow,'rev-parse','HEAD')==tip
+  for commit in required:assert text(shallow,'cat-file','-t',commit)=='commit'
+ ancestry[label]={'sha':tip,'tree':text(repo,'rev-parse',tip+'^{tree}'),'parents':parents,'clean':clean,'depth':depth,'required_commits_available':required,'shallow_check':'PASS','worktree':str(repo),'author_committer':text(repo,'show','-s','--format=%an <%ae>%n%cn <%ce>',tip)}
+put('ANCESTRY.json',ancestry)
+for src,name in [(control/'ch8-s1-control/CI-REQUEST.json','CI-REQUEST.json'),(control/'.github/workflows/ch8-s2.yml','WORKFLOW.yml')]:shutil.copyfile(src,out/name)
+# Every old source path stays byte exact, except minimal explicit module wiring.
+source_delta=text(std,'diff','--name-only','1b4a904f8144172f0a3682f84f1bd4afd80eaf5d',source).splitlines()
+assert source_delta==['library/core/src/slice/sort/shared/smallsort/verify.rs','library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs']
+oldverify=git(std,'show','1b4a904f8144172f0a3682f84f1bd4afd80eaf5d:library/core/src/slice/sort/shared/smallsort/verify.rs');newverify=(std/'library/core/src/slice/sort/shared/smallsort/verify.rs').read_bytes();assert newverify.startswith(oldverify)
+protected={}
+for rel in text(control,'ls-tree','-r','--name-only','775574eb2f361ef90eade30330ff0d608530287f','ch8-s1-control').splitlines():
+ if rel.endswith('.py') and Path(rel).name not in ('runner.py','check_package.py','collect.py'):
+  old=git(control,'show','775574eb2f361ef90eade30330ff0d608530287f:'+rel);new=(control/rel).read_bytes();assert old==new;protected[rel]=sha(new)
+put('PRESERVATION.json',{'source_reference':'1b4a904f8144172f0a3682f84f1bd4afd80eaf5d','only_source_delta_paths':source_delta,'old_verify_is_exact_prefix':True,'all_other_source_tracked_bytes_preserved':True,'control_reference':'775574eb2f361ef90eade30330ff0d608530287f','protected_python_exact_bytes':protected,'shared_routing_delta_only':['runner.py','check_package.py','collect.py'],'tool_exact_unchanged':r['tool_sha']})
+# Dependency files are current source identities, plus committed authored input documents.
+keys=['changed_file_sha256','cfg_pfc_source_sha256','ordinary_contract_source_sha256','contract_stack_source_sha256','lexical_source_sha256'];deps={}
+for key in keys:
+ for rel,digest in r[key].items():
+  assert sha((std/rel).read_bytes())==digest
+  entry=deps.setdefault(rel,{'source_sha':source,'sha256':digest,'gates':[]});assert entry['sha256']==digest;entry['gates'].append(key)
+authored=[]
+prefix='research/challenge-8/kani-k1/kani3300/'
+# Pin committed evidence summaries/decisions only; no artifact acquisition/analysis.
+inputs=[('e060dab687785f64560a5a563b0689c04d68a215','research/challenge-8/kani-k1/TASK-CH8-S3S4-BRIDGE1-IMPLEMENT-W13.md'),('e060dab687785f64560a5a563b0689c04d68a215',prefix+'ch8-s3-s4/bridge-1-inputs/INPUTS.json'),('e060dab687785f64560a5a563b0689c04d68a215',prefix+'ch8-s3-s4/bridge-1-inputs/ROOT-DECISION.md')]
+for commit,rel in inputs:
+ data=git(main,'show',commit+':'+rel);authored.append({'commit':commit,'path':rel,'sha256':sha(data),'role':'EXACT_IMPLEMENTATION_AUTHORITY'})
+for name,commit,directory in [('plan',r['bridge1_inputs']['plan'],'ch8-s3/s3-3-insert-offline-plan/'),('intake',r['bridge1_inputs']['intake'],'ch8-s3/run-44439462279/'),('review',r['bridge1_inputs']['intake_review'],'ch8-s3/run-44439462279-review-w14/'),('admission',r['bridge1_inputs']['exact_admission'],'admission-s3-2-r1-exact-location/')]:
+ paths=text(main,'ls-tree','-r','--name-only',commit,prefix+directory).splitlines()
+ # Hash authored committed files; do not read/re-analyze captured artifacts.
+ for rel in paths:
+  if Path(rel).suffix.lower() in ('.md','.json') or Path(rel).name=='MANIFEST.sha256':
+   authored.append({'commit':commit,'path':rel,'sha256':sha(git(main,'show',commit+':'+rel)),'role':name.upper()+'_COMMITTED_AUTHORED_BINDING_NO_REAUDIT'})
+put('DEPENDENCIES.json',{'source':deps,'authored_inputs':authored,'S4_old_inventory':{'commit':r['bridge1_inputs']['S4_inventory'],'limit':'oldbd62 source-only; current premises rebound below, never inherited proof'},'artifact_analysis':'NOT_REPEATED; no artifact/raw acquisition','proof_credit':'NONE'})
+put('ROOTS.json',{'ordered_roots':[{k:row[k] for k in ('id','selector','source_qualified_selector','mode','target','expected','assurance','scope_classification','unwind')} for row in r['rows']],'bindings':r['source_bindings'],'callee_names':dict(zip([x['id'] for x in r['rows'][3:]],['insert_tail','sort9_optimal','small_sort_fallback','small_sort_network'])),'binding_limit':'Source lexical and exact-byte bindings only; no compiler/MIR resolution proof','native_status':'NOT_RUN'})
+put('ROLE-ORACLE-COVER.json',{'schema':'bridge1-literal-role-cover-v1','std_sha':source,'rows':[{'id':row['id'],'mode':row['mode'],'target':row['target'],'required_success_messages':row['required_success_messages'],'required_cover_messages':row['required_cover_messages'],'required_cover_count':row['required_cover_count'],'failure_description':row['failure_description'],'roles':row['roles']} for row in r['rows']],'source_assertion_sites':sum(x['class']=='assertion' for row in r['rows'] for x in row['roles']),'source_cover_sites':sum(x['class']=='cover' for row in r['rows'] for x in row['roles']),'compiled_check_counts':'UNKNOWN_UNTIL_SAME_INVOCATION_EXPORT','producer_IDs':'UNKNOWN_UNTIL_SAME_INVOCATION_EXPORT','native_compile_proof':'NOT_RUN','proof_credit':'NONE'})
+print(out,source,ctrl,ctree)
