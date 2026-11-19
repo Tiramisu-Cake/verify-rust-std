@@ -1,0 +1,106 @@
+{
+  "schema": "network-r2-offline-plan-inputs-v1",
+  "stage": "AUTHORIZED_OFFLINE_PLAN_ONLY",
+  "authority": "User14:23 intake then simplify-or-defer plan; user14:45 explicitly send W13 hypotheses for offline network-r2 plan. W13 priorPR5159 complete84cdd/rootverified; SAME context continuation, no reset/new thread.",
+  "base_prepared_task": {
+    "commit": "248cfebd4b3c6f433fd809656ea70041258fd69c",
+    "path": "TASK-CH8-S4P2-NETWORK-COST-PLAN.md"
+  },
+  "intake": {
+    "commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+    "path": "kani3300/ch8-s4/run-44505531344/",
+    "refs": {
+      "HANDOFF.md": {
+        "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/HANDOFF.md",
+        "sha256": "0ba37cdc03ec19f2f996925a8fe29279b284e0b4d9659ee9bb2f5025842b5a38",
+        "bytes": 7789
+      },
+      "MANIFEST.json": {
+        "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/MANIFEST.json",
+        "sha256": "7a86cd56cee22c8ce60b8b5b9e13593c6ec06dd9f9937ddeb06e4b182474540b",
+        "bytes": 5963
+      },
+      "COST.json": {
+        "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/COST.json",
+        "sha256": "8605a8059bad236faf53fc201e41faab6524bfe578fa3eed57314e6d8e2d994d",
+        "bytes": 453761
+      },
+      "N01-COST-PATH.md": {
+        "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/N01-COST-PATH.md",
+        "sha256": "3f542e38749b719966bd32f69b5b44e4c5566b4085e18ffe17b422416f3d052b",
+        "bytes": 9995
+      },
+      "PHASE-OBSERVATIONS.json": {
+        "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/PHASE-OBSERVATIONS.json",
+        "sha256": "75dafdc65d327d146e82cc1772800691d270dc47ab1d330759f07b3ef270aa5d",
+        "bytes": 46347
+      },
+      "SOURCE-COST-PATH.json": {
+        "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/SOURCE-COST-PATH.json",
+        "sha256": "a215f11820c71b301267a8ca2789fb3a7c0df61f43dc9846d1a7592e36089a80",
+        "bytes": 20941
+      },
+      "QUALIFICATION.json": {
+        "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/QUALIFICATION.json",
+        "sha256": "84a6e0afa9d1ee86331b1a78b63acfc7293776ac9655c89f432c0f220f61be1b",
+        "bytes": 104778
+      },
+      "ROOTS.json": {
+        "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344/ROOTS.json",
+        "sha256": "03b3fc89b9e11175542d1c0741a5aea67c410a50f03a4bea41a6a8d4de8c05f7",
+        "bytes": 184741
+      }
+    }
+  },
+  "verified_facts": {
+    "source": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+    "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "harness_file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_partition.rs",
+    "harness_unwind_attribute": 36,
+    "buffer_logical_u8_values": 34,
+    "N01_length": "let n: usize = kani::any(); source assume0<=n<=1; dynamic [1..1+n] slice",
+    "actual_helper": "small_sort_network<u8,KeyLess<u8>> returns for len<2 before comparator/insertion; len2..4 uses actual insertionprefix1/2/3",
+    "observed_tail": "N01 compact reports symbolic insertion_sort_shift_left/insert_tail loop unwinding; no completed native unwind verdict or actual MIR/assumption trace",
+    "causality": "UNKNOWN",
+    "all_four_cap": "600 whole-child wall inclcompile; ~601.6elapsed, ~30-31compile upper, RSS<6GiB; four positive inventories incompleteUNKNOWN/no new qualified leaves"
+  },
+  "source": {
+    "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+    "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+    "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+    "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "tool": {
+    "repo": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "control": {
+    "repo": "/root/kani-ch8-s4p-2-r1-control-w13",
+    "sha": "4059c900e50ba179d824a1e6f6bd7798cf343e36"
+  },
+  "user_hypotheses": {
+    "H1": "Per-partition kani::unwind(N+1), if source/global-loop obligations justify it",
+    "H2": "Direct network call avoiding dispatch through insertion",
+    "H3": "Use concrete length instead of symbolic length plus assume",
+    "status": "Hypotheses to evaluate, not root-cause proof/implementation/GO. Correct supplied34 bound to observed source36; domain is source<=1 for N01, not accidentally<=34."
+  },
+  "required_options": [
+    "SAME_TARGET_CONST_LENGTH: source-constant lengths with actual small_sort_network call and same full-byte/frame/coverage theorem",
+    "BOUND_INVENTORY: per-partition/per-loop bounds under stock0aac; keep unwinding checks, account for frame/init/snapshot/oracle loops independent ofN",
+    "DIRECT_CALLEE_ALTERNATIVE: exact functions/domains/type/init/frame; identify target change and missing caller/equivalence bridge rather than promote different leaf as original proof",
+    "DIAGNOSTIC_ISOLATION or DEFER_SUMMARIES with explicit proof DAG/conditions/no automatic qualification"
+  ],
+  "preserve": [
+    "All34 independent full-u8 values unless explicit changed-domain/new-ID proposal with no old-theorem credit",
+    "Actual function/type/comparator/Original mode and no assumed summaries",
+    "Full sorted/count functional guarantee, every outside-frame cell and canary, initialization and feasible covers",
+    "Safety/unwinding/status/U/guard/location/identity fail-closed criteria; old exact location exceptions do not transfer",
+    "Stock tool/source kernels/contracts unchanged; no compiler/flags/caps/runtime/source implementation in this plan"
+  ],
+  "cost_limits": "Censored wall costs; missing internal phase timings/solver start/MIR/assume binding remain UNKNOWN. No fit guarantee, N independence, solver-time subtraction or causality from progress text.",
+  "output": "kani3300/ch8-s4/network-r2-offline-plan/",
+  "old_plan_output_not_used": "Prepared248 pathnetwork-after-s4p2-cost-plan is superseded for this new task; preserve any old packet, do not create duplicate pending plan.",
+  "native": "No local compiler/cargo/rustc/rustfmt/Kani/CBMC/expansion/verifier/fullrunner/native/CI/rerun/push/raw/full/GCS",
+  "publication_accounting": "No PR/issues/comments/sourcepush/ledger/accounting/budget/reservation/model/subagent changes. Ownercoordinator decides implementation after reviewing the plan.",
+  "parallel": "#4591r4 actualCI headb301/Kani44516395307 Format44516395718 Deny44516395278 independentmetadatawatch; W14intakeDONE current390idle; W11PR5184 independent; do not reset/duplicate any stage."
+}

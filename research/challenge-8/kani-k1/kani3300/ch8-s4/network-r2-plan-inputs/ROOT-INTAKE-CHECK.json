@@ -1,0 +1,62 @@
+{
+  "intake_commit": "00efb1f5440627362af5c470ad434b89c5e27cca",
+  "committed_files": 42,
+  "manifest_hashes": 41,
+  "compact_members": 119,
+  "transport_sha256": "3cd97c3dc14f54ff799782bca6d4600f80d05a6e61e2b69994e7803bc5ca7e7c",
+  "member_sha256": "adb1df5b923730b5a6b36d18063a32b73b6a9213dc5faa75c5a88caeeff328fb",
+  "payload_sha256": "9e6bf2747bd999102c10afc84600d2282a9ca1ef5e50ddd513a106caa658a20c",
+  "result": "SELECTED_PARTIAL; NATIVE0_SUCCESS_4_INTENDED_FAILURE_4_CHILD600_WALL_TIMEOUT; STRICT0; NO_ADMISSION",
+  "all8sealed": true,
+  "global_stop": false,
+  "positive_caps": [
+    {
+      "id": "s4p2_network_b01_n02_fullbyte",
+      "child_s": 601.609,
+      "compile_upper_s": 31.002,
+      "sampled_PGID_RSS_KiB": 3879680,
+      "cap_KiB": 6291456,
+      "cause": "CHILD600_WALL_INCLUDING_COMPILE",
+      "native_verification_s": "UNKNOWN_CENSORED"
+    },
+    {
+      "id": "s4p2_network_b01_n03_fullbyte",
+      "child_s": 601.597,
+      "compile_upper_s": 31.103,
+      "sampled_PGID_RSS_KiB": 3971124,
+      "cap_KiB": 6291456,
+      "cause": "CHILD600_WALL_INCLUDING_COMPILE",
+      "native_verification_s": "UNKNOWN_CENSORED"
+    },
+    {
+      "id": "s4p2_network_b01_n04_fullbyte",
+      "child_s": 601.59,
+      "compile_upper_s": 30.99,
+      "sampled_PGID_RSS_KiB": 4005932,
+      "cap_KiB": 6291456,
+      "cause": "CHILD600_WALL_INCLUDING_COMPILE",
+      "native_verification_s": "UNKNOWN_CENSORED"
+    },
+    {
+      "id": "s4p2_network_b01_n00_01_fullbyte",
+      "child_s": 601.592,
+      "compile_upper_s": 30.284,
+      "sampled_PGID_RSS_KiB": 3911140,
+      "cap_KiB": 6291456,
+      "cause": "CHILD600_WALL_INCLUDING_COMPILE",
+      "native_verification_s": "UNKNOWN_CENSORED"
+    }
+  ],
+  "native_new_qualified": 0,
+  "prefix_local_upload": "MATCH genuineint8",
+  "actual_source_tool_SHA_tree": "MATCH baseline",
+  "source_declared_unwind": 36,
+  "N01_source_length": "symbolic usize with assume<=1, not a concrete Rust length; no native assumption/MIR binding",
+  "phase_fact": "Bounded N01 tail records insertion-loop unwinding while source len<2 returns; exact causality/time hotspot UNKNOWN",
+  "existing_reporting_validation": {
+    "VALIDATION_sha256": "eec53d8392f4136e4b8cdd88f5e48dfdb75a214793684a51a87267130d6de6cd",
+    "AUDIT_VALIDATION_sha256": "fc3a0430d6c3a6b8607e182b159d46b9e36c7b853f262bb040485e1f359a3c8d"
+  },
+  "root_verification": "Committed bytes/digests/all119structuredmembers/identity/cap-cost/prefix/sourcefacts independently checked; author pure-reader replay receipt retained, no fullnative/hostsuite reexecution",
+  "next": "Intake-bound offline network-r2 plan W13, no implementation/CI/admission/accounting"
+}

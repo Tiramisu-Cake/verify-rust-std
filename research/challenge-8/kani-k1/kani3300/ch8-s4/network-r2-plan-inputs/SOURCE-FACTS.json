@@ -1,0 +1,12 @@
+{
+  "source": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+  "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "harness_file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_partition.rs",
+  "harness_unwind_attribute": 36,
+  "buffer_logical_u8_values": 34,
+  "N01_length": "let n: usize = kani::any(); source assume0<=n<=1; dynamic [1..1+n] slice",
+  "actual_helper": "small_sort_network<u8,KeyLess<u8>> returns for len<2 before comparator/insertion; len2..4 uses actual insertionprefix1/2/3",
+  "observed_tail": "N01 compact reports symbolic insertion_sort_shift_left/insert_tail loop unwinding; no completed native unwind verdict or actual MIR/assumption trace",
+  "causality": "UNKNOWN",
+  "all_four_cap": "600 whole-child wall inclcompile; ~601.6elapsed, ~30-31compile upper, RSS<6GiB; four positive inventories incompleteUNKNOWN/no new qualified leaves"
+}
