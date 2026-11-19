@@ -1,0 +1,127 @@
+{
+  "authentic_stream_reconstruction": "PASS: nulls retained",
+  "frozen_reader": "REJECT rich metadata incomplete: file/line missing",
+  "hypothetical_model": "NOT_APPLIED; exact-case authentic ACCEPT and mutation REJECT controls",
+  "negative_controls": [
+    {
+      "mutation": "offending.id",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "offending.display_id",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "offending.class",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "offending.status",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "offending.description",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "offending.location_display",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "offending.file",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "offending.line",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "harness",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "missing-key",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "locationless-role",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "locationless-cover",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "locationless-failed-check",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "extra-missing-record",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "count-mismatch",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "stock-success-mismatch",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "wrong-invocation",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "wrong-request",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "wrong-source",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "wrong-tool",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "wrong-cfg",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "wrong-namespace",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "changed-U",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    },
+    {
+      "mutation": "changed-binary",
+      "expected": "REJECT",
+      "observed": "REJECT"
+    }
+  ]
+}

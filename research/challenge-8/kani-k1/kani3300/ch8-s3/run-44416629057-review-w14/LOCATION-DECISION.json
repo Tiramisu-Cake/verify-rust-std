@@ -1,0 +1,97 @@
+{
+  "schema": "W14-exact-location-only-case-recommendation-v1",
+  "recommendation": "RECOMMEND_ADMIT_EXACT_LOCATION_ONLY_CASE",
+  "status": "NOT_APPLIED_ROOT_COORDINATOR_ADMISSION_PENDING",
+  "assurance": "S1 Profiles v4 SOURCE_REPORTED; independent proof NONE",
+  "task": "84aac8e779dbfaeb6300d92557fd122f4dea29f1",
+  "intake": "d29ab46dbbb45d7106fa30c3ac04bb419a2ac286",
+  "run": 44416629057,
+  "attempt": 1,
+  "harness": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc",
+  "exact_property": {
+    "id": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.unreachable.1",
+    "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.unreachable.1",
+    "class": "unreachable",
+    "status": "SUCCESS",
+    "description": "unreachable code",
+    "file": null,
+    "line": null,
+    "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc"
+  },
+  "require_present_keys": [
+    "file",
+    "line"
+  ],
+  "originating_positive_source_coordinate": "UNKNOWN",
+  "zero_normalization": "ESTABLISHED by actual frozen streaming parser replay",
+  "lowering_cause": "UNKNOWN; no original per-success CBMC SourceLocation retained",
+  "protected_identity": {
+    "source": {
+      "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+      "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+      "parents": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "parents": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    },
+    "control": {
+      "sha": "cb63033ffcde918f4341146e56373476b8eeb569",
+      "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+      "parents": "9e14e033f9ee31522b571c127609dcdff76d230b"
+    },
+    "executed_head": {
+      "sha": "7497ecdb3934585634f5f04e4ff7c6cc42450c0b",
+      "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+      "parents": "9e14e033f9ee31522b571c127609dcdff76d230b"
+    },
+    "request_sha256": "efbc150280f5f9641c9e8b48fb4486122ae8c3cfa318f78a42486394e1de7656",
+    "workflow_sha256": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709",
+    "compact_sha256": "b9a02491bfb360eb17a13ab6f7fea78108d0371a7e8033f277674fb33213bed0",
+    "invocation_id": "f6644642d07242c5a077398e0a1b2460",
+    "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/f6644642d07242c5a077398e0a1b2460",
+    "members_sha256": {
+      "receipt.json": "9e3e133afc639fe67879a52b65038e5f93178fc6193c963b13608edfa34e84a6",
+      "compile/receipt.json": "4b87f4440ffc4a3e99ad0ed262d9275d0501ed730745de98daa6cfb2d1640a18",
+      "binding-metadata.json": "f682ad26e4cce2bf2fc87b20955fc75c544622a633943bc1c6060dc9c1ffeec6",
+      "export.json": "78249a7c5cee3f6d4733141c0ec9d0eeaa075b4b87732cb0eddccc71192b6aea",
+      "properties.json": "fde75985c9a1351c74448636f95f3ed609755c4dba840f9f12536e1d2504f717"
+    }
+  },
+  "counts": {
+    "properties": 363,
+    "checks": 356,
+    "SUCCESS": 351,
+    "UNREACHABLE": 5,
+    "FAILURE": 0,
+    "covers": 7,
+    "SATISFIED": 7,
+    "missing_location_records": 1,
+    "required_SUCCESS_literal_assertions": 5,
+    "required_located_covers": 7
+  },
+  "constraints": [
+    "Exact property dict plus exact harness; same original invocation/run/source/tool/control/request/workflow/namespace and authenticated member identity.",
+    "Null coordinates preserved, both keys present; no registration line substitution or invented positive line.",
+    "All counts and exact stock status partitions/IDs reconcile; no extra missing record, duplicate or error/unknown/undetermined.",
+    "All five literal positive assertions SUCCESS and seven exact required covers SATISFIED at positive source sites; no extra/wrong-root covers.",
+    "All five U remain separately source-locally justified with exact source hashes/premises/cfg/provider/domain/init/frame binding.",
+    "Retain successful system record and unsupported guards; every actual role/source check/cover/failed check/U remains positively located.",
+    "Protected binary snapshots, source/compile metadata, native singleton start, original exits, containment and durable seal validations remain mandatory.",
+    "No global missing-location, stdlib, prefix, future-ID or future-run allowance; no policy/reader patch by reviewer."
+  ],
+  "reason": "Only one SUCCESS system record has zero-sentinel location; full same-invocation inventory and all literal roles/covers/U are independently checked. Exact prior S1 exception structure is comparable; existing map does not admit this pair.",
+  "risk": "Actual positive source origin/lowering explanation unresolved. Decision yields no source provenance or independent correctness credit for that system check.",
+  "actual_frozen_reader": "REJECT rich metadata incomplete: file/line missing",
+  "hypothetical_model": {
+    "applied": false,
+    "authentic_case": "ACCEPT",
+    "negative_controls": 24,
+    "all_mutations": "REJECT"
+  },
+  "raw_observed_S1_assessment_despite_producer_UNKNOWN": "YES as separate explicitly bounded case assessment; producer receipt/history unchanged",
+  "producer_policy": "REJECT_ALL; proposalDISABLED; strict0/9 unchanged",
+  "final_admission": "Root/coordinator explicit decision required; not granted",
+  "further_evidence_for_independent_origin": "Authentic producer positive-origin and lowering trace would be required for a stronger provenance claim; not invented or reacquired here."
+}
