@@ -1,0 +1,1086 @@
+{
+  "schema": "kani-4591-r4-attempt1-native-intake-v1",
+  "observed_at": "2026-11-19 13:03:05 UTC",
+  "provenance": "Direct connected GitHub fetch; selected run/job/step metadata, not logs or archives.",
+  "attempt": 1,
+  "runs": [
+    {
+      "endpoint": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/runs/44516395307/attempts/1",
+      "id": 44516395307,
+      "name": "Kani CI",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_attempt": 1,
+      "event": "push",
+      "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+      "head_branch": "fix/stub-contracted-function",
+      "path": ".github/workflows/kani.yml",
+      "workflow_id": 413949266,
+      "created_at": "2026-11-19T11:36:50Z",
+      "run_started_at": "2026-11-19T11:36:50Z",
+      "updated_at": "2026-11-19T12:56:56Z",
+      "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307",
+      "head_commit": {
+        "id": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+        "tree_id": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+        "message": "Reduce ordinary stub regressions to seven focused harnesses",
+        "timestamp": "2026-11-19T11:36:28Z",
+        "author": {
+          "name": "Tiramisu-Cake",
+          "email": "igkharin@gmail.com"
+        },
+        "committer": {
+          "name": "Tiramisu-Cake",
+          "email": "igkharin@gmail.com"
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/runs/44516395718/attempts/1",
+      "id": 44516395718,
+      "name": "Kani Format Check",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "push",
+      "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+      "head_branch": "fix/stub-contracted-function",
+      "path": ".github/workflows/format-check.yml",
+      "workflow_id": 413949264,
+      "created_at": "2026-11-19T11:36:50Z",
+      "run_started_at": "2026-11-19T11:36:50Z",
+      "updated_at": "2026-11-19T11:43:01Z",
+      "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395718",
+      "head_commit": {
+        "id": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+        "tree_id": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+        "message": "Reduce ordinary stub regressions to seven focused harnesses",
+        "timestamp": "2026-11-19T11:36:28Z",
+        "author": {
+          "name": "Tiramisu-Cake",
+          "email": "igkharin@gmail.com"
+        },
+        "committer": {
+          "name": "Tiramisu-Cake",
+          "email": "igkharin@gmail.com"
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/runs/44516395278/attempts/1",
+      "id": 44516395278,
+      "name": "Cargo Deny",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "push",
+      "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+      "head_branch": "fix/stub-contracted-function",
+      "path": ".github/workflows/deny.yml",
+      "workflow_id": 413949259,
+      "created_at": "2026-11-19T11:36:50Z",
+      "run_started_at": "2026-11-19T11:36:50Z",
+      "updated_at": "2026-11-19T11:37:37Z",
+      "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395278",
+      "head_commit": {
+        "id": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+        "tree_id": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+        "message": "Reduce ordinary stub regressions to seven focused harnesses",
+        "timestamp": "2026-11-19T11:36:28Z",
+        "author": {
+          "name": "Tiramisu-Cake",
+          "email": "igkharin@gmail.com"
+        },
+        "committer": {
+          "name": "Tiramisu-Cake",
+          "email": "igkharin@gmail.com"
+        }
+      }
+    }
+  ],
+  "job_groups": [
+    {
+      "endpoint": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/runs/44516395307/attempts/1/jobs?per_page=100",
+      "run_id": 44516395307,
+      "total_count": 9,
+      "jobs": [
+        {
+          "id": 135533377213,
+          "run_id": 44516395307,
+          "run_attempt": 1,
+          "name": "documentation",
+          "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+          "head_branch": "fix/stub-contracted-function",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-11-19T11:36:51Z",
+          "started_at": "2026-11-19T11:36:54Z",
+          "completed_at": "2026-11-19T11:38:28Z",
+          "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307/job/135533377213",
+          "check_run_url": "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377213",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000002359,
+          "runner_name": "GitHub Actions 1000002359",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-19T11:36:55Z",
+              "completed_at": "2026-11-19T11:36:57Z"
+            },
+            {
+              "name": "Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-19T11:36:57Z",
+              "completed_at": "2026-11-19T11:37:09Z"
+            },
+            {
+              "name": "Install book dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-19T11:37:09Z",
+              "completed_at": "2026-11-19T11:38:19Z"
+            },
+            {
+              "name": "Build Documentation",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-19T11:38:19Z",
+              "completed_at": "2026-11-19T11:38:25Z"
+            },
+            {
+              "name": "Publish Documentation",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 5,
+              "started_at": "2026-11-19T11:38:25Z",
+              "completed_at": "2026-11-19T11:38:25Z"
+            },
+            {
+              "name": "Post Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10,
+              "started_at": "2026-11-19T11:38:25Z",
+              "completed_at": "2026-11-19T11:38:26Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-11-19T11:38:26Z",
+              "completed_at": "2026-11-19T11:38:26Z"
+            }
+          ]
+        },
+        {
+          "id": 135533377569,
+          "run_id": 44516395307,
+          "run_attempt": 1,
+          "name": "llbc-regression",
+          "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+          "head_branch": "fix/stub-contracted-function",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-11-19T11:36:51Z",
+          "started_at": "2026-11-19T11:36:53Z",
+          "completed_at": "2026-11-19T11:47:49Z",
+          "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307/job/135533377569",
+          "check_run_url": "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377569",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000002360,
+          "runner_name": "GitHub Actions 1000002360",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-19T11:36:54Z",
+              "completed_at": "2026-11-19T11:36:56Z"
+            },
+            {
+              "name": "Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-19T11:36:56Z",
+              "completed_at": "2026-11-19T11:37:00Z"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-19T11:37:00Z",
+              "completed_at": "2026-11-19T11:44:50Z"
+            },
+            {
+              "name": "Build Kani with Charon",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-19T11:44:50Z",
+              "completed_at": "2026-11-19T11:46:19Z"
+            },
+            {
+              "name": "Run tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-11-19T11:46:19Z",
+              "completed_at": "2026-11-19T11:47:47Z"
+            },
+            {
+              "name": "Post Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10,
+              "started_at": "2026-11-19T11:47:47Z",
+              "completed_at": "2026-11-19T11:47:48Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-11-19T11:47:48Z",
+              "completed_at": "2026-11-19T11:47:48Z"
+            }
+          ]
+        },
+        {
+          "id": 135533377615,
+          "run_id": 44516395307,
+          "run_attempt": 1,
+          "name": "benchcomp-tests",
+          "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+          "head_branch": "fix/stub-contracted-function",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-11-19T11:36:51Z",
+          "started_at": "2026-11-19T11:36:54Z",
+          "completed_at": "2026-11-19T11:45:45Z",
+          "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307/job/135533377615",
+          "check_run_url": "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377615",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000002362,
+          "runner_name": "GitHub Actions 1000002362",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-19T11:36:55Z",
+              "completed_at": "2026-11-19T11:36:57Z"
+            },
+            {
+              "name": "Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-19T11:36:57Z",
+              "completed_at": "2026-11-19T11:37:03Z"
+            },
+            {
+              "name": "Install benchcomp dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-19T11:37:03Z",
+              "completed_at": "2026-11-19T11:37:26Z"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-19T11:37:26Z",
+              "completed_at": "2026-11-19T11:43:43Z"
+            },
+            {
+              "name": "Build Kani using release mode",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-11-19T11:43:43Z",
+              "completed_at": "2026-11-19T11:45:33Z"
+            },
+            {
+              "name": "Run benchcomp unit and regression tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-11-19T11:45:33Z",
+              "completed_at": "2026-11-19T11:45:42Z"
+            },
+            {
+              "name": "Post Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12,
+              "started_at": "2026-11-19T11:45:42Z",
+              "completed_at": "2026-11-19T11:45:42Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13,
+              "started_at": "2026-11-19T11:45:42Z",
+              "completed_at": "2026-11-19T11:45:42Z"
+            }
+          ]
+        },
+        {
+          "id": 135533377626,
+          "run_id": 44516395307,
+          "run_attempt": 1,
+          "name": "perf",
+          "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+          "head_branch": "fix/stub-contracted-function",
+          "status": "completed",
+          "conclusion": "failure",
+          "created_at": "2026-11-19T11:36:51Z",
+          "started_at": "2026-11-19T11:36:54Z",
+          "completed_at": "2026-11-19T12:56:55Z",
+          "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307/job/135533377626",
+          "check_run_url": "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377626",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000002361,
+          "runner_name": "GitHub Actions 1000002361",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-19T11:36:54Z",
+              "completed_at": "2026-11-19T11:36:56Z"
+            },
+            {
+              "name": "Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-19T11:36:57Z",
+              "completed_at": "2026-11-19T11:37:01Z"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-19T11:37:01Z",
+              "completed_at": "2026-11-19T11:44:42Z"
+            },
+            {
+              "name": "Execute Kani performance tests",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 4,
+              "started_at": "2026-11-19T11:44:42Z",
+              "completed_at": "2026-11-19T12:12:20Z"
+            },
+            {
+              "name": "Post Checkout Kani",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 8,
+              "started_at": "2026-11-19T12:12:20Z",
+              "completed_at": "2026-11-19T12:12:20Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "in_progress",
+              "conclusion": null,
+              "number": 9,
+              "started_at": "2026-11-19T12:12:20Z",
+              "completed_at": null
+            }
+          ]
+        },
+        {
+          "id": 135533377710,
+          "run_id": 44516395307,
+          "run_attempt": 1,
+          "name": "regression (ubuntu-22.04)",
+          "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+          "head_branch": "fix/stub-contracted-function",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-11-19T11:36:51Z",
+          "started_at": "2026-11-19T11:36:54Z",
+          "completed_at": "2026-11-19T12:11:46Z",
+          "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307/job/135533377710",
+          "check_run_url": "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377710",
+          "labels": [
+            "ubuntu-22.04"
+          ],
+          "runner_id": 1000002369,
+          "runner_name": "GitHub Actions 1000002369",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-19T11:36:55Z",
+              "completed_at": "2026-11-19T11:36:55Z"
+            },
+            {
+              "name": "Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-19T11:36:55Z",
+              "completed_at": "2026-11-19T11:36:57Z"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-19T11:36:57Z",
+              "completed_at": "2026-11-19T11:40:05Z"
+            },
+            {
+              "name": "Execute Kani regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-19T11:40:05Z",
+              "completed_at": "2026-11-19T12:11:43Z"
+            },
+            {
+              "name": "Post Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-11-19T12:11:43Z",
+              "completed_at": "2026-11-19T12:11:43Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-11-19T12:11:43Z",
+              "completed_at": "2026-11-19T12:11:44Z"
+            }
+          ]
+        },
+        {
+          "id": 135533377711,
+          "run_id": 44516395307,
+          "run_attempt": 1,
+          "name": "regression (ubuntu-24.04-arm)",
+          "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+          "head_branch": "fix/stub-contracted-function",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-11-19T11:36:51Z",
+          "started_at": "2026-11-19T11:36:56Z",
+          "completed_at": "2026-11-19T12:11:07Z",
+          "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307/job/135533377711",
+          "check_run_url": "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377711",
+          "labels": [
+            "ubuntu-24.04-arm"
+          ],
+          "runner_id": 1000002368,
+          "runner_name": "GitHub Actions 1000002368",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-19T11:36:57Z",
+              "completed_at": "2026-11-19T11:36:58Z"
+            },
+            {
+              "name": "Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-19T11:36:58Z",
+              "completed_at": "2026-11-19T11:36:59Z"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-19T11:36:59Z",
+              "completed_at": "2026-11-19T11:47:48Z"
+            },
+            {
+              "name": "Execute Kani regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-19T11:47:48Z",
+              "completed_at": "2026-11-19T12:11:05Z"
+            },
+            {
+              "name": "Post Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-11-19T12:11:05Z",
+              "completed_at": "2026-11-19T12:11:05Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-11-19T12:11:05Z",
+              "completed_at": "2026-11-19T12:11:06Z"
+            }
+          ]
+        },
+        {
+          "id": 135533377737,
+          "run_id": 44516395307,
+          "run_attempt": 1,
+          "name": "regression (macos-15)",
+          "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+          "head_branch": "fix/stub-contracted-function",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-11-19T11:36:51Z",
+          "started_at": "2026-11-19T11:41:57Z",
+          "completed_at": "2026-11-19T12:33:33Z",
+          "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307/job/135533377737",
+          "check_run_url": "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377737",
+          "labels": [
+            "macos-15"
+          ],
+          "runner_id": 1000002371,
+          "runner_name": "GitHub Actions 1000002371",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-19T11:41:57Z",
+              "completed_at": "2026-11-19T11:41:57Z"
+            },
+            {
+              "name": "Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-19T11:41:57Z",
+              "completed_at": "2026-11-19T11:42:02Z"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-19T11:42:02Z",
+              "completed_at": "2026-11-19T11:43:24Z"
+            },
+            {
+              "name": "Execute Kani regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-19T11:43:24Z",
+              "completed_at": "2026-11-19T12:33:28Z"
+            },
+            {
+              "name": "Post Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-11-19T12:33:28Z",
+              "completed_at": "2026-11-19T12:33:30Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-11-19T12:33:30Z",
+              "completed_at": "2026-11-19T12:33:32Z"
+            }
+          ]
+        },
+        {
+          "id": 135533377786,
+          "run_id": 44516395307,
+          "run_attempt": 1,
+          "name": "regression (ubuntu-24.04)",
+          "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+          "head_branch": "fix/stub-contracted-function",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-11-19T11:36:51Z",
+          "started_at": "2026-11-19T11:36:54Z",
+          "completed_at": "2026-11-19T12:10:00Z",
+          "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307/job/135533377786",
+          "check_run_url": "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377786",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000002366,
+          "runner_name": "GitHub Actions 1000002366",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-19T11:36:55Z",
+              "completed_at": "2026-11-19T11:36:55Z"
+            },
+            {
+              "name": "Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-19T11:36:55Z",
+              "completed_at": "2026-11-19T11:36:57Z"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-19T11:36:57Z",
+              "completed_at": "2026-11-19T11:38:12Z"
+            },
+            {
+              "name": "Execute Kani regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-19T11:38:12Z",
+              "completed_at": "2026-11-19T12:09:58Z"
+            },
+            {
+              "name": "Post Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-11-19T12:09:58Z",
+              "completed_at": "2026-11-19T12:09:59Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-11-19T12:09:59Z",
+              "completed_at": "2026-11-19T12:09:59Z"
+            }
+          ]
+        },
+        {
+          "id": 135533377788,
+          "run_id": 44516395307,
+          "run_attempt": 1,
+          "name": "regression (macos-15-intel)",
+          "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+          "head_branch": "fix/stub-contracted-function",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-11-19T11:36:51Z",
+          "started_at": "2026-11-19T11:36:56Z",
+          "completed_at": "2026-11-19T12:43:02Z",
+          "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307/job/135533377788",
+          "check_run_url": "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377788",
+          "labels": [
+            "macos-15-intel"
+          ],
+          "runner_id": 1000002365,
+          "runner_name": "GitHub Actions 1000002365",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-19T11:36:57Z",
+              "completed_at": "2026-11-19T11:37:00Z"
+            },
+            {
+              "name": "Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-19T11:37:00Z",
+              "completed_at": "2026-11-19T11:37:04Z"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-19T11:37:04Z",
+              "completed_at": "2026-11-19T11:40:27Z"
+            },
+            {
+              "name": "Execute Kani regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-19T11:40:27Z",
+              "completed_at": "2026-11-19T12:42:56Z"
+            },
+            {
+              "name": "Post Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-11-19T12:42:56Z",
+              "completed_at": "2026-11-19T12:42:59Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-11-19T12:42:59Z",
+              "completed_at": "2026-11-19T12:42:59Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/runs/44516395718/attempts/1/jobs?per_page=100",
+      "run_id": 44516395718,
+      "total_count": 2,
+      "jobs": [
+        {
+          "id": 135533378422,
+          "run_id": 44516395718,
+          "run_attempt": 1,
+          "name": "clippy-check",
+          "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+          "head_branch": "fix/stub-contracted-function",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-11-19T11:36:51Z",
+          "started_at": "2026-11-19T11:36:54Z",
+          "completed_at": "2026-11-19T11:43:00Z",
+          "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395718/job/135533378422",
+          "check_run_url": "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533378422",
+          "labels": [
+            "ubuntu-24.04"
+          ],
+          "runner_id": 1000002367,
+          "runner_name": "GitHub Actions 1000002367",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-19T11:36:54Z",
+              "completed_at": "2026-11-19T11:36:57Z"
+            },
+            {
+              "name": "Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-19T11:36:57Z",
+              "completed_at": "2026-11-19T11:37:02Z"
+            },
+            {
+              "name": "Setup Kani Dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-19T11:37:02Z",
+              "completed_at": "2026-11-19T11:41:54Z"
+            },
+            {
+              "name": "Install jq for parsing.",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-19T11:41:54Z",
+              "completed_at": "2026-11-19T11:41:54Z"
+            },
+            {
+              "name": "Run Clippy",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-11-19T11:41:54Z",
+              "completed_at": "2026-11-19T11:42:39Z"
+            },
+            {
+              "name": "Print Clippy Statistics",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-11-19T11:42:39Z",
+              "completed_at": "2026-11-19T11:42:59Z"
+            },
+            {
+              "name": "Post Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12,
+              "started_at": "2026-11-19T11:42:59Z",
+              "completed_at": "2026-11-19T11:42:59Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13,
+              "started_at": "2026-11-19T11:42:59Z",
+              "completed_at": "2026-11-19T11:42:59Z"
+            }
+          ]
+        },
+        {
+          "id": 135533379023,
+          "run_id": 44516395718,
+          "run_attempt": 1,
+          "name": "format-check",
+          "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+          "head_branch": "fix/stub-contracted-function",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-11-19T11:36:51Z",
+          "started_at": "2026-11-19T11:36:54Z",
+          "completed_at": "2026-11-19T11:37:03Z",
+          "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395718/job/135533379023",
+          "check_run_url": "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533379023",
+          "labels": [
+            "ubuntu-latest"
+          ],
+          "runner_id": 1000002370,
+          "runner_name": "GitHub Actions 1000002370",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-19T11:36:55Z",
+              "completed_at": "2026-11-19T11:36:56Z"
+            },
+            {
+              "name": "Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-19T11:36:56Z",
+              "completed_at": "2026-11-19T11:36:57Z"
+            },
+            {
+              "name": "Execute copyright check",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-19T11:36:57Z",
+              "completed_at": "2026-11-19T11:36:58Z"
+            },
+            {
+              "name": "Check C code formatting",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-19T11:36:58Z",
+              "completed_at": "2026-11-19T11:36:58Z"
+            },
+            {
+              "name": "Check Python code formatting",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-11-19T11:36:58Z",
+              "completed_at": "2026-11-19T11:37:01Z"
+            },
+            {
+              "name": "Post Checkout Kani",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10,
+              "started_at": "2026-11-19T11:37:01Z",
+              "completed_at": "2026-11-19T11:37:01Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-11-19T11:37:01Z",
+              "completed_at": "2026-11-19T11:37:01Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/runs/44516395278/attempts/1/jobs?per_page=100",
+      "run_id": 44516395278,
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 135533377445,
+          "run_id": 44516395278,
+          "run_attempt": 1,
+          "name": "audit",
+          "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+          "head_branch": "fix/stub-contracted-function",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-11-19T11:36:51Z",
+          "started_at": "2026-11-19T11:36:53Z",
+          "completed_at": "2026-11-19T11:37:37Z",
+          "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395278/job/135533377445",
+          "check_run_url": "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377445",
+          "labels": [
+            "ubuntu-latest"
+          ],
+          "runner_id": 1000002363,
+          "runner_name": "GitHub Actions 1000002363",
+          "runner_group_id": 0,
+          "runner_group_name": "GitHub Actions",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-11-19T11:36:54Z",
+              "completed_at": "2026-11-19T11:36:55Z"
+            },
+            {
+              "name": "Build EmbarkStudios/cargo-deny-action@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-11-19T11:36:55Z",
+              "completed_at": "2026-11-19T11:37:04Z"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-11-19T11:37:04Z",
+              "completed_at": "2026-11-19T11:37:12Z"
+            },
+            {
+              "name": "Run EmbarkStudios/cargo-deny-action@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-11-19T11:37:12Z",
+              "completed_at": "2026-11-19T11:37:35Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8,
+              "started_at": "2026-11-19T11:37:35Z",
+              "completed_at": "2026-11-19T11:37:35Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-11-19T11:37:35Z",
+              "completed_at": "2026-11-19T11:37:35Z"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_metadata": [
+    {
+      "endpoint": "https://api.github.com/repos/Tiramisu-Cake/kani/git/commits/b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+      "sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+      "tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+      "parents": [
+        "031fc085cd4373b5fc93a55128d5a69fdbd88df1"
+      ],
+      "message": "Reduce ordinary stub regressions to seven focused harnesses"
+    },
+    {
+      "endpoint": "https://api.github.com/repos/Tiramisu-Cake/kani/git/ref/heads/fix/stub-contracted-function",
+      "ref": "refs/heads/fix/stub-contracted-function",
+      "sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1"
+    }
+  ],
+  "check_summary_availability": {
+    "status": "UNAVAILABLE_CONNECTOR_ENDPOINT",
+    "endpoints": [
+      "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377213",
+      "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377569",
+      "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377615",
+      "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377626",
+      "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377710",
+      "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377711",
+      "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377737",
+      "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377786",
+      "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377788",
+      "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533378422",
+      "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533379023",
+      "https://api.github.com/repos/Tiramisu-Cake/kani/check-runs/135533377445"
+    ],
+    "error": "HTTPError: 400: GitHub Fetch URL is not an allowed public GitHub repository or search endpoint. (Response: None)",
+    "error_code": "INVALID_ARGUMENT",
+    "summaries": "UNKNOWN",
+    "annotations": "NOT_ACQUIRED",
+    "raw_fallback": "NOT_USED"
+  },
+  "total_jobs": 12,
+  "success": 11,
+  "failure": 1,
+  "projection": "All 12 job instances and all returned step summaries retained. General GitHub repository/actor boilerplate and transport duplicates omitted. Null and skipped conclusions preserved."
+}

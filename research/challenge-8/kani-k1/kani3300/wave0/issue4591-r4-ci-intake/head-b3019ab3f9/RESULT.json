@@ -1,0 +1,91 @@
+{
+  "schema": "kani-4591-r4-terminal-intake-result-v1",
+  "status": "READY",
+  "attempt": 1,
+  "head": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+  "tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+  "sole_parent": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+  "event": "push",
+  "ref": "fix/stub-contracted-function",
+  "all_three_runs_terminal": true,
+  "run_conclusions": [
+    {
+      "id": 44516395307,
+      "name": "Kani CI",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "id": 44516395718,
+      "name": "Kani Format Check",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 44516395278,
+      "name": "Cargo Deny",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "standard_job_instances": 12,
+  "success_jobs": 11,
+  "failure_jobs": 1,
+  "cancelled_jobs": 0,
+  "missing_expected_jobs": [],
+  "unknown_job_conclusions": [],
+  "sole_failure": {
+    "id": 135533377626,
+    "name": "perf",
+    "conclusion": "failure",
+    "failed_step": "Execute Kani performance tests",
+    "failed_step_number": 4,
+    "reason_classification": "COORDINATOR_REPORTED",
+    "coordinator_report": {
+      "source": "Coordinator user message 2026-11-19 15:59 Moscow",
+      "r4_reported_reason": "hosted runner lost communication; starves CPU/Memory; approximately 80 minutes during s2n-quic",
+      "historical_context_reported": [
+        "r3 runner shutdown signal",
+        "r2 perf SUCCESS with same compiler code",
+        "main perf green"
+      ],
+      "reason_classification": "COORDINATOR_REPORTED",
+      "independent_memory_or_cpu_cause": "UNKNOWN",
+      "interpretation": "Possible transient infrastructure failure or resource pressure related to this change; neither established. Historical heads, tests and runners are not controlled identical trials."
+    },
+    "independent_cause": "UNKNOWN",
+    "step_metadata_limit": "Job terminal failure; Complete job remains in_progress with null conclusion/completed_at. Post Checkout Kani skipped.",
+    "check_summary": "UNKNOWN; connector check-run endpoints rejected INVALID_ARGUMENT; no bypass."
+  },
+  "regression_platform_jobs": "SUCCESS on all five expected OS instances; suite/step-level evidence",
+  "source_oracle_declarations": 7,
+  "source_intended_positive": 5,
+  "source_intended_expected_semantic_negatives": 2,
+  "native_named_harness_results": "UNKNOWN",
+  "native_property_results": "UNKNOWN",
+  "actual_checkout_blob_compiler_MIR_property_binding": "UNKNOWN",
+  "current_main_failure_fixed_PASS_pair": "NOT_ESTABLISHED",
+  "all_standard_jobs_green": false,
+  "complete_named_property_platform_validation": "NOT_ESTABLISHED",
+  "performance_speedup": "NOT_ESTABLISHED",
+  "independent_proof_credit": "NONE",
+  "historical_r3": "28cd7f0a87b4fda68df320fab7422d2491b24839: Kani44461123962 FAILURE/perf reason coordinatorreported shutdown+s2n, independentcauseUNKNOWN; fiveOSregression/docs/benchcomp/LLBC/Format/Deny SUCCESS. Historical context only, no substitution for current run or perf waiver.",
+  "local_execution": {
+    "compiler": "NOT_RUN",
+    "cargo": "NOT_RUN",
+    "rustc": "NOT_RUN",
+    "rustfmt": "NOT_RUN",
+    "Kani": "NOT_RUN",
+    "CBMC": "NOT_RUN",
+    "verifier": "NOT_RUN",
+    "compiletest": "NOT_RUN",
+    "native_tests": "NOT_RUN",
+    "CI": "NOT_RUN"
+  },
+  "testing_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307",
+  "attempt_specific_testing_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307/attempts/1",
+  "next_action": "Root verifies committed intake and hands facts only to coordinator. PR Testing text remains coordinator-owned; no automatic follow-on."
+}
