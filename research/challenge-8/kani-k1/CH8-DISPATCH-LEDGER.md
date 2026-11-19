@@ -345,3 +345,30 @@ if any exact identity/fingerprint/source-local premise fails; no runtime/parser/
 policy patch or automatic S3-3 implementation/run.
 **Accounting/reservation unchanged:item1 31/31,item2 13/17,total44/48.**
 No dispatch/charge/refund/reservation/grant/publication.
+
+
+## Bridge-1-r1 bounded admission — 2026-11-19 coordinator+planner
+
+Coordinator08:54 explicitly requests admission after independent review. Root
+records **2 QUALIFIED_BOUNDED_SOURCE_REPORTED cases**: `i_p01_b01_fullu8`
+(actual insert_tail PFC fixedV34/base1/tail1/span2/u8/KeyLess) and
+`sort9_v34_b01_len09_real` (Original actual25swaps/V34/base1/len9/u8/KeyLess).
+Accepted intake97eaff96cd28267e36af69fe98077dd08737eea6, independent review
+135c04791a779e949079db723bdbc0e636873b37 APPROVE/no findings.
+Decision [ADMISSION.md](kani3300/ch8-s3-s4/admission-bridge-1-r1/ADMISSION.md),
+[ADMISSION.json](kani3300/ch8-s3-s4/admission-bridge-1-r1/ADMISSION.json).
+
+Exact run44460583125/1/headc2bb/sourcef1bdf/tool0aac/controltree6280/request23c137/
+workflow317f/payload32fdc7 and per-case invocation/property/member fingerprints
+remain mandatory. Each has4locatedSUCCESSroles+5SATcovers;11 reviewed positive
+source-localU and7SUCCESSunsupportedguards retained. **No location exception**
+needed/applied: all602 completed native records are located; oldf740/ff193 remain
+original-run-only. One insertiongeometry is not all tails/bases; actualsort9case
+is not a universal contract/verified summary. No independent init-mask/provider/
+ASTMIR/B1B2/generic/Cell/fullN16N32 credit. Both capped families remainUNKNOWN
+(child600wall),3negative labels remain reviewed observations/no extra admission.
+OriginalworkflowFAILURE/strict0of7/REJECT_ALL/proposalDISABLED/history unchanged;
+no source/runtime/parser/request/policy patch. Reversible append-only decision.
+**Accounting unchanged:** item1 32/32,item2 14/17,total46/49 references only;
+owner budgets tracking-only. Admission adds0 runs, no charge/refund/reservation/
+budget grant/implementation/CI/push/publication. Old ledger prefix retained.
