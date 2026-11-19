@@ -1,0 +1,75 @@
+{
+  "run": 44548842328,
+  "attempt": 1,
+  "campaign_elapsed_seconds": 359.3813398520001,
+  "rows": [
+    {
+      "root": "checker_order_corrupt",
+      "native_verification_time_s": 0.058600329,
+      "whole_child_seconds_including_compile": 37.816,
+      "initial_export_compile_marker_upper_seconds": 37.631,
+      "sampled_PGID_RSS_peak_kib": 1941716,
+      "sampled_outer_RSS_peak_kib": 1965748
+    },
+    {
+      "root": "checker_count_corrupt",
+      "native_verification_time_s": 0.336841224,
+      "whole_child_seconds_including_compile": 36.931,
+      "initial_export_compile_marker_upper_seconds": 36.448,
+      "sampled_PGID_RSS_peak_kib": 1956764,
+      "sampled_outer_RSS_peak_kib": 1978528
+    },
+    {
+      "root": "sort13_weak",
+      "native_verification_time_s": 0.098671217,
+      "whole_child_seconds_including_compile": 36.581,
+      "initial_export_compile_marker_upper_seconds": 36.346,
+      "sampled_PGID_RSS_peak_kib": 1956808,
+      "sampled_outer_RSS_peak_kib": 1973160
+    },
+    {
+      "root": "s4p_cell_count_corrupt",
+      "native_verification_time_s": 0.437875524,
+      "whole_child_seconds_including_compile": 39.48,
+      "initial_export_compile_marker_upper_seconds": 37.531,
+      "sampled_PGID_RSS_peak_kib": 2164248,
+      "sampled_outer_RSS_peak_kib": 2190704
+    },
+    {
+      "root": "s4p2r2_network_b01_n02_fullbyte",
+      "native_verification_time_s": 3.061223584,
+      "whole_child_seconds_including_compile": 41.716,
+      "initial_export_compile_marker_upper_seconds": 36.719,
+      "sampled_PGID_RSS_peak_kib": 2612416,
+      "sampled_outer_RSS_peak_kib": 2690704
+    },
+    {
+      "root": "s4p2r2_network_b01_n03_fullbyte",
+      "native_verification_time_s": 3.846284711,
+      "whole_child_seconds_including_compile": 43.751,
+      "initial_export_compile_marker_upper_seconds": 37.915,
+      "sampled_PGID_RSS_peak_kib": 2545732,
+      "sampled_outer_RSS_peak_kib": 2595072
+    },
+    {
+      "root": "s4p2r2_network_b01_n04_fullbyte",
+      "native_verification_time_s": 4.692468986,
+      "whole_child_seconds_including_compile": 44.183,
+      "initial_export_compile_marker_upper_seconds": 37.542,
+      "sampled_PGID_RSS_peak_kib": 2211672,
+      "sampled_outer_RSS_peak_kib": 2537976
+    },
+    {
+      "root": "s4p2r2_network_b01_n00_01_fullbyte",
+      "native_verification_time_s": 33.427759135,
+      "whole_child_seconds_including_compile": 72.998,
+      "initial_export_compile_marker_upper_seconds": 37.661,
+      "sampled_PGID_RSS_peak_kib": 2267724,
+      "sampled_outer_RSS_peak_kib": 2250476
+    }
+  ],
+  "scopes": "Native verification, whole-child and campaign are separate metrics. RSS is sampled non-atomic PGID/owned census, not a kernel/cgroup/full-tree maximum.",
+  "old_r1_positives": "All four 600s whole-child runs timed out with incomplete positive native exports; old verification costs are UNKNOWN_CENSORED. Measured cutoff elapsed is not completed verification time.",
+  "exact_speedup_factor": null,
+  "speedup_claim": "No exact speedup factor can be computed from censored old verification results; current completion within unchanged caps is observed, causal compiler/MIR attribution is not established."
+}

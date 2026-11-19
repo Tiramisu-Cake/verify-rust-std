@@ -1,0 +1,2599 @@
+{
+  "schema": "s4p2r2-same-invocation-non-vacuity-v1",
+  "run": 44548842328,
+  "attempt": 1,
+  "cases": [
+    {
+      "root": "checker_order_corrupt",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "invocation_id": "48447dd51b7f486f9d32ed300a7f196d",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/48447dd51b7f486f9d32ed300a7f196d",
+      "positive": false,
+      "required_assertion_roles": [
+        {
+          "required": {
+            "class": "assertion",
+            "status": "FAILURE",
+            "description": "S2_NEG_CHECKER_ORDER",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 140,
+            "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_ORDER\");",
+            "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S2_NEG_CHECKER_ORDER",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt.assertion.1",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt.assertion.1",
+              "line": "140",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:140:5 in function slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+              "status": "FAILURE"
+            }
+          ]
+        }
+      ],
+      "required_role_reachability_argument": null,
+      "declared_covers": [],
+      "native_covers": [],
+      "N0_N1_reachability_witnesses": [],
+      "native_properties_count": 24,
+      "safety_checks_count": 24,
+      "complete_safety_ids_by_status": {
+        "SUCCESS": [
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.array_bounds.1",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.1",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.2",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.3",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.4",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.5",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.6"
+        ],
+        "FAILURE": [
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt.assertion.1"
+        ],
+        "UNREACHABLE": [
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11"
+        ]
+      },
+      "complete_class_status_counts": {
+        "array_bounds": {
+          "SUCCESS": 3
+        },
+        "assertion": {
+          "SUCCESS": 6,
+          "UNREACHABLE": 8,
+          "FAILURE": 1
+        },
+        "pointer_dereference": {
+          "SUCCESS": 6
+        }
+      },
+      "full_native_dictionary_inventory": {
+        "path": "NATIVE-PROPERTIES.json",
+        "file_sha256": "ebfc990f18e2e23426020177820ca95ce3c5e727425ae056e093feadd40af9d8",
+        "root": "checker_order_corrupt",
+        "authenticated_member": {
+          "member": "groups/s3-checker_order_corrupt/properties.json",
+          "bytes": 18091,
+          "sha256": "58f6106c42657415abf6bf957688566dc36e3e22869c8e81e75b824c1f403ec4"
+        }
+      },
+      "unwind_value": 34,
+      "all_exported_unwind_properties": [],
+      "unwind_scope": "Exact exported inventory, including zero residual assertions where applicable; no unexported check or larger-length sufficiency claim.",
+      "U_arguments": {
+        "path": "U-DOMAIN-ARGUMENTS.json",
+        "count": 8,
+        "ids": [
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11"
+        ]
+      },
+      "blockers": [],
+      "candidate_status": "READY_FOR_SEPARATE_BOUNDED_SOURCE_REPORTED_REVIEW",
+      "producer_s3_expected_match": false,
+      "admission": false
+    },
+    {
+      "root": "checker_count_corrupt",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "invocation_id": "b20e3cc9816c446db56a9c31d397a7a7",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/b20e3cc9816c446db56a9c31d397a7a7",
+      "positive": false,
+      "required_assertion_roles": [
+        {
+          "required": {
+            "class": "assertion",
+            "status": "FAILURE",
+            "description": "S2_NEG_CHECKER_COUNT",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 134,
+            "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_COUNT\");",
+            "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S2_NEG_CHECKER_COUNT",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt.assertion.2",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt.assertion.2",
+              "line": "134",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:134:5 in function slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+              "status": "FAILURE"
+            }
+          ]
+        }
+      ],
+      "required_role_reachability_argument": null,
+      "declared_covers": [],
+      "native_covers": [],
+      "N0_N1_reachability_witnesses": [],
+      "native_properties_count": 26,
+      "safety_checks_count": 26,
+      "complete_safety_ids_by_status": {
+        "SUCCESS": [
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.array_bounds.1",
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt.array_bounds.1",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.1",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.2",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.3",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.4",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.5",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.6"
+        ],
+        "FAILURE": [
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt.assertion.2"
+        ],
+        "UNREACHABLE": [
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11"
+        ]
+      },
+      "complete_class_status_counts": {
+        "array_bounds": {
+          "SUCCESS": 4
+        },
+        "assertion": {
+          "SUCCESS": 14,
+          "UNREACHABLE": 1,
+          "FAILURE": 1
+        },
+        "pointer_dereference": {
+          "SUCCESS": 6
+        }
+      },
+      "full_native_dictionary_inventory": {
+        "path": "NATIVE-PROPERTIES.json",
+        "file_sha256": "ebfc990f18e2e23426020177820ca95ce3c5e727425ae056e093feadd40af9d8",
+        "root": "checker_count_corrupt",
+        "authenticated_member": {
+          "member": "groups/s3-checker_count_corrupt/properties.json",
+          "bytes": 19615,
+          "sha256": "5dcce0233d0c37f4442db4b71fe7ce6e66e69ea775e91f09fb3e03416e0fc47c"
+        }
+      },
+      "unwind_value": 34,
+      "all_exported_unwind_properties": [],
+      "unwind_scope": "Exact exported inventory, including zero residual assertions where applicable; no unexported check or larger-length sufficiency claim.",
+      "U_arguments": {
+        "path": "U-DOMAIN-ARGUMENTS.json",
+        "count": 1,
+        "ids": [
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11"
+        ]
+      },
+      "blockers": [],
+      "candidate_status": "READY_FOR_SEPARATE_BOUNDED_SOURCE_REPORTED_REVIEW",
+      "producer_s3_expected_match": false,
+      "admission": false
+    },
+    {
+      "root": "sort13_weak",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "invocation_id": "edf7e69ef5fc478091365f8ecb1c2bc7",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/edf7e69ef5fc478091365f8ecb1c2bc7",
+      "positive": false,
+      "required_assertion_roles": [
+        {
+          "required": {
+            "class": "assertion",
+            "status": "FAILURE",
+            "description": "S2_NEG_SORT13_WEAK",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+            "line": 149,
+            "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_SORT13_WEAK\");",
+            "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S2_NEG_SORT13_WEAK",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak.assertion.1",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak.assertion.1",
+              "line": "149",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs:149:5 in function slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+              "status": "FAILURE"
+            }
+          ]
+        }
+      ],
+      "required_role_reachability_argument": null,
+      "declared_covers": [],
+      "native_covers": [],
+      "N0_N1_reachability_witnesses": [],
+      "native_properties_count": 25,
+      "safety_checks_count": 25,
+      "complete_safety_ids_by_status": {
+        "SUCCESS": [
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_fault_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.array_bounds.1",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.1",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.2",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.3",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.4",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.5",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.6"
+        ],
+        "FAILURE": [
+          "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak.assertion.1"
+        ],
+        "UNREACHABLE": [
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11"
+        ]
+      },
+      "complete_class_status_counts": {
+        "array_bounds": {
+          "SUCCESS": 3
+        },
+        "assertion": {
+          "FAILURE": 1,
+          "SUCCESS": 7,
+          "UNREACHABLE": 8
+        },
+        "pointer_dereference": {
+          "SUCCESS": 6
+        }
+      },
+      "full_native_dictionary_inventory": {
+        "path": "NATIVE-PROPERTIES.json",
+        "file_sha256": "ebfc990f18e2e23426020177820ca95ce3c5e727425ae056e093feadd40af9d8",
+        "root": "sort13_weak",
+        "authenticated_member": {
+          "member": "groups/s3-sort13_weak/properties.json",
+          "bytes": 19000,
+          "sha256": "02abd8aa97f4a35ba5b768f0a5d759adff9eca41371885480d87802f126b0d1b"
+        }
+      },
+      "unwind_value": 34,
+      "all_exported_unwind_properties": [],
+      "unwind_scope": "Exact exported inventory, including zero residual assertions where applicable; no unexported check or larger-length sufficiency claim.",
+      "U_arguments": {
+        "path": "U-DOMAIN-ARGUMENTS.json",
+        "count": 8,
+        "ids": [
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11"
+        ]
+      },
+      "blockers": [],
+      "candidate_status": "READY_FOR_SEPARATE_BOUNDED_SOURCE_REPORTED_REVIEW",
+      "producer_s3_expected_match": false,
+      "admission": false
+    },
+    {
+      "root": "s4p_cell_count_corrupt",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt",
+      "invocation_id": "135b20a994dc4c8988cfdcb06d671d6e",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/135b20a994dc4c8988cfdcb06d671d6e",
+      "positive": false,
+      "required_assertion_roles": [
+        {
+          "required": {
+            "class": "assertion",
+            "status": "SUCCESS",
+            "description": "S4_NEG_CELL_ACTIVE",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 25,
+            "source_line": "    kani::assert(enabled::<Cell<u8>, KeyLess<Cell<u8>>>(), \"S4_NEG_CELL_ACTIVE\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4_NEG_CELL_ACTIVE",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt.assertion.1",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt.assertion.1",
+              "line": "25",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:25:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "assertion",
+            "status": "FAILURE",
+            "description": "S4_NEG_CELL_COUNT",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 30,
+            "source_line": "    kani::assert(post::<Cell<u8>, KeyLess<Cell<u8>>>(before, &v[1..3]), \"S4_NEG_CELL_COUNT\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4_NEG_CELL_COUNT",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt.assertion.4",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt.assertion.4",
+              "line": "30",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:30:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt",
+              "status": "FAILURE"
+            }
+          ]
+        }
+      ],
+      "required_role_reachability_argument": null,
+      "declared_covers": [],
+      "native_covers": [],
+      "N0_N1_reachability_witnesses": [],
+      "native_properties_count": 64,
+      "safety_checks_count": 64,
+      "complete_safety_ids_by_status": {
+        "SUCCESS": [
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#2}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>.assertion.3",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#2}.unreachable.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#1}.unreachable.1",
+          "cell::Cell::<u8>::replace.safety_check.1",
+          "cell::Cell::<u8>::replace.safety_check.2",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.4",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.safety_check.1",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.assertion.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#0}.unreachable.1",
+          "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *const cell::Cell<u8>, usize>.safety_check.1",
+          "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *const cell::Cell<u8>, usize>.safety_check.2",
+          "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *const cell::Cell<u8>, usize>.safety_check.3",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index.unreachable.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index.safety_check.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index.safety_check.2",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#1}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#3}.unreachable.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt.assertion.3",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.2",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#3}.unreachable.1",
+          "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.10",
+          "num::<impl usize>::checked_sub.arithmetic_overflow.1",
+          "mem::replace::<u8>.pointer_dereference.1",
+          "mem::replace::<u8>.pointer_dereference.2",
+          "mem::replace::<u8>.pointer_dereference.3",
+          "mem::replace::<u8>.pointer_dereference.4",
+          "mem::replace::<u8>.pointer_dereference.5",
+          "mem::replace::<u8>.pointer_dereference.6",
+          "mem::replace::<u8>.pointer_dereference.7",
+          "mem::replace::<u8>.pointer_dereference.8",
+          "mem::replace::<u8>.pointer_dereference.9",
+          "mem::replace::<u8>.pointer_dereference.10",
+          "mem::replace::<u8>.pointer_dereference.11",
+          "mem::replace::<u8>.pointer_dereference.12",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.array_bounds.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.array_bounds.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>.array_bounds.1",
+          "cell::Cell::<u8>::get.pointer_dereference.1",
+          "cell::Cell::<u8>::get.pointer_dereference.2",
+          "cell::Cell::<u8>::get.pointer_dereference.3",
+          "cell::Cell::<u8>::get.pointer_dereference.4",
+          "cell::Cell::<u8>::get.pointer_dereference.5",
+          "cell::Cell::<u8>::get.pointer_dereference.6"
+        ],
+        "FAILURE": [
+          "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt.assertion.4"
+        ],
+        "UNREACHABLE": [
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.11"
+        ]
+      },
+      "complete_class_status_counts": {
+        "arithmetic_overflow": {
+          "SUCCESS": 1
+        },
+        "array_bounds": {
+          "SUCCESS": 3
+        },
+        "assertion": {
+          "SUCCESS": 21,
+          "FAILURE": 1,
+          "UNREACHABLE": 1
+        },
+        "pointer_dereference": {
+          "SUCCESS": 18
+        },
+        "safety_check": {
+          "SUCCESS": 8
+        },
+        "unreachable": {
+          "SUCCESS": 10
+        },
+        "unsupported_construct": {
+          "SUCCESS": 1
+        }
+      },
+      "full_native_dictionary_inventory": {
+        "path": "NATIVE-PROPERTIES.json",
+        "file_sha256": "ebfc990f18e2e23426020177820ca95ce3c5e727425ae056e093feadd40af9d8",
+        "root": "s4p_cell_count_corrupt",
+        "authenticated_member": {
+          "member": "groups/s3-s4p_cell_count_corrupt/properties.json",
+          "bytes": 40290,
+          "sha256": "b74fa1ad1499640084c283c245ca49671d7e37e036ff32d1b147744fa33cfba1"
+        }
+      },
+      "unwind_value": 36,
+      "all_exported_unwind_properties": [],
+      "unwind_scope": "Exact exported inventory, including zero residual assertions where applicable; no unexported check or larger-length sufficiency claim.",
+      "U_arguments": {
+        "path": "U-DOMAIN-ARGUMENTS.json",
+        "count": 1,
+        "ids": [
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.11"
+        ]
+      },
+      "blockers": [],
+      "candidate_status": "READY_FOR_SEPARATE_BOUNDED_SOURCE_REPORTED_REVIEW",
+      "producer_s3_expected_match": false,
+      "admission": false
+    },
+    {
+      "root": "s4p2r2_network_b01_n02_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte",
+      "invocation_id": "f4551429b6d5452fb500872840a34c8c",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/f4551429b6d5452fb500872840a34c8c",
+      "positive": true,
+      "required_assertion_roles": [
+        {
+          "required": {
+            "description": "S4P2R2_N_02_ACTIVE_CONCRETE_MODEL",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 24,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "    kani::assert(active_u8(), \"S4P2R2_N_02_ACTIVE_CONCRETE_MODEL\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "ACTIVE_CONCRETE_MODEL",
+            "predicate_tokens": "active_u8()"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_02_ACTIVE_CONCRETE_MODEL",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.1",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.1",
+              "line": "24",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:24:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "description": "S4P2R2_N_02_SORTED_FULL_VALUE_COUNT",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 30,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..3]), \"S4P2R2_N_02_SORTED_FULL_VALUE_COUNT\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "SORTED_FULL_VALUE_COUNT",
+            "predicate_tokens": "post::<u8,KeyLess<u8>>(before,&v[1..3])"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_02_SORTED_FULL_VALUE_COUNT",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.2",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.2",
+              "line": "30",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:30:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "description": "S4P2R2_N_02_FULL_OUTSIDE_FRAME",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 32,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P2R2_N_02_FULL_OUTSIDE_FRAME\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "FULL_OUTSIDE_FRAME",
+            "predicate_tokens": "(1<=i&&i<1+n)||v[i]==bytes[i]"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_02_FULL_OUTSIDE_FRAME",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.6",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.6",
+              "line": "32",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:32:9 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "description": "S4P2R2_N_02_ARBITRARY_OUTSIDE_CANARY",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 36,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "    kani::assert(v[canary] == bytes[canary], \"S4P2R2_N_02_ARBITRARY_OUTSIDE_CANARY\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "ARBITRARY_OUTSIDE_CANARY",
+            "predicate_tokens": "v[canary]==bytes[canary]"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_02_ARBITRARY_OUTSIDE_CANARY",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.10",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.10",
+              "line": "36",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:36:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        }
+      ],
+      "required_role_reachability_argument": "All declared covers occur after the active-model assertion, original-helper call, postcondition assertion, fixed 0..34 frame loop and arbitrary outside-canary assertion in the exact frozen harness body. Each SAT cover supplies a continuing path through those required roles; the frame loop has34 iterations and is not an empty loop. SUCCESS for all four exact labelled native roles supplies their retained verification results. For N01 both N00 and N01 covers are after every role, so each length has its own post-role reachability witness. SAT is used only for non-vacuity, never as a substitute for a U argument.",
+      "declared_covers": [
+        "S4P2R2_N_02_N02",
+        "S4P2R2_N_02_UNSORTED",
+        "S4P2R2_N_02_DUPLICATE",
+        "S4P2R2_N_02_NONCONSTANT",
+        "S4P2R2_N_02_MAX_DESCENDING",
+        "S4P2R2_N_02_USEFUL_RETURN"
+      ],
+      "native_covers": [
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_02_N02",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.cover.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.cover.1",
+          "line": "37",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:37:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_02_UNSORTED",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.cover.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.cover.2",
+          "line": "38",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:38:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_02_DUPLICATE",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.cover.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.cover.3",
+          "line": "39",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:39:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_02_NONCONSTANT",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.cover.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.cover.4",
+          "line": "40",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:40:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_02_MAX_DESCENDING",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.cover.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.cover.5",
+          "line": "41",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:41:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_02_USEFUL_RETURN",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.cover.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.cover.6",
+          "line": "42",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:42:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte",
+          "status": "SATISFIED"
+        }
+      ],
+      "N0_N1_reachability_witnesses": [],
+      "native_properties_count": 258,
+      "safety_checks_count": 252,
+      "complete_safety_ids_by_status": {
+        "SUCCESS": [
+          "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.1",
+          "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.2",
+          "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.3",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#1}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#2}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#3}.unreachable.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.unreachable.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.safety_check.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.safety_check.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.assertion.4",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#1}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#2}.unreachable.1",
+          "ptr::const_ptr::<impl *const T>::add::runtime_add_nowrap::runtime.unreachable.1",
+          "slice::sort::shared::smallsort::sort9_optimal::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::sub.arithmetic_overflow.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.2",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.3",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#3}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#0}.unreachable.1",
+          "slice::raw::from_raw_parts_mut::<'_, u8>.safety_check.1",
+          "slice::raw::from_raw_parts_mut::<'_, u8>.safety_check.2",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#3}.unreachable.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assume.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#3}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#1}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut T>::sub::runtime_sub_nowrap::runtime.unreachable.1",
+          "num::<impl usize>::unchecked_add::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.3",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#3}.unreachable.1",
+          "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.safety_check.1",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.assertion.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.1",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#2}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#2}.unreachable.1",
+          "ptr::copy_nonoverlapping::<u8>.safety_check.1",
+          "ptr::copy_nonoverlapping::<u8>.safety_check.2",
+          "ptr::copy_nonoverlapping::<u8>.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.unreachable.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.safety_check.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.safety_check.2",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "num::<impl usize>::unchecked_add::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#2}.unreachable.1",
+          "num::<impl usize>::is_multiple_of.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::sort13_optimal::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "ub_checks::maybe_is_nonoverlapping::runtime.unreachable.1",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.2",
+          "num::<impl usize>::unchecked_add::{closure#2}.unreachable.1",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#0}.unreachable.1",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#1}.unreachable.1",
+          "ub_checks::is_valid_allocation_size.arithmetic_overflow.1",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#3}.unreachable.1",
+          "num::<impl usize>::unchecked_add::{closure#3}.unreachable.1",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#2}.unreachable.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::panic_on_ord_violation.assertion.1",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.5",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.6",
+          "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.3",
+          "num::<impl usize>::unchecked_add.arithmetic_overflow.1",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#0}.unreachable.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.2",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.3",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#0}.unreachable.1",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.2",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut T>::add::runtime_add_nowrap::runtime.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "num::<impl usize>::checked_sub.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "ptr::drop_in_place::<*mut u8>.safety_check.1",
+          "ptr::drop_in_place::<*mut u8>.safety_check.2",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "ptr::copy::<u8>.safety_check.1",
+          "ptr::copy::<u8>.safety_check.2",
+          "ptr::copy::<u8>.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.unreachable.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.11",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.12",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.13",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.14",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.15",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.assertion.16",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#0}.unreachable.1",
+          "memcpy.pointer.1",
+          "memcpy.pointer.2",
+          "ptr::copy_nonoverlapping::<u8>.precondition_instance.1",
+          "ptr::copy_nonoverlapping::<u8>.precondition_instance.2",
+          "ptr::copy_nonoverlapping::<u8>.precondition_instance.3",
+          "ptr::copy::<u8>.precondition_instance.1",
+          "ptr::copy::<u8>.precondition_instance.2",
+          "ptr::read::<u8>.pointer_dereference.1",
+          "ptr::read::<u8>.pointer_dereference.2",
+          "ptr::read::<u8>.pointer_dereference.3",
+          "ptr::read::<u8>.pointer_dereference.4",
+          "ptr::read::<u8>.pointer_dereference.5",
+          "ptr::read::<u8>.pointer_dereference.6",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.pointer.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.array_bounds.1",
+          "num::<impl usize>::is_multiple_of.division-by-zero.1",
+          "ub_checks::is_valid_allocation_size.division-by-zero.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.4",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.5",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.6",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.7",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.8",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.9",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.10",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.11",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.12",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.array_bounds.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.array_bounds.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.array_bounds.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.array_bounds.4",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.array_bounds.5",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.array_bounds.6",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.array_bounds.7",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.array_bounds.8",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.array_bounds.9",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n02_fullbyte.array_bounds.10",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.1",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.2",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.3",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.4",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.5",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.6",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.1",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.2",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.3",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.4",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.5",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.6",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.7",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.8",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.9",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.10",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.11",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.12",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.1",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.2",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.3",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.4",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.5",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.6",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.7",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.8",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.9",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.10",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.11",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.12",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.13",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.14",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.15",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.16",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.17",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.18",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.1",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.2",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.3",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.4",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.5",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.6",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.7",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.8",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.9",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.10",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.11",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.12"
+        ],
+        "FAILURE": [],
+        "UNREACHABLE": [
+          "num::<impl usize>::abs_diff.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "num::<impl usize>::is_multiple_of.assertion.1",
+          "ub_checks::is_valid_allocation_size.assertion.1",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+          "fmt::Arguments::<'_>::from_str.assertion.1",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3"
+        ]
+      },
+      "complete_class_status_counts": {
+        "arithmetic_overflow": {
+          "SUCCESS": 9
+        },
+        "array_bounds": {
+          "SUCCESS": 13
+        },
+        "assertion": {
+          "SUCCESS": 46,
+          "UNREACHABLE": 11
+        },
+        "assume": {
+          "SUCCESS": 1
+        },
+        "cover": {
+          "SATISFIED": 6
+        },
+        "division-by-zero": {
+          "SUCCESS": 2
+        },
+        "pointer": {
+          "SUCCESS": 3
+        },
+        "pointer_dereference": {
+          "SUCCESS": 66
+        },
+        "precondition_instance": {
+          "SUCCESS": 5
+        },
+        "safety_check": {
+          "SUCCESS": 40
+        },
+        "unreachable": {
+          "SUCCESS": 53
+        },
+        "unsupported_construct": {
+          "SUCCESS": 3
+        }
+      },
+      "full_native_dictionary_inventory": {
+        "path": "NATIVE-PROPERTIES.json",
+        "file_sha256": "ebfc990f18e2e23426020177820ca95ce3c5e727425ae056e093feadd40af9d8",
+        "root": "s4p2r2_network_b01_n02_fullbyte",
+        "authenticated_member": {
+          "member": "groups/s3-s4p2r2_network_b01_n02_fullbyte/properties.json",
+          "bytes": 177790,
+          "sha256": "790a0029ee6666cd7aabe6de270890e387a74a40ee60e3e4e162643c421e87ff"
+        }
+      },
+      "unwind_value": 36,
+      "all_exported_unwind_properties": [],
+      "unwind_scope": "Exact exported inventory, including zero residual assertions where applicable; no unexported check or larger-length sufficiency claim.",
+      "U_arguments": {
+        "path": "U-DOMAIN-ARGUMENTS.json",
+        "count": 11,
+        "ids": [
+          "num::<impl usize>::abs_diff.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "num::<impl usize>::is_multiple_of.assertion.1",
+          "ub_checks::is_valid_allocation_size.assertion.1",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+          "fmt::Arguments::<'_>::from_str.assertion.1",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3"
+        ]
+      },
+      "blockers": [],
+      "candidate_status": "READY_FOR_SEPARATE_BOUNDED_SOURCE_REPORTED_REVIEW",
+      "producer_s3_expected_match": false,
+      "admission": false
+    },
+    {
+      "root": "s4p2r2_network_b01_n03_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte",
+      "invocation_id": "34ce7f6cd3004e1abddb5e861885fc00",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/34ce7f6cd3004e1abddb5e861885fc00",
+      "positive": true,
+      "required_assertion_roles": [
+        {
+          "required": {
+            "description": "S4P2R2_N_03_ACTIVE_CONCRETE_MODEL",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 48,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "    kani::assert(active_u8(), \"S4P2R2_N_03_ACTIVE_CONCRETE_MODEL\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "ACTIVE_CONCRETE_MODEL",
+            "predicate_tokens": "active_u8()"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_03_ACTIVE_CONCRETE_MODEL",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.1",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.1",
+              "line": "48",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:48:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "description": "S4P2R2_N_03_SORTED_FULL_VALUE_COUNT",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 54,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..4]), \"S4P2R2_N_03_SORTED_FULL_VALUE_COUNT\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "SORTED_FULL_VALUE_COUNT",
+            "predicate_tokens": "post::<u8,KeyLess<u8>>(before,&v[1..4])"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_03_SORTED_FULL_VALUE_COUNT",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.2",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.2",
+              "line": "54",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:54:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "description": "S4P2R2_N_03_FULL_OUTSIDE_FRAME",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 56,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P2R2_N_03_FULL_OUTSIDE_FRAME\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "FULL_OUTSIDE_FRAME",
+            "predicate_tokens": "(1<=i&&i<1+n)||v[i]==bytes[i]"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_03_FULL_OUTSIDE_FRAME",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.6",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.6",
+              "line": "56",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:56:9 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "description": "S4P2R2_N_03_ARBITRARY_OUTSIDE_CANARY",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 60,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "    kani::assert(v[canary] == bytes[canary], \"S4P2R2_N_03_ARBITRARY_OUTSIDE_CANARY\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "ARBITRARY_OUTSIDE_CANARY",
+            "predicate_tokens": "v[canary]==bytes[canary]"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_03_ARBITRARY_OUTSIDE_CANARY",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.10",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.10",
+              "line": "60",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:60:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        }
+      ],
+      "required_role_reachability_argument": "All declared covers occur after the active-model assertion, original-helper call, postcondition assertion, fixed 0..34 frame loop and arbitrary outside-canary assertion in the exact frozen harness body. Each SAT cover supplies a continuing path through those required roles; the frame loop has34 iterations and is not an empty loop. SUCCESS for all four exact labelled native roles supplies their retained verification results. For N01 both N00 and N01 covers are after every role, so each length has its own post-role reachability witness. SAT is used only for non-vacuity, never as a substitute for a U argument.",
+      "declared_covers": [
+        "S4P2R2_N_03_N03",
+        "S4P2R2_N_03_UNSORTED",
+        "S4P2R2_N_03_DUPLICATE",
+        "S4P2R2_N_03_NONCONSTANT",
+        "S4P2R2_N_03_MAX_DESCENDING",
+        "S4P2R2_N_03_USEFUL_RETURN"
+      ],
+      "native_covers": [
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_03_N03",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.cover.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.cover.1",
+          "line": "61",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:61:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_03_UNSORTED",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.cover.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.cover.2",
+          "line": "62",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:62:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_03_DUPLICATE",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.cover.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.cover.3",
+          "line": "63",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:63:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_03_NONCONSTANT",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.cover.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.cover.4",
+          "line": "64",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:64:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_03_MAX_DESCENDING",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.cover.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.cover.5",
+          "line": "65",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:65:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_03_USEFUL_RETURN",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.cover.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.cover.6",
+          "line": "66",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:66:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte",
+          "status": "SATISFIED"
+        }
+      ],
+      "N0_N1_reachability_witnesses": [],
+      "native_properties_count": 258,
+      "safety_checks_count": 252,
+      "complete_safety_ids_by_status": {
+        "SUCCESS": [
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.2",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#0}.unreachable.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.unreachable.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.safety_check.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.safety_check.2",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#2}.unreachable.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.2",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.3",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.3",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "num::<impl usize>::unchecked_add::{closure#0}.unreachable.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.2",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.3",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+          "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#3}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#0}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#2}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#1}.unreachable.1",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.2",
+          "slice::sort::shared::smallsort::sort9_optimal::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::sort13_optimal::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "ptr::copy_nonoverlapping::<u8>.safety_check.1",
+          "ptr::copy_nonoverlapping::<u8>.safety_check.2",
+          "ptr::copy_nonoverlapping::<u8>.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.1",
+          "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.2",
+          "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.3",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#2}.unreachable.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.unreachable.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.11",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.12",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.13",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.14",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.15",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.assertion.16",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.unreachable.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.safety_check.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.safety_check.2",
+          "ptr::mut_ptr::<impl *mut T>::sub::runtime_sub_nowrap::runtime.unreachable.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assume.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.unreachable.1",
+          "num::<impl usize>::unchecked_add::{closure#3}.unreachable.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.3",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#2}.unreachable.1",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#1}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#1}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#3}.unreachable.1",
+          "ub_checks::is_valid_allocation_size.arithmetic_overflow.1",
+          "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "num::<impl usize>::unchecked_add::{closure#1}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::sub.arithmetic_overflow.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#1}.unreachable.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.4",
+          "ub_checks::maybe_is_nonoverlapping::runtime.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "num::<impl usize>::unchecked_add::{closure#2}.unreachable.1",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#0}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#2}.unreachable.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "num::<impl usize>::is_multiple_of.arithmetic_overflow.1",
+          "slice::raw::from_raw_parts_mut::<'_, u8>.safety_check.1",
+          "slice::raw::from_raw_parts_mut::<'_, u8>.safety_check.2",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#3}.unreachable.1",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#2}.unreachable.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::panic_on_ord_violation.assertion.1",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.5",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.6",
+          "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.assertion.4",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#3}.unreachable.1",
+          "ptr::const_ptr::<impl *const T>::add::runtime_add_nowrap::runtime.unreachable.1",
+          "num::<impl usize>::unchecked_add.arithmetic_overflow.1",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#0}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut T>::add::runtime_add_nowrap::runtime.unreachable.1",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#3}.unreachable.1",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.safety_check.1",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.assertion.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#0}.unreachable.1",
+          "num::<impl usize>::checked_sub.arithmetic_overflow.1",
+          "ptr::drop_in_place::<*mut u8>.safety_check.1",
+          "ptr::drop_in_place::<*mut u8>.safety_check.2",
+          "ptr::copy::<u8>.safety_check.1",
+          "ptr::copy::<u8>.safety_check.2",
+          "ptr::copy::<u8>.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#3}.unreachable.1",
+          "memcpy.pointer.1",
+          "memcpy.pointer.2",
+          "ptr::copy_nonoverlapping::<u8>.precondition_instance.1",
+          "ptr::copy_nonoverlapping::<u8>.precondition_instance.2",
+          "ptr::copy_nonoverlapping::<u8>.precondition_instance.3",
+          "ptr::copy::<u8>.precondition_instance.1",
+          "ptr::copy::<u8>.precondition_instance.2",
+          "ptr::read::<u8>.pointer_dereference.1",
+          "ptr::read::<u8>.pointer_dereference.2",
+          "ptr::read::<u8>.pointer_dereference.3",
+          "ptr::read::<u8>.pointer_dereference.4",
+          "ptr::read::<u8>.pointer_dereference.5",
+          "ptr::read::<u8>.pointer_dereference.6",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.pointer.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.array_bounds.1",
+          "num::<impl usize>::is_multiple_of.division-by-zero.1",
+          "ub_checks::is_valid_allocation_size.division-by-zero.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.4",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.5",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.6",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.7",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.8",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.9",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.10",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.11",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.12",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.array_bounds.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.array_bounds.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.array_bounds.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.array_bounds.4",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.array_bounds.5",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.array_bounds.6",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.array_bounds.7",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.array_bounds.8",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.array_bounds.9",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n03_fullbyte.array_bounds.10",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.1",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.2",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.3",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.4",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.5",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.6",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.1",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.2",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.3",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.4",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.5",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.6",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.7",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.8",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.9",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.10",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.11",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.12",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.1",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.2",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.3",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.4",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.5",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.6",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.7",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.8",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.9",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.10",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.11",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.12",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.13",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.14",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.15",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.16",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.17",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.18",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.1",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.2",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.3",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.4",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.5",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.6",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.7",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.8",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.9",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.10",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.11",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.12"
+        ],
+        "FAILURE": [],
+        "UNREACHABLE": [
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "ub_checks::is_valid_allocation_size.assertion.1",
+          "fmt::Arguments::<'_>::from_str.assertion.1",
+          "num::<impl usize>::is_multiple_of.assertion.1"
+        ]
+      },
+      "complete_class_status_counts": {
+        "arithmetic_overflow": {
+          "SUCCESS": 9
+        },
+        "array_bounds": {
+          "SUCCESS": 13
+        },
+        "assertion": {
+          "SUCCESS": 46,
+          "UNREACHABLE": 11
+        },
+        "assume": {
+          "SUCCESS": 1
+        },
+        "cover": {
+          "SATISFIED": 6
+        },
+        "division-by-zero": {
+          "SUCCESS": 2
+        },
+        "pointer": {
+          "SUCCESS": 3
+        },
+        "pointer_dereference": {
+          "SUCCESS": 66
+        },
+        "precondition_instance": {
+          "SUCCESS": 5
+        },
+        "safety_check": {
+          "SUCCESS": 40
+        },
+        "unreachable": {
+          "SUCCESS": 53
+        },
+        "unsupported_construct": {
+          "SUCCESS": 3
+        }
+      },
+      "full_native_dictionary_inventory": {
+        "path": "NATIVE-PROPERTIES.json",
+        "file_sha256": "ebfc990f18e2e23426020177820ca95ce3c5e727425ae056e093feadd40af9d8",
+        "root": "s4p2r2_network_b01_n03_fullbyte",
+        "authenticated_member": {
+          "member": "groups/s3-s4p2r2_network_b01_n03_fullbyte/properties.json",
+          "bytes": 177790,
+          "sha256": "16913068515246b8e59d00b6dccba7249bc4bb0493ed049e06f18201f39d5b14"
+        }
+      },
+      "unwind_value": 36,
+      "all_exported_unwind_properties": [],
+      "unwind_scope": "Exact exported inventory, including zero residual assertions where applicable; no unexported check or larger-length sufficiency claim.",
+      "U_arguments": {
+        "path": "U-DOMAIN-ARGUMENTS.json",
+        "count": 11,
+        "ids": [
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "ub_checks::is_valid_allocation_size.assertion.1",
+          "fmt::Arguments::<'_>::from_str.assertion.1",
+          "num::<impl usize>::is_multiple_of.assertion.1"
+        ]
+      },
+      "blockers": [],
+      "candidate_status": "READY_FOR_SEPARATE_BOUNDED_SOURCE_REPORTED_REVIEW",
+      "producer_s3_expected_match": false,
+      "admission": false
+    },
+    {
+      "root": "s4p2r2_network_b01_n04_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte",
+      "invocation_id": "667365b8fc9e4f7dbf84f0d17119673d",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/667365b8fc9e4f7dbf84f0d17119673d",
+      "positive": true,
+      "required_assertion_roles": [
+        {
+          "required": {
+            "description": "S4P2R2_N_04_ACTIVE_CONCRETE_MODEL",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 72,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "    kani::assert(active_u8(), \"S4P2R2_N_04_ACTIVE_CONCRETE_MODEL\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "ACTIVE_CONCRETE_MODEL",
+            "predicate_tokens": "active_u8()"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_04_ACTIVE_CONCRETE_MODEL",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.1",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.1",
+              "line": "72",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:72:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "description": "S4P2R2_N_04_SORTED_FULL_VALUE_COUNT",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 78,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..5]), \"S4P2R2_N_04_SORTED_FULL_VALUE_COUNT\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "SORTED_FULL_VALUE_COUNT",
+            "predicate_tokens": "post::<u8,KeyLess<u8>>(before,&v[1..5])"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_04_SORTED_FULL_VALUE_COUNT",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.2",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.2",
+              "line": "78",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:78:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "description": "S4P2R2_N_04_FULL_OUTSIDE_FRAME",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 80,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P2R2_N_04_FULL_OUTSIDE_FRAME\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "FULL_OUTSIDE_FRAME",
+            "predicate_tokens": "(1<=i&&i<1+n)||v[i]==bytes[i]"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_04_FULL_OUTSIDE_FRAME",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.6",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.6",
+              "line": "80",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:80:9 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "description": "S4P2R2_N_04_ARBITRARY_OUTSIDE_CANARY",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 84,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "    kani::assert(v[canary] == bytes[canary], \"S4P2R2_N_04_ARBITRARY_OUTSIDE_CANARY\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "ARBITRARY_OUTSIDE_CANARY",
+            "predicate_tokens": "v[canary]==bytes[canary]"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_04_ARBITRARY_OUTSIDE_CANARY",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.10",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.10",
+              "line": "84",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:84:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        }
+      ],
+      "required_role_reachability_argument": "All declared covers occur after the active-model assertion, original-helper call, postcondition assertion, fixed 0..34 frame loop and arbitrary outside-canary assertion in the exact frozen harness body. Each SAT cover supplies a continuing path through those required roles; the frame loop has34 iterations and is not an empty loop. SUCCESS for all four exact labelled native roles supplies their retained verification results. For N01 both N00 and N01 covers are after every role, so each length has its own post-role reachability witness. SAT is used only for non-vacuity, never as a substitute for a U argument.",
+      "declared_covers": [
+        "S4P2R2_N_04_N04",
+        "S4P2R2_N_04_UNSORTED",
+        "S4P2R2_N_04_DUPLICATE",
+        "S4P2R2_N_04_NONCONSTANT",
+        "S4P2R2_N_04_MAX_DESCENDING",
+        "S4P2R2_N_04_USEFUL_RETURN"
+      ],
+      "native_covers": [
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_04_N04",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.cover.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.cover.1",
+          "line": "85",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:85:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_04_UNSORTED",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.cover.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.cover.2",
+          "line": "86",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:86:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_04_DUPLICATE",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.cover.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.cover.3",
+          "line": "87",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:87:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_04_NONCONSTANT",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.cover.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.cover.4",
+          "line": "88",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:88:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_04_MAX_DESCENDING",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.cover.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.cover.5",
+          "line": "89",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:89:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_04_USEFUL_RETURN",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.cover.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.cover.6",
+          "line": "90",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:90:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte",
+          "status": "SATISFIED"
+        }
+      ],
+      "N0_N1_reachability_witnesses": [],
+      "native_properties_count": 258,
+      "safety_checks_count": 252,
+      "complete_safety_ids_by_status": {
+        "SUCCESS": [
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#1}.unreachable.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.unreachable.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.safety_check.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.safety_check.2",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#0}.unreachable.1",
+          "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assume.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.unreachable.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "slice::sort::shared::smallsort::sort9_optimal::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#3}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#2}.unreachable.1",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#3}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#0}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::sub.arithmetic_overflow.1",
+          "ptr::copy_nonoverlapping::<u8>.safety_check.1",
+          "ptr::copy_nonoverlapping::<u8>.safety_check.2",
+          "ptr::copy_nonoverlapping::<u8>.arithmetic_overflow.1",
+          "ub_checks::is_valid_allocation_size.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.unreachable.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.safety_check.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.safety_check.2",
+          "num::<impl usize>::is_multiple_of.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.3",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#2}.unreachable.1",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.assertion.4",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#3}.unreachable.1",
+          "num::<impl usize>::unchecked_add::{closure#2}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut T>::sub::runtime_sub_nowrap::runtime.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#2}.unreachable.1",
+          "slice::sort::shared::smallsort::sort13_optimal::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#1}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#0}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#0}.unreachable.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.2",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#2}.unreachable.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.unreachable.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.11",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.12",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.13",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.14",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.15",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.assertion.16",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.2",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.3",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::panic_on_ord_violation.assertion.1",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.5",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.6",
+          "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "num::<impl usize>::unchecked_add::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#3}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#1}.unreachable.1",
+          "ptr::const_ptr::<impl *const T>::add::runtime_add_nowrap::runtime.unreachable.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.3",
+          "num::<impl usize>::unchecked_add.arithmetic_overflow.1",
+          "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.1",
+          "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.2",
+          "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.3",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#0}.unreachable.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.2",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.3",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#0}.unreachable.1",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.2",
+          "num::<impl usize>::checked_sub.arithmetic_overflow.1",
+          "slice::raw::from_raw_parts_mut::<'_, u8>.safety_check.1",
+          "slice::raw::from_raw_parts_mut::<'_, u8>.safety_check.2",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.safety_check.1",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.assertion.1",
+          "ptr::mut_ptr::<impl *mut T>::add::runtime_add_nowrap::runtime.unreachable.1",
+          "ub_checks::maybe_is_nonoverlapping::runtime.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#3}.unreachable.1",
+          "num::<impl usize>::unchecked_add::{closure#1}.unreachable.1",
+          "ptr::drop_in_place::<*mut u8>.safety_check.1",
+          "ptr::drop_in_place::<*mut u8>.safety_check.2",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#2}.unreachable.1",
+          "ptr::copy::<u8>.safety_check.1",
+          "ptr::copy::<u8>.safety_check.2",
+          "ptr::copy::<u8>.arithmetic_overflow.1",
+          "num::<impl usize>::unchecked_add::{closure#3}.unreachable.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.4",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#3}.unreachable.1",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#2}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#1}.unreachable.1",
+          "memcpy.pointer.1",
+          "memcpy.pointer.2",
+          "ptr::copy_nonoverlapping::<u8>.precondition_instance.1",
+          "ptr::copy_nonoverlapping::<u8>.precondition_instance.2",
+          "ptr::copy_nonoverlapping::<u8>.precondition_instance.3",
+          "ptr::copy::<u8>.precondition_instance.1",
+          "ptr::copy::<u8>.precondition_instance.2",
+          "ptr::read::<u8>.pointer_dereference.1",
+          "ptr::read::<u8>.pointer_dereference.2",
+          "ptr::read::<u8>.pointer_dereference.3",
+          "ptr::read::<u8>.pointer_dereference.4",
+          "ptr::read::<u8>.pointer_dereference.5",
+          "ptr::read::<u8>.pointer_dereference.6",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.pointer.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.array_bounds.1",
+          "num::<impl usize>::is_multiple_of.division-by-zero.1",
+          "ub_checks::is_valid_allocation_size.division-by-zero.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.4",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.5",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.6",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.7",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.8",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.9",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.10",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.11",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::descending.pointer_dereference.12",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.array_bounds.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.array_bounds.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.array_bounds.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.array_bounds.4",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.array_bounds.5",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.array_bounds.6",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.array_bounds.7",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.array_bounds.8",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.array_bounds.9",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n04_fullbyte.array_bounds.10",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.1",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.2",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.3",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.4",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.5",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.6",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.1",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.2",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.3",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.4",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.5",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.6",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.7",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.8",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.9",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.10",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.11",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.12",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.1",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.2",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.3",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.4",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.5",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.6",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.7",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.8",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.9",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.10",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.11",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.12",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.13",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.14",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.15",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.16",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.17",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.18",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.1",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.2",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.3",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.4",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.5",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.6",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.7",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.8",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.9",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.10",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.11",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.12"
+        ],
+        "FAILURE": [],
+        "UNREACHABLE": [
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "num::<impl usize>::abs_diff.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.2",
+          "ub_checks::is_valid_allocation_size.assertion.1",
+          "num::<impl usize>::is_multiple_of.assertion.1",
+          "fmt::Arguments::<'_>::from_str.assertion.1",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+        ]
+      },
+      "complete_class_status_counts": {
+        "arithmetic_overflow": {
+          "SUCCESS": 9
+        },
+        "array_bounds": {
+          "SUCCESS": 13
+        },
+        "assertion": {
+          "SUCCESS": 46,
+          "UNREACHABLE": 11
+        },
+        "assume": {
+          "SUCCESS": 1
+        },
+        "cover": {
+          "SATISFIED": 6
+        },
+        "division-by-zero": {
+          "SUCCESS": 2
+        },
+        "pointer": {
+          "SUCCESS": 3
+        },
+        "pointer_dereference": {
+          "SUCCESS": 66
+        },
+        "precondition_instance": {
+          "SUCCESS": 5
+        },
+        "safety_check": {
+          "SUCCESS": 40
+        },
+        "unreachable": {
+          "SUCCESS": 53
+        },
+        "unsupported_construct": {
+          "SUCCESS": 3
+        }
+      },
+      "full_native_dictionary_inventory": {
+        "path": "NATIVE-PROPERTIES.json",
+        "file_sha256": "ebfc990f18e2e23426020177820ca95ce3c5e727425ae056e093feadd40af9d8",
+        "root": "s4p2r2_network_b01_n04_fullbyte",
+        "authenticated_member": {
+          "member": "groups/s3-s4p2r2_network_b01_n04_fullbyte/properties.json",
+          "bytes": 177790,
+          "sha256": "04289f4e4daa6e8721848d892d45c7ecd3cd043f46713b6b290d9ea04949e260"
+        }
+      },
+      "unwind_value": 36,
+      "all_exported_unwind_properties": [],
+      "unwind_scope": "Exact exported inventory, including zero residual assertions where applicable; no unexported check or larger-length sufficiency claim.",
+      "U_arguments": {
+        "path": "U-DOMAIN-ARGUMENTS.json",
+        "count": 11,
+        "ids": [
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "num::<impl usize>::abs_diff.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.2",
+          "ub_checks::is_valid_allocation_size.assertion.1",
+          "num::<impl usize>::is_multiple_of.assertion.1",
+          "fmt::Arguments::<'_>::from_str.assertion.1",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+        ]
+      },
+      "blockers": [],
+      "candidate_status": "READY_FOR_SEPARATE_BOUNDED_SOURCE_REPORTED_REVIEW",
+      "producer_s3_expected_match": false,
+      "admission": false
+    },
+    {
+      "root": "s4p2r2_network_b01_n00_01_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte",
+      "invocation_id": "a44909f40bf7474e9b929518edfb8ca6",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/a44909f40bf7474e9b929518edfb8ca6",
+      "positive": true,
+      "required_assertion_roles": [
+        {
+          "required": {
+            "description": "S4P2R2_N_00_01_ACTIVE_CONCRETE_MODEL",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 96,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "    kani::assert(active_u8(), \"S4P2R2_N_00_01_ACTIVE_CONCRETE_MODEL\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "ACTIVE_CONCRETE_MODEL",
+            "predicate_tokens": "active_u8()"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_00_01_ACTIVE_CONCRETE_MODEL",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.1",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.1",
+              "line": "96",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:96:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "description": "S4P2R2_N_00_01_SORTED_FULL_VALUE_COUNT",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 107,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..1 + n]), \"S4P2R2_N_00_01_SORTED_FULL_VALUE_COUNT\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "SORTED_FULL_VALUE_COUNT",
+            "predicate_tokens": "post::<u8,KeyLess<u8>>(before,&v[1..1+n])"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_00_01_SORTED_FULL_VALUE_COUNT",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.4",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.4",
+              "line": "107",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:107:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "description": "S4P2R2_N_00_01_FULL_OUTSIDE_FRAME",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 109,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "        kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P2R2_N_00_01_FULL_OUTSIDE_FRAME\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "FULL_OUTSIDE_FRAME",
+            "predicate_tokens": "(1<=i&&i<1+n)||v[i]==bytes[i]"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_00_01_FULL_OUTSIDE_FRAME",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.8",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.8",
+              "line": "109",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:109:9 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "description": "S4P2R2_N_00_01_ARBITRARY_OUTSIDE_CANARY",
+            "class": "assertion",
+            "status": "SUCCESS",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+            "line": 113,
+            "source_sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+            "source_line": "    kani::assert(v[canary] == bytes[canary], \"S4P2R2_N_00_01_ARBITRARY_OUTSIDE_CANARY\");",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY",
+            "semantic_role": "ARBITRARY_OUTSIDE_CANARY",
+            "predicate_tokens": "v[canary]==bytes[canary]"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P2R2_N_00_01_ARBITRARY_OUTSIDE_CANARY",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.12",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.12",
+              "line": "113",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:113:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        }
+      ],
+      "required_role_reachability_argument": "All declared covers occur after the active-model assertion, original-helper call, postcondition assertion, fixed 0..34 frame loop and arbitrary outside-canary assertion in the exact frozen harness body. Each SAT cover supplies a continuing path through those required roles; the frame loop has34 iterations and is not an empty loop. SUCCESS for all four exact labelled native roles supplies their retained verification results. For N01 both N00 and N01 covers are after every role, so each length has its own post-role reachability witness. SAT is used only for non-vacuity, never as a substitute for a U argument.",
+      "declared_covers": [
+        "S4P2R2_N_00_01_N00",
+        "S4P2R2_N_00_01_N01",
+        "S4P2R2_N_00_01_USEFUL_RETURN"
+      ],
+      "native_covers": [
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_00_01_N00",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.cover.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.cover.1",
+          "line": "114",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:114:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_00_01_N01",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.cover.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.cover.2",
+          "line": "115",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:115:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_00_01_USEFUL_RETURN",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.cover.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.cover.3",
+          "line": "116",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:116:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte",
+          "status": "SATISFIED"
+        }
+      ],
+      "N0_N1_reachability_witnesses": [
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_00_01_N00",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.cover.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.cover.1",
+          "line": "114",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:114:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte",
+          "status": "SATISFIED"
+        },
+        {
+          "class": "cover",
+          "description": "S4P2R2_N_00_01_N01",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.cover.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.cover.2",
+          "line": "115",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs:115:5 in function slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte",
+          "status": "SATISFIED"
+        }
+      ],
+      "native_properties_count": 230,
+      "safety_checks_count": 227,
+      "complete_safety_ids_by_status": {
+        "SUCCESS": [
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.2",
+          "num::<impl usize>::checked_sub.arithmetic_overflow.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.2",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, isize>.safety_check.3",
+          "ptr::copy_nonoverlapping::<u8>.safety_check.1",
+          "ptr::copy_nonoverlapping::<u8>.safety_check.2",
+          "ptr::copy_nonoverlapping::<u8>.arithmetic_overflow.1",
+          "ptr::mut_ptr::<impl *mut T>::add::runtime_add_nowrap::runtime.unreachable.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#3}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#2}.unreachable.1",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#3}.unreachable.1",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#3}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#3}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#0}.unreachable.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.1",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.2",
+          "kani::rustc_intrinsics::offset::<u8, *mut u8, usize>.safety_check.3",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#2}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#3}.unreachable.1",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.4",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.unreachable.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.11",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.assertion.12",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assume.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.unreachable.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.assertion.3",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#2}.unreachable.1",
+          "ub_checks::is_valid_allocation_size.arithmetic_overflow.1",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#1}.unreachable.1",
+          "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#2}.unreachable.1",
+          "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "num::<impl usize>::is_multiple_of.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.safety_check.1",
+          "<usize as kani::rustc_intrinsics::ToISize>::to_isize.assertion.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.unreachable.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.safety_check.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.safety_check.2",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#1}.unreachable.1",
+          "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+          "ub_checks::maybe_is_nonoverlapping::runtime.unreachable.1",
+          "num::<impl usize>::unchecked_add::{closure#3}.unreachable.1",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::merge_down::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#0}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::cast::<()>::{closure#0}.unreachable.1",
+          "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.1",
+          "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.2",
+          "kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.3",
+          "ptr::const_ptr::<impl *const u8>::add::{closure#2}.unreachable.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#2}.unreachable.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "slice::raw::from_raw_parts_mut::<'_, u8>.safety_check.1",
+          "slice::raw::from_raw_parts_mut::<'_, u8>.safety_check.2",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.unreachable.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#0}.unreachable.1",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.2",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::panic_on_ord_violation.assertion.1",
+          "ptr::mut_ptr::<impl *mut u8>::sub::{closure#1}.unreachable.1",
+          "ptr::const_ptr::<impl *const T>::add::runtime_add_nowrap::runtime.unreachable.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "slice::sort::shared::smallsort::insertion_sort_shift_left::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.2",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.3",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.4",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.5",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.safety_check.6",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#0}.unreachable.1",
+          "num::<impl usize>::unchecked_add::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#3}.unreachable.1",
+          "num::<impl usize>::unchecked_add::{closure#1}.unreachable.1",
+          "ptr::non_null::NonNull::<usize>::as_ptr::{closure#1}.unreachable.1",
+          "num::<impl usize>::unchecked_add.arithmetic_overflow.1",
+          "slice::sort::shared::smallsort::sort13_optimal::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.unreachable.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.safety_check.1",
+          "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index_mut.safety_check.2",
+          "<usize as iter::range::Step>::forward_unchecked::{closure#0}.unreachable.1",
+          "slice::sort::shared::smallsort::sort9_optimal::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "ptr::drop_in_place::<*mut u8>.safety_check.1",
+          "ptr::drop_in_place::<*mut u8>.safety_check.2",
+          "slice::sort::shared::smallsort::swap_if_less::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#1}.unreachable.1",
+          "ptr::copy::<u8>.safety_check.1",
+          "ptr::copy::<u8>.safety_check.2",
+          "ptr::copy::<u8>.arithmetic_overflow.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.4",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#3}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut T>::sub::runtime_sub_nowrap::runtime.unreachable.1",
+          "slice::index::slice_index_fail::do_panic::runtime.assertion.3",
+          "num::<impl usize>::unchecked_add::{closure#2}.unreachable.1",
+          "ptr::mut_ptr::<impl *mut u8>::sub.arithmetic_overflow.1",
+          "ptr::mut_ptr::<impl *mut u8>::add::{closure#1}.unreachable.1",
+          "memcpy.pointer.1",
+          "memcpy.pointer.2",
+          "ptr::copy_nonoverlapping::<u8>.precondition_instance.1",
+          "ptr::copy_nonoverlapping::<u8>.precondition_instance.2",
+          "ptr::copy_nonoverlapping::<u8>.precondition_instance.3",
+          "ptr::copy::<u8>.precondition_instance.1",
+          "ptr::copy::<u8>.precondition_instance.2",
+          "ptr::read::<u8>.pointer_dereference.1",
+          "ptr::read::<u8>.pointer_dereference.2",
+          "ptr::read::<u8>.pointer_dereference.3",
+          "ptr::read::<u8>.pointer_dereference.4",
+          "ptr::read::<u8>.pointer_dereference.5",
+          "ptr::read::<u8>.pointer_dereference.6",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.pointer.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.array_bounds.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<u8>.array_bounds.1",
+          "num::<impl usize>::is_multiple_of.division-by-zero.1",
+          "ub_checks::is_valid_allocation_size.division-by-zero.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.array_bounds.1",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.array_bounds.2",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.array_bounds.3",
+          "slice::sort::shared::smallsort::verify::sorting_s4_network_r2::s4p2r2_network_b01_n00_01_fullbyte.array_bounds.4",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.1",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.2",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.3",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.4",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.5",
+          "<u8 as slice::sort::shared::smallsort::verify::sorting_model::Project>::value.pointer_dereference.6",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.1",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.2",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.3",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.4",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.5",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.6",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.7",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.8",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.9",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.10",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.11",
+          "<ops::range::Range<usize> as iter::range::RangeIteratorImpl>::spec_next.pointer_dereference.12",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.1",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.2",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.3",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.4",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.5",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.6",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.7",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.8",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.9",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.10",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.11",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.12",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.13",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.14",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.15",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.16",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.17",
+          "<slice::sort::shared::smallsort::CopyOnDrop<u8> as ops::drop::Drop>::drop.pointer_dereference.18",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.1",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.2",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.3",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.4",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.5",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.6",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.7",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.8",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.9",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.10",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.11",
+          "cmp::impls::<impl cmp::PartialOrd for usize>::lt.pointer_dereference.12",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.unwind.0"
+        ],
+        "FAILURE": [],
+        "UNREACHABLE": [
+          "num::<impl usize>::abs_diff.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.2",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "ub_checks::is_valid_allocation_size.assertion.1",
+          "num::<impl usize>::is_multiple_of.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+          "fmt::Arguments::<'_>::from_str.assertion.1"
+        ]
+      },
+      "complete_class_status_counts": {
+        "arithmetic_overflow": {
+          "SUCCESS": 9
+        },
+        "array_bounds": {
+          "SUCCESS": 7
+        },
+        "assertion": {
+          "SUCCESS": 33,
+          "UNREACHABLE": 16
+        },
+        "assume": {
+          "SUCCESS": 1
+        },
+        "cover": {
+          "SATISFIED": 3
+        },
+        "division-by-zero": {
+          "SUCCESS": 2
+        },
+        "pointer": {
+          "SUCCESS": 3
+        },
+        "pointer_dereference": {
+          "SUCCESS": 54
+        },
+        "precondition_instance": {
+          "SUCCESS": 5
+        },
+        "safety_check": {
+          "SUCCESS": 40
+        },
+        "unreachable": {
+          "SUCCESS": 53
+        },
+        "unsupported_construct": {
+          "SUCCESS": 3
+        },
+        "unwind": {
+          "SUCCESS": 1
+        }
+      },
+      "full_native_dictionary_inventory": {
+        "path": "NATIVE-PROPERTIES.json",
+        "file_sha256": "ebfc990f18e2e23426020177820ca95ce3c5e727425ae056e093feadd40af9d8",
+        "root": "s4p2r2_network_b01_n00_01_fullbyte",
+        "authenticated_member": {
+          "member": "groups/s3-s4p2r2_network_b01_n00_01_fullbyte/properties.json",
+          "bytes": 155970,
+          "sha256": "65065a4b496cd29153dbbc51c74e41d61460dc468df56e0c1ab89ad7f6390048"
+        }
+      },
+      "unwind_value": 36,
+      "all_exported_unwind_properties": [
+        {
+          "class": "unwind",
+          "description": "unwinding assertion loop 0",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.unwind.0",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.unwind.0",
+          "line": "96",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:96:5 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+          "status": "SUCCESS"
+        }
+      ],
+      "unwind_scope": "Exact exported inventory, including zero residual assertions where applicable; no unexported check or larger-length sufficiency claim.",
+      "U_arguments": {
+        "path": "U-DOMAIN-ARGUMENTS.json",
+        "count": 16,
+        "ids": [
+          "num::<impl usize>::abs_diff.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.2",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+          "ub_checks::is_valid_allocation_size.assertion.1",
+          "num::<impl usize>::is_multiple_of.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+          "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+          "fmt::Arguments::<'_>::from_str.assertion.1"
+        ]
+      },
+      "blockers": [],
+      "candidate_status": "READY_FOR_SEPARATE_BOUNDED_SOURCE_REPORTED_REVIEW",
+      "producer_s3_expected_match": false,
+      "admission": false
+    }
+  ],
+  "blocker_rule": "Each unexplained U, unreached/nonSUCCESS required positive role, incomplete safety/unwind inventory or nonSAT required cover is a BLOCKER for that case. No waiver/admission applied.",
+  "native_history": {
+    "workflow": "FAILURE",
+    "campaign": "SELECTED_PARTIAL",
+    "unreachable_policy": "ZERO_U/REJECT_ALL",
+    "proposal_enabled": false,
+    "s3_expected_match_all_rows": false
+  },
+  "admission": false
+}

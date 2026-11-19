@@ -36,5 +36,23 @@
   "proof_credit": "NONE",
   "closure_reason": "Direct one-stage postrun intake and candidate handoff completed; no admission decision, CI, push or ledger authorized.",
   "next": "Independent review then separate coordinator decision",
-  "subagents": 0
+  "subagents": 0,
+  "planner_addendum": {
+    "status": "APPLIED",
+    "evidence": [
+      "U-DOMAIN-ARGUMENTS.json",
+      "HELPER-BRANCH-BINDING.json",
+      "FIXTURE-PATH-BINDING.json",
+      "NON-VACUITY.json",
+      "COST-INTERPRETATION.json",
+      "ADDENDUM-VALIDATION.json"
+    ],
+    "checks": 192,
+    "merge_U_instances_branch_bound": 16,
+    "source_site_exclusions": 43,
+    "source_failure_edge_exclusions": 24,
+    "case_blockers": 0,
+    "exact_speedup_factor": null,
+    "original_intake_commit": "5c52edd71ad20f3f5b89257ed54836b2f43e14c0"
+  }
 }
