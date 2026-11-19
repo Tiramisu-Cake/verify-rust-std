@@ -1,0 +1,214 @@
+{
+  "schema": "ch8-s4p1-intake-review-network-plan-inputs-v1",
+  "authority": "User11:43 explicitly /new14 review intake+location and parallel /new13 offline network N<=4 plan",
+  "base_task_commit": "0f39a22f0148755e7ba881736e77b54f74b01cb5",
+  "intake": {
+    "commit": "842984040e87b8b8594653634b72df7d800ca198",
+    "path": "kani3300/ch8-s4/run-44481580554",
+    "manifest_sha256": "7c199b932cfa034710b37071c8173cfdaebe4b285fd4d605f5ad008d37ff9fa5",
+    "committed_files": 36,
+    "manifest_hashes": 35,
+    "HANDOFF_sha256": "26033b5da59cd8610f022031b40c55c60349401a442cd88dbe374fa67912da6e"
+  },
+  "root_verification": {
+    "commit": "842984040e87b8b8594653634b72df7d800ca198",
+    "status": "MATCH",
+    "committed_files": 36,
+    "manifest_hashes": 35,
+    "replay": {
+      "checks": 1163,
+      "adverse": 29,
+      "location_adverse": 66,
+      "projections": {
+        "RESULT.json": true,
+        "ROOTS.json": true,
+        "COST.json": true,
+        "QUALIFICATION.json": true,
+        "METADATA-GAP.json": true,
+        "LOCATION-PROPOSAL.json": true,
+        "NATIVE-PROPERTIES.json": true,
+        "PROVENANCE.json": true,
+        "PREFIX.json": true,
+        "U-ARGUMENTS.json": true,
+        "SOURCE-GATES.json": true
+      },
+      "elapsed_seconds": 69.20379198063165
+    },
+    "source_control_tool_trigger": {
+      "source": {
+        "sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+        "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+        "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      },
+      "tool": {
+        "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+        "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+      },
+      "control": {
+        "sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+        "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+        "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+      },
+      "trigger": {
+        "sha": "563a899dce27024d276bb6fa8f4402f3b5ddc67c",
+        "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+        "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+      }
+    },
+    "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+    "workflow_sha256": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+    "member_sha256": "cf4a2cbd6b50887f8f7accfed7844bd14fce4e4d12efce92fb81f747d6b61b8d",
+    "payload_sha256": "45530226163007b2c298a61080ac5479b12df563d3023b54af0bf898afd558d5",
+    "member_count": 119,
+    "frozen_reader_files": 118,
+    "source_files": 40,
+    "network_cost": [
+      {
+        "id": "s4p_network_b01_n00_02_fullbyte",
+        "compile_elapsed_upper_bound_seconds": 48.195,
+        "native_verification_time_s": "UNKNOWN_CENSORED",
+        "effective_cap_kib": 6291456,
+        "cutoff_cause": "CHILD600_WALL_INCLUDING_COMPILE",
+        "cutoff_phase": "AFTER_INITIAL_EXPORT_AND_NATIVE_START; exact subphase UNKNOWN",
+        "censoring": "UNFINISHED_NATIVE_RESULT_UNKNOWN",
+        "wholechild_seconds": 601.428,
+        "rss_peak_kib": 3515064
+      },
+      {
+        "id": "s4p_network_b01_n03_04_fullbyte",
+        "compile_elapsed_upper_bound_seconds": 45.976,
+        "native_verification_time_s": "UNKNOWN_CENSORED",
+        "effective_cap_kib": 6291456,
+        "cutoff_cause": "CHILD600_WALL_INCLUDING_COMPILE",
+        "cutoff_phase": "AFTER_INITIAL_EXPORT_AND_NATIVE_START; exact subphase UNKNOWN",
+        "censoring": "UNFINISHED_NATIVE_RESULT_UNKNOWN",
+        "wholechild_seconds": 601.401,
+        "rss_peak_kib": 3516320
+      }
+    ]
+  },
+  "pins": {
+    "source": {
+      "sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    },
+    "control": {
+      "sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+      "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+    },
+    "trigger": {
+      "sha": "563a899dce27024d276bb6fa8f4402f3b5ddc67c",
+      "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+    }
+  },
+  "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+  "workflow_sha256": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+  "artifact_metadata": {
+    "id": 14510873270,
+    "name": "ch8-s3-2-44481580554-1",
+    "size_in_bytes": 416580,
+    "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14510873270",
+    "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14510873270/zip",
+    "expired": false,
+    "created_at": "2026-11-19T08:23:27Z",
+    "expires_at": "2026-11-26T08:23:27Z",
+    "updated_at": "2026-11-19T08:23:27Z",
+    "digest": "sha256:fbc9aa5f701b0c29d7459a2cf48ba0c564003d25771339c21a8cb4a2e7d50f9f",
+    "workflow_run": {
+      "id": 44481580554,
+      "repository_id": 1453289307,
+      "head_repository_id": 1453289307,
+      "head_branch": "uninit-ci/ch8-s4p-1-r1-20261119",
+      "head_sha": "563a899dce27024d276bb6fa8f4402f3b5ddc67c"
+    }
+  },
+  "member_sha256": "cf4a2cbd6b50887f8f7accfed7844bd14fce4e4d12efce92fb81f747d6b61b8d",
+  "payload_sha256": "45530226163007b2c298a61080ac5479b12df563d3023b54af0bf898afd558d5",
+  "result": {
+    "schema": "s4p-terminal-intake-v1",
+    "status": "READY",
+    "run": 44481580554,
+    "attempt": 1,
+    "native_run": "completed/failure",
+    "classification": "SELECTED_PARTIAL; NATIVE2_SUCCESS_4_INTENDED_FAILURE_2_CHILD600_WALL_TIMEOUT; STRICT0; NO_ADMISSION",
+    "campaign_elapsed_seconds": 1779.7066991660001,
+    "global_stop": false,
+    "completed_sealed_prefix": 8,
+    "native_success": 2,
+    "intended_native_negative_failures": 4,
+    "child_wall_timeout_unknown_results": 2,
+    "strict_expected_matches": 0,
+    "provisional_S1_fallback_candidates_for_review": 2,
+    "location_proposal": "TWO_EXACT_CASES_NOT_APPLIED",
+    "U_source_local_arguments": 26,
+    "observed_SUCCESS_unsupported_guards": 7,
+    "observed_native_properties": 594,
+    "qualified_new_leaves": 0,
+    "proof_obligations_closed": 0,
+    "proof_credit": "NONE",
+    "review": "Independent14 next after root committed READY verification; not issued by intake author",
+    "policy_or_accounting_changed": false,
+    "remaining_unknown": [
+      "Network native inventory/roles/covers/U/guards censored",
+      "Exact symex/backend phase, uncensored peak/verification time, signal timestamp",
+      "Positive source/emitter/AST/MIR/caller causal binding",
+      "Fallback5..16/network5..32/general/initmask/provider/summary/ownership/panic/generic trait/fullN16N32/B1B2"
+    ],
+    "handoff": "Root exact committed hash/manifest/pins/replay/cost check -> independent14 -> separate location/admission decision; source-only network planning13 uses COST only; no CI authorized"
+  },
+  "network_COST": [
+    {
+      "id": "s4p_network_b01_n00_02_fullbyte",
+      "compile_elapsed_upper_bound_seconds": 48.195,
+      "native_verification_time_s": "UNKNOWN_CENSORED",
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "CHILD600_WALL_INCLUDING_COMPILE",
+      "cutoff_phase": "AFTER_INITIAL_EXPORT_AND_NATIVE_START; exact subphase UNKNOWN",
+      "censoring": "UNFINISHED_NATIVE_RESULT_UNKNOWN",
+      "wholechild_seconds": 601.428,
+      "sampled_rss_peak_kib": 3515064
+    },
+    {
+      "id": "s4p_network_b01_n03_04_fullbyte",
+      "compile_elapsed_upper_bound_seconds": 45.976,
+      "native_verification_time_s": "UNKNOWN_CENSORED",
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "CHILD600_WALL_INCLUDING_COMPILE",
+      "cutoff_phase": "AFTER_INITIAL_EXPORT_AND_NATIVE_START; exact subphase UNKNOWN",
+      "censoring": "UNFINISHED_NATIVE_RESULT_UNKNOWN",
+      "wholechild_seconds": 601.401,
+      "sampled_rss_peak_kib": 3516320
+    }
+  ],
+  "review": {
+    "task": "TASK-CH8-S4P1-R1-INTAKE-LOCATION-REVIEW-W14.md",
+    "output": "kani3300/ch8-s4/run-44481580554-review-w14/",
+    "actual_review_commit": "PENDING_INDEPENDENT14",
+    "location_admission": "NOT_APPLIED_SEPARATE_ROOT_COORDINATOR_DECISION"
+  },
+  "network_plan": {
+    "task": "TASK-CH8-S4-NETWORK-AFTER-S4P1-PLAN-W13.md",
+    "output": "kani3300/ch8-s4/network-after-s4p1-plan/",
+    "scope": "PLANONLY network u8/KeyLess N<=4; compare source-faithful swap/sort4 proof-DAG vs narrower blocks/single length roots at unchanged caps",
+    "review_dependency": "SEND_ACTUAL14_FULLSHA_WHEN_READY; final plan binds actualreview or CONDITIONAL_PENDING_REVIEW",
+    "summary_edges": "OPEN unless actual callee/caller T/F/domain/offset/init/frame/mode/summary applicability established; bounded cases are not universal providers"
+  },
+  "accounting": {
+    "ledger_reference": "150775d8a4487cd59871c51c08553cb09affed53",
+    "policy": "TRACKING_ONLY",
+    "item1_used": 32,
+    "item2_used": 15,
+    "total_used": 47,
+    "ledger_sha256": "a9ac781d17c3a5116d3c1610a7ce75dc0c6d3dd81af072252723cf28b3154f5b",
+    "root_changes": false
+  }
+}
