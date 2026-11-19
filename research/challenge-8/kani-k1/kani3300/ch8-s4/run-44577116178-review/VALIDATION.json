@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "reference_checks": [
+    {
+      "module": "replay",
+      "exit_code": 0,
+      "stdout": "{\"status\": \"PASS\", \"checks\": 943, \"properties\": 655, \"U\": 40, \"guards\": 7, \"missing_locations\": 0, \"strict_matches\": 0, \"admission\": false}\n{\"compared_files\": [\"SOURCE-GATES.json\", \"PREFIX.json\", \"PROVENANCE.json\", \"ROOTS.json\", \"NATIVE-PROPERTIES.json\", \"QUALIFICATION.json\", \"U-ARGUMENTS.json\", \"GUARD-ARGUMENTS.json\", \"METADATA-GAP.json\", \"PROTECTED.json\", \"SERIAL-ORDER.json\", \"COST.json\", \"VALIDATION.json\", \"RESULT.json\"], \"formatting_only\": [{\"file\": \"RESULT.json\", \"difference\": \"JSON object key order only; values exactly equal\", \"generated_key_order\": [\"status\", \"run\", \"attempt\", \"classification\", \"campaign_elapsed_seconds\", \"roots_started_and_sealed\", \"global_stop\", \"native_properties_observed\", \"native_inventory_complete_roots\", \"native_inventory_unknown_roots\", \"status_partition\", \"U_source_local_candidate_arguments\", \"location_blockers_observed_complete_inventories\", \"U_blockers_observed_complete_inventories\", \"incomplete_positive_case_blockers\", \"successful_unsupported_guards\", \"provisional_positive_candidates_for_review\", \"qualified_new_leaves\", \"admission\", \"proof_credit\", \"proof_obligations_closed\", \"next\"], \"committed_key_order\": [\"status\", \"run\", \"attempt\", \"classification\", \"campaign_elapsed_seconds\", \"roots_started_and_sealed\", \"global_stop\", \"native_properties_observed\", \"native_inventory_complete_roots\", \"native_inventory_unknown_roots\", \"status_partition\", \"U_source_local_candidate_arguments\", \"successful_unsupported_guards\", \"provisional_positive_candidates_for_review\", \"qualified_new_leaves\", \"admission\", \"proof_credit\", \"proof_obligations_closed\", \"next\", \"location_blockers_observed_complete_inventories\", \"U_blockers_observed_complete_inventories\", \"incomplete_positive_case_blockers\"]}]}\n",
+      "stderr": ""
+    },
+    {
+      "module": "audit",
+      "exit_code": 0,
+      "stdout": "{\"status\": \"PASS\", \"checks\": 1518, \"adverse_tests\": 10, \"unique_coordinates\": 113, \"missing_locations\": 0, \"non_std_location_arguments\": 7}\n{\"compared_files\": [\"LOCATION-SITES.json\", \"LOCATION-ARGUMENTS.json\", \"POLICY-REFERENCES.json\", \"AUDIT-VALIDATION.json\"], \"formatting_only\": []}\n",
+      "stderr": ""
+    },
+    {
+      "module": "addendum",
+      "exit_code": 0,
+      "stdout": "{\"status\": \"PASS\", \"checks\": 136, \"U\": 40, \"U_kinds\": {\"SOURCE_SITE_EXCLUDED\": 28, \"GENERATED_FAILURE_EDGE_EXCLUDED\": 12}, \"merge_U_bound_to_helper\": 8, \"complete_positive_cases\": 2, \"blocked_positive_cases\": 2}\n{\"compared_files\": [\"HELPER-BRANCH-BINDING.json\", \"FIXTURE-PATH-BINDING.json\", \"U-DOMAIN-ARGUMENTS.json\", \"NON-VACUITY.json\", \"ADDENDUM-VALIDATION.json\"], \"formatting_only\": []}\n",
+      "stderr": ""
+    },
+    {
+      "module": "cost_analysis",
+      "exit_code": 0,
+      "stdout": "{\"status\": \"PASS\", \"checks\": 14, \"censored_roots\": 2}\n{\"compared_files\": [\"COST-INTERPRETATION.json\", \"COST-VALIDATION.json\"], \"formatting_only\": []}\n",
+      "stderr": ""
+    },
+    {
+      "module": "packet_check",
+      "exit_code": 0,
+      "stdout": "{\"status\": \"PASS\", \"checks\": 165}\n{\"compared_files\": [\"PACKET-CHECK.json\"], \"formatting_only\": []}\n",
+      "stderr": ""
+    }
+  ],
+  "seal": {
+    "status": "PASS",
+    "files": 47
+  },
+  "original_files_unchanged": true,
+  "source_of_independent_review": "review.py imports no intake modules",
+  "initial_reference_replay_note": "First compare-only replay stopped at RESULT.json: generated field ordering differs from committed field ordering. Exact parsed JSON equality was verified; rerun explicitly permits this one formatting-only difference and still rejects any changed value or other file byte difference. Original files unchanged.",
+  "reviewer_check_development_note": "During reviewer-script development, the offset guard anchor was corrected from716 to715 against pinned source, and fixed-negative domain matching was corrected from null to the existing FIXED_NEGATIVE_FIXTURE sentinel. Both were reviewer-check assumptions; no intake finding or input mutation. Final independent checks pass."
+}

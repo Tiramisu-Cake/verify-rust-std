@@ -1,0 +1,58 @@
+{
+  "status": "HANDOFF",
+  "runtime": "Codex",
+  "input_commit": "8bf99aa314310e4a3d5b86b8d0f112ddff2886ab",
+  "run": 44577116178,
+  "attempt": 1,
+  "verdicts": {
+    "N8": {
+      "verdict": "APPROVE",
+      "scope": "exact bounded SOURCE_REPORTED S1 candidate"
+    },
+    "N9": {
+      "verdict": "APPROVE",
+      "scope": "exact bounded SOURCE_REPORTED S1 candidate"
+    },
+    "N13": {
+      "verdict": "APPROVE",
+      "scope": "BLOCKER classification and censored cost only",
+      "candidate_status": "BLOCKER"
+    },
+    "N17": {
+      "verdict": "APPROVE",
+      "scope": "BLOCKER classification and censored cost only",
+      "candidate_status": "BLOCKER"
+    }
+  },
+  "claims": [
+    {
+      "claim": "655 observed property dictionaries and all40 exact U arguments independently reconciled; N8/N9 each four SUCCESS roles and six SAT covers",
+      "assurance": "INDEPENDENT_REVIEW_OF_BOUNDED_SOURCE_REPORTED_CANDIDATES",
+      "evidence": [
+        "REVIEW.json",
+        "review.py"
+      ]
+    },
+    {
+      "claim": "Frozen offline reference checks pass; original intake unchanged; RESULT.json replay differs only in JSON key order",
+      "assurance": "OFFLINE_READER_SOURCE_REPORTING_VALIDATION",
+      "evidence": [
+        "VALIDATION.json",
+        "check_reference.py"
+      ]
+    }
+  ],
+  "blocking_findings": 0,
+  "required_changes": 0,
+  "open": [
+    "Separate coordinator decision for N8/N9; no admission created by review",
+    "N13/N17 missing native inventories and UNKNOWN_CENSORED costs; any next attempt separately reviewed/authorized",
+    "Generic/provider/summary/caller/initmask/ownership/panic/Drop/fullN16/N32 and compiler/emitter/MIR proof remain open"
+  ],
+  "newly_qualified_leaves": 0,
+  "proof_obligations_closed": 0,
+  "admission": false,
+  "independent_B1_B2_credit": "NONE",
+  "subagents": 0,
+  "closure_reason": "Requested one-stage independent review completed. Stop with HANDOFF; no CI/push/ledger/admission authorized."
+}
