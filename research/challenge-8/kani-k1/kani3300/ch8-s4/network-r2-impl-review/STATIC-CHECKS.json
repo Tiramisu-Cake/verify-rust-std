@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "package": "d10b721e5f9423a0de2602893045c31985e3fbf8",
+  "source": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+  "source_parent": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+  "control": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+  "reviewed_control_parent": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+  "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "manifest_payloads": 68,
+  "control_payload_hashes": 155,
+  "dependencies": 12,
+  "source_changed_paths": [
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs"
+  ],
+  "existing_control_changes": [
+    ".github/workflows/ch8-s2.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/collect.py",
+    "ch8-s1-control/runner.py"
+  ],
+  "new_control_paths": 18,
+  "all_other_control_tree_entries_equal": true,
+  "four_negatives_rows_and_bindings_equal": true,
+  "flags_budgets_and_unreachable_policy_equal": true,
+  "campaign_namespace_only": true,
+  "native_acceptance_and_role_matcher_AST_equal": true,
+  "patch_replays": [
+    "SOURCE-PARENT.patch",
+    "SOURCE-STOCK.patch",
+    "CONTROL-PARENT.patch",
+    "CONTROL-STOCK.patch"
+  ],
+  "caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "campaign_seconds": 6900
+  },
+  "request_sha256": "fd2b608a5538779f5f0345a49e5c147646d82dc6d066fdd1e3b50d0e6bc69e39",
+  "workflow_sha256": "d5dd5942297df013e625b85890fcc3884ec6b60d1f08c8e1dc51c019ce15fdfc",
+  "final_validate": "PREPARED_NOT_RUN",
+  "proof_credit": "NONE"
+}

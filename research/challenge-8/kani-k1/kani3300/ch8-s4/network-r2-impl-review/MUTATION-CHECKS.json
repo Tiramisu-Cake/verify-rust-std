@@ -1,0 +1,28 @@
+{
+  "status": "PASS_MUTANTS_DETECTED",
+  "mutants": [
+    {
+      "mutant": "domain_gate_accepts_wrong_design",
+      "detected": true,
+      "tests": 1,
+      "failures": 15,
+      "errors": 0
+    },
+    {
+      "mutant": "native_role_gate_accepts_non_SAT_N01_length_witness",
+      "detected": true,
+      "tests": 1,
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "mutant": "runner_loses_profile_cfg",
+      "detected": true,
+      "tests": 1,
+      "failures": 1,
+      "errors": 0
+    }
+  ],
+  "method": "in-memory monkeypatch only; candidate files unchanged",
+  "native": "NOT_RUN"
+}
