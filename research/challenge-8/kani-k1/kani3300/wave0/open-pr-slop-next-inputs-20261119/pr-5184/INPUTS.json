@@ -1,0 +1,66 @@
+{
+  "schema": "open-pr-following-slop-review-inputs-v1",
+  "PR": 5184,
+  "repo": "model-checking/kani",
+  "url": "https://github.com/model-checking/kani/pull/5184",
+  "connected_checked_at": "2026-11-19T11:33:03.763Z",
+  "head": "f99713506f7ba91f971f3b7359ebbe41ca373adf",
+  "head_tree": "d3127bc67a6317d939480aece405f6ea95993e24",
+  "head_ref": "fix/delayed-ub-recursion",
+  "head_repo": "Tiramisu-Cake/kani",
+  "base_snapshot": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "base_ref": "main",
+  "merge_base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "source_worktree": "/root/kani-pr5184-slop-readonly-20261119",
+  "source_policy": "READ_ONLY exact detached published head; do not edit/commit this source or execute test drivers.",
+  "state": "open",
+  "mergeable": true,
+  "mergeable_state": "behind",
+  "changed_file_count": 5,
+  "changed_files": {
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs": {
+      "git_blob": "e574670da5d9391792b1c220a688222b16773048",
+      "sha256": "0dd7a14f8b822f09ea40abf13715d22a0c0d63f438cab9f58511e97808b022fc",
+      "bytes": 35816,
+      "status": "modified"
+    },
+    "tests/expected/uninit/recursive-delayed/recursive-delayed.expected": {
+      "git_blob": "cba1829b3c388a253a895d88e6286dd7d1653ed6",
+      "sha256": "baf08e379ce252f735527aa5d949ed9f1e1ef6f7fd30161fbeb2101b3ed9c886",
+      "bytes": 109,
+      "status": "added"
+    },
+    "tests/expected/uninit/recursive-delayed/recursive-delayed.rs": {
+      "git_blob": "ca5c6d99e18f8d5f19881aeb7ea661c57eca2bf4",
+      "sha256": "2a27f44ca90950f26ba11b229b063a39dfe7dc8b6ea4d7e7d92f1c0c7b3dbc45",
+      "bytes": 707,
+      "status": "added"
+    },
+    "tests/expected/uninit/recursive-delayed/repeated-calls.expected": {
+      "git_blob": "ff8d2cd867a4a3225b0ce344618088caa1459637",
+      "sha256": "d64a27c6cb5073985dc24f067943c16d3aae3965e3a54678fc101b9182cebc31",
+      "bytes": 354,
+      "status": "added"
+    },
+    "tests/expected/uninit/recursive-delayed/repeated-calls.rs": {
+      "git_blob": "d21499c3fc0479e10f930c088575b539f0749cac",
+      "sha256": "b5f6b981e702b64cb2eb9c708fd7182cb0dd67d6d669bc365b1ac83bc277d66e",
+      "bytes": 803,
+      "status": "added"
+    }
+  },
+  "diff_sha256": "7b24ed34ff91b4b33616fc3b91649df71359e5eec0f81a4086c9f71ea139a43c",
+  "diff_numstat": [
+    "24\t3\tkani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "2\t0\ttests/expected/uninit/recursive-delayed/recursive-delayed.expected",
+    "27\t0\ttests/expected/uninit/recursive-delayed/recursive-delayed.rs",
+    "9\t0\ttests/expected/uninit/recursive-delayed/repeated-calls.expected",
+    "31\t0\ttests/expected/uninit/recursive-delayed/repeated-calls.rs"
+  ],
+  "PR_body_sha256": "78bf0bf18d653a3b6dcb1166707b998d9616f95f58ed57a2def038f76034b2d4",
+  "reviews_count": 1,
+  "inline_comments_count": 0,
+  "scope": "Offline code/comments/tests/PR body review; specific justified edits. No source changes, native tools, CI, push, PR writes or accounting.",
+  "style": "Kani: STYLE-UPSTREAM-RULES snapshot. CBMC: readability principles plus actual CBMC contribution/license/PR conventions; do not inject Kani Apache2/MIT text into CBMC. Preserve real linked issue/disclosure, do not invent one.",
+  "no_implementation_authority": true
+}

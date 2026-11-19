@@ -1,0 +1,104 @@
+{
+  "number": 5184,
+  "repo": "model-checking/kani",
+  "url": "https://github.com/model-checking/kani/pull/5184",
+  "title": "Report recursive calls in delayed UB analysis instead of overflowing the stack",
+  "body": "With `-Z uninit-checks`, the points-to analysis for delayed UB analyzes the body of every function a harness calls, with no check for calls that are already being analyzed. When a harness with delayed UB targets reaches a recursive function, the compiler overflows its stack.\n\nThe analysis now keeps track of the functions in progress and reports a recursive call at its call site: \"Kani does not support memory initialization checks across recursive calls.\"\n\n### Testing\n\n`tests/expected/uninit/recursive-delayed/recursive-delayed.rs` reaches a recursive helper from a harness where a pointer cast creates a delayed UB target. On `main` the compiler overflows its stack; with this change it reports the error above. `repeated-calls.rs` calls a helper twice in a row: an uninitialized read is still reported, and the initialized case verifies.\n\nStandard workflows on this head in my fork: [run](https://github.com/Tiramisu-Cake/kani/actions/runs/43920609175). The macOS 15 job did not get a runner and the perf job lost its runner, both also after a rerun.\n\nBy submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 and MIT licenses.\n\n*Disclosure: this change and description were prepared with the help of AI assistants.*\n",
+  "state": "open",
+  "updated_at": "2026-11-18T22:17:19Z",
+  "head": {
+    "sha": "f99713506f7ba91f971f3b7359ebbe41ca373adf",
+    "ref": "fix/delayed-ub-recursion",
+    "repo": "Tiramisu-Cake/kani"
+  },
+  "base": {
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "ref": "main",
+    "repo": "model-checking/kani"
+  },
+  "mergeable": true,
+  "mergeable_state": "behind",
+  "changed_files": 5,
+  "files": [
+    {
+      "filename": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "status": "modified",
+      "sha": "e574670da5d9391792b1c220a688222b16773048",
+      "additions": 24,
+      "deletions": 3
+    },
+    {
+      "filename": "tests/expected/uninit/recursive-delayed/recursive-delayed.expected",
+      "status": "added",
+      "sha": "cba1829b3c388a253a895d88e6286dd7d1653ed6",
+      "additions": 2,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/recursive-delayed/recursive-delayed.rs",
+      "status": "added",
+      "sha": "ca5c6d99e18f8d5f19881aeb7ea661c57eca2bf4",
+      "additions": 27,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/recursive-delayed/repeated-calls.expected",
+      "status": "added",
+      "sha": "ff8d2cd867a4a3225b0ce344618088caa1459637",
+      "additions": 9,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/recursive-delayed/repeated-calls.rs",
+      "status": "added",
+      "sha": "d21499c3fc0479e10f930c088575b539f0749cac",
+      "additions": 31,
+      "deletions": 0
+    }
+  ],
+  "reviews": [
+    {
+      "id": 5963073854,
+      "node_id": "PRR_kwDOFPlLtM8AAAABY21JPg",
+      "user": {
+        "login": "copilot-pull-request-reviewer[bot]",
+        "id": 175728472,
+        "node_id": "BOT_kgDOCnlnWA",
+        "avatar_url": "https://avatars.githubusercontent.com/in/946600?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D",
+        "html_url": "https://github.com/apps/copilot-pull-request-reviewer",
+        "followers_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/followers",
+        "following_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/following{/other_user}",
+        "gists_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/subscriptions",
+        "organizations_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/orgs",
+        "repos_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/repos",
+        "events_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/received_events",
+        "type": "Bot",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "<!-- ccr-overview-v2 -->\n\n### 🟢 Approval recommended\n\nNo active review issues were identified for the change introducing call-site diagnostics for recursion during delayed undefined-behavior analysis.\n\n**No open issues** 🎉\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nThis PR replaces stack overflows in Kani’s delayed undefined-behavior analysis with a call-site diagnostic when recursive calls are encountered under `-Z uninit-checks`.\n\n**Changes:**\n- Track function instances currently being analyzed to detect recursion while allowing sequential calls.\n- Add regression coverage for the recursion diagnostic and memory-initialization checks after repeated helper calls.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| `tests/​expected/​uninit/​recursive-delayed/​repeated-calls.rs` | Tests initialized and uninitialized reads after repeated calls. |\r\n| `tests/​expected/​uninit/​recursive-delayed/​repeated-calls.expected` | Records the expected verification success and failure. |\r\n| `tests/​expected/​uninit/​recursive-delayed/​recursive-delayed.rs` | Exercises recursion reached during delayed-UB analysis. |\r\n| `tests/​expected/​uninit/​recursive-delayed/​recursive-delayed.expected` | Checks the recursion diagnostic and call-site text. |\r\n| `kani-compiler/​src/​kani_middle/​points_to/​points_to_analysis.rs` | Tracks active calls and reports unsupported recursion before descending again. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+      "state": "COMMENTED",
+      "html_url": "https://github.com/model-checking/kani/pull/5184#pullrequestreview-5963073854",
+      "pull_request_url": "https://api.github.com/repos/model-checking/kani/pulls/5184",
+      "author_association": "CONTRIBUTOR",
+      "is_copilot_code_review": true,
+      "copilot_code_review_effort": "balanced",
+      "_links": {
+        "html": {
+          "href": "https://github.com/model-checking/kani/pull/5184#pullrequestreview-5963073854"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/model-checking/kani/pulls/5184"
+        }
+      },
+      "submitted_at": "2026-11-18T18:55:05Z",
+      "commit_id": "f99713506f7ba91f971f3b7359ebbe41ca373adf"
+    }
+  ],
+  "inline_comments": []
+}

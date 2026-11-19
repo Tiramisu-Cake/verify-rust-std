@@ -1,0 +1,93 @@
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs
+index 09e863642a36c4c104117e3a582c58b07d8646f0..dc736b3986f01cc2a5c2e7730fe2d86396d52897 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs
+@@ -6,7 +6,7 @@
+ 
+ use crate::args::ExtraChecks;
+ use crate::kani_middle::attributes::attrs_by_path;
+-use crate::kani_middle::kani_functions::{KaniFunction, KaniModel};
++use crate::kani_middle::kani_functions::{KaniFunction, KaniIntrinsic, KaniModel};
+ use crate::kani_middle::transform::{
+     TransformPass, TransformationType,
+     body::{CheckType, InsertPosition, MutableBody, SourceInstruction},
+@@ -80,6 +80,13 @@ fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, B
+ 
+ /// Checks if the instance is a harness -- an entry point of Kani analysis.
+ fn is_harness(instance: Instance, tcx: TyCtxt) -> bool {
++    // Automatic harnesses have a generated wrapper body but retain the intrinsic DefId.
++    if matches!(
++        KaniFunction::try_from(instance),
++        Ok(KaniFunction::Intrinsic(KaniIntrinsic::AutomaticHarness))
++    ) {
++        return true;
++    }
+     let harness_identifiers = [
+         vec![
+             rustc_span::symbol::Symbol::intern("kanitool"),
+diff --git a/tests/script-based-pre/autoharness_uninit_reset/config.yml b/tests/script-based-pre/autoharness_uninit_reset/config.yml
+new file mode 100644
+index 0000000000000000000000000000000000000000..ce281b6409055714a8a9832e86688cc6dcab79f9
+--- /dev/null
++++ b/tests/script-based-pre/autoharness_uninit_reset/config.yml
+@@ -0,0 +1,4 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++script: run.sh
++expected: expected
+diff --git a/tests/script-based-pre/autoharness_uninit_reset/expected b/tests/script-based-pre/autoharness_uninit_reset/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ebe46d5f0fbae908ee91c7d86ceae49a6bd4b21e
+--- /dev/null
++++ b/tests/script-based-pre/autoharness_uninit_reset/expected
+@@ -0,0 +1,6 @@
++ - Status: FAILURE\
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer
++VERIFICATION:- FAILED
++Complete - 0 successfully verified functions, 1 failures, 1 total.
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified functions, 0 failures, 1 total.
+diff --git a/tests/script-based-pre/autoharness_uninit_reset/main.rs b/tests/script-based-pre/autoharness_uninit_reset/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..6a9087c99ab97c3b0ac181df9bb198e26c7a14ea
+--- /dev/null
++++ b/tests/script-based-pre/autoharness_uninit_reset/main.rs
+@@ -0,0 +1,23 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++#[repr(C)]
++struct Bytes {
++    a: u8,
++    b: u32,
++}
++
++fn uninit_read() {
++    let bytes = Bytes { a: 7, b: 7 };
++    // Offset 1 is padding between the two fields.
++    let ptr = (&raw const bytes).cast::<u8>();
++    let _padding = unsafe { ptr.add(1).read() };
++}
++
++fn initialized_read() {
++    let mut bytes = Bytes { a: 7, b: 7 };
++    let ptr = (&raw mut bytes).cast::<u8>();
++    // Initialize the padding byte in place before reading it.
++    unsafe { ptr.add(1).write(7) };
++    let _padding = unsafe { ptr.add(1).read() };
++}
+diff --git a/tests/script-based-pre/autoharness_uninit_reset/run.sh b/tests/script-based-pre/autoharness_uninit_reset/run.sh
+new file mode 100755
+index 0000000000000000000000000000000000000000..a2d05d065cac1a625b2c936ce8ddd9fad194e755
+--- /dev/null
++++ b/tests/script-based-pre/autoharness_uninit_reset/run.sh
+@@ -0,0 +1,9 @@
++#!/usr/bin/env bash
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++
++set -euo pipefail
++status=0
++kani autoharness -Z uninit-checks -Z autoharness --include-pattern uninit_read --output-format=regular main.rs || status=$?
++[[ "$status" == 1 ]]
++kani autoharness -Z uninit-checks -Z autoharness --include-pattern initialized_read --output-format=regular main.rs

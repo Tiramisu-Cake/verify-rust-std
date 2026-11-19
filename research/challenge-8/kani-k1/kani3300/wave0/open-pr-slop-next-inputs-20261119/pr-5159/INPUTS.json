@@ -1,0 +1,73 @@
+{
+  "schema": "open-pr-following-slop-review-inputs-v1",
+  "PR": 5159,
+  "repo": "model-checking/kani",
+  "url": "https://github.com/model-checking/kani/pull/5159",
+  "connected_checked_at": "2026-11-19T11:33:03.763Z",
+  "head": "78f745bb696c85095a9582f959d4854ec494c4f5",
+  "head_tree": "b9c008a20c87cb3cffd93605da184d592fc49daa",
+  "head_ref": "fix/volatile-zst-5072",
+  "head_repo": "Tiramisu-Cake/kani",
+  "base_snapshot": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "base_ref": "main",
+  "merge_base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "source_worktree": "/root/kani-pr5159-slop-readonly-20261119",
+  "source_policy": "READ_ONLY exact detached published head; do not edit/commit this source or execute test drivers.",
+  "state": "open",
+  "mergeable": true,
+  "mergeable_state": "behind",
+  "changed_file_count": 6,
+  "changed_files": {
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs": {
+      "git_blob": "8c353711e61b42479aa47ba7cbeb77a2da16d07e",
+      "sha256": "09a6e3f017471549fc5c7a45471a321157339409c42a29471f0bd3f8f035bed7",
+      "bytes": 98961,
+      "status": "modified"
+    },
+    "tests/expected/intrinsics/volatile_load/zst_unaligned.expected": {
+      "git_blob": "f7e8d7a5a2506d552cef3da894568536b4a0c5ca",
+      "sha256": "9f3eab866ee2b4e1aac9512bf1cceb412e1a0c539cf306438ee23aa507617684",
+      "bytes": 108,
+      "status": "added"
+    },
+    "tests/expected/intrinsics/volatile_load/zst_unaligned.rs": {
+      "git_blob": "7c52224577e7346490910a5202cce35140471c78",
+      "sha256": "255b5238703755f3772a0663dda6cb628c9929276de0d3e82235bba9d8b4681d",
+      "bytes": 400,
+      "status": "added"
+    },
+    "tests/expected/intrinsics/volatile_load/zst_uninhabited.expected": {
+      "git_blob": "0fc05b09ff0f7ae8460af46c90353188277ff4b0",
+      "sha256": "83f4dee2edd6964e3ba1d7f69e47b4343a9f311e139a9bd52c238afa2cfa0156",
+      "bytes": 166,
+      "status": "added"
+    },
+    "tests/expected/intrinsics/volatile_load/zst_uninhabited.rs": {
+      "git_blob": "8f94f6264c3ee0421e12c07af402b5c55ab8513a",
+      "sha256": "6e388b6e791819fd7c15c90c93899debea8f52e109e3ab009f36829122d0b625",
+      "bytes": 396,
+      "status": "added"
+    },
+    "tests/kani/Intrinsics/Volatile/load_zst.rs": {
+      "git_blob": "48c976602ee1ee2f22935473499557ca0bdba0be",
+      "sha256": "02b2d69899cd8e2e4ddd0c34713984f319dfc038855d6f26d8ac154034eb4756",
+      "bytes": 1615,
+      "status": "added"
+    }
+  },
+  "diff_sha256": "18724fc6d87d49afe49418c8e49c48e78d50b457974dac35c11e28e9355e83da",
+  "diff_numstat": [
+    "30\t2\tkani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+    "4\t0\ttests/expected/intrinsics/volatile_load/zst_unaligned.expected",
+    "15\t0\ttests/expected/intrinsics/volatile_load/zst_unaligned.rs",
+    "4\t0\ttests/expected/intrinsics/volatile_load/zst_uninhabited.expected",
+    "14\t0\ttests/expected/intrinsics/volatile_load/zst_uninhabited.rs",
+    "53\t0\ttests/kani/Intrinsics/Volatile/load_zst.rs"
+  ],
+  "PR_body_sha256": "9c9f09520c537f20ca55154cbc5352c7e7900d79fca579c5f78bea67b4e3167d",
+  "reviews_count": 1,
+  "inline_comments_count": 0,
+  "scope": "Offline code/comments/tests/PR body review; specific justified edits. No source changes, native tools, CI, push, PR writes or accounting.",
+  "style": "Kani: STYLE-UPSTREAM-RULES snapshot. CBMC: readability principles plus actual CBMC contribution/license/PR conventions; do not inject Kani Apache2/MIT text into CBMC. Preserve real linked issue/disclosure, do not invent one.",
+  "no_implementation_authority": true
+}

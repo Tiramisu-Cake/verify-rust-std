@@ -1,0 +1,177 @@
+diff --git a/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs b/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
+index fbbe55c84c806526d34688fc246328f45b23e5c7..e574670da5d9391792b1c220a688222b16773048 100644
+--- a/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
++++ b/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
+@@ -47,10 +47,13 @@
+ use rustc_public::rustc_internal;
+ use rustc_public::ty::{RigidTy as StableRigidTy, Ty as StableTy, TyKind as StableTyKind};
+ use rustc_span::{DUMMY_SP, Spanned};
++use std::cell::RefCell;
+ use std::collections::HashSet;
+ 
+ /// Main points-to analysis object.
+ struct PointsToAnalysis<'a, 'tcx> {
++    /// Function instances whose points-to analysis is currently in progress.
++    active_calls: &'a RefCell<HashSet<Instance<'tcx>>>,
+     instance: Instance<'tcx>,
+     body: &'a Body<'tcx>,
+     tcx: TyCtxt<'tcx>,
+@@ -75,12 +78,14 @@ pub fn run_points_to_analysis<'tcx>(
+     // conversion.
+     let internal_instance = rustc_internal::internal(tcx, instance);
+     let internal_body = body.internal_mir(tcx);
++    let active_calls = RefCell::new(HashSet::new());
+     PointsToAnalysis::run(
+         &internal_body,
+         tcx,
+         internal_instance,
+         call_graph,
+         PointsToGraph::empty(),
++        &active_calls,
+     )
+ }
+ 
+@@ -93,8 +98,10 @@ pub fn run(
+         instance: Instance<'tcx>,
+         call_graph: &'a CallGraph,
+         initial_graph: PointsToGraph<'tcx>,
++        active_calls: &'a RefCell<HashSet<Instance<'tcx>>>,
+     ) -> PointsToGraph<'tcx> {
+-        let analysis = Self { body, tcx, instance, call_graph, initial_graph };
++        active_calls.borrow_mut().insert(instance);
++        let analysis = Self { active_calls, body, tcx, instance, call_graph, initial_graph };
+         // This creates a fixpoint solver using the initial graph, the body, and extra information
+         // and solves the dataflow problem, producing the cursor, which contains dataflow state for
+         // each instruction in the body.
+@@ -113,6 +120,7 @@ pub fn run(
+                 results.join(&cursor.get().clone());
+             }
+         }
++        active_calls.borrow_mut().remove(&instance);
+         results
+     }
+ }
+@@ -326,6 +334,13 @@ fn apply_primary_terminator_effect(
+                         }
+                     } else {
+                         // Otherwise, handle this as a regular function call.
++                        if self.active_calls.borrow().contains(&instance) {
++                            self.tcx.dcx().span_err(
++                                terminator.source_info.span,
++                                "Kani does not support memory initialization checks across recursive calls.",
++                            );
++                            self.tcx.dcx().abort_if_errors();
++                        }
+                         self.apply_regular_call_effect(state, instance, args, destination);
+                     }
+                 }
+@@ -516,8 +531,14 @@ fn apply_regular_call_effect(
+         }
+ 
+         // Run the analysis.
+-        let new_result =
+-            PointsToAnalysis::run(&new_body, self.tcx, instance, self.call_graph, initial_graph);
++        let new_result = PointsToAnalysis::run(
++            &new_body,
++            self.tcx,
++            instance,
++            self.call_graph,
++            initial_graph,
++            self.active_calls,
++        );
+         // Merge the results into the current state.
+         state.join(&new_result);
+ 
+diff --git a/tests/expected/uninit/recursive-delayed/recursive-delayed.expected b/tests/expected/uninit/recursive-delayed/recursive-delayed.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..cba1829b3c388a253a895d88e6286dd7d1653ed6
+--- /dev/null
++++ b/tests/expected/uninit/recursive-delayed/recursive-delayed.expected
+@@ -0,0 +1,2 @@
++error: Kani does not support memory initialization checks across recursive calls.
++recurse(value, depth - 1);
+diff --git a/tests/expected/uninit/recursive-delayed/recursive-delayed.rs b/tests/expected/uninit/recursive-delayed/recursive-delayed.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..ca5c6d99e18f8d5f19881aeb7ea661c57eca2bf4
+--- /dev/null
++++ b/tests/expected/uninit/recursive-delayed/recursive-delayed.rs
+@@ -0,0 +1,27 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z ghost-state -Z uninit-checks
++
++//! Checks the diagnostic for recursion reached during delayed UB analysis.
++
++#[inline(never)]
++fn recurse(value: *mut u8, depth: u8) {
++    if depth != 0 {
++        unsafe {
++            *value = depth;
++        }
++        recurse(value, depth - 1);
++    }
++}
++
++#[kani::proof]
++fn recursive_call_reached_from_delayed_ub() {
++    unsafe {
++        let mut value: u128 = 0;
++        recurse((&mut value as *mut u128).cast(), 0);
++        let tuple = (&mut value as *mut u128).cast::<(u8, u32, u64)>();
++        *tuple = (1, 2, 3);
++        let _read = value;
++    }
++}
+diff --git a/tests/expected/uninit/recursive-delayed/repeated-calls.expected b/tests/expected/uninit/recursive-delayed/repeated-calls.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ff8d2cd867a4a3225b0ce344618088caa1459637
+--- /dev/null
++++ b/tests/expected/uninit/recursive-delayed/repeated-calls.expected
+@@ -0,0 +1,9 @@
++repeated_calls_uninitialized.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u128`"
++
++Checking harness repeated_calls_initialized...
++VERIFICATION:- SUCCESSFUL
++
++Verification failed for - repeated_calls_uninitialized
++Complete - 1 successfully verified harnesses, 1 failures, 2 total.
+diff --git a/tests/expected/uninit/recursive-delayed/repeated-calls.rs b/tests/expected/uninit/recursive-delayed/repeated-calls.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..d21499c3fc0479e10f930c088575b539f0749cac
+--- /dev/null
++++ b/tests/expected/uninit/recursive-delayed/repeated-calls.rs
+@@ -0,0 +1,31 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z ghost-state -Z uninit-checks
++
++//! Checks memory initialization after repeated calls to a helper.
++
++#[inline(never)]
++fn write_tuple(value: *mut (u8, u32, u64)) {
++    unsafe {
++        *value = (1, 2, 3);
++    }
++}
++
++#[kani::proof]
++fn repeated_calls_uninitialized() {
++    let mut first: u128 = 0;
++    let mut second: u128 = 0;
++    write_tuple((&mut first as *mut u128).cast());
++    write_tuple((&mut second as *mut u128).cast());
++    let _read = second;
++}
++
++#[kani::proof]
++fn repeated_calls_initialized() {
++    let mut value: u128 = 0;
++    write_tuple((&mut value as *mut u128).cast());
++    write_tuple((&mut value as *mut u128).cast());
++    value = 42;
++    assert_eq!(value, 42);
++}

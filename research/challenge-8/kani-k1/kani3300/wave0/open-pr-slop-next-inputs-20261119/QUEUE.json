@@ -1,0 +1,38 @@
+{
+  "schema": "open-pr-slop-next-queue-v1",
+  "prior_review_packets": {
+    "5172": "b87fa076b561304172c6d06c6023fd7f94cdbf1a",
+    "5176": "2eda3e8084002ffc31d902e48987f87b82e2455d",
+    "5195": "cb24a02e6a8c1c1257ec900464991fcc10aca96e"
+  },
+  "next": [
+    {
+      "PR": 5159,
+      "worker": 13,
+      "task": "TASK-OPEN-PR-5159-SLOP-REVIEW-W13.md",
+      "status": "READY_TO_ISSUE_WHEN_IDLE"
+    },
+    {
+      "PR": 5184,
+      "worker": 11,
+      "task": "TASK-OPEN-PR-5184-SLOP-REVIEW-W11.md",
+      "status": "READY_AFTER_GENUINE5195_COMPLETION"
+    }
+  ],
+  "queued": [
+    {
+      "PR": 5183,
+      "task": "TASK-OPEN-PR-5183-SLOP-REVIEW.md",
+      "status": "PREPARED_NOT_ISSUED"
+    },
+    {
+      "repo": "diffblue/cbmc",
+      "PR": 9487,
+      "task": "TASK-CBMC-9487-SLOP-REVIEW.md",
+      "status": "PREPARED_NOT_ISSUED"
+    }
+  ],
+  "deferred": "verify-rust-std PR752 separate discussion",
+  "S4_priority": "freshW14CURRENT390 intakeactive248cfeb; separatewatch owns READY->costplan. W15 free for intake-bound offline plan if W13 busy, no reset of active PR workers.",
+  "authorization": "Review recommendations only. Source changes/CI require later scoped decision; owner alone commands one open-PR update at a time after review and CI. No root pushes/accounting."
+}

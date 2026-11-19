@@ -1,0 +1,54 @@
+{
+  "number": 9487,
+  "repo": "diffblue/cbmc",
+  "url": "https://github.com/diffblue/cbmc/pull/9487",
+  "title": "Fix reconstruction of arrays with zero-width elements",
+  "body": "`bits2expr` rejects an array whose element type has zero width when reconstructing a constant inside a larger aggregate. Reading constant bytes through a pointer to this GNU C struct reaches the array branch via byte-extract simplification:\n\n```c\n#include <string.h>\n\n// GNU C: an empty struct, and any array of it, has size zero.\nstruct empty\n{\n};\n\nstruct with_empty_structs\n{\n  unsigned char a[4];\n  struct empty z[2];\n  unsigned char b[4];\n};\n\nint main(void)\n{\n  unsigned char buf[8];\n  memset(buf, 0x5a, sizeof(buf));\n\n  struct with_empty_structs s = *(struct with_empty_structs *)buf;\n\n  for(unsigned i = 0; i < 4; ++i)\n  {\n    __CPROVER_assert(s.a[i] == 0x5a, \"bytes before the empty structs\");\n    __CPROVER_assert(s.b[i] == 0x5a, \"bytes after the empty structs\");\n  }\n\n  return 0;\n}\n```\n\nWith CBMC 6.11.0 (release build, x86_64 Linux), `cbmc main.c` aborts with exit code 134:\n\n```text\n--- begin invariant violation report ---\nInvariant check failed\nFile: ../src/util/simplify_utils.cpp:345 function: bits2expr\nCondition: el_size_opt.has_value() && *el_size_opt > 0\nReason: Check return value\n```\n\nKani encounters the same invariant for Rust input: [model-checking/kani#5085](https://github.com/model-checking/kani/issues/5085).\n\n## Change\n\nIn the array branch of `bits2expr` (`src/util/simplify_utils.cpp`), the element-width check is relaxed from `*el_size_opt > bitst{0}` to `*el_size_opt >= bitst{0}`. The requirement that the element width is known is unchanged.\n\nFor a zero element width the existing loop needs no other change: each element gets an empty slice of the input bits and is reconstructed recursively, so the result keeps the element count and the original array type (in the example above, `z` becomes an array of two `struct empty` values). This matches the struct branch, which already accepts zero-width components.\n\nThe example above is added as the regression test `regression/cbmc/byte_extract_empty_struct_array`, and three unit cases are added to `unit/util/simplify_expr.cpp` next to the existing bit-order case.\n\n## Testing\n\nThe new regression test aborts with the invariant above on CBMC 6.11.0 and passes with this change. In my fork the standard workflows passed on Linux (Make and CMake, Z3, 32-bit, ARM), Windows, Intel macOS and BSD; the THOROUGH job could not resolve a Maven plugin for the JBMC models library, and a clang-format issue in the new unit tests has since been fixed.\n\n- [x] Each commit message has a non-empty body, explaining why the change was made.\n- [x] Methods or procedures I have added are documented, following the guidelines provided in CODING_STANDARD.md.\n- [x] The feature or user visible behaviour I have added or modified has been documented in the User Guide in doc/cprover-manual/\n- [x] Regression or unit tests are included, or existing tests cover the modified code (in this case I have detailed which ones those are in the commit message).\n- [x] My commit message includes data points confirming performance improvements (if claimed).\n- [x] My PR is restricted to a single feature or bugfix.\n- [x] White-space or formatting changes outside the feature-related changed lines are in commits of their own.\n\nNo new methods, user-visible behaviour or performance claims are introduced, so the documentation and performance items do not apply.\n\n*Disclosure: this change and description were prepared with the help of AI assistants.*\n",
+  "state": "open",
+  "updated_at": "2026-11-13T21:30:08Z",
+  "head": {
+    "sha": "9f2d01ec2bf115879c86e22203d403ba156d22e5",
+    "ref": "fix/array-zero-width-elements-v2",
+    "repo": "Tiramisu-Cake/cbmc"
+  },
+  "base": {
+    "sha": "57c8ad710ee2f581895478ff4645cebec2f53c49",
+    "ref": "develop",
+    "repo": "diffblue/cbmc"
+  },
+  "mergeable": true,
+  "mergeable_state": "blocked",
+  "changed_files": 4,
+  "files": [
+    {
+      "filename": "regression/cbmc/byte_extract_empty_struct_array/main.c",
+      "status": "added",
+      "sha": "e42bc94e65c67633f9446c2f5749b4cb77f99292",
+      "additions": 29,
+      "deletions": 0
+    },
+    {
+      "filename": "regression/cbmc/byte_extract_empty_struct_array/test.desc",
+      "status": "added",
+      "sha": "24ec8ffbe2c34a43c57e4364cc566a06906eb094",
+      "additions": 14,
+      "deletions": 0
+    },
+    {
+      "filename": "src/util/simplify_utils.cpp",
+      "status": "modified",
+      "sha": "c9655c02fad97bf02a3d27545db66192bf81e284",
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "filename": "unit/util/simplify_expr.cpp",
+      "status": "modified",
+      "sha": "37545a8351bfc90259bc7a24beabc26ec428f768",
+      "additions": 106,
+      "deletions": 0
+    }
+  ],
+  "reviews": [],
+  "inline_comments": []
+}
