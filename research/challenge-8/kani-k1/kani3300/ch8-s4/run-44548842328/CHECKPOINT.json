@@ -1,0 +1,40 @@
+{
+  "status": "HANDOFF",
+  "run": 44548842328,
+  "attempt": 1,
+  "classification": "SELECTED_PARTIAL; 4_NATIVE_POSITIVE_SUCCESS; 4_INTENDED_NEGATIVE_FAILURE; STRICT0; NO_ADMISSION",
+  "claims": [
+    {
+      "claim": "All8 exact native invocations complete/sealed; four positiveSUCCESS and four intended labelledFAILURE; strict0",
+      "assurance": "BOUNDED_NATIVE_SOURCE_REPORTED",
+      "evidence": [
+        "QUALIFICATION.json",
+        "NATIVE-PROPERTIES.json",
+        "PREFIX.json",
+        "PROVENANCE.json"
+      ]
+    },
+    {
+      "claim": "67 per-instance source-local U candidate arguments; 13 nonstd-location candidate arguments; 13 successful guards retained",
+      "assurance": "S1_SOURCE_REPORTED_CANDIDATE_ONLY",
+      "evidence": [
+        "U-ARGUMENTS.json",
+        "LOCATION-ARGUMENTS.json",
+        "GUARD-ARGUMENTS.json"
+      ]
+    }
+  ],
+  "blocker": null,
+  "open": [
+    "Independent exact intake/candidate review and separate coordinator admission",
+    "Backend builtin source/lowering identity and independent AST/MIR/compiler/emitter/caller provenance UNKNOWN",
+    "Deferred N5..32/general/generic/provider/initmask/ownership/panic/Drop/B1B2/fullN16N32 remain OPEN"
+  ],
+  "proof_obligations_closed": 0,
+  "qualified_new_leaves": 0,
+  "admission": false,
+  "proof_credit": "NONE",
+  "closure_reason": "Direct one-stage postrun intake and candidate handoff completed; no admission decision, CI, push or ledger authorized.",
+  "next": "Independent review then separate coordinator decision",
+  "subagents": 0
+}
