@@ -373,3 +373,35 @@ no source/runtime/parser/request/policy patch. Reversible append-only decision.
 **Accounting unchanged:** item1 32/32,item2 14/17,total46/49 references only;
 owner budgets tracking-only. Admission adds0 runs, no charge/refund/reservation/
 budget grant/implementation/CI/push/publication. Old ledger prefix retained.
+
+
+## S4P1-r1 fallback admission — coordinator+planner 2026-11-19 11:59
+
+Usercoordinator11:59 explicitly accepts both fallback blocks; root AGREE.
+ADMISSION: kani3300/ch8-s4/admission-s4p1-r1-fallback/ADMISSION.json.
+Two QUALIFIED_BOUNDED_SOURCE_REPORTED cases only:
+s4p_fallback_b01_n00_02_fullbyte and s4p_fallback_b01_n03_04_fullbyte,
+actual Original Cell<u8>/KeyLess<Cell<u8>> on initialized V34/base1/all34
+independent logicalu8/fullsortedcount/everyoutsideframe/canary. Their disjoint
+length union is N0..4 for this exact family/context; no generic or universal
+function-contract/provider/summary/init-mask/MIR/B1B2/fullN16N32 promotion.
+Exact intake842984040e87b8b8594653634b72df7d800ca198 and independent review
+3c7bd65cf0bb758cb82dc56ef71a8b8e23efd5c0 APPROVE/no blockers; each4 located
+SUCCESS roles,8/7 SAT covers. All source-local U and SUCCESS guards retained.
+
+Exactly one systemclassunreachable/statusSUCCESS/descriptionunreachablecode/
+unreachable.1/nullfile+line/lib.rs:0:0 dictionary per exact fullfallback ID is
+admitted for run44481580554/attempt1 ONLY, under full invocation/namespace/
+property-inventory/count/status/source985/tool0aac/control2db/head563/request3d135/
+workflowa567/membercf4a2cbd/payload455302/epoch fingerprints in ADMISSION.json.
+All other metadata/status/roles/covers/U/guards/extra-failure/identity gates stay
+strict. Common emitter/source/MIR origin UNKNOWN; no suffix/std/general/future
+waiver. Old f740/ff193 remain original-run-only; new general rule NOT_APPLIED.
+
+Both network roots remain UNKNOWN_CENSORED at child600 wholechild wall; four
+intended negative controls remain reviewed observations/no extra admission in
+this note. Native workflowFAILURE/producerUNKNOWN/strict0of8/U-REJECT_ALL/
+proposalDISABLED/old evidence and nulls unchanged. No parser/runtime/request/
+source/policy patch. Reversible only by append-only decision.
+Accounting unchanged: item1used32,item2used15,total47, tracking-only reference.
+This admission adds0 runs and no charge/refund/reservation/grant/CI/publication.
