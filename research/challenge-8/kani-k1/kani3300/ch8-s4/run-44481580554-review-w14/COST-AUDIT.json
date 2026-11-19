@@ -1,0 +1,394 @@
+{
+  "status": "PASS",
+  "campaign_elapsed_seconds": 1779.7066991660001,
+  "setup": {
+    "setup_total_seconds": 721.6791377067566,
+    "elapsed_seconds": 329.176,
+    "rss_peak_kib": 1456468,
+    "rss_status": "SAMPLED_PROCESS_GROUP",
+    "rss_sample_period_seconds": 0.05,
+    "component_group_peak_kib": {
+      "driver": 0,
+      "backend": 0,
+      "compiler": 1378308,
+      "other": 296260
+    },
+    "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+    "original_exit_code": 0,
+    "child_shutdown_verified": true
+  },
+  "caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "rows": [
+    {
+      "id": "checker_order_corrupt",
+      "compile_elapsed_upper_bound_seconds": 46.374,
+      "native_verification_time_s": 0.05682644,
+      "native_wall_time_s": 0.160026672,
+      "execution": {
+        "elapsed_seconds": 46.572,
+        "original_exit_code": 1,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 1935344,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 19636,
+          "compiler": 1894344,
+          "driver": 7064,
+          "other": 143088
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "process_identity": {
+          "pgid": 8569,
+          "pid": 8569,
+          "ppid": 8538,
+          "start_ticks": 74267,
+          "state": "R"
+        }
+      },
+      "memory_admission": {
+        "available_kib": 15057568,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 15057568,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "NONE_COMPLETED",
+      "cutoff_phase": "COMPLETED",
+      "censoring": "NONE"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "compile_elapsed_upper_bound_seconds": 46.449,
+      "native_verification_time_s": 0.481396493,
+      "native_wall_time_s": 0.604781622,
+      "execution": {
+        "elapsed_seconds": 47.058,
+        "original_exit_code": 1,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 1935092,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 34412,
+          "compiler": 1896452,
+          "driver": 12992,
+          "other": 145072
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "process_identity": {
+          "pgid": 9106,
+          "pid": 9106,
+          "ppid": 9075,
+          "start_ticks": 79000,
+          "state": "S"
+        }
+      },
+      "memory_admission": {
+        "available_kib": 14910412,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 14910412,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "NONE_COMPLETED",
+      "cutoff_phase": "COMPLETED",
+      "censoring": "NONE"
+    },
+    {
+      "id": "sort13_weak",
+      "compile_elapsed_upper_bound_seconds": 45.877,
+      "native_verification_time_s": 0.149859184,
+      "native_wall_time_s": 0.282882983,
+      "execution": {
+        "elapsed_seconds": 46.151,
+        "original_exit_code": 1,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 1951968,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 25180,
+          "compiler": 1913232,
+          "driver": 8692,
+          "other": 177096
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "process_identity": {
+          "pgid": 9645,
+          "pid": 9645,
+          "ppid": 9614,
+          "start_ticks": 83781,
+          "state": "D"
+        }
+      },
+      "memory_admission": {
+        "available_kib": 15104556,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 15104556,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "NONE_COMPLETED",
+      "cutoff_phase": "COMPLETED",
+      "censoring": "NONE"
+    },
+    {
+      "id": "s4p_cell_count_corrupt",
+      "compile_elapsed_upper_bound_seconds": 45.852,
+      "native_verification_time_s": 0.531349037,
+      "native_wall_time_s": 2.133994367,
+      "execution": {
+        "elapsed_seconds": 48.014,
+        "original_exit_code": 1,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 2519996,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 101904,
+          "compiler": 2472412,
+          "driver": 9236,
+          "other": 132916
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "process_identity": {
+          "pgid": 10178,
+          "pid": 10178,
+          "ppid": 10147,
+          "start_ticks": 88475,
+          "state": "R"
+        }
+      },
+      "memory_admission": {
+        "available_kib": 15027612,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 15027612,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "NONE_COMPLETED",
+      "cutoff_phase": "COMPLETED",
+      "censoring": "NONE"
+    },
+    {
+      "id": "s4p_fallback_b01_n00_02_fullbyte",
+      "compile_elapsed_upper_bound_seconds": 46.453,
+      "native_verification_time_s": 140.741771488,
+      "native_wall_time_s": 142.532493636,
+      "execution": {
+        "elapsed_seconds": 189.05,
+        "original_exit_code": 0,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 3005100,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 2997296,
+          "compiler": 2120832,
+          "driver": 729956,
+          "other": 167096
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "process_identity": {
+          "pgid": 10720,
+          "pid": 10720,
+          "ppid": 10689,
+          "start_ticks": 93352,
+          "state": "D"
+        }
+      },
+      "memory_admission": {
+        "available_kib": 14887672,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 14887672,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "NONE_COMPLETED",
+      "cutoff_phase": "COMPLETED",
+      "censoring": "NONE"
+    },
+    {
+      "id": "s4p_fallback_b01_n03_04_fullbyte",
+      "compile_elapsed_upper_bound_seconds": 46.89,
+      "native_verification_time_s": 144.622441392,
+      "native_wall_time_s": 146.662171378,
+      "execution": {
+        "elapsed_seconds": 193.6,
+        "original_exit_code": 0,
+        "signal": null,
+        "timed_out": false,
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 2797588,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 2789844,
+          "compiler": 2436348,
+          "driver": 853284,
+          "other": 205300
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "process_identity": {
+          "pgid": 11275,
+          "pid": 11275,
+          "ppid": 11244,
+          "start_ticks": 112335,
+          "state": "R"
+        }
+      },
+      "memory_admission": {
+        "available_kib": 15026900,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 15026900,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "NONE_COMPLETED",
+      "cutoff_phase": "COMPLETED",
+      "censoring": "NONE"
+    },
+    {
+      "id": "s4p_network_b01_n00_02_fullbyte",
+      "compile_elapsed_upper_bound_seconds": 48.195,
+      "native_verification_time_s": "UNKNOWN_CENSORED",
+      "native_wall_time_s": "UNKNOWN",
+      "execution": {
+        "elapsed_seconds": 601.428,
+        "original_exit_code": -15,
+        "signal": 15,
+        "timed_out": true,
+        "termination_reason": "timeout",
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 3515064,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 3506364,
+          "compiler": 2154176,
+          "driver": 8700,
+          "other": 162084
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "process_identity": {
+          "pgid": 11829,
+          "pid": 11829,
+          "ppid": 11798,
+          "start_ticks": 131772,
+          "state": "R"
+        }
+      },
+      "memory_admission": {
+        "available_kib": 14944724,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 14944724,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "CHILD600_WALL_INCLUDING_COMPILE",
+      "cutoff_phase": "AFTER_INITIAL_EXPORT_AND_NATIVE_START; exact subphase UNKNOWN",
+      "censoring": "UNFINISHED_NATIVE_RESULT_UNKNOWN"
+    },
+    {
+      "id": "s4p_network_b01_n03_04_fullbyte",
+      "compile_elapsed_upper_bound_seconds": 45.976,
+      "native_verification_time_s": "UNKNOWN_CENSORED",
+      "native_wall_time_s": "UNKNOWN",
+      "execution": {
+        "elapsed_seconds": 601.401,
+        "original_exit_code": -15,
+        "signal": 15,
+        "timed_out": true,
+        "termination_reason": "timeout",
+        "child_shutdown_verified": true,
+        "rss_peak_kib": 3516320,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "rss_sample_period_seconds": 0.05,
+        "component_group_peak_kib": {
+          "backend": 3507720,
+          "compiler": 2564244,
+          "driver": 8624,
+          "other": 226392
+        },
+        "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+        "process_identity": {
+          "pgid": 12478,
+          "pid": 12478,
+          "ppid": 12447,
+          "start_ticks": 191992,
+          "state": "R"
+        }
+      },
+      "memory_admission": {
+        "available_kib": 15301516,
+        "group_cap_kib": 6291456,
+        "mem_available_kib": 15301516,
+        "per_root_cap_kib": 6291456,
+        "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+        "reserve_kib": 2097152,
+        "rss_scope": "POLLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict kernel/tree/cgroup"
+      },
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "CHILD600_WALL_INCLUDING_COMPILE",
+      "cutoff_phase": "AFTER_INITIAL_EXPORT_AND_NATIVE_START; exact subphase UNKNOWN",
+      "censoring": "UNFINISHED_NATIVE_RESULT_UNKNOWN"
+    }
+  ],
+  "resource_scope": "Nominal50ms sampled nonatomic owned PGID VmRSS; outer12GiB owned census, reserve2GiB; component peaks not simultaneous; no kernel/cgroup/tree peak guarantee",
+  "unknown": [
+    "exact backend/symex phase and exclusive time",
+    "uncensored native verification time/peak for network",
+    "signal timestamp",
+    "strict physical inode/MIR causality"
+  ],
+  "resource_escalation_recommendation": "NONE; wall timeout does not establish benefit of more memory"
+}

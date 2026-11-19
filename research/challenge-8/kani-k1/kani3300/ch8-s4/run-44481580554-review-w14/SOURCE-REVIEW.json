@@ -1,0 +1,94 @@
+{
+  "status": "REVIEWED",
+  "citations": [
+    {
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+      "file_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+      "first_line": 21,
+      "last_line": 85,
+      "text": "21: // Checker-only count corruption: sorted [0,0] is not a permutation of [0,1].\n22: #[kani::proof]\n23: #[kani::unwind(36)]\n24: fn s4p_cell_count_corrupt() {\n25:     kani::assert(enabled::<Cell<u8>, KeyLess<Cell<u8>>>(), \"S4_NEG_CELL_ACTIVE\");\n26:     let v = [const { Cell::new(0u8) }; 34];\n27:     v[2].set(1);\n28:     let before = snapshot::<Cell<u8>, KeyLess<Cell<u8>>>(&v[1..3]);\n29:     v[2].set(0);\n30:     kani::assert(post::<Cell<u8>, KeyLess<Cell<u8>>>(before, &v[1..3]), \"S4_NEG_CELL_COUNT\");\n31: }\n32: \n33: #[kani::proof]\n34: #[kani::unwind(36)]\n35: fn s4p_fallback_b01_n00_02_fullbyte() {\n36:     kani::assert(enabled::<Cell<u8>, KeyLess<Cell<u8>>>(), \"S4P_F_00_02_ACTIVE_CONCRETE_MODEL\");\n37:     let bytes: [u8; 34] = kani::any();\n38:     let mut v = [const { Cell::new(0u8) }; 34];\n39:     for i in 0..34 { v[i].set(bytes[i]); }\n40:     let n: usize = kani::any();\n41:     kani::assume(0 <= n && n <= 2);\n42:     let before = snapshot::<Cell<u8>, KeyLess<Cell<u8>>>(&v[1..1 + n]);\n43:     small_sort_fallback(&mut v[1..1 + n], &mut KeyLess::<Cell<u8>>::new());\n44:     kani::assert(post::<Cell<u8>, KeyLess<Cell<u8>>>(before, &v[1..1 + n]), \"S4P_F_00_02_SORTED_FULL_VALUE_COUNT\");\n45:     for i in 0..34 {\n46:         kani::assert((1 <= i && i < 1 + n) || v[i].get() == bytes[i], \"S4P_F_00_02_FULL_OUTSIDE_FRAME\");\n47:     }\n48:     let canary: usize = kani::any();\n49:     kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));\n50:     kani::assert(v[canary].get() == bytes[canary], \"S4P_F_00_02_ARBITRARY_OUTSIDE_CANARY\");\n51:     kani::cover(n == 0, \"S4P_F_00_02_N00\");\n52:     kani::cover(n == 1, \"S4P_F_00_02_N01\");\n53:     kani::cover(n == 2, \"S4P_F_00_02_N02\");\n54:     kani::cover(n >= 2 && bytes[1] > bytes[n], \"S4P_F_00_02_UNSORTED\");\n55:     kani::cover(n >= 2 && bytes[1] == bytes[n], \"S4P_F_00_02_DUPLICATE\");\n56:     kani::cover(n >= 2 && v[1].get() < v[n].get(), \"S4P_F_00_02_NONCONSTANT\");\n57:     kani::cover(n == 2 && descending(&bytes[1..3]), \"S4P_F_00_02_MAX_DESCENDING\");\n58:     kani::cover(true, \"S4P_F_00_02_USEFUL_RETURN\");\n59: }\n60: \n61: #[kani::proof]\n62: #[kani::unwind(36)]\n63: fn s4p_fallback_b01_n03_04_fullbyte() {\n64:     kani::assert(enabled::<Cell<u8>, KeyLess<Cell<u8>>>(), \"S4P_F_03_04_ACTIVE_CONCRETE_MODEL\");\n65:     let bytes: [u8; 34] = kani::any();\n66:     let mut v = [const { Cell::new(0u8) }; 34];\n67:     for i in 0..34 { v[i].set(bytes[i]); }\n68:     let n: usize = kani::any();\n69:     kani::assume(3 <= n && n <= 4);\n70:     let before = snapshot::<Cell<u8>, KeyLess<Cell<u8>>>(&v[1..1 + n]);\n71:     small_sort_fallback(&mut v[1..1 + n], &mut KeyLess::<Cell<u8>>::new());\n72:     kani::assert(post::<Cell<u8>, KeyLess<Cell<u8>>>(before, &v[1..1 + n]), \"S4P_F_03_04_SORTED_FULL_VALUE_COUNT\");\n73:     for i in 0..34 {\n74:         kani::assert((1 <= i && i < 1 + n) || v[i].get() == bytes[i], \"S4P_F_03_04_FULL_OUTSIDE_FRAME\");\n75:     }\n76:     let canary: usize = kani::any();\n77:     kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));\n78:     kani::assert(v[canary].get() == bytes[canary], \"S4P_F_03_04_ARBITRARY_OUTSIDE_CANARY\");\n79:     kani::cover(n == 3, \"S4P_F_03_04_N03\");\n80:     kani::cover(n == 4, \"S4P_F_03_04_N04\");\n81:     kani::cover(n >= 2 && bytes[1] > bytes[n], \"S4P_F_03_04_UNSORTED\");\n82:     kani::cover(n >= 2 && bytes[1] == bytes[n], \"S4P_F_03_04_DUPLICATE\");\n83:     kani::cover(n >= 2 && v[1].get() < v[n].get(), \"S4P_F_03_04_NONCONSTANT\");\n84:     kani::cover(n == 4 && descending(&bytes[1..5]), \"S4P_F_03_04_MAX_DESCENDING\");\n85:     kani::cover(true, \"S4P_F_03_04_USEFUL_RETURN\");"
+    },
+    {
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "file_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "first_line": 30,
+      "last_line": 62,
+      "text": "30: // Only the full logical value is Copy; elements need not be Copy or Freeze.\n31: trait Project {\n32:     fn value(&self) -> u8;\n33: }\n34: \n35: impl Project for u8 {\n36:     fn value(&self) -> u8 { *self }\n37: }\n38: impl Project for Cell<u8> {\n39:     fn value(&self) -> u8 { self.get() }\n40: }\n41: impl Project for NonCopyByte {\n42:     fn value(&self) -> u8 { self.0 }\n43: }\n44: \n45: macro_rules! key_less {\n46:     ($ty:ty) => {\n47:         impl<'a, 'b> FnOnce<(&'a $ty, &'b $ty)> for KeyLess<$ty> {\n48:             type Output = bool;\n49:             extern \"rust-call\" fn call_once(self, (a, b): (&'a $ty, &'b $ty)) -> bool {\n50:                 a.value() < b.value()\n51:             }\n52:         }\n53:         impl<'a, 'b> FnMut<(&'a $ty, &'b $ty)> for KeyLess<$ty> {\n54:             extern \"rust-call\" fn call_mut(&mut self, (a, b): (&'a $ty, &'b $ty)) -> bool {\n55:                 a.value() < b.value()\n56:             }\n57:         }\n58:     };\n59: }\n60: key_less!(u8);\n61: key_less!(Cell<u8>);\n62: key_less!(NonCopyByte);"
+    },
+    {
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "file_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "first_line": 78,
+      "last_line": 120,
+      "text": "78: fn active_snapshot<T: Project>(values: &[T]) -> Snapshot {\n79:     if values.len() > CAP {\n80:         return Snapshot::invalid();\n81:     }\n82:     let mut result = Snapshot { values: [0; CAP], len: values.len(), valid: true };\n83:     let mut i = 0;\n84:     while i < result.len {\n85:         result.values[i] = values[i].value();\n86:         i += 1;\n87:     }\n88:     result\n89: }\n90: \n91: fn active_post<T: Project>(before: Snapshot, values: &[T]) -> bool {\n92:     if !before.valid || before.len > CAP || values.len() > CAP || before.len != values.len() {\n93:         return false;\n94:     }\n95:     let mut i = 1;\n96:     while i < before.len {\n97:         if values[i].value() < values[i - 1].value() {\n98:             return false;\n99:         }\n100:         i += 1;\n101:     }\n102:     // Checking each input value (duplicates may repeat a check) covers the whole\n103:     // multiset: equal input/output lengths leave no room for a novel output value.\n104:     i = 0;\n105:     while i < before.len {\n106:         let query = before.values[i];\n107:         let mut old_count: usize = 0;\n108:         let mut new_count: usize = 0;\n109:         let mut j = 0;\n110:         while j < before.len {\n111:             if before.values[j] == query { old_count += 1; }\n112:             if values[j].value() == query { new_count += 1; }\n113:             j += 1;\n114:         }\n115:         if old_count != new_count {\n116:             return false;\n117:         }\n118:         i += 1;\n119:     }\n120:     true"
+    },
+    {
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "file_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "first_line": 137,
+      "last_line": 157,
+      "text": "137: macro_rules! active_model {\n138:     ($ty:ty) => {\n139:         impl Model<$ty, KeyLess<$ty>> for () {\n140:             fn enabled() -> bool { true }\n141:             fn snapshot(values: &[$ty]) -> Snapshot { active_snapshot(values) }\n142:             fn post(before: Snapshot, values: &[$ty]) -> bool { active_post(before, values) }\n143:         }\n144:     };\n145: }\n146: active_model!(u8);\n147: active_model!(Cell<u8>);\n148: active_model!(NonCopyByte);\n149: \n150: pub(in crate::slice::sort::shared::smallsort) fn enabled<T, F>() -> bool {\n151:     <() as Model<T, F>>::enabled()\n152: }\n153: pub(in crate::slice::sort::shared::smallsort) fn snapshot<T, F>(values: &[T]) -> Snapshot {\n154:     <() as Model<T, F>>::snapshot(values)\n155: }\n156: pub(in crate::slice::sort::shared::smallsort) fn post<T, F>(before: Snapshot, values: &[T]) -> bool {\n157:     <() as Model<T, F>>::post(before, values)"
+    },
+    {
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "first_line": 220,
+      "last_line": 224,
+      "text": "220: fn small_sort_fallback<T, F: FnMut(&T, &T) -> bool>(v: &mut [T], is_less: &mut F) {\n221:     if v.len() >= 2 {\n222:         insertion_sort_shift_left(v, 1, is_less);\n223:     }\n224: }"
+    },
+    {
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "file_sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "first_line": 332,
+      "last_line": 374,
+      "text": "332: fn small_sort_network<T, F>(v: &mut [T], is_less: &mut F)\n333: where\n334:     T: FreezeMarker,\n335:     F: FnMut(&T, &T) -> bool,\n336: {\n337:     // This implementation is tuned to be efficient for integer types.\n338: \n339:     let len = v.len();\n340:     if len < 2 {\n341:         return;\n342:     }\n343: \n344:     if len > SMALL_SORT_NETWORK_SCRATCH_LEN {\n345:         intrinsics::abort_immediate();\n346:     }\n347: \n348:     let mut stack_array = MaybeUninit::<[T; SMALL_SORT_NETWORK_SCRATCH_LEN]>::uninit();\n349: \n350:     let len_div_2 = len / 2;\n351:     let no_merge = len < 18;\n352: \n353:     let v_base = v.as_mut_ptr();\n354:     let initial_region_len = if no_merge { len } else { len_div_2 };\n355:     // SAFETY: Both possible values of `initial_region_len` are in-bounds.\n356:     let mut region = unsafe { slice::from_raw_parts_mut(v_base, initial_region_len) };\n357: \n358:     // Avoid compiler unrolling, we *really* don't want that to happen here for binary-size reasons.\n359:     loop {\n360:         let presorted_len = if region.len() >= 13 {\n361:             sort13_optimal(region, is_less);\n362:             13\n363:         } else if region.len() >= 9 {\n364:             sort9_optimal(region, is_less);\n365:             9\n366:         } else {\n367:             1\n368:         };\n369: \n370:         insertion_sort_shift_left(region, presorted_len, is_less);\n371: \n372:         if no_merge {\n373:             return;\n374:         }"
+    },
+    {
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "file_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+      "first_line": 130,
+      "last_line": 150,
+      "text": "130: #[kani::proof]\n131: #[kani::unwind(34)]\n132: fn checker_count_corrupt() {\n133:     let input = [1u8;32]; let mut out = input; out[31] = 2;\n134:     kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_COUNT\");\n135: }\n136: #[kani::proof]\n137: #[kani::unwind(34)]\n138: fn checker_order_corrupt() {\n139:     let input = [1u8,2]; let out = [2u8,1];\n140:     kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_ORDER\");\n141: }\n142: unsafe fn weak_swap<T,F:FnMut(&T,&T)->bool>(_v:*mut T,_a:usize,_b:usize,_f:&mut F) {}\n143: #[kani::proof]\n144: #[kani::stub(s2_swap_seam,weak_swap)]\n145: #[kani::unwind(34)]\n146: fn sort13_weak() {\n147:     let mut v = [12u8,11,10,9,8,7,6,5,4,3,2,1,0]; let before = v;\n148:     sort13_fault_network(&mut v,&mut KeyLess::<u8>::new());\n149:     kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_SORT13_WEAK\");\n150: }"
+    },
+    {
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/ptr/const_ptr.rs",
+      "file_sha256": "6ace4c013849ef9f32ea5c1941ad68cc92eb98be92089f5952d85de3ad8ddc45",
+      "first_line": 1470,
+      "last_line": 1482,
+      "text": "1470:     /// ```\n1471:     #[must_use]\n1472:     #[inline]\n1473:     #[unstable(feature = \"pointer_is_aligned_to\", issue = \"96284\")]\n1474:     pub fn is_aligned_to(self, align: usize) -> bool {\n1475:         if !align.is_power_of_two() {\n1476:             panic!(\"is_aligned_to: align is not a power-of-two\");\n1477:         }\n1478: \n1479:         self.addr() & (align - 1) == 0\n1480:     }\n1481: }\n1482: "
+    },
+    {
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/fmt/mod.rs",
+      "file_sha256": "7096d0bc7616393c39d7013997b2ede9716cabc12e6371f64b2a736f97d73981",
+      "first_line": 815,
+      "last_line": 824,
+      "text": "815:     pub const fn from_str(s: &'static str) -> Arguments<'a> {\n816:         // SAFETY: This is the \"static str\" representation of fmt::Arguments; see above.\n817:         unsafe {\n818:             Arguments {\n819:                 template: mem::transmute(s.as_ptr()),\n820:                 args: mem::transmute(s.len() << 1 | 1),\n821:             }\n822:         }\n823:     }\n824: "
+    },
+    {
+      "commit": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "path": "library/core/src/num/uint_macros.rs",
+      "file_sha256": "450207c51e804eb3e182e6ce8d7e76fa58e950739ad09fbc6c68b888e4c83110",
+      "first_line": 3215,
+      "last_line": 3228,
+      "text": "3215:         pub const fn abs_diff(self, other: Self) -> Self {\n3216:             if size_of::<Self>() == 1 {\n3217:                 // Trick LLVM into generating the psadbw instruction when SSE2\n3218:                 // is available and this function is autovectorized for u8's.\n3219:                 (self as i32).wrapping_sub(other as i32).unsigned_abs() as Self\n3220:             } else {\n3221:                 if self < other {\n3222:                     other - self\n3223:                 } else {\n3224:                     self - other\n3225:                 }\n3226:             }\n3227:         }\n3228: "
+    }
+  ],
+  "U_argument_assessment": [
+    "18 checker U instances: after valid equal-length snapshot gate, L<=CAP32 bounds i,j and count increments; early false return explains status without asserting emitted reachability. Cell fixture L2 uses logical get/set; fixed sort13 L13, checker_count L32.",
+    "Eight fallback U instances: is_power_of_two(align) on normal continuation implies align>=1 before align-1; fmt shift count1<usize64 proves shift definedness only, not no lost bits; abs_diff each branch orders unsigned subtraction. Arguments are site-local and do not establish AST/MIR/emitter binding."
+  ],
+  "full_count_reason": "active_post checks equal length and all input full-byte values with multiplicities; these account for the entire equal-length output, leaving no novel output. Cell uses get for full logical value; comparator is stateless logical less.",
+  "frame_reason": "Each of34 outside indices is checked after the actual call; arbitrary outside canary is additional. No count/fewkeys/frame oracle weakening.",
+  "actual_paths": "fallback len>=2 calls insertion_sort_shift_left(v,1); network N<=4 returns for<2 or runs presorted_len1 insertion, no_merge true, with no sort9/sort13/merge summary edge enabled. This is source reasoning, not completed network verification.",
+  "causal_binding": "UNKNOWN; source hashes and lines alone do not establish MIR/emitter or physical execution causality",
+  "proof_credit": "NONE"
+}

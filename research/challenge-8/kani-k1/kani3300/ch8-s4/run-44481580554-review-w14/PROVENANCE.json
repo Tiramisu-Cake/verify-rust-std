@@ -1,0 +1,43 @@
+{
+  "schema": "s4p1-w14-independent-review-provenance-v1",
+  "task_commit": "0f39a22f0148755e7ba881736e77b54f74b01cb5",
+  "root_input_commit": "27cdf2a7e7895344aa3be9c47b2867a9298c3e0f",
+  "reviewed_intake_commit": "842984040e87b8b8594653634b72df7d800ca198",
+  "member_sha256": "cf4a2cbd6b50887f8f7accfed7844bd14fce4e4d12efce92fb81f747d6b61b8d",
+  "payload_sha256": "45530226163007b2c298a61080ac5479b12df563d3023b54af0bf898afd558d5",
+  "artifact_transport_digest": "sha256:fbc9aa5f701b0c29d7459a2cf48ba0c564003d25771339c21a8cb4a2e7d50f9f",
+  "artifact_metadata_assurance": "Sealed intake snapshot compared to exact task snapshot; no new live API observation or transport reacquisition.",
+  "source_control_tool_trigger": {
+    "source": {
+      "sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    },
+    "control": {
+      "sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+      "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+    },
+    "trigger": {
+      "sha": "563a899dce27024d276bb6fa8f4402f3b5ddc67c",
+      "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+    }
+  },
+  "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+  "workflow_sha256": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+  "independent_manifest_verification": "36 committed files,35 hashes plus manifest SHA, compact430087B/payload and all119 member hashes",
+  "reader_execution": "Exact pinned replay.py/audit.py and frozen118 pure reporting files, source static gates, disposable local/upload replay; no runner main/fullValidate/native invocation.",
+  "review_harness_note": "Initial temporary-path wiring stopped before replay at relative_to; corrected using disposable Git-directory reference. No intake/evidence edit and no failed proof result normalized.",
+  "history": "Original intake and old f740/ff193 admissions preserved. Prior305 host validation remains historical regression evidence only.",
+  "external_or_mutating_actions": [],
+  "settings_actions": [],
+  "subagents": 0,
+  "written_scope": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44481580554-review-w14",
+  "independence": "Fresh W14 main review; no delegated review or author intake/source changes."
+}

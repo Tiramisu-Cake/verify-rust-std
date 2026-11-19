@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "intake_commit": "842984040e87b8b8594653634b72df7d800ca198",
+  "code_bytes": {
+    "replay.py": "88abc0861bf146cd6514ed93160bfb6ba7576dd28123480f62d32ca376c08830",
+    "audit.py": "313142b9f447591b038930181f798babdc88d7aae9c5faa117aae5df0d1c4ddf"
+  },
+  "isolation": "Exact scripts and task-pinned helper in disposable tree; .git points to existing local objects for read-only git show; no script edits or module overrides",
+  "stdout": "{\"status\": \"PASS\", \"checks\": 1163, \"roots\": 8, \"U\": 26, \"guards\": 7, \"properties\": 594, \"metadata_gaps\": 2, \"adverse_tests\": 29, \"location_adverse_tests\": 66}\n{\"audit\": \"PASS\", \"checks\": 220, \"guards\": 7, \"positive_blocks\": 4, \"old_reviews\": 2}\n",
+  "projection_matches": {
+    "RESULT.json": true,
+    "ROOTS.json": true,
+    "COST.json": true,
+    "QUALIFICATION.json": true,
+    "METADATA-GAP.json": true,
+    "LOCATION-PROPOSAL.json": true,
+    "NATIVE-PROPERTIES.json": true,
+    "PROVENANCE.json": true,
+    "PREFIX.json": true,
+    "U-ARGUMENTS.json": true,
+    "SOURCE-GATES.json": true,
+    "DEPENDENCIES.json": true,
+    "EPOCH-AUDIT.json": true,
+    "GUARD-ARGUMENTS.json": true,
+    "LENGTH-ROLES-SAT.json": true,
+    "LOCATION-COMPARISON.json": true,
+    "PROTECTED.json": true,
+    "SERIAL-ORDER.json": true,
+    "VALIDATION.json": true,
+    "AUDIT-VALIDATION.json": true
+  },
+  "checks": 1163,
+  "adverse": 29,
+  "location_adverse": 66,
+  "supplemental_checks": 220,
+  "elapsed_seconds": 73.6114182639867,
+  "full_validate": false,
+  "native_rerun": false,
+  "acquisition": false
+}

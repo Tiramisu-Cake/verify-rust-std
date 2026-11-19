@@ -1,0 +1,41 @@
+{
+  "schema": "s4p1-w14-independent-review-result-v1",
+  "status": "READY",
+  "intake_commit": "842984040e87b8b8594653634b72df7d800ca198",
+  "disposition": "APPROVE_INTAKE_WITH_PRESERVED_LIMITS",
+  "blocking_findings_count": 0,
+  "location_recommendation": "RECOMMEND_TWO_EXACT_CASES",
+  "location_status": "NOT_APPLIED",
+  "native": {
+    "success": 2,
+    "intended_negative_failure": 4,
+    "wall_censored_unknown": 2
+  },
+  "strict_expected_matches": "0/8",
+  "observed_native_properties": 594,
+  "source_local_U_arguments": 26,
+  "retained_SUCCESS_guards": 7,
+  "independent_checks": 566,
+  "replay": {
+    "checks": 1163,
+    "adverse": 29,
+    "location_adverse": 66,
+    "primary_projections": "11/11 MATCH",
+    "supplemental_projections": "9/9 MATCH",
+    "supplemental_checks": 220
+  },
+  "admission": false,
+  "proof_obligations_closed": 0,
+  "proof_credit": "NONE",
+  "limits": [
+    "Both network inventories, roles, SAT, U and guard counts remain UNKNOWN_CENSORED, never zero or NOT_RUN.",
+    "Only initialized V34/base1 Cell<u8>/KeyLess<Cell<u8>> fallback N0..2 and N3..4 are provisional bounded SOURCE_REPORTED candidates. No admission by this review.",
+    "At most a fallback union N0..4 after a separate completed root/coordinator admission; no Cell-to-u8 network transfer.",
+    "Producer strict0/8, UNKNOWN fallback receipts, U-REJECT_ALL and disabled proposal remain unchanged.",
+    "Actual common emitter, positive source/AST/MIR/caller causal origin and physical inode identity remain UNKNOWN.",
+    "Fallback5..16/network5..32/general/provider/initmask/function-summary/ownership/panic/generic trait/fullN16N32 and independent B1/B2 credit remain OPEN/NONE.",
+    "No enabled summary edges; bounded leaves are not universal or stub_verified provider contracts.",
+    "No new run, policy/runtime parser change, admission, resource escalation, accounting or publication is authorized."
+  ],
+  "next": "Root verify actual review commit/HANDOFF/manifest, then separate root+coordinator exact location/admission decision. No automatic implementation or CI."
+}

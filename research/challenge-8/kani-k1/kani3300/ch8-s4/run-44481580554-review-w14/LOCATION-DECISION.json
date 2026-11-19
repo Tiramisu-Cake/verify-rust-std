@@ -1,0 +1,1407 @@
+{
+  "schema": "s4p1-w14-exact-location-recommendation-v1",
+  "status": "NOT_APPLIED",
+  "recommendation": "RECOMMEND_TWO_EXACT_CASES",
+  "review_disposition_is_separate": "APPROVE_INTAKE_WITH_PRESERVED_LIMITS",
+  "intake_commit": "842984040e87b8b8594653634b72df7d800ca198",
+  "cases": [
+    {
+      "root": "s4p_fallback_b01_n00_02_fullbyte",
+      "status": "NOT_APPLIED",
+      "recommendation": "RECOMMEND_EXACT_CASE_FOR_INDEPENDENT_REVIEW",
+      "exact_property": {
+        "class": "unreachable",
+        "description": "unreachable code",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.unreachable.1",
+        "file": null,
+        "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.unreachable.1",
+        "line": null,
+        "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+        "status": "SUCCESS"
+      },
+      "allowed_bad_location_cardinality": 1,
+      "run": 44481580554,
+      "attempt": 1,
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+      "invocation_id": "23d3c5b645f34a67b04eff452c7342d3",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/23d3c5b645f34a67b04eff452c7342d3",
+      "identity": {
+        "run": 44481580554,
+        "attempt": 1,
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+        "invocation_id": "23d3c5b645f34a67b04eff452c7342d3",
+        "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/23d3c5b645f34a67b04eff452c7342d3",
+        "transport_sha256": "fbc9aa5f701b0c29d7459a2cf48ba0c564003d25771339c21a8cb4a2e7d50f9f",
+        "members": {
+          "receipt.json": {
+            "member": "groups/s3-s4p_fallback_b01_n00_02_fullbyte/receipt.json",
+            "sha256": "a627c99be859ee9cc8d875f16f1a15babc7d256ca71ca3efa17e55f76063603e"
+          },
+          "compile/receipt.json": {
+            "member": "groups/s3-s4p_fallback_b01_n00_02_fullbyte/compile/receipt.json",
+            "sha256": "5bba69970644b3af549a59a5722b864e4c7f45393dd2281fac3ab862cdba571e"
+          },
+          "binding-metadata.json": {
+            "member": "groups/s3-s4p_fallback_b01_n00_02_fullbyte/binding-metadata.json",
+            "sha256": "9f549fd766afe74bd52c7e9f79e48c9577f501bcb574b08b8493496aad187cf3"
+          },
+          "export.json": {
+            "member": "groups/s3-s4p_fallback_b01_n00_02_fullbyte/export.json",
+            "sha256": "8bef1ebc41c4d4609e79d6eb082a63f8edc1f40d955055e073669eb7f5ad3197"
+          },
+          "properties.json": {
+            "member": "groups/s3-s4p_fallback_b01_n00_02_fullbyte/properties.json",
+            "sha256": "0b639b530ac33fcf0e0b6a5092244f6f93b9f7dd0d1fd66b058681755586623f"
+          }
+        },
+        "source": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+        "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "control": "2db5d2c08804036d283cb36450647cd584ee9e10",
+        "head": "563a899dce27024d276bb6fa8f4402f3b5ddc67c",
+        "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+        "request": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+        "workflow": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+        "cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf --cfg=kani_smallsort_s4_partition",
+        "argv": [
+          "/home/runner/work/kani/kani/tool/scripts/kani",
+          "verify-std",
+          "-Z",
+          "unstable-options",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "mem-predicates",
+          "-Z",
+          "float-lib",
+          "-Z",
+          "c-ffi",
+          "-Z",
+          "loop-contracts",
+          "-Z",
+          "quantifiers",
+          "-Z",
+          "stubbing",
+          "--no-assert-contracts",
+          "--jobs=1",
+          "--harness-timeout",
+          "600s",
+          "--harness",
+          "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+          "--exact",
+          "--default-unwind",
+          "36",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "/home/runner/work/_temp/ch8-s1-receipts/groups/s3-s4p_fallback_b01_n00_02_fullbyte/export.json",
+          "--output-format=regular",
+          "/home/runner/work/kani/kani/export/library",
+          "--cbmc-args",
+          "--object-bits",
+          "12"
+        ],
+        "compact_sha256": "cf4a2cbd6b50887f8f7accfed7844bd14fce4e4d12efce92fb81f747d6b61b8d"
+      },
+      "members": {
+        "receipt.json": {
+          "member": "groups/s3-s4p_fallback_b01_n00_02_fullbyte/receipt.json",
+          "sha256": "a627c99be859ee9cc8d875f16f1a15babc7d256ca71ca3efa17e55f76063603e"
+        },
+        "compile/receipt.json": {
+          "member": "groups/s3-s4p_fallback_b01_n00_02_fullbyte/compile/receipt.json",
+          "sha256": "5bba69970644b3af549a59a5722b864e4c7f45393dd2281fac3ab862cdba571e"
+        },
+        "binding-metadata.json": {
+          "member": "groups/s3-s4p_fallback_b01_n00_02_fullbyte/binding-metadata.json",
+          "sha256": "9f549fd766afe74bd52c7e9f79e48c9577f501bcb574b08b8493496aad187cf3"
+        },
+        "export.json": {
+          "member": "groups/s3-s4p_fallback_b01_n00_02_fullbyte/export.json",
+          "sha256": "8bef1ebc41c4d4609e79d6eb082a63f8edc1f40d955055e073669eb7f5ad3197"
+        },
+        "properties.json": {
+          "member": "groups/s3-s4p_fallback_b01_n00_02_fullbyte/properties.json",
+          "sha256": "0b639b530ac33fcf0e0b6a5092244f6f93b9f7dd0d1fd66b058681755586623f"
+        }
+      },
+      "native_counts": {
+        "n_properties": 228,
+        "checks": {
+          "total": 220,
+          "success": 216,
+          "failure": [],
+          "unreachable": [
+            "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+            "fmt::Arguments::<'_>::from_str.assertion.1",
+            "num::<impl usize>::abs_diff.assertion.1",
+            "num::<impl usize>::abs_diff.assertion.2"
+          ],
+          "undetermined": [],
+          "error": [],
+          "unknown": [],
+          "other": []
+        },
+        "covers": {
+          "total": 8,
+          "satisfied": [
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.1",
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.2",
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.3",
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.4",
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.5",
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.6",
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.7",
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.8"
+          ],
+          "unsatisfiable": [],
+          "unreachable": [],
+          "undetermined": [],
+          "error": [],
+          "unknown": [],
+          "other": []
+        }
+      },
+      "other_roles_covers_U_guards": "QUALIFICATION.json/NATIVE-PROPERTIES.json/U-ARGUMENTS.json exact same invocation; all other records located",
+      "all_other_records_located": true,
+      "full_property_inventory_sha256": "de781d632b3cd87e3c2b46134ae4e6a417b1ae9635e70fc925c247381702176b",
+      "protected_epochs": "PROTECTED.json",
+      "shared_emitter_source_MIR_origin": "UNKNOWN",
+      "null_keys_present": true,
+      "no_location_substitution": true,
+      "producer_UNKNOWN_unchanged": true,
+      "independent_recommendation": "RECOMMEND_EXACT_METADATA_CASE_ONLY",
+      "exact_status_partition": {
+        "SUCCESS": 216,
+        "UNREACHABLE": 4,
+        "SATISFIED": 8
+      },
+      "exact_class_status_partition": {
+        "arithmetic_overflow": {
+          "SUCCESS": 4
+        },
+        "array_bounds": {
+          "SUCCESS": 10
+        },
+        "assertion": {
+          "SUCCESS": 46,
+          "UNREACHABLE": 4
+        },
+        "cover": {
+          "SATISFIED": 8
+        },
+        "pointer": {
+          "SUCCESS": 2
+        },
+        "pointer_dereference": {
+          "SUCCESS": 78
+        },
+        "precondition_instance": {
+          "SUCCESS": 3
+        },
+        "safety_check": {
+          "SUCCESS": 29
+        },
+        "unreachable": {
+          "SUCCESS": 40
+        },
+        "unsupported_construct": {
+          "SUCCESS": 3
+        },
+        "unwind": {
+          "SUCCESS": 1
+        }
+      },
+      "all_other_property_count": 227,
+      "located_roles_and_covers": [
+        {
+          "required": {
+            "class": "assertion",
+            "status": "SUCCESS",
+            "description": "S4P_F_00_02_ACTIVE_CONCRETE_MODEL",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 36,
+            "source_line": "    kani::assert(enabled::<Cell<u8>, KeyLess<Cell<u8>>>(), \"S4P_F_00_02_ACTIVE_CONCRETE_MODEL\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P_F_00_02_ACTIVE_CONCRETE_MODEL",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.assertion.1",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.assertion.1",
+              "line": "36",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:36:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "assertion",
+            "status": "SUCCESS",
+            "description": "S4P_F_00_02_SORTED_FULL_VALUE_COUNT",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 44,
+            "source_line": "    kani::assert(post::<Cell<u8>, KeyLess<Cell<u8>>>(before, &v[1..1 + n]), \"S4P_F_00_02_SORTED_FULL_VALUE_COUNT\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P_F_00_02_SORTED_FULL_VALUE_COUNT",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.assertion.7",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.assertion.7",
+              "line": "44",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:44:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "assertion",
+            "status": "SUCCESS",
+            "description": "S4P_F_00_02_FULL_OUTSIDE_FRAME",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 46,
+            "source_line": "        kani::assert((1 <= i && i < 1 + n) || v[i].get() == bytes[i], \"S4P_F_00_02_FULL_OUTSIDE_FRAME\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P_F_00_02_FULL_OUTSIDE_FRAME",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.assertion.11",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.assertion.11",
+              "line": "46",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:46:9 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "assertion",
+            "status": "SUCCESS",
+            "description": "S4P_F_00_02_ARBITRARY_OUTSIDE_CANARY",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 50,
+            "source_line": "    kani::assert(v[canary].get() == bytes[canary], \"S4P_F_00_02_ARBITRARY_OUTSIDE_CANARY\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P_F_00_02_ARBITRARY_OUTSIDE_CANARY",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.assertion.15",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.assertion.15",
+              "line": "50",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:50:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_00_02_N00",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 51,
+            "source_line": "    kani::cover(n == 0, \"S4P_F_00_02_N00\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_00_02_N00",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.1",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.1",
+              "line": "51",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:51:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_00_02_N01",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 52,
+            "source_line": "    kani::cover(n == 1, \"S4P_F_00_02_N01\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_00_02_N01",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.2",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.2",
+              "line": "52",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:52:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_00_02_N02",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 53,
+            "source_line": "    kani::cover(n == 2, \"S4P_F_00_02_N02\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_00_02_N02",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.3",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.3",
+              "line": "53",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:53:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_00_02_UNSORTED",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 54,
+            "source_line": "    kani::cover(n >= 2 && bytes[1] > bytes[n], \"S4P_F_00_02_UNSORTED\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_00_02_UNSORTED",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.4",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.4",
+              "line": "54",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:54:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_00_02_DUPLICATE",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 55,
+            "source_line": "    kani::cover(n >= 2 && bytes[1] == bytes[n], \"S4P_F_00_02_DUPLICATE\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_00_02_DUPLICATE",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.5",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.5",
+              "line": "55",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:55:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_00_02_NONCONSTANT",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 56,
+            "source_line": "    kani::cover(n >= 2 && v[1].get() < v[n].get(), \"S4P_F_00_02_NONCONSTANT\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_00_02_NONCONSTANT",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.6",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.6",
+              "line": "56",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:56:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_00_02_MAX_DESCENDING",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 57,
+            "source_line": "    kani::cover(n == 2 && descending(&bytes[1..3]), \"S4P_F_00_02_MAX_DESCENDING\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_00_02_MAX_DESCENDING",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.7",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.7",
+              "line": "57",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:57:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_00_02_USEFUL_RETURN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 58,
+            "source_line": "    kani::cover(true, \"S4P_F_00_02_USEFUL_RETURN\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_00_02_USEFUL_RETURN",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.8",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.cover.8",
+              "line": "58",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:58:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        }
+      ],
+      "located_U_count": 4,
+      "located_SUCCESS_guards": [
+        {
+          "class": "unsupported_construct",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "display_id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+          "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "line": "185",
+          "location_display": "library/core/src/panic/location.rs:185:9 in function panic::location::Location::<'_>::caller",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unsupported_construct",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "display_id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+          "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "line": "110",
+          "location_display": "library/core/src/panicking.rs:110:17 in function panicking::panic_nounwind_fmt::runtime",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unsupported_construct",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "display_id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::mem::cbmc::same_allocation",
+          "status": "SUCCESS"
+        }
+      ],
+      "extra_failures": [],
+      "native_registration": {
+        "pretty_name": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+        "mangled_name": "_RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify20sorting_s4_partition32s4p_fallback_b01_n00_02_fullbyte",
+        "crate_name": "core",
+        "original_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+        "original_start_line": 35,
+        "original_end_line": 59,
+        "goto_file": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/23d3c5b645f34a67b04eff452c7342d3/x86_64-unknown-linux-gnu/debug/build/core/0143e8b8c8d75fcb/out/core-0143e8b8c8d75fcb__RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify20sorting_s4_partition32s4p_fallback_b01_n00_02_fullbyte.symtab.out",
+        "attributes": {
+          "kind": "Proof",
+          "should_panic": false,
+          "solver": null,
+          "unwind_value": 36,
+          "stubs": [],
+          "verified_stubs": []
+        },
+        "contract": null,
+        "has_loop_contracts": false,
+        "is_automatically_generated": false,
+        "is_bounded": false,
+        "is_ctor_based": false,
+        "metadata_path": "x86_64-unknown-linux-gnu/debug/build/core/0143e8b8c8d75fcb/out/core-0143e8b8c8d75fcb.kani-metadata.json",
+        "metadata_sha256": "5888600aec00f272cbd1e14924fe9f64d46296cb67db4387b585087fc196d4d8"
+      },
+      "protected_identity": {
+        "intake_commit": "842984040e87b8b8594653634b72df7d800ca198",
+        "baseline_sha256": "e63415f55c08e12f69e7655af4ad84546221ca97b9a98f7e282f34c9c2bba706",
+        "epoch_sha256": "43744bb56c13b985c86efad359f7b6eedb43c8aed8b09dc3b10b2ad2cc97ef35",
+        "baseline_epoch": "E0",
+        "controller_context": {
+          "baseline_context": {
+            "campaign_id": "c5d309eb45884de4b65b059e8ff27de4",
+            "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+            "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+            "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+          },
+          "campaign_id": "c5d309eb45884de4b65b059e8ff27de4",
+          "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+          "epoch": "E5",
+          "invocation_id": "96aa0411f0884212932084b32f00b862",
+          "rank": 5,
+          "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+          "root": "s4p_fallback_b01_n00_02_fullbyte",
+          "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+        },
+        "native_invocation_id": "23d3c5b645f34a67b04eff452c7342d3",
+        "native_namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/23d3c5b645f34a67b04eff452c7342d3",
+        "controller_and_native_invocation_ids_are_distinct": true,
+        "all_five_binary_snapshots_equal_E0": true,
+        "worker_protected_reader": {
+          "inner_after_absent": [],
+          "controller_recovery_used": false,
+          "observed_errors_ignored": false
+        },
+        "full_intake_PROTECTED_sha256": "3c886a26b09daa1c9b5432000693b69781f1b3e17cc341041bd9371fc0575f7a"
+      }
+    },
+    {
+      "root": "s4p_fallback_b01_n03_04_fullbyte",
+      "status": "NOT_APPLIED",
+      "recommendation": "RECOMMEND_EXACT_CASE_FOR_INDEPENDENT_REVIEW",
+      "exact_property": {
+        "class": "unreachable",
+        "description": "unreachable code",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.unreachable.1",
+        "file": null,
+        "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.unreachable.1",
+        "line": null,
+        "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+        "status": "SUCCESS"
+      },
+      "allowed_bad_location_cardinality": 1,
+      "run": 44481580554,
+      "attempt": 1,
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+      "invocation_id": "17d0b388c22943d6b27bca2f59d43baa",
+      "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/17d0b388c22943d6b27bca2f59d43baa",
+      "identity": {
+        "run": 44481580554,
+        "attempt": 1,
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+        "invocation_id": "17d0b388c22943d6b27bca2f59d43baa",
+        "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/17d0b388c22943d6b27bca2f59d43baa",
+        "transport_sha256": "fbc9aa5f701b0c29d7459a2cf48ba0c564003d25771339c21a8cb4a2e7d50f9f",
+        "members": {
+          "receipt.json": {
+            "member": "groups/s3-s4p_fallback_b01_n03_04_fullbyte/receipt.json",
+            "sha256": "20b8d22fa236e83b27fb43d7fe25f18d08994afeff9ef4e07fd63cfd2edfd159"
+          },
+          "compile/receipt.json": {
+            "member": "groups/s3-s4p_fallback_b01_n03_04_fullbyte/compile/receipt.json",
+            "sha256": "143723be3a94d0410d4b117c525564604ae4f8e9e3704db31d61f7a134a0b644"
+          },
+          "binding-metadata.json": {
+            "member": "groups/s3-s4p_fallback_b01_n03_04_fullbyte/binding-metadata.json",
+            "sha256": "84a894bc100bcb332bcca7e314fbb472f10b9fdc1dd189ec9d462690d1698efb"
+          },
+          "export.json": {
+            "member": "groups/s3-s4p_fallback_b01_n03_04_fullbyte/export.json",
+            "sha256": "693c7cbb1a424039c35c9fdfe67a5c86a3877afac1b140c873afbf189ea92b59"
+          },
+          "properties.json": {
+            "member": "groups/s3-s4p_fallback_b01_n03_04_fullbyte/properties.json",
+            "sha256": "5684d4c0a7d150de5233c305269992d28295d5ef6d123d3499c09bc92dd21686"
+          }
+        },
+        "source": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+        "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "control": "2db5d2c08804036d283cb36450647cd584ee9e10",
+        "head": "563a899dce27024d276bb6fa8f4402f3b5ddc67c",
+        "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+        "request": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+        "workflow": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+        "cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf --cfg=kani_smallsort_s4_partition",
+        "argv": [
+          "/home/runner/work/kani/kani/tool/scripts/kani",
+          "verify-std",
+          "-Z",
+          "unstable-options",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "mem-predicates",
+          "-Z",
+          "float-lib",
+          "-Z",
+          "c-ffi",
+          "-Z",
+          "loop-contracts",
+          "-Z",
+          "quantifiers",
+          "-Z",
+          "stubbing",
+          "--no-assert-contracts",
+          "--jobs=1",
+          "--harness-timeout",
+          "600s",
+          "--harness",
+          "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+          "--exact",
+          "--default-unwind",
+          "36",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "/home/runner/work/_temp/ch8-s1-receipts/groups/s3-s4p_fallback_b01_n03_04_fullbyte/export.json",
+          "--output-format=regular",
+          "/home/runner/work/kani/kani/export/library",
+          "--cbmc-args",
+          "--object-bits",
+          "12"
+        ],
+        "compact_sha256": "cf4a2cbd6b50887f8f7accfed7844bd14fce4e4d12efce92fb81f747d6b61b8d"
+      },
+      "members": {
+        "receipt.json": {
+          "member": "groups/s3-s4p_fallback_b01_n03_04_fullbyte/receipt.json",
+          "sha256": "20b8d22fa236e83b27fb43d7fe25f18d08994afeff9ef4e07fd63cfd2edfd159"
+        },
+        "compile/receipt.json": {
+          "member": "groups/s3-s4p_fallback_b01_n03_04_fullbyte/compile/receipt.json",
+          "sha256": "143723be3a94d0410d4b117c525564604ae4f8e9e3704db31d61f7a134a0b644"
+        },
+        "binding-metadata.json": {
+          "member": "groups/s3-s4p_fallback_b01_n03_04_fullbyte/binding-metadata.json",
+          "sha256": "84a894bc100bcb332bcca7e314fbb472f10b9fdc1dd189ec9d462690d1698efb"
+        },
+        "export.json": {
+          "member": "groups/s3-s4p_fallback_b01_n03_04_fullbyte/export.json",
+          "sha256": "693c7cbb1a424039c35c9fdfe67a5c86a3877afac1b140c873afbf189ea92b59"
+        },
+        "properties.json": {
+          "member": "groups/s3-s4p_fallback_b01_n03_04_fullbyte/properties.json",
+          "sha256": "5684d4c0a7d150de5233c305269992d28295d5ef6d123d3499c09bc92dd21686"
+        }
+      },
+      "native_counts": {
+        "n_properties": 227,
+        "checks": {
+          "total": 220,
+          "success": 216,
+          "failure": [],
+          "unreachable": [
+            "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+            "num::<impl usize>::abs_diff.assertion.1",
+            "num::<impl usize>::abs_diff.assertion.2",
+            "fmt::Arguments::<'_>::from_str.assertion.1"
+          ],
+          "undetermined": [],
+          "error": [],
+          "unknown": [],
+          "other": []
+        },
+        "covers": {
+          "total": 7,
+          "satisfied": [
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.1",
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.2",
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.3",
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.4",
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.5",
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.6",
+            "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.7"
+          ],
+          "unsatisfiable": [],
+          "unreachable": [],
+          "undetermined": [],
+          "error": [],
+          "unknown": [],
+          "other": []
+        }
+      },
+      "other_roles_covers_U_guards": "QUALIFICATION.json/NATIVE-PROPERTIES.json/U-ARGUMENTS.json exact same invocation; all other records located",
+      "all_other_records_located": true,
+      "full_property_inventory_sha256": "0c1ca0206ed95445467408adb70781f44a9de2aec727c2c66051605d2708752f",
+      "protected_epochs": "PROTECTED.json",
+      "shared_emitter_source_MIR_origin": "UNKNOWN",
+      "null_keys_present": true,
+      "no_location_substitution": true,
+      "producer_UNKNOWN_unchanged": true,
+      "independent_recommendation": "RECOMMEND_EXACT_METADATA_CASE_ONLY",
+      "exact_status_partition": {
+        "SUCCESS": 216,
+        "UNREACHABLE": 4,
+        "SATISFIED": 7
+      },
+      "exact_class_status_partition": {
+        "arithmetic_overflow": {
+          "SUCCESS": 4
+        },
+        "array_bounds": {
+          "SUCCESS": 10
+        },
+        "assertion": {
+          "SUCCESS": 46,
+          "UNREACHABLE": 4
+        },
+        "cover": {
+          "SATISFIED": 7
+        },
+        "pointer": {
+          "SUCCESS": 2
+        },
+        "pointer_dereference": {
+          "SUCCESS": 78
+        },
+        "precondition_instance": {
+          "SUCCESS": 3
+        },
+        "safety_check": {
+          "SUCCESS": 29
+        },
+        "unreachable": {
+          "SUCCESS": 40
+        },
+        "unsupported_construct": {
+          "SUCCESS": 3
+        },
+        "unwind": {
+          "SUCCESS": 1
+        }
+      },
+      "all_other_property_count": 226,
+      "located_roles_and_covers": [
+        {
+          "required": {
+            "class": "assertion",
+            "status": "SUCCESS",
+            "description": "S4P_F_03_04_ACTIVE_CONCRETE_MODEL",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 64,
+            "source_line": "    kani::assert(enabled::<Cell<u8>, KeyLess<Cell<u8>>>(), \"S4P_F_03_04_ACTIVE_CONCRETE_MODEL\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P_F_03_04_ACTIVE_CONCRETE_MODEL",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.assertion.1",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.assertion.1",
+              "line": "64",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:64:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "assertion",
+            "status": "SUCCESS",
+            "description": "S4P_F_03_04_SORTED_FULL_VALUE_COUNT",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 72,
+            "source_line": "    kani::assert(post::<Cell<u8>, KeyLess<Cell<u8>>>(before, &v[1..1 + n]), \"S4P_F_03_04_SORTED_FULL_VALUE_COUNT\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P_F_03_04_SORTED_FULL_VALUE_COUNT",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.assertion.7",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.assertion.7",
+              "line": "72",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:72:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "assertion",
+            "status": "SUCCESS",
+            "description": "S4P_F_03_04_FULL_OUTSIDE_FRAME",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 74,
+            "source_line": "        kani::assert((1 <= i && i < 1 + n) || v[i].get() == bytes[i], \"S4P_F_03_04_FULL_OUTSIDE_FRAME\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P_F_03_04_FULL_OUTSIDE_FRAME",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.assertion.11",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.assertion.11",
+              "line": "74",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:74:9 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "assertion",
+            "status": "SUCCESS",
+            "description": "S4P_F_03_04_ARBITRARY_OUTSIDE_CANARY",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 78,
+            "source_line": "    kani::assert(v[canary].get() == bytes[canary], \"S4P_F_03_04_ARBITRARY_OUTSIDE_CANARY\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "assertion",
+              "description": "S4P_F_03_04_ARBITRARY_OUTSIDE_CANARY",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.assertion.15",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.assertion.15",
+              "line": "78",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:78:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+              "status": "SUCCESS"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_03_04_N03",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 79,
+            "source_line": "    kani::cover(n == 3, \"S4P_F_03_04_N03\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_03_04_N03",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.1",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.1",
+              "line": "79",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:79:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_03_04_N04",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 80,
+            "source_line": "    kani::cover(n == 4, \"S4P_F_03_04_N04\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_03_04_N04",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.2",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.2",
+              "line": "80",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:80:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_03_04_UNSORTED",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 81,
+            "source_line": "    kani::cover(n >= 2 && bytes[1] > bytes[n], \"S4P_F_03_04_UNSORTED\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_03_04_UNSORTED",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.3",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.3",
+              "line": "81",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:81:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_03_04_DUPLICATE",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 82,
+            "source_line": "    kani::cover(n >= 2 && bytes[1] == bytes[n], \"S4P_F_03_04_DUPLICATE\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_03_04_DUPLICATE",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.4",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.4",
+              "line": "82",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:82:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_03_04_NONCONSTANT",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 83,
+            "source_line": "    kani::cover(n >= 2 && v[1].get() < v[n].get(), \"S4P_F_03_04_NONCONSTANT\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_03_04_NONCONSTANT",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.5",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.5",
+              "line": "83",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:83:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_03_04_MAX_DESCENDING",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 84,
+            "source_line": "    kani::cover(n == 4 && descending(&bytes[1..5]), \"S4P_F_03_04_MAX_DESCENDING\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_03_04_MAX_DESCENDING",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.6",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.6",
+              "line": "84",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:84:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        },
+        {
+          "required": {
+            "class": "cover",
+            "status": "SATISFIED",
+            "description": "S4P_F_03_04_USEFUL_RETURN",
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+            "line": 85,
+            "source_line": "    kani::cover(true, \"S4P_F_03_04_USEFUL_RETURN\");",
+            "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+            "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+          },
+          "native_matches": [
+            {
+              "class": "cover",
+              "description": "S4P_F_03_04_USEFUL_RETURN",
+              "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.7",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.cover.7",
+              "line": "85",
+              "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs:85:5 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+              "status": "SATISFIED"
+            }
+          ]
+        }
+      ],
+      "located_U_count": 4,
+      "located_SUCCESS_guards": [
+        {
+          "class": "unsupported_construct",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "display_id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+          "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "line": "110",
+          "location_display": "library/core/src/panicking.rs:110:17 in function panicking::panic_nounwind_fmt::runtime",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unsupported_construct",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "display_id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+          "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "line": "185",
+          "location_display": "library/core/src/panic/location.rs:185:9 in function panic::location::Location::<'_>::caller",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unsupported_construct",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "display_id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::mem::cbmc::same_allocation",
+          "status": "SUCCESS"
+        }
+      ],
+      "extra_failures": [],
+      "native_registration": {
+        "pretty_name": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+        "mangled_name": "_RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify20sorting_s4_partition32s4p_fallback_b01_n03_04_fullbyte",
+        "crate_name": "core",
+        "original_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+        "original_start_line": 63,
+        "original_end_line": 86,
+        "goto_file": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/17d0b388c22943d6b27bca2f59d43baa/x86_64-unknown-linux-gnu/debug/build/core/1e414d1b3ae6097c/out/core-1e414d1b3ae6097c__RNvNtNtNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort6verify20sorting_s4_partition32s4p_fallback_b01_n03_04_fullbyte.symtab.out",
+        "attributes": {
+          "kind": "Proof",
+          "should_panic": false,
+          "solver": null,
+          "unwind_value": 36,
+          "stubs": [],
+          "verified_stubs": []
+        },
+        "contract": null,
+        "has_loop_contracts": false,
+        "is_automatically_generated": false,
+        "is_bounded": false,
+        "is_ctor_based": false,
+        "metadata_path": "x86_64-unknown-linux-gnu/debug/build/core/1e414d1b3ae6097c/out/core-1e414d1b3ae6097c.kani-metadata.json",
+        "metadata_sha256": "3e07f8b45bf5d08c8bd9d56b9a5a3c42a181ae45d9044d7e27a6a761d3c77cc4"
+      },
+      "protected_identity": {
+        "intake_commit": "842984040e87b8b8594653634b72df7d800ca198",
+        "baseline_sha256": "e63415f55c08e12f69e7655af4ad84546221ca97b9a98f7e282f34c9c2bba706",
+        "epoch_sha256": "9f15437ec2d8c2b1c320df4e8909bc47a3e0fbe2a4d2adc60956741a3a31ba15",
+        "baseline_epoch": "E0",
+        "controller_context": {
+          "baseline_context": {
+            "campaign_id": "c5d309eb45884de4b65b059e8ff27de4",
+            "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+            "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+            "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+          },
+          "campaign_id": "c5d309eb45884de4b65b059e8ff27de4",
+          "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+          "epoch": "E6",
+          "invocation_id": "2bb0aeda79614116a94d6566f9061734",
+          "rank": 6,
+          "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+          "root": "s4p_fallback_b01_n03_04_fullbyte",
+          "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+        },
+        "native_invocation_id": "17d0b388c22943d6b27bca2f59d43baa",
+        "native_namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/17d0b388c22943d6b27bca2f59d43baa",
+        "controller_and_native_invocation_ids_are_distinct": true,
+        "all_five_binary_snapshots_equal_E0": true,
+        "worker_protected_reader": {
+          "inner_after_absent": [],
+          "controller_recovery_used": false,
+          "observed_errors_ignored": false
+        },
+        "full_intake_PROTECTED_sha256": "3c886a26b09daa1c9b5432000693b69781f1b3e17cc341041bd9371fc0575f7a"
+      }
+    }
+  ],
+  "conditions": [
+    "Exact run/attempt/selector/invocation/namespace/protected identities and authenticated member bytes only",
+    "One exact full dictionary, both null keys present; no source coordinate substitution",
+    "All other properties including every role/cover/U/guard positively located; counts and full status partitions unchanged",
+    "U/guard treatment separate; existing producer REJECT_ALL and proposalDISABLED unchanged",
+    "No global/suffix/unreachable/stdlib/future-run waiver; shared emitter/source/MIR origin UNKNOWN",
+    "Root must first verify this actual committed READY packet, manifest and complete exact identity tuples; coordinator/root then make a separate recorded decision.",
+    "Keep full property ID and display ID, class unreachable, status SUCCESS, description unreachable code, both location keys present-null, full display and cardinality exactly one per specified invocation.",
+    "All other records remain positively located; exact inventories/counts, four literal SUCCESS roles, every length/witness SAT, four source-local U arguments, three SUCCESS guards and successful unwind per fallback are independent gates.",
+    "Preserve the complete protected baseline/controller/native tuple; controller worker IDs and native compiler invocation IDs occupy distinct namespaces and are not equated.",
+    "Hypothetical packet equality tests are a proposal-boundary test, not an active parser fix or proof of emitter provenance."
+  ],
+  "old_original_decisions": [
+    {
+      "commit": "f74025e493a627962842e8f7bc6a2766d33dd300",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/admission-r2-location/ADMISSION.json",
+      "sha256": "5d9eada737fb5898c73fc9762b822f1b2ba7bd299ef7209fd1892f0fee5dc908",
+      "review_commit": "a9fe0055aab3279e3f5bb71bde9667925da80e65",
+      "records": [
+        {
+          "root": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc",
+          "property": {
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.unreachable.1",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.unreachable.1",
+            "class": "unreachable",
+            "status": "SUCCESS",
+            "description": "unreachable code",
+            "file": null,
+            "line": null,
+            "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc"
+          },
+          "counts": {
+            "properties": 363,
+            "checks": 356,
+            "SUCCESS": 351,
+            "UNREACHABLE": 5,
+            "FAILURE": 0,
+            "covers": 7,
+            "SATISFIED": 7,
+            "missing_location_records": 1,
+            "required_SUCCESS_literal_assertions": 5,
+            "required_located_covers": 7
+          },
+          "identity": {
+            "source": {
+              "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+              "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+              "parents": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+            },
+            "tool": {
+              "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+              "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+              "parents": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+            },
+            "control": {
+              "sha": "cb63033ffcde918f4341146e56373476b8eeb569",
+              "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+              "parents": "9e14e033f9ee31522b571c127609dcdff76d230b"
+            },
+            "executed_head": {
+              "sha": "7497ecdb3934585634f5f04e4ff7c6cc42450c0b",
+              "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+              "parents": "9e14e033f9ee31522b571c127609dcdff76d230b"
+            },
+            "request_sha256": "efbc150280f5f9641c9e8b48fb4486122ae8c3cfa318f78a42486394e1de7656",
+            "workflow_sha256": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709",
+            "compact_sha256": "b9a02491bfb360eb17a13ab6f7fea78108d0371a7e8033f277674fb33213bed0",
+            "invocation_id": "f6644642d07242c5a077398e0a1b2460",
+            "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/f6644642d07242c5a077398e0a1b2460",
+            "members_sha256": {
+              "receipt.json": "9e3e133afc639fe67879a52b65038e5f93178fc6193c963b13608edfa34e84a6",
+              "compile/receipt.json": "4b87f4440ffc4a3e99ad0ed262d9275d0501ed730745de98daa6cfb2d1640a18",
+              "binding-metadata.json": "f682ad26e4cce2bf2fc87b20955fc75c544622a633943bc1c6060dc9c1ffeec6",
+              "export.json": "78249a7c5cee3f6d4733141c0ec9d0eeaa075b4b87732cb0eddccc71192b6aea",
+              "properties.json": "fde75985c9a1351c74448636f95f3ed609755c4dba840f9f12536e1d2504f717"
+            }
+          }
+        }
+      ],
+      "comparison": "Same class/status/description/null-key/display-zero shape; exact roots/IDs/invocations/source/control/request/member hashes differ. No transfer; common emitter/positive source or MIR origin UNKNOWN."
+    },
+    {
+      "commit": "ff193cc35690a5daabaa849d412c58d9f286d893",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/admission-s3-2-r1-exact-location/ADMISSION.json",
+      "sha256": "c8e97bdf69a7d33dd5fe0f05523dd66b0e3d96e2182529e1884eb2eb030cf4c5",
+      "review_commit": "028531727fc48ef9f26f16dfb95c2b2666c96dd7",
+      "records": [
+        {
+          "root": "m8_s32_d00_allinit",
+          "property": {
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.unreachable.1",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.unreachable.1",
+            "class": "unreachable",
+            "status": "SUCCESS",
+            "description": "unreachable code",
+            "file": null,
+            "line": null,
+            "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit"
+          },
+          "counts": {
+            "total": 380,
+            "success": 372,
+            "failure": [],
+            "unreachable": [
+              "num::<impl usize>::abs_diff.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+            ],
+            "undetermined": [],
+            "error": [],
+            "unknown": [],
+            "other": []
+          },
+          "identity": {
+            "invocation_id": "189628db8bdc48279407d1b3ee938808",
+            "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/189628db8bdc48279407d1b3ee938808",
+            "bindings": {
+              "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+              "source": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+              "control": "775574eb2f361ef90eade30330ff0d608530287f",
+              "head": "474a9d1617d77f34566e6992debc604c70a9e9ea",
+              "request": "75603378a45639991f837ea1ea259f9a56cc452426c6f306cda6d53f5e51e47c",
+              "workflow": "0fde14cf5513f81565bc2eea37864013e7d30f82dc3062788ba2fb34b575939f",
+              "run": 44439462279,
+              "attempt": 1,
+              "properties_member": "groups/s3-m8_s32_d00_allinit/properties.json",
+              "export_member": "groups/s3-m8_s32_d00_allinit/export.json"
+            }
+          }
+        },
+        {
+          "root": "m8_s32_d00_partial_diag",
+          "property": {
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.unreachable.1",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.unreachable.1",
+            "class": "unreachable",
+            "status": "SUCCESS",
+            "description": "unreachable code",
+            "file": null,
+            "line": null,
+            "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag"
+          },
+          "counts": {
+            "total": 380,
+            "success": 372,
+            "failure": [],
+            "unreachable": [
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "ub_checks::is_valid_allocation_size.assertion.1"
+            ],
+            "undetermined": [],
+            "error": [],
+            "unknown": [],
+            "other": []
+          },
+          "identity": {
+            "invocation_id": "684bfd6aab514f55bb6a9cb250b2b8b0",
+            "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/684bfd6aab514f55bb6a9cb250b2b8b0",
+            "bindings": {
+              "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag",
+              "source": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+              "control": "775574eb2f361ef90eade30330ff0d608530287f",
+              "head": "474a9d1617d77f34566e6992debc604c70a9e9ea",
+              "request": "75603378a45639991f837ea1ea259f9a56cc452426c6f306cda6d53f5e51e47c",
+              "workflow": "0fde14cf5513f81565bc2eea37864013e7d30f82dc3062788ba2fb34b575939f",
+              "run": 44439462279,
+              "attempt": 1,
+              "properties_member": "groups/s3-m8_s32_d00_partial_diag/properties.json",
+              "export_member": "groups/s3-m8_s32_d00_partial_diag/export.json"
+            }
+          }
+        },
+        {
+          "root": "m8_s40_d16_partial_diag",
+          "property": {
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.unreachable.1",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.unreachable.1",
+            "class": "unreachable",
+            "status": "SUCCESS",
+            "description": "unreachable code",
+            "file": null,
+            "line": null,
+            "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag"
+          },
+          "counts": {
+            "total": 380,
+            "success": 372,
+            "failure": [],
+            "unreachable": [
+              "num::<impl usize>::abs_diff.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "fmt::Arguments::<'_>::from_str.assertion.1"
+            ],
+            "undetermined": [],
+            "error": [],
+            "unknown": [],
+            "other": []
+          },
+          "identity": {
+            "invocation_id": "74b9eae5ed164a8ea4732993b42e4de1",
+            "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/74b9eae5ed164a8ea4732993b42e4de1",
+            "bindings": {
+              "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag",
+              "source": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+              "control": "775574eb2f361ef90eade30330ff0d608530287f",
+              "head": "474a9d1617d77f34566e6992debc604c70a9e9ea",
+              "request": "75603378a45639991f837ea1ea259f9a56cc452426c6f306cda6d53f5e51e47c",
+              "workflow": "0fde14cf5513f81565bc2eea37864013e7d30f82dc3062788ba2fb34b575939f",
+              "run": 44439462279,
+              "attempt": 1,
+              "properties_member": "groups/s3-m8_s40_d16_partial_diag/properties.json",
+              "export_member": "groups/s3-m8_s40_d16_partial_diag/export.json"
+            }
+          }
+        }
+      ],
+      "comparison": "Same class/status/description/null-key/display-zero shape; exact roots/IDs/invocations/source/control/request/member hashes differ. No transfer; common emitter/positive source or MIR origin UNKNOWN."
+    }
+  ],
+  "old_comparison": "Original sort4same f740 and merge8 ff193 exact decisions and their reviews are valid only for their original runs. Same null/display-zero/class/status shape does not transfer admission or establish a common emitter.",
+  "shared_emitter_source_MIR_origin": "UNKNOWN",
+  "general_rule": "NOT_RECOMMENDED",
+  "adverse_controls": {
+    "count": 66,
+    "result": "ALL_REJECT",
+    "reproduced": "REPLAY.json",
+    "scope": "Hypothetical exact packet boundary only; does not make active rich reader accept or establish source origin"
+  },
+  "admission": false,
+  "producer_or_history_changed": false,
+  "runtime_parser_policy_changed": false
+}
