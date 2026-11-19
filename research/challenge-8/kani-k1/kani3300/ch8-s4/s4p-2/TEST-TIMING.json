@@ -1,0 +1,114 @@
+{
+  "targeted": [
+    {
+      "file": "tests/targeted-01.json",
+      "request_sha256": "1d3e04e991f99ae0b6ce484f8f15d1ebe8d03d3458cd2b4b1de6120ae985a5b3",
+      "exit_code": 0,
+      "wall_seconds": 2.067108334042132,
+      "unittest_tests": 12,
+      "unittest_seconds": 1.473
+    },
+    {
+      "file": "tests/targeted-02.json",
+      "request_sha256": "1d3e04e991f99ae0b6ce484f8f15d1ebe8d03d3458cd2b4b1de6120ae985a5b3",
+      "exit_code": 1,
+      "wall_seconds": 55.296196492854506,
+      "unittest_tests": 25,
+      "unittest_seconds": 54.71
+    },
+    {
+      "file": "tests/targeted-03.json",
+      "request_sha256": "63659c03ae082e778ca231137a644f167c818457ad2bf42e8b26ea7581fece93",
+      "exit_code": 0,
+      "wall_seconds": 126.99880197271705,
+      "unittest_tests": 25,
+      "unittest_seconds": 126.417
+    },
+    {
+      "file": "tests/targeted-04.json",
+      "request_sha256": "717d3a71fcf9b4847d699e9f0774edcf7c345d4bdd4ae24d12ea111141796ba2",
+      "exit_code": 0,
+      "wall_seconds": 48.97236025473103,
+      "unittest_tests": 17,
+      "unittest_seconds": 48.211
+    },
+    {
+      "file": "tests/targeted-05.json",
+      "request_sha256": "c6abee25796842b0a1af44009921045c3da82b36e0fead42a342e7c5d8e74969",
+      "exit_code": 0,
+      "wall_seconds": 15.12614248227328,
+      "unittest_tests": 5,
+      "unittest_seconds": 14.555
+    }
+  ],
+  "retired_object": {
+    "command": "python3 check_package.py control --repo ..\npython3 s4p2_validate.py\n",
+    "cwd": "/root/kani-ch8-s4p-2-control-w13/ch8-s1-control",
+    "argv": [
+      "bash",
+      "-e",
+      "-c",
+      "python3 check_package.py control --repo ..\npython3 s4p2_validate.py\n"
+    ],
+    "control_sha": "321c266daf58309ae3eadc6d5c3f358766938ac0",
+    "control_tree": "04102e3c5393541a59a80d1f41ac87c543b66fb4",
+    "request_sha256": "4676b9b0ccefe68a181cc91cf4969f328bc41614cd8d8c50b64115bb2b9760c9",
+    "workflow_sha256": "4500edba80fbb48258c5b0a29c4d73a97fbb37fb26017da9f8251c147f30bd7f",
+    "script_sha256": "0cea1370c0e31e2a1b04b5bbc2e9c558d1ce17473ae72278c3aa89732de753f3",
+    "started_utc": "2026-11-19T09:38:35.805812+00:00",
+    "limit_seconds": 1080,
+    "required_margin": 1.5,
+    "execution_count": 1,
+    "environment_kind": "OFFLINE_SYNTHETIC_GITHUB_STATIC_GATE_CONTEXT; no CI event or run",
+    "environment": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "GITHUB_REPOSITORY": "Tiramisu-Cake/kani",
+      "GITHUB_EVENT_NAME": "push",
+      "GITHUB_REF": "refs/heads/uninit-ci/ch8-s4p-offline-validation-s4p2",
+      "GITHUB_RUN_ATTEMPT": "1",
+      "GITHUB_SHA": "321c266daf58309ae3eadc6d5c3f358766938ac0"
+    },
+    "native_compile_proof_cost_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "exit_code": 1,
+    "timed_out": false,
+    "elapsed_seconds": 727.5783405900002,
+    "finished_utc": "2026-11-19T09:50:43.384661+00:00",
+    "clean_after": true,
+    "margin_at_18_minutes": 1.4843762379240397,
+    "stdout": {
+      "file": "FINAL-VALIDATE.stdout",
+      "bytes": 635,
+      "sha256": "0d5d3a28c02d34807f63ad30d0b700a1ca81baae34c44fa0273cc0ed410273ef"
+    },
+    "stderr": {
+      "file": "FINAL-VALIDATE.stderr",
+      "bytes": 50824,
+      "sha256": "07ab66d016872ef011c4cb36b90aa294c0e47f2638f1bb2f4c89968e5f204e6b"
+    },
+    "status": "FAILED_OR_MARGIN_BELOW_1_5"
+  },
+  "actual_final": {
+    "actual_final_validate_execution_count": 1,
+    "tests": 344,
+    "test_counts": {
+      "bridge1": 40,
+      "legacy": 136,
+      "s3": 56,
+      "s32": 35,
+      "s4p": 38,
+      "s4p2": 39
+    },
+    "exit_code": 0,
+    "elapsed_seconds": 679.1141679468565,
+    "internal_elapsed_seconds": 677.9576758593321,
+    "margin_at_18_minutes": 1.5903069777871495,
+    "required_margin": 1.5,
+    "control_sha": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+    "control_tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+    "request_sha256": "c6abee25796842b0a1af44009921045c3da82b36e0fead42a342e7c5d8e74969",
+    "different_object_precursor": "tests/control-321c266-precursor/FINAL-VALIDATE.json; not final package acceptance",
+    "concrete_reason_for_final_object_change": "tests/fallback-empty-object-precursor.json; present {} terminal must not be normalized into absence"
+  },
+  "native_cost_or_fit": "NOT_RUN"
+}

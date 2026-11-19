@@ -1,0 +1,127 @@
+{
+  "status": "AUTHOR_VALIDATED_PENDING_INDEPENDENT_EXACT_REVIEW",
+  "implementation_gates": [
+    {
+      "boundary": "new exact profile/request/terminal/portable seal",
+      "required": "Use an explicitly versioned exact profile/request and compatible terminal/seal routing; bind to new request-derived schema constants, never terminal-derived schema. Old S4P1 profile/fixtures remain unchanged. All new planned selected_roots exactly genuine int8 in complete/partial/STOPPED/prefix0 states."
+    },
+    {
+      "boundary": "role/SAT inventory",
+      "required": "Per-root exact assertions/covers3/6/6/6 and positive order n2,n3,n4,N01. Structural N/A metadata only for exactN01; all declared covers SAT. Reject omission/duplication/extra label/wrong literal/file/line/class/status/domain/type/cfg/producer count. Nontrivial witness removal is a failing regression."
+    },
+    {
+      "boundary": "source/model/cfg gates",
+      "required": "Bind new harness IDs/cfg/module registrations to new source SHA and source hashes. Keep actual algorithms/contracts/oracle/model and full-u8 V34/base1/frame/canary unchanged. Preserve ordinary/cfg-PFC/contract-stack all32subset/nonempty projection/lexical reader gates and B01/B02. No stub_verified/assumed summary/provider edges."
+    },
+    {
+      "boundary": "runner service error paths and portable replay",
+      "required": "Existing Cloud preflight plus targeted synthetic success/error/timeout/partial/missing/null/wrong-type/explicitNOT_RUN/source-stage-target mismatch; local/upload-only equality and durable seal mutation rejection. Preserve original exits/exceptions/errno, interruptedUNKNOWN versus laterNOT_RUN, no malformed terminal normalization. Complete full required CI validation matrix on final new package, not in this plan review."
+    },
+    {
+      "boundary": "protected identity and safe serial execution",
+      "required": "E0/pre/workerBEFORE/AFTER/controllerpost source/tool/request/cfg/binary/export/namespaces/Original-null remain strict in all states. Observed mismatch/read-error globally STOP; only genuine missing-AFTER interrupted recovery with verified shutdown/cleanup and protected post, never erasing observed errors. Retain all ownership/reap/survivor and serial continuation controls."
+    },
+    {
+      "boundary": "qualification/history/location",
+      "required": "Producer U-REJECT_ALL/proposalDISABLED/unsupported-guard/error/unknown/location/count checks unchanged. Retain every guard status including SUCCESS and each U for source-local review. Old five merge/fallback exact cases and optional old sort4 case apply only original runs. Neither admission9bb nor same lib.rs:0:0 permits a rule for new roots."
+    },
+    {
+      "boundary": "resources/future dispatch",
+      "required": "Child600 includes compile180; slot720/controller180/cleanup240/campaign6900/outer7500/step7560/phase8100/setup1800/job180min and output16MiB/1MiB/8MiB/256MiB unchanged. Ceff=min(6,12,A-2)GiB, local6 sampledPGID/outer12 owned/reserve2. Exact final nested runtime/setup/deadline/reserve eligibility needs independent package review before root/coordinatorGO+ledger. 6180 arithmetic is not measured fit."
+    }
+  ],
+  "evidence": {
+    "new_exact_profile_request_terminal_portable_seal": [
+      "CI-REQUEST.json",
+      "WORKFLOW.yml",
+      "TEST-LIST.json",
+      "FINAL-VALIDATE.stderr"
+    ],
+    "roles_SAT_modes_native_counts": [
+      "ROLE-ORACLE-COVER.json",
+      "ROOTS.json",
+      "tests/targeted-01.json",
+      "FINAL-VALIDATE.stderr"
+    ],
+    "source_model_cfg_ordinary_PFC_contract_stack_lexical": [
+      "PREFLIGHT.json",
+      "MAP-ORDINARY.json",
+      "MAP-CFG_PFC.json",
+      "MAP-CONTRACT_STACKS.json",
+      "MAP-LEXICAL.json"
+    ],
+    "protected_identity_service_error_cleanup_serial_caps": [
+      "tests/targeted-03.json",
+      "tests/targeted-04.json",
+      "FINAL-VALIDATE.stderr",
+      "RUNNER-DISPATCH.patch"
+    ],
+    "empty_object_fallback_no_normalization": [
+      "tests/fallback-empty-object-precursor.json",
+      "tests/targeted-05.json",
+      "CONTROL-FALLBACK-REPAIR.patch",
+      "FINAL-VALIDATE.stderr"
+    ],
+    "old_profiles_history_and_unchanged_caps": [
+      "CONTROL-PRESERVATION.json",
+      "HISTORY-PRESERVATION.json",
+      "RESOURCE.json",
+      "FINAL-VALIDATE.stdout"
+    ]
+  },
+  "new_tests_actually_selected": [
+    "test_s4p2_boundary.ContractTests.test_each_declared_native_cover_must_be_sat_and_counts_typed",
+    "test_s4p2_boundary.ContractTests.test_exact_eight_original_null_design_map_and_roles",
+    "test_s4p2_boundary.ContractTests.test_old_exact_schemas_counts_caps_and_static_witnesses",
+    "test_s4p2_boundary.ContractTests.test_request_mutations_fail_closed",
+    "test_s4p2_boundary.ReplayModeTests.test_actual_writer_and_public_both_routes_reject_nonnull_target",
+    "test_s4p2_boundary.ReplayModeTests.test_fallback_preserves_malformed_existing_terminal_as_error",
+    "test_s4p2_boundary.ReplayModeTests.test_resealed_worker_null_mutation_rejects_local_and_upload",
+    "test_s4p2_boundary.ReplayModeTests.test_worker_target_missing_bool_or_pfc_globally_stops",
+    "test_s4p2_boundary.SourceTests.test_actual_all_four_gates_new_module_roles_domain_and_legacy_projection",
+    "test_s4p2_boundary.SourceTests.test_new_module_missing_registration_and_static_call_import_alias_and_local_callable",
+    "test_s4p2_gate_repair.ProjectionTests.test_real_gate_complete_power_set_and_active_normalization",
+    "test_s4p2_gate_repair.TerminalSchemaTests.test_authentic_full_eight_schema_before_local_and_upload_collection",
+    "test_s4p2_gate_repair.TerminalSchemaTests.test_authentic_stopped0_and_partial0_schema_before_both_routes",
+    "test_s4p2.RoleTests.test_literal_intended_roles_all_seven_dynamic_producer_ids",
+    "test_s4p2.RoleTests.test_loop_source_instance_set_kept",
+    "test_s4p2.RoleTests.test_missing_duplicate_wrong_class_status_file_line_cfg_and_unrelated_failure",
+    "test_s4p2.CampaignTests.test_fallback_without_launch_explicit_not_run",
+    "test_s4p2.CampaignTests.test_fresh_prefix_and_aggregate_partial_capture_controls",
+    "test_s4p2.CampaignTests.test_interrupted_worker_durable_outer_after_preserves_original_exit",
+    "test_s4p2.CampaignTests.test_late_publication_keeps_supervision_lifecycle_and_seal_identical",
+    "test_s4p2.CampaignTests.test_missing_post_is_global_stop_and_no_rebaseline",
+    "test_s4p2.CampaignTests.test_prefix_tamper_symlink_and_upload_only_seals",
+    "test_s4p2.CampaignTests.test_real_drift_unknown_containment_wrong_target_and_selector_global_stop",
+    "test_s4p2.CampaignTests.test_role_unreachable_rejects_without_historical_rewrite",
+    "test_s4p2.CampaignTests.test_serial_order_fresh_context_caps_and_all_seven",
+    "test_s4p2.WorkflowTests.test_multi_root_legacy_entry_refused",
+    "test_s4p2.WorkflowTests.test_one_job_caps_stock_tool_and_ancestry_depths",
+    "test_s4p2.SingletonRunnerTests.test_original_positive_rejects_fake_pfc_and_preserves_null_target",
+    "test_s4p2.SingletonRunnerTests.test_s3_errors_partial_missing_null_notrun_and_source_stage_target_mismatch",
+    "test_s4p2.SingletonRunnerTests.test_s3_singleton_uses_real_new_pins_cfg_bounds_fresh_target_and_after",
+    "test_s4p2_paths.RealPathWriterTests.test_workflow_relative_entry_real_writer_and_portable_replay",
+    "test_s4p2_paths.RealPathWriterTests.test_selected_count_real_writer_and_both_readers",
+    "test_s4p2_paths.RealPathWriterTests.test_all_valid_prefix_lengths_replay_local_and_upload",
+    "test_s4p2_paths.RealPathWriterTests.test_selected_count_stopped_and_partial_prefix",
+    "test_s4p2_paths.RealPathWriterTests.test_selected_count_without_completions",
+    "test_s4p2_paths.RealPathWriterTests.test_selected_count_requires_validated_request_inventory",
+    "test_s4p2_paths.RealPathWriterTests.test_missing_binary_and_real_read_error_fail_closed",
+    "test_s4p2_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery",
+    "test_s4p2_paths.RealPathWriterTests.test_genuine_absent_after_interruption_and_original_exit_preserved"
+  ],
+  "old_suites_actually_selected": {
+    "bridge1": 40,
+    "legacy": 136,
+    "s3": 56,
+    "s32": 35,
+    "s4p": 38,
+    "s4p2": 39
+  },
+  "source_role_sites_only": {
+    "assertions": 21,
+    "covers": 21,
+    "native_counts": "UNKNOWN"
+  },
+  "native_compile_proof_credit": "NOT_RUN_NONE"
+}

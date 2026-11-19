@@ -1,0 +1,56 @@
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index 0818abd14f698c1d482d84ae737166ad025afdd2..b77499cd3fae8884ac841867ee998f02ab6aa4e4 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -1246,7 +1246,7 @@
+     "ch8-s1-control/s3_runtime.py": "2de7a74b746efcde1dd47ad6f5a5686889665481274ae6555ea53f274ef9ef70",
+     "ch8-s1-control/s3_snapshots.py": "c5a1776d927660061f2f853fdf6a5413a2a7b5ea6ffa54e4d748bfb5fff2fb33",
+     "ch8-s1-control/s3_validate.py": "f35ce20e10dc94e58d545944630de692829d295805ec16fa5a40f398c8557814",
+-    "ch8-s1-control/s4p2_campaign.py": "e08f81653e85bab483a3b38459df6cc81096d0e2baeb449915b011670aecb225",
++    "ch8-s1-control/s4p2_campaign.py": "4b0bf41eb8cfe700ddaf40d9e61aa6eac8a44ba83bf7616ef943a6e7c2b81fd9",
+     "ch8-s1-control/s4p2_cfg_pfc.py": "6a309339d147a8cfadffbda874c104dc3d5d78cb43beffa55cfe4d132334fc04",
+     "ch8-s1-control/s4p2_contract_stacks.py": "8645e1f9c6651ab708b03d385f16cdaa686b92408ab6e8732337bdc7ec971f9f",
+     "ch8-s1-control/s4p2_lexical_bindings.py": "5013cea7a6185c816b8e5cbc05a5dae31b5162f0c88ad8ff9bf54604d550ea68",
+@@ -1290,7 +1290,7 @@
+     "ch8-s1-control/test_s3_repair.py": "3480cf7e888b6969ba3a863bf4a17e462c26297357b974214feadd7d4f8891f1",
+     "ch8-s1-control/test_s4p.py": "4ec2b87dab85838a2594296afc49b4ee70190e0e122589d3c347987a71790b20",
+     "ch8-s1-control/test_s4p2.py": "3a51cb438893ffa3cd110ff28ed5798096e2e1ff6c611c052c0717f29cf09b28",
+-    "ch8-s1-control/test_s4p2_boundary.py": "98ab56096bca09a59725ab562fec42609dad94720e6a2ce3709c75afdc9c7ac2",
++    "ch8-s1-control/test_s4p2_boundary.py": "447d97440cf918ca25466fc0ceba1d99cda4eb1e5df1eb9fd94e09045077476e",
+     "ch8-s1-control/test_s4p2_gate_repair.py": "5e5dd233c77c69ff6b14f55ea19ff79b30bf0321b7924044629189e675095555",
+     "ch8-s1-control/test_s4p2_paths.py": "2bf7087cd769ecaf62bd60c011b45ef63d3d97843198a5e73519571ac5024ce1",
+     "ch8-s1-control/test_s4p_boundary.py": "b0519c00644fcdc222883f89d4e82d82a4212f0f324ce9e873ee39ad2fcdef30",
+diff --git a/ch8-s1-control/s4p2_campaign.py b/ch8-s1-control/s4p2_campaign.py
+index 97a9d816d6e8053fff3eefe95b7a39ffcb62c84e..a560dbb29552bf9dca7d278bd75207a646219811 100644
+--- a/ch8-s1-control/s4p2_campaign.py
++++ b/ch8-s1-control/s4p2_campaign.py
+@@ -137,10 +137,11 @@ def finalize(out,request,stop_reason=None,elapsed=None):
+     atomic(out/'receipt.json',doc);return doc
+ 
+ def fallback(out,request):
+-    terminal=read(out/'receipt.json') if (out/'receipt.json').exists() else {}
++    terminal_exists=(out/'receipt.json').exists()
++    terminal=read(out/'receipt.json') if terminal_exists else {}
+     done=sealed(out)
+     if (out/'campaign-start.json').exists():request=read(out/'campaign-start.json')['request_data']
+-    if terminal:
++    if terminal_exists:
+         meta=terminal.get('s3_campaign')
+         if (type(terminal.get('schema')) is not str or terminal['schema']!=p.TERMINAL_SCHEMA
+             or not isinstance(meta,dict) or type(meta.get('selected_roots')) is not int or meta['selected_roots']!=8
+diff --git a/ch8-s1-control/test_s4p2_boundary.py b/ch8-s1-control/test_s4p2_boundary.py
+index b0fb80944e4f44e38a765c373b0a65b7ca37a048..8f5a175b678fd44c4c9afc4df0a1243ce33f14b7 100644
+--- a/ch8-s1-control/test_s4p2_boundary.py
++++ b/ch8-s1-control/test_s4p2_boundary.py
+@@ -163,6 +163,8 @@ class ReplayModeTests(unittest.TestCase):
+         req=r.load_request()
+         with tempfile.TemporaryDirectory() as d:
+             out=Path(d);terminal=campaign.finalize(out,req,'STOPPED_BEFORE_FIRST')
+-            terminal.pop('schema');campaign.atomic(out/'receipt.json',terminal);original=(out/'receipt.json').read_bytes()
+-            with self.assertRaisesRegex(campaign.GlobalFailure,'refusing normalization'):campaign.fallback(out,req)
+-            self.assertEqual((out/'receipt.json').read_bytes(),original)
++            terminal.pop('schema')
++            for malformed in ({},terminal):
++                campaign.atomic(out/'receipt.json',malformed);original=(out/'receipt.json').read_bytes()
++                with self.subTest(malformed=malformed),self.assertRaisesRegex(campaign.GlobalFailure,'refusing normalization'):campaign.fallback(out,req)
++                self.assertEqual((out/'receipt.json').read_bytes(),original)

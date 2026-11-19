@@ -1,0 +1,107 @@
+{
+  "status": "READY_FOR_ROOT_FULLPIN_CHECK_AND_W14_EXACT_PACKAGE_REVIEW_NOT_GO",
+  "task": "bf3aba53618b759a11d3ff277e88ba66530ec708",
+  "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+  "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+  "proof_credit": "NONE",
+  "native_status": "NOT_RUN",
+  "next": "Root fullpin/manifest check, SAME W14 independent exact-package review; only exact APPROVE/no blockers -> root GO request for one bounded8root attempt by user coordinator",
+  "source": {
+    "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+    "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+    "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+    "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "clean": true,
+    "depth": 5,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+  },
+  "control": {
+    "repo": "/root/kani-ch8-s4p-2-r1-control-w13",
+    "sha": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+    "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "clean": true,
+    "depth": 7,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+  },
+  "tool": {
+    "repo": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+    "clean": true,
+    "depth": 2,
+    "author_committer": "Ivo Matija\u0161evi\u0107 <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+  },
+  "request_sha256": "c6abee25796842b0a1af44009921045c3da82b36e0fead42a342e7c5d8e74969",
+  "actual_final_validate": "FINAL-VALIDATE.json; exact4059 committed control, once,18min, pending actual margin",
+  "precursor": "tests/control-321c266-precursor/;344 tests passed but1.484 margin failed; concrete empty-object fallback defect also retained",
+  "native_CI_push": "NOT_RUN",
+  "accounting": "TRACKING_ONLY_NO_WRITES",
+  "final_validate": {
+    "actual_final_validate_execution_count": 1,
+    "tests": 344,
+    "test_counts": {
+      "bridge1": 40,
+      "legacy": 136,
+      "s3": 56,
+      "s32": 35,
+      "s4p": 38,
+      "s4p2": 39
+    },
+    "exit_code": 0,
+    "elapsed_seconds": 679.1141679468565,
+    "internal_elapsed_seconds": 677.9576758593321,
+    "margin_at_18_minutes": 1.5903069777871495,
+    "required_margin": 1.5,
+    "control_sha": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+    "control_tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+    "request_sha256": "c6abee25796842b0a1af44009921045c3da82b36e0fead42a342e7c5d8e74969",
+    "different_object_precursor": "tests/control-321c266-precursor/FINAL-VALIDATE.json; not final package acceptance",
+    "concrete_reason_for_final_object_change": "tests/fallback-empty-object-precursor.json; present {} terminal must not be normalized into absence"
+  },
+  "claims": [
+    {
+      "claim": "Four new actual network roots, exact fixed controls then n2,n3,n4,N0..1; Original/null, full34 independentu8/base1, 4SUCCESS roles each, SAT6/6/6/3 source sites.",
+      "assurance": "EXACT_STATIC_SOURCE_REQUEST_BINDING_AND_SYNTHETIC_SERVICE_PASS_NOT_NATIVE",
+      "evidence": [
+        "ROOTS.json",
+        "ROLE-ORACLE-COVER.json",
+        "SOURCE-PRESERVATION.json"
+      ]
+    },
+    {
+      "claim": "Actual source preflight gates and full64 cfg power set include all32 legacy contexts and8 active nonempty normalizations.",
+      "assurance": "OBSERVED_STATIC_GATE_AND_CI_SELECTED_REGRESSIONS",
+      "evidence": [
+        "PREFLIGHT.json",
+        "MAP-CONTRACT_STACKS.json",
+        "FINAL-VALIDATE.stderr"
+      ]
+    },
+    {
+      "claim": "Exact committed final workflow Validate executed once; all344 selected tests pass at unchanged18min and>=1.5 margin.",
+      "assurance": "OBSERVED_OFFLINE_EXECUTION_NOT_CI_NATIVE_OR_PROOF",
+      "evidence": [
+        "FINAL-VALIDATE.json",
+        "FINAL-VALIDATE.stdout",
+        "FINAL-VALIDATE.stderr"
+      ]
+    }
+  ],
+  "open": [
+    "Exact package W14 independent review and root fullpin check/GO",
+    "Published exact source and NONSKIP SAME-TREE control sibling sole9e14/head/ref/run binding by coordinator",
+    "Actual Kani compilation and same-invocation native property inventory/counts/status/SAT/unwind/fit",
+    "All insertion-prefix provider/caller edges; initialized-input harness is not initialization theorem",
+    "Generic traits/type/ownership/panic/unwind/universal contracts, summary/model qualification and MIR/B1/B2",
+    "N>=5/9/13/16/32/general and capped historical network remain UNKNOWN"
+  ],
+  "blocker": null,
+  "new_proof_obligations_closed": 0,
+  "new_qualified_leaves": 0,
+  "runtime": "SolHigh/FastOFF; no subagents/model changes",
+  "GO": "NOT_GRANTED",
+  "publication_CI_native": "NOT_PERFORMED",
+  "completion_reason": "Authorized offline implementation, targeted fixes/tests, exact final validation and sealed review package complete; independent review/GO remain separate"
+}

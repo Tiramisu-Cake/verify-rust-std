@@ -1,0 +1,91 @@
+{
+  "domains": {
+    "s4p2_network_b01_n02_fullbyte": {
+      "length_interval": [
+        2,
+        2
+      ],
+      "allocation": 34,
+      "base": 1,
+      "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+      "initialized": true,
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "summary_edges": []
+    },
+    "s4p2_network_b01_n03_fullbyte": {
+      "length_interval": [
+        3,
+        3
+      ],
+      "allocation": 34,
+      "base": 1,
+      "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+      "initialized": true,
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "summary_edges": []
+    },
+    "s4p2_network_b01_n04_fullbyte": {
+      "length_interval": [
+        4,
+        4
+      ],
+      "allocation": 34,
+      "base": 1,
+      "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+      "initialized": true,
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "summary_edges": []
+    },
+    "s4p2_network_b01_n00_01_fullbyte": {
+      "length_interval": [
+        0,
+        1
+      ],
+      "allocation": 34,
+      "base": 1,
+      "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+      "initialized": true,
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "summary_edges": []
+    }
+  },
+  "unwind": {
+    "checker_order_corrupt": 34,
+    "checker_count_corrupt": 34,
+    "sort13_weak": 34,
+    "s4p_cell_count_corrupt": 36,
+    "s4p2_network_b01_n02_fullbyte": 36,
+    "s4p2_network_b01_n03_fullbyte": 36,
+    "s4p2_network_b01_n04_fullbyte": 36,
+    "s4p2_network_b01_n00_01_fullbyte": 36
+  },
+  "flags": {
+    "unstable": [
+      "function-contracts",
+      "mem-predicates",
+      "float-lib",
+      "c-ffi",
+      "loop-contracts",
+      "quantifiers",
+      "stubbing",
+      "export-json"
+    ],
+    "assert_contracts": false,
+    "jobs": 1,
+    "harness_timeout": "600s",
+    "exact": true,
+    "default_unwind": 50,
+    "cbmc_args": [
+      "--object-bits",
+      "12"
+    ],
+    "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf --cfg=kani_smallsort_s4_partition"
+  },
+  "source_unwind36": "PROPOSED_NATIVE_EXHAUSTION_NOT_RUN",
+  "actual_network_path": "N0/1 immediate return; N2/3/4 no_merge insertion prefix1 with 1/2/3 insert_tail steps; no sort4/swap replacement",
+  "normal_return_scope": "stateless u8/KeyLess; initialized V34/base1, all34 independent fullu8; no generic/panic/init/mask/provider theorem"
+}

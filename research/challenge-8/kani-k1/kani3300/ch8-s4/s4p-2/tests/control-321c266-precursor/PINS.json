@@ -1,0 +1,89 @@
+{
+  "source": {
+    "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+    "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+    "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+    "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "clean": true,
+    "depth": 5,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+  },
+  "control": {
+    "repo": "/root/kani-ch8-s4p-2-control-w13",
+    "sha": "321c266daf58309ae3eadc6d5c3f358766938ac0",
+    "tree": "04102e3c5393541a59a80d1f41ac87c543b66fb4",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "clean": true,
+    "depth": 7,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+  },
+  "tool": {
+    "repo": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+    "clean": true,
+    "depth": 2,
+    "author_committer": "Ivo Matija\u0161evi\u0107 <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+  },
+  "schema": "ch8-s4p-2-offline-pins-v1",
+  "status": "PREPARED_PENDING_ACTUAL_FINAL_VALIDATE",
+  "task": "bf3aba53618b759a11d3ff277e88ba66530ec708",
+  "plan": "7253272c427eb9b564c79350ef73b231fa124298",
+  "plan_review": "e287943e116a102d5950295b2629d80a62d1f922",
+  "runtime": "SolHigh/FastOFF; no subagents/model changes",
+  "request": {
+    "schema": "ch8-s4p-2-v1",
+    "profile": "ch8-s4p-2-network-fullbyte-singletons-v1",
+    "sha256": "4676b9b0ccefe68a181cc91cf4969f328bc41614cd8d8c50b64115bb2b9760c9",
+    "workflow_sha256": "4500edba80fbb48258c5b0a29c4d73a97fbb37fb26017da9f8251c147f30bd7f",
+    "payload_files": 137,
+    "selfhash_excluded": true
+  },
+  "terminal_schema": "ch8-s4p-2-campaign-v1",
+  "seal_schema": "ch8-s4p-2-portable-seal-v1",
+  "ordered_rows": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "sort13_weak",
+    "s4p_cell_count_corrupt",
+    "s4p2_network_b01_n02_fullbyte",
+    "s4p2_network_b01_n03_fullbyte",
+    "s4p2_network_b01_n04_fullbyte",
+    "s4p2_network_b01_n00_01_fullbyte"
+  ],
+  "caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "cfg_power_set": {
+    "actual_independent_keys": 6,
+    "projections": 64,
+    "legacy_contexts_retained": 32,
+    "sorting_enabled": 32,
+    "ACTIVE_contexts": 8
+  },
+  "offline_validation": "PENDING actual final Validate once",
+  "native_compile_proof_cost_fit": "NOT_RUN",
+  "proof_credit": "NONE",
+  "GO": "NOT_GRANTED",
+  "independent14": "EXACT_PACKAGE_REVIEW_REQUIRED; plan approval is insufficient",
+  "future_head_ref_run": "UNKNOWN",
+  "publication": "NOT_PERFORMED",
+  "accounting": "TRACKING_ONLY_NO_WRITES",
+  "g0_delivery_commit": "Reported externally; manifest bound by containing commit"
+}
