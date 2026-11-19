@@ -1,0 +1,32 @@
+{
+  "count": 1,
+  "instances": [
+    {
+      "root": "s4p_cell_count_corrupt",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt",
+      "invocation_id": "d40305b00394436d8f38a68a4efec35b",
+      "property": {
+        "class": "unsupported_construct",
+        "description": "Kani does not support reasoning about pointer to unallocated memory",
+        "display_id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+        "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+        "line": "358",
+        "location_display": "library/core/src/lib.rs:358:1 in function kani::mem::cbmc::same_allocation",
+        "status": "SUCCESS"
+      },
+      "member": "groups/s3-s4p_cell_count_corrupt/properties.json",
+      "member_sha256": "73665cd2160466e12f7ed30d2219c8cce2aaffdf06f77c715adcccbdc102f243",
+      "source_sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "source_file": "library/core/src/lib.rs",
+      "source_sha256": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "source_context": "354: #[stable(feature = \"core_primitive\", since = \"1.43.0\")]\n355: pub mod primitive;\n356: \n357: #[cfg(kani)]\n358: kani_core::kani_lib!(core);\n359: \n360: // Pull in the `core_arch` crate directly into core. The contents of\n361: // `core_arch` are in a different repository: rust-lang/stdarch.\n362: //",
+      "assessment": "SOURCE_REPORTED_GUARD_SUCCESS_ONLY",
+      "source_local_context": "Fixed initialized live Cell [0,1] -> [0,0] checker fixture. The pointer guard status remains recorded; it neither establishes generic allocation semantics nor licenses unsupported operations.",
+      "independent_MIR_or_guard_reachability": "UNKNOWN",
+      "admission": false
+    }
+  ],
+  "positive_inventory": "UNKNOWN_CENSORED_NOT_EMPTY",
+  "general_support_or_admission": false
+}

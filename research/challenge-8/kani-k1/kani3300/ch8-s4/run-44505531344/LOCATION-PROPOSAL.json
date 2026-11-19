@@ -1,0 +1,240 @@
+{
+  "schema": "s4p-exact-location-proposal-v1",
+  "status": "NOT_APPLIED",
+  "recommendation": "NO_NEW_CASE_OBSERVED_NO_ADMISSION",
+  "cases": [],
+  "old_packets": [
+    {
+      "commit": "f74025e493a627962842e8f7bc6a2766d33dd300",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/admission-r2-location/ADMISSION.json",
+      "sha256": "5d9eada737fb5898c73fc9762b822f1b2ba7bd299ef7209fd1892f0fee5dc908",
+      "review_commit": "a9fe0055aab3279e3f5bb71bde9667925da80e65",
+      "records": [
+        {
+          "root": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc",
+          "property": {
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.unreachable.1",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc.unreachable.1",
+            "class": "unreachable",
+            "status": "SUCCESS",
+            "description": "unreachable code",
+            "file": null,
+            "line": null,
+            "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_leaf::s3_sort4_u8_same_alloc"
+          },
+          "counts": {
+            "properties": 363,
+            "checks": 356,
+            "SUCCESS": 351,
+            "UNREACHABLE": 5,
+            "FAILURE": 0,
+            "covers": 7,
+            "SATISFIED": 7,
+            "missing_location_records": 1,
+            "required_SUCCESS_literal_assertions": 5,
+            "required_located_covers": 7
+          },
+          "identity": {
+            "source": {
+              "sha": "513341f41ce53833a279571401c924bdddddb6c8",
+              "tree": "a818efb2157d57af0c9c604f6d0ca85873b8712c",
+              "parents": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+            },
+            "tool": {
+              "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+              "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+              "parents": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+            },
+            "control": {
+              "sha": "cb63033ffcde918f4341146e56373476b8eeb569",
+              "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+              "parents": "9e14e033f9ee31522b571c127609dcdff76d230b"
+            },
+            "executed_head": {
+              "sha": "7497ecdb3934585634f5f04e4ff7c6cc42450c0b",
+              "tree": "287ebfc7b0bf95428a07cfe1b89ba1608aef3ff7",
+              "parents": "9e14e033f9ee31522b571c127609dcdff76d230b"
+            },
+            "request_sha256": "efbc150280f5f9641c9e8b48fb4486122ae8c3cfa318f78a42486394e1de7656",
+            "workflow_sha256": "8d5fd03476d3d7666692cc7267d3fe598a0007c54ec6576de3538cef434ac709",
+            "compact_sha256": "b9a02491bfb360eb17a13ab6f7fea78108d0371a7e8033f277674fb33213bed0",
+            "invocation_id": "f6644642d07242c5a077398e0a1b2460",
+            "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/f6644642d07242c5a077398e0a1b2460",
+            "members_sha256": {
+              "receipt.json": "9e3e133afc639fe67879a52b65038e5f93178fc6193c963b13608edfa34e84a6",
+              "compile/receipt.json": "4b87f4440ffc4a3e99ad0ed262d9275d0501ed730745de98daa6cfb2d1640a18",
+              "binding-metadata.json": "f682ad26e4cce2bf2fc87b20955fc75c544622a633943bc1c6060dc9c1ffeec6",
+              "export.json": "78249a7c5cee3f6d4733141c0ec9d0eeaa075b4b87732cb0eddccc71192b6aea",
+              "properties.json": "fde75985c9a1351c74448636f95f3ed609755c4dba840f9f12536e1d2504f717"
+            }
+          }
+        }
+      ],
+      "comparison": "Same class/status/description/null-key/display-zero shape; exact roots/IDs/invocations/source/control/request/member hashes differ. No transfer; common emitter/positive source or MIR origin UNKNOWN."
+    },
+    {
+      "commit": "ff193cc35690a5daabaa849d412c58d9f286d893",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/admission-s3-2-r1-exact-location/ADMISSION.json",
+      "sha256": "c8e97bdf69a7d33dd5fe0f05523dd66b0e3d96e2182529e1884eb2eb030cf4c5",
+      "review_commit": "028531727fc48ef9f26f16dfb95c2b2666c96dd7",
+      "records": [
+        {
+          "root": "m8_s32_d00_allinit",
+          "property": {
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.unreachable.1",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.unreachable.1",
+            "class": "unreachable",
+            "status": "SUCCESS",
+            "description": "unreachable code",
+            "file": null,
+            "line": null,
+            "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit"
+          },
+          "counts": {
+            "total": 380,
+            "success": 372,
+            "failure": [],
+            "unreachable": [
+              "num::<impl usize>::abs_diff.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+            ],
+            "undetermined": [],
+            "error": [],
+            "unknown": [],
+            "other": []
+          },
+          "identity": {
+            "invocation_id": "189628db8bdc48279407d1b3ee938808",
+            "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/189628db8bdc48279407d1b3ee938808",
+            "bindings": {
+              "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+              "source": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+              "control": "775574eb2f361ef90eade30330ff0d608530287f",
+              "head": "474a9d1617d77f34566e6992debc604c70a9e9ea",
+              "request": "75603378a45639991f837ea1ea259f9a56cc452426c6f306cda6d53f5e51e47c",
+              "workflow": "0fde14cf5513f81565bc2eea37864013e7d30f82dc3062788ba2fb34b575939f",
+              "run": 44439462279,
+              "attempt": 1,
+              "properties_member": "groups/s3-m8_s32_d00_allinit/properties.json",
+              "export_member": "groups/s3-m8_s32_d00_allinit/export.json"
+            }
+          }
+        },
+        {
+          "root": "m8_s32_d00_partial_diag",
+          "property": {
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.unreachable.1",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.unreachable.1",
+            "class": "unreachable",
+            "status": "SUCCESS",
+            "description": "unreachable code",
+            "file": null,
+            "line": null,
+            "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag"
+          },
+          "counts": {
+            "total": 380,
+            "success": 372,
+            "failure": [],
+            "unreachable": [
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "ub_checks::is_valid_allocation_size.assertion.1"
+            ],
+            "undetermined": [],
+            "error": [],
+            "unknown": [],
+            "other": []
+          },
+          "identity": {
+            "invocation_id": "684bfd6aab514f55bb6a9cb250b2b8b0",
+            "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/684bfd6aab514f55bb6a9cb250b2b8b0",
+            "bindings": {
+              "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag",
+              "source": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+              "control": "775574eb2f361ef90eade30330ff0d608530287f",
+              "head": "474a9d1617d77f34566e6992debc604c70a9e9ea",
+              "request": "75603378a45639991f837ea1ea259f9a56cc452426c6f306cda6d53f5e51e47c",
+              "workflow": "0fde14cf5513f81565bc2eea37864013e7d30f82dc3062788ba2fb34b575939f",
+              "run": 44439462279,
+              "attempt": 1,
+              "properties_member": "groups/s3-m8_s32_d00_partial_diag/properties.json",
+              "export_member": "groups/s3-m8_s32_d00_partial_diag/export.json"
+            }
+          }
+        },
+        {
+          "root": "m8_s40_d16_partial_diag",
+          "property": {
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.unreachable.1",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.unreachable.1",
+            "class": "unreachable",
+            "status": "SUCCESS",
+            "description": "unreachable code",
+            "file": null,
+            "line": null,
+            "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag"
+          },
+          "counts": {
+            "total": 380,
+            "success": 372,
+            "failure": [],
+            "unreachable": [
+              "num::<impl usize>::abs_diff.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "fmt::Arguments::<'_>::from_str.assertion.1"
+            ],
+            "undetermined": [],
+            "error": [],
+            "unknown": [],
+            "other": []
+          },
+          "identity": {
+            "invocation_id": "74b9eae5ed164a8ea4732993b42e4de1",
+            "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/74b9eae5ed164a8ea4732993b42e4de1",
+            "bindings": {
+              "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag",
+              "source": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+              "control": "775574eb2f361ef90eade30330ff0d608530287f",
+              "head": "474a9d1617d77f34566e6992debc604c70a9e9ea",
+              "request": "75603378a45639991f837ea1ea259f9a56cc452426c6f306cda6d53f5e51e47c",
+              "workflow": "0fde14cf5513f81565bc2eea37864013e7d30f82dc3062788ba2fb34b575939f",
+              "run": 44439462279,
+              "attempt": 1,
+              "properties_member": "groups/s3-m8_s40_d16_partial_diag/properties.json",
+              "export_member": "groups/s3-m8_s40_d16_partial_diag/export.json"
+            }
+          }
+        }
+      ],
+      "comparison": "Same class/status/description/null-key/display-zero shape; exact roots/IDs/invocations/source/control/request/member hashes differ. No transfer; common emitter/positive source or MIR origin UNKNOWN."
+    }
+  ],
+  "adverse_tests": [],
+  "test_scope": "Hypothetical exact packet boundary only; does not make active rich reader accept or establish source origin",
+  "constraints": [
+    "Exact run/attempt/selector/invocation/namespace/protected identities and authenticated member bytes only",
+    "One exact full dictionary, both null keys present; no source coordinate substitution",
+    "All other properties including every role/cover/U/guard positively located; counts and full status partitions unchanged",
+    "U/guard treatment separate; existing producer REJECT_ALL and proposalDISABLED unchanged",
+    "No global/suffix/unreachable/stdlib/future-run waiver; shared emitter/source/MIR origin UNKNOWN"
+  ],
+  "admission": false,
+  "runtime_parser_policy_changed": false
+}

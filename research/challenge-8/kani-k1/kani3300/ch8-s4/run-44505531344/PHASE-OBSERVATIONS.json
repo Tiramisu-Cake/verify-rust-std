@@ -1,0 +1,986 @@
+{
+  "rows": [
+    {
+      "root": "checker_order_corrupt",
+      "group_receipt_member": "groups/s3-checker_order_corrupt/receipt.json",
+      "group_receipt_member_sha256": "5f893c0b727d72627f96bcbc8654106b5e1df4d03bcf28476d87f8478f7c9348",
+      "compile_member": "groups/s3-checker_order_corrupt/compile/receipt.json",
+      "compile_member_sha256": "87cd4f2415712dd63c959ddc9f8461eb6f30561f8442b1212bcc8e2a972bcc82",
+      "export_member": "groups/s3-checker_order_corrupt/export.json",
+      "export_member_sha256": "3d58f0db34053bee48dcea496fdbb957da16500c69bc79d2ea4284de7748f197",
+      "invocation_id": "2119237d7d47472593112071a5ea68e3",
+      "native_started_at": "2026-11-19T10:40:15Z",
+      "native_start_event": [
+        {
+          "monotonic": 1398.344878135,
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt"
+        }
+      ],
+      "native_start_scope": "OBSERVED_STOCK_STDOUT_HEADER; source-reported not compiler/origin proof",
+      "compile_initial_export_upper_s": 30.751,
+      "compile_marker_sha256": "d4a3b97b8dbf50d02fd8f1fd643eec29d72fa176a79afe0838e9d09506a8c8c2",
+      "stock_configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "stock_tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "exported_cost_phases": {
+        "aggregate_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "backend_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "body_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "checker_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "driver_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "model_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "summary_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK"
+      },
+      "bounded_preview_progress_excerpts": [
+        {
+          "pointer": "/stderr/tail",
+          "line_in_preview": 2,
+          "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 30.23s"
+        }
+      ],
+      "preview_retention": {
+        "stdout": {
+          "original_bytes": 93582,
+          "captured_bytes": 65536,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 28046,
+          "preview_omitted_bytes": 61440,
+          "sha256": "8090afcad42fc0bcb3d1b3fa995099e3f83d83082cbfa3a5d37f974a3aa2fdab"
+        },
+        "stderr": {
+          "original_bytes": 2493,
+          "captured_bytes": 2493,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 0,
+          "preview_omitted_bytes": 0,
+          "sha256": "ff7193cb71fc4e5fed35a432c2b199a14556f163ce3351abfd28152bc0b3efdb"
+        }
+      },
+      "actual_last_retained_activity": "COMPLETED_NATIVE_PROPERTY_INVENTORY",
+      "phase_at_exact_signal": "NO_SIGNAL_NORMAL_COMPLETION",
+      "internal_profile_fields_absent": [],
+      "lifecycle_diagnostic_count": 64,
+      "lifecycle_events_omitted": 112,
+      "lifecycle_diagnostic_completeness": "INCOMPLETE_BOUNDED_RETENTION; omitted event details UNKNOWN",
+      "lifecycle_classifications": {
+        "NOT_DIRECT_CHILD_RECHECK_TREE": 64
+      },
+      "errno_counts": {
+        "10": 64
+      },
+      "original_exception": null,
+      "execution_exception": null,
+      "snapshot_errors": [],
+      "semantic_helper_entry_return": "UNKNOWN_NOT_EXPORTED; native header is harness start only",
+      "causal_hotspot": "UNKNOWN",
+      "censoring": "NONE"
+    },
+    {
+      "root": "checker_count_corrupt",
+      "group_receipt_member": "groups/s3-checker_count_corrupt/receipt.json",
+      "group_receipt_member_sha256": "b2644bab8f942c28431cf65c296856207076d1303a1cc902a58654bf5e3bde78",
+      "compile_member": "groups/s3-checker_count_corrupt/compile/receipt.json",
+      "compile_member_sha256": "a3d483ba06289b5077ff8fd8e8b3abc29707e5da57f9b5096c8850e9bfbe175e",
+      "export_member": "groups/s3-checker_count_corrupt/export.json",
+      "export_member_sha256": "36c1d16ac451488ae1ac1083a2d06cf4d4ef5dcdfbbe0d261a07ee80d50b91b9",
+      "invocation_id": "6e6089c461774fc6a109c70837d79a7b",
+      "native_started_at": "2026-11-19T10:40:47Z",
+      "native_start_event": [
+        {
+          "monotonic": 1430.096268976,
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt"
+        }
+      ],
+      "native_start_scope": "OBSERVED_STOCK_STDOUT_HEADER; source-reported not compiler/origin proof",
+      "compile_initial_export_upper_s": 31.214,
+      "compile_marker_sha256": "17e1215ee67126ece8f45cf6ea7793662a4b85dee28a7d21f3865a5e546ba7fb",
+      "stock_configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "stock_tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "exported_cost_phases": {
+        "aggregate_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "backend_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "body_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "checker_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "driver_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "model_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "summary_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK"
+      },
+      "bounded_preview_progress_excerpts": [
+        {
+          "pointer": "/stderr/head",
+          "line_in_preview": 35,
+          "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 31.11s"
+        }
+      ],
+      "preview_retention": {
+        "stdout": {
+          "original_bytes": 127348,
+          "captured_bytes": 65536,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 61812,
+          "preview_omitted_bytes": 61440,
+          "sha256": "997f12923385a46cdab75a333ad0c6357e6e36f97e75fcce58bdd7a63ef5887c"
+        },
+        "stderr": {
+          "original_bytes": 2300,
+          "captured_bytes": 2300,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 0,
+          "preview_omitted_bytes": 0,
+          "sha256": "a9df2d7d6954d6ff07d90aa4e7b9b9e69cdd6d43b226c484a6e230d6d5353121"
+        }
+      },
+      "actual_last_retained_activity": "COMPLETED_NATIVE_PROPERTY_INVENTORY",
+      "phase_at_exact_signal": "NO_SIGNAL_NORMAL_COMPLETION",
+      "internal_profile_fields_absent": [],
+      "lifecycle_diagnostic_count": 64,
+      "lifecycle_events_omitted": 78,
+      "lifecycle_diagnostic_completeness": "INCOMPLETE_BOUNDED_RETENTION; omitted event details UNKNOWN",
+      "lifecycle_classifications": {
+        "ENUMERATION_DISAPPEARED_NOT_OWNERSHIP": 3,
+        "NOT_DIRECT_CHILD_RECHECK_TREE": 61
+      },
+      "errno_counts": {
+        "2": 3,
+        "10": 61
+      },
+      "original_exception": null,
+      "execution_exception": null,
+      "snapshot_errors": [],
+      "semantic_helper_entry_return": "UNKNOWN_NOT_EXPORTED; native header is harness start only",
+      "causal_hotspot": "UNKNOWN",
+      "censoring": "NONE"
+    },
+    {
+      "root": "sort13_weak",
+      "group_receipt_member": "groups/s3-sort13_weak/receipt.json",
+      "group_receipt_member_sha256": "c328cf9770d2480e6c996735424341e8efa276b81ff2d49d97368232e4639eff",
+      "compile_member": "groups/s3-sort13_weak/compile/receipt.json",
+      "compile_member_sha256": "df22ce9d48978dedfcdc0751605220b20856d2dbf4dc3ba325060a01ce111c1a",
+      "export_member": "groups/s3-sort13_weak/export.json",
+      "export_member_sha256": "8d9020b91661b4c9d6e70d4fdc88c69e0de4f72c7f5a63d52f94564ad14d2cfa",
+      "invocation_id": "2479064f29d34754bab4207789fbf0e9",
+      "native_started_at": "2026-11-19T10:41:19Z",
+      "native_start_event": [
+        {
+          "monotonic": 1461.733626369,
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak"
+        }
+      ],
+      "native_start_scope": "OBSERVED_STOCK_STDOUT_HEADER; source-reported not compiler/origin proof",
+      "compile_initial_export_upper_s": 30.795,
+      "compile_marker_sha256": "c33028d08444b4c4d899eafa9d1bf7b6f0b036fda6973e4fe8e3a05fc165dfaf",
+      "stock_configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "stock_tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "exported_cost_phases": {
+        "aggregate_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "backend_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "body_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "checker_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "driver_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "model_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "summary_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK"
+      },
+      "bounded_preview_progress_excerpts": [
+        {
+          "pointer": "/stderr/head",
+          "line_in_preview": 35,
+          "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 30.71s"
+        }
+      ],
+      "preview_retention": {
+        "stdout": {
+          "original_bytes": 98019,
+          "captured_bytes": 65536,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 32483,
+          "preview_omitted_bytes": 61440,
+          "sha256": "bfaac937b1302ecc3b0fec7ec9916a453f18243a36bf9ab98a0e22a00a8bd14f"
+        },
+        "stderr": {
+          "original_bytes": 2300,
+          "captured_bytes": 2300,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 0,
+          "preview_omitted_bytes": 0,
+          "sha256": "986acf0256f59e49f8cc8cdd8e502dcfc1c3cae5a3e52887a2c6ffb9a55d47dc"
+        }
+      },
+      "actual_last_retained_activity": "COMPLETED_NATIVE_PROPERTY_INVENTORY",
+      "phase_at_exact_signal": "NO_SIGNAL_NORMAL_COMPLETION",
+      "internal_profile_fields_absent": [],
+      "lifecycle_diagnostic_count": 64,
+      "lifecycle_events_omitted": 93,
+      "lifecycle_diagnostic_completeness": "INCOMPLETE_BOUNDED_RETENTION; omitted event details UNKNOWN",
+      "lifecycle_classifications": {
+        "ENUMERATION_DISAPPEARED_NOT_OWNERSHIP": 4,
+        "NOT_DIRECT_CHILD_RECHECK_TREE": 60
+      },
+      "errno_counts": {
+        "2": 4,
+        "10": 60
+      },
+      "original_exception": null,
+      "execution_exception": null,
+      "snapshot_errors": [],
+      "semantic_helper_entry_return": "UNKNOWN_NOT_EXPORTED; native header is harness start only",
+      "causal_hotspot": "UNKNOWN",
+      "censoring": "NONE"
+    },
+    {
+      "root": "s4p_cell_count_corrupt",
+      "group_receipt_member": "groups/s3-s4p_cell_count_corrupt/receipt.json",
+      "group_receipt_member_sha256": "2890f4df2bd9994327565fd5a23cd5c5677467e57483d345aabc07c8f2518453",
+      "compile_member": "groups/s3-s4p_cell_count_corrupt/compile/receipt.json",
+      "compile_member_sha256": "d226bdc7a149499e884ee1f6a86b47a978c4c34f4f3a17b8fb8efdf1033a77f4",
+      "export_member": "groups/s3-s4p_cell_count_corrupt/export.json",
+      "export_member_sha256": "6973d1181ce479ded813c0c7b04c85cf0ae37dc203eee1d82116450e4c727b4a",
+      "invocation_id": "d40305b00394436d8f38a68a4efec35b",
+      "native_started_at": "2026-11-19T10:41:50Z",
+      "native_start_event": [
+        {
+          "monotonic": 1494.116209742,
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt"
+        }
+      ],
+      "native_start_scope": "OBSERVED_STOCK_STDOUT_HEADER; source-reported not compiler/origin proof",
+      "compile_initial_export_upper_s": 30.789,
+      "compile_marker_sha256": "b780279ce8d1601b04bb558989d501fe01514b3d94e7cb6b96d85cf122433621",
+      "stock_configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "stock_tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "exported_cost_phases": {
+        "aggregate_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "backend_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "body_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "checker_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "driver_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "model_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "summary_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK"
+      },
+      "bounded_preview_progress_excerpts": [
+        {
+          "pointer": "/stderr/head",
+          "line_in_preview": 35,
+          "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 30.37s"
+        }
+      ],
+      "preview_retention": {
+        "stdout": {
+          "original_bytes": 105266,
+          "captured_bytes": 65536,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 39730,
+          "preview_omitted_bytes": 61440,
+          "sha256": "f49f71792a72c6112df92977db31c19e48634e443dfc78d6af3c380d4d0599b9"
+        },
+        "stderr": {
+          "original_bytes": 2300,
+          "captured_bytes": 2300,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 0,
+          "preview_omitted_bytes": 0,
+          "sha256": "eac17a6c16338e8f1eced2ba05feaa9b833a7406f4ce78473a5e9c6035506253"
+        }
+      },
+      "actual_last_retained_activity": "COMPLETED_NATIVE_PROPERTY_INVENTORY",
+      "phase_at_exact_signal": "NO_SIGNAL_NORMAL_COMPLETION",
+      "internal_profile_fields_absent": [],
+      "lifecycle_diagnostic_count": 64,
+      "lifecycle_events_omitted": 83,
+      "lifecycle_diagnostic_completeness": "INCOMPLETE_BOUNDED_RETENTION; omitted event details UNKNOWN",
+      "lifecycle_classifications": {
+        "ENUMERATION_DISAPPEARED_NOT_OWNERSHIP": 5,
+        "NOT_DIRECT_CHILD_RECHECK_TREE": 59
+      },
+      "errno_counts": {
+        "2": 4,
+        "3": 1,
+        "10": 59
+      },
+      "original_exception": null,
+      "execution_exception": null,
+      "snapshot_errors": [],
+      "semantic_helper_entry_return": "UNKNOWN_NOT_EXPORTED; native header is harness start only",
+      "causal_hotspot": "UNKNOWN",
+      "censoring": "NONE"
+    },
+    {
+      "root": "s4p2_network_b01_n02_fullbyte",
+      "group_receipt_member": "groups/s3-s4p2_network_b01_n02_fullbyte/receipt.json",
+      "group_receipt_member_sha256": "ba297100d6c4f03b51681870a9c473369c5827065a2652c894c58114f7dabf41",
+      "compile_member": "groups/s3-s4p2_network_b01_n02_fullbyte/compile/receipt.json",
+      "compile_member_sha256": "3e82ca4e3885393b52f4d8c08642993a04726a2c4b1ca1d79a59fb699ba7b048",
+      "export_member": "groups/s3-s4p2_network_b01_n02_fullbyte/export.json",
+      "export_member_sha256": "d26675b5d62c5f9e6213635fe752086a24548c31b1a4ecf410c4e2ccc078a218",
+      "invocation_id": "d0dcbc99426b4d3b8afb17ac317aa6fb",
+      "native_started_at": "2026-11-19T10:42:23Z",
+      "native_start_event": [
+        {
+          "monotonic": 1527.344549885,
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s4_network_partition::s4p2_network_b01_n02_fullbyte"
+        }
+      ],
+      "native_start_scope": "OBSERVED_STOCK_STDOUT_HEADER; source-reported not compiler/origin proof",
+      "compile_initial_export_upper_s": 31.002,
+      "compile_marker_sha256": "d26675b5d62c5f9e6213635fe752086a24548c31b1a4ecf410c4e2ccc078a218",
+      "stock_configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "stock_tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "exported_cost_phases": {
+        "aggregate_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "backend_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "body_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "checker_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "driver_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "model_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "summary_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK"
+      },
+      "bounded_preview_progress_excerpts": [
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 2,
+          "text": "aborting path on assume(false) at file /home/runner/work/kani/kani/export/library/core/src/lib.rs line 358 column 1 function kani::mem::cbmc::same_allocation thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 3,
+          "text": "Unwinding loop _RINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort11insert_tailhINtNtNtB2_6verify13sorting_model7KeyLesshEEBa_.0 iteration 17 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs line 684 column 9 function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>> thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 4,
+          "text": "aborting path on assume(false) at file /home/runner/work/kani/kani/export/library/core/src/lib.rs line 358 column 1 function kani::mem::cbmc::same_allocation thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 5,
+          "text": "Unwinding loop _RINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort11insert_tailhINtNtNtB2_6verify13sorting_model7KeyLesshEEBa_.0 iteration 18 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs line 684 column 9 function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>> thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 6,
+          "text": "aborting path on assume(false) at file /home/runner/work/kani/kani/export/library/core/src/lib.rs line 358 column 1 function kani::mem::cbmc::same_allocation thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 7,
+          "text": "Unwinding loop _RINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort11insert_tailhINtNtNtB2_6verify13sorting_model7KeyLesshEEBa_.0 iteration 19 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs line 684 column 9 function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>> thread 0"
+        },
+        {
+          "pointer": "/stderr/head",
+          "line_in_preview": 35,
+          "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 30.57s"
+        }
+      ],
+      "preview_retention": {
+        "stdout": {
+          "original_bytes": 1537815,
+          "captured_bytes": 65536,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 1472279,
+          "preview_omitted_bytes": 61440,
+          "sha256": "53483242b5649528ddf8ec62141e028db066a84d9b2ac1f0ac7ff99e0959f631"
+        },
+        "stderr": {
+          "original_bytes": 2300,
+          "captured_bytes": 2300,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 0,
+          "preview_omitted_bytes": 0,
+          "sha256": "c2d23ab76b5d13b5411671dae56b5c03086caa0aac55adf24dc8126cc7177dba"
+        }
+      },
+      "actual_last_retained_activity": "SYMBOLIC_LOOP_UNWINDING_AND_ASSUME_FALSE_MESSAGES; timestamp within tail UNKNOWN",
+      "phase_at_exact_signal": "UNKNOWN; final buffered progress text is not a timestamped phase sample",
+      "internal_profile_fields_absent": [
+        "symex_wall_s",
+        "solver_wall_s",
+        "solver_start_timestamp",
+        "symex_steps",
+        "VCC_count",
+        "helper_entry_timestamp",
+        "helper_return_timestamp",
+        "initialization_wall_s",
+        "oracle_wall_s"
+      ],
+      "lifecycle_diagnostic_count": 64,
+      "lifecycle_events_omitted": 117,
+      "lifecycle_diagnostic_completeness": "INCOMPLETE_BOUNDED_RETENTION; omitted event details UNKNOWN",
+      "lifecycle_classifications": {
+        "NOT_DIRECT_CHILD_RECHECK_TREE": 64
+      },
+      "errno_counts": {
+        "10": 64
+      },
+      "original_exception": {
+        "epoch": "WORKER",
+        "errno": null,
+        "message": "group_execution_interrupted_or_capped",
+        "monotonic": 2096.615922966,
+        "operation": "runner._run_group",
+        "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/runner.py\", line 1189, in _run_group\n    raise RunnerError(\"group_execution_interrupted_or_capped\")\nrunner.RunnerError: group_execution_interrupted_or_capped\n",
+        "traceback_truncated": false,
+        "type": "RunnerError"
+      },
+      "execution_exception": null,
+      "snapshot_errors": [],
+      "semantic_helper_entry_return": "UNKNOWN_NOT_EXPORTED; native header is harness start only",
+      "causal_hotspot": "UNKNOWN",
+      "censoring": "Whole child wall600 including compilation; completion time exceeds observed budget, actual solver start/completion UNKNOWN"
+    },
+    {
+      "root": "s4p2_network_b01_n03_fullbyte",
+      "group_receipt_member": "groups/s3-s4p2_network_b01_n03_fullbyte/receipt.json",
+      "group_receipt_member_sha256": "ade9624b858af5a846c20794ebe6a9b0d3d05fce7e986424c8edb03c21b5f8cf",
+      "compile_member": "groups/s3-s4p2_network_b01_n03_fullbyte/compile/receipt.json",
+      "compile_member_sha256": "375db4c801ae33cf47a5b9659b0864eb1fbd5980423b8b71eaaf9233a53073f3",
+      "export_member": "groups/s3-s4p2_network_b01_n03_fullbyte/export.json",
+      "export_member_sha256": "cff90df89da08c689f01253ad27873724dd8bb75ba7770528af29ac6ec39f33d",
+      "invocation_id": "9318349c5c3547faad90f66cf54baa03",
+      "native_started_at": "2026-11-19T10:52:25Z",
+      "native_start_event": [
+        {
+          "monotonic": 2129.50030509,
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s4_network_partition::s4p2_network_b01_n03_fullbyte"
+        }
+      ],
+      "native_start_scope": "OBSERVED_STOCK_STDOUT_HEADER; source-reported not compiler/origin proof",
+      "compile_initial_export_upper_s": 31.103,
+      "compile_marker_sha256": "cff90df89da08c689f01253ad27873724dd8bb75ba7770528af29ac6ec39f33d",
+      "stock_configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "stock_tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "exported_cost_phases": {
+        "aggregate_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "backend_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "body_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "checker_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "driver_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "model_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "summary_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK"
+      },
+      "bounded_preview_progress_excerpts": [
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 2,
+          "text": "aborting path on assume(false) at file /home/runner/work/kani/kani/export/library/core/src/lib.rs line 358 column 1 function kani::mem::cbmc::same_allocation thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 3,
+          "text": "Unwinding loop _RINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort11insert_tailhINtNtNtB2_6verify13sorting_model7KeyLesshEEBa_.0 iteration 14 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs line 684 column 9 function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>> thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 4,
+          "text": "aborting path on assume(false) at file /home/runner/work/kani/kani/export/library/core/src/lib.rs line 358 column 1 function kani::mem::cbmc::same_allocation thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 5,
+          "text": "Unwinding loop _RINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort11insert_tailhINtNtNtB2_6verify13sorting_model7KeyLesshEEBa_.0 iteration 15 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs line 684 column 9 function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>> thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 6,
+          "text": "aborting path on assume(false) at file /home/runner/work/kani/kani/export/library/core/src/lib.rs line 358 column 1 function kani::mem::cbmc::same_allocation thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 7,
+          "text": "Unwinding loop _RINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort11insert_tailhINtNtNtB2_6verify13sorting_model7KeyLesshEEBa_.0 iteration 16 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs line 684 column 9 function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>> thread 0"
+        },
+        {
+          "pointer": "/stderr/head",
+          "line_in_preview": 35,
+          "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 30.64s"
+        }
+      ],
+      "preview_retention": {
+        "stdout": {
+          "original_bytes": 1577955,
+          "captured_bytes": 65536,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 1512419,
+          "preview_omitted_bytes": 61440,
+          "sha256": "d049ce2c329cf374586752ae86427d2d333286a46287ecea47a68766170e981d"
+        },
+        "stderr": {
+          "original_bytes": 2300,
+          "captured_bytes": 2300,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 0,
+          "preview_omitted_bytes": 0,
+          "sha256": "c229d51844e06db8660e2fb8a26a20d0c5a799816c6d36bb5ee079d06e3af122"
+        }
+      },
+      "actual_last_retained_activity": "SYMBOLIC_LOOP_UNWINDING_AND_ASSUME_FALSE_MESSAGES; timestamp within tail UNKNOWN",
+      "phase_at_exact_signal": "UNKNOWN; final buffered progress text is not a timestamped phase sample",
+      "internal_profile_fields_absent": [
+        "symex_wall_s",
+        "solver_wall_s",
+        "solver_start_timestamp",
+        "symex_steps",
+        "VCC_count",
+        "helper_entry_timestamp",
+        "helper_return_timestamp",
+        "initialization_wall_s",
+        "oracle_wall_s"
+      ],
+      "lifecycle_diagnostic_count": 64,
+      "lifecycle_events_omitted": 91,
+      "lifecycle_diagnostic_completeness": "INCOMPLETE_BOUNDED_RETENTION; omitted event details UNKNOWN",
+      "lifecycle_classifications": {
+        "ENUMERATION_DISAPPEARED_NOT_OWNERSHIP": 1,
+        "NOT_DIRECT_CHILD_RECHECK_TREE": 63
+      },
+      "errno_counts": {
+        "2": 1,
+        "10": 63
+      },
+      "original_exception": {
+        "epoch": "WORKER",
+        "errno": null,
+        "message": "group_execution_interrupted_or_capped",
+        "monotonic": 2698.693813795,
+        "operation": "runner._run_group",
+        "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/runner.py\", line 1189, in _run_group\n    raise RunnerError(\"group_execution_interrupted_or_capped\")\nrunner.RunnerError: group_execution_interrupted_or_capped\n",
+        "traceback_truncated": false,
+        "type": "RunnerError"
+      },
+      "execution_exception": null,
+      "snapshot_errors": [],
+      "semantic_helper_entry_return": "UNKNOWN_NOT_EXPORTED; native header is harness start only",
+      "causal_hotspot": "UNKNOWN",
+      "censoring": "Whole child wall600 including compilation; completion time exceeds observed budget, actual solver start/completion UNKNOWN"
+    },
+    {
+      "root": "s4p2_network_b01_n04_fullbyte",
+      "group_receipt_member": "groups/s3-s4p2_network_b01_n04_fullbyte/receipt.json",
+      "group_receipt_member_sha256": "4099c1cead57921248eb2ba24491fa24a76dd664819b44ff6422b680e2fe4bb6",
+      "compile_member": "groups/s3-s4p2_network_b01_n04_fullbyte/compile/receipt.json",
+      "compile_member_sha256": "446307ac725e9eb6c11c46a7b53ff5f75965f1f0b0528f5dc0c1f76dd5c4a0ee",
+      "export_member": "groups/s3-s4p2_network_b01_n04_fullbyte/export.json",
+      "export_member_sha256": "7344cc10c5d04d91be004327e0eced2595cb20bf8eed1c12b0198366ca645fe8",
+      "invocation_id": "54bc87a4213141fd8b1a619db0f1e220",
+      "native_started_at": "2026-11-19T11:02:27Z",
+      "native_start_event": [
+        {
+          "monotonic": 2731.513940492,
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s4_network_partition::s4p2_network_b01_n04_fullbyte"
+        }
+      ],
+      "native_start_scope": "OBSERVED_STOCK_STDOUT_HEADER; source-reported not compiler/origin proof",
+      "compile_initial_export_upper_s": 30.99,
+      "compile_marker_sha256": "7344cc10c5d04d91be004327e0eced2595cb20bf8eed1c12b0198366ca645fe8",
+      "stock_configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "stock_tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "exported_cost_phases": {
+        "aggregate_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "backend_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "body_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "checker_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "driver_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "model_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "summary_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK"
+      },
+      "bounded_preview_progress_excerpts": [
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 2,
+          "text": "aborting path on assume(false) at file /home/runner/work/kani/kani/export/library/core/src/lib.rs line 358 column 1 function kani::mem::cbmc::same_allocation thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 3,
+          "text": "Unwinding loop _RINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort11insert_tailhINtNtNtB2_6verify13sorting_model7KeyLesshEEBa_.0 iteration 34 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs line 684 column 9 function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>> thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 4,
+          "text": "aborting path on assume(false) at file /home/runner/work/kani/kani/export/library/core/src/lib.rs line 358 column 1 function kani::mem::cbmc::same_allocation thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 5,
+          "text": "Unwinding loop _RINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort11insert_tailhINtNtNtB2_6verify13sorting_model7KeyLesshEEBa_.0 iteration 35 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs line 684 column 9 function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>> thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 6,
+          "text": "aborting path on assume(false) at file /home/runner/work/kani/kani/export/library/core/src/lib.rs line 358 column 1 function kani::mem::cbmc::same_allocation thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 7,
+          "text": "Not unwinding loop _RINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort11insert_tailhINtNtNtB2_6verify13sorting_model7KeyLesshEEBa_.0 iteration 36 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs line 684 column 9 function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>> thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 8,
+          "text": "aborting path on assume(false) at file /home/runner/work/kani/kani/export/library/core/src/lib.rs line 358 column 1 function kani::mem::cbmc::same_allocation thread 0"
+        },
+        {
+          "pointer": "/stderr/head",
+          "line_in_preview": 35,
+          "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 30.54s"
+        }
+      ],
+      "preview_retention": {
+        "stdout": {
+          "original_bytes": 1589326,
+          "captured_bytes": 65536,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 1523790,
+          "preview_omitted_bytes": 61440,
+          "sha256": "3b0ec9ec7a7d3e7e4c090c5a99b211e086d12575d2b028182d1fd48ebb0df893"
+        },
+        "stderr": {
+          "original_bytes": 2300,
+          "captured_bytes": 2300,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 0,
+          "preview_omitted_bytes": 0,
+          "sha256": "e363e43232b5744c848959ce5f64421867e286db85b5c7f5e2e9c883d78872dc"
+        }
+      },
+      "actual_last_retained_activity": "SYMBOLIC_LOOP_UNWINDING_AND_ASSUME_FALSE_MESSAGES; timestamp within tail UNKNOWN",
+      "phase_at_exact_signal": "UNKNOWN; final buffered progress text is not a timestamped phase sample",
+      "internal_profile_fields_absent": [
+        "symex_wall_s",
+        "solver_wall_s",
+        "solver_start_timestamp",
+        "symex_steps",
+        "VCC_count",
+        "helper_entry_timestamp",
+        "helper_return_timestamp",
+        "initialization_wall_s",
+        "oracle_wall_s"
+      ],
+      "lifecycle_diagnostic_count": 64,
+      "lifecycle_events_omitted": 108,
+      "lifecycle_diagnostic_completeness": "INCOMPLETE_BOUNDED_RETENTION; omitted event details UNKNOWN",
+      "lifecycle_classifications": {
+        "ENUMERATION_DISAPPEARED_NOT_OWNERSHIP": 1,
+        "NOT_DIRECT_CHILD_RECHECK_TREE": 63
+      },
+      "errno_counts": {
+        "2": 1,
+        "10": 63
+      },
+      "original_exception": {
+        "epoch": "WORKER",
+        "errno": null,
+        "message": "group_execution_interrupted_or_capped",
+        "monotonic": 3300.764176051,
+        "operation": "runner._run_group",
+        "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/runner.py\", line 1189, in _run_group\n    raise RunnerError(\"group_execution_interrupted_or_capped\")\nrunner.RunnerError: group_execution_interrupted_or_capped\n",
+        "traceback_truncated": false,
+        "type": "RunnerError"
+      },
+      "execution_exception": null,
+      "snapshot_errors": [],
+      "semantic_helper_entry_return": "UNKNOWN_NOT_EXPORTED; native header is harness start only",
+      "causal_hotspot": "UNKNOWN",
+      "censoring": "Whole child wall600 including compilation; completion time exceeds observed budget, actual solver start/completion UNKNOWN"
+    },
+    {
+      "root": "s4p2_network_b01_n00_01_fullbyte",
+      "group_receipt_member": "groups/s3-s4p2_network_b01_n00_01_fullbyte/receipt.json",
+      "group_receipt_member_sha256": "80464ca2f1bf8169d78aad2844e90e0d33eb5c01bda944419bb69b094d01509d",
+      "compile_member": "groups/s3-s4p2_network_b01_n00_01_fullbyte/compile/receipt.json",
+      "compile_member_sha256": "336977dfecbca57919952ee3b6a7d76f38c665e1c5b0bdf69c05bd2ae8bb463c",
+      "export_member": "groups/s3-s4p2_network_b01_n00_01_fullbyte/export.json",
+      "export_member_sha256": "f4f3cd9047feb415199e9387f81c8a1188bc7e58e353506bb403ebb6631c70ff",
+      "invocation_id": "8dcef366d8654f9cbd1715c87c925326",
+      "native_started_at": "2026-11-19T11:12:29Z",
+      "native_start_event": [
+        {
+          "monotonic": 3332.8327449,
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s4_network_partition::s4p2_network_b01_n00_01_fullbyte"
+        }
+      ],
+      "native_start_scope": "OBSERVED_STOCK_STDOUT_HEADER; source-reported not compiler/origin proof",
+      "compile_initial_export_upper_s": 30.284,
+      "compile_marker_sha256": "f4f3cd9047feb415199e9387f81c8a1188bc7e58e353506bb403ebb6631c70ff",
+      "stock_configuration": {
+        "checks": {
+          "memory_safety": true,
+          "overflow": true,
+          "unwinding": true,
+          "undefined_function": true,
+          "assertion_reach_checks": true,
+          "ignore_global_asm": false,
+          "extra_pointer_checks": false,
+          "assert_contracts": false,
+          "prove_safety_only": false
+        },
+        "cbmc_args": [
+          "--object-bits",
+          "12"
+        ],
+        "coverage_enabled": false
+      },
+      "stock_tools": {
+        "kani": "0.68.0",
+        "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+        "cbmc": "6.11.0 (cbmc-6.11.0)"
+      },
+      "exported_cost_phases": {
+        "aggregate_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "backend_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "body_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "checker_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "driver_root_rss_kib": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "model_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK",
+        "summary_wall_s": "UNKNOWN_NOT_EXPORTED_BY_STOCK"
+      },
+      "bounded_preview_progress_excerpts": [
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 2,
+          "text": "aborting path on assume(false) at file /home/runner/work/kani/kani/export/library/core/src/lib.rs line 358 column 1 function kani::mem::cbmc::same_allocation thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 3,
+          "text": "aborting path on assume(false) at file /home/runner/work/kani/kani/export/library/core/src/lib.rs line 358 column 1 function kani::mem::cbmc::same_allocation thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 4,
+          "text": "Unwinding loop _RINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort11insert_tailhINtNtNtB2_6verify13sorting_model7KeyLesshEEBa_.0 iteration 1 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs line 684 column 9 function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>> thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 5,
+          "text": "aborting path on assume(false) at file /home/runner/work/kani/kani/export/library/core/src/lib.rs line 358 column 1 function kani::mem::cbmc::same_allocation thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 6,
+          "text": "Unwinding loop _RINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort11insert_tailhINtNtNtB2_6verify13sorting_model7KeyLesshEEBa_.0 iteration 2 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs line 684 column 9 function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>> thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 7,
+          "text": "aborting path on assume(false) at file /home/runner/work/kani/kani/export/library/core/src/lib.rs line 358 column 1 function kani::mem::cbmc::same_allocation thread 0"
+        },
+        {
+          "pointer": "/stdout/tail",
+          "line_in_preview": 8,
+          "text": "Unwinding loop _RINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort11insert_tailhINtNtNtB2_6verify13sorting_model7KeyLesshEEBa_.0 iteration 3 file /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs line 684 column 9 function slice::sort::shared::smallsort::insert_tail::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>> thread 0"
+        },
+        {
+          "pointer": "/stderr/head",
+          "line_in_preview": 35,
+          "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 29.83s"
+        }
+      ],
+      "preview_retention": {
+        "stdout": {
+          "original_bytes": 1549777,
+          "captured_bytes": 65536,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 1484241,
+          "preview_omitted_bytes": 61440,
+          "sha256": "b8f8ce47002ac98b2f30774b198c5bd2cfaa957a9df8ac6670296d91f5bb5a41"
+        },
+        "stderr": {
+          "original_bytes": 2300,
+          "captured_bytes": 2300,
+          "capture_layout": "HEAD_THEN_TAIL",
+          "capture_omitted_bytes": 0,
+          "preview_omitted_bytes": 0,
+          "sha256": "4ba4c41bb541d4fa84314e7a1a9bcfc5b9cabf3662679e741b5b718e330efbda"
+        }
+      },
+      "actual_last_retained_activity": "SYMBOLIC_LOOP_UNWINDING_AND_ASSUME_FALSE_MESSAGES; timestamp within tail UNKNOWN",
+      "phase_at_exact_signal": "UNKNOWN; final buffered progress text is not a timestamped phase sample",
+      "internal_profile_fields_absent": [
+        "symex_wall_s",
+        "solver_wall_s",
+        "solver_start_timestamp",
+        "symex_steps",
+        "VCC_count",
+        "helper_entry_timestamp",
+        "helper_return_timestamp",
+        "initialization_wall_s",
+        "oracle_wall_s"
+      ],
+      "lifecycle_diagnostic_count": 64,
+      "lifecycle_events_omitted": 80,
+      "lifecycle_diagnostic_completeness": "INCOMPLETE_BOUNDED_RETENTION; omitted event details UNKNOWN",
+      "lifecycle_classifications": {
+        "ENUMERATION_DISAPPEARED_NOT_OWNERSHIP": 6,
+        "NOT_DIRECT_CHILD_RECHECK_TREE": 58
+      },
+      "errno_counts": {
+        "2": 6,
+        "10": 58
+      },
+      "original_exception": {
+        "epoch": "WORKER",
+        "errno": null,
+        "message": "group_execution_interrupted_or_capped",
+        "monotonic": 3902.837298891,
+        "operation": "runner._run_group",
+        "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/runner.py\", line 1189, in _run_group\n    raise RunnerError(\"group_execution_interrupted_or_capped\")\nrunner.RunnerError: group_execution_interrupted_or_capped\n",
+        "traceback_truncated": false,
+        "type": "RunnerError"
+      },
+      "execution_exception": null,
+      "snapshot_errors": [],
+      "semantic_helper_entry_return": "UNKNOWN_NOT_EXPORTED; native header is harness start only",
+      "causal_hotspot": "UNKNOWN",
+      "censoring": "Whole child wall600 including compilation; completion time exceeds observed budget, actual solver start/completion UNKNOWN"
+    }
+  ],
+  "assurance": "Authenticated compact fields and bounded retained preview excerpts only; observations are not compiler/MIR causal proof",
+  "no_raw_stream_or_full_log_read": true,
+  "no_phase_duration_inference": true
+}

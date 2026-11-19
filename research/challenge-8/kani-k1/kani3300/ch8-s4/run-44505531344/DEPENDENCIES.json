@@ -1,0 +1,43 @@
+{
+  "validated_manifests": [
+    {
+      "kind": "author",
+      "commit": "90d861e59f996d35b23a5cb843e311b29efdabf7",
+      "manifest_sha256": "91344de1af175f054f59da47cf8995e3b0104fb1808469c0583d0b18b456bfd8",
+      "validated_files": 91
+    },
+    {
+      "kind": "review",
+      "commit": "8a0083897bf4f09068fbe886497c85cd3df25f32",
+      "manifest_sha256": "5bc21200028490ea4bcf52a225868153e0f2d0cee392900110a66ef15aa2de54",
+      "validated_files": 22
+    }
+  ],
+  "independent_review": {
+    "GO": "NOT_GRANTED",
+    "blocking_findings": [],
+    "closed_author_findings": [
+      {
+        "evidence": "FALLBACK-DIFFERENTIAL.json",
+        "final": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+        "id": "AUTHOR-FALLBACK-EMPTY-OBJECT",
+        "precursor": "321c266daf58309ae3eadc6d5c3f358766938ac0",
+        "reason": "True precursor replaces present{}; final rejects and preserves exact bytes; actual missing receipt remains recoverable. Fourteen independently observed differential cases.",
+        "status": "INDEPENDENTLY_CLOSED_ON_EXACT_FINAL_OBJECT"
+      }
+    ],
+    "decision": "APPROVE",
+    "new_nonblocking_findings": [],
+    "new_proof_obligations_closed": 0,
+    "new_qualified_leaves": 0,
+    "open_native_and_proof_scope": "Native counts/compile/proof/SAT/unwind/cost/fit NOT_RUN; largerN/init/provider/caller/type/ownership/panic/MIR/B1/B2 OPEN",
+    "schema": "ch8-s4p-2-exact-review-findings-v1"
+  },
+  "rootGO_commit": "9123b93890708ba418494a72b7fed2f30663279d",
+  "consumed_one_run": true,
+  "request_sha256": "c6abee25796842b0a1af44009921045c3da82b36e0fead42a342e7c5d8e74969",
+  "workflow_sha256": "4500edba80fbb48258c5b0a29c4d73a97fbb37fb26017da9f8251c147f30bd7f",
+  "source_control_tool_actual_checkout": "MATCH actual source/tool SHA/tree/file hashes and control SHA/tree/parent/clean; baseline and per-row protected/provenance readers. Native source/tool Git dirty/parent not separately exported; pinned local parents/clean and controller context remain source-reported context, not a new native cleanliness proof.",
+  "host344": "Historical regression result only: 679.1141679468565s, margin1.5903069777871495 at1080s. No rerun, proof or native fit credit.",
+  "accounting": "No ledger read for accounting, mutation, reservation or charge; historical GO fields are dependency data only"
+}

@@ -1,0 +1,433 @@
+{
+  "task_commit": "248cfebd4b3c6f433fd809656ea70041258fd69c",
+  "base_task": "be83c7b5b9a2e2110a7b3d9191b051ef487ca7cc",
+  "terminal_inputs": {
+    "schema": "ch8-s4p2-actual-terminal-cap-cost-intake-v1",
+    "stage": "TERMINAL_CONFIRMED_INTAKE_AUTHORIZED",
+    "authority": "User14:23 explicitly/new14 or11 intake cap cause and N<=1 cost, then offline harness simplification-or-defer plan; actualnative terminal independently confirmed. FreshW14 selected, previousPR5176DONE preserved.",
+    "native_snapshot": {
+      "id": 44505531344,
+      "status": "completed",
+      "conclusion": "failure",
+      "run_attempt": 1,
+      "event": "push",
+      "head_sha": "9c63491609f7d4c9dba9f9fbb4598b79625316d7",
+      "head_branch": "uninit-ci/ch8-s4p-2-20261119",
+      "path": ".github/workflows/ch8-s2.yml",
+      "run_started_at": "2026-11-19T10:25:30Z",
+      "updated_at": "2026-11-19T11:22:07Z",
+      "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44505531344"
+    },
+    "expected_run": {
+      "repository": "Tiramisu-Cake/kani",
+      "run_id": 44505531344,
+      "attempt": 1,
+      "event": "push",
+      "head": "9c63491609f7d4c9dba9f9fbb4598b79625316d7",
+      "ref": "uninit-ci/ch8-s4p-2-20261119",
+      "workflow_path": ".github/workflows/ch8-s2.yml",
+      "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+      "parents": [
+        "9e14e033f9ee31522b571c127609dcdff76d230b"
+      ]
+    },
+    "root_trigger_gate": {
+      "head": "9c63491609f7d4c9dba9f9fbb4598b79625316d7",
+      "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+      "parents": [
+        "9e14e033f9ee31522b571c127609dcdff76d230b"
+      ],
+      "range_count": 1,
+      "message": "Bind S4P2 fallback to terminal file presence before validation",
+      "status": "LOCAL_MATCH"
+    },
+    "author": {
+      "commit": "90d861e59f996d35b23a5cb843e311b29efdabf7",
+      "path": "kani3300/ch8-s4/s4p-2",
+      "manifest_sha256": "91344de1af175f054f59da47cf8995e3b0104fb1808469c0583d0b18b456bfd8"
+    },
+    "independent_review": {
+      "g0": "8a0083897bf4f09068fbe886497c85cd3df25f32",
+      "path": "kani3300/ch8-s4/s4p-2-review",
+      "manifest_sha256": "5bc21200028490ea4bcf52a225868153e0f2d0cee392900110a66ef15aa2de54",
+      "verdict": "APPROVE",
+      "blockers": [],
+      "closed_findings": [
+        {
+          "evidence": "FALLBACK-DIFFERENTIAL.json",
+          "final": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+          "id": "AUTHOR-FALLBACK-EMPTY-OBJECT",
+          "precursor": "321c266daf58309ae3eadc6d5c3f358766938ac0",
+          "reason": "True precursor replaces present{}; final rejects and preserves exact bytes; actual missing receipt remains recoverable. Fourteen independently observed differential cases.",
+          "status": "INDEPENDENTLY_CLOSED_ON_EXACT_FINAL_OBJECT"
+        }
+      ],
+      "scope": "Full exact source/controller/profile/runtime/gates/sourceidentity package, not only plan approval"
+    },
+    "rootGO": {
+      "commit": "9123b93890708ba418494a72b7fed2f30663279d",
+      "path": "kani3300/ch8-s4/s4p-2-go",
+      "consent": "AGREE_ONE_BOUNDED_EIGHT_ROOT_S4P2_ATTEMPT",
+      "consumed_by_this_one_run": true
+    },
+    "source": {
+      "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+      "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "clean": true,
+      "depth": 5,
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+    },
+    "control_reviewed": {
+      "repo": "/root/kani-ch8-s4p-2-r1-control-w13",
+      "sha": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+      "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "clean": true,
+      "depth": 7,
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+    },
+    "tool": {
+      "repo": "/root/kani-upstream-ch8-s1",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+      "clean": true,
+      "depth": 2,
+      "author_committer": "Ivo Matijašević <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+    },
+    "source_publication": {
+      "repository": "Tiramisu-Cake/verify-rust-std",
+      "ref": "experiment/ch8-s4p-2-20261119",
+      "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+      "parents": [
+        "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      ],
+      "connected_ref_match": true,
+      "actual_run_checkout": "TO_BE_OBSERVED_OR_UNKNOWN"
+    },
+    "request": {
+      "schema": "ch8-s4p-2-v1",
+      "profile": "ch8-s4p-2-network-fullbyte-singletons-v1",
+      "sha256": "c6abee25796842b0a1af44009921045c3da82b36e0fead42a342e7c5d8e74969",
+      "workflow_sha256": "4500edba80fbb48258c5b0a29c4d73a97fbb37fb26017da9f8251c147f30bd7f",
+      "payload_files": 137,
+      "selfhash_excluded": true
+    },
+    "schemas": {
+      "terminal": "ch8-s4p-2-campaign-v1",
+      "seal": "ch8-s4p-2-portable-seal-v1"
+    },
+    "checkout_depths": {
+      "control": 7,
+      "source": 5,
+      "tool": 2
+    },
+    "ordered_rows": [
+      "checker_order_corrupt",
+      "checker_count_corrupt",
+      "sort13_weak",
+      "s4p_cell_count_corrupt",
+      "s4p2_network_b01_n02_fullbyte",
+      "s4p2_network_b01_n03_fullbyte",
+      "s4p2_network_b01_n04_fullbyte",
+      "s4p2_network_b01_n00_01_fullbyte"
+    ],
+    "modes": "ALL_Original",
+    "targets": null,
+    "positive_role_count_each": 4,
+    "declared_cover_counts_execution_order": [
+      6,
+      6,
+      6,
+      3
+    ],
+    "structural_NA": "OnlyexactN01 omittedimpossiblepair/maxhi sites, not exportedUNSAT waiver",
+    "source_assertion_sites": 21,
+    "source_cover_sites": 21,
+    "native_property_counts": "UNKNOWN_UNTIL_ACTUAL_SAME_INVOCATION_EXPORT",
+    "caps": {
+      "child_seconds": 600,
+      "compile_seconds": 180,
+      "slot_seconds": 720,
+      "controller_seconds": 180,
+      "cleanup_seconds": 240,
+      "campaign_seconds": 6900,
+      "outer_seconds": 7500,
+      "phase_seconds": 8100,
+      "step_seconds": 7560,
+      "local_rss_kib": 6291456,
+      "outer_rss_kib": 12582912,
+      "headroom_kib": 2097152,
+      "stdout_bytes": 16777216,
+      "stderr_bytes": 1048576,
+      "export_bytes": 8388608,
+      "artifact_bytes": 268435456
+    },
+    "setup_seconds": 1800,
+    "job_minutes": 180,
+    "Validate_minutes": 18,
+    "memory_scope": "NominalsampledownedPGIDVmRSS/outerownedcensus; Ceff=min(6,12,A-2)GiB actualcap observed; notkernel/cgroup/whole-treepeak",
+    "workflow": {
+      "path": ".github/workflows/ch8-s2.yml",
+      "job": "s3_leaf",
+      "runner": "ubuntu-24.04",
+      "job_timeout_minutes": 180,
+      "profile_env": {
+        "S3_PROFILE": "ch8-s4p-2-network-fullbyte-singletons-v1"
+      },
+      "Validate_command": "python3 check_package.py control --repo ..\npython3 s4p2_validate.py\n",
+      "Validate_timeout_minutes": 18,
+      "artifact_name": "ch8-s3-2-${{ github.run_id }}-${{ github.run_attempt }}",
+      "artifact_prefix_historical_intentional": true,
+      "allowed_postrun_member": "group-evidence.json.gz",
+      "run_and_finish": "Exact unchanged reviewed workflow/137payload/request; no subset/dispatch/cron/enable/custom flags"
+    },
+    "artifact": {
+      "name": "ch8-s3-2-44505531344-1",
+      "member": "group-evidence.json.gz",
+      "metadata_digest": "sha256:3cd97c3dc14f54ff799782bca6d4600f80d05a6e61e2b69994e7803bc5ca7e7c",
+      "historical_prefix_intentional": true,
+      "policy": "ONEauthorizedcompactmemberonly/metadata+digestfirst/connectedboundedreporting/no savedZIP/raw/fullarchives/GCS/newbypass",
+      "id": 14523824529,
+      "size_in_bytes": 399332,
+      "expired": false,
+      "digest_scope": "GitHub transport/archive metadata digest; NOT compact-member/payload digest or local verification claim. Record those independently."
+    },
+    "policies": {
+      "producer_U": "REJECT_ALL",
+      "proposal": "DISABLED",
+      "unsupported_guards": "Retain allrecords/status inclSUCCESS",
+      "native_strict_S1_admission": "Separate partitions; no intake admission",
+      "old_location_admissions": "Originalruns/IDs only; no futuretransfer or commonemitterrule from551",
+      "common_emitter": "UNKNOWN",
+      "newqualification_credit": "NONE untilactualevidence+review+separateadmission"
+    },
+    "scope_limits": "Atmostexactdirectu8/KeyLess initializedV34/base1 fullbytes finiteN0..4, no assumedsummary/provider/init/caller/generic/MIR/B1B2/fullN16N32",
+    "accounting_reference": {
+      "policy": "TRACKING_ONLY_NOT_LIMITING; everyactualrun review+root/coordinatorGO+ledger",
+      "reservation_commit": "071d664043886b7ee50307170fc237630843492e",
+      "run_record_commit": "0311951e3cc4cfb1b7819900b56e126956aedd6e",
+      "item1_used": 32,
+      "item2_used": 16,
+      "total_used": 48,
+      "ledger_sha256_at_preparation": "924b02d047d8f03cec504db80ff37fd6fd9c4a6db5e43f984374863167189c70",
+      "root_worker_write": false
+    },
+    "output": "kani3300/ch8-s4/run-44505531344/",
+    "native_terminal_result": {
+      "id": 44505531344,
+      "status": "completed",
+      "conclusion": "failure",
+      "run_attempt": 1,
+      "event": "push",
+      "head_sha": "9c63491609f7d4c9dba9f9fbb4598b79625316d7",
+      "head_branch": "uninit-ci/ch8-s4p-2-20261119",
+      "path": ".github/workflows/ch8-s2.yml",
+      "run_started_at": "2026-11-19T10:25:30Z",
+      "updated_at": "2026-11-19T11:22:07Z",
+      "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44505531344"
+    },
+    "no_automatic_followon_CI": true,
+    "base_task": {
+      "commit": "be83c7b5b9a2e2110a7b3d9191b051ef487ca7cc",
+      "task_path": "TASK-CH8-S4P2-INTAKE-W11.md",
+      "task_sha256": "a8bcd5c1a0116e920404aa5de84f84aca8868fb5e75f026e74eaa5e8bfa4ad00",
+      "inputs_path": "kani3300/ch8-s4/postrun-s4p-2/INPUTS.json",
+      "inputs_sha256": "030a0c9b7761d05ddf9a52e11f3a9e37eac5d682b976ebf2a8aa208fcb2f3944"
+    },
+    "connected_job_metadata": [
+      {
+        "id": 135496011598,
+        "name": "s3_leaf",
+        "status": "completed",
+        "conclusion": "failure",
+        "started_at": "2026-11-19T10:25:34Z",
+        "completed_at": "2026-11-19T11:22:06Z",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T10:25:35Z",
+            "completed_at": "2026-11-19T10:25:37Z"
+          },
+          {
+            "name": "Begin setup budget",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T10:25:37Z",
+            "completed_at": "2026-11-19T10:25:37Z"
+          },
+          {
+            "name": "Checkout CI control",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T10:25:37Z",
+            "completed_at": "2026-11-19T10:25:44Z"
+          },
+          {
+            "name": "Validate control and synthetic wrapper",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T10:25:44Z",
+            "completed_at": "2026-11-19T10:28:02Z"
+          },
+          {
+            "name": "Read immutable export pins",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T10:28:02Z",
+            "completed_at": "2026-11-19T10:28:02Z"
+          },
+          {
+            "name": "Checkout production model export",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T10:28:02Z",
+            "completed_at": "2026-11-19T10:28:05Z"
+          },
+          {
+            "name": "Checkout immutable upstream tool",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T10:28:05Z",
+            "completed_at": "2026-11-19T10:28:07Z"
+          },
+          {
+            "name": "Check all source identities",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T10:28:07Z",
+            "completed_at": "2026-11-19T10:28:14Z"
+          },
+          {
+            "name": "Setup exact stock tool",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T10:28:14Z",
+            "completed_at": "2026-11-19T10:35:38Z"
+          },
+          {
+            "name": "Build exact stock tool once",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T10:35:38Z",
+            "completed_at": "2026-11-19T10:39:44Z"
+          },
+          {
+            "name": "Run S3 actual leaves with bounded observations",
+            "status": "completed",
+            "conclusion": "failure",
+            "started_at": "2026-11-19T10:39:44Z",
+            "completed_at": "2026-11-19T11:22:00Z"
+          },
+          {
+            "name": "Materialize bounded fallback",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T11:22:00Z",
+            "completed_at": "2026-11-19T11:22:01Z"
+          },
+          {
+            "name": "Upload bounded evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T11:22:01Z",
+            "completed_at": "2026-11-19T11:22:03Z"
+          },
+          {
+            "name": "Post Checkout immutable upstream tool",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T11:22:03Z",
+            "completed_at": "2026-11-19T11:22:03Z"
+          },
+          {
+            "name": "Post Checkout production model export",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T11:22:03Z",
+            "completed_at": "2026-11-19T11:22:03Z"
+          },
+          {
+            "name": "Post Checkout CI control",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T11:22:03Z",
+            "completed_at": "2026-11-19T11:22:03Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-11-19T11:22:03Z",
+            "completed_at": "2026-11-19T11:22:03Z"
+          }
+        ]
+      }
+    ],
+    "reported_until_payload_verified": {
+      "campaign_seconds": 2536,
+      "negative_rows": "Four intended labelled failures",
+      "positive_rows": "All four network partitions inclN01 capped",
+      "cause": "UNKNOWN until bounded evidence reconciliation",
+      "owner_hypotheses": [
+        "dispatch",
+        "comparison model",
+        "all34 full-u8 snapshot",
+        "harness/model overhead"
+      ],
+      "inference_limit": "Four censored results at a shared cap do not establish N-independent uncensored cost or a specific phase/cause."
+    },
+    "root_preissue_check": {
+      "source": {
+        "head": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+        "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af",
+        "parents": [
+          "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+        ],
+        "clean": true
+      },
+      "control_reviewed": {
+        "head": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+        "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556",
+        "parents": [
+          "9e14e033f9ee31522b571c127609dcdff76d230b"
+        ],
+        "clean": true
+      },
+      "tool": {
+        "head": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+        "parents": [
+          "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+        ],
+        "clean": true
+      }
+    },
+    "cost_focus": {
+      "N01": "Full per-row markers/cap reason/compile/phase evidence, actual helper entry/return and guard/domain bindings if observed. Missing markers/profiles remain UNKNOWN. Trace frozen source required if phase accounting absent.",
+      "compare": "N2/N3/N4/N01 same invocation lifecycle/caps, wall/compileupper/exportedverificationTime and RSS samples, no guessed backend allocation or linear extrapolation.",
+      "output": "Include COST and N01-COST-PATH.md: observed phase facts vs source-reachable cost hypotheses vs missing evidence, with exact citations. Source tracing is not native/MIR causality."
+    },
+    "reporter_reuse": {
+      "reference_intake": "kani3300/ch8-s4/run-44481580554/",
+      "helpers": [
+        "acquire.py",
+        "replay.py",
+        "audit.py",
+        "render.py",
+        "seal.py"
+      ],
+      "policy": "Reuse existing authorized connected bounded compact route with current exact identities; no new bypass/reacquisition of old evidence/fullrawZIP/GCS."
+    },
+    "worker_output": "kani3300/ch8-s4/run-44505531344/",
+    "follow_on_plan": "Prepared TASK-CH8-S4P2-NETWORK-COST-PLAN.md requires exact committed intake SHA/root verified cost facts before issue. No candidate/cap/runtime/policy/CI changes."
+  },
+  "base_inputs_sha256": "030a0c9b7761d05ddf9a52e11f3a9e37eac5d682b976ebf2a8aa208fcb2f3944",
+  "authorization": "User14:23 explicitly/new14; one compact intake only; current high/FastOFF; no subagents/model changes",
+  "owned_path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44505531344"
+}

@@ -1,0 +1,208 @@
+{
+  "citations": [
+    {
+      "kind": "source",
+      "commit": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_partition.rs",
+      "sha256": "051e869d52f78f43ee8c1faaf5bad0a91c4e8d9ea21a1e8c1d83991a89e0f574",
+      "contexts": [
+        {
+          "line": 8,
+          "source": "4: use super::sorting_model::{KeyLess, enabled, snapshot, post};\n5: use super::{sorting_s2_span as span, sorting_s2_swap as pair};\n6: use crate::kani;\n7: \n8: fn active_u8() -> bool {\n9:     enabled::<u8, KeyLess<u8>>() && span::active::<u8, KeyLess<u8>>()\n10:         && pair::enabled::<u8, KeyLess<u8>>()\n11: }\n12: fn descending(v: &[u8]) -> bool {"
+        },
+        {
+          "line": 98,
+          "source": "94: }\n95: \n96: #[kani::proof]\n97: #[kani::unwind(36)]\n98: fn s4p2_network_b01_n00_01_fullbyte() {\n99:     kani::assert(active_u8(), \"S4P2_N_00_01_ACTIVE_CONCRETE_MODEL\");\n100:     let mut v: [u8; 34] = kani::any();\n101:     let bytes = v;\n102:     let n: usize = kani::any();"
+        },
+        {
+          "line": 102,
+          "source": "98: fn s4p2_network_b01_n00_01_fullbyte() {\n99:     kani::assert(active_u8(), \"S4P2_N_00_01_ACTIVE_CONCRETE_MODEL\");\n100:     let mut v: [u8; 34] = kani::any();\n101:     let bytes = v;\n102:     let n: usize = kani::any();\n103:     kani::assume(0 <= n && n <= 1);\n104:     let before = snapshot::<u8, KeyLess<u8>>(&v[1..1 + n]);\n105:     small_sort_network(&mut v[1..1 + n], &mut KeyLess::<u8>::new());\n106:     kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..1 + n]), \"S4P2_N_00_01_SORTED_FULL_VALUE_COUNT\");"
+        },
+        {
+          "line": 104,
+          "source": "100:     let mut v: [u8; 34] = kani::any();\n101:     let bytes = v;\n102:     let n: usize = kani::any();\n103:     kani::assume(0 <= n && n <= 1);\n104:     let before = snapshot::<u8, KeyLess<u8>>(&v[1..1 + n]);\n105:     small_sort_network(&mut v[1..1 + n], &mut KeyLess::<u8>::new());\n106:     kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..1 + n]), \"S4P2_N_00_01_SORTED_FULL_VALUE_COUNT\");\n107:     for i in 0..34 {\n108:         kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P2_N_00_01_FULL_OUTSIDE_FRAME\");"
+        },
+        {
+          "line": 106,
+          "source": "102:     let n: usize = kani::any();\n103:     kani::assume(0 <= n && n <= 1);\n104:     let before = snapshot::<u8, KeyLess<u8>>(&v[1..1 + n]);\n105:     small_sort_network(&mut v[1..1 + n], &mut KeyLess::<u8>::new());\n106:     kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..1 + n]), \"S4P2_N_00_01_SORTED_FULL_VALUE_COUNT\");\n107:     for i in 0..34 {\n108:         kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P2_N_00_01_FULL_OUTSIDE_FRAME\");\n109:     }\n110:     let canary: usize = kani::any();"
+        },
+        {
+          "line": 108,
+          "source": "104:     let before = snapshot::<u8, KeyLess<u8>>(&v[1..1 + n]);\n105:     small_sort_network(&mut v[1..1 + n], &mut KeyLess::<u8>::new());\n106:     kani::assert(post::<u8, KeyLess<u8>>(before, &v[1..1 + n]), \"S4P2_N_00_01_SORTED_FULL_VALUE_COUNT\");\n107:     for i in 0..34 {\n108:         kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P2_N_00_01_FULL_OUTSIDE_FRAME\");\n109:     }\n110:     let canary: usize = kani::any();\n111:     kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));\n112:     kani::assert(v[canary] == bytes[canary], \"S4P2_N_00_01_ARBITRARY_OUTSIDE_CANARY\");"
+        },
+        {
+          "line": 112,
+          "source": "108:         kani::assert((1 <= i && i < 1 + n) || v[i] == bytes[i], \"S4P2_N_00_01_FULL_OUTSIDE_FRAME\");\n109:     }\n110:     let canary: usize = kani::any();\n111:     kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));\n112:     kani::assert(v[canary] == bytes[canary], \"S4P2_N_00_01_ARBITRARY_OUTSIDE_CANARY\");\n113:     kani::cover(n == 0, \"S4P2_N_00_01_N00\");\n114:     kani::cover(n == 1, \"S4P2_N_00_01_N01\");\n115:     kani::cover(true, \"S4P2_N_00_01_USEFUL_RETURN\");\n116: }"
+        },
+        {
+          "line": 115,
+          "source": "111:     kani::assume(canary < 34 && (canary < 1 || canary >= 1 + n));\n112:     kani::assert(v[canary] == bytes[canary], \"S4P2_N_00_01_ARBITRARY_OUTSIDE_CANARY\");\n113:     kani::cover(n == 0, \"S4P2_N_00_01_N00\");\n114:     kani::cover(n == 1, \"S4P2_N_00_01_N01\");\n115:     kani::cover(true, \"S4P2_N_00_01_USEFUL_RETURN\");\n116: }\n117: "
+        }
+      ]
+    },
+    {
+      "kind": "source",
+      "commit": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "contexts": [
+        {
+          "line": 48,
+          "source": "44: \n45: macro_rules! key_less {\n46:     ($ty:ty) => {\n47:         impl<'a, 'b> FnOnce<(&'a $ty, &'b $ty)> for KeyLess<$ty> {\n48:             type Output = bool;\n49:             extern \"rust-call\" fn call_once(self, (a, b): (&'a $ty, &'b $ty)) -> bool {\n50:                 a.value() < b.value()\n51:             }\n52:         }"
+        },
+        {
+          "line": 80,
+          "source": "76: }\n77: \n78: fn active_snapshot<T: Project>(values: &[T]) -> Snapshot {\n79:     if values.len() > CAP {\n80:         return Snapshot::invalid();\n81:     }\n82:     let mut result = Snapshot { values: [0; CAP], len: values.len(), valid: true };\n83:     let mut i = 0;\n84:     while i < result.len {"
+        },
+        {
+          "line": 95,
+          "source": "91: fn active_post<T: Project>(before: Snapshot, values: &[T]) -> bool {\n92:     if !before.valid || before.len > CAP || values.len() > CAP || before.len != values.len() {\n93:         return false;\n94:     }\n95:     let mut i = 1;\n96:     while i < before.len {\n97:         if values[i].value() < values[i - 1].value() {\n98:             return false;\n99:         }"
+        },
+        {
+          "line": 104,
+          "source": "100:         i += 1;\n101:     }\n102:     // Checking each input value (duplicates may repeat a check) covers the whole\n103:     // multiset: equal input/output lengths leave no room for a novel output value.\n104:     i = 0;\n105:     while i < before.len {\n106:         let query = before.values[i];\n107:         let mut old_count: usize = 0;\n108:         let mut new_count: usize = 0;"
+        },
+        {
+          "line": 139,
+          "source": "135: }\n136: \n137: macro_rules! active_model {\n138:     ($ty:ty) => {\n139:         impl Model<$ty, KeyLess<$ty>> for () {\n140:             fn enabled() -> bool { true }\n141:             fn snapshot(values: &[$ty]) -> Snapshot { active_snapshot(values) }\n142:             fn post(before: Snapshot, values: &[$ty]) -> bool { active_post(before, values) }\n143:         }"
+        },
+        {
+          "line": 153,
+          "source": "149: \n150: pub(in crate::slice::sort::shared::smallsort) fn enabled<T, F>() -> bool {\n151:     <() as Model<T, F>>::enabled()\n152: }\n153: pub(in crate::slice::sort::shared::smallsort) fn snapshot<T, F>(values: &[T]) -> Snapshot {\n154:     <() as Model<T, F>>::snapshot(values)\n155: }\n156: pub(in crate::slice::sort::shared::smallsort) fn post<T, F>(before: Snapshot, values: &[T]) -> bool {\n157:     <() as Model<T, F>>::post(before, values)"
+        }
+      ]
+    },
+    {
+      "kind": "source",
+      "commit": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "contexts": [
+        {
+          "line": 332,
+          "source": "328:         }\n329:     }\n330: }\n331: \n332: fn small_sort_network<T, F>(v: &mut [T], is_less: &mut F)\n333: where\n334:     T: FreezeMarker,\n335:     F: FnMut(&T, &T) -> bool,\n336: {"
+        },
+        {
+          "line": 339,
+          "source": "335:     F: FnMut(&T, &T) -> bool,\n336: {\n337:     // This implementation is tuned to be efficient for integer types.\n338: \n339:     let len = v.len();\n340:     if len < 2 {\n341:         return;\n342:     }\n343: "
+        },
+        {
+          "line": 358,
+          "source": "354:     let initial_region_len = if no_merge { len } else { len_div_2 };\n355:     // SAFETY: Both possible values of `initial_region_len` are in-bounds.\n356:     let mut region = unsafe { slice::from_raw_parts_mut(v_base, initial_region_len) };\n357: \n358:     // Avoid compiler unrolling, we *really* don't want that to happen here for binary-size reasons.\n359:     loop {\n360:         let presorted_len = if region.len() >= 13 {\n361:             sort13_optimal(region, is_less);\n362:             13"
+        },
+        {
+          "line": 372,
+          "source": "368:         };\n369: \n370:         insertion_sort_shift_left(region, presorted_len, is_less);\n371: \n372:         if no_merge {\n373:             return;\n374:         }\n375: \n376:         if region.as_ptr() != v_base {"
+        },
+        {
+          "line": 665,
+          "source": "661:         begin,\n662:         insert_tail_contract_len(begin, tail)\n663:     ))\n664: )]\n665: #[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(!verify::sorting_s2_span::active::<T,F>() || (insert_tail_contract_len(begin,tail) >= 2 && insert_tail_contract_len(begin,tail) <= 17 && verify::sorting_s2_span::ordered::<T,F>(begin,insert_tail_contract_len(begin,tail)-1))))]\n666: #[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::ensures(|_| !verify::sorting_s2_span::active::<T,F>() || verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(begin,insert_tail_contract_len(begin,tail))),begin,insert_tail_contract_len(begin,tail))))]\n667: unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {\n668:     // SAFETY: see individual comments.\n669:     unsafe {"
+        },
+        {
+          "line": 671,
+          "source": "667: unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {\n668:     // SAFETY: see individual comments.\n669:     unsafe {\n670:         // SAFETY: in-bounds as tail > begin.\n671:         let mut sift = tail.sub(1);\n672:         if !is_less(&*tail, &*sift) {\n673:             return;\n674:         }\n675: "
+        },
+        {
+          "line": 709,
+          "source": "705: // The Kani callback frame and domain restrictions above swap_if_less also apply here.\n706: #[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(offset != 0 && offset <= v.len()))]\n707: #[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(offset != 0 && offset <= v.len()))]\n708: #[cfg_attr(kani, crate::kani::modifies(v))]\n709: pub fn insertion_sort_shift_left<T, F: FnMut(&T, &T) -> bool>(\n710:     v: &mut [T],\n711:     offset: usize,\n712:     is_less: &mut F,\n713: ) {"
+        },
+        {
+          "line": 728,
+          "source": "724:         // offset <= len, thus tail is also in-bounds.\n725:         let v_base = v.as_mut_ptr();\n726:         let v_end = v_base.add(len);\n727:         let mut tail = v_base.add(offset);\n728:         while tail != v_end {\n729:             // SAFETY: v_base and tail are both valid pointers to elements, and\n730:             // v_base < tail since we checked offset != 0.\n731:             insert_tail(v_base, tail, is_less);\n732: "
+        }
+      ]
+    },
+    {
+      "kind": "source",
+      "commit": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+      "sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "contexts": [
+        {
+          "line": 20,
+          "source": "16:     default fn post(_s: Snapshot, _p: *const T, _n: usize) -> bool { true }\n17:     default fn ordered(_p: *const T, _n: usize) -> bool { true }\n18: }\n19: impl Span<u8, KeyLess<u8>> for () {\n20:     fn active() -> bool { true }\n21:     fn capture(p: *const u8, n: usize) -> Snapshot {\n22:         if n > 32 { return sorting_model::snapshot::<u8, ()>(&[]); }\n23:         if n == 0 { return sorting_model::snapshot::<u8, KeyLess<u8>>(&[]); }\n24:         // SAFETY: requires establishes initialized readable n-span before spec read."
+        },
+        {
+          "line": 41,
+          "source": "37:             i += 1;\n38:         }\n39:         true\n40:     }\n41: }\n42: pub(in crate::slice::sort::shared::smallsort) fn active<T, F>() -> bool {\n43:     <() as Span<T,F>>::active()\n44: }\n45: pub(in crate::slice::sort::shared::smallsort) fn capture<T, F>(p: *const T,n: usize) -> Snapshot {"
+        }
+      ]
+    },
+    {
+      "kind": "source",
+      "commit": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs",
+      "sha256": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "contexts": [
+        {
+          "line": 38,
+          "source": "34: \n35: impl SwapModel<u8, KeyLess<u8>> for () {\n36:     fn enabled() -> bool { true }\n37:     fn capture(base: *const u8, a: usize, b: usize) -> PairSnapshot {\n38:         // SAFETY: the actual callee's existing requires establish both initialized,\n39:         // readable positions, nonwrapping offsets and a common allocation first.\n40:         unsafe { PairSnapshot { a: *base.add(a), b: *base.add(b), valid: true } }\n41:     }\n42:     fn post(pre: PairSnapshot, base: *const u8, a: usize, b: usize) -> bool {"
+        },
+        {
+          "line": 55,
+          "source": "51: }\n52: \n53: /// Unconditional generic facade; no new T/F bounds on the actual helper.\n54: pub(in crate::slice::sort::shared::smallsort) fn enabled<T, F>() -> bool {\n55:     <() as SwapModel<T, F>>::enabled()\n56: }\n57: \n58: /// Spec-only read: active callers must establish the actual swap requires first.\n59: /// Inactive calls do not inspect pointers, indices or pointed-to bytes."
+        }
+      ]
+    },
+    {
+      "kind": "control",
+      "commit": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+      "path": "ch8-s1-control/runner.py",
+      "sha256": "0870207ad6be4bfea26faaa9d26c57f07ac694b984ebb2501e8d1b0ef497de6a",
+      "contexts": [
+        {
+          "line": 469,
+          "source": "465:     return total\n466: \n467: \n468: def _component_rss_kib(pgid: int) -> dict[str, int]:\n469:     values = {\"driver\": 0, \"backend\": 0, \"compiler\": 0, \"other\": 0}\n470:     for entry in Path(\"/proc\").iterdir():\n471:         if not entry.name.isdigit(): continue\n472:         try:\n473:             stat = (entry/\"stat\").read_text()"
+        },
+        {
+          "line": 525,
+          "source": "521: \n522: class CompileMonitor:\n523:     \"\"\"The stock initial export marker is written after std_project, before verification.\"\"\"\n524:     def __init__(self, receipt_path: Path, export: Path, selectors: list[str],\n525:                  seconds: float = COMPILE_SECONDS, *, identities=None):\n526:         self.path, self.export, self.selectors, self.seconds = receipt_path, export, selectors, seconds\n527:         source_tool={\"std_sha\":STD_SHA,\"tool_sha\":TOOL_SHA} if identities is None else dict(identities)\n528:         if identities is not None:\n529:             from s3_evidence import identity"
+        },
+        {
+          "line": 549,
+          "source": "545:             if self.export.stat().st_size > EXPORT_CAP_BYTES:\n546:                 return False\n547:             data = self.export.read_bytes()\n548:             value = json.loads(data)\n549:         except (OSError, UnicodeError, ValueError):\n550:             return False\n551:         if not _selection_matches(value, self.selectors, marker=True):\n552:             return False\n553:         self.receipt.update(state=\"COMPLETE\", boundary=\"STOCK_INITIAL_EXPORT_OBSERVED\","
+        },
+        {
+          "line": 1093,
+          "source": "1089:     selectors = [row[\"selector\"] for row in group[\"rows\"]]\n1090:     export = (dest / \"export.json\").resolve()\n1091:     argv = build_argv(std, tool, selectors, group[\"unwind\"], export)\n1092:     results = [{**_row_base(row, \"IN_PROGRESS\"), \"group\": group[\"id\"],\n1093:                 \"per_root_rss_kib\": None, \"cost_phases\": {k: \"UNKNOWN_NOT_EXPORTED_BY_STOCK\" for k in (\"body_wall_s\", \"model_wall_s\", \"checker_wall_s\", \"summary_wall_s\", \"driver_root_rss_kib\", \"backend_root_rss_kib\", \"aggregate_root_rss_kib\")}, \"per_root_rss_status\": \"UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION\",\n1094:                 \"proof_credit\": \"NONE\"} for row in group[\"rows\"]]\n1095:     if request.get(\"schema\")==\"ch8-s4p-2-v1\":\n1096:         for result in results:result[\"target\"]=None\n1097:     receipt = {\"schema\": \"ch8-s1-group-v1\", \"state\": \"IN_PROGRESS\", \"group\": group[\"id\"],"
+        },
+        {
+          "line": 1264,
+          "source": "1260:         _write_json(dest / \"properties.json\", rich.document())\n1261:         receipt[\"location_exceptions\"] = rich.location_exceptions()\n1262:         if isolated_limits is not None:\n1263:             receipt['native_start_events']=rich.starts\n1264:             receipt['native_start_scope']='OBSERVED_STOCK_STDOUT_HEADER; source-reported not compiler/origin proof'\n1265:             receipt['native_start_verified']=[x['selector'] for x in rich.starts]==selectors\n1266:             if any(x['selector'] not in selectors for x in rich.starts) or len(rich.starts)>1:\n1267:                 fatal='native_selector_mismatch_or_duplicate'\n1268:         try:"
+        }
+      ]
+    },
+    {
+      "kind": "tool",
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-driver/src/call_cbmc.rs",
+      "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+      "contexts": [
+        {
+          "line": 172,
+          "source": "168: }\n169: \n170: impl KaniSession {\n171:     /// Verify a goto binary that's been prepared with goto-instrument\n172:     pub fn run_cbmc(&self, file: &Path, harness: &HarnessMetadata) -> Result<VerificationResult> {\n173:         let args: Vec<OsString> = self.cbmc_flags(file, harness)?;\n174: \n175:         // TODO get cbmc path from self\n176:         let mut cmd = TokioCommand::new(\"cbmc\");"
+        },
+        {
+          "line": 215,
+          "source": "211:         let start_time = Instant::now();\n212: \n213:         let export_json = self.args.export_json.is_some();\n214:         let (filter, captured_warnings) = warning_capturing_filter(export_json, |item| {\n215:             kani_cbmc_output_filter(\n216:                 item,\n217:                 self.args.extra_pointer_checks,\n218:                 self.args.common_args.quiet,\n219:                 &self.args.output_format(),"
+        },
+        {
+          "line": 232,
+          "source": "228:             Ok(process_cbmc_output(&mut cbmc_process, filter).await)\n229:         };\n230: \n231:         let mut result = if let Ok(output) = res {\n232:             // The timeout wasn't reached\n233:             VerificationResult::from(output?, harness.attributes.should_panic, start_time)\n234:         } else {\n235:             // An error occurs if the timeout was reached\n236: "
+        },
+        {
+          "line": 267,
+          "source": "263:         let mut args = self.cbmc_check_flags();\n264: \n265:         if let Some(object_bits) = self.args.cbmc_object_bits() {\n266:             args.push(\"--object-bits\".into());\n267:             args.push(object_bits.to_string().into());\n268:         }\n269: \n270:         if let Some(unwind_value) = resolve_unwind_value(&self.args, harness_metadata) {\n271:             args.push(\"--unwind\".into());"
+        }
+      ]
+    }
+  ],
+  "classification": "Frozen source context and candidate hypotheses only; no compiler expansion/native/MIR experiment",
+  "measured_hotspots": "UNKNOWN",
+  "hypotheses": [
+    "Path exploration may retain branches excluded by the source assume until later reasoning; bounded N01 tail contains insertion loops despite early-return source semantics. Exact mechanism not established.",
+    "Symbolic usize n/canary, dynamic slice bounds, oracle and frame loops may create intermediate verification work before simplification. No measured causal allocation.",
+    "Contract/builtin handling on the insertion path, including same_allocation assume(false) messages, is an investigation candidate; messages do not prove a bad premise, a model bug, common emitter or successful proof."
+  ],
+  "no_enabled_summary_edges": []
+}
