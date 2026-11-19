@@ -1,0 +1,493 @@
+{
+  "schema": "issue4591-slop-static-receipt-v1",
+  "checks": "PASS",
+  "task_anchor": "58a74e7436c8214652708bda480f1f9eccd4ad5c",
+  "source_files": {
+    "kani-compiler/src/kani_middle/transform/contracts.rs": {
+      "sha256": "c8433cc928a57285e3d7d117a4b8d5187db2ec6ebcec819c4b6744612470bf91",
+      "bytes": 39769,
+      "pinned_blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+      "local_matches": true
+    },
+    "kani-compiler/src/kani_middle/transform/mod.rs": {
+      "sha256": "cee27768c3a4a4ad71c75d411e237d4aadedf9ff20a5962d4e93ecbf660c8ee9",
+      "bytes": 17670,
+      "pinned_blob": "38ea0963da5bccfa015f023aa7301debe2f360a4",
+      "local_matches": true
+    },
+    "kani-compiler/src/kani_middle/transform/stubs.rs": {
+      "sha256": "04dd329ee7cf8b35d38a9c62d2ba9b853d1b7009e4cfd6cfcc10468b63d090b2",
+      "bytes": 9314,
+      "pinned_blob": "a1df1bdbcba1d08599caa87f1aefb5569b15f77b",
+      "local_matches": true
+    },
+    "tests/expected/function-contract/ordinary_stub_fail.expected": {
+      "sha256": "7f7e65b0abbae439e1db2860a1b4e61c7592d5fa7e4ecc84f6fb5cc0b3b395b4",
+      "bytes": 972,
+      "pinned_blob": "d6a1bc5210e43225495e07724f7216c46eb0b363",
+      "local_matches": true
+    },
+    "tests/expected/function-contract/ordinary_stub_fail.rs": {
+      "sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "bytes": 2053,
+      "pinned_blob": "81665a967abd9080232a2260f68642dd04ffe24b",
+      "local_matches": true
+    },
+    "tests/expected/function-contract/ordinary_stub_issue_4591.expected": {
+      "sha256": "202199fd0ac8bb6737fc34b34552b9491d4bf08c412555f60262fe71a9aa0c28",
+      "bytes": 212,
+      "pinned_blob": "3c5703c6e9cadaba4b214a62a17ab9ab458acf9c",
+      "local_matches": true
+    },
+    "tests/expected/function-contract/ordinary_stub_issue_4591.rs": {
+      "sha256": "e65245e314ce01d894bc5b774e72df7cb1eb17b4bdf07939e037d61f9d41a8a0",
+      "bytes": 618,
+      "pinned_blob": "620ff0ad1caff13ddc5f0e449c1b2507db785eca",
+      "local_matches": true
+    },
+    "tests/expected/function-contract/ordinary_stub_overlap.expected": {
+      "sha256": "00c63da23734458d9ccd008db73852f2a30694d694adacd5f2e8d6b8c05a5dd0",
+      "bytes": 59,
+      "pinned_blob": "95ddb66fbfb2db730de8370a21102dd1d636175b",
+      "local_matches": true
+    },
+    "tests/expected/function-contract/ordinary_stub_overlap.rs": {
+      "sha256": "21186f51f8260becc29d2a762dfba67ad504d44f3f2e34a85f62ba26425b980b",
+      "bytes": 477,
+      "pinned_blob": "fcb7d14ee966e62b810b515fb97eca464ec02c11",
+      "local_matches": true
+    },
+    "tests/kani/FunctionContracts/ordinary_stub.rs": {
+      "sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "bytes": 3730,
+      "pinned_blob": "ebde1e09258da92e639d64bcf12b7166a1e8a61c",
+      "local_matches": true
+    },
+    "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs": {
+      "sha256": "866d870c3ff3670f4a75401c18fa6b17e0a683de508e826a90bf4d8ef7b4b171",
+      "bytes": 748,
+      "pinned_blob": "5ddd482ab66bcab219d3eed6bfa04171290681db",
+      "local_matches": true
+    }
+  },
+  "source_tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+  "source_local_HEAD": "f82934ca97caaa1270d5279054aa950173868be5",
+  "source_worktree_clean": true,
+  "g0_start_HEAD": "58a74e7436c8214652708bda480f1f9eccd4ad5c",
+  "g0_start_clean": true,
+  "full_index_diff_matches_frozen_snapshot": true,
+  "full_index_diff_sha256": "b0799ef2f4b96ef2e3adc84db4a61a2e4f1301c5aba30d2c60ea690fcf80056f",
+  "diff_numstat_matches": true,
+  "exact_changed_path_set_matches": true,
+  "diff_whitespace_check": "PASS",
+  "protected_tree_ids_match": true,
+  "frozen_dependency_hashes_match": true,
+  "task_snapshot_files_match": true,
+  "owner_external_pr_hash_matches_and_not_modified": true,
+  "style_hash_matches": true,
+  "current_harness_count": 38,
+  "current_harnesses": [
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "line": 15,
+      "name": "provider",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "line": 20,
+      "name": "replacement_overflow",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "line": 26,
+      "name": "verified_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "line": 32,
+      "name": "verified_postcondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "line": 43,
+      "name": "provider_postcondition",
+      "attributes": [
+        "#[kani::proof_for_contract(bad_contract)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "line": 48,
+      "name": "unstubbed_postcondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "line": 54,
+      "name": "unstubbed_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(bad_contract, g)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "line": 60,
+      "name": "replacement_postcondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, bad_contract)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "line": 77,
+      "name": "replacement_provider_postcondition",
+      "attributes": [
+        "#[kani::proof_for_contract(replacement_caller)]",
+        "#[kani::stub(f, discriminating_replacement)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "line": 88,
+      "name": "replacement_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, restricted_replacement)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "line": 99,
+      "name": "requires_only_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(requires_only)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "line": 104,
+      "name": "requires_only_verified_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "line": 110,
+      "name": "requires_only_verified_result",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_issue_4591.rs",
+      "line": 22,
+      "name": "check_caller",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(abs_val, stub_abs_val)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_overlap.rs",
+      "line": 17,
+      "name": "overlapping_contract_target",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]",
+        "#[kani::stub_verified(f)]",
+        "#[kani::stub(f, g)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 17,
+      "name": "provider",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 22,
+      "name": "verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 30,
+      "name": "ordinary_stub",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 38,
+      "name": "ordinary_stub_outside_target_precondition",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 54,
+      "name": "requires_only_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(requires_only)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 59,
+      "name": "requires_only_verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 65,
+      "name": "ensures_only_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(ensures_only)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 70,
+      "name": "ensures_only_verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(ensures_only)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 76,
+      "name": "multiple_targets",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(requires_only, g)]",
+        "#[kani::stub(ensures_only, g)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 92,
+      "name": "recursive_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(recursive)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 97,
+      "name": "recursive_verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(recursive)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 103,
+      "name": "recursive_target",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(recursive, g)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 119,
+      "name": "generic_instances",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(generic, generic_replacement)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 131,
+      "name": "uncontracted_target",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(uncontracted, g)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 138,
+      "name": "transitive_replacement",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, requires_only)]",
+        "#[kani::stub(requires_only, g)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 152,
+      "name": "replacement_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(contracted_replacement)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 157,
+      "name": "replacement_contract",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, contracted_replacement)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 164,
+      "name": "replacement_verified_contract",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, contracted_replacement)]",
+        "#[kani::stub_verified(contracted_replacement)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "line": 177,
+      "name": "replacement_contract_target",
+      "attributes": [
+        "#[kani::proof_for_contract(replacement_caller)]",
+        "#[kani::stub(f, contracted_replacement)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "line": 17,
+      "name": "ordinary_stub_original_mode",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, replacement)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "line": 23,
+      "name": "provider",
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "line": 28,
+      "name": "verified_control",
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "line": 34,
+      "name": "replacement_provider",
+      "attributes": [
+        "#[kani::proof_for_contract(replacement)]",
+        "#[kani::should_panic]"
+      ]
+    }
+  ],
+  "static_arithmetic": {
+    "positive_caller_input_count": 16,
+    "positive_caller_and_provider_posts_all_true": true,
+    "negative_proposed_witnesses": {
+      "precondition": {
+        "x": 4,
+        "provider_pre": false,
+        "provider_post": false,
+        "caller_post": true
+      },
+      "postcondition": {
+        "x": 1,
+        "provider_pre": true,
+        "provider_post": false,
+        "caller_post": true
+      },
+      "reachable_success": {
+        "x": 0,
+        "provider_pre": true,
+        "provider_post": true,
+        "caller_post": true
+      }
+    },
+    "proposed_no_assert_witness": {
+      "x": 8,
+      "provider_body_result": 10,
+      "consistent_provider_post": true,
+      "provider_pre": false,
+      "target_pre": false
+    },
+    "issue4591_witness": {
+      "replacement_result": 2147483647,
+      "caller_mathematical_result": 2147483648,
+      "exceeds_i32_max": true
+    },
+    "limit": "Integer/source analysis; no macro expansion, MIR, native verifier, property observation or proof credit."
+  },
+  "execution": {
+    "compiler_or_native": "NOT_RUN",
+    "CI_or_remote": "NOT_RUN",
+    "new_candidate": "NOT_CREATED",
+    "source_edits": false,
+    "external_pr_edits": false,
+    "ledger_or_accounting": false,
+    "subagents": false
+  },
+  "historical_ci": {
+    "head": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+    "Kani": 44461123962,
+    "Format": 44461124056,
+    "Deny": 44461124017,
+    "native": "Kani FAILURE; Format/Deny SUCCESS; 12 jobs: 11 SUCCESS, 1 perf FAILURE. Five regression OS jobs/docs/benchcomp/LLBC SUCCESS.",
+    "limits": "Named harness/property granularity UNKNOWN. 38 source expectations are not 38 observed passes. Shutdown/s2n reason COORDINATOR_REPORTED; independent cause UNKNOWN. Prior perf SUCCESS is context, not waiver. New cleanup native NOT_RUN."
+  },
+  "packet_validation": {
+    "all_38_named_rows_exactly_once": true,
+    "seven_retained_harness_names_exact": true,
+    "pr_two_substance_paragraphs": true,
+    "pr_one_pending_ci_link": true,
+    "pr_exact_license_and_disclosure": true,
+    "original_input_manifest_matches": true,
+    "source_unchanged_at_closeout": true,
+    "owner_external_draft_unchanged_at_closeout": true,
+    "task_snapshots_unchanged_at_closeout": true
+  }
+}
