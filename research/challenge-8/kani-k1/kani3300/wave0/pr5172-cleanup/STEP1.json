@@ -1,0 +1,31 @@
+{
+  "status": "STEP_1_STATIC_IDENTITIES_CONFIRMED_BEFORE_EDITS",
+  "head": "80e5d6fabc0103b0b3117440007ad2d9475f9a9c",
+  "tree": "64adc9337b59f93d0d3acc1960666f0b1a42fb6b",
+  "changed_files_hash_checked": 50,
+  "sources": 22,
+  "harnesses": 24,
+  "identical_helpers": 11,
+  "helper_sha256": "da5fd42907aa3e8de9370b5a23f0afa0a893f2e474c43d5c802db240e974e321",
+  "shared_expected_names": [
+    "erased-pointer-plain.expected",
+    "erased-pointer-seeded.expected",
+    "fn-pointer-plain.expected",
+    "fn-pointer-seeded.expected",
+    "global-escaped-plain.expected",
+    "global-escaped-seeded.expected",
+    "wrapped-pointer-plain.expected",
+    "wrapped-pointer-seeded.expected"
+  ],
+  "shared_expected_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+  "compiler_paths": [
+    "kani-compiler/src/kani_middle/points_to/mod.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs"
+  ],
+  "native_CI": "NOT_RUN",
+  "proof_credit": "NONE"
+}

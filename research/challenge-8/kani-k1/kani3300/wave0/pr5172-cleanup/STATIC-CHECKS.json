@@ -1,0 +1,363 @@
+{
+  "status": "STATIC_CHECKS_PASS",
+  "parent": "80e5d6fabc0103b0b3117440007ad2d9475f9a9c",
+  "candidate_head": "fef46d2d9d65bf3eb91a282da004043ecd26a208",
+  "commit_identity": {
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "committer": "Tiramisu-Cake <igkharin@gmail.com>",
+    "message": "Share unresolved-call regression fixtures and correct transfer comment",
+    "exactly_one_commit": true,
+    "worktree_clean": true,
+    "committed_bytes_checked": true
+  },
+  "candidate_tree": "2e6c41da31c3e5a96a9a7d39efa8eb93e6c973e7",
+  "discovered_roots": 22,
+  "retained_harnesses": 24,
+  "copy_calls": 12,
+  "shared_helper_sources": 11,
+  "named_oracles": 14,
+  "fallback_oracles": 8,
+  "compiler_paths": {
+    "kani-compiler/src/kani_middle/points_to/mod.rs": {
+      "parent_git_blob": "db9070b92e868cf67308b04e691ada034060a2a5",
+      "parent_sha256": "f42097f7d8f4b9c2bef756217716183e39bbaf603fb34268883e6f1245fdb6fc",
+      "candidate_git_blob": "db9070b92e868cf67308b04e691ada034060a2a5",
+      "candidate_sha256": "f42097f7d8f4b9c2bef756217716183e39bbaf603fb34268883e6f1245fdb6fc",
+      "disposition": "BYTE_IDENTICAL"
+    },
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs": {
+      "parent_git_blob": "3a53ecb88f3cba00e8af9dcdd32c71a5b4041573",
+      "parent_sha256": "7b5fd6e545ca8efc9729dd87dda22e927cca68d16de085b1bb76576fe1bd8440",
+      "candidate_git_blob": "3a53ecb88f3cba00e8af9dcdd32c71a5b4041573",
+      "candidate_sha256": "7b5fd6e545ca8efc9729dd87dda22e927cca68d16de085b1bb76576fe1bd8440",
+      "disposition": "BYTE_IDENTICAL"
+    },
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs": {
+      "parent_git_blob": "6d5e6940e20aa46e421fb2ed7682c7e90454e7b3",
+      "parent_sha256": "0edfcdb06df42c0754263a330ff4748bba1b8090a74f796c7d9b3dc8b3bd7f1b",
+      "candidate_git_blob": "6d5e6940e20aa46e421fb2ed7682c7e90454e7b3",
+      "candidate_sha256": "0edfcdb06df42c0754263a330ff4748bba1b8090a74f796c7d9b3dc8b3bd7f1b",
+      "disposition": "BYTE_IDENTICAL"
+    },
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs": {
+      "parent_git_blob": "9bc70819031b79835540b90eff1c2317abf27d1d",
+      "parent_sha256": "3b20bb424d03e62b4f495b1b4f1a5e6e28492c0b87c32bfc8129d3c0d9c20819",
+      "candidate_git_blob": "9bc70819031b79835540b90eff1c2317abf27d1d",
+      "candidate_sha256": "3b20bb424d03e62b4f495b1b4f1a5e6e28492c0b87c32bfc8129d3c0d9c20819",
+      "disposition": "BYTE_IDENTICAL"
+    },
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs": {
+      "parent_git_blob": "206f71012a76e0d3445505a5aca98e8819ab4ae5",
+      "parent_sha256": "57e5c95bd75dcb55d5b2fd04cf912faffd2ea7e6bdca9beeef233662f42fa1eb",
+      "candidate_git_blob": "206f71012a76e0d3445505a5aca98e8819ab4ae5",
+      "candidate_sha256": "57e5c95bd75dcb55d5b2fd04cf912faffd2ea7e6bdca9beeef233662f42fa1eb",
+      "disposition": "BYTE_IDENTICAL"
+    },
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": {
+      "parent_git_blob": "fef7aa83a7bfd4b449c472cadf90f9d7b515d9cf",
+      "parent_sha256": "ee9d2a4e44b747c6146384de4a80fc901ab00f60949727e9a8693ee2fe1c7d81",
+      "candidate_git_blob": "f0f4107596d496b0644d6480d62b45b4c80dd68a",
+      "candidate_sha256": "a1c74a2a0777bb96db317067b7ca00f99bd960a94678f0c29c080e8267a31164",
+      "disposition": "EXACT_COMMENT_ONLY_CHANGE"
+    }
+  },
+  "compiler_code_bytes_identical_except_exact_comment": true,
+  "adapter": {
+    "disposition": "DEFERRED",
+    "reason": "avoid code churn in a PR under review"
+  },
+  "matrix": [
+    {
+      "source": "tests/expected/uninit/unresolved-calls/direct-plain.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "-D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/direct-plain.expected",
+      "oracle_sha256": "b0936f39b1372ce308ec0efba323e602cd03e36cada34138dcb3d37f68af7fed",
+      "copy_calls": 0
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/direct-seeded.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "-D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/direct-seeded.expected",
+      "oracle_sha256": "b0936f39b1372ce308ec0efba323e602cd03e36cada34138dcb3d37f68af7fed",
+      "copy_calls": 1
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "--edition 2021 -C panic=abort -D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.expected",
+      "oracle_sha256": "aecbd2939d8717cf0ec3e6a44d44cd833f7bc855f8335d1cd64fcf65e0bc81a5",
+      "copy_calls": 0
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "--edition 2021 -C panic=abort -D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.expected",
+      "oracle_sha256": "aecbd2939d8717cf0ec3e6a44d44cd833f7bc855f8335d1cd64fcf65e0bc81a5",
+      "copy_calls": 1
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "--edition 2021 -C panic=abort -D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/entry-partial-plain.expected",
+      "oracle_sha256": "fe9d12488a16d7ade2cbbfd07bb36e9db6fa9e13185b32ef8dcb361faf990cef",
+      "copy_calls": 0
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "--edition 2021 -C panic=abort -D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.expected",
+      "oracle_sha256": "fe9d12488a16d7ade2cbbfd07bb36e9db6fa9e13185b32ef8dcb361faf990cef",
+      "copy_calls": 1
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "-D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/expected",
+      "oracle_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "copy_calls": 0
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "-D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/expected",
+      "oracle_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "copy_calls": 1
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/fn-pointer-plain.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "-D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/expected",
+      "oracle_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "copy_calls": 0
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "-D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/expected",
+      "oracle_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "copy_calls": 1
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "-D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.expected",
+      "oracle_sha256": "da6d6d8e991c018a41a51f154de001afa55f2f7ecee7218ebcc88c38d9bd7634",
+      "copy_calls": 0
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "-D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.expected",
+      "oracle_sha256": "da6d6d8e991c018a41a51f154de001afa55f2f7ecee7218ebcc88c38d9bd7634",
+      "copy_calls": 1
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/generated-positive-plain.rs",
+      "harnesses": [
+        "generated_function_item",
+        "drop_closure_glue"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "--edition 2021 -D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/generated-positive-plain.expected",
+      "oracle_sha256": "9cd695c99aa3bbdb0920a7e5831ac21a0f3c82819b1885689ebcf4f789124fef",
+      "copy_calls": 0
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs",
+      "harnesses": [
+        "generated_function_item",
+        "drop_closure_glue"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "--edition 2021 -D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.expected",
+      "oracle_sha256": "9cd695c99aa3bbdb0920a7e5831ac21a0f3c82819b1885689ebcf4f789124fef",
+      "copy_calls": 2
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/global-escaped-plain.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "-D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/expected",
+      "oracle_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "copy_calls": 0
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "-D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/expected",
+      "oracle_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "copy_calls": 1
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/pending-ops-plain.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "--edition 2021 -C panic=abort -D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/pending-ops-plain.expected",
+      "oracle_sha256": "a98cba93c04805a857c52b571a41e93a9fb459dc3ba606dba7d91153258cc01c",
+      "copy_calls": 0
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "--edition 2021 -C panic=abort -D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected",
+      "oracle_sha256": "a98cba93c04805a857c52b571a41e93a9fb459dc3ba606dba7d91153258cc01c",
+      "copy_calls": 1
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/virtual-plain.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "-D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/virtual-plain.expected",
+      "oracle_sha256": "7f159f37bda578496904e263508101f8894d9130c37a061d5ae6e6773fd3bc25",
+      "copy_calls": 0
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/virtual-seeded.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "-D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/virtual-seeded.expected",
+      "oracle_sha256": "7f159f37bda578496904e263508101f8894d9130c37a061d5ae6e6773fd3bc25",
+      "copy_calls": 1
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "-D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/expected",
+      "oracle_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "copy_calls": 0
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs",
+      "harnesses": [
+        "check"
+      ],
+      "flags": [
+        "-Z uninit-checks",
+        "-D warnings"
+      ],
+      "oracle": "tests/expected/uninit/unresolved-calls/expected",
+      "oracle_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "copy_calls": 1
+    }
+  ],
+  "validation": "Source reversal, exact effective oracle bytes, discovery port, flags and scope checks; git diff --check",
+  "native_compiler_Kani_CBMC_CI": "NOT_RUN",
+  "independent_review": "NOT_RUN",
+  "proof_credit": "NONE"
+}
