@@ -1,0 +1,105 @@
+{
+  "schema": "pr5183-offline-review-provenance-v1",
+  "authority_anchor": "98784e2ade6135d3177b0ad14c9ab88777ab6aa2",
+  "gate": "Root explicitly issued this queued SAME-context review after PR5184 final verification; no automatic implementation or next-PR authority.",
+  "pinned_inputs": {
+    "schema": "open-pr-following-slop-review-inputs-v1",
+    "PR": 5183,
+    "repo": "model-checking/kani",
+    "url": "https://github.com/model-checking/kani/pull/5183",
+    "connected_checked_at": "2026-11-19T11:33:03.763Z",
+    "head": "19a42e1a21ae6f079cf68637782b4f16c345816b",
+    "head_tree": "7ef7f9392798b7035d5fbc35b2baec650eb77670",
+    "head_ref": "fix/autoharness-uninit-reset",
+    "head_repo": "Tiramisu-Cake/kani",
+    "base_snapshot": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "base_ref": "main",
+    "merge_base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+    "source_worktree": "/root/kani-pr5183-slop-readonly-20261119",
+    "source_policy": "READ_ONLY exact detached published head; do not edit/commit this source or execute test drivers.",
+    "state": "open",
+    "mergeable": true,
+    "mergeable_state": "behind",
+    "changed_file_count": 5,
+    "changed_files": {
+      "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs": {
+        "git_blob": "dc736b3986f01cc2a5c2e7730fe2d86396d52897",
+        "sha256": "0079e62f4f89aea9e1fb128f3b5af0f1bba76591d80c38bbfed6d858716a8278",
+        "bytes": 4623,
+        "status": "modified"
+      },
+      "tests/script-based-pre/autoharness_uninit_reset/config.yml": {
+        "git_blob": "ce281b6409055714a8a9832e86688cc6dcab79f9",
+        "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9",
+        "bytes": 109,
+        "status": "added"
+      },
+      "tests/script-based-pre/autoharness_uninit_reset/expected": {
+        "git_blob": "ebe46d5f0fbae908ee91c7d86ceae49a6bd4b21e",
+        "sha256": "5a539bd8271deac4870a4a984803b6d3319395269d517c448205ae28b522920a",
+        "bytes": 277,
+        "status": "added"
+      },
+      "tests/script-based-pre/autoharness_uninit_reset/main.rs": {
+        "git_blob": "6a9087c99ab97c3b0ac181df9bb198e26c7a14ea",
+        "sha256": "49b2c2c1668b0b392075f11b9914456b319f25b777cace9a16ef0ed6d26055eb",
+        "bytes": 598,
+        "status": "added"
+      },
+      "tests/script-based-pre/autoharness_uninit_reset/run.sh": {
+        "git_blob": "a2d05d065cac1a625b2c936ce8ddd9fad194e755",
+        "sha256": "e2dabf7ce27b9043dc04cccf67303b69d9323f71ef7b5725ce9ecfc3a96eef94",
+        "bytes": 384,
+        "status": "added"
+      }
+    },
+    "diff_sha256": "91c0d5b56fdbdff371b806405b603732edc24e68cc0daa522d9ca3bdd2c53e9f",
+    "diff_numstat": [
+      "8\t1\tkani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "4\t0\ttests/script-based-pre/autoharness_uninit_reset/config.yml",
+      "6\t0\ttests/script-based-pre/autoharness_uninit_reset/expected",
+      "23\t0\ttests/script-based-pre/autoharness_uninit_reset/main.rs",
+      "9\t0\ttests/script-based-pre/autoharness_uninit_reset/run.sh"
+    ],
+    "PR_body_sha256": "6a0b490894fd74637f58256eee3b4a77834c45eb4277b262cbc7346021f025d1",
+    "reviews_count": 1,
+    "inline_comments_count": 0,
+    "scope": "Offline code/comments/tests/PR body review; specific justified edits. No source changes, native tools, CI, push, PR writes or accounting.",
+    "style": "Kani: STYLE-UPSTREAM-RULES snapshot. CBMC: readability principles plus actual CBMC contribution/license/PR conventions; do not inject Kani Apache2/MIT text into CBMC. Preserve real linked issue/disclosure, do not invent one.",
+    "no_implementation_authority": true
+  },
+  "references": {
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-next-inputs-20261119/pr-5183/INPUTS.json": {
+      "sha256": "1805f1c5f0169ff2a8a7f322033d4c3a7b97281cee2de9d3351c8055a15e43d9",
+      "bytes": 3243
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-next-inputs-20261119/pr-5183/SOURCE.patch": {
+      "sha256": "91c0d5b56fdbdff371b806405b603732edc24e68cc0daa522d9ca3bdd2c53e9f",
+      "bytes": 4150
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-next-inputs-20261119/pr-5183/CONNECTED-PR.json": {
+      "sha256": "8103af2789fe126362ad81cf20d4f6679e4f6410c9a999626d1c109995b36f22",
+      "bytes": 6759
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-next-inputs-20261119/pr-5183/PR-BODY.snapshot.md": {
+      "sha256": "6a0b490894fd74637f58256eee3b4a77834c45eb4277b262cbc7346021f025d1",
+      "bytes": 1247
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-next-inputs-20261119/ROOT-DECISION.md": {
+      "sha256": "649e98f42a3a9f4fcb43ded3dee59bf5aabe126029a9702564d7d42e795149aa",
+      "bytes": 1630
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/open-pr-slop-next-inputs-20261119/STYLE-UPSTREAM-RULES.snapshot.md": {
+      "sha256": "5932c080cd5938ad7fcb159b1847e663df828beffc17196716b001e6a5cb9e7a",
+      "bytes": 3240
+    },
+    "research/challenge-8/kani-k1/TASK-OPEN-PR-5183-SLOP-REVIEW.md": {
+      "sha256": "9e6979e15532b6b3ae86859753744732a916859aca2fbbfb5b897eba959fbdbe",
+      "bytes": 4368
+    }
+  },
+  "g0_HEAD_at_packet_creation": "fba20047718b69ad279feffdf7bf44d37d0abcae",
+  "source_policy": "Read-only exact detached source; no driver execution/source changes/live PR or external draft access.",
+  "settings": "Existing High/FastOFF unchanged; no subagents/model/settings operations.",
+  "evidence": "Source/static only; native NOT_RUN."
+}
