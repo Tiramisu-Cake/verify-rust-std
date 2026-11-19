@@ -1,0 +1,49 @@
+{
+  "head": "78f745bb696c85095a9582f959d4854ec494c4f5",
+  "all_six_dispositioned": true,
+  "files": [
+    {
+      "file": "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+      "reviewed": true,
+      "git_blob": "8c353711e61b42479aa47ba7cbeb77a2da16d07e",
+      "disposition": "RETAIN_IMPLEMENTATION_TRIM_ONLY_NEW_COMMENTS",
+      "rationale": "Preserve aligned operand path, typed inhabited-ZST construction, both returning/non-returning uninhabited SafetyChecks and non-ZST dereference."
+    },
+    {
+      "file": "tests/expected/intrinsics/volatile_load/zst_unaligned.expected",
+      "reviewed": true,
+      "git_blob": "f7e8d7a5a2506d552cef3da894568536b4a0c5ca",
+      "disposition": "RETAIN_SPECIFIC_REASON_ADD_HARNESS_AND_COMPLETION",
+      "rationale": "Existing pattern rejects setup-only failure but can accept incomplete synthetic failure output; add completion without weakening the diagnostic."
+    },
+    {
+      "file": "tests/expected/intrinsics/volatile_load/zst_unaligned.rs",
+      "reviewed": true,
+      "git_blob": "7c52224577e7346490910a5202cce35140471c78",
+      "disposition": "RETAIN_NEGATIVE_SOURCE_OPTIONAL_COMMENT_TIGHTENING",
+      "rationale": "The distinct safety negative must stay separate from positive-success mode and from the other failure reason."
+    },
+    {
+      "file": "tests/expected/intrinsics/volatile_load/zst_uninhabited.expected",
+      "reviewed": true,
+      "git_blob": "0fc05b09ff0f7ae8460af46c90353188277ff4b0",
+      "disposition": "RETAIN_SPECIFIC_REASON_ADD_HARNESS_AND_COMPLETION",
+      "rationale": "Existing pattern rejects setup-only failure but can accept incomplete synthetic failure output; add completion without weakening the diagnostic."
+    },
+    {
+      "file": "tests/expected/intrinsics/volatile_load/zst_uninhabited.rs",
+      "reviewed": true,
+      "git_blob": "8f94f6264c3ee0421e12c07af402b5c55ab8513a",
+      "disposition": "RETAIN_NEGATIVE_SOURCE_OPTIONAL_COMMENT_TIGHTENING",
+      "rationale": "The distinct safety negative must stay separate from positive-success mode and from the other failure reason."
+    },
+    {
+      "file": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "reviewed": true,
+      "git_blob": "48c976602ee1ee2f22935473499557ca0bdba0be",
+      "disposition": "RETAIN_ALL_SIX_HARNESSES_AND_ASSERTIONS",
+      "rationale": "Already one compact positive file; all six named cases and local Z representation are justified in COVERAGE-EDITS."
+    }
+  ],
+  "source_edits_applied": false
+}

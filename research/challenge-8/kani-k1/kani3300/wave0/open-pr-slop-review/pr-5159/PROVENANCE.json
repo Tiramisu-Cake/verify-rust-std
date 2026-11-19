@@ -1,0 +1,151 @@
+{
+  "schema": "pr5159-offline-review-provenance-v1",
+  "task": "98784e2ade6135d3177b0ad14c9ab88777ab6aa2",
+  "head": "78f745bb696c85095a9582f959d4854ec494c4f5",
+  "tree": "b9c008a20c87cb3cffd93605da184d592fc49daa",
+  "parents": [
+    "70d9288513f4d19fdfb4ca0e19a4f73ec203cd46",
+    "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e"
+  ],
+  "base_merge_base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "head_ref": "fix/volatile-zst-5072",
+  "head_repo": "Tiramisu-Cake/kani",
+  "source_worktree": "/root/kani-pr5159-slop-readonly-20261119",
+  "source_read_only_clean": true,
+  "snapshot_files": {
+    "kani3300/wave0/open-pr-slop-next-inputs-20261119/pr-5159/INPUTS.json": {
+      "bytes": 3560,
+      "sha256": "2f699f4b23c5fcbed908cd18b8a25fd75fa408159e4ac088088253dd28f2da7a"
+    },
+    "kani3300/wave0/open-pr-slop-next-inputs-20261119/pr-5159/CONNECTED-PR.json": {
+      "bytes": 7086,
+      "sha256": "041ef985cc4a83b52569c587773acf23adaa171a7880b4b138d43cfbc667cf7e"
+    },
+    "kani3300/wave0/open-pr-slop-next-inputs-20261119/pr-5159/PR-BODY.snapshot.md": {
+      "bytes": 1118,
+      "sha256": "9c9f09520c537f20ca55154cbc5352c7e7900d79fca579c5f78bea67b4e3167d"
+    },
+    "kani3300/wave0/open-pr-slop-next-inputs-20261119/pr-5159/SOURCE.patch": {
+      "bytes": 7385,
+      "sha256": "18724fc6d87d49afe49418c8e49c48e78d50b457974dac35c11e28e9355e83da"
+    },
+    "kani3300/wave0/open-pr-slop-next-inputs-20261119/STYLE-UPSTREAM-RULES.snapshot.md": {
+      "bytes": 3240,
+      "sha256": "5932c080cd5938ad7fcb159b1847e663df828beffc17196716b001e6a5cb9e7a"
+    },
+    "kani3300/wave0/open-pr-slop-next-inputs-20261119/ROOT-DECISION.md": {
+      "bytes": 1630,
+      "sha256": "649e98f42a3a9f4fcb43ded3dee59bf5aabe126029a9702564d7d42e795149aa"
+    }
+  },
+  "references": [
+    {
+      "path": "cprover_bindings/src/goto_program/expr.rs",
+      "head_and_base_identical": true,
+      "git_blob": "ecf1e43e65db29ed0f101f291cd647084350d386",
+      "sha256": "acf2baf0f67dc32868b55b4fa92757628b5c219951a631390b91b0ecc0701780"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "head_and_base_identical": true,
+      "git_blob": "98b1bb60a6f33fe65321f3fb6e4f67bed70e47a5",
+      "sha256": "c0a2b93a624cf4d5310f9fd61561bb1c3b92c1260da9fd6cf7ef9a363f009f8b"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs",
+      "head_and_base_identical": true,
+      "git_blob": "e5ac13cd197617df9569c8da143801472e1acd6a",
+      "sha256": "59e894b1d6664a48c2cf3a6231f89e23cec75bfc134840809e0d6a1d76134594"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs",
+      "head_and_base_identical": true,
+      "git_blob": "b455ba82a8114ecbeff033e7093ae30d0607417e",
+      "sha256": "0a4db90716504402fae801e39481d1afabb18b2b8b6e8d65a4c68ed4ef56c1c6"
+    },
+    {
+      "path": "tools/compiletest/src/main.rs",
+      "head_and_base_identical": true,
+      "git_blob": "d60c3bbc7f49117b04b083cbce7e0384167950dd",
+      "sha256": "9e15ceb4c5dc7bc505081d3ec2be8a4af8bdb8fdf0cd0e5ffcbc137ea36dc412"
+    },
+    {
+      "path": "tools/compiletest/src/runtest.rs",
+      "head_and_base_identical": true,
+      "git_blob": "4438547071f5426caa8f0990fecfd727cf86352b",
+      "sha256": "7ab3d25a027144d8b4b669990793d8f76b980d7a9f9ed59130af8a95749797a4"
+    },
+    {
+      "path": "tools/compiletest/src/common.rs",
+      "head_and_base_identical": true,
+      "git_blob": "cbd8f2f9b474d44d886d1eb348f20b109eda6fb8",
+      "sha256": "97c6201dc6aff338b1615a2040cb0447a26c7524bea28dcc138139543a4de7ff"
+    },
+    {
+      "path": "library/kani_core/src/lib.rs",
+      "head_and_base_identical": true,
+      "git_blob": "41ebc98272aec6e64656f0a4075c648133adef6b",
+      "sha256": "fd4936db12f998df2419b9e6240f9171643f8287654840596ea2db40cfd76bc0"
+    },
+    {
+      "path": "library/kani_core/src/mem.rs",
+      "head_and_base_identical": true,
+      "git_blob": "42875177f699d98360a67bb1e050efdbb8296df7",
+      "sha256": "598428730a32f2c4034091688b50dde5a44deb69e2e3c61e08a0d394a5e42844"
+    },
+    {
+      "path": "tests/kani/Intrinsics/Volatile/load.rs",
+      "head_and_base_identical": true,
+      "git_blob": "8d58dfd2961bcf1237299bfd467caf4d30890e69",
+      "sha256": "f3191eeaace54537e7cbe9d9ec160a8135f63686f17378716c622dcdffba9683"
+    },
+    {
+      "path": "tests/kani/Intrinsics/Volatile/unaligned.rs",
+      "head_and_base_identical": true,
+      "git_blob": "b3005ee8fe7a14d88407189180ee4409f0273a26",
+      "sha256": "0ef559536197877d64d2db47c1afb600dec78190cca8f57d24e4645b1f1c44b1"
+    },
+    {
+      "path": "tests/kani/Intrinsics/Volatile/store.rs",
+      "head_and_base_identical": true,
+      "git_blob": "8311bd2387df110ce7e9264722c8b8a6da89b4ff",
+      "sha256": "b574d08c1e308bd8320deb4f81c7f4d28ba9503b5d50ad3367fae4c6204d2a26"
+    },
+    {
+      "path": "tests/expected/intrinsics/volatile_load/unaligned/main.rs",
+      "head_and_base_identical": true,
+      "git_blob": "bdd5ca17c21c875a607e65ec349b881a4ba7a99e",
+      "sha256": "805ed61ceccafa3329b5b0dead9b7702a2aa9e1a0118ba409bd533e839543187"
+    },
+    {
+      "path": "tests/expected/intrinsics/volatile_load/unaligned/expected",
+      "head_and_base_identical": true,
+      "git_blob": "485accebd53c04ee1a5dafc113be4972ce2983bf",
+      "sha256": "c140136bc0c52a5e0e2a946071aa1c298449c3d7d640ffad587a23321fbf6414"
+    },
+    {
+      "path": "tests/expected/intrinsics/unaligned_volatile/out_of_bounds/main.rs",
+      "head_and_base_identical": true,
+      "git_blob": "052d73868b4eecfc428a266297999b002ec75f1a",
+      "sha256": "40c12e7f23b5c9ee25dbd8511d70a170759a06817ad6982fbe637323bc3dded1"
+    },
+    {
+      "path": "tests/kani/Intrinsics/NonRet/transmute_zst.rs",
+      "head_and_base_identical": true,
+      "git_blob": "29bcbd2e88da01cd46a7928e600c7bc78d6b8189",
+      "sha256": "12227689c25a6bc046f982d71b2c0ec2b95d4269fd993fbc8b78f721cb2fcccf"
+    }
+  ],
+  "snapshot_review_state": [
+    {
+      "author": "copilot-pull-request-reviewer[bot]",
+      "state": "COMMENTED",
+      "commit_id": "70d9288513f4d19fdfb4ca0e19a4f73ec203cd46"
+    }
+  ],
+  "inline_comments": 0,
+  "CI_claim": "Original PR body reports a historical pre-merge run; not rechecked. Pending current merged-revision standard CI in suggested body.",
+  "runtime": "High/FastOFF unchanged; no subagents/model/settings changes",
+  "native_CI_push_live_PR_draft_ledger_changes": "NONE",
+  "delivery_commit": "Containing g0 commit returned externally binds MANIFEST.json"
+}

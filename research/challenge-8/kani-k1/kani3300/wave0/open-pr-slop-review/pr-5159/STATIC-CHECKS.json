@@ -1,0 +1,54 @@
+{
+  "schema": "pr5159-static-review-checks-v1",
+  "status": "STATIC_CHECKS_PASS",
+  "task": "98784e2ade6135d3177b0ad14c9ab88777ab6aa2",
+  "head": "78f745bb696c85095a9582f959d4854ec494c4f5",
+  "tree": "b9c008a20c87cb3cffd93605da184d592fc49daa",
+  "base_merge_base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "exact_changed_blobs_verified": 6,
+  "merge_head_not_premerge": true,
+  "source_clean": true,
+  "source_test_files": 3,
+  "proof_harnesses": {
+    "tests/expected/intrinsics/volatile_load/zst_unaligned.rs": [
+      "misaligned_zst"
+    ],
+    "tests/expected/intrinsics/volatile_load/zst_uninhabited.rs": [
+      "uninhabited_zst"
+    ],
+    "tests/kani/Intrinsics/Volatile/load_zst.rs": [
+      "read_volatile_unit_reference",
+      "read_volatile_dangling_unit",
+      "read_volatile_overaligned_zst",
+      "read_volatile_null_zsts",
+      "intrinsic_volatile_load_zsts",
+      "read_volatile_aggregate_zsts"
+    ]
+  },
+  "total_proof_harnesses": 8,
+  "positive_harnesses": 6,
+  "negative_expected_harnesses": 2,
+  "test_flags": "edition2021, explicit manual proof harnesses; no skip/verify-fail or additional kani flags",
+  "oracle_checks": [
+    {
+      "file": "tests/expected/intrinsics/volatile_load/zst_unaligned.expected",
+      "setup_only_rejected": true,
+      "intended_diagnostic_required": "`src` must be properly aligned",
+      "incomplete_failure_output_currently_matches": true,
+      "named_harness_and_complete_summary_rejects_that_output": true,
+      "native_crash_reproduced": false
+    },
+    {
+      "file": "tests/expected/intrinsics/volatile_load/zst_uninhabited.expected",
+      "setup_only_rejected": true,
+      "intended_diagnostic_required": "volatile load of an uninhabited type has undefined behavior",
+      "incomplete_failure_output_currently_matches": true,
+      "named_harness_and_complete_summary_rejects_that_output": true,
+      "native_crash_reproduced": false
+    }
+  ],
+  "scope": "Identity and literal-source/matcher checks only; no compiler/MIR/native or CI execution",
+  "native_main_fail_head_pass": "NOT_RUN",
+  "supported_diagnostics_preserved": true,
+  "source_edits": false
+}

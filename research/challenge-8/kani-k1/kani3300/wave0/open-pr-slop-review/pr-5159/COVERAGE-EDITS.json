@@ -1,0 +1,78 @@
+{
+  "current_harnesses": 8,
+  "positive": 6,
+  "negative": 2,
+  "recommended_harness_removals": [],
+  "recommended_harness_merges": [],
+  "recommended_source_file_removals": [],
+  "new_fixture_framework": false,
+  "flags": "edition2021 throughout; explicit manual proof discovery; default successful verification mode for positive file and named expected-output mode for negatives",
+  "rows": [
+    {
+      "file": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "harness": "read_volatile_unit_reference",
+      "helpers_types": "std::ptr::read_volatile; unit",
+      "action": "RETAIN",
+      "oracle": "assert_eq public read_volatile(&()), (); ordinary Kani verification success",
+      "rationale": "Real issue5072 reference-to-unit source reproducer."
+    },
+    {
+      "file": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "harness": "read_volatile_dangling_unit",
+      "helpers_types": "NonNull::<()>::dangling",
+      "action": "RETAIN",
+      "oracle": "assert_eq unit result; ordinary Kani verification success",
+      "rationale": "Aligned non-null ZST pointer without allocated readable memory; distinct from a reference to a local."
+    },
+    {
+      "file": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "harness": "read_volatile_overaligned_zst",
+      "helpers_types": "Z with repr(align8), Debug/PartialEq; NonNull::<Z>",
+      "action": "RETAIN",
+      "oracle": "Typed result equals Z; ordinary Kani verification success",
+      "rationale": "Alignment>1 and non-unit result representation."
+    },
+    {
+      "file": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "harness": "read_volatile_null_zsts",
+      "helpers_types": "ptr::null::<()>; ptr::null::<Z>",
+      "action": "RETAIN_BOTH_ASSERTIONS",
+      "oracle": "Unit and aligned-Z typed results equal expected values; ordinary Kani verification success",
+      "rationale": "Rejects a newly introduced non-null requirement; address0 is aligned for both layouts. Optional argument-side-effect counter can be added in this same harness under a later task."
+    },
+    {
+      "file": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "harness": "intrinsic_volatile_load_zsts",
+      "helpers_types": "std::intrinsics::volatile_load; NonNull::<Z>; ptr::null::<()>",
+      "action": "RETAIN_BOTH_ASSERTIONS",
+      "oracle": "Direct intrinsic results equal Z and (); ordinary Kani verification success",
+      "rationale": "Direct compiler intrinsic path complements public API wrapper; preserves pointer/value distinctions without a generic fixture."
+    },
+    {
+      "file": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "harness": "read_volatile_aggregate_zsts",
+      "helpers_types": "([Z;2],[u8;0]); destructuring and array equality",
+      "action": "RETAIN",
+      "oracle": "zs==[Z,Z], bytes==[]; ordinary Kani verification success",
+      "rationale": "Zero-sized tuple/array result must retain correct type and shape, not become a universal unit expression."
+    },
+    {
+      "file": "tests/expected/intrinsics/volatile_load/zst_unaligned.rs",
+      "harness": "misaligned_zst",
+      "expected": "tests/expected/intrinsics/volatile_load/zst_unaligned.expected",
+      "helpers_types": "Local repr(align8) Z; without_provenance::<Z>(1)",
+      "action": "RETAIN_SOURCE_STRENGTHEN_EXPECTED",
+      "oracle": "Specific src-alignment FAILURE and failed verification; add named harness header and completed0success/1failure/1total",
+      "rationale": "Deliberate misalignment remains a safety error after eliminating the ZST dereference."
+    },
+    {
+      "file": "tests/expected/intrinsics/volatile_load/zst_uninhabited.rs",
+      "harness": "uninhabited_zst",
+      "expected": "tests/expected/intrinsics/volatile_load/zst_uninhabited.expected",
+      "helpers_types": "Empty enum; NonNull::<Empty>::dangling",
+      "action": "RETAIN_SOURCE_STRENGTHEN_EXPECTED",
+      "oracle": "Specific uninhabited-type safety FAILURE and failed verification; add named harness header and completed0success/1failure/1total",
+      "rationale": "Inhabitation, separately from alignment; no value may be constructed for Empty. Actual Some/None MIR target-route coverage remains unobserved offline."
+    }
+  ]
+}

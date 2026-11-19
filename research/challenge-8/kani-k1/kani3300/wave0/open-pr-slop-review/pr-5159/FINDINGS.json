@@ -1,0 +1,54 @@
+{
+  "schema": "pr5159-offline-review-findings-v1",
+  "head": "78f745bb696c85095a9582f959d4854ec494c4f5",
+  "disposition": "RECOMMEND_SMALL_ORACLE_AND_TEXT_EDITS_KEEP_IMPLEMENTATION_AND_ALL_EIGHT_HARNESSES",
+  "findings": [
+    {
+      "id": "R1",
+      "priority": "MEDIUM",
+      "type": "EXPECTED_ORACLE_COMPLETENESS",
+      "location": [
+        "tests/expected/intrinsics/volatile_load/zst_unaligned.expected",
+        "tests/expected/intrinsics/volatile_load/zst_uninhabited.expected"
+      ],
+      "finding": "Specific failure messages and verdicts are present, but named harness/completed inventory is absent; expected mode does not generally enforce a successful process exit.",
+      "recommendation": "Add the named Checking harness header and completed0success/1failure/1total, retaining all current reason lines.",
+      "evidence": [
+        "STATIC-CHECKS.json",
+        "COVERAGE-EDITS.md"
+      ],
+      "confidence": "Exact driver matcher port accepts synthetic incomplete output; no real compiler crash reproduced"
+    },
+    {
+      "id": "R2",
+      "priority": "LOW",
+      "type": "NEW_COMMENT_READABILITY",
+      "location": "intrinsic.rs and three changed test sources",
+      "finding": "A few newly added comments are contrastive, diff-oriented or duplicate the test/function name. Code/test structure is already small.",
+      "recommendation": "Apply only the named optional comment edits; retain source semantics, upstream base comments, initialization TODO and all8 harnesses.",
+      "evidence": [
+        "CODE-COMMENT-EDITS.md"
+      ],
+      "confidence": "SOURCE_AND_STYLE_REVIEW"
+    },
+    {
+      "id": "R3",
+      "priority": "MEDIUM",
+      "type": "PUBLIC_PR_WORDING_AND_CI_SCOPE",
+      "location": "PR-BODY.snapshot.md and CONNECTED-PR review metadata",
+      "finding": "Body CI and Copilot COMMENTED review refer to pre-merge70d9288. Current mergehead78f745b has not been validated by this offline review.",
+      "recommendation": "Keep behavior/issue/license/AI disclosure, remove commit-specific CI bookkeeping and use one pending standard-CI placeholder until an authorized current-revision run exists.",
+      "evidence": [
+        "PROVENANCE.json",
+        "PR-BODY.suggested.md"
+      ],
+      "confidence": "Pinned snapshot/head metadata; CI results not rechecked"
+    }
+  ],
+  "concrete_new_correctness_defect": "NONE_ESTABLISHED_OFFLINE",
+  "coverage_limits": [
+    "No explicit pointer-argument evaluation counter; normal returning operand path is source-unchanged.",
+    "One uninhabited source test does not establish both actual MIR return-target routes."
+  ],
+  "no_implementation_authority": true
+}
