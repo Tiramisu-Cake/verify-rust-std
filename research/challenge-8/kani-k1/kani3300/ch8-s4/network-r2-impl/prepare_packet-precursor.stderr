@@ -1,0 +1,17 @@
+fatal: git cat-file: could not get object info
+Traceback (most recent call last):
+  File "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/prepare_packet.py", line 20, in <module>
+    for item in required:assert text(dest,'cat-file','-t',item)=='commit'
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/prepare_packet.py", line 9, in text
+    def text(repo,*args):return git(repo,*args).decode().strip()
+                                ^^^^^^^^^^^^^^^
+  File "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/prepare_packet.py", line 8, in git
+    def git(repo,*args):return subprocess.check_output(['git','-C',str(repo),*args])
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', '-C', '/tmp/network-r2-shallow-usms86jg/clone', 'cat-file', '-t', '99e8456d200fff1299ee5756279cddb23921dc65']' returned non-zero exit status 128.

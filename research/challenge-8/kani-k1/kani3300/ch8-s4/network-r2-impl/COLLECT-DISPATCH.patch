@@ -1,0 +1,15 @@
+diff --git a/ch8-s1-control/collect.py b/ch8-s1-control/collect.py
+index 91b5d33c9736383de5a7552dfbdef87e6706f449..7433a35d83c5cd6bbbdcccb0d4cca34da948381b 100644
+--- a/ch8-s1-control/collect.py
++++ b/ch8-s1-control/collect.py
+@@ -51,6 +51,10 @@ def read(path):
+ 
+ 
+ def collect(roots,request):
++    import s4p2r2_profile
++    if s4p2r2_profile.enabled(request) or request.get('schema')==s4p2r2_profile.SCHEMA:
++        import s4p2r2_campaign
++        return s4p2r2_campaign.collect(roots,request)
+     import s4p2_profile
+     if s4p2_profile.enabled(request) or request.get('schema')==s4p2_profile.SCHEMA:
+         import s4p2_campaign

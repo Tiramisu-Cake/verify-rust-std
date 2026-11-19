@@ -1,0 +1,45 @@
+{
+  "final_control": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+  "precursor_control": "0df6f9914580bc1d9125317bb11a7bf043904caf",
+  "precursor_preserved_branch": "experiment/ch8-network-r2-control-offline-20261119",
+  "final_sealing": "New sibling of4059 from final staged tree using git commit-tree; original precursor branch preserved; no reset/amend/force push",
+  "preflight_01": {
+    "files": [
+      "preflight-01.stdout",
+      "preflight-01.stderr"
+    ],
+    "failure": "Author comparison helper used Python tuple/list representation equality against JSON; normalized JSON data matched. Actual source gate had returned; no native execution.",
+    "correction": "Normalize the report through JSON before comparing complete saved maps; final uncached preflight rerun"
+  },
+  "preflight_precursor": {
+    "files": [
+      "PREFLIGHT-PRECURSOR.json",
+      "preflight-precursor.stdout",
+      "preflight-precursor.stderr"
+    ],
+    "request_sha256": "9fe11e2c89cc4fef239fe008944588e3f70a7c8888de5b074df590485b1a36dc",
+    "scope": "Passing control8/source5 ancestor candidate, not final"
+  },
+  "shallow_precursor": {
+    "files": [
+      "prepare_packet-precursor.stdout",
+      "prepare_packet-precursor.stderr"
+    ],
+    "failure": "source depth5 omitted historical patch base99e8456; no proof/native failure",
+    "correction": "new profile export checkout6 and control8; all shallow identities and patch replays PASS on final"
+  },
+  "targeted_precursors": [
+    "tests/targeted-01.json",
+    "tests/targeted-control-0df6f99.json",
+    "tests/old-targeted-initial.json"
+  ],
+  "final_receipts": [
+    "tests/targeted-final.json",
+    "tests/old-targeted-final.json",
+    "PREFLIGHT.json",
+    "CONTROL-GATE.json",
+    "PATCHES.json"
+  ],
+  "final_validate_execution_count": 0,
+  "historical_or_precursor_results_transferred": false
+}

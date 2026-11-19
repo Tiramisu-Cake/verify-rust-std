@@ -1,0 +1,11 @@
+{
+  "command": [
+    "python3",
+    "-c",
+    "import s4p2r2_validate as v; r=v.old_s4p2_suite(('test_s4p2.RoleTests','test_s4p2.WorkflowTests','test_s4p2.SingletonRunnerTests')); print({'tests':r.testsRun,'failures':len(r.failures),'errors':len(r.errors)}); raise SystemExit(not r.wasSuccessful())"
+  ],
+  "exit_code": 0,
+  "seconds": 1.1350650158710778,
+  "control_sha": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+  "scope": "Eight existing S4P2 role/workflow/singleton tests under immutable old fixture; final Validate NOT_RUN"
+}

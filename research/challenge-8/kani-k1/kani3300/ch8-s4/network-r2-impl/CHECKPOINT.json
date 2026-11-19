@@ -1,0 +1,61 @@
+{
+  "schema": "network-r2-impl-checkpoint-v1",
+  "status": "HANDOFF",
+  "stage": "OFFLINE_IMPLEMENTATION_COMPLETE_FINAL_VALIDATE_PREPARED_NOT_RUN",
+  "authority": "c56c56bbabcd2772443a854dca3eca9d04cb3089",
+  "plan": "cdedf547df37aec4c442727a902a784f4d1b5155",
+  "plan_review": "2b7872e84c8cf723f72ea33ee441a7b02be9b2e4",
+  "source": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+  "control": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+  "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "request_sha256": "fd2b608a5538779f5f0345a49e5c147646d82dc6d066fdd1e3b50d0e6bc69e39",
+  "claims": [
+    {
+      "claim": "Source domain correspondence and preservation",
+      "assurance": "STATIC_SOURCE_ONLY",
+      "evidence": [
+        "DOMAIN-EQUIVALENCE.md",
+        "PRESERVATION.json",
+        "PREFLIGHT.json"
+      ]
+    },
+    {
+      "claim": "22 new targeted and8 old synthetic tests passed on final control",
+      "assurance": "OFFLINE_PYTHON_SERVICE_TESTS_ONLY",
+      "evidence": [
+        "tests/targeted-final.json",
+        "tests/old-targeted-final.json"
+      ]
+    },
+    {
+      "claim": "Four patch-tree replays, exact immutable pins and shallow6/8/2 identities",
+      "assurance": "GIT_BYTE_IDENTITY_ONLY",
+      "evidence": [
+        "PATCHES.json",
+        "PINS.json"
+      ]
+    }
+  ],
+  "open": [
+    "Exact-package independent review",
+    "Final366-test Validate execution on exact control;18min and margin>=1.5",
+    "Any publication/GO/native execution needs separate authorization",
+    "Native compile/MIR/source binding and complete safety/unwind/role/SAT/U/guard/location inventory/cost fit",
+    "Generic/full-length/caller/initialization/ownership/provider proofs and B1/B2"
+  ],
+  "blocker": null,
+  "stop_reason": "User assigned one offline implementation stage and explicitly required stop with HANDOFF; all authorized work complete",
+  "rejected": [
+    "Change callee or oracle without separate design",
+    "Reduce unwind globally below34-cell frame requirement",
+    "Transfer old native producer/site exceptions",
+    "Run final Validate or CI in this stage",
+    "Treat source/targeted checks as proof or measured native speedup"
+  ],
+  "next": "Coordinator exact-package review using containing G0 commit plus source/control/tool pins; final Validate remains prepared only",
+  "final_validate_execution_count": 0,
+  "native_CI_push": "NOT_RUN",
+  "ledger_coordinator_writes": false,
+  "proof_credit": "NONE",
+  "new_qualified_leaves": 0
+}

@@ -1,0 +1,18 @@
+{
+  "source_control_diff_check": "PASS before commits; final source/control deltas contain no introduced whitespace errors",
+  "g0_non_patch_diff_check": "PASS",
+  "patch_context_warnings": [
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/COLLECT-DISPATCH.patch:6: trailing whitespace.",
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/COLLECT-DISPATCH.patch:7: trailing whitespace.",
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/CONTROL-PARENT.patch:26: trailing whitespace.",
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/CONTROL-PARENT.patch:29: trailing whitespace.",
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/CONTROL-PARENT.patch:48: trailing whitespace.",
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/CONTROL-PARENT.patch:56: trailing whitespace.",
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/CONTROL-PARENT.patch:3265: trailing whitespace.",
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/CONTROL-PARENT.patch:3266: trailing whitespace.",
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/CONTROL-STOCK.patch:103: trailing whitespace.",
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/CONTROL-STOCK.patch:130: trailing whitespace.",
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/SOURCE-STOCK.patch:128: trailing whitespace."
+  ],
+  "handling": "Exact replayable patches retain blank-line context markers and deleted historical source whitespace; patch artifacts excluded only from whitespace-format check. All bytes hashed and exact patch-tree replay PASS."
+}
