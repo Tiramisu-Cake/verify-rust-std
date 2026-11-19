@@ -1,0 +1,73 @@
+{
+  "schema": "pr5183-cleanup-static-v1",
+  "result": "PASS",
+  "commit": "d1f1bca80e46f9abe53958147af74de057e6847f",
+  "parent": "19a42e1a21ae6f079cf68637782b4f16c345816b",
+  "tree": "436debfa7b08fc04fe108f07a6bcdbded8cb0d9f",
+  "single_commit": true,
+  "author_and_committer": [
+    "Tiramisu-Cake <igkharin@gmail.com>",
+    "Tiramisu-Cake <igkharin@gmail.com>"
+  ],
+  "message": "Name automatic targets in uninitialized-memory regression output",
+  "scope": {
+    "tests/script-based-pre/autoharness_uninit_reset/expected": {
+      "added": 2,
+      "deleted": 0,
+      "old": {
+        "sha256": "5a539bd8271deac4870a4a984803b6d3319395269d517c448205ae28b522920a",
+        "bytes": 277
+      },
+      "new": {
+        "sha256": "2dc6bdf4442e47067573e4ea6a81642f0d95e73541ed61340820102b37ea257c",
+        "bytes": 430
+      },
+      "banners": [
+        "Autoharness: Checking function uninit_read against all possible inputs...",
+        "Autoharness: Checking function initialized_read against all possible inputs..."
+      ]
+    }
+  },
+  "checks": {
+    "expected_exact_two_insertions": true,
+    "all_original_matcher_groups_retained": true,
+    "whole_tree_diff_only_expected": true,
+    "compiler_body_shell_config_byte_identical": true,
+    "shell_mode": "100755",
+    "shell_syntax_bash_n": "PASS before commit; script unchanged",
+    "git_diff_check": "PASS",
+    "candidate_worktree_clean": true,
+    "source_checkouts_and_PR_refs_unchanged": true,
+    "exact_license_and_AI_disclosure": true
+  },
+  "preserved_files": {
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs": {
+      "sha256": "0079e62f4f89aea9e1fb128f3b5af0f1bba76591d80c38bbfed6d858716a8278",
+      "bytes": 4623
+    },
+    "tests/script-based-pre/autoharness_uninit_reset/main.rs": {
+      "sha256": "49b2c2c1668b0b392075f11b9914456b319f25b777cace9a16ef0ed6d26055eb",
+      "bytes": 598
+    },
+    "tests/script-based-pre/autoharness_uninit_reset/run.sh": {
+      "sha256": "e2dabf7ce27b9043dc04cccf67303b69d9323f71ef7b5725ce9ecfc3a96eef94",
+      "bytes": 384
+    },
+    "tests/script-based-pre/autoharness_uninit_reset/config.yml": {
+      "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9",
+      "bytes": 109
+    }
+  },
+  "unpublished_PR_draft": {
+    "sha256": "cb5190b5be2fe5255f9af335bc15b4b250d4d5340bd0c17c6b927f9e56603319",
+    "bytes": 977
+  },
+  "native_regression": "NOT_RUN",
+  "compiletest_execution": "NOT_RUN",
+  "base_fixed_native_comparison": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "push": "NOT_RUN",
+  "live_PR_update": "NOT_RUN",
+  "independent_review": "NOT_RUN",
+  "proof_credit": "NONE"
+}

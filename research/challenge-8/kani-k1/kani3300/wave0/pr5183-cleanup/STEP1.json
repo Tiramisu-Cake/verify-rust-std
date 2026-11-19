@@ -1,0 +1,57 @@
+{
+  "schema": "pr5183-cleanup-step1-v1",
+  "result": "PASS",
+  "parent": "19a42e1a21ae6f079cf68637782b4f16c345816b",
+  "parent_tree": "7ef7f9392798b7035d5fbc35b2baec650eb77670",
+  "base": "faffcee3bca2770c03bd21c3bde89cc8f6f7a14e",
+  "g0_head_at_step1": "f38425fbc1dc77a3067a8981ce1b75584c495024",
+  "g0_status_at_step1": "?? research/challenge-8/kani-k1/kani3300/wave0/pr5172-cleanup-review/\n",
+  "checked_files": {
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs": {
+      "sha256": "0079e62f4f89aea9e1fb128f3b5af0f1bba76591d80c38bbfed6d858716a8278",
+      "bytes": 4623,
+      "git_blob": "dc736b3986f01cc2a5c2e7730fe2d86396d52897"
+    },
+    "tests/script-based-pre/autoharness_uninit_reset/config.yml": {
+      "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9",
+      "bytes": 109,
+      "git_blob": "ce281b6409055714a8a9832e86688cc6dcab79f9"
+    },
+    "tests/script-based-pre/autoharness_uninit_reset/expected": {
+      "sha256": "5a539bd8271deac4870a4a984803b6d3319395269d517c448205ae28b522920a",
+      "bytes": 277,
+      "git_blob": "ebe46d5f0fbae908ee91c7d86ceae49a6bd4b21e"
+    },
+    "tests/script-based-pre/autoharness_uninit_reset/main.rs": {
+      "sha256": "49b2c2c1668b0b392075f11b9914456b319f25b777cace9a16ef0ed6d26055eb",
+      "bytes": 598,
+      "git_blob": "6a9087c99ab97c3b0ac181df9bb198e26c7a14ea"
+    },
+    "tests/script-based-pre/autoharness_uninit_reset/run.sh": {
+      "sha256": "e2dabf7ce27b9043dc04cccf67303b69d9323f71ef7b5725ce9ecfc3a96eef94",
+      "bytes": 384,
+      "git_blob": "a2d05d065cac1a625b2c936ce8ddd9fad194e755"
+    }
+  },
+  "patch": {
+    "sha256": "91c0d5b56fdbdff371b806405b603732edc24e68cc0daa522d9ca3bdd2c53e9f",
+    "bytes": 4150
+  },
+  "recommendation_manifest_verified": true,
+  "reference_hashes_verified": true,
+  "preserved_checkouts": {
+    "/root/kani-pr5183-slop-readonly-20261119": {
+      "head": "19a42e1a21ae6f079cf68637782b4f16c345816b",
+      "status": "",
+      "relevant_refs": []
+    },
+    "/root/kani-fix-autoharness-uninit-reset-w14": {
+      "head": "bc8f8bb57edc6ed600d331ad8ea8a40776474433",
+      "status": "",
+      "relevant_refs": [
+        "refs/heads/fix/autoharness-uninit-reset bc8f8bb57edc6ed600d331ad8ea8a40776474433"
+      ]
+    }
+  },
+  "native": "NOT_RUN"
+}
