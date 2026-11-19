@@ -1,0 +1,80 @@
+{
+  "schema": "ch8-s4p2-offline-implementation-inputs-v1",
+  "authority": "User12:15 explicitly /new13 implementation then W14 exact-package review -> rootGO; User11:59 earlier authorization preserved",
+  "plan": "7253272c427eb9b564c79350ef73b231fa124298",
+  "prior_plan": "e43156f54416491b8688db0cb28325ccf8238d1d",
+  "plan_review": "e287943e116a102d5950295b2629d80a62d1f922",
+  "intake": "842984040e87b8b8594653634b72df7d800ca198",
+  "intake_review": "3c7bd65cf0bb758cb82dc56ef71a8b8e23efd5c0",
+  "admission": "9bb6e2b7a18e338f532ec817f8acfd7515fc2fc9",
+  "baseline": {
+    "source": {
+      "sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    },
+    "control": {
+      "sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+      "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+    },
+    "trigger": {
+      "sha": "563a899dce27024d276bb6fa8f4402f3b5ddc67c",
+      "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+    }
+  },
+  "baseline_control_request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+  "baseline_workflow_sha256": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+  "new_source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+  "new_control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+  "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "request_schema": "ch8-s4p-2-v1",
+  "profile": "ch8-s4p-2-network-fullbyte-singletons-v1",
+  "terminal_schema": "ch8-s4p-2-campaign-v1",
+  "branch_filter": "uninit-ci/ch8-s4p-*",
+  "role_contract": "ROLE-SAT-CONTRACT.json",
+  "implementation_gates": "IMPLEMENTATION-GATES.json",
+  "root_plan_review_check": {
+    "status": "MATCH",
+    "review": "e287943e116a102d5950295b2629d80a62d1f922",
+    "review_files": 15,
+    "review_hashes": 14,
+    "plan": "7253272c427eb9b564c79350ef73b231fa124298",
+    "dependency_file_refs_verified": 31,
+    "verdict": "APPROVE",
+    "blockers": 0,
+    "role_contract_sha256": "c90950843f17903b0271a0cf349e4afd5e9189924119aacb252904f0a0b7ef1d",
+    "gates_sha256": "b9d81c6dcff93f42828e604e147073317c882390af9fd4f18f2f66da747455af",
+    "positive_assertions": 16,
+    "source_total_assertions": 21,
+    "source_total_covers": 21,
+    "cover_counts": [
+      3,
+      6,
+      6,
+      6
+    ],
+    "native_counts": "UNKNOWN"
+  },
+  "outputs": {
+    "author": "kani3300/ch8-s4/s4p-2/",
+    "review": "kani3300/ch8-s4/s4p-2-review/",
+    "GO": "kani3300/ch8-s4/s4p-2-go/"
+  },
+  "exactpackage_review_REQUIRED": true,
+  "CI_or_push_authorized": false,
+  "accounting": {
+    "policy": "TRACKING_ONLY",
+    "item1_used": 32,
+    "item2_used": 15,
+    "total_used": 47,
+    "root_write": false
+  },
+  "emitter_investigation": "IndependentCURRENT11; no wait or active rule/exception transfer to new profile"
+}
