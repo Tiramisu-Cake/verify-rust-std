@@ -1,0 +1,54 @@
+{
+  "schema": "kani4591-r4-independent-delta-review-inputs-v1",
+  "task_base_g0": "58a74e7436c8214652708bda480f1f9eccd4ad5c",
+  "authority_g0": "7386fb02477d52a90e468b6b7183a44567497248",
+  "reviewed_package_g0": "2a11df42b94cbdfdb567b0ca8d288b0a9cdfc02c",
+  "accepted_review_g0": "2ed6d7064cd4e30f9337f0d6d288bd70baa41a3b",
+  "source": {
+    "schema": "kani-4591-r4-source-pins-v1",
+    "repository": "/root/kani-issue4591-test-reduction-r4-w15",
+    "branch": "work/issue4591-test-reduction-r4-w15",
+    "base": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "head": "2dcb2c2d9325d2aa15c21a325cf0c7c320403466",
+    "tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+    "sole_parent": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+    "parent_tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+    "local_only": true,
+    "commit_message": "Reduce ordinary stub regressions to seven focused harnesses [skip ci]",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "committer": "Tiramisu-Cake <igkharin@gmail.com>",
+    "worktree_clean": true,
+    "published_candidate": "NOT_PUBLISHED",
+    "compiler_native_ci": "NOT_RUN"
+  },
+  "authority_files": {
+    "research/challenge-8/kani-k1/kani3300/wave0/issue4591-test-reduction-r4-inputs/DELTA-REVIEW-W11.md": {
+      "sha256": "b04273623260e3d84c2b1670592f1874d01a25a46e317d89d09198940cba3d94",
+      "bytes": 1216
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/issue4591-test-reduction-r4-inputs/INPUTS.json": {
+      "sha256": "daebbbd76fcc765d5836bfa24b11ed9828f9db3abdcc5134ae727e2191577e04",
+      "bytes": 7382
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/issue4591-test-reduction-r4-inputs/ROOT-DECISION.md": {
+      "sha256": "d9e54710d378d8a90899fc31746ea679328ac45f2c5871dc9c3da25047992964",
+      "bytes": 3152
+    },
+    "research/challenge-8/kani-k1/TASK-KANI-4591-TEST-REDUCTION-REVIEW-W11.md": {
+      "sha256": "5dc50a98c834f075cb3392038f113b5c95ab9a73d8f8b90b007a2d38aae2061f",
+      "bytes": 1665
+    }
+  },
+  "package_path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-test-reduction-r4/",
+  "package_manifest": {
+    "sha256": "f6f5c29bc4b12fc3f9ad0903713b3e7cf2133718df9bd9476368528ce5c7ac37",
+    "bytes": 1636
+  },
+  "accepted_matrix": {
+    "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-slop-review/COVERAGE-EDITS.md",
+    "sha256": "7d2c2e4b4a5e05ed36f5313a7443dfbeada14444b831e751e1631adc25dc34fc",
+    "bytes": 16771
+  },
+  "scope": "R1-R4 code/tests; R5 OWNER_TEXT_EXCLUDED by owner13:55 and supplement; no external PR access or proposed PR artifact.",
+  "execution": "Direct source/static review; existing settings unchanged; no subagents, native tools, CI or publication."
+}

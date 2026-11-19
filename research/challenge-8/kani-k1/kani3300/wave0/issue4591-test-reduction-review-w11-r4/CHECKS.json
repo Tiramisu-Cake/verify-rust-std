@@ -1,0 +1,188 @@
+{
+  "schema": "kani4591-r4-independent-delta-checks-v1",
+  "result": "PASS",
+  "package_files": 11,
+  "manifest_entries_verified": 10,
+  "authority_snapshots_match": true,
+  "accepted_review_hashes_verified": true,
+  "head_tree_parent_match": true,
+  "branch_match": true,
+  "candidate_clean": true,
+  "frozen_r3_clean_and_unchanged": true,
+  "changed_paths": [
+    "M\ttests/expected/function-contract/ordinary_stub_fail.expected",
+    "M\ttests/expected/function-contract/ordinary_stub_fail.rs",
+    "D\ttests/expected/function-contract/ordinary_stub_overlap.expected",
+    "D\ttests/expected/function-contract/ordinary_stub_overlap.rs",
+    "M\ttests/kani/FunctionContracts/ordinary_stub.rs",
+    "M\ttests/kani/FunctionContracts/ordinary_stub_no_assert.rs"
+  ],
+  "all_outside_allowlist_unchanged": true,
+  "frozen_compiler_repro_protected_trees_verified": true,
+  "candidate_artifact_hashes": {
+    "tests/expected/function-contract/ordinary_stub_fail.expected": {
+      "sha256": "8024fa662ae0024c55ab479bede700fb02a9cdf9f3ad51927578e710a48d10ee",
+      "bytes": 274
+    },
+    "tests/expected/function-contract/ordinary_stub_fail.rs": {
+      "sha256": "b5be508606bdf01372ea4d894799356ab5d0c1de87aae6d811b0778cf608b8f2",
+      "bytes": 738
+    },
+    "tests/expected/function-contract/ordinary_stub_issue_4591.expected": {
+      "sha256": "202199fd0ac8bb6737fc34b34552b9491d4bf08c412555f60262fe71a9aa0c28",
+      "bytes": 212
+    },
+    "tests/expected/function-contract/ordinary_stub_issue_4591.rs": {
+      "sha256": "e65245e314ce01d894bc5b774e72df7cb1eb17b4bdf07939e037d61f9d41a8a0",
+      "bytes": 618
+    },
+    "tests/kani/FunctionContracts/ordinary_stub.rs": {
+      "sha256": "db468811de4398032cb4fa315e82cc2ea8dd64c2e96c61b154c61f171a90a163",
+      "bytes": 2170
+    },
+    "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs": {
+      "sha256": "5f4a087a60ef22e44a7a231dfb87a564a1cd4df72862edd10206dde13db97cd8",
+      "bytes": 471
+    }
+  },
+  "source_whitespace_narrow_and_full": "PASS",
+  "patch_replays": [
+    {
+      "patch": "FULL-969f.patch",
+      "base": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+      "sha256": "376c143d2303ae2c862a60dbb4c592e40301cbc6d92ce6f344ff86c8d574c617",
+      "bytes": 11866,
+      "result_tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+      "result": "PASS",
+      "method": "Independent disposable GIT_INDEX_FILE; read-tree, cached apply from committed patch bytes, write-tree; source/worktree unchanged."
+    },
+    {
+      "patch": "NARROW-031.patch",
+      "base": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+      "sha256": "49900e9fe7535a95365042fa08cbb7cba79932329fe6fcf1cc0656ed9e21abe2",
+      "bytes": 10145,
+      "result_tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+      "result": "PASS",
+      "method": "Independent disposable GIT_INDEX_FILE; read-tree, cached apply from committed patch bytes, write-tree; source/worktree unchanged."
+    }
+  ],
+  "retained_harnesses": [
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "name": "ordinary_stub",
+      "line": 17,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]",
+        "#[kani::stub(requires_only, g)]",
+        "#[kani::stub(ensures_only, g)]",
+        "#[kani::stub(recursive, g)]",
+        "#[kani::stub(generic, generic_replacement)]",
+        "#[kani::stub(uncontracted, requires_only)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "name": "replacement_provider",
+      "line": 73,
+      "attributes": [
+        "#[kani::proof_for_contract(contracted_replacement)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "name": "replacement_verified_contract",
+      "line": 78,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, contracted_replacement)]",
+        "#[kani::stub_verified(contracted_replacement)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "name": "replacement_contract_target",
+      "line": 91,
+      "attributes": [
+        "#[kani::proof_for_contract(replacement_caller)]",
+        "#[kani::stub(f, contracted_replacement)]"
+      ]
+    },
+    {
+      "file": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "name": "ordinary_stub_original_mode",
+      "line": 17,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, replacement)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "name": "replacement_provider_postcondition",
+      "line": 23,
+      "attributes": [
+        "#[kani::proof_for_contract(replacement_caller)]",
+        "#[kani::stub(f, discriminating_replacement)]"
+      ]
+    },
+    {
+      "file": "tests/expected/function-contract/ordinary_stub_issue_4591.rs",
+      "name": "check_caller",
+      "line": 22,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(abs_val, stub_abs_val)]"
+      ]
+    }
+  ],
+  "positive_helpers_and_three_controls_byte_exact": true,
+  "ordinary_A_exact_recipe": true,
+  "no_assert_exact_recipe": true,
+  "negative_B_exact_recipe_and_expected": true,
+  "overlap_source_and_expected_deleted": true,
+  "unchanged_discovery_context_sha256": {
+    "scripts/kani-regression.sh": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+    "tools/compiletest/src/main.rs": "9e15ceb4c5dc7bc505081d3ec2be8a4af8bdb8fdf0cd0e5ffcbc137ea36dc412",
+    "tools/compiletest/src/header.rs": "9ea266041cff8aaeee82f5270431f0c5f10e1ffa11ce4fd544ac733ab7dbc6e7",
+    "tools/compiletest/src/runtest.rs": "7ab3d25a027144d8b4b669990793d8f76b980d7a9f9ed59130af8a95749797a4",
+    "kani-driver/src/harness_runner.rs": "4ddabb49fcbc59990e1cce5b6d2985eae33d12724fe1efe2af2534cc4ba0f480",
+    "kani-compiler/src/kani_middle/mod.rs": "6e73911b203b9d8237a0725ca67f1c46342d106b572ad485a2ceb06b61739a41",
+    "kani-compiler/src/kani_middle/attributes.rs": "3aeb3821705ed766493a2e2a51a5df85288101aab33d34a745310a187b4f9f00",
+    "kani-driver/src/call_goto_instrument.rs": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2"
+  },
+  "source_witnesses": [
+    {
+      "x": 0,
+      "provider_requires": true,
+      "provider_post": true,
+      "caller_post": true
+    },
+    {
+      "x": 1,
+      "provider_requires": true,
+      "provider_post": false,
+      "caller_post": true
+    },
+    {
+      "x": 4,
+      "provider_requires": false,
+      "provider_post": false,
+      "caller_post": true
+    }
+  ],
+  "source_arithmetic": "Positive admitted0..15 gives3..18; no-assert f8 gives10 with suppressed preconditions; issue caller MAX+1 exceeds i32::MAX. Static only.",
+  "native": "NOT_RUN",
+  "proof_credit": "NONE",
+  "PR": "OWNER_TEXT_EXCLUDED; no external read/write or new PR artifact",
+  "limitations": "No Rust parser, macro expansion, MIR, compiler, compiletest or verifier execution. Source call counts and arithmetic do not establish actual native property reachability.",
+  "closeout": {
+    "source_author_and_committer_match": true,
+    "source_skip_ci_commit": true,
+    "candidate_and_package_bytes_unchanged": true,
+    "R1_R4_closure_rows_present": true,
+    "R5_owner_text_excluded": true,
+    "no_new_PR_artifact": true,
+    "source_clean": true
+  }
+}
