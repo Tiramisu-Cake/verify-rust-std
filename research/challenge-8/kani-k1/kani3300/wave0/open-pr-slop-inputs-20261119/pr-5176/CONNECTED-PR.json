@@ -1,0 +1,190 @@
+{
+  "number": 5176,
+  "repo": "model-checking/kani",
+  "url": "https://github.com/model-checking/kani/pull/5176",
+  "title": "Avoid CBMC aborts when copying padded unions with zero-sized fields",
+  "body": "A typed copy of a union whose smaller arm is a zero-sized array makes CBMC abort (exit status 134). This happens with the default checks, no unstable flags needed:\n\n```rust\n#[repr(C)]\nunion ArrayUnion {\n    bytes: [u8; 8],\n    zst_array: [(); 2],\n}\n\n#[kani::proof]\nfn array_typed_copy() {\n    let mut src = ArrayUnion { zst_array: [(); 2] };\n    let mut dst = ArrayUnion { zst_array: [(); 2] };\n    unsafe {\n        std::ptr::write_bytes((&mut src as *mut ArrayUnion).cast::<u8>(), 0x5a, 8);\n        std::ptr::write(&mut dst, std::ptr::read(&src));\n        assert_eq!(dst.bytes, [0x5a; 8]);\n    }\n}\n```\n\nOn `main` at 0aac16ef62, CBMC 6.11.0 stops in `bits2expr` (`simplify_utils.cpp:345`) on the invariant `el_size_opt.has_value() && *el_size_opt > 0`.\n\n### Cause\n\n`codegen_union` wraps each arm narrower than the union in a struct with explicit padding. For a zero-sized arm the wrapper is `{ [(); 2], padding }`. When CBMC lowers byte operations on the union, it rebuilds that struct from a bitvector and cannot rebuild an array whose element width is zero.\n\n### Change\n\nInside the padded wrapper, represent a zero-width payload with the existing empty unit struct. This is the same physical shape that the `uninit: ()` arm of every `MaybeUninit<T>` already has. The union field keeps its original logical type, so projections and indexing still see `[(); 2]`. Whether an arm is zero-sized is decided from the rustc layout (its padding equals the union size), not from the GOTO type, so arms of recursive types that are still being built are handled. Nonzero payloads and unions without padding, including all-ZST unions, are unchanged.\n\nThe root cause is the zero-width element check in CBMC's `bits2expr`, which diffblue/cbmc#9487 fixes. Until Kani picks up a CBMC release with that fix, this change avoids generating that shape for union arms, which Kani controls.\n\n### Testing\n\n`tests/expected/zst-union-arm` adds seven harnesses:\n\n- typed copies with a byte-array arm;\n- a padded `repr(C)` payload in both `repr(C)` and Rust-layout unions;\n- a union at a nonzero offset inside a struct;\n- an aligned ZST arm;\n- an all-ZST union;\n- nondeterministic in-bounds indexing of the ZST array.\n\nSeven more single-harness tests cover the ZST arm declared first, nested `[[(); 2]; 3]` and `[[u8; 0]; 2]` arms, an aligned ZST array, a ZST struct wrapping an array, and two recursive types (`zst-union-recursive-*`) where a union is reached through a pointer while the enclosing struct is still incomplete. Each new harness includes a `kani::cover!` so that a vacuous pass would be visible.\n\nOn `main`, four of the seven `zst-union-arm` harnesses and all five new arm-shape tests fail with the CBMC invariant; the two recursive tests pass. With this change all of them pass.\n\n[Fork CI on 3d9a180938](https://github.com/Tiramisu-Cake/kani/actions/runs/43605511755) passes regression on Ubuntu 22.04, Ubuntu 24.04, Ubuntu 24.04 ARM, macOS 15 and macOS 15 Intel (the macOS 15 Intel job needed one rerun), plus documentation, LLBC and benchcomp; Clippy, Format Check and Cargo Deny also pass.\n\nI also checked that this change does not alter the GOTO models Kani generates for the 15 perf tests ([comparison](https://github.com/Tiramisu-Cake/kani/actions/runs/43717071092)); only the expected padded-union wrapper in a positive control differs.\n\n### Limitations\n\nA nonzero-width arm that contains a zero-sized array, such as `struct Tail { b: u8, z: [(); 2] }` or `(u64, [(); 2])`, still hits the same CBMC invariant after this change. It goes through the struct-field representation rather than the union wrapper, and is closer to #5085. With a CBMC build that includes diffblue/cbmc#9487, the `Tail` typed copy passes ([replay in #5085](https://github.com/model-checking/kani/issues/5085#issuecomment-6863856826)).\n\n### Related\n\nResolves #5175\n\n- #5085 reports the same CBMC invariant for nested zero-width arrays in statics and constants. It is reached through a different lowering path, so this PR does not claim to fix it.\n- diffblue/cbmc#9487 fixes the invariant in CBMC itself. Once Kani's CBMC includes it, the special case here can be removed.\n- With `-Z uninit-checks`, the same unions hit a separate compiler panic in `relevant_instruction.rs` (similar to #4854; seen on bf9c58e662, not rechecked on current `main`). It occurs both with and without this change and is not addressed here.\n\nBy submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 and MIT licenses.\n\n*Disclosure: this change and description were prepared with the help of AI assistants.*\n",
+  "state": "open",
+  "updated_at": "2026-11-18T22:17:15Z",
+  "head": {
+    "sha": "3d9a1809388f74c62ea9fb7320e123db0b8b37fa",
+    "ref": "fix/zst-union-codegen-v4",
+    "repo": "Tiramisu-Cake/kani"
+  },
+  "base": {
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "ref": "main",
+    "repo": "model-checking/kani"
+  },
+  "mergeable": true,
+  "mergeable_state": "behind",
+  "changed_files": 17,
+  "additions": 437,
+  "deletions": 2,
+  "files": [
+    {
+      "filename": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+      "status": "modified",
+      "sha": "311a5ab714868080d9be21419b92de12be85ccd0",
+      "additions": 13,
+      "deletions": 2
+    },
+    {
+      "filename": "tests/expected/zst-union-arm/expected",
+      "status": "added",
+      "sha": "45e7d6da197ca1bf27390ed6a53e6fae407e83ea",
+      "additions": 1,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-arm/main.rs",
+      "status": "added",
+      "sha": "27ab160bd4573f1fc9386119b1461487d3e6b13f",
+      "additions": 172,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-edge-aligned-array/expected",
+      "status": "added",
+      "sha": "4e1f6276e6c2eaf108728cd9d13bfd974d416a8e",
+      "additions": 4,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-edge-aligned-array/main.rs",
+      "status": "added",
+      "sha": "d0d4578e3062e857a66d3e1a4ae0c8b91c403e3f",
+      "additions": 38,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-edge-array-first/expected",
+      "status": "added",
+      "sha": "15113be79041baaead1bedd8141863254d689133",
+      "additions": 4,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-edge-array-first/main.rs",
+      "status": "added",
+      "sha": "a4f4b04c2ff92c0cb9be22ef41e529a543c97a41",
+      "additions": 33,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-edge-nested-empty-byte-array/expected",
+      "status": "added",
+      "sha": "36be197b6d8e83a71d1c8208b83ccbdc92b59751",
+      "additions": 4,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-edge-nested-empty-byte-array/main.rs",
+      "status": "added",
+      "sha": "b9356e59b86ab47bcef8b973d8d153ba484ba1bc",
+      "additions": 33,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-edge-nested-unit-array/expected",
+      "status": "added",
+      "sha": "a57e005612d3733ca58513f9dbe4e194331dc46d",
+      "additions": 4,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-edge-nested-unit-array/main.rs",
+      "status": "added",
+      "sha": "4bc648372bb2976e248b71dca6291450ea4a84a9",
+      "additions": 33,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-edge-struct-array/expected",
+      "status": "added",
+      "sha": "f3b51ebb0036fc0e12aadc0a655968e5db8974fb",
+      "additions": 4,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-edge-struct-array/main.rs",
+      "status": "added",
+      "sha": "3bd9c28c15ab05f4dd4758c8c50b5119267d274e",
+      "additions": 38,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-recursive-arm/expected",
+      "status": "added",
+      "sha": "652f535467f7a114ccf7730c1529657d624bd3bc",
+      "additions": 4,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-recursive-arm/main.rs",
+      "status": "added",
+      "sha": "ad6a59dec66873345b2fc2d7b1e2207ec149fe8a",
+      "additions": 23,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-recursive-zst-arm/expected",
+      "status": "added",
+      "sha": "4e133729f11846d56c289314eabcf2b20a228412",
+      "additions": 4,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/zst-union-recursive-zst-arm/main.rs",
+      "status": "added",
+      "sha": "7db0bb423648aa77d6304274a296c14486d8220c",
+      "additions": 25,
+      "deletions": 0
+    }
+  ],
+  "reviews": [
+    {
+      "id": 5963028845,
+      "node_id": "PRR_kwDOFPlLtM8AAAABY2yZbQ",
+      "user": {
+        "login": "copilot-pull-request-reviewer[bot]",
+        "id": 175728472,
+        "node_id": "BOT_kgDOCnlnWA",
+        "avatar_url": "https://avatars.githubusercontent.com/in/946600?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D",
+        "html_url": "https://github.com/apps/copilot-pull-request-reviewer",
+        "followers_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/followers",
+        "following_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/following{/other_user}",
+        "gists_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/subscriptions",
+        "organizations_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/orgs",
+        "repos_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/repos",
+        "events_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/received_events",
+        "type": "Bot",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "<!-- ccr-overview-v2 -->\n\n### 🟢 Approval recommended\n\nNo active review issues are reported for the padded-union lowering change.\n\n**No open issues** 🎉\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nThis PR addresses #5175 by changing Kani’s union lowering to avoid CBMC aborts when copying padded unions with zero-sized fields. The workaround preserves logical field types while leaving nonzero payloads and unpadded unions unchanged.\n\n**Changes:**\n- Represent zero-sized payloads inside padded union wrappers with the existing empty unit struct, using rustc layout information.\n- Add regression coverage for typed copies, nested and aligned zero-sized fields, indexing, and recursive types.\n- Add expected verification results and reachability checks for the new edge-case tests.\n\n| File | Description |\r\n| ---- | ----------- |\r\n| `tests/​expected/​zst-union-recursive-zst-arm/​main.rs` | Tests recursive type generation with a zero-sized union arm. |\r\n| `tests/​expected/​zst-union-recursive-zst-arm/​expected` | Requires successful verification and reachability. |\r\n| `tests/​expected/​zst-union-recursive-arm/​main.rs` | Tests recursive type generation with a nonzero union arm. |\r\n| `tests/​expected/​zst-union-recursive-arm/​expected` | Requires successful verification and reachability. |\r\n| `tests/​expected/​zst-union-edge-struct-array/​main.rs` | Tests a zero-sized struct containing an array. |\r\n| `tests/​expected/​zst-union-edge-struct-array/​expected` | Checks copy and projection reachability and verification success. |\r\n| `tests/​expected/​zst-union-edge-nested-unit-array/​main.rs` | Tests nested arrays of unit values. |\r\n| `tests/​expected/​zst-union-edge-nested-unit-array/​expected` | Checks copy and projection reachability and verification success. |\r\n| `tests/​expected/​zst-union-edge-nested-empty-byte-array/​main.rs` | Tests nested arrays of empty byte arrays. |\r\n| `tests/​expected/​zst-union-edge-nested-empty-byte-array/​expected` | Checks copy and projection reachability and verification success. |\r\n| `tests/​expected/​zst-union-edge-array-first/​main.rs` | Tests a zero-sized array declared as the first arm. |\r\n| `tests/​expected/​zst-union-edge-array-first/​expected` | Checks copy and projection reachability and verification success. |\r\n| `tests/​expected/​zst-union-edge-aligned-array/​main.rs` | Tests arrays of aligned zero-sized elements. |\r\n| `tests/​expected/​zst-union-edge-aligned-array/​expected` | Checks copy and projection reachability and verification success. |\r\n| `tests/​expected/​zst-union-arm/​main.rs` | Adds seven harnesses covering copies, padding, alignment, offsets, and indexing. |\r\n| `tests/​expected/​zst-union-arm/​expected` | Requires all seven harnesses to verify successfully. |\r\n| `kani-compiler/​src/​codegen_cprover_gotoc/​codegen/​typ.rs` | Substitutes empty unit payloads in padded zero-sized union arms. |\n</details>\n\n<sub>Review effort: Balanced</sub>",
+      "state": "COMMENTED",
+      "html_url": "https://github.com/model-checking/kani/pull/5176#pullrequestreview-5963028845",
+      "pull_request_url": "https://api.github.com/repos/model-checking/kani/pulls/5176",
+      "author_association": "CONTRIBUTOR",
+      "is_copilot_code_review": true,
+      "copilot_code_review_effort": "balanced",
+      "_links": {
+        "html": {
+          "href": "https://github.com/model-checking/kani/pull/5176#pullrequestreview-5963028845"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/model-checking/kani/pulls/5176"
+        }
+      },
+      "submitted_at": "2026-11-18T18:51:59Z",
+      "commit_id": "3d9a1809388f74c62ea9fb7320e123db0b8b37fa"
+    }
+  ],
+  "inline_comments": []
+}

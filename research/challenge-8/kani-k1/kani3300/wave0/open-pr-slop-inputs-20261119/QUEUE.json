@@ -1,0 +1,51 @@
+{
+  "schema": "owner-open-pr-slop-review-queue-v1",
+  "authority": "Owner via coordinator: offline review code/comments/tests/PR text; prioritize by volume; W14 retained for S4P2 actual-terminal intake. No source changes/publication now.",
+  "now": [
+    {
+      "PR": 5172,
+      "worker": 13,
+      "task": "TASK-OPEN-PR-5172-SLOP-REVIEW-W13.md",
+      "status": "READY_TO_ISSUE"
+    },
+    {
+      "PR": 5176,
+      "worker": 14,
+      "task": "TASK-OPEN-PR-5176-SLOP-REVIEW-W14.md",
+      "status": "READY_TO_ISSUE_S4_PRIORITY"
+    }
+  ],
+  "next": [
+    {
+      "PR": 5195,
+      "preferred_worker": "W11 after #4591 review/GO, or first genuinely free designated worker",
+      "task": "TASK-OPEN-PR-5195-SLOP-REVIEW.md",
+      "status": "PINNED_QUEUED_NOT_ISSUED"
+    }
+  ],
+  "later": [
+    {
+      "repo": "model-checking/kani",
+      "PR": 5159
+    },
+    {
+      "repo": "model-checking/kani",
+      "PR": 5184
+    },
+    {
+      "repo": "model-checking/kani",
+      "PR": 5183
+    },
+    {
+      "repo": "diffblue/cbmc",
+      "PR": 9487
+    }
+  ],
+  "later_gate": "Before issuing any later review, read connected exact PR/head/base/body/files/reviews; freeze snapshots/local source and committed bounded task. Do not invent pins or auto-implement findings. Prefer worker13 then worker14 after S4 priority, worker11 after #4591.",
+  "deferred": {
+    "repo": "model-checking/verify-rust-std",
+    "PR": 752,
+    "reason": "Large proof-harness review is separate owner conversation, no task now."
+  },
+  "publication": "Only explicit owner command, one PR at a time, after independent exact candidate review and CI. No root pushes/body/comments or CI launch/accounting."
+}

@@ -1,0 +1,378 @@
+{
+  "number": 5172,
+  "repo": "model-checking/kani",
+  "url": "https://github.com/model-checking/kani/pull/5172",
+  "title": "Preserve memory initialization checks at unresolved calls",
+  "body": "Refs #3300\n\nWith `-Z uninit-checks`, when the uninitialized-memory visitor cannot resolve a call (a function pointer, a trait object, ...), `visit_terminator` returns early. Everything it had already collected for that terminator is dropped: the checks on the call's operands and, in a statement-free entry block, the argument loads. Kani still reports that it does not support checks across such calls, but the actual uninitialized read in the operand is no longer reported.\n\nExample ([`pending-ops-plain.rs`](https://github.com/Tiramisu-Cake/kani/blob/6fe484b30043b3696b5f1ccc4bea0e42891ad012/tests/expected/uninit/unresolved-calls/pending-ops-plain.rs), custom MIR so that the read is an operand of the call):\n\n```rust\n#[custom_mir(dialect = \"runtime\", phase = \"optimized\")]\nunsafe fn indirect(f: fn(u8) -> u8, pointer: *const u8) -> u8 {\n    mir! {\n        { Call(RET = f(*pointer), ReturnTo(done), UnwindUnreachable()) }\n        done = { Return() }\n    }\n}\n```\n\nThe harness passes a pointer to an uninitialized heap byte. On `main` the only failed check is the \"calls through function pointers\" diagnostic, and the `indirect.safety_check` for `*pointer` is missing. With this change both are reported.\n\n### Change\n\n- Visit the operands once, add `Unsupported` after the operations already collected, and push the target through the common path. The resulting order is entry `LoadArgument`, operand checks, `Unsupported`, then the call.\n- The local visitor owns the diagnostic, so it no longer depends on delayed-UB analysis having seeds.\n- The visitor and the points-to analysis share one fallible call resolution. Unresolved items, virtual calls, LLVM intrinsics and non-foreign callees without a body are rejected. Bodies are looked up per instance with `checked_body` instead of the definition-level `has_body()`, so generated shims are covered. Seed collection skips failed resolutions instead of unwrapping, and points-to keeps its existing graph when it cannot follow a callee.\n- MIR-backed shims keep the normal path for ordinary by-value storage. A shim call whose argument or return storage contains a union, or whose storage cannot be classified, is rejected before `StoreArgument`/`LoadArgument`. No new shadow transfer is added.\n\n### Testing\n\n`tests/expected/uninit/unresolved-calls` adds 22 harnesses: direct calls, function pointers, trait objects, erased, wrapped and global function pointers, Fn-trait pointers, generated shims, pending operand reads and statement-free entry blocks with initialized companions. Each comes in a plain variant and a \"seeded\" variant whose ordinary byte copy gives delayed-UB analysis targets.\n\nOn `main` six of them fail: in the entry-block and pending-read cases the `indirect.safety_check` properties are missing from the results. With this change all uninit-checks suites pass.\n\nCI on this commit in my fork: [Kani CI](https://github.com/Tiramisu-Cake/kani/actions/runs/43876038189) passes the regression jobs on Ubuntu 22.04, Ubuntu 24.04 and Ubuntu 24.04 ARM, plus documentation, LLBC and benchcomp; Cargo Deny and Format Check also pass. On macOS 15 Intel the only failure is the CBMC timeout in the unrelated `cargo_autoharness_multichareq_searcher` test tracked in #5162, also after a rerun; the same job fails the same way on `main` (e.g. [run 43366978590](https://github.com/model-checking/kani/actions/runs/43366978590)). That failure cancels the macOS 15 job through fail-fast, and the perf job lost its runner twice; both passed on the previous commit ([run](https://github.com/Tiramisu-Cake/kani/actions/runs/43516450125)).\n\n### Not in this PR\n\n- Reachability still unwraps the resolution of `FnDef` calls before this pass runs.\n- The early flush in the `UnionAsField` statement path is a separate issue.\n- General ABI support, union return values and memory effects of indirect calls are not added.\n\nBy submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 and MIT licenses.\n\n*Disclosure: this change and description were prepared with the help of AI assistants.*\n\n\n\n",
+  "state": "open",
+  "updated_at": "2026-11-18T22:17:14Z",
+  "head": {
+    "sha": "80e5d6fabc0103b0b3117440007ad2d9475f9a9c",
+    "ref": "fix/kani-uninit-unresolved-call-v3",
+    "repo": "Tiramisu-Cake/kani"
+  },
+  "base": {
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "ref": "main",
+    "repo": "model-checking/kani"
+  },
+  "mergeable": true,
+  "mergeable_state": "behind",
+  "changed_files": 50,
+  "additions": 956,
+  "deletions": 77,
+  "files": [
+    {
+      "filename": "kani-compiler/src/kani_middle/points_to/mod.rs",
+      "status": "modified",
+      "sha": "db9070b92e868cf67308b04e691ada034060a2a5",
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "filename": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "status": "modified",
+      "sha": "3a53ecb88f3cba00e8af9dcdd32c71a5b4041573",
+      "additions": 38,
+      "deletions": 40
+    },
+    {
+      "filename": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "status": "modified",
+      "sha": "6d5e6940e20aa46e421fb2ed7682c7e90454e7b3",
+      "additions": 2,
+      "deletions": 1
+    },
+    {
+      "filename": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+      "status": "modified",
+      "sha": "9bc70819031b79835540b90eff1c2317abf27d1d",
+      "additions": 4,
+      "deletions": 13
+    },
+    {
+      "filename": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "status": "modified",
+      "sha": "206f71012a76e0d3445505a5aca98e8819ab4ae5",
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "filename": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "status": "modified",
+      "sha": "fef7aa83a7bfd4b449c472cadf90f9d7b515d9cf",
+      "additions": 95,
+      "deletions": 21
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/direct-plain.expected",
+      "status": "added",
+      "sha": "c02f563f407655a2d92c2c8bbe9cf9adac1de2b3",
+      "additions": 3,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/direct-plain.rs",
+      "status": "added",
+      "sha": "ca18966ff4369b5297a8e00387a9eda02a4f6fef",
+      "additions": 14,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/direct-seeded.expected",
+      "status": "added",
+      "sha": "c02f563f407655a2d92c2c8bbe9cf9adac1de2b3",
+      "additions": 3,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/direct-seeded.rs",
+      "status": "added",
+      "sha": "8b0d53f5d3f3aaa9dd8785e11e2fe58b2788f5dd",
+      "additions": 24,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.expected",
+      "status": "added",
+      "sha": "d5e5069afa3240956775cbfeec6d830fcde64e70",
+      "additions": 8,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs",
+      "status": "added",
+      "sha": "ffb8d69ed16edcd017fac4b9f83f4245ce3400fd",
+      "additions": 32,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.expected",
+      "status": "added",
+      "sha": "d5e5069afa3240956775cbfeec6d830fcde64e70",
+      "additions": 8,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs",
+      "status": "added",
+      "sha": "d20b6b18aee11d8e84c0fad52b5c925cb9782a99",
+      "additions": 42,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/entry-partial-plain.expected",
+      "status": "added",
+      "sha": "9cc9db923394ad7419c0683f7602256ab425ab73",
+      "additions": 8,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs",
+      "status": "added",
+      "sha": "14dcc843c15c8f61d888ce078ceedf32872d909c",
+      "additions": 33,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.expected",
+      "status": "added",
+      "sha": "9cc9db923394ad7419c0683f7602256ab425ab73",
+      "additions": 8,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs",
+      "status": "added",
+      "sha": "bff214ede6fa92aced08b5ea232c4290c022e360",
+      "additions": 43,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.expected",
+      "status": "added",
+      "sha": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+      "additions": 5,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs",
+      "status": "added",
+      "sha": "5d0dc55cc11b1c959c45d1ad11f87c0f76910827",
+      "additions": 23,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.expected",
+      "status": "added",
+      "sha": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+      "additions": 5,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs",
+      "status": "added",
+      "sha": "3f4f913a5686d01d4761c3f871f2762ce73a1811",
+      "additions": 33,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/fn-pointer-plain.expected",
+      "status": "added",
+      "sha": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+      "additions": 5,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/fn-pointer-plain.rs",
+      "status": "added",
+      "sha": "5866893083123796c986e9bcced19ce7f19570da",
+      "additions": 18,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.expected",
+      "status": "added",
+      "sha": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+      "additions": 5,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs",
+      "status": "added",
+      "sha": "0d606c30ce33510727be9b87663ada8eab877cb3",
+      "additions": 28,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.expected",
+      "status": "added",
+      "sha": "cabfb6f27f0b94d3fde1aa8a1a93b500996f51f0",
+      "additions": 4,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.rs",
+      "status": "added",
+      "sha": "a3ace5b7bc040aa6ab56b1897487df757ff9b20d",
+      "additions": 21,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.expected",
+      "status": "added",
+      "sha": "cabfb6f27f0b94d3fde1aa8a1a93b500996f51f0",
+      "additions": 4,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.rs",
+      "status": "added",
+      "sha": "721d1e31f404798cfb67eb185fcb42125372291c",
+      "additions": 31,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/generated-positive-plain.expected",
+      "status": "added",
+      "sha": "d630863c7f679818773e3679c8a90342ad82b644",
+      "additions": 5,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/generated-positive-plain.rs",
+      "status": "added",
+      "sha": "81fe807d8db76762e5a5d7d1e7a7923b714b7624",
+      "additions": 37,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.expected",
+      "status": "added",
+      "sha": "d630863c7f679818773e3679c8a90342ad82b644",
+      "additions": 5,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs",
+      "status": "added",
+      "sha": "e3d0f81afa680a7d4e7e3ad0393d9d7d665bc306",
+      "additions": 48,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/global-escaped-plain.expected",
+      "status": "added",
+      "sha": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+      "additions": 5,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/global-escaped-plain.rs",
+      "status": "added",
+      "sha": "94b890dcc54d982cc0b36c66accd63d2498b8016",
+      "additions": 24,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/global-escaped-seeded.expected",
+      "status": "added",
+      "sha": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+      "additions": 5,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs",
+      "status": "added",
+      "sha": "9ade469d6f3c73a64f732cf46f305b851efbe578",
+      "additions": 34,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/pending-ops-plain.expected",
+      "status": "added",
+      "sha": "2fcdd1cbb49c3f320f3cf5a03d58e28d48b37abe",
+      "additions": 8,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/pending-ops-plain.rs",
+      "status": "added",
+      "sha": "072d3a7cb9d7347e41d6f1d286ae47fea41cb33d",
+      "additions": 39,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected",
+      "status": "added",
+      "sha": "2fcdd1cbb49c3f320f3cf5a03d58e28d48b37abe",
+      "additions": 8,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs",
+      "status": "added",
+      "sha": "8a3f32544014bf35995aed6f67d526a5934f772f",
+      "additions": 49,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/virtual-plain.expected",
+      "status": "added",
+      "sha": "50fcbeae27515311da1976352d62783ba6d10468",
+      "additions": 5,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/virtual-plain.rs",
+      "status": "added",
+      "sha": "3f493a7e5a9d1e8d7398fadac4909b34a9655f96",
+      "additions": 26,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/virtual-seeded.expected",
+      "status": "added",
+      "sha": "50fcbeae27515311da1976352d62783ba6d10468",
+      "additions": 5,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/virtual-seeded.rs",
+      "status": "added",
+      "sha": "a8f4a724675b74bdc803545a22dcb2576ed1ef41",
+      "additions": 36,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.expected",
+      "status": "added",
+      "sha": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+      "additions": 5,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.rs",
+      "status": "added",
+      "sha": "bb950c32c683e50d6c16bf5923d19610056c3457",
+      "additions": 24,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.expected",
+      "status": "added",
+      "sha": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+      "additions": 5,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs",
+      "status": "added",
+      "sha": "384afcb6288b4f5489db18ebdf53c11bf003b82c",
+      "additions": 34,
+      "deletions": 0
+    }
+  ],
+  "reviews": [],
+  "inline_comments": []
+}
