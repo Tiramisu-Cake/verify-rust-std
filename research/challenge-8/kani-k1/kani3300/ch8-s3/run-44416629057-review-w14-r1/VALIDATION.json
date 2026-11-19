@@ -1,0 +1,1280 @@
+{
+  "status": "PASS",
+  "scope": "short reporting delta and exact-byte inheritance only",
+  "checks_count": 367,
+  "checks": [
+    "nonempty exact committed input research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057",
+    "exact file set research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/CONNECTOR-LIMIT.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/COST.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/COST.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/HANDOFF.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/INPUTS.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/INVENTORY.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/MANIFEST.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/MANIFEST.sha256",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/METADATA-GAP.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/METADATA-GAP.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/NATIVE.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/PREFIX-REPLAY.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/PREFIX-REPLAY.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/PROVENANCE.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/QUALIFICATION.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/QUALIFICATION.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/RESULT.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/RESULT.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/ROOTS.csv",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/SOURCE-GATES.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/VALIDATION.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/acquire.py",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/artifact-integrity.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/compact-metadata.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/github-artifacts.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/github-job-collection.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/github-jobs.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/github-run.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/group-evidence.json.gz",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/member-catalogue.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/render.py",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057/replay.py",
+    "nonempty exact committed input research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14",
+    "exact file set research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/CASE-ASSESSMENT.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/FINDINGS.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/HANDOFF.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/INPUT-AUDIT.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/LOCATION-DECISION.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/LOCATION-DECISION.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/LOCATION-TESTS.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/MANIFEST.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/MANIFEST.sha256",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/PREFIX-AUDIT.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/REFERENCE-IDENTITIES.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/REPORT.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/U-REVIEW.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/VALIDATION.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/finalize.py",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-review-w14/review.py",
+    "nonempty exact committed input research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1",
+    "exact file set research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/ADMISSION-REFERENCE.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/CHANGE-MAP.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/CONNECTOR-LIMIT.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/CORRECTIONS.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/COST.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/COST.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/HANDOFF.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/INPUTS.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/INVENTORY.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/MANIFEST.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/MANIFEST.sha256",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/METADATA-GAP.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/METADATA-GAP.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/NATIVE.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/PREFIX-REPLAY.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/PREFIX-REPLAY.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/PROVENANCE.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/QUALIFICATION.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/QUALIFICATION.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/RESULT.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/RESULT.md",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/ROOTS.csv",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/SOURCE-GATES.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/VALIDATION.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/acquire.py",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/artifact-integrity.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/compact-metadata.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/github-artifacts.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/github-job-collection.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/github-jobs.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/github-run.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/group-evidence.json.gz",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/member-catalogue.json",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/render.py",
+    "exact committed bytes research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1/replay.py",
+    "exact f740 task bytes; owner /new14 overrides prepared reuse",
+    "candidate two manifest file sets agree",
+    "candidate manifest SHA256/length ADMISSION-REFERENCE.json",
+    "candidate manifest SHA256/length CHANGE-MAP.json",
+    "candidate manifest SHA256/length CONNECTOR-LIMIT.json",
+    "candidate manifest SHA256/length CORRECTIONS.json",
+    "candidate manifest SHA256/length COST.json",
+    "candidate manifest SHA256/length COST.md",
+    "candidate manifest SHA256/length HANDOFF.md",
+    "candidate manifest SHA256/length INPUTS.json",
+    "candidate manifest SHA256/length INVENTORY.json",
+    "candidate manifest SHA256/length METADATA-GAP.json",
+    "candidate manifest SHA256/length METADATA-GAP.md",
+    "candidate manifest SHA256/length NATIVE.json",
+    "candidate manifest SHA256/length PREFIX-REPLAY.json",
+    "candidate manifest SHA256/length PREFIX-REPLAY.md",
+    "candidate manifest SHA256/length PROVENANCE.json",
+    "candidate manifest SHA256/length QUALIFICATION.json",
+    "candidate manifest SHA256/length QUALIFICATION.md",
+    "candidate manifest SHA256/length RESULT.json",
+    "candidate manifest SHA256/length RESULT.md",
+    "candidate manifest SHA256/length ROOTS.csv",
+    "candidate manifest SHA256/length SOURCE-GATES.json",
+    "candidate manifest SHA256/length VALIDATION.json",
+    "candidate manifest SHA256/length acquire.py",
+    "candidate manifest SHA256/length artifact-integrity.json",
+    "candidate manifest SHA256/length compact-metadata.json",
+    "candidate manifest SHA256/length github-artifacts.json",
+    "candidate manifest SHA256/length github-job-collection.json",
+    "candidate manifest SHA256/length github-jobs.json",
+    "candidate manifest SHA256/length github-run.json",
+    "candidate manifest SHA256/length group-evidence.json.gz",
+    "candidate manifest SHA256/length member-catalogue.json",
+    "candidate manifest SHA256/length render.py",
+    "candidate manifest SHA256/length replay.py",
+    "complete change map",
+    "change map bindings ADMISSION-REFERENCE.json",
+    "change map disposition ADMISSION-REFERENCE.json",
+    "change map bindings CONNECTOR-LIMIT.json",
+    "change map disposition CONNECTOR-LIMIT.json",
+    "inherited bytes CONNECTOR-LIMIT.json",
+    "change map bindings CORRECTIONS.json",
+    "change map disposition CORRECTIONS.json",
+    "change map bindings COST.json",
+    "change map disposition COST.json",
+    "inherited bytes COST.json",
+    "change map bindings COST.md",
+    "change map disposition COST.md",
+    "inherited bytes COST.md",
+    "change map bindings HANDOFF.md",
+    "change map disposition HANDOFF.md",
+    "change map bindings INPUTS.json",
+    "change map disposition INPUTS.json",
+    "change map bindings INVENTORY.json",
+    "change map disposition INVENTORY.json",
+    "change map bindings METADATA-GAP.json",
+    "change map disposition METADATA-GAP.json",
+    "change map bindings METADATA-GAP.md",
+    "change map disposition METADATA-GAP.md",
+    "change map bindings NATIVE.json",
+    "change map disposition NATIVE.json",
+    "inherited bytes NATIVE.json",
+    "change map bindings PREFIX-REPLAY.json",
+    "change map disposition PREFIX-REPLAY.json",
+    "inherited bytes PREFIX-REPLAY.json",
+    "change map bindings PREFIX-REPLAY.md",
+    "change map disposition PREFIX-REPLAY.md",
+    "change map bindings PROVENANCE.json",
+    "change map disposition PROVENANCE.json",
+    "change map bindings QUALIFICATION.json",
+    "change map disposition QUALIFICATION.json",
+    "change map bindings QUALIFICATION.md",
+    "change map disposition QUALIFICATION.md",
+    "change map bindings RESULT.json",
+    "change map disposition RESULT.json",
+    "change map bindings RESULT.md",
+    "change map disposition RESULT.md",
+    "change map bindings ROOTS.csv",
+    "change map disposition ROOTS.csv",
+    "inherited bytes ROOTS.csv",
+    "change map bindings SOURCE-GATES.json",
+    "change map disposition SOURCE-GATES.json",
+    "inherited bytes SOURCE-GATES.json",
+    "change map bindings VALIDATION.json",
+    "change map disposition VALIDATION.json",
+    "change map bindings acquire.py",
+    "change map disposition acquire.py",
+    "inherited bytes acquire.py",
+    "change map bindings artifact-integrity.json",
+    "change map disposition artifact-integrity.json",
+    "inherited bytes artifact-integrity.json",
+    "change map bindings compact-metadata.json",
+    "change map disposition compact-metadata.json",
+    "inherited bytes compact-metadata.json",
+    "change map bindings github-artifacts.json",
+    "change map disposition github-artifacts.json",
+    "inherited bytes github-artifacts.json",
+    "change map bindings github-job-collection.json",
+    "change map disposition github-job-collection.json",
+    "inherited bytes github-job-collection.json",
+    "change map bindings github-jobs.json",
+    "change map disposition github-jobs.json",
+    "inherited bytes github-jobs.json",
+    "change map bindings github-run.json",
+    "change map disposition github-run.json",
+    "inherited bytes github-run.json",
+    "change map bindings group-evidence.json.gz",
+    "change map disposition group-evidence.json.gz",
+    "inherited bytes group-evidence.json.gz",
+    "change map bindings member-catalogue.json",
+    "change map disposition member-catalogue.json",
+    "inherited bytes member-catalogue.json",
+    "change map bindings render.py",
+    "change map disposition render.py",
+    "change map bindings replay.py",
+    "change map disposition replay.py",
+    "exact two prior blockers",
+    "isolated reporting helper set",
+    "W14-01 fixed source/seam binding matches inherited finding",
+    "W14-01 helper and report domain agree",
+    "checker_order_corrupt unchanged domain and helper",
+    "checker_count_corrupt unchanged domain and helper",
+    "s3_swap_u8_geometry unchanged domain and helper",
+    "s3_sort4_u8_separate unchanged domain and helper",
+    "s3_sort4_u8_same_alloc unchanged domain and helper",
+    "s3_insert_tail_u8_rel16 unchanged domain and helper",
+    "s3_merge8_u8_separate unchanged domain and helper",
+    "s3_merge8_u8_same_alloc unchanged domain and helper",
+    "s3_swap_u8_geometry four SUCCESS guards",
+    "s3_swap_u8_geometry exact guard projection including order and trace_available",
+    "s3_swap_u8_geometry exact guard projection including order and trace_available",
+    "s3_swap_u8_geometry exact guard projection including order and trace_available",
+    "s3_swap_u8_geometry adverse baseline preserved: status='FAILURE'",
+    "s3_swap_u8_geometry adverse baseline preserved: status='FAILED'",
+    "s3_swap_u8_geometry adverse baseline preserved: status='UNKNOWN'",
+    "s3_swap_u8_geometry adverse baseline preserved: status='UNREACHABLE'",
+    "s3_swap_u8_geometry adverse baseline preserved: status='UNDETERMINED'",
+    "s3_swap_u8_geometry adverse baseline preserved: status=None",
+    "s3_swap_u8_geometry adverse baseline preserved: status=0",
+    "s3_swap_u8_geometry adverse baseline preserved: missing status",
+    "s3_swap_u8_geometry adverse baseline preserved: altered status",
+    "s3_swap_u8_geometry adverse baseline preserved: missing id",
+    "s3_swap_u8_geometry adverse baseline preserved: altered id",
+    "s3_swap_u8_geometry adverse baseline preserved: missing description",
+    "s3_swap_u8_geometry adverse baseline preserved: altered description",
+    "s3_swap_u8_geometry adverse baseline preserved: missing class",
+    "s3_swap_u8_geometry adverse baseline preserved: altered class",
+    "s3_swap_u8_geometry adverse baseline preserved: missing file",
+    "s3_swap_u8_geometry adverse baseline preserved: altered file",
+    "s3_swap_u8_geometry adverse baseline preserved: missing line",
+    "s3_swap_u8_geometry adverse baseline preserved: altered line",
+    "s3_swap_u8_geometry adverse baseline preserved: missing trace_available",
+    "s3_swap_u8_geometry adverse baseline preserved: altered trace_available",
+    "s3_swap_u8_geometry adverse baseline preserved: empty",
+    "s3_swap_u8_geometry adverse baseline preserved: missing guard",
+    "s3_swap_u8_geometry adverse baseline preserved: null array",
+    "s3_swap_u8_geometry adverse baseline preserved: wrong array type",
+    "s3_swap_u8_geometry adverse baseline preserved: duplicate",
+    "s3_sort4_u8_separate four SUCCESS guards",
+    "s3_sort4_u8_separate exact guard projection including order and trace_available",
+    "s3_sort4_u8_separate exact guard projection including order and trace_available",
+    "s3_sort4_u8_separate exact guard projection including order and trace_available",
+    "s3_sort4_u8_separate adverse baseline preserved: status='FAILURE'",
+    "s3_sort4_u8_separate adverse baseline preserved: status='FAILED'",
+    "s3_sort4_u8_separate adverse baseline preserved: status='UNKNOWN'",
+    "s3_sort4_u8_separate adverse baseline preserved: status='UNREACHABLE'",
+    "s3_sort4_u8_separate adverse baseline preserved: status='UNDETERMINED'",
+    "s3_sort4_u8_separate adverse baseline preserved: status=None",
+    "s3_sort4_u8_separate adverse baseline preserved: status=0",
+    "s3_sort4_u8_separate adverse baseline preserved: missing status",
+    "s3_sort4_u8_separate adverse baseline preserved: altered status",
+    "s3_sort4_u8_separate adverse baseline preserved: missing id",
+    "s3_sort4_u8_separate adverse baseline preserved: altered id",
+    "s3_sort4_u8_separate adverse baseline preserved: missing description",
+    "s3_sort4_u8_separate adverse baseline preserved: altered description",
+    "s3_sort4_u8_separate adverse baseline preserved: missing class",
+    "s3_sort4_u8_separate adverse baseline preserved: altered class",
+    "s3_sort4_u8_separate adverse baseline preserved: missing file",
+    "s3_sort4_u8_separate adverse baseline preserved: altered file",
+    "s3_sort4_u8_separate adverse baseline preserved: missing line",
+    "s3_sort4_u8_separate adverse baseline preserved: altered line",
+    "s3_sort4_u8_separate adverse baseline preserved: missing trace_available",
+    "s3_sort4_u8_separate adverse baseline preserved: altered trace_available",
+    "s3_sort4_u8_separate adverse baseline preserved: empty",
+    "s3_sort4_u8_separate adverse baseline preserved: missing guard",
+    "s3_sort4_u8_separate adverse baseline preserved: null array",
+    "s3_sort4_u8_separate adverse baseline preserved: wrong array type",
+    "s3_sort4_u8_separate adverse baseline preserved: duplicate",
+    "s3_sort4_u8_same_alloc four SUCCESS guards",
+    "s3_sort4_u8_same_alloc exact guard projection including order and trace_available",
+    "s3_sort4_u8_same_alloc exact guard projection including order and trace_available",
+    "s3_sort4_u8_same_alloc exact guard projection including order and trace_available",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: status='FAILURE'",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: status='FAILED'",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: status='UNKNOWN'",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: status='UNREACHABLE'",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: status='UNDETERMINED'",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: status=None",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: status=0",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: missing status",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: altered status",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: missing id",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: altered id",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: missing description",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: altered description",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: missing class",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: altered class",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: missing file",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: altered file",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: missing line",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: altered line",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: missing trace_available",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: altered trace_available",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: empty",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: missing guard",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: null array",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: wrong array type",
+    "s3_sort4_u8_same_alloc adverse baseline preserved: duplicate",
+    "s3_merge8_u8_separate four SUCCESS guards",
+    "s3_merge8_u8_separate exact guard projection including order and trace_available",
+    "s3_merge8_u8_separate exact guard projection including order and trace_available",
+    "s3_merge8_u8_separate exact guard projection including order and trace_available",
+    "s3_merge8_u8_separate adverse baseline preserved: status='FAILURE'",
+    "s3_merge8_u8_separate adverse baseline preserved: status='FAILED'",
+    "s3_merge8_u8_separate adverse baseline preserved: status='UNKNOWN'",
+    "s3_merge8_u8_separate adverse baseline preserved: status='UNREACHABLE'",
+    "s3_merge8_u8_separate adverse baseline preserved: status='UNDETERMINED'",
+    "s3_merge8_u8_separate adverse baseline preserved: status=None",
+    "s3_merge8_u8_separate adverse baseline preserved: status=0",
+    "s3_merge8_u8_separate adverse baseline preserved: missing status",
+    "s3_merge8_u8_separate adverse baseline preserved: altered status",
+    "s3_merge8_u8_separate adverse baseline preserved: missing id",
+    "s3_merge8_u8_separate adverse baseline preserved: altered id",
+    "s3_merge8_u8_separate adverse baseline preserved: missing description",
+    "s3_merge8_u8_separate adverse baseline preserved: altered description",
+    "s3_merge8_u8_separate adverse baseline preserved: missing class",
+    "s3_merge8_u8_separate adverse baseline preserved: altered class",
+    "s3_merge8_u8_separate adverse baseline preserved: missing file",
+    "s3_merge8_u8_separate adverse baseline preserved: altered file",
+    "s3_merge8_u8_separate adverse baseline preserved: missing line",
+    "s3_merge8_u8_separate adverse baseline preserved: altered line",
+    "s3_merge8_u8_separate adverse baseline preserved: missing trace_available",
+    "s3_merge8_u8_separate adverse baseline preserved: altered trace_available",
+    "s3_merge8_u8_separate adverse baseline preserved: empty",
+    "s3_merge8_u8_separate adverse baseline preserved: missing guard",
+    "s3_merge8_u8_separate adverse baseline preserved: null array",
+    "s3_merge8_u8_separate adverse baseline preserved: wrong array type",
+    "s3_merge8_u8_separate adverse baseline preserved: duplicate",
+    "W14-02 exact four roots/16 total",
+    "qualification minus enumerated reporting corrections; all42 U/roles/covers/PFC/context/statuses",
+    "all42 U records retained",
+    "complete inventory minus four guard projections; protected epochs/namespace/provenance",
+    "PROVENANCE.json inherited fields",
+    "INPUTS.json inherited fields",
+    "METADATA-GAP.json inherited fields",
+    "strict0/9 and historical producer/policy unchanged",
+    "full exact f740 admission binding",
+    "location-only gate retains nulls/counts/protected constraints and origin UNKNOWN",
+    "qualification renderer reproduces committed report in memory",
+    "both corrected prose assertions match exact bindings",
+    "s3_swap_u8_geometry rendered native guard panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+    "s3_swap_u8_geometry rendered native guard kani::mem::cbmc::same_allocation.unsupported_construct.1",
+    "s3_swap_u8_geometry rendered native guard panic::location::Location::<'_>::caller.unsupported_construct.1",
+    "s3_swap_u8_geometry rendered native guard kani::mem::is_inbounds::<u8>.unsupported_construct.1",
+    "s3_sort4_u8_separate rendered native guard kani::mem::is_inbounds::<[u8]>.unsupported_construct.1",
+    "s3_sort4_u8_separate rendered native guard kani::mem::cbmc::same_allocation.unsupported_construct.1",
+    "s3_sort4_u8_separate rendered native guard panic::location::Location::<'_>::caller.unsupported_construct.1",
+    "s3_sort4_u8_separate rendered native guard panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+    "s3_sort4_u8_same_alloc rendered native guard panic::location::Location::<'_>::caller.unsupported_construct.1",
+    "s3_sort4_u8_same_alloc rendered native guard panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+    "s3_sort4_u8_same_alloc rendered native guard kani::mem::cbmc::same_allocation.unsupported_construct.1",
+    "s3_sort4_u8_same_alloc rendered native guard kani::mem::is_inbounds::<[u8]>.unsupported_construct.1",
+    "s3_merge8_u8_separate rendered native guard panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+    "s3_merge8_u8_separate rendered native guard kani::mem::cbmc::same_allocation.unsupported_construct.1",
+    "s3_merge8_u8_separate rendered native guard panic::location::Location::<'_>::caller.unsupported_construct.1",
+    "s3_merge8_u8_separate rendered native guard kani::mem::is_inbounds::<[u8]>.unsupported_construct.1",
+    "RESULT.md corrected scope/guard consistency",
+    "HANDOFF.md corrected scope/guard consistency"
+  ],
+  "adverse_cases": [
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "status='FAILURE'",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "status='FAILED'",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "status='UNKNOWN'",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "status='UNREACHABLE'",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "status='UNDETERMINED'",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "status=None",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "status=0",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "missing status",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "altered status",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "missing id",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "altered id",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "missing description",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "altered description",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "missing class",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "altered class",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "missing file",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "altered file",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "missing line",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "altered line",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "missing trace_available",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "altered trace_available",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "empty",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "missing guard",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "null array",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "wrong array type",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_swap_u8_geometry",
+      "mutation": "duplicate",
+      "result": "REJECT",
+      "baseline_sha256": "fab6dd2f780a7bfb3cebff1b950cde7c80d5ba36bfaf310925f977e1cff580d8",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "status='FAILURE'",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "status='FAILED'",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "status='UNKNOWN'",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "status='UNREACHABLE'",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "status='UNDETERMINED'",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "status=None",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "status=0",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "missing status",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "altered status",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "missing id",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "altered id",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "missing description",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "altered description",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "missing class",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "altered class",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "missing file",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "altered file",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "missing line",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "altered line",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "missing trace_available",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "altered trace_available",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "empty",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "missing guard",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "null array",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "wrong array type",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_separate",
+      "mutation": "duplicate",
+      "result": "REJECT",
+      "baseline_sha256": "551e684cedabf602155467eca0c98631eca593870527b67914eebac8fe986620",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "status='FAILURE'",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "status='FAILED'",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "status='UNKNOWN'",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "status='UNREACHABLE'",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "status='UNDETERMINED'",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "status=None",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "status=0",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "missing status",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "altered status",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "missing id",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "altered id",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "missing description",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "altered description",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "missing class",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "altered class",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "missing file",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "altered file",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "missing line",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "altered line",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "missing trace_available",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "altered trace_available",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "empty",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "missing guard",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "null array",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "wrong array type",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_sort4_u8_same_alloc",
+      "mutation": "duplicate",
+      "result": "REJECT",
+      "baseline_sha256": "14f235a2e293fabddb8409112fddd762be6415c2e8b0701747c923fd2c56cb79",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "status='FAILURE'",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "status='FAILED'",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "status='UNKNOWN'",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "status='UNREACHABLE'",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "status='UNDETERMINED'",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "status=None",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "status=0",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "missing status",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "altered status",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "missing id",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "altered id",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "missing description",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "altered description",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "missing class",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "altered class",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "missing file",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "altered file",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "missing line",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "altered line",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "missing trace_available",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "altered trace_available",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "empty",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "missing guard",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "null array",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "wrong array type",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    },
+    {
+      "root": "s3_merge8_u8_separate",
+      "mutation": "duplicate",
+      "result": "REJECT",
+      "baseline_sha256": "524be901243b312ea427ed024a9012652096faabe701bee4a8631c646ef9f03e",
+      "provenance": "deep copy of unchanged NATIVE.json guard array; memory only"
+    }
+  ],
+  "adverse_cases_count": 104,
+  "inherited": [
+    {
+      "file": "CONNECTOR-LIMIT.json",
+      "sha256": "87af17e69a22bbb00512bddcaa53aa02a3abb0c320c9feca494439ed28b70f94",
+      "bytes": 166,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "COST.json",
+      "sha256": "68fcc05bfaf8eba367906643dcffdb220b3ca63d34773d9e798414e42b2fb2ec",
+      "bytes": 23909,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "COST.md",
+      "sha256": "bc062cf2b6de096ada4de027eed82f2a892980ca61723e27f3d80e01fcb098bb",
+      "bytes": 3432,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "NATIVE.json",
+      "sha256": "0e9b1a2d69e789c274c700245f7d0860eff1fe73f08c770f0133d30a7fdba083",
+      "bytes": 38270,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "PREFIX-REPLAY.json",
+      "sha256": "a5ced63a1976e58118839078d755df6ff817d13fb84868f68163de68e4dd1918",
+      "bytes": 1847,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "ROOTS.csv",
+      "sha256": "69a49aac804367c3066b0cebc676aa17b45c471b855e37cfaa59a77844db781b",
+      "bytes": 808,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "SOURCE-GATES.json",
+      "sha256": "c7177b7f9a55d7fd9452ad4b7b3a307767a625e0eab4d85d2fbb92a10c0207cd",
+      "bytes": 12316,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "acquire.py",
+      "sha256": "209ec14beb0fd1f479f84d4392fd6122de629d41ed1e742368d4ee69f635c6ea",
+      "bytes": 2352,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "artifact-integrity.json",
+      "sha256": "85234152d64b3eefb968affdc5f8ba52e422313d1b4800ca14fbfdb3767475e3",
+      "bytes": 25921,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "compact-metadata.json",
+      "sha256": "cb01436d7521e91c53c8b2c9b12a36229671831d3d406f225816d3115231daf8",
+      "bytes": 27692,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "github-artifacts.json",
+      "sha256": "fbe9d0ab08e9ba8b24f9dd2188fe3510817cda394efa475c5c4e2e63253aa112",
+      "bytes": 847,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "github-job-collection.json",
+      "sha256": "17e1977860d1a9187544ee01e7638b91319f5cb95862af056e12a867386af93b",
+      "bytes": 5583,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "github-jobs.json",
+      "sha256": "05dd512b730fb4e0bc15a6e4fb57e03f77d1bcce660cd489e74708a30b2ca315",
+      "bytes": 2947,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "github-run.json",
+      "sha256": "828e0ba827628159877ad692cd21641fea7e3477f6fb0208cdc07b1da5079ba4",
+      "bytes": 13582,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "group-evidence.json.gz",
+      "sha256": "b9a02491bfb360eb17a13ab6f7fea78108d0371a7e8033f277674fb33213bed0",
+      "bytes": 494935,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "file": "member-catalogue.json",
+      "sha256": "e0e3228646cf43b8b391a3c31f6df6505b23ddbab1a718e253a3e64a18f8bb67",
+      "bytes": 66932,
+      "comparison": "exact original file bytes"
+    },
+    {
+      "projection": "qualification minus enumerated reporting corrections; all42 U/roles/covers/PFC/context/statuses",
+      "canonical_sha256": "d1f117291978ef712d843033e659f19d2eac068fad7d8381a8a1d8bf5c6e8227",
+      "comparison": "equal canonical bytes; containing original files pinned separately"
+    },
+    {
+      "projection": "complete inventory minus four guard projections; protected epochs/namespace/provenance",
+      "canonical_sha256": "5f98a376af6d59acc84015234d9ccee5286bd23fa9a53bebbee2a2b8802c1522",
+      "comparison": "equal canonical bytes; containing original files pinned separately"
+    },
+    {
+      "projection": "PROVENANCE.json inherited fields",
+      "canonical_sha256": "cc437373ae0153303cac7a493c1f0f83e8c43eac6ab983efc7104fd823c66745",
+      "comparison": "equal canonical bytes; containing original files pinned separately"
+    },
+    {
+      "projection": "INPUTS.json inherited fields",
+      "canonical_sha256": "15d51d68126f4f7ee7b74dad1bbeac814d6f06c3d9780c3c2f8bf5e5818711cd",
+      "comparison": "equal canonical bytes; containing original files pinned separately"
+    },
+    {
+      "projection": "METADATA-GAP.json inherited fields",
+      "canonical_sha256": "a1805fdc01e3704985ae74147e18b14ed3b6294a4af69f86c79d0ad327a55091",
+      "comparison": "equal canonical bytes; containing original files pinned separately"
+    }
+  ],
+  "changed_json_pointers": {
+    "QUALIFICATION.json": [
+      "/decision_required/0",
+      "/decision_required/1",
+      "/location_metadata_admission_reference",
+      "/overall_qualification",
+      "/rows/2/unsupported_constructs",
+      "/rows/3/unsupported_constructs",
+      "/rows/4/S1_assessment",
+      "/rows/4/admission",
+      "/rows/4/unsupported_constructs",
+      "/rows/6/unsupported_constructs",
+      "/rows/8/bindings/negative_fixture",
+      "/rows/8/bindings/source_domain",
+      "/successful_unsupported_guard_inventory"
+    ],
+    "INVENTORY.json": [
+      "/selected/2/unsupported_constructs",
+      "/selected/3/unsupported_constructs",
+      "/selected/4/unsupported_constructs",
+      "/selected/6/unsupported_constructs"
+    ],
+    "PROVENANCE.json": [
+      "/inherited_validation",
+      "/reporting_correction"
+    ],
+    "INPUTS.json": [
+      "/reporting_correction"
+    ],
+    "METADATA-GAP.json": [
+      "/location_metadata_admission_reference",
+      "/remaining"
+    ],
+    "RESULT.json": [
+      "/S1_provisional_exact_location_gate_admitted_overall_pending",
+      "/S1_provisional_location_decision_pending",
+      "/correction_findings",
+      "/handoff",
+      "/overall_qualification",
+      "/successful_unsupported_guards"
+    ]
+  },
+  "prior_broad_1501_checks": "INHERITED_NOT_RERUN",
+  "author_160_checks": "SOURCE_REPORTED; reviewer tests recorded separately here",
+  "strict_predicate": "UNCHANGED; prior audit and author isolated predicate test inherited, not rerun",
+  "native_executed": false,
+  "full_audit_executed": false,
+  "source_audit_executed": false,
+  "policy_reader_executed_or_modified": false,
+  "CI_executed": false,
+  "artifact_decompressed_or_reacquired": false,
+  "proof_credit": "NONE"
+}

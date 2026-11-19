@@ -1,0 +1,9 @@
+# READY — W14 short reporting delta APPROVE
+
+Repaired intake **31c1dbfc7ca2df34b28bb5eb7ee81bc207ee5642** at `../run-44416629057-r1/HANDOFF.md`; task/admission **f74025e493a627962842e8f7bc6a2766d33dd300**; base **d29ab46dbbb45d7106fa30c3ac04bb419a2ac286**; prior review **a9fe0055aab3279e3f5bb71bde9667925da80e65**.
+
+**W14-01 CLOSED, W14-02 CLOSED. APPROVE reporting delta; no new reporting blockers.** Fixed descending len13 and exact ordinary weak_swap seam are accurate. Four SUCCESS unsupported guards per completed positive/16 total are retained exactly. PASS: 367 bounded checks and 104 adverse cases, memory-only mutations; qualification renderer agrees with committed prose. Native/U42/protected epochs/provenance/roles/covers/PFC/prefix/cost are inherited through exact file bytes and unchanged projections. No broad/native/source/policy/CI execution or artifact reacquisition.
+
+f740 accepts only the exact reversible location metadata gate, including full tuple, present nulls, counts, same invocation and protected constraints. Actual source origin/lowering UNKNOWN; runtime NOT_APPLIED. Producer UNKNOWN, REJECT_ALL, disabled proposal and strict0/9 remain unchanged. Overall qualification still needs root/coordinator case assessment. SOURCE_REPORTED observations supply no independent B1/B2, whole-S3, generic/caller, assumed-summary or initialization credit. Preserve full positive byte domains, concrete u8/KeyLess, exact identities/PFC/provider, geometry/init/frame and caller conditions; two capped leaves remain incomplete.
+
+See REPORT.md, FINDINGS.json, EXACT-INPUTS.json and VALIDATION.json; MANIFEST binds this new review only. Earlier intake/review/ledgers are immutable. Explicit owner03:27 `/new14` overrides prepared reuse; high/FastOFF/no subagents preserved. Local own-path commit only with `[skip ci]`, no push. Queued9c8 plan review is distinct and has no automatic execution GO. READY fullg0 is returned with the resulting commit SHA.

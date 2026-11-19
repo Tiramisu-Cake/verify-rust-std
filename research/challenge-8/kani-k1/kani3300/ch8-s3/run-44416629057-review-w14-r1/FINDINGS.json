@@ -1,0 +1,37 @@
+{
+  "schema": "W14-independent-reporting-delta-v1",
+  "status": "READY",
+  "disposition": "APPROVE",
+  "scope": "Exact repaired intake reporting/bindings within inherited case scope; root/coordinator overall qualification separate",
+  "task_commit": "f74025e493a627962842e8f7bc6a2766d33dd300",
+  "candidate_commit": "31c1dbfc7ca2df34b28bb5eb7ee81bc207ee5642",
+  "candidate_path": "research/challenge-8/kani-k1/kani3300/ch8-s3/run-44416629057-r1",
+  "base_commit": "d29ab46dbbb45d7106fa30c3ac04bb419a2ac286",
+  "prior_review_commit": "a9fe0055aab3279e3f5bb71bde9667925da80e65",
+  "admission_commit": "f74025e493a627962842e8f7bc6a2766d33dd300",
+  "findings": [
+    {
+      "id": "W14-01",
+      "status": "CLOSED",
+      "resolution": "Fixed descending length13 source513341f sorting_s2_batch.rs:147, exact caller copy and ordinary s2_swap_seam -> weak_swap; no arbitrary-independent-byte negative claim",
+      "locations": ["../run-44416629057-r1/QUALIFICATION.json#/rows/8/bindings", "../run-44416629057-r1/replay.py:domain", "../run-44416629057-r1/render.py", "../run-44416629057-r1/QUALIFICATION.md"],
+      "preserved": "One intended failure/eight U arguments for fixed fixture; positive full-byte domains unchanged"
+    },
+    {
+      "id": "W14-02",
+      "status": "CLOSED",
+      "resolution": "Four exact SUCCESS unsupported guards per completed positive export, sixteen total; native records retained and empty-array claim corrected",
+      "locations": ["../run-44416629057-r1/QUALIFICATION.json#/successful_unsupported_guard_inventory", "../run-44416629057-r1/INVENTORY.json#/selected", "../run-44416629057-r1/QUALIFICATION.md", "../run-44416629057-r1/replay.py:validate_guards"],
+      "preserved": "No FAILED/UNKNOWN waiver; strict producer continues rejecting nonempty arrays independently of U"
+    }
+  ],
+  "remaining_reporting_blockers": 0,
+  "new_findings": [],
+  "validation": "VALIDATION.json: PASS; 367 bounded checks, 104 adverse cases; no prior broad audit rerun",
+  "location_gate": "ADMITTED_EXACT_LOCATION_METADATA_GATE_ONLY; full f740 decision retained, origin/lowering UNKNOWN, runtime NOT_APPLIED",
+  "producer": "Historical UNKNOWN/REJECT_ALL/proposalDISABLED unchanged",
+  "strict_expected_matches": "0/9_UNCHANGED",
+  "proof_credit": "NONE",
+  "overall_qualification": "ROOT_COORDINATOR_SEPARATE_CASE_ASSESSMENT",
+  "execution_go": false
+}
