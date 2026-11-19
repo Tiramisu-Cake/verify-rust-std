@@ -1,0 +1,13 @@
+# READY — W14 immutable independent review
+
+Task `e5a9d8f40c82408abf033466e0d50e94d77fad31`; exact intake `5d9439a7641c929838bf075c6aa6533a353ee92d`; run44439462279/1. Owner05:39 `/new14`, high/FastOFF, no subagents/model change. Full review commit SHA is supplied in the final handoff; no self-referential commit hash.
+
+**APPROVE_INTAKE_WITH_PRESERVED_LIMITS; blocking findings0.** Read REPORT.md and FINDINGS.json. Independently rechecked35 intake files/33 hashes,55 dependency files,41source/6tool/84control files, full pins and119 structured members. Fresh materialized/upload-only frozen prefix collectors agree with committed intake, all8 starts/seals/epochs/protected identities/cleanup pass.
+
+All8 S1 rows reviewed;41 U independently source-locally assessed;12 SUCCESS guards retained; exact roles/covers/native counts bound. Three fixed negative FAIL labels, three native merge SUCCESS with immutable producer UNKNOWN, two RSS-censored insertions without completed inventories. Strict expected matches0/8 unchanged. Allinit remains a provisional bounded SOURCE_REPORTED PFC candidate; both partials remain DIAG_INIT_OPEN, initialization mask/dstinit/provider eligibility OPEN/false.
+
+**RECOMMEND_EXACT_CASES, three metadata-only cases, NOT_APPLIED.** LOCATION-DECISION.json pins exact property/root/run/attempt/source/tool/control/head/request/workflow/invocation/namespace/member/schema/parser/fingerprint/counts. Exactly one classunreachable/statusSUCCESS zero-location record per merge; all other properties positively located. Oldf740 remains original-run-only. Actual shared emitter and positive source/MIR origin UNKNOWN; general rule PENDING. Recommendation is separate from root/coordinator admission and cannot qualify partial providers.
+
+VALIDATION.json/ADVERSE-TESTS.json record independent bounded reporting checks and108 rejecting controls; no native/fullValidate rerun. COST-REVIEW confirms both insertion local RSS cutoffs, not wall caps:131.465s/6361996KiB and126.130s/6330308KiB, cap6291456, exit-15/signal15, cleanup and continuation verified. Merge native verification resources197.389008141/195.062798708/198.946209131s remain distinct from whole-child236.409/232.507/238.029s. No matched speedup/full-domain fit600 or backend/kernel-peak claim.
+
+Qualified leaves0, init/provider contexts closed0, all34sort8 init/caller contexts OPEN, independent B1/B2/init/generic/fullN16N32 credit NONE. No repair required in author11 context. No author evidence/code/policy/ledger/accounting/CI/native changes or external messages/publication. Only this review directory is committed [skip ci]. Goal complete for authorized review; any admission or implementation remains a separate decision.

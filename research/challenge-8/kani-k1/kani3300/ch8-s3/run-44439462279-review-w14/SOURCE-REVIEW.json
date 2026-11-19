@@ -1,0 +1,13 @@
+{
+  "source": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+  "leaf": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+  "leaf_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+  "review": "Full byte arrays, stateless KeyLess<u8>, only sorted source halves constrained. Fixed source/destination ranges; normal-return functional multiplicity/order and known initialized value frame. Destination initially uninitialized; stock typed output loads do not establish a mask/dstinit theorem.",
+  "allinit": "Initialized outside-dst [8,48), source[32,40), dst[0,8); provisional bounded SOURCE_REPORTED actual-body PFC only.",
+  "left_partial": "Only [32,40) initially initialized; outside source and destination initialization state unproved.",
+  "right_partial": "[0,8) and[32,48) initially initialized; source[40,48), dst[16,24); other outside initialization state unproved.",
+  "frame": "Only actually initialized locations read for known-value frame/spec; stock modifies/assigns source-reported footprint is not emitted byte-state initialization evidence.",
+  "initialization_instrumentation": "OFF/constanttrue, no ghost mask used; no initrole or summary credit",
+  "source_assurance": "Profiles v4 SOURCE_REPORTED, no independent AST/MIR/ADT/parser-input/caller-edge proof",
+  "open": "All34 sort8 init/caller contexts and generic/fullN16N32 remain OPEN; no B1/B2 promotion"
+}

@@ -1,0 +1,51 @@
+{
+  "scope": "Supplementary manual source review after portable validation; no native/AST/MIR execution",
+  "source_tool_init_trace": [
+    {
+      "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "library/kani_core/src/mem.rs",
+      "sha256": "598428730a32f2c4034091688b50dde5a44deb69e2e3c61e08a0d394a5e42844",
+      "lines": [
+        245,
+        258
+      ],
+      "excerpt": "245:         /// Check whether `len * size_of::<T>()` bytes are initialized starting from `ptr`.\n246:         #[kanitool::fn_marker = \"IsInitializedIntrinsic\"]\n247:         #[inline(never)]\n248:         pub(crate) fn is_initialized<T: PointeeSized>(_ptr: *const T) -> bool {\n249:             kani_intrinsic()\n250:         }\n251: \n252:         /// A helper to assert `is_initialized` to use it as a part of other predicates.\n253:         fn assert_is_initialized<T: PointeeSized>(ptr: *const T) -> bool {\n254:             super::internal::check(\n255:                 is_initialized(ptr),\n256:                 \"Undefined Behavior: Reading from an uninitialized pointer\",\n257:             );\n258:             true"
+    },
+    {
+      "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-compiler/src/kani_middle/transform/kani_intrinsics.rs",
+      "sha256": "62242895cd5608f1631b68ed1a4bfffc0b9dfc593809778a029de8ec4c5fb840",
+      "lines": [
+        207,
+        234
+      ],
+      "excerpt": "207:     fn is_initialized_body(&mut self, body: Body) -> Body {\n208:         let mut new_body = MutableBody::from(body);\n209:         new_body.clear_body(TerminatorKind::Return);\n210:         let ret_var = RETURN_LOCAL;\n211:         let mut source = SourceInstruction::Terminator { bb: 0 };\n212: \n213:         // Short-circut if uninitialized memory checks are not enabled.\n214:         if !self.enable_uninit {\n215:             // Initialize return variable with True.\n216:             let span = new_body.locals()[ret_var].span;\n217:             let assign = StatementKind::Assign(\n218:                 Place::from(ret_var),\n219:                 Rvalue::Use(\n220:                     Operand::Constant(ConstOperand {\n221:                         span,\n222:                         user_ty: None,\n223:                         const_: MirConst::from_bool(true),\n224:                     }),\n225:                     WithRetag::No,\n226:                 ),\n227:             );\n228:             new_body.insert_stmt(\n229:                 Statement { kind: assign, source_info: synthetic_source_info(span) },\n230:                 &mut source,\n231:                 InsertPosition::Before,\n232:             );\n233:             return new_body.into();\n234:         }"
+    }
+  ],
+  "exact_request_flags": {
+    "unstable": [
+      "function-contracts",
+      "mem-predicates",
+      "float-lib",
+      "c-ffi",
+      "loop-contracts",
+      "quantifiers",
+      "stubbing",
+      "export-json"
+    ],
+    "assert_contracts": false,
+    "jobs": 1,
+    "harness_timeout": "600s",
+    "exact": true,
+    "default_unwind": 50,
+    "cbmc_args": [
+      "--object-bits",
+      "12"
+    ],
+    "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf"
+  },
+  "conclusion": "Uninit checking absent in exact requested flags; pinned intrinsic lowering returns true when enable_uninit is false. Actual init mask/dstinit proof remains OPEN; no positive theorem inferred from hook reachability or typed reads.",
+  "assurance": "SOURCE_REPORTED flags/source trace; emitted per-record MIR binding UNKNOWN",
+  "additional_tool_source_files": 2,
+  "validation": "PASS"
+}
