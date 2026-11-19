@@ -96,3 +96,11 @@ pub(super) mod sorting_s2_swap;
 pub(super) mod sorting_s2_span;
 #[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed))]
 pub(super) mod sorting_s2_batch;
+
+// S3 actual-body leaf candidate. No assumed consumers are selected.
+#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf))]
+pub(super) mod sorting_s3_leaf;
+
+// S3-2 bounded candidates and explicitly initialization-open partial diagnostics.
+#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf))]
+pub(super) mod sorting_s3_2_leaf;
