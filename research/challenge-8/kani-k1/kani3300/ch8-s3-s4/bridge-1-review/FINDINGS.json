@@ -1,0 +1,55 @@
+{
+  "schema": "bridge1-w14-findings-v1",
+  "disposition": "REQUEST_CHANGES",
+  "candidate": "bcc103354d1418feeda043c6b955b38bb4393598",
+  "source": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+  "control": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+  "blocking_findings_count": 1,
+  "nonblocking_findings_count": 1,
+  "findings": [
+    {
+      "id": "W14-B1-01",
+      "priority": "P2",
+      "blocking": true,
+      "title": "Selected-root metadata writes8 for seven-row profile and accepts inconsistent/malformed cardinality",
+      "file": "ch8-s1-control/s34_campaign.py",
+      "writer_line": 130,
+      "reader_line": 336,
+      "context": "finalize s3_campaign selected_roots:8; collect does not bind this field to validated p.ORDER/request rows",
+      "observed": "Real Python writer launches/seals7 with selected_roots8. Genuine integer7 and eight adverse count variants accepted on both local and upload-only collectors.",
+      "evidence": [
+        "COUNT-GATE-REPRODUCER.json",
+        "count_reproducer.py"
+      ],
+      "repair": [
+        "Emit selected cardinality from validated selected order/request, exactly integer7 for this profile.",
+        "Reject absent/null/bool/string/float/wrong counts in shared local/upload collector. Preserve existing semantic/identity gates.",
+        "Include authentic7 accept plus8 adverse rejection controls on both routes, including partial/stopped prefixes with fewer completed roots but selected count7.",
+        "New regression must execute in exact Validate list. Seal immutable repaired packet/pins; SAME14 delta."
+      ],
+      "impact_limit": "Metadata/completeness mismatch; actual executable selection remains7. No demonstrated additional native launch or bypass of per-row proof/status/identity gates."
+    },
+    {
+      "id": "W14-B1-02",
+      "priority": "P3",
+      "blocking": false,
+      "title": "Copied standalone portable test expects9 rows instead of7",
+      "file": "ch8-s1-control/test_s34.py",
+      "line": 430,
+      "observed": "Standalone PortableReplayTests fails AssertionError7!=9; it is outside selected finalValidate.NEW.",
+      "repair": [
+        "Use validated row inventory count instead of stale9. Preserve truthful final263PASS receipt; do not claim this standalone test passed."
+      ],
+      "evidence": [
+        "standalone-portable.json",
+        "standalone-portable.stderr"
+      ]
+    }
+  ],
+  "repair_owner": "ORIGINAL13 CURRENT1079, routed by root",
+  "source_changes_needed": false,
+  "new_review_required": "SAME14 delta on immutable repaired package; no substitute implementer",
+  "approval": false,
+  "execution_grant": false,
+  "proof_credit": "NONE"
+}

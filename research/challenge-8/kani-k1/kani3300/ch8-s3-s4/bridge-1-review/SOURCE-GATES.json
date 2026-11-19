@@ -1,0 +1,74 @@
+{
+  "status": "PASS",
+  "source": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+  "control": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+  "gates": {
+    "ordinary": {
+      "status": "STATIC_PASS",
+      "source_sha": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "files": 26,
+      "limits": []
+    },
+    "cfg_pfc": {
+      "status": "STATIC_PASS",
+      "source_sha": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "files": 11,
+      "limits": []
+    },
+    "contract_stacks": {
+      "status": "STATIC_PASS",
+      "source_sha": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "files": 26,
+      "limits": []
+    },
+    "lexical": {
+      "status": "STATIC_PASS",
+      "source_sha": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "files": 20,
+      "limits": [
+        "lexical paths only; no type, generic bound, borrow, method, macro expansion, MIR or compilation validation",
+        "body-local items/imports and unsupported paths fail closed; callable parameters are lexical only"
+      ]
+    }
+  },
+  "all_new_functions": [
+    "active_u8",
+    "descending",
+    "i_p01_b01_fullu8",
+    "sort9_v34_b01_len09_real",
+    "fallback_cell_b01_n00_16",
+    "network_u8_b01_n00_08"
+  ],
+  "Cell_provider": {
+    "file": "library/core/src/cell.rs",
+    "type": "Cell<u8>",
+    "methods": [
+      "new",
+      "get",
+      "set"
+    ],
+    "dispatch": "NOT_CHECKED; exact typed body and provider anchors only"
+  },
+  "production_paths": {
+    "small_sort_fallback": [
+      "insertion_sort_shift_left(v, 1, is_less);"
+    ],
+    "small_sort_network": [
+      "let no_merge = len < 18;",
+      "insertion_sort_shift_left(region, presorted_len, is_less);",
+      "if no_merge { return; }"
+    ],
+    "insertion_sort_shift_left": [
+      "insert_tail(v_base, tail, is_less);",
+      "tail = tail.add(1);"
+    ],
+    "insert_tail": [
+      "let tmp = ManuallyDrop::new(tail.read());",
+      "let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };",
+      "ptr::copy_nonoverlapping(sift, gap_guard.dst, 1);",
+      "gap_guard.dst = sift;"
+    ]
+  },
+  "proof_credit": "NONE",
+  "scope": "Bounded source/static parser only; no compiler/type/MIR resolution"
+}

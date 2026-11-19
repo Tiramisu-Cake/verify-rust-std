@@ -1,0 +1,17 @@
+test_same_invocation_stock_rich_metadata_and_upload_only_replay (test_s34.PortableReplayTests.test_same_invocation_stock_rich_metadata_and_upload_only_replay) ... FAIL
+
+======================================================================
+FAIL: test_same_invocation_stock_rich_metadata_and_upload_only_replay (test_s34.PortableReplayTests.test_same_invocation_stock_rich_metadata_and_upload_only_replay)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s3s4-bridge1-control-w13/ch8-s1-control/test_s34.py", line 398, in test_same_invocation_stock_rich_metadata_and_upload_only_replay
+    self.exercise()
+  File "/root/kani-ch8-s3s4-bridge1-control-w13/ch8-s1-control/test_s34.py", line 430, in exercise
+    collected=c.collect([out],req);self.assertEqual(len(collected['rows']),9)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 7 != 9
+
+----------------------------------------------------------------------
+Ran 1 test in 0.886s
+
+FAILED (failures=1)
