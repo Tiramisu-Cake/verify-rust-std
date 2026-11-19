@@ -1,0 +1,80 @@
+{
+  "scope": "Syntax and static source/integrity inspection only; no source functions executed",
+  "parent": "9b67828707f8d7d5e691484896a82475dcf34d28",
+  "worktree": "/root/kani-pr5195-cleanup-w11",
+  "branch": "cleanup/pr5195-20261119",
+  "python_compile_without_execution": "PASS",
+  "bash_n": "PASS",
+  "git_diff_check": "PASS",
+  "exact_changed_paths": [
+    "tests/script-based-pre/delayed-shared-body/Cargo.toml",
+    "tests/script-based-pre/delayed-shared-body/check.py",
+    "tests/script-based-pre/delayed-shared-body/control.rs",
+    "tests/script-based-pre/delayed-shared-body/src/lib.rs"
+  ],
+  "byte_integrity": {
+    "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs": {
+      "byte_identical_to_parent": true,
+      "sha256": "14cf16762c3475238941c254fc4080b00149c1618a156a5baab8dbdc7de78db3"
+    },
+    "kani-compiler/src/kani_middle/transform/mod.rs": {
+      "byte_identical_to_parent": true,
+      "sha256": "0901d9ee2f60efb02949200822406713a4a1e6f068ecb52d053716a6c07957b7"
+    },
+    "tests/script-based-pre/delayed-shared-body/config.yml": {
+      "byte_identical_to_parent": true,
+      "sha256": "f6ac7ffc9bfa654dd81c7263d1af76a0e989860d4f001e89aede0881fa09be33"
+    },
+    "tests/script-based-pre/delayed-shared-body/expected": {
+      "byte_identical_to_parent": true,
+      "sha256": "fc24e4757ef87883ebb1d0127be0550016232039a4e4776237627eae9215f6c8"
+    },
+    "tests/script-based-pre/delayed-shared-body/test.sh": {
+      "byte_identical_to_parent": true,
+      "sha256": "da984231aaf9c6743a66fca67b29f02b72fab8f92e973f24f9b03164f6378f36"
+    }
+  },
+  "rust_fixture_and_cargo_changes_only_feature_rename": "PASS",
+  "read_value_dereference_still_line_12": "PASS",
+  "unchanged_function_ASTs": [
+    "require",
+    "inventory",
+    "signature",
+    "ordinary_control",
+    "probe"
+  ],
+  "parse_AST_unchanged_except_three_field_result_record": "PASS",
+  "unsafe_control_AST_unchanged_except_specialized_location_parameters": "PASS",
+  "readonly_worktree_unchanged_and_clean": "PASS",
+  "native_tests": "NOT_RUN",
+  "dynamic_oracle_or_schedule_tests": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "manual_schedule_inspection": {
+    "uninit": [
+      "delayed_indirect/delayed_alone",
+      "delayed_indirect/control_alone",
+      "delayed_indirect/paired",
+      "control_indirect/delayed_alone",
+      "control_indirect/control_alone",
+      "control_indirect/paired"
+    ],
+    "ordinary": [
+      "delayed_indirect/paired",
+      "control_indirect/paired"
+    ],
+    "total": 8,
+    "method": "Read main loop/cases branches; no main/probe execution"
+  },
+  "committed_candidate": {
+    "sha": "153be639a0c048e3be3d1f1f006e47060fd74e83",
+    "tree": "7f784cca53dc02589d5c8459a2fe4217395122bf",
+    "parent": "9b67828707f8d7d5e691484896a82475dcf34d28",
+    "commits_above_parent": 1,
+    "author_and_committer": "Tiramisu-Cake <igkharin@gmail.com>",
+    "message": "Simplify shared-body regression coverage and call-path labels",
+    "no_skip_ci_or_coauthor": "PASS",
+    "worktree_clean": "PASS",
+    "committed_compiler_and_integration_bytes_rechecked": "PASS",
+    "full_index_binary_patch_sha256": "343c553e5e541ff697b59cb70baf93bd70e1919f13d74861d800e954ea01974a"
+  }
+}
