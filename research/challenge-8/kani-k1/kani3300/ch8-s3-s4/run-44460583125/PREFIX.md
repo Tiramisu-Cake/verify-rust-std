@@ -1,0 +1,9 @@
+# Portable completed prefix
+
+Run `python3 replay.py` from this directory with the recorded Git objects/worktrees available. It freezes the exact reviewed control's Python/fixture closure in a fresh temporary directory, validates all105 compact member hashes, source and control payload pins, all-state protected snapshots, native registration and export bindings, then compares `s34_campaign.collect(materialized)` with public `collect(upload-only)` using the sole original compact member. Neither route invokes native tools or runner main. Original evidence is byte-exact after adverse tests; temporary materialization is removed on exit.
+
+Actual terminal: SELECTED_PARTIAL, selected_roots genuine integer7, no global_stop, no missing selected groups; prefix is all seven rows in ordered INPUTS. Failed/timed rows are completed observation records. Strict qualification remains false. The replay leaves no fabricated missing exports or rewritten history.
+
+B01 type/cardinality controls cover local and upload-only routes, full selected partial and STOPPED scenarios with7 or0 completed references. Missing/null/bool/string/0/6/8 rejects at the exact cardinality gate. These are synthetic adverse copies, never changes to authentic evidence. Prior independently reviewed full7/stopped2/partial2/stopped0/partial0 accept/reject coverage and B02 standalone repair remain pinned in B01-B02.json; no full host suite is rerun.
+
+Run `python3 render.py` only after a deliberate new correction before sealing. It writes the report views and MANIFEST.json. Post-commit corrections must be a NEW immutable correction packet; do not rewrite the sealed intake. Root checks the committed manifest, exact pins, original payload hashes, replay completeness/limits and COST; Review14 follows a separate root check and is not issued here.

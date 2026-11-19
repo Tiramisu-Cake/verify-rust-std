@@ -1,0 +1,100 @@
+{
+  "review_commit": "24872d1553e6205d7750cef945904ed4a31f21ca",
+  "files": {
+    "CHECKPOINT.json": {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1-review-r1/CHECKPOINT.json",
+      "sha256": "f031eab2e459611a11acfe21c4a52a6739ebd737c3d123aa60e8c17e31ef5e2b"
+    },
+    "FINDINGS.json": {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1-review-r1/FINDINGS.json",
+      "sha256": "c7dfe95a7d07773452910fa82ebe6b1dd87142204a0fdaf55ba60d2ac0f67e7b"
+    },
+    "VALIDATION.json": {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/bridge-1-review-r1/VALIDATION.json",
+      "sha256": "ba33e322b0740ebf73706de057a4b3f23783125c1dc216f39d3e9bc5914d9f35"
+    }
+  },
+  "closures": [
+    {
+      "id": "W14-B1-01",
+      "original_priority": "P2",
+      "original_blocking": true,
+      "status": "CLOSED_INDEPENDENTLY",
+      "control": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "writer": "finalize validates fixed profile/order via p.validate -> s34_policy.validate_request, then len(request.rows); selected int7 independent of completion count",
+      "reader": "shared collector validates request and exact type(value) is int plus equal selected cardinality before legacy_collect; local/public upload use same gate",
+      "independent_evidence": [
+        "repaired.stdout",
+        "baseline.stdout",
+        "targeted.stderr",
+        "STATIC-VALIDATION.json"
+      ],
+      "observed": "Five final scenarios full7/stopped2/partial2/stopped0/partial0 each accept genuine7 on local+compact-only upload and reject missing/null/bool/string/float/0/6/8 on both; prefix/status preserved; six invalid-inventory operations reject without terminal mutation",
+      "CI": "All4 added regressions are in exact s34_validate.NEW and individual final267 PASS statuses; byte-exact workflow invokes s34_validate.py in18minute Validate step"
+    },
+    {
+      "id": "W14-B1-02",
+      "original_priority": "P3",
+      "original_blocking": false,
+      "status": "CLOSED_INDEPENDENTLY",
+      "control": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "repair": "Standalone expected count derives from validated request inventory7; all other portable/protected/identity checks byte-exact",
+      "independent_evidence": [
+        "targeted.json",
+        "targeted.stderr"
+      ],
+      "author_evidence": [
+        "../bridge-1-r1/validation/standalone-portable.json",
+        "../bridge-1-r1/validation/standalone-portable.stderr"
+      ],
+      "historical_preservation": "old4bd REQUEST_CHANGES, isolatedFAIL7!=9 and original263PASS remain immutable; corrected standalone remains separate from selected267"
+    }
+  ],
+  "prior_validation": {
+    "status": "PASS",
+    "static_checks": 465,
+    "independent_patch_tree_replays": 6,
+    "source_static_gates": 4,
+    "reviewer_independent_count_matrix": {
+      "baseline_control": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+      "baseline_full_scenarios": 1,
+      "baseline_route_acceptances": 18,
+      "repaired_control": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "repaired_scenarios": [
+        "full7",
+        "stopped2",
+        "partial2",
+        "stopped0",
+        "partial0"
+      ],
+      "repaired_route_acceptances": 10,
+      "repaired_adverse_route_rejections": 80,
+      "invalid_inventory_rejections": 6,
+      "evidence": [
+        "baseline.stdout",
+        "repaired.stdout"
+      ]
+    },
+    "reviewer_targeted_tests": 5,
+    "reviewer_targeted_elapsed_seconds": 15.829660935793072,
+    "reviewer_fullValidate_executions": 0,
+    "author_final_validation": {
+      "assurance": "Committed source-reported execution receipts independently checked for identity, ordered267 individual statuses, exits and arithmetic; no reviewer fullValidate rerun",
+      "tests": 267,
+      "exit_code": 0,
+      "reported_execution_count": 1,
+      "elapsed_seconds": 632.5823326697573,
+      "internal_elapsed_seconds": 632.1776101361029,
+      "margin_at_18_minutes": 1.7072876433996447,
+      "source_preflight_reported_execution_count": 1,
+      "source_preflight_seconds": 24.242099224124104,
+      "control_preflight_seconds": 0.5771422758698463
+    },
+    "native_compile_proof_fit": "NOT_RUN",
+    "type_MIR_init_generic_proof": "NOT_ESTABLISHED",
+    "proof_credit": "NONE"
+  },
+  "assurance": "Committed independently reviewed pre-run evidence; no new review issued. Native Validate step success is step-summary only, not an independently observed per-test inventory.",
+  "current_replay": "Actual int7 full completion plus bounded invalid-cardinality local/upload STOPPED/partial/zero-completion controls in VALIDATION.json; same-tree reviewed reader and writer hashes verified.",
+  "full_host_suite_rerun": false
+}

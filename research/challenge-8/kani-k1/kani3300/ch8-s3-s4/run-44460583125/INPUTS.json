@@ -1,0 +1,246 @@
+{
+  "task_commit": "0d36282d44664af05a69eb3ee47686952786a261",
+  "terminal_addendum_commit": "7c2c6af9f538d43e5cce51d548bdd73633358241",
+  "base_inputs": {
+    "schema": "ch8-s3s4-bridge1-r1-intake-inputs-v1",
+    "status": "PREPARED_NOT_ISSUED",
+    "issue_gate": "NATIVE_TERMINAL_THEN_ACTUAL_FREE11_NO_DUPLICATE",
+    "task_file": "TASK-CH8-S3S4-BRIDGE1-R1-INTAKE-W11.md",
+    "task_sha256": "f8ff68e2160bf8b3ee599bf458f0bdff70ee4a90e0a4c2b9bef46134be87b9d7",
+    "repository": "Tiramisu-Cake/kani",
+    "run_id": 44460583125,
+    "attempt": 1,
+    "event": "push",
+    "branch": "uninit-ci/ch8-s3s4-bridge-1-20261119",
+    "head": {
+      "sha": "c2bbdb972cfe0e6f7472cf8bd93f1fa7c5e87acd",
+      "tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "relation": "NONSKIP_SAME_TREE_SIBLING_OF_REVIEWED_CONTROL; sole9e14; range1"
+    },
+    "source": {
+      "sha": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0",
+      "parents": [
+        "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      ],
+      "clean": true,
+      "depth": 5,
+      "required_commits_available": [
+        "f1bdf11902252ad1178f42403c253ae710fecbaf",
+        "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+        "99e8456d200fff1299ee5756279cddb23921dc65"
+      ],
+      "shallow_check": "PASS",
+      "worktree": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "reference": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d"
+    },
+    "control": {
+      "sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "parents": [
+        "9e14e033f9ee31522b571c127609dcdff76d230b"
+      ],
+      "clean": true,
+      "depth": 7,
+      "required_commits_available": [
+        "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+        "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "0aac16ef62da9e9d5645782d458593e5d78143ba"
+      ],
+      "shallow_check": "PASS",
+      "worktree": "/root/kani-ch8-s3s4-bridge1-r1-control-w13",
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "reference": "775574eb2f361ef90eade30330ff0d608530287f"
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "parents": [
+        "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+      ],
+      "clean": true,
+      "depth": 2,
+      "required_commits_available": [
+        "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+      ],
+      "shallow_check": "PASS",
+      "worktree": "/root/kani-upstream-ch8-s1",
+      "author_committer": "Ivo Matijašević <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+    },
+    "source_publication": {
+      "repository": "Tiramisu-Cake/verify-rust-std",
+      "branch": "experiment/ch8-s3s4-bridge-1-20261119",
+      "connected_ref_sha": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "actual_run_checkout": "TO_BE_OBSERVED_OR_UNKNOWN"
+    },
+    "request": {
+      "schema": "ch8-s3s4-bridge1-v1",
+      "profile": "ch8-s3s4-bridge1-fullbyte-v1",
+      "sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+      "workflow_sha256": "317f92181bee9470ddf65471def7154fcacbf1e6fb7913220ca1f154ca915a55",
+      "payload_hashes": 100,
+      "ci_changed_paths": 117,
+      "ci_deleted_paths": 16,
+      "selfhash_excluded": true,
+      "operative_identities": "request-derived at writers/readers; pinnedsource/tool; Originaltargetnull",
+      "historical_provenance": "explicit nested historical_provenance only; not operative authorization"
+    },
+    "flags": {
+      "unstable": [
+        "function-contracts",
+        "mem-predicates",
+        "float-lib",
+        "c-ffi",
+        "loop-contracts",
+        "quantifiers",
+        "stubbing",
+        "export-json"
+      ],
+      "assert_contracts": false,
+      "jobs": 1,
+      "harness_timeout": "600s",
+      "exact": true,
+      "default_unwind": 50,
+      "cbmc_args": [
+        "--object-bits",
+        "12"
+      ],
+      "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf"
+    },
+    "ordered_rows": [
+      "checker_order_corrupt",
+      "checker_count_corrupt",
+      "sort13_weak",
+      "i_p01_b01_fullu8",
+      "sort9_v34_b01_len09_real",
+      "fallback_cell_b01_n00_16",
+      "network_u8_b01_n00_08"
+    ],
+    "caps": {
+      "child_seconds": 600,
+      "compile_seconds": 180,
+      "slot_seconds": 720,
+      "controller_seconds": 180,
+      "cleanup_seconds": 240,
+      "campaign_seconds": 6900,
+      "outer_seconds": 7500,
+      "phase_seconds": 8100,
+      "step_seconds": 7560,
+      "local_rss_kib": 6291456,
+      "outer_rss_kib": 12582912,
+      "headroom_kib": 2097152,
+      "stdout_bytes": 16777216,
+      "stderr_bytes": 1048576,
+      "export_bytes": 8388608,
+      "artifact_bytes": 268435456
+    },
+    "setup_seconds": 1800,
+    "job_minutes": 180,
+    "validate_minutes": 18,
+    "package": {
+      "g0": "9c4ce67e06a652413fa72d9678f93962da5a2e1e",
+      "path": "kani3300/ch8-s3-s4/bridge-1-r1/"
+    },
+    "review": {
+      "g0": "24872d1553e6205d7750cef945904ed4a31f21ca",
+      "path": "kani3300/ch8-s3-s4/bridge-1-review-r1/",
+      "verdict": "APPROVE",
+      "closed": [
+        "W14-B1-01",
+        "W14-B1-02"
+      ]
+    },
+    "root_GO": {
+      "g0": "ffe4f1b88a12eff50197c462e562319b99e725dc",
+      "path": "kani3300/ch8-s3-s4/bridge-1-go/"
+    },
+    "connected_initial": {
+      "id": 44460583125,
+      "name": "CH8 combined S3 S4 bridge at unchanged caps",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "c2bbdb972cfe0e6f7472cf8bd93f1fa7c5e87acd",
+      "head_branch": "uninit-ci/ch8-s3s4-bridge-1-20261119",
+      "event": "push",
+      "run_attempt": 1,
+      "path": ".github/workflows/ch8-s2.yml",
+      "created_at": "2026-11-19T04:46:17Z",
+      "updated_at": "2026-11-19T04:46:22Z"
+    },
+    "observed_at_utc": "2026-11-19 04:55:35 UTC",
+    "artifact": {
+      "name": "ch8-s3-2-44460583125-1",
+      "member": "group-evidence.json.gz",
+      "metadata_digest": "QUERY_AFTER_TERMINAL",
+      "policy": "ONE_COMPACT_MEMBER_ONLY_METADATA_DIGEST_FIRST_BOUNDED_REPORTING_NO_RAW_ZIP_GCS"
+    },
+    "output": "kani3300/ch8-s3-s4/run-44460583125/",
+    "accounting_reference": {
+      "ledger": "30d4d14723044e6bf07ad178b3a95166a1cc5cdd",
+      "owner_policy_commit": "d6f43a7d8fcebfa33415a2d2bce0e44ef2004727",
+      "policy": "TRACKING_ONLY_NOT_LIMITING; review + root/coordinator GO + ledger row mandatory for each run",
+      "item1": "32/32 reference",
+      "item2": "14/17 reference",
+      "total": "46/49 reference",
+      "write": false
+    },
+    "strict_U_policy": "REJECT_ALL; proposalDISABLED; intake does not change policy",
+    "location_admissions": "oldf740/ff193 only originalruns; NEW_EXCEPTIONS_NOT_APPLIED",
+    "proof_scope": "S1/Profilesv4 SOURCE_REPORTED provisional; no automatic admission/B1/B2/MIR/init/summary/generic/N16N32",
+    "native_terminal_result": "NOT_YET_OBSERVED",
+    "no_automatic_followon": true
+  },
+  "terminal_addendum": {
+    "schema": "bridge1-r1-terminal-issue-addendum-v1",
+    "base_task_commit": "0d36282d44664af05a69eb3ee47686952786a261",
+    "base_task_file": "TASK-CH8-S3S4-BRIDGE1-R1-INTAKE-W11.md",
+    "base_inputs": "kani3300/ch8-s3-s4/postrun-bridge-1-r1/INPUTS.json",
+    "native_metadata": {
+      "id": 44460583125,
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "c2bbdb972cfe0e6f7472cf8bd93f1fa7c5e87acd",
+      "head_branch": "uninit-ci/ch8-s3s4-bridge-1-20261119",
+      "event": "push",
+      "run_attempt": 1,
+      "path": ".github/workflows/ch8-s2.yml",
+      "updated_at": "2026-11-19T05:24:03Z"
+    },
+    "observed_at_utc": "2026-11-19 05:27:12 UTC",
+    "artifact": {
+      "id": 14501442643,
+      "name": "ch8-s3-2-44460583125-1",
+      "size_bytes": 374679,
+      "transport_digest": "sha256:da1edc004bae39a2814b7c2d3426153d86735bfa9276a1fbf2eabeb322acba4c",
+      "member": "group-evidence.json.gz",
+      "allowed": "ONE_COMPACT_BOUNDED_REPORTING_ONLY_DIGEST_FIRST_NO_ZIP_RAW_FULL_GCS"
+    },
+    "coordinator_report_08_25": {
+      "not_yet_independently_verified_from_compact": true,
+      "campaign": "SELECTED_PARTIAL",
+      "campaign_seconds_approx": 1672,
+      "negatives": "FAILED intended literal labels",
+      "native_success": {
+        "i_p01_b01_fullu8": "52s reported; phase/time definition to verify",
+        "sort9_v34_b01_len09_real": "223s reported; phase/time definition to verify"
+      },
+      "capped": [
+        "fallback_cell_b01_n00_16",
+        "network_u8_b01_n00_08"
+      ],
+      "cap_cause": "UNKNOWN_UNTIL_INTAKE"
+    },
+    "qualification": "native vs strict vs SOURCE_REPORTED provisional eligibility vs admission separate; no future location exception",
+    "followup_owner_authorization": "08:25 independent w14 review then next S4 plan; supersedes old no-automatic-review wording for this exact stage only",
+    "ledger_reference": "0c76677b78a8a5b6c8075a0507dc3f61da749a79",
+    "accounting_policy": "TRACKING_ONLY_NO_ROOT_WRITES; resource caps remain strict",
+    "output": "kani3300/ch8-s3-s4/run-44460583125/"
+  },
+  "settings": "current high/FastOFF preserved; no subagents/model changes",
+  "authorization": "Owner08:25 /new11; terminal intake only; no review issued here"
+}

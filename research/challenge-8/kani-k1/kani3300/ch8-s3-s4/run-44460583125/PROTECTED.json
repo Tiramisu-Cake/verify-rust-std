@@ -1,0 +1,1206 @@
+{
+  "baseline": {
+    "binaries": {
+      "binaries": {
+        "cbmc": {
+          "path": "/usr/bin/cbmc",
+          "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+        },
+        "kani_compiler": {
+          "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+          "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+        },
+        "kani_driver": {
+          "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+          "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+        }
+      },
+      "missing_binaries": [],
+      "phase": "BEFORE_CHILD",
+      "reported_versions": null,
+      "required_binaries": [
+        "kani_driver",
+        "kani_compiler",
+        "cbmc"
+      ],
+      "required_hashes_present": true,
+      "snapshot_completed": true,
+      "state": "COMPLETE"
+    },
+    "context": {
+      "campaign_id": "0bf002156917499582cd28f63c159ed3",
+      "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+      "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    },
+    "control": {
+      "dirty": "",
+      "parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "sha": "c2bbdb972cfe0e6f7472cf8bd93f1fa7c5e87acd",
+      "tree": "6280a305cba669f59ae82119fcf5374115ecacf7"
+    },
+    "epoch": "E0",
+    "errors": [],
+    "monotonic": 610.457953061,
+    "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+    "schema": "ch8-s3-protected-snapshot-v1",
+    "shutdown": null,
+    "source": {
+      "changed_file_sha256": {
+        "library/core/Cargo.toml": "01ceacdf72a9622d78af2fe5bba09eda4d838d4798d1da2ab03ecb08364f0db6",
+        "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+        "library/core/src/slice/sort/shared/smallsort.rs": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+        "library/core/src/slice/sort/shared/smallsort/verify.rs": "2820084e0c93e8369bddd28b3241052a7bc2a1e63af17be9d95f011e347a35da",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+        "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+      },
+      "std_sha": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "std_tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0",
+      "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+    },
+    "state": "COMPLETE"
+  },
+  "epochs": [
+    {
+      "id": "checker_order_corrupt",
+      "context": {
+        "baseline_context": {
+          "campaign_id": "0bf002156917499582cd28f63c159ed3",
+          "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+          "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+          "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+        },
+        "campaign_id": "0bf002156917499582cd28f63c159ed3",
+        "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "epoch": "E1",
+        "invocation_id": "34d599a45e14415c8b8eaa4af1e148a7",
+        "rank": 1,
+        "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+        "root": "checker_order_corrupt",
+        "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      },
+      "stages": {
+        "E0": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "pre": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "worker.BEFORE": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "worker.AFTER": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "AFTER_CHILD_SHUTDOWN",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "controller.post": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "AFTER_CHILD_SHUTDOWN",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        }
+      },
+      "all_five_equal_E0": true,
+      "protected": {
+        "inner_after_absent": [],
+        "controller_recovery_used": false,
+        "observed_errors_ignored": false
+      }
+    },
+    {
+      "id": "checker_count_corrupt",
+      "context": {
+        "baseline_context": {
+          "campaign_id": "0bf002156917499582cd28f63c159ed3",
+          "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+          "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+          "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+        },
+        "campaign_id": "0bf002156917499582cd28f63c159ed3",
+        "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "epoch": "E2",
+        "invocation_id": "c269cd98ba63475f9da071c8d6ea2f5a",
+        "rank": 2,
+        "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+        "root": "checker_count_corrupt",
+        "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      },
+      "stages": {
+        "E0": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "pre": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "worker.BEFORE": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "worker.AFTER": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "AFTER_CHILD_SHUTDOWN",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "controller.post": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "AFTER_CHILD_SHUTDOWN",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        }
+      },
+      "all_five_equal_E0": true,
+      "protected": {
+        "inner_after_absent": [],
+        "controller_recovery_used": false,
+        "observed_errors_ignored": false
+      }
+    },
+    {
+      "id": "sort13_weak",
+      "context": {
+        "baseline_context": {
+          "campaign_id": "0bf002156917499582cd28f63c159ed3",
+          "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+          "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+          "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+        },
+        "campaign_id": "0bf002156917499582cd28f63c159ed3",
+        "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "epoch": "E3",
+        "invocation_id": "46aaefafdff74d55a41a8f773346ef7e",
+        "rank": 3,
+        "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+        "root": "sort13_weak",
+        "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      },
+      "stages": {
+        "E0": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "pre": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "worker.BEFORE": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "worker.AFTER": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "AFTER_CHILD_SHUTDOWN",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "controller.post": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "AFTER_CHILD_SHUTDOWN",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        }
+      },
+      "all_five_equal_E0": true,
+      "protected": {
+        "inner_after_absent": [],
+        "controller_recovery_used": false,
+        "observed_errors_ignored": false
+      }
+    },
+    {
+      "id": "i_p01_b01_fullu8",
+      "context": {
+        "baseline_context": {
+          "campaign_id": "0bf002156917499582cd28f63c159ed3",
+          "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+          "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+          "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+        },
+        "campaign_id": "0bf002156917499582cd28f63c159ed3",
+        "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "epoch": "E4",
+        "invocation_id": "a0d3b9dd9f4b454997fc77bfe622f8cd",
+        "rank": 4,
+        "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+        "root": "i_p01_b01_fullu8",
+        "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      },
+      "stages": {
+        "E0": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "pre": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "worker.BEFORE": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "worker.AFTER": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "AFTER_CHILD_SHUTDOWN",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "controller.post": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "AFTER_CHILD_SHUTDOWN",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        }
+      },
+      "all_five_equal_E0": true,
+      "protected": {
+        "inner_after_absent": [],
+        "controller_recovery_used": false,
+        "observed_errors_ignored": false
+      }
+    },
+    {
+      "id": "sort9_v34_b01_len09_real",
+      "context": {
+        "baseline_context": {
+          "campaign_id": "0bf002156917499582cd28f63c159ed3",
+          "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+          "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+          "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+        },
+        "campaign_id": "0bf002156917499582cd28f63c159ed3",
+        "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "epoch": "E5",
+        "invocation_id": "14e3986826424491bab7fc1e784e117d",
+        "rank": 5,
+        "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+        "root": "sort9_v34_b01_len09_real",
+        "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      },
+      "stages": {
+        "E0": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "pre": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "worker.BEFORE": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "worker.AFTER": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "AFTER_CHILD_SHUTDOWN",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "controller.post": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "AFTER_CHILD_SHUTDOWN",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        }
+      },
+      "all_five_equal_E0": true,
+      "protected": {
+        "inner_after_absent": [],
+        "controller_recovery_used": false,
+        "observed_errors_ignored": false
+      }
+    },
+    {
+      "id": "fallback_cell_b01_n00_16",
+      "context": {
+        "baseline_context": {
+          "campaign_id": "0bf002156917499582cd28f63c159ed3",
+          "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+          "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+          "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+        },
+        "campaign_id": "0bf002156917499582cd28f63c159ed3",
+        "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "epoch": "E6",
+        "invocation_id": "83602dc1a2d74c0bb5c1d3b924d16af4",
+        "rank": 6,
+        "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+        "root": "fallback_cell_b01_n00_16",
+        "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      },
+      "stages": {
+        "E0": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "pre": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "worker.BEFORE": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "worker.AFTER": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "AFTER_CHILD_SHUTDOWN",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "controller.post": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "AFTER_CHILD_SHUTDOWN",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        }
+      },
+      "all_five_equal_E0": true,
+      "protected": {
+        "inner_after_absent": [],
+        "controller_recovery_used": false,
+        "observed_errors_ignored": false
+      }
+    },
+    {
+      "id": "network_u8_b01_n00_08",
+      "context": {
+        "baseline_context": {
+          "campaign_id": "0bf002156917499582cd28f63c159ed3",
+          "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+          "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+          "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+        },
+        "campaign_id": "0bf002156917499582cd28f63c159ed3",
+        "control_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+        "epoch": "E7",
+        "invocation_id": "f9650a8ec68146309bbe65d47afafd9e",
+        "rank": 7,
+        "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+        "root": "network_u8_b01_n00_08",
+        "source_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      },
+      "stages": {
+        "E0": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "pre": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "worker.BEFORE": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "BEFORE_CHILD",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "worker.AFTER": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "AFTER_CHILD_SHUTDOWN",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        },
+        "controller.post": {
+          "binaries": {
+            "cbmc": {
+              "path": "/usr/bin/cbmc",
+              "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+            },
+            "kani_compiler": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-compiler",
+              "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+            },
+            "kani_driver": {
+              "path": "/home/runner/work/kani/kani/tool/target/kani/bin/kani-driver",
+              "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+            }
+          },
+          "missing_binaries": [],
+          "phase": "AFTER_CHILD_SHUTDOWN",
+          "reported_versions": null,
+          "required_binaries": [
+            "kani_driver",
+            "kani_compiler",
+            "cbmc"
+          ],
+          "required_hashes_present": true,
+          "snapshot_completed": true,
+          "state": "COMPLETE"
+        }
+      },
+      "all_five_equal_E0": true,
+      "protected": {
+        "inner_after_absent": [],
+        "controller_recovery_used": false,
+        "observed_errors_ignored": false
+      }
+    }
+  ],
+  "assurance": "SOURCE_REPORTED observed clean identities and exact hash/path snapshots; no independent compiler/MIR causal binding"
+}
