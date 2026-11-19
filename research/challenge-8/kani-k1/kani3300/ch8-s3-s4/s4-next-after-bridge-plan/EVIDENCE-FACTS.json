@@ -1,0 +1,271 @@
+{
+  "intake": "97eaff96cd28267e36af69fe98077dd08737eea6",
+  "run": 44460583125,
+  "attempt": 1,
+  "identities": {
+    "source": {
+      "sha": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    },
+    "control": {
+      "sha": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+    },
+    "trigger": {
+      "sha": "c2bbdb972cfe0e6f7472cf8bd93f1fa7c5e87acd",
+      "tree": "6280a305cba669f59ae82119fcf5374115ecacf7",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+    }
+  },
+  "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+  "workflow_sha256": "317f92181bee9470ddf65471def7154fcacbf1e6fb7913220ca1f154ca915a55",
+  "campaign_elapsed_seconds": 1672.393379874,
+  "facts": [
+    {
+      "id": "checker_order_corrupt",
+      "compile_elapsed_upper_bound_seconds": 38.504,
+      "native_verification_time_s": 0.056823163,
+      "native_wall_time_s": 0.16245458,
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "NONE_COMPLETED",
+      "cutoff_phase": "COMPLETED",
+      "censoring": "NONE",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "rss_at_signal_true_kernel_cgroup_peak": "UNKNOWN",
+      "whole_child": {
+        "elapsed_seconds": 38.749,
+        "rss_peak_kib": 1936764,
+        "timed_out": false,
+        "original_exit_code": 1,
+        "signal": null
+      },
+      "qualification": {
+        "native_verdict": "FAILURE",
+        "native_property_count": 24,
+        "status_counts": {
+          "SUCCESS": 15,
+          "UNREACHABLE": 8,
+          "FAILURE": 1
+        },
+        "U_count": 8,
+        "strict_expected_match": false,
+        "provisional_S1": "FIXED_NEGATIVE_EXACT_LABEL_OBSERVED",
+        "qualification_admitted": false,
+        "eligible_as_init_leaf_or_provider_summary": false
+      }
+    },
+    {
+      "id": "checker_count_corrupt",
+      "compile_elapsed_upper_bound_seconds": 35.663,
+      "native_verification_time_s": 0.352499807,
+      "native_wall_time_s": 0.436748202,
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "NONE_COMPLETED",
+      "cutoff_phase": "COMPLETED",
+      "censoring": "NONE",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "rss_at_signal_true_kernel_cgroup_peak": "UNKNOWN",
+      "whole_child": {
+        "elapsed_seconds": 36.155,
+        "rss_peak_kib": 1949416,
+        "timed_out": false,
+        "original_exit_code": 1,
+        "signal": null
+      },
+      "qualification": {
+        "native_verdict": "FAILURE",
+        "native_property_count": 26,
+        "status_counts": {
+          "SUCCESS": 24,
+          "UNREACHABLE": 1,
+          "FAILURE": 1
+        },
+        "U_count": 1,
+        "strict_expected_match": false,
+        "provisional_S1": "FIXED_NEGATIVE_EXACT_LABEL_OBSERVED",
+        "qualification_admitted": false,
+        "eligible_as_init_leaf_or_provider_summary": false
+      }
+    },
+    {
+      "id": "sort13_weak",
+      "compile_elapsed_upper_bound_seconds": 35.612,
+      "native_verification_time_s": 0.098308412,
+      "native_wall_time_s": 0.19481339,
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "NONE_COMPLETED",
+      "cutoff_phase": "COMPLETED",
+      "censoring": "NONE",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "rss_at_signal_true_kernel_cgroup_peak": "UNKNOWN",
+      "whole_child": {
+        "elapsed_seconds": 35.849,
+        "rss_peak_kib": 1952732,
+        "timed_out": false,
+        "original_exit_code": 1,
+        "signal": null
+      },
+      "qualification": {
+        "native_verdict": "FAILURE",
+        "native_property_count": 25,
+        "status_counts": {
+          "FAILURE": 1,
+          "SUCCESS": 16,
+          "UNREACHABLE": 8
+        },
+        "U_count": 8,
+        "strict_expected_match": false,
+        "provisional_S1": "FIXED_NEGATIVE_EXACT_LABEL_OBSERVED",
+        "qualification_admitted": false,
+        "eligible_as_init_leaf_or_provider_summary": false
+      }
+    },
+    {
+      "id": "i_p01_b01_fullu8",
+      "compile_elapsed_upper_bound_seconds": 36.686,
+      "native_verification_time_s": 51.863257375,
+      "native_wall_time_s": 57.328317005,
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "NONE_COMPLETED",
+      "cutoff_phase": "COMPLETED",
+      "censoring": "NONE",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "rss_at_signal_true_kernel_cgroup_peak": "UNKNOWN",
+      "whole_child": {
+        "elapsed_seconds": 94.058,
+        "rss_peak_kib": 2173524,
+        "timed_out": false,
+        "original_exit_code": 0,
+        "signal": null
+      },
+      "qualification": {
+        "native_verdict": "SUCCESS",
+        "native_property_count": 353,
+        "status_counts": {
+          "SUCCESS": 341,
+          "SATISFIED": 5,
+          "UNREACHABLE": 7
+        },
+        "U_count": 7,
+        "strict_expected_match": false,
+        "provisional_S1": "BOUNDED_NATIVE_SUCCESS_ALL_LITERAL_ROLES_COVERS_LOCATED_PENDING_U_GUARD_REVIEW",
+        "qualification_admitted": false,
+        "eligible_as_init_leaf_or_provider_summary": false
+      }
+    },
+    {
+      "id": "sort9_v34_b01_len09_real",
+      "compile_elapsed_upper_bound_seconds": 35.22,
+      "native_verification_time_s": 223.202229754,
+      "native_wall_time_s": 224.962862203,
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "NONE_COMPLETED",
+      "cutoff_phase": "COMPLETED",
+      "censoring": "NONE",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "rss_at_signal_true_kernel_cgroup_peak": "UNKNOWN",
+      "whole_child": {
+        "elapsed_seconds": 260.338,
+        "rss_peak_kib": 2587412,
+        "timed_out": false,
+        "original_exit_code": 0,
+        "signal": null
+      },
+      "qualification": {
+        "native_verdict": "SUCCESS",
+        "native_property_count": 174,
+        "status_counts": {
+          "SUCCESS": 165,
+          "SATISFIED": 5,
+          "UNREACHABLE": 4
+        },
+        "U_count": 4,
+        "strict_expected_match": false,
+        "provisional_S1": "BOUNDED_NATIVE_SUCCESS_ALL_LITERAL_ROLES_COVERS_LOCATED_PENDING_U_GUARD_REVIEW",
+        "qualification_admitted": false,
+        "eligible_as_init_leaf_or_provider_summary": false
+      }
+    },
+    {
+      "id": "fallback_cell_b01_n00_16",
+      "compile_elapsed_upper_bound_seconds": 37.293,
+      "native_verification_time_s": "UNKNOWN_CENSORED_NO_COMPLETED_EXPORT",
+      "native_wall_time_s": "UNKNOWN_INCOMPLETE_EXPORT",
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "CHILD_600_WALL_TIMEOUT",
+      "cutoff_phase": "AFTER_INITIAL_EXPORT_AND_NATIVE_START; exact symex/backend subphase UNKNOWN",
+      "censoring": "UNFINISHED_NATIVE_RESULT_UNKNOWN",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "rss_at_signal_true_kernel_cgroup_peak": "UNKNOWN",
+      "whole_child": {
+        "elapsed_seconds": 600.515,
+        "rss_peak_kib": 3007384,
+        "timed_out": true,
+        "original_exit_code": -15,
+        "signal": 15
+      },
+      "qualification": {
+        "native_verdict": "UNKNOWN_INCOMPLETE_EXPORT",
+        "native_property_count": "UNKNOWN_NO_COMPLETED_NATIVE_INVENTORY",
+        "status_counts": "UNKNOWN",
+        "U_count": "UNKNOWN",
+        "strict_expected_match": false,
+        "provisional_S1": "INELIGIBLE_NO_COMPLETED_NATIVE_RESULT",
+        "qualification_admitted": false,
+        "eligible_as_init_leaf_or_provider_summary": false
+      }
+    },
+    {
+      "id": "network_u8_b01_n00_08",
+      "compile_elapsed_upper_bound_seconds": 36.091,
+      "native_verification_time_s": "UNKNOWN_CENSORED_NO_COMPLETED_EXPORT",
+      "native_wall_time_s": "UNKNOWN_INCOMPLETE_EXPORT",
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "CHILD_600_WALL_TIMEOUT",
+      "cutoff_phase": "AFTER_INITIAL_EXPORT_AND_NATIVE_START; exact symex/backend subphase UNKNOWN",
+      "censoring": "UNFINISHED_NATIVE_RESULT_UNKNOWN",
+      "symex_backend_steps_VCC": "UNKNOWN_NOT_EXPORTED",
+      "rss_at_signal_true_kernel_cgroup_peak": "UNKNOWN",
+      "whole_child": {
+        "elapsed_seconds": 601.687,
+        "rss_peak_kib": 3883252,
+        "timed_out": true,
+        "original_exit_code": -15,
+        "signal": 15
+      },
+      "qualification": {
+        "native_verdict": "UNKNOWN_INCOMPLETE_EXPORT",
+        "native_property_count": "UNKNOWN_NO_COMPLETED_NATIVE_INVENTORY",
+        "status_counts": "UNKNOWN",
+        "U_count": "UNKNOWN",
+        "strict_expected_match": false,
+        "provisional_S1": "INELIGIBLE_NO_COMPLETED_NATIVE_RESULT",
+        "qualification_admitted": false,
+        "eligible_as_init_leaf_or_provider_summary": false
+      }
+    }
+  ],
+  "producer_strict_matches": "0/7",
+  "U_count": 28,
+  "SUCCESS_unsupported_guards": 7,
+  "new_admission": "39606c431ba266a5dbab2163d0e5175428d38aec",
+  "proof_credit": "NONE",
+  "limits": [
+    "Both heavy roots CHILD600 WALL, not RSS. Effective local cap6GiB, compilation inside600.",
+    "Native verification_time_s, native_wall_time_s, compile upper bound, whole child, setup and campaign are separate scopes.",
+    "Incomplete native verification duration, per-length SATcovers, exact symex/backend phase and true kernel/cgroup peak UNKNOWN.",
+    "Use provided root-verified30files29hashes/1000checks45controlsPASS as input claim; this plan does not replay intake or reopen artifacts."
+  ],
+  "actual_review_commit": "135c04791a779e949079db723bdbc0e636873b37",
+  "actual_review_verdict": "APPROVE_WITH_PRESERVED_LIMITS",
+  "review_is_case_admission": false,
+  "qualified_bounded_cases_already_admitted": 2,
+  "new_summary_providers_admitted": 0
+}

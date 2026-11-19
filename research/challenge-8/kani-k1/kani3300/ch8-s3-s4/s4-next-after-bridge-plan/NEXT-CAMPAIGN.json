@@ -1,0 +1,190 @@
+{
+  "status": "PROPOSED_PLANONLY_NOT_REGISTERED_NOT_RUN",
+  "maximum_useful_small_selection": 8,
+  "ordered_selectors": [
+    {
+      "id": "checker_order_corrupt",
+      "kind": "NEGATIVE",
+      "expected": "exact S2_NEG_CHECKER_ORDER FAILURE",
+      "source": "sorting_s2_batch unchanged fixed len2"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "kind": "NEGATIVE",
+      "expected": "exact S2_NEG_CHECKER_COUNT FAILURE",
+      "source": "sorting_s2_batch unchanged fixed32"
+    },
+    {
+      "id": "sort13_weak",
+      "kind": "NEGATIVE",
+      "expected": "exact S2_NEG_SORT13_WEAK FAILURE",
+      "source": "unchanged caller-copy ordinary weak seam, never actual positive sort13"
+    },
+    {
+      "id": "s4p_cell_count_corrupt",
+      "kind": "NEGATIVE",
+      "expected": "new literal S4_NEG_CELL_COUNT FAILURE with S4_NEG_CELL_ACTIVE SUCCESS",
+      "source": "PROPOSED checker-only Cell34 initialized full logical snapshot; active[1,3) input[0,1], deliberately output[0,0], outside unchanged; sorted still true, full count must reject; Original targetnull, no false actual-callee failure claim"
+    },
+    {
+      "id": "s4p_fallback_b01_n00_02_fullbyte",
+      "kind": "POSITIVE_PARTIAL_BOUNDED_CANDIDATE",
+      "mode": "Original",
+      "target": null,
+      "native_expected": "SUCCESS_PENDING_COMPLETE_GATES_AND_SEPARATE_REVIEW_ADMISSION",
+      "T_F": "Cell<u8>/KeyLess<Cell<u8>>",
+      "length_interval": [
+        0,
+        2
+      ],
+      "allocation": "same initialized V34 (Cell construction for fallback), fixed base1 active[1,1+n); all34 logical bytes independent0..255",
+      "body": "actual small_sort_fallback; no ordinary/verified stubs",
+      "literal_prefix": "S4P_F_00_02",
+      "assertion_roles": [
+        "ACTIVE_CONCRETE_MODEL",
+        "SORTED_FULL_VALUE_COUNT",
+        "FULL_OUTSIDE_FRAME",
+        "ARBITRARY_OUTSIDE_CANARY"
+      ],
+      "length_cover_labels": [
+        "S4P_F_00_02_N00",
+        "S4P_F_00_02_N01",
+        "S4P_F_00_02_N02"
+      ],
+      "other_covers": [
+        "n>=2 unsorted",
+        "n>=2 duplicate",
+        "n>=2 nonconstant after sort",
+        "n==hi strictly descending (hi>=2)",
+        "useful normal return"
+      ],
+      "unwind_plan": "36, same source-bound envelope as bridge; require actual emitted stock exhaustion checks SUCCESS; not a compiled-loop proof or automatic choice for future provider/scratch roots",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "s4p_fallback_b01_n03_04_fullbyte",
+      "kind": "POSITIVE_PARTIAL_BOUNDED_CANDIDATE",
+      "mode": "Original",
+      "target": null,
+      "native_expected": "SUCCESS_PENDING_COMPLETE_GATES_AND_SEPARATE_REVIEW_ADMISSION",
+      "T_F": "Cell<u8>/KeyLess<Cell<u8>>",
+      "length_interval": [
+        3,
+        4
+      ],
+      "allocation": "same initialized V34 (Cell construction for fallback), fixed base1 active[1,1+n); all34 logical bytes independent0..255",
+      "body": "actual small_sort_fallback; no ordinary/verified stubs",
+      "literal_prefix": "S4P_F_03_04",
+      "assertion_roles": [
+        "ACTIVE_CONCRETE_MODEL",
+        "SORTED_FULL_VALUE_COUNT",
+        "FULL_OUTSIDE_FRAME",
+        "ARBITRARY_OUTSIDE_CANARY"
+      ],
+      "length_cover_labels": [
+        "S4P_F_03_04_N03",
+        "S4P_F_03_04_N04"
+      ],
+      "other_covers": [
+        "n>=2 unsorted",
+        "n>=2 duplicate",
+        "n>=2 nonconstant after sort",
+        "n==hi strictly descending (hi>=2)",
+        "useful normal return"
+      ],
+      "unwind_plan": "36, same source-bound envelope as bridge; require actual emitted stock exhaustion checks SUCCESS; not a compiled-loop proof or automatic choice for future provider/scratch roots",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "s4p_network_b01_n00_02_fullbyte",
+      "kind": "POSITIVE_PARTIAL_BOUNDED_CANDIDATE",
+      "mode": "Original",
+      "target": null,
+      "native_expected": "SUCCESS_PENDING_COMPLETE_GATES_AND_SEPARATE_REVIEW_ADMISSION",
+      "T_F": "u8/KeyLess<u8>",
+      "length_interval": [
+        0,
+        2
+      ],
+      "allocation": "same initialized V34 (Cell construction for fallback), fixed base1 active[1,1+n); all34 logical bytes independent0..255",
+      "body": "actual small_sort_network; no ordinary/verified stubs",
+      "literal_prefix": "S4P_N_00_02",
+      "assertion_roles": [
+        "ACTIVE_CONCRETE_MODEL",
+        "SORTED_FULL_VALUE_COUNT",
+        "FULL_OUTSIDE_FRAME",
+        "ARBITRARY_OUTSIDE_CANARY"
+      ],
+      "length_cover_labels": [
+        "S4P_N_00_02_N00",
+        "S4P_N_00_02_N01",
+        "S4P_N_00_02_N02"
+      ],
+      "other_covers": [
+        "n>=2 unsorted",
+        "n>=2 duplicate",
+        "n>=2 nonconstant after sort",
+        "n==hi strictly descending (hi>=2)",
+        "useful normal return"
+      ],
+      "unwind_plan": "36, same source-bound envelope as bridge; require actual emitted stock exhaustion checks SUCCESS; not a compiled-loop proof or automatic choice for future provider/scratch roots",
+      "proof_credit": "NONE"
+    },
+    {
+      "id": "s4p_network_b01_n03_04_fullbyte",
+      "kind": "POSITIVE_PARTIAL_BOUNDED_CANDIDATE",
+      "mode": "Original",
+      "target": null,
+      "native_expected": "SUCCESS_PENDING_COMPLETE_GATES_AND_SEPARATE_REVIEW_ADMISSION",
+      "T_F": "u8/KeyLess<u8>",
+      "length_interval": [
+        3,
+        4
+      ],
+      "allocation": "same initialized V34 (Cell construction for fallback), fixed base1 active[1,1+n); all34 logical bytes independent0..255",
+      "body": "actual small_sort_network; no ordinary/verified stubs",
+      "literal_prefix": "S4P_N_03_04",
+      "assertion_roles": [
+        "ACTIVE_CONCRETE_MODEL",
+        "SORTED_FULL_VALUE_COUNT",
+        "FULL_OUTSIDE_FRAME",
+        "ARBITRARY_OUTSIDE_CANARY"
+      ],
+      "length_cover_labels": [
+        "S4P_N_03_04_N03",
+        "S4P_N_03_04_N04"
+      ],
+      "other_covers": [
+        "n>=2 unsorted",
+        "n>=2 duplicate",
+        "n>=2 nonconstant after sort",
+        "n==hi strictly descending (hi>=2)",
+        "useful normal return"
+      ],
+      "unwind_plan": "36, same source-bound envelope as bridge; require actual emitted stock exhaustion checks SUCCESS; not a compiled-loop proof or automatic choice for future provider/scratch roots",
+      "proof_credit": "NONE"
+    }
+  ],
+  "positive_length_union_each_family": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "residual": "fallback5..16 and network5..32/general0..32 plus all caller/type/summary/dispatch obligations OPEN",
+  "why_new_information": "Splits two censored symboliclength families into smaller exhaustive blocks without shrinking values/backing/canary or assuming summaries. Distinct Cell count negative discriminates logical projection/count; each completed block yields per-length status/SATcovers. No speedup/fit predicted.",
+  "caps": "Resource.json unchanged defaults;8slot envelope6180<=6900; setup1800/job180 unchanged. Not a dispatch request.",
+  "qualification": "Native success remains pending strict U/guards and complete metadata + independent review + separate admission; no inherited oldrun location exception",
+  "distinguishing_preflight_controls": [
+    "wrong/disabled Cell model and u8 provider offered for Cell must fail",
+    "wrong backing/base/length/order or missing per-length cover rejects union",
+    "p1-only provider for p2+ rejects",
+    "allinit merge provider supplied for partial scratch rejects",
+    "sort9 length9-only provider supplied for slice10..12/secondregion without suffix/frame implication rejects",
+    "Original reported as PFC/target mismatch rejects",
+    "missing/null/wrong-type/stale source/tool/contract/request/snapshot/status and selected count fail closed on local/upload routes",
+    "new negative expected failure labels exact; extra failures, incomplete inventories, U/unsupported guards never dropped"
+  ],
+  "future_implementation_gate": "Fresh task selects scope, source/control/review+GO. No compiler, source/control change, profile/request, CI or ledger action authorized here."
+}

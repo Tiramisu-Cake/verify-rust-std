@@ -1,0 +1,91 @@
+{
+  "status": "BOUND_ACTUAL_ADMISSION_BEFORE_SINGLE_PLAN_SEAL",
+  "commit": "39606c431ba266a5dbab2163d0e5175428d38aec",
+  "authority": "Explicit coordinator08:54 plus planner/root agreement under owner delegation; admission only",
+  "intake": "97eaff96cd28267e36af69fe98077dd08737eea6",
+  "review": "135c04791a779e949079db723bdbc0e636873b37",
+  "qualified_bounded_cases": 2,
+  "cases": [
+    {
+      "id": "i_p01_b01_fullu8",
+      "decision": "QUALIFIED_BOUNDED_SOURCE_REPORTED",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_bridge1::i_p01_b01_fullu8",
+      "mode": "PFC",
+      "target": "insert_tail",
+      "unwind": 36,
+      "domain": {
+        "id": "i_p01_b01_fullu8",
+        "type": "u8",
+        "F": "KeyLess<u8>",
+        "allocation": 34,
+        "initialized": true,
+        "base": 1,
+        "relative_tail": 1,
+        "lengths": [
+          2
+        ],
+        "outside_count": 32,
+        "input_domain": "all34 independent arbitraryu8; no fewkey or ordering restriction (prefixlen1 automatically ordered)",
+        "fraction": "1/16 I-D1 geometries and1/256 oldbegin-tail grid",
+        "covers": "early no-shift x>=a; shift x<a; equal; nonconstant; normalreturn"
+      },
+      "native_property_count": 353,
+      "native_status_counts": {
+        "SUCCESS": 341,
+        "SATISFIED": 5,
+        "UNREACHABLE": 7
+      },
+      "general_contract_provider_eligibility": false,
+      "independent_AST_MIR_B1_B2_credit": "NONE"
+    },
+    {
+      "id": "sort9_v34_b01_len09_real",
+      "decision": "QUALIFIED_BOUNDED_SOURCE_REPORTED",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_bridge1::sort9_v34_b01_len09_real",
+      "mode": "Original",
+      "target": null,
+      "unwind": 36,
+      "domain": {
+        "id": "sort9_v34_b01_len09_real",
+        "type": "u8",
+        "F": "KeyLess<u8>",
+        "allocation": 34,
+        "initialized": true,
+        "base": 1,
+        "lengths": [
+          9
+        ],
+        "outside_count": 25,
+        "input_domain": "all34 independent arbitraryu8; no sorted/fewkey restriction",
+        "actual_path": "sort9_optimal exactly25literal real swap_if_less; no stub or assumed summary"
+      },
+      "native_property_count": 174,
+      "native_status_counts": {
+        "SUCCESS": 165,
+        "SATISFIED": 5,
+        "UNREACHABLE": 4
+      },
+      "general_contract_provider_eligibility": false,
+      "independent_AST_MIR_B1_B2_credit": "NONE"
+    }
+  ],
+  "new_provider_summary_contracts_admitted": 0,
+  "limits": [
+    "Insertion exact initializedV34/u8/KeyLess/base1/relative_tail1/span2 only:1/16 I-D1 and1/256 old grid; not all tails/bases/callers",
+    "sort9 exact u8/KeyLess/V34/base1/len9 Original actual25swaps normal-return case; not universal contract/stub_verified provider",
+    "Full-value sorted/count + every outside value frame/canary only within exact domains and source-reported target/property binding",
+    "PFC footprint/initialization-mask/dstinit/generic comparators/Cell type lift/callback/trait dispatch/ownership/panic/MIR/B1B2/fullN16N32 obligations remain OPEN",
+    "SUCCESS unsupported records and U stay explicit and conditional; no filtering or implicit status conversion",
+    "No future request/run/head/ID/location exception transfer, retrospective prefix repair or proof promotion"
+  ],
+  "location_exception": {
+    "required": false,
+    "applied": false,
+    "completed_missing_location_records": 0,
+    "old_exact_admissions": "remain original runs/IDs only; no new wildcard/rule"
+  },
+  "historical_producer_strict": "0/7 unchanged; U/guards not filtered",
+  "new_plan_admission_or_budget_actions": false,
+  "accounting": "TRACKING_ONLY; root authored admission/ledger is input only, no accounting edited by plan agent",
+  "proof_credit": "No new independent B1/B2/init/general summary credit"
+}

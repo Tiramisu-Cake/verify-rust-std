@@ -1,0 +1,549 @@
+{
+  "provider_and_caller_nodes": [
+    {
+      "id": "P_INSERT_U8",
+      "kind": "PROVIDER_OBLIGATION",
+      "repo": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "source_commit": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "actual_target": "core::slice::sort::shared::smallsort::insert_tail",
+      "proposed_provider": "NOT_REGISTERED_NOT_RUN",
+      "T_F": "u8/KeyLess<u8>",
+      "length_domain": "p1..16 (span2..17); sorted prefix",
+      "allocation_alias_offset": "V34 base1 and1+h/network; scratch48 bases0,h/general; exact bounded alternatives require separate coverage",
+      "initialization": "all active span initialized; same-allocation pointer geometry and actual temp/gap restoration",
+      "frame": "exact permutation, normal-return order, complete exterior+canary, precise modifies",
+      "contract_mode": "OPEN refined provider proof then exact caller implication; no enabled stub_verified",
+      "assurance": "OPEN_NO_SUMMARY_CREDIT",
+      "source_citations": [
+        "S09",
+        "S10",
+        "S24"
+      ],
+      "missing_proof": "p1/base1 is one exact admitted case, not a reusable provider. Prove remaining p/bases/backings and actual refined contract valid for all declared inputs; checked gap/count/order/CopyOnDrop invariants, no assume-invariant or ghost init. p16 needed for network n17."
+    },
+    {
+      "id": "P_INSERT_CELL",
+      "kind": "PROVIDER_OBLIGATION",
+      "repo": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "source_commit": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "actual_target": "core::slice::sort::shared::smallsort::insert_tail",
+      "proposed_provider": "NOT_REGISTERED_NOT_RUN",
+      "T_F": "Cell<u8>/KeyLess<Cell<u8>>",
+      "length_domain": "p1..15 for fallback<=16",
+      "allocation_alias_offset": "Cell34 base1, logical whole byte values, no alias/callback mutation",
+      "initialization": "typed initialized Cells; actual held tmp/CopyOnDrop read/write invariants; no fabricated physical init bit",
+      "frame": "logical sorted/full-count and exterior get()-value frame, no ownership/panic theorem",
+      "contract_mode": "OPEN refined provider proof then exact caller implication; no enabled stub_verified",
+      "assurance": "OPEN_NO_SUMMARY_CREDIT",
+      "source_citations": [
+        "S09",
+        "S26",
+        "S28",
+        "S29",
+        "S31"
+      ],
+      "missing_proof": "Introduce/prove exact active Cell functional provider route under existing logical model; current u8 span ensures are inactive. A safety-only Cell PFC or u8 admission cannot fill this obligation."
+    },
+    {
+      "id": "P_SORT4_U8",
+      "kind": "PROVIDER_OBLIGATION",
+      "repo": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "source_commit": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "actual_target": "core::slice::sort::shared::smallsort::sort4_stable",
+      "proposed_provider": "NOT_REGISTERED_NOT_RUN",
+      "T_F": "u8/KeyLess<u8>",
+      "length_domain": "4",
+      "allocation_alias_offset": "V34 base1+off -> MU48 offsets0,h,n,n+4,n+8,n+12; actual separate stack allocations; external-scratch locality distinct",
+      "initialization": "source4 initialized, dest4 writable; surrounding scratch may be uninitialized",
+      "frame": "source read-only; dst initialized sorted/count4; precise known-value frame",
+      "contract_mode": "OPEN refined provider proof then exact caller implication; no enabled stub_verified",
+      "assurance": "OPEN_NO_SUMMARY_CREDIT",
+      "source_citations": [
+        "S03",
+        "S11",
+        "S16",
+        "S17"
+      ],
+      "missing_proof": "Prove bounded caller/refined provider coverage, weak-frame/partial-init applicability, destination initialization and no hidden reads. No automatic weakening of all-outside-init fixture."
+    },
+    {
+      "id": "P_MERGE8_U8",
+      "kind": "PROVIDER_OBLIGATION",
+      "repo": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "source_commit": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "actual_target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+      "proposed_provider": "NOT_REGISTERED_NOT_RUN",
+      "T_F": "u8/KeyLess<u8>",
+      "length_domain": "8 sorted4+4",
+      "allocation_alias_offset": "MU48 src n/n+8 -> dst0/h for each n16..32 side;34 contexts",
+      "initialization": "only actual initialized intervals, first32-case[32,40), second[0,8)+[32,48); generalized masks require proof",
+      "frame": "source/known-outside preserved; output init/count/order; disjoint dst with raw provenance",
+      "contract_mode": "OPEN refined provider proof then exact caller implication; no enabled stub_verified",
+      "assurance": "OPEN_NO_SUMMARY_CREDIT",
+      "source_citations": [
+        "S12",
+        "S13",
+        "S19",
+        "S21",
+        "S22",
+        "S23"
+      ],
+      "missing_proof": "Prove actual init mask/dstinit+locality for all34 caller contexts and refined provider. Allinit32->0 and partial native success are not this proof."
+    },
+    {
+      "id": "P_SORT9_U8",
+      "kind": "PROVIDER_OBLIGATION",
+      "repo": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "source_commit": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "actual_target": "core::slice::sort::shared::smallsort::sort9_optimal",
+      "proposed_provider": "NOT_REGISTERED_NOT_RUN",
+      "T_F": "u8/KeyLess<u8>",
+      "length_domain": "first9 of slice9..12",
+      "allocation_alias_offset": "V34 base1 or1+h (h9..12 in two-region path), initialized region",
+      "initialization": "all active+suffix initialized; pure comparator",
+      "frame": "prefix9 sorted/full-count, suffix9..L and all exterior unchanged",
+      "contract_mode": "OPEN refined provider proof then exact caller implication; no enabled stub_verified",
+      "assurance": "OPEN_NO_SUMMARY_CREDIT",
+      "source_citations": [
+        "S05",
+        "S07",
+        "S25"
+      ],
+      "missing_proof": "Create and prove meaningful explicit target contract/refined coverage before verified stubbing; Original len9/base1 SUCCESS is one admitted bounded case and supplies no generic provider."
+    },
+    {
+      "id": "P_SORT13_U8",
+      "kind": "PROVIDER_OBLIGATION",
+      "repo": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "source_commit": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "actual_target": "core::slice::sort::shared::smallsort::sort13_optimal",
+      "proposed_provider": "NOT_REGISTERED_NOT_RUN",
+      "T_F": "u8/KeyLess<u8>",
+      "length_domain": "first13 of slice13..17",
+      "allocation_alias_offset": "V34 base1 or1+h; later two-region h13..16",
+      "initialization": "typed initialized, no ordinary or verified replacement on positive body",
+      "frame": "prefix13 sorted/full-count, suffix/exterior exact",
+      "contract_mode": "OPEN refined provider proof then exact caller implication; no enabled stub_verified",
+      "assurance": "OPEN_NO_SUMMARY_CREDIT",
+      "source_citations": [
+        "S05",
+        "S08"
+      ],
+      "missing_proof": "Actual positive 45-swap body proof and target contract/provider/caller coverage. Weak negative does not prove this."
+    },
+    {
+      "id": "P_MERGE_2_32",
+      "kind": "PROVIDER_OBLIGATION",
+      "repo": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "source_commit": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "actual_target": "core::slice::sort::shared::smallsort::bidirectional_merge",
+      "proposed_provider": "NOT_REGISTERED_NOT_RUN",
+      "T_F": "u8/KeyLess<u8>",
+      "length_domain": "every n2..32 with halves floor(n/2),ceil(n/2)",
+      "allocation_alias_offset": "general MU48->V34; network V34->private MU32, no alias and exact base mapping",
+      "initialization": "both source halves fully initialized+sorted; destination initialized before typed copy; odd-center valid",
+      "frame": "source/full-count/output-order/all known exterior and write footprint",
+      "contract_mode": "OPEN refined provider proof then exact caller implication; no enabled stub_verified",
+      "assurance": "OPEN_NO_SUMMARY_CREDIT",
+      "source_citations": [
+        "S03",
+        "S05",
+        "S13"
+      ],
+      "missing_proof": "Length, type, geometry, init/locality and source/destination allocation reversal beyond bounded n8; native odd/even roles/covers and caller guards/drop obligations."
+    },
+    {
+      "id": "C_INSERT_LOOP",
+      "kind": "CALLER_OBLIGATION",
+      "repo": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "source_commit": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "actual_target": "core::slice::sort::shared::smallsort::insertion_sort_shift_left",
+      "proposed_provider": "NOT_REGISTERED_NOT_RUN",
+      "T_F": "separate u8 or Cell concrete pairs",
+      "length_domain": "offset1,4,8,9,13 <= length",
+      "allocation_alias_offset": "exact V34 or scratch48 offset contexts from CALLER-MATRIX",
+      "initialization": "entry sorted initialized prefix offset; copy-in initializes next slot for general",
+      "frame": "inductive sorted-prefix/full-count, untouched suffix and complete exterior",
+      "contract_mode": "OPEN refined provider proof then exact caller implication; no enabled stub_verified",
+      "assurance": "OPEN_NO_SUMMARY_CREDIT",
+      "source_citations": [
+        "S09",
+        "S10"
+      ],
+      "missing_proof": "At each tail p, prove provider premises + extend prefix; no prefix1 provider reuse for later p; bind checked loop invariant to actual transformed body."
+    },
+    {
+      "id": "C_SORT8",
+      "kind": "CALLER_OBLIGATION",
+      "repo": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "source_commit": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "actual_target": "core::slice::sort::shared::smallsort::sort8_stable",
+      "proposed_provider": "NOT_REGISTERED_NOT_RUN",
+      "T_F": "u8/KeyLess<u8>",
+      "length_domain": "8",
+      "allocation_alias_offset": "two src4 -> adjacent temp4 then merge8; all34 contexts",
+      "initialization": "sort4 dstinit -> temp8 sorted halves -> merge dstinit",
+      "frame": "source preserved; output8 sorted/count; scratch known-value frame",
+      "contract_mode": "OPEN refined provider proof then exact caller implication; no enabled stub_verified",
+      "assurance": "OPEN_NO_SUMMARY_CREDIT",
+      "source_citations": [
+        "S03",
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "missing_proof": "Combine P_SORT4_U8 and P_MERGE8_U8 with exact real call binding and scratch initialization, not registration alone."
+    },
+    {
+      "id": "C_FALLBACK16",
+      "kind": "CALLER_OBLIGATION",
+      "repo": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "source_commit": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "actual_target": "core::slice::sort::shared::smallsort::small_sort_fallback",
+      "proposed_provider": "NOT_REGISTERED_NOT_RUN",
+      "T_F": "Cell<u8>/KeyLess<Cell<u8>>",
+      "length_domain": "0..16",
+      "allocation_alias_offset": "Cell34 base1 direct helper",
+      "initialization": "all34 constructed Cells; preserve initialized ownership in normal return",
+      "frame": "full logical count/order and all outside/canary",
+      "contract_mode": "OPEN refined provider proof then exact caller implication; no enabled stub_verified",
+      "assurance": "OPEN_NO_SUMMARY_CREDIT",
+      "source_citations": [
+        "S02",
+        "S09",
+        "S10",
+        "S26"
+      ],
+      "missing_proof": "P_INSERT_CELL + real caller induction/length partitions; helper proof does not close distinct stable default/unstable dispatch wrappers."
+    },
+    {
+      "id": "C_NETWORK32",
+      "kind": "CALLER_OBLIGATION",
+      "repo": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "source_commit": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "actual_target": "core::slice::sort::shared::smallsort::small_sort_network",
+      "proposed_provider": "NOT_REGISTERED_NOT_RUN",
+      "T_F": "u8/KeyLess<u8>",
+      "length_domain": "0..32, source branch classes in matrix",
+      "allocation_alias_offset": "V34 base1, regions0/h, private MU32 for n>=18",
+      "initialization": "seeded sorted prefixes; two complete initialized sorted halves before merge; initialized scratch before copyback",
+      "frame": "whole active sorted/count and all outside/canary",
+      "contract_mode": "OPEN refined provider proof then exact caller implication; no enabled stub_verified",
+      "assurance": "OPEN_NO_SUMMARY_CREDIT",
+      "source_citations": [
+        "S05",
+        "S07",
+        "S08",
+        "S09",
+        "S10",
+        "S13"
+      ],
+      "missing_proof": "Direct <=8 first; seed9/13 and tail16/n17; two-region cases/mixed25; finalmerge18..32 and actual copyback. No sort4 dependency."
+    },
+    {
+      "id": "C_GENERAL32",
+      "kind": "CALLER_OBLIGATION",
+      "repo": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "source_commit": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "actual_target": "core::slice::sort::shared::smallsort::small_sort_general_with_scratch",
+      "proposed_provider": "NOT_REGISTERED_NOT_RUN",
+      "T_F": "u8/KeyLess<u8> first; NonCopyByte separately",
+      "length_domain": "0..32",
+      "allocation_alias_offset": "V34 base1 + distinct scratch48; external stable scratch exact n+16/larger allocations separate",
+      "initialization": "seed1/4/8 then copy+insert extends halves; final scratch fully initialized; guard CopyOnDrop normal behavior",
+      "frame": "v active sorted/full-count, outside/canary and known scratch footprint",
+      "contract_mode": "OPEN refined provider proof then exact caller implication; no enabled stub_verified",
+      "assurance": "OPEN_NO_SUMMARY_CREDIT",
+      "source_citations": [
+        "S03",
+        "S04",
+        "S10",
+        "S11",
+        "S12",
+        "S13"
+      ],
+      "missing_proof": "sort4/8/init-contexts + insert + fullmerge + drop/frame/caller induction; u8 cannot prove size>16 branch or NonCopyByte."
+    },
+    {
+      "id": "C_DISPATCH",
+      "kind": "CALLER_OBLIGATION",
+      "repo": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+      "source_commit": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "actual_target": "core::slice::sort::shared::smallsort::StableSmallSortTypeImpl::small_sort",
+      "proposed_provider": "NOT_REGISTERED_NOT_RUN",
+      "T_F": "Cell/u8/NonCopyByte concrete; arbitrary T/F OPEN",
+      "length_domain": "threshold16/32 under exact trait/size selection",
+      "allocation_alias_offset": "distinct six implementation/forwarding bodies; external scratch minimum vs stack32/48",
+      "initialization": "actual ownership and scratch lifetime; no borrowed uninitialized storage",
+      "frame": "full semantics only enabled concrete model, no generic callback/panic/ownership lifting",
+      "contract_mode": "OPEN refined provider proof then exact caller implication; no enabled stub_verified",
+      "assurance": "OPEN_NO_SUMMARY_CREDIT",
+      "source_citations": [
+        "S01",
+        "S02",
+        "S30",
+        "S32"
+      ],
+      "missing_proof": "Prove actual specialization/forwarding/body binding independently; type/byte equality or source-only registration not compiler/trait theorem.",
+      "actual_targets": [
+        "core::slice::sort::shared::smallsort::StableSmallSortTypeImpl::small_sort",
+        "core::slice::sort::shared::smallsort::UnstableSmallSortTypeImpl::small_sort",
+        "core::slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl::small_sort"
+      ],
+      "actual_target_note": "Grouped proof obligation for six concrete implementation/forwarding bodies at the three exact trait methods, not a synthesized function or a single admitted provider"
+    }
+  ],
+  "leaf_nodes_file": "LEAF-APPLICABILITY.json",
+  "edges": [
+    {
+      "from": "L_INSERT_P1",
+      "to": "P_INSERT_U8",
+      "status": "EVIDENCE_STARTING_POINT_ONLY",
+      "applicability": "Starting exact bounded observation/admission only; missing scope/init/type/caller/contract premises remain explicit in leaf/provider records",
+      "source_citations": [],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "L_SORT4_SEP",
+      "to": "P_SORT4_U8",
+      "status": "EVIDENCE_STARTING_POINT_ONLY",
+      "applicability": "Starting exact bounded observation/admission only; missing scope/init/type/caller/contract premises remain explicit in leaf/provider records",
+      "source_citations": [],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "L_SORT4_SAME",
+      "to": "P_SORT4_U8",
+      "status": "EVIDENCE_STARTING_POINT_ONLY",
+      "applicability": "Starting exact bounded observation/admission only; missing scope/init/type/caller/contract premises remain explicit in leaf/provider records",
+      "source_citations": [],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "L_MERGE8_SEP",
+      "to": "P_MERGE8_U8",
+      "status": "EVIDENCE_STARTING_POINT_ONLY",
+      "applicability": "Starting exact bounded observation/admission only; missing scope/init/type/caller/contract premises remain explicit in leaf/provider records",
+      "source_citations": [],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "L_MERGE8_ALLINIT",
+      "to": "P_MERGE8_U8",
+      "status": "EVIDENCE_STARTING_POINT_ONLY",
+      "applicability": "Starting exact bounded observation/admission only; missing scope/init/type/caller/contract premises remain explicit in leaf/provider records",
+      "source_citations": [],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "L_MERGE8_PARTIAL_LEFT",
+      "to": "P_MERGE8_U8",
+      "status": "EVIDENCE_STARTING_POINT_ONLY",
+      "applicability": "Starting exact bounded observation/admission only; missing scope/init/type/caller/contract premises remain explicit in leaf/provider records",
+      "source_citations": [],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "L_MERGE8_PARTIAL_RIGHT",
+      "to": "P_MERGE8_U8",
+      "status": "EVIDENCE_STARTING_POINT_ONLY",
+      "applicability": "Starting exact bounded observation/admission only; missing scope/init/type/caller/contract premises remain explicit in leaf/provider records",
+      "source_citations": [],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "L_SORT9",
+      "to": "P_SORT9_U8",
+      "status": "EVIDENCE_STARTING_POINT_ONLY",
+      "applicability": "Starting exact bounded observation/admission only; missing scope/init/type/caller/contract premises remain explicit in leaf/provider records",
+      "source_citations": [],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "P_INSERT_U8",
+      "to": "C_INSERT_LOOP",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "every required u8 p/base/storage context, not p1 only",
+      "source_citations": [
+        "S09",
+        "S10"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "P_INSERT_CELL",
+      "to": "C_INSERT_LOOP",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "distinct Cell pair and active logical semantic route",
+      "source_citations": [
+        "S09",
+        "S26",
+        "S31"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "P_SORT4_U8",
+      "to": "C_SORT8",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "two actual calls must initialize temp sorted4+4 with frames",
+      "source_citations": [
+        "S12"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "P_MERGE8_U8",
+      "to": "C_SORT8",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "merge consumes actual partially initialized scratch context",
+      "source_citations": [
+        "S12",
+        "S22",
+        "S23"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "C_INSERT_LOOP",
+      "to": "C_FALLBACK16",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "Cell offset1 p1..15, fully initialized base1",
+      "source_citations": [
+        "S02",
+        "S10"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "C_INSERT_LOOP",
+      "to": "C_NETWORK32",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "u8 p1..7/p9..11/p13..16, exact bases/regions",
+      "source_citations": [
+        "S05",
+        "S10"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "P_SORT9_U8",
+      "to": "C_NETWORK32",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "only n9..12 and two-region9..12; no effect on n<=8",
+      "source_citations": [
+        "S05"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "P_SORT13_U8",
+      "to": "C_NETWORK32",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "n13..17, mixed25 and26..32 classes",
+      "source_citations": [
+        "S05"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "P_MERGE_2_32",
+      "to": "C_NETWORK32",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "only n18..32, then initialized copyback",
+      "source_citations": [
+        "S05",
+        "S13"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "P_SORT4_U8",
+      "to": "C_GENERAL32",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "seed4 n8..15 u8; size>16 high lengths different typed domain",
+      "source_citations": [
+        "S03"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "C_SORT8",
+      "to": "C_GENERAL32",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "seed8 n16..32 for size<=16,34contexts",
+      "source_citations": [
+        "S03",
+        "S12"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "C_INSERT_LOOP",
+      "to": "C_GENERAL32",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "copy initializes each new tail, prefix seed1/4/8",
+      "source_citations": [
+        "S03",
+        "S10"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "P_MERGE_2_32",
+      "to": "C_GENERAL32",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "all n2..32, scratch-to-v role reversal and guard",
+      "source_citations": [
+        "S03",
+        "S04",
+        "S13"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "C_FALLBACK16",
+      "to": "C_DISPATCH",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "stable default actualbody separately; unstable default calls helper",
+      "source_citations": [
+        "S01"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "C_NETWORK32",
+      "to": "C_DISPATCH",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "u8 unstable Copy/Freeze forwarding and selection still require proof",
+      "source_citations": [
+        "S01"
+      ],
+      "proof_credit": "NONE"
+    },
+    {
+      "from": "C_GENERAL32",
+      "to": "C_DISPATCH",
+      "status": "OPEN_NOT_ENABLED",
+      "applicability": "stable Freeze external scratch and unstable Freeze/NonCopy selection differ",
+      "source_citations": [
+        "S01"
+      ],
+      "proof_credit": "NONE"
+    }
+  ],
+  "enabled_summary_edges": [],
+  "optional_experiment": {
+    "classification": "DIAGNOSTIC_ASSUMED_ONLY_NOT_SELECTED_FOR_NEXT_DIRECT_CAMPAIGN",
+    "proposal": "A separately reviewed opt-in consumer may measure exact-source/refined conditional summaries only after every assumed premise is listed; never label it qualified proof or reuse its verdict as provider evidence",
+    "removal_of_assumption": "Prove each actual callee/refined contract for all declared T/F/domain/allocation/init/frame cases, bind actual target/provider/consumer instantiation and prove caller preconditions; re-run actual checked consumer with every gate. A registered bounded PFC alone is insufficient.",
+    "negative_controls": "Reject wrong T/F, missing tail range, allinit vs partial mask, wrong first9 suffix frame and stale target/contract/source identities before any claimed summary credit"
+  },
+  "no_edges_to_timed_out_paths": [
+    "sort4/merge8/sort9 do not occur in Cell fallback<=16",
+    "sort4/merge8/sort9 do not occur in network<=8"
+  ],
+  "proof_credit": "NONE",
+  "actual_bounded_admission": "39606c431ba266a5dbab2163d0e5175428d38aec",
+  "admission_creates_enabled_summary_edges": false
+}
