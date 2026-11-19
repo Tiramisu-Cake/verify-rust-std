@@ -1,0 +1,370 @@
+{
+  "schema": "ch8-s3-2-r1-root-go-v1",
+  "status": "READY_FOR_DELEGATED_COORDINATOR_GO",
+  "root_consent": "AGREE_ONE_BOUNDED_S3_2_R1_WORKFLOW_ATTEMPT",
+  "prepared_at_utc": "2026-11-19T01:40:46.268756+00:00",
+  "immutable_inputs": {
+    "candidate_g0": "792ca31fa8e5e80380498d9903d9115cdae42d40",
+    "candidate_path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-2-r1",
+    "review_g0": "b5a0878d35b6a3de4e65ef68dbd86d711340e75a",
+    "review_path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-2-r1-review",
+    "review_disposition": "APPROVE",
+    "blocking_findings": 0,
+    "task": "be42098995b302cade928d8caf6135adf7a1cc0d",
+    "boundary": "20eb52b5efe45a89491dced2aab34d40dbe371f7",
+    "continuation": "9d8d40db277f61e46a3b7890cc9bf6941df72e13",
+    "plan": "86f5bcc11acd0dbc512e9576514dc52c733b46b6",
+    "prior_bounded_admission": "b4879b203e42e265f38ce1b44fe767aa78bb43fc",
+    "sealed_static_blocker": "3bb614566cf2d28e9e207b5df95ce48b51bb1871"
+  },
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s3-2-r1-w13",
+    "sha": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+    "tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+    "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "frozen_reference": "513341f41ce53833a279571401c924bdddddb6c8",
+    "delta_paths": [
+      "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs"
+    ],
+    "production_kernel_and_old_contract_model_bytes": "EXACT_FROZEN_REFERENCE"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "upgrade_or_patch": false,
+    "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s3-2-r1-control-w13",
+    "sha": "775574eb2f361ef90eade30330ff0d608530287f",
+    "tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "frozen_reference": "cb63033ffcde918f4341146e56373476b8eeb569",
+    "shared_runtime_changes": "Explicit new schema/profile routing only; protected lifecycle/snapshots/decoders retained"
+  },
+  "request": {
+    "path": "ch8-s1-control/CI-REQUEST.json",
+    "schema": "ch8-s3-2-v1",
+    "profile": "ch8-s3-2-capped-fullbyte-v1",
+    "sha256": "75603378a45639991f837ea1ea259f9a56cc452426c6f306cda6d53f5e51e47c",
+    "workflow_path": ".github/workflows/ch8-s2.yml",
+    "workflow_sha256": "0fde14cf5513f81565bc2eea37864013e7d30f82dc3062788ba2fb34b575939f",
+    "canonical_bytes_must_remain_exact": true,
+    "historical_fields": [
+      "accounting_reference",
+      "control_reference",
+      "repair_review",
+      "s3_control_precursor",
+      "s3_path_control_precursor"
+    ],
+    "frozen_control_reference": "1dfc267b66abd83d536eb41a17052a4f3d767d2b",
+    "historical_fields_are_not_future_head_or_accounting_grants": true,
+    "current_runtime_accounting": "NONE; actual coordinator ledger below governs"
+  },
+  "source_publication": {
+    "repository": "Tiramisu-Cake/verify-rust-std",
+    "sha": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+    "branch": "COORDINATOR_BINDS_RESEARCH_REF",
+    "status": "NOT_CONFIRMED_BY_ROOT; publish exact source or confirm remote fetchability before trigger",
+    "source_candidate_skip_marker": "Exact source1b4 remains unchanged; no source content rewrite"
+  },
+  "future_trigger": {
+    "sha": "NOT_CREATED",
+    "tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "relation": "NONSKIP SAME-TREE SIBLING of reviewed775574eb2f361ef90eade30330ff0d608530287f, NOT its child",
+    "range": "9e14e033f9ee31522b571c127609dcdff76d230b..FINAL has exactly one new nonskip commit; skipped reviewedcandidate excluded",
+    "repository": "Tiramisu-Cake/kani",
+    "event": "push",
+    "branch_filter": "uninit-ci/ch8-s3-2-*",
+    "branch": "COORDINATOR_BINDS_MATCHING_RESEARCH_REF",
+    "workflow": ".github/workflows/ch8-s2.yml",
+    "job": "s3_leaf",
+    "runner": "ubuntu-24.04",
+    "attempts_authorized": 1,
+    "automatic_rerun": false,
+    "run_id": "UNKNOWN_UNTIL_COORDINATOR_DISPATCH",
+    "required_read_only_checks": [
+      "actual FINAL fullSHA/tree/soleparent/range and all skip directives match this GO",
+      "actual FINAL request756033/workflow0fde14 bytes equal frozen review; no request rewrite for current budget or final SHA",
+      "exact source1b4 published/fetchable from Tiramisu-Cake/verify-rust-std before trigger",
+      "stocktool0aac fetchable from model-checking/kani; no main upgrade/F4/4591 patch",
+      "control/source/tool fetch depths7/5/2 retain required objects; source/control/tool mappings below",
+      "shared fork concurrency coordinator-managed, cancel-in-progress remainsfalse; no automatic retry/cancel"
+    ]
+  },
+  "checkout_depths": {
+    "control": 7,
+    "source": 5,
+    "tool": 2
+  },
+  "campaign": {
+    "shared_setup_and_tool_build_once": true,
+    "serial_fresh_singletons": true,
+    "ordered_rows": [
+      {
+        "id": "checker_order_corrupt",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+        "mode": "Original",
+        "unwind": 34,
+        "expected": "DETECTED",
+        "failure_description": "S2_NEG_CHECKER_ORDER",
+        "scope_classification": {
+          "category": "FIXED_NEGATIVE_CONTROL",
+          "qualification_eligible": false,
+          "eligible_as_init_leaf_or_provider_summary": false,
+          "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+          "proof_credit": "NONE"
+        }
+      },
+      {
+        "id": "checker_count_corrupt",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+        "mode": "Original",
+        "unwind": 34,
+        "expected": "DETECTED",
+        "failure_description": "S2_NEG_CHECKER_COUNT",
+        "scope_classification": {
+          "category": "FIXED_NEGATIVE_CONTROL",
+          "qualification_eligible": false,
+          "eligible_as_init_leaf_or_provider_summary": false,
+          "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+          "proof_credit": "NONE"
+        }
+      },
+      {
+        "id": "sort13_weak",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+        "mode": "Original",
+        "unwind": 34,
+        "expected": "DETECTED",
+        "failure_description": "S2_NEG_SORT13_WEAK",
+        "scope_classification": {
+          "category": "FIXED_NEGATIVE_CONTROL",
+          "qualification_eligible": false,
+          "eligible_as_init_leaf_or_provider_summary": false,
+          "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+          "proof_credit": "NONE"
+        }
+      },
+      {
+        "id": "i_p01_b1_16",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::i_p01_b1_16",
+        "mode": "PFC",
+        "unwind": 36,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "scope_classification": {
+          "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+          "qualification_eligible": true,
+          "eligible_as_init_leaf_or_provider_summary": false,
+          "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+          "proof_credit": "NONE"
+        }
+      },
+      {
+        "id": "m8_s32_d00_allinit",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+        "mode": "PFC",
+        "unwind": 50,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "scope_classification": {
+          "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+          "qualification_eligible": true,
+          "eligible_as_init_leaf_or_provider_summary": false,
+          "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+          "proof_credit": "NONE"
+        }
+      },
+      {
+        "id": "i_p16_b1_16",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::i_p16_b1_16",
+        "mode": "PFC",
+        "unwind": 36,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "scope_classification": {
+          "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+          "qualification_eligible": true,
+          "eligible_as_init_leaf_or_provider_summary": false,
+          "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+          "proof_credit": "NONE"
+        }
+      },
+      {
+        "id": "m8_s32_d00_partial_diag",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag",
+        "mode": "PFC",
+        "unwind": 50,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "scope_classification": {
+          "category": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+          "qualification_eligible": false,
+          "eligible_as_init_leaf_or_provider_summary": false,
+          "actual_initialization_mask_and_dstinit": "OPEN_UNPROVED",
+          "proof_credit": "NONE"
+        }
+      },
+      {
+        "id": "m8_s40_d16_partial_diag",
+        "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag",
+        "mode": "PFC",
+        "unwind": 50,
+        "expected": "SUCCESS",
+        "failure_description": null,
+        "scope_classification": {
+          "category": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+          "qualification_eligible": false,
+          "eligible_as_init_leaf_or_provider_summary": false,
+          "actual_initialization_mask_and_dstinit": "OPEN_UNPROVED",
+          "proof_credit": "NONE"
+        }
+      }
+    ],
+    "fixed_negative_controls": 3,
+    "bounded_actual_body_PFC_candidates": [
+      "i_p01_b1_16",
+      "m8_s32_d00_allinit",
+      "i_p16_b1_16"
+    ],
+    "diagnostic_only": [
+      "m8_s32_d00_partial_diag",
+      "m8_s40_d16_partial_diag"
+    ],
+    "source_literal_sites": 58,
+    "source_assertions_including_3_expected_failures": 26,
+    "source_cover_sites": 32,
+    "compiled_property_counts_and_native_producer_IDs": "UNKNOWN_UNTIL_SAME_INVOCATION_EXPORT",
+    "caps": {
+      "child_seconds": 600,
+      "compile_seconds": 180,
+      "slot_seconds": 720,
+      "controller_seconds": 180,
+      "cleanup_seconds": 240,
+      "campaign_seconds": 6900,
+      "outer_seconds": 7500,
+      "phase_seconds": 8100,
+      "step_seconds": 7560,
+      "local_rss_kib": 6291456,
+      "outer_rss_kib": 12582912,
+      "headroom_kib": 2097152,
+      "stdout_bytes": 16777216,
+      "stderr_bytes": 1048576,
+      "export_bytes": 8388608,
+      "artifact_bytes": 268435456
+    },
+    "setup_seconds": 1800,
+    "job_minutes": 180,
+    "validate_minutes": 18,
+    "envelope_seconds": 6180,
+    "envelope_not_fit_guarantee": true,
+    "RSS_scope": "sampled owned-PGID VmRSS with verified cleanup, not strict cgroup/kernel/whole-tree peak",
+    "continuation": "local cutoff/error only after verified cleanup+valid protected evidence; observed drift/readerrors globally stop and preserve completedprefix; laterNOT_RUN distinct from launchedUNKNOWN",
+    "artifact_name": "ch8-s3-2-RUN_ID-ATTEMPT",
+    "allowed_intake_member": "group-evidence.json.gz; metadata/digest-first bounded interface, no rawlogs/fullarchives/GCS bypass"
+  },
+  "flags": {
+    "unstable": [
+      "function-contracts",
+      "mem-predicates",
+      "float-lib",
+      "c-ffi",
+      "loop-contracts",
+      "quantifiers",
+      "stubbing",
+      "export-json"
+    ],
+    "assert_contracts": false,
+    "jobs": 1,
+    "harness_timeout": "600s",
+    "exact": true,
+    "default_unwind": 50,
+    "cbmc_args": [
+      "--object-bits",
+      "12"
+    ],
+    "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf"
+  },
+  "policy": {
+    "unreachable_admission": {
+      "mode": "REJECT_ALL",
+      "proposal": "S3-U-SITE-REVIEW-v1",
+      "enabled": false,
+      "unknown": "REJECT",
+      "role_unreachable": "REJECT"
+    },
+    "native_status_guard_location_role_cover_source_identity": "STRICT; no missing/tampered/partial/unknown success or nonempty-guard waiver",
+    "partial_rows": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN; qualification/init/provider-summary eligibilityfalse even if nativeSUCCESS",
+    "actual_initialization_mask_and_dstinit": "OPEN_UNPROVED; no vacuousinitializedness role/manualghostmask or flagchange",
+    "footprint": "actual source-reported stock PFC modifies/footprint scope only, no emitted byte-state/init theorem",
+    "old_exact_location_exception": "f740 originalrun44416629057/1 ONLY; NOT reused for newrun/source/IDs",
+    "prior_admission": "b487 seven boundedSOURCE_REPORTEDcases only; not universal provider contracts or new source qualification",
+    "coverage_limit": "At most32/256originalinsertpairs and1/1122originalallinitmergepair if later admitted; partialcontexts close0qualifiedmask/providercontexts; all34sort8init/callercontexts remainOPEN",
+    "open_obligations_path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-2-r1/FULL-OBLIGATIONS.md",
+    "native_compile_proof_cost_fit": "NOT_RUN",
+    "qualified_new_leaves": 0,
+    "proof_obligations_closed": 0,
+    "independent_AST_MIR_B1_B2_init_generic_caller_fullN16_N32_credit": "NONE",
+    "future_method_plan": "d8f4b4a5f9 source-only futureprerequisites; no ON experiment/method implementation/lane change in this GO"
+  },
+  "value_and_limits": {
+    "purpose": "Measure fixed-length insertion memory/solver behavior, fixed-geometry allinit merge, and exact partial-mask functional/frame diagnostic behavior without repeating unchanged heavyfullroots or letting one local cutoff erase later observations.",
+    "what_diagnostics_cannot_supply": "Actualinitmask/dstinit/independentno-MU-read/provider proof; no fullN16/32 or promised completion within remaining budget.",
+    "historical_censored_roots": "insert112.349sRSS6GiB;merge8same600.205swholechild; neither completed; not new matched timing/fit predictions"
+  },
+  "validation": {
+    "author_actual_final_execution_count": 1,
+    "author_final_tests": 227,
+    "suites": {
+      "legacy": 136,
+      "protected_S3_1": 56,
+      "new_S3_2": 35
+    },
+    "elapsed_seconds": 569.6796653000638,
+    "cap_seconds": 1080,
+    "margin": 1.8958022653505429,
+    "required_margin": 1.5,
+    "reviewer_audited_record_not_independent_timing_witness": true,
+    "reviewer_independent_static_assertions": 562,
+    "reviewer_exact_patch_tree_replays": 6,
+    "root_package_committed_files": 36,
+    "root_package_manifest_hashes": 35,
+    "root_review_committed_files": 7,
+    "root_review_manifest_hashes": 6,
+    "source_control_tool_clean_heads_trees_soleparents": "MATCH",
+    "protected_control_modules_unchanged": 14,
+    "fullValidate_or_native_rerun_by_root": false
+  },
+  "accounting": {
+    "latest_ledger_commit": "b4879b203e42e265f38ce1b44fe767aa78bb43fc",
+    "last_coordinator_accounting_record": "af484c6a935bf341db8a5ade2ea76f234b686f1e",
+    "latest_ledger_commit_scope": "ADMISSION_ONLY; no accounting change",
+    "current": {
+      "item1": "31/31 EXHAUSTED",
+      "item2": "12/17",
+      "total": "43/48"
+    },
+    "prospective_if_counted": {
+      "item1": "31/31",
+      "item2": "13/17",
+      "total": "44/48"
+    },
+    "remaining_item2_before_attempt": 5,
+    "root_changed_ledger": false,
+    "reservation": false,
+    "grant": false,
+    "owner": "user coordinator alone binds actualrun/attempt/charge; no blanket free-run/refund inference"
+  },
+  "authority": {
+    "root_prepares_and_consents_only": true,
+    "dispatch": "user coordinator separately publishes researchrefs and launchesONE after final read-only binding",
+    "publications_PR_issue_comment_or_open_PR_branch_push": "owner approval required, not authorized by this GO",
+    "item1_or_4591CI": "NOT_GRANTED; currentHOLD14ab unchanged",
+    "CI_push_publication_accounting_action_performed_here": false
+  },
+  "next": "Coordinator returns actual source publication/FINAL SHA/ref/run/attempt pins; terminal bounded intake and case admission remain separate gates."
+}
