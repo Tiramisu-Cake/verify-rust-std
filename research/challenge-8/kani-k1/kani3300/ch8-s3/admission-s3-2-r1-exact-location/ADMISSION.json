@@ -1,0 +1,842 @@
+{
+  "schema": "ch8-s3-2-r1-exact-location-admission-v1",
+  "status": "ADMITTED_EXACT_METADATA_CASES_AND_ONE_BOUNDED_SOURCE_REPORTED_CASE",
+  "decision_utc": "2026-11-19T02:57:45.735918+00:00",
+  "authority": {
+    "coordinator": "05:39 requested independent intake review and location decision;05:54 reported RECOMMEND_EXACT_CASES for three merge8 cases",
+    "planner": "root agrees to exact cases after committed review/pin verification",
+    "standing_owner_delegation": "night work and decisions by root+coordinator within existing budgets; no waiting for morning for this bounded decision",
+    "no_budget_or_publication_grant": true
+  },
+  "immutable_inputs": {
+    "intake": "5d9439a7641c929838bf075c6aa6533a353ee92d",
+    "intake_path": "kani3300/ch8-s3/run-44439462279/",
+    "review": "028531727fc48ef9f26f16dfb95c2b2666c96dd7",
+    "review_path": "kani3300/ch8-s3/run-44439462279-review-w14/",
+    "review_disposition": "APPROVE_INTAKE_WITH_PRESERVED_LIMITS",
+    "location_review_sha256": "c7c9258f1fe01d9af9264d493d27fa9138a7f1686a825765f6e310f6a5a116f0",
+    "task": "e5a9d8f40c82408abf033466e0d50e94d77fad31",
+    "candidate": "792ca31fa8e5e80380498d9903d9115cdae42d40",
+    "candidate_review": "b5a0878d35b6a3de4e65ef68dbd86d711340e75a",
+    "GO": "1c9272aaa86b38aeb27a4db0d6d07d14b45f97d3",
+    "source_tool_control_trigger": {
+      "source": {
+        "sha": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+        "tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+        "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      },
+      "tool": {
+        "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+        "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+      },
+      "control": {
+        "sha": "775574eb2f361ef90eade30330ff0d608530287f",
+        "tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+        "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+      },
+      "trigger": {
+        "sha": "474a9d1617d77f34566e6992debc604c70a9e9ea",
+        "tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+        "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+      }
+    },
+    "request_sha256": "75603378a45639991f837ea1ea259f9a56cc452426c6f306cda6d53f5e51e47c",
+    "workflow_sha256": "0fde14cf5513f81565bc2eea37864013e7d30f82dc3062788ba2fb34b575939f",
+    "run": 44439462279,
+    "attempt": 1,
+    "event": "push",
+    "branch": "uninit-ci/ch8-s3-2-r1-20261119",
+    "artifact_id": 14491314048,
+    "transport_sha256": "1aa9d08e0533747d26bd583b53494c695615c21f3a967554b3ad150945741d61",
+    "payload_sha256": "324cfc84365d23ccca6113f97686cbf780f836fdb4adcd124e198ee191886556",
+    "member_count": 119
+  },
+  "exact_metadata_case_count": 3,
+  "exact_metadata_cases": [
+    {
+      "root": "m8_s32_d00_allinit",
+      "root_decision": "ADMITTED_EXACT_LOCATION_METADATA_GATE_ONLY",
+      "reviewed_packet": {
+        "root": "m8_s32_d00_allinit",
+        "recommendation": "RECOMMEND_EXACT_CASES",
+        "status": "NOT_APPLIED",
+        "exact_property": {
+          "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.unreachable.1",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.unreachable.1",
+          "class": "unreachable",
+          "status": "SUCCESS",
+          "description": "unreachable code",
+          "file": null,
+          "line": null,
+          "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit"
+        },
+        "invocation_id": "189628db8bdc48279407d1b3ee938808",
+        "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/189628db8bdc48279407d1b3ee938808",
+        "bindings": {
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+          "source": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+          "control": "775574eb2f361ef90eade30330ff0d608530287f",
+          "head": "474a9d1617d77f34566e6992debc604c70a9e9ea",
+          "request": "75603378a45639991f837ea1ea259f9a56cc452426c6f306cda6d53f5e51e47c",
+          "workflow": "0fde14cf5513f81565bc2eea37864013e7d30f82dc3062788ba2fb34b575939f",
+          "run": 44439462279,
+          "attempt": 1,
+          "properties_member": "groups/s3-m8_s32_d00_allinit/properties.json",
+          "export_member": "groups/s3-m8_s32_d00_allinit/export.json"
+        },
+        "pinned_parser": {
+          "control": "775574eb2f361ef90eade30330ff0d608530287f",
+          "path": "ch8-s1-control/rich_evidence.py",
+          "sha256": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+          "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "stock_schema": "0.1.0",
+          "rich_schema": "ch8-s1-05-rich-v1"
+        },
+        "schemas": {
+          "stock": "0.1.0",
+          "rich": "ch8-s1-05-rich-v1",
+          "compact": "ch8-s1-05-artifact-v1"
+        },
+        "member_digests": {
+          "export.json": "d28bd84d208c6b4fa51152b8c77f195373867d0cfb314806da6c581f59120e37",
+          "properties.json": "33f1cc56448a77072e4f354b02eee82fafd4399aa2a437c77273bf557b070c2b",
+          "receipt.json": "10d2345d5ea8bd9a465b3c30d2243c3f66a875e93eed11157eecf8eafdfd84a9",
+          "binding-metadata.json": "6e861781799aed65b6a458c7876e1e9878a10b9ee8d7f58173262e8cba633299",
+          "compile/receipt.json": "cec7aca3243f6d82325deeb3463185f498cc5f2a980b5e38e5b6cf7da9c44a17"
+        },
+        "structural_packet_fingerprint_sha256": "d94af5199a82ae25dbdc21cfa8151156ad1ba9d7889c1ff790f5c94951cdb18b",
+        "counts": {
+          "total": 380,
+          "success": 372,
+          "failure": [],
+          "unreachable": [
+            "num::<impl usize>::abs_diff.assertion.1",
+            "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+            "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+            "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+            "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+            "fmt::Arguments::<'_>::from_str.assertion.1",
+            "ub_checks::is_valid_allocation_size.assertion.1",
+            "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+          ],
+          "undetermined": [],
+          "error": [],
+          "unknown": [],
+          "other": []
+        },
+        "covers": {
+          "total": 6,
+          "satisfied": [
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.1",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.2",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.3",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.4",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.5",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.6"
+          ],
+          "unsatisfiable": [],
+          "unreachable": [],
+          "undetermined": [],
+          "error": [],
+          "unknown": [],
+          "other": []
+        },
+        "allowed_bad_location_cardinality": 1,
+        "all_other_records_located": true,
+        "old_original_run_exception_transferred": false,
+        "actual_shared_emitter": "UNKNOWN",
+        "positive_source_MIR_origin": "UNKNOWN",
+        "native_verdict": "SUCCESS",
+        "producer_verdict": "UNKNOWN unchanged",
+        "init_provider_eligible": false,
+        "partial_classification": null
+      },
+      "scope": "run44439462279/attempt1 and this exact structural packet/invocation/member/protected identity only",
+      "qualification_effect": "ONE_BOUNDED_SOURCE_REPORTED_FUNCTIONAL_KNOWN_FRAME_PFC_CASE",
+      "reversible": true
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "root_decision": "ADMITTED_EXACT_LOCATION_METADATA_GATE_ONLY",
+      "reviewed_packet": {
+        "root": "m8_s32_d00_partial_diag",
+        "recommendation": "RECOMMEND_EXACT_CASES",
+        "status": "NOT_APPLIED",
+        "exact_property": {
+          "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.unreachable.1",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.unreachable.1",
+          "class": "unreachable",
+          "status": "SUCCESS",
+          "description": "unreachable code",
+          "file": null,
+          "line": null,
+          "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag"
+        },
+        "invocation_id": "684bfd6aab514f55bb6a9cb250b2b8b0",
+        "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/684bfd6aab514f55bb6a9cb250b2b8b0",
+        "bindings": {
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag",
+          "source": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+          "control": "775574eb2f361ef90eade30330ff0d608530287f",
+          "head": "474a9d1617d77f34566e6992debc604c70a9e9ea",
+          "request": "75603378a45639991f837ea1ea259f9a56cc452426c6f306cda6d53f5e51e47c",
+          "workflow": "0fde14cf5513f81565bc2eea37864013e7d30f82dc3062788ba2fb34b575939f",
+          "run": 44439462279,
+          "attempt": 1,
+          "properties_member": "groups/s3-m8_s32_d00_partial_diag/properties.json",
+          "export_member": "groups/s3-m8_s32_d00_partial_diag/export.json"
+        },
+        "pinned_parser": {
+          "control": "775574eb2f361ef90eade30330ff0d608530287f",
+          "path": "ch8-s1-control/rich_evidence.py",
+          "sha256": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+          "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "stock_schema": "0.1.0",
+          "rich_schema": "ch8-s1-05-rich-v1"
+        },
+        "schemas": {
+          "stock": "0.1.0",
+          "rich": "ch8-s1-05-rich-v1",
+          "compact": "ch8-s1-05-artifact-v1"
+        },
+        "member_digests": {
+          "export.json": "05a3178cd72098abd4dca640caa78d1c3bef37331101ee7b4c2b33bc9743d460",
+          "properties.json": "8b33b24811f9dbbb296dd07d9d7608470ab72d5f393ea033e9061c2f4a11a0a6",
+          "receipt.json": "84865d9bad21795ee9ad4c6c1c23ef3de0b52352bb395fe34b17e8f3d3505c11",
+          "binding-metadata.json": "52678ba984756ee48b9aa68c3e33e03785a5eeda128f256bb4d39fa179e0a7a4",
+          "compile/receipt.json": "1b98d264098f898bd402b1781903433c5be18cef9dfb23529db21cf24d868e38"
+        },
+        "structural_packet_fingerprint_sha256": "1fd33ac3ea67f815ed5720a032cfd688f29ebda562f9843c129831a0cee561de",
+        "counts": {
+          "total": 380,
+          "success": 372,
+          "failure": [],
+          "unreachable": [
+            "fmt::Arguments::<'_>::from_str.assertion.1",
+            "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+            "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+            "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+            "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+            "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+            "num::<impl usize>::abs_diff.assertion.1",
+            "ub_checks::is_valid_allocation_size.assertion.1"
+          ],
+          "undetermined": [],
+          "error": [],
+          "unknown": [],
+          "other": []
+        },
+        "covers": {
+          "total": 6,
+          "satisfied": [
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.cover.1",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.cover.2",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.cover.3",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.cover.4",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.cover.5",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.cover.6"
+          ],
+          "unsatisfiable": [],
+          "unreachable": [],
+          "undetermined": [],
+          "error": [],
+          "unknown": [],
+          "other": []
+        },
+        "allowed_bad_location_cardinality": 1,
+        "all_other_records_located": true,
+        "old_original_run_exception_transferred": false,
+        "actual_shared_emitter": "UNKNOWN",
+        "positive_source_MIR_origin": "UNKNOWN",
+        "native_verdict": "SUCCESS",
+        "producer_verdict": "UNKNOWN unchanged",
+        "init_provider_eligible": false,
+        "partial_classification": "DIAG_INIT_OPEN"
+      },
+      "scope": "run44439462279/attempt1 and this exact structural packet/invocation/member/protected identity only",
+      "qualification_effect": "DIAG_INIT_OPEN_ONLY; init/provider/summary qualification remains false",
+      "reversible": true
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "root_decision": "ADMITTED_EXACT_LOCATION_METADATA_GATE_ONLY",
+      "reviewed_packet": {
+        "root": "m8_s40_d16_partial_diag",
+        "recommendation": "RECOMMEND_EXACT_CASES",
+        "status": "NOT_APPLIED",
+        "exact_property": {
+          "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.unreachable.1",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.unreachable.1",
+          "class": "unreachable",
+          "status": "SUCCESS",
+          "description": "unreachable code",
+          "file": null,
+          "line": null,
+          "location_display": "library/core/src/lib.rs:0:0 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag"
+        },
+        "invocation_id": "74b9eae5ed164a8ea4732993b42e4de1",
+        "namespace": "/home/runner/work/kani/kani/export/target/ch8-s1-cargo/74b9eae5ed164a8ea4732993b42e4de1",
+        "bindings": {
+          "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag",
+          "source": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+          "control": "775574eb2f361ef90eade30330ff0d608530287f",
+          "head": "474a9d1617d77f34566e6992debc604c70a9e9ea",
+          "request": "75603378a45639991f837ea1ea259f9a56cc452426c6f306cda6d53f5e51e47c",
+          "workflow": "0fde14cf5513f81565bc2eea37864013e7d30f82dc3062788ba2fb34b575939f",
+          "run": 44439462279,
+          "attempt": 1,
+          "properties_member": "groups/s3-m8_s40_d16_partial_diag/properties.json",
+          "export_member": "groups/s3-m8_s40_d16_partial_diag/export.json"
+        },
+        "pinned_parser": {
+          "control": "775574eb2f361ef90eade30330ff0d608530287f",
+          "path": "ch8-s1-control/rich_evidence.py",
+          "sha256": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+          "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "stock_schema": "0.1.0",
+          "rich_schema": "ch8-s1-05-rich-v1"
+        },
+        "schemas": {
+          "stock": "0.1.0",
+          "rich": "ch8-s1-05-rich-v1",
+          "compact": "ch8-s1-05-artifact-v1"
+        },
+        "member_digests": {
+          "export.json": "dc5e07fbf24f76871a4a87a96a1dab053dc48b32c93314bea0ca0ac369e28fc8",
+          "properties.json": "daad811a79761e718332a2a4f290bfc9df675ddcc159ce471d8d197ea70091c1",
+          "receipt.json": "adf6a1c2118f6ef104d9cdda7ed133dc866e51a0129e0d74a9afca09e0329529",
+          "binding-metadata.json": "0589d81edb4c72817395d5c3b3aa9181cd2c06efaefbf17cb2feb67426cfba4c",
+          "compile/receipt.json": "520e112e72118d7074b96b12226850e901abfbab98916833ccc174ca50b70774"
+        },
+        "structural_packet_fingerprint_sha256": "08b16021eaf493ebf22220807c7906b0a9d759496ba9302649439b2be2ace5d1",
+        "counts": {
+          "total": 380,
+          "success": 372,
+          "failure": [],
+          "unreachable": [
+            "num::<impl usize>::abs_diff.assertion.1",
+            "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+            "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+            "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+            "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+            "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+            "ub_checks::is_valid_allocation_size.assertion.1",
+            "fmt::Arguments::<'_>::from_str.assertion.1"
+          ],
+          "undetermined": [],
+          "error": [],
+          "unknown": [],
+          "other": []
+        },
+        "covers": {
+          "total": 6,
+          "satisfied": [
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.cover.1",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.cover.2",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.cover.3",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.cover.4",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.cover.5",
+            "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.cover.6"
+          ],
+          "unsatisfiable": [],
+          "unreachable": [],
+          "undetermined": [],
+          "error": [],
+          "unknown": [],
+          "other": []
+        },
+        "allowed_bad_location_cardinality": 1,
+        "all_other_records_located": true,
+        "old_original_run_exception_transferred": false,
+        "actual_shared_emitter": "UNKNOWN",
+        "positive_source_MIR_origin": "UNKNOWN",
+        "native_verdict": "SUCCESS",
+        "producer_verdict": "UNKNOWN unchanged",
+        "init_provider_eligible": false,
+        "partial_classification": "DIAG_INIT_OPEN"
+      },
+      "scope": "run44439462279/attempt1 and this exact structural packet/invocation/member/protected identity only",
+      "qualification_effect": "DIAG_INIT_OPEN_ONLY; init/provider/summary qualification remains false",
+      "reversible": true
+    }
+  ],
+  "general_rule": {
+    "status": "PENDING_NOT_ADMITTED",
+    "actual_shared_emitter": "UNKNOWN",
+    "positive_source_MIR_origin": "UNKNOWN",
+    "no_wildcard_for_lib_rs_zero_or_unreachable_suffix": true,
+    "old_f740": "UNCHANGED_ORIGINAL_RUN_ONLY; no transfer",
+    "next_requirement": "Authentic common emitter/normalization identity and reviewed rule contract before any separate general metadata decision"
+  },
+  "qualified_case_count": 1,
+  "qualified_case": {
+    "id": "m8_s32_d00_allinit",
+    "status": "QUALIFIED_BOUNDED_SOURCE_REPORTED",
+    "assurance": "S1 source-local U method and SOURCE_REPORTED Profilesv4 actual-body PFC; no independent AST/MIR/init proof",
+    "selector": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+    "domain": {
+      "id": "m8_s32_d00_allinit",
+      "domain": {
+        "backing": "[MaybeUninit<u8>;48]",
+        "src": 32,
+        "dst": 0,
+        "span": 8,
+        "source_sorted_halves": [
+          4,
+          4
+        ],
+        "initialized_intervals": [
+          [
+            8,
+            48
+          ]
+        ],
+        "uninitialized": "complement in [0,48), including dst",
+        "prior_initialized_values": "arbitrary full bytes, source halves alone sorted",
+        "original_allinit_pairs": 1,
+        "sort8_n32_side": null
+      },
+      "fullbyte_scope": "independent0..255 subject to order premises",
+      "unwind": 50,
+      "scope_classification": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "loop_maxima": {
+        "backing": 48,
+        "active_span": 8
+      },
+      "actual_state_init_oracle": "no independent init theorem"
+    },
+    "native_property_count": 386,
+    "check_count": 380,
+    "status_counts": {
+      "SUCCESS": 372,
+      "UNREACHABLE": 8,
+      "SATISFIED": 6
+    },
+    "located_positive_roles": [
+      {
+        "required": {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_ALL_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 82,
+          "source_line": "    kani::assert(active(), \"S32_M8_ALL_ACTIVE\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        "native_matches": [
+          {
+            "class": "assertion",
+            "description": "S32_M8_ALL_ACTIVE",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.assertion.1",
+            "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.assertion.1",
+            "line": "82",
+            "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs:82:5 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+            "status": "SUCCESS"
+          }
+        ],
+        "exact_match": true,
+        "state": "OBSERVED_EXACT"
+      },
+      {
+        "required": {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_ALL_FUNCTIONAL_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 97,
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 8]), &out), \"S32_M8_ALL_FUNCTIONAL_SORTED_FULL_COUNT\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        "native_matches": [
+          {
+            "class": "assertion",
+            "description": "S32_M8_ALL_FUNCTIONAL_SORTED_FULL_COUNT",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.assertion.11",
+            "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.assertion.11",
+            "line": "97",
+            "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs:97:5 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+            "status": "SUCCESS"
+          }
+        ],
+        "exact_match": true,
+        "state": "OBSERVED_EXACT"
+      },
+      {
+        "required": {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_ALL_KNOWN_VALUE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 100,
+          "source_line": "            kani::assert(unsafe { v[i].assume_init() } == before[i], \"S32_M8_ALL_KNOWN_VALUE_FRAME\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        "native_matches": [
+          {
+            "class": "assertion",
+            "description": "S32_M8_ALL_KNOWN_VALUE_FRAME",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.assertion.15",
+            "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.assertion.15",
+            "line": "100",
+            "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs:100:13 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+            "status": "SUCCESS"
+          }
+        ],
+        "exact_match": true,
+        "state": "OBSERVED_EXACT"
+      },
+      {
+        "required": {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_ALL_SOURCE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 104,
+          "source_line": "        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], \"S32_M8_ALL_SOURCE_FRAME\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        "native_matches": [
+          {
+            "class": "assertion",
+            "description": "S32_M8_ALL_SOURCE_FRAME",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.assertion.20",
+            "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.assertion.20",
+            "line": "104",
+            "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs:104:9 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+            "status": "SUCCESS"
+          }
+        ],
+        "exact_match": true,
+        "state": "OBSERVED_EXACT"
+      },
+      {
+        "required": {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_ALL_KNOWN_CANARY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 108,
+          "source_line": "    kani::assert(unsafe { v[canary].assume_init() } == before[canary], \"S32_M8_ALL_KNOWN_CANARY\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        "native_matches": [
+          {
+            "class": "assertion",
+            "description": "S32_M8_ALL_KNOWN_CANARY",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.assertion.24",
+            "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.assertion.24",
+            "line": "108",
+            "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs:108:5 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+            "status": "SUCCESS"
+          }
+        ],
+        "exact_match": true,
+        "state": "OBSERVED_EXACT"
+      }
+    ],
+    "located_SAT_covers": [
+      {
+        "required": {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_ALL_LEFT_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 109,
+          "source_line": "    kani::cover(before[src] < before[src + 4], \"S32_M8_ALL_LEFT_FIRST\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        "native_matches": [
+          {
+            "class": "cover",
+            "description": "S32_M8_ALL_LEFT_FIRST",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.1",
+            "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.1",
+            "line": "109",
+            "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs:109:5 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+            "status": "SATISFIED"
+          }
+        ],
+        "exact_match": true,
+        "state": "OBSERVED_EXACT"
+      },
+      {
+        "required": {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_ALL_RIGHT_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 110,
+          "source_line": "    kani::cover(before[src] > before[src + 4], \"S32_M8_ALL_RIGHT_FIRST\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        "native_matches": [
+          {
+            "class": "cover",
+            "description": "S32_M8_ALL_RIGHT_FIRST",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.2",
+            "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.2",
+            "line": "110",
+            "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs:110:5 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+            "status": "SATISFIED"
+          }
+        ],
+        "exact_match": true,
+        "state": "OBSERVED_EXACT"
+      },
+      {
+        "required": {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_ALL_TIE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 111,
+          "source_line": "    kani::cover(before[src + 3] == before[src + 4], \"S32_M8_ALL_TIE\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        "native_matches": [
+          {
+            "class": "cover",
+            "description": "S32_M8_ALL_TIE",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.3",
+            "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.3",
+            "line": "111",
+            "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs:111:5 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+            "status": "SATISFIED"
+          }
+        ],
+        "exact_match": true,
+        "state": "OBSERVED_EXACT"
+      },
+      {
+        "required": {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_ALL_UNSORTED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 112,
+          "source_line": "    kani::cover(before[src + 3] > before[src + 4], \"S32_M8_ALL_UNSORTED\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        "native_matches": [
+          {
+            "class": "cover",
+            "description": "S32_M8_ALL_UNSORTED",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.4",
+            "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.4",
+            "line": "112",
+            "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs:112:5 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+            "status": "SATISFIED"
+          }
+        ],
+        "exact_match": true,
+        "state": "OBSERVED_EXACT"
+      },
+      {
+        "required": {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_ALL_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 113,
+          "source_line": "    kani::cover(out[0] < out[7], \"S32_M8_ALL_NONCONSTANT\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        "native_matches": [
+          {
+            "class": "cover",
+            "description": "S32_M8_ALL_NONCONSTANT",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.5",
+            "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.5",
+            "line": "113",
+            "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs:113:5 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+            "status": "SATISFIED"
+          }
+        ],
+        "exact_match": true,
+        "state": "OBSERVED_EXACT"
+      },
+      {
+        "required": {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_ALL_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 114,
+          "source_line": "    kani::cover(true, \"S32_M8_ALL_USEFUL_RETURN\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        "native_matches": [
+          {
+            "class": "cover",
+            "description": "S32_M8_ALL_USEFUL_RETURN",
+            "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.6",
+            "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+            "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.cover.6",
+            "line": "114",
+            "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs:114:5 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+            "status": "SATISFIED"
+          }
+        ],
+        "exact_match": true,
+        "state": "OBSERVED_EXACT"
+      }
+    ],
+    "U_count": 8,
+    "U_property_ids": [
+      "num::<impl usize>::abs_diff.assertion.1",
+      "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+      "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+      "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+      "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+      "fmt::Arguments::<'_>::from_str.assertion.1",
+      "ub_checks::is_valid_allocation_size.assertion.1",
+      "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+    ],
+    "U_arguments": "intake QUALIFICATION.json/independent U-REVIEW.json exact source/site/invocation premises, retained by committed hashes",
+    "SUCCESS_unsupported_guard_count": 4,
+    "guard_records": [
+      {
+        "class": "unsupported_construct",
+        "description": "Kani does not support reasoning about pointer to unallocated memory",
+        "display_id": "kani::mem::is_inbounds::<[u8]>.unsupported_construct.1",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+        "id": "kani::mem::is_inbounds::<[u8]>.unsupported_construct.1",
+        "line": "358",
+        "location_display": "library/core/src/lib.rs:358:1 in function kani::mem::is_inbounds::<[u8]>",
+        "status": "SUCCESS"
+      },
+      {
+        "class": "unsupported_construct",
+        "description": "Kani does not support reasoning about pointer to unallocated memory",
+        "display_id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+        "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+        "line": "358",
+        "location_display": "library/core/src/lib.rs:358:1 in function kani::mem::cbmc::same_allocation",
+        "status": "SUCCESS"
+      },
+      {
+        "class": "unsupported_construct",
+        "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+        "display_id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+        "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+        "line": "110",
+        "location_display": "library/core/src/panicking.rs:110:17 in function panicking::panic_nounwind_fmt::runtime",
+        "status": "SUCCESS"
+      },
+      {
+        "class": "unsupported_construct",
+        "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+        "display_id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+        "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+        "line": "185",
+        "location_display": "library/core/src/panic/location.rs:185:9 in function panic::location::Location::<'_>::caller",
+        "status": "SUCCESS"
+      }
+    ],
+    "PFC_evidence_reference": "Exact same-invocation target bidirectional_merge<u8,KeyLess<u8>> registration, checked ensures/DFCC links in committed QUALIFICATION.json/ROW-REVIEW.json; SOURCE_REPORTED only",
+    "initialization_provider_eligible": false,
+    "actual_initializedness_mask_dstinit_theorem": "OPEN; source initialization construction is not native byte-state tracking",
+    "covered_original_allinit_geometry_pairs": 1,
+    "original_pair_domain": 1122,
+    "universal_contract_or_assumed_summary_credit": "NONE"
+  },
+  "diagnostic_rows": [
+    {
+      "id": "m8_s32_d00_partial_diag",
+      "metadata_gate": "EXACT_CASE_ADMITTED_ONLY",
+      "status": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+      "native_verdict": "SUCCESS",
+      "qualification_as_init_leaf_provider_summary": false,
+      "actual_mask_dstinit": "OPEN",
+      "closed_qualified_init_provider_contexts": 0
+    },
+    {
+      "id": "m8_s40_d16_partial_diag",
+      "metadata_gate": "EXACT_CASE_ADMITTED_ONLY",
+      "status": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+      "native_verdict": "SUCCESS",
+      "qualification_as_init_leaf_provider_summary": false,
+      "actual_mask_dstinit": "OPEN",
+      "closed_qualified_init_provider_contexts": 0
+    }
+  ],
+  "other_rows": {
+    "checker_order_corrupt": "reviewed exact labelled negative observation; no new qualification decision in this note",
+    "checker_count_corrupt": "reviewed exact labelled negative observation; no new qualification decision in this note",
+    "sort13_weak": "reviewed fixeddescendinglen13 labelled negative observation; no arbitrary-byte theorem/new qualification decision in this note",
+    "i_p01_b1_16": "RSS_CENSORED_UNKNOWN_UNQUALIFIED",
+    "i_p16_b1_16": "RSS_CENSORED_UNKNOWN_UNQUALIFIED"
+  },
+  "remaining_strict_gates": [
+    "Complete stock/schema/config/selector/unwind partitions and full property inventory; exactly1 enumerated metadata gap",
+    "All exact positive assertions SUCCESS, literal negative FAILs, covers SATISFIED; every role/cover/U/guard positively located",
+    "Every U source-local argument reviewed individually; strict producer policy remains REJECT_ALL/proposalDISABLED",
+    "Retain every unsupported guard; unknown/error/undetermined/failure/extra gap reject",
+    "Protected snapshots/native start/source/compile/PFC/contract/frame/caller bindings, cleanup and seals mandatory",
+    "No global safety/location/U/role waiver; no actual producer/history rewrite",
+    "Partial rows remain DIAGNOSTIC_ONLY_INITIALIZATION_OPEN; no init/provider qualification even after location decision",
+    "Independent14 then root/coordinator decision required for any admission"
+  ],
+  "preserved_history": {
+    "workflow": "completed/failure",
+    "campaign": "SELECTED_PARTIAL",
+    "producer": "3OBSERVED/5UNKNOWN",
+    "strict_expected_matches": "0/8",
+    "U_policy": "REJECT_ALL/proposalDISABLED unchanged; separate per-site S1 admission assessment only",
+    "evidence_null_coordinates": "UNCHANGED; no fabricated coordinates",
+    "native_reader_runtime_parser_policy": "UNCHANGED",
+    "old_intake_and_review_qualified_new_leaves_0": "historical producer/reviewer fields remain unchanged; this separate note supplies one bounded case admission",
+    "all_previous_ledger_bytes": "PREFIX_PRESERVED"
+  },
+  "limits": {
+    "all34_sort8_init_caller_contexts": "OPEN",
+    "qualified_init_provider_contexts_closed": 0,
+    "general_init_state_store_tracking": "NONE",
+    "independent_AST_MIR_B1_B2_compiler_proof": "NONE",
+    "generic_caller_type_offset_lifting_fullN16_N32": "OPEN",
+    "fit600_or_matched_speedup_theorem": "NONE",
+    "source_domain_frame_init_cfg_unwind_restrictions": "MANDATORY for every use; no automatic future-run adoption",
+    "reversal": "append-only revocation of exact metadata/qualification cases if any identity/fingerprint/source-local premise fails; no historical rewrite"
+  },
+  "accounting": {
+    "scope": "ADMISSION_APPEND_ONLY_NO_ACCOUNTING_CHANGE",
+    "previous_ledger_commit": "df305d47173284dfd54ad55d6b7567c892790c87",
+    "previous_ledger_sha256": "e89a6bf374c40a54c028a84b0c03033460e77411c1d6ea99be7eec21d536b346",
+    "item1": "31/31 EXHAUSTED",
+    "item2": "13/17",
+    "total": "44/48",
+    "dispatch_charge_refund_reservation_grant": false
+  },
+  "next": "S3-3 PLANONLY consumes exact review/admission and preserved limits; implementation/exact package review/GO are separate."
+}

@@ -309,3 +309,37 @@ adds0 dispatches, no budgetgrant/charge/refund/CI/push/publication. User03:27
 separatelyauthorized offlineS3-2implementationplan86f/taskbe420 afteradmission;
 finalexactpackage independentreview/root+coordinatorGO before anynewworkflow.
 All earlier ledger bytes/historicalrecords retained unchanged.
+
+
+## S3-2-r1 exact metadata + bounded case admission — 2026-11-19 coordinator+planner
+
+Coordinator05:39 requested intake review and location decision;05:54 reported
+RECOMMEND_EXACT_CASES. Root agrees after committed intake5d9439a764 and independent
+review028531727f APPROVE_INTAKE_WITH_PRESERVED_LIMITS/zero blockers.
+Decision [ADMISSION.md](kani3300/ch8-s3/admission-s3-2-r1-exact-location/ADMISSION.md),
+[ADMISSION.json](kani3300/ch8-s3/admission-s3-2-r1-exact-location/ADMISSION.json).
+
+ADMITTED_EXACT_LOCATION_METADATA_GATE_ONLY for THREE separately pinned packets in
+run44439462279/1: m8_s32_d00_allinit, m8_s32_d00_partial_diag,
+m8_s40_d16_partial_diag. Each exact harness.unreachable.1/systemSUCCESS/nullfileline/
+lib.rs:0:0 record, cardinality1, all386properties/380checks/372SUCCESS/8U/6SAT and
+source1b4/tool0aac/control775/head474/request756/workflow0fde/invocation/namespace/
+parser/schema/member/fingerprint constraints are mandatory. Every other gate stays
+strict. Actual shared emitter/source-MIR origin UNKNOWN; GENERAL_RULE PENDING,
+no wildcard/future-run transfer. Oldf740 original-run-only decision unchanged.
+
+ONE QUALIFIED_BOUNDED_SOURCE_REPORTED actual-body PFC case: m8_s32_d00_allinit,
+source[32,40),dst[0,8),backingMU48,fullu8/KeyLess/sorted4+4,knowninitial[8,48).
+FiveSUCCESSliteralroles+sixSATcovers/eightper-siteU/fourSUCCESSguards retained,
+S1 source-local/Profilesv4 source-reported assurance only. No actual init-mask/
+dstinit/universalcontract/provider/ASTMIR/B1B2/generic/fullN16N32 theorem.
+BOTH partialrows remain DIAG_INIT_OPEN/nonproviders and close0qualifiedinitcontexts;
+all34sort8init/callercontexts OPEN. Two insertion roots RSS-censored UNKNOWN.
+Three fixed negative labels reviewed, no additional control admission in this note.
+
+Original evidence/workflowFAILURE/producer3OBSERVED5UNKNOWN/strict0of8/U-REJECT_ALL/
+proposalDISABLED/nullcoordinates are unchanged. Reversible by append-only decision
+if any exact identity/fingerprint/source-local premise fails; no runtime/parser/
+policy patch or automatic S3-3 implementation/run.
+**Accounting/reservation unchanged:item1 31/31,item2 13/17,total44/48.**
+No dispatch/charge/refund/reservation/grant/publication.
