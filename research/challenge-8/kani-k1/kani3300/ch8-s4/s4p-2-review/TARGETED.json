@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "python3",
+    "-m",
+    "unittest",
+    "-v",
+    "test_s4p2_boundary.ContractTests",
+    "test_s4p2_boundary.ReplayModeTests.test_fallback_preserves_malformed_existing_terminal_as_error",
+    "test_s4p2_gate_repair.TerminalSchemaTests",
+    "test_s4p2_paths.RealPathWriterTests.test_all_valid_prefix_lengths_replay_local_and_upload",
+    "test_s4p2_paths.RealPathWriterTests.test_all_states_recorded_drift_cannot_use_controller_recovery",
+    "test_s4p2_paths.RealPathWriterTests.test_genuine_absent_after_interruption_and_original_exit_preserved"
+  ],
+  "cwd": "/root/kani-ch8-s4p-2-r1-control-w13/ch8-s1-control",
+  "exit_code": 0,
+  "elapsed_seconds": 56.17809882387519,
+  "scope": "selected synthetic boundary/service checks; not full Validate/native/CI",
+  "native": "NOT_RUN",
+  "proof_credit": "NONE"
+}

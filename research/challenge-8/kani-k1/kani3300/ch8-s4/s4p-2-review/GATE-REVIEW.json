@@ -1,0 +1,82 @@
+{
+  "contract_sha256": "b9d81c6dcff93f42828e604e147073317c882390af9fd4f18f2f66da747455af",
+  "decision": "APPROVE",
+  "gates": [
+    {
+      "boundary": "new exact profile/request/terminal/portable seal",
+      "conclusion": "Exact inventory/request/terminal/seal, real int8 before common collection; local/upload and stopped0/full/prefix synthetic regressions pass",
+      "evidence": [
+        "IDENTITIES.json",
+        "TARGETED.json"
+      ],
+      "source_citations": "s4p2_profile.py; s4p2_policy.py:26; s4p2_campaign.py:350",
+      "status": "PASS_WITH_NATIVE_LIMITS_OPEN"
+    },
+    {
+      "boundary": "role/SAT inventory",
+      "conclusion": "4SUCCESS assertion roles each; source covers6/6/6/3, N01-only structural NA; source assertions/covers21/21; literal predicate/domain/location/type checks; all declared native covers must SAT",
+      "evidence": [
+        "TARGETED.json",
+        "MAP-LEXICAL.json"
+      ],
+      "source_citations": "s4p2_policy.py:26,113,135; actual new Rust module",
+      "status": "PASS_WITH_NATIVE_LIMITS_OPEN"
+    },
+    {
+      "boundary": "source/model/cfg gates",
+      "conclusion": "Actual prebuild gates pass without cache, complete64 cfg power set,32 legacy and8 ACTIVE contexts; exact source/model/history preservation",
+      "evidence": [
+        "PREFLIGHT.json",
+        "IDENTITIES.json",
+        "MAP-CONTRACT_STACKS.json"
+      ],
+      "source_citations": "runner.py:207; s4p2_* gates",
+      "status": "PASS_WITH_NATIVE_LIMITS_OPEN"
+    },
+    {
+      "boundary": "runner service error paths and portable replay",
+      "conclusion": "Versioned typed terminal first; malformed existing fallback preserved; prefix0..8 local/upload; failed/missing/null/timeout/NOT_RUN/source-stage-target controls retained and selected",
+      "evidence": [
+        "FALLBACK-DIFFERENTIAL.json",
+        "TARGETED.json",
+        "VALIDATION-REVIEW.json"
+      ],
+      "source_citations": "s4p2_campaign.py:91,139,186,350; s4p2_validate.py",
+      "status": "PASS_WITH_NATIVE_LIMITS_OPEN"
+    },
+    {
+      "boundary": "protected identity and safe serial execution",
+      "conclusion": "Canonical preE0, all-state drift/read-error GLOBALSTOP; absent-AFTER only verified interrupt recovery; PID/starttime cleanup/escaped reap and original errors retained",
+      "evidence": [
+        "IDENTITIES.json",
+        "TARGETED.json"
+      ],
+      "source_citations": "s3_evidence.py:20,60; s3_snapshots.py; s3_runtime.py; runner.py:1070",
+      "status": "PASS_WITH_NATIVE_LIMITS_OPEN"
+    },
+    {
+      "boundary": "qualification/history/location",
+      "conclusion": "StrictU REJECT_ALL/proposal disabled; all unsupported statuses includingSUCCESS reject; no old location/emitter rule transfer; loops keep all valid instances; B01/B02 retained",
+      "evidence": [
+        "VALIDATION-REVIEW.json",
+        "IDENTITIES.json",
+        "TARGETED.json"
+      ],
+      "source_citations": "s4p2_policy.py:135; rich_evidence.py; unchanged inherited binding/diagnostic code",
+      "status": "PASS_WITH_NATIVE_LIMITS_OPEN"
+    },
+    {
+      "boundary": "resources/future dispatch",
+      "conclusion": "All caps unchanged;6180 arithmetic only; final344PASS679.114s margin1.590>=1.5; no rerun fullValidate; depth7/5/2 graph/receipts; future exactsource/NONSKIPsame-tree sole9e14 required",
+      "evidence": [
+        "VALIDATION-REVIEW.json",
+        "PREFLIGHT.json"
+      ],
+      "source_citations": "s4p2_package.py; r5_profile.CAPS; s4p2_campaign.py",
+      "status": "PASS_WITH_NATIVE_LIMITS_OPEN"
+    }
+  ],
+  "native": "NOT_RUN",
+  "proof_credit": "NONE",
+  "schema": "ch8-s4p-2-independent-gate-review-v1"
+}

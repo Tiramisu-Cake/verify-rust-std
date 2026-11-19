@@ -1,0 +1,78 @@
+{
+  "author": "90d861e59f996d35b23a5cb843e311b29efdabf7",
+  "author_packet_files": 92,
+  "manifest_hashes": 91,
+  "manifest_sha256": "91344de1af175f054f59da47cf8995e3b0104fb1808469c0583d0b18b456bfd8",
+  "payload_files": 137,
+  "pins": {
+    "control": {
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+      "clean": true,
+      "depth": 7,
+      "repo": "/root/kani-ch8-s4p-2-r1-control-w13",
+      "sha": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556"
+    },
+    "source": {
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+      "clean": true,
+      "depth": 5,
+      "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+      "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af"
+    },
+    "tool": {
+      "author_committer": "Ivo Matija\u0161evi\u0107 <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>",
+      "clean": true,
+      "depth": 2,
+      "repo": "/root/kani-upstream-ch8-s1",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+    }
+  },
+  "preservation": {
+    "control": {
+      "changed_paths": [
+        ".github/workflows/ch8-s2.yml",
+        "ch8-s1-control/CI-REQUEST.json",
+        "ch8-s1-control/S4P2-INVENTORY.json",
+        "ch8-s1-control/S4P2-ROLE-CONTRACT.json",
+        "ch8-s1-control/S4P2-SOURCE.json",
+        "ch8-s1-control/check_package.py",
+        "ch8-s1-control/collect.py",
+        "ch8-s1-control/fixtures/s4p-request.json",
+        "ch8-s1-control/fixtures/s4p-workflow.yml",
+        "ch8-s1-control/runner.py",
+        "ch8-s1-control/s4p2_campaign.py",
+        "ch8-s1-control/s4p2_cfg_pfc.py",
+        "ch8-s1-control/s4p2_contract_stacks.py",
+        "ch8-s1-control/s4p2_lexical_bindings.py",
+        "ch8-s1-control/s4p2_ordinary_contracts.py",
+        "ch8-s1-control/s4p2_package.py",
+        "ch8-s1-control/s4p2_pins.py",
+        "ch8-s1-control/s4p2_policy.py",
+        "ch8-s1-control/s4p2_profile.py",
+        "ch8-s1-control/s4p2_validate.py",
+        "ch8-s1-control/test_s4p2.py",
+        "ch8-s1-control/test_s4p2_boundary.py",
+        "ch8-s1-control/test_s4p2_gate_repair.py",
+        "ch8-s1-control/test_s4p2_paths.py"
+      ],
+      "reference": "2db5d2c08804036d283cb36450647cd584ee9e10"
+    },
+    "source": {
+      "changed_paths": [
+        "library/core/src/slice/sort/shared/smallsort/verify.rs",
+        "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_partition.rs"
+      ],
+      "reference": "985062ebad90cee1e2846b1648cd6a8624d146f6"
+    }
+  },
+  "request_sha256": "c6abee25796842b0a1af44009921045c3da82b36e0fead42a342e7c5d8e74969",
+  "status": "PASS",
+  "task": "bf3aba53618b759a11d3ff277e88ba66530ec708",
+  "workflow_sha256": "4500edba80fbb48258c5b0a29c4d73a97fbb37fb26017da9f8251c147f30bd7f"
+}

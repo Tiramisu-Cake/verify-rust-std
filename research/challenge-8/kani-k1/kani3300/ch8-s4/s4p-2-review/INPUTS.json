@@ -1,0 +1,84 @@
+{
+  "GO": "NOT_GRANTED",
+  "author_commit": "90d861e59f996d35b23a5cb843e311b29efdabf7",
+  "author_handoff_sha256": "d89096cf385591068522c217694b45d559d533f6cf50dd13ef8a76cfbe3f29e0",
+  "author_manifest_sha256": "91344de1af175f054f59da47cf8995e3b0104fb1808469c0583d0b18b456bfd8",
+  "author_packet": "research/challenge-8/kani-k1/kani3300/ch8-s4/s4p-2",
+  "author_pins_sha256": "ce0e5151bf0377275c9117f23486f3210cf85c22fea3865088ce78e6f0029e46",
+  "instruction": "Preserve instructed SolHigh/FastOFF; no subagents/model changes",
+  "issued_by": "user13:05 explicitly /new14 EXACT-PACKAGE review S4P2",
+  "ownership": "only new ch8-s4/s4p-2-review/; original author packet immutable",
+  "pins": {
+    "caps": {
+      "artifact_bytes": 268435456,
+      "campaign_seconds": 6900,
+      "child_seconds": 600,
+      "cleanup_seconds": 240,
+      "compile_seconds": 180,
+      "controller_seconds": 180,
+      "export_bytes": 8388608,
+      "headroom_kib": 2097152,
+      "local_rss_kib": 6291456,
+      "outer_rss_kib": 12582912,
+      "outer_seconds": 7500,
+      "phase_seconds": 8100,
+      "slot_seconds": 720,
+      "stderr_bytes": 1048576,
+      "stdout_bytes": 16777216,
+      "step_seconds": 7560
+    },
+    "control": {
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+      "clean": true,
+      "depth": 7,
+      "repo": "/root/kani-ch8-s4p-2-r1-control-w13",
+      "sha": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556"
+    },
+    "ordered_rows": [
+      "checker_order_corrupt",
+      "checker_count_corrupt",
+      "sort13_weak",
+      "s4p_cell_count_corrupt",
+      "s4p2_network_b01_n02_fullbyte",
+      "s4p2_network_b01_n03_fullbyte",
+      "s4p2_network_b01_n04_fullbyte",
+      "s4p2_network_b01_n00_01_fullbyte"
+    ],
+    "request": {
+      "payload_files": 137,
+      "profile": "ch8-s4p-2-network-fullbyte-singletons-v1",
+      "schema": "ch8-s4p-2-v1",
+      "selfhash_excluded": true,
+      "sha256": "c6abee25796842b0a1af44009921045c3da82b36e0fead42a342e7c5d8e74969",
+      "workflow_sha256": "4500edba80fbb48258c5b0a29c4d73a97fbb37fb26017da9f8251c147f30bd7f"
+    },
+    "source": {
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+      "clean": true,
+      "depth": 5,
+      "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+      "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af"
+    },
+    "tool": {
+      "author_committer": "Ivo Matija\u0161evi\u0107 <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>",
+      "clean": true,
+      "depth": 2,
+      "repo": "/root/kani-upstream-ch8-s1",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+    }
+  },
+  "plan_contracts": {
+    "IMPLEMENTATION-GATES.json": "b9d81c6dcff93f42828e604e147073317c882390af9fd4f18f2f66da747455af",
+    "ROLE-SAT-CONTRACT.json": "c90950843f17903b0271a0cf349e4afd5e9189924119aacb252904f0a0b7ef1d"
+  },
+  "plan_review": "e287943e116a102d5950295b2629d80a62d1f922",
+  "schema": "ch8-s4p-2-exact-review-inputs-v1",
+  "task_commit": "bf3aba53618b759a11d3ff277e88ba66530ec708",
+  "task_path": "research/challenge-8/kani-k1/TASK-CH8-S4P2-EXACT-PACKAGE-REVIEW-W14.md"
+}

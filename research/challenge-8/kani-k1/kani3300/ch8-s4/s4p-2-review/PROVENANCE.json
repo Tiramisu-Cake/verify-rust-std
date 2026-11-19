@@ -1,0 +1,81 @@
+{
+  "GO": "NOT_GRANTED",
+  "author_commit": "90d861e59f996d35b23a5cb843e311b29efdabf7",
+  "instructed_runtime": "SolHigh/FastOFF preserved",
+  "native_CI_push_source_edits_ledger_subagents_model_changes": "NONE",
+  "observations": [
+    {
+      "action": "Independent Python audit.py",
+      "receipt": [
+        "IDENTITIES.json",
+        "PATCH-REPLAYS.json",
+        "FALLBACK-DIFFERENTIAL.json"
+      ],
+      "scope": "hashes/git metadata, isolated temporary index/object replay, synthetic differential fallback; no input writes"
+    },
+    {
+      "action": "runner.verify_source(...,prebuild=True) with observer retaining actual four maps",
+      "receipt": "PREFLIGHT.json",
+      "scope": "actual pinned source; no token/report cache; no compiler"
+    },
+    {
+      "action": "10 selected unittest service/boundary cases",
+      "receipt": "TARGETED.json",
+      "scope": "synthetic execution/resource/Git fixtures; actual writers/public readers; no native tool",
+      "stderr_sha256": "877ff8682afc059e14d217ee076d3552fa38d67a323d96364697127401c42b4b",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "action": "Static diff and source review with exact plan contracts, receipt/workflow/script/hash binding and ancestor depth graph checks",
+      "receipt": [
+        "REVIEW.md",
+        "GATE-REVIEW.json",
+        "VALIDATION-REVIEW.json"
+      ],
+      "scope": "author344 suite receipt independently integrity-checked, not independently rerun"
+    }
+  ],
+  "pins": {
+    "control": {
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+      "clean": true,
+      "depth": 7,
+      "repo": "/root/kani-ch8-s4p-2-r1-control-w13",
+      "sha": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "tree": "48c726afdc23886e43b36b3cb10f3c077f38e556"
+    },
+    "request": {
+      "payload_files": 137,
+      "profile": "ch8-s4p-2-network-fullbyte-singletons-v1",
+      "schema": "ch8-s4p-2-v1",
+      "selfhash_excluded": true,
+      "sha256": "c6abee25796842b0a1af44009921045c3da82b36e0fead42a342e7c5d8e74969",
+      "workflow_sha256": "4500edba80fbb48258c5b0a29c4d73a97fbb37fb26017da9f8251c147f30bd7f"
+    },
+    "source": {
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+      "clean": true,
+      "depth": 5,
+      "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+      "sha": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "tree": "47cca4ee5946b9ab543ea08cba7979cb1d21c4af"
+    },
+    "tool": {
+      "author_committer": "Ivo Matija\u0161evi\u0107 <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>",
+      "clean": true,
+      "depth": 2,
+      "repo": "/root/kani-upstream-ch8-s1",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+    }
+  },
+  "proof_credit": "NONE",
+  "review_delivery_commit": "Full SHA returned externally; containing commit binds manifest, no recursive self hash",
+  "reviewed_at_utc": "2026-11-19T10:17:15.083668+00:00",
+  "reviewer_full_validate_runs": 0,
+  "schema": "ch8-s4p-2-independent-review-provenance-v1",
+  "task": "bf3aba53618b759a11d3ff277e88ba66530ec708"
+}

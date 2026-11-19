@@ -1,0 +1,117 @@
+{
+  "cases": [
+    {
+      "existing_bytes_preserved": false,
+      "object": "precursor",
+      "outcome": "ACCEPTED",
+      "terminal": {}
+    },
+    {
+      "existing_bytes_preserved": true,
+      "object": "precursor",
+      "outcome": "GlobalFailure: malformed existing terminal; refusing normalization",
+      "terminal": {
+        "schema": null
+      }
+    },
+    {
+      "existing_bytes_preserved": true,
+      "object": "precursor",
+      "outcome": "GlobalFailure: malformed existing terminal; refusing normalization",
+      "terminal": {
+        "schema": true
+      }
+    },
+    {
+      "existing_bytes_preserved": true,
+      "object": "precursor",
+      "outcome": "GlobalFailure: malformed existing terminal; refusing normalization",
+      "terminal": {
+        "schema": 8.0
+      }
+    },
+    {
+      "existing_bytes_preserved": true,
+      "object": "precursor",
+      "outcome": "GlobalFailure: malformed existing terminal; refusing normalization",
+      "terminal": {
+        "schema": []
+      }
+    },
+    {
+      "existing_bytes_preserved": true,
+      "object": "precursor",
+      "outcome": "GlobalFailure: malformed existing terminal; refusing normalization",
+      "terminal": {
+        "schema": {}
+      }
+    },
+    {
+      "existing_bytes_preserved": null,
+      "object": "precursor",
+      "outcome": "ACCEPTED",
+      "terminal": null
+    },
+    {
+      "existing_bytes_preserved": true,
+      "object": "final",
+      "outcome": "GlobalFailure: malformed existing terminal; refusing normalization",
+      "terminal": {}
+    },
+    {
+      "existing_bytes_preserved": true,
+      "object": "final",
+      "outcome": "GlobalFailure: malformed existing terminal; refusing normalization",
+      "terminal": {
+        "schema": null
+      }
+    },
+    {
+      "existing_bytes_preserved": true,
+      "object": "final",
+      "outcome": "GlobalFailure: malformed existing terminal; refusing normalization",
+      "terminal": {
+        "schema": true
+      }
+    },
+    {
+      "existing_bytes_preserved": true,
+      "object": "final",
+      "outcome": "GlobalFailure: malformed existing terminal; refusing normalization",
+      "terminal": {
+        "schema": 8.0
+      }
+    },
+    {
+      "existing_bytes_preserved": true,
+      "object": "final",
+      "outcome": "GlobalFailure: malformed existing terminal; refusing normalization",
+      "terminal": {
+        "schema": []
+      }
+    },
+    {
+      "existing_bytes_preserved": true,
+      "object": "final",
+      "outcome": "GlobalFailure: malformed existing terminal; refusing normalization",
+      "terminal": {
+        "schema": {}
+      }
+    },
+    {
+      "existing_bytes_preserved": null,
+      "object": "final",
+      "outcome": "ACCEPTED",
+      "terminal": null
+    }
+  ],
+  "changed_paths": [
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/s4p2_campaign.py",
+    "ch8-s1-control/test_s4p2_boundary.py"
+  ],
+  "closure": "INDEPENDENTLY_CLOSED_ON_EXACT_FINAL_OBJECT",
+  "final": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+  "finding": "AUTHOR-FALLBACK-EMPTY-OBJECT",
+  "precursor": "321c266daf58309ae3eadc6d5c3f358766938ac0"
+}
