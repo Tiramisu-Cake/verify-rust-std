@@ -1,0 +1,279 @@
+{
+  "schema": "s3-2-r1-domains-v1",
+  "source_sha": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+  "roots": [
+    {
+      "id": "checker_order_corrupt",
+      "domain": {
+        "input": [
+          1,
+          2
+        ],
+        "output": [
+          2,
+          1
+        ]
+      },
+      "fullbyte_scope": "literal fixed fixture only",
+      "unwind": 34,
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "loop_maxima": {
+        "backing": 2,
+        "active_span": 2
+      },
+      "actual_state_init_oracle": "no independent init theorem"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "domain": {
+        "input": "[1u8;32]",
+        "output": "out[31]=2"
+      },
+      "fullbyte_scope": "literal fixed fixture only",
+      "unwind": 34,
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "loop_maxima": {
+        "backing": 32,
+        "active_span": 32
+      },
+      "actual_state_init_oracle": "no independent init theorem"
+    },
+    {
+      "id": "sort13_weak",
+      "domain": {
+        "input": [
+          12,
+          11,
+          10,
+          9,
+          8,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0
+        ],
+        "copy": "sort13_fault_network",
+        "ordinary_seam": "s2_swap_seam -> weak_swap",
+        "claim": "fixed descending len13 negative, not arbitrary-byte theorem"
+      },
+      "fullbyte_scope": "literal fixed fixture only",
+      "unwind": 34,
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "loop_maxima": {
+        "backing": 13,
+        "active_span": 13
+      },
+      "actual_state_init_oracle": "no independent init theorem"
+    },
+    {
+      "id": "i_p01_b1_16",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 1,
+        "span": 2,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "fullbyte_scope": "independent0..255 subject to order premises",
+      "unwind": 36,
+      "scope_classification": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "loop_maxima": {
+        "backing": 34,
+        "active_span": 2
+      },
+      "actual_state_init_oracle": "no independent init theorem"
+    },
+    {
+      "id": "m8_s32_d00_allinit",
+      "domain": {
+        "backing": "[MaybeUninit<u8>;48]",
+        "src": 32,
+        "dst": 0,
+        "span": 8,
+        "source_sorted_halves": [
+          4,
+          4
+        ],
+        "initialized_intervals": [
+          [
+            8,
+            48
+          ]
+        ],
+        "uninitialized": "complement in [0,48), including dst",
+        "prior_initialized_values": "arbitrary full bytes, source halves alone sorted",
+        "original_allinit_pairs": 1,
+        "sort8_n32_side": null
+      },
+      "fullbyte_scope": "independent0..255 subject to order premises",
+      "unwind": 50,
+      "scope_classification": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "loop_maxima": {
+        "backing": 48,
+        "active_span": 8
+      },
+      "actual_state_init_oracle": "no independent init theorem"
+    },
+    {
+      "id": "i_p16_b1_16",
+      "domain": {
+        "backing": "initialized [u8;34]",
+        "begin_inclusive": [
+          1,
+          16
+        ],
+        "relative_tail": 16,
+        "span": 17,
+        "premise": "prefix of length p sorted",
+        "original_pairs": 16
+      },
+      "fullbyte_scope": "independent0..255 subject to order premises",
+      "unwind": 36,
+      "scope_classification": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "loop_maxima": {
+        "backing": 34,
+        "active_span": 17
+      },
+      "actual_state_init_oracle": "no independent init theorem"
+    },
+    {
+      "id": "m8_s32_d00_partial_diag",
+      "domain": {
+        "backing": "[MaybeUninit<u8>;48]",
+        "src": 32,
+        "dst": 0,
+        "span": 8,
+        "source_sorted_halves": [
+          4,
+          4
+        ],
+        "initialized_intervals": [
+          [
+            32,
+            40
+          ]
+        ],
+        "uninitialized": "complement in [0,48), including dst",
+        "prior_initialized_values": "arbitrary full bytes, source halves alone sorted",
+        "original_allinit_pairs": 0,
+        "sort8_n32_side": 0
+      },
+      "fullbyte_scope": "independent0..255 subject to order premises",
+      "unwind": 50,
+      "scope_classification": {
+        "category": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "OPEN_UNPROVED",
+        "proof_credit": "NONE"
+      },
+      "loop_maxima": {
+        "backing": 48,
+        "active_span": 8
+      },
+      "actual_state_init_oracle": "NOT_USED; OPEN_UNPROVED; hook constant true under current flags"
+    },
+    {
+      "id": "m8_s40_d16_partial_diag",
+      "domain": {
+        "backing": "[MaybeUninit<u8>;48]",
+        "src": 40,
+        "dst": 16,
+        "span": 8,
+        "source_sorted_halves": [
+          4,
+          4
+        ],
+        "initialized_intervals": [
+          [
+            0,
+            8
+          ],
+          [
+            32,
+            48
+          ]
+        ],
+        "uninitialized": "complement in [0,48), including dst",
+        "prior_initialized_values": "arbitrary full bytes, source halves alone sorted",
+        "original_allinit_pairs": 0,
+        "sort8_n32_side": 1
+      },
+      "fullbyte_scope": "independent0..255 subject to order premises",
+      "unwind": 50,
+      "scope_classification": {
+        "category": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "OPEN_UNPROVED",
+        "proof_credit": "NONE"
+      },
+      "loop_maxima": {
+        "backing": 48,
+        "active_span": 8
+      },
+      "actual_state_init_oracle": "NOT_USED; OPEN_UNPROVED; hook constant true under current flags"
+    }
+  ],
+  "bounds_rule": "Retain stock unwind checks; each source/fixture/spec loop bounded, no domain/alphabet reduction to fit",
+  "claim": "bounded normal-return source-reported functional/frame observations, not stability/genericT/F/termination/unwind theorem",
+  "coverage_maximum_if_bounded_candidates_qualify": {
+    "original_insert_pairs": [
+      32,
+      256
+    ],
+    "original_allinit_merge_pairs": [
+      1,
+      1122
+    ]
+  },
+  "partial_fixture_contexts": {
+    "functional_diagnostics": 2,
+    "full_mask_provider_contexts_closed": 0,
+    "actual_sort8_contexts_still_open": 34
+  }
+}

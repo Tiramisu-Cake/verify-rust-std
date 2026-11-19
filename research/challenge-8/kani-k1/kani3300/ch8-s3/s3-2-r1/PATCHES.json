@@ -1,0 +1,68 @@
+[
+  {
+    "name": "SOURCE-PARENT",
+    "repository": "/root/verify-rust-std-ch8-s3-2-r1-w13",
+    "base": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "tip": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+    "patch_sha256": "bfaecf46076c960b8f2abd5aa643c1ae7298afe299f5a48bceeeacf2543ec070",
+    "bytes": 49349,
+    "replayed_tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+    "expected_tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+    "status": "EXACT_TREE_MATCH_NO_COMPILER"
+  },
+  {
+    "name": "SOURCE-DELTA",
+    "repository": "/root/verify-rust-std-ch8-s3-2-r1-w13",
+    "base": "513341f41ce53833a279571401c924bdddddb6c8",
+    "tip": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+    "patch_sha256": "31320cad030cf6c2283455ac467c3d4970bc147d16cc875bbc0a0fc554a7a04c",
+    "bytes": 11166,
+    "replayed_tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+    "expected_tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+    "status": "EXACT_TREE_MATCH_NO_COMPILER"
+  },
+  {
+    "name": "SOURCE-STOCK",
+    "repository": "/root/verify-rust-std-ch8-s3-2-r1-w13",
+    "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "tip": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+    "patch_sha256": "ed750cde779981f571659a02d0b285a401e38a63a286b71f888cf74db69d2a8d",
+    "bytes": 56537,
+    "replayed_tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+    "expected_tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+    "status": "EXACT_TREE_MATCH_NO_COMPILER"
+  },
+  {
+    "name": "CONTROL-PARENT",
+    "repository": "/root/kani-ch8-s3-2-r1-control-w13",
+    "base": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "tip": "775574eb2f361ef90eade30330ff0d608530287f",
+    "patch_sha256": "27307e538741b83a8be370f550cc660c4d3b4e542b79003effe73b27735898ca",
+    "bytes": 4098470,
+    "replayed_tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+    "expected_tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+    "status": "EXACT_TREE_MATCH_NO_COMPILER"
+  },
+  {
+    "name": "CONTROL-DELTA",
+    "repository": "/root/kani-ch8-s3-2-r1-control-w13",
+    "base": "cb63033ffcde918f4341146e56373476b8eeb569",
+    "tip": "775574eb2f361ef90eade30330ff0d608530287f",
+    "patch_sha256": "c79c45673369eaa5111052facb9fee456faf143d427069da17116f33a2a89a86",
+    "bytes": 1395948,
+    "replayed_tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+    "expected_tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+    "status": "EXACT_TREE_MATCH_NO_COMPILER"
+  },
+  {
+    "name": "CONTROL-STOCK",
+    "repository": "/root/kani-ch8-s3-2-r1-control-w13",
+    "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tip": "775574eb2f361ef90eade30330ff0d608530287f",
+    "patch_sha256": "d9f5082c3c4ce50c343578e9b19ae768e4e1f3929ccb58c766e820f110ae5683",
+    "bytes": 4676007,
+    "replayed_tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+    "expected_tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+    "status": "EXACT_TREE_MATCH_NO_COMPILER"
+  }
+]

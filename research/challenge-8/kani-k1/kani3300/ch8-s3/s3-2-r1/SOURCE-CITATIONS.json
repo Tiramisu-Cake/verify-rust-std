@@ -1,0 +1,136 @@
+{
+  "source": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+  "harnesses": [
+    {
+      "id": "checker_order_corrupt",
+      "commit": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line_start": 136,
+      "line_end": 141,
+      "file_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+      "range_sha256": "f08abada94931f09e3cdcdbe07e29cf50e5fea2d118a653d3cbf965a30cd119a",
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "checker_count_corrupt",
+      "commit": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line_start": 130,
+      "line_end": 135,
+      "file_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+      "range_sha256": "8c60013b62420865b50ed139e5d7f97f8d9d5f82043ba1c03861a6b170773aac",
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "sort13_weak",
+      "commit": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "line_start": 143,
+      "line_end": 150,
+      "file_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+      "range_sha256": "a38e9d89b94cd91b42c591e492c0e83bdcf9dcf9f06dd7c671a1031528a75649",
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "i_p01_b1_16",
+      "commit": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+      "line_start": 22,
+      "line_end": 48,
+      "file_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+      "range_sha256": "b6337455d1a59d30f425b31450a7ed17954f8ecc7cc8e6fb9fe1245c94edf103",
+      "scope_classification": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "m8_s32_d00_allinit",
+      "commit": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+      "line_start": 79,
+      "line_end": 115,
+      "file_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+      "range_sha256": "2223fab53d9cd269cd9d93b6c4d9eb986d8a7e2b770f3702ff74de31db81ecd0",
+      "scope_classification": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "i_p16_b1_16",
+      "commit": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+      "line_start": 50,
+      "line_end": 76,
+      "file_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+      "range_sha256": "a42cbf3fc9e037261ea1593ab0d302288cb4b9c7cf6f3e9dc684d86f8a61602c",
+      "scope_classification": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "m8_s32_d00_partial_diag",
+      "commit": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+      "line_start": 118,
+      "line_end": 154,
+      "file_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+      "range_sha256": "4a3ddf099ce08ba448ebba29f562fadad4160c40579a970cb36e6c665a1884bc",
+      "scope_classification": {
+        "category": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "OPEN_UNPROVED",
+        "proof_credit": "NONE"
+      }
+    },
+    {
+      "id": "m8_s40_d16_partial_diag",
+      "commit": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+      "line_start": 157,
+      "line_end": 193,
+      "file_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+      "range_sha256": "94fb32ee683bc11ce2b8ef806c96b0c325299b30ccef2d59aaadbe6a4b19b16d",
+      "scope_classification": {
+        "category": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "OPEN_UNPROVED",
+        "proof_credit": "NONE"
+      }
+    }
+  ],
+  "kernel_contract_clauses": "SOURCE-GATES.json contract_stacks; exact unchanged source513 smallsort.rs",
+  "stock_init_boundary": "sealed blocker3bb6145 SOURCE-CITATIONS.json plus root20eb DECISION.json; reachable hook, disabled lowering",
+  "assurance": "Static source/Git-object binding, not AST/MIR/independent proof"
+}

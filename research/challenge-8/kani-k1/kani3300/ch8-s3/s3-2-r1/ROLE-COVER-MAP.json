@@ -1,0 +1,694 @@
+{
+  "source_sha": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+  "selected": [
+    {
+      "id": "checker_order_corrupt",
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_CHECKER_ORDER",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 140,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_ORDER\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "checker_count_corrupt",
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_CHECKER_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 134,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_COUNT\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "sort13_weak",
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_SORT13_WEAK",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 149,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_SORT13_WEAK\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "i_p01_b1_16",
+      "scope_classification": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_I_D1_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 25,
+          "source_line": "    kani::assert(active(), \"S32_I_D1_ACTIVE\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_I_D1_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 34,
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[begin..begin + tail + 1]), &v[begin..begin + tail + 1]), \"S32_I_D1_SORTED_FULL_COUNT\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_I_D1_OUTSIDE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 36,
+          "source_line": "        kani::assert((begin <= i && i <= begin + tail) || v[i] == before[i], \"S32_I_D1_OUTSIDE_FRAME\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_I_D1_CANARY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 40,
+          "source_line": "    kani::assert(v[canary] == before[canary], \"S32_I_D1_CANARY\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_I_D1_BASE_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 41,
+          "source_line": "    kani::cover(begin == 1, \"S32_I_D1_BASE_FIRST\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_I_D1_BASE_LAST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 42,
+          "source_line": "    kani::cover(begin == 16, \"S32_I_D1_BASE_LAST\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_I_D1_EARLY_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 43,
+          "source_line": "    kani::cover(before[begin + tail] >= before[begin + tail - 1], \"S32_I_D1_EARLY_RETURN\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_I_D1_FULL_SIFT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 44,
+          "source_line": "    kani::cover(before[begin + tail] < before[begin], \"S32_I_D1_FULL_SIFT\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_I_D1_DUPLICATE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 45,
+          "source_line": "    kani::cover(before[begin + tail] == before[begin], \"S32_I_D1_DUPLICATE\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_I_D1_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 46,
+          "source_line": "    kani::cover(v[begin] < v[begin + tail], \"S32_I_D1_NONCONSTANT\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_I_D1_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 47,
+          "source_line": "    kani::cover(true, \"S32_I_D1_USEFUL_RETURN\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "m8_s32_d00_allinit",
+      "scope_classification": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_ALL_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 82,
+          "source_line": "    kani::assert(active(), \"S32_M8_ALL_ACTIVE\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_ALL_FUNCTIONAL_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 97,
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 8]), &out), \"S32_M8_ALL_FUNCTIONAL_SORTED_FULL_COUNT\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_ALL_KNOWN_VALUE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 100,
+          "source_line": "            kani::assert(unsafe { v[i].assume_init() } == before[i], \"S32_M8_ALL_KNOWN_VALUE_FRAME\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_ALL_SOURCE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 104,
+          "source_line": "        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], \"S32_M8_ALL_SOURCE_FRAME\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_ALL_KNOWN_CANARY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 108,
+          "source_line": "    kani::assert(unsafe { v[canary].assume_init() } == before[canary], \"S32_M8_ALL_KNOWN_CANARY\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_ALL_LEFT_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 109,
+          "source_line": "    kani::cover(before[src] < before[src + 4], \"S32_M8_ALL_LEFT_FIRST\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_ALL_RIGHT_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 110,
+          "source_line": "    kani::cover(before[src] > before[src + 4], \"S32_M8_ALL_RIGHT_FIRST\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_ALL_TIE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 111,
+          "source_line": "    kani::cover(before[src + 3] == before[src + 4], \"S32_M8_ALL_TIE\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_ALL_UNSORTED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 112,
+          "source_line": "    kani::cover(before[src + 3] > before[src + 4], \"S32_M8_ALL_UNSORTED\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_ALL_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 113,
+          "source_line": "    kani::cover(out[0] < out[7], \"S32_M8_ALL_NONCONSTANT\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_ALL_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 114,
+          "source_line": "    kani::cover(true, \"S32_M8_ALL_USEFUL_RETURN\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "i_p16_b1_16",
+      "scope_classification": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_I_D16_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 53,
+          "source_line": "    kani::assert(active(), \"S32_I_D16_ACTIVE\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_I_D16_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 62,
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[begin..begin + tail + 1]), &v[begin..begin + tail + 1]), \"S32_I_D16_SORTED_FULL_COUNT\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_I_D16_OUTSIDE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 64,
+          "source_line": "        kani::assert((begin <= i && i <= begin + tail) || v[i] == before[i], \"S32_I_D16_OUTSIDE_FRAME\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_I_D16_CANARY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 68,
+          "source_line": "    kani::assert(v[canary] == before[canary], \"S32_I_D16_CANARY\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_I_D16_BASE_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 69,
+          "source_line": "    kani::cover(begin == 1, \"S32_I_D16_BASE_FIRST\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_I_D16_BASE_LAST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 70,
+          "source_line": "    kani::cover(begin == 16, \"S32_I_D16_BASE_LAST\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_I_D16_EARLY_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 71,
+          "source_line": "    kani::cover(before[begin + tail] >= before[begin + tail - 1], \"S32_I_D16_EARLY_RETURN\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_I_D16_FULL_SIFT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 72,
+          "source_line": "    kani::cover(before[begin + tail] < before[begin], \"S32_I_D16_FULL_SIFT\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_I_D16_DUPLICATE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 73,
+          "source_line": "    kani::cover(before[begin + tail] == before[begin], \"S32_I_D16_DUPLICATE\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_I_D16_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 74,
+          "source_line": "    kani::cover(v[begin] < v[begin + tail], \"S32_I_D16_NONCONSTANT\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_I_D16_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 75,
+          "source_line": "    kani::cover(true, \"S32_I_D16_USEFUL_RETURN\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "m8_s32_d00_partial_diag",
+      "scope_classification": {
+        "category": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "OPEN_UNPROVED",
+        "proof_credit": "NONE"
+      },
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_L_DIAG_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 121,
+          "source_line": "    kani::assert(active(), \"S32_M8_L_DIAG_ACTIVE\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_L_DIAG_FUNCTIONAL_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 136,
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 8]), &out), \"S32_M8_L_DIAG_FUNCTIONAL_SORTED_FULL_COUNT\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_L_DIAG_KNOWN_VALUE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 139,
+          "source_line": "            kani::assert(unsafe { v[i].assume_init() } == before[i], \"S32_M8_L_DIAG_KNOWN_VALUE_FRAME\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_L_DIAG_SOURCE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 143,
+          "source_line": "        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], \"S32_M8_L_DIAG_SOURCE_FRAME\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_L_DIAG_KNOWN_CANARY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 147,
+          "source_line": "    kani::assert(unsafe { v[canary].assume_init() } == before[canary], \"S32_M8_L_DIAG_KNOWN_CANARY\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_L_DIAG_LEFT_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 148,
+          "source_line": "    kani::cover(before[src] < before[src + 4], \"S32_M8_L_DIAG_LEFT_FIRST\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_L_DIAG_RIGHT_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 149,
+          "source_line": "    kani::cover(before[src] > before[src + 4], \"S32_M8_L_DIAG_RIGHT_FIRST\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_L_DIAG_TIE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 150,
+          "source_line": "    kani::cover(before[src + 3] == before[src + 4], \"S32_M8_L_DIAG_TIE\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_L_DIAG_UNSORTED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 151,
+          "source_line": "    kani::cover(before[src + 3] > before[src + 4], \"S32_M8_L_DIAG_UNSORTED\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_L_DIAG_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 152,
+          "source_line": "    kani::cover(out[0] < out[7], \"S32_M8_L_DIAG_NONCONSTANT\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_L_DIAG_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 153,
+          "source_line": "    kani::cover(true, \"S32_M8_L_DIAG_USEFUL_RETURN\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    },
+    {
+      "id": "m8_s40_d16_partial_diag",
+      "scope_classification": {
+        "category": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "OPEN_UNPROVED",
+        "proof_credit": "NONE"
+      },
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_R_DIAG_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 160,
+          "source_line": "    kani::assert(active(), \"S32_M8_R_DIAG_ACTIVE\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_R_DIAG_FUNCTIONAL_SORTED_FULL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 175,
+          "source_line": "    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 8]), &out), \"S32_M8_R_DIAG_FUNCTIONAL_SORTED_FULL_COUNT\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_R_DIAG_KNOWN_VALUE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 178,
+          "source_line": "            kani::assert(unsafe { v[i].assume_init() } == before[i], \"S32_M8_R_DIAG_KNOWN_VALUE_FRAME\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_R_DIAG_SOURCE_FRAME",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 182,
+          "source_line": "        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], \"S32_M8_R_DIAG_SOURCE_FRAME\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S32_M8_R_DIAG_KNOWN_CANARY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 186,
+          "source_line": "    kani::assert(unsafe { v[canary].assume_init() } == before[canary], \"S32_M8_R_DIAG_KNOWN_CANARY\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_R_DIAG_LEFT_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 187,
+          "source_line": "    kani::cover(before[src] < before[src + 4], \"S32_M8_R_DIAG_LEFT_FIRST\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_R_DIAG_RIGHT_FIRST",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 188,
+          "source_line": "    kani::cover(before[src] > before[src + 4], \"S32_M8_R_DIAG_RIGHT_FIRST\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_R_DIAG_TIE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 189,
+          "source_line": "    kani::cover(before[src + 3] == before[src + 4], \"S32_M8_R_DIAG_TIE\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_R_DIAG_UNSORTED",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 190,
+          "source_line": "    kani::cover(before[src + 3] > before[src + 4], \"S32_M8_R_DIAG_UNSORTED\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_R_DIAG_NONCONSTANT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 191,
+          "source_line": "    kani::cover(out[0] < out[7], \"S32_M8_R_DIAG_NONCONSTANT\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S32_M8_R_DIAG_USEFUL_RETURN",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+          "line": 192,
+          "source_line": "    kani::cover(true, \"S32_M8_R_DIAG_USEFUL_RETURN\");",
+          "source_sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ]
+    }
+  ],
+  "source_counts": {
+    "selected_roots": 8,
+    "negative_controls": 3,
+    "bounded_PFC_candidates": 3,
+    "partial_diagnostic_only": 2,
+    "positive_cover_sites": 32,
+    "literal_assertion_and_cover_sites": 58
+  },
+  "compiled_counts": "UNKNOWN_UNTIL_NATIVE_EXPORT",
+  "producer_binding": "UNKNOWN until complete same-invocation stock+rich export; preserve all instances and exact file/line/class/status, no ordinal guess",
+  "initialization_roles": "NONE; no actual init-mask/dst-init success claim",
+  "unsupported_arrays": "UNKNOWN until export; retain SUCCESS guards distinctly; no FAILED/UNKNOWN waiver; existing strict reader unchanged",
+  "proof_credit": "NONE"
+}

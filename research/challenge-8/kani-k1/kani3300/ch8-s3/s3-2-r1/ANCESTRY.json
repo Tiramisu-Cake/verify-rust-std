@@ -1,0 +1,37 @@
+[
+  {
+    "case": "source",
+    "depth": 5,
+    "expected_head": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+    "observed_head": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+    "required_objects": {
+      "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d": "commit",
+      "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a": "commit",
+      "99e8456d200fff1299ee5756279cddb23921dc65": "commit"
+    },
+    "status": "PASS_LOCAL_SHALLOW_OBJECT_CHECK_NO_BUILD"
+  },
+  {
+    "case": "control",
+    "depth": 7,
+    "expected_head": "775574eb2f361ef90eade30330ff0d608530287f",
+    "observed_head": "775574eb2f361ef90eade30330ff0d608530287f",
+    "required_objects": {
+      "775574eb2f361ef90eade30330ff0d608530287f": "commit",
+      "9e14e033f9ee31522b571c127609dcdff76d230b": "commit",
+      "0aac16ef62da9e9d5645782d458593e5d78143ba": "commit"
+    },
+    "status": "PASS_LOCAL_SHALLOW_OBJECT_CHECK_NO_BUILD"
+  },
+  {
+    "case": "tool",
+    "depth": 2,
+    "expected_head": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "observed_head": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "required_objects": {
+      "0aac16ef62da9e9d5645782d458593e5d78143ba": "commit",
+      "3e095c22a231de1d7acd2410b71f0fc8e6970c19": "commit"
+    },
+    "status": "PASS_LOCAL_SHALLOW_OBJECT_CHECK_NO_BUILD"
+  }
+]

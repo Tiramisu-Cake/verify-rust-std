@@ -1,0 +1,33 @@
+{
+  "schema": "s3-2-r1-exact-final-validate-v1",
+  "command": [
+    "python3",
+    "s32_validate.py"
+  ],
+  "cwd": "/root/kani-ch8-s3-2-r1-control-w13/ch8-s1-control",
+  "control_sha": "775574eb2f361ef90eade30330ff0d608530287f",
+  "execution_count_on_exact_candidate": 1,
+  "exit_code": 0,
+  "elapsed_seconds": 569.6796653000638,
+  "cap_seconds": 1080,
+  "margin": 1.8958022653505429,
+  "required_margin": 1.5,
+  "margin_pass": true,
+  "summary": {
+    "control_sha": "775574eb2f361ef90eade30330ff0d608530287f",
+    "control_tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+    "elapsed_seconds": 569.3193667409942,
+    "errors": 0,
+    "failures": 0,
+    "legacy_tests": 136,
+    "native_compile_proof_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "protected_s3_1_tests": 56,
+    "request_sha256": "75603378a45639991f837ea1ea259f9a56cc452426c6f306cda6d53f5e51e47c",
+    "s3_2_tests": 35,
+    "schema": "ch8-s3-2-validate-v1",
+    "success": true
+  },
+  "native_compile_proof_fit": "NOT_RUN",
+  "scope": "Python static/synthetic/service tests only"
+}

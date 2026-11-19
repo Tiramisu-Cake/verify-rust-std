@@ -1,0 +1,60 @@
+{
+  "schema": "s3-2-r1-package-validation-v1",
+  "status": "PASS_OFFLINE_READY_FOR_INDEPENDENT14_NOT_NATIVE",
+  "exact_source_tool_control_clean_heads_and_trees": 3,
+  "sole_parents": "SOURCE97ac/CONTROL9e14 exact",
+  "request_workflow_payload_bindings": {
+    "payload_hashes": 84,
+    "changed_paths": 101,
+    "deleted_stock_workflows": 16
+  },
+  "source_gate_maps": 4,
+  "effective_contexts_each": 8,
+  "literal_roles_covers_source_line_matches": 58,
+  "positive_cover_sites": 32,
+  "classes": {
+    "negative_controls": 3,
+    "bounded_actual_PFC_candidates": 3,
+    "diagnostic_initialization_open": 2
+  },
+  "final_Validate": {
+    "execution_count": 1,
+    "tests": 227,
+    "elapsed_seconds": 569.6796653000638,
+    "margin": 1.8958022653505429,
+    "status": "PASS"
+  },
+  "source_control_preflight": "PASS",
+  "patch_tree_replays": 6,
+  "shallow_depths": {
+    "control": 7,
+    "source": 5,
+    "tool": 2
+  },
+  "protected_control_modules_exact": 14,
+  "dependency_byte_hash_bindings": 10,
+  "source_fixture_range_bindings": 8,
+  "sealed_blocker": "3bb614566cf2d28e9e207b5df95ce48b51bb1871 preserved",
+  "maximum_candidate_numeric_coverage": {
+    "insert": [
+      32,
+      256
+    ],
+    "allinit_merge": [
+      1,
+      1122
+    ],
+    "partial_provider_contexts_closed": 0,
+    "sort8_mask_contexts_open": 34
+  },
+  "native_compile_proof_cost_fit": "NOT_RUN",
+  "qualified_new_leaves": 0,
+  "closed_proof_obligations": 0,
+  "independent_B1_B2_credit": 0,
+  "limitations": [
+    "Static source coordinates/hashes are not AST/MIR/compiler-instance or pointer-provenance proof",
+    "Actual init-mask/dst-init and full caller/type/locality goals remain OPEN",
+    "All diagnostic evidence/status/U/guard/location/role gates strict; no provider promotion",
+    "No CI/publication/accounting/reservation or cap/tool/flag change"
+  ]
+}

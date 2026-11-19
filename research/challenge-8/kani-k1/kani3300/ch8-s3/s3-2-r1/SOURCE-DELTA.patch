@@ -1,0 +1,211 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify.rs b/library/core/src/slice/sort/shared/smallsort/verify.rs
+index 161bcecc13b2e509b901fba8d2fac8a635b6db0e..ba15b1776ded91ea0830fa455e3ccbb9853d631a 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify.rs
+@@ -100,3 +100,7 @@ pub(super) mod sorting_s2_batch;
+ // S3 actual-body leaf candidate. No assumed consumers are selected.
+ #[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf))]
+ pub(super) mod sorting_s3_leaf;
++
++// S3-2 bounded candidates and explicitly initialization-open partial diagnostics.
++#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf))]
++pub(super) mod sorting_s3_2_leaf;
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..c9b1377104a78cf7732f2324f25aed5ea0eb77ff
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs
+@@ -0,0 +1,193 @@
++//! S3-2 actual-body full-byte finite fixtures; normal-return observations only.
++//! Partial-MU diagnostics do not qualify initialization leaves or providers.
++//! Disabled initialization instrumentation is not an initializedness oracle.
++use super::super::{insert_tail, bidirectional_merge};
++use super::sorting_model::{KeyLess, enabled, snapshot, post};
++use super::{sorting_s2_span as span, sorting_s2_swap as pair};
++use crate::{kani, mem::MaybeUninit, slice};
++
++fn active() -> bool {
++    enabled::<u8, KeyLess<u8>>() && span::active::<u8, KeyLess<u8>>()
++        && pair::enabled::<u8, KeyLess<u8>>()
++}
++fn ordered(v: &[u8]) -> bool {
++    let mut i = 1;
++    while i < v.len() {
++        if v[i] < v[i - 1] { return false; }
++        i += 1;
++    }
++    true
++}
++
++#[kani::proof_for_contract(insert_tail)]
++#[kani::unwind(36)]
++fn i_p01_b1_16() {
++    kani::assert(active(), "S32_I_D1_ACTIVE");
++    let mut v: [u8; 34] = kani::any();
++    let begin: usize = kani::any();
++    kani::assume(1 <= begin && begin <= 16);
++    let tail = 1;
++    kani::assume(ordered(&v[begin..begin + tail]));
++    let before = v;
++    let p = unsafe { v.as_mut_ptr().add(begin) };
++    unsafe { insert_tail(p, p.add(tail), &mut KeyLess::<u8>::new()) };
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[begin..begin + tail + 1]), &v[begin..begin + tail + 1]), "S32_I_D1_SORTED_FULL_COUNT");
++    for i in 0..34 {
++        kani::assert((begin <= i && i <= begin + tail) || v[i] == before[i], "S32_I_D1_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < begin || canary > begin + tail));
++    kani::assert(v[canary] == before[canary], "S32_I_D1_CANARY");
++    kani::cover(begin == 1, "S32_I_D1_BASE_FIRST");
++    kani::cover(begin == 16, "S32_I_D1_BASE_LAST");
++    kani::cover(before[begin + tail] >= before[begin + tail - 1], "S32_I_D1_EARLY_RETURN");
++    kani::cover(before[begin + tail] < before[begin], "S32_I_D1_FULL_SIFT");
++    kani::cover(before[begin + tail] == before[begin], "S32_I_D1_DUPLICATE");
++    kani::cover(v[begin] < v[begin + tail], "S32_I_D1_NONCONSTANT");
++    kani::cover(true, "S32_I_D1_USEFUL_RETURN");
++}
++
++#[kani::proof_for_contract(insert_tail)]
++#[kani::unwind(36)]
++fn i_p16_b1_16() {
++    kani::assert(active(), "S32_I_D16_ACTIVE");
++    let mut v: [u8; 34] = kani::any();
++    let begin: usize = kani::any();
++    kani::assume(1 <= begin && begin <= 16);
++    let tail = 16;
++    kani::assume(ordered(&v[begin..begin + tail]));
++    let before = v;
++    let p = unsafe { v.as_mut_ptr().add(begin) };
++    unsafe { insert_tail(p, p.add(tail), &mut KeyLess::<u8>::new()) };
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[begin..begin + tail + 1]), &v[begin..begin + tail + 1]), "S32_I_D16_SORTED_FULL_COUNT");
++    for i in 0..34 {
++        kani::assert((begin <= i && i <= begin + tail) || v[i] == before[i], "S32_I_D16_OUTSIDE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 34 && (canary < begin || canary > begin + tail));
++    kani::assert(v[canary] == before[canary], "S32_I_D16_CANARY");
++    kani::cover(begin == 1, "S32_I_D16_BASE_FIRST");
++    kani::cover(begin == 16, "S32_I_D16_BASE_LAST");
++    kani::cover(before[begin + tail] >= before[begin + tail - 1], "S32_I_D16_EARLY_RETURN");
++    kani::cover(before[begin + tail] < before[begin], "S32_I_D16_FULL_SIFT");
++    kani::cover(before[begin + tail] == before[begin], "S32_I_D16_DUPLICATE");
++    kani::cover(v[begin] < v[begin + tail], "S32_I_D16_NONCONSTANT");
++    kani::cover(true, "S32_I_D16_USEFUL_RETURN");
++}
++
++// Bounded PFC candidate: fixed offsets, full outside-dst initialized fixture.
++#[kani::proof_for_contract(bidirectional_merge)]
++#[kani::unwind(50)]
++fn m8_s32_d00_allinit() {
++    kani::assert(active(), "S32_M8_ALL_ACTIVE");
++    let before: [u8; 48] = kani::any();
++    let mut v = [MaybeUninit::<u8>::uninit(); 48];
++    let src = 32;
++    let dst = 0;
++    kani::assume(ordered(&before[src..src + 4]) && ordered(&before[src + 4..src + 8]));
++    for i in 0..48 {
++        if i >= 8 { v[i].write(before[i]); }
++    }
++    let p = v.as_mut_ptr().cast::<u8>();
++    // Only src is borrowed; disjoint dst keeps raw provenance. Init is not inferred.
++    unsafe { bidirectional_merge(slice::from_raw_parts(p.add(src), 8), p.add(dst), &mut KeyLess::<u8>::new()) };
++    let mut out = [0u8; 8];
++    // These typed loads retain stock checks but establish no independent init theorem.
++    for i in 0..8 { out[i] = unsafe { v[dst+i].assume_init() }; }
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 8]), &out), "S32_M8_ALL_FUNCTIONAL_SORTED_FULL_COUNT");
++    for i in 0..48 {
++        if (i >= 8) && (i < dst || i >= dst + 8) {
++            kani::assert(unsafe { v[i].assume_init() } == before[i], "S32_M8_ALL_KNOWN_VALUE_FRAME");
++        }
++    }
++    for i in 0..8 {
++        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], "S32_M8_ALL_SOURCE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 48 && (canary >= 8) && (canary < dst || canary >= dst + 8));
++    kani::assert(unsafe { v[canary].assume_init() } == before[canary], "S32_M8_ALL_KNOWN_CANARY");
++    kani::cover(before[src] < before[src + 4], "S32_M8_ALL_LEFT_FIRST");
++    kani::cover(before[src] > before[src + 4], "S32_M8_ALL_RIGHT_FIRST");
++    kani::cover(before[src + 3] == before[src + 4], "S32_M8_ALL_TIE");
++    kani::cover(before[src + 3] > before[src + 4], "S32_M8_ALL_UNSORTED");
++    kani::cover(out[0] < out[7], "S32_M8_ALL_NONCONSTANT");
++    kani::cover(true, "S32_M8_ALL_USEFUL_RETURN");
++}
++
++// DIAGNOSTIC_ONLY_INITIALIZATION_OPEN: no init-mask/provider eligibility.
++#[kani::proof_for_contract(bidirectional_merge)]
++#[kani::unwind(50)]
++fn m8_s32_d00_partial_diag() {
++    kani::assert(active(), "S32_M8_L_DIAG_ACTIVE");
++    let before: [u8; 48] = kani::any();
++    let mut v = [MaybeUninit::<u8>::uninit(); 48];
++    let src = 32;
++    let dst = 0;
++    kani::assume(ordered(&before[src..src + 4]) && ordered(&before[src + 4..src + 8]));
++    for i in 0..48 {
++        if 32 <= i && i < 40 { v[i].write(before[i]); }
++    }
++    let p = v.as_mut_ptr().cast::<u8>();
++    // Only src is borrowed; disjoint dst keeps raw provenance. Init is not inferred.
++    unsafe { bidirectional_merge(slice::from_raw_parts(p.add(src), 8), p.add(dst), &mut KeyLess::<u8>::new()) };
++    let mut out = [0u8; 8];
++    // These typed loads retain stock checks but establish no independent init theorem.
++    for i in 0..8 { out[i] = unsafe { v[dst+i].assume_init() }; }
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 8]), &out), "S32_M8_L_DIAG_FUNCTIONAL_SORTED_FULL_COUNT");
++    for i in 0..48 {
++        if (32 <= i && i < 40) && (i < dst || i >= dst + 8) {
++            kani::assert(unsafe { v[i].assume_init() } == before[i], "S32_M8_L_DIAG_KNOWN_VALUE_FRAME");
++        }
++    }
++    for i in 0..8 {
++        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], "S32_M8_L_DIAG_SOURCE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 48 && (32 <= canary && canary < 40) && (canary < dst || canary >= dst + 8));
++    kani::assert(unsafe { v[canary].assume_init() } == before[canary], "S32_M8_L_DIAG_KNOWN_CANARY");
++    kani::cover(before[src] < before[src + 4], "S32_M8_L_DIAG_LEFT_FIRST");
++    kani::cover(before[src] > before[src + 4], "S32_M8_L_DIAG_RIGHT_FIRST");
++    kani::cover(before[src + 3] == before[src + 4], "S32_M8_L_DIAG_TIE");
++    kani::cover(before[src + 3] > before[src + 4], "S32_M8_L_DIAG_UNSORTED");
++    kani::cover(out[0] < out[7], "S32_M8_L_DIAG_NONCONSTANT");
++    kani::cover(true, "S32_M8_L_DIAG_USEFUL_RETURN");
++}
++
++// DIAGNOSTIC_ONLY_INITIALIZATION_OPEN: no init-mask/provider eligibility.
++#[kani::proof_for_contract(bidirectional_merge)]
++#[kani::unwind(50)]
++fn m8_s40_d16_partial_diag() {
++    kani::assert(active(), "S32_M8_R_DIAG_ACTIVE");
++    let before: [u8; 48] = kani::any();
++    let mut v = [MaybeUninit::<u8>::uninit(); 48];
++    let src = 40;
++    let dst = 16;
++    kani::assume(ordered(&before[src..src + 4]) && ordered(&before[src + 4..src + 8]));
++    for i in 0..48 {
++        if i < 8 || i >= 32 { v[i].write(before[i]); }
++    }
++    let p = v.as_mut_ptr().cast::<u8>();
++    // Only src is borrowed; disjoint dst keeps raw provenance. Init is not inferred.
++    unsafe { bidirectional_merge(slice::from_raw_parts(p.add(src), 8), p.add(dst), &mut KeyLess::<u8>::new()) };
++    let mut out = [0u8; 8];
++    // These typed loads retain stock checks but establish no independent init theorem.
++    for i in 0..8 { out[i] = unsafe { v[dst+i].assume_init() }; }
++    kani::assert(post::<u8, KeyLess<u8>>(snapshot::<u8, KeyLess<u8>>(&before[src..src + 8]), &out), "S32_M8_R_DIAG_FUNCTIONAL_SORTED_FULL_COUNT");
++    for i in 0..48 {
++        if (i < 8 || i >= 32) && (i < dst || i >= dst + 8) {
++            kani::assert(unsafe { v[i].assume_init() } == before[i], "S32_M8_R_DIAG_KNOWN_VALUE_FRAME");
++        }
++    }
++    for i in 0..8 {
++        kani::assert(unsafe { v[src+i].assume_init() } == before[src+i], "S32_M8_R_DIAG_SOURCE_FRAME");
++    }
++    let canary: usize = kani::any();
++    kani::assume(canary < 48 && (canary < 8 || canary >= 32) && (canary < dst || canary >= dst + 8));
++    kani::assert(unsafe { v[canary].assume_init() } == before[canary], "S32_M8_R_DIAG_KNOWN_CANARY");
++    kani::cover(before[src] < before[src + 4], "S32_M8_R_DIAG_LEFT_FIRST");
++    kani::cover(before[src] > before[src + 4], "S32_M8_R_DIAG_RIGHT_FIRST");
++    kani::cover(before[src + 3] == before[src + 4], "S32_M8_R_DIAG_TIE");
++    kani::cover(before[src + 3] > before[src + 4], "S32_M8_R_DIAG_UNSORTED");
++    kani::cover(out[0] < out[7], "S32_M8_R_DIAG_NONCONSTANT");
++    kani::cover(true, "S32_M8_R_DIAG_USEFUL_RETURN");
++}

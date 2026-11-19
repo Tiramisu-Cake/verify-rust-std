@@ -1,0 +1,49 @@
+[
+  {
+    "kind": "STATIC_GATE_PREPARATION",
+    "state": "FAILED_BEFORE_CANDIDATE_SEAL",
+    "check": "s32_lexical_bindings.check",
+    "error": "GateError: name gate: expected ALL11 contexts",
+    "cause": "New profile adapter retained old S3-1 len9 guard; changed only S3-2 guard to exact8",
+    "native": "NOT_RUN",
+    "other_initial_gates": "ordinary/cfgPFC/contract-stack STATIC_PASS; initial aggregate not persisted after exception"
+  },
+  {
+    "kind": "TEST_PREPARATION",
+    "state": "FAILED_UNCOMMITTED_PRECURSOR",
+    "check": "test_s32.CampaignTests",
+    "result": "8 pass/1 error: KeyError s32_campaign",
+    "cause": "Cloned test renamed terminal field while shared producer intentionally retains s3_campaign field; corrected test key only",
+    "native": "NOT_RUN"
+  },
+  {
+    "kind": "COMMAND_SETUP",
+    "state": "FAILED_BEFORE_SERVICE_EXECUTION",
+    "check": "unittest SourceTests/single schedule/path from repository root",
+    "result": "3 import errors: test_s32/test_s32_paths not found",
+    "correction": "Run from ch8-s1-control; no code fix or weakened test",
+    "native": "NOT_RUN"
+  },
+  {
+    "kind": "COMMAND_SETUP",
+    "state": "VALIDATE_SCRIPT_CREATION_FAILED_NOT_EXECUTED",
+    "cause": "Initial relative file path included ch8-s1-control twice from that cwd; wrote file at correct absolute path; final Validate not yet run",
+    "native": "NOT_RUN"
+  },
+  {
+    "kind": "SERVICE_FIXTURE_PREPARATION",
+    "state": "FAILED_UNCOMMITTED_PRECURSOR",
+    "check": "test_s32_paths real writer baseline",
+    "result": "baseline_snapshot_incomplete; missing fixture files outside semantic gate slice",
+    "correction": "Include complete changed_file_sha256 source snapshot in S32-SOURCE.json, preserving all verify_source checks",
+    "native": "NOT_RUN"
+  },
+  {
+    "kind": "REQUEST_BINDING_PREPARATION",
+    "state": "FAILED_UNCOMMITTED_PRECURSOR",
+    "check": "complete stock-relative payload inventory",
+    "error": "FileNotFoundError deleted stock workflow bench-compiler.yml; following targeted suite13 had1 failure/19 errors due incomplete payload equality",
+    "correction": "Explicit ci_deleted_paths pinned to Git deletion inventory; payload covers every remaining changed file except self. Preserve original single-workflow restriction and old S3 gates. New request rebuild before rerun.",
+    "native": "NOT_RUN"
+  }
+]

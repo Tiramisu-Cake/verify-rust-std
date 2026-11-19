@@ -1,0 +1,100 @@
+{
+  "source_sha": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+  "actual_edges": [
+    {
+      "root": "i_p01_b1_16",
+      "target": "insert_tail",
+      "kind": "ACTUAL_BODY_PFC_NO_STUB",
+      "eligible_bounded_candidate": true,
+      "init_provider_or_summary_eligible": false,
+      "scope": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "qualified": false
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "target": "bidirectional_merge",
+      "kind": "ACTUAL_BODY_PFC_NO_STUB",
+      "eligible_bounded_candidate": true,
+      "init_provider_or_summary_eligible": false,
+      "scope": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "qualified": false
+    },
+    {
+      "root": "i_p16_b1_16",
+      "target": "insert_tail",
+      "kind": "ACTUAL_BODY_PFC_NO_STUB",
+      "eligible_bounded_candidate": true,
+      "init_provider_or_summary_eligible": false,
+      "scope": {
+        "category": "BOUNDED_ACTUAL_BODY_PFC_CANDIDATE",
+        "qualification_eligible": true,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "qualified": false
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "target": "bidirectional_merge",
+      "kind": "ACTUAL_BODY_PFC_NO_STUB",
+      "eligible_bounded_candidate": false,
+      "init_provider_or_summary_eligible": false,
+      "scope": {
+        "category": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "OPEN_UNPROVED",
+        "proof_credit": "NONE"
+      },
+      "qualified": false
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "target": "bidirectional_merge",
+      "kind": "ACTUAL_BODY_PFC_NO_STUB",
+      "eligible_bounded_candidate": false,
+      "init_provider_or_summary_eligible": false,
+      "scope": {
+        "category": "DIAGNOSTIC_ONLY_INITIALIZATION_OPEN",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "OPEN_UNPROVED",
+        "proof_credit": "NONE"
+      },
+      "qualified": false
+    }
+  ],
+  "assumed_summary_edges": [],
+  "negative_seam": {
+    "root": "sort13_weak",
+    "target": "s2_swap_seam",
+    "replacement": "weak_swap",
+    "uncontracted": true,
+    "scope": "fixed descending length13 caller copy only"
+  },
+  "mismatch": "insert and merge contracts are broader than these fixture domains; no universal provider summary from a bounded PFC; same-cfg registration is not qualification",
+  "footprint": "Actual PFC declared dst-only modifies retained. Report executed stock obligation at SOURCE_REPORTED scope only after evidence; no independent byte initialization observation inferred.",
+  "remaining_DAG": [
+    "exact-domain typed/geometry providers",
+    "actual sort8 and all34 partial-init contexts",
+    "actual positive9/13",
+    "insertion-loop/caller induction",
+    "final merge2..32/odd center",
+    "full N16/32 and all type/allocation/dispatch rows"
+  ],
+  "qualified_leaves": [],
+  "proof_credit": "NONE"
+}

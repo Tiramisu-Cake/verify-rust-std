@@ -1,0 +1,92 @@
+{
+  "schema": "s3-2-r1-checkpoint-v1",
+  "status": "READY_FOR_INDEPENDENT14_NOT_CI_GO",
+  "task": "be42098995b302cade928d8caf6135adf7a1cc0d",
+  "continuation": "9d8d40db277f61e46a3b7890cc9bf6941df72e13",
+  "boundary": "20eb52b5efe45a89491dced2aab34d40dbe371f7",
+  "runtime": "CURRENT13 Codex high/FastOFF; no subagents/model changes",
+  "source": {
+    "worktree": "/root/verify-rust-std-ch8-s3-2-r1-w13",
+    "sha": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+    "tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+    "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "frozen_reference": "513341f41ce53833a279571401c924bdddddb6c8",
+    "delta_paths": [
+      "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs"
+    ],
+    "production_kernel_and_old_contract_model_bytes": "EXACT_FROZEN_REFERENCE"
+  },
+  "control": {
+    "worktree": "/root/kani-ch8-s3-2-r1-control-w13",
+    "sha": "775574eb2f361ef90eade30330ff0d608530287f",
+    "tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "frozen_reference": "cb63033ffcde918f4341146e56373476b8eeb569",
+    "protected_exact_bytes": {
+      "ch8-s1-control/s3_runtime.py": "2de7a74b746efcde1dd47ad6f5a5686889665481274ae6555ea53f274ef9ef70",
+      "ch8-s1-control/s3_snapshots.py": "c5a1776d927660061f2f853fdf6a5413a2a7b5ea6ffa54e4d748bfb5fff2fb33",
+      "ch8-s1-control/s3_evidence.py": "ba97ad3a307223127dfa41f9e7ddaff235ab97402a1be1b1c609d525190ebf69",
+      "ch8-s1-control/s3_policy.py": "03946c36ce18a2874ce5864ad1e5c0cf8b093c8e6f13034bb68b9e3deed6e2b3",
+      "ch8-s1-control/s3_profile.py": "27cd765264b95ee7e7505870b7aa5a6269c0586820e1a1624e9b8a3df7db3216",
+      "ch8-s1-control/s3_cfg_pfc.py": "a757a156456c36c33bc09b0e7a3a8a4457601e599a320f6f74dbcb91fb823ed3",
+      "ch8-s1-control/s3_ordinary_contracts.py": "deb591972314484bcd95df5f7ce5415abc3bb85dbbfc24e9ac372b47c40b4de7",
+      "ch8-s1-control/s3_contract_stacks.py": "ad7cea13149e6d684ee8e380ce62ab4aeab68887a0786c43055f829ee97f2f5e",
+      "ch8-s1-control/s3_lexical_bindings.py": "fbe3ca43fc800bded1e4da79ace4989233d7e8019c4a823979379921f74e4c5d",
+      "ch8-s1-control/s3_campaign.py": "ea5890eb02b0b5e0f4837a4c22dd77efd7abd5a4f39e6053f2a99c81d81c5e10",
+      "ch8-s1-control/rich_evidence.py": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+      "ch8-s1-control/binding_metadata.py": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030",
+      "ch8-s1-control/rustc_diagnostics.py": "0c94acd85a9f2f7a241958a2c5b9dffce09517bd8d08ddf30bfbdd81ef839b32",
+      "ch8-s1-control/r5_runtime.py": "e796129e9da910879026cbe9a2037cf4834793f97032b2ff21bdf128268c697f"
+    },
+    "shared_runtime_changes": "Explicit new schema/profile routing only; protected lifecycle/snapshots/decoders retained"
+  },
+  "tool": {
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "upgrade_or_patch": false
+  },
+  "claims": [
+    {
+      "claim": "Exact8-row implementation with3 fixed controls/3 bounded actual PFC candidates/2 diagnostic-only initialization-open partial fixtures",
+      "assurance": "Source/static/synthetic service implementation only; no native proof",
+      "evidence": [
+        "PINS.json",
+        "ROOT-BINDINGS.json",
+        "DOMAIN-UNWIND.json",
+        "ROLE-COVER-MAP.json",
+        "PROVIDER-DAG.json"
+      ]
+    },
+    {
+      "claim": "Exact committed final Validate passed once:227 tests,0 errors/failures,margin>=1.5; source/control preflight pass",
+      "assurance": "Python/static/source service checks only",
+      "evidence": [
+        "FINAL-VALIDATE.json",
+        "SOURCE-PREFLIGHT.json",
+        "CONTROL-PREFLIGHT.json"
+      ]
+    },
+    {
+      "claim": "6 exact temporary-index tree patch replays, depths7/5/2 required objects and protected byte checks pass",
+      "assurance": "Git/source/document consistency only",
+      "evidence": [
+        "PATCHES.json",
+        "ANCESTRY.json",
+        "VALIDATION.json"
+      ]
+    }
+  ],
+  "open": [
+    "Independent14 exact implementation/boundary review and root/coordinator GO",
+    "Native compile/proof/cost/fit NOT_RUN; no qualified new leaves",
+    "Actual partial init-mask/dst-init/source-ownership and34 sort8 caller contexts OPEN",
+    "Universal provider/caller contracts and full N16/32/type/odd-merge/locality obligations OPEN"
+  ],
+  "qualified_new_leaves": 0,
+  "proof_obligations_closed": 0,
+  "independent_B1_B2_credit": 0,
+  "next": "Root checks ready fullg0/manifest/pins/budget; independent14 at s3-2-r1-review/; any findings return CURRENT13 as immutable repair, no CI/publication/accounting from READY",
+  "closure_reason": "Authorized eight-row source/profile/diagnostic scope implementation, strict gates and service tests, exact once-only final validation/preflight, six patch replays/shallow ancestry/pins/review handoff completed. Further native work/publication/accounting not authorized; independent14 is a separate assigned role."
+}
