@@ -1,0 +1,13 @@
+# GO request — #4591 focused tests r4
+
+Root **AGREES to one new full standard CI campaign** for the exact reviewed r4 tree. SAME W11 review `2b733341d662b3b1246d10bb313752219ff213e9` is APPROVE with no blockers; R1–R4 closed. Package `2a11df42b94cbdfdb567b0ca8d288b0a9cdfc02c` and its 11 committed files/10 hashes are verified. Compiler and issue4591 repro pair remain byte-exact; reduction is confined to six test paths, from38 declarations to7. PR text remains with the coordinator.
+
+Reviewed local candidate: `2dcb2c2d9325d2aa15c21a325cf0c7c320403466`, tree `b05ea48016f1cb8f20a1e7032394e602929b6e3b`, sole parent `031fc085cd4373b5fc93a55128d5a69fdbd88df1`. Coordinator creates a **new nonskip same-tree sibling**, with that sole031 parent. Do not publish the skipped candidate or make a child of it. The complete range from retained base `969f4648980a8e66cd0ca32fd3e714a55ac32cef` must be exactly published6f, published031, new final, all nonskip. Fast-forward the existing fork branch; no force/rebase/squash.
+
+Run this packet's `check_push_head.py SOURCE_REPO FINAL_FULL_SHA` on the actual final head: require exit0, MATCH and no errors. The prior r3 gate expecting parent6f is obsolete for r4. Refresh connected branch/main and active runs immediately before the authorized update. Current fork head is031, upstream main remainsc25, and all three oldhead runs are terminal. Base969f remains the reviewed base; any material identity/source drift returns root.
+
+Use the unmodified standard workflows on `Tiramisu-Cake/kani:fix/stub-contracted-function`: **Kani CI** with all five regression platforms, benchcomp, perf, LLBC and docs; **Kani Format Check** with format and Clippy; **Cargo Deny**. One campaign, no filters/custom substitute or automatic retry. GO-REQUEST.json seals the three workflow hashes. Numerical budgets are tracking only. Coordinator alone consents to final publication/dispatch and records the ledger row; root has not pushed, launched or accounted anything.
+
+New compilation, compiletest and native outcomes are **NOT_RUN**. Five positive harnesses intend success; two expected-mode harnesses intend semantic verification failures whose exact descriptions and named summaries must match. A compile error, missed property or once-guard failure cannot substitute. Historical r3 regression successes and perf attribution do not validate this tree or waive perf.
+
+After dispatch, provide actual full head/ref and Kani/Format/Deny run IDs. Intake begins only after all three runs are actually terminal, including failure, and records the observed conclusions/limits. No automatic fixes/reruns or PR publication. The coordinator keeps the external PR draft and adds the actual new Testing URL/result; this packet contains no PR rewrite.

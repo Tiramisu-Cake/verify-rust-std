@@ -1,0 +1,109 @@
+{
+  "schema": "kani-4591-r4-root-recheck-v1",
+  "checked_at": "2026-11-19T11:18:08.829986+00:00",
+  "author": {
+    "package_commit": "2a11df42b94cbdfdb567b0ca8d288b0a9cdfc02c",
+    "files": 11,
+    "manifest_hashes": 10,
+    "source_head": "2dcb2c2d9325d2aa15c21a325cf0c7c320403466",
+    "tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+    "sole_parent": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+    "changed_paths": [
+      "tests/expected/function-contract/ordinary_stub_fail.expected",
+      "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "tests/expected/function-contract/ordinary_stub_overlap.expected",
+      "tests/expected/function-contract/ordinary_stub_overlap.rs",
+      "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs"
+    ],
+    "protected_tree_ids": {
+      "kani-compiler": "712d5307f14c5ad079ce676a74ef470e9316361a",
+      "library": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932",
+      ".github/workflows": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0",
+      "scripts": "17ce41a6b9744224defd3a87247736f82992e550"
+    },
+    "seven_harnesses": {
+      "tests/kani/FunctionContracts/ordinary_stub.rs": [
+        "ordinary_stub",
+        "replacement_provider",
+        "replacement_verified_contract",
+        "replacement_contract_target"
+      ],
+      "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs": [
+        "ordinary_stub_original_mode"
+      ],
+      "tests/expected/function-contract/ordinary_stub_fail.rs": [
+        "replacement_provider_postcondition"
+      ],
+      "tests/expected/function-contract/ordinary_stub_issue_4591.rs": [
+        "check_caller"
+      ]
+    },
+    "issue_reproducer_pair": "BYTE_EXACT",
+    "source_clean": true,
+    "whitespace": "PASS",
+    "replays": [
+      {
+        "base": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+        "patch": "FULL-969f.patch",
+        "sha256": "376c143d2303ae2c862a60dbb4c592e40301cbc6d92ce6f344ff86c8d574c617",
+        "tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+        "status": "PASS"
+      },
+      {
+        "base": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+        "patch": "NARROW-031.patch",
+        "sha256": "49900e9fe7535a95365042fa08cbb7cba79932329fe6fcf1cc0656ed9e21abe2",
+        "tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+        "status": "PASS"
+      }
+    ],
+    "PR_scope": "OWNER_ONLY_EXCLUDED",
+    "native": "NOT_RUN",
+    "next": "SAME W11 independent exact review"
+  },
+  "review": {
+    "review": "2b733341d662b3b1246d10bb313752219ff213e9",
+    "review_files": 5,
+    "review_hashes": 4,
+    "source_head": "2dcb2c2d9325d2aa15c21a325cf0c7c320403466",
+    "source_clean": true,
+    "disposition": "APPROVE",
+    "closed": [
+      "R1",
+      "R2",
+      "R3",
+      "R4"
+    ],
+    "R5": "OWNER_TEXT_EXCLUDED",
+    "native": "NOT_RUN"
+  },
+  "published_ref_matches_parent": true,
+  "upstream_main": "c25a57bcbf8c8af41617e7171a535a3518ce514a",
+  "retained_base": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+  "prior_head_native_runs_all_terminal": true,
+  "native_new_candidate": "NOT_RUN",
+  "final_head": "NOT_CREATED",
+  "final_head_gate_positive": "PENDING_ACTUAL_FINAL_SHA",
+  "authentic_skipped_candidate_negative_gate": {
+    "status": "REJECT",
+    "head": "2dcb2c2d9325d2aa15c21a325cf0c7c320403466",
+    "tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+    "parents": [
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1"
+    ],
+    "range": [
+      "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+      "2dcb2c2d9325d2aa15c21a325cf0c7c320403466"
+    ],
+    "errors": [
+      "new nonskip repair sibling required",
+      "whole969f..final range must be present and nonskip",
+      "skipped candidate must stay outside published range"
+    ],
+    "authorization_granted": false
+  },
+  "no_external_PR_write": true,
+  "no_CI_push_accounting": true
+}

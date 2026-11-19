@@ -1,0 +1,55 @@
+{
+  "checked_at": "2026-11-19T11:16:22.370Z",
+  "remote_ref": {
+    "ref": "refs/heads/fix/stub-contracted-function",
+    "node_id": "REF_kwDOVp9vW9oAJ3JlZnMvaGVhZHMvZml4L3N0dWItY29udHJhY3RlZC1mdW5jdGlvbg",
+    "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/refs/heads/fix/stub-contracted-function",
+    "object": {
+      "sha": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+      "type": "commit",
+      "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/commits/031fc085cd4373b5fc93a55128d5a69fdbd88df1"
+    }
+  },
+  "upstream_main_ref": {
+    "ref": "refs/heads/main",
+    "node_id": "MDM6UmVmMzUxODgyMTY0OnJlZnMvaGVhZHMvbWFpbg==",
+    "url": "https://api.github.com/repos/model-checking/kani/git/refs/heads/main",
+    "object": {
+      "sha": "c25a57bcbf8c8af41617e7171a535a3518ce514a",
+      "type": "commit",
+      "url": "https://api.github.com/repos/model-checking/kani/git/commits/c25a57bcbf8c8af41617e7171a535a3518ce514a"
+    }
+  },
+  "prior_head_runs": [
+    {
+      "id": 44461124056,
+      "name": "Kani Format Check",
+      "status": "completed",
+      "conclusion": "success",
+      "head": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+      "ref": "fix/stub-contracted-function",
+      "attempt": 1,
+      "event": "push"
+    },
+    {
+      "id": 44461124017,
+      "name": "Cargo Deny",
+      "status": "completed",
+      "conclusion": "success",
+      "head": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+      "ref": "fix/stub-contracted-function",
+      "attempt": 1,
+      "event": "push"
+    },
+    {
+      "id": 44461123962,
+      "name": "Kani CI",
+      "status": "completed",
+      "conclusion": "failure",
+      "head": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+      "ref": "fix/stub-contracted-function",
+      "attempt": 1,
+      "event": "push"
+    }
+  ]
+}
