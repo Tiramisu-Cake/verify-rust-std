@@ -1,0 +1,58 @@
+{
+  "schema": "system-zero-offline-inputs-v1",
+  "task_commit": "1b4280d0cc0625bcb35aa108ffd602a6a20db1fc",
+  "task_path": "research/challenge-8/kani-k1/TASK-CH8-S4-SYSTEM-ZERO-LOCATION-W11.md",
+  "task_sha256": "8cca97de26eb0ac16780ae88512164cf0e7672f34cf70a850feb864aace71b6f",
+  "pins": {
+    "schema": "ch8-network-plan-review-emitter-inputs-v1",
+    "authority": "User11:59 admits twofallbacks, authorizes W14planreview then W13implementation; W11 offline commonemitter investigation",
+    "base_task_commit": "0f39a22f0148755e7ba881736e77b54f74b01cb5",
+    "intake": "842984040e87b8b8594653634b72df7d800ca198",
+    "intake_review": "3c7bd65cf0bb758cb82dc56ef71a8b8e23efd5c0",
+    "admission": "9bb6e2b7a18e338f532ec817f8acfd7515fc2fc9",
+    "conditional_plan": "e43156f54416491b8688db0cb28325ccf8238d1d",
+    "conditional_plan_rootcheck": "11files10hashes/8committeddependencies/12sourcecitations26ranges MATCH",
+    "plan_update": "CURRENT13 authorized ONE immutable network-after-s4p1-plan-r1/ update; ROOT MUST bind actual committed READY fullSHA before W14planreview",
+    "source": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+    "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "control": "2db5d2c08804036d283cb36450647cd584ee9e10",
+    "five_case_set": {
+      "merge8_review": "028531727fc48ef9f26f16dfb95c2b2666c96dd7",
+      "merge8_admission": "ff193cc35690a5daabaa849d412c58d9f286d893",
+      "merge8_review_path": "kani3300/ch8-s3/run-44439462279-review-w14/LOCATION-DECISION.json",
+      "merge8_ids": [
+        "m8_s32_d00_allinit",
+        "m8_s32_d00_partial_diag",
+        "m8_s40_d16_partial_diag"
+      ],
+      "fallback_review": "3c7bd65cf0bb758cb82dc56ef71a8b8e23efd5c0",
+      "fallback_review_path": "kani3300/ch8-s4/run-44481580554-review-w14/LOCATION-DECISION.json",
+      "fallback_ids": [
+        "s4p_fallback_b01_n00_02_fullbyte",
+        "s4p_fallback_b01_n03_04_fullbyte"
+      ],
+      "count": 5,
+      "additional_sort4_reference": {
+        "review": "a9fe0055aab3279e3f5bb71bde9667925da80e65",
+        "admission": "f74025e493a627962842e8f7bc6a2766d33dd300",
+        "id": "s3_sort4_u8_same_alloc",
+        "scope": "Optional SIXTH historical reference, not silently counted in the five merge/fallback cases"
+      }
+    },
+    "rule_activation": "NOT_AUTHORIZED; exactcase admissions retained/commonemitterUNKNOWN until actual binding",
+    "outputs": {
+      "plan_review": "kani3300/ch8-s4/network-after-s4p1-plan-review-w14/",
+      "emitter": "kani3300/ch8-s4/system-zero-location-feasibility/"
+    },
+    "implementation_gate": "User authorized after actual APPROVE scopedplan/noblockers; root prepares exact implementation task then newsource/controlpackage independently reviewed before GO/CI",
+    "accounting": "TRACKING_ONLY item1used32/item2used15/total47; no root accounting writes"
+  },
+  "target_count": 5,
+  "optional_sixth_reference": "NOT_USED; not part of targets",
+  "evidence_mode": "Existing immutable review/admission/intake projections and exact Git source only; no artifact acquisition/intake recomputation",
+  "settings": "current SolHigh/FastOFF unchanged; no subagents/model changes",
+  "output_scope": "research/challenge-8/kani-k1/kani3300/ch8-s4/system-zero-location-feasibility",
+  "unrelated_initial_worktree_changes_preserved": [
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-after-s4p1-plan-r1/"
+  ]
+}

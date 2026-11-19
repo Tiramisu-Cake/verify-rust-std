@@ -1,0 +1,97 @@
+{
+  "schema": "system-zero-source-trace-v1",
+  "result": "COMMON_EMITTER_UNKNOWN",
+  "strongest_candidate": {
+    "id": "KANI_MIR_UNREACHABLE_ASSERT_ASSUME_FALSE",
+    "static_site": "T01",
+    "class_message_source_scope_uniqueness": {
+      "literal_hits": [
+        "0aac16ef62da9e9d5645782d458593e5d78143ba:kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs:514:                \"unreachable code\","
+      ],
+      "PropertyClass_Unreachable_hits": [
+        "0aac16ef62da9e9d5645782d458593e5d78143ba:kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs:513:                PropertyClass::Unreachable,"
+      ],
+      "scope": "Pinned kani-compiler+cprover_bindings+kani-driver source; not external CBMC source or historical GOTO/MIR instance"
+    },
+    "necessary_candidate_inputs": [
+      "The exact codegen path must receive MIR TerminatorKind::Unreachable",
+      "Actual term.source_info.span conversion must produce the historical file/line/column and current function",
+      "Post-transform GOTO/property label must map that instruction to each exact recorded full ID",
+      "Observed native result must bind the same instruction to SUCCESS in the same singleton invocation"
+    ],
+    "actual_inputs_or_site_instance_observed": "UNKNOWN; candidate source code is present, native per-instruction binding is not"
+  },
+  "chain": [
+    {
+      "stage": "Rust fixture/callee paths",
+      "citations": [
+        "S01",
+        "S02",
+        "S03",
+        "S04"
+      ],
+      "established": "Exact source bodies, differing proof modes/type/geometry and callee paths",
+      "unknown": "Which expression, synthetic insertion or inlined body produced the target Unreachable span"
+    },
+    {
+      "stage": "MIR generation/transform",
+      "citations": [
+        "T14",
+        "T15",
+        "T16"
+      ],
+      "established": "Several source routes can create Unreachable with source_info; compiler enum comment also mentions intrinsic versus compiler assumptions",
+      "unknown": "Actual historical MIR block, span, pass history and causal route"
+    },
+    {
+      "stage": "Codegen template",
+      "citations": [
+        "T01",
+        "T02"
+      ],
+      "established": "Unique literal+enum-use Kani source candidate emits assert(false); assume(false); supplied loc",
+      "unknown": "Actual instruction instance for each of5 packets"
+    },
+    {
+      "stage": "Source-location propagation",
+      "citations": [
+        "T03",
+        "T04",
+        "T05",
+        "T06",
+        "T07"
+      ],
+      "established": "Span filename/coordinates/current function -> Location/Property/Irep -> GOTO;0 accepted and preserved on this route",
+      "unknown": "Actual stable/rustc Span object, generated source filename/byte position and cache history that yield lib.rs0"
+    },
+    {
+      "stage": "External transformation and property naming",
+      "citations": [
+        "T08",
+        "T09",
+        "T10"
+      ],
+      "established": "Kani delegates harness/GOTO transformation and CBMC processing; consumer parses function.class.counter and demangles names",
+      "unknown": "Authenticated raw GOTO/check label/instruction map; .1 is not established as stable source identity"
+    },
+    {
+      "stage": "Regular display and stock export",
+      "citations": [
+        "T10",
+        "T11",
+        "T12"
+      ],
+      "established": "Optional raw location strings display0 unchanged; ordinary SUCCESS lacks per-property source object in stock export; rich record has display fields",
+      "unknown": "Raw successful property source object and origin/lowering trace"
+    },
+    {
+      "stage": "Rich normalizer",
+      "citations": [
+        "T13"
+      ],
+      "established": "Same pinned reader bytes across both controls; authentic-field static reconstruction reproduces both present-null coordinates and display text",
+      "unknown": "Normalization equivalence does not establish a shared emitter or positive source/MIR origin"
+    }
+  ],
+  "finding": "A shared generic compiler template is a plausible source route for all5. This does not establish the same semantic system check, same inserted instruction, same original Rust site, or same cause of0:0. No new actual-site binding is available in these sealed projections."
+}

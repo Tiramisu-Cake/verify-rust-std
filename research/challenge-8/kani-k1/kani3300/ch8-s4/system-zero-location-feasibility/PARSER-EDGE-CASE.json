@@ -1,0 +1,96 @@
+{
+  "status": "SOURCE_ONLY_FINDING_NOT_APPLIED",
+  "scope": "Synthetic normalizer grammar discriminator;5 actual exact0:0 packets unaffected",
+  "parser_sha256": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+  "citations": [
+    "T13"
+  ],
+  "input": "library/core/src/lib.rs:0:17 in function SYNTHETIC_HARNESS",
+  "observed": "Regex can consume :0 as part of filename and parse17 as a positive line, producing normalized filename lib.rs:0 and line17 rather than a null pair",
+  "evidence": [
+    {
+      "root": "m8_s32_d00_allinit",
+      "input": "SYNTHETIC_linezero_column17",
+      "result": "COLON_AMBIGUITY_FILENAME_ENDS_lib.rs:0_LINE17",
+      "record": {
+        "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.unreachable.1",
+        "class": "unreachable",
+        "description": "unreachable code",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs:0",
+        "line": "17",
+        "status": "SUCCESS",
+        "location_display": "library/core/src/lib.rs:0:17 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.unreachable.1"
+      },
+      "effect_on_actual0_0": "NONE; targets remain present-null"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "input": "SYNTHETIC_linezero_column17",
+      "result": "COLON_AMBIGUITY_FILENAME_ENDS_lib.rs:0_LINE17",
+      "record": {
+        "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.unreachable.1",
+        "class": "unreachable",
+        "description": "unreachable code",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs:0",
+        "line": "17",
+        "status": "SUCCESS",
+        "location_display": "library/core/src/lib.rs:0:17 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.unreachable.1"
+      },
+      "effect_on_actual0_0": "NONE; targets remain present-null"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "input": "SYNTHETIC_linezero_column17",
+      "result": "COLON_AMBIGUITY_FILENAME_ENDS_lib.rs:0_LINE17",
+      "record": {
+        "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.unreachable.1",
+        "class": "unreachable",
+        "description": "unreachable code",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs:0",
+        "line": "17",
+        "status": "SUCCESS",
+        "location_display": "library/core/src/lib.rs:0:17 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.unreachable.1"
+      },
+      "effect_on_actual0_0": "NONE; targets remain present-null"
+    },
+    {
+      "root": "s4p_fallback_b01_n00_02_fullbyte",
+      "input": "SYNTHETIC_linezero_column17",
+      "result": "COLON_AMBIGUITY_FILENAME_ENDS_lib.rs:0_LINE17",
+      "record": {
+        "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.unreachable.1",
+        "class": "unreachable",
+        "description": "unreachable code",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs:0",
+        "line": "17",
+        "status": "SUCCESS",
+        "location_display": "library/core/src/lib.rs:0:17 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.unreachable.1"
+      },
+      "effect_on_actual0_0": "NONE; targets remain present-null"
+    },
+    {
+      "root": "s4p_fallback_b01_n03_04_fullbyte",
+      "input": "SYNTHETIC_linezero_column17",
+      "result": "COLON_AMBIGUITY_FILENAME_ENDS_lib.rs:0_LINE17",
+      "record": {
+        "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.unreachable.1",
+        "class": "unreachable",
+        "description": "unreachable code",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs:0",
+        "line": "17",
+        "status": "SUCCESS",
+        "location_display": "library/core/src/lib.rs:0:17 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.unreachable.1"
+      },
+      "effect_on_actual0_0": "NONE; targets remain present-null"
+    }
+  ],
+  "consequence": "Do not generalize actual0:0 normalization to every linezero/column form or use positive syntactic location as proof of source origin. A future rule needs precise structured source fields and actual binding.",
+  "active_reader_or_policy_modified": false,
+  "native_claim": false,
+  "repair_or_followup_authorized_here": false
+}

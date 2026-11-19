@@ -1,0 +1,385 @@
+{
+  "schema": "offline-emitter-discriminators-v1",
+  "same_invocation_counterexamples": [
+    {
+      "root": "m8_s32_d00_allinit",
+      "class_unreachable_SUCCESS_total": 43,
+      "located_sameclass_SUCCESS_count": 42,
+      "located_sameclass_literal_suffix1_count": 42,
+      "counterexamples": [
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.unreachable.1",
+          "line": "405",
+          "location_display": "library/core/src/slice/index.rs:405:5 in function <ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<usize as iter::range::Step>::forward_unchecked::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/iter/range.rs",
+          "id": "<usize as iter::range::Step>::forward_unchecked::{closure#0}.unreachable.1",
+          "line": "269",
+          "location_display": "library/core/src/iter/range.rs:269:9 in function <usize as iter::range::Step>::forward_unchecked::{closure#0}",
+          "status": "SUCCESS"
+        }
+      ],
+      "excludes": "Class+status+literal+.unreachable.1 is not an actual-site key; some located counterexamples are std/core checks too."
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "class_unreachable_SUCCESS_total": 43,
+      "located_sameclass_SUCCESS_count": 42,
+      "located_sameclass_literal_suffix1_count": 42,
+      "counterexamples": [
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.unreachable.1",
+          "line": "405",
+          "location_display": "library/core/src/slice/index.rs:405:5 in function <ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<usize as iter::range::Step>::forward_unchecked::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/iter/range.rs",
+          "id": "<usize as iter::range::Step>::forward_unchecked::{closure#0}.unreachable.1",
+          "line": "269",
+          "location_display": "library/core/src/iter/range.rs:269:9 in function <usize as iter::range::Step>::forward_unchecked::{closure#0}",
+          "status": "SUCCESS"
+        }
+      ],
+      "excludes": "Class+status+literal+.unreachable.1 is not an actual-site key; some located counterexamples are std/core checks too."
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "class_unreachable_SUCCESS_total": 43,
+      "located_sameclass_SUCCESS_count": 42,
+      "located_sameclass_literal_suffix1_count": 42,
+      "counterexamples": [
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "<ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index.unreachable.1",
+          "line": "405",
+          "location_display": "library/core/src/slice/index.rs:405:5 in function <ops::range::Range<usize> as slice::index::SliceIndex<[u8]>>::index",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<usize as iter::range::Step>::forward_unchecked::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/iter/range.rs",
+          "id": "<usize as iter::range::Step>::forward_unchecked::{closure#0}.unreachable.1",
+          "line": "269",
+          "location_display": "library/core/src/iter/range.rs:269:9 in function <usize as iter::range::Step>::forward_unchecked::{closure#0}",
+          "status": "SUCCESS"
+        }
+      ],
+      "excludes": "Class+status+literal+.unreachable.1 is not an actual-site key; some located counterexamples are std/core checks too."
+    },
+    {
+      "root": "s4p_fallback_b01_n00_02_fullbyte",
+      "class_unreachable_SUCCESS_total": 40,
+      "located_sameclass_SUCCESS_count": 39,
+      "located_sameclass_literal_suffix1_count": 39,
+      "counterexamples": [
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "<ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index.unreachable.1",
+          "line": "405",
+          "location_display": "library/core/src/slice/index.rs:405:5 in function <ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index_mut.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "<ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index_mut.unreachable.1",
+          "line": "419",
+          "location_display": "library/core/src/slice/index.rs:419:5 in function <ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index_mut",
+          "status": "SUCCESS"
+        }
+      ],
+      "excludes": "Class+status+literal+.unreachable.1 is not an actual-site key; some located counterexamples are std/core checks too."
+    },
+    {
+      "root": "s4p_fallback_b01_n03_04_fullbyte",
+      "class_unreachable_SUCCESS_total": 40,
+      "located_sameclass_SUCCESS_count": 39,
+      "located_sameclass_literal_suffix1_count": 39,
+      "counterexamples": [
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "<ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index.unreachable.1",
+          "line": "405",
+          "location_display": "library/core/src/slice/index.rs:405:5 in function <ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index_mut.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/index.rs",
+          "id": "<ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index_mut.unreachable.1",
+          "line": "419",
+          "location_display": "library/core/src/slice/index.rs:419:5 in function <ops::range::Range<usize> as slice::index::SliceIndex<[cell::Cell<u8>]>>::index_mut",
+          "status": "SUCCESS"
+        }
+      ],
+      "excludes": "Class+status+literal+.unreachable.1 is not an actual-site key; some located counterexamples are std/core checks too."
+    }
+  ],
+  "total_class_unreachable_SUCCESS": 209,
+  "located_other_class_unreachable_SUCCESS": 204,
+  "target_zero_records": 5,
+  "source_discriminators": [
+    {
+      "hypothesis": "PFC-specific check necessarily explains all5",
+      "result": "NOT_A_NECESSARY_CONDITION",
+      "evidence": "Three PFC merge packets versus two Original fallback packets; source contract/inlining transforms remain possible upstream routes, not excluded generally."
+    },
+    {
+      "hypothesis": "Cell-only or partial-init-only check explains all5",
+      "result": "NOT_A_NECESSARY_CONDITION",
+      "evidence": "u8 merge with multiple initialization footprints versus initialized logical Cell fallback; no generic initialization theorem inferred."
+    },
+    {
+      "hypothesis": "Direct abort_immediate property is the offending check",
+      "result": "DIRECT_EMITTER_CLASS_MESSAGE_DO_NOT_MATCH",
+      "citations": [
+        "T17",
+        "T01"
+      ],
+      "limit": "A later Unreachable terminator after nonreturning calls is not excluded."
+    },
+    {
+      "hypothesis": "Regular normalizer creates lib.rs:0:0",
+      "result": "REJECTED_STATICALLY",
+      "citations": [
+        "T13"
+      ],
+      "evidence": "Parser preserves supplied location_display; positive-decimal matcher maps the exact0:0, absent and Unknown displays to null pair; synthetic0:17 shows colon ambiguity, not an actual packet change. It does not originate display0."
+    },
+    {
+      "hypothesis": "Kani Location::None is exactly observed present zero source location",
+      "result": "NOT_ESTABLISHED; static representations differ",
+      "citations": [
+        "T04",
+        "T06",
+        "T10"
+      ],
+      "evidence": "None serializes no file/function while Loc/Property copies numeric0; external transformations unbound."
+    },
+    {
+      "hypothesis": "lib.rs:0:0 is a positive Rust coordinate or harness declaration line",
+      "result": "REJECTED",
+      "evidence": "Line0 is not a positive source coordinate; valid harness registration/role lines cannot be substituted."
+    }
+  ],
+  "normalizer_boundary_tests": [
+    {
+      "root": "m8_s32_d00_allinit",
+      "input": "authentic stored display fields",
+      "result": "PRESENT_NULL_WITH_DISPLAY_PRESERVED",
+      "is_native_reexecution": false
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "input": "SYNTHETIC_omitted",
+      "result": "NULL_PAIR_BUT_DISTINCT_DISPLAY; no origin inference"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "input": "SYNTHETIC_unknown_file",
+      "result": "NULL_PAIR_BUT_DISTINCT_DISPLAY; no origin inference"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "input": "SYNTHETIC_positive_line",
+      "result": "LOCATED_SYNTAX_ONLY; never substituted into target packet"
+    },
+    {
+      "root": "m8_s32_d00_allinit",
+      "input": "SYNTHETIC_linezero_column17",
+      "result": "COLON_AMBIGUITY_FILENAME_ENDS_lib.rs:0_LINE17",
+      "record": {
+        "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.unreachable.1",
+        "class": "unreachable",
+        "description": "unreachable code",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs:0",
+        "line": "17",
+        "status": "SUCCESS",
+        "location_display": "library/core/src/lib.rs:0:17 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_allinit.unreachable.1"
+      },
+      "effect_on_actual0_0": "NONE; targets remain present-null"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "input": "authentic stored display fields",
+      "result": "PRESENT_NULL_WITH_DISPLAY_PRESERVED",
+      "is_native_reexecution": false
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "input": "SYNTHETIC_omitted",
+      "result": "NULL_PAIR_BUT_DISTINCT_DISPLAY; no origin inference"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "input": "SYNTHETIC_unknown_file",
+      "result": "NULL_PAIR_BUT_DISTINCT_DISPLAY; no origin inference"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "input": "SYNTHETIC_positive_line",
+      "result": "LOCATED_SYNTAX_ONLY; never substituted into target packet"
+    },
+    {
+      "root": "m8_s32_d00_partial_diag",
+      "input": "SYNTHETIC_linezero_column17",
+      "result": "COLON_AMBIGUITY_FILENAME_ENDS_lib.rs:0_LINE17",
+      "record": {
+        "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.unreachable.1",
+        "class": "unreachable",
+        "description": "unreachable code",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs:0",
+        "line": "17",
+        "status": "SUCCESS",
+        "location_display": "library/core/src/lib.rs:0:17 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s32_d00_partial_diag.unreachable.1"
+      },
+      "effect_on_actual0_0": "NONE; targets remain present-null"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "input": "authentic stored display fields",
+      "result": "PRESENT_NULL_WITH_DISPLAY_PRESERVED",
+      "is_native_reexecution": false
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "input": "SYNTHETIC_omitted",
+      "result": "NULL_PAIR_BUT_DISTINCT_DISPLAY; no origin inference"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "input": "SYNTHETIC_unknown_file",
+      "result": "NULL_PAIR_BUT_DISTINCT_DISPLAY; no origin inference"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "input": "SYNTHETIC_positive_line",
+      "result": "LOCATED_SYNTAX_ONLY; never substituted into target packet"
+    },
+    {
+      "root": "m8_s40_d16_partial_diag",
+      "input": "SYNTHETIC_linezero_column17",
+      "result": "COLON_AMBIGUITY_FILENAME_ENDS_lib.rs:0_LINE17",
+      "record": {
+        "id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.unreachable.1",
+        "class": "unreachable",
+        "description": "unreachable code",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs:0",
+        "line": "17",
+        "status": "SUCCESS",
+        "location_display": "library/core/src/lib.rs:0:17 in function slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_s3_2_leaf::m8_s40_d16_partial_diag.unreachable.1"
+      },
+      "effect_on_actual0_0": "NONE; targets remain present-null"
+    },
+    {
+      "root": "s4p_fallback_b01_n00_02_fullbyte",
+      "input": "authentic stored display fields",
+      "result": "PRESENT_NULL_WITH_DISPLAY_PRESERVED",
+      "is_native_reexecution": false
+    },
+    {
+      "root": "s4p_fallback_b01_n00_02_fullbyte",
+      "input": "SYNTHETIC_omitted",
+      "result": "NULL_PAIR_BUT_DISTINCT_DISPLAY; no origin inference"
+    },
+    {
+      "root": "s4p_fallback_b01_n00_02_fullbyte",
+      "input": "SYNTHETIC_unknown_file",
+      "result": "NULL_PAIR_BUT_DISTINCT_DISPLAY; no origin inference"
+    },
+    {
+      "root": "s4p_fallback_b01_n00_02_fullbyte",
+      "input": "SYNTHETIC_positive_line",
+      "result": "LOCATED_SYNTAX_ONLY; never substituted into target packet"
+    },
+    {
+      "root": "s4p_fallback_b01_n00_02_fullbyte",
+      "input": "SYNTHETIC_linezero_column17",
+      "result": "COLON_AMBIGUITY_FILENAME_ENDS_lib.rs:0_LINE17",
+      "record": {
+        "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.unreachable.1",
+        "class": "unreachable",
+        "description": "unreachable code",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs:0",
+        "line": "17",
+        "status": "SUCCESS",
+        "location_display": "library/core/src/lib.rs:0:17 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n00_02_fullbyte.unreachable.1"
+      },
+      "effect_on_actual0_0": "NONE; targets remain present-null"
+    },
+    {
+      "root": "s4p_fallback_b01_n03_04_fullbyte",
+      "input": "authentic stored display fields",
+      "result": "PRESENT_NULL_WITH_DISPLAY_PRESERVED",
+      "is_native_reexecution": false
+    },
+    {
+      "root": "s4p_fallback_b01_n03_04_fullbyte",
+      "input": "SYNTHETIC_omitted",
+      "result": "NULL_PAIR_BUT_DISTINCT_DISPLAY; no origin inference"
+    },
+    {
+      "root": "s4p_fallback_b01_n03_04_fullbyte",
+      "input": "SYNTHETIC_unknown_file",
+      "result": "NULL_PAIR_BUT_DISTINCT_DISPLAY; no origin inference"
+    },
+    {
+      "root": "s4p_fallback_b01_n03_04_fullbyte",
+      "input": "SYNTHETIC_positive_line",
+      "result": "LOCATED_SYNTAX_ONLY; never substituted into target packet"
+    },
+    {
+      "root": "s4p_fallback_b01_n03_04_fullbyte",
+      "input": "SYNTHETIC_linezero_column17",
+      "result": "COLON_AMBIGUITY_FILENAME_ENDS_lib.rs:0_LINE17",
+      "record": {
+        "id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.unreachable.1",
+        "class": "unreachable",
+        "description": "unreachable code",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs:0",
+        "line": "17",
+        "status": "SUCCESS",
+        "location_display": "library/core/src/lib.rs:0:17 in function slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte",
+        "display_id": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_fallback_b01_n03_04_fullbyte.unreachable.1"
+      },
+      "effect_on_actual0_0": "NONE; targets remain present-null"
+    }
+  ],
+  "policy_or_history_changed": false
+}
