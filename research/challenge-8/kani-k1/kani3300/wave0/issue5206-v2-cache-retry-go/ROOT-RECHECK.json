@@ -1,0 +1,81 @@
+{
+  "schema": "root-issue5206-cache-retry-recheck-v1",
+  "checked_at": "2026-11-19T22:03:06.694951+00:00",
+  "checks_passed": 22,
+  "checks": [
+    "Latest native run is failed terminal attempt1, no retry started",
+    "Exact source/ref/push/workflow identity",
+    "Remote source ref unchanged",
+    "All nine attempt1 Kani instances terminal",
+    "Only ubuntu22 regression failed",
+    "Exactly four remaining regression jobs cancelled",
+    "Four non-regression Kani jobs succeeded",
+    "All three original standard workflows terminal at same exact source",
+    "Original Format/Deny successes retained; Kani failure not waived",
+    "Clean exact source/tree/sole parent unchanged",
+    "Exact shared test/cache/toolchain/workflow Git object tests/script-based-pre/codegen_cache",
+    "Exact shared test/cache/toolchain/workflow Git object kani-compiler/src/codegen_cprover_gotoc/codegen/cache",
+    "Exact shared test/cache/toolchain/workflow Git object rust-toolchain.toml",
+    "Exact shared test/cache/toolchain/workflow Git object .github/workflows/kani.yml",
+    "Pinned cache source has debug-gated instrumentation and TLS instance",
+    "Stats header emitted by Drop only in instrumented implementation with env set",
+    "Existing fixture requires stats header and hit-rate/cache-count oracle; no weakening",
+    "Historical v2 GO unchanged research/challenge-8/kani-k1/kani3300/wave0/issue5206-v2-go/GO-REQUEST.json",
+    "Historical v2 GO unchanged research/challenge-8/kani-k1/kani3300/wave0/issue5206-v2-go/GO-REQUEST.md",
+    "Historical v2 GO unchanged research/challenge-8/kani-k1/kani3300/wave0/issue5206-v2-go/MANIFEST.json",
+    "Historical v2 GO unchanged research/challenge-8/kani-k1/kani3300/wave0/issue5206-v2-go/ROOT-RECHECK.json",
+    "New immutable retry GO output absent"
+  ],
+  "exact_head": "a65ffdbdccfe5c3620b50c416870f1085a987d30",
+  "tree": "3b62ab0119dd49d6ef0dac37774fd4664e6b2535",
+  "sole_parent": "0997d11c14cb2da0824efc34e2c4001e53ac0faf",
+  "workflow_sha256": {
+    ".github/workflows/kani.yml": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+    ".github/workflows/format-check.yml": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8",
+    ".github/workflows/deny.yml": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf"
+  },
+  "shared_source_Git_objects": {
+    "tests/script-based-pre/codegen_cache": {
+      "candidate": "769427a56a2c4f1a95d54638a8f274c56bcd717d",
+      "base": "769427a56a2c4f1a95d54638a8f274c56bcd717d",
+      "comparison5172": "769427a56a2c4f1a95d54638a8f274c56bcd717d"
+    },
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/cache": {
+      "candidate": "56bdbc321db3756065b2be9782e506d4035d92c3",
+      "base": "56bdbc321db3756065b2be9782e506d4035d92c3",
+      "comparison5172": "56bdbc321db3756065b2be9782e506d4035d92c3"
+    },
+    "rust-toolchain.toml": {
+      "candidate": "1cdf94ea9b42256403997a5114d3b9ec10785d2d",
+      "base": "1cdf94ea9b42256403997a5114d3b9ec10785d2d",
+      "comparison5172": "1cdf94ea9b42256403997a5114d3b9ec10785d2d"
+    },
+    ".github/workflows/kani.yml": {
+      "candidate": "3e34d8ac3c0844d9ac9409790e7cb0a669381dad",
+      "base": "3e34d8ac3c0844d9ac9409790e7cb0a669381dad",
+      "comparison5172": "3e34d8ac3c0844d9ac9409790e7cb0a669381dad"
+    }
+  },
+  "previous_GO_bindings": {
+    "research/challenge-8/kani-k1/kani3300/wave0/issue5206-v2-go/GO-REQUEST.json": {
+      "sha256": "51d36494ff84ac095cafc7ee6baabc489670679356e0244ddeed2ea0a138005f",
+      "bytes": 4007
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/issue5206-v2-go/GO-REQUEST.md": {
+      "sha256": "bb8aa76bbc35cdaca9bef8317644e9136e96b734a1f9b0b56d8f1941a65d778f",
+      "bytes": 2352
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/issue5206-v2-go/MANIFEST.json": {
+      "sha256": "a5cdbe2f80ee3786bfb151b972da830e8b27788332d71a5052700c6315480b79",
+      "bytes": 525
+    },
+    "research/challenge-8/kani-k1/kani3300/wave0/issue5206-v2-go/ROOT-RECHECK.json": {
+      "sha256": "8cfd8de52a2e1eea0f50c9f3fb52b5686a98822e2c95be507bf1c0e9388eb396",
+      "bytes": 8964
+    }
+  },
+  "old_failure_not_waived": true,
+  "possible_causes": "Unknown: instrumented debug-vs-release build, binary/env selection, cache use/lifetime/TLS termination/output capture, indirect source effects. No cause independently established.",
+  "root_helper_note": "Initial cross-repository comparison tried a cea object absent from the issue5206 object database. Repeated in the designated pr5172 repository, all four selected object IDs matched. No missing-fixture conclusion, source edit or native rerun followed.",
+  "limits": "No raw logs, per-test native output, full archives/GCS, local compiler/formatter/fixture execution. Header absence and individual suite counts are coordinator-reported."
+}

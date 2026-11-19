@@ -1,0 +1,111 @@
+{
+  "schema": "issue5206-codegen-cache-failed-jobs-retry-go-v1",
+  "root_consent": "AGREE_ONE_DIAGNOSTIC_RERUN_FAILED_JOBS",
+  "decision_at": "2026-11-19T22:03:06.694951+00:00",
+  "repo": "Tiramisu-Cake/kani",
+  "run_id": 44616139446,
+  "original_attempt": 1,
+  "prospective_attempt": 2,
+  "exact_head": "a65ffdbdccfe5c3620b50c416870f1085a987d30",
+  "source_tree": "3b62ab0119dd49d6ef0dac37774fd4664e6b2535",
+  "sole_parent": "0997d11c14cb2da0824efc34e2c4001e53ac0faf",
+  "ref": "fix/stub-contract-target-conflict-v2",
+  "event": "push",
+  "workflow": ".github/workflows/kani.yml",
+  "workflow_sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+  "source_workflows_flags_tests_unchanged": true,
+  "previous_GO": {
+    "commit": "b4b6a33d8ab6354ec6942961462340cc2cfc35ee",
+    "consumed_by": "44616139446/1",
+    "historical_outcomes_preserved": true
+  },
+  "attempt1_snapshot": {
+    "path": "ATTEMPT-1-NATIVE.json",
+    "sha256": "8a1358909353e738932fff2aa5313a041d872e6861b78b3c49071b3d317a7667",
+    "must_use_attempt_specific_endpoints": true
+  },
+  "command_for_coordinator": [
+    "gh",
+    "run",
+    "rerun",
+    "44616139446",
+    "--failed",
+    "--repo",
+    "Tiramisu-Cake/kani"
+  ],
+  "rerun_scope": {
+    "failed_job_ids": [
+      135885222974
+    ],
+    "cancelled_job_ids": [
+      135885222694,
+      135885222798,
+      135885222825,
+      135885223222
+    ],
+    "expected_job_names": [
+      "regression (ubuntu-22.04)",
+      "regression (ubuntu-24.04)",
+      "regression (ubuntu-24.04-arm)",
+      "regression (macos-15-intel)",
+      "regression (macos-15)"
+    ],
+    "expected_regression_instances": 5,
+    "successful_Kani_jobs": "Do not request rerun of docs/perf/LLBC/benchcomp; prior same-head results retained with original execution timestamps",
+    "separate_Format_Deny": "Not rerun; same-head successful original workflows retained",
+    "actual_attempt2_job_ids": "UNKNOWN_UNTIL_COORDINATOR_DISPATCH"
+  },
+  "immediate_dispatch_gate": [
+    "Latest run still completed FAILURE attempt1 on exact a65 head/ref and unchanged workflow",
+    "Only ubuntu22 failed and exactly four other regressions cancelled; no other unexpected failed/pending state",
+    "Source ref/pins unchanged; no retry already queued/running/finished",
+    "Coordinator records ledger row and runs exact --failed command once; root does not dispatch/account",
+    "If native attempt is already2, inspect it without issuing another rerun"
+  ],
+  "failure_evidence": {
+    "native_verified": "Run/source/attempt/ref/conclusions and per-job/step metadata only",
+    "coordinator_reported": {
+      "test": "script-based-pre/codegen_cache",
+      "failure": "FAIL: no cache statistics were printed",
+      "fixture_exit": 0,
+      "fixture_elapsed_approx_seconds": 1.1,
+      "kani_suite_failed": 0,
+      "kani_suite_passed": 660,
+      "expected_suite_failed": 0,
+      "expected_suite_passed": 564,
+      "script_based_pre_passed": 101,
+      "script_based_pre_failed": 1,
+      "possible_TLS_destructor_timing": "HYPOTHESIS_UNPROVEN",
+      "reported_other_same_fixture_pass": "#5172 ubuntu22 plus upstream main; root independently verified matching source trees, not per-test logs"
+    },
+    "source_verified": "Fixture/cache-module/toolchain/Kani workflow objects identical to0997 andcea; test requires debug-assertions instrumentation, CACHE_STATS and TLS Drop output",
+    "attribution": "UNKNOWN. TLS timing/flakiness is a plausible hypothesis, not established cause. Unchanged cache source does not rule out indirect effects from this patch or build/environment differences.",
+    "source_of_individual_5172_test_pass": "Coordinator-reported; no raw per-test output inspected by root"
+  },
+  "conditions": [
+    "No source/test/oracle/profile/flag/cap/toolchain modifications, no skipped cache test or relaxed stats threshold",
+    "One additional attempt only; no automatic third attempt or rerun-until-green",
+    "If codegen_cache fails again, coordinator assigns bounded investigation instead of another rerun",
+    "If a different new failure appears, report and obtain a separate decision; this GO grants no additional retry",
+    "A successful retry is a result on this exact head, not proof that the first failure was flaky or harmless"
+  ],
+  "followup_if_repeated": {
+    "required": "Worker investigation before further CI decision",
+    "first_questions": [
+      "Actual compiler binary/build profile and debug_assertions at failure",
+      "CACHE_STATS propagation to compiler process",
+      "Whether cache initialized/used and how compiler/TLS owner thread terminates",
+      "Drop/destructor output capture and same-fixture comparison under controlled main/fix setup"
+    ],
+    "authorization": "No source fix/native experiment/new CI is launched by this GO; coordinator issues bounded task"
+  },
+  "accounting": {
+    "item": 1,
+    "policy": "TRACKING_ONLY",
+    "owner": "COORDINATOR",
+    "root_changes": false
+  },
+  "postrun": "Use attempt1 frozen snapshot and /attempts/1 plus separate /attempts/2 metadata. Preserve all cancellations/failures. Distinguish freshly executed retry jobs from carried-forward successful jobs. Bounded factual intake after terminal.",
+  "publication": "New upstream PR/body/comments/push remain owner-command only; no waiver from this retry",
+  "root_actions": "Static Git/source/native metadata and local retry GO packet only; no compiler/fixture/native tests/CI/rerun/cancel/push/ledger/accounting."
+}

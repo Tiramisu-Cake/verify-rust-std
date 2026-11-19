@@ -1,0 +1,464 @@
+{
+  "checked_at": "2026-11-19T22:01:26.651Z",
+  "latest_run": {
+    "id": 44616139446,
+    "name": "Kani CI",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "a65ffdbdccfe5c3620b50c416870f1085a987d30",
+    "head_branch": "fix/stub-contract-target-conflict-v2",
+    "event": "push",
+    "run_attempt": 1,
+    "path": ".github/workflows/kani.yml",
+    "created_at": "2026-11-19T21:10:51Z",
+    "updated_at": "2026-11-19T21:55:56Z"
+  },
+  "attempt1_jobs": [
+    {
+      "id": 135885222447,
+      "name": "documentation",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-19T21:10:54Z",
+      "completed_at": "2026-11-19T21:12:45Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install book dependencies",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Documentation",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Publish Documentation",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Post Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 135885222670,
+      "name": "benchcomp-tests",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-19T21:10:55Z",
+      "completed_at": "2026-11-19T21:16:46Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install benchcomp dependencies",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Setup Kani Dependencies",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Kani using release mode",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run benchcomp unit and regression tests",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 135885222694,
+      "name": "regression (ubuntu-24.04)",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-11-19T21:10:54Z",
+      "completed_at": "2026-11-19T21:35:12Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Setup Kani Dependencies",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Execute Kani regression",
+          "status": "completed",
+          "conclusion": "cancelled"
+        },
+        {
+          "name": "Post Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 135885222798,
+      "name": "regression (ubuntu-24.04-arm)",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-11-19T21:10:57Z",
+      "completed_at": "2026-11-19T21:35:11Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Setup Kani Dependencies",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Execute Kani regression",
+          "status": "completed",
+          "conclusion": "cancelled"
+        },
+        {
+          "name": "Post Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 135885222825,
+      "name": "regression (macos-15-intel)",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-11-19T21:10:59Z",
+      "completed_at": "2026-11-19T21:35:16Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Setup Kani Dependencies",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Execute Kani regression",
+          "status": "completed",
+          "conclusion": "cancelled"
+        },
+        {
+          "name": "Post Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 135885222844,
+      "name": "llbc-regression",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-19T21:10:55Z",
+      "completed_at": "2026-11-19T21:21:50Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Setup Kani Dependencies",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build Kani with Charon",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run tests",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 135885222916,
+      "name": "perf",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-19T21:10:55Z",
+      "completed_at": "2026-11-19T21:55:55Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Setup Kani Dependencies",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Execute Kani performance tests",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 135885222974,
+      "name": "regression (ubuntu-22.04)",
+      "status": "completed",
+      "conclusion": "failure",
+      "started_at": "2026-11-19T21:10:55Z",
+      "completed_at": "2026-11-19T21:34:55Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Setup Kani Dependencies",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Execute Kani regression",
+          "status": "completed",
+          "conclusion": "failure"
+        },
+        {
+          "name": "Post Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 135885223222,
+      "name": "regression (macos-15)",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-11-19T21:11:46Z",
+      "completed_at": "2026-11-19T21:35:18Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Setup Kani Dependencies",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Execute Kani regression",
+          "status": "completed",
+          "conclusion": "cancelled"
+        },
+        {
+          "name": "Post Checkout Kani",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "same_head_workflows": [
+    {
+      "id": 44616139673,
+      "name": "Cargo Deny",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a65ffdbdccfe5c3620b50c416870f1085a987d30",
+      "head_branch": "fix/stub-contract-target-conflict-v2",
+      "event": "push",
+      "run_attempt": 1,
+      "path": ".github/workflows/deny.yml",
+      "created_at": "2026-11-19T21:10:51Z",
+      "updated_at": "2026-11-19T21:11:48Z"
+    },
+    {
+      "id": 44616139604,
+      "name": "Kani Format Check",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "a65ffdbdccfe5c3620b50c416870f1085a987d30",
+      "head_branch": "fix/stub-contract-target-conflict-v2",
+      "event": "push",
+      "run_attempt": 1,
+      "path": ".github/workflows/format-check.yml",
+      "created_at": "2026-11-19T21:10:51Z",
+      "updated_at": "2026-11-19T21:14:35Z"
+    },
+    {
+      "id": 44616139446,
+      "name": "Kani CI",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "a65ffdbdccfe5c3620b50c416870f1085a987d30",
+      "head_branch": "fix/stub-contract-target-conflict-v2",
+      "event": "push",
+      "run_attempt": 1,
+      "path": ".github/workflows/kani.yml",
+      "created_at": "2026-11-19T21:10:51Z",
+      "updated_at": "2026-11-19T21:55:56Z"
+    }
+  ],
+  "fork_ref": {
+    "ref": "refs/heads/fix/stub-contract-target-conflict-v2",
+    "node_id": "REF_kwDOVp9vW9oAL3JlZnMvaGVhZHMvZml4L3N0dWItY29udHJhY3QtdGFyZ2V0LWNvbmZsaWN0LXYy",
+    "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/refs/heads/fix/stub-contract-target-conflict-v2",
+    "object": {
+      "sha": "a65ffdbdccfe5c3620b50c416870f1085a987d30",
+      "type": "commit",
+      "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/commits/a65ffdbdccfe5c3620b50c416870f1085a987d30"
+    }
+  },
+  "coordinator_report": {
+    "test": "script-based-pre/codegen_cache",
+    "failure": "FAIL: no cache statistics were printed",
+    "fixture_exit": 0,
+    "fixture_elapsed_approx_seconds": 1.1,
+    "kani_suite_failed": 0,
+    "kani_suite_passed": 660,
+    "expected_suite_failed": 0,
+    "expected_suite_passed": 564,
+    "script_based_pre_passed": 101,
+    "script_based_pre_failed": 1,
+    "possible_TLS_destructor_timing": "HYPOTHESIS_UNPROVEN",
+    "reported_other_same_fixture_pass": "#5172 ubuntu22 plus upstream main; root independently verified matching source trees, not per-test logs"
+  },
+  "scope": "Native metadata and coordinator-reported bounded failure description. No raw logs or archives accessed."
+}
