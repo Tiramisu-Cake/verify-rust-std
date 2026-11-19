@@ -1,0 +1,86 @@
+{
+  "recorded_at": "2026-11-19T11:42:56.354Z",
+  "runs": [
+    {
+      "id": 44516395307,
+      "name": "Kani CI",
+      "status": "queued",
+      "conclusion": null,
+      "run_attempt": 1,
+      "event": "push",
+      "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+      "head_branch": "fix/stub-contracted-function",
+      "path": ".github/workflows/kani.yml",
+      "workflow_id": 413949266,
+      "run_started_at": "2026-11-19T11:36:50Z",
+      "updated_at": "2026-11-19T11:36:50Z",
+      "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307"
+    },
+    {
+      "id": 44516395718,
+      "name": "Kani Format Check",
+      "status": "in_progress",
+      "conclusion": null,
+      "run_attempt": 1,
+      "event": "push",
+      "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+      "head_branch": "fix/stub-contracted-function",
+      "path": ".github/workflows/format-check.yml",
+      "workflow_id": 413949264,
+      "run_started_at": "2026-11-19T11:36:50Z",
+      "updated_at": "2026-11-19T11:36:55Z",
+      "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395718"
+    },
+    {
+      "id": 44516395278,
+      "name": "Cargo Deny",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "push",
+      "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+      "head_branch": "fix/stub-contracted-function",
+      "path": ".github/workflows/deny.yml",
+      "workflow_id": 413949259,
+      "run_started_at": "2026-11-19T11:36:50Z",
+      "updated_at": "2026-11-19T11:37:37Z",
+      "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395278"
+    }
+  ],
+  "head": {
+    "sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+    "tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+    "parents": [
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1"
+    ],
+    "message": "Reduce ordinary stub regressions to seven focused harnesses"
+  },
+  "remote_ref": {
+    "ref": "refs/heads/fix/stub-contracted-function",
+    "sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1"
+  },
+  "root_head_gate": {
+    "status": "MATCH",
+    "head": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+    "tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+    "parents": [
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1"
+    ],
+    "range": [
+      "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+      "b3019ab3f9c83a25cd4d870e49e49121b3327bb1"
+    ],
+    "errors": [],
+    "authorization_granted": false
+  },
+  "coordinator_report": {
+    "at": "14:40 Moscow",
+    "GO": "be748cef7b254f30e6136774f8aa879fd6ecf020",
+    "ledger_short": "9d328217da",
+    "item1_used": 33,
+    "item2_used": 16,
+    "total_used": 49,
+    "policy": "TRACKING_ONLY_NOT_LIMIT"
+  }
+}

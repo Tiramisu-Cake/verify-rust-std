@@ -1,0 +1,245 @@
+{
+  "schema": "kani-4591-r4-full-standard-ci-postrun-inputs-v1",
+  "stage": "PREPARED_WAIT_ALL_THREE_NATIVE_TERMINAL",
+  "authority": "Owner-authorized reduction then SAME W11 exact review/new full CI; coordinator14:40 launched under rootGO be748 and authorizes completion intake. No worker before all three actualterminal includingfailure/cancelled.",
+  "GO": {
+    "commit": "be748cef7b254f30e6136774f8aa879fd6ecf020",
+    "path": "kani3300/wave0/issue4591-r4-go/",
+    "consumed_by_this_campaign": true
+  },
+  "source_package": {
+    "commit": "2a11df42b94cbdfdb567b0ca8d288b0a9cdfc02c",
+    "path": "kani3300/wave0/issue4591-test-reduction-r4/"
+  },
+  "exact_review": {
+    "commit": "2b733341d662b3b1246d10bb313752219ff213e9",
+    "path": "kani3300/wave0/issue4591-test-reduction-review-w11-r4/",
+    "verdict": "APPROVE",
+    "blockers": 0,
+    "R1_R4": "CLOSED",
+    "R5": "OWNER_TEXT_EXCLUDED"
+  },
+  "expected_identity": {
+    "repo": "Tiramisu-Cake/kani",
+    "attempt": 1,
+    "event": "push",
+    "head": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+    "tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+    "parents": [
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1"
+    ],
+    "ref": "fix/stub-contracted-function",
+    "runs": {
+      "Kani CI": 44516395307,
+      "Kani Format Check": 44516395718,
+      "Cargo Deny": 44516395278
+    }
+  },
+  "source": {
+    "repository": "/root/kani-issue4591-test-reduction-r4-w15",
+    "published_head": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+    "tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+    "base": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "sole_parent": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+    "local_same_tree_candidate": "2dcb2c2d9325d2aa15c21a325cf0c7c320403466",
+    "local_HEAD_is_candidate_not_published": true,
+    "files": {
+      "kani-compiler/src/kani_middle/transform/contracts.rs": {
+        "git_blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+        "sha256": "c8433cc928a57285e3d7d117a4b8d5187db2ec6ebcec819c4b6744612470bf91",
+        "bytes": 39769
+      },
+      "kani-compiler/src/kani_middle/transform/mod.rs": {
+        "git_blob": "38ea0963da5bccfa015f023aa7301debe2f360a4",
+        "sha256": "cee27768c3a4a4ad71c75d411e237d4aadedf9ff20a5962d4e93ecbf660c8ee9",
+        "bytes": 17670
+      },
+      "kani-compiler/src/kani_middle/transform/stubs.rs": {
+        "git_blob": "a1df1bdbcba1d08599caa87f1aefb5569b15f77b",
+        "sha256": "04dd329ee7cf8b35d38a9c62d2ba9b853d1b7009e4cfd6cfcc10468b63d090b2",
+        "bytes": 9314
+      },
+      "tests/expected/function-contract/ordinary_stub_fail.expected": {
+        "git_blob": "cc14d35c22f0ad80b8adab8cfa08619b98e5eb70",
+        "sha256": "8024fa662ae0024c55ab479bede700fb02a9cdf9f3ad51927578e710a48d10ee",
+        "bytes": 274
+      },
+      "tests/expected/function-contract/ordinary_stub_fail.rs": {
+        "git_blob": "e2c5cb4e6e78e559ec0424fff471d651b065815f",
+        "sha256": "b5be508606bdf01372ea4d894799356ab5d0c1de87aae6d811b0778cf608b8f2",
+        "bytes": 738
+      },
+      "tests/expected/function-contract/ordinary_stub_issue_4591.expected": {
+        "git_blob": "3c5703c6e9cadaba4b214a62a17ab9ab458acf9c",
+        "sha256": "202199fd0ac8bb6737fc34b34552b9491d4bf08c412555f60262fe71a9aa0c28",
+        "bytes": 212
+      },
+      "tests/expected/function-contract/ordinary_stub_issue_4591.rs": {
+        "git_blob": "620ff0ad1caff13ddc5f0e449c1b2507db785eca",
+        "sha256": "e65245e314ce01d894bc5b774e72df7cb1eb17b4bdf07939e037d61f9d41a8a0",
+        "bytes": 618
+      },
+      "tests/kani/FunctionContracts/ordinary_stub.rs": {
+        "git_blob": "794a732bd2bf652fca6b36e665c1050226f94c3a",
+        "sha256": "db468811de4398032cb4fa315e82cc2ea8dd64c2e96c61b154c61f171a90a163",
+        "bytes": 2170
+      },
+      "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs": {
+        "git_blob": "9d1db9b6bce4d522bb61a0230016aceb2f88c838",
+        "sha256": "5f4a087a60ef22e44a7a231dfb87a564a1cd4df72862edd10206dde13db97cd8",
+        "bytes": 471
+      }
+    },
+    "harnesses": {
+      "tests/kani/FunctionContracts/ordinary_stub.rs": [
+        "ordinary_stub",
+        "replacement_provider",
+        "replacement_verified_contract",
+        "replacement_contract_target"
+      ],
+      "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs": [
+        "ordinary_stub_original_mode"
+      ],
+      "tests/expected/function-contract/ordinary_stub_fail.rs": [
+        "replacement_provider_postcondition"
+      ],
+      "tests/expected/function-contract/ordinary_stub_issue_4591.rs": [
+        "check_caller"
+      ]
+    },
+    "source_oracles": 7,
+    "intended_positive_harnesses": 5,
+    "intended_expected_failing_harnesses": 2,
+    "policy": "Use published b301 blobs/pins; frozen same-tree local source readable, no edits. Three compiler paths/library/workflows/scripts/issue4591repro match reviewed tree."
+  },
+  "root_actual_head_gate": {
+    "status": "MATCH",
+    "head": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+    "tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+    "parents": [
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1"
+    ],
+    "range": [
+      "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+      "b3019ab3f9c83a25cd4d870e49e49121b3327bb1"
+    ],
+    "errors": [],
+    "authorization_granted": false
+  },
+  "workflow_pins": {
+    ".github/workflows/kani.yml": {
+      "sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+      "git_blob": "3e34d8ac3c0844d9ac9409790e7cb0a669381dad"
+    },
+    ".github/workflows/format-check.yml": {
+      "sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8",
+      "git_blob": "9d21eeb4569234292401f90c66c833f6960f06fb"
+    },
+    ".github/workflows/deny.yml": {
+      "sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf",
+      "git_blob": "c54ce6bbcb075df881984f714589011c4b88d5e4"
+    }
+  },
+  "expected_standard_jobs": {
+    "Kani CI": {
+      "regression_OS": [
+        "macos-15-intel",
+        "ubuntu-22.04",
+        "ubuntu-24.04",
+        "macos-15",
+        "ubuntu-24.04-arm"
+      ],
+      "other": [
+        "benchcomp-tests",
+        "perf",
+        "llbc-regression",
+        "documentation"
+      ],
+      "job_instances": 9
+    },
+    "Kani Format Check": {
+      "jobs": [
+        "format-check",
+        "clippy-check"
+      ],
+      "job_instances": 2
+    },
+    "Cargo Deny": {
+      "jobs": [
+        "audit"
+      ],
+      "job_instances": 1
+    },
+    "total": 12
+  },
+  "native_snapshot": [
+    {
+      "id": 44516395307,
+      "name": "Kani CI",
+      "status": "queued",
+      "conclusion": null,
+      "run_attempt": 1,
+      "event": "push",
+      "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+      "head_branch": "fix/stub-contracted-function",
+      "path": ".github/workflows/kani.yml",
+      "workflow_id": 413949266,
+      "run_started_at": "2026-11-19T11:36:50Z",
+      "updated_at": "2026-11-19T11:36:50Z",
+      "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307"
+    },
+    {
+      "id": 44516395718,
+      "name": "Kani Format Check",
+      "status": "in_progress",
+      "conclusion": null,
+      "run_attempt": 1,
+      "event": "push",
+      "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+      "head_branch": "fix/stub-contracted-function",
+      "path": ".github/workflows/format-check.yml",
+      "workflow_id": 413949264,
+      "run_started_at": "2026-11-19T11:36:50Z",
+      "updated_at": "2026-11-19T11:36:55Z",
+      "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395718"
+    },
+    {
+      "id": 44516395278,
+      "name": "Cargo Deny",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "push",
+      "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+      "head_branch": "fix/stub-contracted-function",
+      "path": ".github/workflows/deny.yml",
+      "workflow_id": 413949259,
+      "run_started_at": "2026-11-19T11:36:50Z",
+      "updated_at": "2026-11-19T11:37:37Z",
+      "html_url": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395278"
+    }
+  ],
+  "metadata_policy": "CONNECTED native run/job/step/check-summary metadata; any explicitly approved compact summary only. No raw logs, full archives, ZIP, GCS, Cloud bypass. No invented named-harness/property evidence from suite success. Missing/cancelled/notexposed items retain NOT_RUN/UNKNOWN as appropriate.",
+  "oracle_limits": "Source-traced compiletest discovery and source-required outcomes differ from directly observed native named property results. Five positive harnesses plus two expected-mode semantic failures are seven source declarations, not seven observed passes. Expected fixture success requires intended failures, not a compiler error or missed check.",
+  "historical_r3": "28cd7f0a87b4fda68df320fab7422d2491b24839: Kani44461123962 FAILURE/perf reason coordinatorreported shutdown+s2n, independentcauseUNKNOWN; fiveOSregression/docs/benchcomp/LLBC/Format/Deny SUCCESS. Historical context only, no substitution for current run or perf waiver.",
+  "PR_text": "EXCLUDED_OWNER_COORDINATOR_ONLY. No PR-DRAFT/PROPOSED-PR/STYLE rewrite/external PR-4591-DRAFT.md writes. Facts only; coordinator sets actual Testing URL/result.",
+  "actual_testing_link": "https://github.com/Tiramisu-Cake/kani/actions/runs/44516395307",
+  "worker_gate": "After ALL3native terminal check actualgenuinelyidleCURRENT15/no duplicate output; last15CURRENT01a1f373-bce0-7ab2-b3fc-2e8b520ebb18. Nativecurrentcontextfollowupomitmodel unlesslaterexplicit/new. IfbusyS4costplan queue safely/no reset/hiddenparallel. ConfirmWorking andonefiniteintakewatch.",
+  "output": "kani3300/wave0/issue4591-r4-ci-intake/head-b3019ab3f9/",
+  "accounting_reference": {
+    "coordinator_commit": "9d328217dab9c77bcc8346dae9ced2c6dfa51c7b",
+    "current_file_sha256": "2c7b43d972307184d76d4f4f0a70e0fab5dc0a695903660ace99d05c0c5e8193",
+    "policy": "TRACKING_ONLY; coordinator records dispatch/outcome; root/worker no writes/charges/reservations/refunds/grants"
+  },
+  "reported_tracking": {
+    "at": "14:40 Moscow",
+    "GO": "be748cef7b254f30e6136774f8aa879fd6ecf020",
+    "ledger_short": "9d328217da",
+    "item1_used": 33,
+    "item2_used": 16,
+    "total_used": 49,
+    "policy": "TRACKING_ONLY_NOT_LIMIT"
+  },
+  "no_automatic_followon": "Root verifies committed intake and hands factual result to coordinator only; no automaticfix/review/rerun/CI/push/publication/admission/accounting."
+}
