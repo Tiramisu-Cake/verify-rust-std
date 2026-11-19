@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "assurance": "Independent static bytes/source and synthetic matcher checks only",
+  "candidate": "282d007d06a2fc45ca6e6dc719a305f333b63a7c",
+  "parent": "78f745bb696c85095a9582f959d4854ec494c4f5",
+  "tree": "7a7103421211001791f2b01a5d06f3f5846e0b42",
+  "compiler_byte_identical_sha256": "09a6e3f017471549fc5c7a45471a321157339409c42a29471f0bd3f8f035bed7",
+  "proof_count": 8,
+  "proofs": {
+    "read_volatile_unit_reference": {
+      "path": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "sha256_from_fn_to_next_proof_or_eof": "4c8eb12f609ee276fa5565efe5a7a781857418edf0cfd5210f140f63ce0a4375"
+    },
+    "read_volatile_dangling_unit": {
+      "path": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "sha256_from_fn_to_next_proof_or_eof": "7ee342e4efeae3d87d88a7ec8bfe0e853618d486d0a21d97a67559234af93694"
+    },
+    "read_volatile_overaligned_zst": {
+      "path": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "sha256_from_fn_to_next_proof_or_eof": "081c232d1c06303005972897d7105df36ea9e070fe2f3da0c1989d4ff29ac92b"
+    },
+    "read_volatile_null_zsts": {
+      "path": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "sha256_from_fn_to_next_proof_or_eof": "251657ff3f62124d28b0fc11479a7b0c80ca36247ec309c026777c9f123b6242"
+    },
+    "intrinsic_volatile_load_zsts": {
+      "path": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "sha256_from_fn_to_next_proof_or_eof": "f3f46639e3e3e5e3c1c015369d1aa3011280a897c69d825fffd2c3103e17fb1b"
+    },
+    "read_volatile_aggregate_zsts": {
+      "path": "tests/kani/Intrinsics/Volatile/load_zst.rs",
+      "sha256_from_fn_to_next_proof_or_eof": "951aa259fbc41f6c8f73265fd43b633e6b028af8784bd648dfcfdb8a397c902e"
+    },
+    "misaligned_zst": {
+      "path": "tests/expected/intrinsics/volatile_load/zst_unaligned.rs",
+      "sha256_from_fn_to_next_proof_or_eof": "0e5e9b9e574b2dd2d97c27b66b83c2123b2bed2c14cddb2cd2bc57bae625f556"
+    },
+    "uninhabited_zst": {
+      "path": "tests/expected/intrinsics/volatile_load/zst_uninhabited.rs",
+      "sha256_from_fn_to_next_proof_or_eof": "821b0ae3bea8b9efbe910c00812b24f5434ec08c19a1235c8fcbff03481b02c4"
+    }
+  },
+  "only_rs_changes": "One file-level comment at line 5 in each of three files; every other byte identical",
+  "oracles": [
+    {
+      "path": "tests/expected/intrinsics/volatile_load/zst_unaligned.expected",
+      "header": "Checking harness misaligned_zst...",
+      "reason": "`src` must be properly aligned",
+      "summary": "Complete - 0 successfully verified harnesses, 1 failures, 1 total.",
+      "preserved_old_body_sha256": "9f3eab866ee2b4e1aac9512bf1cceb412e1a0c539cf306438ee23aa507617684",
+      "accepted_synthetic_variants": 2,
+      "rejected_synthetic_variants": [
+        "wrong_reason_both_sites",
+        "wrong_failed_checks_reason",
+        "wrong_property_reason",
+        "reason_only_on_successful_property",
+        "broken_status_reason_adjacency",
+        "wrong_verdict",
+        "wrong_harness",
+        "missing_header",
+        "header_punctuation",
+        "missing_completion",
+        "wrong_counts",
+        "internal_spacing",
+        "completion_punctuation"
+      ],
+      "complete_plus_error_tail_matches": true
+    },
+    {
+      "path": "tests/expected/intrinsics/volatile_load/zst_uninhabited.expected",
+      "header": "Checking harness uninhabited_zst...",
+      "reason": "volatile load of an uninhabited type has undefined behavior",
+      "summary": "Complete - 0 successfully verified harnesses, 1 failures, 1 total.",
+      "preserved_old_body_sha256": "83f4dee2edd6964e3ba1d7f69e47b4343a9f311e139a9bd52c238afa2cfa0156",
+      "accepted_synthetic_variants": 2,
+      "rejected_synthetic_variants": [
+        "wrong_reason_both_sites",
+        "wrong_failed_checks_reason",
+        "wrong_property_reason",
+        "reason_only_on_successful_property",
+        "broken_status_reason_adjacency",
+        "wrong_verdict",
+        "wrong_harness",
+        "missing_header",
+        "header_punctuation",
+        "missing_completion",
+        "wrong_counts",
+        "internal_spacing",
+        "completion_punctuation"
+      ],
+      "complete_plus_error_tail_matches": true
+    }
+  ],
+  "pr_draft_sha256": "b5f43b9da9f92c6cb05f324adfb98b043ea680a0548da009f74dd7b412068a4c",
+  "license_and_ai_disclosure_exact": true,
+  "native_and_CI": "NOT_RUN",
+  "review_script_sha256": "b120527afc88abdd4f10bf4fb0147d11b4ccbc853ee6932c00e3c710c1ff06cf"
+}
