@@ -1,0 +1,34 @@
+{
+  "status": "PREPARED_NOT_RUN",
+  "execution_count": 0,
+  "control_sha": "65a9ea656a4b5f1e66f7b31eceffb5eefeba7541",
+  "control_tree": "09938d27a127351f5c51b6c9f451602d797a1c0f",
+  "request_sha256": "693e12689bfee859560d5042a36fd8b80051e9fca4082fd1a612642d7e389e30",
+  "workflow_sha256": "fc21d9f44a403b6294daaca2b25fdfcebe38d3dd7e89a927af0d289a86c177a0",
+  "cwd": "/root/kani-ch8-s4-next-control-w15/ch8-s1-control",
+  "deadline_seconds": 1080,
+  "margin_required": 1.5,
+  "maximum_elapsed_seconds_for_margin": 720,
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "1080s",
+    "env",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "python3",
+    "s4p3_validate.py"
+  ],
+  "checks_before_execution": [
+    "Exact control HEAD/tree/request/payload/workflow hashes and clean checkout must equal PINS.json",
+    "Separate coordinator authorization required; this file is preparation only"
+  ],
+  "success_requires": [
+    "All389 selected tests pass",
+    "No timeout; exit0",
+    "margin_at_18_minutes>=1.5 on these exact committed bytes"
+  ],
+  "measured_elapsed_seconds": null,
+  "measured_margin": null,
+  "result": "NOT_RUN; no historical timing transferred; do not run as part of this stage"
+}

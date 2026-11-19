@@ -1,0 +1,273 @@
+{
+  "status": "ROOT_STATIC_PASS_BEFORE_FINAL_VALIDATE",
+  "checked_at": "2026-11-19T17:11:59.103827+00:00",
+  "package": "f485968493d3512f3e719825ef4490866808d120",
+  "package_files": 60,
+  "manifest_entries": 59,
+  "exact_review": "507dbcfd524ef96407c742738b66abf2a2818a10",
+  "review_files_git_bound": {
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-next-impl-review/DISCOVERY.json": {
+      "sha256": "6a3318aa551a40d4701cbeefe29faf75fa1e229d0c69e3e97b89be0ffe9559df",
+      "bytes": 274
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-next-impl-review/HANDOFF.md": {
+      "sha256": "6b1ab0f2f532b8fed74d1602f9906dad1a643d5a56aabd0594bef2867fe033fa",
+      "bytes": 10716
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-next-impl-review/MUTATION-CHECKS.json": {
+      "sha256": "371856f190cc17c609ac22a835eca5cdc5ff273691bb34fd27bcb5c62dd7e376",
+      "bytes": 636
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-next-impl-review/OLD-TARGETED-TESTS.json": {
+      "sha256": "00a9d93b7bc71d5dec88513df7ff67dfae64828bbbe43027dfc55afb37dd1ae4",
+      "bytes": 231
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-next-impl-review/OLD-TARGETED-TESTS.txt": {
+      "sha256": "6e41be6d76605323bb0867e2c407f4303309c3f47a293302e7e5b786c5e4f8e7",
+      "bytes": 4681
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-next-impl-review/PLAN-SOURCE-CHECKS.json": {
+      "sha256": "dbc45cfabab955e401fe3c0fad3d53e20f7c1588b27a330dbe19e127685ae038",
+      "bytes": 1328
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-next-impl-review/PREFLIGHT.json": {
+      "sha256": "075c137080b753a8df76f721e8e994dd77b977b8d7816e0cece1e8d323e13091",
+      "bytes": 1145
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-next-impl-review/STATIC-CHECKS.json": {
+      "sha256": "5fdd08527445b9b976a58b65c0d7c5d5204635ad134515ada681691752c78a2e",
+      "bytes": 2868
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-next-impl-review/TARGETED-TESTS.json": {
+      "sha256": "f022a8de07e767818aad62f2afcdb7ada26beb279a66ebd1459c68336c062d0d",
+      "bytes": 365
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-next-impl-review/TARGETED-TESTS.txt": {
+      "sha256": "3b3896deb670549738edbb3bbed0a9b9b9dad6c7be5ce660f60dba401c4eda00",
+      "bytes": 3593
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-next-impl-review/review_checks.py": {
+      "sha256": "363aec74b7e53ff5ddb2a40e716d052127df09cd1819eb1f92afdd5786ba2bd3",
+      "bytes": 7491
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-next-impl-review/review_plan_source.py": {
+      "sha256": "8f61ef15d4bc162c0d451a83e7ad801bd704c068bcffcc41d6ac708426ee4062",
+      "bytes": 4611
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/s4-next-impl-review/review_validation.py": {
+      "sha256": "405fb6654f8a6e74c35d3e3521646b317b586f33ced3dfa22a7620e9851021ff",
+      "bytes": 5396
+    }
+  },
+  "reviewer_manifest_present": false,
+  "review_manifest_note": "All review files are bound by the exact committed Git tree; root independently records their hashes here.",
+  "dependencies": 15,
+  "pins": {
+    "source": {
+      "repo": "/root/verify-rust-std-ch8-s4-next-w15",
+      "sha": "7b31b060b90ce286e94547993f6a698c549bc5fa",
+      "tree": "fccf3284bd678626c8f8cea72bbe6ec72964dbd9",
+      "sole_parent": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+      "clean": true,
+      "checkout_depth": 7,
+      "required_commits_available": [
+        "8faf8e62af8f82b5c46af020086f8df591b6757e",
+        "99e8456d200fff1299ee5756279cddb23921dc65"
+      ],
+      "shallow": "PASS",
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+    },
+    "control": {
+      "repo": "/root/kani-ch8-s4-next-control-w15",
+      "sha": "65a9ea656a4b5f1e66f7b31eceffb5eefeba7541",
+      "tree": "09938d27a127351f5c51b6c9f451602d797a1c0f",
+      "sole_parent": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+      "clean": true,
+      "checkout_depth": 9,
+      "required_commits_available": [
+        "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+        "0aac16ef62da9e9d5645782d458593e5d78143ba"
+      ],
+      "shallow": "PASS",
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+    },
+    "tool": {
+      "repo": "/root/kani-upstream-ch8-s1",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+      "clean": true,
+      "checkout_depth": 2,
+      "required_commits_available": [
+        "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+      ],
+      "shallow": "PASS",
+      "author_committer": "Ivo Matijašević <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+    },
+    "schema": "s4-next-impl-pins-v1",
+    "status": "READY_FOR_EXACT_PACKAGE_REVIEW_FINAL_VALIDATE_PREPARED_NOT_RUN",
+    "plan": "c0de8471801ac22b38e3290c7a6b75742135af6b",
+    "plan_review": "762a2a678eb624d1ddd18f0764a365e7787392c0",
+    "authority": "778418b5a6c59e9b649435fd4bbc7a61ae0cd2ec",
+    "request_sha256": "693e12689bfee859560d5042a36fd8b80051e9fca4082fd1a612642d7e389e30",
+    "workflow_sha256": "fc21d9f44a403b6294daaca2b25fdfcebe38d3dd7e89a927af0d289a86c177a0",
+    "profile": "ch8-s4p-3-network-fullbyte-concrete-calls-v1",
+    "schema_request": "ch8-s4p-3-v1",
+    "payload_files": 173,
+    "GO": "NOT_GRANTED",
+    "publication": "NOT_PERFORMED",
+    "native_CI": "NOT_RUN",
+    "proof_credit": "NONE"
+  },
+  "control_payload_hashes": 173,
+  "source_hash_tables": {
+    "changed_file_sha256": 15,
+    "ordinary_contract_source_sha256": 30,
+    "cfg_pfc_source_sha256": 15,
+    "contract_stack_source_sha256": 30,
+    "lexical_source_sha256": 24
+  },
+  "protected_old_control_files": 151,
+  "source_delta": [
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_full_lengths_next.rs"
+  ],
+  "control_existing_delta": [
+    ".github/workflows/ch8-s2.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/collect.py",
+    "ch8-s1-control/runner.py"
+  ],
+  "control_new_paths": 18,
+  "patch_replays": [
+    {
+      "file": "SOURCE-PARENT.patch",
+      "base": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+      "tree": "fccf3284bd678626c8f8cea72bbe6ec72964dbd9"
+    },
+    {
+      "file": "SOURCE-STOCK.patch",
+      "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "tree": "fccf3284bd678626c8f8cea72bbe6ec72964dbd9"
+    },
+    {
+      "file": "CONTROL-PARENT.patch",
+      "base": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+      "tree": "09938d27a127351f5c51b6c9f451602d797a1c0f"
+    },
+    {
+      "file": "CONTROL-STOCK.patch",
+      "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "09938d27a127351f5c51b6c9f451602d797a1c0f"
+    }
+  ],
+  "row_ids": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "sort13_weak",
+    "s4p_cell_count_corrupt",
+    "s4p3_network_b01_n08_fullbyte",
+    "s4p3_network_b01_n09_fullbyte",
+    "s4p3_network_b01_n13_fullbyte",
+    "s4p3_network_b01_n17_fullbyte"
+  ],
+  "mode": "Original",
+  "target": null,
+  "positive_roles": [
+    4,
+    4,
+    4,
+    4
+  ],
+  "positive_covers": [
+    6,
+    6,
+    6,
+    6
+  ],
+  "resolved_unwinds": [
+    34,
+    34,
+    34,
+    36,
+    36,
+    36,
+    36,
+    36
+  ],
+  "final_validate": "NOT_YET_EXECUTED",
+  "caps": {
+    "caps": {
+      "child_seconds": 600,
+      "compile_seconds": 180,
+      "slot_seconds": 720,
+      "controller_seconds": 180,
+      "cleanup_seconds": 240,
+      "campaign_seconds": 6900,
+      "outer_seconds": 7500,
+      "phase_seconds": 8100,
+      "step_seconds": 7560,
+      "local_rss_kib": 6291456,
+      "outer_rss_kib": 12582912,
+      "headroom_kib": 2097152,
+      "stdout_bytes": 16777216,
+      "stderr_bytes": 1048576,
+      "export_bytes": 8388608,
+      "artifact_bytes": 268435456
+    },
+    "budgets": {
+      "jobs": 1,
+      "max_parallel": 1,
+      "workflow_minutes": 180,
+      "setup_seconds": 1800,
+      "phase_seconds": 8100,
+      "row_seconds": 600,
+      "rss_kib": 6291456,
+      "stdout_bytes": 16777216,
+      "stderr_bytes": 1048576,
+      "export_bytes": 8388608,
+      "artifact_bytes": 268435456,
+      "planned_rows_seconds": null,
+      "rss_cap_kib": 6291456,
+      "compile_seconds": 900,
+      "group_rss_max_kib": 12582912,
+      "memory_reserve_kib": 2097152,
+      "projected_group_count": 8,
+      "child_compile_subcap_seconds": 180,
+      "whole_child_including_compile_seconds": 600,
+      "shared_campaign_seconds": 6900
+    },
+    "flags": {
+      "unstable": [
+        "function-contracts",
+        "mem-predicates",
+        "float-lib",
+        "c-ffi",
+        "loop-contracts",
+        "quantifiers",
+        "stubbing",
+        "export-json"
+      ],
+      "assert_contracts": false,
+      "jobs": 1,
+      "harness_timeout": "600s",
+      "exact": true,
+      "default_unwind": 50,
+      "cbmc_args": [
+        "--object-bits",
+        "12"
+      ],
+      "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf --cfg=kani_smallsort_s4_partition"
+    },
+    "slot_envelope_seconds": 6180,
+    "campaign_reserve_seconds": 720,
+    "cost_fit": "UNKNOWN_NOT_RUN",
+    "validate_deadline_seconds": 1080,
+    "validate_margin_required": 1.5,
+    "validate_maximum_elapsed_for_margin_seconds": 720,
+    "strict_peak_memory_assurance": "NOT_ESTABLISHED; unchanged sampled-PGID/owned-census semantics"
+  },
+  "no_source_tool_control_edits": true,
+  "no_CI_push_accounting": true
+}
