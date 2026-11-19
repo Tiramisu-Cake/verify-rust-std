@@ -1,0 +1,100 @@
+{
+  "status": "OFFLINE_STATIC_AND_SERVICE_PASS",
+  "actual_final_validate": {
+    "command": "python3 check_package.py control --repo ..\npython3 s4p_validate.py\n",
+    "cwd": "/root/kani-ch8-s4p-1-r1-control-w13/ch8-s1-control",
+    "argv": [
+      "bash",
+      "-e",
+      "-c",
+      "python3 check_package.py control --repo ..\npython3 s4p_validate.py\n"
+    ],
+    "control_sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+    "control_tree": "96b03b52cdd121965690544945c17b175253c6cd",
+    "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+    "workflow_sha256": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+    "script_sha256": "b0f76088063f761f2971df690cce37a16a84c33f503becbd6a072a23f229ea5d",
+    "started_utc": "2026-11-19T07:01:29.446846+00:00",
+    "limit_seconds": 1080,
+    "required_margin": 1.5,
+    "execution_count": 1,
+    "environment_kind": "OFFLINE_SYNTHETIC_GITHUB_STATIC_GATE_CONTEXT; no CI event or run",
+    "environment": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "GITHUB_REPOSITORY": "Tiramisu-Cake/kani",
+      "GITHUB_EVENT_NAME": "push",
+      "GITHUB_REF": "refs/heads/uninit-ci/ch8-s4p-offline-validation-r1",
+      "GITHUB_RUN_ATTEMPT": "1",
+      "GITHUB_SHA": "2db5d2c08804036d283cb36450647cd584ee9e10"
+    },
+    "native_compile_proof_cost_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 550.6377290091477,
+    "finished_utc": "2026-11-19T07:10:40.085051+00:00",
+    "clean_after": true,
+    "margin_at_18_minutes": 1.96136214992645,
+    "stdout": {
+      "file": "FINAL-VALIDATE.stdout",
+      "bytes": 623,
+      "sha256": "9c52690891e5fbd8eb49ebfa3cc063b84aaff6be140aefa948b9e429493bc1af"
+    },
+    "stderr": {
+      "file": "FINAL-VALIDATE.stderr",
+      "bytes": 44629,
+      "sha256": "05d8ad8f825f2b90da4e07c02928ce3bcad1f84149bca3df0910e67f2e3a8aba"
+    }
+  },
+  "test_summary": {
+    "control_sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+    "control_tree": "96b03b52cdd121965690544945c17b175253c6cd",
+    "elapsed_seconds": 549.638364803046,
+    "errors": 0,
+    "failures": 0,
+    "margin_at_18_minutes": 1.9649283404498166,
+    "native_compile_proof_cost_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+    "schema": "ch8-s4p-1-validate-v1",
+    "success": true,
+    "test_counts": {
+      "bridge1": 40,
+      "legacy": 136,
+      "s3": 56,
+      "s32": 35,
+      "s4p": 38
+    }
+  },
+  "targeted_before_final": {
+    "schema": "s4p1-repair-targeted-v1",
+    "started_utc": "2026-11-19T06:59:57.065985+00:00",
+    "elapsed_seconds": 21.99117688415572,
+    "tests": 3,
+    "exit_code": 0,
+    "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+    "test_file_sha256": "c6729c3647a5d74c34b61e18ce9a0f5f8a7edbe49605fa9918781355719ea0f1",
+    "working_candidate_not_final_commit": true,
+    "authentic_old_24_all_reject": true,
+    "malformed_rejections": 78,
+    "genuine_acceptances": 6,
+    "no_malformed_schema_collection": true,
+    "matrix": "TERMINAL-SCHEMA-MATRIX.json",
+    "native_compile_proof_CI": "NOT_RUN"
+  },
+  "source_preflight": "PREFLIGHT.json and four actual MAP reports",
+  "patch_trees_replayed": 6,
+  "shallow_depths": {
+    "control": 7,
+    "source": 5,
+    "tool": 2
+  },
+  "selected_literal_assertion_sites": 21,
+  "selected_literal_cover_sites": 30,
+  "native_property_counts": "UNKNOWN",
+  "all_caps_unchanged": true,
+  "native_compile_proof_cost_fit": "NOT_RUN",
+  "proof_credit": "NONE",
+  "precursor_failures": "HISTORY-PRESERVATION.json, PRECURSORS.json, tests/packet-precursor-01.* and expected review-reproducer nonzero retained",
+  "full_validate_repeated_after_pass": false
+}

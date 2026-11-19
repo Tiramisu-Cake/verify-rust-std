@@ -1,0 +1,248 @@
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index 6bd74dda08462fd8179ee66937459f13582077e2..9c338174eae61301452f52e69c81a256430438d8 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -1230,16 +1230,16 @@
+     "ch8-s1-control/s3_runtime.py": "2de7a74b746efcde1dd47ad6f5a5686889665481274ae6555ea53f274ef9ef70",
+     "ch8-s1-control/s3_snapshots.py": "c5a1776d927660061f2f853fdf6a5413a2a7b5ea6ffa54e4d748bfb5fff2fb33",
+     "ch8-s1-control/s3_validate.py": "f35ce20e10dc94e58d545944630de692829d295805ec16fa5a40f398c8557814",
+-    "ch8-s1-control/s4p_campaign.py": "c89c0e6e0fbb847c5ed40fec5ca5901cddcf28ea9aeff9b6e7cd13d2fa7b38de",
++    "ch8-s1-control/s4p_campaign.py": "12db0a03f0f077197a1df7fbe04c556ca3ed40fb4e0fd426ccaad826d5240df3",
+     "ch8-s1-control/s4p_cfg_pfc.py": "54be06f7ed715923f0de1bef39d4fb4c441972d68c8d2642788248cc19166b14",
+-    "ch8-s1-control/s4p_contract_stacks.py": "cfa59554a04474b3cdbd3c62600148478e463b1f9535bb5fe6d34557a9fb94b1",
++    "ch8-s1-control/s4p_contract_stacks.py": "2b5ccfadf095dc5d7fc140f887822aad60645b384a995bbde234f215207a44b7",
+     "ch8-s1-control/s4p_lexical_bindings.py": "31e8431f7b69b723715ee69243b8f7160c6b28843cca3ac44e55163aa4b085b4",
+     "ch8-s1-control/s4p_ordinary_contracts.py": "31af01666ae238e4f90b7079379302756d294931fe814f86e91fa5bc7c6428b2",
+     "ch8-s1-control/s4p_package.py": "415f4501eb44c46361d7d4bdb0c094b6be2396d59174c6926cc424ea9199c209",
+     "ch8-s1-control/s4p_pins.py": "e3ce9719df82c65cd26081119b680fe58a492fdc25c38f2e416000ecaeb9e311",
+     "ch8-s1-control/s4p_policy.py": "e74dfffa841f208ba082b79d3bfcc9401b5151d2fe4e1fa00b305b648a4ffb29",
+     "ch8-s1-control/s4p_profile.py": "8e43e0000fdda49a022e7f75affa5fd62c71322f3634c054702e27ad92d80a91",
+-    "ch8-s1-control/s4p_validate.py": "83dcb3d582e6ba9ca73507e6306c6bf551356dd6e2c124b525b0cf5931884d4c",
++    "ch8-s1-control/s4p_validate.py": "b0f76088063f761f2971df690cce37a16a84c33f503becbd6a072a23f229ea5d",
+     "ch8-s1-control/test_cfg_pfc.py": "96c7e07fd3d78cb6c6769a5c018d49b1f1e1d28eee39db6322cba63ea31a91ea",
+     "ch8-s1-control/test_contract_stacks.py": "28175e593a49600fc3478a61a7488b4066b0d9d06ef33b082418f19db1eba75d",
+     "ch8-s1-control/test_package.py": "70f00d0726b7011db8a02339c1b031bda49b4af3c2f7e881b68d06b7663b5ca7",
+@@ -1264,6 +1264,7 @@
+     "ch8-s1-control/test_s3_repair.py": "3480cf7e888b6969ba3a863bf4a17e462c26297357b974214feadd7d4f8891f1",
+     "ch8-s1-control/test_s4p.py": "4ec2b87dab85838a2594296afc49b4ee70190e0e122589d3c347987a71790b20",
+     "ch8-s1-control/test_s4p_boundary.py": "b0519c00644fcdc222883f89d4e82d82a4212f0f324ce9e873ee39ad2fcdef30",
++    "ch8-s1-control/test_s4p_gate_repair.py": "c6729c3647a5d74c34b61e18ce9a0f5f8a7edbe49605fa9918781355719ea0f1",
+     "ch8-s1-control/test_s4p_paths.py": "bf99f709d238118b8125c411b987f7fda78ed202d6b6e5f49e096a941bda84af",
+     "ch8-s1-control/validate_tokens.py": "fa7a32784f360ff2c1933657dcc73d8208230377a3ecb4d27fe49f63c67b34fe"
+   },
+@@ -1400,6 +1401,7 @@
+     "ch8-s1-control/test_s3_repair.py",
+     "ch8-s1-control/test_s4p.py",
+     "ch8-s1-control/test_s4p_boundary.py",
++    "ch8-s1-control/test_s4p_gate_repair.py",
+     "ch8-s1-control/test_s4p_paths.py",
+     "ch8-s1-control/validate_tokens.py"
+   ],
+diff --git a/ch8-s1-control/s4p_campaign.py b/ch8-s1-control/s4p_campaign.py
+index 21bc63d7ae7a2cf3f73811826ce667e90fcc872c..50864495199a811696394f4bf663b2c3f6549921 100644
+--- a/ch8-s1-control/s4p_campaign.py
++++ b/ch8-s1-control/s4p_campaign.py
+@@ -338,7 +338,11 @@ def collect(roots,request):
+     p.validate(request)
+     selected_count=len(request['rows'])
+     for root in roots:
+-        meta=c.read(root/'receipt.json').get('s3_campaign')
++        terminal=c.read(root/'receipt.json')
++        if (type(terminal.get('schema')) is not str
++                or terminal['schema']!='ch8-s4p-1-campaign-v1'):
++            raise GlobalFailure('S4 terminal campaign schema mismatch')
++        meta=terminal.get('s3_campaign')
+         if (not isinstance(meta,dict) or type(meta.get('selected_roots')) is not int
+                 or meta['selected_roots']!=selected_count):
+             raise GlobalFailure('S3 terminal selected-root cardinality mismatch')
+diff --git a/ch8-s1-control/s4p_contract_stacks.py b/ch8-s1-control/s4p_contract_stacks.py
+index 8ad5ceaeccef54739fcffed1c695d8327d9ef02a..51ca0c5438068b64647966199e8bab5cdde12fe5 100644
+--- a/ch8-s1-control/s4p_contract_stacks.py
++++ b/ch8-s1-control/s4p_contract_stacks.py
+@@ -107,7 +107,7 @@ def check(std, request):
+     # This includes non-Kani/runtime, S1, and malformed partial S2 opt-ins.
+     projections = []
+     keys = sorted(ACTIVE | {'kani_smallsort_s3_leaf','kani_smallsort_s4_partition'})
+-    for mask in range(16):
++    for mask in range(1 << len(keys)):
+         active = {key for i, key in enumerate(keys) if mask & (1 << i)}
+         old = list(declarations(baseline, active))
+         new = list(declarations(projected, active))
+diff --git a/ch8-s1-control/s4p_validate.py b/ch8-s1-control/s4p_validate.py
+index 0400ea4fe74b5bf2daaee47ac5b9c6817b62b4e1..1becc79281201b81047197152d3ac541d7983ba3 100644
+--- a/ch8-s1-control/s4p_validate.py
++++ b/ch8-s1-control/s4p_validate.py
+@@ -9,7 +9,7 @@ from unittest import mock
+ from contextlib import ExitStack
+ import runner,check_package,s3_validate,s32_validate,s34_validate
+ HERE=Path(__file__).resolve().parent
+-NEW=('test_s4p_boundary', 'test_s4p.RoleTests', 'test_s4p.CampaignTests',
++NEW=('test_s4p_boundary', 'test_s4p_gate_repair', 'test_s4p.RoleTests', 'test_s4p.CampaignTests',
+      'test_s4p.WorkflowTests', 'test_s4p.SingletonRunnerTests',
+      'test_s4p_paths.RealPathWriterTests.test_workflow_relative_entry_real_writer_and_portable_replay',
+      'test_s4p_paths.RealPathWriterTests.test_selected_count_real_writer_and_both_readers',
+diff --git a/ch8-s1-control/test_s4p_gate_repair.py b/ch8-s1-control/test_s4p_gate_repair.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..4f05028551697336cff4efb80eb5f870dc6ebb68
+--- /dev/null
++++ b/ch8-s1-control/test_s4p_gate_repair.py
+@@ -0,0 +1,159 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""R14-01/02: real static gate and authentic writer/public-reader regressions.
++
++Native execution and Git identities are synthetic in the existing writer fixture.
++No compiler, verifier, or proof credit. This module is selected by CI Validate.
++"""
++import itertools
++import json
++import tempfile
++import unittest
++from collections import defaultdict
++from pathlib import Path
++from unittest import mock
++
++import collect as public
++import pack_evidence
++import runner
++import s4p_campaign as campaign
++import s4p_contract_stacks as stacks
++import test_s4p_paths as fixtures
++
++
++class ProjectionTests(unittest.TestCase):
++    def test_real_gate_complete_power_set_and_active_normalization(self):
++        request = runner.load_request()
++        sources = json.loads((runner.HERE / 'S4P-SOURCE.json').read_text())
++        baseline = stacks.frozen()
++        normalized = stacks.normalize(baseline)
++        comparisons = defaultdict(dict)
++        original = stacks.declarations
++
++        def observe(text, active, parent=()):
++            records = list(original(text, active, parent))
++            if not parent and text in (baseline, normalized):
++                comparisons[frozenset(active)]['old' if text == baseline else 'new'] = records
++            return iter(records)
++
++        with tempfile.TemporaryDirectory() as directory:
++            root = Path(directory)
++            for relative, text in sources.items():
++                path = root / relative
++                path.parent.mkdir(parents=True, exist_ok=True)
++                path.write_text(text)
++            with mock.patch.object(stacks, 'declarations', side_effect=observe):
++                report = stacks.check(root, request)
++
++        keys = {'kani', 'kani_smallsort_sorting', 'kani_smallsort_s2_assumed',
++                'kani_smallsort_s3_leaf', 'kani_smallsort_s4_partition'}
++        expected = {frozenset(part) for size in range(len(keys) + 1)
++                    for part in itertools.combinations(keys, size)}
++        rows = report['cfg_projection_invariance']
++        actual = [frozenset(row['effective_cfg']) for row in rows]
++        self.assertEqual(report['status'], 'STATIC_PASS')
++        self.assertEqual(len(rows), 32)
++        self.assertEqual(len(set(actual)), 32)
++        self.assertEqual(set(actual), expected)
++        self.assertEqual(sum('kani_smallsort_sorting' in row for row in actual), 16)
++        self.assertEqual(set(comparisons), expected)
++        active = {row for row in expected if stacks.ACTIVE <= row}
++        self.assertEqual(len(active), 4)
++        for row in rows:
++            self.assertGreater(row['functions'], 0)
++            self.assertEqual(row['semantics'], 'EXACT_TOKEN_MATCH')
++            self.assertEqual(row['outside_s2_attrs'],
++                             'NORMALIZED' if stacks.ACTIVE <= set(row['effective_cfg']) else 'EXACT_TOKEN_MATCH')
++        for context in active:
++            pair = comparisons[context]
++            self.assertEqual(set(pair), {'old', 'new'})
++            changed = 0
++            for (old_name, _, old_attrs), (new_name, _, new_attrs) in zip(pair['old'], pair['new']):
++                self.assertEqual(old_name, new_name)
++                old, new = stacks.contracts(old_attrs), stacks.contracts(new_attrs)
++                self.assertEqual([(x['op'], x['predicate_tokens']) for x in old],
++                                 [(x['op'], x['predicate_tokens']) for x in new])
++                if any(x['family'] == 'safety_wrapper' for x in old):
++                    self.assertTrue(new)
++                    self.assertTrue(all(x['family'] == 'direct_kani' for x in new))
++                    changed += 1
++            self.assertGreater(changed, 0, 'ACTIVE comparisons must exercise wrapper normalization')
++        self.assertEqual(report['source_files_sha256'], request['contract_stack_source_sha256'])
++
++
++class TerminalSchemaTests(unittest.TestCase):
++    def schema_routes(self, fix, terminal):
++        out, request = fix[3], fix[4]
++        path = out / 'receipt.json'
++        authentic = path.read_bytes()
++        self.assertIs(type(terminal['schema']), str)
++        self.assertEqual(terminal['schema'], 'ch8-s4p-1-campaign-v1')
++        self.assertIs(type(terminal['s3_campaign']['selected_roots']), int)
++        self.assertEqual(terminal['s3_campaign']['selected_roots'], 8)
++        frozen = {str(p.relative_to(out)): p.read_bytes() for p in out.rglob('*.json') if p != path}
++        upload = fix[0] / 'schema-upload'
++        upload.mkdir(exist_ok=True)
++        # First four malformed cases are the sealed review's original 24 cases.
++        variants = (('genuine', 'ch8-s4p-1-campaign-v1'), ('missing', None),
++                    ('null', None), ('old-schema', 'ch8-s3s4-bridge1-campaign-v1'),
++                    ('wrong-type', 123), ('bool', True), ('false', False),
++                    ('float', 1.0), ('list', []), ('object', {}), ('empty', ''),
++                    ('unknown', 'ch8-s4p-unknown-campaign-v1'),
++                    ('old-s3', 'ch8-s3-1-campaign-v1'), ('old-s32', 'ch8-s3-2-campaign-v1'))
++        try:
++            for name, value in variants:
++                doc = json.loads(authentic)
++                if name == 'missing':
++                    del doc['schema']
++                else:
++                    doc['schema'] = value
++                campaign.atomic(path, doc)
++                pack_evidence.pack(out)
++                (upload / pack_evidence.NAME).write_bytes((out / pack_evidence.NAME).read_bytes())
++                self.assertEqual([p.name for p in upload.iterdir()], [pack_evidence.NAME])
++                accepted = []
++                for route in (out, upload):
++                    with self.subTest(state=terminal['state'], variant=name, route=route.name):
++                        with mock.patch.object(public, 'legacy_collect', wraps=public.legacy_collect) as collector:
++                            if name == 'genuine':
++                                result = public.collect([route], request)
++                                collector.assert_called_once()
++                                self.assertEqual(len(result['rows']), 8)
++                                self.assertEqual(sum(row['outcome'] == 'RECORDED' for row in result['rows']),
++                                                 len(terminal['s3_campaign']['completed']))
++                                accepted.append(result)
++                            else:
++                                with self.assertRaisesRegex(campaign.GlobalFailure, 'terminal campaign schema'):
++                                    public.collect([route], request)
++                                collector.assert_not_called()
++                if accepted:
++                    self.assertEqual(accepted[0], accepted[1])
++        finally:
++            path.write_bytes(authentic)
++        self.assertEqual(frozen, {str(p.relative_to(out)): p.read_bytes() for p in out.rglob('*.json') if p != path})
++
++    def test_authentic_full_eight_schema_before_local_and_upload_collection(self):
++        case = fixtures.RealPathWriterTests()
++        with case.fixture() as fix:
++            code, terminal = case.run_fixture(fix)
++            self.assertEqual(code, 0)
++            self.assertEqual(terminal['s3_campaign']['completed'], list(campaign.p.ORDER))
++            self.schema_routes(fix, terminal)
++
++    def test_authentic_stopped0_and_partial0_schema_before_both_routes(self):
++        case = fixtures.RealPathWriterTests()
++        with case.fixture() as fix:
++            with mock.patch.object(campaign, 'check_usage', side_effect=campaign.GlobalFailure('schema prelaunch stop')):
++                code, terminal = case.run_fixture(fix)
++            self.assertEqual(code, 1)
++            self.assertEqual(terminal['state'], 'STOPPED')
++            self.assertEqual(terminal['s3_campaign']['completed'], [])
++            self.schema_routes(fix, terminal)
++            terminal = campaign.finalize(fix[3], fix[4])
++            self.assertEqual(terminal['state'], 'SELECTED_PARTIAL')
++            self.assertEqual(terminal['s3_campaign']['completed'], [])
++            self.schema_routes(fix, terminal)
++
++
++if __name__ == '__main__':
++    unittest.main()

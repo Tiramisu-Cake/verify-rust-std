@@ -1,0 +1,111 @@
+{
+  "status": "READY_FOR_ROOT_CHECK_AND_SAME14_DELTA_NOT_GO",
+  "repair_task": "989b0dbd020bc9bb500c0a18f3220d21537fbc44",
+  "source": {
+    "repo": "/root/verify-rust-std-ch8-s4p-1-w13",
+    "sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+    "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+    "parents": [
+      "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    ],
+    "clean": true,
+    "depth": 5,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+    "reference": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+    "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "control": {
+    "repo": "/root/kani-ch8-s4p-1-r1-control-w13",
+    "sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+    "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+    "parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "clean": true,
+    "depth": 7,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+    "reference": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "tool": {
+    "repo": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parents": [
+      "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    ],
+    "clean": true,
+    "depth": 2,
+    "author_committer": "Ivo Matijašević <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+  },
+  "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+  "new_proof_credit": "NONE",
+  "next": "Root verifies committed READY exact fullpins/manifest; issue existing TASK-CH8-S4P1-GATE-DELTA-W14.md at989 to SAME CURRENT14 with this exact g0, HANDOFF and pins. Only independent both CLOSED/exact APPROVE/no blockers -> root recheck and GO request.",
+  "open": [
+    "SAME14 independent closure of R14-01/02",
+    "Root recheck and GO request",
+    "All native/proof/fit/MIR/B1/B2 obligations"
+  ],
+  "actual_future_head_ref_run": "UNKNOWN",
+  "final_validate": {
+    "actual_final_validate_execution_count": 1,
+    "tests": 305,
+    "test_counts": {
+      "bridge1": 40,
+      "legacy": 136,
+      "s3": 56,
+      "s32": 35,
+      "s4p": 38
+    },
+    "exit_code": 0,
+    "elapsed_seconds": 550.6377290091477,
+    "internal_elapsed_seconds": 549.638364803046,
+    "margin_at_18_minutes": 1.96136214992645,
+    "required_margin": 1.5,
+    "control_sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+    "control_tree": "96b03b52cdd121965690544945c17b175253c6cd",
+    "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149"
+  },
+  "frozen_author": "590dd6360f5b4c92eab9fff30aa0d2e7d8d942ce",
+  "frozen_review": "4856a87f39d2606adbbed747d3cae9a73fb80d52",
+  "claims": [
+    {
+      "claim": "R14-01 repair: real gate emits all32 unique subsets with16 sorting and4 ACTIVE contexts; nonempty actual normalization comparisons pass.",
+      "assurance": "STATIC_SOURCE_GATE_AND_CI_SELECTED_REGRESSION_PASS",
+      "evidence": [
+        "MAP-CONTRACT_STACKS.json",
+        "tests/targeted-02.json",
+        "FINAL-VALIDATE.stderr"
+      ]
+    },
+    {
+      "claim": "R14-02 repair: all original24 and78 total malformed terminal schemas reject on both routes before collection;6 genuine controls accept.",
+      "assurance": "AUTHENTIC_SYNTHETIC_WRITER_PUBLIC_READER_SERVICE_TEST_PASS",
+      "evidence": [
+        "tests/TERMINAL-SCHEMA-MATRIX.json",
+        "FINAL-VALIDATE.stderr"
+      ]
+    },
+    {
+      "claim": "Exact final committed control workflow Validate executed once,305 tests PASS,unchanged18min with>=1.5 margin.",
+      "assurance": "OBSERVED_LOCAL_TEST_EXECUTION_NOT_CI_OR_NATIVE",
+      "evidence": [
+        "FINAL-VALIDATE.json",
+        "FINAL-VALIDATE.stdout",
+        "FINAL-VALIDATE.stderr"
+      ]
+    }
+  ],
+  "all_other_source_tool_scope_caps_and_control_entries_preserved": true,
+  "independent14": "PENDING_SAME14_DELTA; author fixes are not independent closures",
+  "GO": "NOT_AUTHORIZED",
+  "publication_CI_native_raw_GCS": "NOT_PERFORMED",
+  "accounting": "TRACKING_ONLY_NO_WRITES",
+  "rejected_approaches": [
+    "No source or tool changes",
+    "No cap/domain/mode/role/cover/cache changes",
+    "No malformed terminal normalization or terminal-derived expected schema",
+    "No child of E941",
+    "No subagents or old26d/1ff/1079 continuation"
+  ]
+}

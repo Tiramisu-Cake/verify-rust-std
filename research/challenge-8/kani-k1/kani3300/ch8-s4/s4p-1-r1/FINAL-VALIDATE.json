@@ -1,0 +1,46 @@
+{
+  "command": "python3 check_package.py control --repo ..\npython3 s4p_validate.py\n",
+  "cwd": "/root/kani-ch8-s4p-1-r1-control-w13/ch8-s1-control",
+  "argv": [
+    "bash",
+    "-e",
+    "-c",
+    "python3 check_package.py control --repo ..\npython3 s4p_validate.py\n"
+  ],
+  "control_sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+  "control_tree": "96b03b52cdd121965690544945c17b175253c6cd",
+  "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+  "workflow_sha256": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+  "script_sha256": "b0f76088063f761f2971df690cce37a16a84c33f503becbd6a072a23f229ea5d",
+  "started_utc": "2026-11-19T07:01:29.446846+00:00",
+  "limit_seconds": 1080,
+  "required_margin": 1.5,
+  "execution_count": 1,
+  "environment_kind": "OFFLINE_SYNTHETIC_GITHUB_STATIC_GATE_CONTEXT; no CI event or run",
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "GITHUB_REPOSITORY": "Tiramisu-Cake/kani",
+    "GITHUB_EVENT_NAME": "push",
+    "GITHUB_REF": "refs/heads/uninit-ci/ch8-s4p-offline-validation-r1",
+    "GITHUB_RUN_ATTEMPT": "1",
+    "GITHUB_SHA": "2db5d2c08804036d283cb36450647cd584ee9e10"
+  },
+  "native_compile_proof_cost_fit": "NOT_RUN",
+  "proof_credit": "NONE",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed_seconds": 550.6377290091477,
+  "finished_utc": "2026-11-19T07:10:40.085051+00:00",
+  "clean_after": true,
+  "margin_at_18_minutes": 1.96136214992645,
+  "stdout": {
+    "file": "FINAL-VALIDATE.stdout",
+    "bytes": 623,
+    "sha256": "9c52690891e5fbd8eb49ebfa3cc063b84aaff6be140aefa948b9e429493bc1af"
+  },
+  "stderr": {
+    "file": "FINAL-VALIDATE.stderr",
+    "bytes": 44629,
+    "sha256": "05d8ad8f825f2b90da4e07c02928ce3bcad1f84149bca3df0910e67f2e3a8aba"
+  }
+}

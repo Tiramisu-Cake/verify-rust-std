@@ -1,0 +1,165 @@
+{
+  "source": {
+    "repo": "/root/verify-rust-std-ch8-s4p-1-w13",
+    "sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+    "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+    "parents": [
+      "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    ],
+    "clean": true,
+    "depth": 5,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+    "reference": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+    "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "control": {
+    "repo": "/root/kani-ch8-s4p-1-r1-control-w13",
+    "sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+    "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+    "parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "clean": true,
+    "depth": 7,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+    "reference": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "tool": {
+    "repo": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parents": [
+      "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    ],
+    "clean": true,
+    "depth": 2,
+    "author_committer": "Ivo Matijašević <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+  },
+  "schema": "ch8-s4p-1-repair-pins-v1",
+  "status": "READY_FOR_ROOT_CHECK_AND_SAME14_DELTA_NOT_GO",
+  "implementation_task": "c049f3c7f44d111db45baf36a5de24dc19209ee5",
+  "frozen_plan": "a931835b4af8dc8b2ad60e9a115bc0a4903b0b5e",
+  "frozen_inputs": {
+    "plan": "a931835b4af8dc8b2ad60e9a115bc0a4903b0b5e",
+    "intake": "97eaff96cd28267e36af69fe98077dd08737eea6",
+    "intake_review": "135c04791a779e949079db723bdbc0e636873b37",
+    "exact_admission": "39606c431ba266a5dbab2163d0e5175428d38aec",
+    "source_reference": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+    "control_reference": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "prior_s3_1_actual_admission": "b4879b203e42e265f38ce1b44fe767aa78bb43fc"
+  },
+  "runtime": "High/FastOFF; no subagents/model changes",
+  "request": {
+    "schema": "ch8-s4p-1-v1",
+    "profile": "ch8-s4p-1-fullbyte-length-blocks-v1",
+    "sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+    "workflow_sha256": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+    "payload_files": 118,
+    "selfhash_excluded": true
+  },
+  "ordered_rows": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "sort13_weak",
+    "s4p_cell_count_corrupt",
+    "s4p_fallback_b01_n00_02_fullbyte",
+    "s4p_fallback_b01_n03_04_fullbyte",
+    "s4p_network_b01_n00_02_fullbyte",
+    "s4p_network_b01_n03_04_fullbyte"
+  ],
+  "flags": {
+    "unstable": [
+      "function-contracts",
+      "mem-predicates",
+      "float-lib",
+      "c-ffi",
+      "loop-contracts",
+      "quantifiers",
+      "stubbing",
+      "export-json"
+    ],
+    "assert_contracts": false,
+    "jobs": 1,
+    "harness_timeout": "600s",
+    "exact": true,
+    "default_unwind": 50,
+    "cbmc_args": [
+      "--object-bits",
+      "12"
+    ],
+    "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf --cfg=kani_smallsort_s4_partition"
+  },
+  "caps": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "setup_seconds": 1800,
+  "job_minutes": 180,
+  "validate_minutes": 18,
+  "offline_validation": {
+    "actual_final_validate_execution_count": 1,
+    "tests": 305,
+    "test_counts": {
+      "bridge1": 40,
+      "legacy": 136,
+      "s3": 56,
+      "s32": 35,
+      "s4p": 38
+    },
+    "exit_code": 0,
+    "elapsed_seconds": 550.6377290091477,
+    "internal_elapsed_seconds": 549.638364803046,
+    "margin_at_18_minutes": 1.96136214992645,
+    "required_margin": 1.5,
+    "control_sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+    "control_tree": "96b03b52cdd121965690544945c17b175253c6cd",
+    "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149"
+  },
+  "accounting_reference": {
+    "mode": "TRACKING_ONLY",
+    "reservation": false,
+    "changed": false,
+    "future_accounting": "USERCOORDINATOR_ONLY_AFTER_EXACT_REVIEW_AND_GO",
+    "latest_admission_only": "39606c431ba266a5dbab2163d0e5175428d38aec"
+  },
+  "native_compile_proof_cost_fit": "NOT_RUN",
+  "proof_credit": "NONE",
+  "new_admission": false,
+  "independent14": "SAME14_DELTA_PENDING; separate existing CURRENT14 session, no subagent",
+  "GO": "NOT_AUTHORIZED",
+  "future_head_ref_run": "UNKNOWN",
+  "publication": "NOT_PERFORMED; usercoordinator separately after exact review and rootGO",
+  "g0_delivery_commit": "REPORTED_EXTERNALLY; excluded from selfhash loop",
+  "repair_task": "989b0dbd020bc9bb500c0a18f3220d21537fbc44",
+  "frozen_author": "590dd6360f5b4c92eab9fff30aa0d2e7d8d942ce",
+  "independent_review": "4856a87f39d2606adbbed747d3cae9a73fb80d52",
+  "repair_reference": "e941155517a02f67ea9bac1adb81c1d5f6f85638",
+  "cfg_power_set": {
+    "independent_keys": 5,
+    "unique_projections": 32,
+    "sorting_enabled": 16,
+    "ACTIVE_guard_contexts": 4
+  },
+  "terminal_schema_required": "ch8-s4p-1-campaign-v1",
+  "finding_status": {
+    "R14-01": "AUTHOR_FIXED_TARGETED_AND_EXACT_FINAL_VALIDATE_PASS_PENDING_SAME14",
+    "R14-02": "AUTHOR_FIXED_TARGETED_AND_EXACT_FINAL_VALIDATE_PASS_PENDING_SAME14"
+  },
+  "final_validate_receipt_sha256": "085b56191036a672b8869626a8246b1d586a66a0a9bfd2e4b3c14aa3cb63655f",
+  "old_final_validate_reference": "HISTORY-PRESERVATION.json; historical E941 302 PASS only"
+}

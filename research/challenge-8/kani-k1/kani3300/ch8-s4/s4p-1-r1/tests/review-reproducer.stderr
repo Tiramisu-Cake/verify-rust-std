@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/tmp/s4p1-r1-reproducer/reproduce_schema.py", line 51, in <module>
+    if __name__ == '__main__': main()
+                               ^^^^^^
+  File "/tmp/s4p1-r1-reproducer/reproduce_schema.py", line 39, in main
+    observed = public.collect([route], fix[4])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/kani-ch8-s4p-1-r1-control-w13/ch8-s1-control/collect.py", line 57, in collect
+    return s4p_campaign.collect(roots,request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/kani-ch8-s4p-1-r1-control-w13/ch8-s1-control/s4p_campaign.py", line 344, in collect
+    raise GlobalFailure('S4 terminal campaign schema mismatch')
+s4p_campaign.GlobalFailure: S4 terminal campaign schema mismatch

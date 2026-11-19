@@ -1,0 +1,12 @@
+{
+  "historical": "HISTORY-PRESERVATION.json; immutable old packets retained with all old failures",
+  "repair_targeted": [
+    "tests/targeted-01.stderr",
+    "tests/targeted-02.json",
+    "tests/targeted-02.stderr"
+  ],
+  "expected_rejection_reproducer": "tests/review-reproducer.json",
+  "repair_full_validate_before_final": 0,
+  "failures_discarded": false,
+  "packet_helper_failure": "tests/packet-precursor-01.json/.py; gitlink treated as blob, fixed in helper only; no candidate or Validate change"
+}

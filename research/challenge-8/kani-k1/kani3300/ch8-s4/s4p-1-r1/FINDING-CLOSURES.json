@@ -1,0 +1,86 @@
+{
+  "schema": "ch8-s4p1-gate-repair-author-findings-v1",
+  "review": "4856a87f39d2606adbbed747d3cae9a73fb80d52",
+  "review_verdict_preserved": "REQUEST_CHANGES",
+  "independent_closure": "PENDING_SAME14",
+  "control": {
+    "repo": "/root/kani-ch8-s4p-1-r1-control-w13",
+    "sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+    "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+    "parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "clean": true,
+    "depth": 7,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+    "reference": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+  "findings": [
+    {
+      "id": "R14-01",
+      "author_disposition": "FIXED_PENDING_INDEPENDENT_DELTA_REVIEW",
+      "change": "Power set derives from actual key count via 1 << len(keys); no source/hash/normalization/required-path weakening.",
+      "evidence": [
+        "CONTROL-REPAIR.patch",
+        "MAP-CONTRACT_STACKS.json",
+        "PREFLIGHT.json",
+        "TEST-LIST.json",
+        "tests/targeted-02.json",
+        "FINAL-VALIDATE.stderr"
+      ],
+      "observed": {
+        "unique_cfg_subsets": 32,
+        "sorting_enabled": 16,
+        "complete_ACTIVE_guard_contexts": 4
+      },
+      "regression": "Actual emitted gate/report plus observed old/new declarations and nonempty wrapper-to-direct normalization comparisons in each ACTIVE context."
+    },
+    {
+      "id": "R14-02",
+      "author_disposition": "FIXED_PENDING_INDEPENDENT_DELTA_REVIEW",
+      "change": "Exact trusted literal terminal schema, real str equality, checked before count and legacy_collect on local and compact-upload readers.",
+      "evidence": [
+        "CONTROL-REPAIR.patch",
+        "tests/TERMINAL-SCHEMA-MATRIX.json",
+        "tests/review-reproducer.json",
+        "TEST-LIST.json",
+        "FINAL-VALIDATE.stderr"
+      ],
+      "observed": {
+        "original24_malformed_rejections": 24,
+        "total_malformed_rejections": 78,
+        "genuine_acceptances": 6,
+        "malformed_legacy_collection_calls": 0
+      },
+      "variants": [
+        "missing",
+        "null",
+        "old bridge",
+        "int123",
+        "bool true",
+        "bool false",
+        "float",
+        "list",
+        "object",
+        "empty",
+        "unknown",
+        "old S3",
+        "old S32"
+      ],
+      "states": [
+        "FULL8",
+        "STOPPED0",
+        "PARTIAL0"
+      ],
+      "routes": [
+        "LOCAL",
+        "UPLOAD_ONLY"
+      ],
+      "preserved": "Genuine prefixes0..8, selected int8, old7/8/9 schemas/counts and legacy source gates included in exact final Validate."
+    }
+  ],
+  "new_proof_credit": "NONE",
+  "GO": "NOT_AUTHORIZED"
+}
