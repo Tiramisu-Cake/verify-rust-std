@@ -1,0 +1,73 @@
+{
+  "schema": "s5-plan-inputs-v1",
+  "entry_sha": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+  "assurance": "STATIC_READ_ONLY_NO_NEW_NATIVE_EVIDENCE",
+  "std_sha": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+  "control_sha": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+  "control_tree": "628a9aa91c86a2e5f72efee626b58f1715ec3dbf",
+  "stock_tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "curated_inputs": [
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/admission-s4p2-r2-network/ADMISSION.md",
+      "sha256": "dfd31a7b53eab0d1c7d5dd6a1c82a06725d96b464bccba8645f26ee65d47d26b"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/admission-s4p2-r2-network/ADMISSION.json",
+      "sha256": "67e14fd780d9e223504d5667439ead15a20f6195b1ad60690a0c5e5ecc3c4a29"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/admission-s4p1-r1-fallback/ADMISSION.md",
+      "sha256": "c226d234e864a576b484adc509e67034d012c211a6aba40c257003fe55466073"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/DOMAIN-EQUIVALENCE.md",
+      "sha256": "57e6e28cf6076ffd056e5661b8e7a9f8294f02e3523c1929b913a001353daf15"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/RESOURCE.json",
+      "sha256": "66fe44abe7d0ebfbda79a1da64969e33ed32325d24d3851c954c11ab0b0d5b66"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44548842328/HANDOFF.md",
+      "sha256": "525b8a6459310bcd27d52de93abd639a3b6843734ef67230eb383a5dc8148497"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44548842328/COST-INTERPRETATION.json",
+      "sha256": "2a5b88dfca76086d86710b2e29fb7655fb6e57a90d7e8eb69496d9689bdab838"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/AUDIT-REPORT-CH8-ITEM2-SORTING-RU.md",
+      "sha256": "b24df890ebd73ae47e64be2ab407ebce6fda88b275aa91b3c06e335c87c84285"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/PLAN-CH8-ITEM2-SORTING.md",
+      "sha256": "da29b2f73a1c48ce6aaab06bcc9d5a6af21b4e1e7f15f3f09b93e77c3e80d282"
+    }
+  ],
+  "additional_pinned_source": [
+    {
+      "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+      "commit": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead"
+    },
+    {
+      "repo": "/root/kani-ch8-s4p-2-r1-control-w13",
+      "commit": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+      "path": "ch8-s1-control/runner.py",
+      "sha256": "ca45d108e18d56d5554d237450e8668efdc8c5fd04f8d769e16ef32dc02c3ccc"
+    },
+    {
+      "repo": "/root/kani-ch8-s4p-2-r1-control-w13",
+      "commit": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+      "path": "ch8-s1-control/s4p2r2_campaign.py",
+      "sha256": "0b59c2a672f5bfdaa720b3ea2695df5b977187aede9d4dc572b19732a2502889"
+    },
+    {
+      "repo": "/root/kani-ch8-s4p-2-r1-control-w13",
+      "commit": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+      "path": "ch8-s1-control/check_package.py",
+      "sha256": "fe2401be8778f34d39db253acbfd4be688e0a76a658cdc87bb43617d35a43cac"
+    }
+  ]
+}

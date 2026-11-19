@@ -1,0 +1,3940 @@
+{
+  "schema": "s5-static-source-inventory-v1",
+  "source_sha": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+  "source_tree": "91f097cdb4085d30c4b94afbb843aeb34f1d3287",
+  "assurance": "LEXICAL_SOURCE_ONLY; not compiler discovery, AST/MIR binding or proof",
+  "legacy_definition": "non sorting_* verification modules; opt-in negatives retained",
+  "limitation": "Macro invocations and directly attributed functions are source candidates. No cfg expansion or compiler registration is claimed. Control status for macro candidates requires source inspection. No native tools invoked.",
+  "files": [
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "sha256": "1610f857a84ef165340a12efae275227bedc53318a66e906c9ef43132ee5b7bd",
+      "bytes": 6928
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/comparators.rs",
+      "sha256": "7095d7272d929b4e495896ff957a69120a7b86b3f0b99655ede4c989e0543b47",
+      "bytes": 1001
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/fixed_inputs.rs",
+      "sha256": "5b648cbdedd89ef92f0a794580d0c682fc3fe3035cf63142f1b6bec6baccb7c7",
+      "bytes": 6600
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs",
+      "sha256": "575aa575ffb977d945adb2fc40496c805fe6f8cdb1fc6fe471dbe277f5b2630f",
+      "bytes": 11580
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+      "sha256": "86bac48e888365eab2187756dfd8ffbce059d6cc2ce35b1d8ab7b39d788118ac",
+      "bytes": 11417
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs",
+      "sha256": "85bdd131f3a7e62106e69e98e4b1b85d2f68c91a4bfff4df629955539493748c",
+      "bytes": 5908
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/insert_tail_contracts.rs",
+      "sha256": "6f1a2540156a3c603639ee96245aca16ad9da3dbce401630c1b8866d343aa406",
+      "bytes": 2020
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+      "sha256": "e37e6971e6458a17d858de9a6a6ea38265d7584934ef71c8243c97a487505e54",
+      "bytes": 28240
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+      "sha256": "3a220d9fcd8269b253efaa8d7c18c13aa7a6e6f8cf59504ac2ec4c004b9abffe",
+      "bytes": 15149
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/mutations.rs",
+      "sha256": "e008037d4c5a32e31dc25490437bcd2bc520915bfda4af3c2fc84df6e331450e",
+      "bytes": 739
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "sha256": "d59ceb99741990afcfe3f312119053a520f16c071f200953fc517a33729527bf",
+      "bytes": 45617
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/scratch_geometry.rs",
+      "sha256": "905045ba504b5391af44a575dd7e616b0bebb124623490d24343f759eb7f7d16",
+      "bytes": 3074
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs",
+      "sha256": "f576bfa8185c3ded0a27374dd4904db52f9711102a62c37f10406b2ccbd87f23",
+      "bytes": 1047
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_bridge1.rs",
+      "sha256": "9053032d91b29100bda8014cf61dd4efb67ff5a9ad8f46189f8580c9d836f724",
+      "bytes": 5857
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+      "sha256": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+      "bytes": 1589
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "sha256": "7e74bd9695cdb2b98b8298ce7daf7f107e0ac2e6e2a0cfc2203ab1639590130f",
+      "bytes": 10102
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "bytes": 4816
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+      "sha256": "dd4e8eca1761be66ea07508c7678175d54e4b2baf48469ae4866c9cb68e12e0d",
+      "bytes": 7252
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+      "bytes": 14901
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+      "sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "bytes": 2255
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_swap.rs",
+      "sha256": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61",
+      "bytes": 2693
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_2_leaf.rs",
+      "sha256": "b459d52c8b96120c2bda76b91f42cd57d107af4e8b18bdc91c739724d5a6d195",
+      "bytes": 9783
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s3_leaf.rs",
+      "sha256": "fb369dec7cfece8e247c6e5bb78f850a710999e73dbcd7f308c67f9f01479096",
+      "bytes": 9998
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_partition.rs",
+      "sha256": "051e869d52f78f43ee8c1faaf5bad0a91c4e8d9ea21a1e8c1d83991a89e0f574",
+      "bytes": 5180
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+      "sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+      "bytes": 5209
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+      "sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+      "bytes": 6569
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/tag_permutation.rs",
+      "sha256": "dafe3017a7dbf946c045756d8c0f122555bd1372868554563d1cb373eeea7837",
+      "bytes": 5045
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/types.rs",
+      "sha256": "c5b4b5007cda1764af15639fba0fd23bfab9e489d052b0ead6872a440bed1f4f",
+      "bytes": 5647
+    }
+  ],
+  "source_candidates": [
+    {
+      "module": "fixed_inputs",
+      "name": "reject_mutant_swap_u8_n2",
+      "line": 149,
+      "origin": "direct attribute",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": true,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "fixed_inputs",
+      "name": "sorted_permutation_swap_u8_n2",
+      "line": 111,
+      "origin": "original_case",
+      "arguments": "sorted_permutation_swap_u8_n2, check_swap, // SAFETY: two distinct initialized elements in the same two-element array. |v: &mut [u8; 2]| unsafe { swap_if_less(v.as_mut_ptr(), 0, 1, &mut strict_less) }",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "fixed_inputs",
+      "name": "sorted_permutation_insert_tail_u8_n2",
+      "line": 117,
+      "origin": "original_case",
+      "arguments": "sorted_permutation_insert_tail_u8_n2, check_insert, // SAFETY: sorted one-element prefix and initialized tail in the same array. |v: &mut [u8; 2]| unsafe { insert_tail(v.as_mut_ptr(), v.as_mut_ptr().add(1), &mut strict_less) }",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "fixed_inputs",
+      "name": "advancement_merge_up_u8_n2",
+      "line": 125,
+      "origin": "original_case",
+      "arguments": "advancement_merge_up_u8_n2, check_merge_up, // SAFETY: helper supplies two readable elements and a separate writable destination. |l, r, d| unsafe { merge_up(l, r, d, &mut strict_less) }",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "fixed_inputs",
+      "name": "permutation_merge_u8_n4",
+      "line": 131,
+      "origin": "original_case",
+      "arguments": "permutation_merge_u8_n4, check_merge_consumption, // SAFETY: helper supplies four initialized inputs and a separate four-element destination. |v: &[u8; 4], d| unsafe { bidirectional_merge(v, d, &mut arbitrary_less) }",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "fixed_inputs",
+      "name": "sorted_network_prefix_u8_n10",
+      "line": 137,
+      "origin": "original_case",
+      "arguments": "sorted_network_prefix_u8_n10, check_presorted_len, // Safe entry: the exact ten-element array supplies the network length. |v: &mut [u8; 10]| small_sort_network(v, &mut strict_less)",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "fixed_inputs",
+      "name": "safety_stable_unit_n1",
+      "line": 175,
+      "origin": "stable_unit_case",
+      "arguments": "safety_stable_unit_n1, 1",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "fixed_inputs",
+      "name": "safety_stable_unit_n2",
+      "line": 176,
+      "origin": "stable_unit_case",
+      "arguments": "safety_stable_unit_n2, 2",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "fixed_inputs",
+      "name": "safety_stable_unit_n7",
+      "line": 177,
+      "origin": "stable_unit_case",
+      "arguments": "safety_stable_unit_n7, 7",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "fixed_inputs",
+      "name": "safety_stable_unit_n8",
+      "line": 178,
+      "origin": "stable_unit_case",
+      "arguments": "safety_stable_unit_n8, 8",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "fixed_inputs",
+      "name": "safety_stable_unit_n16",
+      "line": 179,
+      "origin": "stable_unit_case",
+      "arguments": "safety_stable_unit_n16, 16",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "fixed_inputs",
+      "name": "safety_stable_unit_n17",
+      "line": 180,
+      "origin": "stable_unit_case",
+      "arguments": "safety_stable_unit_n17, 17",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "fixed_inputs",
+      "name": "safety_stable_unit_n31",
+      "line": 181,
+      "origin": "stable_unit_case",
+      "arguments": "safety_stable_unit_n31, 31",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "fixed_inputs",
+      "name": "safety_stable_unit_n32",
+      "line": 182,
+      "origin": "stable_unit_case",
+      "arguments": "safety_stable_unit_n32, 32",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "forwarding_contracts",
+      "name": "stable_cell_n2",
+      "line": 171,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "forwarding_contracts",
+      "name": "unstable_byte_n2",
+      "line": 193,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "forwarding_contracts",
+      "name": "freeze_noncopy_n2",
+      "line": 206,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "forwarding_contracts",
+      "name": "rejects_always_true",
+      "line": 227,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": true,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "forwarding_contracts",
+      "name": "rejects_payload_corruption",
+      "line": 259,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": true,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "swap_safety_u8_backing4",
+      "line": 51,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "swap_safety_u64_backing4",
+      "line": 57,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "swap_safety_bytes17_backing4",
+      "line": 63,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "rejects_swap_outside_backing_u8",
+      "line": 70,
+      "origin": "direct attribute",
+      "mode_static": "Proof + verified-stub consumer",
+      "control_cfg_explicit": true,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "unstable_network_safety_u8_n9_stubbed",
+      "line": 91,
+      "origin": "direct attribute",
+      "mode_static": "Proof + verified-stub consumer + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "unstable_network_safety_u8_n13_stubbed",
+      "line": 99,
+      "origin": "direct attribute",
+      "mode_static": "Proof + verified-stub consumer + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "swap_safety_u8_backing9",
+      "line": 123,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "swap_safety_u8_backing13",
+      "line": 129,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "insertion_safety_u64_len2",
+      "line": 147,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "insertion_safety_u64_len3",
+      "line": 153,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "insert_tail_safety_u64_tail1_to4_backing5",
+      "line": 159,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "rejects_insert_tail_equal_begin_u64",
+      "line": 182,
+      "origin": "direct attribute",
+      "mode_static": "Proof + verified-stub consumer",
+      "control_cfg_explicit": true,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "sort4_safety_u64",
+      "line": 193,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "merge_safety_u64_len2",
+      "line": 243,
+      "origin": "direct attribute",
+      "mode_static": "PFC + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "merge_safety_u64_len4",
+      "line": 250,
+      "origin": "direct attribute",
+      "mode_static": "PFC + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "rejects_merge_overlapping_dst_u64",
+      "line": 258,
+      "origin": "direct attribute",
+      "mode_static": "Proof + verified-stub consumer",
+      "control_cfg_explicit": true,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts",
+      "name": "rejects_swap_comparator_writing_outside_frame_u8",
+      "line": 272,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": true,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts_wide",
+      "name": "swap_safety_u8_backing32",
+      "line": 77,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts_wide",
+      "name": "swap_safety_u64_backing32",
+      "line": 83,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts_wide",
+      "name": "unstable_network_safety_u8_n32_stubbed",
+      "line": 93,
+      "origin": "direct attribute",
+      "mode_static": "Proof + verified-stub consumer + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts_wide",
+      "name": "merge_safety_u64_len8_scratch48_src32_dst0",
+      "line": 105,
+      "origin": "direct attribute",
+      "mode_static": "PFC + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "helper_contracts_wide",
+      "name": "sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
+      "line": 132,
+      "origin": "direct attribute",
+      "mode_static": "Proof + verified-stub consumer",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "insert_tail_contracts",
+      "name": "insert_tail_safety_u64_backing17_tail1_to7",
+      "line": 46,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "insert_tail_contracts",
+      "name": "insert_tail_safety_u64_backing17_tail8_to15",
+      "line": 52,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "merge",
+      "name": "merge_scratch48_contract_u8_n9",
+      "line": 533,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "merge",
+      "name": "sort4_contract_u64_n4",
+      "line": 204,
+      "origin": "define_sort4_contract_and_comparator_harnesses",
+      "arguments": "sort4_contract_u64_n4, sort4_arbitrary_comparator_u64_n4, u64, Sort4ReadU64",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "profiles::sort4_profile"
+      ]
+    },
+    {
+      "module": "merge",
+      "name": "sort4_arbitrary_comparator_u64_n4",
+      "line": 204,
+      "origin": "define_sort4_contract_and_comparator_harnesses",
+      "arguments": "sort4_contract_u64_n4, sort4_arbitrary_comparator_u64_n4, u64, Sort4ReadU64",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "sort4_contract_bytes16_n4",
+      "line": 210,
+      "origin": "define_sort4_contract_and_comparator_harnesses",
+      "arguments": "sort4_contract_bytes16_n4, sort4_arbitrary_comparator_bytes16_n4, [u8; 16], Sort4ReadB16",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "profiles::sort4_profile"
+      ]
+    },
+    {
+      "module": "merge",
+      "name": "sort4_arbitrary_comparator_bytes16_n4",
+      "line": 210,
+      "origin": "define_sort4_contract_and_comparator_harnesses",
+      "arguments": "sort4_contract_bytes16_n4, sort4_arbitrary_comparator_bytes16_n4, [u8; 16], Sort4ReadB16",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "route_safety_all_routes_n2",
+      "line": 294,
+      "origin": "define_route_safety_harness",
+      "arguments": "route_safety_all_routes_n2, all_upper_routes_safety_body, 2",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "route_safety_all_routes_n3",
+      "line": 295,
+      "origin": "define_route_safety_harness",
+      "arguments": "route_safety_all_routes_n3, all_upper_routes_safety_body, 3",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "route_safety_all_routes_n4",
+      "line": 296,
+      "origin": "define_route_safety_harness",
+      "arguments": "route_safety_all_routes_n4, all_upper_routes_safety_body, 4",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "route_safety_all_routes_n5",
+      "line": 297,
+      "origin": "define_route_safety_harness",
+      "arguments": "route_safety_all_routes_n5, all_upper_routes_safety_body, 5",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "route_safety_all_routes_n6",
+      "line": 298,
+      "origin": "define_route_safety_harness",
+      "arguments": "route_safety_all_routes_n6, all_upper_routes_safety_body, 6",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "route_safety_all_routes_n7",
+      "line": 299,
+      "origin": "define_route_safety_harness",
+      "arguments": "route_safety_all_routes_n7, all_upper_routes_safety_body, 7",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "route_safety_all_routes_n8",
+      "line": 300,
+      "origin": "define_route_safety_harness",
+      "arguments": "route_safety_all_routes_n8, all_upper_routes_safety_body, 8",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "route_safety_all_routes_n16",
+      "line": 301,
+      "origin": "define_route_safety_harness",
+      "arguments": "route_safety_all_routes_n16, all_upper_routes_safety_body, 16",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "merge_contract_u64_n2_to4",
+      "line": 329,
+      "origin": "define_small_merge_contract_harness",
+      "arguments": "merge_contract_u64_n2_to4, LtU64",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "profiles::merge_profile"
+      ]
+    },
+    {
+      "module": "merge",
+      "name": "merge_contract_u8_n2_to4",
+      "line": 330,
+      "origin": "define_small_merge_contract_harness",
+      "arguments": "merge_contract_u8_n2_to4, LtU8",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "profiles::merge_profile"
+      ]
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_direct_u64_n2",
+      "line": 436,
+      "origin": "define_direct_u64_route_harness",
+      "arguments": "general_stable_direct_u64_n2, general_route_const_u64_properties, 2",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_direct_u64_n3",
+      "line": 442,
+      "origin": "define_direct_u64_route_harness",
+      "arguments": "general_stable_direct_u64_n3, general_route_const_u64_properties, 3",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_direct_u64_n4",
+      "line": 448,
+      "origin": "define_direct_u64_route_harness",
+      "arguments": "general_stable_direct_u64_n4, general_route_const_u64_properties, 4",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_direct_u64_n5",
+      "line": 454,
+      "origin": "define_direct_u64_route_harness",
+      "arguments": "general_stable_direct_u64_n5, general_route_const_u64_properties, 5",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_direct_u8_n2",
+      "line": 460,
+      "origin": "define_general_sortedness_harness",
+      "arguments": "general_stable_direct_u8_n2, u8, lt_u8, 2",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_direct_u8_n3",
+      "line": 461,
+      "origin": "define_general_sortedness_harness",
+      "arguments": "general_stable_direct_u8_n3, u8, lt_u8, 3",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_direct_u8_n4",
+      "line": 462,
+      "origin": "define_general_sortedness_harness",
+      "arguments": "general_stable_direct_u8_n4, u8, lt_u8, 4",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_direct_u8_n5",
+      "line": 463,
+      "origin": "define_general_sortedness_harness",
+      "arguments": "general_stable_direct_u8_n5, u8, lt_u8, 5",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_direct_u8_n6",
+      "line": 464,
+      "origin": "define_general_sortedness_harness",
+      "arguments": "general_stable_direct_u8_n6, u8, lt_u8, 6",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_direct_u8_n7",
+      "line": 465,
+      "origin": "define_general_sortedness_harness",
+      "arguments": "general_stable_direct_u8_n7, u8, lt_u8, 7",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_direct_u8_n8",
+      "line": 466,
+      "origin": "define_general_sortedness_harness",
+      "arguments": "general_stable_direct_u8_n8, u8, lt_u8, 8",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_direct_u64_n6",
+      "line": 492,
+      "origin": "define_direct_u64_route_harness",
+      "arguments": "general_direct_u64_n6, general_direct_u64_properties, 6",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_direct_u64_n7",
+      "line": 493,
+      "origin": "define_direct_u64_route_harness",
+      "arguments": "general_direct_u64_n7, general_direct_u64_properties, 7",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_direct_u64_n8",
+      "line": 494,
+      "origin": "define_direct_u64_route_harness",
+      "arguments": "general_direct_u64_n8, general_direct_u64_properties, 8",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "stable_direct_u64_n6",
+      "line": 495,
+      "origin": "define_direct_u64_route_harness",
+      "arguments": "stable_direct_u64_n6, stable_direct_u64_properties, 6",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "stable_direct_u64_n7",
+      "line": 496,
+      "origin": "define_direct_u64_route_harness",
+      "arguments": "stable_direct_u64_n7, stable_direct_u64_properties, 7",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "stable_direct_u64_n8",
+      "line": 497,
+      "origin": "define_direct_u64_route_harness",
+      "arguments": "stable_direct_u64_n8, stable_direct_u64_properties, 8",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_direct_u64_n9",
+      "line": 499,
+      "origin": "define_direct_u64_route_harness",
+      "arguments": "general_direct_u64_n9, general_direct_u64_properties, 9",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "stable_direct_u64_n9",
+      "line": 500,
+      "origin": "define_direct_u64_route_harness",
+      "arguments": "stable_direct_u64_n9, stable_direct_u64_properties, 9",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "merge_contract_u64_n5",
+      "line": 550,
+      "origin": "define_merge_contract_harness",
+      "arguments": "merge_contract_u64_n5, LtU64, 5",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "profiles::merge_profile"
+      ]
+    },
+    {
+      "module": "merge",
+      "name": "merge_contract_u8_n5",
+      "line": 551,
+      "origin": "define_merge_contract_harness",
+      "arguments": "merge_contract_u8_n5, LtU8, 5",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "profiles::merge_profile"
+      ]
+    },
+    {
+      "module": "merge",
+      "name": "merge_contract_u64_n6",
+      "line": 552,
+      "origin": "define_merge_contract_harness",
+      "arguments": "merge_contract_u64_n6, LtU64, 6",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "profiles::merge_profile"
+      ]
+    },
+    {
+      "module": "merge",
+      "name": "merge_contract_u8_n6",
+      "line": 553,
+      "origin": "define_merge_contract_harness",
+      "arguments": "merge_contract_u8_n6, LtU8, 6",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "profiles::merge_profile"
+      ]
+    },
+    {
+      "module": "merge",
+      "name": "merge_contract_u64_n7",
+      "line": 554,
+      "origin": "define_merge_contract_harness",
+      "arguments": "merge_contract_u64_n7, LtU64, 7",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "profiles::merge_profile"
+      ]
+    },
+    {
+      "module": "merge",
+      "name": "merge_contract_u8_n7",
+      "line": 555,
+      "origin": "define_merge_contract_harness",
+      "arguments": "merge_contract_u8_n7, LtU8, 7",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "profiles::merge_profile"
+      ]
+    },
+    {
+      "module": "merge",
+      "name": "merge_contract_u64_n8",
+      "line": 556,
+      "origin": "define_merge_contract_harness",
+      "arguments": "merge_contract_u64_n8, LtU64, 8",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "profiles::merge_profile"
+      ]
+    },
+    {
+      "module": "merge",
+      "name": "merge_contract_u8_n8",
+      "line": 557,
+      "origin": "define_merge_contract_harness",
+      "arguments": "merge_contract_u8_n8, LtU8, 8",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "profiles::merge_profile"
+      ]
+    },
+    {
+      "module": "merge",
+      "name": "merge_contract_u8_n9",
+      "line": 558,
+      "origin": "define_merge_contract_harness",
+      "arguments": "merge_contract_u8_n9, LtU8, 9",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "profiles::merge_profile"
+      ]
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_sorted_permutation_u64_n0",
+      "line": 559,
+      "origin": "define_general_sortedness_harness",
+      "arguments": "general_stable_sorted_permutation_u64_n0, u64, lt_u64, 0",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_sorted_permutation_u8_n0",
+      "line": 560,
+      "origin": "define_general_sortedness_harness",
+      "arguments": "general_stable_sorted_permutation_u8_n0, u8, lt_u8, 0",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "fallback_sorted_permutation_u8_u64_n0",
+      "line": 561,
+      "origin": "define_fallback_property_harness",
+      "arguments": "fallback_sorted_permutation_u8_u64_n0, 0",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_sorted_permutation_u64_n1",
+      "line": 562,
+      "origin": "define_general_sortedness_harness",
+      "arguments": "general_stable_sorted_permutation_u64_n1, u64, lt_u64, 1",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_stable_sorted_permutation_u8_n1",
+      "line": 563,
+      "origin": "define_general_sortedness_harness",
+      "arguments": "general_stable_sorted_permutation_u8_n1, u8, lt_u8, 1",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "fallback_sorted_permutation_u8_u64_n1",
+      "line": 564,
+      "origin": "define_fallback_property_harness",
+      "arguments": "fallback_sorted_permutation_u8_u64_n1, 1",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "fallback_sorted_permutation_u8_u64_n2",
+      "line": 565,
+      "origin": "define_fallback_property_harness",
+      "arguments": "fallback_sorted_permutation_u8_u64_n2, 2",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "fallback_sorted_permutation_u8_u64_n3",
+      "line": 566,
+      "origin": "define_fallback_property_harness",
+      "arguments": "fallback_sorted_permutation_u8_u64_n3, 3",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "fallback_sorted_permutation_u8_u64_n4",
+      "line": 567,
+      "origin": "define_fallback_property_harness",
+      "arguments": "fallback_sorted_permutation_u8_u64_n4, 4",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "fallback_sorted_permutation_u8_u64_n5",
+      "line": 568,
+      "origin": "define_fallback_property_harness",
+      "arguments": "fallback_sorted_permutation_u8_u64_n5, 5",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "fallback_sorted_permutation_u8_u64_n6",
+      "line": 569,
+      "origin": "define_fallback_property_harness",
+      "arguments": "fallback_sorted_permutation_u8_u64_n6, 6",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "drop_fallback_drop_count_n2",
+      "line": 677,
+      "origin": "define_drop_route_harness",
+      "arguments": "drop_fallback_drop_count_n2, 2, false, false, abort_without_order_cover",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "drop_fallback_tag_permutation_n2",
+      "line": 678,
+      "origin": "define_drop_route_harness",
+      "arguments": "drop_fallback_tag_permutation_n2, 2, false, true, abort_without_order_cover",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "drop_fallback_drop_count_n4",
+      "line": 685,
+      "origin": "define_drop_route_harness",
+      "arguments": "drop_fallback_drop_count_n4, 4, false, false, abort_without_order_cover",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "drop_fallback_tag_permutation_n4",
+      "line": 686,
+      "origin": "define_drop_route_harness",
+      "arguments": "drop_fallback_tag_permutation_n4, 4, false, true, abort_without_order_cover",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "drop_fallback_drop_count_n8",
+      "line": 693,
+      "origin": "define_drop_route_harness",
+      "arguments": "drop_fallback_drop_count_n8, 8, false, false, abort_without_order_cover",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "drop_fallback_tag_permutation_n8",
+      "line": 694,
+      "origin": "define_drop_route_harness",
+      "arguments": "drop_fallback_tag_permutation_n8, 8, false, true, abort_without_order_cover",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "drop_general_drop_count_n2",
+      "line": 701,
+      "origin": "define_drop_route_harness",
+      "arguments": "drop_general_drop_count_n2, 2, true, false, abort_on_order_violation",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "drop_general_tag_permutation_n2",
+      "line": 702,
+      "origin": "define_drop_route_harness",
+      "arguments": "drop_general_tag_permutation_n2, 2, true, true, abort_on_order_violation",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "drop_general_drop_count_n4",
+      "line": 709,
+      "origin": "define_drop_route_harness",
+      "arguments": "drop_general_drop_count_n4, 4, true, false, abort_on_order_violation",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "drop_general_tag_permutation_n4",
+      "line": 710,
+      "origin": "define_drop_route_harness",
+      "arguments": "drop_general_tag_permutation_n4, 4, true, true, abort_on_order_violation",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "drop_general_drop_count_n8",
+      "line": 717,
+      "origin": "define_drop_route_harness",
+      "arguments": "drop_general_drop_count_n8, 8, true, false, abort_on_order_violation",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "drop_general_tag_permutation_n8",
+      "line": 718,
+      "origin": "define_drop_route_harness",
+      "arguments": "drop_general_tag_permutation_n8, 8, true, true, abort_on_order_violation",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "drop_general_drop_count_n16",
+      "line": 725,
+      "origin": "define_drop_route_harness",
+      "arguments": "drop_general_drop_count_n16, 16, true, false, abort_on_order_violation",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "general_direct_u8_n9",
+      "line": 759,
+      "origin": "define_direct_u8_n9_route_harness",
+      "arguments": "general_direct_u8_n9, general_direct_u8_n9_properties",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge",
+      "name": "stable_direct_nonconst_u8_n9",
+      "line": 761,
+      "origin": "define_direct_u8_n9_route_harness",
+      "arguments": "stable_direct_nonconst_u8_n9, stable_direct_nonconst_u8_n9_properties",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "merge::profiles",
+      "name": "profile_full_value_checker_rejects_payload_change_u8",
+      "line": 335,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": true,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "merge::profiles",
+      "name": "profile_wrong_f_swap_rejected_u8",
+      "line": 367,
+      "origin": "direct attribute",
+      "mode_static": "Proof + verified-stub consumer",
+      "control_cfg_explicit": true,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "merge::profiles",
+      "name": "profile_wrong_f_sort4_rejected_u64",
+      "line": 377,
+      "origin": "direct attribute",
+      "mode_static": "Proof + verified-stub consumer",
+      "control_cfg_explicit": true,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "merge::profiles",
+      "name": "profile_wrong_f_insert_rejected_u8",
+      "line": 390,
+      "origin": "direct attribute",
+      "mode_static": "Proof + verified-stub consumer",
+      "control_cfg_explicit": true,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "merge::profiles",
+      "name": "profile_wrong_f_merge_rejected_u8",
+      "line": 402,
+      "origin": "direct attribute",
+      "mode_static": "Proof + verified-stub consumer",
+      "control_cfg_explicit": true,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "network",
+      "name": "swap_same_position_u8",
+      "line": 14,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "network",
+      "name": "unstable_freeze_noncopy_bytes86_fallback_n2",
+      "line": 59,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "network",
+      "name": "swap_contract_four_positions_u8",
+      "line": 106,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "network",
+      "name": "swap_contract_four_positions_i32",
+      "line": 111,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "network",
+      "name": "swap_contract_four_positions_u64",
+      "line": 116,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_bytes16_n32",
+      "line": 390,
+      "origin": "direct attribute",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_unstable_bytes16_n32",
+      "line": 401,
+      "origin": "direct attribute",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "network",
+      "name": "contract_insert_tail_u8_prefix",
+      "line": 1095,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "network",
+      "name": "network_safety_unstable_u64_n0_to17",
+      "line": 167,
+      "origin": "unstable_freeze_network_cases",
+      "arguments": "network_safety_unstable_u64_n0_to17, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], []",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_safety_unstable_u64_n30",
+      "line": 258,
+      "origin": "unstable_dispatch_network_cases",
+      "arguments": "network_safety_unstable_u64_n30, [30]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_safety_unstable_u64_n31",
+      "line": 259,
+      "origin": "unstable_dispatch_network_cases",
+      "arguments": "network_safety_unstable_u64_n31, [31]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_safety_unstable_u64_n32",
+      "line": 260,
+      "origin": "unstable_dispatch_network_cases",
+      "arguments": "network_safety_unstable_u64_n32, [32]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_u8_n0_1_2_7_8",
+      "line": 319,
+      "origin": "dispatch_safety_cases",
+      "arguments": "dispatch_safety_stable_u8_n0_1_2_7_8, u8, true, [0, 1, 2, 7, 8]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_u8_n15_16_17",
+      "line": 320,
+      "origin": "dispatch_safety_cases",
+      "arguments": "dispatch_safety_stable_u8_n15_16_17, u8, true, [15, 16, 17]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_u8_n31_32",
+      "line": 321,
+      "origin": "dispatch_safety_cases",
+      "arguments": "dispatch_safety_stable_u8_n31_32, u8, true, [31, 32]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_unstable_u8_n8_9_12_13_17",
+      "line": 322,
+      "origin": "dispatch_safety_cases",
+      "arguments": "dispatch_safety_unstable_u8_n8_9_12_13_17, u8, false, [8, 9, 12, 13, 17]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_unstable_u8_n18_31_32",
+      "line": 323,
+      "origin": "dispatch_safety_cases",
+      "arguments": "dispatch_safety_unstable_u8_n18_31_32, u8, false, [18, 31, 32]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_reachability_stable_u8_n17",
+      "line": 368,
+      "origin": "dispatch_reachability_case",
+      "arguments": "dispatch_reachability_stable_u8_n17, u8, true, 17",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_reachability_general_bytes16_n17",
+      "line": 369,
+      "origin": "dispatch_reachability_case",
+      "arguments": "dispatch_reachability_general_bytes16_n17, [u8; 16], false, 17",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_reachability_network_u8_n18",
+      "line": 370,
+      "origin": "dispatch_reachability_case",
+      "arguments": "dispatch_reachability_network_u8_n18, u8, false, 18",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_unstable_bytes16_n0_1_2_7_8",
+      "line": 378,
+      "origin": "dispatch_pair_safety_cases",
+      "arguments": "dispatch_safety_stable_unstable_bytes16_n0_1_2_7_8, [u8; 16], [0, 1, 2, 7, 8]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_unstable_bytes16_n15",
+      "line": 383,
+      "origin": "dispatch_pair_safety_cases",
+      "arguments": "dispatch_safety_stable_unstable_bytes16_n15, [u8; 16], [15]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_unstable_bytes16_n16",
+      "line": 384,
+      "origin": "dispatch_pair_safety_cases",
+      "arguments": "dispatch_safety_stable_unstable_bytes16_n16, [u8; 16], [16]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_unstable_bytes16_n17",
+      "line": 385,
+      "origin": "dispatch_pair_safety_cases",
+      "arguments": "dispatch_safety_stable_unstable_bytes16_n17, [u8; 16], [17]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8",
+      "line": 407,
+      "origin": "dispatch_pair_safety_cases",
+      "arguments": "dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8, [u8; 17], [0, 1, 2, 7, 8]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_unstable_bytes17_n15",
+      "line": 412,
+      "origin": "dispatch_pair_safety_cases",
+      "arguments": "dispatch_safety_stable_unstable_bytes17_n15, [u8; 17], [15]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_unstable_bytes17_n16",
+      "line": 413,
+      "origin": "dispatch_pair_safety_cases",
+      "arguments": "dispatch_safety_stable_unstable_bytes17_n16, [u8; 17], [16]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_unstable_bytes17_n17",
+      "line": 414,
+      "origin": "dispatch_pair_safety_cases",
+      "arguments": "dispatch_safety_stable_unstable_bytes17_n17, [u8; 17], [17]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_bytes17_n32",
+      "line": 415,
+      "origin": "dispatch_safety_cases",
+      "arguments": "dispatch_safety_stable_bytes17_n32, [u8; 17], true, [32]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_unstable_bytes17_n32",
+      "line": 416,
+      "origin": "dispatch_safety_cases",
+      "arguments": "dispatch_safety_unstable_bytes17_n32, [u8; 17], false, [32]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_unstable_drop_u8_n0_1_2_7_8",
+      "line": 437,
+      "origin": "dispatch_pair_safety_cases",
+      "arguments": "dispatch_safety_stable_unstable_drop_u8_n0_1_2_7_8, DropValue, [0, 1, 2, 7, 8]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_unstable_drop_u8_n15_16_17",
+      "line": 442,
+      "origin": "dispatch_pair_safety_cases",
+      "arguments": "dispatch_safety_stable_unstable_drop_u8_n15_16_17, DropValue, [15, 16, 17]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_unstable_drop_u8_n32",
+      "line": 447,
+      "origin": "dispatch_pair_safety_cases",
+      "arguments": "dispatch_safety_stable_unstable_drop_u8_n32, DropValue, [32]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_unstable_bytes85_n0_1_2_7_8",
+      "line": 455,
+      "origin": "dispatch_pair_safety_cases",
+      "arguments": "dispatch_safety_stable_unstable_bytes85_n0_1_2_7_8, [u8; 85], [0, 1, 2, 7, 8]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_unstable_bytes85_n15_16_17",
+      "line": 460,
+      "origin": "dispatch_pair_safety_cases",
+      "arguments": "dispatch_safety_stable_unstable_bytes85_n15_16_17, [u8; 85], [15, 16, 17]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_stable_unstable_bytes85_n32",
+      "line": 465,
+      "origin": "dispatch_pair_safety_cases",
+      "arguments": "dispatch_safety_stable_unstable_bytes85_n32, [u8; 85], [32]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "dispatch_safety_unstable_bytes86_n0_1_2_15_16",
+      "line": 467,
+      "origin": "dispatch_safety_cases",
+      "arguments": "dispatch_safety_unstable_bytes86_n0_1_2_15_16, [u8; 86], false, [0, 1, 2, 15, 16]",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n1_to5",
+      "line": 536,
+      "origin": "insertion_safety_cases",
+      "arguments": "insertion_safety_u64_n1_to5, [1, 2, 3, 4, 5]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n6_to10",
+      "line": 537,
+      "origin": "insertion_safety_cases",
+      "arguments": "insertion_safety_u64_n6_to10, [6, 7, 8, 9, 10]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "mutating_route_safety_cell_n0_to4",
+      "line": 629,
+      "origin": "mutating_route_cases",
+      "arguments": "mutating_route_safety_cell_n0_to4, [0, 1, 2, 3, 4]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "mutating_route_safety_cell_n5_to8",
+      "line": 630,
+      "origin": "mutating_route_cases",
+      "arguments": "mutating_route_safety_cell_n5_to8, [5, 6, 7, 8]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "mutating_route_safety_cell_n9_to12",
+      "line": 631,
+      "origin": "mutating_route_cases",
+      "arguments": "mutating_route_safety_cell_n9_to12, [9, 10, 11, 12]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "mutating_route_safety_cell_n13_to16",
+      "line": 632,
+      "origin": "mutating_route_cases",
+      "arguments": "mutating_route_safety_cell_n13_to16, [13, 14, 15, 16]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "mutating_insertion_safety_cell_n1_to5",
+      "line": 633,
+      "origin": "mutating_insertion_cases",
+      "arguments": "mutating_insertion_safety_cell_n1_to5, [1, 2, 3, 4, 5]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n11_to12",
+      "line": 635,
+      "origin": "insertion_safety_cases",
+      "arguments": "insertion_safety_u64_n11_to12, [11, 12]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n13",
+      "line": 637,
+      "origin": "insertion_safety_cases",
+      "arguments": "insertion_safety_u64_n13, [13]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n14",
+      "line": 638,
+      "origin": "insertion_safety_cases",
+      "arguments": "insertion_safety_u64_n14, [14]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n15_offsets1_to4",
+      "line": 679,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n15_offsets1_to4, 15, [1, 2, 3, 4]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n15_offsets5_to8",
+      "line": 680,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n15_offsets5_to8, 15, [5, 6, 7, 8]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n15_offsets9_to12",
+      "line": 681,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n15_offsets9_to12, 15, [9, 10, 11, 12]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n15_offsets13_to15",
+      "line": 682,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n15_offsets13_to15, 15, [13, 14, 15]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n16_offsets1_to4",
+      "line": 683,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n16_offsets1_to4, 16, [1, 2, 3, 4]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n16_offsets5_to8",
+      "line": 684,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n16_offsets5_to8, 16, [5, 6, 7, 8]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n16_offsets9_to12",
+      "line": 685,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n16_offsets9_to12, 16, [9, 10, 11, 12]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n16_offsets13_to16",
+      "line": 686,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n16_offsets13_to16, 16, [13, 14, 15, 16]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n17_offsets1_to4",
+      "line": 687,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n17_offsets1_to4, 17, [1, 2, 3, 4]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n17_offsets5_to8",
+      "line": 688,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n17_offsets5_to8, 17, [5, 6, 7, 8]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n17_offsets9_to12",
+      "line": 689,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n17_offsets9_to12, 17, [9, 10, 11, 12]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n17_offsets13_to15",
+      "line": 690,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n17_offsets13_to15, 17, [13, 14, 15]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n17_offsets16_to17",
+      "line": 691,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n17_offsets16_to17, 17, [16, 17]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n18_offsets1_to4",
+      "line": 692,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n18_offsets1_to4, 18, [1, 2, 3, 4]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n18_offsets5_to8",
+      "line": 693,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n18_offsets5_to8, 18, [5, 6, 7, 8]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n18_offsets9_to12",
+      "line": 694,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n18_offsets9_to12, 18, [9, 10, 11, 12]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n18_offsets13_to16",
+      "line": 695,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n18_offsets13_to16, 18, [13, 14, 15, 16]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n18_offsets17_to18",
+      "line": 696,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n18_offsets17_to18, 18, [17, 18]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n19_offsets1_to4",
+      "line": 697,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n19_offsets1_to4, 19, [1, 2, 3, 4]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n19_offsets5_to8",
+      "line": 698,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n19_offsets5_to8, 19, [5, 6, 7, 8]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n19_offsets9_to12",
+      "line": 699,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n19_offsets9_to12, 19, [9, 10, 11, 12]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n19_offsets13_to16",
+      "line": 700,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n19_offsets13_to16, 19, [13, 14, 15, 16]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n19_offsets17_to19",
+      "line": 701,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n19_offsets17_to19, 19, [17, 18, 19]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n20_offsets1_to4",
+      "line": 702,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n20_offsets1_to4, 20, [1, 2, 3, 4]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "mutating_insertion_safety_cell_n20_offsets1_to4",
+      "line": 703,
+      "origin": "insertion_offset_group_cell_case",
+      "arguments": "mutating_insertion_safety_cell_n20_offsets1_to4, 20, [1, 2, 3, 4]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n20_offsets5_to8",
+      "line": 708,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n20_offsets5_to8, 20, [5, 6, 7, 8]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "mutating_insertion_safety_cell_n20_offsets5_to8",
+      "line": 709,
+      "origin": "insertion_offset_group_cell_case",
+      "arguments": "mutating_insertion_safety_cell_n20_offsets5_to8, 20, [5, 6, 7, 8]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n20_offsets9_to12",
+      "line": 714,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n20_offsets9_to12, 20, [9, 10, 11, 12]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "mutating_insertion_safety_cell_n20_offsets9_to12",
+      "line": 715,
+      "origin": "insertion_offset_group_cell_case",
+      "arguments": "mutating_insertion_safety_cell_n20_offsets9_to12, 20, [9, 10, 11, 12]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n20_offsets13_to16",
+      "line": 720,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n20_offsets13_to16, 20, [13, 14, 15, 16]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "mutating_insertion_safety_cell_n20_offsets13_to16",
+      "line": 721,
+      "origin": "insertion_offset_group_cell_case",
+      "arguments": "mutating_insertion_safety_cell_n20_offsets13_to16, 20, [13, 14, 15, 16]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_safety_u64_n20_offsets17_to20",
+      "line": 726,
+      "origin": "insertion_offset_group_u64_case",
+      "arguments": "insertion_safety_u64_n20_offsets17_to20, 20, [17, 18, 19, 20]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "mutating_insertion_safety_cell_n20_offsets17_to20",
+      "line": 727,
+      "origin": "insertion_offset_group_cell_case",
+      "arguments": "mutating_insertion_safety_cell_n20_offsets17_to20, 20, [17, 18, 19, 20]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u8_n0_to2",
+      "line": 773,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u8_n0_to2, u8, [0, 1, 2]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u64_n0_to2",
+      "line": 774,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u64_n0_to2, u64, [0, 1, 2]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u8_n3_to4",
+      "line": 775,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u8_n3_to4, u8, [3, 4]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u64_n3_to4",
+      "line": 776,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u64_n3_to4, u64, [3, 4]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u8_n5",
+      "line": 778,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u8_n5, u8, [5]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u64_n5",
+      "line": 779,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u64_n5, u64, [5]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u8_n6",
+      "line": 780,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u8_n6, u8, [6]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u64_n6",
+      "line": 781,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u64_n6, u64, [6]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u8_n7",
+      "line": 783,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u8_n7, u8, [7]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u64_n7",
+      "line": 784,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u64_n7, u64, [7]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "swap_contract_u8_n2",
+      "line": 926,
+      "origin": "swap_contract_exact_array_case",
+      "arguments": "swap_contract_u8_n2, StrictU8",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::swap_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "swap_contract_u64_n2",
+      "line": 927,
+      "origin": "swap_contract_exact_array_case",
+      "arguments": "swap_contract_u64_n2, StrictU64",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::swap_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "swap_contract_drop_u8_n2",
+      "line": 928,
+      "origin": "swap_contract_exact_array_case",
+      "arguments": "swap_contract_drop_u8_n2, DropU8",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::swap_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "swap_contract_cell_i32_n2",
+      "line": 929,
+      "origin": "swap_contract_exact_array_case",
+      "arguments": "swap_contract_cell_i32_n2, CellI32",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::swap_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "swap_contract_bytes16_n2",
+      "line": 930,
+      "origin": "swap_contract_exact_array_case",
+      "arguments": "swap_contract_bytes16_n2, KeyB16",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::swap_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "swap_contract_bytes17_n2",
+      "line": 931,
+      "origin": "swap_contract_exact_array_case",
+      "arguments": "swap_contract_bytes17_n2, KeyB17",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::swap_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u8_n9",
+      "line": 933,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u8_n9, u8, [9]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u64_n9",
+      "line": 934,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u64_n9, u64, [9]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u8_n10",
+      "line": 935,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u8_n10, u8, [10]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_permutation_u8_n10",
+      "line": 968,
+      "origin": "insertion_permutation_case",
+      "arguments": "insertion_permutation_u8_n10, u8, 10",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_permutation_u64_n10",
+      "line": 969,
+      "origin": "insertion_permutation_case",
+      "arguments": "insertion_permutation_u64_n10, u64, 10",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u8_n11",
+      "line": 971,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u8_n11, u8, [11]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_permutation_u8_n11",
+      "line": 972,
+      "origin": "insertion_permutation_case",
+      "arguments": "insertion_permutation_u8_n11, u8, 11",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u8_n12",
+      "line": 974,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u8_n12, u8, [12]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "network_correctness_u8_n13",
+      "line": 976,
+      "origin": "network_correctness_cases",
+      "arguments": "network_correctness_u8_n13, u8, [13]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_permutation_u8_n14",
+      "line": 978,
+      "origin": "insertion_permutation_case",
+      "arguments": "insertion_permutation_u8_n14, u8, 14",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "insertion_permutation_u64_n14",
+      "line": 979,
+      "origin": "insertion_permutation_case",
+      "arguments": "insertion_permutation_u64_n14, u64, 14",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "swap_contract_u8_indices_n17",
+      "line": 1026,
+      "origin": "swap_contract_arbitrary_indices_case",
+      "arguments": "swap_contract_u8_indices_n17, StrictU8, 17",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::swap_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "swap_contract_u64_indices_n17",
+      "line": 1027,
+      "origin": "swap_contract_arbitrary_indices_case",
+      "arguments": "swap_contract_u64_indices_n17, StrictU64, 17",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::swap_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "swap_contract_u8_n9",
+      "line": 1028,
+      "origin": "swap_contract_arbitrary_indices_case",
+      "arguments": "swap_contract_u8_n9, StrictU8, 9",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::swap_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "swap_contract_u8_n13",
+      "line": 1029,
+      "origin": "swap_contract_arbitrary_indices_case",
+      "arguments": "swap_contract_u8_n13, StrictU8, 13",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::swap_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "swap_contract_u64_n9",
+      "line": 1030,
+      "origin": "swap_contract_arbitrary_indices_case",
+      "arguments": "swap_contract_u64_n9, StrictU64, 9",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::swap_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "insert_tail_contract_u64_start1_tail2_to8",
+      "line": 1078,
+      "origin": "insert_tail_start1_group_case",
+      "arguments": "insert_tail_contract_u64_start1_tail2_to8, 2, 8, [2, 3, 4, 5, 6, 7, 8]",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::insert_tail_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "insert_tail_contract_u64_start1_tail9_to12",
+      "line": 1085,
+      "origin": "insert_tail_start1_group_case",
+      "arguments": "insert_tail_contract_u64_start1_tail9_to12, 9, 12, [9, 10, 11, 12]",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::insert_tail_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "insert_tail_contract_u64_start1_tail13_to14",
+      "line": 1087,
+      "origin": "insert_tail_start1_group_case",
+      "arguments": "insert_tail_contract_u64_start1_tail13_to14, 13, 14, [13, 14]",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::insert_tail_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "insert_tail_contract_u64_start1_tail15_to16",
+      "line": 1089,
+      "origin": "insert_tail_start1_group_case",
+      "arguments": "insert_tail_contract_u64_start1_tail15_to16, 15, 16, [15, 16]",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "super::merge::profiles::insert_tail_profile"
+      ]
+    },
+    {
+      "module": "network",
+      "name": "mutating_route_permutation_cell_n2",
+      "line": 1161,
+      "origin": "mutating_route_permutation_case",
+      "arguments": "mutating_route_permutation_cell_n2, 2, [1, 2]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "mutating_route_permutation_cell_n3",
+      "line": 1162,
+      "origin": "mutating_route_permutation_case",
+      "arguments": "mutating_route_permutation_cell_n3, 3, [1, 2, 3]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "network",
+      "name": "mutating_route_permutation_cell_n4",
+      "line": 1163,
+      "origin": "mutating_route_permutation_case",
+      "arguments": "mutating_route_permutation_cell_n4, 4, [1, 2, 3, 4]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "scratch_geometry",
+      "name": "stable_u64_min_scratch_n2",
+      "line": 81,
+      "origin": "geometry_harness",
+      "arguments": "stable_u64_min_scratch_n2, separate_allocation, 2, 18",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "smoke",
+      "name": "predicate_efficient_swap_type_matrix",
+      "line": 15,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_bridge1",
+      "name": "i_p01_b01_fullu8",
+      "line": 23,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_bridge1",
+      "name": "sort9_v34_b01_len09_real",
+      "line": 47,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_bridge1",
+      "name": "fallback_cell_b01_n00_16",
+      "line": 68,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_bridge1",
+      "name": "network_u8_b01_n00_08",
+      "line": 110,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_entry_controls",
+      "name": "stable_default_activation",
+      "line": 12,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_entry_controls",
+      "name": "stable_freeze_activation",
+      "line": 25,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "stable_default_cell",
+      "line": 141,
+      "origin": "smoke",
+      "arguments": "stable_default_cell, Cell<u8>, Cell::new, StableSmallSortTypeImpl, 16, stable_empty",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$ty as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "stable_freeze_u8",
+      "line": 142,
+      "origin": "smoke",
+      "arguments": "stable_freeze_u8, u8, byte, StableSmallSortTypeImpl, 32, stable_general",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$ty as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "unstable_default_cell",
+      "line": 143,
+      "origin": "smoke",
+      "arguments": "unstable_default_cell, Cell<u8>, Cell::new, UnstableSmallSortTypeImpl, 16, unstable",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$ty as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "unstable_freeze_u8",
+      "line": 144,
+      "origin": "smoke",
+      "arguments": "unstable_freeze_u8, u8, byte, UnstableSmallSortTypeImpl, 32, unstable",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$ty as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "freeze_default_noncopy",
+      "line": 145,
+      "origin": "smoke",
+      "arguments": "freeze_default_noncopy, NonCopyByte, NonCopyByte::new, UnstableSmallSortFreezeTypeImpl, 32, unstable",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$ty as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "freeze_copy_u8",
+      "line": 147,
+      "origin": "smoke",
+      "arguments": "freeze_copy_u8, u8, byte, UnstableSmallSortFreezeTypeImpl, 32, unstable",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$ty as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "stable_freeze_u8_n0",
+      "line": 149,
+      "origin": "smoke_exact_n",
+      "arguments": "stable_freeze_u8_n0, u8, byte, StableSmallSortTypeImpl, 32, stable_general, 0",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "stable_freeze_u8_n1",
+      "line": 150,
+      "origin": "smoke_exact_n",
+      "arguments": "stable_freeze_u8_n1, u8, byte, StableSmallSortTypeImpl, 32, stable_general, 1",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "stable_freeze_u8_n2",
+      "line": 151,
+      "origin": "smoke_exact_n",
+      "arguments": "stable_freeze_u8_n2, u8, byte, StableSmallSortTypeImpl, 32, stable_general, 2",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "stable_freeze_u8_n3",
+      "line": 152,
+      "origin": "smoke_exact_n",
+      "arguments": "stable_freeze_u8_n3, u8, byte, StableSmallSortTypeImpl, 32, stable_general, 3",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "unstable_freeze_u8_n0",
+      "line": 153,
+      "origin": "smoke_exact_n",
+      "arguments": "unstable_freeze_u8_n0, u8, byte, UnstableSmallSortTypeImpl, 32, unstable, 0",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "unstable_freeze_u8_n1",
+      "line": 154,
+      "origin": "smoke_exact_n",
+      "arguments": "unstable_freeze_u8_n1, u8, byte, UnstableSmallSortTypeImpl, 32, unstable, 1",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "unstable_freeze_u8_n2",
+      "line": 155,
+      "origin": "smoke_exact_n",
+      "arguments": "unstable_freeze_u8_n2, u8, byte, UnstableSmallSortTypeImpl, 32, unstable, 2",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "unstable_freeze_u8_n3",
+      "line": 156,
+      "origin": "smoke_exact_n",
+      "arguments": "unstable_freeze_u8_n3, u8, byte, UnstableSmallSortTypeImpl, 32, unstable, 3",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "freeze_default_noncopy_n0",
+      "line": 157,
+      "origin": "smoke_exact_n",
+      "arguments": "freeze_default_noncopy_n0, NonCopyByte, NonCopyByte::new, UnstableSmallSortFreezeTypeImpl, 32, unstable, 0",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "freeze_default_noncopy_n1",
+      "line": 159,
+      "origin": "smoke_exact_n",
+      "arguments": "freeze_default_noncopy_n1, NonCopyByte, NonCopyByte::new, UnstableSmallSortFreezeTypeImpl, 32, unstable, 1",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "freeze_default_noncopy_n2",
+      "line": 161,
+      "origin": "smoke_exact_n",
+      "arguments": "freeze_default_noncopy_n2, NonCopyByte, NonCopyByte::new, UnstableSmallSortFreezeTypeImpl, 32, unstable, 2",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "freeze_default_noncopy_n3",
+      "line": 163,
+      "origin": "smoke_exact_n",
+      "arguments": "freeze_default_noncopy_n3, NonCopyByte, NonCopyByte::new, UnstableSmallSortFreezeTypeImpl, 32, unstable, 3",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "freeze_copy_u8_n0",
+      "line": 165,
+      "origin": "smoke_exact_n",
+      "arguments": "freeze_copy_u8_n0, u8, byte, UnstableSmallSortFreezeTypeImpl, 32, unstable, 0",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "freeze_copy_u8_n1",
+      "line": 166,
+      "origin": "smoke_exact_n",
+      "arguments": "freeze_copy_u8_n1, u8, byte, UnstableSmallSortFreezeTypeImpl, 32, unstable, 1",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "freeze_copy_u8_n2",
+      "line": 167,
+      "origin": "smoke_exact_n",
+      "arguments": "freeze_copy_u8_n2, u8, byte, UnstableSmallSortFreezeTypeImpl, 32, unstable, 2",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_entry_smoke",
+      "name": "freeze_copy_u8_n3",
+      "line": 168,
+      "origin": "smoke_exact_n",
+      "arguments": "freeze_copy_u8_n3, u8, byte, UnstableSmallSortFreezeTypeImpl, 32, unstable, 3",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": [
+        "<$type as $trait>::small_sort"
+      ]
+    },
+    {
+      "module": "sorting_model_controls",
+      "name": "inactive_pairs_read_free",
+      "line": 73,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_model_controls",
+      "name": "activation_descending_rejected",
+      "line": 94,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_model_controls",
+      "name": "activation_effectful_rejected",
+      "line": 99,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_model_controls",
+      "name": "activation_unsupported_type_rejected",
+      "line": 106,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_model_controls",
+      "name": "corruption_companion",
+      "line": 120,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_model_controls",
+      "name": "order_corruption_rejected",
+      "line": 133,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_model_controls",
+      "name": "count_corruption_rejected",
+      "line": 142,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_model_controls",
+      "name": "snapshot_guards_companion",
+      "line": 153,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_model_controls",
+      "name": "invalid_snapshot_rejected",
+      "line": 174,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_model_controls",
+      "name": "model_u8_n0_3",
+      "line": 61,
+      "origin": "positive",
+      "arguments": "model_u8_n0_3, u8, byte",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "sorting_model_controls",
+      "name": "model_cell_n0_3",
+      "line": 62,
+      "origin": "positive",
+      "arguments": "model_cell_n0_3, Cell<u8>, Cell::new",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "sorting_model_controls",
+      "name": "model_noncopy_n0_3",
+      "line": 63,
+      "origin": "positive",
+      "arguments": "model_noncopy_n0_3, NonCopyByte, NonCopyByte::new",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "sorting_s2_batch",
+      "name": "merge32_real",
+      "line": 29,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s2_batch",
+      "name": "sort13_assumed",
+      "line": 42,
+      "origin": "direct attribute",
+      "mode_static": "Proof + verified-stub consumer",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s2_batch",
+      "name": "general32_assumed",
+      "line": 59,
+      "origin": "direct attribute",
+      "mode_static": "Proof + verified-stub consumer",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s2_batch",
+      "name": "swap_pfc",
+      "line": 74,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s2_batch",
+      "name": "summary_witness",
+      "line": 102,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s2_batch",
+      "name": "merge_order_corrupt",
+      "line": 118,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s2_batch",
+      "name": "merge_count_corrupt",
+      "line": 125,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s2_batch",
+      "name": "checker_count_corrupt",
+      "line": 132,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s2_batch",
+      "name": "checker_order_corrupt",
+      "line": 138,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s2_batch",
+      "name": "sort13_weak",
+      "line": 146,
+      "origin": "direct attribute",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s2_batch",
+      "name": "general32_weak",
+      "line": 160,
+      "origin": "direct attribute",
+      "mode_static": "Proof + verified-stub consumer + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s2_batch",
+      "name": "sort8_registration_only",
+      "line": 171,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s3_2_leaf",
+      "name": "i_p01_b1_16",
+      "line": 24,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s3_2_leaf",
+      "name": "i_p16_b1_16",
+      "line": 52,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s3_2_leaf",
+      "name": "m8_s32_d00_allinit",
+      "line": 81,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s3_2_leaf",
+      "name": "m8_s32_d00_partial_diag",
+      "line": 120,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s3_2_leaf",
+      "name": "m8_s40_d16_partial_diag",
+      "line": 159,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s3_leaf",
+      "name": "s3_swap_u8_geometry",
+      "line": 24,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s3_leaf",
+      "name": "s3_sort4_u8_separate",
+      "line": 50,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s3_leaf",
+      "name": "s3_sort4_u8_same_alloc",
+      "line": 70,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s3_leaf",
+      "name": "s3_insert_tail_u8_rel16",
+      "line": 105,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s3_leaf",
+      "name": "s3_merge8_u8_separate",
+      "line": 132,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s3_leaf",
+      "name": "s3_merge8_u8_same_alloc",
+      "line": 155,
+      "origin": "direct attribute",
+      "mode_static": "PFC",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s4_network_partition",
+      "name": "s4p2_network_b01_n02_fullbyte",
+      "line": 23,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s4_network_partition",
+      "name": "s4p2_network_b01_n03_fullbyte",
+      "line": 48,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s4_network_partition",
+      "name": "s4p2_network_b01_n04_fullbyte",
+      "line": 73,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s4_network_partition",
+      "name": "s4p2_network_b01_n00_01_fullbyte",
+      "line": 98,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s4_network_r2",
+      "name": "s4p2r2_network_b01_n02_fullbyte",
+      "line": 23,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s4_network_r2",
+      "name": "s4p2r2_network_b01_n03_fullbyte",
+      "line": 47,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s4_network_r2",
+      "name": "s4p2r2_network_b01_n04_fullbyte",
+      "line": 71,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s4_network_r2",
+      "name": "s4p2r2_network_b01_n00_01_fullbyte",
+      "line": 95,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s4_partition",
+      "name": "s4p_cell_count_corrupt",
+      "line": 24,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s4_partition",
+      "name": "s4p_fallback_b01_n00_02_fullbyte",
+      "line": 35,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s4_partition",
+      "name": "s4p_fallback_b01_n03_04_fullbyte",
+      "line": 63,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s4_partition",
+      "name": "s4p_network_b01_n00_02_fullbyte",
+      "line": 90,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "sorting_s4_partition",
+      "name": "s4p_network_b01_n03_04_fullbyte",
+      "line": 117,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "experimental",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "tag_permutation",
+      "name": "tag_types_preserve_source_routes",
+      "line": 71,
+      "origin": "direct attribute",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "tag_permutation",
+      "name": "network_u8_n9",
+      "line": 109,
+      "origin": "direct attribute",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "tag_permutation",
+      "name": "network_u8_n13",
+      "line": 119,
+      "origin": "direct attribute",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "tag_permutation",
+      "name": "reject_duplicate_network_u8_n9",
+      "line": 130,
+      "origin": "direct attribute",
+      "mode_static": "Proof + ordinary stub (inspect pinned source)",
+      "control_cfg_explicit": true,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE"
+    },
+    {
+      "module": "types",
+      "name": "sorted_permutation_traits_fallback_cell_u8_n0_to2",
+      "line": 120,
+      "origin": "trait_cases",
+      "arguments": "sorted_permutation_traits_fallback_cell_u8_n0_to2, Cell<u8>, [0, 1, 2]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "types",
+      "name": "sorted_permutation_traits_general_drop_u8_n0_to2",
+      "line": 121,
+      "origin": "trait_cases",
+      "arguments": "sorted_permutation_traits_general_drop_u8_n0_to2, DropKey, [0, 1, 2]",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "types",
+      "name": "sorted_permutation_traits_fallback_cell_u8_n7",
+      "line": 135,
+      "origin": "fixed_trait_case",
+      "arguments": "sorted_permutation_traits_fallback_cell_u8_n7, Cell<u8>, 7",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "types",
+      "name": "sorted_permutation_traits_general_drop_u8_n8",
+      "line": 137,
+      "origin": "fixed_trait_case",
+      "arguments": "sorted_permutation_traits_general_drop_u8_n8, DropKey, 8",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "types",
+      "name": "sorted_permutation_traits_stable_fallback_cell_u8_n8",
+      "line": 173,
+      "origin": "fixed_route_trait_case",
+      "arguments": "sorted_permutation_traits_stable_fallback_cell_u8_n8, Cell<u8>, 8, true",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    },
+    {
+      "module": "types",
+      "name": "sorted_permutation_traits_unstable_fallback_cell_u8_n8",
+      "line": 174,
+      "origin": "fixed_route_trait_case",
+      "arguments": "sorted_permutation_traits_unstable_fallback_cell_u8_n8, Cell<u8>, 8, false",
+      "mode_static": "Proof",
+      "control_cfg_explicit": false,
+      "scope": "legacy",
+      "deletion": "KEEP_PENDING_EQUIVALENCE",
+      "macro_contract_targets_lexical": []
+    }
+  ]
+}

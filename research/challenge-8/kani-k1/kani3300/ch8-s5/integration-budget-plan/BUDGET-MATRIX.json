@@ -1,0 +1,518 @@
+{
+  "schema": "s5-proposed-budget-and-matrix-v1",
+  "status": "PLAN_ONLY_NO_GO_NO_RESERVATION",
+  "caps_source": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/RESOURCE.json",
+  "caps_source_sha256": "66fe44abe7d0ebfbda79a1da64969e33ed32325d24d3851c954c11ab0b0d5b66",
+  "caps_unchanged": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "actual_current_request_roots": 8,
+  "proposed_core": [
+    {
+      "id": "F0",
+      "type": "Cell<u8>",
+      "comparator": "KeyLess<Cell<u8>>",
+      "target": "small_sort_fallback",
+      "mode": "Original/Proof",
+      "lengths": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "F1",
+      "type": "Cell<u8>",
+      "comparator": "KeyLess<Cell<u8>>",
+      "target": "small_sort_fallback",
+      "mode": "Original/Proof",
+      "lengths": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "F2",
+      "type": "Cell<u8>",
+      "comparator": "KeyLess<Cell<u8>>",
+      "target": "small_sort_fallback",
+      "mode": "Original/Proof",
+      "lengths": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "id": "G0",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "small_sort_general",
+      "mode": "Original/Proof",
+      "lengths": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "G1",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "small_sort_general",
+      "mode": "Original/Proof",
+      "lengths": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": "G2",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "small_sort_general",
+      "mode": "Original/Proof",
+      "lengths": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "id": "G3",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "small_sort_general",
+      "mode": "Original/Proof",
+      "lengths": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ]
+    },
+    {
+      "id": "N0",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "small_sort_network",
+      "mode": "Original/Proof",
+      "lengths": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "N1",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "small_sort_network",
+      "mode": "Original/Proof",
+      "lengths": [
+        2
+      ]
+    },
+    {
+      "id": "N2",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "small_sort_network",
+      "mode": "Original/Proof",
+      "lengths": [
+        3
+      ]
+    },
+    {
+      "id": "N3",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "small_sort_network",
+      "mode": "Original/Proof",
+      "lengths": [
+        4
+      ]
+    },
+    {
+      "id": "N4",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "small_sort_network",
+      "mode": "Original/Proof",
+      "lengths": [
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "id": "N5",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "small_sort_network",
+      "mode": "Original/Proof",
+      "lengths": [
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "id": "N6",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "small_sort_network",
+      "mode": "Original/Proof",
+      "lengths": [
+        13,
+        14,
+        15,
+        16,
+        17
+      ]
+    },
+    {
+      "id": "N7",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "small_sort_network",
+      "mode": "Original/Proof",
+      "lengths": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ]
+    },
+    {
+      "id": "N8",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "small_sort_network",
+      "mode": "Original/Proof",
+      "lengths": [
+        25
+      ]
+    },
+    {
+      "id": "N9",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "small_sort_network",
+      "mode": "Original/Proof",
+      "lengths": [
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ]
+    },
+    {
+      "id": "E0",
+      "type": "Cell<u8>",
+      "comparator": "KeyLess<Cell<u8>>",
+      "target": "Stable default",
+      "mode": "PFC actual implementation; no summary promotion",
+      "lengths": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "id": "E1",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "Stable Freeze",
+      "mode": "PFC actual implementation; no summary promotion",
+      "lengths": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ]
+    },
+    {
+      "id": "E2",
+      "type": "Cell<u8>",
+      "comparator": "KeyLess<Cell<u8>>",
+      "target": "Unstable default",
+      "mode": "PFC actual implementation; no summary promotion",
+      "lengths": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "id": "E3",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "Unstable Freeze",
+      "mode": "PFC actual implementation; no summary promotion",
+      "lengths": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ]
+    },
+    {
+      "id": "E4",
+      "type": "NonCopyByte",
+      "comparator": "KeyLess<NonCopyByte>",
+      "target": "Freeze default",
+      "mode": "PFC actual implementation; no summary promotion",
+      "lengths": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ]
+    },
+    {
+      "id": "E5",
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "target": "Freeze Copy",
+      "mode": "PFC actual implementation; no summary promotion",
+      "lengths": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ]
+    }
+  ],
+  "remaining_legacy_and_provider_rows": "OPEN; additional to core, no deletion or promotion approved",
+  "soft_child_allocation_seconds": {
+    "compile": 60,
+    "native_verification": 300,
+    "other": 30,
+    "target_whole_child": 390,
+    "remaining_under_600": 210,
+    "slot_overhead_allocation": 120,
+    "target_slot": 510
+  },
+  "job_allocation_seconds": {
+    "setup_including_build": 1800,
+    "build_inside_setup_max": 900,
+    "campaign": 6900,
+    "fallback": 120,
+    "upload": 360,
+    "allocated": 9180,
+    "reserve_under_job10800": 1620
+  },
+  "hypothetical_core_campaign_sizes": [
+    9,
+    9,
+    9,
+    9,
+    7
+  ],
+  "repeated_fixed_controls_per_campaign": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "sort13_weak",
+    "s4p_cell_count_corrupt"
+  ],
+  "number_of_authorized_future_runs": 0,
+  "independent_proof_credit": "NONE",
+  "S5_PASS": false
+}
