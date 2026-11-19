@@ -1,0 +1,13 @@
+# Issue5206 — one full standard fork CI
+
+**ROOT AGREE** to one initial push of exact NONSKIP source `e17417b570e8783cae38169bee9af0dcf72fa6d4` to new fork branch `Tiramisu-Cake/kani:fix/stub-contract-target-conflict`. Tree `798c53188fd806e6684ce71844fd7d8b62c572ec`, sole parent `0997d11c14cb2da0824efc34e2c4001e53ac0faf`. Full tree equals reviewed revision `a5ebb0bf8ac2ad141f7e8f173ae5e8548948b097`; final independent review `b9a7905ffa554724cdb2b347ee5ea7b0750e3e6b` is APPROVE and closes R1/R2. No further sibling/squash or worktree reset is needed.
+
+Run the unchanged full standard workflows: Kani CI five OS regressions plus benchcomp/perf/LLBC/docs, Format and Clippy, and Deny — twelve expected native instances. **No manual rerun authorized.** Existing internal workflow behavior remains unchanged. Coordinator rechecks exact source/tree/parent/NONSKIP and unused remote ref immediately before one push, records the item-1 ledger row and actual run IDs. Root performs none of those actions.
+
+The new fork ref is absent and no open upstream PR currently uses this head. This initial new-branch CI push is within the coordinator's requested scope; no existing open PR branch changes. Creating the future upstream PR, commenting, publishing or updating its body remains **owner-command only**. Once a PR exists, subsequent branch pushes need fresh applicable owner/review/CI/head gates; this GO is not continuing push authority.
+
+Pinned parent0997 is a historical upstream main snapshot. Connected main has advanced to `c242c1eafc3f13be9980d7eefab53737528b06c0` by one commit/21 changed paths, with no path overlap with this fix. Retain the requested reviewed base for this campaign. No local merge-tree/current-main semantic compatibility or fresh native result is claimed; publication later needs fresh base/head/CI checks.
+
+The five-file change is the conflict check and two compact positive/negative fixture pairs. Protected transforms, dependencies, macros, driver, library, runner and workflows remain unchanged. Four positive harnesses discriminate different-target acceptance and reverse-direction acceptance; two invalid configurations require the precise public diagnostics. Deduplication is approved statically; no duplicate-annotation native coverage is invented.
+
+Native/compiler/formatter/regression/main-vs-fixed/#5204 combined runs are NOT_RUN before this campaign. After all three workflows terminate, retain actual per-job conclusions and source-vs-suite-vs-named limits in a bounded intake; historical perf instability is no advance waiver. Final testing text must use actual results before an owner-commanded PR publication.

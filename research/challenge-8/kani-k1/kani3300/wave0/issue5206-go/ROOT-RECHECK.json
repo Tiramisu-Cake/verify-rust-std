@@ -1,0 +1,414 @@
+{
+  "schema": "root-issue5206-squash-go-recheck-v1",
+  "checked_at": "2026-11-19T19:01:03.239670+00:00",
+  "checks_passed": 49,
+  "checks": [
+    "Squash exact source/tree/sole upstream snapshot parent",
+    "Squash full tree equals independently reviewed revision",
+    "No reviewed-to-squash source delta",
+    "Original reviewed two-commit chain exact",
+    "Squash is one logical commit above base",
+    "Reviewed source worktree clean at a5; not reset to squash",
+    "Clean worktree bytes equal squash tree",
+    "Squash author/committer exact",
+    "Squash NONSKIP",
+    "No added co-author trailer",
+    "Exact five reviewed source/test paths only",
+    "Squash diff whitespace",
+    "Protected tree unchanged kani-compiler/src/kani_middle/transform",
+    "Protected tree unchanged library",
+    "Protected tree unchanged kani-driver",
+    "Protected tree unchanged kani_metadata",
+    "Protected tree unchanged tools",
+    "Protected tree unchanged scripts",
+    "Protected tree unchanged .github",
+    "Reviewed key-only conflict predicate and resolved-ID dedup retained",
+    "Positive expected harness check_caller",
+    "Positive expected harness check_different_verified_target",
+    "Positive expected harness check_reverse_contract",
+    "Positive expected harness check_reverse_verified",
+    "Complete four-success positive oracle",
+    "Discriminating different-target and reverse-direction controls retained",
+    "Negative pair frozen from first reviewed candidate",
+    "Both exact public diagnostics and two-error abort oracle",
+    "Committed review-chain package issue5206-fix",
+    "Current package matches exact Git research/challenge-8/kani-k1/kani3300/wave0/issue5206-fix/HANDOFF.md",
+    "Current package matches exact Git research/challenge-8/kani-k1/kani3300/wave0/issue5206-fix/PR-DRAFT.md",
+    "Committed review-chain package issue5206-fix-review",
+    "Current package matches exact Git research/challenge-8/kani-k1/kani3300/wave0/issue5206-fix-review/HANDOFF.md",
+    "Committed review-chain package issue5206-fix-r2",
+    "Current package matches exact Git research/challenge-8/kani-k1/kani3300/wave0/issue5206-fix-r2/HANDOFF.md",
+    "Current package matches exact Git research/challenge-8/kani-k1/kani3300/wave0/issue5206-fix-r2/PR-DRAFT.md",
+    "Committed review-chain package issue5206-fix-r2-review",
+    "Current package matches exact Git research/challenge-8/kani-k1/kani3300/wave0/issue5206-fix-r2-review/HANDOFF.md",
+    "Committed final APPROVE closes R1/R2 on same tree",
+    "New branch matches standard push trigger .github/workflows/kani.yml",
+    "New branch matches standard push trigger .github/workflows/format-check.yml",
+    "New branch matches standard push trigger .github/workflows/deny.yml",
+    "Full five-OS regression matrix",
+    "Unchanged full standard twelve native instances",
+    "Destination branch absent; no open upstream PR for proposed head",
+    "Connected issue remains open",
+    "Current upstream main one commit beyond pinned historical main",
+    "No source-path overlap with observed current-main advance",
+    "New immutable GO directory absent"
+  ],
+  "squash_commit": "e17417b570e8783cae38169bee9af0dcf72fa6d4",
+  "reviewed_revision": "a5ebb0bf8ac2ad141f7e8f173ae5e8548948b097",
+  "same_tree": "798c53188fd806e6684ce71844fd7d8b62c572ec",
+  "sole_parent": "0997d11c14cb2da0824efc34e2c4001e53ac0faf",
+  "reviewed_worktree_head": "a5ebb0bf8ac2ad141f7e8f173ae5e8548948b097",
+  "reviewed_worktree_clean": true,
+  "squash_identity": [
+    "Tiramisu-Cake <igkharin@gmail.com>",
+    "Tiramisu-Cake <igkharin@gmail.com>"
+  ],
+  "message": "Reject ordinary stubs of contract targets\n\n",
+  "changed_paths": [
+    "kani-compiler/src/kani_middle/stubbing/mod.rs",
+    "tests/expected/function-contract/ordinary_stub_different_target.expected",
+    "tests/expected/function-contract/ordinary_stub_different_target.rs",
+    "tests/ui/function-contracts/ordinary_stub_target_conflict.expected",
+    "tests/ui/function-contracts/ordinary_stub_target_conflict.rs"
+  ],
+  "package_git_bindings": {
+    "issue5206-fix": {
+      "commit": "1ca4f7d598ee510be5445caba62890c79af33556",
+      "files": {
+        "research/challenge-8/kani-k1/kani3300/wave0/issue5206-fix/HANDOFF.md": {
+          "sha256": "e45448fc3c1599daa786baadc1868864dff07b8e48becb766695e3932b4c4784",
+          "bytes": 4110,
+          "git_blob": "88c2c78dae9817a9338c14c5302a23bc83bc4fc1"
+        },
+        "research/challenge-8/kani-k1/kani3300/wave0/issue5206-fix/PR-DRAFT.md": {
+          "sha256": "bce6d1a9bbe1f820227a7d6021ad4de219c78d164f4757e02c6e4b876455b4d2",
+          "bytes": 902,
+          "git_blob": "a1f3b671b884a4258080c4f7b407dd4848d84fe3"
+        }
+      }
+    },
+    "issue5206-fix-review": {
+      "commit": "1740ff1d50c7cd61ca914822bb2e3e3ec4ff5dbc",
+      "files": {
+        "research/challenge-8/kani-k1/kani3300/wave0/issue5206-fix-review/HANDOFF.md": {
+          "sha256": "f5800fec01ed9ca2227d6e2ce049a7f1a037910a9ea0265503e4a79f4dc6f822",
+          "bytes": 11712,
+          "git_blob": "9e0122d5c698cd9421bea2a703b0c2ee27a79dc1"
+        }
+      }
+    },
+    "issue5206-fix-r2": {
+      "commit": "fa939c20a9e920a13a0bddcec91bc9e5eb9dd58c",
+      "files": {
+        "research/challenge-8/kani-k1/kani3300/wave0/issue5206-fix-r2/HANDOFF.md": {
+          "sha256": "248efa2dc14022ccbf5bf7cd800afc43de6340fff235be95d19bfecd0e5f8834",
+          "bytes": 4248,
+          "git_blob": "c93f5bb7b356039de755cd32adab6d56ec420b57"
+        },
+        "research/challenge-8/kani-k1/kani3300/wave0/issue5206-fix-r2/PR-DRAFT.md": {
+          "sha256": "7fa3f2edb78a6a55d3005a6d92fad4d897e9172a7e05df91b4b605e55a17765c",
+          "bytes": 1113,
+          "git_blob": "00f9976ada16fd8ff3f835d528cae0814d861a1b"
+        }
+      }
+    },
+    "issue5206-fix-r2-review": {
+      "commit": "b9a7905ffa554724cdb2b347ee5ea7b0750e3e6b",
+      "files": {
+        "research/challenge-8/kani-k1/kani3300/wave0/issue5206-fix-r2-review/HANDOFF.md": {
+          "sha256": "249bd6479d13dde631e026e1a85fb531fcc43f6781c2dfae99be3808e13dafab",
+          "bytes": 8667,
+          "git_blob": "33f4f7135a8b6894f2bdfc1110262b5b9b06cf6f"
+        }
+      }
+    }
+  },
+  "connected_snapshot": {
+    "checked_at": "2026-11-19T18:59:23.570Z",
+    "resources": {
+      "https://api.github.com/repos/Tiramisu-Cake/kani/git/ref/heads/fix/stub-contract-target-conflict": {
+        "error": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}",
+        "error_code": "NOT_FOUND",
+        "error_data": {
+          "message": "Not Found",
+          "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+          "status": "404"
+        }
+      },
+      "https://api.github.com/repos/model-checking/kani/pulls?state=open&head=Tiramisu-Cake:fix%2Fstub-contract-target-conflict": [],
+      "https://api.github.com/repos/model-checking/kani/git/ref/heads/main": {
+        "ref": "refs/heads/main",
+        "node_id": "MDM6UmVmMzUxODgyMTY0OnJlZnMvaGVhZHMvbWFpbg==",
+        "url": "https://api.github.com/repos/model-checking/kani/git/refs/heads/main",
+        "object": {
+          "sha": "c242c1eafc3f13be9980d7eefab53737528b06c0",
+          "type": "commit",
+          "url": "https://api.github.com/repos/model-checking/kani/git/commits/c242c1eafc3f13be9980d7eefab53737528b06c0"
+        }
+      },
+      "https://api.github.com/repos/model-checking/kani/issues/5206": {
+        "url": "https://api.github.com/repos/model-checking/kani/issues/5206",
+        "repository_url": "https://api.github.com/repos/model-checking/kani",
+        "labels_url": "https://api.github.com/repos/model-checking/kani/issues/5206/labels{/name}",
+        "comments_url": "https://api.github.com/repos/model-checking/kani/issues/5206/comments",
+        "events_url": "https://api.github.com/repos/model-checking/kani/issues/5206/events",
+        "html_url": "https://github.com/model-checking/kani/issues/5206",
+        "id": 6496188490,
+        "node_id": "I_kwDOFPlLtM8AAAABgzP4Sg",
+        "number": 5206,
+        "title": "Ordinary stub of a `proof_for_contract` or `stub_verified` target fails with an internal error",
+        "user": {
+          "login": "feliperodri",
+          "id": 4294522,
+          "node_id": "MDQ6VXNlcjQyOTQ1MjI=",
+          "avatar_url": "https://avatars.githubusercontent.com/u/4294522?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/feliperodri",
+          "html_url": "https://github.com/feliperodri",
+          "followers_url": "https://api.github.com/users/feliperodri/followers",
+          "following_url": "https://api.github.com/users/feliperodri/following{/other_user}",
+          "gists_url": "https://api.github.com/users/feliperodri/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/feliperodri/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/feliperodri/subscriptions",
+          "organizations_url": "https://api.github.com/users/feliperodri/orgs",
+          "repos_url": "https://api.github.com/users/feliperodri/repos",
+          "events_url": "https://api.github.com/users/feliperodri/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/feliperodri/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "labels": [
+          {
+            "id": 2859277273,
+            "node_id": "MDU6TGFiZWwyODU5Mjc3Mjcz",
+            "url": "https://api.github.com/repos/model-checking/kani/labels/[C]%20Bug",
+            "name": "[C] Bug",
+            "color": "72D9B7",
+            "default": false,
+            "description": "This is a bug. Something isn't working.",
+            "archived_at": null,
+            "archived_by": null
+          },
+          {
+            "id": 2913639493,
+            "node_id": "MDU6TGFiZWwyOTEzNjM5NDkz",
+            "url": "https://api.github.com/repos/model-checking/kani/labels/[F]%20Crash",
+            "name": "[F] Crash",
+            "color": "E99695",
+            "default": false,
+            "description": "Kani crashed",
+            "archived_at": null,
+            "archived_by": null
+          },
+          {
+            "id": 7277011507,
+            "node_id": "LA_kwDOFPlLtM8AAAABsb5iMw",
+            "url": "https://api.github.com/repos/model-checking/kani/labels/Z-Contracts",
+            "name": "Z-Contracts",
+            "color": "FEF2C0",
+            "default": false,
+            "description": "Issue related to code contracts",
+            "archived_at": null,
+            "archived_by": null
+          }
+        ],
+        "state": "open",
+        "locked": false,
+        "assignees": [],
+        "milestone": {
+          "url": "https://api.github.com/repos/model-checking/kani/milestones/31",
+          "html_url": "https://github.com/model-checking/kani/milestone/31",
+          "labels_url": "https://api.github.com/repos/model-checking/kani/milestones/31/labels",
+          "id": 9562696,
+          "node_id": "MI_kwDOFPlLtM4AkepI",
+          "number": 31,
+          "title": "Contracts",
+          "description": "Good support for code contracts in Kani: function contracts (`requires`/`ensures`/`modifies`), loop contracts (`loop_invariant`/`loop_modifies`), and decreases clauses (`loop_decreases`) for termination.\n\nTogether these let proofs scale beyond bounded loop unwinding and compose across functions. See the [Code Contracts project page](https://model-checking.github.io/kani-verifier-blog/projects/contracts/) for background and goals.",
+          "creator": {
+            "login": "JustusAdam",
+            "id": 5824532,
+            "node_id": "MDQ6VXNlcjU4MjQ1MzI=",
+            "avatar_url": "https://avatars.githubusercontent.com/u/5824532?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/JustusAdam",
+            "html_url": "https://github.com/JustusAdam",
+            "followers_url": "https://api.github.com/users/JustusAdam/followers",
+            "following_url": "https://api.github.com/users/JustusAdam/following{/other_user}",
+            "gists_url": "https://api.github.com/users/JustusAdam/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/JustusAdam/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/JustusAdam/subscriptions",
+            "organizations_url": "https://api.github.com/users/JustusAdam/orgs",
+            "repos_url": "https://api.github.com/users/JustusAdam/repos",
+            "events_url": "https://api.github.com/users/JustusAdam/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/JustusAdam/received_events",
+            "type": "User",
+            "user_view_type": "public",
+            "site_admin": false
+          },
+          "open_issues": 80,
+          "closed_issues": 100,
+          "state": "open",
+          "created_at": "2023-06-20T22:02:56Z",
+          "updated_at": "2026-11-19T18:19:12Z",
+          "due_on": null,
+          "closed_at": null
+        },
+        "comments": 0,
+        "created_at": "2026-11-19T18:18:56Z",
+        "updated_at": "2026-11-19T18:18:56Z",
+        "closed_at": null,
+        "assignee": null,
+        "author_association": "MEMBER",
+        "issue_field_values": [],
+        "type": null,
+        "active_lock_reason": null,
+        "sub_issues_summary": {
+          "total": 0,
+          "completed": 0,
+          "percent_completed": 0
+        },
+        "issue_dependencies_summary": {
+          "blocked_by": 0,
+          "total_blocked_by": 0,
+          "blocking": 0,
+          "total_blocking": 0
+        },
+        "body": "Stubbing a function with an ordinary stub while the same function is also the target of `#[kani::proof_for_contract]` or `#[kani::stub_verified]` fails with an internal compiler error instead of a diagnostic.\n\n## Reproduce\n\n```rust\n#[kani::requires(x < 100)]\n#[kani::ensures(|r: &u32| *r == x + 1)]\nfn f(x: u32) -> u32 { x + 1 }\n\nfn g(x: u32) -> u32 { x.wrapping_add(1) }\n\nfn caller(x: u32) -> u32 { f(x) }\n\n/// Stub the function under verification.\n#[kani::proof_for_contract(f)]\n#[kani::stub(f, g)]\nfn check_target_stubbed() { let x = kani::any(); let _ = f(x); }\n\n/// Stub a function that is also replaced by its contract.\n#[kani::proof]\n#[kani::stub_verified(f)]\n#[kani::stub(f, g)]\nfn verified_and_stubbed() { let x: u32 = kani::any_where(|x| *x < 100); let _ = caller(x); }\n```\n\n```\nkani main.rs -Z function-contracts -Z stubbing --harness check_target_stubbed\n```\n\nBoth harnesses fail with:\n\n```\nerror: Failed to find contract closure `__kani_recursion_check_f` in function `main::f`\n```\n\nThe stubbing pass replaces `f`'s body with `g`'s, and the contract pass then looks for `f`'s generated closures in that body. This happens on `main` and with #5204. That PR fixes the ordinary case (`#[kani::stub(f, g)]` alone, #4591) but intentionally leaves these two combinations unchanged.\n\n## Expected\n\nBoth combinations are configuration mistakes: the first stubs the function under verification, the second stubs a function that is replaced by its contract. Kani should reject them with an error that names the conflicting attributes, e.g. \"`f` cannot be both the target of `proof_for_contract`/`stub_verified` and replaced by `#[kani::stub(f, g)]`\".\n",
+        "closed_by": null,
+        "reactions": {
+          "url": "https://api.github.com/repos/model-checking/kani/issues/5206/reactions",
+          "total_count": 0,
+          "+1": 0,
+          "-1": 0,
+          "laugh": 0,
+          "hooray": 0,
+          "confused": 0,
+          "heart": 0,
+          "rocket": 0,
+          "eyes": 0
+        },
+        "timeline_url": "https://api.github.com/repos/model-checking/kani/issues/5206/timeline",
+        "performed_via_github_app": null,
+        "state_reason": null,
+        "pinned_comment": null
+      }
+    },
+    "main_compare": {
+      "status": "ahead",
+      "base": "0997d11c14cb2da0824efc34e2c4001e53ac0faf",
+      "merge_base": "0997d11c14cb2da0824efc34e2c4001e53ac0faf",
+      "total_commits": 1,
+      "ahead_by": 1,
+      "files": [
+        {
+          "filename": "docs/src/reference/experimental/autoharness.md",
+          "sha": "4a15d52fe467c339b910f54c37ed4e7b7f1c4634",
+          "status": "modified"
+        },
+        {
+          "filename": "kani-compiler/src/kani_middle/codegen_units.rs",
+          "sha": "8a3f2978d76aa56102e351377c31e34775c71094",
+          "status": "modified"
+        },
+        {
+          "filename": "kani-compiler/src/kani_middle/metadata.rs",
+          "sha": "8c45a42a5eae6c1513ecb4ba6a48514191feb0c4",
+          "status": "modified"
+        },
+        {
+          "filename": "kani-compiler/src/kani_middle/mod.rs",
+          "sha": "50750d7b7c3eeb29f5479e1db4ba506282de1288",
+          "status": "modified"
+        },
+        {
+          "filename": "kani-driver/src/autoharness/mod.rs",
+          "sha": "98c8b22a1a3b59a4cfe478b3e3b98c662263eb67",
+          "status": "modified"
+        },
+        {
+          "filename": "kani-driver/src/frontend/schema_utils.rs",
+          "sha": "5457a2ee78a59602b7dcccdfb56bda1c051d0c22",
+          "status": "modified"
+        },
+        {
+          "filename": "kani-driver/src/harness_runner.rs",
+          "sha": "f8ec237d344d8808ebcc870a5f63fef95d73ad4f",
+          "status": "modified"
+        },
+        {
+          "filename": "kani-driver/src/metadata.rs",
+          "sha": "849f64295993320a1b29722b4a408271f63e749d",
+          "status": "modified"
+        },
+        {
+          "filename": "kani-driver/src/sarif.rs",
+          "sha": "664f169f7d8442a92cd195e3d1b668c40045d226",
+          "status": "modified"
+        },
+        {
+          "filename": "kani_metadata/src/harness.rs",
+          "sha": "1fc35c58b4d606fe0f4ed7f49f7b9d4b9f70daac",
+          "status": "modified"
+        },
+        {
+          "filename": "rfc/src/rfcs/0015-export-json.md",
+          "sha": "1ea67d7f7435057ef4d4183ff94bd26951c02aff",
+          "status": "modified"
+        },
+        {
+          "filename": "tests/json-handler/autoharness-refcount/config.yml",
+          "sha": "8258439d3e3f6a4bcdf5d43e3647aadfed479749",
+          "status": "added"
+        },
+        {
+          "filename": "tests/json-handler/autoharness-refcount/test.rs",
+          "sha": "e36bc1ec4264726dcbeb6c4353bb45af98845d35",
+          "status": "added"
+        },
+        {
+          "filename": "tests/json-handler/autoharness-refcount/test.sh",
+          "sha": "fa609cae10a4b5afa603a35341f467091b890613",
+          "status": "added"
+        },
+        {
+          "filename": "tests/json-handler/schema-validation/check_fixtures.py",
+          "sha": "455771e7f958ec0e5b064d5aa93df0270a2b3c03",
+          "status": "modified"
+        },
+        {
+          "filename": "tests/json-handler/schema-validation/fixture-completed-failure.json",
+          "sha": "51475e04d6e2f9f49e3a3baa7684dadaff612337",
+          "status": "modified"
+        },
+        {
+          "filename": "tests/json-handler/schema-validation/fixture-completed-success.json",
+          "sha": "04bbba9da9d7ef95a05b398b3d783b381a0c9222",
+          "status": "modified"
+        },
+        {
+          "filename": "tests/json-handler/schema-validation/fixture-non-completed-outcomes.json",
+          "sha": "50146c35e773d7cac010f71d380f9e571848dfef",
+          "status": "modified"
+        },
+        {
+          "filename": "tests/json-handler/schema-validation/kani_json_schema.json",
+          "sha": "39ff1a90754f70a2e4781483527500b4f3705eb6",
+          "status": "modified"
+        },
+        {
+          "filename": "tests/script-based-pre/cargo_autoharness_smart_pointers/smart-pointers.expected",
+          "sha": "48faaa7b8d37ea429558e2c51f74317076d4b2cc",
+          "status": "modified"
+        },
+        {
+          "filename": "tests/script-based-pre/cargo_autoharness_smart_pointers/src/lib.rs",
+          "sha": "991d8f45b18c645c8f850e505c5ece1f9eb6ba42",
+          "status": "modified"
+        }
+      ]
+    }
+  },
+  "limits": "Static/Git metadata only; native/compiler/Cargo/rustc/rustfmt/Kani/CBMC/regressions/CI NOT_RUN by root. No current-main merge-tree or #5204 combined native validation.",
+  "old_worktrees_evidence_ledger_unchanged": true
+}
