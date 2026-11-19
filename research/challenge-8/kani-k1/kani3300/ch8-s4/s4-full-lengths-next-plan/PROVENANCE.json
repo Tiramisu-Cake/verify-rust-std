@@ -1,0 +1,152 @@
+{
+  "schema": "s4-plan-input-provenance-v1",
+  "worktree": "/root/verify-rust-std-kani3300-g0",
+  "branch": "experiment/kani-k1-kani3300g0-20261111",
+  "starting_head": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+  "source": {
+    "sha": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+    "tree": "91f097cdb4085d30c4b94afbb843aeb34f1d3287"
+  },
+  "network_admission": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+  "historical_fallback_admission": "9bb6e2b7a18e338f532ec817f8acfd7515fc2fc9",
+  "tool_control": {
+    "source": {
+      "sha": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+      "tree": "91f097cdb4085d30c4b94afbb843aeb34f1d3287",
+      "sole_parent": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3"
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    },
+    "control": {
+      "sha": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+      "tree": "628a9aa91c86a2e5f72efee626b58f1715ec3dbf",
+      "sole_parent": "4059c900e50ba179d824a1e6f6bd7798cf343e36"
+    },
+    "trigger": {
+      "sha": "d88fac48cf50a742f9f00026ba66e5e4353e1019",
+      "tree": "628a9aa91c86a2e5f72efee626b58f1715ec3dbf",
+      "sole_parent": "4059c900e50ba179d824a1e6f6bd7798cf343e36"
+    }
+  },
+  "inputs": [
+    {
+      "commit": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/offline-matrix/MATRIX.json",
+      "git_blob": "62818843502a5079d57b5f266e970e2b61670a72",
+      "sha256": "a8b9d2ba94c699f25eb563bf4aa20d05acff3ad15aa23741028746586e628e6e",
+      "bytes": 80619,
+      "purpose": "original exact100 matrix"
+    },
+    {
+      "commit": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/offline-matrix/MATRIX.md",
+      "git_blob": "874cb51941bca6f4ec3417d97c17dae236fd550f",
+      "sha256": "73cf758b3130a5bb6005ffdb2ee8e3d07514754e9564352eb46cd524c980bdcb",
+      "bytes": 7981,
+      "purpose": "original human inventory"
+    },
+    {
+      "commit": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/admission-s4p2-r2-network/ADMISSION.json",
+      "git_blob": "a0c670c8eec7a37e03501484304c7462752bf57f",
+      "sha256": "67e14fd780d9e223504d5667439ead15a20f6195b1ad60690a0c5e5ecc3c4a29",
+      "bytes": 340536,
+      "purpose": "exact network admission"
+    },
+    {
+      "commit": "9bb6e2b7a18e338f532ec817f8acfd7515fc2fc9",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/admission-s4p1-r1-fallback/ADMISSION.json",
+      "git_blob": "deb98f397fed2b9f19ec05e500e28a36d31505f5",
+      "sha256": "e254197aef66a8bbf6239b0d7e55f2b2fcfbee448318c1b29523241fefb96824",
+      "bytes": 143199,
+      "purpose": "historical fallback admission"
+    },
+    {
+      "commit": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44548842328/COST-INTERPRETATION.json",
+      "git_blob": "3bb908f1a4bd45e9bd1393dc241f3f37ce5e68fe",
+      "sha256": "2a5b88dfca76086d86710b2e29fb7655fb6e57a90d7e8eb69496d9689bdab838",
+      "bytes": 3199,
+      "purpose": "structured timing only"
+    },
+    {
+      "commit": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/RESOURCE.json",
+      "git_blob": "a4160ad9a9c214b4f8b27b8ce4ad70cf7fb91b9d",
+      "sha256": "66fe44abe7d0ebfbda79a1da64969e33ed32325d24d3851c954c11ab0b0d5b66",
+      "bytes": 2001,
+      "purpose": "unchanged flags/caps/budgets"
+    },
+    {
+      "commit": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/ROOTS.json",
+      "git_blob": "780380c2932ffe59233a4915e713b92897680da3",
+      "sha256": "37270653892472f66a052d168779a3bad2122d4c8eb58c43d6dba569e0d7c474",
+      "bytes": 43750,
+      "purpose": "existing negative roles/selectors"
+    },
+    {
+      "commit": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "git_blob": "700605e2afe2943da5aa5b5015db0e788c084730",
+      "sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+      "bytes": 46080,
+      "purpose": "rebound kernel"
+    },
+    {
+      "commit": "bd62e54df1b4749154790aa3db3cc7978f547f75",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "git_blob": "488add38638038f1902422ed6f3b387c1a9abf42",
+      "sha256": "eb8867b764dd410109787124dc1a249d5c42e947255a1ef90242ba39295e2fdc",
+      "bytes": 45811,
+      "purpose": "old kernel delta"
+    },
+    {
+      "commit": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "git_blob": "0d0a9f1441e77acc793175a16270dd8ff9fac43d",
+      "sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "bytes": 4816,
+      "purpose": "pinned model/fixture/source binding"
+    },
+    {
+      "commit": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs",
+      "git_blob": "cb1eec3567de50048cdbbeb19c4f20ddb8938b98",
+      "sha256": "25fcbfa26052727a47c9628e0c41f33c80a57f06971fa61efcc36f4af77d838c",
+      "bytes": 5209,
+      "purpose": "pinned model/fixture/source binding"
+    },
+    {
+      "commit": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+      "git_blob": "edea5aac77dbe168d0a7e7152c954af636656c1a",
+      "sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+      "bytes": 6569,
+      "purpose": "pinned model/fixture/source binding"
+    },
+    {
+      "commit": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+      "git_blob": "100c4d46a82cf90ee840a4f1028010a2318754e6",
+      "sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+      "bytes": 2255,
+      "purpose": "pinned model/fixture/source binding"
+    },
+    {
+      "commit": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+      "git_blob": "05dc4200a41f9049bb9e0b9b2f4da9abc5b36587",
+      "sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+      "bytes": 14901,
+      "purpose": "pinned model/fixture/source binding"
+    }
+  ],
+  "source_reads": "committed Git objects; current worktree files not authoritative for source citations",
+  "assurance": "STATIC_PIN_AND_BYTE_COMPATIBILITY_ONLY; no fresh native evidence or admission",
+  "raw_logs_or_archive_access": false,
+  "settings_or_ledgers_modified": false
+}

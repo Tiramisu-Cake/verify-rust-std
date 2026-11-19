@@ -1,0 +1,713 @@
+{
+  "schema": "s4p3-concrete-call-plan-v1",
+  "status": "PLAN_ONLY_NO_IMPLEMENTATION_NO_GO",
+  "source_baseline": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+  "admission_baseline": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+  "tool_baseline": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "control_baseline": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+  "first_package": "S4P3_NETWORK_BOUNDARIES",
+  "rows": [
+    {
+      "id": "checker_order_corrupt",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_order_corrupt",
+      "mode": "Original",
+      "variant": "production",
+      "unwind": 34,
+      "expected": "DETECTED",
+      "failure_description": "S2_NEG_CHECKER_ORDER",
+      "required_cover_count": 0,
+      "required_cover_messages": [],
+      "required_success_messages": [],
+      "timeout_seconds": 600,
+      "planned_seconds": null,
+      "state": "PROPOSED_RETAIN_EXISTING_CONTROL",
+      "assurance": "NEGATIVE_CONTROL",
+      "proof_credit": "NONE",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_CHECKER_ORDER",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 140,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_ORDER\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ],
+      "target": null,
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "order": 1,
+      "historical_source_definition": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/ROOTS.json#/rows/0"
+    },
+    {
+      "id": "checker_count_corrupt",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::checker_count_corrupt",
+      "mode": "Original",
+      "variant": "production",
+      "unwind": 34,
+      "expected": "DETECTED",
+      "failure_description": "S2_NEG_CHECKER_COUNT",
+      "required_cover_count": 0,
+      "required_cover_messages": [],
+      "required_success_messages": [],
+      "timeout_seconds": 600,
+      "planned_seconds": null,
+      "state": "PROPOSED_RETAIN_EXISTING_CONTROL",
+      "assurance": "NEGATIVE_CONTROL",
+      "proof_credit": "NONE",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_CHECKER_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 134,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&input),&out), \"S2_NEG_CHECKER_COUNT\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ],
+      "target": null,
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "order": 2,
+      "historical_source_definition": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/ROOTS.json#/rows/1"
+    },
+    {
+      "id": "sort13_weak",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s2_batch::sort13_weak",
+      "mode": "Original",
+      "variant": "production",
+      "unwind": 34,
+      "expected": "DETECTED",
+      "failure_description": "S2_NEG_SORT13_WEAK",
+      "required_cover_count": 0,
+      "required_cover_messages": [],
+      "required_success_messages": [],
+      "timeout_seconds": 600,
+      "planned_seconds": null,
+      "state": "PROPOSED_RETAIN_EXISTING_CONTROL",
+      "assurance": "NEGATIVE_CONTROL",
+      "proof_credit": "NONE",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S2_NEG_SORT13_WEAK",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_batch.rs",
+          "line": 149,
+          "source_line": "    kani::assert(post::<u8,KeyLess<u8>>(snapshot::<u8,KeyLess<u8>>(&before),&v), \"S2_NEG_SORT13_WEAK\");",
+          "source_sha256": "456de2ac2e30f40d2af89f21c1cb234ce51ae9d66f05523f8f4b231f411f80e3",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ],
+      "target": null,
+      "scope_classification": {
+        "category": "FIXED_NEGATIVE_CONTROL",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "order": 3,
+      "historical_source_definition": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/ROOTS.json#/rows/2"
+    },
+    {
+      "id": "s4p_cell_count_corrupt",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt",
+      "source_qualified_selector": "core::slice::sort::shared::smallsort::verify::sorting_s4_partition::s4p_cell_count_corrupt",
+      "mode": "Original",
+      "variant": "production",
+      "unwind": 36,
+      "expected": "DETECTED",
+      "failure_description": "S4_NEG_CELL_COUNT",
+      "required_cover_count": 0,
+      "required_cover_messages": [],
+      "required_success_messages": [
+        "S4_NEG_CELL_ACTIVE"
+      ],
+      "timeout_seconds": 600,
+      "planned_seconds": null,
+      "state": "PROPOSED_RETAIN_EXISTING_CONTROL",
+      "assurance": "CHECKER_ONLY_NEGATIVE_CONTROL",
+      "proof_credit": "NONE",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4_NEG_CELL_ACTIVE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+          "line": 25,
+          "source_line": "    kani::assert(enabled::<Cell<u8>, KeyLess<Cell<u8>>>(), \"S4_NEG_CELL_ACTIVE\");",
+          "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        },
+        {
+          "class": "assertion",
+          "status": "FAILURE",
+          "description": "S4_NEG_CELL_COUNT",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_partition.rs",
+          "line": 30,
+          "source_line": "    kani::assert(post::<Cell<u8>, KeyLess<Cell<u8>>>(before, &v[1..3]), \"S4_NEG_CELL_COUNT\");",
+          "source_sha256": "6a7333f07ec11f78fd2d622a188385d9873cb223b8c482043033b0d39d46b871",
+          "producer_id": "UNKNOWN_UNTIL_SAME_INVOCATION_INVENTORY"
+        }
+      ],
+      "target": null,
+      "scope_classification": {
+        "category": "CELL_CHECKER_ONLY_NEGATIVE",
+        "qualification_eligible": false,
+        "eligible_as_init_leaf_or_provider_summary": false,
+        "actual_initialization_mask_and_dstinit": "NO_INDEPENDENT_INIT_THEOREM",
+        "proof_credit": "NONE"
+      },
+      "order": 4,
+      "historical_source_definition": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl/ROOTS.json#/rows/3"
+    },
+    {
+      "order": 5,
+      "id": "s4p3_network_b01_n08_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n08_fullbyte",
+      "mode": "Original",
+      "target": null,
+      "state": "PROPOSED_NOT_IMPLEMENTED_NOT_REGISTERED_NOT_RUN",
+      "expected": "CANDIDATE_SUCCESS",
+      "unwind": 36,
+      "timeout_seconds": 600,
+      "literal_call": "small_sort_network(&mut v[1..9], &mut KeyLess::<u8>::new())",
+      "domain": {
+        "n": 8,
+        "allocation": 34,
+        "base": 1,
+        "type": "u8",
+        "comparator": "KeyLess<u8>",
+        "all_34_values_independent_full_u8": true,
+        "initialized": true,
+        "summary_edges": []
+      },
+      "active_guard": "enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>()",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_08_ACTIVE_CONCRETE_MODEL",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_08_SORTED_FULL_VALUE_COUNT",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_08_FULL_OUTSIDE_FRAME",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_08_ARBITRARY_OUTSIDE_CANARY",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        }
+      ],
+      "covers": [
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_08_N08",
+          "expression": "n == 8"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_08_UNSORTED",
+          "expression": "bytes[1] > bytes[n]"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_08_DUPLICATE",
+          "expression": "bytes[1] == bytes[n]"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_08_NONCONSTANT",
+          "expression": "v[1] < v[n]"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_08_MAX_DESCENDING",
+          "expression": "descending(&bytes[1..9])"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_08_USEFUL_RETURN",
+          "expression": "true after actual call/assertions"
+        }
+      ],
+      "required_success_count": 4,
+      "required_cover_count": 6,
+      "oracle": "unchanged sorting_model snapshot/post; full frame for i0..34; arbitrary canary outside [1,1+n)",
+      "source_loop_upper_bounds": {
+        "snapshot_bodies": 8,
+        "order_bodies": 7,
+        "count_outer_bodies": 8,
+        "count_inner_bodies_per_query": 8,
+        "count_total_inner_bodies": 64,
+        "shift_or_extension_bodies": 7,
+        "largest_sift_per_tail": 7,
+        "total_sift_bodies": 28,
+        "final_merge_bodies": 0,
+        "final_merge_odd_copy": 0
+      },
+      "eligible_as_init_leaf_or_provider_summary": false,
+      "independent_credit": "NONE"
+    },
+    {
+      "order": 6,
+      "id": "s4p3_network_b01_n09_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n09_fullbyte",
+      "mode": "Original",
+      "target": null,
+      "state": "PROPOSED_NOT_IMPLEMENTED_NOT_REGISTERED_NOT_RUN",
+      "expected": "CANDIDATE_SUCCESS",
+      "unwind": 36,
+      "timeout_seconds": 600,
+      "literal_call": "small_sort_network(&mut v[1..10], &mut KeyLess::<u8>::new())",
+      "domain": {
+        "n": 9,
+        "allocation": 34,
+        "base": 1,
+        "type": "u8",
+        "comparator": "KeyLess<u8>",
+        "all_34_values_independent_full_u8": true,
+        "initialized": true,
+        "summary_edges": []
+      },
+      "active_guard": "enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>()",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_09_ACTIVE_CONCRETE_MODEL",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_09_SORTED_FULL_VALUE_COUNT",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_09_FULL_OUTSIDE_FRAME",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_09_ARBITRARY_OUTSIDE_CANARY",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        }
+      ],
+      "covers": [
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_09_N09",
+          "expression": "n == 9"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_09_UNSORTED",
+          "expression": "bytes[1] > bytes[n]"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_09_DUPLICATE",
+          "expression": "bytes[1] == bytes[n]"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_09_NONCONSTANT",
+          "expression": "v[1] < v[n]"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_09_MAX_DESCENDING",
+          "expression": "descending(&bytes[1..10])"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_09_USEFUL_RETURN",
+          "expression": "true after actual call/assertions"
+        }
+      ],
+      "required_success_count": 4,
+      "required_cover_count": 6,
+      "oracle": "unchanged sorting_model snapshot/post; full frame for i0..34; arbitrary canary outside [1,1+n)",
+      "source_loop_upper_bounds": {
+        "snapshot_bodies": 9,
+        "order_bodies": 8,
+        "count_outer_bodies": 9,
+        "count_inner_bodies_per_query": 9,
+        "count_total_inner_bodies": 81,
+        "shift_or_extension_bodies": 0,
+        "largest_sift_per_tail": 0,
+        "total_sift_bodies": 0,
+        "final_merge_bodies": 0,
+        "final_merge_odd_copy": 0
+      },
+      "eligible_as_init_leaf_or_provider_summary": false,
+      "independent_credit": "NONE"
+    },
+    {
+      "order": 7,
+      "id": "s4p3_network_b01_n13_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n13_fullbyte",
+      "mode": "Original",
+      "target": null,
+      "state": "PROPOSED_NOT_IMPLEMENTED_NOT_REGISTERED_NOT_RUN",
+      "expected": "CANDIDATE_SUCCESS",
+      "unwind": 36,
+      "timeout_seconds": 600,
+      "literal_call": "small_sort_network(&mut v[1..14], &mut KeyLess::<u8>::new())",
+      "domain": {
+        "n": 13,
+        "allocation": 34,
+        "base": 1,
+        "type": "u8",
+        "comparator": "KeyLess<u8>",
+        "all_34_values_independent_full_u8": true,
+        "initialized": true,
+        "summary_edges": []
+      },
+      "active_guard": "enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>()",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_13_ACTIVE_CONCRETE_MODEL",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_13_SORTED_FULL_VALUE_COUNT",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_13_FULL_OUTSIDE_FRAME",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_13_ARBITRARY_OUTSIDE_CANARY",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        }
+      ],
+      "covers": [
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_13_N13",
+          "expression": "n == 13"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_13_UNSORTED",
+          "expression": "bytes[1] > bytes[n]"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_13_DUPLICATE",
+          "expression": "bytes[1] == bytes[n]"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_13_NONCONSTANT",
+          "expression": "v[1] < v[n]"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_13_MAX_DESCENDING",
+          "expression": "descending(&bytes[1..14])"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_13_USEFUL_RETURN",
+          "expression": "true after actual call/assertions"
+        }
+      ],
+      "required_success_count": 4,
+      "required_cover_count": 6,
+      "oracle": "unchanged sorting_model snapshot/post; full frame for i0..34; arbitrary canary outside [1,1+n)",
+      "source_loop_upper_bounds": {
+        "snapshot_bodies": 13,
+        "order_bodies": 12,
+        "count_outer_bodies": 13,
+        "count_inner_bodies_per_query": 13,
+        "count_total_inner_bodies": 169,
+        "shift_or_extension_bodies": 0,
+        "largest_sift_per_tail": 0,
+        "total_sift_bodies": 0,
+        "final_merge_bodies": 0,
+        "final_merge_odd_copy": 0
+      },
+      "eligible_as_init_leaf_or_provider_summary": false,
+      "independent_credit": "NONE"
+    },
+    {
+      "order": 8,
+      "id": "s4p3_network_b01_n17_fullbyte",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_s4_full_lengths_next::s4p3_network_b01_n17_fullbyte",
+      "mode": "Original",
+      "target": null,
+      "state": "PROPOSED_NOT_IMPLEMENTED_NOT_REGISTERED_NOT_RUN",
+      "expected": "CANDIDATE_SUCCESS",
+      "unwind": 36,
+      "timeout_seconds": 600,
+      "literal_call": "small_sort_network(&mut v[1..18], &mut KeyLess::<u8>::new())",
+      "domain": {
+        "n": 17,
+        "allocation": 34,
+        "base": 1,
+        "type": "u8",
+        "comparator": "KeyLess<u8>",
+        "all_34_values_independent_full_u8": true,
+        "initialized": true,
+        "summary_edges": []
+      },
+      "active_guard": "enabled::<u8,KeyLess<u8>>() && span::active::<u8,KeyLess<u8>>() && pair::enabled::<u8,KeyLess<u8>>()",
+      "roles": [
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_17_ACTIVE_CONCRETE_MODEL",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_17_SORTED_FULL_VALUE_COUNT",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_17_FULL_OUTSIDE_FRAME",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        },
+        {
+          "class": "assertion",
+          "status": "SUCCESS",
+          "description": "S4P3_N_17_ARBITRARY_OUTSIDE_CANARY",
+          "future_source_location": "MUST_BIND_AFTER_IMPLEMENTATION"
+        }
+      ],
+      "covers": [
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_17_N17",
+          "expression": "n == 17"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_17_UNSORTED",
+          "expression": "bytes[1] > bytes[n]"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_17_DUPLICATE",
+          "expression": "bytes[1] == bytes[n]"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_17_NONCONSTANT",
+          "expression": "v[1] < v[n]"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_17_MAX_DESCENDING",
+          "expression": "descending(&bytes[1..18])"
+        },
+        {
+          "class": "cover",
+          "status": "SATISFIED",
+          "description": "S4P3_N_17_USEFUL_RETURN",
+          "expression": "true after actual call/assertions"
+        }
+      ],
+      "required_success_count": 4,
+      "required_cover_count": 6,
+      "oracle": "unchanged sorting_model snapshot/post; full frame for i0..34; arbitrary canary outside [1,1+n)",
+      "source_loop_upper_bounds": {
+        "snapshot_bodies": 17,
+        "order_bodies": 16,
+        "count_outer_bodies": 17,
+        "count_inner_bodies_per_query": 17,
+        "count_total_inner_bodies": 289,
+        "shift_or_extension_bodies": 4,
+        "largest_sift_per_tail": 16,
+        "total_sift_bodies": 58,
+        "final_merge_bodies": 0,
+        "final_merge_odd_copy": 0
+      },
+      "eligible_as_init_leaf_or_provider_summary": false,
+      "independent_credit": "NONE"
+    }
+  ],
+  "positive_lengths": [
+    8,
+    9,
+    13,
+    17
+  ],
+  "n32_first": false,
+  "order": "SERIAL_NEGATIVE_FIRST",
+  "resource_snapshot_unchanged": {
+    "caps": {
+      "child_seconds": 600,
+      "compile_seconds": 180,
+      "slot_seconds": 720,
+      "controller_seconds": 180,
+      "cleanup_seconds": 240,
+      "campaign_seconds": 6900,
+      "outer_seconds": 7500,
+      "phase_seconds": 8100,
+      "step_seconds": 7560,
+      "local_rss_kib": 6291456,
+      "outer_rss_kib": 12582912,
+      "headroom_kib": 2097152,
+      "stdout_bytes": 16777216,
+      "stderr_bytes": 1048576,
+      "export_bytes": 8388608,
+      "artifact_bytes": 268435456
+    },
+    "budgets": {
+      "jobs": 1,
+      "max_parallel": 1,
+      "workflow_minutes": 180,
+      "setup_seconds": 1800,
+      "phase_seconds": 8100,
+      "row_seconds": 600,
+      "rss_kib": 6291456,
+      "stdout_bytes": 16777216,
+      "stderr_bytes": 1048576,
+      "export_bytes": 8388608,
+      "artifact_bytes": 268435456,
+      "planned_rows_seconds": null,
+      "rss_cap_kib": 6291456,
+      "compile_seconds": 900,
+      "group_rss_max_kib": 12582912,
+      "memory_reserve_kib": 2097152,
+      "projected_group_count": 8,
+      "child_compile_subcap_seconds": 180,
+      "whole_child_including_compile_seconds": 600,
+      "shared_campaign_seconds": 6900
+    },
+    "flags": {
+      "unstable": [
+        "function-contracts",
+        "mem-predicates",
+        "float-lib",
+        "c-ffi",
+        "loop-contracts",
+        "quantifiers",
+        "stubbing",
+        "export-json"
+      ],
+      "assert_contracts": false,
+      "jobs": 1,
+      "harness_timeout": "600s",
+      "exact": true,
+      "default_unwind": 50,
+      "cbmc_args": [
+        "--object-bits",
+        "12"
+      ],
+      "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf --cfg=kani_smallsort_s4_partition"
+    },
+    "slot_envelope_seconds": 6180,
+    "campaign_reserve_seconds": 720,
+    "cost_fit": "UNKNOWN_NOT_RUN",
+    "validate_deadline_seconds": 1080,
+    "validate_margin_required": 1.5,
+    "validate_maximum_elapsed_for_margin_seconds": 720,
+    "strict_peak_memory_assurance": "NOT_ESTABLISHED; unchanged sampled-PGID/owned-census semantics"
+  },
+  "cost_assurance": "UNKNOWN_FUTURE_NATIVE_FIT; source arithmetic envelope only",
+  "campaign_envelope": {
+    "formula": "8 * slot720 + controller180 + cleanup240",
+    "seconds": 6180,
+    "reserve_within_6900": 720
+  },
+  "second_package": {
+    "name": "S4P4_CELL16",
+    "rows": [
+      "checker_order_corrupt",
+      "checker_count_corrupt",
+      "sort13_weak",
+      "s4p_cell_count_corrupt",
+      "s4p4_fallback_b01_n16_fullbyte"
+    ],
+    "literal_call": "small_sort_fallback(&mut v[1..17], &mut KeyLess::<Cell<u8>>::new())",
+    "domain": "Cell<u8>/KeyLess<Cell<u8>>, initializedV34/base1/all34independentfullu8, Original/null, no summary",
+    "unwind": 36,
+    "role_prefix": "S4P4_F_16_",
+    "same_four_roles_and_six_covers_as_network": true,
+    "active_guard": "enabled::<Cell<u8>,KeyLess<Cell<u8>>>() only; u8 span/pair inactive",
+    "frame_and_canary": "Cell .get() full34 + arbitrary outside",
+    "campaign_envelope_seconds": 4020,
+    "reserve_within_6900": 2880
+  },
+  "execution_gates": [
+    "separate authorized implementation, exact source/control locations/fingerprints",
+    "independent exact candidate review",
+    "later coordinator execution authorization, existing launch controls and pins",
+    "complete per-invocation inventories, four roles, six SAT covers and U/location/model/builtin binding",
+    "separate exact admission; strict producer/history preserved"
+  ],
+  "new_admission": false,
+  "proof_obligations_closed": 0,
+  "independent_credit": "NONE"
+}
