@@ -1,0 +1,116 @@
+{
+  "domains": {
+    "s4p_fallback_b01_n00_02_fullbyte": {
+      "length_interval": [
+        0,
+        2
+      ],
+      "allocation": 34,
+      "base": 1,
+      "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+      "initialized": true,
+      "type": "Cell<u8>",
+      "comparator": "KeyLess<Cell<u8>>",
+      "summary_edges": []
+    },
+    "s4p_fallback_b01_n03_04_fullbyte": {
+      "length_interval": [
+        3,
+        4
+      ],
+      "allocation": 34,
+      "base": 1,
+      "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+      "initialized": true,
+      "type": "Cell<u8>",
+      "comparator": "KeyLess<Cell<u8>>",
+      "summary_edges": []
+    },
+    "s4p_network_b01_n00_02_fullbyte": {
+      "length_interval": [
+        0,
+        2
+      ],
+      "allocation": 34,
+      "base": 1,
+      "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+      "initialized": true,
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "summary_edges": []
+    },
+    "s4p_network_b01_n03_04_fullbyte": {
+      "length_interval": [
+        3,
+        4
+      ],
+      "allocation": 34,
+      "base": 1,
+      "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+      "initialized": true,
+      "type": "u8",
+      "comparator": "KeyLess<u8>",
+      "summary_edges": []
+    }
+  },
+  "negative_checker": {
+    "id": "s4p_cell_count_corrupt",
+    "model": "Cell<u8>/KeyLess<Cell<u8>>",
+    "active": [
+      1,
+      3
+    ],
+    "before": [
+      0,
+      1
+    ],
+    "after": [
+      0,
+      0
+    ],
+    "actual_callee_called": false
+  },
+  "unwind": 36,
+  "source_envelope": [
+    {
+      "loop": "Cell initialization and outside frame",
+      "bound": 34,
+      "reason": "fixed 34 initialized elements; 36 allows exhaustion guard"
+    },
+    {
+      "loop": "Snapshot/active_post counts",
+      "bound": 4,
+      "reason": "active length at most4; count loops nested independently, not flattened to256"
+    },
+    {
+      "loop": "descending",
+      "bound": 3,
+      "reason": "hi4 comparisons3"
+    },
+    {
+      "loop": "fallback insertion / network no_merge<9 insertion",
+      "bound": 3,
+      "reason": "n<=4; tails1..n-1, inner sift<=n-1"
+    }
+  ],
+  "native_exhaustion": "MUST BE EMITTED AND SUCCESS; NOT_RUN here",
+  "model": "concrete Cell Project::value/get for fallback; u8 for network",
+  "join_if_completed_reviewed_admitted": {
+    "fallback": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "network": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "source_unwind_derivation": "SOURCE BOUND ENVELOPE ONLY; no compiled-loop proof",
+  "summary_edges": []
+}

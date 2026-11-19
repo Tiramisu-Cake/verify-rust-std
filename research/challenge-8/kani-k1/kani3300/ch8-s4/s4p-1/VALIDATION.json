@@ -1,0 +1,83 @@
+{
+  "status": "OFFLINE_STATIC_AND_SERVICE_PASS",
+  "actual_final_validate": {
+    "command": "python3 check_package.py control --repo ..\npython3 s4p_validate.py\n",
+    "cwd": "/root/kani-ch8-s4p-1-control-w13/ch8-s1-control",
+    "argv": [
+      "bash",
+      "-e",
+      "-c",
+      "python3 check_package.py control --repo ..\npython3 s4p_validate.py\n"
+    ],
+    "control_sha": "e941155517a02f67ea9bac1adb81c1d5f6f85638",
+    "control_tree": "a1ea7697041b043d98d34bdb1d7d703879726a8e",
+    "request_sha256": "ff5d370fec4577527a03a84a42fa72db97d30efe34a86adbee02a05f80ac4f47",
+    "workflow_sha256": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+    "script_sha256": "83dcb3d582e6ba9ca73507e6306c6bf551356dd6e2c124b525b0cf5931884d4c",
+    "started_utc": "2026-11-19T06:24:36.838210+00:00",
+    "limit_seconds": 1080,
+    "required_margin": 1.5,
+    "execution_count": 1,
+    "environment_kind": "OFFLINE_SYNTHETIC_GITHUB_STATIC_GATE_CONTEXT; no CI event or run",
+    "environment": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "GITHUB_REPOSITORY": "Tiramisu-Cake/kani",
+      "GITHUB_EVENT_NAME": "push",
+      "GITHUB_REF": "refs/heads/uninit-ci/ch8-s4p-offline-validation",
+      "GITHUB_RUN_ATTEMPT": "1",
+      "GITHUB_SHA": "e941155517a02f67ea9bac1adb81c1d5f6f85638"
+    },
+    "native_compile_proof_cost_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 554.090277033858,
+    "finished_utc": "2026-11-19T06:33:50.928649+00:00",
+    "margin_at_18_minutes": 1.9491408616325638,
+    "stdout": {
+      "file": "FINAL-VALIDATE.stdout",
+      "bytes": 624,
+      "sha256": "235e819454ab8985bad718117c51890b79826d0c292f94971d5054593fb7dbe4"
+    },
+    "stderr": {
+      "file": "FINAL-VALIDATE.stderr",
+      "bytes": 44103,
+      "sha256": "8a4528445fb712baddfc63cb57106fb56aec1ef88714a159cfd8b13e0a947020"
+    },
+    "clean_after": true
+  },
+  "test_summary": {
+    "control_sha": "e941155517a02f67ea9bac1adb81c1d5f6f85638",
+    "control_tree": "a1ea7697041b043d98d34bdb1d7d703879726a8e",
+    "elapsed_seconds": 553.0314540234394,
+    "errors": 0,
+    "failures": 0,
+    "margin_at_18_minutes": 1.9528726479167418,
+    "native_compile_proof_cost_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "request_sha256": "ff5d370fec4577527a03a84a42fa72db97d30efe34a86adbee02a05f80ac4f47",
+    "schema": "ch8-s4p-1-validate-v1",
+    "success": true,
+    "test_counts": {
+      "bridge1": 40,
+      "legacy": 136,
+      "s3": 56,
+      "s32": 35,
+      "s4p": 35
+    }
+  },
+  "source_preflight": "PREFLIGHT.json plus four MAP files; all source/role/hash gates before native setup/build",
+  "patch_trees_replayed": 6,
+  "shallow_depths": {
+    "control": 7,
+    "source": 5,
+    "tool": 2
+  },
+  "selected_literal_assertion_sites": 21,
+  "selected_literal_cover_sites": 30,
+  "native_property_counts": "UNKNOWN",
+  "all_caps_unchanged": true,
+  "native_compile_proof_cost_fit": "NOT_RUN",
+  "proof_credit": "NONE",
+  "precursor_failures": "PRESERVED in PRECURSORS.json/tests, distinct Git objects; none omitted"
+}

@@ -1,0 +1,101 @@
+{
+  "objects": [
+    {
+      "control_sha": "d5c29efde0413455f7c7ed6aa39faee218a744fe",
+      "source_sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "runs": [
+        "01",
+        "02",
+        "03"
+      ],
+      "scope": "Preserved initial control precursor, intentionally stale payload during authoring. Fail01/03: new static checker test expected whitespace; fail03 also missing new test after edit command used wrong cwd. No native/CI.",
+      "local_preservation_ref": "refs/smallsort/offline/ch8-s4p-1/precursor-01"
+    },
+    {
+      "control_sha": "6d5b4ec13bb740b74d221f94a2f79cf20c92cabe",
+      "source_sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "runs": [
+        "04",
+        "05",
+        "06"
+      ],
+      "scope": "Preserved corrected test/cache precursor. Pass04 count/order oracle+prefix0..8; fail05 import from wrong cwd, pass06 correct cwd. No native/CI.",
+      "local_preservation_ref": "refs/smallsort/offline/ch8-s4p-1/precursor-02"
+    }
+  ],
+  "run07": "PASS on final new runtime modules; only later test EOF whitespace and payload refresh. Exact final full Validate separately binds final committed control.",
+  "logs": [
+    {
+      "file": "tests/precursor-01.stderr",
+      "sha256": "ff0a23169dff1404ff92cd9732e691d3bc92c1f57d0c061c42fb95ed5605c614",
+      "bytes": 4481
+    },
+    {
+      "file": "tests/precursor-01.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "tests/precursor-02.stderr",
+      "sha256": "913fccf6aa7971e24a8362ebdd9b6759c3faf22b42ababccdfc959df70e01dcb",
+      "bytes": 685
+    },
+    {
+      "file": "tests/precursor-02.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "tests/precursor-03.stderr",
+      "sha256": "93b891592e655e15e59384593609b299ef7d6e2cbd76784a6c41735cd39cd504",
+      "bytes": 3153
+    },
+    {
+      "file": "tests/precursor-03.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "tests/precursor-04.stderr",
+      "sha256": "30a08e27e9a3f63edc214290655741ba94f83b66202d508492429ba04c92a396",
+      "bytes": 420
+    },
+    {
+      "file": "tests/precursor-04.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "tests/precursor-05.stderr",
+      "sha256": "51d7cb9e0a2fcbedd481295a921c77a6a1f2d7aa594cc86d210471487b48c0dc",
+      "bytes": 712
+    },
+    {
+      "file": "tests/precursor-05.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "tests/precursor-06.stderr",
+      "sha256": "375b5379e68445e216373fcd9fc1663abcf0861bce7c2c27c9851854c5721492",
+      "bytes": 285
+    },
+    {
+      "file": "tests/precursor-06.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "tests/precursor-07.stderr",
+      "sha256": "4a02f52e447806c39eb45e97af637c9b10cacec08709dee75a838da3a2dcd011",
+      "bytes": 593
+    },
+    {
+      "file": "tests/precursor-07.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "failures_discarded": false,
+  "full_validate_before_final": 0
+}

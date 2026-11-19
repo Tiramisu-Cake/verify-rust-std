@@ -1,0 +1,94 @@
+{
+  "status": "READY_FOR_ROOT_CHECK_AND_INDEPENDENT14_NOT_GO",
+  "task": "c049f3c7f44d111db45baf36a5de24dc19209ee5",
+  "source": {
+    "repo": "/root/verify-rust-std-ch8-s4p-1-w13",
+    "sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+    "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+    "parents": [
+      "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    ],
+    "clean": true,
+    "depth": 5,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+    "reference": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+    "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+  },
+  "control": {
+    "repo": "/root/kani-ch8-s4p-1-control-w13",
+    "sha": "e941155517a02f67ea9bac1adb81c1d5f6f85638",
+    "tree": "a1ea7697041b043d98d34bdb1d7d703879726a8e",
+    "parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "clean": true,
+    "depth": 7,
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+    "reference": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+  },
+  "tool": {
+    "repo": "/root/kani-upstream-ch8-s1",
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parents": [
+      "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    ],
+    "clean": true,
+    "depth": 2,
+    "author_committer": "Ivo Matija\u0161evi\u0107 <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+  },
+  "request_sha256": "ff5d370fec4577527a03a84a42fa72db97d30efe34a86adbee02a05f80ac4f47",
+  "claims": [
+    {
+      "claim": "Exact eight Original/null rows implemented; Cell checker count and four length blocks; initialized V34/base1/all34 independentfullu8",
+      "assurance": "SOURCE_SUPPORTED_STATIC_AND_SYNTHETIC_SERVICE_TESTED",
+      "evidence": [
+        "ROOTS.json",
+        "ROLE-ORACLE-COVER.json",
+        "DOMAIN-UNWIND.json",
+        "SOURCE-PRESERVATION.json"
+      ]
+    },
+    {
+      "claim": "Protected runtime/gates preserved with additive new strict-profile routing, every prefix0..8 count8 at local/upload readers",
+      "assurance": "OFFLINE_UNIT_SERVICE_PASS; not native proof",
+      "evidence": [
+        "CONTROL-PRESERVATION.json",
+        "FINAL-VALIDATE.json",
+        "FINAL-VALIDATE.stderr"
+      ]
+    },
+    {
+      "claim": "Actual final exact committed Validate once at unchanged18min cap with margin>=1.5",
+      "assurance": "OBSERVED_LOCAL_TEST_EXECUTION",
+      "evidence": [
+        "FINAL-VALIDATE.json",
+        "FINAL-VALIDATE.stdout",
+        "FINAL-VALIDATE.stderr"
+      ]
+    }
+  ],
+  "new_proof_credit": "NONE",
+  "new_admissions": 0,
+  "already_admitted_source_reported_bounded_cases": 2,
+  "prior_admission": "39606c431ba266a5dbab2163d0e5175428d38aec",
+  "strict_historical_producer": "0/7 unchanged",
+  "enabled_summary_edges": [],
+  "open": [
+    "Independent14 exact-candidate review after rootcheck",
+    "All actual native compile/proof/exhaustion/cost/fit",
+    "Fallback5..16/network5..32/general0..32",
+    "All provider/init/caller/type/ownership/panic/MIR/B1/B2 obligations"
+  ],
+  "next": "Root verifies committed READY exactpins/manifest; separately issue TASK-CH8-S4P1-REVIEW-W14.md at c049 to genuinely free CURRENT14. ExactAPPROVE/no blockers -> rootGO request only, usercoordinator publication/run/ledger.",
+  "actual_future_head_ref_run": "UNKNOWN",
+  "accounting": "TRACKING_ONLY; no changes",
+  "publication_CI_native_raw_GCS": "NOT_PERFORMED",
+  "rejected_approaches": [
+    "No summary/provider substitutions or domain/value reductions",
+    "No cap increase or inherited U/location waiver",
+    "No child trigger after reviewed control; future trigger must be same-tree sibling sole9e14",
+    "No revival of old1ff/1079 threads"
+  ]
+}

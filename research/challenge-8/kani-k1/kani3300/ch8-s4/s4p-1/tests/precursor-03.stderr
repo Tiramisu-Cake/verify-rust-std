@@ -1,0 +1,28 @@
+test_cell_checker_source_count_vs_order_distinguishing_fixtures (test_s4p_boundary.BoundaryTests.test_cell_checker_source_count_vs_order_distinguishing_fixtures) ... FAIL
+test_cell_count_requires_active_success_and_exact_failure (test_s4p_boundary.BoundaryTests.test_cell_count_requires_active_success_and_exact_failure) ... ok
+test_exact_eight_original_null_and_length_roles (test_s4p_boundary.BoundaryTests.test_exact_eight_original_null_and_length_roles) ... ok
+test_legacy_counts_profiles_and_runtime_caps_preserved (test_s4p_boundary.BoundaryTests.test_legacy_counts_profiles_and_runtime_caps_preserved) ... ok
+test_request_rejects_domain_provider_count_cover_and_waiver_mutations (test_s4p_boundary.BoundaryTests.test_request_rejects_domain_provider_count_cover_and_waiver_mutations) ... ok
+test_complete_all_four_source_gates_and_exact_role_sites (test_s4p_boundary.SourceTests.test_complete_all_four_source_gates_and_exact_role_sites) ... ok
+test_missing_new_cfg_module_and_wrong_contract_target_fail_closed (test_s4p_boundary.SourceTests.test_missing_new_cfg_module_and_wrong_contract_target_fail_closed) ... ok
+test_required_path_unknown_callable_and_cell_projection_fail_closed (test_s4p_boundary.SourceTests.test_required_path_unknown_callable_and_cell_projection_fail_closed) ... ok
+test_selected_count_real_writer_and_both_readers (test_s4p_paths.RealPathWriterTests.test_selected_count_real_writer_and_both_readers) ... ok
+test_all_valid_prefix_lengths_replay_local_and_upload (unittest.loader._FailedTest.test_all_valid_prefix_lengths_replay_local_and_upload) ... ERROR
+
+======================================================================
+ERROR: test_all_valid_prefix_lengths_replay_local_and_upload (unittest.loader._FailedTest.test_all_valid_prefix_lengths_replay_local_and_upload)
+----------------------------------------------------------------------
+AttributeError: type object 'RealPathWriterTests' has no attribute 'test_all_valid_prefix_lengths_replay_local_and_upload'
+
+======================================================================
+FAIL: test_cell_checker_source_count_vs_order_distinguishing_fixtures (test_s4p_boundary.BoundaryTests.test_cell_checker_source_count_vs_order_distinguishing_fixtures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/kani-ch8-s4p-1-control-w13/ch8-s1-control/test_s4p_boundary.py", line 65, in test_cell_checker_source_count_vs_order_distinguishing_fixtures
+    self.assertIn(fragment,text)
+AssertionError: 'let query=before.values[i];' not found in 'if!before.valid||before.len>CAP||values.len()>CAP||before.len!=values.len(){returnfalse;}letmuti=1;whilei<before.len{ifvalues[i].value()<values[i-1].value(){returnfalse;}i+=1;}i=0;whilei<before.len{letquery=before.values[i];letmutold_count:usize=0;letmutnew_count:usize=0;letmutj=0;whilej<before.len{ifbefore.values[j]==query{old_count+=1;}ifvalues[j].value()==query{new_count+=1;}j+=1;}ifold_count!=new_count{returnfalse;}i+=1;}true'
+
+----------------------------------------------------------------------
+Ran 10 tests in 43.572s
+
+FAILED (failures=1, errors=1)

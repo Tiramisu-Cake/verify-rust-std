@@ -1,0 +1,35 @@
+{
+  "reference": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+  "current": "e941155517a02f67ea9bac1adb81c1d5f6f85638",
+  "changed_paths": [
+    ".github/workflows/ch8-s2.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/S4P-SOURCE.json",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/collect.py",
+    "ch8-s1-control/fixtures/s34-request.json",
+    "ch8-s1-control/fixtures/s34-workflow.yml",
+    "ch8-s1-control/runner.py",
+    "ch8-s1-control/s4p_campaign.py",
+    "ch8-s1-control/s4p_cfg_pfc.py",
+    "ch8-s1-control/s4p_contract_stacks.py",
+    "ch8-s1-control/s4p_lexical_bindings.py",
+    "ch8-s1-control/s4p_ordinary_contracts.py",
+    "ch8-s1-control/s4p_package.py",
+    "ch8-s1-control/s4p_pins.py",
+    "ch8-s1-control/s4p_policy.py",
+    "ch8-s1-control/s4p_profile.py",
+    "ch8-s1-control/s4p_validate.py",
+    "ch8-s1-control/test_s4p.py",
+    "ch8-s1-control/test_s4p_boundary.py",
+    "ch8-s1-control/test_s4p_paths.py",
+    "ch8-s1-control/validate_tokens.py"
+  ],
+  "runtime_shared_changes": [
+    "runner.py additive strict-schema routing",
+    "collect.py additive profile dispatch",
+    "check_package.py additive workflow/schema routing"
+  ],
+  "legacy_modules_fixtures_policies_parsers_runtime": "ALL OTHER TREE ENTRIES UNCHANGED; complete legacy Validate lists retained",
+  "validate_token_memoization": "TEST DRIVER ONLY; full-text keyed pure lexer, fresh token list, no gate/result/source/exception caching"
+}

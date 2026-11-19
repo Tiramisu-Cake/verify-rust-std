@@ -1,0 +1,17 @@
+test_s4p_boundary (unittest.loader._FailedTest.test_s4p_boundary) ... ERROR
+
+======================================================================
+ERROR: test_s4p_boundary (unittest.loader._FailedTest.test_s4p_boundary)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_s4p_boundary
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'test_s4p_boundary'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)
