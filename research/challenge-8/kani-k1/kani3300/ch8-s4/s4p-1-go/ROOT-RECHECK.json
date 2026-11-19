@@ -1,0 +1,83 @@
+{
+  "review_files": 29,
+  "review_hashes": 28,
+  "author_files": 62,
+  "author_hashes": 61,
+  "source": {
+    "sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+    "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+    "parents": [
+      "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    ],
+    "clean": true
+  },
+  "control": {
+    "sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+    "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+    "parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "clean": true
+  },
+  "tool": {
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parents": [
+      "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    ],
+    "clean": true
+  },
+  "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+  "workflow_sha256": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+  "control_payload_files": 118,
+  "verdict": "APPROVE",
+  "R14-01": "CLOSED",
+  "R14-02": "CLOSED",
+  "blockers": [],
+  "actual_final_Validate": {
+    "actual_final_validate_execution_count": 1,
+    "tests": 305,
+    "test_counts": {
+      "bridge1": 40,
+      "legacy": 136,
+      "s3": 56,
+      "s32": 35,
+      "s4p": 38
+    },
+    "exit_code": 0,
+    "elapsed_seconds": 550.6377290091477,
+    "internal_elapsed_seconds": 549.638364803046,
+    "margin_at_18_minutes": 1.96136214992645,
+    "required_margin": 1.5,
+    "control_sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+    "control_tree": "96b03b52cdd121965690544945c17b175253c6cd",
+    "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149"
+  },
+  "no_full_Validate_repeat": true,
+  "native_compile_proof_cost_fit": "NOT_RUN",
+  "old_review_history": "4856 REQUEST_CHANGES on590/E941 preserved",
+  "connected_remote_snapshot": {
+    "observed_at_utc": "2026-11-19T07:38:08.265629+00:00",
+    "source": {
+      "key": "source_exact",
+      "status": "ERROR_RESPONSE",
+      "detail": "GitHub API error 422: {\"message\":\"No commit found for SHA: 985062ebad90cee1e2846b1648cd6a8624d146f6\",\"documentation_url\":\"https://docs.github.com/rest/commits/commits#get-a-commit\",\"status\":\"422\"}"
+    },
+    "control_base": {
+      "key": "control_base",
+      "status": "FOUND",
+      "sha": "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "tree": "4b1d95766c2a8a820f6cf15ff00008b0f5a0c65b",
+      "parents": [
+        "7c41333f9bfcfd7eb4e0ede7bd316443090c9025"
+      ]
+    },
+    "proposed_ref": {
+      "key": "planned_control_ref",
+      "status": "ERROR_RESPONSE",
+      "detail": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}"
+    }
+  },
+  "source_publication_gate": "exact source985 not yet available in fork API (422); coordinator must publish and confirm exact SHA/tree/soleparent before control push",
+  "proposed_ref_snapshot": "404 absent; recheck immediately before push"
+}
