@@ -1,0 +1,216 @@
+{
+  "schema": "bridge1-count-repair-root-inputs-v1",
+  "status": "ISSUED_ORIGINAL_AUTHOR_FRESH13_COORDINATOR_07_06",
+  "prepared_utc": "2026-11-19T04:09:40.399991+00:00",
+  "authority": "Coordinator07:06 explicitly /new13 count repair then SAME14delta/rootGO; fresh overrides prepared reuse wording",
+  "candidate": "bcc103354d1418feeda043c6b955b38bb4393598",
+  "candidate_path": "kani3300/ch8-s3-s4/bridge-1/",
+  "review": "4bd906e8fe1e2dc78afef74d32db8b9e14c2db7e",
+  "review_path": "kani3300/ch8-s3-s4/bridge-1-review/",
+  "review_disposition": "REQUEST_CHANGES",
+  "review_files": 21,
+  "review_manifest_hashes": 19,
+  "findings": [
+    {
+      "id": "W14-B1-01",
+      "priority": "P2",
+      "blocking": true,
+      "title": "Selected-root metadata writes8 for seven-row profile and accepts inconsistent/malformed cardinality",
+      "file": "ch8-s1-control/s34_campaign.py",
+      "writer_line": 130,
+      "reader_line": 336,
+      "context": "finalize s3_campaign selected_roots:8; collect does not bind this field to validated p.ORDER/request rows",
+      "observed": "Real Python writer launches/seals7 with selected_roots8. Genuine integer7 and eight adverse count variants accepted on both local and upload-only collectors.",
+      "evidence": [
+        "COUNT-GATE-REPRODUCER.json",
+        "count_reproducer.py"
+      ],
+      "repair": [
+        "Emit selected cardinality from validated selected order/request, exactly integer7 for this profile.",
+        "Reject absent/null/bool/string/float/wrong counts in shared local/upload collector. Preserve existing semantic/identity gates.",
+        "Include authentic7 accept plus8 adverse rejection controls on both routes, including partial/stopped prefixes with fewer completed roots but selected count7.",
+        "New regression must execute in exact Validate list. Seal immutable repaired packet/pins; SAME14 delta."
+      ],
+      "impact_limit": "Metadata/completeness mismatch; actual executable selection remains7. No demonstrated additional native launch or bypass of per-row proof/status/identity gates."
+    },
+    {
+      "id": "W14-B1-02",
+      "priority": "P3",
+      "blocking": false,
+      "title": "Copied standalone portable test expects9 rows instead of7",
+      "file": "ch8-s1-control/test_s34.py",
+      "line": 430,
+      "observed": "Standalone PortableReplayTests fails AssertionError7!=9; it is outside selected finalValidate.NEW.",
+      "repair": [
+        "Use validated row inventory count instead of stale9. Preserve truthful final263PASS receipt; do not claim this standalone test passed."
+      ],
+      "evidence": [
+        "standalone-portable.json",
+        "standalone-portable.stderr"
+      ]
+    }
+  ],
+  "source_FIXED": {
+    "sha": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+    "tree": "f7856aae7ad610f0e89e7c54cff8062fa3c3b3f0",
+    "parents": [
+      "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    ],
+    "clean": true,
+    "depth": 5,
+    "required_commits_available": [
+      "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+      "99e8456d200fff1299ee5756279cddb23921dc65"
+    ],
+    "shallow_check": "PASS",
+    "worktree": "/root/verify-rust-std-ch8-s3s4-bridge1-w13",
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+    "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+    "reference": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d"
+  },
+  "tool_FIXED": {
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parents": [
+      "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    ],
+    "clean": true,
+    "depth": 2,
+    "required_commits_available": [
+      "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    ],
+    "shallow_check": "PASS",
+    "worktree": "/root/kani-upstream-ch8-s1",
+    "author_committer": "Ivo Matijašević <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+  },
+  "control_BASE_ONLY": {
+    "sha": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+    "tree": "73bf04293a09ce129a713035f6d13d5a438bb773",
+    "parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "clean": true,
+    "depth": 7,
+    "required_commits_available": [
+      "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+      "9e14e033f9ee31522b571c127609dcdff76d230b",
+      "0aac16ef62da9e9d5645782d458593e5d78143ba"
+    ],
+    "shallow_check": "PASS",
+    "worktree": "/root/kani-ch8-s3s4-bridge1-control-w13",
+    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+    "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+    "reference": "775574eb2f361ef90eade30330ff0d608530287f"
+  },
+  "new_control_sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b",
+  "source_changes_allowed": false,
+  "new_control_sha_tree_request_workflow": "UNKNOWN_UNTIL_AUTHOR_FINAL_PINS",
+  "ordered_rows_FIXED": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "sort13_weak",
+    "i_p01_b01_fullu8",
+    "sort9_v34_b01_len09_real",
+    "fallback_cell_b01_n00_16",
+    "network_u8_b01_n00_08"
+  ],
+  "flags_FIXED": {
+    "unstable": [
+      "function-contracts",
+      "mem-predicates",
+      "float-lib",
+      "c-ffi",
+      "loop-contracts",
+      "quantifiers",
+      "stubbing",
+      "export-json"
+    ],
+    "assert_contracts": false,
+    "jobs": 1,
+    "harness_timeout": "600s",
+    "exact": true,
+    "default_unwind": 50,
+    "cbmc_args": [
+      "--object-bits",
+      "12"
+    ],
+    "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf"
+  },
+  "caps_FIXED": {
+    "child_seconds": 600,
+    "compile_seconds": 180,
+    "slot_seconds": 720,
+    "controller_seconds": 180,
+    "cleanup_seconds": 240,
+    "campaign_seconds": 6900,
+    "outer_seconds": 7500,
+    "phase_seconds": 8100,
+    "step_seconds": 7560,
+    "local_rss_kib": 6291456,
+    "outer_rss_kib": 12582912,
+    "headroom_kib": 2097152,
+    "stdout_bytes": 16777216,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456
+  },
+  "setup_seconds": 1800,
+  "job_minutes": 180,
+  "initial_Validate_minutes": 18,
+  "required_final_host_margin": 1.5,
+  "campaign_envelope_seconds": 5460,
+  "legacy_source_runtime_policy_limits": "All original source/modes/domains/unwinds/gates/protected lifecycle/metadata identity/resource semantics inherited exact; count fix only",
+  "writer_and_reader_requirement": {
+    "selected_count_source": "validated p.ORDER/request rows, genuineint7 for exactprofile",
+    "not_completed_count": true,
+    "local_and_upload_routes": true,
+    "type_exact_int_excludes_bool": true,
+    "valid_control": 7,
+    "adverse_cases": [
+      "8",
+      "MISSING",
+      "null",
+      "true",
+      "string7",
+      "float7.0",
+      "0",
+      "6"
+    ],
+    "partial_stopped_no_completion_selected_count": 7,
+    "regression_in_exact_CI_Validate": true,
+    "related_portable_test_stale9_fixed": true
+  },
+  "historical_validation": {
+    "tests": 263,
+    "actual_final_validate_execution_count": 1,
+    "elapsed_seconds": 619.2504397919402,
+    "margin_at_18_minutes": 1.7440439773653864,
+    "required_margin": 1.5,
+    "exit_code": 0,
+    "control_sha": "b9e57f09775ed9db249e0b1b6f8e7e53bde5e60f",
+    "request_sha256": "1257fd62bdc65ce504913d7bd01cec1180ebc92f0450816c17aafa591cdfdd06"
+  },
+  "historical_standalone_failure": "7!=9 outside original selected263 Validate; preserve, do not rewrite as passed",
+  "root_review_gate": "both W14-B1-01 and related W14-B1-02 CLOSED by SAME14delta against exactimmutable finalrepair; noGO beforeAPPROVE",
+  "output": "kani3300/ch8-s3-s4/bridge-1-r1/",
+  "review_output": "kani3300/ch8-s3-s4/bridge-1-review-r1/",
+  "checkout_depths": {
+    "control": 7,
+    "source": 5,
+    "tool": 2
+  },
+  "publication_dispatch": "none; after exactAPPROVE rootGOrequestonly/usercoordinatorseparateGO/oneattempt",
+  "accounting_reference": {
+    "latest_ledger_admission_only": "ff193cc35690a5daabaa849d412c58d9f286d893",
+    "actual_coordinator_accounting": "df305d47173284dfd54ad55d6b7567c892790c87",
+    "item1": "31/31 EXHAUSTED",
+    "item2": "13/17",
+    "total": "44/48",
+    "prospective_ifcounted": "14/17,total45/48",
+    "write_or_reservation": false
+  },
+  "proof_credit": "NONE; nativecompile/proof/cost/fitNOT_RUN",
+  "no_native_CI_or_budget_action": true
+}
