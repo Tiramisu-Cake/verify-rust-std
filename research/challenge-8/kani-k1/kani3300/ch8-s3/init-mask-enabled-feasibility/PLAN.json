@@ -1,0 +1,412 @@
+{
+  "schema": "enabled-init-mask-feasibility-plan-v1",
+  "status": "READY_PLANONLY",
+  "task_commit": "227854d0a66b46e9d13e721932c9afa06a986ec8",
+  "settings": "high/FastOFF preserved; no subagents/modelchanges",
+  "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "source_commit": "513341f41ce53833a279571401c924bdddddb6c8",
+  "conclusion": "NEEDS_SPECIFIC_LAYOUT_AND_MASK_METHOD_PREREQUISITES_BEFORE_SEPARATE_ON_EXPERIMENT",
+  "assurance": "PINNED_SOURCE_TRACE_AND_BOUNDED_STATIC_CONSISTENCY_ONLY",
+  "independent_native_proof": "NONE",
+  "native_compile_solver": "NOT_RUN",
+  "current_lane": "UNCHANGED; S3-2-r1 partial rows diagnostic/INIT_OPEN",
+  "enabled_path": {
+    "applied": false,
+    "cli_proposal": "-Z uninit-checks",
+    "compiler_flags_source_derived": [
+      "-Z ghost-state",
+      "--ub-check=uninit"
+    ],
+    "cfg": "Existing cfg(kani); no new algorithm cfg/domain proposed; ValidValueChecks is separate and not silently enabled.",
+    "pass_sequence": [
+      "FunctionWithContract/FnStub and AnyModifies",
+      "ValidValue if separately enabled",
+      "Uninit local instrumentation with assert-no-assume",
+      "IntrinsicGenerator (including IsInitialized)",
+      "LoopContract",
+      "RustcIntrinsics",
+      "per-entry reachability then global DelayedUb then re-reachability if modified"
+    ],
+    "model": "One nondeterministic object/byte with initialization bit; compiler inserts stores/reads/copy effects and raw AddressOf blessing. No manual ShadowMem.set coupling.",
+    "oracle_signature": "crate::kani::mem::is_initialized::<u8>(*const u8)->bool; one pointer argument",
+    "citations": [
+      "CLI_FLAGS",
+      "ORDER",
+      "HARNESS_INIT",
+      "MODEL_SETUP",
+      "GLOBAL_ORDER"
+    ]
+  },
+  "oracle": {
+    "non_reading_positive_predicate": "Init_u8(p,i) := crate::kani::mem::is_initialized::<u8>(p.add(i)); only in positive assertion context, never an assume/branch that prunes model choices.",
+    "address_taking_model_event": "Stock raw AddressOf emits Set true as a blessing. Source-level Rust pointer formation is not data initialization; exact MIR must justify blessing/layout and show it does not erase hole observations.",
+    "requirements": [
+      "live allocation of backing48 with original provenance; 0<=i<48 before p.add(i)",
+      "u8 size1/alignment1 and valid pointer/extent; initialization is separate from allocation/permission",
+      "no full &[u8;48]/[u8] reference over holes; borrow only known-init source8, raw disjoint dst8",
+      "write permission/exclusive access and nonoverlap for actual merge; equality of addresses is not ownership proof",
+      "no typed load or value snapshot at unknown-init bytes; typed dst loads only after asserted Init_u8",
+      "u8 and [u8;8] layout queries cover data bytes; zero-length/ZST query is vacuous and forbidden as evidence"
+    ],
+    "MU_type_result": "Direct MaybeUninit<u8> is a union: unsupported predicate route, not proof of initialized u8. Slice/array of MU recurses into UnionAsField; if any hypothetical permissive layout erased all data bits it would also be vacuous, but stock source does not establish that successful result.",
+    "not_a_mask_snapshot": "get returns true on untracked/padding bytes. !Init_u8(hole) is not a universally valid assertion; Init_u8(hole) can fail with a selected-hole counterexample. old(Init_u8)==Init_u8 is not a sound complete mask-frame oracle when copy retargets the tracked coordinate.",
+    "citations": [
+      "MEM_API",
+      "ORACLE_U8",
+      "ORACLE_SLICE",
+      "ORACLE_UNION",
+      "MODEL_GET",
+      "MODEL_COPY",
+      "LAYOUT_NESTED_UNION"
+    ]
+  },
+  "exact_masks": [
+    {
+      "name": "L",
+      "src": 32,
+      "dst": 0,
+      "length": 8,
+      "backing": "[MaybeUninit<u8>;48]",
+      "before_intervals": [
+        [
+          32,
+          40
+        ]
+      ],
+      "after_intervals": [
+        [
+          0,
+          8
+        ],
+        [
+          32,
+          40
+        ]
+      ],
+      "initialized_before": 8,
+      "initialized_after": 16,
+      "newly_initialized": 8,
+      "holes_after": 32,
+      "source_halves": "two sorted full-byte halves of length4",
+      "frame_values": "all previously initialized bytes outside dst retain their full u8 values; no read at any hole",
+      "sentinel_uninitialized_offset": 8,
+      "logical_masks_are_source_specification_not_model_snapshots": true
+    },
+    {
+      "name": "R",
+      "src": 40,
+      "dst": 16,
+      "length": 8,
+      "backing": "[MaybeUninit<u8>;48]",
+      "before_intervals": [
+        [
+          0,
+          8
+        ],
+        [
+          32,
+          48
+        ]
+      ],
+      "after_intervals": [
+        [
+          0,
+          8
+        ],
+        [
+          16,
+          24
+        ],
+        [
+          32,
+          48
+        ]
+      ],
+      "initialized_before": 24,
+      "initialized_after": 32,
+      "newly_initialized": 8,
+      "holes_after": 16,
+      "source_halves": "two sorted full-byte halves of length4",
+      "frame_values": "all previously initialized bytes outside dst retain their full u8 values; no read at any hole",
+      "sentinel_uninitialized_offset": 8,
+      "logical_masks_are_source_specification_not_model_snapshots": true
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "l_actual_merge8",
+      "planned_selector": "slice::sort::shared::smallsort::verify::init_mask_enabled_future::l_actual_merge8",
+      "kind": "FUTURE_POSITIVE_ACTUAL_BODY",
+      "native": "NOT_RUN",
+      "spec": {
+        "name": "L",
+        "src": 32,
+        "dst": 0,
+        "length": 8,
+        "backing": "[MaybeUninit<u8>;48]",
+        "before_intervals": [
+          [
+            32,
+            40
+          ]
+        ],
+        "after_intervals": [
+          [
+            0,
+            8
+          ],
+          [
+            32,
+            40
+          ]
+        ],
+        "initialized_before": 8,
+        "initialized_after": 16,
+        "newly_initialized": 8,
+        "holes_after": 32,
+        "source_halves": "two sorted full-byte halves of length4",
+        "frame_values": "all previously initialized bytes outside dst retain their full u8 values; no read at any hole",
+        "sentinel_uninitialized_offset": 8,
+        "logical_masks_are_source_specification_not_model_snapshots": true
+      },
+      "oracle": "Before: assert Init_u8 on every K0 byte; after actual bidirectional_merge::<u8,KeyLess<u8>>, assert all dst8 Init_u8 BEFORE typed post/output loads. Preserve source/known-init frame values, exact dst-only modifies, sorted+full-count output. Complete negative mask bits remain method obligation P2.",
+      "expected_if_prerequisites_hold": "All required literal/safety/cover/frame records succeed, no executed unsupported path. Not a present result."
+    },
+    {
+      "id": "l_hole8_claim_init",
+      "planned_selector": "slice::sort::shared::smallsort::verify::init_mask_enabled_future::l_hole8_claim_init",
+      "kind": "FUTURE_NEGATIVE_ORACLE_CONTROL",
+      "native": "NOT_RUN",
+      "oracle": "Same K0 and authentic actual merge, then single literal assert Init_u8(p+8). Do not load byte8 as u8.",
+      "expected_if_prerequisites_hold": "Intended INIT_HOLE8_REQUIRED assertion FAILURE for a counterexample selecting that hole; no incidental failure credited."
+    },
+    {
+      "id": "l_outsidewrite8_observed",
+      "planned_selector": "slice::sort::shared::smallsort::verify::init_mask_enabled_future::l_outsidewrite8_observed",
+      "kind": "FUTURE_STORE_EFFECT_CONTROL_NOT_VALID_MERGE_RESULT",
+      "native": "NOT_RUN",
+      "oracle": "Same case then deliberate p+8 write of an arbitrary u8 in harness-only diagnostic and assert Init_u8(p+8); pair with prior negative. Separately, place outsidewrite in a diagnostic dst-only-modifies wrapper and require frame violation.",
+      "expected_if_prerequisites_hold": "Harness write makes positive Init_u8 assertion SUCCESS; wrong-footprint wrapper must fail exact frame check. This deliberately violates desired M1 and must NEVER be admitted as a correct merge."
+    },
+    {
+      "id": "l_missing_dst7_write",
+      "planned_selector": "slice::sort::shared::smallsort::verify::init_mask_enabled_future::l_missing_dst7_write",
+      "kind": "FUTURE_NEGATIVE_TRACKING_CONTROL_NOT_ACTUAL_MERGE_PROOF",
+      "native": "NOT_RUN",
+      "oracle": "Isolated diagnostic writer copies/writes initialized source data to seven dst bytes, omits dst+7, then single assert Init_u8(p+dst+7). Paired writer writes all8. No typed load from omitted byte. Actual merge positives retain original body.",
+      "expected_if_prerequisites_hold": "Missing-write assertion FAILURE; paired all8 assertion SUCCESS. Extra unsupported/UB failures are blockers, not matching this negative."
+    },
+    {
+      "id": "r_actual_merge8",
+      "planned_selector": "slice::sort::shared::smallsort::verify::init_mask_enabled_future::r_actual_merge8",
+      "kind": "FUTURE_POSITIVE_ACTUAL_BODY",
+      "native": "NOT_RUN",
+      "spec": {
+        "name": "R",
+        "src": 40,
+        "dst": 16,
+        "length": 8,
+        "backing": "[MaybeUninit<u8>;48]",
+        "before_intervals": [
+          [
+            0,
+            8
+          ],
+          [
+            32,
+            48
+          ]
+        ],
+        "after_intervals": [
+          [
+            0,
+            8
+          ],
+          [
+            16,
+            24
+          ],
+          [
+            32,
+            48
+          ]
+        ],
+        "initialized_before": 24,
+        "initialized_after": 32,
+        "newly_initialized": 8,
+        "holes_after": 16,
+        "source_halves": "two sorted full-byte halves of length4",
+        "frame_values": "all previously initialized bytes outside dst retain their full u8 values; no read at any hole",
+        "sentinel_uninitialized_offset": 8,
+        "logical_masks_are_source_specification_not_model_snapshots": true
+      },
+      "oracle": "Before: assert Init_u8 on every K0 byte; after actual bidirectional_merge::<u8,KeyLess<u8>>, assert all dst8 Init_u8 BEFORE typed post/output loads. Preserve source/known-init frame values, exact dst-only modifies, sorted+full-count output. Complete negative mask bits remain method obligation P2.",
+      "expected_if_prerequisites_hold": "All required literal/safety/cover/frame records succeed, no executed unsupported path. Not a present result."
+    },
+    {
+      "id": "r_hole8_claim_init",
+      "planned_selector": "slice::sort::shared::smallsort::verify::init_mask_enabled_future::r_hole8_claim_init",
+      "kind": "FUTURE_NEGATIVE_ORACLE_CONTROL",
+      "native": "NOT_RUN",
+      "oracle": "Same K0 and authentic actual merge, then single literal assert Init_u8(p+8). Do not load byte8 as u8.",
+      "expected_if_prerequisites_hold": "Intended INIT_HOLE8_REQUIRED assertion FAILURE for a counterexample selecting that hole; no incidental failure credited."
+    },
+    {
+      "id": "r_outsidewrite8_observed",
+      "planned_selector": "slice::sort::shared::smallsort::verify::init_mask_enabled_future::r_outsidewrite8_observed",
+      "kind": "FUTURE_STORE_EFFECT_CONTROL_NOT_VALID_MERGE_RESULT",
+      "native": "NOT_RUN",
+      "oracle": "Same case then deliberate p+8 write of an arbitrary u8 in harness-only diagnostic and assert Init_u8(p+8); pair with prior negative. Separately, place outsidewrite in a diagnostic dst-only-modifies wrapper and require frame violation.",
+      "expected_if_prerequisites_hold": "Harness write makes positive Init_u8 assertion SUCCESS; wrong-footprint wrapper must fail exact frame check. This deliberately violates desired M1 and must NEVER be admitted as a correct merge."
+    },
+    {
+      "id": "r_missing_dst7_write",
+      "planned_selector": "slice::sort::shared::smallsort::verify::init_mask_enabled_future::r_missing_dst7_write",
+      "kind": "FUTURE_NEGATIVE_TRACKING_CONTROL_NOT_ACTUAL_MERGE_PROOF",
+      "native": "NOT_RUN",
+      "oracle": "Isolated diagnostic writer copies/writes initialized source data to seven dst bytes, omits dst+7, then single assert Init_u8(p+dst+7). Paired writer writes all8. No typed load from omitted byte. Actual merge positives retain original body.",
+      "expected_if_prerequisites_hold": "Missing-write assertion FAILURE; paired all8 assertion SUCCESS. Extra unsupported/UB failures are blockers, not matching this negative."
+    }
+  ],
+  "future_argv_concept": [
+    "<stock0aac>/scripts/cargo-kani",
+    "kani",
+    "--manifest-path",
+    "<future-reviewed-core>/library/core/Cargo.toml",
+    "--lib",
+    "--harness",
+    "<one planned_selector>",
+    "--exact",
+    "--default-unwind",
+    "50",
+    "-Z",
+    "function-contracts",
+    "-Z",
+    "export-json",
+    "-Z",
+    "uninit-checks",
+    "--export-json",
+    "<fresh-isolated-output>/export.json"
+  ],
+  "future_argv_status": "CONCEPT_ONLY_NOT_RUN; selectors/module do not exist at pinned513; source package and full effective flags await separate review. Not a runnable package or current lane flag edit.",
+  "contracts": {
+    "check": "Requires are assumed; old expressions computed/cloned after requires, original modifies body executes, ensures asserted. Old capture must only read known-init source/frame; never clone the full unknown byte backing as u8.",
+    "assigns": "dst8 real-byte extent plus whole MEM_INIT_STATE when discovered. This permits instrumented shadow updates but does not restrict shadow updates to the logical dst mask or prove exact init frame. Absent lookup yields empty allowance and must be checked from actual exports.",
+    "clauses": "Clause-depth machinery chooses Original in clauses; it does not grant blanket uninit suppression. Compiler model infrastructure is skipped to prevent instrumentation recursion.",
+    "native": "NOT_RUN; no Check/Original closure-to-MIR/store identity claimed",
+    "citations": [
+      "CHECK_CONTRACT",
+      "OLD_CAPTURE",
+      "OLD_ORDER",
+      "MODIFIES_BODY",
+      "CLAUSE",
+      "ASSIGNS_SHADOW",
+      "ASSIGNS_REAL",
+      "SKIPPED"
+    ]
+  },
+  "F4": {
+    "source_result": "For manual Harnesses mode with a filter actually matching exactly one metadata entry, compiler filters before grouping/transformer creation. There is only one entry codegen global pass for that unit. Closures/callees/providers in its reachable instance set are not additional harnesses and do not alone recreate known cross-harness cache reuse.",
+    "limits": "Selection does not reduce reachable analyses to just root. Delayed pass still sees all reachable layout-changing casts/copies and points-to targets. AllFns/autoharness, absent/nonexact/ambiguous/multiple filters or multiple manual entries require separate audit. Multiple contracts are not by themselves proof of more entry passes.",
+    "known_risk": "Shared Instance-keyed BodyTransformation cache remains stock across multiple harness entries in a unit; DelayedUb writes into it. clear_codegen_cache clears another cache.",
+    "native": "UNKNOWN exact compiler mode/unit/selector cardinality/MIR analysis for future fixture; F4/#4591 fixes not imported.",
+    "citations": [
+      "MANUAL_MODE",
+      "FILTER_BEFORE_UNIT",
+      "FILTER_IMPLEMENTATION",
+      "EXACT_MATCH",
+      "SHARED_CACHE",
+      "CACHE_KEY",
+      "DELAYED",
+      "DELAYED_TARGETS",
+      "ORDER_SINGLETON",
+      "CLEAR_OTHER_CACHE"
+    ]
+  },
+  "copy_arithmetic_risk": {
+    "source": "MODEL_COPY uses usize self.tracked_offset += to_offset-from_offset under should_reset. Both L/R copy down within one allocation. If checked subtraction is retained under effective compile options, positive source-selected retarget has a checked-arithmetic hazard.",
+    "bound": "Source-level concern only; no claim this check is present/executed/failing in native core. Need exact future MIR/effective settings and preserve any actual failure; do not turn overflow checks off to force PASS.",
+    "citations": [
+      "MODEL_COPY",
+      "CFG_ARITH"
+    ]
+  },
+  "prerequisites": [
+    {
+      "id": "P1",
+      "need": "Resolve source-visible nested-union/array and union-pointer unsupported routes for exact MU48 lowering, or establish exact MIR avoids them without changing domain. Any required tool/method patch must be separate, reviewed and pinned; no blanket unsupported waiver.",
+      "citations": [
+        "MU_REPR",
+        "LAYOUT_NESTED_UNION",
+        "ASSIGN_PREFLIGHT",
+        "SET_UNION"
+      ],
+      "status": "OPEN_SOURCE_KNOWN_ROUTE_NATIVE_APPLICABILITY_UNKNOWN"
+    },
+    {
+      "id": "P2",
+      "need": "Approve assertion-only u8 oracle plus complete checked relation of stores, copies and address-taking blessing to the logical mask; negative hole Boolean snapshots and old equality are insufficient. A new deterministic full-mask model/oracle would require explicit separate design/authorization.",
+      "citations": [
+        "MODEL_GET",
+        "MODEL_COPY",
+        "DEMONIC_USE",
+        "ASSIGNS_REAL"
+      ],
+      "status": "OPEN_METHOD"
+    },
+    {
+      "id": "P3",
+      "need": "Authenticate enabled effective flags/compile graph, u8 layout and every hook, plus shadow static assigns. Retain original contracts/controls/roles and strict unsupported status handling.",
+      "citations": [
+        "ORDER",
+        "ASSIGNS_SHADOW",
+        "ORACLE_U8"
+      ],
+      "status": "FUTURE_EXACT_BINDING_REQUIRED"
+    },
+    {
+      "id": "P4",
+      "need": "Use exactly one manual harness per fresh compiler invocation/target namespace and prove compiler filtering/cardinality before codegen. If broader mode or multiple harnesses required, resolve known F4 boundary separately; never silently import F4/#4591 fixes.",
+      "citations": [
+        "FILTER_BEFORE_UNIT",
+        "MANUAL_MODE",
+        "SHARED_CACHE",
+        "DELAYED"
+      ],
+      "status": "SOURCE_CONDITIONAL_SINGLETON_NOT_NATIVE_PROVEN"
+    },
+    {
+      "id": "P5",
+      "need": "Separate exact implementation package + independent review + root/coordinator GO + normal attempt accounting before any future experiment. Current flags/lane/initOPEN and all prior decisions unchanged.",
+      "citations": [],
+      "status": "NO_AUTHORIZATION_IN_THIS_PLAN"
+    }
+  ],
+  "remaining_unknown": [
+    "Exact future core MIR representation and whether aggregate [MaybeUninit<u8>;48] assignments/union pointer operations survive to enabled UninitPass; which unsupported checks become reachable.",
+    "Native write/read/copy/address-blessing hook insertion, selected object/offset trajectory and all 48-byte allocation/provenance bindings for each L/R fixture.",
+    "A sufficient checked relation between actual stores, permitted write footprint and complete logical before/after masks; single-byte assertion oracle alone cannot prove all negative mask bits.",
+    "Actual shadow static discovery/assigns export and all clause/old/contract-wrapper effects in the in-core PFC instance.",
+    "Effective overflow setting and lowered checked arithmetic in model copy retargeting toward lower offsets; native relevance of usize to_offset-from_offset is NOT_RUN.",
+    "Actual manual selector cardinality, reachability mode/unit membership and providers in a future compilation; source singleton conditional is not native confirmation.",
+    "Native completed property IDs/sites/status partitions, intended negative failures and non-vacuity/continuation/containment; no result inferred from source.",
+    "Compile success, solver overhead, RSS, wall time and budget fit: NOT_RUN/UNKNOWN; no cost estimate."
+  ],
+  "resource_cost": {
+    "compile": "NOT_RUN",
+    "solver": "NOT_RUN",
+    "overhead": "UNKNOWN",
+    "budget_fit": "UNKNOWN",
+    "no_estimate_or_free_probe_claim": true
+  },
+  "authority": {
+    "implementation_applied": false,
+    "flags_applied": false,
+    "dispatch_or_GO": false,
+    "reservation": false,
+    "accounting_changed": false,
+    "reference_only": "item1 31/31 EXHAUSTED; item2 12/17; total43/48. Future authorized actual run consumes ordinary item2 attempt; no item1 grant/free probe.",
+    "#4591": "HOLD14ab; owner morning+1 NOT_GIVEN",
+    "publication": "OWNER_ONLY; no push/PR/comments/external messages"
+  }
+}
