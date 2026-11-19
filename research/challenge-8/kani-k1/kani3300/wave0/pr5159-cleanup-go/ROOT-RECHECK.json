@@ -1,0 +1,132 @@
+{
+  "schema": "root-cleanup-recheck-v1",
+  "checked_at": "2026-11-19T16:58:47.074334+00:00",
+  "checks_passed": 42,
+  "checks": [
+    "Exact HEAD",
+    "Clean candidate",
+    "Local cleanup branch exact",
+    "Exact tree",
+    "Sole parent exact original PR head",
+    "One cleanup commit",
+    "NONSKIP source",
+    "No added co-author trailer",
+    "Exactly five allowed fixture paths; all other tree entries unchanged",
+    "Only line5 comment changes; all proof bytes/flags preserved tests/expected/intrinsics/volatile_load/zst_unaligned.rs",
+    "Only line5 comment changes; all proof bytes/flags preserved tests/expected/intrinsics/volatile_load/zst_uninhabited.rs",
+    "Only line5 comment changes; all proof bytes/flags preserved tests/kani/Intrinsics/Volatile/load_zst.rs",
+    "Eight retained harnesses in separate six-positive/two-negative source modes",
+    "Exact header + unchanged old four-line semantic oracle + exact completion tests/expected/intrinsics/volatile_load/zst_unaligned.expected",
+    "Original adjacent failure/reason and failed verdict retained tests/expected/intrinsics/volatile_load/zst_unaligned.expected",
+    "Exact header + unchanged old four-line semantic oracle + exact completion tests/expected/intrinsics/volatile_load/zst_uninhabited.expected",
+    "Original adjacent failure/reason and failed verdict retained tests/expected/intrinsics/volatile_load/zst_uninhabited.expected",
+    "Whole intrinsic.rs byte frozen",
+    "Whole compiler tree exact",
+    "Protected whole subtree unchanged library",
+    "Protected whole subtree unchanged scripts",
+    "Protected whole subtree unchanged tools",
+    "Protected whole subtree unchanged .github",
+    "Whitespace check",
+    "author package committed",
+    "Current package bytes exact research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup/FINDINGS.md",
+    "Current package bytes exact research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup/HANDOFF.md",
+    "Current package bytes exact research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup/PR-BODY.md",
+    "Current package bytes exact research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup/PR-SNAPSHOT.json",
+    "Current package bytes exact research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup/PROVENANCE.json",
+    "Current package bytes exact research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup/STATIC-CHECK.json",
+    "Current package bytes exact research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup/validate_static.py",
+    "review package committed",
+    "Current package bytes exact research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup-review/HANDOFF.md",
+    "Current package bytes exact research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup-review/STATIC-CHECK.json",
+    "Current package bytes exact research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup-review/review_static.py",
+    "Independent committed APPROVE binds exact source/tree",
+    "Standard workflow byte frozen .github/workflows/kani.yml",
+    "Standard workflow byte frozen .github/workflows/format-check.yml",
+    "Standard workflow byte frozen .github/workflows/deny.yml",
+    "Connected original PR remains on exact old head/ref/repo",
+    "Connected proposed cleanup fork ref absent",
+    "New immutable GO directory absent"
+  ],
+  "changed_paths": [
+    "tests/expected/intrinsics/volatile_load/zst_unaligned.expected",
+    "tests/expected/intrinsics/volatile_load/zst_unaligned.rs",
+    "tests/expected/intrinsics/volatile_load/zst_uninhabited.expected",
+    "tests/expected/intrinsics/volatile_load/zst_uninhabited.rs",
+    "tests/kani/Intrinsics/Volatile/load_zst.rs"
+  ],
+  "source_commit": "282d007d06a2fc45ca6e6dc719a305f333b63a7c",
+  "tree": "7a7103421211001791f2b01a5d06f3f5846e0b42",
+  "sole_parent": "78f745bb696c85095a9582f959d4854ec494c4f5",
+  "package_git_bindings": {
+    "author": {
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup/FINDINGS.md": {
+        "sha256": "54bfa7b449d4f5fcf256f3ebdd4a5866db705e9ed45c5352b892581ec393d525",
+        "bytes": 7540,
+        "git_blob": "38fc8dc25bc21c32616ceb50a7a92ee6b700831b"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup/HANDOFF.md": {
+        "sha256": "968b1a33b5d492b2c36352b87c3fcacd3d674ed4d51e2995ba33b34f3918fc0c",
+        "bytes": 4659,
+        "git_blob": "a94c6dd8859675fe70224eb1cc1dbafb590e6b7f"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup/PR-BODY.md": {
+        "sha256": "b5f43b9da9f92c6cb05f324adfb98b043ea680a0548da009f74dd7b412068a4c",
+        "bytes": 943,
+        "git_blob": "0ace3845427c19ef17501a3827324f8f303d6fff"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup/PR-SNAPSHOT.json": {
+        "sha256": "c97e2419407b7d5dd01cab928e4b90fee465c34bb9b9a2a376481392592a1e8c",
+        "bytes": 1674,
+        "git_blob": "002171bebfa9c3fc007c02dd28c980cbdb597c9e"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup/PROVENANCE.json": {
+        "sha256": "dd37065aa12b07487141072a1746d5dc29dd7e35eee7d5742d18eebb8339da5e",
+        "bytes": 1139,
+        "git_blob": "943207f603e337cb3618797b80884a202945092f"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup/STATIC-CHECK.json": {
+        "sha256": "6be2aa836eddf04d5045fb8384eb51d01a1028e91c21dab98b57da61d8b19785",
+        "bytes": 4048,
+        "git_blob": "abeccfe7eb589f997d427d38e4011f9309802ceb"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup/validate_static.py": {
+        "sha256": "66bb9c736a2762163964a19b85b93ad2169e4357f8c043eaafe412e10bbfceaa",
+        "bytes": 7581,
+        "git_blob": "342b5a62164ea4fe4becaae3e2236b709c6443da"
+      }
+    },
+    "review": {
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup-review/HANDOFF.md": {
+        "sha256": "7ab0ab047f9cf35af16ad05ab186a31bf38a6b7c0139b1b414e6349c838cb0dd",
+        "bytes": 10227,
+        "git_blob": "792407d6cfa6143506e0a6ab35ce4e750481f4ce"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup-review/STATIC-CHECK.json": {
+        "sha256": "e97768aca51f37cbcb472639642a8808b7bfa6e6b5e7ef9e4a9775095c73b2ba",
+        "bytes": 4441,
+        "git_blob": "93f30db4ffc4377214ac0f02470f11efb5b5a93d"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5159-cleanup-review/review_static.py": {
+        "sha256": "b120527afc88abdd4f10bf4fb0147d11b4ccbc853ee6932c00e3c710c1ff06cf",
+        "bytes": 7643,
+        "git_blob": "2583b8b059153a2c612e386fbe4bf88508a3f2d9"
+      }
+    }
+  },
+  "connected_checked_at": "2026-11-19T16:57:39.047Z",
+  "connected_pr": {
+    "state": "open",
+    "head": "78f745bb696c85095a9582f959d4854ec494c4f5",
+    "ref": "fix/volatile-zst-5072"
+  },
+  "connected_new_branch": {
+    "error": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}",
+    "error_code": "NOT_FOUND",
+    "error_data": {
+      "message": "Not Found",
+      "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+      "status": "404"
+    }
+  },
+  "limits": "Source/static/read-only metadata only; native compiler/regression/CI NOT_RUN by root. Independent review synthetic matcher evidence is review-reported, not relabeled as a root/native execution."
+}
