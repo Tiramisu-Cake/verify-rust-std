@@ -1,0 +1,30 @@
+{
+  "checked_at": "2026-11-19T14:43:47.855390+00:00",
+  "interface": "CONNECTED_GITHUB_READ_ONLY",
+  "records": [
+    {
+      "url": "https://api.github.com/repos/Tiramisu-Cake/verify-rust-std/git/commits/8faf8e62af8f82b5c46af020086f8df591b6757e",
+      "error": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/commits#get-a-commit-object\",\"status\":\"404\"}",
+      "error_code": "NOT_FOUND"
+    },
+    {
+      "url": "https://api.github.com/repos/Tiramisu-Cake/verify-rust-std/git/ref/heads/experiment/ch8-s4p-2-r2-20261119",
+      "error": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}",
+      "error_code": "NOT_FOUND"
+    },
+    {
+      "url": "https://api.github.com/repos/model-checking/kani/git/commits/0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "parents": [
+        "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+      ]
+    },
+    {
+      "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/ref/heads/uninit-ci/ch8-s4p-2-r2-20261119",
+      "error": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}",
+      "error_code": "NOT_FOUND"
+    }
+  ],
+  "note": "Source commit and both proposed refs absent before publication; tool tuple MATCH. Coordinator rechecks after publishing and immediately before trigger push."
+}

@@ -1,0 +1,249 @@
+{
+  "status": "ROOT_STATIC_PASS_BEFORE_FINAL_VALIDATE",
+  "checked_at": "2026-11-19T14:38:30.510050+00:00",
+  "package": "d10b721e5f9423a0de2602893045c31985e3fbf8",
+  "package_files": 69,
+  "manifest_entries": 68,
+  "exact_review": "0c2784fabe3983f2f4e8eb01100b2ba3659c283d",
+  "review_files_git_bound": {
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl-review/DISCOVERY.json": {
+      "sha256": "523ac665fcfaeaba0c1376fd4a02f48c8e8ac3d951f0838244913d1152a1b472",
+      "bytes": 344
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl-review/HANDOFF.md": {
+      "sha256": "2c41d5c44bf4d1fd11726dcbbba857bcc624a5622f2943a490f1a2c68c0356c6",
+      "bytes": 10258
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl-review/MUTATION-CHECKS.json": {
+      "sha256": "3990a48049d2d42870ac2fbdb219c9cad02ddc05dae57e99560e2d803b61c9ee",
+      "bytes": 601
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl-review/PREFLIGHT.json": {
+      "sha256": "155fbcc95ca0a6f8f7a58f08df853d27ccdaf0c76bf5ebc1558458fc5d80bac5",
+      "bytes": 749
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl-review/STATIC-CHECKS.json": {
+      "sha256": "f6f3065a3d1c85068d8f2246a48aede08e60156876f663fcdc211c97968ad65d",
+      "bytes": 1718
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl-review/TARGETED-TESTS.json": {
+      "sha256": "598ef233f455bd2a65c36c87b6be5c374ebda6d39e5f94f19b5e50f5e5c2cfeb",
+      "bytes": 229
+    },
+    "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-impl-review/TARGETED-TESTS.txt": {
+      "sha256": "fe3bb9304de275990c75df6e9cc71b3e9effc60eaa81ebc7f19cfc5a4d9ca8d4",
+      "bytes": 3367
+    }
+  },
+  "reviewer_manifest_present": false,
+  "review_manifest_note": "Seven review files are bound by the exact committed Git tree; root independently records their hashes here.",
+  "dependencies": 12,
+  "pins": {
+    "source": {
+      "repo": "/root/verify-rust-std-ch8-s4p-2-w13",
+      "sha": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+      "tree": "91f097cdb4085d30c4b94afbb843aeb34f1d3287",
+      "sole_parent": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "clean": true,
+      "checkout_depth": 6,
+      "required_commits_available": [
+        "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+        "99e8456d200fff1299ee5756279cddb23921dc65"
+      ],
+      "shallow": "PASS",
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+    },
+    "control": {
+      "repo": "/root/kani-ch8-s4p-2-r1-control-w13",
+      "sha": "3d3fb715271e3b195c6e0eee3557d5b0a6aad00d",
+      "tree": "628a9aa91c86a2e5f72efee626b58f1715ec3dbf",
+      "sole_parent": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+      "clean": true,
+      "checkout_depth": 8,
+      "required_commits_available": [
+        "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+        "0aac16ef62da9e9d5645782d458593e5d78143ba"
+      ],
+      "shallow": "PASS",
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+    },
+    "tool": {
+      "repo": "/root/kani-upstream-ch8-s1",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "sole_parent": "3e095c22a231de1d7acd2410b71f0fc8e6970c19",
+      "clean": true,
+      "checkout_depth": 2,
+      "required_commits_available": [
+        "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+      ],
+      "shallow": "PASS",
+      "author_committer": "Ivo Matijašević <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+    },
+    "schema": "network-r2-impl-pins-v1",
+    "status": "READY_FOR_EXACT_PACKAGE_REVIEW_FINAL_VALIDATE_PREPARED_NOT_RUN",
+    "plan": "cdedf547df37aec4c442727a902a784f4d1b5155",
+    "plan_review": "2b7872e84c8cf723f72ea33ee441a7b02be9b2e4",
+    "authority": "c56c56bbabcd2772443a854dca3eca9d04cb3089",
+    "request_sha256": "fd2b608a5538779f5f0345a49e5c147646d82dc6d066fdd1e3b50d0e6bc69e39",
+    "workflow_sha256": "d5dd5942297df013e625b85890fcc3884ec6b60d1f08c8e1dc51c019ce15fdfc",
+    "profile": "ch8-s4p-2r2-network-fullbyte-concrete-calls-v1",
+    "schema_request": "ch8-s4p-2r2-v1",
+    "payload_files": 155,
+    "GO": "NOT_GRANTED",
+    "publication": "NOT_PERFORMED",
+    "native_CI": "NOT_RUN",
+    "proof_credit": "NONE"
+  },
+  "control_payload_hashes": 155,
+  "source_hash_tables": {
+    "changed_file_sha256": 14,
+    "ordinary_contract_source_sha256": 29,
+    "cfg_pfc_source_sha256": 14,
+    "contract_stack_source_sha256": 29,
+    "lexical_source_sha256": 23
+  },
+  "protected_old_control_files": 133,
+  "source_delta": [
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_s4_network_r2.rs"
+  ],
+  "control_existing_delta": [
+    ".github/workflows/ch8-s2.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/collect.py",
+    "ch8-s1-control/runner.py"
+  ],
+  "control_new_paths": 18,
+  "patch_replays": [
+    {
+      "file": "SOURCE-PARENT.patch",
+      "base": "c12867b1e651a3927cbd9f169fe2c3d3728a44c3",
+      "tree": "91f097cdb4085d30c4b94afbb843aeb34f1d3287"
+    },
+    {
+      "file": "SOURCE-STOCK.patch",
+      "base": "99e8456d200fff1299ee5756279cddb23921dc65",
+      "tree": "91f097cdb4085d30c4b94afbb843aeb34f1d3287"
+    },
+    {
+      "file": "CONTROL-PARENT.patch",
+      "base": "4059c900e50ba179d824a1e6f6bd7798cf343e36",
+      "tree": "628a9aa91c86a2e5f72efee626b58f1715ec3dbf"
+    },
+    {
+      "file": "CONTROL-STOCK.patch",
+      "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "628a9aa91c86a2e5f72efee626b58f1715ec3dbf"
+    }
+  ],
+  "row_ids": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "sort13_weak",
+    "s4p_cell_count_corrupt",
+    "s4p2r2_network_b01_n02_fullbyte",
+    "s4p2r2_network_b01_n03_fullbyte",
+    "s4p2r2_network_b01_n04_fullbyte",
+    "s4p2r2_network_b01_n00_01_fullbyte"
+  ],
+  "mode": "Original",
+  "target": null,
+  "positive_roles": [
+    4,
+    4,
+    4,
+    4
+  ],
+  "positive_covers": [
+    6,
+    6,
+    6,
+    3
+  ],
+  "resolved_unwinds": [
+    34,
+    34,
+    34,
+    36,
+    36,
+    36,
+    36,
+    36
+  ],
+  "final_validate": "NOT_YET_EXECUTED",
+  "caps": {
+    "caps": {
+      "child_seconds": 600,
+      "compile_seconds": 180,
+      "slot_seconds": 720,
+      "controller_seconds": 180,
+      "cleanup_seconds": 240,
+      "campaign_seconds": 6900,
+      "outer_seconds": 7500,
+      "phase_seconds": 8100,
+      "step_seconds": 7560,
+      "local_rss_kib": 6291456,
+      "outer_rss_kib": 12582912,
+      "headroom_kib": 2097152,
+      "stdout_bytes": 16777216,
+      "stderr_bytes": 1048576,
+      "export_bytes": 8388608,
+      "artifact_bytes": 268435456
+    },
+    "budgets": {
+      "jobs": 1,
+      "max_parallel": 1,
+      "workflow_minutes": 180,
+      "setup_seconds": 1800,
+      "phase_seconds": 8100,
+      "row_seconds": 600,
+      "rss_kib": 6291456,
+      "stdout_bytes": 16777216,
+      "stderr_bytes": 1048576,
+      "export_bytes": 8388608,
+      "artifact_bytes": 268435456,
+      "planned_rows_seconds": null,
+      "rss_cap_kib": 6291456,
+      "compile_seconds": 900,
+      "group_rss_max_kib": 12582912,
+      "memory_reserve_kib": 2097152,
+      "projected_group_count": 8,
+      "child_compile_subcap_seconds": 180,
+      "whole_child_including_compile_seconds": 600,
+      "shared_campaign_seconds": 6900
+    },
+    "flags": {
+      "unstable": [
+        "function-contracts",
+        "mem-predicates",
+        "float-lib",
+        "c-ffi",
+        "loop-contracts",
+        "quantifiers",
+        "stubbing",
+        "export-json"
+      ],
+      "assert_contracts": false,
+      "jobs": 1,
+      "harness_timeout": "600s",
+      "exact": true,
+      "default_unwind": 50,
+      "cbmc_args": [
+        "--object-bits",
+        "12"
+      ],
+      "RUSTFLAGS": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls --cfg=kani_smallsort_s2_assumed --cfg=kani_smallsort_s3_leaf --cfg=kani_smallsort_s4_partition"
+    },
+    "slot_envelope_seconds": 6180,
+    "campaign_reserve_seconds": 720,
+    "cost_fit": "UNKNOWN_NOT_RUN",
+    "validate_deadline_seconds": 1080,
+    "validate_margin_required": 1.5,
+    "validate_maximum_elapsed_for_margin_seconds": 720,
+    "strict_peak_memory_assurance": "NOT_ESTABLISHED; unchanged sampled-PGID/owned-census semantics"
+  },
+  "no_source_tool_control_edits": true,
+  "no_CI_push_accounting": true
+}
