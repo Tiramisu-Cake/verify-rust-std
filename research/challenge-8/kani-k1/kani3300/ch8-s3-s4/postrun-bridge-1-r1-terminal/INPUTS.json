@@ -1,0 +1,46 @@
+{
+  "schema": "bridge1-r1-terminal-issue-addendum-v1",
+  "base_task_commit": "0d36282d44664af05a69eb3ee47686952786a261",
+  "base_task_file": "TASK-CH8-S3S4-BRIDGE1-R1-INTAKE-W11.md",
+  "base_inputs": "kani3300/ch8-s3-s4/postrun-bridge-1-r1/INPUTS.json",
+  "native_metadata": {
+    "id": 44460583125,
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "c2bbdb972cfe0e6f7472cf8bd93f1fa7c5e87acd",
+    "head_branch": "uninit-ci/ch8-s3s4-bridge-1-20261119",
+    "event": "push",
+    "run_attempt": 1,
+    "path": ".github/workflows/ch8-s2.yml",
+    "updated_at": "2026-11-19T05:24:03Z"
+  },
+  "observed_at_utc": "2026-11-19 05:27:12 UTC",
+  "artifact": {
+    "id": 14501442643,
+    "name": "ch8-s3-2-44460583125-1",
+    "size_bytes": 374679,
+    "transport_digest": "sha256:da1edc004bae39a2814b7c2d3426153d86735bfa9276a1fbf2eabeb322acba4c",
+    "member": "group-evidence.json.gz",
+    "allowed": "ONE_COMPACT_BOUNDED_REPORTING_ONLY_DIGEST_FIRST_NO_ZIP_RAW_FULL_GCS"
+  },
+  "coordinator_report_08_25": {
+    "not_yet_independently_verified_from_compact": true,
+    "campaign": "SELECTED_PARTIAL",
+    "campaign_seconds_approx": 1672,
+    "negatives": "FAILED intended literal labels",
+    "native_success": {
+      "i_p01_b01_fullu8": "52s reported; phase/time definition to verify",
+      "sort9_v34_b01_len09_real": "223s reported; phase/time definition to verify"
+    },
+    "capped": [
+      "fallback_cell_b01_n00_16",
+      "network_u8_b01_n00_08"
+    ],
+    "cap_cause": "UNKNOWN_UNTIL_INTAKE"
+  },
+  "qualification": "native vs strict vs SOURCE_REPORTED provisional eligibility vs admission separate; no future location exception",
+  "followup_owner_authorization": "08:25 independent w14 review then next S4 plan; supersedes old no-automatic-review wording for this exact stage only",
+  "ledger_reference": "0c76677b78a8a5b6c8075a0507dc3f61da749a79",
+  "accounting_policy": "TRACKING_ONLY_NO_ROOT_WRITES; resource caps remain strict",
+  "output": "kani3300/ch8-s3-s4/run-44460583125/"
+}
