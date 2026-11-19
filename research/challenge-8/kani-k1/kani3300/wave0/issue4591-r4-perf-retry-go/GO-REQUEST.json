@@ -1,0 +1,50 @@
+{
+  "schema": "kani-4591-r4-one-perf-retry-go-v1",
+  "root_decision": "AGREE_ONE_PERF_ONLY_RETRY",
+  "prepared_at": "2026-11-19T13:00:50.750157+00:00",
+  "authority": "Coordinator15:59 proposed one failed-job rerun; root agrees after exact terminal/job/head checks. Coordinator dispatches and accounts separately.",
+  "repo": "Tiramisu-Cake/kani",
+  "run_id": 44516395307,
+  "reviewed_attempt": 1,
+  "prospective_attempt": 2,
+  "head": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1",
+  "tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+  "sole_parent": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+  "ref": "fix/stub-contracted-function",
+  "only_failed_job": {
+    "id": 135533377626,
+    "name": "perf"
+  },
+  "allowed_action": "rerun-failed-jobs on run44516395307 only if immediate pre-dispatch check still shows attempt1 completed and the sole failed job perf; otherwise re-evaluate scope.",
+  "source_package": {
+    "commit": "2a11df42b94cbdfdb567b0ca8d288b0a9cdfc02c",
+    "path": "kani3300/wave0/issue4591-test-reduction-r4/"
+  },
+  "exact_review": {
+    "commit": "2b733341d662b3b1246d10bb313752219ff213e9",
+    "path": "kani3300/wave0/issue4591-test-reduction-review-w11-r4/",
+    "verdict": "APPROVE",
+    "blockers": 0,
+    "R1_R4": "CLOSED",
+    "R5": "OWNER_TEXT_EXCLUDED"
+  },
+  "original_full_ci_GO": {
+    "commit": "be748cef7b254f30e6136774f8aa879fd6ecf020",
+    "status": "CONSUMED; this packet is a separate single retry consent"
+  },
+  "code_or_workflow_changes": false,
+  "root_dispatches": false,
+  "automatic_retry_count": 0,
+  "actual_attempt2_head_job_id_start_status": "UNKNOWN_UNTIL_COORDINATOR_DISPATCH",
+  "accounting": "TRACKING_ONLY; coordinator records the attempt/IDs. Root and worker do not edit ledger.",
+  "conditions": [
+    "Exactly one retry on the same reviewed source/tree/workflow, with no new push or configuration/cap change.",
+    "Save attempt1 terminal metadata separately before dispatch; attempt1 FAILURE remains historical.",
+    "Do not rerun successful regression/Format/Deny jobs or a full workflow.",
+    "No additional automatic retry. Record new job ID, attempt, head, runner and result after actual dispatch.",
+    "A success adds one perf success at this exact head; it does not retroactively change attempt1 or prove absence of memory regression.",
+    "Another lost-runner/failure result leads to bounded offline W15 investigation of perf/s2n-quic setup, concurrency and available resource telemetry on exact main/branch revisions; no new benchmark/CI/raw-log acquisition without scoped authorization.",
+    "Memory/CPU causality remains UNKNOWN without measurements and controlled comparison."
+  ],
+  "postrun": "Independent attempt2 facts intake after actual terminal, preserving all attempt1 conclusions. PR text/publication stays owner/coordinator only."
+}

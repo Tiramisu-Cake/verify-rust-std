@@ -1,0 +1,12 @@
+{
+  "source": "Coordinator user message 2026-11-19 15:59 Moscow",
+  "r4_reported_reason": "hosted runner lost communication; starves CPU/Memory; approximately 80 minutes during s2n-quic",
+  "historical_context_reported": [
+    "r3 runner shutdown signal",
+    "r2 perf SUCCESS with same compiler code",
+    "main perf green"
+  ],
+  "reason_classification": "COORDINATOR_REPORTED",
+  "independent_memory_or_cpu_cause": "UNKNOWN",
+  "interpretation": "Possible transient infrastructure failure or resource pressure related to this change; neither established. Historical heads, tests and runners are not controlled identical trials."
+}
