@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s4/s4p-1-review-r1/replay.py", line 210, in <module>
+    main()
+  File "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s4/s4p-1-review-r1/replay.py", line 203, in main
+    preflight()
+  File "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s4/s4p-1-review-r1/replay.py", line 56, in preflight
+    assert report == json.loads((PACKET / ('MAP-' + name.upper() + '.json')).read_text())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

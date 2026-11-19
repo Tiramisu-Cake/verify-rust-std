@@ -1,0 +1,71 @@
+{
+  "schema": "ch8-s4p-1-independent14-delta-checkpoint-v1",
+  "completed_utc": "2026-11-19T07:31:17.588438+00:00",
+  "status": "READY_EXACT_APPROVE_NO_BLOCKERS",
+  "verdict": "APPROVE",
+  "task_commit": "989b0dbd020bc9bb500c0a18f3220d21537fbc44",
+  "repair_author_commit": "5b0ed64d86c6cd7ac18bb3c7b7b7fd124dcb504c",
+  "control_sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+  "closed": [
+    "R14-01",
+    "R14-02"
+  ],
+  "new_findings": [],
+  "blockers": [],
+  "exact_candidate_approval": true,
+  "inheritance": "Frozen4856 unaffected conclusions inherited only through exact source/tool/request-semantics/runtime/profile/domain/mode/caps byte invariance and limited five-file control delta.",
+  "assurance": "INDEPENDENT_STATIC_AND_BOUNDED_SYNTHETIC_SERVICE_REVIEW; retained author full Validate receipt checked, not re-executed",
+  "checks": {
+    "invariants": 14,
+    "repair_packet_files": 62,
+    "repair_packet_hashes": 61,
+    "author_readonly_checks": 820,
+    "patch_trees": 6,
+    "shallow_depths": {
+      "control": 7,
+      "source": 5,
+      "tool": 2
+    },
+    "cfg_projections": 32,
+    "sorting_enabled": 16,
+    "ACTIVE_contexts": 4,
+    "malformed_rejected_before_collection": 78,
+    "original24_rejected": 24,
+    "genuine_accepted": 6,
+    "prefixes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "targeted_tests": 6
+  },
+  "retained_author_final_validate": {
+    "tests": 305,
+    "seconds": 550.6377290091477,
+    "limit_seconds": 1080,
+    "margin": 1.96136214992645,
+    "exit_code": 0,
+    "execution_count": 1,
+    "reviewer_repeated": false
+  },
+  "GO": "NOT_AUTHORIZED",
+  "proof_credit": "NONE",
+  "native_compile_proof_cost_fit": "NOT_RUN",
+  "future_head_ref_run": "UNKNOWN",
+  "accounting": "TRACKING_ONLY_UNCHANGED; no ledger/reservation/admission writes",
+  "next": "Root recheck exact repair/review full pins and manifests, then GO-request ch8-s4/s4p-1-go/ for ONE8 root attempt only; no automatic dispatch.",
+  "future_trigger": "User coordinator only: NONSKIP same-tree sibling of final control with sole9e14, exact source985 and stock0aac, unchanged workflow/request and shallow7/5/2; actual head/ref/run UNKNOWN.",
+  "open": [
+    "Root recheck and separate GO decision",
+    "Native compile/proof/exhaustion/cost/fit and compiler/MIR/B1/B2 UNKNOWN/NOT_RUN",
+    "Fallback5..16/network5..32/general/type/caller/init/ownership/panic/provider obligations OPEN"
+  ],
+  "constraints": "Only own new review paths written; no candidate edits/subagents/model changes/fullValidate/compiler/native/CI/fullrunner/raw/GCS/ledger/push/publication.",
+  "closure_reason": "Requested independent delta review complete; both localized blockers closed and exact candidate approved. Further GO/publication/dispatch belongs to root/user coordinator."
+}

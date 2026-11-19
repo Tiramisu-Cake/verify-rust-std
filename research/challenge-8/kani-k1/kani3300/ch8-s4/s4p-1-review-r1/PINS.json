@@ -1,0 +1,92 @@
+{
+  "schema": "ch8-s4p-1-independent14-delta-pins-v1",
+  "task_commit": "989b0dbd020bc9bb500c0a18f3220d21537fbc44",
+  "owner_issue": "Owner10:13 /new14 overrides prepared reuse; execute exact W14 delta",
+  "repair_author_commit": "5b0ed64d86c6cd7ac18bb3c7b7b7fd124dcb504c",
+  "frozen_author": "590dd6360f5b4c92eab9fff30aa0d2e7d8d942ce",
+  "frozen_full_review": "4856a87f39d2606adbbed747d3cae9a73fb80d52",
+  "old_control": "e941155517a02f67ea9bac1adb81c1d5f6f85638",
+  "source": {
+    "sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+    "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+    "parents": [
+      "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    ],
+    "clean_after": true
+  },
+  "control": {
+    "sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+    "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+    "parents": [
+      "9e14e033f9ee31522b571c127609dcdff76d230b"
+    ],
+    "clean_after": true
+  },
+  "tool": {
+    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "parents": [
+      "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+    ],
+    "clean_after": true
+  },
+  "request": {
+    "schema": "ch8-s4p-1-v1",
+    "profile": "ch8-s4p-1-fullbyte-length-blocks-v1",
+    "sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+    "workflow_sha256": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+    "payload_files": 118,
+    "selfhash_excluded": true
+  },
+  "repair_manifest_sha256": "c36e27950018fb4eb890cadb2b337c29f5f4ba1165e121c9df21678e97c2951d",
+  "frozen_review_manifest_sha256": "7ff4e2d05c43306fd99d428ea412a9e086ed01331543f89a9e003b07ac8947d8",
+  "final_validate_receipt_sha256": "085b56191036a672b8869626a8246b1d586a66a0a9bfd2e4b3c14aa3cb63655f",
+  "final_validate": {
+    "command": "python3 check_package.py control --repo ..\npython3 s4p_validate.py\n",
+    "cwd": "/root/kani-ch8-s4p-1-r1-control-w13/ch8-s1-control",
+    "argv": [
+      "bash",
+      "-e",
+      "-c",
+      "python3 check_package.py control --repo ..\npython3 s4p_validate.py\n"
+    ],
+    "control_sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+    "control_tree": "96b03b52cdd121965690544945c17b175253c6cd",
+    "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149",
+    "workflow_sha256": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+    "script_sha256": "b0f76088063f761f2971df690cce37a16a84c33f503becbd6a072a23f229ea5d",
+    "started_utc": "2026-11-19T07:01:29.446846+00:00",
+    "limit_seconds": 1080,
+    "required_margin": 1.5,
+    "execution_count": 1,
+    "environment_kind": "OFFLINE_SYNTHETIC_GITHUB_STATIC_GATE_CONTEXT; no CI event or run",
+    "environment": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "GITHUB_REPOSITORY": "Tiramisu-Cake/kani",
+      "GITHUB_EVENT_NAME": "push",
+      "GITHUB_REF": "refs/heads/uninit-ci/ch8-s4p-offline-validation-r1",
+      "GITHUB_RUN_ATTEMPT": "1",
+      "GITHUB_SHA": "2db5d2c08804036d283cb36450647cd584ee9e10"
+    },
+    "native_compile_proof_cost_fit": "NOT_RUN",
+    "proof_credit": "NONE",
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 550.6377290091477,
+    "finished_utc": "2026-11-19T07:10:40.085051+00:00",
+    "clean_after": true,
+    "margin_at_18_minutes": 1.96136214992645,
+    "stdout": {
+      "file": "FINAL-VALIDATE.stdout",
+      "bytes": 623,
+      "sha256": "9c52690891e5fbd8eb49ebfa3cc063b84aaff6be140aefa948b9e429493bc1af"
+    },
+    "stderr": {
+      "file": "FINAL-VALIDATE.stderr",
+      "bytes": 44629,
+      "sha256": "05d8ad8f825f2b90da4e07c02928ce3bcad1f84149bca3df0910e67f2e3a8aba"
+    }
+  },
+  "future_head_ref_run": "UNKNOWN",
+  "delivery_commit": "REPORTED_EXTERNALLY_NO_SELFHASH_LOOP"
+}

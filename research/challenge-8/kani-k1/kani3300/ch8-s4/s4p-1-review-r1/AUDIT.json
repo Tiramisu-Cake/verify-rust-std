@@ -1,0 +1,339 @@
+{
+  "schema": "ch8-s4p-1-independent14-delta-audit-v1",
+  "completed_utc": "2026-11-19T07:25:25.534138+00:00",
+  "author_commit": "5b0ed64d86c6cd7ac18bb3c7b7b7fd124dcb504c",
+  "task_commit": "989b0dbd020bc9bb500c0a18f3220d21537fbc44",
+  "frozen_review": "4856a87f39d2606adbbed747d3cae9a73fb80d52",
+  "identities": {
+    "source": {
+      "repo": "/root/verify-rust-std-ch8-s4p-1-w13",
+      "sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+      "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+      "parents": [
+        "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+      ],
+      "clean": true,
+      "depth": 5,
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+      "reference": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+      "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+    },
+    "control": {
+      "repo": "/root/kani-ch8-s4p-1-r1-control-w13",
+      "sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+      "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+      "parents": [
+        "9e14e033f9ee31522b571c127609dcdff76d230b"
+      ],
+      "clean": true,
+      "depth": 7,
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+      "reference": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+    },
+    "tool": {
+      "repo": "/root/kani-upstream-ch8-s1",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "parents": [
+        "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+      ],
+      "clean": true,
+      "depth": 2,
+      "author_committer": "Ivo Matijašević <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+    }
+  },
+  "packets": {
+    "repair": {
+      "commit": "5b0ed64d86c6cd7ac18bb3c7b7b7fd124dcb504c",
+      "files": 62,
+      "hashes": 61,
+      "manifest_sha256": "c36e27950018fb4eb890cadb2b337c29f5f4ba1165e121c9df21678e97c2951d",
+      "committed_bytes_match": true
+    },
+    "frozen_review": {
+      "commit": "4856a87f39d2606adbbed747d3cae9a73fb80d52",
+      "files": 18,
+      "hashes": 17,
+      "manifest_sha256": "7ff4e2d05c43306fd99d428ea412a9e086ed01331543f89a9e003b07ac8947d8",
+      "committed_bytes_match": true
+    },
+    "frozen_author": {
+      "commit": "590dd6360f5b4c92eab9fff30aa0d2e7d8d942ce",
+      "files": 54,
+      "hashes": 53,
+      "manifest_sha256": "5551ad46995e6f9647731abef1ec8e7cdf980f2df2cb2ed2f78226fa6663bed9",
+      "committed_bytes_match": true
+    }
+  },
+  "invariants": [
+    {
+      "id": 1,
+      "invariant": "Exact task and immutable input packets",
+      "status": "PASS",
+      "detail": {
+        "repair": {
+          "commit": "5b0ed64d86c6cd7ac18bb3c7b7b7fd124dcb504c",
+          "files": 62,
+          "hashes": 61,
+          "manifest_sha256": "c36e27950018fb4eb890cadb2b337c29f5f4ba1165e121c9df21678e97c2951d",
+          "committed_bytes_match": true
+        },
+        "frozen_review": {
+          "commit": "4856a87f39d2606adbbed747d3cae9a73fb80d52",
+          "files": 18,
+          "hashes": 17,
+          "manifest_sha256": "7ff4e2d05c43306fd99d428ea412a9e086ed01331543f89a9e003b07ac8947d8",
+          "committed_bytes_match": true
+        },
+        "frozen_author": {
+          "commit": "590dd6360f5b4c92eab9fff30aa0d2e7d8d942ce",
+          "files": 54,
+          "hashes": 53,
+          "manifest_sha256": "5551ad46995e6f9647731abef1ec8e7cdf980f2df2cb2ed2f78226fa6663bed9",
+          "committed_bytes_match": true
+        }
+      }
+    },
+    {
+      "id": 2,
+      "invariant": "Source and stock tool exact frozen identities",
+      "status": "PASS",
+      "detail": {
+        "source": {
+          "repo": "/root/verify-rust-std-ch8-s4p-1-w13",
+          "sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+          "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+          "parents": [
+            "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+          ],
+          "clean": true,
+          "depth": 5,
+          "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+          "reference": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+          "sole_parent": "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a"
+        },
+        "tool": {
+          "repo": "/root/kani-upstream-ch8-s1",
+          "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+          "parents": [
+            "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+          ],
+          "clean": true,
+          "depth": 2,
+          "author_committer": "Ivo Matijašević <ivomatijasevic@gmail.com>\nGitHub <noreply@github.com>"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "invariant": "Control exact sibling and sole parent",
+      "status": "PASS",
+      "detail": {
+        "repo": "/root/kani-ch8-s4p-1-r1-control-w13",
+        "sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+        "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+        "parents": [
+          "9e14e033f9ee31522b571c127609dcdff76d230b"
+        ],
+        "clean": true,
+        "depth": 7,
+        "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
+        "reference": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+        "sole_parent": "9e14e033f9ee31522b571c127609dcdff76d230b"
+      }
+    },
+    {
+      "id": 4,
+      "invariant": "Exact five-path delta, all other modes/objects unchanged",
+      "status": "PASS",
+      "detail": [
+        "ch8-s1-control/CI-REQUEST.json",
+        "ch8-s1-control/s4p_campaign.py",
+        "ch8-s1-control/s4p_contract_stacks.py",
+        "ch8-s1-control/s4p_validate.py",
+        "ch8-s1-control/test_s4p_gate_repair.py"
+      ]
+    },
+    {
+      "id": 5,
+      "invariant": "Request semantics invariant; all 118 payload bytes bound",
+      "status": "PASS",
+      "detail": {
+        "changed_keys": [
+          "ci_changed_paths",
+          "ci_payload_sha256"
+        ],
+        "request_sha256": "3d135ebabd0793681a5b8a2fdb2414324c7021c5d8791e700fc713b633ddd149"
+      }
+    },
+    {
+      "id": 6,
+      "invariant": "Rows/domains/base/roles/covers/unwind/cfg/waivers unchanged",
+      "status": "PASS",
+      "detail": "All request fields besides payload inventory/hash are equal; source tree exact. Eight Original/null rows,21 assertion sites,30 covers preserved."
+    },
+    {
+      "id": 7,
+      "invariant": "Shared runtime/caps/lexercache and all old gates/tests invariant",
+      "status": "PASS",
+      "detail": "Whole-tree mode/object comparison excludes changes outside five paths; runtime/profile/policy/fixtures/old Validate drivers byte-identical to E941."
+    },
+    {
+      "id": 8,
+      "invariant": "Workflow bytes, exact Validate command and unchanged18min",
+      "status": "PASS",
+      "detail": {
+        "workflow_sha256": "a56791ab37df944d65131c0a7a612a5245d3c8a0275ff8810fb44fa6a7af061a",
+        "command": "python3 check_package.py control --repo ..\npython3 s4p_validate.py\n"
+      }
+    },
+    {
+      "id": 9,
+      "invariant": "CI Validate retains all previous selection and adds three regressions",
+      "status": "PASS",
+      "detail": [
+        "test_s4p_gate_repair.ProjectionTests.test_real_gate_complete_power_set_and_active_normalization",
+        "test_s4p_gate_repair.TerminalSchemaTests.test_authentic_full_eight_schema_before_local_and_upload_collection",
+        "test_s4p_gate_repair.TerminalSchemaTests.test_authentic_stopped0_and_partial0_schema_before_both_routes"
+      ]
+    },
+    {
+      "id": 10,
+      "invariant": "Retained exact final Validate receipt and transcripts",
+      "status": "PASS",
+      "detail": {
+        "tests": 305,
+        "seconds": 550.6377290091477,
+        "margin": 1.96136214992645,
+        "repeated_by_reviewer": false,
+        "assurance": "RETAINED_AUTHOR_LOCAL_EXECUTION_NOT_INDEPENDENT_TIMING_OR_CI"
+      }
+    },
+    {
+      "id": 11,
+      "invariant": "All six full patch trees independently replayed",
+      "status": "PASS",
+      "detail": [
+        {
+          "patch": "SOURCE-PARENT.patch",
+          "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+          "status": "INDEPENDENT_EXACT_TREE_PASS"
+        },
+        {
+          "patch": "SOURCE-DELTA.patch",
+          "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+          "status": "INDEPENDENT_EXACT_TREE_PASS"
+        },
+        {
+          "patch": "SOURCE-STOCK.patch",
+          "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+          "status": "INDEPENDENT_EXACT_TREE_PASS"
+        },
+        {
+          "patch": "CONTROL-PARENT.patch",
+          "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+          "status": "INDEPENDENT_EXACT_TREE_PASS"
+        },
+        {
+          "patch": "CONTROL-DELTA.patch",
+          "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+          "status": "INDEPENDENT_EXACT_TREE_PASS"
+        },
+        {
+          "patch": "CONTROL-STOCK.patch",
+          "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+          "status": "INDEPENDENT_EXACT_TREE_PASS"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "invariant": "Independent local shallow7/5/2 ancestry",
+      "status": "PASS",
+      "detail": [
+        {
+          "repo": "/root/verify-rust-std-ch8-s4p-1-w13",
+          "depth": 5,
+          "sha": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+          "tree": "c937101b3056ab6d2e93f25c152e3d0b92004b27",
+          "required_commits_available": [
+            "985062ebad90cee1e2846b1648cd6a8624d146f6",
+            "97ac4d39d7f959ea70b1f57785ffd1fd66ecd22a",
+            "99e8456d200fff1299ee5756279cddb23921dc65"
+          ],
+          "status": "INDEPENDENT_SHALLOW_IDENTITY_PASS"
+        },
+        {
+          "repo": "/root/kani-ch8-s4p-1-r1-control-w13",
+          "depth": 7,
+          "sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+          "tree": "96b03b52cdd121965690544945c17b175253c6cd",
+          "required_commits_available": [
+            "2db5d2c08804036d283cb36450647cd584ee9e10",
+            "9e14e033f9ee31522b571c127609dcdff76d230b",
+            "0aac16ef62da9e9d5645782d458593e5d78143ba"
+          ],
+          "status": "INDEPENDENT_SHALLOW_IDENTITY_PASS"
+        },
+        {
+          "repo": "/root/kani-upstream-ch8-s1",
+          "depth": 2,
+          "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+          "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+          "required_commits_available": [
+            "0aac16ef62da9e9d5645782d458593e5d78143ba",
+            "3e095c22a231de1d7acd2410b71f0fc8e6970c19"
+          ],
+          "status": "INDEPENDENT_SHALLOW_IDENTITY_PASS"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "invariant": "Historical590/E941/4856/302PASS and precursors separate and intact",
+      "status": "PASS",
+      "detail": {
+        "frozen_packets": [
+          "590dd6360f5b4c92eab9fff30aa0d2e7d8d942ce",
+          "4856a87f39d2606adbbed747d3cae9a73fb80d52"
+        ],
+        "new_precursors": {
+          "historical": "HISTORY-PRESERVATION.json; immutable old packets retained with all old failures",
+          "repair_targeted": [
+            "tests/targeted-01.stderr",
+            "tests/targeted-02.json",
+            "tests/targeted-02.stderr"
+          ],
+          "expected_rejection_reproducer": "tests/review-reproducer.json",
+          "repair_full_validate_before_final": 0,
+          "failures_discarded": false,
+          "packet_helper_failure": "tests/packet-precursor-01.json/.py; gitlink treated as blob, fixed in helper only; no candidate or Validate change"
+        }
+      }
+    },
+    {
+      "id": 14,
+      "invariant": "Original full review inheritance only by exact unaffected bytes",
+      "status": "PASS",
+      "detail": {
+        "maps": "All reports equal except repaired32 cfg projection list",
+        "source_tool_runtime_profile_mode_domain": "EXACT_INVARIANT",
+        "author_readonly_checker": {
+          "status": "STATIC_READY_PACKET_PASS",
+          "checks": 820,
+          "selected_source_literal_assertions": 21,
+          "selected_source_literal_covers": 30,
+          "required_rows": 8,
+          "proof_credit": "NONE",
+          "native_compile_verifier_CI": "NOT_RUN",
+          "GO": "NOT_AUTHORIZED"
+        }
+      }
+    }
+  ],
+  "status": "PASS",
+  "full_validate_repeated": false,
+  "proof_credit": "NONE"
+}

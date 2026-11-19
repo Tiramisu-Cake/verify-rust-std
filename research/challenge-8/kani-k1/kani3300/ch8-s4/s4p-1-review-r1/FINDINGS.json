@@ -1,0 +1,42 @@
+{
+  "schema": "ch8-s4p-1-independent14-delta-findings-v1",
+  "verdict": "APPROVE",
+  "repair_author_commit": "5b0ed64d86c6cd7ac18bb3c7b7b7fd124dcb504c",
+  "control_sha": "2db5d2c08804036d283cb36450647cd584ee9e10",
+  "findings": [
+    {
+      "id": "R14-01",
+      "priority": "P2",
+      "status": "CLOSED",
+      "blocking_exact_approval": false,
+      "file": "ch8-s1-control/s4p_contract_stacks.py",
+      "line": 110,
+      "basis": "Actual prebuild gate:32 unique powerset contexts,16 sorting and4 ACTIVE. Every ACTIVE comparison exercises safety-wrapper to direct-Kani normalization with unchanged op/predicate tokens. Fresh actual four reports match committed JSON; source/hash/required-path checks retained. Meaningful regression is CI-selected and passed.",
+      "evidence": [
+        "PREFLIGHT.json",
+        "TARGETED-TESTS.json",
+        "AUDIT.json"
+      ]
+    },
+    {
+      "id": "R14-02",
+      "priority": "P2",
+      "status": "CLOSED",
+      "blocking_exact_approval": false,
+      "file": "ch8-s1-control/s4p_campaign.py",
+      "line": 342,
+      "basis": "Trusted exact string schema check before legacy collection. Real public LOCAL/UPLOAD_ONLY paths reject78 malformed cases including all original24 with zero legacy collection calls and only terminal read;6 genuine controls accept. Genuine prefixes0..8 and selected_roots int8 pass both routes.",
+      "evidence": [
+        "TERMINAL-SCHEMA-MATRIX.json",
+        "PREFIXES.json",
+        "TARGETED-TESTS.json"
+      ]
+    }
+  ],
+  "new_findings": [],
+  "blockers": [],
+  "exact_candidate_approval": true,
+  "frozen_review_unchanged": "REQUEST_CHANGES on590/E941 remains historical; this is new delta closure",
+  "GO": "NOT_AUTHORIZED",
+  "proof_credit": "NONE"
+}

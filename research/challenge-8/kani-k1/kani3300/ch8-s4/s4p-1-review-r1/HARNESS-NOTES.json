@@ -1,0 +1,15 @@
+{
+  "initial_replay_exit": 1,
+  "initial_replay_stage": "Report comparison during source preflight; no service tests had run",
+  "cause": "Reviewer compared Python lexical report tuples directly against serialized JSON arrays at four required_production_fragments fields.",
+  "preserved": [
+    "replay-01.py",
+    "REPLAY-01.stdout",
+    "REPLAY-01.stderr",
+    "PREFLIGHT-REPRESENTATION.json"
+  ],
+  "correction": "Compare actual report through its JSON data model, matching the committed JSON report. No source/control/map/terminal schema was changed.",
+  "corrected_replay_exit": 0,
+  "corrected_replay_seconds": 75.00685717817396,
+  "full_validate_executions_by_reviewer": 0
+}
