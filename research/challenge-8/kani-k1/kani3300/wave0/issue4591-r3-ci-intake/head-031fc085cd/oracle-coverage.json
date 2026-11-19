@@ -1,0 +1,1326 @@
+{
+  "schema": "issue4591-r3-native-vs-source-oracles-v1",
+  "head": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+  "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+  "oracle_reference": {
+    "repository_path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/REGRESSION-ORACLE.json",
+    "commit": "5162af47e12611de4102ba20b0135b17c1d79d7d",
+    "sha256": "a0ea77ec172fb21f23238c21af6b18712de71b5ddc1a2bdb3b6759fa30b694de",
+    "bytes": 23209,
+    "worktree_bytes_equal_commit": true
+  },
+  "source_expectations_count": 38,
+  "count_by_file": {
+    "tests/expected/function-contract/ordinary_stub_fail.rs": 13,
+    "tests/expected/function-contract/ordinary_stub_issue_4591.rs": 1,
+    "tests/expected/function-contract/ordinary_stub_overlap.rs": 1,
+    "tests/kani/FunctionContracts/ordinary_stub.rs": 19,
+    "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs": 4
+  },
+  "source_expectations_by_kind": {
+    "VERIFICATION_SUCCESS": 24,
+    "VERIFICATION_FAILURE": 11,
+    "VERIFICATION_FAILURE_CALLER_OVERFLOW": 1,
+    "COMPILE_ERROR_ORIGINAL_CONTRACT_CLOSURE": 1,
+    "EXPECTED_PANIC_POSTCONDITION": 1
+  },
+  "independently_observed_named_harness_results": 0,
+  "independently_observed_property_results": 0,
+  "enclosing_five_regression_jobs_success": true,
+  "assurance": "Source discovery and suite-level success only. UNKNOWN per-harness/property does not mean NOT_RUN or FAILED. Expected native counterexamples and compile errors are successful test oracles when matched, not verifier PASS.",
+  "harnesses": [
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "provider",
+      "attribute_line": 15,
+      "function_line": 16,
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "source_sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_overflow",
+      "attribute_line": 20,
+      "function_line": 22,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "source_sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "reviewed_source_expectation": "VERIFICATION_FAILURE",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "verified_precondition",
+      "attribute_line": 26,
+      "function_line": 28,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "source_sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "reviewed_source_expectation": "VERIFICATION_FAILURE",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "verified_postcondition",
+      "attribute_line": 32,
+      "function_line": 34,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "source_sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "reviewed_source_expectation": "VERIFICATION_FAILURE",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "provider_postcondition",
+      "attribute_line": 43,
+      "function_line": 44,
+      "attributes": [
+        "#[kani::proof_for_contract(bad_contract)]"
+      ],
+      "source_sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "reviewed_source_expectation": "VERIFICATION_FAILURE",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "unstubbed_postcondition",
+      "attribute_line": 48,
+      "function_line": 50,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "source_sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "reviewed_source_expectation": "VERIFICATION_FAILURE",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "unstubbed_precondition",
+      "attribute_line": 54,
+      "function_line": 56,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(bad_contract, g)]"
+      ],
+      "source_sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "reviewed_source_expectation": "VERIFICATION_FAILURE",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_postcondition",
+      "attribute_line": 60,
+      "function_line": 62,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, bad_contract)]"
+      ],
+      "source_sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "reviewed_source_expectation": "VERIFICATION_FAILURE",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_provider_postcondition",
+      "attribute_line": 77,
+      "function_line": 79,
+      "attributes": [
+        "#[kani::proof_for_contract(replacement_caller)]",
+        "#[kani::stub(f, discriminating_replacement)]"
+      ],
+      "source_sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "reviewed_source_expectation": "VERIFICATION_FAILURE",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": "single PFC call to replacement_caller, ordinary replacement inside selected body; provider Assert",
+      "coverage_limit": "same provider selected by PFC and ordinary copied alias in one harness is replaced; separate same-function PFC/verified controls retained"
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_precondition",
+      "attribute_line": 88,
+      "function_line": 90,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, restricted_replacement)]"
+      ],
+      "source_sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "reviewed_source_expectation": "VERIFICATION_FAILURE",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_provider",
+      "attribute_line": 99,
+      "function_line": 100,
+      "attributes": [
+        "#[kani::proof_for_contract(requires_only)]"
+      ],
+      "source_sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_verified_precondition",
+      "attribute_line": 104,
+      "function_line": 106,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "source_sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "reviewed_source_expectation": "VERIFICATION_FAILURE",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "requires_only_verified_result",
+      "attribute_line": 110,
+      "function_line": 112,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "source_sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "reviewed_source_expectation": "VERIFICATION_FAILURE",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_issue_4591.rs",
+      "harness": "check_caller",
+      "attribute_line": 22,
+      "function_line": 24,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(abs_val, stub_abs_val)]"
+      ],
+      "source_sha256": "e65245e314ce01d894bc5b774e72df7cb1eb17b4bdf07939e037d61f9d41a8a0",
+      "reviewed_source_expectation": "VERIFICATION_FAILURE_CALLER_OVERFLOW",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/expected/function-contract/ordinary_stub_overlap.rs",
+      "harness": "overlapping_contract_target",
+      "attribute_line": 17,
+      "function_line": 20,
+      "attributes": [
+        "#[kani::proof_for_contract(f)]",
+        "#[kani::stub_verified(f)]",
+        "#[kani::stub(f, g)]"
+      ],
+      "source_sha256": "21186f51f8260becc29d2a762dfba67ad504d44f3f2e34a85f62ba26425b980b",
+      "reviewed_source_expectation": "COMPILE_ERROR_ORIGINAL_CONTRACT_CLOSURE",
+      "source_declaration_match": true,
+      "static_discovery_suite": "expected/expected",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "NOT_RUN",
+        "provenance": "expected suite unrun per frozen INPUTS; fail-fast"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "provider",
+      "attribute_line": 17,
+      "function_line": 18,
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "verified_control",
+      "attribute_line": 22,
+      "function_line": 24,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ordinary_stub",
+      "attribute_line": 30,
+      "function_line": 32,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ordinary_stub_outside_target_precondition",
+      "attribute_line": 38,
+      "function_line": 40,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, g)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "requires_only_provider",
+      "attribute_line": 54,
+      "function_line": 55,
+      "attributes": [
+        "#[kani::proof_for_contract(requires_only)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "requires_only_verified_control",
+      "attribute_line": 59,
+      "function_line": 61,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(requires_only)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ensures_only_provider",
+      "attribute_line": 65,
+      "function_line": 66,
+      "attributes": [
+        "#[kani::proof_for_contract(ensures_only)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "ensures_only_verified_control",
+      "attribute_line": 70,
+      "function_line": 72,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(ensures_only)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "multiple_targets",
+      "attribute_line": 76,
+      "function_line": 79,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(requires_only, g)]",
+        "#[kani::stub(ensures_only, g)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_provider",
+      "attribute_line": 92,
+      "function_line": 93,
+      "attributes": [
+        "#[kani::proof_for_contract(recursive)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_verified_control",
+      "attribute_line": 97,
+      "function_line": 99,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(recursive)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "recursive_target",
+      "attribute_line": 103,
+      "function_line": 105,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(recursive, g)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "generic_instances",
+      "attribute_line": 119,
+      "function_line": 121,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(generic, generic_replacement)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "uncontracted_target",
+      "attribute_line": 131,
+      "function_line": 133,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(uncontracted, g)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "transitive_replacement",
+      "attribute_line": 138,
+      "function_line": 141,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, requires_only)]",
+        "#[kani::stub(requires_only, g)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_provider",
+      "attribute_line": 152,
+      "function_line": 153,
+      "attributes": [
+        "#[kani::proof_for_contract(contracted_replacement)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_contract",
+      "attribute_line": 157,
+      "function_line": 159,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, contracted_replacement)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_verified_contract",
+      "attribute_line": 164,
+      "function_line": 167,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, contracted_replacement)]",
+        "#[kani::stub_verified(contracted_replacement)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "VERIFIED_PER_COORDINATOR_SAME_FILE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_contract_target",
+      "attribute_line": 177,
+      "function_line": 179,
+      "attributes": [
+        "#[kani::proof_for_contract(replacement_caller)]",
+        "#[kani::stub(f, contracted_replacement)]"
+      ],
+      "source_sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "FAILURE",
+        "provenance": "frozen INPUTS.coordinator_reported_native_detail; no independently retained named native report"
+      },
+      "static_repair": "single PFC call to replacement_caller, ordinary replacement inside selected body; provider Assert",
+      "coverage_limit": "same provider selected by PFC and ordinary copied alias in one harness is replaced; separate same-function PFC/verified controls retained"
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "ordinary_stub_original_mode",
+      "attribute_line": 17,
+      "function_line": 19,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub(f, replacement)]"
+      ],
+      "source_sha256": "866d870c3ff3670f4a75401c18fa6b17e0a683de508e826a90bf4d8ef7b4b171",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "UNKNOWN",
+        "provenance": "connected job summary supplies no file-level result"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "provider",
+      "attribute_line": 23,
+      "function_line": 24,
+      "attributes": [
+        "#[kani::proof_for_contract(f)]"
+      ],
+      "source_sha256": "866d870c3ff3670f4a75401c18fa6b17e0a683de508e826a90bf4d8ef7b4b171",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "UNKNOWN",
+        "provenance": "connected job summary supplies no file-level result"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "verified_control",
+      "attribute_line": 28,
+      "function_line": 30,
+      "attributes": [
+        "#[kani::proof]",
+        "#[kani::stub_verified(f)]"
+      ],
+      "source_sha256": "866d870c3ff3670f4a75401c18fa6b17e0a683de508e826a90bf4d8ef7b4b171",
+      "reviewed_source_expectation": "VERIFICATION_SUCCESS",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "UNKNOWN",
+        "provenance": "connected job summary supplies no file-level result"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    },
+    {
+      "path": "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs",
+      "harness": "replacement_provider",
+      "attribute_line": 34,
+      "function_line": 36,
+      "attributes": [
+        "#[kani::proof_for_contract(replacement)]",
+        "#[kani::should_panic]"
+      ],
+      "source_sha256": "866d870c3ff3670f4a75401c18fa6b17e0a683de508e826a90bf4d8ef7b4b171",
+      "reviewed_source_expectation": "EXPECTED_PANIC_POSTCONDITION",
+      "source_declaration_match": true,
+      "static_discovery_suite": "kani/kani",
+      "native031": {
+        "enclosing_regression_jobs_success": [
+          135347866005,
+          135347866072,
+          135347866084,
+          135347866153,
+          135347866217
+        ],
+        "assurance": "SUITE_ONLY_SUCCESS; stock discovery route is static",
+        "per_file_or_harness_observation": "UNKNOWN_NOT_EXPOSED",
+        "actual_compile_MIR_or_property_result": "UNKNOWN_NOT_EXPOSED",
+        "needed_bounded_evidence": "Exact-head compact structured named-harness result and property diagnostics with source/binary/input identities; no raw fallback"
+      },
+      "historical_native6f": {
+        "status": "UNKNOWN",
+        "provenance": "connected job summary supplies no file-level result"
+      },
+      "static_repair": null,
+      "coverage_limit": null
+    }
+  ],
+  "caller_PFC_repairs": {
+    "positive": {
+      "path": "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "harness": "replacement_contract_target",
+      "selected_target": "replacement_caller",
+      "selected_caller_invocations": 1,
+      "source_prediction": "Check caller requires x<16 and ensures result=x+3; nested ordinary provider contracted_replacement Assert has same pre/post; safe u8 range3..18 including inputs8..15 outside original target precondition",
+      "native_named_result": "UNKNOWN"
+    },
+    "negative": {
+      "path": "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "harness": "replacement_provider_postcondition",
+      "selected_target": "replacement_caller",
+      "selected_caller_invocations": 1,
+      "source_prediction": "Check caller input1 returns1 and satisfies identity post; nested discriminating_replacement Assert post result==0 fails; no precondition or overflow masks it",
+      "required_diagnostic": "|result| *result == 0 FAILURE and named replacement_provider_postcondition; unchanged golden retains2success/11failure/13total harnesses",
+      "native_named_result_and_diagnostic": "UNKNOWN"
+    },
+    "removed_coverage": "No credit for old sequential mixed-alias provider-PFC direct+copied arrangement; repaired scope is provider Assert inside caller PFC. Separate provider PFC and stub_verified controls retained.",
+    "assurance": "STATIC_REVIEW_AND_SOURCE_EXPECTATION, not native MIR/mode/property observation"
+  },
+  "issue4591_verbatim": {
+    "harness": "check_caller",
+    "required_order": "compile successfully then expose caller addition overflow for allowed replacement i32::MAX",
+    "expected": "VERIFICATION_FAILURE_CALLER_OVERFLOW",
+    "observed_compile_and_property": "UNKNOWN",
+    "golden_unchanged_from6f": true
+  },
+  "overlap_control": {
+    "harness": "overlapping_contract_target",
+    "expected": "COMPILE_ERROR_ORIGINAL_CONTRACT_CLOSURE",
+    "unchanged": true,
+    "semantic_proof_credit": false,
+    "observed_diagnostic": "UNKNOWN"
+  },
+  "coverage_groups": {
+    "contract_shapes": "requires-only / ensures-only / both; original provider PFC and stub_verified",
+    "safe_arithmetic": "safe u8 f/g admitted ranges; separate overflow negative",
+    "replacements": "plain/contracted; separate provider Check/Replace; no-assert Original and expected-panic PFC",
+    "composition": "recursive/generic/transitive/multi-target/uncontracted target",
+    "negative_controls": "replacement overflow/pre/post; unstubbed pre/post; verified pre/result; caller-PFC nested provider Assert",
+    "overlap": "unchanged explicit original PFC+stub_verified+ordinary compile-error control"
+  },
+  "native_exposed_granularity": "JOB_AND_STEP_SUMMARIES_ONLY; individual compiletest suite/file/harness/property observations UNKNOWN"
+}

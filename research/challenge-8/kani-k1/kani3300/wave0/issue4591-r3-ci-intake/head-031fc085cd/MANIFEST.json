@@ -1,0 +1,58 @@
+{
+  "schema": "issue4591-r3-immutable-intake-manifest-v1",
+  "status": "READY",
+  "classification": "PARTIAL_INFRASTRUCTURE",
+  "task_commit": "64b586e725e6a51d4516f206bb85d265a9af188c",
+  "base_task_commit": "0d36282d44664af05a69eb3ee47686952786a261",
+  "source_head": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+  "source_tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+  "source_sole_parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+  "source_base": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+  "oracle_sha256": "a0ea77ec172fb21f23238c21af6b18712de71b5ddc1a2bdb3b6759fa30b694de",
+  "native_runs": {
+    "kani": 44461123962,
+    "format": 44461124056,
+    "deny": 44461124017
+  },
+  "files": {
+    "CONNECTED-METADATA.json": {
+      "sha256": "3ff29ee8d53a8f2fff7e0a453ee2118173f59b14a6ee2b5d39735911778671ba",
+      "bytes": 39183
+    },
+    "HANDOFF.md": {
+      "sha256": "a85fb29979547c4bbe89a5f81daed9d313b8dbe0770f7db9aa533906ab209e52",
+      "bytes": 3207
+    },
+    "INPUTS.json": {
+      "sha256": "9578ef26bc16d21674797fc6146578b5a2e5955f8ad851676e6bbe1ece6457e0",
+      "bytes": 7375
+    },
+    "PROVENANCE.json": {
+      "sha256": "695c87e4ce75e6b7dea3c1e350623180c742728d0422c68939c387b695397e94",
+      "bytes": 3445
+    },
+    "RESULT.json": {
+      "sha256": "226b3a6c8f3ccab29ede522271748924ae8c901e4ebd19e214d58c9d13642d94",
+      "bytes": 12629
+    },
+    "RESULT.md": {
+      "sha256": "66e40f192afd82569b7f8a21757652ca6ad91795a6ead10a9d2652ddd9b52b21",
+      "bytes": 5937
+    },
+    "SOURCE-PROJECTION.json": {
+      "sha256": "4da1685a90f1c33d6fd3d63b00b22032c0f7a1df09def3c19d6d50fc67e47df9",
+      "bytes": 21654
+    },
+    "oracle-coverage.json": {
+      "sha256": "15ba75e70ec73767661257481b049b6bbc14cab9154706368a5926471d5c0318",
+      "bytes": 55988
+    },
+    "oracle-coverage.md": {
+      "sha256": "f9436fb7dd0057dce4c57ba5ef6753c64b014eab98cfb76c72d346037cd4682a",
+      "bytes": 6599
+    }
+  },
+  "self_seal": "Manifest excluded from its own file list; containing Git commit seals it. No artifact edits after delivery commit.",
+  "validation": "JSON parsing, exact inputs/reviewed source pins, native totals/identities/steps, all38 oracle declarations/attributes and read-only gate passed; no compiler/verifier/runtime run",
+  "scope": "Only this directory; no PR-DRAFT/style/external writes; no CI/sourcefix/publication/accounting"
+}

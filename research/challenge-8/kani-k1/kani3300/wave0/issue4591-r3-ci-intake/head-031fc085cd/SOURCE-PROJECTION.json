@@ -1,0 +1,566 @@
+{
+  "schema": "issue4591-r3-static-source-binding-v1",
+  "source_repository": "/root/kani-issue4591-singlecall-r3-w15",
+  "worktree_clean_at_inspection": true,
+  "head": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+  "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+  "parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+  "base": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+  "candidate_same_tree": "f82934ca97caaa1270d5279054aa950173868be5",
+  "gate": {
+    "status": "MATCH",
+    "head": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+    "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+    "parents": [
+      "6fca00af805b5c62b58e3e3f29eef183d6939907"
+    ],
+    "range": [
+      "6fca00af805b5c62b58e3e3f29eef183d6939907",
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1"
+    ],
+    "errors": [],
+    "authorization_granted": false
+  },
+  "delta_from_parent": [
+    "tests/expected/function-contract/ordinary_stub_fail.rs",
+    "tests/kani/FunctionContracts/ordinary_stub.rs"
+  ],
+  "delta_from_base": [
+    "kani-compiler/src/kani_middle/transform/contracts.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/src/kani_middle/transform/stubs.rs",
+    "tests/expected/function-contract/ordinary_stub_fail.expected",
+    "tests/expected/function-contract/ordinary_stub_fail.rs",
+    "tests/expected/function-contract/ordinary_stub_issue_4591.expected",
+    "tests/expected/function-contract/ordinary_stub_issue_4591.rs",
+    "tests/expected/function-contract/ordinary_stub_overlap.expected",
+    "tests/expected/function-contract/ordinary_stub_overlap.rs",
+    "tests/kani/FunctionContracts/ordinary_stub.rs",
+    "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs"
+  ],
+  "protected_git_trees": {
+    ".github/workflows": {
+      "969f4648980a8e66cd0ca32fd3e714a55ac32cef": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0",
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0",
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0"
+    },
+    ".github/actions": {
+      "969f4648980a8e66cd0ca32fd3e714a55ac32cef": "0c34b505ea7f29754d2ff655da2579bf26afa9b2",
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": "0c34b505ea7f29754d2ff655da2579bf26afa9b2",
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1": "0c34b505ea7f29754d2ff655da2579bf26afa9b2"
+    },
+    "scripts": {
+      "969f4648980a8e66cd0ca32fd3e714a55ac32cef": "17ce41a6b9744224defd3a87247736f82992e550",
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": "17ce41a6b9744224defd3a87247736f82992e550",
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1": "17ce41a6b9744224defd3a87247736f82992e550"
+    },
+    "library": {
+      "969f4648980a8e66cd0ca32fd3e714a55ac32cef": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932",
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932",
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932"
+    },
+    "kani-compiler": {
+      "969f4648980a8e66cd0ca32fd3e714a55ac32cef": "02837f18890758d4fd11a2d95212947a03746a7c",
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": "712d5307f14c5ad079ce676a74ef470e9316361a",
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1": "712d5307f14c5ad079ce676a74ef470e9316361a"
+    },
+    "kani-driver": {
+      "969f4648980a8e66cd0ca32fd3e714a55ac32cef": "018c4794f35164b1df0cdf064850456086f191ff",
+      "6fca00af805b5c62b58e3e3f29eef183d6939907": "018c4794f35164b1df0cdf064850456086f191ff",
+      "031fc085cd4373b5fc93a55128d5a69fdbd88df1": "018c4794f35164b1df0cdf064850456086f191ff"
+    }
+  },
+  "file_pins": {
+    ".github/workflows/bench-compiler.yml": {
+      "blob": "0b30110c6ad5c105444045a94c801d153dde2725",
+      "sha256": "825d32f8e3d3949332417088fb0b096bb4b6f1819d8a0cb3c1e2cc666cd685cc",
+      "bytes": 6227,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/bench-e2e.yml": {
+      "blob": "bc2db84b52fbb6f0c0017a67e94934662c0d9689",
+      "sha256": "e17c7ef9464ceec605771b9dade368122e250891526c6a0b0a9bb4b00a7a64ca",
+      "bytes": 2903,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/bench-pr.yml": {
+      "blob": "d68534a54ffb3ce2f15671e941c84fc57af0e741",
+      "sha256": "eecc1509bcf9283e0d233b414af523f97a9f2a397e8766a558314f1a9f5a57d3",
+      "bytes": 1633,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/cargo-update.yml": {
+      "blob": "1873a2ecdd83f97c37fb74b62a9e0c1d6b7728d7",
+      "sha256": "ac7f18f5fe4e685e5da609e5b2546503aab4cb5aa2f598c4a6df91b5d442c911",
+      "bytes": 1580,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/cbmc-latest.yml": {
+      "blob": "223ec7f96ad8f3215216fc6b99a8337c650c8398",
+      "sha256": "ba39280e6ff9de85ccb5c14296d53845be7cc417baf683ddda56fe30767bbc48",
+      "bytes": 4017,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/cbmc-update.yml": {
+      "blob": "90eea8a06f2a4af9b3d65befcc8fa9487699a982",
+      "sha256": "1b97bca1eb903ddf739d594830eb4b72b5ffc8c23ec7dc8c03c314c95cd0232f",
+      "bytes": 3683,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/charon-update.yml": {
+      "blob": "70ad28901c1a7cfe617b98d4d35099da35659894",
+      "sha256": "d73125c239ffd2c2f68a7d41b703eb11bdbdefe97d3a3abc99ed0bbb2c1b7869",
+      "bytes": 3642,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/deny.yml": {
+      "blob": "c54ce6bbcb075df881984f714589011c4b88d5e4",
+      "sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf",
+      "bytes": 663,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/extra_jobs.yml": {
+      "blob": "157c5b2d967e8b9fcfddf8943c29495f0ac5e2fa",
+      "sha256": "12c3c6626e9ad806e7f7bf7f65cca7e2f12b2ccae9da82cc62802b92299369d8",
+      "bytes": 1784,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/format-check.yml": {
+      "blob": "9d21eeb4569234292401f90c66c833f6960f06fb",
+      "sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8",
+      "bytes": 1644,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/kani.yml": {
+      "blob": "3e34d8ac3c0844d9ac9409790e7cb0a669381dad",
+      "sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+      "bytes": 3914,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/release.yml": {
+      "blob": "f10833e3035641a9893e1f5171b0b86864ef5b0e",
+      "sha256": "b608d02a4ddbaa9a1e4b0db321bd1aeb268afe5f946a9de14e2778b9e803b9b3",
+      "bytes": 13634,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/slow-tests.yml": {
+      "blob": "54952f59bd844273d208a75e62c571c48079d154",
+      "sha256": "d9775bd66ebb7b927c28346623f9e6e3374c82cee97921eac5fee828eba5ba7f",
+      "bytes": 860,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/toolchain-upgrade.yml": {
+      "blob": "55bcdda98ad65718c01b82da993cc5baccbeceb3",
+      "sha256": "bd9cc5f4f09c1e00223a627fedbd7fb522053c6258284304c1d509f83dbcfa6a",
+      "bytes": 3557,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/verify-std-check.yml": {
+      "blob": "be07976f48e50269fceca068c7c71dd6428b3498",
+      "sha256": "37a122141be204e64c1eb75caf6a6f72b1e1c9ce68f642ef79ad80cd1da9ee60",
+      "bytes": 3348,
+      "reviewed_pin_match": true
+    },
+    ".github/workflows/z3-update.yml": {
+      "blob": "486105cd0bd8f8337b0ea31f7ee2bd8f48addb53",
+      "sha256": "83e06af88fe864b471d4b1af10022519c3f81cc63d62e00d64d73e77234a9553",
+      "bytes": 4099,
+      "reviewed_pin_match": true
+    },
+    "Cargo.lock": {
+      "blob": "33700f4be8c8108ed8b1afcb067dd092e8c32a4b",
+      "sha256": "2acaa6ea4360c2aa380181920839dbefe18dc88331cc1eb5b2c4341a59ad3199",
+      "bytes": 70516,
+      "reviewed_pin_match": true
+    },
+    "Cargo.toml": {
+      "blob": "4433a05759963160c59610f47581a3e3137b69a1",
+      "sha256": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
+      "bytes": 2136,
+      "reviewed_pin_match": true
+    },
+    "kani-compiler/Cargo.toml": {
+      "blob": "50c41da6ce5b981ec829c9794cdb18ad79f3932e",
+      "sha256": "967127d41b56627971265f487f5c5441d4337a75149087f9ed9b49374ed3778a",
+      "bytes": 1308,
+      "reviewed_pin_match": true
+    },
+    "kani-compiler/src/kani_middle/transform/contracts.rs": {
+      "blob": "71005a6882fa612546107d843d2de54a0f8d3ec8",
+      "sha256": "c8433cc928a57285e3d7d117a4b8d5187db2ec6ebcec819c4b6744612470bf91",
+      "bytes": 39769,
+      "reviewed_pin_match": true
+    },
+    "kani-compiler/src/kani_middle/transform/mod.rs": {
+      "blob": "38ea0963da5bccfa015f023aa7301debe2f360a4",
+      "sha256": "cee27768c3a4a4ad71c75d411e237d4aadedf9ff20a5962d4e93ecbf660c8ee9",
+      "bytes": 17670,
+      "reviewed_pin_match": true
+    },
+    "kani-compiler/src/kani_middle/transform/stubs.rs": {
+      "blob": "a1df1bdbcba1d08599caa87f1aefb5569b15f77b",
+      "sha256": "04dd329ee7cf8b35d38a9c62d2ba9b853d1b7009e4cfd6cfcc10468b63d090b2",
+      "bytes": 9314,
+      "reviewed_pin_match": true
+    },
+    "kani-dependencies": {
+      "blob": "177eb685db5011ad9066f5891b74146d38d40a72",
+      "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+      "bytes": 186,
+      "reviewed_pin_match": true
+    },
+    "kani-driver/Cargo.toml": {
+      "blob": "fcd4df2d3e0c8959f7518309e4a07e1f2089d0ac",
+      "sha256": "417706199b383283ea499f5896028af6240990f27eec38042da1de3ad33ff8f1",
+      "bytes": 1916,
+      "reviewed_pin_match": true
+    },
+    "rust-toolchain.toml": {
+      "blob": "1cdf94ea9b42256403997a5114d3b9ec10785d2d",
+      "sha256": "ed9dbd0be9df6701edee999486c603826904addf17d09eb5a065a40b2619412e",
+      "bytes": 183,
+      "reviewed_pin_match": true
+    },
+    "scripts/kani-regression.sh": {
+      "blob": "9927fae1d0b6d2dfad930a23624c178550db6813",
+      "sha256": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+      "bytes": 5201,
+      "reviewed_pin_match": "discovery route; same-tree candidate binding"
+    },
+    "tests/expected/function-contract/ordinary_stub_fail.expected": {
+      "blob": "d6a1bc5210e43225495e07724f7216c46eb0b363",
+      "sha256": "7f7e65b0abbae439e1db2860a1b4e61c7592d5fa7e4ecc84f6fb5cc0b3b395b4",
+      "bytes": 972,
+      "reviewed_pin_match": true
+    },
+    "tests/expected/function-contract/ordinary_stub_fail.rs": {
+      "blob": "81665a967abd9080232a2260f68642dd04ffe24b",
+      "sha256": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+      "bytes": 2053,
+      "reviewed_pin_match": true
+    },
+    "tests/expected/function-contract/ordinary_stub_issue_4591.expected": {
+      "blob": "3c5703c6e9cadaba4b214a62a17ab9ab458acf9c",
+      "sha256": "202199fd0ac8bb6737fc34b34552b9491d4bf08c412555f60262fe71a9aa0c28",
+      "bytes": 212,
+      "reviewed_pin_match": true
+    },
+    "tests/expected/function-contract/ordinary_stub_issue_4591.rs": {
+      "blob": "620ff0ad1caff13ddc5f0e449c1b2507db785eca",
+      "sha256": "e65245e314ce01d894bc5b774e72df7cb1eb17b4bdf07939e037d61f9d41a8a0",
+      "bytes": 618,
+      "reviewed_pin_match": true
+    },
+    "tests/expected/function-contract/ordinary_stub_overlap.expected": {
+      "blob": "95ddb66fbfb2db730de8370a21102dd1d636175b",
+      "sha256": "00c63da23734458d9ccd008db73852f2a30694d694adacd5f2e8d6b8c05a5dd0",
+      "bytes": 59,
+      "reviewed_pin_match": true
+    },
+    "tests/expected/function-contract/ordinary_stub_overlap.rs": {
+      "blob": "fcb7d14ee966e62b810b515fb97eca464ec02c11",
+      "sha256": "21186f51f8260becc29d2a762dfba67ad504d44f3f2e34a85f62ba26425b980b",
+      "bytes": 477,
+      "reviewed_pin_match": true
+    },
+    "tests/kani/FunctionContracts/ordinary_stub.rs": {
+      "blob": "ebde1e09258da92e639d64bcf12b7166a1e8a61c",
+      "sha256": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+      "bytes": 3730,
+      "reviewed_pin_match": true
+    },
+    "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs": {
+      "blob": "5ddd482ab66bcab219d3eed6bfa04171290681db",
+      "sha256": "866d870c3ff3670f4a75401c18fa6b17e0a683de508e826a90bf4d8ef7b4b171",
+      "bytes": 748,
+      "reviewed_pin_match": true
+    },
+    "tools/compiletest/src/main.rs": {
+      "blob": "d60c3bbc7f49117b04b083cbce7e0384167950dd",
+      "sha256": "9e15ceb4c5dc7bc505081d3ec2be8a4af8bdb8fdf0cd0e5ffcbc137ea36dc412",
+      "bytes": 23324,
+      "reviewed_pin_match": "discovery route; same-tree candidate binding"
+    },
+    "tools/compiletest/src/runtest.rs": {
+      "blob": "4438547071f5426caa8f0990fecfd727cf86352b",
+      "sha256": "7ab3d25a027144d8b4b669990793d8f76b980d7a9f9ed59130af8a95749797a4",
+      "bytes": 29489,
+      "reviewed_pin_match": "discovery route; same-tree candidate binding"
+    }
+  },
+  "workflow_policies": {
+    ".github/workflows/kani.yml:regression": {
+      "runs_on": "${{ matrix.os }}",
+      "if": "implicit success()",
+      "strategy": {
+        "matrix": {
+          "os": [
+            "macos-15-intel",
+            "ubuntu-22.04",
+            "ubuntu-24.04",
+            "macos-15",
+            "ubuntu-24.04-arm"
+          ]
+        }
+      },
+      "fail_fast": "true (GitHub matrix default)",
+      "continue_on_error": "false (default)",
+      "timeout_minutes": "GitHub default",
+      "steps": [
+        {
+          "name": "Checkout Kani",
+          "uses": "actions/checkout@v6"
+        },
+        {
+          "name": "Setup Kani Dependencies",
+          "uses": "./.github/actions/setup",
+          "with": {
+            "os": "${{ matrix.os }}"
+          }
+        },
+        {
+          "name": "Execute Kani regression",
+          "run": "./scripts/kani-regression.sh"
+        }
+      ]
+    },
+    ".github/workflows/kani.yml:benchcomp-tests": {
+      "runs_on": "ubuntu-24.04",
+      "if": "implicit success()",
+      "strategy": {},
+      "fail_fast": "not a matrix",
+      "continue_on_error": "false (default)",
+      "timeout_minutes": "GitHub default",
+      "steps": [
+        {
+          "name": "Checkout Kani",
+          "uses": "actions/checkout@v6"
+        },
+        {
+          "name": "Install benchcomp dependencies",
+          "run": "sudo apt-get update\nsudo apt-get install -y python3-pip\npushd tools/benchcomp && pip3 install -r requirements.txt\n"
+        },
+        {
+          "name": "Setup Kani Dependencies",
+          "uses": "./.github/actions/setup",
+          "with": {
+            "os": "ubuntu-24.04"
+          }
+        },
+        {
+          "name": "Build Kani using release mode",
+          "run": "cargo build-dev -- --release"
+        },
+        {
+          "name": "Run benchcomp unit and regression tests",
+          "run": "pushd tools/benchcomp && PATH=$(realpath ../../scripts):$PATH test/run"
+        }
+      ]
+    },
+    ".github/workflows/kani.yml:perf": {
+      "runs_on": "ubuntu-24.04",
+      "if": "implicit success()",
+      "strategy": {},
+      "fail_fast": "not a matrix",
+      "continue_on_error": "false (default)",
+      "timeout_minutes": "380",
+      "steps": [
+        {
+          "name": "Checkout Kani",
+          "uses": "actions/checkout@v6"
+        },
+        {
+          "name": "Setup Kani Dependencies",
+          "uses": "./.github/actions/setup",
+          "with": {
+            "os": "ubuntu-24.04"
+          }
+        },
+        {
+          "name": "Execute Kani performance tests",
+          "uses": "nick-fields/retry@v4",
+          "with": {
+            "timeout_minutes": "180",
+            "max_attempts": "2",
+            "command": "./scripts/kani-perf.sh"
+          },
+          "env": {
+            "RUST_TEST_THREADS": "1"
+          }
+        }
+      ]
+    },
+    ".github/workflows/kani.yml:llbc-regression": {
+      "runs_on": "ubuntu-24.04",
+      "if": "implicit success()",
+      "strategy": {},
+      "fail_fast": "not a matrix",
+      "continue_on_error": "false (default)",
+      "timeout_minutes": "GitHub default",
+      "steps": [
+        {
+          "name": "Checkout Kani",
+          "uses": "actions/checkout@v6"
+        },
+        {
+          "name": "Setup Kani Dependencies",
+          "uses": "./.github/actions/setup",
+          "with": {
+            "os": "ubuntu-24.04"
+          }
+        },
+        {
+          "name": "Build Kani with Charon",
+          "run": "cargo build-dev -- --features cprover --features llbc"
+        },
+        {
+          "name": "Run tests",
+          "run": "./scripts/kani-llbc-regression.sh"
+        }
+      ]
+    },
+    ".github/workflows/kani.yml:documentation": {
+      "runs_on": "ubuntu-24.04",
+      "if": "implicit success()",
+      "strategy": {},
+      "fail_fast": "not a matrix",
+      "continue_on_error": "false (default)",
+      "timeout_minutes": "GitHub default",
+      "steps": [
+        {
+          "name": "Checkout Kani",
+          "uses": "actions/checkout@v6",
+          "with": {
+            "submodules": "recursive"
+          }
+        },
+        {
+          "name": "Install book dependencies",
+          "run": "./scripts/setup/ubuntu/install_doc_deps.sh"
+        },
+        {
+          "name": "Build Documentation",
+          "run": "./scripts/build-docs.sh"
+        },
+        {
+          "name": "Publish Documentation",
+          "uses": "JamesIves/github-pages-deploy-action@v4",
+          "if": "${{ github.event_name == 'push' && startsWith('refs/heads/main', github.ref) }}",
+          "with": {
+            "branch": "gh-pages",
+            "folder": "docs/book/",
+            "single-commit": "true"
+          }
+        }
+      ]
+    },
+    ".github/workflows/format-check.yml:format-check": {
+      "runs_on": "ubuntu-latest",
+      "if": "implicit success()",
+      "strategy": {},
+      "fail_fast": "not a matrix",
+      "continue_on_error": "false (default)",
+      "timeout_minutes": "GitHub default",
+      "steps": [
+        {
+          "name": "Checkout Kani",
+          "uses": "actions/checkout@v6"
+        },
+        {
+          "name": "Execute copyright check",
+          "run": "./scripts/ci/run-copyright-check.sh"
+        },
+        {
+          "name": "Check C code formatting",
+          "run": "./scripts/run-clang-format.sh -d",
+          "continue-on-error": "true"
+        },
+        {
+          "name": "Check Python code formatting",
+          "run": "pip3 install --upgrade autopep8\n./scripts/run-autopep8.sh\n"
+        }
+      ]
+    },
+    ".github/workflows/format-check.yml:clippy-check": {
+      "runs_on": "ubuntu-24.04",
+      "if": "implicit success()",
+      "strategy": {},
+      "fail_fast": "not a matrix",
+      "continue_on_error": "false (default)",
+      "timeout_minutes": "GitHub default",
+      "steps": [
+        {
+          "name": "Checkout Kani",
+          "uses": "actions/checkout@v6"
+        },
+        {
+          "name": "Setup Kani Dependencies",
+          "uses": "./.github/actions/setup",
+          "with": {
+            "os": "ubuntu-24.04"
+          }
+        },
+        {
+          "name": "Install jq for parsing.",
+          "run": "sudo apt-get install -y jq\n"
+        },
+        {
+          "name": "Run Clippy",
+          "run": "cargo clippy --workspace --tests -- -D warnings\nRUSTFLAGS=\"--cfg=kani_sysroot\" cargo clippy --workspace -- -D warnings\n"
+        },
+        {
+          "name": "Print Clippy Statistics",
+          "run": "rm .cargo/config.toml\n(cargo clippy --all --message-format=json 2>/dev/null  | \\\njq 'select(.message!=null) | .message.code.code' | grep -v '^null$' | \\\nsort | uniq -c) || true\n"
+        }
+      ]
+    },
+    ".github/workflows/deny.yml:audit": {
+      "runs_on": "ubuntu-latest",
+      "if": "implicit success()",
+      "strategy": {},
+      "fail_fast": "not a matrix",
+      "continue_on_error": "false (default)",
+      "timeout_minutes": "GitHub default",
+      "steps": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {
+            "submodules": "recursive"
+          }
+        },
+        {
+          "uses": "EmbarkStudios/cargo-deny-action@v2",
+          "with": {
+            "arguments": "--all-features --workspace",
+            "command-arguments": "-s"
+          },
+          "env": {
+            "RUSTUP_TOOLCHAIN": "stable"
+          }
+        }
+      ]
+    }
+  },
+  "upstream_drift": {
+    "retained_base": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "upstream_at_dispatch": "c25a57bcbf8c8af41617e7171a535a3518ce514a",
+    "changed_path_overlap": [],
+    "root_reported_read_only_merge_tree": "clean",
+    "independent_new_merge_tree_run": false,
+    "native_execution_on_upstream_main": "UNKNOWN_NOT_RUN_HERE"
+  },
+  "checkout": {
+    "workflow_configuration": "actions/checkout@v6 default ref; push head from GitHub metadata",
+    "native_checkout_step": "success all12 jobs",
+    "actual_resolved_checkout_sha_tree": "UNKNOWN_NOT_EXPOSED_IN_SUMMARIES",
+    "binary_MIR_property_input_binding": "UNKNOWN"
+  },
+  "discovery_route": {
+    "workflow": ".github/workflows/kani.yml: regression -> ./scripts/kani-regression.sh",
+    "script": "stock15-suite TESTS loop: kani/kani then expected/expected then ui/expected and remaining suites; no file/harness filter",
+    "collector": "tools/compiletest/src/main.rs:369-381 both kani and expected modes dispatch to collect_rs_tests_from_dir;485-536 recursive .rs files except auxiliary dirs/temp prefixes",
+    "headers": "all5 oracle sources use -Z function-contracts -Z stubbing; no-assert file additionally --no-assert-contracts",
+    "expected_matcher": "tools/compiletest/src/runtest.rs:488-565 matches expected output fragments, not independent property binding",
+    "assurance": "STATIC_SOURCE_DISCOVERY; native job/step SUCCESS is suite-level aggregate; actual per-file/harness observation UNKNOWN"
+  }
+}
