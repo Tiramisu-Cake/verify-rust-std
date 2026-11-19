@@ -1,0 +1,138 @@
+{
+  "schema": "ch8-network-plan-r1-evidence-binding-v1",
+  "status": "ACTUAL_REVIEW_AND_ADMISSION_BOUND",
+  "prior_plan": {
+    "commit": "e43156f54416491b8688db0cb28325ccf8238d1d",
+    "status_at_seal": "CONDITIONAL_PENDING_REVIEW",
+    "preserved": true
+  },
+  "review": {
+    "commit": "3c7bd65cf0bb758cb82dc56ef71a8b8e23efd5c0",
+    "intake_commit": "842984040e87b8b8594653634b72df7d800ca198",
+    "status": "READY",
+    "disposition": "APPROVE_INTAKE_WITH_PRESERVED_LIMITS",
+    "blocking_findings_count": 0,
+    "location_recommendation": "RECOMMEND_TWO_EXACT_CASES",
+    "location_status_at_review": "NOT_APPLIED",
+    "admission_at_review": false,
+    "limits_verbatim": [
+      "Both network inventories, roles, SAT, U and guard counts remain UNKNOWN_CENSORED, never zero or NOT_RUN.",
+      "Only initialized V34/base1 Cell<u8>/KeyLess<Cell<u8>> fallback N0..2 and N3..4 are provisional bounded SOURCE_REPORTED candidates. No admission by this review.",
+      "At most a fallback union N0..4 after a separate completed root/coordinator admission; no Cell-to-u8 network transfer.",
+      "Producer strict0/8, UNKNOWN fallback receipts, U-REJECT_ALL and disabled proposal remain unchanged.",
+      "Actual common emitter, positive source/AST/MIR/caller causal origin and physical inode identity remain UNKNOWN.",
+      "Fallback5..16/network5..32/general/provider/initmask/function-summary/ownership/panic/generic trait/fullN16N32 and independent B1/B2 credit remain OPEN/NONE.",
+      "No enabled summary edges; bounded leaves are not universal or stub_verified provider contracts.",
+      "No new run, policy/runtime parser change, admission, resource escalation, accounting or publication is authorized."
+    ],
+    "authority_limit": "APPROVE is the intake disposition, not approval of this plan or an execution package"
+  },
+  "admission": {
+    "commit": "9bb6e2b7a18e338f532ec817f8acfd7515fc2fc9",
+    "status": "ADMITTED",
+    "authority": "Usercoordinator11:59 explicit decision + root planner AGREE; morning delegated work/admission, publications still owner-only",
+    "intake_commit": "842984040e87b8b8594653634b72df7d800ca198",
+    "review_commit": "3c7bd65cf0bb758cb82dc56ef71a8b8e23efd5c0",
+    "qualified_bounded_cases": 2,
+    "cases": [
+      {
+        "id": "s4p_fallback_b01_n00_02_fullbyte",
+        "decision": "QUALIFIED_BOUNDED_SOURCE_REPORTED",
+        "assurance": "S1 Profilesv4 SOURCE_REPORTED; actual Original bounded Cell helper case",
+        "location_decision": "ADMITTED_EXACT_LOCATION_METADATA_CASE_ONLY",
+        "domain": {
+          "length_interval": [
+            0,
+            2
+          ],
+          "allocation": 34,
+          "base": 1,
+          "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+          "initialized": true,
+          "type": "Cell<u8>",
+          "comparator": "KeyLess<Cell<u8>>",
+          "summary_edges": []
+        },
+        "exact_location_packet_pointer": "/cases/0/exact_location_packet",
+        "exact_location_packet_canonical_sha256": "f70068f1e537ef656ee410b2b8b41641bf3f779937aee87a9f8e8a4487e11025"
+      },
+      {
+        "id": "s4p_fallback_b01_n03_04_fullbyte",
+        "decision": "QUALIFIED_BOUNDED_SOURCE_REPORTED",
+        "assurance": "S1 Profilesv4 SOURCE_REPORTED; actual Original bounded Cell helper case",
+        "location_decision": "ADMITTED_EXACT_LOCATION_METADATA_CASE_ONLY",
+        "domain": {
+          "length_interval": [
+            3,
+            4
+          ],
+          "allocation": 34,
+          "base": 1,
+          "logical_values": "ALL_34_INDEPENDENT_U8_0_255",
+          "initialized": true,
+          "type": "Cell<u8>",
+          "comparator": "KeyLess<Cell<u8>>",
+          "summary_edges": []
+        },
+        "exact_location_packet_pointer": "/cases/1/exact_location_packet",
+        "exact_location_packet_canonical_sha256": "2f39fe365627d38047eb38f4de9d745f26e769d054b923c6bc5191d1027c054d"
+      }
+    ],
+    "packet_fingerprint_encoding": "UTF-8 json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=False); full file SHA/commit in INPUTS; exact dictionaries/identities remain in immutable admission",
+    "coverage_union": {
+      "family": "small_sort_fallback<Cell<u8>,KeyLess<Cell<u8>>> Original initializedV34/base1/all34 independentlogicalu8",
+      "lengths": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "assurance": "Two exact bounded SOURCE_REPORTED cases; not universal summary or caller/provider theorem"
+    },
+    "network": "BOTH UNKNOWN_CENSORED child600wholechildwall; no qualification",
+    "negative_controls": "4 intended nativeFAIL reviewed observations; no extra admission in this note",
+    "strict_history": "NativeworkflowFAILURE/producerUNKNOWN/strict0of8/U-REJECT_ALL/proposalDISABLED/nulls/evidence unchanged",
+    "shared_emitter": "UNKNOWN; general rule NOT_APPLIED",
+    "scope_limits_verbatim": [
+      "fallback5..16/network/general/type/traitdispatch/caller/initmask/dstinit/provider/universalcontract/verifiedsummary/ownership/panic/MIR/B1B2/fullN16N32 OPEN",
+      "Oldf740/ff193 apply to original runs only; these two exact packets no future/global/suffix/stdlib waiver"
+    ],
+    "source_runtime_parser_policy_or_CI_changes": false,
+    "reversible": "Append-only revocation; no old record rewriting"
+  },
+  "temporal_resolution": "Review historical location NOT_APPLIED remains untouched; subsequent root/user admission applies exactly two fallback metadata packets. This plan update performs no admission.",
+  "network_transfer": "NONE: Cell fallback union is not u8 network/generic/caller/provider/summary/MIR/B1B2 proof",
+  "network_cost_unchanged": [
+    {
+      "id": "s4p_network_b01_n00_02_fullbyte",
+      "wholechild_seconds": 601.428,
+      "compile_elapsed_upper_bound_seconds": 48.195,
+      "sampled_rss_peak_kib": 3515064,
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "CHILD600_WALL_INCLUDING_COMPILE",
+      "cutoff_phase": "AFTER_INITIAL_EXPORT_AND_NATIVE_START; exact subphase UNKNOWN",
+      "native_verification_time_s": "UNKNOWN_CENSORED",
+      "censoring": "UNFINISHED_NATIVE_RESULT_UNKNOWN",
+      "signal": 15,
+      "child_shutdown_verified": true,
+      "arithmetic_600_minus_compile_marker": 551.805
+    },
+    {
+      "id": "s4p_network_b01_n03_04_fullbyte",
+      "wholechild_seconds": 601.401,
+      "compile_elapsed_upper_bound_seconds": 45.976,
+      "sampled_rss_peak_kib": 3516320,
+      "effective_cap_kib": 6291456,
+      "cutoff_cause": "CHILD600_WALL_INCLUDING_COMPILE",
+      "cutoff_phase": "AFTER_INITIAL_EXPORT_AND_NATIVE_START; exact subphase UNKNOWN",
+      "native_verification_time_s": "UNKNOWN_CENSORED",
+      "censoring": "UNFINISHED_NATIVE_RESULT_UNKNOWN",
+      "signal": 15,
+      "child_shutdown_verified": true,
+      "arithmetic_600_minus_compile_marker": 554.024
+    }
+  ],
+  "new_network_native_evidence": false,
+  "new_proof_credit": "NONE"
+}

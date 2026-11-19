@@ -1,0 +1,117 @@
+{
+  "schema": "ch8-network-plan-r1-recommendation-v1",
+  "status": "FINALIZED_PLANONLY_PENDING_PLAN_REVIEW",
+  "intake_review_bound": "3c7bd65cf0bb758cb82dc56ef71a8b8e23efd5c0",
+  "root_admission_bound": "9bb6e2b7a18e338f532ec817f8acfd7515fc2fc9",
+  "prior_plan": "e43156f54416491b8688db0cb28325ccf8238d1d",
+  "recommended": [
+    {
+      "id": "PLAN_N01_V34_B01_FULLU8",
+      "lengths": [
+        0,
+        1
+      ],
+      "geometry": "V34/base1",
+      "mode": "Original",
+      "summary_edges": []
+    },
+    {
+      "id": "PLAN_N02_V34_B01_FULLU8",
+      "lengths": [
+        2
+      ],
+      "geometry": "V34/base1",
+      "mode": "Original",
+      "summary_edges": []
+    },
+    {
+      "id": "PLAN_N03_V34_B01_FULLU8",
+      "lengths": [
+        3
+      ],
+      "geometry": "V34/base1",
+      "mode": "Original",
+      "summary_edges": []
+    },
+    {
+      "id": "PLAN_N04_V34_B01_FULLU8",
+      "lengths": [
+        4
+      ],
+      "geometry": "V34/base1",
+      "mode": "Original",
+      "summary_edges": []
+    }
+  ],
+  "replacement_map": {
+    "s4p_network_b01_n00_02_fullbyte": [
+      "PLAN_N01_V34_B01_FULLU8",
+      "PLAN_N02_V34_B01_FULLU8"
+    ],
+    "s4p_network_b01_n03_04_fullbyte": [
+      "PLAN_N03_V34_B01_FULLU8",
+      "PLAN_N04_V34_B01_FULLU8"
+    ]
+  },
+  "coverage": {
+    "union": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "overlap": [],
+    "byte_domain": "all34 independent 0..255",
+    "allocation": 34,
+    "base": 1,
+    "initialization": "fully typed initialized",
+    "frame": "every outside element plus arbitrary outside canary",
+    "oracle": "unchanged sorting_model snapshot/post: full-byte values and exact multiplicity; never fewkeys/order-only",
+    "unwind": 36
+  },
+  "role_obligations": {
+    "all_partitions": [
+      "ACTIVE true",
+      "sorted+full-count assertion",
+      "all outside frame",
+      "arbitrary outside canary",
+      "useful return",
+      "all declared exact length cover witnesses"
+    ],
+    "nontrivial_partitions": [
+      "unsorted witness",
+      "duplicate witness",
+      "nonconstant output witness",
+      "descending witness at exact length"
+    ],
+    "zero_one": "N0/N1 and useful-return SAT; nontrivial unsorted/duplicate-pair/nonconstant/descending-at-hi2-or4 predicates are infeasible here. Preserve their union witnesses at n2/n4. Exact role inventory and explicit N/A/UNSAT handling require future package review; do not silently expect impossible covers or weaken shared gates.",
+    "native": "Required formal inventory/roles/SAT/U/guard/location/native status are OPEN until actual exported/independently reviewed; no promotion from source SAT plausibility"
+  },
+  "gaps": [
+    "N5..32",
+    "all other backing/base/offset and init masks",
+    "arbitrary T/F, callback effects and generic dispatch",
+    "normal/unwind/abort ownership theorem",
+    "B1/B2/fullN16N32 and universal summary credit"
+  ],
+  "source_path": "N0/1 early return; N2..4 actual insertion_sort_shift_left offset1 + insert_tail prefixes1/2/3; no swap/sort4/sort9/merge on selected path",
+  "summary_edges_enabled": [],
+  "summary_provider_caller_bindings": "OPEN; all original CALLER-DAG edges and source applicability constraints retained",
+  "comparisons": "Retain prior alternatives and resource scenarios without change; no implementation selection of V6, assumed DAG, five singletons, wall900/slot1020 or memory increase",
+  "resources": "UNCHANGED per prior RESOURCE.json; child600inclcompile180/slot720/local6sampledPGID/outer12owned/reserve2/Ceff=min(6,12,A-2)/campaign6900/setup1800/job180min; arithmetic is not a fit guarantee",
+  "controls": [
+    "checker_order_corrupt",
+    "checker_count_corrupt",
+    "sort13_weak",
+    "s4p_cell_count_corrupt"
+  ],
+  "future_stages": [
+    "root verifies this exact immutable READY package",
+    "W14 reviews finalized plan in separate exact task/context",
+    "implementation only after reviewed plan and exact implementation task; production algorithm/model/checks not broadened",
+    "future exact source/control/harness package independent review and envelope check",
+    "separate root/coordinator execution GO+ledger; no run authorized here"
+  ],
+  "new_qualification": "NONE; two Cell cases are inherited external bounded SOURCE_REPORTED admissions only"
+}
