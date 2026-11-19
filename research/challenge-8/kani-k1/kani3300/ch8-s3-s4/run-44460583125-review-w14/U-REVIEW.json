@@ -1,0 +1,562 @@
+[
+  {
+    "root": "checker_order_corrupt",
+    "invocation_id": "427151947f65404a886588924bd4f9d1",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to add with overflow",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+      "line": "100",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:100:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "96:     while i < before.len {\n97:         if values[i].value() < values[i - 1].value() {\n98:             return false;\n99:         }\n100:         i += 1;\n101:     }\n102:     // Checking each input value (duplicates may repeat a check) covers the whole\n103:     // multiset: equal input/output lengths leave no room for a novel output value.\n104:     i = 0;",
+    "reviewed_source_argument": "Order loop starts i=1 and increments only with i<L<=32; i+1<=32.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "checker_order_corrupt",
+    "invocation_id": "427151947f65404a886588924bd4f9d1",
+    "property": {
+      "class": "assertion",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+      "line": "106",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:106:21 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "102:     // Checking each input value (duplicates may repeat a check) covers the whole\n103:     // multiset: equal input/output lengths leave no room for a novel output value.\n104:     i = 0;\n105:     while i < before.len {\n106:         let query = before.values[i];\n107:         let mut old_count: usize = 0;\n108:         let mut new_count: usize = 0;\n109:         let mut j = 0;\n110:         while j < before.len {",
+    "reviewed_source_argument": "Count outer i<L<=CAP32 bounds before.values[i].",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "checker_order_corrupt",
+    "invocation_id": "427151947f65404a886588924bd4f9d1",
+    "property": {
+      "class": "assertion",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+      "line": "111",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "107:         let mut old_count: usize = 0;\n108:         let mut new_count: usize = 0;\n109:         let mut j = 0;\n110:         while j < before.len {\n111:             if before.values[j] == query { old_count += 1; }\n112:             if values[j].value() == query { new_count += 1; }\n113:             j += 1;\n114:         }\n115:         if old_count != new_count {",
+    "reviewed_source_argument": "Inner j<L<=32 bounds before.values[j]; old_count starts0 and is at most j before one increment.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "checker_order_corrupt",
+    "invocation_id": "427151947f65404a886588924bd4f9d1",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to add with overflow",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+      "line": "111",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:44 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "107:         let mut old_count: usize = 0;\n108:         let mut new_count: usize = 0;\n109:         let mut j = 0;\n110:         while j < before.len {\n111:             if before.values[j] == query { old_count += 1; }\n112:             if values[j].value() == query { new_count += 1; }\n113:             j += 1;\n114:         }\n115:         if old_count != new_count {",
+    "reviewed_source_argument": "Inner j<L<=32 bounds before.values[j]; old_count starts0 and is at most j before one increment.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "checker_order_corrupt",
+    "invocation_id": "427151947f65404a886588924bd4f9d1",
+    "property": {
+      "class": "assertion",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+      "line": "112",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "108:         let mut new_count: usize = 0;\n109:         let mut j = 0;\n110:         while j < before.len {\n111:             if before.values[j] == query { old_count += 1; }\n112:             if values[j].value() == query { new_count += 1; }\n113:             j += 1;\n114:         }\n115:         if old_count != new_count {\n116:             return false;",
+    "reviewed_source_argument": "Entry L=before.len=values.len<=32; j<L bounds values[j]; new_count<=j before one increment.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "checker_order_corrupt",
+    "invocation_id": "427151947f65404a886588924bd4f9d1",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to add with overflow",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+      "line": "112",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:45 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "108:         let mut new_count: usize = 0;\n109:         let mut j = 0;\n110:         while j < before.len {\n111:             if before.values[j] == query { old_count += 1; }\n112:             if values[j].value() == query { new_count += 1; }\n113:             j += 1;\n114:         }\n115:         if old_count != new_count {\n116:             return false;",
+    "reviewed_source_argument": "Entry L=before.len=values.len<=32; j<L bounds values[j]; new_count<=j before one increment.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "checker_order_corrupt",
+    "invocation_id": "427151947f65404a886588924bd4f9d1",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to add with overflow",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+      "line": "113",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:113:13 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "109:         let mut j = 0;\n110:         while j < before.len {\n111:             if before.values[j] == query { old_count += 1; }\n112:             if values[j].value() == query { new_count += 1; }\n113:             j += 1;\n114:         }\n115:         if old_count != new_count {\n116:             return false;\n117:         }",
+    "reviewed_source_argument": "Inner loop increments only with j<L<=32, hence j+1<=32.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "checker_order_corrupt",
+    "invocation_id": "427151947f65404a886588924bd4f9d1",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to add with overflow",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+      "line": "118",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:118:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "114:         }\n115:         if old_count != new_count {\n116:             return false;\n117:         }\n118:         i += 1;\n119:     }\n120:     true\n121: }\n122: ",
+    "reviewed_source_argument": "Outer loop increments only with i<L<=32, hence i+1<=32.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "checker_count_corrupt",
+    "invocation_id": "c74e014fabdb45daaca74824fffd29a9",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to add with overflow",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+      "line": "118",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:118:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "114:         }\n115:         if old_count != new_count {\n116:             return false;\n117:         }\n118:         i += 1;\n119:     }\n120:     true\n121: }\n122: ",
+    "reviewed_source_argument": "Outer loop increments only with i<L<=32, hence i+1<=32.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "sort13_weak",
+    "invocation_id": "8a6df6aa596641fd9976a0ecd4110c20",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to add with overflow",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+      "line": "100",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:100:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "96:     while i < before.len {\n97:         if values[i].value() < values[i - 1].value() {\n98:             return false;\n99:         }\n100:         i += 1;\n101:     }\n102:     // Checking each input value (duplicates may repeat a check) covers the whole\n103:     // multiset: equal input/output lengths leave no room for a novel output value.\n104:     i = 0;",
+    "reviewed_source_argument": "Order loop starts i=1 and increments only with i<L<=32; i+1<=32.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "sort13_weak",
+    "invocation_id": "8a6df6aa596641fd9976a0ecd4110c20",
+    "property": {
+      "class": "assertion",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+      "line": "106",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:106:21 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "102:     // Checking each input value (duplicates may repeat a check) covers the whole\n103:     // multiset: equal input/output lengths leave no room for a novel output value.\n104:     i = 0;\n105:     while i < before.len {\n106:         let query = before.values[i];\n107:         let mut old_count: usize = 0;\n108:         let mut new_count: usize = 0;\n109:         let mut j = 0;\n110:         while j < before.len {",
+    "reviewed_source_argument": "Count outer i<L<=CAP32 bounds before.values[i].",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "sort13_weak",
+    "invocation_id": "8a6df6aa596641fd9976a0ecd4110c20",
+    "property": {
+      "class": "assertion",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+      "line": "111",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "107:         let mut old_count: usize = 0;\n108:         let mut new_count: usize = 0;\n109:         let mut j = 0;\n110:         while j < before.len {\n111:             if before.values[j] == query { old_count += 1; }\n112:             if values[j].value() == query { new_count += 1; }\n113:             j += 1;\n114:         }\n115:         if old_count != new_count {",
+    "reviewed_source_argument": "Inner j<L<=32 bounds before.values[j]; old_count starts0 and is at most j before one increment.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "sort13_weak",
+    "invocation_id": "8a6df6aa596641fd9976a0ecd4110c20",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to add with overflow",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+      "line": "111",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:44 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "107:         let mut old_count: usize = 0;\n108:         let mut new_count: usize = 0;\n109:         let mut j = 0;\n110:         while j < before.len {\n111:             if before.values[j] == query { old_count += 1; }\n112:             if values[j].value() == query { new_count += 1; }\n113:             j += 1;\n114:         }\n115:         if old_count != new_count {",
+    "reviewed_source_argument": "Inner j<L<=32 bounds before.values[j]; old_count starts0 and is at most j before one increment.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "sort13_weak",
+    "invocation_id": "8a6df6aa596641fd9976a0ecd4110c20",
+    "property": {
+      "class": "assertion",
+      "description": "index out of bounds: the length is less than or equal to the given index",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+      "line": "112",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "108:         let mut new_count: usize = 0;\n109:         let mut j = 0;\n110:         while j < before.len {\n111:             if before.values[j] == query { old_count += 1; }\n112:             if values[j].value() == query { new_count += 1; }\n113:             j += 1;\n114:         }\n115:         if old_count != new_count {\n116:             return false;",
+    "reviewed_source_argument": "Entry L=before.len=values.len<=32; j<L bounds values[j]; new_count<=j before one increment.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "sort13_weak",
+    "invocation_id": "8a6df6aa596641fd9976a0ecd4110c20",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to add with overflow",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+      "line": "112",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:45 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "108:         let mut new_count: usize = 0;\n109:         let mut j = 0;\n110:         while j < before.len {\n111:             if before.values[j] == query { old_count += 1; }\n112:             if values[j].value() == query { new_count += 1; }\n113:             j += 1;\n114:         }\n115:         if old_count != new_count {\n116:             return false;",
+    "reviewed_source_argument": "Entry L=before.len=values.len<=32; j<L bounds values[j]; new_count<=j before one increment.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "sort13_weak",
+    "invocation_id": "8a6df6aa596641fd9976a0ecd4110c20",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to add with overflow",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+      "line": "113",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:113:13 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "109:         let mut j = 0;\n110:         while j < before.len {\n111:             if before.values[j] == query { old_count += 1; }\n112:             if values[j].value() == query { new_count += 1; }\n113:             j += 1;\n114:         }\n115:         if old_count != new_count {\n116:             return false;\n117:         }",
+    "reviewed_source_argument": "Inner loop increments only with j<L<=32, hence j+1<=32.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "sort13_weak",
+    "invocation_id": "8a6df6aa596641fd9976a0ecd4110c20",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to add with overflow",
+      "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+      "line": "118",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:118:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "source_context": "114:         }\n115:         if old_count != new_count {\n116:             return false;\n117:         }\n118:         i += 1;\n119:     }\n120:     true\n121: }\n122: ",
+    "reviewed_source_argument": "Outer loop increments only with i<L<=32, hence i+1<=32.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "i_p01_b01_fullu8",
+    "invocation_id": "a5f5055728b34582b6817c28b091e321",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to shift left with overflow",
+      "display_id": "fmt::Arguments::<'_>::from_str.assertion.1",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/fmt/mod.rs",
+      "id": "fmt::Arguments::<'_>::from_str.assertion.1",
+      "line": "820",
+      "location_display": "library/core/src/fmt/mod.rs:820:38 in function fmt::Arguments::<'_>::from_str",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "7096d0bc7616393c39d7013997b2ede9716cabc12e6371f64b2a736f97d73981",
+    "source_context": "816:         // SAFETY: This is the \"static str\" representation of fmt::Arguments; see above.\n817:         unsafe {\n818:             Arguments {\n819:                 template: mem::transmute(s.as_ptr()),\n820:                 args: mem::transmute(s.len() << 1 | 1),\n821:             }\n822:         }\n823:     }\n824: ",
+    "reviewed_source_argument": "Literal shift count1 is below x86_64 usize width64; this is not a no-lost-bits claim.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "i_p01_b01_fullu8",
+    "invocation_id": "a5f5055728b34582b6817c28b091e321",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to subtract with overflow",
+      "display_id": "num::<impl usize>::abs_diff.assertion.1",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+      "id": "num::<impl usize>::abs_diff.assertion.1",
+      "line": "3222",
+      "location_display": "library/core/src/num/uint_macros.rs:3222:21 in function num::<impl usize>::abs_diff",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "450207c51e804eb3e182e6ce8d7e76fa58e950739ad09fbc6c68b888e4c83110",
+    "source_context": "3218:                 // is available and this function is autovectorized for u8's.\n3219:                 (self as i32).wrapping_sub(other as i32).unsigned_abs() as Self\n3220:             } else {\n3221:                 if self < other {\n3222:                     other - self\n3223:                 } else {\n3224:                     self - other\n3225:                 }\n3226:             }",
+    "reviewed_source_argument": "self<other branch gives other>=self for other-self.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "i_p01_b01_fullu8",
+    "invocation_id": "a5f5055728b34582b6817c28b091e321",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to subtract with overflow",
+      "display_id": "num::<impl usize>::abs_diff.assertion.2",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+      "id": "num::<impl usize>::abs_diff.assertion.2",
+      "line": "3224",
+      "location_display": "library/core/src/num/uint_macros.rs:3224:21 in function num::<impl usize>::abs_diff",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "450207c51e804eb3e182e6ce8d7e76fa58e950739ad09fbc6c68b888e4c83110",
+    "source_context": "3220:             } else {\n3221:                 if self < other {\n3222:                     other - self\n3223:                 } else {\n3224:                     self - other\n3225:                 }\n3226:             }\n3227:         }\n3228: ",
+    "reviewed_source_argument": "Else branch gives self>=other for self-other.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "i_p01_b01_fullu8",
+    "invocation_id": "a5f5055728b34582b6817c28b091e321",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to subtract with overflow",
+      "display_id": "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/const_ptr.rs",
+      "id": "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+      "line": "1479",
+      "location_display": "library/core/src/ptr/const_ptr.rs:1479:23 in function ptr::const_ptr::<impl *const ()>::is_aligned_to",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "6ace4c013849ef9f32ea5c1941ad68cc92eb98be92089f5952d85de3ad8ddc45",
+    "source_context": "1475:         if !align.is_power_of_two() {\n1476:             panic!(\"is_aligned_to: align is not a power-of-two\");\n1477:         }\n1478: \n1479:         self.addr() & (align - 1) == 0\n1480:     }\n1481: }\n1482: \n1483: impl<T> *const T {",
+    "reviewed_source_argument": "Normal continuation follows is_power_of_two(align); zero is not a power of two, so align>=1 and align-1 is defined.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "i_p01_b01_fullu8",
+    "invocation_id": "a5f5055728b34582b6817c28b091e321",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to subtract with overflow",
+      "display_id": "<() as slice::sort::shared::smallsort::verify::sorting_s2_span::Span<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>>::ordered.assertion.1",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+      "id": "<() as slice::sort::shared::smallsort::verify::sorting_s2_span::Span<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>>::ordered.assertion.1",
+      "line": "36",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs:36:44 in function <() as slice::sort::shared::smallsort::verify::sorting_s2_span::Span<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>>::ordered",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+    "source_context": "32:     fn ordered(p: *const u8, n: usize) -> bool {\n33:         if n > 32 { return false; }\n34:         let mut i = 1;\n35:         while i < n {\n36:             if unsafe { *p.add(i) < *p.add(i - 1) } { return false; }\n37:             i += 1;\n38:         }\n39:         true\n40:     }",
+    "reviewed_source_argument": "i starts1 and loop executes only with i<n<=32; i>=1 makes i-1 defined.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "i_p01_b01_fullu8",
+    "invocation_id": "a5f5055728b34582b6817c28b091e321",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to add with overflow",
+      "display_id": "<() as slice::sort::shared::smallsort::verify::sorting_s2_span::Span<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>>::ordered.assertion.2",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs",
+      "id": "<() as slice::sort::shared::smallsort::verify::sorting_s2_span::Span<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>>::ordered.assertion.2",
+      "line": "37",
+      "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_s2_span.rs:37:13 in function <() as slice::sort::shared::smallsort::verify::sorting_s2_span::Span<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>>::ordered",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "c25a476d596ecd2b58d6053307f446e1392171f19b0f48398989373f336db1d6",
+    "source_context": "33:         if n > 32 { return false; }\n34:         let mut i = 1;\n35:         while i < n {\n36:             if unsafe { *p.add(i) < *p.add(i - 1) } { return false; }\n37:             i += 1;\n38:         }\n39:         true\n40:     }\n41: }",
+    "reviewed_source_argument": "i<n<=32 before increment gives i+1<=32.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "i_p01_b01_fullu8",
+    "invocation_id": "a5f5055728b34582b6817c28b091e321",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to divide by zero",
+      "display_id": "ub_checks::is_valid_allocation_size.assertion.1",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/ub_checks.rs",
+      "id": "ub_checks::is_valid_allocation_size.assertion.1",
+      "line": "148",
+      "location_display": "library/core/src/ub_checks.rs:148:54 in function ub_checks::is_valid_allocation_size",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "ba00cbb0481643a42823f21ab3dac50e5b074094bbbd716d8fb2bf7a4fe0d502",
+    "source_context": "144: }\n145: \n146: #[inline]\n147: pub(crate) const fn is_valid_allocation_size(size: usize, len: usize) -> bool {\n148:     let max_len = if size == 0 { usize::MAX } else { isize::MAX as usize / size };\n149:     len <= max_len\n150: }\n151: \n152: /// Checks whether the regions of memory starting at `src` and `dst` of size",
+    "reviewed_source_argument": "size==0 arm skips division; else divides only by size!=0. Concrete u8 size=1 independently.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "sort9_v34_b01_len09_real",
+    "invocation_id": "6aac2f2059ca4ce1bf5ab79b97ceb8cf",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to subtract with overflow",
+      "display_id": "num::<impl usize>::abs_diff.assertion.1",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+      "id": "num::<impl usize>::abs_diff.assertion.1",
+      "line": "3222",
+      "location_display": "library/core/src/num/uint_macros.rs:3222:21 in function num::<impl usize>::abs_diff",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "450207c51e804eb3e182e6ce8d7e76fa58e950739ad09fbc6c68b888e4c83110",
+    "source_context": "3218:                 // is available and this function is autovectorized for u8's.\n3219:                 (self as i32).wrapping_sub(other as i32).unsigned_abs() as Self\n3220:             } else {\n3221:                 if self < other {\n3222:                     other - self\n3223:                 } else {\n3224:                     self - other\n3225:                 }\n3226:             }",
+    "reviewed_source_argument": "self<other branch gives other>=self for other-self.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "sort9_v34_b01_len09_real",
+    "invocation_id": "6aac2f2059ca4ce1bf5ab79b97ceb8cf",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to subtract with overflow",
+      "display_id": "num::<impl usize>::abs_diff.assertion.2",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+      "id": "num::<impl usize>::abs_diff.assertion.2",
+      "line": "3224",
+      "location_display": "library/core/src/num/uint_macros.rs:3224:21 in function num::<impl usize>::abs_diff",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "450207c51e804eb3e182e6ce8d7e76fa58e950739ad09fbc6c68b888e4c83110",
+    "source_context": "3220:             } else {\n3221:                 if self < other {\n3222:                     other - self\n3223:                 } else {\n3224:                     self - other\n3225:                 }\n3226:             }\n3227:         }\n3228: ",
+    "reviewed_source_argument": "Else branch gives self>=other for self-other.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "sort9_v34_b01_len09_real",
+    "invocation_id": "6aac2f2059ca4ce1bf5ab79b97ceb8cf",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to subtract with overflow",
+      "display_id": "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/const_ptr.rs",
+      "id": "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+      "line": "1479",
+      "location_display": "library/core/src/ptr/const_ptr.rs:1479:23 in function ptr::const_ptr::<impl *const ()>::is_aligned_to",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "6ace4c013849ef9f32ea5c1941ad68cc92eb98be92089f5952d85de3ad8ddc45",
+    "source_context": "1475:         if !align.is_power_of_two() {\n1476:             panic!(\"is_aligned_to: align is not a power-of-two\");\n1477:         }\n1478: \n1479:         self.addr() & (align - 1) == 0\n1480:     }\n1481: }\n1482: \n1483: impl<T> *const T {",
+    "reviewed_source_argument": "Normal continuation follows is_power_of_two(align); zero is not a power of two, so align>=1 and align-1 is defined.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  },
+  {
+    "root": "sort9_v34_b01_len09_real",
+    "invocation_id": "6aac2f2059ca4ce1bf5ab79b97ceb8cf",
+    "property": {
+      "class": "assertion",
+      "description": "attempt to shift left with overflow",
+      "display_id": "fmt::Arguments::<'_>::from_str.assertion.1",
+      "file": "/home/runner/work/kani/kani/export/library/core/src/fmt/mod.rs",
+      "id": "fmt::Arguments::<'_>::from_str.assertion.1",
+      "line": "820",
+      "location_display": "library/core/src/fmt/mod.rs:820:38 in function fmt::Arguments::<'_>::from_str",
+      "status": "UNREACHABLE"
+    },
+    "source_sha256": "7096d0bc7616393c39d7013997b2ede9716cabc12e6371f64b2a736f97d73981",
+    "source_context": "816:         // SAFETY: This is the \"static str\" representation of fmt::Arguments; see above.\n817:         unsafe {\n818:             Arguments {\n819:                 template: mem::transmute(s.as_ptr()),\n820:                 args: mem::transmute(s.len() << 1 | 1),\n821:             }\n822:         }\n823:     }\n824: ",
+    "reviewed_source_argument": "Literal shift count1 is below x86_64 usize width64; this is not a no-lost-bits claim.",
+    "assessment": "SOURCE_LOCAL_DEFINEDNESS_ARGUMENT_ACCEPTED_AS_SOURCE_REPORTED_ONLY",
+    "independent_AST_MIR_origin": "UNKNOWN",
+    "strict_policy": "REJECT_ALL; proposal DISABLED; no admission"
+  }
+]
