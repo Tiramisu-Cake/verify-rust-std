@@ -1,0 +1,55 @@
+{
+  "review_g0": "24872d1553e6205d7750cef945904ed4a31f21ca",
+  "review_files": 22,
+  "review_manifest_hashes": 21,
+  "candidate_g0": "9c4ce67e06a652413fa72d9678f93962da5a2e1e",
+  "candidate_files": 56,
+  "candidate_manifest_hashes": 55,
+  "closures": [
+    {
+      "id": "W14-B1-01",
+      "original_priority": "P2",
+      "original_blocking": true,
+      "status": "CLOSED_INDEPENDENTLY",
+      "control": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "writer": "finalize validates fixed profile/order via p.validate -> s34_policy.validate_request, then len(request.rows); selected int7 independent of completion count",
+      "reader": "shared collector validates request and exact type(value) is int plus equal selected cardinality before legacy_collect; local/public upload use same gate",
+      "independent_evidence": [
+        "repaired.stdout",
+        "baseline.stdout",
+        "targeted.stderr",
+        "STATIC-VALIDATION.json"
+      ],
+      "observed": "Five final scenarios full7/stopped2/partial2/stopped0/partial0 each accept genuine7 on local+compact-only upload and reject missing/null/bool/string/float/0/6/8 on both; prefix/status preserved; six invalid-inventory operations reject without terminal mutation",
+      "CI": "All4 added regressions are in exact s34_validate.NEW and individual final267 PASS statuses; byte-exact workflow invokes s34_validate.py in18minute Validate step"
+    },
+    {
+      "id": "W14-B1-02",
+      "original_priority": "P3",
+      "original_blocking": false,
+      "status": "CLOSED_INDEPENDENTLY",
+      "control": "d675ef70dc1ada13330efc0990c2e1d6b0d21a5a",
+      "repair": "Standalone expected count derives from validated request inventory7; all other portable/protected/identity checks byte-exact",
+      "independent_evidence": [
+        "targeted.json",
+        "targeted.stderr"
+      ],
+      "author_evidence": [
+        "../bridge-1-r1/validation/standalone-portable.json",
+        "../bridge-1-r1/validation/standalone-portable.stderr"
+      ],
+      "historical_preservation": "old4bd REQUEST_CHANGES, isolatedFAIL7!=9 and original263PASS remain immutable; corrected standalone remains separate from selected267"
+    }
+  ],
+  "disposition": "APPROVE",
+  "current_source_control_tool_heads_trees_parents_clean": "MATCH",
+  "request_sha256": "23c137a331acb92610b3f0cf2192a0e16081dbf0815a35fc3c8d88742c0a1fa3",
+  "workflow_sha256": "317f92181bee9470ddf65471def7154fcacbf1e6fb7913220ca1f154ca915a55",
+  "root_did_not_rerun_fullValidate_or_native": true,
+  "static_check_scope": "committed integrity/currentpins/receipts/invariance; review owns independent countmatrix/patch/gates",
+  "proof_credit": "NONE",
+  "prepared_GO_scope": "ONE_COMBINED_SEVEN_ROOT_ATTEMPT; NO_CI_ACTION",
+  "current_ledger_commit": "ff193cc35690a5daabaa849d412c58d9f286d893",
+  "accounting_changed": false,
+  "artifact_actual_workflow_prefix": "ch8-s3-2-RUN_ID-ATTEMPT"
+}
