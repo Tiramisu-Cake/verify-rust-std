@@ -1,0 +1,68 @@
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs b/kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs
+index 8c353711e61b42479aa47ba7cbeb77a2da16d07e..7f8cc8bcaa8b3fcf7b7b40f2f8c16653edfa3fc0 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs
+@@ -16,6 +16,9 @@
+ use rustc_public::ty::{GenericArgs, RigidTy, Span, Ty, TyKind, UintTy};
+ use tracing::debug;
+ 
++const VOLATILE_LOAD_UNINHABITED: &str =
++    "volatile load of an uninhabited type has undefined behavior";
++
+ pub struct SizeAlign {
+     pub size: Expr,
+     pub align: Expr,
+@@ -89,15 +92,10 @@ pub fn codegen_never_return_intrinsic(&mut self, instance: Instance, span: Span)
+                 span,
+             ),
+             // Reject uninhabited ZST results even when MIR has no return target.
+-            "volatile_load"
+-                if {
+-                    let ret_ty = instance.ty().kind().fn_sig().unwrap().skip_binder().output();
+-                    self.is_zst_stable(ret_ty) && self.layout_of_stable(ret_ty).is_uninhabited()
+-                } =>
+-            {
++            "volatile_load" if self.returns_uninhabited_zst(instance) => {
+                 self.codegen_fatal_error(
+                     PropertyClass::SafetyCheck,
+-                    "volatile load of an uninhabited type has undefined behavior",
++                    VOLATILE_LOAD_UNINHABITED,
+                     span,
+                 )
+             }
+@@ -109,6 +107,11 @@ pub fn codegen_never_return_intrinsic(&mut self, instance: Instance, span: Span)
+         }
+     }
+ 
++    fn returns_uninhabited_zst(&self, instance: Instance) -> bool {
++        let ret_ty = instance.ty().kind().fn_sig().unwrap().skip_binder().output();
++        self.is_zst_stable(ret_ty) && self.layout_of_stable(ret_ty).is_uninhabited()
++    }
++
+     /// c.f. `rustc_codegen_llvm::intrinsic` `impl IntrinsicCallMethods<'tcx>
+     /// for Builder<'a, 'll, 'tcx>` `fn codegen_intrinsic_call` c.f.
+     /// <https://doc.rust-lang.org/std/intrinsics/index.html>
+@@ -1934,7 +1937,7 @@ fn codegen_volatile_load(
+             if self.layout_of_stable(pointee_type).is_uninhabited() {
+                 let validity_check = self.codegen_assert_assume_false(
+                     PropertyClass::SafetyCheck,
+-                    "volatile load of an uninhabited type has undefined behavior",
++                    VOLATILE_LOAD_UNINHABITED,
+                     loc,
+                 );
+                 return Stmt::block(vec![align_check, validity_check], loc);
+diff --git a/tests/kani/Intrinsics/Volatile/load_zst.rs b/tests/kani/Intrinsics/Volatile/load_zst.rs
+index 48c976602ee1ee2f22935473499557ca0bdba0be..dbf5592b69db9672fad1a004ab0a98d9b065ad7e 100644
+--- a/tests/kani/Intrinsics/Volatile/load_zst.rs
++++ b/tests/kani/Intrinsics/Volatile/load_zst.rs
+@@ -13,7 +13,9 @@
+ 
+ #[kani::proof]
+ fn read_volatile_unit_reference() {
+-    assert_eq!(unsafe { ptr::read_volatile(&()) }, ());
++    // Borrow a local as in #5072; `&()` would be promoted to a static.
++    let x = ();
++    assert_eq!(unsafe { ptr::read_volatile(&x) }, ());
+ }
+ 
+ #[kani::proof]

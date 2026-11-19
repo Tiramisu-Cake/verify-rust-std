@@ -1,0 +1,13 @@
+# Merged5159 follow-up on main — one full standard fork CI
+
+**ROOT AGREE** to one initial push of exact NONSKIP `73edbdd8aec2608fae63338cc4a9df7a7c792cbb` to new fork branch `Tiramisu-Cake/kani:fix/volatile-zst-test-followup-main`. Tree `cb5283df00a09435a8c8c3e742a0291aef4615cc`, sole parent/current checked main `fca73e13186782e62d286ef89c43d2fcc4bb3a51`.
+
+Original candidate `a197a690e44c5e997f967757ab9f86a55ee6b0f7` has independent APPROVE `534a9c1a0cc34629b01f619d42080572b4adc5b1`. Root verified both complete touched baseline files equal at original PR parent, merged5159 squash and new main; both final files equal the reviewed candidate; the full-index patch is byte-identical (14 additions/9 deletions, SHA256 `dd82bf1c34192c2a96f51c96e02c584ee186ba680c042874386250bd3d281a68`). Independent temporary-index application of that patch to main yields the exact new tree. No extra worker review is needed for this exact port.
+
+Main contains merged5159 `7227d72887ca832460872c4b53f3ed26241d99e0` and merged5204 `39c08531f7906812d4d0ecfb9efbd62283a4e1b7`. Only intrinsic.rs and load_zst.rs change: local unit source pointer plus the reviewed private helper/identical diagnostic constant. Six positive harnesses and untouched alignment/uninhabited expected fixtures remain. Other source/config/workflow entries equal new main. Toolchain is `nightly-2026-11-19`; source preservation is not a fresh lowering/native regression result.
+
+One full unchanged Kani CI (all five OS regressions, docs, LLBC, benchcomp, perf), Format/Clippy and Deny: twelve native instances. **No manual rerun authorized.** Existing internal workflow behavior stays unchanged. Immediately before the one push, coordinator rechecks exact source/tree/parent/NONSKIP/clean state and unused destination ref. Existing matching refs/runs must be inspected without duplication. Coordinator records item-1 ledger and actual workflow run IDs; root does neither.
+
+The destination branch is absent and no open upstream PR uses that head. New follow-up PR publication, body/comments and later branch pushes remain owner-command only with fresh head/base/review/CI gates. Do not update merged5159 or other open PR branches. Native/compiler/formatter/new-head or fresh pre-fix/fixed runs are NOT_RUN before this campaign. Preserve maintainer/issue-reported evidence as such; refresh Testing from actual results before publication.
+
+After all three workflows terminate, bounded factual intake; no automatic fix/retry/publication and no advance waiver for perf. Request J for5172 remains a separate review/GO; this packet authorizes nothing for that branch.

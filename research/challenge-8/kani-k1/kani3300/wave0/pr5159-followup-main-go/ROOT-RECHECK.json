@@ -1,0 +1,166 @@
+{
+  "schema": "root-pr5159-followup-main-recheck-v1",
+  "checked_at": "2026-11-19T22:47:41.385460+00:00",
+  "checks_passed": 48,
+  "checks": [
+    "Exact ported HEAD/tree/sole main parent",
+    "Correct clean new worktree/branch",
+    "One ported commit on main",
+    "Original reviewed candidate exact parent",
+    "Main includes merged5159",
+    "Main includes merged5204",
+    "Author/committer exact",
+    "Original reviewed message preserved",
+    "NONSKIP/no added co-author trailer",
+    "Only reviewed compiler/test pair changed",
+    "Whole touched baseline files identical before/after upstream merge kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+    "Whole final file equals independently reviewed candidate kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+    "Whole touched baseline files identical before/after upstream merge tests/kani/Intrinsics/Volatile/load_zst.rs",
+    "Whole final file equals independently reviewed candidate tests/kani/Intrinsics/Volatile/load_zst.rs",
+    "Complete full-index reviewed and ported diffs byte-identical including offsets",
+    "Exact14insertions9deletions",
+    "Original reviewed patch replays independently on main to exact candidate tree",
+    "Full candidate whitespace check",
+    "Protected main subtree/file unchanged library",
+    "Protected main subtree/file unchanged kani-driver",
+    "Protected main subtree/file unchanged kani_metadata",
+    "Protected main subtree/file unchanged tools",
+    "Protected main subtree/file unchanged scripts",
+    "Protected main subtree/file unchanged .github",
+    "Protected main subtree/file unchanged Cargo.toml",
+    "Protected main subtree/file unchanged Cargo.lock",
+    "Protected main subtree/file unchanged rust-toolchain.toml",
+    "Six positive harnesses and intended local-unit volatile load retained",
+    "Reviewed constant/private helper ported exactly",
+    "Committed package pr5159-followup",
+    "Package exact committed bytes research/challenge-8/kani-k1/kani3300/wave0/pr5159-followup/HANDOFF.md",
+    "Package exact committed bytes research/challenge-8/kani-k1/kani3300/wave0/pr5159-followup/PR-BODY.md",
+    "Committed package pr5159-followup-review",
+    "Package exact committed bytes research/challenge-8/kani-k1/kani3300/wave0/pr5159-followup-review/HANDOFF.md",
+    "Committed package pr5159-followup-main",
+    "Package exact committed bytes research/challenge-8/kani-k1/kani3300/wave0/pr5159-followup-main/HANDOFF.md",
+    "Package exact committed bytes research/challenge-8/kani-k1/kani3300/wave0/pr5159-followup-main/PR-BODY.md",
+    "Independent APPROVE exact original candidate; transferred by full file/patch equality",
+    "New branch matches standard push trigger .github/workflows/kani.yml",
+    "New branch matches standard push trigger .github/workflows/format-check.yml",
+    "New branch matches standard push trigger .github/workflows/deny.yml",
+    "Full five-OS regressions",
+    "Full twelve standard native instances",
+    "Connected5159 merged exact squash",
+    "Connected5204 merged exact squash",
+    "Connected main exact port parent at recheck",
+    "New fork ref absent; no open PR for new head",
+    "New immutable GO output absent"
+  ],
+  "source": "73edbdd8aec2608fae63338cc4a9df7a7c792cbb",
+  "tree": "cb5283df00a09435a8c8c3e742a0291aef4615cc",
+  "sole_parent": "fca73e13186782e62d286ef89c43d2fcc4bb3a51",
+  "identity": [
+    "Tiramisu-Cake <igkharin@gmail.com>",
+    "Tiramisu-Cake <igkharin@gmail.com>"
+  ],
+  "message": "Exercise local ZST volatile reads and simplify load diagnostics\n\n",
+  "changed_paths": [
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+    "tests/kani/Intrinsics/Volatile/load_zst.rs"
+  ],
+  "source_bindings": {
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs": {
+      "baseline_blob": "8c353711e61b42479aa47ba7cbeb77a2da16d07e",
+      "baseline_sha256": "09a6e3f017471549fc5c7a45471a321157339409c42a29471f0bd3f8f035bed7",
+      "reviewed_and_ported_blob": "7f8cc8bcaa8b3fcf7b7b40f2f8c16653edfa3fc0",
+      "reviewed_and_ported_sha256": "ead046b3322aaea4118c29d80bb7b23c376f75e2720f7552731bd6798f0a9017"
+    },
+    "tests/kani/Intrinsics/Volatile/load_zst.rs": {
+      "baseline_blob": "48c976602ee1ee2f22935473499557ca0bdba0be",
+      "baseline_sha256": "02b2d69899cd8e2e4ddd0c34713984f319dfc038855d6f26d8ac154034eb4756",
+      "reviewed_and_ported_blob": "dbf5592b69db9672fad1a004ab0a98d9b065ad7e",
+      "reviewed_and_ported_sha256": "e468c3790eadca27e9f7b6a434fdc25f5ea7e0cdc8044c4b8a39230eb2e015cd"
+    }
+  },
+  "reviewed_and_ported_patch_sha256": "dd82bf1c34192c2a96f51c96e02c584ee186ba680c042874386250bd3d281a68",
+  "temporary_index_replay_tree": "cb5283df00a09435a8c8c3e742a0291aef4615cc",
+  "package_git_bindings": {
+    "pr5159-followup": {
+      "commit": "60d3f103391ca3740efc3cf9924fbb3c97156132",
+      "files": {
+        "research/challenge-8/kani-k1/kani3300/wave0/pr5159-followup/HANDOFF.md": {
+          "sha256": "206924e0704a2d977d41408562a78a0892b219b402f9f6b43668e29cb5c570c8",
+          "bytes": 7550,
+          "git_blob": "53a8d0794035c6edc211e98a099b21a77d38f28f"
+        },
+        "research/challenge-8/kani-k1/kani3300/wave0/pr5159-followup/PR-BODY.md": {
+          "sha256": "28ceb5c632d7f40e79b9451b08bd6a6388af95f388cddec98daf7f58d5ec99c8",
+          "bytes": 620,
+          "git_blob": "668ac54244ab728a2373ecb87067ecab731c4d1c"
+        }
+      }
+    },
+    "pr5159-followup-review": {
+      "commit": "534a9c1a0cc34629b01f619d42080572b4adc5b1",
+      "files": {
+        "research/challenge-8/kani-k1/kani3300/wave0/pr5159-followup-review/HANDOFF.md": {
+          "sha256": "1a37a93db329c5b372a71a1d3ed8dafba59ac19da2f6bdb1ab16eae1f0c9127c",
+          "bytes": 10515,
+          "git_blob": "8c9e6eb272c90616de328a906eb1a320aee131e6"
+        }
+      }
+    },
+    "pr5159-followup-main": {
+      "commit": "6610ea8960252313aa87ed9566eaee282ce7c165",
+      "files": {
+        "research/challenge-8/kani-k1/kani3300/wave0/pr5159-followup-main/HANDOFF.md": {
+          "sha256": "ea8a8b154b57c1a47c65ce245552d2e9e96d0e4916ae578c155870b0ce2d0a7a",
+          "bytes": 5297,
+          "git_blob": "a2d48251a5d4c52ef7d93127c528bb22cca1c284"
+        },
+        "research/challenge-8/kani-k1/kani3300/wave0/pr5159-followup-main/PR-BODY.md": {
+          "sha256": "82178bf2b9bea24c5d91e430aeab9d285b33391cf5fc0780951112e011d7bfd4",
+          "bytes": 603,
+          "git_blob": "6ec72f5efc9bea976f2e9fa59fc19e175b66da18"
+        }
+      }
+    }
+  },
+  "connected_snapshot": {
+    "checked_at": "2026-11-19T22:45:52.079Z",
+    "pr5159": {
+      "number": 5159,
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-11-19T21:03:08Z",
+      "merge_commit_sha": "7227d72887ca832460872c4b53f3ed26241d99e0",
+      "head_sha": "d0ba1c2cb381965c215f4cb7b2e32d028ee7e088"
+    },
+    "pr5204": {
+      "number": 5204,
+      "state": "closed",
+      "merged": true,
+      "merged_at": "2026-11-19T19:44:09Z",
+      "merge_commit_sha": "39c08531f7906812d4d0ecfb9efbd62283a4e1b7",
+      "head_sha": "b3019ab3f9c83a25cd4d870e49e49121b3327bb1"
+    },
+    "main_ref": {
+      "ref": "refs/heads/main",
+      "node_id": "MDM6UmVmMzUxODgyMTY0OnJlZnMvaGVhZHMvbWFpbg==",
+      "url": "https://api.github.com/repos/model-checking/kani/git/refs/heads/main",
+      "object": {
+        "sha": "fca73e13186782e62d286ef89c43d2fcc4bb3a51",
+        "type": "commit",
+        "url": "https://api.github.com/repos/model-checking/kani/git/commits/fca73e13186782e62d286ef89c43d2fcc4bb3a51"
+      }
+    },
+    "new_ref": {
+      "error": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}",
+      "error_code": "NOT_FOUND",
+      "error_data": {
+        "message": "Not Found",
+        "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+        "status": "404"
+      }
+    },
+    "open_prs_for_new_head": [],
+    "scope": "Connected PR/ref metadata only; no logs or native verification"
+  },
+  "limits": "No current native compiler/MIR/formatter result or base/fixed runtime reproduction is claimed. Source review transferred only through exact patch/baseline/whole-file equality; new toolchain requires actual CI."
+}
