@@ -1,0 +1,72 @@
+{
+  "schema": "open-pr-cleanup-full-ci-go-v1",
+  "root_consent": "AGREE_ONE_FULL_STANDARD_CAMPAIGN",
+  "decision_at": "2026-11-19T17:02:09.127377+00:00",
+  "pr": 5183,
+  "source_commit": "d1f1bca80e46f9abe53958147af74de057e6847f",
+  "tree": "436debfa7b08fc04fe108f07a6bcdbded8cb0d9f",
+  "sole_parent": "19a42e1a21ae6f079cf68637782b4f16c345816b",
+  "author_package": "a394355e966976503113ce76a974bbb487a132fb",
+  "independent_review": "7c07bd0346458557d3082be64438a56e778a418f",
+  "fork": "Tiramisu-Cake/kani",
+  "new_branch": "cleanup/pr5183-20261119",
+  "publish_exact_source_commit": true,
+  "source_non_skip": true,
+  "sibling_required": false,
+  "full_standard": {
+    "expected_native_instances": 12,
+    "kani_regression_os": [
+      "macos-15-intel",
+      "ubuntu-22.04",
+      "ubuntu-24.04",
+      "macos-15",
+      "ubuntu-24.04-arm"
+    ],
+    "kani_other": [
+      "docs",
+      "LLBC",
+      "benchcomp",
+      "perf"
+    ],
+    "format": [
+      "format",
+      "clippy"
+    ],
+    "deny": [
+      "audit"
+    ],
+    "workflow_bindings": {
+      ".github/workflows/kani.yml": {
+        "sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+        "git_blob": "3e34d8ac3c0844d9ac9409790e7cb0a669381dad"
+      },
+      ".github/workflows/format-check.yml": {
+        "sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8",
+        "git_blob": "9d21eeb4569234292401f90c66c833f6960f06fb"
+      },
+      ".github/workflows/deny.yml": {
+        "sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf",
+        "git_blob": "c54ce6bbcb075df881984f714589011c4b88d5e4"
+      }
+    }
+  },
+  "attempts_authorized": 1,
+  "manual_rerun_authorized": false,
+  "internal_workflow_behavior": "Preserve unchanged, including existing internal retry steps",
+  "pre_push_gate": [
+    "Recheck exact source/tree/sole parent/NONSKIP identity",
+    "Recheck new ref absent; if branch/campaign exists, inspect without duplicate push/launch",
+    "Push exact source commit once to new cleanup branch, never g0 packaging commit",
+    "Coordinator records item-1 ledger row and actual workflow run IDs"
+  ],
+  "original_pr_branch": "fix/autoharness-uninit-reset",
+  "original_pr_branch_push": "NOT_AUTHORIZED; later owner command plus fresh review/CI/head gates",
+  "pr_body_comments_publication": "NOT_AUTHORIZED",
+  "source_scope": "Only two target-banner lines inserted in one expected file. Both original semantic groups, separate Kani invocations/exit checks, source bodies and whole compiler/library/workflow/runner trees unchanged.",
+  "oracle_limit": "Inherited substring matcher does not enforce independent-group order, occurrence counts or per-process/property attribution. Separate processes do not establish same-process reset.",
+  "native_before_dispatch": "NOT_RUN; source/static review does not establish runtime PASS",
+  "actual_future_head": "d1f1bca80e46f9abe53958147af74de057e6847f",
+  "actual_future_run_ids": "UNKNOWN_UNTIL_COORDINATOR_DISPATCH",
+  "postrun": "After all three workflows terminal, bounded factual intake preserving exact expected semantic outcomes and source-vs-suite-vs-named evidence limits. Historical perf failures are not an advance waiver.",
+  "root_actions": "Read-only Git/Python/source/native metadata plus local GO files; no push/CI/rerun/accounting."
+}

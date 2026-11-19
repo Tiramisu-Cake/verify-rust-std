@@ -1,0 +1,103 @@
+{
+  "schema": "root-cleanup-recheck-v1",
+  "checked_at": "2026-11-19T17:02:09.127377+00:00",
+  "checks_passed": 37,
+  "checks": [
+    "Exact HEAD",
+    "Worktree clean",
+    "Exact local branch",
+    "Exact tree",
+    "Exact sole parent",
+    "Exactly one cleanup commit",
+    "Source NONSKIP",
+    "Only one expected file changed; every other tree entry frozen",
+    "Exactly two named-banner additions; all six original semantic lines preserved",
+    "Expected exact SHA256",
+    "Whole protected subtree frozen kani-compiler",
+    "Whole protected subtree frozen kani-driver",
+    "Whole protected subtree frozen library",
+    "Whole protected subtree frozen scripts",
+    "Whole protected subtree frozen tools",
+    "Whole protected subtree frozen .github",
+    "Retained fixture exact Git blob main.rs",
+    "Retained fixture exact Git blob run.sh",
+    "Retained fixture exact Git blob config.yml",
+    "Shell mode executable unchanged",
+    "Pinned source contains exact renderer template and unbounded suffix",
+    "Two separate invocations and precise negative/positive process exit checks retained",
+    "Diff whitespace check",
+    "Committed author package",
+    "Package exact committed bytes research/challenge-8/kani-k1/kani3300/wave0/pr5183-cleanup/FINDINGS.md",
+    "Package exact committed bytes research/challenge-8/kani-k1/kani3300/wave0/pr5183-cleanup/HANDOFF.md",
+    "Package exact committed bytes research/challenge-8/kani-k1/kani3300/wave0/pr5183-cleanup/PROPOSED-PR.md",
+    "Package exact committed bytes research/challenge-8/kani-k1/kani3300/wave0/pr5183-cleanup/STATIC-CHECKS.json",
+    "Package exact committed bytes research/challenge-8/kani-k1/kani3300/wave0/pr5183-cleanup/STEP1.json",
+    "Committed review package",
+    "Package exact committed bytes research/challenge-8/kani-k1/kani3300/wave0/pr5183-cleanup-review/HANDOFF.md",
+    "Independent committed APPROVE binds exact candidate",
+    "Unchanged standard workflow .github/workflows/kani.yml",
+    "Unchanged standard workflow .github/workflows/format-check.yml",
+    "Unchanged standard workflow .github/workflows/deny.yml",
+    "Connected original PR exact old head/ref/repo",
+    "Connected new cleanup branch absent",
+    "New immutable GO directory absent"
+  ],
+  "source_commit": "d1f1bca80e46f9abe53958147af74de057e6847f",
+  "tree": "436debfa7b08fc04fe108f07a6bcdbded8cb0d9f",
+  "sole_parent": "19a42e1a21ae6f079cf68637782b4f16c345816b",
+  "changed_paths": [
+    "tests/script-based-pre/autoharness_uninit_reset/expected"
+  ],
+  "package_git_bindings": {
+    "author": {
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5183-cleanup/FINDINGS.md": {
+        "sha256": "8ff02e6f20af582ac1446dd6a46fffc8f1915ff5a99825c30de473d6a2f16253",
+        "bytes": 5663,
+        "git_blob": "cfb225dc8c1276dd182c9a9063bd5b01f210405b"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5183-cleanup/HANDOFF.md": {
+        "sha256": "746fd7e0d519e43186f950fcdaf4a0ce2b3744dd334376093d081bf099412b36",
+        "bytes": 4705,
+        "git_blob": "1f34896336405675315abe2f77e492877c046e78"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5183-cleanup/PROPOSED-PR.md": {
+        "sha256": "cb5190b5be2fe5255f9af335bc15b4b250d4d5340bd0c17c6b927f9e56603319",
+        "bytes": 977,
+        "git_blob": "77d293c9a2f43b9f3dd8dc23f899b2fa8a6c132e"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5183-cleanup/STATIC-CHECKS.json": {
+        "sha256": "9bbd4bc039472ec70108a9c843d7526fc92e7834fe75c71c9d86c1cd8df12bf0",
+        "bytes": 2637,
+        "git_blob": "9e10947429cafdb05442c0bc323e2085df3ffca8"
+      },
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5183-cleanup/STEP1.json": {
+        "sha256": "ed1af51c2cc364af42ac97c5fc055700bdb02e674fdb7cbf0f4d303bf6a142e6",
+        "bytes": 2303,
+        "git_blob": "562e14c1172102f85bd3001436a9d3ab82fb9772"
+      }
+    },
+    "review": {
+      "research/challenge-8/kani-k1/kani3300/wave0/pr5183-cleanup-review/HANDOFF.md": {
+        "sha256": "2277863d747e73ae03db882458fd8a36f1dca92daafafaf5a16dec655fac489b",
+        "bytes": 9719,
+        "git_blob": "155e409529b1bde057949f457d735f8d9182158c"
+      }
+    }
+  },
+  "connected_checked_at": "2026-11-19T17:01:03.473Z",
+  "connected_pr": {
+    "state": "open",
+    "head": "19a42e1a21ae6f079cf68637782b4f16c345816b",
+    "ref": "fix/autoharness-uninit-reset"
+  },
+  "connected_new_branch": {
+    "error": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}",
+    "error_code": "NOT_FOUND",
+    "error_data": {
+      "message": "Not Found",
+      "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+      "status": "404"
+    }
+  },
+  "limits": "Static source/Git/metadata recheck only; native regression/compiler/CI NOT_RUN by root. No evidence/history/ledger rewrite."
+}
