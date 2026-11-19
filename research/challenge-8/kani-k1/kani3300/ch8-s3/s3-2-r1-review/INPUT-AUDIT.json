@@ -1,0 +1,153 @@
+{
+  "schema": "s3-2-r1-independent14-input-audit-v1",
+  "status": "PASS",
+  "package": "792ca31fa8e5e80380498d9903d9115cdae42d40",
+  "root_observed_head": "d8f4b4a5f9de694c5c47e8e498b251e17f49ba1f",
+  "identities": {
+    "source": {
+      "sha": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+      "tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+      "worktree": "/root/verify-rust-std-ch8-s3-2-r1-w13"
+    },
+    "control": {
+      "sha": "775574eb2f361ef90eade30330ff0d608530287f",
+      "tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+      "worktree": "/root/kani-ch8-s3-2-r1-control-w13"
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "worktree": "/root/kani-upstream-ch8-s1"
+    }
+  },
+  "checks": {
+    "package_inventory": 3,
+    "immutable_package_bytes": 36,
+    "package_manifest": 35,
+    "clean_pins": 6,
+    "sole_parents": 2,
+    "frozen_source_delta": 1,
+    "protected_modules": 14,
+    "request_workflow": 4,
+    "payload_inventory": 3,
+    "payload_hashes": 84,
+    "source_hashes": 10,
+    "source_fixture": 37,
+    "dependency_bindings": 10,
+    "dependency_blobs": 10,
+    "dependency_current_bytes": 10,
+    "plan_dependency_inventory": 1,
+    "plan_dependencies": 24,
+    "plan_citations": 15,
+    "issued_review_task": 1,
+    "citation_files": 8,
+    "citation_ranges": 8,
+    "init_boundary_citations": 16,
+    "eight_row_binding": 2,
+    "fixed_flags": 2,
+    "scope_classification": 9,
+    "row_map_binding": 8,
+    "literal_coordinates": 58,
+    "root_coordinates": 16,
+    "literal_inventory": 1,
+    "gate_identity": 4,
+    "gate_hash_binding": 78,
+    "gate_request_binding": 4,
+    "gate_contexts": 4,
+    "cfg_projections": 1,
+    "patch_binding": 6,
+    "patch_tree_replays": 6,
+    "shallow_graph_reachability": 3,
+    "validate_receipt": 3,
+    "validate_transcript": 3,
+    "validate_margin": 1,
+    "domain_arithmetic": 2,
+    "cap_arithmetic": 1,
+    "fixed_caps": 1,
+    "plan_caps_flags": 1,
+    "remaining_matrix_inventory": 1,
+    "caller_context_arithmetic": 1,
+    "cost_metric_distinction": 2,
+    "cover_premise_witnesses": 6
+  },
+  "total_assertions": 562,
+  "package_files": 36,
+  "manifest_hashes": 35,
+  "patch_replays": [
+    {
+      "name": "SOURCE-PARENT",
+      "tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+      "status": "MATCH"
+    },
+    {
+      "name": "SOURCE-DELTA",
+      "tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+      "status": "MATCH"
+    },
+    {
+      "name": "SOURCE-STOCK",
+      "tree": "ac51d04e17b4bf53db378889561d21399cc6782e",
+      "status": "MATCH"
+    },
+    {
+      "name": "CONTROL-PARENT",
+      "tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+      "status": "MATCH"
+    },
+    {
+      "name": "CONTROL-DELTA",
+      "tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+      "status": "MATCH"
+    },
+    {
+      "name": "CONTROL-STOCK",
+      "tree": "ef1cf70982121cd1e212d4ddb324cc302d0ac219",
+      "status": "MATCH"
+    }
+  ],
+  "ancestry": [
+    {
+      "case": "source",
+      "depth": 5,
+      "required_commits_reachable": true,
+      "scope": "Local commit graph, no new clone or remote-fetch claim"
+    },
+    {
+      "case": "control",
+      "depth": 7,
+      "required_commits_reachable": true,
+      "scope": "Local commit graph, no new clone or remote-fetch claim"
+    },
+    {
+      "case": "tool",
+      "depth": 2,
+      "required_commits_reachable": true,
+      "scope": "Local commit graph, no new clone or remote-fetch claim"
+    }
+  ],
+  "literal_sites": 58,
+  "cover_sites": 32,
+  "coverage": {
+    "insertion": [
+      32,
+      256
+    ],
+    "allinit_merge": [
+      1,
+      1122
+    ],
+    "partial_provider_contexts_closed": 0
+  },
+  "final_validate": {
+    "source_reported_tests": 227,
+    "new_executions": 0,
+    "receipt_and_transcript_audited": true,
+    "elapsed_seconds": 569.6796653000638,
+    "margin": 1.8958022653505429
+  },
+  "limits": [
+    "Static Git/source/receipt audit; no native, compiler, verifier or CI execution",
+    "Transcript does not independently establish elapsed runtime or historical invocation uniqueness",
+    "No AST/MIR/provenance or independent initializedness/formal proof credit"
+  ]
+}

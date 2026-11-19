@@ -1,0 +1,66 @@
+{
+  "schema": "s3-2-r1-independent14-validation-v1",
+  "status": "PASS",
+  "verdict": "APPROVE",
+  "blocking_findings": 0,
+  "package": "792ca31fa8e5e80380498d9903d9115cdae42d40",
+  "review_task": "be42098995b302cade928d8caf6135adf7a1cc0d",
+  "boundary": "20eb52b5efe45a89491dced2aab34d40dbe371f7",
+  "continuation": "9d8d40db277f61e46a3b7890cc9bf6941df72e13",
+  "reviewer_checks": {
+    "command": [
+      "python3",
+      "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-2-r1-review/INPUT-AUDIT.py"
+    ],
+    "final_static_assertions": 562,
+    "patch_replays": 6,
+    "native_executions": 0,
+    "final_Validate_reruns": 0,
+    "broad_suite_reruns": 0,
+    "source_control_preflight_reruns": 0,
+    "CI_actions": 0,
+    "subagents": 0
+  },
+  "author_final_validate_audited": {
+    "source_reported_tests": 227,
+    "new_executions": 0,
+    "receipt_and_transcript_audited": true,
+    "elapsed_seconds": 569.6796653000638,
+    "margin": 1.8958022653505429
+  },
+  "manual_review": {
+    "new_harness_and_actual_kernel_contract_dependencies": "PASS_WITH_SCOPE_LIMITS_RETAINED",
+    "unchanged_production_models_allcfg": "PASS_WITH_SCOPE_LIMITS_RETAINED",
+    "exact_eight_row_order_geometry_fullbyte_frames": "PASS_WITH_SCOPE_LIMITS_RETAINED",
+    "literal_roles_covers_unwinds_and_unknown_native_counts": "PASS_WITH_SCOPE_LIMITS_RETAINED",
+    "init_oracle_expressibility_and_diagnostic_no_promotion": "PASS_WITH_SCOPE_LIMITS_RETAINED",
+    "all_plan_partition_provider_caller_init_cost_budget_coverage_premises": "PASS_WITH_SCOPE_LIMITS_RETAINED",
+    "source_gates_new_imports_active_unselected_providers": "PASS_WITH_SCOPE_LIMITS_RETAINED",
+    "legacy_strictness_shared_schema_routing": "PASS_WITH_SCOPE_LIMITS_RETAINED",
+    "canonical_E0_and_protected_source_compile_writers_readers_allstates": "PASS_WITH_SCOPE_LIMITS_RETAINED",
+    "cutoff_cleanup_local_continue_global_stop": "PASS_WITH_SCOPE_LIMITS_RETAINED",
+    "portable_seals_and_completed_prefix": "PASS_WITH_SCOPE_LIMITS_RETAINED",
+    "strict_U_guard_location_status_complete_inventories": "PASS_WITH_SCOPE_LIMITS_RETAINED",
+    "targeted_service_paths_and_failed_precursors": "PASS_WITH_SCOPE_LIMITS_RETAINED",
+    "patches_shallow_graph_ancestry_request_workflow_payload_hashes": "PASS_WITH_SCOPE_LIMITS_RETAINED"
+  },
+  "test_execution_scope": "Audit of exact retained227-test receipts/transcripts and selected test code; no native or test-suite execution by reviewer",
+  "reviewer_written_files": [
+    "REVIEW.md",
+    "FINDINGS.json",
+    "INPUT-AUDIT.py",
+    "INPUT-AUDIT.json",
+    "VALIDATION.json",
+    "HANDOFF.md",
+    "MANIFEST.sha256"
+  ],
+  "candidate_changes": false,
+  "prior_packet_changes": false,
+  "publication": false,
+  "accounting_or_reservation_change": false,
+  "proof_credit": "NONE",
+  "qualified_new_leaves": 0,
+  "closed_proof_obligations": 0,
+  "independent_B1_B2_credit": 0,
+  "CI_GO": false
+}
