@@ -1,0 +1,85 @@
+{
+  "schema": "pr5172-merge-r2-owner-package-disposition-v1",
+  "decided_at": "2026-11-19T23:41:50.575800+00:00",
+  "root_decision": "AGREE_PREPARE_OWNER_PUSH_PACKAGE_WITH_EXPLICIT_PARTIAL_CI",
+  "source": "7e53bc65394dd1af675545c428ca2ff29e7a6a27",
+  "source_go": "e1f093d1200551a1faa46cefa7a464c9c54cd703",
+  "run": 44633285784,
+  "attempt": 1,
+  "native_conclusion": "failure",
+  "kani_jobs": {
+    "success": 5,
+    "failure": 1,
+    "cancelled": 3
+  },
+  "cancelled_platforms": [
+    "ubuntu-22.04",
+    "macos-15-intel",
+    "macos-15"
+  ],
+  "format_and_deny": "success",
+  "owner_package_ready": true,
+  "additional_fork_ci_required": false,
+  "new_CI_or_rerun_authorized": false,
+  "failure_signature_provenance": "COORDINATOR_REPORTED; exact check-summary routes unavailable, no raw logs read",
+  "upstream_occurrences": "Native metadata confirms upstream regression failures in both reported queue runs; precise codegen_cache symptom supplied by coordinator",
+  "operational_classification": "Intermittent upstream regression/statistics-output failure is reasonable working classification; root cause UNKNOWN",
+  "source_cache_bindings": {
+    "tests/script-based-pre/codegen_cache": {
+      "git_tree": "769427a56a2c4f1a95d54638a8f274c56bcd717d",
+      "unchanged_from_merged_pr_head": true
+    },
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/cache": {
+      "git_tree": "56bdbc321db3756065b2be9782e506d4035d92c3",
+      "unchanged_from_merged_pr_head": true
+    }
+  },
+  "pr_head": "d91aeeea94a8a4a697f9416fafbe6cf0f8816801",
+  "auto_merge": null,
+  "upstream_pending": [
+    {
+      "id": 44623432719,
+      "name": "Release Bundle",
+      "event": "pull_request",
+      "head_sha": "d91aeeea94a8a4a697f9416fafbe6cf0f8816801",
+      "head_branch": "fix/kani-uninit-unresolved-call-v3",
+      "path": ".github/workflows/release.yml",
+      "run_attempt": 2,
+      "status": "queued",
+      "conclusion": null,
+      "created_at": "2026-11-19T21:54:31Z",
+      "updated_at": "2026-11-19T21:54:44Z"
+    }
+  ],
+  "publication_authorized": false,
+  "publication_gates": [
+    "Owner command",
+    "Recheck exact PR head, candidate and no force; merge-only normal push",
+    "All upstream workflows terminal/idle, including queued release; root does not cancel",
+    "Auto-merge disabled or explicit owner steering for alternative follow-up",
+    "Truthful Testing: Kani FAILURE, one failed regression and three cancelled platforms; earlier-head successes stay historical"
+  ],
+  "issue_recommendation": {
+    "prepare": true,
+    "publish": false,
+    "searches": 7,
+    "no_matching_duplicate_found": true,
+    "unrelated_hits": [
+      1719,
+      3218,
+      4656
+    ],
+    "draft": "ISSUE-DRAFT.md",
+    "root_cause": "UNKNOWN; TLS destructor, build profile/env, cache initialization and output capture remain hypotheses",
+    "owner_command_required": true
+  },
+  "issue5206_correction": {
+    "run": 44616139446,
+    "attempt": 2,
+    "native_conclusion": "failure",
+    "jobs": "8 success,1 cancelled(macOS15/no runner)",
+    "wording": "Previously failing regressions passed on retry; macOS15 not validated; carried-forward non-regression jobs retain old execution timestamps"
+  },
+  "precursor": "First helper expected literal Drop for CodegenCache; actual definition is a macro impl Drop for $name. Guard corrected after source inspection; failure occurred before any packet writes or commit; no source change.",
+  "root_actions": "Read-only connected metadata/search and Git/source; local decision/draft only. No native/compiler/CI/raw logs/push/PR/issue/comment/accounting."
+}
