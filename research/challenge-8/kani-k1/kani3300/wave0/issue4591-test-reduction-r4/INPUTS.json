@@ -1,0 +1,154 @@
+{
+  "schema": "kani-4591-reviewed-test-reduction-inputs-v1",
+  "status": "AUTHORIZED_OFFLINE_IMPLEMENTATION",
+  "authority": "User13:55 accepts COVERAGE-EDITS.md, explicitly/new W15 implementation then SAME current W11 review; owner PR text remains coordinator-owned.",
+  "base_task_g0": "58a74e7436c8214652708bda480f1f9eccd4ad5c",
+  "review_g0": "2ed6d7064cd4e30f9337f0d6d288bd70baa41a3b",
+  "review_files": {
+    "HANDOFF.md": {
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-slop-review/HANDOFF.md",
+      "sha256": "42efc23ddf0d6ef66762fe035d54bd4b458c516ba6c4feaefb2329557621711d",
+      "bytes": 3177
+    },
+    "REPORT.md": {
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-slop-review/REPORT.md",
+      "sha256": "34ea0d6dd7011efeadc266fe3eb901a522cbec2d5e85044814c4926daa4daa38",
+      "bytes": 11518
+    },
+    "COVERAGE-EDITS.md": {
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-slop-review/COVERAGE-EDITS.md",
+      "sha256": "7d2c2e4b4a5e05ed36f5313a7443dfbeada14444b831e751e1631adc25dc34fc",
+      "bytes": 16771
+    },
+    "INPUTS.json": {
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-slop-review/INPUTS.json",
+      "sha256": "22ba31e4464927edb8faac4520bf4ce071daf4369d97e5f34b4646d882429fe8",
+      "bytes": 8380
+    },
+    "MANIFEST.json": {
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-slop-review/MANIFEST.json",
+      "sha256": "abaaa8590d7af3106e1598338dc4c61fe71981054ab7453e7a0bb601c60bce4a",
+      "bytes": 862
+    }
+  },
+  "review_disposition": "REQUEST_CHANGES",
+  "root_decision": "AGREE_IMPLEMENT_EXACT_COVERAGE_EDITS_NO_COMPILER_CHANGES",
+  "source": {
+    "repo": "/root/kani-issue4591-singlecall-r3-w15",
+    "base": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "published_head": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+    "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+    "sole_parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "local_HEAD": "f82934ca97caaa1270d5279054aa950173868be5",
+    "local_same_tree": true,
+    "remote_ref": "Tiramisu-Cake/kani:fix/stub-contracted-function",
+    "remote_ref_root_checked_matches": "031fc085cd4373b5fc93a55128d5a69fdbd88df1"
+  },
+  "compiler_paths_frozen": {
+    "kani-compiler/src/kani_middle/transform/contracts.rs": "c8433cc928a57285e3d7d117a4b8d5187db2ec6ebcec819c4b6744612470bf91",
+    "kani-compiler/src/kani_middle/transform/mod.rs": "cee27768c3a4a4ad71c75d411e237d4aadedf9ff20a5962d4e93ecbf660c8ee9",
+    "kani-compiler/src/kani_middle/transform/stubs.rs": "04dd329ee7cf8b35d38a9c62d2ba9b853d1b7009e4cfd6cfcc10468b63d090b2"
+  },
+  "original_test_paths": {
+    "tests/expected/function-contract/ordinary_stub_fail.expected": "7f7e65b0abbae439e1db2860a1b4e61c7592d5fa7e4ecc84f6fb5cc0b3b395b4",
+    "tests/expected/function-contract/ordinary_stub_fail.rs": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+    "tests/expected/function-contract/ordinary_stub_issue_4591.expected": "202199fd0ac8bb6737fc34b34552b9491d4bf08c412555f60262fe71a9aa0c28",
+    "tests/expected/function-contract/ordinary_stub_issue_4591.rs": "e65245e314ce01d894bc5b774e72df7cb1eb17b4bdf07939e037d61f9d41a8a0",
+    "tests/expected/function-contract/ordinary_stub_overlap.expected": "00c63da23734458d9ccd008db73852f2a30694d694adacd5f2e8d6b8c05a5dd0",
+    "tests/expected/function-contract/ordinary_stub_overlap.rs": "21186f51f8260becc29d2a762dfba67ad504d44f3f2e34a85f62ba26425b980b",
+    "tests/kani/FunctionContracts/ordinary_stub.rs": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+    "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs": "866d870c3ff3670f4a75401c18fa6b17e0a683de508e826a90bf4d8ef7b4b171"
+  },
+  "protected_trees": {
+    ".github/workflows": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0",
+    "scripts": "17ce41a6b9744224defd3a87247736f82992e550",
+    "library": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932"
+  },
+  "candidate": {
+    "worktree": "/root/kani-issue4591-test-reduction-r4-w15",
+    "local_branch": "work/issue4591-test-reduction-r4-w15",
+    "sole_parent": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+    "isolated_from_frozen_repo": true,
+    "frozen_repository": "/root/kani-issue4591-singlecall-r3-w15",
+    "compiler_tree": "712d5307f14c5ad079ce676a74ef470e9316361a",
+    "allowed_changed_paths": [
+      "tests/expected/function-contract/ordinary_stub_fail.expected",
+      "tests/expected/function-contract/ordinary_stub_fail.rs",
+      "tests/expected/function-contract/ordinary_stub_overlap.expected",
+      "tests/expected/function-contract/ordinary_stub_overlap.rs",
+      "tests/kani/FunctionContracts/ordinary_stub.rs",
+      "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs"
+    ],
+    "must_retain_byte_exact": [
+      "tests/expected/function-contract/ordinary_stub_issue_4591.rs",
+      "tests/expected/function-contract/ordinary_stub_issue_4591.expected"
+    ],
+    "output": "kani3300/wave0/issue4591-test-reduction-r4/"
+  },
+  "exact_final_harnesses": {
+    "tests/kani/FunctionContracts/ordinary_stub.rs": [
+      "ordinary_stub",
+      "replacement_provider",
+      "replacement_verified_contract",
+      "replacement_contract_target"
+    ],
+    "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs": [
+      "ordinary_stub_original_mode"
+    ],
+    "tests/expected/function-contract/ordinary_stub_fail.rs": [
+      "replacement_provider_postcondition"
+    ],
+    "tests/expected/function-contract/ordinary_stub_issue_4591.rs": [
+      "check_caller"
+    ]
+  },
+  "negative_requirement": "One caller-PFC call at arbitrary u8 x<=4; provider requires x<4 and ensures result==0 with identity body. Distinct x4 pre-failure, x1 post-failure, x0 satisfies, caller identity post true. Exact two descriptions and one-harness failing summary as in COVERAGE-EDITS. No reachability, compile error, onceguard or caller-post substitute.",
+  "PR_owner_override": {
+    "authority": "User13:55: keep my PR-4591-DRAFT as base, I edit test paragraph myself",
+    "external_path": "/root/smallsort-pr-drafts/PR-4591-DRAFT.md",
+    "observed_sha256": "dba378f44a61090ea1c18e3d1e803cace9c892a148577fbd26e8a3d08f0582b7",
+    "all_PR_work": "EXCLUDED: do not edit external draft, produce PR-DRAFT/PROPOSED-PR, merge W11 PROPOSED-PR, or require owner to adopt it. Root and W11 follow-up review code/test package only. Owner text may change independently. Prior prepared PR-proposal steps superseded."
+  },
+  "execution": "Source/static checks only; no compiler/cargo/rustc/rustfmt/Kani/CBMC/expansion/verifier/full runner/CI. New exact candidate compile/proof/native outcomes NOT_RUN. Root prepares full standard CI GO only after SAME W11 exact review; coordinator publishes/dispatches/accounts; owner commands PR publication.",
+  "same_reviewer": {
+    "thread": "01a1f366-706c-7321-9286-50c263db0a1e",
+    "task": "TASK-KANI-4591-TEST-REDUCTION-REVIEW-W11.md",
+    "review_output": "kani3300/wave0/issue4591-test-reduction-review-w11-r4/"
+  },
+  "budget": "Tracking only. No root/worker ledger writes, reservations, charges, refunds or grants. No CI dispatch authorization from this implementation task.",
+  "parallel": "S4P2 run44505531344 independent finite metadata watcher; prefer genuinely free W14 after actual terminal. Do not reset W11 review context, query S4 artifacts or touch S4 source/control.",
+  "implementation_receipt": {
+    "input_g0": "7386fb02477d52a90e468b6b7183a44567497248",
+    "base_task_path": "research/challenge-8/kani-k1/TASK-KANI-4591-TEST-REDUCTION-W15.md",
+    "base_task_blob": {
+      "sha256": "87533ee939bcda07c5c869d435ba1a5c178965fbcc84d804d8862239a0dae254",
+      "bytes": 2355
+    },
+    "authority_files": {
+      "IMPLEMENT-W15.md": {
+        "sha256": "4bb61e3c786941c73addab41d34a60d6828e3f98226068e2fcb41922270a0f5c",
+        "bytes": 1573
+      },
+      "INPUTS.json": {
+        "sha256": "daebbbd76fcc765d5836bfa24b11ed9828f9db3abdcc5134ae727e2191577e04",
+        "bytes": 7382
+      },
+      "ROOT-DECISION.md": {
+        "sha256": "d9e54710d378d8a90899fc31746ea679328ac45f2c5871dc9c3da25047992964",
+        "bytes": 3152
+      }
+    },
+    "style": {
+      "path": "research/challenge-8/kani-k1/STYLE-UPSTREAM-RULES.md",
+      "sha256": "5932c080cd5938ad7fcb159b1847e663df828beffc17196716b001e6a5cb9e7a",
+      "bytes": 3240
+    },
+    "source_candidate": "2dcb2c2d9325d2aa15c21a325cf0c7c320403466",
+    "source_tree": "b05ea48016f1cb8f20a1e7032394e602929b6e3b",
+    "package_path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-test-reduction-r4",
+    "review_state": "READY_FOR_SAME_W11_EXACT_REVIEW",
+    "independent_S4": "UNTOUCHED",
+    "PR_text": "EXCLUDED; no PR artifact; owner edits independently",
+    "execution": "Direct main-thread source/static only; no subagents or model/settings changes requested or performed."
+  }
+}

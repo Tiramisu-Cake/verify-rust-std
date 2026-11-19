@@ -1,0 +1,332 @@
+diff --git a/kani-compiler/src/kani_middle/transform/contracts.rs b/kani-compiler/src/kani_middle/transform/contracts.rs
+index d3be8c695729c91a6f22be5eea03fbb5629514bb..71005a6882fa612546107d843d2de54a0f8d3ec8 100644
+--- a/kani-compiler/src/kani_middle/transform/contracts.rs
++++ b/kani-compiler/src/kani_middle/transform/contracts.rs
+@@ -319,6 +319,17 @@ fn is_enabled(&self, _query_db: &QueryDb) -> bool
+         true
+     }
+ 
++    fn transform_instance(&self, instance: Instance, body_source: Instance) -> Instance {
++        if let RigidTy::FnDef(def, _) = instance.ty().kind().rigid().unwrap()
++            && (self.check_fn == Some(*def) || self.replace_fns.contains(def))
++        {
++            // Explicit contract checks and verified stubs retain their selected target.
++            instance
++        } else {
++            body_source
++        }
++    }
++
+     /// Transform the function body by replacing it with the stub body.
+     fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {
+         trace!(function=?instance.name(), "FunctionWithContractPass::transform");
+diff --git a/kani-compiler/src/kani_middle/transform/mod.rs b/kani-compiler/src/kani_middle/transform/mod.rs
+index 9f4d8d62932a069a933060fdbaf8bd8c7d5cb197..38ea0963da5bccfa015f023aa7301debe2f360a4 100644
+--- a/kani-compiler/src/kani_middle/transform/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/mod.rs
+@@ -159,8 +159,13 @@ pub fn body_ref(&mut self, tcx: TyCtxt, instance: Instance) -> &Body {
+                     .unwrap_or_else(|| build_missing_body(tcx, instance));
+ 
+                 let mut modified = false;
++                let mut body_source = instance;
+                 for pass in self.stub_passes.iter_mut().chain(self.inst_passes.iter_mut()) {
+-                    let result = pass.transform(tcx, body, instance);
++                    let transform_instance = pass.transform_instance(instance, body_source);
++                    let result = pass.transform(tcx, body, transform_instance);
++                    if let Some(source) = pass.take_body_source() {
++                        body_source = source;
++                    }
+                     modified |= result.0;
+                     body = result.1;
+                     self.generated_loop_modifies.extend(
+@@ -236,6 +241,17 @@ fn is_enabled(&self, query_db: &QueryDb) -> bool
+     /// Run a transformation pass in the function body.
+     fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body);
+ 
++    /// Select the instance whose attributes apply to this pass. `body_source` identifies the
++    /// resolved ordinary stub supplying the body when a replacement has been applied.
++    fn transform_instance(&self, instance: Instance, _body_source: Instance) -> Instance {
++        instance
++    }
++
++    /// Take the source instance of a successfully replaced body.
++    fn take_body_source(&mut self) -> Option<Instance> {
++        None
++    }
++
+     /// Take the locals that codegen must add to the loop modifies clause of the loops of the body
+     /// that this pass last transformed, by the instance of the register function that each
+     /// loop latch calls. See `LoopContractPass::add_generated_loop_modifies`.
+diff --git a/kani-compiler/src/kani_middle/transform/stubs.rs b/kani-compiler/src/kani_middle/transform/stubs.rs
+index 333e30141b37119c77d55203ab542499c79baa90..a1df1bdbcba1d08599caa87f1aefb5569b15f77b 100644
+--- a/kani-compiler/src/kani_middle/transform/stubs.rs
++++ b/kani-compiler/src/kani_middle/transform/stubs.rs
+@@ -25,6 +25,7 @@
+ #[derive(Debug, Clone)]
+ pub struct FnStubPass {
+     stubs: Stubs,
++    body_source: Option<Instance>,
+ }
+ 
+ impl TransformPass for FnStubPass {
+@@ -45,6 +46,7 @@ fn is_enabled(&self, query_db: &QueryDb) -> bool
+     /// Transform the function body by replacing it with the stub body.
+     fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {
+         trace!(function=?instance.name(), "transform");
++        self.body_source = None;
+         let ty = instance.ty();
+         if let TyKind::RigidTy(RigidTy::FnDef(fn_def, args)) = ty.kind()
+             && let Some(replace) = self.stubs.get(&fn_def)
+@@ -52,11 +54,16 @@ fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, B
+             let new_instance = Instance::resolve(*replace, &args).unwrap();
+             debug!(from=?instance.name(), to=?new_instance.name(), "FnStubPass::transform");
+             if let Some(body) = FnStubValidator::validate(tcx, (fn_def, *replace), new_instance) {
++                self.body_source = Some(new_instance);
+                 return (true, body);
+             }
+         }
+         (false, body)
+     }
++
++    fn take_body_source(&mut self) -> Option<Instance> {
++        self.body_source.take()
++    }
+ }
+ 
+ impl FnStubPass {
+@@ -66,7 +73,7 @@ pub fn new(all_stubs: &Stubs) -> FnStubPass {
+             .iter()
+             .filter_map(|(from, to)| (has_body(*from) && has_body(*to)).then_some((*from, *to)))
+             .collect::<HashMap<_, _>>();
+-        FnStubPass { stubs }
++        FnStubPass { stubs, body_source: None }
+     }
+ }
+ 
+diff --git a/tests/expected/function-contract/ordinary_stub_fail.expected b/tests/expected/function-contract/ordinary_stub_fail.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..cc14d35c22f0ad80b8adab8cfa08619b98e5eb70
+--- /dev/null
++++ b/tests/expected/function-contract/ordinary_stub_fail.expected
+@@ -0,0 +1,11 @@
++assertion\
++- Status: FAILURE\
++- Description: "x < 4"
++
++assertion\
++- Status: FAILURE\
++- Description: "|result| *result == 0"
++
++VERIFICATION:- FAILED
++Verification failed for - replacement_provider_postcondition
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/function-contract/ordinary_stub_fail.rs b/tests/expected/function-contract/ordinary_stub_fail.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..e2c5cb4e6e78e559ec0424fff471d651b065815f
+--- /dev/null
++++ b/tests/expected/function-contract/ordinary_stub_fail.rs
+@@ -0,0 +1,29 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z function-contracts -Z stubbing
++
++#[kani::requires(x < 8)]
++#[kani::ensures(|result| *result == x + 1)]
++fn f(x: u8) -> u8 {
++    x + 1
++}
++
++// The replacement requires x < 4 and returns x with a zero-result postcondition.
++#[kani::requires(x < 4)]
++#[kani::ensures(|result| *result == 0)]
++fn discriminating_replacement(x: u8) -> u8 {
++    x
++}
++
++#[kani::ensures(|result| *result == x)]
++fn replacement_caller(x: u8) -> u8 {
++    f(x)
++}
++
++#[kani::proof_for_contract(replacement_caller)]
++#[kani::stub(f, discriminating_replacement)]
++fn replacement_provider_postcondition() {
++    let x: u8 = kani::any();
++    kani::assume(x <= 4);
++    replacement_caller(x);
++}
+diff --git a/tests/expected/function-contract/ordinary_stub_issue_4591.expected b/tests/expected/function-contract/ordinary_stub_issue_4591.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..3c5703c6e9cadaba4b214a62a17ab9ab458acf9c
+--- /dev/null
++++ b/tests/expected/function-contract/ordinary_stub_issue_4591.expected
+@@ -0,0 +1,7 @@
++caller.assertion\
++- Status: FAILURE\
++- Description: "attempt to add with overflow"
++
++VERIFICATION:- FAILED
++Verification failed for - check_caller
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/function-contract/ordinary_stub_issue_4591.rs b/tests/expected/function-contract/ordinary_stub_issue_4591.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..620ff0ad1caff13ddc5f0e449c1b2507db785eca
+--- /dev/null
++++ b/tests/expected/function-contract/ordinary_stub_issue_4591.rs
+@@ -0,0 +1,28 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z function-contracts -Z stubbing
++
++// Issue #4591: the replacement admits i32::MAX, which overflows in caller.
++
++#[kani::ensures(|result: &i32| *result >= 0)]
++fn abs_val(x: i32) -> i32 {
++    if x < 0 { -x } else { x }
++}
++
++fn stub_abs_val(_x: i32) -> i32 {
++    let r: i32 = kani::any();
++    kani::assume(r >= 0);
++    r
++}
++
++fn caller(x: i32) -> i32 {
++    abs_val(x) + 1
++}
++
++#[kani::proof]
++#[kani::stub(abs_val, stub_abs_val)]
++fn check_caller() {
++    let x: i32 = kani::any();
++    let result = caller(x);
++    assert!(result >= 1);
++}
+diff --git a/tests/kani/FunctionContracts/ordinary_stub.rs b/tests/kani/FunctionContracts/ordinary_stub.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..794a732bd2bf652fca6b36e665c1050226f94c3a
+--- /dev/null
++++ b/tests/kani/FunctionContracts/ordinary_stub.rs
+@@ -0,0 +1,95 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z function-contracts -Z stubbing
++
++// Ordinary replacements supply the behavior of contracted targets (issue #4591).
++
++#[kani::requires(x < 8)]
++#[kani::ensures(|result| *result == x + 1)]
++fn f(x: u8) -> u8 {
++    x + 1
++}
++
++fn g(x: u8) -> u8 {
++    x + 2
++}
++
++#[kani::proof]
++#[kani::stub(f, g)]
++#[kani::stub(requires_only, g)]
++#[kani::stub(ensures_only, g)]
++#[kani::stub(recursive, g)]
++#[kani::stub(generic, generic_replacement)]
++#[kani::stub(uncontracted, requires_only)]
++fn ordinary_stub() {
++    assert_eq!(f(8), 10);
++    assert_eq!(requires_only(8), 10);
++    assert_eq!(ensures_only(8), 10);
++    assert_eq!(recursive(8), 10);
++    assert_eq!(generic(1u8, 2u8), 2);
++    assert_eq!(generic(3u16, 4u16), 4);
++    assert_eq!(generic(5u8, 5u8), 5);
++    assert_eq!(uncontracted(8), 10);
++    assert_eq!(contracted_replacement(8), 11);
++}
++
++#[kani::requires(x < 8)]
++fn requires_only(x: u8) -> u8 {
++    x + 1
++}
++
++#[kani::ensures(|result| *result == x)]
++fn ensures_only(x: u8) -> u8 {
++    x
++}
++
++#[kani::requires(x < 4)]
++#[kani::ensures(|result| *result == x)]
++#[kani::recursion]
++fn recursive(x: u8) -> u8 {
++    if x == 0 { 0 } else { recursive(x - 1) + 1 }
++}
++
++#[kani::requires(x != y)]
++#[kani::ensures(|result| *result == x)]
++fn generic<T: Copy + PartialEq>(x: T, y: T) -> T {
++    x
++}
++
++fn generic_replacement<T: Copy + PartialEq>(_x: T, y: T) -> T {
++    y
++}
++
++fn uncontracted(x: u8) -> u8 {
++    x
++}
++
++#[kani::requires(x < 16)]
++#[kani::ensures(|result| *result == x + 3)]
++fn contracted_replacement(x: u8) -> u8 {
++    x + 3
++}
++
++#[kani::proof_for_contract(contracted_replacement)]
++fn replacement_provider() {
++    contracted_replacement(kani::any());
++}
++
++#[kani::proof]
++#[kani::stub(f, contracted_replacement)]
++#[kani::stub_verified(contracted_replacement)]
++fn replacement_verified_contract() {
++    assert_eq!(f(8), 11);
++}
++
++#[kani::requires(x < 16)]
++#[kani::ensures(|result| *result == x + 3)]
++fn replacement_caller(x: u8) -> u8 {
++    f(x)
++}
++
++#[kani::proof_for_contract(replacement_caller)]
++#[kani::stub(f, contracted_replacement)]
++fn replacement_contract_target() {
++    replacement_caller(kani::any());
++}
+diff --git a/tests/kani/FunctionContracts/ordinary_stub_no_assert.rs b/tests/kani/FunctionContracts/ordinary_stub_no_assert.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..9d1db9b6bce4d522bb61a0230016aceb2f88c838
+--- /dev/null
++++ b/tests/kani/FunctionContracts/ordinary_stub_no_assert.rs
+@@ -0,0 +1,21 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z function-contracts -Z stubbing --no-assert-contracts
++
++#[kani::requires(x < 8)]
++#[kani::ensures(|result| *result == x + 1)]
++fn f(x: u8) -> u8 {
++    x + 1
++}
++
++#[kani::requires(x < 4)]
++#[kani::ensures(|result| *result == x + 2)]
++fn replacement(x: u8) -> u8 {
++    x + 2
++}
++
++#[kani::proof]
++#[kani::stub(f, replacement)]
++fn ordinary_stub_original_mode() {
++    assert_eq!(f(8), 10);
++}

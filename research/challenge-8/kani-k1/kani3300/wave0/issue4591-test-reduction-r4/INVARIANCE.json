@@ -1,0 +1,95 @@
+{
+  "schema": "kani-4591-r4-invariance-v1",
+  "comparison": "031fc085cd4373b5fc93a55128d5a69fdbd88df1..2dcb2c2d9325d2aa15c21a325cf0c7c320403466",
+  "changed_paths": [
+    "M\ttests/expected/function-contract/ordinary_stub_fail.expected",
+    "M\ttests/expected/function-contract/ordinary_stub_fail.rs",
+    "D\ttests/expected/function-contract/ordinary_stub_overlap.expected",
+    "D\ttests/expected/function-contract/ordinary_stub_overlap.rs",
+    "M\ttests/kani/FunctionContracts/ordinary_stub.rs",
+    "M\ttests/kani/FunctionContracts/ordinary_stub_no_assert.rs"
+  ],
+  "only_six_allowed_paths": true,
+  "all_other_tracked_paths_unchanged": true,
+  "protected_trees": {
+    ".github/workflows": {
+      "parent": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0",
+      "candidate": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0",
+      "unchanged": true
+    },
+    "scripts": {
+      "parent": "17ce41a6b9744224defd3a87247736f82992e550",
+      "candidate": "17ce41a6b9744224defd3a87247736f82992e550",
+      "unchanged": true
+    },
+    "library": {
+      "parent": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932",
+      "candidate": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932",
+      "unchanged": true
+    },
+    "kani-compiler": {
+      "parent": "712d5307f14c5ad079ce676a74ef470e9316361a",
+      "candidate": "712d5307f14c5ad079ce676a74ef470e9316361a",
+      "unchanged": true
+    }
+  },
+  "frozen_files": {
+    "kani-compiler/src/kani_middle/transform/contracts.rs": {
+      "sha256": "c8433cc928a57285e3d7d117a4b8d5187db2ec6ebcec819c4b6744612470bf91",
+      "bytes": 39769,
+      "unchanged": true
+    },
+    "kani-compiler/src/kani_middle/transform/mod.rs": {
+      "sha256": "cee27768c3a4a4ad71c75d411e237d4aadedf9ff20a5962d4e93ecbf660c8ee9",
+      "bytes": 17670,
+      "unchanged": true
+    },
+    "kani-compiler/src/kani_middle/transform/stubs.rs": {
+      "sha256": "04dd329ee7cf8b35d38a9c62d2ba9b853d1b7009e4cfd6cfcc10468b63d090b2",
+      "bytes": 9314,
+      "unchanged": true
+    },
+    "tests/expected/function-contract/ordinary_stub_issue_4591.rs": {
+      "sha256": "e65245e314ce01d894bc5b774e72df7cb1eb17b4bdf07939e037d61f9d41a8a0",
+      "bytes": 618,
+      "unchanged": true
+    },
+    "tests/expected/function-contract/ordinary_stub_issue_4591.expected": {
+      "sha256": "202199fd0ac8bb6737fc34b34552b9491d4bf08c412555f60262fe71a9aa0c28",
+      "bytes": 212,
+      "unchanged": true
+    }
+  },
+  "retained_test_artifacts": {
+    "tests/expected/function-contract/ordinary_stub_fail.expected": {
+      "sha256": "8024fa662ae0024c55ab479bede700fb02a9cdf9f3ad51927578e710a48d10ee",
+      "bytes": 274
+    },
+    "tests/expected/function-contract/ordinary_stub_fail.rs": {
+      "sha256": "b5be508606bdf01372ea4d894799356ab5d0c1de87aae6d811b0778cf608b8f2",
+      "bytes": 738
+    },
+    "tests/expected/function-contract/ordinary_stub_issue_4591.expected": {
+      "sha256": "202199fd0ac8bb6737fc34b34552b9491d4bf08c412555f60262fe71a9aa0c28",
+      "bytes": 212
+    },
+    "tests/expected/function-contract/ordinary_stub_issue_4591.rs": {
+      "sha256": "e65245e314ce01d894bc5b774e72df7cb1eb17b4bdf07939e037d61f9d41a8a0",
+      "bytes": 618
+    },
+    "tests/kani/FunctionContracts/ordinary_stub.rs": {
+      "sha256": "db468811de4398032cb4fa315e82cc2ea8dd64c2e96c61b154c61f171a90a163",
+      "bytes": 2170
+    },
+    "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs": {
+      "sha256": "5f4a087a60ef22e44a7a231dfb87a564a1cd4df72862edd10206dde13db97cd8",
+      "bytes": 471
+    }
+  },
+  "frozen_repository": {
+    "path": "/root/kani-issue4591-singlecall-r3-w15",
+    "head": "f82934ca97caaa1270d5279054aa950173868be5",
+    "clean": true,
+    "source_contents_unchanged": true
+  }
+}
