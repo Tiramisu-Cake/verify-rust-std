@@ -1,0 +1,114 @@
+{
+  "schema": "kani-4591-prepublication-slop-review-inputs-v1",
+  "authority": "Owner via coordinator: independent fresh W11 review, then W15 reduction, W11 review, new full standard CI. Root prepares GO; coordinator launches/accounts; owner publishes.",
+  "status": "READY_FOR_REVIEW_ONLY",
+  "source": {
+    "repo": "/root/kani-issue4591-singlecall-r3-w15",
+    "base": "969f4648980a8e66cd0ca32fd3e714a55ac32cef",
+    "published_head": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+    "tree": "2ff34bc99ec3fe63579202c196f0ca288e318919",
+    "sole_parent": "6fca00af805b5c62b58e3e3f29eef183d6939907",
+    "local_HEAD": "f82934ca97caaa1270d5279054aa950173868be5",
+    "local_same_tree": true,
+    "remote_ref": "Tiramisu-Cake/kani:fix/stub-contracted-function",
+    "remote_ref_root_checked_matches": "031fc085cd4373b5fc93a55128d5a69fdbd88df1"
+  },
+  "compiler_paths_frozen_by_default": {
+    "kani-compiler/src/kani_middle/transform/contracts.rs": "c8433cc928a57285e3d7d117a4b8d5187db2ec6ebcec819c4b6744612470bf91",
+    "kani-compiler/src/kani_middle/transform/mod.rs": "cee27768c3a4a4ad71c75d411e237d4aadedf9ff20a5962d4e93ecbf660c8ee9",
+    "kani-compiler/src/kani_middle/transform/stubs.rs": "04dd329ee7cf8b35d38a9c62d2ba9b853d1b7009e4cfd6cfcc10468b63d090b2"
+  },
+  "test_paths": {
+    "tests/expected/function-contract/ordinary_stub_fail.expected": "7f7e65b0abbae439e1db2860a1b4e61c7592d5fa7e4ecc84f6fb5cc0b3b395b4",
+    "tests/expected/function-contract/ordinary_stub_fail.rs": "2a66118925a7776d598a1c01150308eab2d39f6171c369d9ffe0fd37b8617266",
+    "tests/expected/function-contract/ordinary_stub_issue_4591.expected": "202199fd0ac8bb6737fc34b34552b9491d4bf08c412555f60262fe71a9aa0c28",
+    "tests/expected/function-contract/ordinary_stub_issue_4591.rs": "e65245e314ce01d894bc5b774e72df7cb1eb17b4bdf07939e037d61f9d41a8a0",
+    "tests/expected/function-contract/ordinary_stub_overlap.expected": "00c63da23734458d9ccd008db73852f2a30694d694adacd5f2e8d6b8c05a5dd0",
+    "tests/expected/function-contract/ordinary_stub_overlap.rs": "21186f51f8260becc29d2a762dfba67ad504d44f3f2e34a85f62ba26425b980b",
+    "tests/kani/FunctionContracts/ordinary_stub.rs": "964204d80b737e7e72510871e20e1ce1d23df54dbcac17f06d6ef61ef251185e",
+    "tests/kani/FunctionContracts/ordinary_stub_no_assert.rs": "866d870c3ff3670f4a75401c18fa6b17e0a683de508e826a90bf4d8ef7b4b171"
+  },
+  "diff_numstat": [
+    "11\t0\tkani-compiler/src/kani_middle/transform/contracts.rs",
+    "17\t1\tkani-compiler/src/kani_middle/transform/mod.rs",
+    "8\t1\tkani-compiler/src/kani_middle/transform/stubs.rs",
+    "32\t0\ttests/expected/function-contract/ordinary_stub_fail.expected",
+    "114\t0\ttests/expected/function-contract/ordinary_stub_fail.rs",
+    "7\t0\ttests/expected/function-contract/ordinary_stub_issue_4591.expected",
+    "28\t0\ttests/expected/function-contract/ordinary_stub_issue_4591.rs",
+    "1\t0\ttests/expected/function-contract/ordinary_stub_overlap.expected",
+    "22\t0\ttests/expected/function-contract/ordinary_stub_overlap.rs",
+    "181\t0\ttests/kani/FunctionContracts/ordinary_stub.rs",
+    "38\t0\ttests/kani/FunctionContracts/ordinary_stub_no_assert.rs"
+  ],
+  "protected_trees": {
+    ".github/workflows": "f1b8d7c4010428f822bfb7503c71fc035b6f42c0",
+    "scripts": "17ce41a6b9744224defd3a87247736f82992e550",
+    "library": "d17ddd3ceeae7bf617d0f22388bc5a2a72263932"
+  },
+  "external_pr": {
+    "path": "/root/smallsort-pr-drafts/PR-4591-DRAFT.md",
+    "sha256": "dba378f44a61090ea1c18e3d1e803cace9c892a148577fbd26e8a3d08f0582b7",
+    "bytes": 2105,
+    "snapshot": "PR-4591-DRAFT.snapshot.md",
+    "policy": "READ_ONLY_OWNER_TEXT: review and proposed text only. Never overwrite external file; preserve concurrent owner edits."
+  },
+  "style": {
+    "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/STYLE-UPSTREAM-RULES.md",
+    "sha256": "5932c080cd5938ad7fcb159b1847e663df828beffc17196716b001e6a5cb9e7a",
+    "snapshot": "STYLE-UPSTREAM-RULES.snapshot.md"
+  },
+  "frozen_dependencies": {
+    "source_author": {
+      "g0_commit": "5162af47e12611de4102ba20b0135b17c1d79d7d",
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-r3/SOURCE-PINS.json",
+      "sha256": "272d15d8f3b3f7138502238372ce9c4255c639afd40c232de05b575b75557896",
+      "bytes": 17988
+    },
+    "independent_r3_review": {
+      "g0_commit": "19079d13154e3b814a3abeca9d9b38f0188b731d",
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-singlecall-review-w11-r3/HANDOFF.md",
+      "sha256": "39a5cac5c4d64cf3116a3a1977fb0ee2dc648b05062b52b336f5a86d86b93d8d",
+      "bytes": 2634
+    },
+    "r3_terminal_intake": {
+      "g0_commit": "28cd7f0a87b4fda68df320fab7422d2491b24839",
+      "path": "research/challenge-8/kani-k1/kani3300/wave0/issue4591-r3-ci-intake/head-031fc085cd/HANDOFF.md",
+      "sha256": "a85fb29979547c4bbe89a5f81daed9d313b8dbe0770f7db9aa533906ab209e52",
+      "bytes": 3207
+    }
+  },
+  "ci": {
+    "head": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+    "Kani": 44461123962,
+    "Format": 44461124056,
+    "Deny": 44461124017,
+    "native": "Kani FAILURE; Format/Deny SUCCESS; 12 jobs: 11 SUCCESS, 1 perf FAILURE. Five regression OS jobs/docs/benchcomp/LLBC SUCCESS.",
+    "limits": "Named harness/property granularity UNKNOWN. 38 source expectations are not 38 observed passes. Shutdown/s2n reason COORDINATOR_REPORTED; independent cause UNKNOWN. Prior perf SUCCESS is context, not waiver. New cleanup native NOT_RUN."
+  },
+  "candidate_contract": {
+    "future_parent": "031fc085cd4373b5fc93a55128d5a69fdbd88df1",
+    "history": "New isolated candidate on published head031; preserve historical commits/packets. No squash/rebase/force/push. Future trigger exact reviewed same-tree NONSKIP sibling with sole parent031; coordinator handles final publication only after review+GO.",
+    "compiler": "Default byte-exact frozen 3 paths. Concrete compiler bug/comment finding comes to root for scoped decision before implementation. No functional compiler redesign."
+  },
+  "parallel": "S4P2 run44505531344 has independent metadata watcher. This task must not query/acquire its evidence, reset its workers or touch its source/control/ledger. If terminal while W11 busy, root uses genuinely free W14 for intake.",
+  "no_execution": [
+    "compiler",
+    "cargo",
+    "rustc",
+    "rustfmt",
+    "Kani",
+    "CBMC",
+    "expansion",
+    "verifier",
+    "full native runner",
+    "CI/rerun/cancel",
+    "push",
+    "PR/issues/comments",
+    "raw logs/full archives/ZIP",
+    "GCS",
+    "ledger/accounting",
+    "subagents",
+    "model/settings changes"
+  ]
+}
