@@ -1,0 +1,114 @@
+{
+  "schema": "w11-plan-documentation-validation-v1",
+  "recorded_utc": "2026-11-19T16:23:04.943483+00:00",
+  "status": "PASS",
+  "scope": "Documentation/link/hash/static scope checks only; no compiler, verifier, runner or evidence replay",
+  "branch": "experiment/kani-k1-kani3300g0-20261111",
+  "observed_head_before_commit": "cd594eb420baf5ad032440a1dfdd51bc8a90d70e",
+  "input_admission": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+  "checks": [
+    "Assigned branch",
+    "Input admission remains ancestor",
+    "All 28 reference hashes/byte counts remain pinned; no raw logs/archives accessed",
+    "All 13 local Markdown file links resolve",
+    "Official target/length/UB and separate accepted uninit-track rows present",
+    "Four positive native/whole-child timings match existing report; no exact speedup invented",
+    "Source/PR mismatch disclosed in map, plan, draft and handoff",
+    "All packet JSON parses"
+  ],
+  "local_links": [
+    {
+      "document": "CLOSURE-MAP.md",
+      "target": "../../../CH8-DISPATCH-LEDGER.md#s1-admission--2026-11-17"
+    },
+    {
+      "document": "CLOSURE-MAP.md",
+      "target": "../../ch8-s3/admission-r2-qualified/ACCEPTANCE.md"
+    },
+    {
+      "document": "CLOSURE-MAP.md",
+      "target": "../../ch8-s3/admission-s3-2-r1-exact-location/ADMISSION.md"
+    },
+    {
+      "document": "CLOSURE-MAP.md",
+      "target": "../../ch8-s3-s4/admission-bridge-1-r1/ADMISSION.md"
+    },
+    {
+      "document": "CLOSURE-MAP.md",
+      "target": "../admission-s4p1-r1-fallback/ADMISSION.md"
+    },
+    {
+      "document": "CLOSURE-MAP.md",
+      "target": "../admission-s4p2-r2-network/ADMISSION.md"
+    },
+    {
+      "document": "CLOSURE-MAP.md",
+      "target": "../../sel1-c2/replay/run-43751703000/RESULT.md"
+    },
+    {
+      "document": "CLOSURE-MAP.md",
+      "target": "../../sel1-c2/gatea/run-43744142824/ACCEPTANCE.md"
+    },
+    {
+      "document": "CLOSURE-MAP.md",
+      "target": "UPDATE-752-PLAN.md"
+    },
+    {
+      "document": "UPDATE-752-PLAN.md",
+      "target": "CLOSURE-MAP.md"
+    },
+    {
+      "document": "UPDATE-752-PLAN.md",
+      "target": "../run-44548842328/COST-INTERPRETATION.json"
+    },
+    {
+      "document": "UPDATE-752-PLAN.md",
+      "target": "../network-r2-go/GO-REQUEST.md"
+    },
+    {
+      "document": "UPDATE-752-PLAN.md",
+      "target": "STATUS-UPDATE-DRAFT.md"
+    }
+  ],
+  "output_files": {
+    "CHECKPOINT.json": {
+      "sha256": "aa9f8d084f7ac7788682b91123ba330de3cb96a564e1329da5c9b1602094d23d",
+      "bytes": 1990
+    },
+    "CLOSURE-MAP.md": {
+      "sha256": "7d59dc4b34c73b13d7f34ba90c1568497cc8f125eb172fc75d654768b36552a7",
+      "bytes": 16057
+    },
+    "CURRENT-TASK.md": {
+      "sha256": "dd4f24a169b9019b044d2816420da7de4a2dab970a81f85172aeed779964ee10",
+      "bytes": 959
+    },
+    "HANDOFF.md": {
+      "sha256": "37d5739c666e02680a1a43fb1da634e581e67beb46367c1ec2310b1584c2287e",
+      "bytes": 1916
+    },
+    "SOURCES.json": {
+      "sha256": "23e7720e6ca16e853f61e990dd71267dfdd05578a6d10a0c736a61200a715e7a",
+      "bytes": 19731
+    },
+    "STATUS-UPDATE-DRAFT.md": {
+      "sha256": "8667c071c07634e8590ac30dc1b09535f49f93346bcca0b0d36bf6115161c43b",
+      "bytes": 1343
+    },
+    "UPDATE-752-PLAN.md": {
+      "sha256": "fc30297790c14e60c588b6d9bcfef3ccb0ddac0a0ce643059098aae5cdefd363",
+      "bytes": 8801
+    }
+  },
+  "concurrent_workspace_changes": {
+    "observed_outside_output": [
+      "?? research/challenge-8/kani-k1/kani3300/ch8-s4/init-on-feasibility-plan/",
+      "?? research/challenge-8/kani-k1/kani3300/ch8-s4/s4-full-lengths-next-plan/",
+      "?? research/challenge-8/kani-k1/kani3300/ch8-s5/"
+    ],
+    "tracked_unstaged_at_check": [],
+    "staged_at_check": [],
+    "handling": "Unrelated concurrent work/commits preserved; commit restricted to own output directory"
+  },
+  "limits": "Hash integrity is reference binding only, not proof acceptance, independent provenance or validation of historical native evidence"
+}

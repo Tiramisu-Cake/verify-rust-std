@@ -1,0 +1,240 @@
+{
+  "schema": "w11-closure-and-752-plan-sources-v1",
+  "assurance": "PLAN_ONLY_REFERENCE_MAP_NO_NEW_ADMISSION_OR_PROOF_CREDIT",
+  "input_g0": "8896f60ae9e0ea1c706c6b8693d00e2500190676",
+  "branch": "experiment/kani-k1-kani3300g0-20261111",
+  "remote_read_context": {
+    "observed_utc_date": "2026-11-19",
+    "method": "Read-only connected GitHub metadata/file calls; no PR diff, review audit, comments or mutations",
+    "challenge": {
+      "content": "# Challenge 8: Contracts for SmallSort\n\n- **Status:** Open\n- **Tracking Issue:** [#56](https://github.com/model-checking/verify-rust-std/issues/56)\n- **Start date:** *2024/08/17*\n- **Reward:** *10,000 USD*\n\n-------------------\n\n\n## Goal\n\nThe implementations of the traits `StableSmallSortTypeImpl`, `UnstableSmallSortTypeImpl`, and `UnstableSmallSortFreezeTypeImpl` in the `smallsort` [module](https://github.com/rust-lang/rust/blob/master/library/core/src/slice/sort/shared/smallsort.rs) of the Rust standard library are the sorting algorithms with optimized implementations for slices with small lengths.\nIn this challenge, the goal is to, first prove the memory safety of the public functions in the `smallsort` module, and, second, write contracts for them to\nshow that the sorting algorithms actually sort the slices.\n\n### Success Criteria\n\nProve absence of undefined behavior of the following public functions.\n\n1. `<T as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort`\n2. `<T as slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort`\n3. `<T as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort`\n4. `slice::sort::shared::smallsort::swap_if_less`\n5. `slice::sort::shared::smallsort::insertion_sort_shift_left`\n6. `slice::sort::shared::smallsort::sort4_stable`\n7. `slice::sort::shared::smallsort::has_efficient_in_place_swap`\n\nWrite contracts for the following public functions that show that they actually sort the slices.\n\n1. `<T as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort`\n2. `<T as slice::sort::shared::smallsort::UnstableSmallSortTypeImpl>::small_sort`\n3. `<T as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort`\n\nThe memory safety and the contracts of the above listed functions must be verified\nfor all possible slices with arbitrary valid length.\n\nNote that most of the functions listed above call functions that contain loops.\nFunction contracts and loop contracts of those callee functions may be required.\n\n### List of UBs\n\nIn addition to any properties called out as `SAFETY` comments in the source\ncode,\nall proofs must automatically ensure the absence of the following [undefined behaviors](https://github.com/rust-lang/reference/blob/142b2ed77d33f37a9973772bd95e6144ed9dce43/src/behavior-considered-undefined.md):\n\n* Accessing (loading from or storing to) a place that is dangling or based on a misaligned pointer.\n* Reading from uninitialized memory.\n* Mutating immutable bytes.\n* Producing an invalid value\n\nNote: All solutions to verification challenges need to satisfy the criteria established in the [challenge book](../general-rules.md)\nin addition to the ones listed above.\n",
+      "encoding": "utf-8",
+      "sha": "55f0552c6762bf2f0704eae509a6811bb63206e7",
+      "display_url": "https://github.com/model-checking/verify-rust-std/blob/25b2b24c82a960734a2bab082784747b9b785177/doc/src/challenges/0008-smallsort.md",
+      "display_title": "0008-smallsort.md"
+    },
+    "general_rules": {
+      "content": "# General Rules\n\n## Terms / Concepts\n\n**Verification Target:** [Our repository](https://github.com/model-checking/verify-rust-std) is a fork of the original Rust repository,\nand we kept a copy of the Rust standard library inside the `library/` folder that shall be used as the verification target for all our challenges.\nWe will periodically update the `library/` folder to track newer versions of the [official Rust standard library](https://github.com/rust-lang/rust/).\n\n**Challenges:** Each individual verification effort will have a\ntracking issue where contributors can add comments and ask clarification questions.\nYou can find the list of [open challenges here](https://github.com/model-checking/verify-rust-std/labels/Challenge).\n\n**Solutions:** Solutions to a problem should be submitted as a single Pull Request (PR) to this repository.\nThe solution should run as part of the CI.\nSee more details about [minimum requirements for each solution](general-rules.md#solution-requirements).\n\n\n## Basic Workflow\n\n1. A verification effort will be published in the repository with\nappropriate details, and a tracking issue labeled with “Challenge”\nwill be opened, so it can be used for clarifications and questions, as\nwell as to track the status of the challenge.\n\n2. Participants should create a fork of the repository where they will implement their proposed solution.\n3. Once they submit their solution for analysis, participants should create a PR against the repository for analysis.\n   Please make sure your solution meets [the minimum requirements described here](general-rules.md#solution-requirements).\n4. Each contribution will be reviewed on a first come, first served basis.\n   Acceptance will be based on a review by a committee.\n5. Once approved by the review committee, the change will be merged into the repository.\n\n## Solution Requirements\n\nA proposed solution to a verification problem will only **be reviewed** if all the minimum requirements below are met:\n\n* Each contribution or attempt should be submitted via a pull request to be analyzed by reviewers.\n* By submitting the solution, participants confirm that they can use, modify, copy, and redistribute their contribution,\n  under the terms of their choice.\n* The contribution must be automated and should be checked and pass as part of the PR checks.\n* All tools used by the solution must be in [the list of accepted tools](tools.md#approved-tools),\n  and previously integrated in the repository.\n  If that is not the case, please submit a separate [tool application first](./general-rules.md#tool-applications).\n* There is no restriction on the number of contributors for a solution.\n  Make sure you have the rights to submit your solution and that all contributors are properly mentioned.\n* The solution cannot impact the runtime logic of the standard library unless the change is proposed and incorporated\n  into the Rust standard library.\n\nAny exception to these requirements will only be considered if it is specified as part of the acceptance criteria of the\nchallenged being solved.\n\n## Call for Challenges\n\nThe goal of the effort is to enable the verification of the entire Rust standard library.\nThe type of obstacles users face may depend on which part of the standard library you would like to verify. Thus, our challenges are developed with the target of verifying a specific section of the standard library or strengthening existing verification.\n\nEveryone is welcome to submit new challenge proposals for review by our committee.\nFollow the following steps to create a new proposal:\n\n1. Create a tracking issue using the [challenge template](./challenge_template.md) for your challenge.\n2. In your fork of this repository do the following:\n    1. Copy the template file (`book/src/challenge_template.md`) to `book/src/challenges/<ID_NUMBER>-<challenge-name>.md`.\n    2. Fill in the details according to the template instructions.\n    3. Add a link to the new challenge inside `book/src/SUMMARY.md`\n    4. Submit a pull request.\n3. Address any feedback in the pull request.",
+      "encoding": "utf-8",
+      "sha": "0b884d996ba248daa8ba8940a56c473157089346",
+      "display_url": "https://github.com/model-checking/verify-rust-std/blob/25b2b24c82a960734a2bab082784747b9b785177/doc/src/general-rules.md",
+      "display_title": "general-rules.md",
+      "coverage": "Requested lines 1..65 only; applicable minimum requirements included"
+    },
+    "pr752": {
+      "url": "https://github.com/model-checking/verify-rust-std/pull/752",
+      "tool": "mcp__codex_apps__github_get_pr_info",
+      "state": "open",
+      "merged": false,
+      "head_sha": "872d5a43380752786415bc00d2a12ce0e930cb37",
+      "base_sha": "25b2b24c82a960734a2bab082784747b9b785177",
+      "head_repo": "Tiramisu-Cake/verify-rust-std",
+      "head_ref": "submission/ch8-smallsort",
+      "title": "Challenge 8: bounded Kani proofs of SmallSort memory safety and sorting correctness, with helper contracts",
+      "pr_updated_at": "2026-11-16T13:10:52Z",
+      "scope": "Metadata context only. Body claims not independently revalidated in this task."
+    }
+  },
+  "local_references": [
+    {
+      "path": "research/challenge-8/kani-k1/S1-ACCEPTANCE-DECISION-2026-11-17.md",
+      "bytes": 2888,
+      "sha256": "14bc6712211665d5d3a7ebb2dbad2bed68ec9e73c0b3ab6a4327df1e6a4356ec",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/CH8-DISPATCH-LEDGER.md",
+      "bytes": 75757,
+      "sha256": "d253ad220243779e0be08facc78ca3b7d5051f2c132f06b3bda9e1ce16e32fd9",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/PLAN-CH8-ITEM1-REMAINING.md",
+      "bytes": 46722,
+      "sha256": "2b54112d6dd0ed0213af4e4d4bff694056148d2faeb98dcfbf7b9188d07fce50",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/PLAN-CH8-ITEM1-REMAINING-v2.md",
+      "bytes": 47501,
+      "sha256": "81cb23eaaa714e3f5b393440a0f8443d1cd9ea00145d6a300f4016ebedf480b7",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/PLAN-CH8-ITEM2-SORTING-v2.md",
+      "bytes": 31109,
+      "sha256": "22f2f79841d15f9ae4e0cc96be8c6ca5a3936b324099ebef874a8f8d3ba7351d",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/ACCEPTANCE.md",
+      "bytes": 9246,
+      "sha256": "bfc4aaf1041f9c6586735847ccc5e4275abb2813eea649092d52f2dbe578a568",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/accept/ACCEPT.json",
+      "bytes": 3606211,
+      "sha256": "76addef689c8808658be0bc85619b413d279ce9d692e4199822ea2284e2b97c2",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s1/s1-08/composite-44095954742-44128268928/review/REVIEW.md",
+      "bytes": 5276,
+      "sha256": "4f8c92b8649a57f71917ae645fc450101a52bf3c8ff90cc6a14d3e2a90a46221",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/admission-r2-qualified/ACCEPTANCE.md",
+      "bytes": 2789,
+      "sha256": "572b4b3da2fd7cb73bf52e80a23ead6bc84d9b8cc8a08b574a86c319a22d805f",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/admission-r2-qualified/ACCEPTANCE.json",
+      "bytes": 119663,
+      "sha256": "1ae0caa6c9d50770f6465aafd12526f0e221e686682defc00d45c17ba71c25a2",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/admission-s3-2-r1-exact-location/ADMISSION.md",
+      "bytes": 3197,
+      "sha256": "45721fc3b4826a9a3b4a73cb9e0cc2a2407bb8da30c6d65875c14d74dfec4ca3",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/admission-s3-2-r1-exact-location/ADMISSION.json",
+      "bytes": 44850,
+      "sha256": "c8e97bdf69a7d33dd5fe0f05523dd66b0e3d96e2182529e1884eb2eb030cf4c5",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/s3-2-init-boundary-decision/DECISION.md",
+      "bytes": 1720,
+      "sha256": "35d8df420ecb0bde735f2475913ee9c41b874fcfac21af54e5a473ecdaa46143",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3/init-mask-enabled-feasibility/HANDOFF.md",
+      "bytes": 2100,
+      "sha256": "a65ec00d9d6cbbbade12128496286887458c0177dccaaefa4b14590b485cce8a",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/admission-bridge-1-r1/ADMISSION.md",
+      "bytes": 2999,
+      "sha256": "cbb8961118629727e49b4369d5f48233964101e93568740461879dcc10e9571a",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s3-s4/admission-bridge-1-r1/ADMISSION.json",
+      "bytes": 112244,
+      "sha256": "35c91c264cbb6a5a729cda6990ef9d16ff05b3b34aa8cb8dda89eb8508dc09a1",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/admission-s4p1-r1-fallback/ADMISSION.md",
+      "bytes": 1280,
+      "sha256": "c226d234e864a576b484adc509e67034d012c211a6aba40c257003fe55466073",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/admission-s4p1-r1-fallback/ADMISSION.json",
+      "bytes": 143199,
+      "sha256": "e254197aef66a8bbf6239b0d7e55f2b2fcfbee448318c1b29523241fefb96824",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/admission-s4p2-r2-network/ADMISSION.md",
+      "bytes": 3700,
+      "sha256": "dfd31a7b53eab0d1c7d5dd6a1c82a06725d96b464bccba8645f26ee65d47d26b",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/admission-s4p2-r2-network/ADMISSION.json",
+      "bytes": 340536,
+      "sha256": "67e14fd780d9e223504d5667439ead15a20f6195b1ad60690a0c5e5ecc3c4a29",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/admission-s4p2-r2-network/MANIFEST.json",
+      "bytes": 505,
+      "sha256": "c5752630e60755bea133c88cde2b1a9bbfa0211444d957a59b19dbde15ab712a",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/network-r2-go/GO-REQUEST.md",
+      "bytes": 4357,
+      "sha256": "3ffc65f8ad6f97e6a1b9e030c82aadfd138300c751210d8c6cadbc6e1b538cb6",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44548842328/COST-INTERPRETATION.json",
+      "bytes": 3199,
+      "sha256": "2a5b88dfca76086d86710b2e29fb7655fb6e57a90d7e8eb69496d9689bdab838",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44548842328/HANDOFF.md",
+      "bytes": 49182,
+      "sha256": "525b8a6459310bcd27d52de93abd639a3b6843734ef67230eb383a5dc8148497",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s4/run-44548842328-review/HANDOFF.md",
+      "bytes": 11709,
+      "sha256": "4f7c049e9fff1edcb128276e08512d40b2cb54419545016ccc44a72c9bf0ed90",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/ch8-s2/r6-s3-plan-r1/PLAN.md",
+      "bytes": 7339,
+      "sha256": "aabf4fd4c790cb7c9ca72e95064362a88db26844cff87afb142802ed1402ac6b",
+      "binding": "working bytes equal input admission commit object; report/admission provenance, not new native evidence"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/sel1-c2/replay/run-43751703000/RESULT.md",
+      "bytes": 1711,
+      "sha256": "568fb60c3e64ddd973a4429ed1f48aac8420aae7c2a3c3738ceb20666555f5c7",
+      "binding": "working bytes equal input admission commit object; historical accepted report only"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/sel1-c2/gatea/run-43744142824/ACCEPTANCE.md",
+      "bytes": 803,
+      "sha256": "37275a746c55dea106e20719cb483ce9635bd6f8a766a8e7425165835e144ba9",
+      "binding": "working bytes equal input admission commit object; historical accepted report only"
+    }
+  ],
+  "static_source": {
+    "commit": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+    "path": "library/core/src/slice/sort/shared/smallsort.rs",
+    "sha256": "590a1703f3939bda126a7acc2bcd7559d8a19d7227dcca1f2ea60b401ec70ead",
+    "read_lines": [
+      [
+        1,
+        408
+      ]
+    ],
+    "purpose": "Static six-implementation, threshold, general and network call-chain map; no AST/MIR/compiled binding claim"
+  },
+  "source_revisions": {
+    "S1": "99e8456d200fff1299ee5756279cddb23921dc65",
+    "S3_1_r2": "513341f41ce53833a279571401c924bdddddb6c8",
+    "S3_2_r1": "1b4a904f8144172f0a3682f84f1bd4afd80eaf5d",
+    "bridge": "f1bdf11902252ad1178f42403c253ae710fecbaf",
+    "fallback": "985062ebad90cee1e2846b1648cd6a8624d146f6",
+    "network": "8faf8e62af8f82b5c46af020086f8df591b6757e",
+    "PR752": "872d5a43380752786415bc00d2a12ce0e930cb37",
+    "SEL1_C2_tool": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+    "SEL1_C2_std": "70ba5befc6 plus exact replay test-only package; see pinned historical RESULT.md"
+  },
+  "execution": {
+    "native_or_compiler": false,
+    "CI": false,
+    "push_or_public_edit": false,
+    "source_flags_caps_ledger_mutation": false,
+    "raw_logs_archives": false,
+    "subagents": 0
+  },
+  "claim_policy": "Remote PR metadata, prior source-reported claims, reviewed bounded admissions, observations and independent proof credit are distinct. This packet imports no universal summary/provider/initialization/validity/immutable-write/B1B2 credit."
+}
