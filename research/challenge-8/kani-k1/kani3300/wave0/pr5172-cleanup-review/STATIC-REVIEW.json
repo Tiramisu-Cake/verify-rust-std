@@ -1,0 +1,382 @@
+{
+  "status": "PASS",
+  "assurance": "STATIC_SOURCE_AND_BYTE_PRESERVATION_ONLY",
+  "parent": "80e5d6fabc0103b0b3117440007ad2d9475f9a9c",
+  "candidate": "fef46d2d9d65bf3eb91a282da004043ecd26a208",
+  "candidate_tree": "2e6c41da31c3e5a96a9a7d39efa8eb93e6c973e7",
+  "source_roots": 22,
+  "proof_harnesses": 24,
+  "seeded_roots": 11,
+  "helper_call_sites": 12,
+  "fallback_users": 8,
+  "named_expected_files": 14,
+  "compiler_comment_only": true,
+  "exact_change_scope": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "tests/expected/uninit/unresolved-calls/auxiliary/analysis_target.rs",
+    "tests/expected/uninit/unresolved-calls/direct-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/erased-pointer-plain.expected",
+    "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.expected",
+    "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/expected",
+    "tests/expected/uninit/unresolved-calls/fn-pointer-plain.expected",
+    "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.expected",
+    "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/global-escaped-plain.expected",
+    "tests/expected/uninit/unresolved-calls/global-escaped-seeded.expected",
+    "tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/virtual-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.expected",
+    "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.expected",
+    "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs"
+  ],
+  "fixtures": [
+    {
+      "source": "tests/expected/uninit/unresolved-calls/direct-plain.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "e3d3dc7b82152132b8c136509f5c78ce4751428f416d0c82663f88851d55d9f0",
+          "new_body_sha256": "e3d3dc7b82152132b8c136509f5c78ce4751428f416d0c82663f88851d55d9f0",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/direct-plain.expected",
+      "expected_sha256": "b0936f39b1372ce308ec0efba323e602cd03e36cada34138dcb3d37f68af7fed",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/direct-seeded.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "7f7de29082df1055482a58e18bd46c09f0f4d30378e9b99baca1351b551a3c8d",
+          "new_body_sha256": "b00fc9a70af1c936225f0004d4243b777f19e74c68e4ae2e8a08040f62d232e7",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/direct-seeded.expected",
+      "expected_sha256": "b0936f39b1372ce308ec0efba323e602cd03e36cada34138dcb3d37f68af7fed",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "9cb4a4ea9d62830eb08c25eeea5844dd8e31c8d99eef023baceea8b7698e697a",
+          "new_body_sha256": "9cb4a4ea9d62830eb08c25eeea5844dd8e31c8d99eef023baceea8b7698e697a",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.expected",
+      "expected_sha256": "aecbd2939d8717cf0ec3e6a44d44cd833f7bc855f8335d1cd64fcf65e0bc81a5",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "f2130ea77c566f9033b84b98662703b8f0c7070a920459341815f32f87296c97",
+          "new_body_sha256": "dd0331832eb356e698dc5cc0d61c4437a193504bd63ca096d7b063f71bbe5c31",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.expected",
+      "expected_sha256": "aecbd2939d8717cf0ec3e6a44d44cd833f7bc855f8335d1cd64fcf65e0bc81a5",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "13b4211f61d897f533cb2e3ea5e73fdb97d9eeeb108ce23a8df6cc7cef00f9a7",
+          "new_body_sha256": "13b4211f61d897f533cb2e3ea5e73fdb97d9eeeb108ce23a8df6cc7cef00f9a7",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/entry-partial-plain.expected",
+      "expected_sha256": "fe9d12488a16d7ade2cbbfd07bb36e9db6fa9e13185b32ef8dcb361faf990cef",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "c4063c81717cab9000f5a84621a964e45d8083df322ba6088d2dbf27dc103631",
+          "new_body_sha256": "3d0777629a916402f0476c6668ac94fc9d7b283fbbcdf37be794a74b370b4e0e",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.expected",
+      "expected_sha256": "fe9d12488a16d7ade2cbbfd07bb36e9db6fa9e13185b32ef8dcb361faf990cef",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "08370c06d57404cc8ad7df7ab9613d7af57b1fe3b753ae000bba1b0536792b12",
+          "new_body_sha256": "08370c06d57404cc8ad7df7ab9613d7af57b1fe3b753ae000bba1b0536792b12",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/expected",
+      "expected_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "571d190847c909c4867bd6313f784c71dbc07b42c1a8b1578014a7529e6bce46",
+          "new_body_sha256": "b3885c3a7af8bc2bc8fa4158227bb7aefe09f6b5d0f2abfeaa7ffd90a5cffe98",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/expected",
+      "expected_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/fn-pointer-plain.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "ea108f464d938a3bd4b281b443e7d767da9d3085000bd2994bda214795125cd8",
+          "new_body_sha256": "ea108f464d938a3bd4b281b443e7d767da9d3085000bd2994bda214795125cd8",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/expected",
+      "expected_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "dbaf33996bf61c4844fb429e8e43a52080b2c72da69a10bf23ea848a6e484e5a",
+          "new_body_sha256": "ad1fe893e4307536e07c255ebb52ad0a7a48df1241033d251dac882c43fbba0d",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/expected",
+      "expected_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "d4e23099b00c089eccb1e9a6021a65c278ff409538385271a5b150cfe95ff00a",
+          "new_body_sha256": "d4e23099b00c089eccb1e9a6021a65c278ff409538385271a5b150cfe95ff00a",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.expected",
+      "expected_sha256": "da6d6d8e991c018a41a51f154de001afa55f2f7ecee7218ebcc88c38d9bd7634",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "26dd03497f56d3cea059e13cbf7c63e638f7d84b82c079de80e34725b1d7f679",
+          "new_body_sha256": "7a3ae6ab324db68e739368d3fcf4e324d55492b82a3bc95c2bf384c3404baec6",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.expected",
+      "expected_sha256": "da6d6d8e991c018a41a51f154de001afa55f2f7ecee7218ebcc88c38d9bd7634",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/generated-positive-plain.rs",
+      "harnesses": [
+        {
+          "name": "generated_function_item",
+          "old_body_sha256": "c77439bd6dbb1d1c283407c37d6ad691d224a44b297ef8e365dfd68dc18e0bd9",
+          "new_body_sha256": "c77439bd6dbb1d1c283407c37d6ad691d224a44b297ef8e365dfd68dc18e0bd9",
+          "equal_after_only_call_qualification": true
+        },
+        {
+          "name": "drop_closure_glue",
+          "old_body_sha256": "5ce28bcb0eee0b97bde0759088cf04e0d7319941a52ed4b45e230e0ff469774b",
+          "new_body_sha256": "5ce28bcb0eee0b97bde0759088cf04e0d7319941a52ed4b45e230e0ff469774b",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/generated-positive-plain.expected",
+      "expected_sha256": "9cd695c99aa3bbdb0920a7e5831ac21a0f3c82819b1885689ebcf4f789124fef",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs",
+      "harnesses": [
+        {
+          "name": "generated_function_item",
+          "old_body_sha256": "93ec8393960dc564f335ce60c31018a3441a57975e8428ffd314ea3a63ffacc7",
+          "new_body_sha256": "3962e38f7f5d30afad2abd1c7bcdd53aec23d5d94058396a8820eaa19c460c9b",
+          "equal_after_only_call_qualification": true
+        },
+        {
+          "name": "drop_closure_glue",
+          "old_body_sha256": "0db628d48853b1d37d20b8588b7f110999b1cee72256f38b738418669963993c",
+          "new_body_sha256": "6636c5f4b6c2d50c14cbbf4bd08c7da3df50e962c64da49d805a21c427dbbbe5",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.expected",
+      "expected_sha256": "9cd695c99aa3bbdb0920a7e5831ac21a0f3c82819b1885689ebcf4f789124fef",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/global-escaped-plain.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "b95f4c4c64796828e180ce8f5c33606b5fd3ca3ef7ca5055882e883861e7d116",
+          "new_body_sha256": "b95f4c4c64796828e180ce8f5c33606b5fd3ca3ef7ca5055882e883861e7d116",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/expected",
+      "expected_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "a05d1b06255b6244273bb25a4c00c3344e24b92b76163d369cdaea448fcecfca",
+          "new_body_sha256": "90d0ae78cfdc4081af622a699a486ec448a3524ebc92546b53b1facd95a2d11c",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/expected",
+      "expected_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/pending-ops-plain.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "d0516d5abbce0beab4c47b1033cf31584549c38162ec35b28dd9cce3805a16d4",
+          "new_body_sha256": "d0516d5abbce0beab4c47b1033cf31584549c38162ec35b28dd9cce3805a16d4",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/pending-ops-plain.expected",
+      "expected_sha256": "a98cba93c04805a857c52b571a41e93a9fb459dc3ba606dba7d91153258cc01c",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "2dd9a500dfaecdf2d997a54c271c1a857e5950479c27a8744e8a83f8d4427ddb",
+          "new_body_sha256": "b06d619883441b0a8fa727324e9015f79b4caa7f81c7a11e8342868053fda023",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected",
+      "expected_sha256": "a98cba93c04805a857c52b571a41e93a9fb459dc3ba606dba7d91153258cc01c",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/virtual-plain.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "6c9990f0dc919b77d9499323ecf50ce04fc061eb96d8feb8eaaa931b694d36ad",
+          "new_body_sha256": "6c9990f0dc919b77d9499323ecf50ce04fc061eb96d8feb8eaaa931b694d36ad",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/virtual-plain.expected",
+      "expected_sha256": "7f159f37bda578496904e263508101f8894d9130c37a061d5ae6e6773fd3bc25",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/virtual-seeded.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "91205945b583f711ff32bf57180ac7b19e06f8f2bb5ee139a3cd71a1d54c0f8e",
+          "new_body_sha256": "22c15f184d01cb16d57712429cc66effe93188708db50b49379b4b0197bf577c",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/virtual-seeded.expected",
+      "expected_sha256": "7f159f37bda578496904e263508101f8894d9130c37a061d5ae6e6773fd3bc25",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "2fb4f53e57181f0bbf3e7bcd4da297fd47b1996417c5b0d781aca612e16261dc",
+          "new_body_sha256": "2fb4f53e57181f0bbf3e7bcd4da297fd47b1996417c5b0d781aca612e16261dc",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/expected",
+      "expected_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_identical_to_parent": true
+    },
+    {
+      "source": "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs",
+      "harnesses": [
+        {
+          "name": "check",
+          "old_body_sha256": "0599edad4d347869e01c17ef5010af9fbf337a4d4e9e18dac971dedc67a2fe55",
+          "new_body_sha256": "3ab26c0846ad06a7733e71cd21e8b9d9747010bbccb3637150c6b5147b81cfc8",
+          "equal_after_only_call_qualification": true
+        }
+      ],
+      "restores_entire_source_exactly": true,
+      "effective_expected": "tests/expected/uninit/unresolved-calls/expected",
+      "expected_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_identical_to_parent": true
+    }
+  ]
+}
