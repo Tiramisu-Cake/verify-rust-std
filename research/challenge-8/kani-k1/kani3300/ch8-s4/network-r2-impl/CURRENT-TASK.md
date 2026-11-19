@@ -1,0 +1,7 @@
+# Network r2 — coordinator offline implementation
+
+Runtime: Codex. One stage; stop with HANDOFF. Direct user assignment 2026-11-19 is authority, superseding plan-only restrictions solely for this offline implementation.
+
+Implement plan cdedf547df37aec4c442727a902a784f4d1b5155 and all six constraints of independent APPROVE 2b7872e84c. Eight roots, four existing negatives first and unchanged. New harness module and minimal registration; concrete N2/N3/N4 actual-call/snapshot/post slices; independent bool N01 with two actual original-helper calls and common snapshot/post/roles/covers. All34 independent full-u8, V34/base1, unchanged oracles/frame/canary/Original/null, four SUCCESS roles per positive and covers6/6/6/3. No production/model/contract/old-harness/protected-runtime/tool changes beyond minimal shared routing; callee/oracle change is a stop boundary.
+
+Preserve unwind36 on positives/Cell and existing34 on first three negatives, checks and all caps. Prepare new exact profile/request/maps, meaningful CI Validate regressions/adverse checks with old tests retained, static preflight/patch replay/shallow checks and immutable manifest. Prepare but DO NOT RUN one final Validate on final control:18min, margin>=1.5. Commit as Tiramisu-Cake <igkharin@gmail.com> with [skip ci]. Local source branch allowed. NO push, CI, cargo/rustc/rustfmt/Kani/CBMC, native tools, ledger or coordinator operations; no subagents. Source/model/MIR/native fit and proof credit remain unestablished.
