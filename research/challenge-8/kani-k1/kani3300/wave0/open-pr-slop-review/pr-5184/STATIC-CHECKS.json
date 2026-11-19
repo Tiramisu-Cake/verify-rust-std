@@ -1,0 +1,105 @@
+{
+  "schema": "pr5184-offline-review-checks-v1",
+  "result": "PASS",
+  "head": "f99713506f7ba91f971f3b7359ebbe41ca373adf",
+  "tree": "d3127bc67a6317d939480aece405f6ea95993e24",
+  "base_and_merge_base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "changed_files": {
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs": {
+      "sha256": "0dd7a14f8b822f09ea40abf13715d22a0c0d63f438cab9f58511e97808b022fc",
+      "bytes": 35816
+    },
+    "tests/expected/uninit/recursive-delayed/recursive-delayed.expected": {
+      "sha256": "baf08e379ce252f735527aa5d949ed9f1e1ef6f7fd30161fbeb2101b3ed9c886",
+      "bytes": 109
+    },
+    "tests/expected/uninit/recursive-delayed/recursive-delayed.rs": {
+      "sha256": "2a27f44ca90950f26ba11b229b063a39dfe7dc8b6ea4d7e7d92f1c0c7b3dbc45",
+      "bytes": 707
+    },
+    "tests/expected/uninit/recursive-delayed/repeated-calls.expected": {
+      "sha256": "d64a27c6cb5073985dc24f067943c16d3aae3965e3a54678fc101b9182cebc31",
+      "bytes": 354
+    },
+    "tests/expected/uninit/recursive-delayed/repeated-calls.rs": {
+      "sha256": "b5f6b981e702b64cb2eb9c708fd7182cb0dd67d6d669bc365b1ac83bc277d66e",
+      "bytes": 803
+    }
+  },
+  "snapshots_match": true,
+  "selected_common_manifest_entries_verified": {
+    "pr-5184/INPUTS.json": {
+      "sha256": "13843398f0c64de927c7c3c0ece7e76d09f62c167bc8eac399536c27d53dc020",
+      "bytes": 3270
+    },
+    "pr-5184/SOURCE.patch": {
+      "sha256": "7b24ed34ff91b4b33616fc3b91649df71359e5eec0f81a4086c9f71ea139a43c",
+      "bytes": 6968
+    },
+    "pr-5184/CONNECTED-PR.json": {
+      "sha256": "479891899dc83c7a0b107fd47ccf6137bae58a0a7e34e1e8f6a7c2dce00518f2",
+      "bytes": 6958
+    },
+    "pr-5184/PR-BODY.snapshot.md": {
+      "sha256": "78bf0bf18d653a3b6dcb1166707b998d9616f95f58ed57a2def038f76034b2d4",
+      "bytes": 1271
+    },
+    "ROOT-DECISION.md": {
+      "sha256": "649e98f42a3a9f4fcb43ded3dee59bf5aabe126029a9702564d7d42e795149aa",
+      "bytes": 1630
+    },
+    "STYLE-UPSTREAM-RULES.snapshot.md": {
+      "sha256": "5932c080cd5938ad7fcb159b1847e663df828beffc17196716b001e6a5cb9e7a",
+      "bytes": 3240
+    }
+  },
+  "source_patch_exact": true,
+  "source_detached_clean": true,
+  "diff_whitespace": "PASS",
+  "active_set_source_checks": {
+    "resolved_Instance_key_includes_generic_args": true,
+    "insert_before_fixpoint_remove_after_return_state_collection": true,
+    "call_guard_aborts_before_regular_descent": true,
+    "only_two_run_call_sites_entry_and_regular_descent": true,
+    "same_active_set_passed_to_child": true,
+    "no_permanent_seen_or_summary_cache_added": true
+  },
+  "source_harnesses": {
+    "tests/expected/uninit/recursive-delayed/recursive-delayed.rs": [
+      "recursive_call_reached_from_delayed_ub"
+    ],
+    "tests/expected/uninit/recursive-delayed/repeated-calls.rs": [
+      "repeated_calls_uninitialized",
+      "repeated_calls_initialized"
+    ]
+  },
+  "fixture_source_checks": {
+    "recursive_edge_remains_in_depth_zero_helper_body": true,
+    "late_tuple_store_activates_delayed_target_analysis": true,
+    "two_independent_rs_compilations": true,
+    "repeated_calls_target_distinct_allocations_in_negative": true,
+    "repeated_same_allocation_calls_then_full_reinitialization_in_positive": true,
+    "recursion_expected_error_and_callsite_exact": true,
+    "negative_property_failure_description_adjacent_and_function_bound": true,
+    "positive_harness_name_success_fragment_and_1_1_2_summary": true,
+    "same_header_flags_no_ignores_filters_or_panic_controls": true
+  },
+  "unchanged_context_sha256": {
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs": "ceb62c0b22f8c29a7b859df161e113954bef42f6b42ea498222cc86efff6e9be",
+    "tools/compiletest/src/main.rs": "9e15ceb4c5dc7bc505081d3ec2be8a4af8bdb8fdf0cd0e5ffcbc137ea36dc412",
+    "tools/compiletest/src/header.rs": "9ea266041cff8aaeee82f5270431f0c5f10e1ffa11ce4fd544ac733ab7dbc6e7",
+    "tools/compiletest/src/runtest.rs": "7ab3d25a027144d8b4b669990793d8f76b980d7a9f9ed59130af8a95749797a4",
+    "scripts/kani-regression.sh": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+    "kani-driver/src/harness_runner.rs": "4ddabb49fcbc59990e1cce5b6d2985eae33d12724fe1efe2af2534cc4ba0f480"
+  },
+  "native": "NOT_RUN",
+  "limitations": "Text/hash and source control-flow checks only; no Rust parsing, MIR, actual dataflow execution, compiler error/stack overflow, verifier outcomes, CI results or Python graph-model proof.",
+  "closeout": {
+    "source_unchanged_detached_clean": true,
+    "snapshots_unchanged": true,
+    "all_three_harnesses_retained_and_named": true,
+    "no_removal_or_merge_recommended": true,
+    "PR_two_substance_paragraphs_one_pending_link_exact_disclosures": true,
+    "native": "NOT_RUN"
+  }
+}
