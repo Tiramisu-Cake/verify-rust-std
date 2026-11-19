@@ -1,0 +1,201 @@
+diff --git a/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs b/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
+index 3a53ecb88f3cba00e8af9dcdd32c71a5b4041573..e49da2d961e35f48554aba49eeadd75f6aae1a3d 100644
+--- a/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
++++ b/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
+@@ -193,7 +193,7 @@ fn apply_primary_terminator_effect(
+     ) {
+         if let TerminatorKind::Call { func, args, destination, .. } = &terminator.kind {
+             // Instrumentation stops execution at unsupported calls before their effects occur.
+-            let Ok(instance) =
++            let Ok((instance, body)) =
+                 resolve_call(self.tcx, rustc_internal::stable(func.ty(self.body, self.tcx)))
+             else {
+                 return;
+@@ -327,7 +327,8 @@ fn apply_primary_terminator_effect(
+                         }
+                     } else {
+                         // Otherwise, handle this as a regular function call.
+-                        self.apply_regular_call_effect(state, instance, args, destination);
++                        let Some(body) = body else { return };
++                        self.apply_regular_call_effect(state, instance, body, args, destination);
+                     }
+                 }
+             }
+@@ -344,10 +345,12 @@ fn apply_call_return_effect(
+     }
+ }
+ 
+-/// Resolve calls whose effects the uninitialized-memory passes can follow.
+-/// The local visitor emits unsupported-call checks and guards memory initialization state
+-/// transfers through compiler-generated shims.
+-pub fn resolve_call(tcx: TyCtxt, func_ty: StableTy) -> Result<StableInstance, String> {
++/// Resolve a supported direct callee and return its checked MIR body.
++/// Intrinsics and foreign items return no body.
++pub fn resolve_call(
++    tcx: TyCtxt,
++    func_ty: StableTy,
++) -> Result<(StableInstance, Option<StableBody>), String> {
+     let StableTyKind::RigidTy(StableRigidTy::FnDef(def, args)) = func_ty.kind() else {
+         return Err(unsupported_call_reason("calls through function pointers"));
+     };
+@@ -355,13 +358,13 @@ pub fn resolve_call(tcx: TyCtxt, func_ty: StableTy) -> Result<StableInstance, St
+         format!("Kani could not resolve function item `{func_ty:?}` for memory initialization checks: {err:?}.")
+     })?;
+     let reason = match instance.kind {
+-        StableInstanceKind::Intrinsic => return Ok(instance),
+-        StableInstanceKind::Item if instance.is_foreign_item() => return Ok(instance),
++        StableInstanceKind::Intrinsic => return Ok((instance, None)),
++        StableInstanceKind::Item if instance.is_foreign_item() => return Ok((instance, None)),
+         StableInstanceKind::Item | StableInstanceKind::Shim => {
+             // Check MIR availability for the instance, including compiler-generated shims,
+             // and report explicit tail calls before converting user code to stable MIR.
+-            if crate::kani_middle::checked_body(tcx, instance).is_some() {
+-                return Ok(instance);
++            if let Some(body) = crate::kani_middle::checked_body(tcx, instance) {
++                return Ok((instance, Some(body)));
+             }
+             format!("calls to bodyless {:?} instances", instance.kind)
+         }
+@@ -443,19 +446,12 @@ fn apply_regular_call_effect(
+         &self,
+         state: &mut PointsToGraph<'tcx>,
+         instance: Instance<'tcx>,
++        body: StableBody,
+         args: &[Spanned<Operand<'tcx>>],
+         destination: &Place<'tcx>,
+     ) {
+         // Here we simply call another function, so need to retrieve internal body for it.
+-        let new_body = {
+-            let stable_instance = rustc_internal::stable(instance);
+-            // Preserve accumulated edges when the callee's body is unavailable.
+-            let Some(stable_body) = crate::kani_middle::checked_body(self.tcx, stable_instance)
+-            else {
+-                return;
+-            };
+-            stable_body.internal_mir(self.tcx)
+-        };
++        let new_body = body.internal_mir(self.tcx);
+ 
+         // In order to be efficient, create a new graph for the function call analysis, which only
+         // contains arguments and statics and anything transitively reachable from them.
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+index 6d5e6940e20aa46e421fb2ed7682c7e90454e7b3..baf4236745560360113099012f05c4234220ab6c 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+@@ -129,7 +129,6 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+ /// The instance a call operand refers to, if it is a function item rather than a function pointer.
+ fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Option<Instance> {
+     match func.ty(locals).unwrap().kind() {
+-        // Successfully resolved instances can identify intrinsics that create analysis targets.
+         TyKind::RigidTy(RigidTy::FnDef(def, args)) => Instance::resolve(def, &args).ok(),
+         _ => None,
+     }
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
+index 9bc70819031b79835540b90eff1c2317abf27d1d..5d26dc5fad2afec1c7bc866163cc9183617d4f5f 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
+@@ -103,8 +103,7 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+         } else {
+             unreachable!()
+         }
+-        // The local uninitialized-memory visitor checks call operands and emits unsupported-call
+-        // checks independently of the analysis targets collected here.
++        // The local visitor checks call operands and reports unsupported calls.
+         self.super_terminator(term, location);
+         // Push the current target from the terminator onto the list.
+         self.targets.push(self.current_target.clone());
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 1f45e5c32680540a63ee6f803ae5b048fd79f96d..fb91a51d7fa6ea5abd8ea8823e2aa47d7890532a 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -28,6 +28,7 @@
+     },
+     ty::{AdtKind, ConstantKind, RigidTy, Ty, TyConstKind, TyKind},
+ };
++use std::collections::HashSet;
+ 
+ pub struct CheckUninitVisitor<'tcx> {
+     tcx: TyCtxt<'tcx>,
+@@ -283,8 +284,7 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                     Ok(instance) => instance,
+                     Err(reason) => {
+                         self.push_target(MemoryInitOp::Unsupported { reason });
+-                        // Keep entry loads and operations collected while visiting the call.
+-                        // The common terminator epilogue publishes the collected target.
++                        // Publish entry loads and operand checks through the terminator epilogue.
+                         break 'call;
+                     }
+                 };
+@@ -411,8 +411,8 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                         }
+                     }
+                     InstanceKind::Item | InstanceKind::Shim => {
+-                        // The resolver accepts MIR bodies and foreign items. Foreign items use
+-                        // the models below; other calls transfer union argument and return state.
++                        // Model foreign allocation calls here. Calls with MIR bodies store
++                        // initialization state for union arguments.
+                         if instance.is_foreign_item() {
+                             match instance.name().as_str() {
+                                 "alloc::alloc::__rust_alloc" | "alloc::alloc::__rust_realloc" => {
+@@ -764,31 +764,37 @@ fn try_remove_topmost_deref(place: &Place) -> Option<Place> {
+     }
+ }
+ 
+-/// Try retrieving instance for the given function operand.
++/// Resolve a call operand and discard the checked body.
+ fn try_resolve_instance(
+     tcx: TyCtxt,
+     locals: &[LocalDecl],
+     func: &Operand,
+ ) -> Result<Instance, String> {
+-    resolve_call(tcx, func.ty(locals).unwrap())
++    resolve_call(tcx, func.ty(locals).unwrap()).map(|(instance, _)| instance)
+ }
+ 
+-/// Check whether a type may carry memory initialization state through a compiler-generated shim.
+-/// Inspect unions and nested by-value storage; references and pointers carry addresses.
+-/// Treat unknown types conservatively as carrying memory initialization state.
++/// Check for unions or unclassified types in a shim's by-value storage.
++/// Follow aggregate fields and captures; stop at pointers and references.
+ fn shim_type_may_carry_shadow(tcx: TyCtxt<'_>, ty: Ty) -> bool {
+-    fn inspect<'tcx>(tcx: TyCtxt<'tcx>, ty: rustc_middle::ty::Ty<'tcx>) -> bool {
++    fn inspect<'tcx>(
++        tcx: TyCtxt<'tcx>,
++        ty: rustc_middle::ty::Ty<'tcx>,
++        visited: &mut HashSet<rustc_middle::ty::Ty<'tcx>>,
++    ) -> bool {
+         use rustc_middle::ty::TyKind;
++        if !visited.insert(ty) {
++            return false;
++        }
+         match ty.kind() {
+             TyKind::Adt(def, args) => {
+                 def.is_union()
+-                    || def
+-                        .all_fields()
+-                        .any(|field| inspect(tcx, field.ty(tcx, args).skip_normalization()))
++                    || def.all_fields().any(|field| {
++                        inspect(tcx, field.ty(tcx, *args).skip_normalization(), visited)
++                    })
+             }
+-            TyKind::Tuple(fields) => fields.iter().any(|field| inspect(tcx, field)),
+-            TyKind::Array(element, _) | TyKind::Pat(element, _) => inspect(tcx, *element),
+-            TyKind::Closure(_, args) => inspect(tcx, args.as_closure().tupled_upvars_ty()),
++            TyKind::Tuple(fields) => fields.iter().any(|field| inspect(tcx, field, visited)),
++            TyKind::Array(element, _) | TyKind::Pat(element, _) => inspect(tcx, *element, visited),
++            TyKind::Closure(_, args) => inspect(tcx, args.as_closure().tupled_upvars_ty(), visited),
+             TyKind::Bool
+             | TyKind::Char
+             | TyKind::Int(_)
+@@ -802,10 +808,9 @@ fn inspect<'tcx>(tcx: TyCtxt<'tcx>, ty: rustc_middle::ty::Ty<'tcx>) -> bool {
+             _ => true,
+         }
+     }
+-    inspect(tcx, rustc_internal::internal(tcx, ty))
++    inspect(tcx, rustc_internal::internal(tcx, ty), &mut HashSet::new())
+ }
+ 
+-/// Describe an unsupported call encountered during memory initialization checks.
+ fn unsupported_call_reason(kind: &str) -> String {
+     format!(
+         "Kani does not support memory initialization checks across {kind}. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."

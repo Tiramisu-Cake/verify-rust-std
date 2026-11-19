@@ -1,0 +1,156 @@
+{
+  "schema": "pr5172-reviewed-merge-r2-full-ci-go-v1",
+  "root_consent": "AGREE_ONE_FULL_STANDARD_FORK_CAMPAIGN",
+  "decision_at": "2026-11-19T22:55:34.041518+00:00",
+  "source_commit": "7e53bc65394dd1af675545c428ca2ff29e7a6a27",
+  "tree": "46f343ba308f8d5922ce6d101ead94d96f24be35",
+  "ordered_parents": [
+    "be926954f97d39628227c51a27fd702ea5eb0c98",
+    "d91aeeea94a8a4a697f9416fafbe6cf0f8816801"
+  ],
+  "fork": "Tiramisu-Cake/kani",
+  "branch": "fix/pr5172-copilot-20261119",
+  "push_kind": "NORMAL_FAST_FORWARD_FROM_EXACT_FIRST_PARENT",
+  "source_non_skip": true,
+  "rewrite_squash_sibling_required": false,
+  "merge_package": "843ce7ccc5c17fd3b0da7fcbc46cfd56693d6210",
+  "code_independent_review": "0a52785cc06e99841210b720d2bd554cb1a800d6",
+  "slop_review": "16b5608bf91a469099866ae6677a4f859c19b0c9",
+  "comments_package": "1b1785e15aa029d55c68085c9e3a27dd2eed5b19",
+  "inheritance": "Automatic merge reproduces exact tree; relative four-file patch, whole baseline files and final files equal reviewed source; independent old-patch replay yields exact merged tree. No conflict resolutions or new code edits.",
+  "relative_patch_sha256": "bdba72a159d765655f28d76c599fa47e00a5e98f004beb7f0535f73b277f3056",
+  "relative_patch_base": "d91aeeea94a8a4a697f9416fafbe6cf0f8816801",
+  "source_scope": [
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs"
+  ],
+  "diff_stat": {
+    "insertions": 39,
+    "deletions": 40
+  },
+  "toolchain": {
+    "channel": "nightly-2026-11-19",
+    "rustc_source_commit_author_checked": "65ce8611fed3142053320be6996ef00e9992671f",
+    "assessment": "Targeted static nightly API audit reports no concrete incompatibility; not exhaustive Rust audit or observed compile/MIR/native PASS. Prior nightly18 CI not transferred."
+  },
+  "main": {
+    "author_checked": "fca73e13186782e62d286ef89c43d2fcc4bb3a51",
+    "root_connected": "5d80a641d333c929e00ed1e1255c637265f15749",
+    "extra_commit": "#5112",
+    "extra_changed_paths": [
+      "docs/src/reference/experimental/autoharness.md",
+      "kani-driver/src/autoharness/mod.rs",
+      "kani-driver/src/call_cbmc.rs",
+      "kani-driver/src/frontend/schema_utils.rs",
+      "kani-driver/src/session.rs",
+      "tests/script-based-pre/autoderive_arbitrary_enums/enums.expected",
+      "tests/script-based-pre/cargo_autoharness_contracts/contracts.expected",
+      "tests/script-based-pre/cargo_autoharness_default_bounds_scope/Cargo.toml",
+      "tests/script-based-pre/cargo_autoharness_default_bounds_scope/config.yml",
+      "tests/script-based-pre/cargo_autoharness_default_bounds_scope/default_bounds_scope.expected",
+      "tests/script-based-pre/cargo_autoharness_default_bounds_scope/default_bounds_scope.sh",
+      "tests/script-based-pre/cargo_autoharness_default_bounds_scope/src/lib.rs",
+      "tests/script-based-pre/cargo_autoharness_harnesses_fail/harnesses_fail.expected",
+      "tests/script-based-pre/cargo_autoharness_termination_timeout/termination_timeout.expected",
+      "tests/script-based-pre/cargo_autoharness_termination_unwind/termination_unwind.expected",
+      "tests/script-based-pre/cargo_autoharness_type_invariant/type-invariant.expected"
+    ],
+    "hypothetical_merge_tree": "a105a883dd341e164505ec43039d0beca10bed05",
+    "actually_merged": false,
+    "5192_in_candidate": false,
+    "combination_semantics": "UNKNOWN; clean textual merge does not validate runtime interaction or future combination"
+  },
+  "full_standard": {
+    "expected_native_instances": 12,
+    "workflow_bindings": {
+      ".github/workflows/kani.yml": {
+        "git_blob": "3e34d8ac3c0844d9ac9409790e7cb0a669381dad",
+        "sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303"
+      },
+      ".github/workflows/format-check.yml": {
+        "git_blob": "9d21eeb4569234292401f90c66c833f6960f06fb",
+        "sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8"
+      },
+      ".github/workflows/deny.yml": {
+        "git_blob": "c54ce6bbcb075df881984f714589011c4b88d5e4",
+        "sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf"
+      }
+    },
+    "regression_os": [
+      "macos-15-intel",
+      "ubuntu-22.04",
+      "ubuntu-24.04",
+      "macos-15",
+      "ubuntu-24.04-arm"
+    ],
+    "kani_other": [
+      "benchcomp-tests",
+      "perf",
+      "llbc-regression",
+      "documentation"
+    ],
+    "format": [
+      "format-check",
+      "clippy-check"
+    ],
+    "deny": [
+      "audit"
+    ]
+  },
+  "attempts_authorized": 1,
+  "manual_rerun_authorized": false,
+  "internal_workflow_behavior": "Preserve existing unchanged internal retries and full matrix",
+  "pre_push_gate": [
+    "Coordinator rechecks exact source/tree/ordered parents, NONSKIP and clean candidate; no source regeneration or new main merge under this consent.",
+    "Destination ref must still equal exact first parent be926954f; normal fast-forward only, no force. If already at source or runs already exist, inspect without another push/run.",
+    "Destination fork ref must remain separate from open-PR head; update only specified fork test branch.",
+    "Record item-1 ledger row and push exact reviewed merge once, then bind actual new-head Kani/Format/Deny run IDs."
+  ],
+  "future_run_ids": "UNKNOWN_UNTIL_COORDINATOR_DISPATCH",
+  "native_new_head_before_dispatch": "NOT_RUN. Old fork Kani conclusion FAILURE and Format/Deny SUCCESS remain historical old-head suite metadata; no full-green or named-harness/MIR claim.",
+  "future_owner_push_package": {
+    "authorized_by_this_go": false,
+    "required": [
+      "Explicit owner command",
+      "Actual new-head full CI results with truthful failures/cancelled/unknown distinctions",
+      "Original PR still exact d91aeeea94 or reconcile changed head and obtain renewed review/GO",
+      "All upstream workflows genuinely idle/terminal, including benchmarks and release",
+      "Recheck auto-merge is disabled; if enabled use follow-up unless owner explicitly changes instruction",
+      "Merge-only normal push without force; do not treat fork dispatch as PR publication approval"
+    ],
+    "snapshot_pending_upstream": [
+      {
+        "id": 44623432793,
+        "name": "Kani Benchmarks",
+        "head_sha": "d91aeeea94a8a4a697f9416fafbe6cf0f8816801",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "event": "pull_request",
+        "status": "in_progress",
+        "conclusion": null,
+        "run_attempt": 2,
+        "path": ".github/workflows/bench-pr.yml"
+      },
+      {
+        "id": 44623432719,
+        "name": "Release Bundle",
+        "head_sha": "d91aeeea94a8a4a697f9416fafbe6cf0f8816801",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "event": "pull_request",
+        "status": "queued",
+        "conclusion": null,
+        "run_attempt": 2,
+        "path": ".github/workflows/release.yml"
+      }
+    ]
+  },
+  "postrun": "After all three workflows terminal, bounded metadata factual intake; no automatic fix/retry/push/publication. Source intentions, suite successes, named properties/MIR and unknowns remain distinct. Refresh any owner-controlled text from actual new-head results.",
+  "accounting": {
+    "item": 1,
+    "policy": "TRACKING_ONLY",
+    "owner": "COORDINATOR",
+    "root_changes": false
+  },
+  "root_actions": "Read-only connected metadata/Git source inspection, exact automatic merge and temporary-index replay, latest main object fetch without ref changes, local GO records. No Rust/compiler/formatter/native execution, CI, push or ledger/accounting."
+}

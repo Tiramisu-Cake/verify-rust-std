@@ -1,0 +1,375 @@
+{
+  "schema": "root-pr5172-merge-r2-recheck-v1",
+  "checked_at": "2026-11-19T22:55:34.041518+00:00",
+  "checks_passed": 62,
+  "checks": [
+    "Exact merge HEAD/tree/ordered two parents",
+    "Intended local branch",
+    "Source worktree and index clean",
+    "Normal fast-forward from fork head and PR head retained in ancestry",
+    "Exactly one new merge on tested fix first-parent history",
+    "Exact author and committer identity",
+    "Merge commit NONSKIP",
+    "Independent automatic merge-tree reproduces exact committed tree without resolutions",
+    "Whole reviewed fix-plus-comment patch is byte-identical against new PR head, including blob IDs and coordinates",
+    "Exactly four previously reviewed compiler files relative to new PR head",
+    "Complete baseline file equals old reviewed baseline: kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "Complete final file equals reviewed fix/comment candidate: kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "Complete baseline file equals old reviewed baseline: kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "Complete final file equals reviewed fix/comment candidate: kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "Complete baseline file equals old reviewed baseline: kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "Complete final file equals reviewed fix/comment candidate: kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "Complete baseline file equals old reviewed baseline: kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "Complete final file equals reviewed fix/comment candidate: kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "Exact 39 insertions and 40 deletions",
+    "Independent temporary-index reviewed patch replay on new PR head yields exact whole source tree",
+    "Complete relative diff whitespace check",
+    "Inherited PR subtree/file unchanged: tests",
+    "Inherited PR subtree/file unchanged: library",
+    "Inherited PR subtree/file unchanged: scripts",
+    "Inherited PR subtree/file unchanged: .github",
+    "Inherited PR subtree/file unchanged: kani-driver",
+    "Inherited PR subtree/file unchanged: kani_metadata",
+    "Inherited PR subtree/file unchanged: tools",
+    "Inherited PR subtree/file unchanged: Cargo.toml",
+    "Inherited PR subtree/file unchanged: Cargo.lock",
+    "Inherited PR subtree/file unchanged: rust-toolchain.toml",
+    "Maintainer PR merge exact ordered parents",
+    "Inherited upstream nightly toolchain adaptation retained",
+    "Merged source uses exact newly inherited nightly",
+    "New connected main is one child of author checked main",
+    "Additional main #5112 has no textual overlap with four reviewed follow-up files",
+    "Additional main commit identified as autoharness bounds scoping #5112",
+    "No main #5192/#5112 combination silently included in candidate",
+    "Read-only merge-tree with author main including #5192 is clean",
+    "Read-only merge-tree with fresh connected main is clean; hypothetical tree not selected",
+    "Exact committed handoff bytes: pr5172-merge-r2/HANDOFF.md",
+    "Exact committed handoff bytes: pr5172-copilot-review/HANDOFF.md",
+    "Exact committed handoff bytes: pr5172-slop-r2/HANDOFF.md",
+    "Exact committed handoff bytes: pr5172-comments/HANDOFF.md",
+    "Code fix has independent APPROVE on exact inherited source",
+    "Merge handoff full pin bindings",
+    "Nightly static API investigation explicitly retains exhaustive/native limitations",
+    "Author targeted source audit binds both dated rustc revisions",
+    "Standard workflow matches fork push: .github/workflows/kani.yml",
+    "Standard workflow matches fork push: .github/workflows/format-check.yml",
+    "Standard workflow matches fork push: .github/workflows/deny.yml",
+    "Full five-platform regression matrix",
+    "Full twelve standard native instances preserved",
+    "Connected fork destination still exact first parent",
+    "Connected upstream PR still exact merged-in head",
+    "PR auto-merge not enabled at snapshot; future publication recheck remains required",
+    "Destination fork ref is not the head of an open upstream PR",
+    "Fresh connected main exact read-only compatibility comparison",
+    "Three prior fork workflows terminal and bound to old nightly head only",
+    "Prior standard fork run completeness",
+    "Actual upstream nonterminal runs retained; no PR push permitted by this GO",
+    "New immutable GO output absent"
+  ],
+  "source": "7e53bc65394dd1af675545c428ca2ff29e7a6a27",
+  "tree": "46f343ba308f8d5922ce6d101ead94d96f24be35",
+  "parents": [
+    "be926954f97d39628227c51a27fd702ea5eb0c98",
+    "d91aeeea94a8a4a697f9416fafbe6cf0f8816801"
+  ],
+  "identity": [
+    "Tiramisu-Cake <igkharin@gmail.com>",
+    "Tiramisu-Cake <igkharin@gmail.com>"
+  ],
+  "message": "Merge branch 'fix/kani-uninit-unresolved-call-v3' into fix/kani-uninit-unresolved-call-v3\n\n",
+  "source_bindings": {
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs": {
+      "baseline_blob": "3a53ecb88f3cba00e8af9dcdd32c71a5b4041573",
+      "baseline_sha256": "7b5fd6e545ca8efc9729dd87dda22e927cca68d16de085b1bb76576fe1bd8440",
+      "final_blob": "e49da2d961e35f48554aba49eeadd75f6aae1a3d",
+      "final_sha256": "f0188d6a9658a35b0cb41fc9a15a9379070a5798bc75bca10df37e210568bece"
+    },
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs": {
+      "baseline_blob": "6d5e6940e20aa46e421fb2ed7682c7e90454e7b3",
+      "baseline_sha256": "0edfcdb06df42c0754263a330ff4748bba1b8090a74f796c7d9b3dc8b3bd7f1b",
+      "final_blob": "baf4236745560360113099012f05c4234220ab6c",
+      "final_sha256": "f507fa923dd7e90913a3239bb91c82e863256c54ce67a2e4d0dbfd7a93417143"
+    },
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs": {
+      "baseline_blob": "9bc70819031b79835540b90eff1c2317abf27d1d",
+      "baseline_sha256": "3b20bb424d03e62b4f495b1b4f1a5e6e28492c0b87c32bfc8129d3c0d9c20819",
+      "final_blob": "5d26dc5fad2afec1c7bc866163cc9183617d4f5f",
+      "final_sha256": "200c5ce3172a03128fef54f951b71dc55828387b340c0a340501041a4709c170"
+    },
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": {
+      "baseline_blob": "1f45e5c32680540a63ee6f803ae5b048fd79f96d",
+      "baseline_sha256": "e6782119c5450de93159766c0dee880a092d6640162b00dc2830eec637930c08",
+      "final_blob": "fb91a51d7fa6ea5abd8ea8823e2aa47d7890532a",
+      "final_sha256": "544354952c62c2f75484fd66024f09ad1c7dd6aa4c0c7d3ba3fb714f08e1f6ce"
+    }
+  },
+  "reviewed_patch_sha256": "bdba72a159d765655f28d76c599fa47e00a5e98f004beb7f0535f73b277f3056",
+  "temporary_index_replay_tree": "46f343ba308f8d5922ce6d101ead94d96f24be35",
+  "author_main_hypothetical_merge_tree": "0954c429de190c35f1c72112611ad1e6711f6b12",
+  "fresh_main_hypothetical_merge_tree": "a105a883dd341e164505ec43039d0beca10bed05",
+  "committed_handoff_bindings": {
+    "pr5172-merge-r2/HANDOFF.md": {
+      "commit": "843ce7ccc5c17fd3b0da7fcbc46cfd56693d6210",
+      "git_blob": "621dd6b1a8f3be82d5095c2bfbfab8d01427f8d4",
+      "sha256": "b9af2c9fee0b52d794a04a1ae43403d2055e05cbfa90718fd78a37a47bb45019",
+      "bytes": 22445
+    },
+    "pr5172-copilot-review/HANDOFF.md": {
+      "commit": "0a52785cc06e99841210b720d2bd554cb1a800d6",
+      "git_blob": "88d35561713e626743818f3216d23b9c4b3c2c24",
+      "sha256": "8d0599087e24575c9f7b8c7c1767fc90236e7df7a10c15f2898d9ad39c9c3668",
+      "bytes": 17811
+    },
+    "pr5172-slop-r2/HANDOFF.md": {
+      "commit": "16b5608bf91a469099866ae6677a4f859c19b0c9",
+      "git_blob": "f7ec818baa50144084ad8cc5343ac6edaf74bfce",
+      "sha256": "50fb9154ce57fc7beb6c57be60a438fd1e44edef33c43a05f26be63662f15f43",
+      "bytes": 11130
+    },
+    "pr5172-comments/HANDOFF.md": {
+      "commit": "1b1785e15aa029d55c68085c9e3a27dd2eed5b19",
+      "git_blob": "28eb0bf9eda7934b617b101e1939bb9127e4531d",
+      "sha256": "06e5874ec7b50a4ec19cb624df31047a768fe1dbae1bb24b284485e80a4e71af",
+      "bytes": 9833
+    }
+  },
+  "connected_snapshot": {
+    "checked_at": "2026-11-19T22:53:05.284Z",
+    "fork_ref": {
+      "ref": "refs/heads/fix/pr5172-copilot-20261119",
+      "node_id": "REF_kwDOVp9vW9oAJnJlZnMvaGVhZHMvZml4L3ByNTE3Mi1jb3BpbG90LTIwMjYxMTE5",
+      "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/refs/heads/fix/pr5172-copilot-20261119",
+      "object": {
+        "sha": "be926954f97d39628227c51a27fd702ea5eb0c98",
+        "type": "commit",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/git/commits/be926954f97d39628227c51a27fd702ea5eb0c98"
+      }
+    },
+    "pr": {
+      "number": 5172,
+      "state": "open",
+      "head": {
+        "sha": "d91aeeea94a8a4a697f9416fafbe6cf0f8816801",
+        "ref": "fix/kani-uninit-unresolved-call-v3",
+        "repo": "Tiramisu-Cake/kani"
+      },
+      "base": {
+        "sha": "36bfc54d0694c382bca052f3c6d77819ba1f2279",
+        "ref": "main"
+      },
+      "auto_merge": null,
+      "mergeable": null,
+      "mergeable_state": "unknown"
+    },
+    "main_ref": {
+      "ref": "refs/heads/main",
+      "node_id": "MDM6UmVmMzUxODgyMTY0OnJlZnMvaGVhZHMvbWFpbg==",
+      "url": "https://api.github.com/repos/model-checking/kani/git/refs/heads/main",
+      "object": {
+        "sha": "5d80a641d333c929e00ed1e1255c637265f15749",
+        "type": "commit",
+        "url": "https://api.github.com/repos/model-checking/kani/git/commits/5d80a641d333c929e00ed1e1255c637265f15749"
+      }
+    },
+    "main_commit": {
+      "sha": "5d80a641d333c929e00ed1e1255c637265f15749",
+      "tree": "d835856aea4b85e75a6eb3fe100d5c5479b6c2f9",
+      "parents": [
+        "fca73e13186782e62d286ef89c43d2fcc4bb3a51"
+      ],
+      "subject": "Scope autoharness default bounds to automatic harnesses (#5112)",
+      "files": [
+        {
+          "path": "docs/src/reference/experimental/autoharness.md",
+          "status": "modified",
+          "changes": 34
+        },
+        {
+          "path": "kani-driver/src/autoharness/mod.rs",
+          "status": "modified",
+          "changes": 39
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "status": "modified",
+          "changes": 126
+        },
+        {
+          "path": "kani-driver/src/frontend/schema_utils.rs",
+          "status": "modified",
+          "changes": 71
+        },
+        {
+          "path": "kani-driver/src/session.rs",
+          "status": "modified",
+          "changes": 24
+        },
+        {
+          "path": "tests/script-based-pre/autoderive_arbitrary_enums/enums.expected",
+          "status": "modified",
+          "changes": 2
+        },
+        {
+          "path": "tests/script-based-pre/cargo_autoharness_contracts/contracts.expected",
+          "status": "modified",
+          "changes": 2
+        },
+        {
+          "path": "tests/script-based-pre/cargo_autoharness_default_bounds_scope/Cargo.toml",
+          "status": "added",
+          "changes": 10
+        },
+        {
+          "path": "tests/script-based-pre/cargo_autoharness_default_bounds_scope/config.yml",
+          "status": "added",
+          "changes": 5
+        },
+        {
+          "path": "tests/script-based-pre/cargo_autoharness_default_bounds_scope/default_bounds_scope.expected",
+          "status": "added",
+          "changes": 18
+        },
+        {
+          "path": "tests/script-based-pre/cargo_autoharness_default_bounds_scope/default_bounds_scope.sh",
+          "status": "added",
+          "changes": 35
+        },
+        {
+          "path": "tests/script-based-pre/cargo_autoharness_default_bounds_scope/src/lib.rs",
+          "status": "added",
+          "changes": 59
+        },
+        {
+          "path": "tests/script-based-pre/cargo_autoharness_harnesses_fail/harnesses_fail.expected",
+          "status": "modified",
+          "changes": 2
+        },
+        {
+          "path": "tests/script-based-pre/cargo_autoharness_termination_timeout/termination_timeout.expected",
+          "status": "modified",
+          "changes": 2
+        },
+        {
+          "path": "tests/script-based-pre/cargo_autoharness_termination_unwind/termination_unwind.expected",
+          "status": "modified",
+          "changes": 2
+        },
+        {
+          "path": "tests/script-based-pre/cargo_autoharness_type_invariant/type-invariant.expected",
+          "status": "modified",
+          "changes": 2
+        }
+      ]
+    },
+    "fork_open_pr": [],
+    "upstream_runs": [
+      {
+        "id": 44623432674,
+        "name": "Check Std Verification",
+        "head_sha": "d91aeeea94a8a4a697f9416fafbe6cf0f8816801",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "event": "pull_request",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_attempt": 2,
+        "path": ".github/workflows/verify-std-check.yml"
+      },
+      {
+        "id": 44623432600,
+        "name": "Kani Format Check",
+        "head_sha": "d91aeeea94a8a4a697f9416fafbe6cf0f8816801",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "event": "pull_request",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_attempt": 2,
+        "path": ".github/workflows/format-check.yml"
+      },
+      {
+        "id": 44623432793,
+        "name": "Kani Benchmarks",
+        "head_sha": "d91aeeea94a8a4a697f9416fafbe6cf0f8816801",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "event": "pull_request",
+        "status": "in_progress",
+        "conclusion": null,
+        "run_attempt": 2,
+        "path": ".github/workflows/bench-pr.yml"
+      },
+      {
+        "id": 44623432757,
+        "name": "Cargo Deny",
+        "head_sha": "d91aeeea94a8a4a697f9416fafbe6cf0f8816801",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "event": "pull_request",
+        "status": "completed",
+        "conclusion": "success",
+        "run_attempt": 2,
+        "path": ".github/workflows/deny.yml"
+      },
+      {
+        "id": 44623432888,
+        "name": "Kani CI",
+        "head_sha": "d91aeeea94a8a4a697f9416fafbe6cf0f8816801",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "event": "pull_request",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_attempt": 2,
+        "path": ".github/workflows/kani.yml"
+      },
+      {
+        "id": 44623432719,
+        "name": "Release Bundle",
+        "head_sha": "d91aeeea94a8a4a697f9416fafbe6cf0f8816801",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "event": "pull_request",
+        "status": "queued",
+        "conclusion": null,
+        "run_attempt": 2,
+        "path": ".github/workflows/release.yml"
+      },
+      {
+        "id": 44623432541,
+        "name": "Kani Extra",
+        "head_sha": "d91aeeea94a8a4a697f9416fafbe6cf0f8816801",
+        "head_branch": "fix/kani-uninit-unresolved-call-v3",
+        "event": "pull_request_target",
+        "status": "completed",
+        "conclusion": "success",
+        "run_attempt": 1,
+        "path": ".github/workflows/extra_jobs.yml"
+      }
+    ],
+    "fork_previous_runs": [
+      {
+        "id": 44618255117,
+        "name": "Kani Format Check",
+        "head_sha": "be926954f97d39628227c51a27fd702ea5eb0c98",
+        "status": "completed",
+        "conclusion": "success",
+        "run_attempt": 1,
+        "path": ".github/workflows/format-check.yml"
+      },
+      {
+        "id": 44618255221,
+        "name": "Cargo Deny",
+        "head_sha": "be926954f97d39628227c51a27fd702ea5eb0c98",
+        "status": "completed",
+        "conclusion": "success",
+        "run_attempt": 1,
+        "path": ".github/workflows/deny.yml"
+      },
+      {
+        "id": 44618255171,
+        "name": "Kani CI",
+        "head_sha": "be926954f97d39628227c51a27fd702ea5eb0c98",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_attempt": 1,
+        "path": ".github/workflows/kani.yml"
+      }
+    ]
+  },
+  "limits": "No new native/compiler/formatter result; source review inherited by exact full-file/patch equality and conflict-free automatic merge only. Author targeted nightly audit not repeated or promoted to native proof. Current-main combination is not the actual candidate."
+}
