@@ -124,3 +124,14 @@ pub(super) mod sorting_s4_network_r2;
 // S4P3 concrete network N8/N9/N13/N17; no summary replacements.
 #[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_s3_leaf, kani_smallsort_s4_partition))]
 pub(super) mod sorting_s4_full_lengths_next;
+
+// The two experimental contract families must never be combined.
+#[cfg(all(kani_smallsort_sorting, kani_smallsort_s2_assumed, kani_smallsort_q_pilot))]
+compile_error!("the SmallSort S2 and q-pilot contract modes are mutually exclusive");
+
+#[cfg(all(kani_smallsort_sorting, kani_smallsort_q_pilot))]
+mod sorting_q_controls;
+#[cfg(all(kani_smallsort_sorting, kani_smallsort_q_pilot))]
+pub(super) mod sorting_q_model;
+#[cfg(all(kani_smallsort_sorting, kani_smallsort_q_pilot, not(kani_smallsort_q_controls)))]
+mod sorting_q_pilot;

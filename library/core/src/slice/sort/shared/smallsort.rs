@@ -403,60 +403,62 @@ where
 // comparators that write nowhere else, and only the proved element, comparator, and
 // allocation domains listed in verify.rs. One successful contract proof does not justify
 // a new consumer.
-#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(
+#[cfg_attr(all(kani, kani_smallsort_sorting, any(kani_smallsort_s2_assumed, kani_smallsort_q_pilot)), crate::kani::requires(
     a_pos.checked_mul(size_of::<T>()).is_some_and(|offset| {
         offset <= isize::MAX as usize
             && (v_base as isize).checked_add(offset as isize).is_some()
             && ptr::byte_offset_does_not_wrap(v_base, offset as isize)
     })
 ))]
-#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(
+#[cfg_attr(not(all(kani, kani_smallsort_sorting, any(kani_smallsort_s2_assumed, kani_smallsort_q_pilot))), safety::requires(
     a_pos.checked_mul(size_of::<T>()).is_some_and(|offset| {
         offset <= isize::MAX as usize
             && (v_base as isize).checked_add(offset as isize).is_some()
             && ptr::byte_offset_does_not_wrap(v_base, offset as isize)
     })
 ))]
-#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(
+#[cfg_attr(all(kani, kani_smallsort_sorting, any(kani_smallsort_s2_assumed, kani_smallsort_q_pilot)), crate::kani::requires(
     b_pos.checked_mul(size_of::<T>()).is_some_and(|offset| {
         offset <= isize::MAX as usize
             && (v_base as isize).checked_add(offset as isize).is_some()
             && ptr::byte_offset_does_not_wrap(v_base, offset as isize)
     })
 ))]
-#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(
+#[cfg_attr(not(all(kani, kani_smallsort_sorting, any(kani_smallsort_s2_assumed, kani_smallsort_q_pilot))), safety::requires(
     b_pos.checked_mul(size_of::<T>()).is_some_and(|offset| {
         offset <= isize::MAX as usize
             && (v_base as isize).checked_add(offset as isize).is_some()
             && ptr::byte_offset_does_not_wrap(v_base, offset as isize)
     })
 ))]
-#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(
+#[cfg_attr(all(kani, kani_smallsort_sorting, any(kani_smallsort_s2_assumed, kani_smallsort_q_pilot)), crate::kani::requires(
     crate::ub_checks::same_allocation(v_base, v_base.wrapping_add(a_pos))
         && crate::ub_checks::same_allocation(v_base, v_base.wrapping_add(b_pos))
 ))]
-#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(
+#[cfg_attr(not(all(kani, kani_smallsort_sorting, any(kani_smallsort_s2_assumed, kani_smallsort_q_pilot))), safety::requires(
     crate::ub_checks::same_allocation(v_base, v_base.wrapping_add(a_pos))
         && crate::ub_checks::same_allocation(v_base, v_base.wrapping_add(b_pos))
 ))]
-#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(
+#[cfg_attr(all(kani, kani_smallsort_sorting, any(kani_smallsort_s2_assumed, kani_smallsort_q_pilot)), crate::kani::requires(
     crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))
         && crate::ub_checks::can_write(v_base.wrapping_add(a_pos))
 ))]
-#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(
+#[cfg_attr(not(all(kani, kani_smallsort_sorting, any(kani_smallsort_s2_assumed, kani_smallsort_q_pilot))), safety::requires(
     crate::ub_checks::can_dereference(v_base.wrapping_add(a_pos))
         && crate::ub_checks::can_write(v_base.wrapping_add(a_pos))
 ))]
-#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(
+#[cfg_attr(all(kani, kani_smallsort_sorting, any(kani_smallsort_s2_assumed, kani_smallsort_q_pilot)), crate::kani::requires(
     crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))
         && crate::ub_checks::can_write(v_base.wrapping_add(b_pos))
 ))]
-#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(
+#[cfg_attr(not(all(kani, kani_smallsort_sorting, any(kani_smallsort_s2_assumed, kani_smallsort_q_pilot))), safety::requires(
     crate::ub_checks::can_dereference(v_base.wrapping_add(b_pos))
         && crate::ub_checks::can_write(v_base.wrapping_add(b_pos))
 ))]
 #[cfg_attr(kani, crate::kani::modifies(v_base.wrapping_add(a_pos), v_base.wrapping_add(b_pos)))]
 #[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::ensures(|_| !verify::sorting_s2_swap::enabled::<T,F>() || verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos)))]
+#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot, not(kani_smallsort_q_controls)), crate::kani::ensures(|_| verify::sorting_q_model::swap_post(old(verify::sorting_q_model::swap_capture(v_base, a_pos, b_pos, is_less)), v_base, a_pos, b_pos, is_less)))]
+#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot, kani_smallsort_q_controls), crate::kani::ensures(|_| verify::sorting_q_model::swap_false_or_post(old(verify::sorting_q_model::swap_capture(v_base, a_pos, b_pos, is_less)), v_base, a_pos, b_pos, is_less)))]
 unsafe fn swap_if_less<T, F>(v_base: *mut T, a_pos: usize, b_pos: usize, is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,
@@ -546,6 +548,9 @@ where
 /// `swap_if_less`. If the code of a sort impl changes so as to call this function in multiple
 /// places, `#[inline(never)]` is recommended to keep binary-size in check. The current design of
 /// `small_sort_network` makes sure to only call this once.
+#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot), crate::kani::requires(!verify::sorting_q_model::active::<T, F>() || v.len() == 17))]
+#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot), crate::kani::modifies(ptr::slice_from_raw_parts_mut(v.as_mut_ptr(), crate::cmp::min(13, v.len()))))]
+#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot), crate::kani::ensures(|_| verify::sorting_q_model::prefix_post(old(verify::sorting_q_model::prefix_capture(v, is_less)), v, is_less)))]
 fn sort13_optimal<T, F>(v: &mut [T], is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,
@@ -631,7 +636,7 @@ fn insert_tail_contract_len<T>(begin: *mut T, tail: *mut T) -> usize {
 /// # Safety
 /// begin < tail and p must be valid and initialized for all begin <= p <= tail.
 // The Kani callback frame and domain restrictions above swap_if_less also apply here.
-#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(
+#[cfg_attr(all(kani, kani_smallsort_sorting, any(kani_smallsort_s2_assumed, kani_smallsort_q_pilot)), crate::kani::requires(
     begin < tail
         && insert_tail_contract_len(begin, tail) > 1
         && crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(
@@ -643,7 +648,7 @@ fn insert_tail_contract_len<T>(begin: *mut T, tail: *mut T) -> usize {
             insert_tail_contract_len(begin, tail),
         ))
 ))]
-#[cfg_attr(not(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed)), safety::requires(
+#[cfg_attr(not(all(kani, kani_smallsort_sorting, any(kani_smallsort_s2_assumed, kani_smallsort_q_pilot))), safety::requires(
     begin < tail
         && insert_tail_contract_len(begin, tail) > 1
         && crate::ub_checks::can_dereference(ptr::slice_from_raw_parts(
@@ -664,6 +669,15 @@ fn insert_tail_contract_len<T>(begin: *mut T, tail: *mut T) -> usize {
 )]
 #[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(!verify::sorting_s2_span::active::<T,F>() || (insert_tail_contract_len(begin,tail) >= 2 && insert_tail_contract_len(begin,tail) <= 17 && verify::sorting_s2_span::ordered::<T,F>(begin,insert_tail_contract_len(begin,tail)-1))))]
 #[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::ensures(|_| !verify::sorting_s2_span::active::<T,F>() || verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(begin,insert_tail_contract_len(begin,tail))),begin,insert_tail_contract_len(begin,tail))))]
+#[cfg_attr(
+    all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot),
+    crate::kani::requires(verify::sorting_q_model::insert_pre(
+        begin,
+        insert_tail_contract_len(begin, tail),
+        is_less
+    ))
+)]
+#[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot), crate::kani::ensures(|_| verify::sorting_q_model::insert_post(old(verify::sorting_q_model::capture(begin, insert_tail_contract_len(begin, tail), is_less)), begin, insert_tail_contract_len(begin, tail), is_less)))]
 unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {
     // SAFETY: see individual comments.
     unsafe {

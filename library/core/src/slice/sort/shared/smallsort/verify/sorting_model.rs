@@ -18,12 +18,30 @@ impl NonCopyByte {
     }
 }
 
-/// A closed, stateless comparator. Its type identifies the exact pure order.
-pub(in crate::slice::sort::shared::smallsort) struct KeyLess<T>(PhantomData<fn() -> T>);
+/// A closed comparator whose type identifies the exact pure full-byte order.
+pub(in crate::slice::sort::shared::smallsort) struct KeyLess<T>(
+    PhantomData<fn() -> T>,
+    #[cfg(kani_smallsort_q_pilot)] u8,
+);
 
 impl<T> KeyLess<T> {
     pub(in crate::slice::sort::shared::smallsort) const fn new() -> Self {
-        Self(PhantomData)
+        Self(
+            PhantomData,
+            #[cfg(kani_smallsort_q_pilot)]
+            0,
+        )
+    }
+}
+
+#[cfg(kani_smallsort_q_pilot)]
+impl KeyLess<u8> {
+    pub(super) const fn with_q(q: u8) -> Self {
+        Self(PhantomData, q)
+    }
+
+    pub(super) const fn q(&self) -> u8 {
+        self.1
     }
 }
 
