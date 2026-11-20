@@ -32,7 +32,10 @@ fn p1_swap_u8_v34_q_any() {
     kani::assert(qmodel::swap_post(captured, base, a, b, &f), "P1_SWAP_QPOST");
     kani::assert(f.q() == q, "P1_Q_FRAME");
     for i in 0..BACKING {
-        kani::assert(i == base_offset + a || i == base_offset + b || v[i] == before[i], "P1_FRAME");
+        kani::assert(
+            i == base_offset + a || i == base_offset + b || v[i] == before[i],
+            "P1_FRAME",
+        );
     }
     kani::cover(base_offset == 0, "P1_BASE_ZERO");
     kani::cover(base_offset == 20, "P1_BASE_TWENTY");
@@ -41,10 +44,20 @@ fn p1_swap_u8_v34_q_any() {
         (before[base_offset + a] >= q) != (before[base_offset + b] >= q),
         "P1_SPLIT_THRESHOLD",
     );
-    kani::cover(before[base_offset + b] < before[base_offset + a], "P1_SWAP_TAKEN");
-    kani::cover(before[base_offset + b] >= before[base_offset + a], "P1_SWAP_UNTAKEN");
+    kani::cover(
+        before[base_offset + b] < before[base_offset + a],
+        "P1_SWAP_TAKEN",
+    );
+    kani::cover(
+        before[base_offset + b] >= before[base_offset + a],
+        "P1_SWAP_UNTAKEN",
+    );
     kani::cover(q == 0, "P1_Q_ZERO");
     kani::cover(q == u8::MAX, "P1_Q_MAX");
+    kani::cover(
+        before[base_offset + a] != q && before[base_offset + b] != q,
+        "P1_Q_ABSENT",
+    );
     kani::cover(true, "P1_USEFUL_RETURN");
 }
 #[kani::proof_for_contract(sort13_optimal)]
@@ -69,9 +82,13 @@ fn p2_sort13_u8_b01_len17_q_any() {
         before[1..14].iter().any(|x| *x < q) && before[1..14].iter().any(|x| *x >= q),
         "P2_MIXED_THRESHOLD",
     );
-    kani::cover(before[1..14].windows(2).any(|w| w[0] == w[1]), "P2_THRESHOLD_TIES");
+    kani::cover(
+        before[1..14].windows(2).any(|w| w[0] == w[1]),
+        "P2_THRESHOLD_TIES",
+    );
     kani::cover(q == 0, "P2_Q_ZERO");
     kani::cover(q == u8::MAX, "P2_Q_MAX");
+    kani::cover(before[1..14].iter().all(|x| *x != q), "P2_Q_ABSENT");
     kani::cover(true, "P2_USEFUL_RETURN");
 }
 
@@ -92,7 +109,10 @@ fn p3_insert_u8_b01_rel1_16_q_any() {
     // SAFETY: the contract precondition supplies the initialized, writable inclusive span.
     unsafe { insert_tail(base, base.add(tail), &mut f) };
 
-    kani::assert(qmodel::insert_post(captured, base, len, &f), "P3_INSERT_QPOST");
+    kani::assert(
+        qmodel::insert_post(captured, base, len, &f),
+        "P3_INSERT_QPOST",
+    );
     kani::assert(f.q() == q, "P3_Q_FRAME");
     for i in 0..BACKING {
         kani::assert((1..1 + len).contains(&i) || v[i] == before[i], "P3_FRAME");
@@ -127,7 +147,11 @@ fn p3_insert_u8_b01_rel1_16_q_any() {
     kani::cover(non_numeric_order, "P3_Q_MONOTONE_NON_NUMERIC_ORDER");
     kani::cover(q == 0, "P3_Q_ZERO");
     kani::cover(q == u8::MAX, "P3_Q_MAX");
-    kani::cover((before[1] >= q) != (before[1 + tail] >= q), "P3_SPLIT_THRESHOLD");
+    kani::cover(before[1..1 + len].iter().all(|x| *x != q), "P3_Q_ABSENT");
+    kani::cover(
+        (before[1] >= q) != (before[1 + tail] >= q),
+        "P3_SPLIT_THRESHOLD",
+    );
     kani::cover(true, "P3_USEFUL_RETURN");
 }
 
@@ -148,14 +172,21 @@ fn p4_network_u8_b01_n17_q_any() {
     kani::assert(qmodel::order_post(&v[1..18], q, &target), "P4_QPOST");
     kani::assert(f.q() == q, "P4_Q_FRAME");
     for i in 0..BACKING {
-        kani::assert((1..18).contains(&i) || v[i] == before[i], "P4_OUTSIDE_VALUE_FRAME");
+        kani::assert(
+            (1..18).contains(&i) || v[i] == before[i],
+            "P4_OUTSIDE_VALUE_FRAME",
+        );
     }
     kani::cover(
         before[1..18].iter().any(|x| *x < q) && before[1..18].iter().any(|x| *x >= q),
         "P4_MIXED_THRESHOLD",
     );
-    kani::cover(before[1..18].windows(2).any(|w| w[0] == w[1]), "P4_THRESHOLD_TIES");
+    kani::cover(
+        before[1..18].windows(2).any(|w| w[0] == w[1]),
+        "P4_THRESHOLD_TIES",
+    );
     kani::cover(q == 0, "P4_Q_ZERO");
     kani::cover(q == u8::MAX, "P4_Q_MAX");
+    kani::cover(before[1..18].iter().all(|x| *x != q), "P4_Q_ABSENT");
     kani::cover(true, "P4_USEFUL_RETURN");
 }
