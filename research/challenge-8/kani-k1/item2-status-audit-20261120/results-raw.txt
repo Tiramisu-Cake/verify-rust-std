@@ -1,0 +1,70 @@
+# raw output of the minimal CDCL (2 cores, CPU-time caps as shown; UNKNOWN = cap reached)
+net9 sorted UNSATISFIABLE vars=1272 clauses=4494 conflicts=151233 decisions=264463 props=18790375 time=3.06s
+net9 countN2 UNKNOWN vars=4866 clauses=17346 conflicts=844800 decisions=1984098 props=262297822 time=60.10s
+net9 harness UNKNOWN vars=4867 clauses=17349 conflicts=837632 decisions=1977602 props=256404865 time=60.09s
+net9 count_q UNKNOWN vars=1767 clauses=6236 conflicts=906240 decisions=1493079 props=146396080 time=60.09s
+net9 harness_q UNKNOWN vars=1768 clauses=6239 conflicts=942080 decisions=1567017 props=157101960 time=60.01s
+net9 ge_q UNKNOWN vars=1929 clauses=6848 conflicts=917504 decisions=1523801 props=135091685 time=60.12s
+net9 qform UNKNOWN vars=1945 clauses=6896 conflicts=941056 decisions=1581094 props=142815468 time=60.01s
+net9 qform_lemma UNSATISFIABLE vars=3029 clauses=10863 conflicts=843 decisions=1156 props=77993 time=0.01s
+net9 count_q_lemma UNSATISFIABLE vars=2532 clauses=9009 conflicts=30551 decisions=41084 props=4263042 time=0.46s
+net9 tag_onehot UNSATISFIABLE vars=3770 clauses=12822 conflicts=231159 decisions=772876 props=60440531 time=6.69s
+net9 countN2 UNKNOWN vars=4866 clauses=17346 conflicts=2630656 decisions=5353454 props=844722857 time=480.07s
+net9 count_q UNKNOWN vars=1767 clauses=6236 conflicts=2691072 decisions=3981298 props=443537832 time=480.01s
+net13 sorted UNKNOWN vars=2204 clauses=7874 conflicts=1470464 decisions=2442812 props=222262233 time=120.02s
+net13 qform_lemma UNSATISFIABLE vars=5357 clauses=19335 conflicts=8222 decisions=9933 props=1480379 time=0.16s
+net13 count_q_lemma UNKNOWN vars=4496 clauses=16121 conflicts=1199104 decisions=1361356 props=186646357 time=120.06s
+net13 tag_onehot UNKNOWN vars=8284 clauses=28022 conflicts=1371136 decisions=3494717 props=609711520 time=120.04s
+net17 qform_lemma UNKNOWN vars=8723 clauses=31738 conflicts=1193984 decisions=2052107 props=369919355 time=120.11s
+ins4 countN2 UNSATISFIABLE vars=798 clauses=2767 conflicts=11267 decisions=27770 props=1238698 time=0.13s
+ins5 countN2 UNSATISFIABLE vars=1336 clauses=4689 conflicts=46512 decisions=106814 props=7438748 time=0.92s
+ins6 countN2 UNSATISFIABLE vars=2043 clauses=7226 conflicts=188786 decisions=489814 props=39008684 time=5.97s
+ins7 countN2 UNSATISFIABLE vars=2937 clauses=10444 conflicts=635416 decisions=1508631 props=158332900 time=39.19s
+ins8 countN2 UNKNOWN vars=4036 clauses=14409 conflicts=668672 decisions=1677215 props=201153337 time=40.05s
+ins4 count_q UNSATISFIABLE vars=515 clauses=1741 conflicts=19567 decisions=25552 props=2025693 time=0.25s
+ins5 count_q UNSATISFIABLE vars=765 clauses=2637 conflicts=325323 decisions=414417 props=45576105 time=8.29s
+ins6 count_q UNKNOWN vars=1062 clauses=3709 conflicts=801792 decisions=1045803 props=120887267 time=40.00s
+ins7 count_q UNKNOWN vars=1406 clauses=4957 conflicts=732160 decisions=964358 props=122940403 time=40.05s
+ins8 count_q UNKNOWN vars=1797 clauses=6381 conflicts=672768 decisions=918868 props=114762401 time=40.02s
+ins6 sorted UNSATISFIABLE vars=783 clauses=2744 conflicts=8243 decisions=15145 props=718202 time=0.08s
+ins8 sorted UNSATISFIABLE vars=1380 clauses=4920 conflicts=55708 decisions=101163 props=7101350 time=0.86s
+ins_qform_lemma n=8 UNSATISFIABLE vars=2498 clauses=8987 conflicts=251 decisions=310 props=29602 time=0.00s
+ins_qform_lemma n=16 UNSATISFIABLE vars=9686 clauses=35475 conflicts=3722 decisions=4473 props=1424705 time=0.13s
+ins_qform_lemma n=32 UNSATISFIABLE vars=38078 clauses=140675 conflicts=286924 decisions=385241 props=170308904 time=31.51s
+net17_qform_lemma n=17 UNSATISFIABLE vars=9528 clauses=34766 conflicts=13683 decisions=21670 props=2660899 time=0.38s
+ins_qform n=8 UNKNOWN vars=1781 clauses=6340 conflicts=957440 decisions=1330815 props=134382718 time=60.02s
+ins_leaf_qform n=9 UNSATISFIABLE vars=873 clauses=2919 conflicts=51908 decisions=124366 props=4539928 time=0.54s
+ins_leaf_qform n=17 UNSATISFIABLE vars=1681 clauses=5663 conflicts=141235 decisions=455373 props=16489607 time=1.96s
+ins_leaf_std n=9 UNSATISFIABLE vars=4274 clauses=15067 conflicts=582253 decisions=1160828 props=183459055 time=43.08s
+ins_leaf_std n=17 UNKNOWN vars=21338 clauses=76527 conflicts=520192 decisions=1973121 props=518287795 time=60.02s
+general_ind_mono n=32 UNSATISFIABLE vars=3895 clauses=13710 conflicts=291657 decisions=367115 props=229889434 time=33.63s
+general_ind_ostat n=32 UNSATISFIABLE vars=1840 clauses=5623 conflicts=356121 decisions=420430 props=81545291 time=15.63s
+general_ind_mono n=31 UNSATISFIABLE vars=3658 clauses=12865 conflicts=312031 decisions=377989 props=239535526 time=36.24s
+general_ind_mono n=15 UNSATISFIABLE vars=854 clauses=2953 conflicts=7926 decisions=9427 props=2086003 time=0.22s
+network_ind_mono n=32 UNSATISFIABLE vars=3985 clauses=13890 conflicts=306743 decisions=388787 props=234249541 time=36.43s
+network_ind_ostat n=32 UNSATISFIABLE vars=1840 clauses=5533 conflicts=236918 decisions=279171 props=50208336 time=8.44s
+network_ind_mono n=25 UNSATISFIABLE vars=2447 clauses=8469 conflicts=88527 decisions=123791 props=40625523 time=4.91s
+network_ind_mono n=17 UNSATISFIABLE vars=1084 clauses=3783 conflicts=14883 decisions=19156 props=4233775 time=0.43s
+merge_std n=8 UNKNOWN vars=3600 clauses=12772 conflicts=754688 decisions=1467603 props=211333698 time=60.14s
+merge_A n=8 UNSATISFIABLE vars=999 clauses=3504 conflicts=8765 decisions=20406 props=1088184 time=0.10s
+merge_B n=8 UNSATISFIABLE vars=1125 clauses=3911 conflicts=109615 decisions=180622 props=12607216 time=1.80s
+merge_B n=16 UNSATISFIABLE vars=3361 clauses=12207 conflicts=1044535 decisions=1741157 props=198331574 time=49.23s
+merge_B n=32 UNKNOWN vars=11173 clauses=41931 conflicts=861184 decisions=1776607 props=363400746 time=60.11s
+ins_leaf_A n=17 UNSATISFIABLE vars=1551 clauses=5220 conflicts=6251 decisions=18386 props=767737 time=0.06s
+merge_A n=16 UNSATISFIABLE vars=3123 clauses=11456 conflicts=163463 decisions=305449 props=49160802 time=5.16s
+merge_A_sorted n=16 UNSATISFIABLE vars=3122 clauses=11453 conflicts=62343 decisions=140131 props=14551476 time=1.26s
+merge_A_nopanic n=16 UNSATISFIABLE vars=3122 clauses=11453 conflicts=164335 decisions=302299 props=52772053 time=5.62s
+merge_B n=17 UNKNOWN vars=3593 clauses=13056 conflicts=1121280 decisions=1786985 props=201847693 time=60.04s
+ins_stub_count n=4 UNSATISFIABLE vars=1354 clauses=4440 conflicts=502960 decisions=721987 props=103703301 time=40.27s
+ins_stub_count n=5 UNKNOWN vars=2585 clauses=8652 conflicts=541696 decisions=925654 props=134471989 time=45.12s
+ins_stub_count n=6 UNKNOWN vars=4434 clauses=15048 conflicts=615424 decisions=1253435 props=191584976 time=45.06s
+ins_stub_count n=8 UNKNOWN vars=10660 clauses=36830 conflicts=635904 decisions=1596534 props=285961131 time=45.03s
+ins_stub_thr n=8 UNSATISFIABLE vars=1637 clauses=4696 conflicts=356 decisions=417 props=42731 time=0.00s
+ins_stub_thr n=16 UNSATISFIABLE vars=5861 clauses=17040 conflicts=1965 decisions=2957 props=381421 time=0.04s
+ins_stub_thr n=32 UNSATISFIABLE vars=21989 clauses=64384 conflicts=193914 decisions=261645 props=113892517 time=19.77s
+merge_thr n=16 inv UNSATISFIABLE vars=4712 clauses=17195 conflicts=1218 decisions=2855 props=179549 time=0.02s
+merge_thr n=32 inv UNSATISFIABLE vars=15124 clauses=56747 conflicts=10811 decisions=26174 props=3524642 time=0.26s
+merge_thr n=16 plain UNSATISFIABLE vars=3320 clauses=12071 conflicts=1082858 decisions=1765112 props=203197051 time=51.29s
+merge_A 32 UNKNOWN vars=10519 clauses=39916 conflicts=1232896 decisions=2460876 props=728359622 time=120.03s
+merge_thr n=16 step UNSATISFIABLE vars=4244 clauses=15549 conflicts=48001 decisions=89901 props=12704873 time=1.25s
+merge_thr n=32 step UNSATISFIABLE vars=13580 clauses=51121 conflicts=478680 decisions=882031 props=208353949 time=29.97s
