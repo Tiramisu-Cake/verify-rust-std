@@ -269,3 +269,8 @@ Rechecked HEAD/branch/common-dir identity, all local branch tips, every publicat
 - No files were removed and no disk space was reclaimed in this stage.
 
 - Concurrent g0 commit 94dac9c1a17539ab8b975da71bb541139f7aac4e added research/challenge-8/kani-k1/item2-status-report-20261120/TASK.md during inventory. It is preserved. Results will be committed on top; this inventory does not rewrite concurrent work. Per-directory Git fields are point-in-time observations, with separate closeout rechecks for all SAFE_DELETE entries.
+
+## Removal by coordinator — 2026-11-20 (owner approved)
+
+Coordinator re-classified linked worktrees: removing a linked worktree keeps its branches and objects in the common repository, so unpublished shared branches do not block it. Criteria: clean porcelain status, no process/tmux cwd, no reference in documents of the last 3 days, age ≥ 2 days, detached HEAD reachable from a local branch, ignored files only `__pycache__`. Excluded for non-cache ignored content: `kani-fix-3300-c2-slices-w15`, `verifast-mdnew-clean`, `verify-rust-std-select-night`.
+Removed 82 linked worktrees with `git worktree remove` (no `--force`, 0 failures; list in `REMOVAL-LOG.json`) and the two SAFE_DELETE clones with `rm -rf`. Free space 5.1 GB → 8.1 GB.
