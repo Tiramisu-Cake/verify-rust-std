@@ -16,18 +16,18 @@ pub(in crate::slice::sort::shared::smallsort) struct SwapSnapshot {
 pub(in crate::slice::sort::shared::smallsort) struct Snapshot {
     q: u8,
     len: usize,
-    bits: [bool; CAP],
+    bits: u32,
 }
 
 impl Snapshot {
-    const INVALID: Self = Self { q: 0, len: 0, bits: [false; CAP] };
+    const INVALID: Self = Self { q: 0, len: 0, bits: 0 };
 }
 
 #[derive(Clone, Copy)]
 pub(in crate::slice::sort::shared::smallsort) struct PrefixSnapshot {
     q: u8,
     valid: bool,
-    target: [bool; CAP],
+    target: u32,
     tail: [u8; CAP - PREFIX],
 }
 
@@ -60,7 +60,7 @@ impl<T, F> Model<T, F> for () {
     }
 
     default fn prefix(_values: &[T], q: u8) -> PrefixSnapshot {
-        PrefixSnapshot { q, valid: false, target: [false; CAP], tail: [0; CAP - PREFIX] }
+        PrefixSnapshot { q, valid: false, target: 0, tail: [0; CAP - PREFIX] }
     }
 
     default fn prefix_matches(_before: PrefixSnapshot, _values: &[T], _q: u8) -> bool {
@@ -93,17 +93,13 @@ impl Model<u8, KeyLess<u8>> for () {
             return Snapshot::INVALID;
         }
 
-        let mut snapshot = Snapshot { q, len, bits: [false; CAP] };
-        for i in 0..len {
-            // SAFETY: the checks above establish a readable in-allocation span.
-            snapshot.bits[i] = unsafe { *begin.add(i) >= q };
-        }
-        snapshot
+        // SAFETY: the length and pointer checks above establish a readable in-allocation span.
+        let bits = unsafe { threshold_mask(begin, len, q) };
+        Snapshot { q, len, bits }
     }
 
     fn prefix(values: &[u8], q: u8) -> PrefixSnapshot {
-        let mut snapshot =
-            PrefixSnapshot { q, valid: false, target: [false; CAP], tail: [0; CAP - PREFIX] };
+        let mut snapshot = PrefixSnapshot { q, valid: false, target: 0, tail: [0; CAP - PREFIX] };
         if values.len() == CAP {
             snapshot.valid = true;
             snapshot.target = order_target(&values[..PREFIX], q);
@@ -130,6 +126,29 @@ fn readable_at(base: *const u8, index: usize) -> Option<*const u8> {
     }
     let p = base.wrapping_add(index);
     (ub_checks::same_allocation(base, p) && ub_checks::can_dereference(p)).then_some(p)
+}
+
+fn low_mask(len: usize) -> u32 {
+    (1_u32 << len) - 1
+}
+
+// SAFETY: len must be at most CAP, and begin must be readable for len bytes.
+unsafe fn threshold_mask(begin: *const u8, len: usize, q: u8) -> u32 {
+    let mut bits = 0;
+    // Keep the offsets constant when the caller's length is symbolic.
+    macro_rules! read_bits {
+        ($($i:literal),+ $(,)?) => {
+            $(
+                if $i < len {
+                    // SAFETY: the caller guarantees readability up to len.
+                    let value = unsafe { *begin.add($i) };
+                    bits |= u32::from(value >= q) << $i;
+                }
+            )+
+        };
+    }
+    read_bits!(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    bits
 }
 
 pub(in crate::slice::sort::shared::smallsort) fn active<T, F>() -> bool {
@@ -201,7 +220,12 @@ pub(in crate::slice::sort::shared::smallsort) fn insert_pre<T, F>(
         return true;
     }
     let before = capture(begin, len, f);
-    before.len >= 2 && (1..before.len - 1).all(|i| !before.bits[i - 1] || before.bits[i])
+    if before.len < 2 {
+        return false;
+    }
+    let prefix_mask = low_mask(before.len - 1);
+    let prefix = before.bits & prefix_mask;
+    ((prefix << 1) & prefix_mask & !prefix) == 0
 }
 
 pub(in crate::slice::sort::shared::smallsort) fn insert_post<T, F>(
@@ -217,11 +241,12 @@ pub(in crate::slice::sort::shared::smallsort) fn insert_post<T, F>(
     if before.len < 2 || before.len != after.len || before.q != after.q {
         return false;
     }
-    if before.bits[len - 1] {
-        (0..len).all(|i| after.bits[i] == before.bits[i])
+    let expected = if before.bits & (1 << (len - 1)) != 0 {
+        before.bits
     } else {
-        !after.bits[0] && (1..len).all(|i| after.bits[i] == before.bits[i - 1])
-    }
+        (before.bits << 1) & low_mask(len)
+    };
+    after.bits == expected
 }
 
 pub(in crate::slice::sort::shared::smallsort) fn prefix_capture<T, F>(
@@ -239,25 +264,20 @@ pub(in crate::slice::sort::shared::smallsort) fn prefix_post<T, F>(
     <() as Model<T, F>>::prefix_matches(before, values, <() as Model<T, F>>::q(f))
 }
 
-pub(super) fn order_target(values: &[u8], q: u8) -> [bool; CAP] {
-    assert!(values.len() <= CAP);
-    // After processing i input bits, at_least[k] means at least k of those bits
-    // are set. The descending update uses the old at_least[k - 1].
-    let mut at_least = [false; CAP + 1];
-    at_least[0] = true;
-    for (i, &value) in values.iter().enumerate() {
-        let bit = value >= q;
-        for k in (1..=i + 1).rev() {
-            at_least[k] |= bit && at_least[k - 1];
-        }
-    }
-    let mut target = [false; CAP];
-    for i in 0..values.len() {
-        target[i] = at_least[values.len() - i];
-    }
-    target
+pub(super) fn order_target(values: &[u8], q: u8) -> u32 {
+    let len = values.len();
+    assert!(len <= CAP);
+    // SAFETY: the slice is readable for len bytes, and the length is at most CAP.
+    let count = unsafe { threshold_mask(values.as_ptr(), len, q) }.count_ones() as usize;
+    low_mask(len) ^ low_mask(len - count)
 }
 
-pub(super) fn order_post(values: &[u8], q: u8, target: &[bool; CAP]) -> bool {
-    values.len() <= CAP && values.iter().zip(target).all(|(&value, &bit)| (value >= q) == bit)
+pub(super) fn order_post(values: &[u8], q: u8, target: &u32) -> bool {
+    let len = values.len();
+    if len > CAP {
+        return false;
+    }
+    // SAFETY: the slice is readable for len bytes, and the length is at most CAP.
+    let bits = unsafe { threshold_mask(values.as_ptr(), len, q) };
+    bits == (*target & low_mask(len))
 }
