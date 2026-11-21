@@ -721,3 +721,373 @@ fn n16_plain_no_merge() {
     kani::cover(before[1..17].iter().all(|x| *x != q), "N16_PLAIN_Q_ABSENT");
     kani::cover(true, "N16_PLAIN_USEFUL_RETURN");
 }
+
+#[cfg(not(kani_smallsort_q_controls))]
+#[kani::proof]
+#[kani::unwind(36)]
+fn n00_literal_plain_no_merge() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "N00_PLAIN_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+
+    small_sort_network(&mut v[1..1], &mut f);
+
+    kani::assert(v == before, "N00_PLAIN_UNCHANGED");
+    kani::assert(f.q() == q, "N00_PLAIN_Q_FRAME");
+    kani::cover(q == 0, "N00_PLAIN_Q_ZERO");
+    kani::cover(q == u8::MAX, "N00_PLAIN_Q_MAX");
+    kani::cover(true, "N00_PLAIN_USEFUL_RETURN");
+}
+
+#[cfg(not(kani_smallsort_q_controls))]
+#[kani::proof]
+#[kani::unwind(36)]
+fn n01_literal_plain_no_merge() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(
+        qmodel::active::<u8, KeyLess<u8>>(),
+        "N01_LITERAL_PLAIN_ACTIVE",
+    );
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+
+    small_sort_network(&mut v[1..2], &mut f);
+
+    kani::assert(v == before, "N01_LITERAL_PLAIN_UNCHANGED");
+    kani::assert(f.q() == q, "N01_LITERAL_PLAIN_Q_FRAME");
+    kani::cover(q == 0, "N01_LITERAL_PLAIN_Q_ZERO");
+    kani::cover(q == u8::MAX, "N01_LITERAL_PLAIN_Q_MAX");
+    kani::cover(before[1] != q, "N01_LITERAL_PLAIN_Q_ABSENT");
+    kani::cover(true, "N01_LITERAL_PLAIN_USEFUL_RETURN");
+}
+
+#[cfg(not(kani_smallsort_q_controls))]
+#[kani::proof]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(36)]
+fn n03_plain_no_merge() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "N03_PLAIN_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..4], q);
+
+    small_sort_network(&mut v[1..4], &mut f);
+
+    kani::assert(qmodel::order_post(&v[1..4], q, &target), "N03_PLAIN_QPOST");
+    kani::assert(f.q() == q, "N03_PLAIN_Q_FRAME");
+    for i in 0..BACKING {
+        kani::assert(
+            (1..4).contains(&i) || v[i] == before[i],
+            "N03_PLAIN_OUTSIDE_VALUE_FRAME",
+        );
+    }
+    kani::cover(
+        before[1..4].iter().any(|x| *x < q) && before[1..4].iter().any(|x| *x >= q),
+        "N03_PLAIN_MIXED_THRESHOLD",
+    );
+    kani::cover(
+        before[1..4].windows(2).any(|w| w[0] == w[1]),
+        "N03_PLAIN_THRESHOLD_TIES",
+    );
+    kani::cover(q == 0, "N03_PLAIN_Q_ZERO");
+    kani::cover(q == u8::MAX, "N03_PLAIN_Q_MAX");
+    kani::cover(before[1..4].iter().all(|x| *x != q), "N03_PLAIN_Q_ABSENT");
+    kani::cover(true, "N03_PLAIN_USEFUL_RETURN");
+}
+
+#[cfg(not(kani_smallsort_q_controls))]
+#[kani::proof]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(36)]
+fn n04_plain_no_merge() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "N04_PLAIN_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..5], q);
+
+    small_sort_network(&mut v[1..5], &mut f);
+
+    kani::assert(qmodel::order_post(&v[1..5], q, &target), "N04_PLAIN_QPOST");
+    kani::assert(f.q() == q, "N04_PLAIN_Q_FRAME");
+    for i in 0..BACKING {
+        kani::assert(
+            (1..5).contains(&i) || v[i] == before[i],
+            "N04_PLAIN_OUTSIDE_VALUE_FRAME",
+        );
+    }
+    kani::cover(
+        before[1..5].iter().any(|x| *x < q) && before[1..5].iter().any(|x| *x >= q),
+        "N04_PLAIN_MIXED_THRESHOLD",
+    );
+    kani::cover(
+        before[1..5].windows(2).any(|w| w[0] == w[1]),
+        "N04_PLAIN_THRESHOLD_TIES",
+    );
+    kani::cover(q == 0, "N04_PLAIN_Q_ZERO");
+    kani::cover(q == u8::MAX, "N04_PLAIN_Q_MAX");
+    kani::cover(before[1..5].iter().all(|x| *x != q), "N04_PLAIN_Q_ABSENT");
+    kani::cover(true, "N04_PLAIN_USEFUL_RETURN");
+}
+
+#[cfg(not(kani_smallsort_q_controls))]
+#[kani::proof]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(36)]
+fn n05_plain_no_merge() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "N05_PLAIN_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..6], q);
+
+    small_sort_network(&mut v[1..6], &mut f);
+
+    kani::assert(qmodel::order_post(&v[1..6], q, &target), "N05_PLAIN_QPOST");
+    kani::assert(f.q() == q, "N05_PLAIN_Q_FRAME");
+    for i in 0..BACKING {
+        kani::assert(
+            (1..6).contains(&i) || v[i] == before[i],
+            "N05_PLAIN_OUTSIDE_VALUE_FRAME",
+        );
+    }
+    kani::cover(
+        before[1..6].iter().any(|x| *x < q) && before[1..6].iter().any(|x| *x >= q),
+        "N05_PLAIN_MIXED_THRESHOLD",
+    );
+    kani::cover(
+        before[1..6].windows(2).any(|w| w[0] == w[1]),
+        "N05_PLAIN_THRESHOLD_TIES",
+    );
+    kani::cover(q == 0, "N05_PLAIN_Q_ZERO");
+    kani::cover(q == u8::MAX, "N05_PLAIN_Q_MAX");
+    kani::cover(before[1..6].iter().all(|x| *x != q), "N05_PLAIN_Q_ABSENT");
+    kani::cover(true, "N05_PLAIN_USEFUL_RETURN");
+}
+
+#[cfg(not(kani_smallsort_q_controls))]
+#[kani::proof]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(36)]
+fn n06_plain_no_merge() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "N06_PLAIN_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..7], q);
+
+    small_sort_network(&mut v[1..7], &mut f);
+
+    kani::assert(qmodel::order_post(&v[1..7], q, &target), "N06_PLAIN_QPOST");
+    kani::assert(f.q() == q, "N06_PLAIN_Q_FRAME");
+    for i in 0..BACKING {
+        kani::assert(
+            (1..7).contains(&i) || v[i] == before[i],
+            "N06_PLAIN_OUTSIDE_VALUE_FRAME",
+        );
+    }
+    kani::cover(
+        before[1..7].iter().any(|x| *x < q) && before[1..7].iter().any(|x| *x >= q),
+        "N06_PLAIN_MIXED_THRESHOLD",
+    );
+    kani::cover(
+        before[1..7].windows(2).any(|w| w[0] == w[1]),
+        "N06_PLAIN_THRESHOLD_TIES",
+    );
+    kani::cover(q == 0, "N06_PLAIN_Q_ZERO");
+    kani::cover(q == u8::MAX, "N06_PLAIN_Q_MAX");
+    kani::cover(before[1..7].iter().all(|x| *x != q), "N06_PLAIN_Q_ABSENT");
+    kani::cover(true, "N06_PLAIN_USEFUL_RETURN");
+}
+
+#[cfg(not(kani_smallsort_q_controls))]
+#[kani::proof]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(36)]
+fn n07_plain_no_merge() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "N07_PLAIN_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..8], q);
+
+    small_sort_network(&mut v[1..8], &mut f);
+
+    kani::assert(qmodel::order_post(&v[1..8], q, &target), "N07_PLAIN_QPOST");
+    kani::assert(f.q() == q, "N07_PLAIN_Q_FRAME");
+    for i in 0..BACKING {
+        kani::assert(
+            (1..8).contains(&i) || v[i] == before[i],
+            "N07_PLAIN_OUTSIDE_VALUE_FRAME",
+        );
+    }
+    kani::cover(
+        before[1..8].iter().any(|x| *x < q) && before[1..8].iter().any(|x| *x >= q),
+        "N07_PLAIN_MIXED_THRESHOLD",
+    );
+    kani::cover(
+        before[1..8].windows(2).any(|w| w[0] == w[1]),
+        "N07_PLAIN_THRESHOLD_TIES",
+    );
+    kani::cover(q == 0, "N07_PLAIN_Q_ZERO");
+    kani::cover(q == u8::MAX, "N07_PLAIN_Q_MAX");
+    kani::cover(before[1..8].iter().all(|x| *x != q), "N07_PLAIN_Q_ABSENT");
+    kani::cover(true, "N07_PLAIN_USEFUL_RETURN");
+}
+
+#[cfg(not(kani_smallsort_q_controls))]
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(36)]
+fn n10_plain_no_merge() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "N10_PLAIN_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..11], q);
+
+    small_sort_network(&mut v[1..11], &mut f);
+
+    kani::assert(qmodel::order_post(&v[1..11], q, &target), "N10_PLAIN_QPOST");
+    kani::assert(f.q() == q, "N10_PLAIN_Q_FRAME");
+    for i in 0..BACKING {
+        kani::assert(
+            (1..11).contains(&i) || v[i] == before[i],
+            "N10_PLAIN_OUTSIDE_VALUE_FRAME",
+        );
+    }
+    kani::cover(
+        before[1..11].iter().any(|x| *x < q) && before[1..11].iter().any(|x| *x >= q),
+        "N10_PLAIN_MIXED_THRESHOLD",
+    );
+    kani::cover(
+        before[1..11].windows(2).any(|w| w[0] == w[1]),
+        "N10_PLAIN_THRESHOLD_TIES",
+    );
+    kani::cover(q == 0, "N10_PLAIN_Q_ZERO");
+    kani::cover(q == u8::MAX, "N10_PLAIN_Q_MAX");
+    kani::cover(before[1..11].iter().all(|x| *x != q), "N10_PLAIN_Q_ABSENT");
+    kani::cover(true, "N10_PLAIN_USEFUL_RETURN");
+}
+
+#[cfg(not(kani_smallsort_q_controls))]
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(36)]
+fn n11_plain_no_merge() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "N11_PLAIN_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..12], q);
+
+    small_sort_network(&mut v[1..12], &mut f);
+
+    kani::assert(qmodel::order_post(&v[1..12], q, &target), "N11_PLAIN_QPOST");
+    kani::assert(f.q() == q, "N11_PLAIN_Q_FRAME");
+    for i in 0..BACKING {
+        kani::assert(
+            (1..12).contains(&i) || v[i] == before[i],
+            "N11_PLAIN_OUTSIDE_VALUE_FRAME",
+        );
+    }
+    kani::cover(
+        before[1..12].iter().any(|x| *x < q) && before[1..12].iter().any(|x| *x >= q),
+        "N11_PLAIN_MIXED_THRESHOLD",
+    );
+    kani::cover(
+        before[1..12].windows(2).any(|w| w[0] == w[1]),
+        "N11_PLAIN_THRESHOLD_TIES",
+    );
+    kani::cover(q == 0, "N11_PLAIN_Q_ZERO");
+    kani::cover(q == u8::MAX, "N11_PLAIN_Q_MAX");
+    kani::cover(before[1..12].iter().all(|x| *x != q), "N11_PLAIN_Q_ABSENT");
+    kani::cover(true, "N11_PLAIN_USEFUL_RETURN");
+}
+
+#[cfg(not(kani_smallsort_q_controls))]
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(36)]
+fn n14_plain_no_merge() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "N14_PLAIN_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..15], q);
+
+    small_sort_network(&mut v[1..15], &mut f);
+
+    kani::assert(qmodel::order_post(&v[1..15], q, &target), "N14_PLAIN_QPOST");
+    kani::assert(f.q() == q, "N14_PLAIN_Q_FRAME");
+    for i in 0..BACKING {
+        kani::assert(
+            (1..15).contains(&i) || v[i] == before[i],
+            "N14_PLAIN_OUTSIDE_VALUE_FRAME",
+        );
+    }
+    kani::cover(
+        before[1..15].iter().any(|x| *x < q) && before[1..15].iter().any(|x| *x >= q),
+        "N14_PLAIN_MIXED_THRESHOLD",
+    );
+    kani::cover(
+        before[1..15].windows(2).any(|w| w[0] == w[1]),
+        "N14_PLAIN_THRESHOLD_TIES",
+    );
+    kani::cover(q == 0, "N14_PLAIN_Q_ZERO");
+    kani::cover(q == u8::MAX, "N14_PLAIN_Q_MAX");
+    kani::cover(before[1..15].iter().all(|x| *x != q), "N14_PLAIN_Q_ABSENT");
+    kani::cover(true, "N14_PLAIN_USEFUL_RETURN");
+}
+
+#[cfg(not(kani_smallsort_q_controls))]
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(36)]
+fn n15_plain_no_merge() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "N15_PLAIN_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..16], q);
+
+    small_sort_network(&mut v[1..16], &mut f);
+
+    kani::assert(qmodel::order_post(&v[1..16], q, &target), "N15_PLAIN_QPOST");
+    kani::assert(f.q() == q, "N15_PLAIN_Q_FRAME");
+    for i in 0..BACKING {
+        kani::assert(
+            (1..16).contains(&i) || v[i] == before[i],
+            "N15_PLAIN_OUTSIDE_VALUE_FRAME",
+        );
+    }
+    kani::cover(
+        before[1..16].iter().any(|x| *x < q) && before[1..16].iter().any(|x| *x >= q),
+        "N15_PLAIN_MIXED_THRESHOLD",
+    );
+    kani::cover(
+        before[1..16].windows(2).any(|w| w[0] == w[1]),
+        "N15_PLAIN_THRESHOLD_TIES",
+    );
+    kani::cover(q == 0, "N15_PLAIN_Q_ZERO");
+    kani::cover(q == u8::MAX, "N15_PLAIN_Q_MAX");
+    kani::cover(before[1..16].iter().all(|x| *x != q), "N15_PLAIN_Q_ABSENT");
+    kani::cover(true, "N15_PLAIN_USEFUL_RETURN");
+}
