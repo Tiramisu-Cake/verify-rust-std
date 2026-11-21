@@ -1832,3 +1832,197 @@ fn nm_network_n17_corrupt() {
     kani::assert(outside_span_unchanged(&before, &v, 1, 18), "NM_N17_CORRUPT_OUTSIDE_VALUE_FRAME");
     kani::assert(qmodel::order_post(&v[1..18], q, &target), "NM_N17_CORRUPT_QPOST");
 }
+
+macro_rules! define_literal_wide_insert_check {
+    ($name:ident, $rel:literal, $geometry:literal) => {
+        #[cfg(all(
+            kani_smallsort_q_merge_b,
+            kani_smallsort_q_merge_sort9,
+            kani_smallsort_q_merge_wide,
+            not(any(
+                kani_smallsort_s2_assumed,
+                kani_smallsort_q_controls,
+                kani_smallsort_q_merge_bad_tie
+            )),
+        ))]
+        #[kani::proof_for_contract(insert_tail)]
+        #[kani::unwind(36)]
+        fn $name() {
+            let mut v: [u8; BACKING] = kani::any();
+            let before = v;
+            let q: u8 = kani::any();
+            let mut f = KeyLess::<u8>::with_q(q);
+            let backing_ptr = v.as_mut_ptr();
+            // SAFETY: both literal offsets are within initialized writable v.
+            let (begin, tail) = unsafe { (backing_ptr.add(1), backing_ptr.add(1 + $rel)) };
+            let captured = qmodel::capture(begin, $rel + 1, &f);
+
+            // SAFETY: the fixture establishes geometry and Check supplies q-monotonicity.
+            unsafe { insert_tail(begin, tail, &mut f) };
+
+            kani::assert(qmodel::insert_post(captured, begin, $rel + 1, &f), "MW_INSERT_L_Q_POST");
+            check_wide_insert(&before, &v, 1, 1 + $rel, q, &f);
+            kani::cover(true, $geometry);
+        }
+    };
+}
+
+define_literal_wide_insert_check!(mw_insert_left_literal_rel9, 9, "MW_INSERT_BASE1_REL9");
+define_literal_wide_insert_check!(mw_insert_left_literal_rel10, 10, "MW_INSERT_BASE1_REL10");
+define_literal_wide_insert_check!(mw_insert_left_literal_rel11, 11, "MW_INSERT_BASE1_REL11");
+
+macro_rules! define_compact_wide_network {
+    ($name:ident, $end:literal, $label:literal; $($stub:ident),+ $(,)?) => {
+        #[cfg(all(
+            kani_smallsort_q_merge_b,
+            kani_smallsort_q_merge_sort9,
+            kani_smallsort_q_merge_wide,
+            not(any(
+                kani_smallsort_s2_assumed,
+                kani_smallsort_q_controls,
+                kani_smallsort_q_merge_bad_tie
+            )),
+        ))]
+        #[kani::proof]
+        $(#[kani::stub_verified($stub)])+
+        #[kani::unwind(36)]
+        fn $name() {
+            let mut v: [u8; BACKING] = kani::any();
+            let q: u8 = kani::any();
+            let mut f = KeyLess::<u8>::with_q(q);
+            let captured = merge_wide::merge_capture(&v[1..$end], &f);
+
+            let outside_first = v[0];
+            let mut outside_tail = [0; BACKING - $end];
+            outside_tail.copy_from_slice(&v[$end..]);
+            let mut previous = v[1];
+            let mut has_below = previous < q;
+            let mut has_at_or_above = previous >= q;
+            let mut q_absent = previous != q;
+            let mut has_tie = false;
+            let mut i = 2;
+            while i < $end {
+                let byte = v[i];
+                has_below |= byte < q;
+                has_at_or_above |= byte >= q;
+                q_absent &= byte != q;
+                has_tie |= previous == byte;
+                previous = byte;
+                i += 1;
+            }
+            let mixed_threshold = has_below && has_at_or_above;
+            let q_zero = q == 0;
+            let q_max = q == u8::MAX;
+
+            small_sort_network(&mut v[1..$end], &mut f);
+
+            kani::assert(
+                merge_wide::merge_q_post(captured, v[1..$end].as_mut_ptr(), &f),
+                concat!($label, "_QPOST"),
+            );
+            kani::assert(f.q() == q, concat!($label, "_Q_FRAME"));
+            kani::assert(
+                v[0] == outside_first && v[$end..] == outside_tail,
+                concat!($label, "_OUTSIDE_VALUE_FRAME"),
+            );
+            kani::cover(mixed_threshold, "MW_NETWORK_MIXED_THRESHOLD");
+            kani::cover(has_tie, "MW_NETWORK_THRESHOLD_TIES");
+            kani::cover(q_zero, "MW_NETWORK_Q_ZERO");
+            kani::cover(q_max, "MW_NETWORK_Q_MAX");
+            kani::cover(q_absent, "MW_NETWORK_Q_ABSENT");
+            kani::cover(true, "MW_NETWORK_USEFUL_RETURN");
+        }
+    };
+}
+
+define_compact_wide_network!(compact_network_n25, 26, "COMPACT_N25";
+    sort9_optimal, sort13_optimal, insert_tail, bidirectional_merge);
+define_compact_wide_network!(compact_network_n20, 21, "COMPACT_N20";
+    sort9_optimal, insert_tail, bidirectional_merge);
+define_compact_wide_network!(compact_network_n20_actual_insert, 21, "COMPACT_N20";
+    sort9_optimal, bidirectional_merge);
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    kani_smallsort_q_merge_wide,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof]
+#[kani::stub_verified(sort9_optimal)]
+#[kani::stub_verified(sort13_optimal)]
+#[kani::stub_verified(insert_tail)]
+#[kani::stub_verified(bidirectional_merge)]
+#[kani::unwind(36)]
+fn compact_network_n25_corrupt() {
+    let mut v: [u8; BACKING] = kani::any();
+    v[1..26].fill(0);
+    let outside_first = v[0];
+    let mut outside_tail = [0; BACKING - 26];
+    outside_tail.copy_from_slice(&v[26..]);
+    let q = 1;
+    let mut f = KeyLess::<u8>::with_q(q);
+    let captured = merge_wide::merge_capture(&v[1..26], &f);
+    kani::assert(captured.is_some(), "COMPACT_N25_CORRUPT_CAPTURE_VALID");
+
+    small_sort_network(&mut v[1..26], &mut f);
+
+    kani::cover(v[1] == 0, "COMPACT_N25_CORRUPT_USEFUL_RETURN");
+    v[1] = 255;
+    kani::cover(v[1] == 255, "COMPACT_N25_CORRUPT_PATH");
+    kani::assert(f.q() == q, "COMPACT_N25_CORRUPT_Q_FRAME");
+    kani::assert(
+        v[0] == outside_first && v[26..] == outside_tail,
+        "COMPACT_N25_CORRUPT_OUTSIDE_VALUE_FRAME",
+    );
+    kani::assert(
+        merge_wide::merge_q_post(captured, v[1..26].as_mut_ptr(), &f),
+        "COMPACT_N25_CORRUPT_QPOST",
+    );
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    kani_smallsort_q_merge_wide,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof]
+#[kani::stub_verified(sort9_optimal)]
+#[kani::stub_verified(insert_tail)]
+#[kani::stub_verified(bidirectional_merge)]
+#[kani::unwind(36)]
+fn compact_network_n20_corrupt() {
+    let mut v: [u8; BACKING] = kani::any();
+    v[1..21].fill(0);
+    let outside_first = v[0];
+    let mut outside_tail = [0; BACKING - 21];
+    outside_tail.copy_from_slice(&v[21..]);
+    let q = 1;
+    let mut f = KeyLess::<u8>::with_q(q);
+    let captured = merge_wide::merge_capture(&v[1..21], &f);
+    kani::assert(captured.is_some(), "COMPACT_N20_CORRUPT_CAPTURE_VALID");
+
+    small_sort_network(&mut v[1..21], &mut f);
+
+    kani::cover(v[1] == 0, "COMPACT_N20_CORRUPT_USEFUL_RETURN");
+    v[1] = 255;
+    kani::cover(v[1] == 255, "COMPACT_N20_CORRUPT_PATH");
+    kani::assert(f.q() == q, "COMPACT_N20_CORRUPT_Q_FRAME");
+    kani::assert(
+        v[0] == outside_first && v[21..] == outside_tail,
+        "COMPACT_N20_CORRUPT_OUTSIDE_VALUE_FRAME",
+    );
+    kani::assert(
+        merge_wide::merge_q_post(captured, v[1..21].as_mut_ptr(), &f),
+        "COMPACT_N20_CORRUPT_QPOST",
+    );
+}

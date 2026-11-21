@@ -507,6 +507,16 @@ pub(in crate::slice::sort::shared::smallsort) mod merge_wide {
     ) -> Option<PrefixSnapshot> {
         let prefix = presort_prefix::<T, F, PREFIX>(v)?;
         let q = <() as ByteModel<T, F>>::threshold(f)?;
+        #[cfg(all(kani_smallsort_q_no_merge_sort13, kani_smallsort_q_compact_presort13))]
+        if PREFIX == 13 {
+            let mut below = 0_u8;
+            let mut i = 0;
+            while i < 13 {
+                below += u8::from(prefix[i] < q);
+                i += 1;
+            }
+            return Some(PrefixSnapshot { q, below: usize::from(below) });
+        }
         Some(PrefixSnapshot { q, below: prefix.iter().filter(|&&byte| byte < q).count() })
     }
 
@@ -520,6 +530,25 @@ pub(in crate::slice::sort::shared::smallsort) mod merge_wide {
         else {
             return false;
         };
+        #[cfg(all(kani_smallsort_q_no_merge_sort13, kani_smallsort_q_compact_presort13))]
+        if PREFIX == 13 {
+            if q != before.q {
+                return false;
+            }
+            let mut previous = prefix[0];
+            let mut below = u8::from(previous < q);
+            let mut i = 1;
+            while i < 13 {
+                let byte = prefix[i];
+                if previous > byte {
+                    return false;
+                }
+                below += u8::from(byte < q);
+                previous = byte;
+                i += 1;
+            }
+            return usize::from(below) == before.below;
+        }
         // Order and count determine every bit of the threshold mask.
         q == before.q
             && numeric_order(prefix)
