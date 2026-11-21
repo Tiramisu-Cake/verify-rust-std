@@ -90,3 +90,33 @@ fn p5_network_n17_qpost_corrupt() {
         "P5C_CORRUPT_QPOST",
     );
 }
+
+#[cfg(not(kani_smallsort_q_controls))]
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(36)]
+fn n17_plain_qpost_corrupt() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "N17_CORRUPT_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..18], q);
+    let all_zero = before[1..18].iter().all(|x| *x == 0);
+    let corrupt = all_zero && q == 1;
+
+    small_sort_network(&mut v[1..18], &mut f);
+    if corrupt {
+        v[1] = u8::MAX;
+    }
+
+    kani::cover(all_zero, "N17_CORRUPT_ALL_ZERO_INPUT");
+    kani::cover(corrupt, "N17_CORRUPT_Q_ONE_CORRUPTION_PATH");
+    for i in 0..BACKING {
+        kani::assert((1..18).contains(&i) || v[i] == before[i], "N17_CORRUPT_OUTSIDE_VALUE_FRAME");
+    }
+    kani::assert(f.q() == q, "N17_CORRUPT_Q_FRAME");
+    kani::cover(true, "N17_CORRUPT_USEFUL_RETURN");
+    kani::assert(qmodel::order_post(&v[1..18], q, &target), "N17_CORRUPT_QPOST");
+}

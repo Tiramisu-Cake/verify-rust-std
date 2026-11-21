@@ -410,3 +410,63 @@ fn p4_network_u8_b01_n17_q_any() {
     kani::cover(before[1..18].iter().all(|x| *x != q), "P4_Q_ABSENT");
     kani::cover(true, "P4_USEFUL_RETURN");
 }
+
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::unwind(36)]
+fn q13_plain_stub_swap() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "Q13_PLAIN_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..14], q);
+
+    sort13_optimal(&mut v[1..18], &mut f);
+
+    kani::assert(qmodel::order_post(&v[1..14], q, &target), "Q13_PLAIN_ORDER_QPOST");
+    kani::assert(f.q() == q, "Q13_PLAIN_Q_FRAME");
+    kani::assert(v[14..18] == before[14..18], "Q13_PLAIN_TAIL_BYTES");
+    for i in 0..BACKING {
+        kani::assert((1..14).contains(&i) || v[i] == before[i], "Q13_PLAIN_FRAME");
+    }
+    kani::cover(
+        before[1..14].iter().any(|x| *x < q) && before[1..14].iter().any(|x| *x >= q),
+        "Q13_PLAIN_MIXED_THRESHOLD",
+    );
+    kani::cover(before[1..14].windows(2).any(|w| w[0] == w[1]), "Q13_PLAIN_THRESHOLD_TIES");
+    kani::cover(q == 0, "Q13_PLAIN_Q_ZERO");
+    kani::cover(q == u8::MAX, "Q13_PLAIN_Q_MAX");
+    kani::cover(before[1..14].iter().all(|x| *x != q), "Q13_PLAIN_Q_ABSENT");
+    kani::cover(true, "Q13_PLAIN_USEFUL_RETURN");
+}
+
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(36)]
+fn n17_plain_stub_swap_insert() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "N17_PLAIN_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..18], q);
+
+    small_sort_network(&mut v[1..18], &mut f);
+
+    kani::assert(qmodel::order_post(&v[1..18], q, &target), "N17_PLAIN_QPOST");
+    kani::assert(f.q() == q, "N17_PLAIN_Q_FRAME");
+    for i in 0..BACKING {
+        kani::assert((1..18).contains(&i) || v[i] == before[i], "N17_PLAIN_OUTSIDE_VALUE_FRAME");
+    }
+    kani::cover(
+        before[1..18].iter().any(|x| *x < q) && before[1..18].iter().any(|x| *x >= q),
+        "N17_PLAIN_MIXED_THRESHOLD",
+    );
+    kani::cover(before[1..18].windows(2).any(|w| w[0] == w[1]), "N17_PLAIN_THRESHOLD_TIES");
+    kani::cover(q == 0, "N17_PLAIN_Q_ZERO");
+    kani::cover(q == u8::MAX, "N17_PLAIN_Q_MAX");
+    kani::cover(before[1..18].iter().all(|x| *x != q), "N17_PLAIN_Q_ABSENT");
+    kani::cover(true, "N17_PLAIN_USEFUL_RETURN");
+}
