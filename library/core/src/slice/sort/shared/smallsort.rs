@@ -508,6 +508,29 @@ where
 /// `swap_if_less`. If the code of a sort impl changes so as to call this function in multiple
 /// places, `#[inline(never)]` is recommended to keep binary-size in check. The current design of
 /// `small_sort_network` makes sure to only call this once.
+#[cfg_attr(
+    all(
+        kani,
+        kani_smallsort_sorting,
+        kani_smallsort_q_pilot,
+        kani_smallsort_q_merge,
+        kani_smallsort_q_merge_b,
+        kani_smallsort_q_merge_sort9,
+        not(any(
+            kani_smallsort_s2_assumed,
+            kani_smallsort_q_controls,
+            kani_smallsort_q_merge_bad_tie
+        )),
+    ),
+    crate::kani::requires(verify::sorting_q_merge_model::sort9::geometry::<T, F>(v)),
+    crate::kani::modifies(v.as_mut_ptr().cast::<[T; 9]>()),
+    crate::kani::ensures(|_| verify::sorting_q_merge_model::sort9::numeric_post::<T, F>(v)),
+    crate::kani::ensures(|_| verify::sorting_q_merge_model::sort9::q_post(
+        old(verify::sorting_q_merge_model::sort9::capture(v, is_less)),
+        v,
+        is_less,
+    )),
+)]
 fn sort9_optimal<T, F>(v: &mut [T], is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,

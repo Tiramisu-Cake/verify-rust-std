@@ -371,3 +371,75 @@ pub(in crate::slice::sort::shared::smallsort) mod merge_b {
         mask == before.target
     }
 }
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+pub(in crate::slice::sort::shared::smallsort) mod sort9 {
+    use super::{ByteModel, active, numeric_order};
+    use crate::ub_checks;
+
+    const PREFIX_LEN: usize = 9;
+
+    fn in_domain<T, F>(v: &[T]) -> bool {
+        active::<T, F>() && matches!(v.len(), 9 | 10)
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn geometry<T, F>(v: &mut [T]) -> bool {
+        in_domain::<T, F>(v)
+            && ub_checks::can_dereference(v as *const [T])
+            && ub_checks::can_write(v.as_mut_ptr().cast::<[T; PREFIX_LEN]>())
+    }
+
+    fn prefix<T, F>(v: &[T]) -> Option<&[u8]> {
+        if !in_domain::<T, F>(v) {
+            return None;
+        }
+        // SAFETY: the exact pair has T = u8 and the shared slice covers nine initialized bytes.
+        Some(unsafe { crate::slice::from_raw_parts(v.as_ptr().cast(), PREFIX_LEN) })
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn numeric_post<T, F>(v: &[T]) -> bool {
+        prefix::<T, F>(v).is_some_and(numeric_order)
+    }
+
+    #[derive(Clone, Copy)]
+    pub(in crate::slice::sort::shared::smallsort) struct Snapshot {
+        q: u8,
+        below: usize,
+    }
+
+    fn count_below(bytes: &[u8], q: u8) -> usize {
+        bytes.iter().filter(|&&byte| byte < q).count()
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn capture<T, F>(
+        v: &[T],
+        f: &F,
+    ) -> Option<Snapshot> {
+        let prefix = prefix::<T, F>(v)?;
+        let q = <() as ByteModel<T, F>>::threshold(f)?;
+        Some(Snapshot {
+            q,
+            below: count_below(prefix, q),
+        })
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn q_post<T, F>(
+        before: Option<Snapshot>,
+        v: &[T],
+        f: &F,
+    ) -> bool {
+        // Numeric order makes the below-threshold bytes a contiguous prefix.
+        // Its length therefore determines the entire threshold mask.
+        before.is_some_and(|before| {
+            capture(v, f).is_some_and(|after| after.q == before.q && after.below == before.below)
+        })
+    }
+}

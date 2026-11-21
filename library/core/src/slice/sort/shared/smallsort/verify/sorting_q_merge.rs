@@ -762,3 +762,261 @@ fn mc_network_n19_corrupt_literal() {
         "MC_N19_CORRUPT_QPOST",
     );
 }
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+fn check_sort9_frame_and_covers(
+    before: &[u8; BACKING],
+    v: &[u8; BACKING],
+    start: usize,
+    end: usize,
+    q: u8,
+    f: &KeyLess<u8>,
+) {
+    kani::assert(f.q() == q, "MD_SORT9_Q_FRAME");
+    kani::assert(
+        outside_span_unchanged(before, v, start, end),
+        "MD_SORT9_V34_FRAME",
+    );
+
+    let input = &before[start..end];
+    kani::cover(
+        input.iter().any(|&byte| byte < q) && input.iter().any(|&byte| byte >= q),
+        "MD_SORT9_MIXED_THRESHOLD",
+    );
+    kani::cover(
+        input.windows(2).any(|pair| pair[0] == pair[1]),
+        "MD_SORT9_THRESHOLD_TIES",
+    );
+    kani::cover(q == 0, "MD_SORT9_Q_ZERO");
+    kani::cover(q == u8::MAX, "MD_SORT9_Q_MAX");
+    kani::cover(input.iter().all(|&byte| byte != q), "MD_SORT9_Q_ABSENT");
+    kani::cover(!model::numeric_order(input), "MD_SORT9_INPUT_INVERSION");
+    kani::cover(true, "MD_SORT9_USEFUL_RETURN");
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof_for_contract(sort9_optimal)]
+#[kani::stub_verified(swap_if_less)]
+#[kani::unwind(36)]
+fn md_sort9_left_b01_len09() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+
+    sort9_optimal(&mut v[1..10], &mut f);
+
+    check_sort9_frame_and_covers(&before, &v, 1, 10, q, &f);
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof_for_contract(sort9_optimal)]
+#[kani::stub_verified(swap_if_less)]
+#[kani::unwind(36)]
+fn md_sort9_right_b10_len09() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+
+    sort9_optimal(&mut v[10..19], &mut f);
+
+    check_sort9_frame_and_covers(&before, &v, 10, 19, q, &f);
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof_for_contract(sort9_optimal)]
+#[kani::stub_verified(swap_if_less)]
+#[kani::unwind(36)]
+fn md_sort9_right_b10_len10() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+
+    sort9_optimal(&mut v[10..20], &mut f);
+
+    // The right insertion will consume the untouched byte at offset 19.
+    check_sort9_frame_and_covers(&before, &v, 10, 19, q, &f);
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof]
+#[kani::stub_verified(sort9_optimal)]
+#[kani::stub_verified(bidirectional_merge)]
+#[kani::unwind(36)]
+fn md_network_n18_b01() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    kani::assert(
+        model::active::<u8, KeyLess<u8>>(),
+        "MD_N18_BYTE_MODEL_ACTIVE",
+    );
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "MD_N18_Q_MODEL_ACTIVE");
+    let captured = merge_b::merge_capture(&v[1..19], &f);
+
+    small_sort_network(&mut v[1..19], &mut f);
+
+    kani::assert(
+        merge_b::merge_q_post(captured, v[1..19].as_mut_ptr(), &f),
+        "MD_N18_QPOST",
+    );
+    kani::assert(f.q() == q, "MD_N18_Q_FRAME");
+    kani::assert(
+        outside_span_unchanged(&before, &v, 1, 19),
+        "MD_N18_OUTSIDE_VALUE_FRAME",
+    );
+    let input = &before[1..19];
+    kani::cover(
+        input.iter().any(|&byte| byte < q) && input.iter().any(|&byte| byte >= q),
+        "MD_N18_MIXED_THRESHOLD",
+    );
+    kani::cover(
+        input.windows(2).any(|w| w[0] == w[1]),
+        "MD_N18_THRESHOLD_TIES",
+    );
+    kani::cover(q == 0, "MD_N18_Q_ZERO");
+    kani::cover(q == u8::MAX, "MD_N18_Q_MAX");
+    kani::cover(input.iter().all(|&byte| byte != q), "MD_N18_Q_ABSENT");
+    kani::cover(true, "MD_N18_USEFUL_RETURN");
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof]
+#[kani::stub_verified(sort9_optimal)]
+#[kani::stub_verified(insert_tail)]
+#[kani::stub_verified(bidirectional_merge)]
+#[kani::unwind(36)]
+fn md_network_n19_b01() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    kani::assert(
+        model::active::<u8, KeyLess<u8>>(),
+        "MD_N19_BYTE_MODEL_ACTIVE",
+    );
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "MD_N19_Q_MODEL_ACTIVE");
+    let captured = merge_b::merge_capture(&v[1..20], &f);
+
+    small_sort_network(&mut v[1..20], &mut f);
+
+    kani::assert(
+        merge_b::merge_q_post(captured, v[1..20].as_mut_ptr(), &f),
+        "MD_N19_QPOST",
+    );
+    kani::assert(f.q() == q, "MD_N19_Q_FRAME");
+    kani::assert(
+        outside_span_unchanged(&before, &v, 1, 20),
+        "MD_N19_OUTSIDE_VALUE_FRAME",
+    );
+    let input = &before[1..20];
+    kani::cover(
+        input.iter().any(|&byte| byte < q) && input.iter().any(|&byte| byte >= q),
+        "MD_N19_MIXED_THRESHOLD",
+    );
+    kani::cover(
+        input.windows(2).any(|w| w[0] == w[1]),
+        "MD_N19_THRESHOLD_TIES",
+    );
+    kani::cover(q == 0, "MD_N19_Q_ZERO");
+    kani::cover(q == u8::MAX, "MD_N19_Q_MAX");
+    kani::cover(input.iter().all(|&byte| byte != q), "MD_N19_Q_ABSENT");
+    kani::cover(true, "MD_N19_USEFUL_RETURN");
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof]
+#[kani::stub_verified(sort9_optimal)]
+#[kani::stub_verified(insert_tail)]
+#[kani::stub_verified(bidirectional_merge)]
+#[kani::unwind(36)]
+fn md_network_n19_corrupt_literal() {
+    let mut v: [u8; BACKING] = kani::any();
+    v[1..20].fill(0);
+    let before = v;
+    let q = 1;
+    let mut f = KeyLess::<u8>::with_q(q);
+    kani::assert(
+        model::active::<u8, KeyLess<u8>>(),
+        "MD_N19_CORRUPT_BYTE_MODEL_ACTIVE",
+    );
+    kani::assert(
+        qmodel::active::<u8, KeyLess<u8>>(),
+        "MD_N19_CORRUPT_Q_MODEL_ACTIVE",
+    );
+    let captured = merge_b::merge_capture(&v[1..20], &f);
+
+    small_sort_network(&mut v[1..20], &mut f);
+
+    kani::cover(v[1] == 0, "MD_N19_CORRUPT_USEFUL_RETURN");
+    v[1] = 255;
+    kani::cover(v[1] == 255, "MD_N19_CORRUPT_PATH");
+    kani::assert(f.q() == q, "MD_N19_CORRUPT_Q_FRAME");
+    kani::assert(
+        outside_span_unchanged(&before, &v, 1, 20),
+        "MD_N19_CORRUPT_OUTSIDE_VALUE_FRAME",
+    );
+    kani::assert(
+        merge_b::merge_q_post(captured, v[1..20].as_mut_ptr(), &f),
+        "MD_N19_CORRUPT_QPOST",
+    );
+}
