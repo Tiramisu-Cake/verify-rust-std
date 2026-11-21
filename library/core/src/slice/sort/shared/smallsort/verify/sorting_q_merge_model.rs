@@ -274,3 +274,99 @@ pub(in crate::slice::sort::shared::smallsort) fn merge_down_cursors<T, F>(
             cursors_are(actual, (left, right, before.dst.wrapping_sub(1)))
         })
 }
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+pub(in crate::slice::sort::shared::smallsort) mod merge_b {
+    use super::{ByteModel, active, numeric_order};
+    use crate::slice::sort::shared::smallsort::merge_contract_regions_disjoint;
+    use crate::{ptr, ub_checks};
+
+    const LEFT_LEN: usize = 9;
+
+    fn supported_len(len: usize) -> bool {
+        matches!(len, 18 | 19)
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn merge_geometry<T, F>(
+        input: &[T],
+        dst: *mut T,
+    ) -> bool {
+        !active::<T, F>()
+            || (supported_len(input.len())
+                && ub_checks::can_dereference(input as *const [T])
+                && ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst, input.len()))
+                && merge_contract_regions_disjoint(input.as_ptr(), dst, input.len()))
+    }
+
+    fn merge_input<T, F>(input: &[T]) -> Option<&[u8]> {
+        if !active::<T, F>()
+            || !supported_len(input.len())
+            || !ub_checks::can_dereference(input as *const [T])
+        {
+            return None;
+        }
+        // SAFETY: the active pair has T = u8, and the initialized source span is readable.
+        Some(unsafe { crate::slice::from_raw_parts(input.as_ptr().cast(), input.len()) })
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn merge_halves_numeric_order<T, F>(
+        input: &[T],
+    ) -> bool {
+        !active::<T, F>()
+            || merge_input::<T, F>(input).is_some_and(|bytes| {
+                let (left, right) = bytes.split_at(LEFT_LEN);
+                numeric_order(left) && numeric_order(right)
+            })
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) struct MergeSnapshot {
+        q: u8,
+        len: usize,
+        target: u32,
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn merge_capture<T, F>(
+        input: &[T],
+        f: &F,
+    ) -> Option<MergeSnapshot> {
+        let q = <() as ByteModel<T, F>>::threshold(f)?;
+        let input = merge_input::<T, F>(input)?;
+        let len = input.len();
+        let below = input.iter().filter(|&&byte| byte < q).count();
+        // The sorted threshold mask has zeros below q and ones in the rest of the span.
+        let target = (1_u32 << len) - (1_u32 << below);
+        Some(MergeSnapshot { q, len, target })
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn merge_q_post<T, F>(
+        before: Option<MergeSnapshot>,
+        dst: *mut T,
+        f: &F,
+    ) -> bool {
+        let Some(q) = <() as ByteModel<T, F>>::threshold(f) else {
+            return true;
+        };
+        let Some(before) = before else {
+            return false;
+        };
+        let output = ptr::slice_from_raw_parts(dst.cast::<u8>(), before.len);
+        if q != before.q || !ub_checks::can_dereference(output) {
+            return false;
+        }
+        // SAFETY: Check reads after normal return, when the two write streams and
+        // the N19 odd copy have initialized this span. Replace havocs this same span.
+        let output = unsafe { &*output };
+        let mask = output
+            .iter()
+            .enumerate()
+            .fold(0, |mask, (i, &byte)| mask | (u32::from(byte >= q) << i));
+        mask == before.target
+    }
+}

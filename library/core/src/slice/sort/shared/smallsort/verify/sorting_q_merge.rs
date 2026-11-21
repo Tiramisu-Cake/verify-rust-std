@@ -1,5 +1,15 @@
 //! Package A checks of the real leaves and presort paths for N18 and N19.
+//! Package B checks the real merge and adds literal controls.
 
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+use super::super::bidirectional_merge;
 use super::super::merge_up;
 #[cfg(not(kani_smallsort_q_merge_bad_tie))]
 use super::super::{
@@ -436,4 +446,154 @@ fn ma_h10_right_corrupt_order() {
         "MA_R10_CORRUPT_NUMERIC_ORDER",
     );
     kani::cover(true, "MA_HALF_USEFUL_RETURN");
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+fn cover_merge_input(input: &[u8], q: u8) {
+    kani::cover(q == 0, "MB_MERGE_Q_ZERO");
+    kani::cover(q == u8::MAX, "MB_MERGE_Q_MAX");
+    kani::cover(
+        input.iter().any(|&byte| byte < q) && input.iter().any(|&byte| byte >= q),
+        "MB_MERGE_SPLIT_Q",
+    );
+    kani::cover(input[0] == input[9], "MB_MERGE_CROSS_HALF_TIE");
+    kani::cover(input.iter().all(|&byte| byte != q), "MB_MERGE_Q_ABSENT");
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof_for_contract(bidirectional_merge)]
+#[kani::unwind(36)]
+fn mb_merge_n18() {
+    let v: [u8; BACKING] = kani::any();
+    let before = v;
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let mut scratch = MaybeUninit::<[u8; 32]>::uninit();
+    check_active();
+
+    // SAFETY: the literal input is initialized and scratch is a separate writable allocation.
+    unsafe { bidirectional_merge(&v[1..19], scratch.as_mut_ptr().cast(), &mut f) };
+
+    kani::assert(f.q() == q, "MB_MERGE_Q_FRAME");
+    kani::assert(v == before, "MB_MERGE_V34_SOURCE_FRAME");
+    cover_merge_input(&before[1..19], q);
+    kani::cover(true, "MB_MERGE_N18_USEFUL_RETURN");
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof_for_contract(bidirectional_merge)]
+#[kani::unwind(36)]
+fn mb_merge_n19() {
+    let v: [u8; BACKING] = kani::any();
+    let before = v;
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let mut scratch = MaybeUninit::<[u8; 32]>::uninit();
+    check_active();
+
+    // SAFETY: the literal input is initialized and scratch is a separate writable allocation.
+    unsafe { bidirectional_merge(&v[1..20], scratch.as_mut_ptr().cast(), &mut f) };
+
+    kani::assert(f.q() == q, "MB_MERGE_Q_FRAME");
+    kani::assert(v == before, "MB_MERGE_V34_SOURCE_FRAME");
+    cover_merge_input(&before[1..20], q);
+    // Every normal return from this literal N19 call traverses the actual odd copy.
+    kani::cover(true, "MB_MERGE_N19_ODD_USEFUL_RETURN");
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof]
+#[kani::stub_verified(bidirectional_merge)]
+#[kani::unwind(36)]
+fn mb_pre_numeric_n18() {
+    let mut v: [u8; BACKING] = kani::any();
+    v[1..19].fill(0);
+    v[1] = 1;
+    v[18] = 1;
+    let q = 2;
+    let mut f = KeyLess::<u8>::with_q(q);
+    let mut scratch = MaybeUninit::<[u8; 32]>::uninit();
+    check_active();
+
+    let input = &v[1..19];
+    let (left, right) = input.split_at(9);
+    let threshold_order = |half: &[u8]| half.windows(2).all(|pair| pair[0] < q || pair[1] >= q);
+    kani::cover(
+        f.q() == 2 && input[0] == 1 && input[17] == 1 && input[1..17] == [0; 16],
+        "MB_PRE_NUMERIC_N18_INPUT",
+    );
+    kani::cover(
+        threshold_order(left) && threshold_order(right),
+        "MB_PRE_NUMERIC_N18_Q_MONOTONE_HALVES",
+    );
+    kani::cover(
+        !model::numeric_order(left),
+        "MB_PRE_NUMERIC_N18_LEFT_INVERSION",
+    );
+
+    // SAFETY: source and destination satisfy the geometry. Replace checks the deliberately
+    // false numeric precondition at this call site.
+    unsafe { bidirectional_merge(input, scratch.as_mut_ptr().cast(), &mut f) };
+}
+
+#[cfg(not(any(kani_smallsort_q_merge_b, kani_smallsort_q_merge_bad_tie)))]
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(36)]
+fn mb_h10_corrupt_literal() {
+    let mut v: [u8; BACKING] = kani::any();
+    v[10..20].fill(0);
+    let before = v;
+    let q = 2;
+    let mut f = KeyLess::<u8>::with_q(q);
+    check_active();
+
+    sort_right_ten(&mut v, &mut f);
+
+    v[10] = 1;
+    v[11] = 0;
+    let target = qmodel::order_target(&before[10..20], q);
+    kani::assert(
+        qmodel::order_post(&v[10..20], q, &target),
+        "MA_HALF_ORDER_Q_POST",
+    );
+    kani::assert(f.q() == q, "MA_HALF_Q_FRAME");
+    kani::assert(
+        outside_span_unchanged(&before, &v, 10, 20),
+        "MA_HALF_V34_FRAME",
+    );
+    kani::cover(v[10] == 1 && v[11] == 0, "MB_H10_LITERAL_CORRUPT_PATH");
+    kani::assert(
+        model::numeric_order(&v[10..20]),
+        "MB_H10_LITERAL_CORRUPT_NUMERIC_ORDER",
+    );
 }

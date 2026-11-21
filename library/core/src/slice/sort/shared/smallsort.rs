@@ -1026,6 +1026,27 @@ fn merge_contract_regions_disjoint<T>(src: *const T, dst: *mut T, len: usize) ->
 #[cfg_attr(kani, crate::kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len())))]
 #[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::requires(!verify::sorting_s2_span::active::<T,F>() || (v.len() <= 32 && verify::sorting_s2_span::ordered::<T,F>(v.as_ptr(),v.len()/2) && verify::sorting_s2_span::ordered::<T,F>(v.as_ptr().wrapping_add(v.len()/2),v.len()-v.len()/2))))]
 #[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::ensures(|_| !verify::sorting_s2_span::active::<T,F>() || verify::sorting_s2_span::post::<T,F>(old(verify::sorting_s2_span::capture::<T,F>(v.as_ptr(),v.len())),dst,v.len())))]
+#[cfg_attr(
+    all(
+        kani,
+        kani_smallsort_sorting,
+        kani_smallsort_q_pilot,
+        kani_smallsort_q_merge,
+        kani_smallsort_q_merge_b,
+        not(any(
+            kani_smallsort_s2_assumed,
+            kani_smallsort_q_controls,
+            kani_smallsort_q_merge_bad_tie
+        )),
+    ),
+    crate::kani::requires(verify::sorting_q_merge_model::merge_b::merge_halves_numeric_order::<T, F>(v)),
+    crate::kani::requires(verify::sorting_q_merge_model::merge_b::merge_geometry::<T, F>(v, dst)),
+    crate::kani::ensures(|_| verify::sorting_q_merge_model::merge_b::merge_q_post(
+        old(verify::sorting_q_merge_model::merge_b::merge_capture(v, is_less)),
+        dst,
+        is_less,
+    )),
+)]
 unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     v: &[T],
     dst: *mut T,
