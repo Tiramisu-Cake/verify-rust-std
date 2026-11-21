@@ -540,3 +540,5 @@ ADMISSION_ONLY. runs_added0; accounting unchanged.
 2026-11-21 ADMISSION_ONLY: q-pilot network N13–N19 admitted (item2-audit-response-20261120/ADMISSION-N13-N19-FINAL.md, g0 1e21c9976b). N18/N19 fit 6 GiB (max 4 539 168 KiB); N13–N17 under owner 8 GiB lane for the five Check sort13 roots only (max 7 709 832 KiB), other roots ≤6 GiB. Runs 44884852864, 44896810040, 44911175814 (+15/12b providers as listed). runs_added 0; accounting unchanged.
 
 2026-11-21 ADMISSION_ONLY: q-pilot network N20, N25 (sort13 8 GiB lane) and N21–N24 admitted (ADMISSION-N20-N24-N25.md g0 8352229ebb/467f28457e, ADMISSION-N21-N24.md g0 da7c88e787). Admitted network lengths now 0–25. runs_added 0; accounting unchanged.
+
+2026-11-21 ADMISSION_ONLY: q-pilot network N26–N31 admitted (item2-audit-response-20261120/ADMISSION-N26-N31.md, g0 c013306bdd). Check sort13 roots in owner 8 GiB lane (max 7 709 832 KiB), all other roots ≤6 GiB (max 5 527 296 KiB, merge N31). Runs 44896810040, 44913550779, 44919576152, 44919643424, 44923999242. Admitted network lengths now 0–31. runs_added 0; accounting unchanged.
