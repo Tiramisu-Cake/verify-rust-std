@@ -92,6 +92,34 @@ fn p2_sort13_u8_b01_len17_q_any() {
     kani::cover(true, "P2_USEFUL_RETURN");
 }
 
+#[kani::proof_for_contract(sort13_optimal)]
+#[kani::unwind(36)]
+fn p2b_sort13_u8_b01_len17_q_any_actual_swaps() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "P2_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..14], q);
+
+    sort13_optimal(&mut v[1..18], &mut f);
+
+    kani::assert(qmodel::order_post(&v[1..14], q, &target), "P2_ORDER_QPOST");
+    kani::assert(f.q() == q, "P2_Q_FRAME");
+    for i in 0..BACKING {
+        kani::assert((1..14).contains(&i) || v[i] == before[i], "P2_FRAME");
+    }
+    kani::cover(
+        before[1..14].iter().any(|x| *x < q) && before[1..14].iter().any(|x| *x >= q),
+        "P2_MIXED_THRESHOLD",
+    );
+    kani::cover(before[1..14].windows(2).any(|w| w[0] == w[1]), "P2_THRESHOLD_TIES");
+    kani::cover(q == 0, "P2_Q_ZERO");
+    kani::cover(q == u8::MAX, "P2_Q_MAX");
+    kani::cover(before[1..14].iter().all(|x| *x != q), "P2_Q_ABSENT");
+    kani::cover(true, "P2_USEFUL_RETURN");
+}
+
 #[kani::proof_for_contract(insert_tail)]
 #[kani::unwind(36)]
 fn p3_insert_u8_b01_rel1_16_q_any() {
