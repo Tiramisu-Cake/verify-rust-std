@@ -1,6 +1,6 @@
 # Кампания 19. Matched-width N13–N19 на OB11
 
-Подготовить один serial пакет из 11 exact roots. Повторить три actual Check для N18/N19, затем P‑3, пять no-merge consumers и два endpoint controls для N13–N17. Во всех строках **11 object bits, local cap 6 GiB**. Для этой стадии закрываем mixed-OB рёбра matched повторами. За основу привязки ролей взять inventory g0 `2547412124` с 30 терминальными корнями и 23 331 свойством. Раздел N20 зарезервирован до исхода 18. [Native inventory](NATIVE-INVENTORY-N13-N20.md) · [План точечных повторов](INVENTORY-TASK.md)
+Подготовить один serial пакет из 11 exact roots. Повторить три actual Check для N18/N19, затем P‑3, пять no-merge consumers и два endpoint controls для N13–N17. Во всех строках **11 object bits, local cap 6 GiB**. Для этой стадии закрываем mixed-OB рёбра matched повторами. За основу привязки ролей взять inventory g0 `2547412124` с 30 терминальными корнями и 23 331 свойством. N20 вынесен в кампанию 20. [Native inventory](NATIVE-INVENTORY-N13-N20.md) · [План точечных повторов](INVENTORY-TASK.md)
 
 ## Pins и scope
 
@@ -35,9 +35,9 @@
 - **N13–N17.** Связать каждый новый consumer и нужный control с соответствующим `NM-S13-L13`…`L17` из 17A на том же pin и OB11. Подтвердить один Replace sort13, сохранность хвоста и все соответствующие preconditions вставок от q-only P‑3. Сопоставить native roles/locations с inventory, отметить отдельно повторные динамические вызовы, если общий ID требует подтверждения их покрытия. Успех нового consumer закрывает width при согласованных dependencies. Ресурс всей цепочки N13–N17 по-прежнему зависит от Check sort13 с историческим пиком 7,35 GiB. [Inventory по рёбрам](NATIVE-INVENTORY-N13-N20.md#mixed-ob-review-и-следующий-минимум) · [Замеры 17A](run-44896810040/SUMMARY.md)
 - **Бюджет.** 5 250 с child (4 × 600 + 5 × 450 + 2 × 300), setup/build до 1 800 с, финализация 540 с, job 180 мин. Запас 3 210 с. Latest start за timeout + 30 с до supervisor cutoff. Outer 12 GiB, резерв 2 GiB, штатный effective cap. Capture 16/1/8 MiB на stdout/stderr/export, aggregate 384 MiB. Записывать native inventory, effective cap, sampled child PGID в KiB, outer/component peaks, VT/child, CNF, исходную причину cutoff или `NOT_RUN`. Сохранять capacity/RSS/timeout отдельно от вердикта по свойствам.
 
-## N20. Резерв до кампании 18
+## N20. Решение по результату кампании 18
 
-После терминальных результатов run `44907708573` выбрать exact consumer и его q-post control, выписать фактические провайдеры, OB и наблюдавшийся RSS каждого, затем определить только оставшиеся matched roots. Этот раздел пока без строк roster. [Варианты N20 в 18](PILOT18-IMPL-HANDOFF.md)
+Основной маршрут — `compact_network_n20_actual_insert`. На OB12 он дал SUCCESS при 2,49 GiB и 33,6 с VT. У него actual вставки и ровно два verified stubs, `sort9_optimal` и `bidirectional_merge`. В кампании 20 повторить consumer и новый q-post control на OB11, используя два exact sort9 Check и whole-merge N20 Check из 16. Run 19 `44911175814` сохраняет свой замороженный roster. [Сводка 18](run-44907708573/SUMMARY.md) · [N20 matched](PILOT20-IMPL-TASK.md#n20-matched)
 
 ## Локальная проверка и handoff
 
