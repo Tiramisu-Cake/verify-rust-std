@@ -1344,6 +1344,145 @@ fn mw_sort13_right_b14_len14() {
     check_mw_sort13_right_b14_len14(&before, &v, 14, 27, q, &f);
 }
 
+macro_rules! define_exact_wide_presort_check {
+    ($name:ident, $check:ident, $sort:ident, $base:literal, $end:literal, $write_end:literal, $label:literal $(,)?) => {
+        #[cfg(all(
+            kani_smallsort_q_merge_b,
+            kani_smallsort_q_merge_sort9,
+            kani_smallsort_q_merge_wide,
+            not(any(
+                kani_smallsort_s2_assumed,
+                kani_smallsort_q_controls,
+                kani_smallsort_q_merge_bad_tie
+            )),
+        ))]
+        define_presort_frame_and_covers!($check, $label);
+
+        #[cfg(all(
+            kani_smallsort_q_merge_b,
+            kani_smallsort_q_merge_sort9,
+            kani_smallsort_q_merge_wide,
+            not(any(
+                kani_smallsort_s2_assumed,
+                kani_smallsort_q_controls,
+                kani_smallsort_q_merge_bad_tie
+            )),
+        ))]
+        #[kani::proof_for_contract($sort)]
+        #[kani::unwind(36)]
+        fn $name() {
+            let mut v: [u8; BACKING] = kani::any();
+            let before = v;
+            let q: u8 = kani::any();
+            let mut f = KeyLess::<u8>::with_q(q);
+
+            $sort(&mut v[$base..$end], &mut f);
+
+            $check(&before, &v, $base, $write_end, q, &f);
+        }
+    };
+}
+
+define_exact_wide_presort_check!(
+    mw_sort9_left_b01_len11,
+    check_mw_sort9_left_b01_len11,
+    sort9_optimal,
+    1,
+    12,
+    10,
+    "MW_S9_L_B01_L11",
+);
+
+define_exact_wide_presort_check!(
+    mw_sort9_right_b11_len11,
+    check_mw_sort9_right_b11_len11,
+    sort9_optimal,
+    11,
+    22,
+    20,
+    "MW_S9_R_B11_L11",
+);
+
+define_exact_wide_presort_check!(
+    mw_sort9_right_b12_len11,
+    check_mw_sort9_right_b12_len11,
+    sort9_optimal,
+    12,
+    23,
+    21,
+    "MW_S9_R_B12_L11",
+);
+
+define_exact_wide_presort_check!(
+    mw_sort9_right_b12_len12,
+    check_mw_sort9_right_b12_len12,
+    sort9_optimal,
+    12,
+    24,
+    21,
+    "MW_S9_R_B12_L12",
+);
+
+define_exact_wide_presort_check!(
+    mw_sort13_right_b14_len13,
+    check_mw_sort13_right_b14_len13,
+    sort13_optimal,
+    14,
+    27,
+    27,
+    "MW_S13_R_B14_L13",
+);
+
+define_exact_wide_presort_check!(
+    mw_sort13_right_b15_len14,
+    check_mw_sort13_right_b15_len14,
+    sort13_optimal,
+    15,
+    29,
+    28,
+    "MW_S13_R_B15_L14",
+);
+
+define_exact_wide_presort_check!(
+    mw_sort13_right_b15_len15,
+    check_mw_sort13_right_b15_len15,
+    sort13_optimal,
+    15,
+    30,
+    28,
+    "MW_S13_R_B15_L15",
+);
+
+define_exact_wide_presort_check!(
+    mw_sort13_right_b16_len15,
+    check_mw_sort13_right_b16_len15,
+    sort13_optimal,
+    16,
+    31,
+    29,
+    "MW_S13_R_B16_L15",
+);
+
+define_exact_wide_presort_check!(
+    mw_sort13_right_b16_len16,
+    check_mw_sort13_right_b16_len16,
+    sort13_optimal,
+    16,
+    32,
+    29,
+    "MW_S13_R_B16_L16",
+);
+
+define_exact_wide_presort_check!(
+    mw_sort13_right_b17_len16,
+    check_mw_sort13_right_b17_len16,
+    sort13_optimal,
+    17,
+    33,
+    30,
+    "MW_S13_R_B17_L16",
+);
+
 #[cfg(all(
     kani_smallsort_q_merge_b,
     kani_smallsort_q_merge_sort9,
@@ -1599,6 +1738,55 @@ fn mw_merge_n27() {
     cover_wide_merge_input(&before[1..28], q);
     kani::cover(true, "MW_MERGE_N27_ODD_USEFUL_RETURN");
 }
+
+macro_rules! define_exact_wide_merge_check {
+    ($name:ident, $end:literal, $label:literal, $return_cover:literal $(,)?) => {
+        #[cfg(all(
+            kani_smallsort_q_merge_b,
+            kani_smallsort_q_merge_sort9,
+            kani_smallsort_q_merge_wide,
+            not(any(
+                kani_smallsort_s2_assumed,
+                kani_smallsort_q_controls,
+                kani_smallsort_q_merge_bad_tie
+            )),
+        ))]
+        #[kani::proof_for_contract(bidirectional_merge)]
+        #[kani::unwind(36)]
+        fn $name() {
+            let v: [u8; BACKING] = kani::any();
+            let before = v;
+            let q: u8 = kani::any();
+            let mut f = KeyLess::<u8>::with_q(q);
+            let mut scratch = MaybeUninit::<[u8; 32]>::uninit();
+
+            // SAFETY: the input is initialized and scratch is a separate writable allocation.
+            // The contract postcondition reads the entire active destination on return.
+            unsafe { bidirectional_merge(&v[1..$end], scratch.as_mut_ptr().cast(), &mut f) };
+
+            kani::assert(f.q() == q, concat!($label, "_Q_FRAME"));
+            kani::assert(v == before, concat!($label, "_V34_SOURCE_FRAME"));
+            cover_wide_merge_input(&before[1..$end], q);
+            kani::cover(true, concat!($label, $return_cover));
+        }
+    };
+}
+
+define_exact_wide_merge_check!(mw_merge_n21, 22, "MW_MERGE_N21", "_ODD_USEFUL_RETURN");
+
+define_exact_wide_merge_check!(mw_merge_n22, 23, "MW_MERGE_N22", "_USEFUL_RETURN");
+
+define_exact_wide_merge_check!(mw_merge_n23, 24, "MW_MERGE_N23", "_ODD_USEFUL_RETURN");
+
+define_exact_wide_merge_check!(mw_merge_n26, 27, "MW_MERGE_N26", "_USEFUL_RETURN");
+
+define_exact_wide_merge_check!(mw_merge_n28, 29, "MW_MERGE_N28", "_USEFUL_RETURN");
+
+define_exact_wide_merge_check!(mw_merge_n29, 30, "MW_MERGE_N29", "_ODD_USEFUL_RETURN");
+
+define_exact_wide_merge_check!(mw_merge_n30, 31, "MW_MERGE_N30", "_USEFUL_RETURN");
+
+define_exact_wide_merge_check!(mw_merge_n31, 32, "MW_MERGE_N31", "_ODD_USEFUL_RETURN");
 
 #[cfg(all(
     kani_smallsort_q_merge_b,
@@ -2076,6 +2264,25 @@ define_compact_wide_network!(compact_network_n24_actual_insert, 25, "COMPACT_N24
 define_compact_wide_network!(compact_network_n27_actual_insert, 28, "COMPACT_N27_ACT_INSERT";
     sort13_optimal, bidirectional_merge);
 
+define_compact_wide_network!(compact_network_n21_actual_insert, 22, "COMPACT_N21_ACT_INSERT";
+    sort9_optimal, bidirectional_merge);
+define_compact_wide_network!(compact_network_n22_actual_insert, 23, "COMPACT_N22_ACT_INSERT";
+    sort9_optimal, bidirectional_merge);
+define_compact_wide_network!(compact_network_n23_actual_insert, 24, "COMPACT_N23_ACT_INSERT";
+    sort9_optimal, bidirectional_merge);
+define_compact_wide_network!(compact_network_n26_actual_insert, 27, "COMPACT_N26_ACT_INSERT";
+    sort13_optimal, bidirectional_merge);
+define_compact_wide_network!(compact_network_n28_actual_insert, 29, "COMPACT_N28_ACT_INSERT";
+    sort13_optimal, bidirectional_merge);
+define_compact_wide_network!(compact_network_n29_actual_insert, 30, "COMPACT_N29_ACT_INSERT";
+    sort13_optimal, bidirectional_merge);
+define_compact_wide_network!(compact_network_n30_actual_insert, 31, "COMPACT_N30_ACT_INSERT";
+    sort13_optimal, bidirectional_merge);
+define_compact_wide_network!(compact_network_n31_actual_insert, 32, "COMPACT_N31_ACT_INSERT";
+    sort13_optimal, bidirectional_merge);
+define_compact_wide_network!(compact_network_n32_actual_insert, 33, "COMPACT_N32_ACT_INSERT";
+    sort13_optimal, bidirectional_merge);
+
 macro_rules! define_compact_wide_actual_insert_control {
     ($name:ident, $end:literal, $label:literal; $($stub:ident),+ $(,)?) => {
         #[cfg(all(
@@ -2127,6 +2334,51 @@ define_compact_wide_actual_insert_control!(
 define_compact_wide_actual_insert_control!(
     compact_network_n25_actual_insert_corrupt, 26, "COMPACT_N25_ACT_INSERT_CORRUPT";
     sort9_optimal, sort13_optimal, bidirectional_merge,
+);
+
+define_compact_wide_actual_insert_control!(
+    compact_network_n21_actual_insert_corrupt, 22, "COMPACT_N21_ACT_INSERT_CORRUPT";
+    sort9_optimal, bidirectional_merge,
+);
+define_compact_wide_actual_insert_control!(
+    compact_network_n22_actual_insert_corrupt, 23, "COMPACT_N22_ACT_INSERT_CORRUPT";
+    sort9_optimal, bidirectional_merge,
+);
+define_compact_wide_actual_insert_control!(
+    compact_network_n23_actual_insert_corrupt, 24, "COMPACT_N23_ACT_INSERT_CORRUPT";
+    sort9_optimal, bidirectional_merge,
+);
+define_compact_wide_actual_insert_control!(
+    compact_network_n24_actual_insert_corrupt, 25, "COMPACT_N24_ACT_INSERT_CORRUPT";
+    sort9_optimal, bidirectional_merge,
+);
+define_compact_wide_actual_insert_control!(
+    compact_network_n26_actual_insert_corrupt, 27, "COMPACT_N26_ACT_INSERT_CORRUPT";
+    sort13_optimal, bidirectional_merge,
+);
+define_compact_wide_actual_insert_control!(
+    compact_network_n27_actual_insert_corrupt, 28, "COMPACT_N27_ACT_INSERT_CORRUPT";
+    sort13_optimal, bidirectional_merge,
+);
+define_compact_wide_actual_insert_control!(
+    compact_network_n28_actual_insert_corrupt, 29, "COMPACT_N28_ACT_INSERT_CORRUPT";
+    sort13_optimal, bidirectional_merge,
+);
+define_compact_wide_actual_insert_control!(
+    compact_network_n29_actual_insert_corrupt, 30, "COMPACT_N29_ACT_INSERT_CORRUPT";
+    sort13_optimal, bidirectional_merge,
+);
+define_compact_wide_actual_insert_control!(
+    compact_network_n30_actual_insert_corrupt, 31, "COMPACT_N30_ACT_INSERT_CORRUPT";
+    sort13_optimal, bidirectional_merge,
+);
+define_compact_wide_actual_insert_control!(
+    compact_network_n31_actual_insert_corrupt, 32, "COMPACT_N31_ACT_INSERT_CORRUPT";
+    sort13_optimal, bidirectional_merge,
+);
+define_compact_wide_actual_insert_control!(
+    compact_network_n32_actual_insert_corrupt, 33, "COMPACT_N32_ACT_INSERT_CORRUPT";
+    sort13_optimal, bidirectional_merge,
 );
 
 #[cfg(all(
