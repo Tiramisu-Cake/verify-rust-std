@@ -1,0 +1,1595 @@
+{
+  "event": "push",
+  "identities": {
+    "control": {
+      "parents": [
+        "ba32286ee4f370593a2c9f0d8834a12d473c82d7"
+      ],
+      "request_sha256": "f68c0b54fd0d3ba51ff071af03e26018e4926bab8ca61df202d6f3d2407c850c",
+      "sha": "31450d17200a3681f881363d15013f92b90ca94c",
+      "tree": "df067af92f84d718fa18e77ee117adff2097e9d3",
+      "workflow_sha256": "fce4f840b1300c90ac808883bf4d03678348c34f770c39ef6c3f51284ecc058f"
+    },
+    "std": {
+      "sha": "0e9b28b293f4360b005d33583d2cf9ac06d1790b",
+      "tree": "2d13d786186a96e3eeb55ff9969f63388eeee042"
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+    }
+  },
+  "job_boundary": {
+    "first_step_monotonic": 482.383295603,
+    "latest_root_start_monotonic": 10112.383295603,
+    "supervisor_cutoff_monotonic": 10742.383295603
+  },
+  "job_status": "success",
+  "last_validated_inputs": {
+    "control": {
+      "parents": [
+        "ba32286ee4f370593a2c9f0d8834a12d473c82d7"
+      ],
+      "request_sha256": "f68c0b54fd0d3ba51ff071af03e26018e4926bab8ca61df202d6f3d2407c850c",
+      "sha": "31450d17200a3681f881363d15013f92b90ca94c",
+      "tree": "df067af92f84d718fa18e77ee117adff2097e9d3",
+      "workflow_sha256": "fce4f840b1300c90ac808883bf4d03678348c34f770c39ef6c3f51284ecc058f"
+    },
+    "std": {
+      "sha": "0e9b28b293f4360b005d33583d2cf9ac06d1790b",
+      "tree": "2d13d786186a96e3eeb55ff9969f63388eeee042"
+    },
+    "tool": {
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+    }
+  },
+  "limits": {
+    "artifact_bytes": 268435456,
+    "child_seconds_per_root": 600,
+    "export_bytes_per_root": 8388608,
+    "job_cleanup_upload_seconds": 540,
+    "job_minutes": 180,
+    "local_rss_kib": 9437184,
+    "memory_reserve_kib": 2097152,
+    "outer_rss_kib": 12582912,
+    "root_launch_headroom_seconds": 30,
+    "setup_and_build_seconds": 1800,
+    "setup_receipt_bytes": 1048576,
+    "stderr_bytes_per_root": 1048576,
+    "stdout_bytes_per_root": 16777216,
+    "tool_build_seconds": 900
+  },
+  "proof_credit": "NONE",
+  "ref": "refs/heads/uninit-ci/ch8-q-pilot-v1",
+  "roots": [
+    {
+      "argv": [
+        "/home/runner/work/kani/kani/tool/scripts/kani",
+        "verify-std",
+        "-Z",
+        "unstable-options",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "mem-predicates",
+        "-Z",
+        "float-lib",
+        "-Z",
+        "c-ffi",
+        "-Z",
+        "stubbing",
+        "--no-assert-contracts",
+        "--jobs=1",
+        "--harness",
+        "slice::sort::shared::smallsort::verify::sorting_q_pilot::p2_sort13_u8_b01_len17_q_any",
+        "--exact",
+        "--default-unwind",
+        "36",
+        "--harness-timeout",
+        "600s",
+        "--output-format=regular",
+        "-Z",
+        "export-json",
+        "--export-json",
+        "/home/runner/work/_temp/ch8-q-pilot/work/dc89e5e85461464997f8274f39da297d/export.json",
+        "--target-dir",
+        "/home/runner/work/_temp/ch8-q-pilot/work/dc89e5e85461464997f8274f39da297d/kani-target",
+        "/home/runner/work/kani/kani/export/library",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ],
+      "cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_q_pilot",
+      "child": {
+        "child_shutdown_verified": true,
+        "cleanup_errors": null,
+        "elapsed_seconds": 98.172,
+        "interrupted_by_signal": null,
+        "memory_budget": {
+          "available_kib": 14773528,
+          "group_cap_kib": 12582912,
+          "mem_available_kib": 14773528,
+          "per_root_cap_kib": 6291456,
+          "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+          "reserve_kib": 2097152
+        },
+        "nominal_rss_cap_kib": 9437184,
+        "original_exit_code": -15,
+        "pipe_reader_errors": null,
+        "process_identity": {
+          "pgid": 9012,
+          "pid": 9012,
+          "ppid": 9011,
+          "start_ticks": 84559,
+          "state": "R"
+        },
+        "rss_cap_kib": 9437184,
+        "rss_peak_kib": 9448892,
+        "rss_sample_period_seconds": 0.05,
+        "rss_scope": "SAMPLED_NONATOMIC_PGID_VmRSS; possible overshoot; not strict tree/kernel/cgroup",
+        "runner_error": null,
+        "runner_exception": null,
+        "signal": 15,
+        "start_record_error": null,
+        "started": {
+          "monotonic": 845.598350004,
+          "pid": 9012,
+          "utc": "2026-11-21T00:39:45.112480+00:00"
+        },
+        "stderr_bytes": 2537,
+        "stderr_truncated": false,
+        "stdout_bytes": 265350,
+        "stdout_truncated": false,
+        "termination_reason": "rss_cap",
+        "timed_out": false,
+        "wall_scope": "execute elapsed through process and pipe cleanup",
+        "worker_error": null,
+        "worker_observed_at_monotonic": 943.77090176,
+        "worker_observed_at_utc": "2026-11-21T00:41:23.285026+00:00"
+      },
+      "files": {
+        "export": {
+          "bytes": 1221,
+          "cap_bytes": 8388608,
+          "path": "P-2/export.json",
+          "sha256": "8ad36522807d82fb0acbf139f2c5136fd41a8c598e7553fdb0084146bc9081e7",
+          "snapshot_after_reap": true,
+          "truncated": false
+        },
+        "stderr": {
+          "bytes": 2537,
+          "cap_bytes": 1048576,
+          "path": "P-2/stderr.log",
+          "sha256": "28b1359fc2c142f5611de2d4d72369dc2850470e71870fe89f22da63aa175f67",
+          "snapshot_after_reap": true,
+          "truncated": false
+        },
+        "stdout": {
+          "bytes": 265350,
+          "cap_bytes": 16777216,
+          "path": "P-2/stdout.log",
+          "sha256": "2c943c3e5d5bee270c6b29ea8640acec6be9c49f698b540926819d00d89717f7",
+          "snapshot_after_reap": true,
+          "truncated": false
+        }
+      },
+      "id": "P-2",
+      "invocation": {
+        "argv": [
+          "/home/runner/work/kani/kani/tool/scripts/kani",
+          "verify-std",
+          "-Z",
+          "unstable-options",
+          "-Z",
+          "function-contracts",
+          "-Z",
+          "mem-predicates",
+          "-Z",
+          "float-lib",
+          "-Z",
+          "c-ffi",
+          "-Z",
+          "stubbing",
+          "--no-assert-contracts",
+          "--jobs=1",
+          "--harness",
+          "slice::sort::shared::smallsort::verify::sorting_q_pilot::p2_sort13_u8_b01_len17_q_any",
+          "--exact",
+          "--default-unwind",
+          "36",
+          "--harness-timeout",
+          "600s",
+          "--output-format=regular",
+          "-Z",
+          "export-json",
+          "--export-json",
+          "/home/runner/work/_temp/ch8-q-pilot/work/dc89e5e85461464997f8274f39da297d/export.json",
+          "--target-dir",
+          "/home/runner/work/_temp/ch8-q-pilot/work/dc89e5e85461464997f8274f39da297d/kani-target",
+          "/home/runner/work/kani/kani/export/library",
+          "--cbmc-args",
+          "--object-bits",
+          "12"
+        ],
+        "cfg": "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_q_pilot",
+        "invocation_id": "dc89e5e85461464997f8274f39da297d",
+        "paths": {
+          "cargo_target_dir": "/home/runner/work/_temp/ch8-q-pilot/work/dc89e5e85461464997f8274f39da297d/cargo-target",
+          "execution": "/home/runner/work/_temp/ch8-q-pilot/work/dc89e5e85461464997f8274f39da297d/execution",
+          "export": "/home/runner/work/_temp/ch8-q-pilot/work/dc89e5e85461464997f8274f39da297d/export.json",
+          "kani_target_dir": "/home/runner/work/_temp/ch8-q-pilot/work/dc89e5e85461464997f8274f39da297d/kani-target",
+          "root_temp": "/home/runner/work/_temp/ch8-q-pilot/work/dc89e5e85461464997f8274f39da297d",
+          "tmpdir": "/home/runner/work/_temp/ch8-q-pilot/work/dc89e5e85461464997f8274f39da297d/tmp",
+          "worker_stderr": "/home/runner/work/_temp/ch8-q-pilot/work/dc89e5e85461464997f8274f39da297d/worker.stderr"
+        }
+      },
+      "launch_error": null,
+      "reason": "rss_cap",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_q_pilot::p2_sort13_u8_b01_len17_q_any",
+      "started": {
+        "monotonic": 845.598350004,
+        "pid": 9012,
+        "utc": "2026-11-21T00:39:45.112480+00:00"
+      },
+      "status": "INTERRUPTED",
+      "supervisor": {
+        "containment": {
+          "elapsed_seconds": 0.008771679999995285,
+          "observed": [
+            {
+              "pgid": 9011,
+              "pid": 9011,
+              "ppid": 8969,
+              "start_ticks": 84552,
+              "state": "Z"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9019,
+              "ppid": 9012,
+              "start_ticks": 84560,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9012,
+              "ppid": 9011,
+              "start_ticks": 84559,
+              "state": "Z"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9046,
+              "ppid": 9019,
+              "start_ticks": 84582,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9047,
+              "ppid": 9019,
+              "start_ticks": 84582,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9049,
+              "ppid": 9019,
+              "start_ticks": 84582,
+              "state": "R"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9050,
+              "ppid": 9019,
+              "start_ticks": 84582,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9061,
+              "ppid": 9019,
+              "start_ticks": 84588,
+              "state": "R"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9083,
+              "ppid": 9082,
+              "start_ticks": 84599,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9082,
+              "ppid": 9046,
+              "start_ticks": 84599,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9084,
+              "ppid": 9083,
+              "start_ticks": 84599,
+              "state": "R"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9086,
+              "ppid": 9019,
+              "start_ticks": 84599,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9130,
+              "ppid": 9114,
+              "start_ticks": 84609,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9131,
+              "ppid": 9130,
+              "start_ticks": 84610,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9132,
+              "ppid": 9131,
+              "start_ticks": 84610,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9112,
+              "ppid": 9019,
+              "start_ticks": 84606,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9114,
+              "ppid": 9019,
+              "start_ticks": 84606,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9118,
+              "ppid": 9019,
+              "start_ticks": 84607,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9149,
+              "ppid": 9019,
+              "start_ticks": 84616,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9179,
+              "ppid": 9178,
+              "start_ticks": 84633,
+              "state": "R"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9168,
+              "ppid": 9019,
+              "start_ticks": 84626,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9177,
+              "ppid": 9112,
+              "start_ticks": 84633,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9178,
+              "ppid": 9177,
+              "start_ticks": 84633,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9198,
+              "ppid": 9019,
+              "start_ticks": 84641,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9208,
+              "ppid": 9019,
+              "start_ticks": 84646,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9227,
+              "ppid": 9019,
+              "start_ticks": 84653,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9241,
+              "ppid": 9019,
+              "start_ticks": 84667,
+              "state": "R"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9244,
+              "ppid": 9019,
+              "start_ticks": 84670,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9261,
+              "ppid": 9019,
+              "start_ticks": 84687,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9287,
+              "ppid": 9019,
+              "start_ticks": 84870,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9301,
+              "ppid": 9019,
+              "start_ticks": 84890,
+              "state": "R"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9310,
+              "ppid": 9019,
+              "start_ticks": 86857,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9315,
+              "ppid": 9019,
+              "start_ticks": 86951,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9316,
+              "ppid": 9019,
+              "start_ticks": 86951,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9320,
+              "ppid": 9019,
+              "start_ticks": 86964,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9322,
+              "ppid": 9019,
+              "start_ticks": 86964,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9326,
+              "ppid": 9019,
+              "start_ticks": 86976,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9331,
+              "ppid": 9019,
+              "start_ticks": 87018,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9334,
+              "ppid": 9019,
+              "start_ticks": 87046,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9337,
+              "ppid": 9019,
+              "start_ticks": 87054,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9340,
+              "ppid": 9019,
+              "start_ticks": 87073,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9345,
+              "ppid": 9019,
+              "start_ticks": 87163,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9346,
+              "ppid": 9019,
+              "start_ticks": 87163,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9347,
+              "ppid": 9019,
+              "start_ticks": 87163,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9352,
+              "ppid": 9019,
+              "start_ticks": 87177,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9354,
+              "ppid": 9019,
+              "start_ticks": 87177,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9358,
+              "ppid": 9019,
+              "start_ticks": 87179,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9360,
+              "ppid": 9019,
+              "start_ticks": 87179,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9364,
+              "ppid": 9019,
+              "start_ticks": 87196,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9367,
+              "ppid": 9019,
+              "start_ticks": 87327,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9370,
+              "ppid": 9019,
+              "start_ticks": 87417,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9374,
+              "ppid": 9019,
+              "start_ticks": 87639,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9377,
+              "ppid": 9019,
+              "start_ticks": 87687,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9379,
+              "ppid": 9012,
+              "start_ticks": 87700,
+              "state": "R"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9382,
+              "ppid": 9379,
+              "start_ticks": 87701,
+              "state": "S"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9383,
+              "ppid": 9382,
+              "start_ticks": 87701,
+              "state": "D"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9388,
+              "ppid": 9012,
+              "start_ticks": 87785,
+              "state": "R"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9393,
+              "ppid": 9012,
+              "start_ticks": 87828,
+              "state": "R"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9411,
+              "ppid": 9012,
+              "start_ticks": 88679,
+              "state": "R"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9416,
+              "ppid": 9012,
+              "start_ticks": 88717,
+              "state": "R"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9421,
+              "ppid": 9012,
+              "start_ticks": 88744,
+              "state": "R"
+            },
+            {
+              "pgid": 9012,
+              "pid": 9426,
+              "ppid": 8969,
+              "start_ticks": 88772,
+              "state": "Z"
+            }
+          ],
+          "reaped_adopted": [
+            {
+              "pid": 9426,
+              "start_ticks": 88772,
+              "status": 3840
+            }
+          ],
+          "scope": "EXCLUSIVE_SUBREAPER_PID_STARTTIME",
+          "signals": [],
+          "verified": true,
+          "worker_exit": 0
+        },
+        "cutoff": null,
+        "elapsed_seconds": 98.273595752,
+        "lifecycle_events": [
+          {
+            "classification": "ENUMERATION_DISAPPEARED_NOT_OWNERSHIP",
+            "errno": 2,
+            "message": "[Errno 2] No such file or directory: '/proc/9422/stat'",
+            "monotonic": 887.509317128,
+            "operation": "census.read_stat",
+            "pid": 9422,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 31, in census\n    raw=(p/'stat').read_text();tail=raw[raw.rfind(')')+2:].split()\n        ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/pathlib.py\", line 1029, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/pathlib.py\", line 1015, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/proc/9422/stat'\n",
+            "traceback_truncated": false,
+            "type": "FileNotFoundError"
+          },
+          {
+            "classification": "ENUMERATION_DISAPPEARED_NOT_OWNERSHIP",
+            "errno": 2,
+            "message": "[Errno 2] No such file or directory: '/proc/9423/stat'",
+            "monotonic": 887.509436559,
+            "operation": "census.read_stat",
+            "pid": 9423,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 31, in census\n    raw=(p/'stat').read_text();tail=raw[raw.rfind(')')+2:].split()\n        ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/pathlib.py\", line 1029, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/pathlib.py\", line 1015, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/proc/9423/stat'\n",
+            "traceback_truncated": false,
+            "type": "FileNotFoundError"
+          },
+          {
+            "classification": "ENUMERATION_DISAPPEARED_NOT_OWNERSHIP",
+            "errno": 2,
+            "message": "[Errno 2] No such file or directory: '/proc/9425/stat'",
+            "monotonic": 887.512506106,
+            "operation": "census.read_stat",
+            "pid": 9425,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 31, in census\n    raw=(p/'stat').read_text();tail=raw[raw.rfind(')')+2:].split()\n        ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/pathlib.py\", line 1029, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/pathlib.py\", line 1015, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/proc/9425/stat'\n",
+            "traceback_truncated": false,
+            "type": "FileNotFoundError"
+          },
+          {
+            "classification": "ENUMERATION_DISAPPEARED_NOT_OWNERSHIP",
+            "errno": 2,
+            "message": "[Errno 2] No such file or directory: '/proc/9433/stat'",
+            "monotonic": 905.399955998,
+            "operation": "census.read_stat",
+            "pid": 9433,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 31, in census\n    raw=(p/'stat').read_text();tail=raw[raw.rfind(')')+2:].split()\n        ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/pathlib.py\", line 1029, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/pathlib.py\", line 1015, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: '/proc/9433/stat'\n",
+            "traceback_truncated": false,
+            "type": "FileNotFoundError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.785572452,
+            "operation": "cleanup.waitpid",
+            "pid": 9019,
+            "start_ticks": 84560,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.785638387,
+            "operation": "cleanup.waitpid",
+            "pid": 9012,
+            "start_ticks": 84559,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.785689572,
+            "operation": "cleanup.waitpid",
+            "pid": 9046,
+            "start_ticks": 84582,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.785735263,
+            "operation": "cleanup.waitpid",
+            "pid": 9047,
+            "start_ticks": 84582,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.785778321,
+            "operation": "cleanup.waitpid",
+            "pid": 9049,
+            "start_ticks": 84582,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.785820513,
+            "operation": "cleanup.waitpid",
+            "pid": 9050,
+            "start_ticks": 84582,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.785861809,
+            "operation": "cleanup.waitpid",
+            "pid": 9061,
+            "start_ticks": 84588,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.785904912,
+            "operation": "cleanup.waitpid",
+            "pid": 9083,
+            "start_ticks": 84599,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.785946378,
+            "operation": "cleanup.waitpid",
+            "pid": 9082,
+            "start_ticks": 84599,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.785988776,
+            "operation": "cleanup.waitpid",
+            "pid": 9084,
+            "start_ticks": 84599,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786051239,
+            "operation": "cleanup.waitpid",
+            "pid": 9086,
+            "start_ticks": 84599,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786095853,
+            "operation": "cleanup.waitpid",
+            "pid": 9130,
+            "start_ticks": 84609,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786137149,
+            "operation": "cleanup.waitpid",
+            "pid": 9131,
+            "start_ticks": 84610,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786179389,
+            "operation": "cleanup.waitpid",
+            "pid": 9132,
+            "start_ticks": 84610,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786220163,
+            "operation": "cleanup.waitpid",
+            "pid": 9112,
+            "start_ticks": 84606,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786261958,
+            "operation": "cleanup.waitpid",
+            "pid": 9114,
+            "start_ticks": 84606,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786302206,
+            "operation": "cleanup.waitpid",
+            "pid": 9118,
+            "start_ticks": 84607,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786342257,
+            "operation": "cleanup.waitpid",
+            "pid": 9149,
+            "start_ticks": 84616,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786381717,
+            "operation": "cleanup.waitpid",
+            "pid": 9179,
+            "start_ticks": 84633,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786432898,
+            "operation": "cleanup.waitpid",
+            "pid": 9168,
+            "start_ticks": 84626,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786475167,
+            "operation": "cleanup.waitpid",
+            "pid": 9177,
+            "start_ticks": 84633,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.78651937,
+            "operation": "cleanup.waitpid",
+            "pid": 9178,
+            "start_ticks": 84633,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786567685,
+            "operation": "cleanup.waitpid",
+            "pid": 9198,
+            "start_ticks": 84641,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786610643,
+            "operation": "cleanup.waitpid",
+            "pid": 9208,
+            "start_ticks": 84646,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786653768,
+            "operation": "cleanup.waitpid",
+            "pid": 9227,
+            "start_ticks": 84653,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786696083,
+            "operation": "cleanup.waitpid",
+            "pid": 9241,
+            "start_ticks": 84667,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786737378,
+            "operation": "cleanup.waitpid",
+            "pid": 9244,
+            "start_ticks": 84670,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786779639,
+            "operation": "cleanup.waitpid",
+            "pid": 9261,
+            "start_ticks": 84687,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786821286,
+            "operation": "cleanup.waitpid",
+            "pid": 9287,
+            "start_ticks": 84870,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786862104,
+            "operation": "cleanup.waitpid",
+            "pid": 9301,
+            "start_ticks": 84890,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786901245,
+            "operation": "cleanup.waitpid",
+            "pid": 9310,
+            "start_ticks": 86857,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.786943041,
+            "operation": "cleanup.waitpid",
+            "pid": 9315,
+            "start_ticks": 86951,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.78698221,
+            "operation": "cleanup.waitpid",
+            "pid": 9316,
+            "start_ticks": 86951,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.78703963,
+            "operation": "cleanup.waitpid",
+            "pid": 9320,
+            "start_ticks": 86964,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787082135,
+            "operation": "cleanup.waitpid",
+            "pid": 9322,
+            "start_ticks": 86964,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787126422,
+            "operation": "cleanup.waitpid",
+            "pid": 9326,
+            "start_ticks": 86976,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787168064,
+            "operation": "cleanup.waitpid",
+            "pid": 9331,
+            "start_ticks": 87018,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787209772,
+            "operation": "cleanup.waitpid",
+            "pid": 9334,
+            "start_ticks": 87046,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787251043,
+            "operation": "cleanup.waitpid",
+            "pid": 9337,
+            "start_ticks": 87054,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787301918,
+            "operation": "cleanup.waitpid",
+            "pid": 9340,
+            "start_ticks": 87073,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787343821,
+            "operation": "cleanup.waitpid",
+            "pid": 9345,
+            "start_ticks": 87163,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787384712,
+            "operation": "cleanup.waitpid",
+            "pid": 9346,
+            "start_ticks": 87163,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787424759,
+            "operation": "cleanup.waitpid",
+            "pid": 9347,
+            "start_ticks": 87163,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787466394,
+            "operation": "cleanup.waitpid",
+            "pid": 9352,
+            "start_ticks": 87177,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787506934,
+            "operation": "cleanup.waitpid",
+            "pid": 9354,
+            "start_ticks": 87177,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787547603,
+            "operation": "cleanup.waitpid",
+            "pid": 9358,
+            "start_ticks": 87179,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.78759398,
+            "operation": "cleanup.waitpid",
+            "pid": 9360,
+            "start_ticks": 87179,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787635711,
+            "operation": "cleanup.waitpid",
+            "pid": 9364,
+            "start_ticks": 87196,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.78767774,
+            "operation": "cleanup.waitpid",
+            "pid": 9367,
+            "start_ticks": 87327,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787719713,
+            "operation": "cleanup.waitpid",
+            "pid": 9370,
+            "start_ticks": 87417,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787761475,
+            "operation": "cleanup.waitpid",
+            "pid": 9374,
+            "start_ticks": 87639,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787802569,
+            "operation": "cleanup.waitpid",
+            "pid": 9377,
+            "start_ticks": 87687,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787844987,
+            "operation": "cleanup.waitpid",
+            "pid": 9379,
+            "start_ticks": 87700,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787886548,
+            "operation": "cleanup.waitpid",
+            "pid": 9382,
+            "start_ticks": 87701,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787926426,
+            "operation": "cleanup.waitpid",
+            "pid": 9383,
+            "start_ticks": 87701,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.787966684,
+            "operation": "cleanup.waitpid",
+            "pid": 9388,
+            "start_ticks": 87785,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.788021918,
+            "operation": "cleanup.waitpid",
+            "pid": 9393,
+            "start_ticks": 87828,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.788066252,
+            "operation": "cleanup.waitpid",
+            "pid": 9411,
+            "start_ticks": 88679,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.788108863,
+            "operation": "cleanup.waitpid",
+            "pid": 9416,
+            "start_ticks": 88717,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          },
+          {
+            "classification": "NOT_DIRECT_CHILD_RECHECK_TREE",
+            "errno": 10,
+            "message": "[Errno 10] No child processes",
+            "monotonic": 943.788149349,
+            "operation": "cleanup.waitpid",
+            "pid": 9421,
+            "start_ticks": 88744,
+            "traceback_tail": "Traceback (most recent call last):\n  File \"/home/runner/work/kani/kani/control/ch8-s1-control/s3_runtime.py\", line 131, in cleanup\n    got,status=os.waitpid(pid,os.WNOHANG)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nChildProcessError: [Errno 10] No child processes\n",
+            "traceback_truncated": false,
+            "type": "ChildProcessError"
+          }
+        ],
+        "lifecycle_events_omitted": 105,
+        "limit_initiated": false,
+        "memory_budget": {
+          "available_kib": 14773432,
+          "group_cap_kib": 12582912,
+          "mem_available_kib": 14773432,
+          "per_root_cap_kib": 6291456,
+          "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+          "reserve_kib": 2097152
+        },
+        "monotonic_end": 943.791340792,
+        "monotonic_start": 845.517745299,
+        "orphan_survivors_at_worker_exit": [],
+        "outer_rss_scope": "POLLED_NONATOMIC_SUM_VmRSS_OBSERVED_OWNED_PIDS; overshoot possible; not strict tree/cgroup/kernel",
+        "outer_sampled_peak_kib": 9467592,
+        "rss_cap_kib": 12582912,
+        "supervisor_error": null,
+        "worker_exit": 0,
+        "worker_initial_identity": {
+          "pgid": 9011,
+          "pid": 9011,
+          "ppid": 8969,
+          "start_ticks": 84552,
+          "state": "R"
+        },
+        "worker_pid": 9011,
+        "worker_wall_limit_seconds": 9896.865582649
+      },
+      "supervisor_cleanup_verified": true,
+      "temp_cleanup": {
+        "removed": true
+      },
+      "worker_exit_code": 0
+    }
+  ],
+  "run_attempt": "1",
+  "run_id": "44844623193",
+  "schema": "ch8-q-pilot-raw-v1",
+  "setup": {
+    "receipt": {
+      "child_shutdown_verified": true,
+      "component_group_peak_kib": {
+        "backend": 0,
+        "compiler": 1378576,
+        "driver": 0,
+        "other": 269160
+      },
+      "component_rss_scope": "SAMPLED_PROCESS_GROUP_BY_COMM_NOT_PER_ROOT; peaks are not simultaneous",
+      "elapsed_seconds": 254.791,
+      "original_exit_code": 0,
+      "output_bytes": 38186,
+      "output_truncated": false,
+      "rss_peak_gib": 1.3799934387207031,
+      "rss_peak_kib": 1447028,
+      "rss_sample_period_seconds": 0.05,
+      "rss_status": "SAMPLED_PROCESS_GROUP",
+      "rustc_diagnostics": {
+        "complete": true,
+        "incomplete_reasons": [],
+        "proof_credit": "NONE",
+        "schema": "ch8-rustc-diagnostics-summary-v1",
+        "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS; PRODUCER_COMPLETENESS_UNKNOWN",
+        "streams": {
+          "stderr": {
+            "ansi_removed": true,
+            "block_cap": 2048,
+            "complete": true,
+            "dropped_blocks": 0,
+            "dropped_bytes": 0,
+            "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+            "error_headers_observed": 0,
+            "incomplete_reasons": [],
+            "observed_bytes": 36209,
+            "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+            "pipe_eof": true,
+            "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+            "producer_reported_error_count": 0,
+            "producer_reported_omission": false,
+            "proof_credit": "NONE",
+            "receipt": "rustc-stderr-receipt.json",
+            "retained_input_bytes": 0,
+            "retention_cap_bytes": 1048576,
+            "schema": "ch8-rustc-diagnostics-v1",
+            "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+            "status": "NO_TEXTUAL_ERRORS",
+            "stream": "stderr",
+            "substantive_headers_observed": 0,
+            "unobserved_bytes": 0,
+            "unscanned_bytes": 0
+          },
+          "stdout": {
+            "ansi_removed": true,
+            "block_cap": 2048,
+            "complete": true,
+            "dropped_blocks": 0,
+            "dropped_bytes": 0,
+            "dropped_counts_scope": "OBSERVED_BYTES_ONLY; UNOBSERVED_COUNTS_UNKNOWN",
+            "error_headers_observed": 0,
+            "incomplete_reasons": [],
+            "observed_bytes": 1977,
+            "offset_unit": "ORIGINAL_PIPE_BYTE_HALF_OPEN",
+            "pipe_eof": true,
+            "producer_completeness": "UNKNOWN_UNEMITTED_DIAGNOSTICS_NOT_OBSERVABLE",
+            "producer_reported_error_count": 0,
+            "producer_reported_omission": false,
+            "proof_credit": "NONE",
+            "receipt": "rustc-stdout-receipt.json",
+            "retained_input_bytes": 0,
+            "retention_cap_bytes": 1048576,
+            "schema": "ch8-rustc-diagnostics-v1",
+            "scope": "OBSERVED_TEXTUAL_RUSTC_ERRORS_NOT_PER_ROOT",
+            "status": "NO_TEXTUAL_ERRORS",
+            "stream": "stdout",
+            "substantive_headers_observed": 0,
+            "unobserved_bytes": 0,
+            "unscanned_bytes": 0
+          }
+        },
+        "unobserved_bytes": 0
+      },
+      "setup_total_seconds": 362.9822995662689,
+      "signal": null,
+      "stderr_bytes": 36209,
+      "stderr_truncated": false,
+      "stdout_bytes": 1977,
+      "stdout_truncated": false,
+      "timed_out": false
+    },
+    "sha256": "615488a131de3c4ef596a342d50056d5a6621e2791471db9a15674df9490a5cc"
+  },
+  "stop_error": null,
+  "stop_reason": null,
+  "trigger_sha": "31450d17200a3681f881363d15013f92b90ca94c",
+  "workflow_step_outcomes": {
+    "build": "success",
+    "collection": "success",
+    "control": "success",
+    "setup": "success",
+    "source": "success"
+  }
+}
