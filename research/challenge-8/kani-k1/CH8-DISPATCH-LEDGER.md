@@ -532,3 +532,5 @@ Accounting/runs/charge/refund/reservation/grant не менялись.
 
 Run44577116178/1; head960cc686097c093fe0d64f73f4f4a9736e06eec2; source7b31b060b90ce286e94547993f6a698c549bc5fa; stocktool0aac16ef62da9e9d5645782d458593e5d78143ba.
 ADMISSION_ONLY. runs_added0; accounting unchanged.
+
+2026-11-21 ADMISSION_ONLY: q-pilot network N13–N19 admitted (item2-audit-response-20261120/ADMISSION-N13-N19-FINAL.md, g0 1e21c9976b). N18/N19 fit 6 GiB (max 4 539 168 KiB); N13–N17 under owner 8 GiB lane for the five Check sort13 roots only (max 7 709 832 KiB), other roots ≤6 GiB. Runs 44884852864, 44896810040, 44911175814 (+15/12b providers as listed). runs_added 0; accounting unchanged.
