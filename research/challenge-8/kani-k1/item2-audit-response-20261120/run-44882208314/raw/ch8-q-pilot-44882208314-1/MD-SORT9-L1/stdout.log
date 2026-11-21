@@ -1,0 +1,34 @@
+Kani Rust Verifier 0.68.0 (standalone)
+CBMC 6.11.0
+error[E0502]: cannot borrow value as immutable because it is also borrowed as mutable
+   --> /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs:529:59
+    |
+525 |     crate::kani::requires(verify::sorting_q_merge_model::sort9::geometry::<T, F>(v)),
+    |     --------------------------------------------------------------------------------
+    |     |
+    |     mutable borrow occurs here
+    |     mutable borrow later used here
+...
+529 |         old(verify::sorting_q_merge_model::sort9::capture(v, is_less)),
+    |                                                           ^ immutable borrow occurs here
+...
+542 |     let v_base = v.as_mut_ptr();
+    |                  - first borrow occurs due to use of value in closure
+
+error[E0502]: cannot borrow value as immutable because it is also borrowed as mutable
+   --> /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs:529:62
+    |
+525 |     crate::kani::requires(verify::sorting_q_merge_model::sort9::geometry::<T, F>(v)),
+    |     --------------------------------------------------------------------------------
+    |     |
+    |     mutable borrow occurs here
+    |     mutable borrow later used here
+...
+529 |         old(verify::sorting_q_merge_model::sort9::capture(v, is_less)),
+    |                                                              ^^^^^^^ immutable borrow occurs here
+...
+549 |         swap_if_less(v_base, 0, 3, is_less);
+    |                                    ------- first borrow occurs due to use of value in closure
+
+For more information about this error, try `rustc --explain E0502`.
+error: Failed to execute cargo (exit status: 101). Found 2 compilation errors.
