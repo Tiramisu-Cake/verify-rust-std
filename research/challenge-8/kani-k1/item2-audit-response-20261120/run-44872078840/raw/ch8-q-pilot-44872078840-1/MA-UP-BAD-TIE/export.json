@@ -1,0 +1,183 @@
+{
+  "schema_version": "0.1.0",
+  "kani_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "kani_commit_dirty": false,
+  "tools": {
+    "kani": "0.68.0",
+    "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+    "cbmc": "6.11.0 (cbmc-6.11.0)"
+  },
+  "enabled_unstable_features": [
+    "c-ffi",
+    "export-json",
+    "float-lib",
+    "function-contracts",
+    "mem-predicates",
+    "stubbing",
+    "unstable-options"
+  ],
+  "harness_selection": {
+    "requested_filters": [
+      "slice::sort::shared::smallsort::verify::sorting_q_merge::ma_merge_up_wrong_tie"
+    ],
+    "exact": true,
+    "unmatched_filters": [],
+    "matched_count": 1
+  },
+  "harness_timeout_s": 300.0,
+  "configuration": {
+    "checks": {
+      "memory_safety": true,
+      "overflow": true,
+      "unwinding": true,
+      "undefined_function": true,
+      "assertion_reach_checks": true,
+      "ignore_global_asm": false,
+      "extra_pointer_checks": false,
+      "assert_contracts": false,
+      "prove_safety_only": false
+    },
+    "cbmc_args": [
+      "--object-bits",
+      "12"
+    ],
+    "coverage_enabled": false
+  },
+  "outcome": {
+    "kind": "COMPLETED"
+  },
+  "run_state": "COMPLETE",
+  "target": "x86_64-unknown-linux-gnu",
+  "started_at": "2026-11-21T06:04:41Z",
+  "wall_time_s": 6.5628081940000005,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::sorting_q_merge::ma_merge_up_wrong_tie",
+      "crate_name": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_q_merge.rs",
+      "line": 157,
+      "contract": {
+        "contracted_function_name": "_RNCNCINvNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsort8merge_uphINtNtNtB6_6verify13sorting_model7KeyLesshEEs0_0s1_0Be_",
+        "recursion_tracker": null
+      },
+      "is_automatically_generated": false,
+      "has_loop_contracts": false,
+      "is_bounded": false,
+      "attributes": {
+        "kind": {
+          "ProofForContract": {
+            "target_fn": "merge_up"
+          }
+        },
+        "should_panic": false,
+        "solver": null,
+        "unwind_value": 36,
+        "stubs": [],
+        "verified_stubs": []
+      },
+      "outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "resolved_solver": "cadical",
+      "resolved_unwind": 36,
+      "generated_concrete_test": false,
+      "resources": {
+        "verification_time_s": 5.291732716
+      },
+      "n_properties": 431,
+      "n_failed": 1,
+      "failure_kind": "PANICS_ONLY",
+      "failed_properties": [
+        {
+          "id": "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.3",
+          "description": "|result| verify::sorting_q_merge_model::merge_up_wrong_tie_cursors::<T,\nF>(old(verify::sorting_q_merge_model::step_capture(left_src, right_src, dst,\nis_less)), result,)",
+          "class": "assertion",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "line": "899",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "unsupported_constructs": [
+        {
+          "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+          "line": "110",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "line": "358",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "kani::mem::is_inbounds::<u8>.unsupported_construct.1",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "line": "358",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "warnings": [],
+      "warnings_truncated": 0,
+      "checks": {
+        "total": 429,
+        "success": 424,
+        "failure": [
+          "slice::sort::shared::smallsort::merge_up::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.3"
+        ],
+        "unreachable": [
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+          "fmt::Arguments::<'_>::from_str.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.2"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "covers": {
+        "total": 2,
+        "satisfied": [
+          "slice::sort::shared::smallsort::verify::sorting_q_merge::check_up_step.cover.1",
+          "slice::sort::shared::smallsort::verify::sorting_q_merge::check_up_step.cover.2"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      }
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "successful": 0,
+    "failed": 1,
+    "checks_total": 429,
+    "checks_success": 424,
+    "covers_total": 2,
+    "covers_satisfied": 2
+  }
+}
