@@ -542,3 +542,5 @@ ADMISSION_ONLY. runs_added0; accounting unchanged.
 2026-11-21 ADMISSION_ONLY: q-pilot network N20, N25 (sort13 8 GiB lane) and N21–N24 admitted (ADMISSION-N20-N24-N25.md g0 8352229ebb/467f28457e, ADMISSION-N21-N24.md g0 da7c88e787). Admitted network lengths now 0–25. runs_added 0; accounting unchanged.
 
 2026-11-21 ADMISSION_ONLY: q-pilot network N26–N31 admitted (item2-audit-response-20261120/ADMISSION-N26-N31.md, g0 c013306bdd). Check sort13 roots in owner 8 GiB lane (max 7 709 832 KiB), all other roots ≤6 GiB (max 5 527 296 KiB, merge N31). Runs 44896810040, 44913550779, 44919576152, 44919643424, 44923999242. Admitted network lengths now 0–31. runs_added 0; accounting unchanged.
+
+2026-11-21 ADMISSION_ONLY: q-pilot network N32 admitted (item2-audit-response-20261120/ADMISSION-N32.md, g0 4f44620532). Compact merge32 observer Check (std 54123e752d, cfg kani_smallsort_q_compact_merge32) 5.07 GiB linked by source and equivalence root to the Replace contract used by consumer on e2bd3c6adc; sort13 Checks in owner 8 GiB lane. Runs 44896810040, 44919643424, 44923999242, 44930211919. Admitted network lengths now 0–32 (all). runs_added 0; accounting unchanged.
