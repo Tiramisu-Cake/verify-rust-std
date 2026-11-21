@@ -5,6 +5,14 @@ use crate::{ptr, ub_checks};
 
 const INSERT_LEN: usize = 10;
 
+fn supported_insert_len(len: usize) -> bool {
+    if cfg!(kani_smallsort_q_merge_wide) {
+        matches!(len, 10..=12 | 14..=16)
+    } else {
+        len == INSERT_LEN
+    }
+}
+
 // The fallback does not read the comparator or element memory. In particular,
 // lifted old(...) expressions can call it before any postcondition guard.
 trait ByteModel<T, F> {
@@ -81,7 +89,7 @@ pub(super) fn numeric_order(bytes: &[u8]) -> bool {
 
 fn read_order(begin: *const u8, len: usize) -> Option<bool> {
     let end = len.checked_sub(1)?;
-    if len > INSERT_LEN
+    if len > 16
         || !offset_in_allocation(begin, end as isize)
         || !ub_checks::can_dereference(ptr::slice_from_raw_parts(begin, len))
     {
@@ -97,10 +105,10 @@ pub(in crate::slice::sort::shared::smallsort) fn insert_capture<T, F>(
     begin: *const T,
     len: usize,
 ) -> Option<bool> {
-    if !active::<T, F>() || len != INSERT_LEN {
+    if !active::<T, F>() || !supported_insert_len(len) {
         return None;
     }
-    read_order(begin.cast(), INSERT_LEN - 1)
+    read_order(begin.cast(), len - 1)
 }
 
 pub(in crate::slice::sort::shared::smallsort) fn insert_numeric_post<T, F>(
@@ -108,12 +116,12 @@ pub(in crate::slice::sort::shared::smallsort) fn insert_numeric_post<T, F>(
     begin: *const T,
     len: usize,
 ) -> bool {
-    if !active::<T, F>() || len != INSERT_LEN {
+    if !active::<T, F>() || !supported_insert_len(len) {
         return true;
     }
     match prefix_ordered {
         Some(false) => true,
-        Some(true) => read_order(begin.cast(), INSERT_LEN) == Some(true),
+        Some(true) => read_order(begin.cast(), len) == Some(true),
         None => false,
     }
 }
@@ -441,5 +449,155 @@ pub(in crate::slice::sort::shared::smallsort) mod sort9 {
         before.is_some_and(|before| {
             capture(v, f).is_some_and(|after| after.q == before.q && after.below == before.below)
         })
+    }
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    kani_smallsort_q_merge_wide,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+pub(in crate::slice::sort::shared::smallsort) mod merge_wide {
+    use super::{ByteModel, active, numeric_order};
+    use crate::slice::sort::shared::smallsort::merge_contract_regions_disjoint;
+    use crate::{ptr, ub_checks};
+
+    fn presort_readable<T, F, const PREFIX: usize>(v: &[T]) -> bool {
+        active::<T, F>()
+            && match PREFIX {
+                9 => matches!(v.len(), 9..=12),
+                13 => matches!(v.len(), 13..=16),
+                _ => false,
+            }
+            && ub_checks::can_dereference(v as *const [T])
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn presort_geometry<T, F, const PREFIX: usize>(
+        v: &mut [T],
+    ) -> bool {
+        presort_readable::<T, F, PREFIX>(v)
+            && ub_checks::can_write(v.as_mut_ptr().cast::<[T; PREFIX]>())
+    }
+
+    fn presort_prefix<T, F, const PREFIX: usize>(v: &[T]) -> Option<&[u8]> {
+        if !presort_readable::<T, F, PREFIX>(v) {
+            return None;
+        }
+        // SAFETY: the exact pair has T = u8 and the checked span contains PREFIX bytes.
+        Some(unsafe { crate::slice::from_raw_parts(v.as_ptr().cast(), PREFIX) })
+    }
+
+    #[derive(Clone, Copy)]
+    pub(in crate::slice::sort::shared::smallsort) struct PrefixSnapshot {
+        q: u8,
+        below: usize,
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn presort_capture<T, F, const PREFIX: usize>(
+        v: &[T],
+        f: &F,
+    ) -> Option<PrefixSnapshot> {
+        let prefix = presort_prefix::<T, F, PREFIX>(v)?;
+        let q = <() as ByteModel<T, F>>::threshold(f)?;
+        Some(PrefixSnapshot { q, below: prefix.iter().filter(|&&byte| byte < q).count() })
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn presort_post<T, F, const PREFIX: usize>(
+        before: Option<PrefixSnapshot>,
+        v: &[T],
+        f: &F,
+    ) -> bool {
+        let (Some(before), Some(prefix), Some(q)) =
+            (before, presort_prefix::<T, F, PREFIX>(v), <() as ByteModel<T, F>>::threshold(f))
+        else {
+            return false;
+        };
+        // Order and count determine every bit of the threshold mask.
+        q == before.q
+            && numeric_order(prefix)
+            && prefix.iter().filter(|&&byte| byte < q).count() == before.below
+    }
+
+    fn supported_merge_len(len: usize) -> bool {
+        matches!(len, 20..=32)
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn merge_geometry<T, F>(
+        input: &[T],
+        dst: *mut T,
+    ) -> bool {
+        active::<T, F>()
+            && supported_merge_len(input.len())
+            && ub_checks::can_dereference(input as *const [T])
+            && ub_checks::can_write(ptr::slice_from_raw_parts_mut(dst, input.len()))
+            && merge_contract_regions_disjoint(input.as_ptr(), dst, input.len())
+    }
+
+    fn merge_input<T, F>(input: &[T]) -> Option<&[u8]> {
+        if !active::<T, F>()
+            || !supported_merge_len(input.len())
+            || !ub_checks::can_dereference(input as *const [T])
+        {
+            return None;
+        }
+        // SAFETY: the exact pair has T = u8, and the initialized source span is readable.
+        Some(unsafe { crate::slice::from_raw_parts(input.as_ptr().cast(), input.len()) })
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn merge_halves_numeric_order<T, F>(
+        input: &[T],
+    ) -> bool {
+        merge_input::<T, F>(input).is_some_and(|bytes| {
+            let (left, right) = bytes.split_at(bytes.len() / 2);
+            numeric_order(left) && numeric_order(right)
+        })
+    }
+
+    #[derive(Clone, Copy)]
+    pub(in crate::slice::sort::shared::smallsort) struct MergeSnapshot {
+        q: u8,
+        len: usize,
+        target: u32,
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn merge_capture<T, F>(
+        input: &[T],
+        f: &F,
+    ) -> Option<MergeSnapshot> {
+        let input = merge_input::<T, F>(input)?;
+        let q = <() as ByteModel<T, F>>::threshold(f)?;
+        let len = input.len();
+        let below = input.iter().filter(|&&byte| byte < q).count();
+        // 0 <= below <= len <= 32. The intermediate needs 33 bits at len == 32.
+        let target = ((1_u64 << len) - (1_u64 << below)) as u32;
+        Some(MergeSnapshot { q, len, target })
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn merge_q_post<T, F>(
+        before: Option<MergeSnapshot>,
+        dst: *mut T,
+        f: &F,
+    ) -> bool {
+        let (Some(before), Some(q)) = (before, <() as ByteModel<T, F>>::threshold(f)) else {
+            return false;
+        };
+        let output = ptr::slice_from_raw_parts(dst.cast::<u8>(), before.len);
+        if q != before.q || !supported_merge_len(before.len) || !ub_checks::can_dereference(output)
+        {
+            return false;
+        }
+        // SAFETY: Check reads the active span after normal return. The two write
+        // streams and the odd copy fill it, and Replace havocs this same span.
+        let output = unsafe { &*output };
+        let mask = output
+            .iter()
+            .enumerate()
+            .fold(0, |mask, (i, &byte)| mask | (u32::from(byte >= q) << i));
+        mask == before.target
     }
 }
