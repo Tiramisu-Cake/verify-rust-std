@@ -1,0 +1,43 @@
+warning: Cargo.toml: `package.edition` is unspecified, defaulting to `2015` while the latest is `2024`
+warning: `dummy` (manifest) generated 1 warning
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded proc-macro-error v1.0.4
+  Downloaded unicode-ident v1.0.24
+  Downloaded proc-macro-error-attr v1.0.4
+  Downloaded syn v1.0.109
+   Compiling proc-macro2 v1.0.107
+   Compiling version_check v0.9.5
+   Compiling unicode-ident v1.0.24
+   Compiling quote v1.0.47
+   Compiling syn v1.0.109
+   Compiling safety v0.1.0 (/home/runner/work/kani/kani/export/library/contracts/safety)
+   Compiling proc-macro-error-attr v1.0.4
+   Compiling proc-macro-error v1.0.4
+   Compiling compiler_builtins v0.1.160 (/home/runner/work/kani/kani/export/library/compiler-builtins/compiler-builtins)
+   Compiling libc v0.2.191
+   Compiling object v0.39.1
+   Compiling std v0.0.0 (/home/runner/work/kani/kani/export/library/std)
+   Compiling syn v2.0.119
+   Compiling core v0.0.0 (/home/runner/work/kani/kani/export/library/core)
+   Compiling rustc-std-workspace-core v1.99.0 (/home/runner/work/kani/kani/export/library/rustc-std-workspace-core)
+   Compiling alloc v0.0.0 (/home/runner/work/kani/kani/export/library/alloc)
+   Compiling memchr v2.8.3
+   Compiling adler2 v2.0.1
+   Compiling rustc-demangle v0.1.28
+   Compiling cfg-if v1.0.4
+   Compiling rustc-literal-escaper v0.0.8
+   Compiling unwind v0.0.0 (/home/runner/work/kani/kani/export/library/unwind)
+   Compiling rustc-std-workspace-alloc v1.99.0 (/home/runner/work/kani/kani/export/library/rustc-std-workspace-alloc)
+   Compiling panic_abort v0.0.0 (/home/runner/work/kani/kani/export/library/panic_abort)
+   Compiling panic_unwind v0.0.0 (/home/runner/work/kani/kani/export/library/panic_unwind)
+   Compiling gimli v0.34.0
+   Compiling miniz_oxide v0.9.1
+   Compiling std_detect v0.1.5 (/home/runner/work/kani/kani/export/library/std_detect)
+   Compiling hashbrown v0.17.1
+   Compiling addr2line v0.27.1
+   Compiling proc_macro v0.0.0 (/home/runner/work/kani/kani/export/library/proc_macro)
+   Compiling dummy v0.1.0 (/home/runner/work/_temp/ch8-q-pilot/work/dc199bf97b214870aeffe2f4d9c5e598/kani-target/kani_verify_std)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 30.83s
+warning: the following packages contain code that will be rejected by a future version of Rust: core v0.0.0 (/home/runner/work/kani/kani/export/library/core)
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
