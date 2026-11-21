@@ -524,12 +524,11 @@ where
     ),
     crate::kani::requires(verify::sorting_q_merge_model::sort9::geometry::<T, F>(v)),
     crate::kani::modifies(v.as_mut_ptr().cast::<[T; 9]>()),
-    crate::kani::ensures(|_| verify::sorting_q_merge_model::sort9::numeric_post::<T, F>(v)),
     crate::kani::ensures(|_| verify::sorting_q_merge_model::sort9::q_post(
         old(verify::sorting_q_merge_model::sort9::capture(v, is_less)),
         v,
         is_less,
-    )),
+    ) && verify::sorting_q_merge_model::sort9::numeric_post::<T, F>(v)),
 )]
 fn sort9_optimal<T, F>(v: &mut [T], is_less: &mut F)
 where
