@@ -5,7 +5,7 @@
 use super::super::{insert_tail, small_sort_network, sort13_optimal, swap_if_less};
 use super::sorting_model::KeyLess;
 use super::sorting_q_model as qmodel;
-use crate::kani;
+use crate::{intrinsics, kani, ptr};
 
 const BACKING: usize = 34;
 
@@ -118,6 +118,198 @@ fn p2b_sort13_u8_b01_len17_q_any_actual_swaps() {
     kani::cover(q == u8::MAX, "P2_Q_MAX");
     kani::cover(before[1..14].iter().all(|x| *x != q), "P2_Q_ABSENT");
     kani::cover(true, "P2_USEFUL_RETURN");
+}
+
+#[kani::proof]
+#[kani::unwind(36)]
+fn d13_body_v34() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "D13_BODY_V34_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..14], q);
+
+    kani::assert(v[1..18].len() == 17, "D13_BODY_V34_LEN");
+    let captured = qmodel::prefix_capture(&v[1..18], &f);
+
+    sort13_optimal(&mut v[1..18], &mut f);
+
+    kani::assert(qmodel::prefix_post(captured, &v[1..18], &f), "D13_BODY_V34_PREFIX_POST");
+    kani::assert(qmodel::order_post(&v[1..14], q, &target), "D13_BODY_V34_ORDER_QPOST");
+    kani::assert(f.q() == q, "D13_BODY_V34_Q_FRAME");
+    for i in 0..BACKING {
+        kani::assert((1..14).contains(&i) || v[i] == before[i], "D13_BODY_V34_FRAME");
+    }
+    kani::cover(
+        before[1..14].iter().any(|x| *x < q) && before[1..14].iter().any(|x| *x >= q),
+        "D13_BODY_V34_MIXED_THRESHOLD",
+    );
+    kani::cover(before[1..14].windows(2).any(|w| w[0] == w[1]), "D13_BODY_V34_THRESHOLD_TIES");
+    kani::cover(q == 0, "D13_BODY_V34_Q_ZERO");
+    kani::cover(q == u8::MAX, "D13_BODY_V34_Q_MAX");
+    kani::cover(before[1..14].iter().all(|x| *x != q), "D13_BODY_V34_Q_ABSENT");
+    kani::cover(true, "D13_BODY_V34_USEFUL_RETURN");
+}
+
+#[kani::proof_for_contract(sort13_optimal)]
+#[kani::unwind(36)]
+fn d13_check_v19() {
+    let mut v: [u8; 19] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "D13_CHECK_V19_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..14], q);
+
+    sort13_optimal(&mut v[1..18], &mut f);
+
+    kani::assert(qmodel::order_post(&v[1..14], q, &target), "D13_CHECK_V19_ORDER_QPOST");
+    kani::assert(f.q() == q, "D13_CHECK_V19_Q_FRAME");
+    for i in 0..19 {
+        kani::assert((1..14).contains(&i) || v[i] == before[i], "D13_CHECK_V19_FRAME");
+    }
+    kani::cover(
+        before[1..14].iter().any(|x| *x < q) && before[1..14].iter().any(|x| *x >= q),
+        "D13_CHECK_V19_MIXED_THRESHOLD",
+    );
+    kani::cover(before[1..14].windows(2).any(|w| w[0] == w[1]), "D13_CHECK_V19_THRESHOLD_TIES");
+    kani::cover(q == 0, "D13_CHECK_V19_Q_ZERO");
+    kani::cover(q == u8::MAX, "D13_CHECK_V19_Q_MAX");
+    kani::cover(before[1..14].iter().all(|x| *x != q), "D13_CHECK_V19_Q_ABSENT");
+    kani::cover(true, "D13_CHECK_V19_USEFUL_RETURN");
+}
+
+// First 17 comparators of sort13_optimal, in source order.
+#[kani::requires(v.len() == 17)]
+#[kani::modifies(ptr::slice_from_raw_parts_mut(v.as_mut_ptr(), crate::cmp::min(13, v.len())))]
+#[kani::ensures(|_| qmodel::prefix_count_post(old(qmodel::prefix_count_capture(v, is_less)), v, is_less))]
+fn sort13_prefix17(v: &mut [u8], is_less: &mut KeyLess<u8>) {
+    if v.len() < 13 {
+        intrinsics::abort_immediate();
+    }
+
+    let v_base = v.as_mut_ptr();
+
+    // SAFETY: the length check guarantees every literal index is in bounds.
+    unsafe {
+        swap_if_less(v_base, 0, 12, is_less);
+        swap_if_less(v_base, 1, 10, is_less);
+        swap_if_less(v_base, 2, 9, is_less);
+        swap_if_less(v_base, 3, 7, is_less);
+        swap_if_less(v_base, 5, 11, is_less);
+        swap_if_less(v_base, 6, 8, is_less);
+        swap_if_less(v_base, 1, 6, is_less);
+        swap_if_less(v_base, 2, 3, is_less);
+        swap_if_less(v_base, 4, 11, is_less);
+        swap_if_less(v_base, 7, 9, is_less);
+        swap_if_less(v_base, 8, 10, is_less);
+        swap_if_less(v_base, 0, 4, is_less);
+        swap_if_less(v_base, 1, 2, is_less);
+        swap_if_less(v_base, 3, 6, is_less);
+        swap_if_less(v_base, 7, 8, is_less);
+        swap_if_less(v_base, 9, 10, is_less);
+        swap_if_less(v_base, 11, 12, is_less);
+    }
+}
+
+#[kani::proof_for_contract(sort13_prefix17)]
+#[kani::unwind(36)]
+fn d13_check_p17() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "D13_CHECK_P17_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+
+    sort13_prefix17(&mut v[1..18], &mut f);
+
+    kani::assert(f.q() == q, "D13_CHECK_P17_Q_FRAME");
+    for i in 0..BACKING {
+        kani::assert((1..14).contains(&i) || v[i] == before[i], "D13_CHECK_P17_FRAME");
+    }
+    kani::cover(
+        before[1..14].iter().any(|x| *x < q) && before[1..14].iter().any(|x| *x >= q),
+        "D13_CHECK_P17_MIXED_THRESHOLD",
+    );
+    kani::cover(before[1..14].windows(2).any(|w| w[0] == w[1]), "D13_CHECK_P17_THRESHOLD_TIES");
+    kani::cover(q == 0, "D13_CHECK_P17_Q_ZERO");
+    kani::cover(q == u8::MAX, "D13_CHECK_P17_Q_MAX");
+    kani::cover(before[1..14].iter().all(|x| *x != q), "D13_CHECK_P17_Q_ABSENT");
+    kani::cover(true, "D13_CHECK_P17_USEFUL_RETURN");
+}
+
+// First 31 comparators of sort13_optimal, in source order.
+#[kani::requires(v.len() == 17)]
+#[kani::modifies(ptr::slice_from_raw_parts_mut(v.as_mut_ptr(), crate::cmp::min(13, v.len())))]
+#[kani::ensures(|_| qmodel::prefix_count_post(old(qmodel::prefix_count_capture(v, is_less)), v, is_less))]
+fn sort13_prefix31(v: &mut [u8], is_less: &mut KeyLess<u8>) {
+    if v.len() < 13 {
+        intrinsics::abort_immediate();
+    }
+
+    let v_base = v.as_mut_ptr();
+
+    // SAFETY: the length check guarantees every literal index is in bounds.
+    unsafe {
+        swap_if_less(v_base, 0, 12, is_less);
+        swap_if_less(v_base, 1, 10, is_less);
+        swap_if_less(v_base, 2, 9, is_less);
+        swap_if_less(v_base, 3, 7, is_less);
+        swap_if_less(v_base, 5, 11, is_less);
+        swap_if_less(v_base, 6, 8, is_less);
+        swap_if_less(v_base, 1, 6, is_less);
+        swap_if_less(v_base, 2, 3, is_less);
+        swap_if_less(v_base, 4, 11, is_less);
+        swap_if_less(v_base, 7, 9, is_less);
+        swap_if_less(v_base, 8, 10, is_less);
+        swap_if_less(v_base, 0, 4, is_less);
+        swap_if_less(v_base, 1, 2, is_less);
+        swap_if_less(v_base, 3, 6, is_less);
+        swap_if_less(v_base, 7, 8, is_less);
+        swap_if_less(v_base, 9, 10, is_less);
+        swap_if_less(v_base, 11, 12, is_less);
+        swap_if_less(v_base, 4, 6, is_less);
+        swap_if_less(v_base, 5, 9, is_less);
+        swap_if_less(v_base, 8, 11, is_less);
+        swap_if_less(v_base, 10, 12, is_less);
+        swap_if_less(v_base, 0, 5, is_less);
+        swap_if_less(v_base, 3, 8, is_less);
+        swap_if_less(v_base, 4, 7, is_less);
+        swap_if_less(v_base, 6, 11, is_less);
+        swap_if_less(v_base, 9, 10, is_less);
+        swap_if_less(v_base, 0, 1, is_less);
+        swap_if_less(v_base, 2, 5, is_less);
+        swap_if_less(v_base, 6, 9, is_less);
+        swap_if_less(v_base, 7, 8, is_less);
+        swap_if_less(v_base, 10, 11, is_less);
+    }
+}
+
+#[kani::proof_for_contract(sort13_prefix31)]
+#[kani::unwind(36)]
+fn d13_check_p31() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "D13_CHECK_P31_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+
+    sort13_prefix31(&mut v[1..18], &mut f);
+
+    kani::assert(f.q() == q, "D13_CHECK_P31_Q_FRAME");
+    for i in 0..BACKING {
+        kani::assert((1..14).contains(&i) || v[i] == before[i], "D13_CHECK_P31_FRAME");
+    }
+    kani::cover(
+        before[1..14].iter().any(|x| *x < q) && before[1..14].iter().any(|x| *x >= q),
+        "D13_CHECK_P31_MIXED_THRESHOLD",
+    );
+    kani::cover(before[1..14].windows(2).any(|w| w[0] == w[1]), "D13_CHECK_P31_THRESHOLD_TIES");
+    kani::cover(q == 0, "D13_CHECK_P31_Q_ZERO");
+    kani::cover(q == u8::MAX, "D13_CHECK_P31_Q_MAX");
+    kani::cover(before[1..14].iter().all(|x| *x != q), "D13_CHECK_P31_Q_ABSENT");
+    kani::cover(true, "D13_CHECK_P31_USEFUL_RETURN");
 }
 
 #[kani::proof_for_contract(insert_tail)]

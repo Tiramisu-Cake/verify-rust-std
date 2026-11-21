@@ -281,3 +281,39 @@ pub(super) fn order_post(values: &[u8], q: u8, target: &u32) -> bool {
     let bits = unsafe { threshold_mask(values.as_ptr(), len, q) };
     bits == (*target & low_mask(len))
 }
+
+#[derive(Clone, Copy)]
+pub(super) struct PrefixCountSnapshot {
+    q: u8,
+    count: u32,
+    tail: [u8; CAP - PREFIX],
+}
+
+fn prefix_count(values: &[u8], q: u8) -> u32 {
+    let prefix = &values[..PREFIX];
+    // SAFETY: prefix is readable for PREFIX bytes.
+    unsafe { threshold_mask(prefix.as_ptr(), prefix.len(), q) }.count_ones()
+}
+
+pub(super) fn prefix_count_capture(values: &[u8], f: &KeyLess<u8>) -> Option<PrefixCountSnapshot> {
+    if values.len() != CAP {
+        return None;
+    }
+    let q = f.q();
+    let mut tail = [0; CAP - PREFIX];
+    tail.copy_from_slice(&values[PREFIX..]);
+    Some(PrefixCountSnapshot { q, count: prefix_count(values, q), tail })
+}
+
+pub(super) fn prefix_count_post(
+    before: Option<PrefixCountSnapshot>,
+    values: &[u8],
+    f: &KeyLess<u8>,
+) -> bool {
+    let Some(before) = before else { return false };
+    let q = f.q();
+    before.q == q
+        && values.len() == CAP
+        && prefix_count(values, q) == before.count
+        && values[PREFIX..] == before.tail
+}
