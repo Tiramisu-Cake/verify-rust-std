@@ -1823,6 +1823,34 @@ fn mw_merge_n32() {
     kani_smallsort_q_merge_b,
     kani_smallsort_q_merge_sort9,
     kani_smallsort_q_merge_wide,
+    kani_smallsort_q_compact_merge32,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof]
+#[kani::unwind(36)]
+fn mw_merge_n32_observer_equiv() {
+    let input: [u8; 32] = kani::any();
+    let output: [u8; 32] = kani::any();
+    let q: u8 = kani::any();
+    let target = merge_wide::merge_target_mask(&input, q);
+    let below = merge_wide::merge32_count_below(&input, q);
+    let mask_post = merge_wide::merge_matches_mask(&output, q, target);
+    let compact_post = merge_wide::merge32_matches_below(&output, q, below);
+
+    kani::assert(mask_post == compact_post, "MW_MERGE_N32_OBSERVER_EQUIV");
+    kani::cover(below == 0, "MW_MERGE_N32_OBSERVER_BELOW0");
+    kani::cover(below == 32, "MW_MERGE_N32_OBSERVER_BELOW32");
+    kani::cover(below > 0 && below < 32 && !compact_post, "MW_MERGE_N32_OBSERVER_MIXED_BAD_OUTPUT");
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    kani_smallsort_q_merge_wide,
     not(any(
         kani_smallsort_s2_assumed,
         kani_smallsort_q_controls,

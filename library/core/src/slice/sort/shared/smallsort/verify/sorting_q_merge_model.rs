@@ -594,7 +594,62 @@ pub(in crate::slice::sort::shared::smallsort) mod merge_wide {
     pub(in crate::slice::sort::shared::smallsort) struct MergeSnapshot {
         q: u8,
         len: usize,
+        target: MergeTarget,
+    }
+
+    #[derive(Clone, Copy)]
+    enum MergeTarget {
+        Mask(u32),
+        // Captured only for the 32-byte span.
+        #[cfg(kani_smallsort_q_compact_merge32)]
+        Below(u8),
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn merge_target_mask(input: &[u8], q: u8) -> u32 {
+        let below = input.iter().filter(|&&byte| byte < q).count();
+        // 0 <= below <= len <= 32. The intermediate needs 33 bits at len == 32.
+        ((1_u64 << input.len()) - (1_u64 << below)) as u32
+    }
+
+    pub(in crate::slice::sort::shared::smallsort) fn merge_matches_mask(
+        output: &[u8],
+        q: u8,
         target: u32,
+    ) -> bool {
+        let mask = output
+            .iter()
+            .enumerate()
+            .fold(0, |mask, (i, &byte)| mask | (u32::from(byte >= q) << i));
+        mask == target
+    }
+
+    #[cfg(kani_smallsort_q_compact_merge32)]
+    pub(in crate::slice::sort::shared::smallsort) fn merge32_count_below(
+        input: &[u8],
+        q: u8,
+    ) -> u8 {
+        let mut below = 0_u8;
+        let mut i = 0;
+        while i < 32 {
+            below += u8::from(input[i] < q);
+            i += 1;
+        }
+        below
+    }
+
+    #[cfg(kani_smallsort_q_compact_merge32)]
+    pub(in crate::slice::sort::shared::smallsort) fn merge32_matches_below(
+        output: &[u8],
+        q: u8,
+        below: u8,
+    ) -> bool {
+        let mut matches = true;
+        let mut i = 0_u8;
+        while i < 32 {
+            matches &= (output[usize::from(i)] < q) == (i < below);
+            i += 1;
+        }
+        matches
     }
 
     pub(in crate::slice::sort::shared::smallsort) fn merge_capture<T, F>(
@@ -604,10 +659,15 @@ pub(in crate::slice::sort::shared::smallsort) mod merge_wide {
         let input = merge_input::<T, F>(input)?;
         let q = <() as ByteModel<T, F>>::threshold(f)?;
         let len = input.len();
-        let below = input.iter().filter(|&&byte| byte < q).count();
-        // 0 <= below <= len <= 32. The intermediate needs 33 bits at len == 32.
-        let target = ((1_u64 << len) - (1_u64 << below)) as u32;
-        Some(MergeSnapshot { q, len, target })
+        #[cfg(kani_smallsort_q_compact_merge32)]
+        if len == 32 {
+            return Some(MergeSnapshot {
+                q,
+                len,
+                target: MergeTarget::Below(merge32_count_below(input, q)),
+            });
+        }
+        Some(MergeSnapshot { q, len, target: MergeTarget::Mask(merge_target_mask(input, q)) })
     }
 
     pub(in crate::slice::sort::shared::smallsort) fn merge_q_post<T, F>(
@@ -626,10 +686,10 @@ pub(in crate::slice::sort::shared::smallsort) mod merge_wide {
         // SAFETY: Check reads the active span after normal return. The two write
         // streams and the odd copy fill it, and Replace havocs this same span.
         let output = unsafe { &*output };
-        let mask = output
-            .iter()
-            .enumerate()
-            .fold(0, |mask, (i, &byte)| mask | (u32::from(byte >= q) << i));
-        mask == before.target
+        match before.target {
+            MergeTarget::Mask(target) => merge_matches_mask(output, q, target),
+            #[cfg(kani_smallsort_q_compact_merge32)]
+            MergeTarget::Below(below) => merge32_matches_below(output, q, below),
+        }
     }
 }
