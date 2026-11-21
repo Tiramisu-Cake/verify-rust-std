@@ -1660,3 +1660,175 @@ fn mw_merge_n32_numeric_pre() {
     // deliberately false numeric precondition at this call.
     unsafe { bidirectional_merge(input, dst, &mut f) };
 }
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    kani_smallsort_q_merge_wide,
+    kani_smallsort_q_no_merge_sort13,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+macro_rules! define_no_merge_sort13_roots {
+    ($(
+        $provider:ident, $check_frame:ident, $provider_label:literal;
+        $consumer:ident, $consumer_label:literal, $end:literal $(, $insert:ident)?;
+    )+) => {
+        $(
+            define_presort_frame_and_covers!($check_frame, $provider_label);
+
+            #[kani::proof_for_contract(sort13_optimal)]
+            #[kani::unwind(36)]
+            fn $provider() {
+                let mut v: [u8; BACKING] = kani::any();
+                let before = v;
+                let q: u8 = kani::any();
+                let mut f = KeyLess::<u8>::with_q(q);
+
+                sort13_optimal(&mut v[1..$end], &mut f);
+
+                $check_frame(&before, &v, 1, 14, q, &f);
+            }
+
+            #[kani::proof]
+            #[kani::stub_verified(sort13_optimal)]
+            $(#[kani::stub_verified($insert)])?
+            #[kani::unwind(36)]
+            fn $consumer() {
+                let mut v: [u8; BACKING] = kani::any();
+                let before = v;
+                let q: u8 = kani::any();
+                let mut f = KeyLess::<u8>::with_q(q);
+                kani::assert(
+                    qmodel::active::<u8, KeyLess<u8>>(),
+                    concat!($consumer_label, "_Q_MODEL_ACTIVE"),
+                );
+                kani::assert(
+                    model::active::<u8, KeyLess<u8>>(),
+                    concat!($consumer_label, "_BYTE_MODEL_ACTIVE"),
+                );
+                let input = &before[1..$end];
+                let target = qmodel::order_target(input, q);
+
+                small_sort_network(&mut v[1..$end], &mut f);
+
+                kani::assert(
+                    qmodel::order_post(&v[1..$end], q, &target),
+                    concat!($consumer_label, "_QPOST"),
+                );
+                kani::assert(f.q() == q, concat!($consumer_label, "_Q_FRAME"));
+                kani::assert(
+                    outside_span_unchanged(&before, &v, 1, $end),
+                    concat!($consumer_label, "_OUTSIDE_VALUE_FRAME"),
+                );
+                kani::cover(
+                    input.iter().any(|&byte| byte < q) && input.iter().any(|&byte| byte >= q),
+                    concat!($consumer_label, "_MIXED_THRESHOLD"),
+                );
+                kani::cover(
+                    input.windows(2).any(|pair| pair[0] == pair[1]),
+                    concat!($consumer_label, "_THRESHOLD_TIES"),
+                );
+                kani::cover(q == 0, concat!($consumer_label, "_Q_ZERO"));
+                kani::cover(q == u8::MAX, concat!($consumer_label, "_Q_MAX"));
+                kani::cover(
+                    input.iter().all(|&byte| byte != q),
+                    concat!($consumer_label, "_Q_ABSENT"),
+                );
+                kani::cover(true, concat!($consumer_label, "_USEFUL_RETURN"));
+            }
+        )+
+    };
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    kani_smallsort_q_merge_wide,
+    kani_smallsort_q_no_merge_sort13,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+define_no_merge_sort13_roots! {
+    nm_sort13_left_len13, check_nm_sort13_left_len13, "NM_S13_L13";
+    nm_network_n13, "NM_N13", 14;
+    nm_sort13_left_len14, check_nm_sort13_left_len14, "NM_S13_L14";
+    nm_network_n14, "NM_N14", 15, insert_tail;
+    nm_sort13_left_len15, check_nm_sort13_left_len15, "NM_S13_L15";
+    nm_network_n15, "NM_N15", 16, insert_tail;
+    nm_sort13_left_len16, check_nm_sort13_left_len16, "NM_S13_L16";
+    nm_network_n16, "NM_N16", 17, insert_tail;
+    nm_sort13_left_len17, check_nm_sort13_left_len17, "NM_S13_L17";
+    nm_network_n17, "NM_N17", 18, insert_tail;
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    kani_smallsort_q_merge_wide,
+    kani_smallsort_q_no_merge_sort13,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof]
+#[kani::stub_verified(sort13_optimal)]
+#[kani::unwind(36)]
+fn nm_network_n13_corrupt() {
+    let mut v: [u8; BACKING] = kani::any();
+    v[1..14].fill(0);
+    let before = v;
+    let q = 1;
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&v[1..14], q);
+
+    small_sort_network(&mut v[1..14], &mut f);
+
+    kani::cover(v[1] == 0, "NM_N13_CORRUPT_USEFUL_RETURN");
+    v[1] = 255;
+    kani::cover(v[1] == 255, "NM_N13_CORRUPT_PATH");
+    kani::assert(f.q() == q, "NM_N13_CORRUPT_Q_FRAME");
+    kani::assert(outside_span_unchanged(&before, &v, 1, 14), "NM_N13_CORRUPT_OUTSIDE_VALUE_FRAME");
+    kani::assert(qmodel::order_post(&v[1..14], q, &target), "NM_N13_CORRUPT_QPOST");
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    kani_smallsort_q_merge_wide,
+    kani_smallsort_q_no_merge_sort13,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof]
+#[kani::stub_verified(sort13_optimal)]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(36)]
+fn nm_network_n17_corrupt() {
+    let mut v: [u8; BACKING] = kani::any();
+    v[1..18].fill(0);
+    let before = v;
+    let q = 1;
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&v[1..18], q);
+
+    small_sort_network(&mut v[1..18], &mut f);
+
+    kani::cover(v[1] == 0, "NM_N17_CORRUPT_USEFUL_RETURN");
+    v[1] = 255;
+    kani::cover(v[1] == 255, "NM_N17_CORRUPT_PATH");
+    kani::assert(f.q() == q, "NM_N17_CORRUPT_Q_FRAME");
+    kani::assert(outside_span_unchanged(&before, &v, 1, 18), "NM_N17_CORRUPT_OUTSIDE_VALUE_FRAME");
+    kani::assert(qmodel::order_post(&v[1..18], q, &target), "NM_N17_CORRUPT_QPOST");
+}

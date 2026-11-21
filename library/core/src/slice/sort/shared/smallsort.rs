@@ -776,6 +776,7 @@ fn insert_tail_contract_len<T>(begin: *mut T, tail: *mut T) -> usize {
         kani_smallsort_q_merge_b,
         kani_smallsort_q_merge_sort9,
         kani_smallsort_q_merge_wide,
+        not(kani_smallsort_q_no_merge_sort13),
         not(any(
             kani_smallsort_s2_assumed,
             kani_smallsort_q_controls,
@@ -798,6 +799,29 @@ fn insert_tail_contract_len<T>(begin: *mut T, tail: *mut T) -> usize {
             insert_tail_contract_len(begin, tail),
         )
     }),
+)]
+#[cfg_attr(
+    all(
+        kani,
+        kani_smallsort_sorting,
+        kani_smallsort_q_pilot,
+        kani_smallsort_q_merge,
+        kani_smallsort_q_merge_b,
+        kani_smallsort_q_merge_sort9,
+        kani_smallsort_q_merge_wide,
+        kani_smallsort_q_no_merge_sort13,
+        not(any(
+            kani_smallsort_s2_assumed,
+            kani_smallsort_q_controls,
+            kani_smallsort_q_merge_bad_tie
+        )),
+    ),
+    crate::kani::ensures(|_| verify::sorting_q_model::insert_post(
+        old(verify::sorting_q_model::capture(begin, insert_tail_contract_len(begin, tail), is_less)),
+        begin,
+        insert_tail_contract_len(begin, tail),
+        is_less,
+    )),
 )]
 unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {
     // SAFETY: see individual comments.

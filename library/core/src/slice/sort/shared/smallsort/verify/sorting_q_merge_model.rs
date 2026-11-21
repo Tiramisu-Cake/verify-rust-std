@@ -471,6 +471,9 @@ pub(in crate::slice::sort::shared::smallsort) mod merge_wide {
         active::<T, F>()
             && match PREFIX {
                 9 => matches!(v.len(), 9..=12),
+                #[cfg(kani_smallsort_q_no_merge_sort13)]
+                13 => matches!(v.len(), 13..=17),
+                #[cfg(not(kani_smallsort_q_no_merge_sort13))]
                 13 => matches!(v.len(), 13..=16),
                 _ => false,
             }
