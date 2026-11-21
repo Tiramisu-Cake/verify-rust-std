@@ -326,6 +326,7 @@ pub(in crate::slice::sort::shared::smallsort) mod merge_b {
             })
     }
 
+    #[derive(Clone, Copy)]
     pub(in crate::slice::sort::shared::smallsort) struct MergeSnapshot {
         q: u8,
         len: usize,
