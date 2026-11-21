@@ -1284,6 +1284,76 @@ fn mw_sort9_left_len12() {
         kani_smallsort_q_merge_bad_tie
     )),
 ))]
+define_presort_frame_and_covers!(check_mw_sort9_right_b13_len12, "MW_S9_R_B13_L12");
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    kani_smallsort_q_merge_wide,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof_for_contract(sort9_optimal)]
+#[kani::unwind(36)]
+fn mw_sort9_right_b13_len12() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+
+    sort9_optimal(&mut v[13..25], &mut f);
+
+    check_mw_sort9_right_b13_len12(&before, &v, 13, 22, q, &f);
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    kani_smallsort_q_merge_wide,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+define_presort_frame_and_covers!(check_mw_sort13_right_b14_len14, "MW_S13_R_B14_L14");
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    kani_smallsort_q_merge_wide,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof_for_contract(sort13_optimal)]
+#[kani::unwind(36)]
+fn mw_sort13_right_b14_len14() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+
+    sort13_optimal(&mut v[14..28], &mut f);
+
+    check_mw_sort13_right_b14_len14(&before, &v, 14, 27, q, &f);
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    kani_smallsort_q_merge_wide,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
 fn q_monotone(input: &[u8], q: u8) -> bool {
     input.windows(2).all(|pair| pair[0] < q || pair[1] >= q)
 }
@@ -1470,6 +1540,64 @@ fn mw_merge_n25() {
     cover_wide_merge_input(input, q);
     // Normal return from N25 traverses the actual odd copy to scratch[12].
     kani::cover(true, "MW_MERGE_N25_ODD_USEFUL_RETURN");
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    kani_smallsort_q_merge_wide,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof_for_contract(bidirectional_merge)]
+#[kani::unwind(36)]
+fn mw_merge_n24() {
+    let v: [u8; BACKING] = kani::any();
+    let before = v;
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let mut scratch = MaybeUninit::<[u8; 32]>::uninit();
+
+    // SAFETY: the input is initialized and scratch is a separate writable allocation.
+    // The contract postcondition reads scratch[0..24] after both write streams.
+    unsafe { bidirectional_merge(&v[1..25], scratch.as_mut_ptr().cast(), &mut f) };
+
+    kani::assert(f.q() == q, "MW_MERGE_N24_Q_FRAME");
+    kani::assert(v == before, "MW_MERGE_N24_V34_SOURCE_FRAME");
+    cover_wide_merge_input(&before[1..25], q);
+    kani::cover(true, "MW_MERGE_N24_USEFUL_RETURN");
+}
+
+#[cfg(all(
+    kani_smallsort_q_merge_b,
+    kani_smallsort_q_merge_sort9,
+    kani_smallsort_q_merge_wide,
+    not(any(
+        kani_smallsort_s2_assumed,
+        kani_smallsort_q_controls,
+        kani_smallsort_q_merge_bad_tie
+    )),
+))]
+#[kani::proof_for_contract(bidirectional_merge)]
+#[kani::unwind(36)]
+fn mw_merge_n27() {
+    let v: [u8; BACKING] = kani::any();
+    let before = v;
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let mut scratch = MaybeUninit::<[u8; 32]>::uninit();
+
+    // SAFETY: the input is initialized and scratch is a separate writable allocation.
+    // The contract postcondition reads scratch[0..27], including odd slot 13.
+    unsafe { bidirectional_merge(&v[1..28], scratch.as_mut_ptr().cast(), &mut f) };
+
+    kani::assert(f.q() == q, "MW_MERGE_N27_Q_FRAME");
+    kani::assert(v == before, "MW_MERGE_N27_V34_SOURCE_FRAME");
+    cover_wide_merge_input(&before[1..28], q);
+    kani::cover(true, "MW_MERGE_N27_ODD_USEFUL_RETURN");
 }
 
 #[cfg(all(
@@ -1941,6 +2069,65 @@ define_compact_wide_network!(compact_network_n20, 21, "COMPACT_N20";
     sort9_optimal, insert_tail, bidirectional_merge);
 define_compact_wide_network!(compact_network_n20_actual_insert, 21, "COMPACT_N20";
     sort9_optimal, bidirectional_merge);
+define_compact_wide_network!(compact_network_n25_actual_insert, 26, "COMPACT_N25_ACT_INSERT";
+    sort9_optimal, sort13_optimal, bidirectional_merge);
+define_compact_wide_network!(compact_network_n24_actual_insert, 25, "COMPACT_N24_ACT_INSERT";
+    sort9_optimal, bidirectional_merge);
+define_compact_wide_network!(compact_network_n27_actual_insert, 28, "COMPACT_N27_ACT_INSERT";
+    sort13_optimal, bidirectional_merge);
+
+macro_rules! define_compact_wide_actual_insert_control {
+    ($name:ident, $end:literal, $label:literal; $($stub:ident),+ $(,)?) => {
+        #[cfg(all(
+            kani_smallsort_q_merge_b,
+            kani_smallsort_q_merge_sort9,
+            kani_smallsort_q_merge_wide,
+            not(any(
+                kani_smallsort_s2_assumed,
+                kani_smallsort_q_controls,
+                kani_smallsort_q_merge_bad_tie
+            )),
+        ))]
+        #[kani::proof]
+        $(#[kani::stub_verified($stub)])+
+        #[kani::unwind(36)]
+        fn $name() {
+            let mut v: [u8; BACKING] = kani::any();
+            v[1..$end].fill(0);
+            let outside_first = v[0];
+            let mut outside_tail = [0; BACKING - $end];
+            outside_tail.copy_from_slice(&v[$end..]);
+            let q = 1;
+            let mut f = KeyLess::<u8>::with_q(q);
+            let captured = merge_wide::merge_capture(&v[1..$end], &f);
+            kani::assert(captured.is_some(), concat!($label, "_CAPTURE_VALID"));
+
+            small_sort_network(&mut v[1..$end], &mut f);
+
+            kani::cover(v[1] == 0, concat!($label, "_USEFUL_RETURN"));
+            v[1] = 255;
+            kani::cover(v[1] == 255, concat!($label, "_PATH"));
+            kani::assert(f.q() == q, concat!($label, "_Q_FRAME"));
+            kani::assert(
+                v[0] == outside_first && v[$end..] == outside_tail,
+                concat!($label, "_OUTSIDE_VALUE_FRAME"),
+            );
+            kani::assert(
+                merge_wide::merge_q_post(captured, v[1..$end].as_mut_ptr(), &f),
+                concat!($label, "_QPOST"),
+            );
+        }
+    };
+}
+
+define_compact_wide_actual_insert_control!(
+    compact_network_n20_actual_insert_corrupt, 21, "COMPACT_N20_ACT_INSERT_CORRUPT";
+    sort9_optimal, bidirectional_merge,
+);
+define_compact_wide_actual_insert_control!(
+    compact_network_n25_actual_insert_corrupt, 26, "COMPACT_N25_ACT_INSERT_CORRUPT";
+    sort9_optimal, sort13_optimal, bidirectional_merge,
+);
 
 #[cfg(all(
     kani_smallsort_q_merge_b,
