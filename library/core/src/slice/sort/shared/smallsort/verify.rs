@@ -135,3 +135,26 @@ mod sorting_q_controls;
 pub(super) mod sorting_q_model;
 #[cfg(all(kani_smallsort_sorting, kani_smallsort_q_pilot, not(kani_smallsort_q_controls)))]
 mod sorting_q_pilot;
+
+#[cfg(all(kani_smallsort_q_merge, kani_smallsort_q_controls))]
+compile_error!("the SmallSort q-merge and q-pilot control modes are mutually exclusive");
+#[cfg(all(
+    kani_smallsort_q_merge_bad_tie,
+    not(all(kani_smallsort_sorting, kani_smallsort_q_pilot, kani_smallsort_q_merge)),
+))]
+compile_error!("the SmallSort bad-tie control requires the q-merge profile");
+
+#[cfg(all(
+    kani,
+    kani_smallsort_sorting,
+    kani_smallsort_q_pilot,
+    kani_smallsort_q_merge
+))]
+mod sorting_q_merge;
+#[cfg(all(
+    kani,
+    kani_smallsort_sorting,
+    kani_smallsort_q_pilot,
+    kani_smallsort_q_merge
+))]
+pub(super) mod sorting_q_merge_model;

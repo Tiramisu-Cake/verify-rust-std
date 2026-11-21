@@ -459,6 +459,15 @@ where
 #[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_s2_assumed), crate::kani::ensures(|_| !verify::sorting_s2_swap::enabled::<T,F>() || verify::sorting_s2_swap::post::<T,F>(old(verify::sorting_s2_swap::capture::<T,F>(v_base,a_pos,b_pos)),v_base,a_pos,b_pos)))]
 #[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot, not(kani_smallsort_q_controls)), crate::kani::ensures(|_| verify::sorting_q_model::swap_post(old(verify::sorting_q_model::swap_capture(v_base, a_pos, b_pos, is_less)), v_base, a_pos, b_pos, is_less)))]
 #[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot, kani_smallsort_q_controls), crate::kani::ensures(|_| verify::sorting_q_model::swap_false_or_post(old(verify::sorting_q_model::swap_capture(v_base, a_pos, b_pos, is_less)), v_base, a_pos, b_pos, is_less)))]
+#[cfg_attr(
+    all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot, kani_smallsort_q_merge),
+    crate::kani::ensures(|_| verify::sorting_q_merge_model::swap_byte_post::<T, F>(
+        old(verify::sorting_q_merge_model::swap_capture::<T, F>(v_base, a_pos, b_pos)),
+        v_base,
+        a_pos,
+        b_pos,
+    ))
+)]
 unsafe fn swap_if_less<T, F>(v_base: *mut T, a_pos: usize, b_pos: usize, is_less: &mut F)
 where
     F: FnMut(&T, &T) -> bool,
@@ -678,6 +687,17 @@ fn insert_tail_contract_len<T>(begin: *mut T, tail: *mut T) -> usize {
     ))
 )]
 #[cfg_attr(all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot), crate::kani::ensures(|_| verify::sorting_q_model::insert_post(old(verify::sorting_q_model::capture(begin, insert_tail_contract_len(begin, tail), is_less)), begin, insert_tail_contract_len(begin, tail), is_less)))]
+#[cfg_attr(
+    all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot, kani_smallsort_q_merge),
+    crate::kani::ensures(|_| verify::sorting_q_merge_model::insert_numeric_post::<T, F>(
+        old(verify::sorting_q_merge_model::insert_capture::<T, F>(
+            begin,
+            insert_tail_contract_len(begin, tail),
+        )),
+        begin,
+        insert_tail_contract_len(begin, tail),
+    ))
+)]
 unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>(begin: *mut T, tail: *mut T, is_less: &mut F) {
     // SAFETY: see individual comments.
     unsafe {
@@ -849,6 +869,41 @@ unsafe fn sort8_stable<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
 }
 
 #[inline(always)]
+#[cfg_attr(
+    all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot, kani_smallsort_q_merge),
+    crate::kani::requires(verify::sorting_q_merge_model::step_pre::<T, F>(
+        left_src,
+        right_src,
+        dst,
+        verify::sorting_q_merge_model::Direction::Up,
+    )),
+    crate::kani::modifies(dst),
+    crate::kani::ensures(|_| verify::sorting_q_merge_model::step_byte_post::<T, F>(
+        old(verify::sorting_q_merge_model::step_capture(left_src, right_src, dst, is_less)),
+        verify::sorting_q_merge_model::Direction::Up,
+    )),
+    crate::kani::ensures(|_| verify::sorting_q_merge_model::step_q_post::<T, F>(
+        old(verify::sorting_q_merge_model::step_capture(left_src, right_src, dst, is_less)),
+        is_less,
+        verify::sorting_q_merge_model::Direction::Up,
+    )),
+)]
+#[cfg_attr(
+    all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot, kani_smallsort_q_merge,
+        not(kani_smallsort_q_merge_bad_tie)),
+    crate::kani::ensures(|result| verify::sorting_q_merge_model::merge_up_cursors::<T, F>(
+        old(verify::sorting_q_merge_model::step_capture(left_src, right_src, dst, is_less)),
+        result,
+    ))
+)]
+#[cfg_attr(
+    all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot, kani_smallsort_q_merge,
+        kani_smallsort_q_merge_bad_tie),
+    crate::kani::ensures(|result| verify::sorting_q_merge_model::merge_up_wrong_tie_cursors::<T, F>(
+        old(verify::sorting_q_merge_model::step_capture(left_src, right_src, dst, is_less)),
+        result,
+    ))
+)]
 unsafe fn merge_up<T, F: FnMut(&T, &T) -> bool>(
     mut left_src: *const T,
     mut right_src: *const T,
@@ -882,6 +937,29 @@ unsafe fn merge_up<T, F: FnMut(&T, &T) -> bool>(
 }
 
 #[inline(always)]
+#[cfg_attr(
+    all(kani, kani_smallsort_sorting, kani_smallsort_q_pilot, kani_smallsort_q_merge),
+    crate::kani::requires(verify::sorting_q_merge_model::step_pre::<T, F>(
+        left_src,
+        right_src,
+        dst,
+        verify::sorting_q_merge_model::Direction::Down,
+    )),
+    crate::kani::modifies(dst),
+    crate::kani::ensures(|_| verify::sorting_q_merge_model::step_byte_post::<T, F>(
+        old(verify::sorting_q_merge_model::step_capture(left_src, right_src, dst, is_less)),
+        verify::sorting_q_merge_model::Direction::Down,
+    )),
+    crate::kani::ensures(|_| verify::sorting_q_merge_model::step_q_post::<T, F>(
+        old(verify::sorting_q_merge_model::step_capture(left_src, right_src, dst, is_less)),
+        is_less,
+        verify::sorting_q_merge_model::Direction::Down,
+    )),
+    crate::kani::ensures(|result| verify::sorting_q_merge_model::merge_down_cursors::<T, F>(
+        old(verify::sorting_q_merge_model::step_capture(left_src, right_src, dst, is_less)),
+        result,
+    )),
+)]
 unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(
     mut left_src: *const T,
     mut right_src: *const T,
