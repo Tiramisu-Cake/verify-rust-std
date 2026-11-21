@@ -120,3 +120,73 @@ fn n17_plain_qpost_corrupt() {
     kani::cover(true, "N17_CORRUPT_USEFUL_RETURN");
     kani::assert(qmodel::order_post(&v[1..18], q, &target), "N17_CORRUPT_QPOST");
 }
+
+#[cfg(not(kani_smallsort_q_controls))]
+#[kani::proof]
+#[kani::stub_verified(insert_tail)]
+#[kani::unwind(36)]
+fn n02_plain_qpost_corrupt() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "N02_CORRUPT_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..3], q);
+    let all_zero = before[1..3].iter().all(|x| *x == 0);
+    let corrupt = all_zero && q == 1;
+
+    small_sort_network(&mut v[1..3], &mut f);
+    if corrupt {
+        v[1] = u8::MAX;
+    }
+
+    kani::cover(all_zero, "N02_CORRUPT_ALL_ZERO_INPUT");
+    kani::cover(corrupt, "N02_CORRUPT_Q_ONE_CORRUPTION_PATH");
+    for i in 0..BACKING {
+        kani::assert(
+            (1..3).contains(&i) || v[i] == before[i],
+            "N02_CORRUPT_OUTSIDE_VALUE_FRAME",
+        );
+    }
+    kani::assert(f.q() == q, "N02_CORRUPT_Q_FRAME");
+    kani::cover(true, "N02_CORRUPT_USEFUL_RETURN");
+    kani::assert(
+        qmodel::order_post(&v[1..3], q, &target),
+        "N02_CORRUPT_QPOST",
+    );
+}
+
+#[cfg(not(kani_smallsort_q_controls))]
+#[kani::proof]
+#[kani::stub_verified(swap_if_less)]
+#[kani::unwind(36)]
+fn n13_plain_qpost_corrupt() {
+    let mut v: [u8; BACKING] = kani::any();
+    let before = v;
+    kani::assert(qmodel::active::<u8, KeyLess<u8>>(), "N13_CORRUPT_ACTIVE");
+    let q: u8 = kani::any();
+    let mut f = KeyLess::<u8>::with_q(q);
+    let target = qmodel::order_target(&before[1..14], q);
+    let all_zero = before[1..14].iter().all(|x| *x == 0);
+    let corrupt = all_zero && q == 1;
+
+    small_sort_network(&mut v[1..14], &mut f);
+    if corrupt {
+        v[1] = u8::MAX;
+    }
+
+    kani::cover(all_zero, "N13_CORRUPT_ALL_ZERO_INPUT");
+    kani::cover(corrupt, "N13_CORRUPT_Q_ONE_CORRUPTION_PATH");
+    for i in 0..BACKING {
+        kani::assert(
+            (1..14).contains(&i) || v[i] == before[i],
+            "N13_CORRUPT_OUTSIDE_VALUE_FRAME",
+        );
+    }
+    kani::assert(f.q() == q, "N13_CORRUPT_Q_FRAME");
+    kani::cover(true, "N13_CORRUPT_USEFUL_RETURN");
+    kani::assert(
+        qmodel::order_post(&v[1..14], q, &target),
+        "N13_CORRUPT_QPOST",
+    );
+}
