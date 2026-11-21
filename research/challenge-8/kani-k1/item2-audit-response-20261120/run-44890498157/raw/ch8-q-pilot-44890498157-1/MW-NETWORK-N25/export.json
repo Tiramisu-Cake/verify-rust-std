@@ -1,0 +1,124 @@
+{
+  "schema_version": "0.1.0",
+  "kani_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "kani_commit_dirty": false,
+  "tools": {
+    "kani": "0.68.0",
+    "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+    "cbmc": "6.11.0 (cbmc-6.11.0)"
+  },
+  "enabled_unstable_features": [
+    "c-ffi",
+    "export-json",
+    "float-lib",
+    "function-contracts",
+    "mem-predicates",
+    "stubbing",
+    "unstable-options"
+  ],
+  "harness_selection": {
+    "requested_filters": [
+      "slice::sort::shared::smallsort::verify::sorting_q_merge::mw_network_n25"
+    ],
+    "exact": true,
+    "unmatched_filters": [],
+    "matched_count": 1
+  },
+  "harness_timeout_s": 450.0,
+  "configuration": {
+    "checks": {
+      "memory_safety": true,
+      "overflow": true,
+      "unwinding": true,
+      "undefined_function": true,
+      "assertion_reach_checks": true,
+      "ignore_global_asm": false,
+      "extra_pointer_checks": false,
+      "assert_contracts": false,
+      "prove_safety_only": false
+    },
+    "cbmc_args": [
+      "--object-bits",
+      "11"
+    ],
+    "coverage_enabled": false
+  },
+  "outcome": {
+    "kind": "COMPLETED"
+  },
+  "run_state": "COMPLETE",
+  "target": "x86_64-unknown-linux-gnu",
+  "started_at": "2026-11-21T10:23:09Z",
+  "wall_time_s": 86.496194398,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::sorting_q_merge::mw_network_n25",
+      "crate_name": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_q_merge.rs",
+      "line": 1574,
+      "contract": null,
+      "is_automatically_generated": false,
+      "has_loop_contracts": false,
+      "is_bounded": false,
+      "attributes": {
+        "kind": "Proof",
+        "should_panic": false,
+        "solver": null,
+        "unwind_value": 36,
+        "stubs": [],
+        "verified_stubs": [
+          "core::slice::sort::shared::smallsort::bidirectional_merge",
+          "core::slice::sort::shared::smallsort::insert_tail",
+          "core::slice::sort::shared::smallsort::sort13_optimal",
+          "core::slice::sort::shared::smallsort::sort9_optimal"
+        ]
+      },
+      "outcome": {
+        "kind": "CRASHED",
+        "code": 6,
+        "message": "CBMC failed with status 6"
+      },
+      "resolved_solver": "cadical",
+      "resolved_unwind": 36,
+      "generated_concrete_test": false,
+      "resources": {
+        "verification_time_s": 84.591450843
+      },
+      "n_properties": null,
+      "n_failed": null,
+      "failed_properties": [],
+      "unsupported_constructs": [],
+      "warnings": [],
+      "warnings_truncated": 0,
+      "checks": {
+        "total": null,
+        "success": null,
+        "failure": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "covers": {
+        "total": null,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      }
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "successful": 0,
+    "failed": 0,
+    "checks_total": 0,
+    "checks_success": 0,
+    "covers_total": 0,
+    "covers_satisfied": 0
+  }
+}
