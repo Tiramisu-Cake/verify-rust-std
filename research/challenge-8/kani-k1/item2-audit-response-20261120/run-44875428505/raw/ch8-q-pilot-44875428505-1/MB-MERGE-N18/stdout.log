@@ -1,0 +1,44 @@
+Kani Rust Verifier 0.68.0 (standalone)
+CBMC 6.11.0
+error[E0599]: the method `clone` exists for enum `Option<MergeSnapshot>`, but its trait bounds were not satisfied
+    --> /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs:1029:1
+     |
+1029 | / #[cfg_attr(
+1030 | |     all(
+1031 | |         kani,
+1032 | |         kani_smallsort_sorting,
+...    |
+1048 | |     )),
+1049 | | )]
+     | |__^ method cannot be called on `Option<MergeSnapshot>` due to unsatisfied trait bounds
+     |
+    ::: /home/runner/work/kani/kani/export/library/core/src/option.rs:598:1
+     |
+ 598 |   pub enum Option<T> {
+     |   ------------------ method `clone` not found for this enum because it doesn't satisfy `_: Clone`
+     |
+    ::: /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_q_merge_model.rs:329:5
+     |
+ 329 |       pub(in crate::slice::sort::shared::smallsort) struct MergeSnapshot {
+     |       ------------------------------------------------------------------ doesn't satisfy `_: Clone`
+     |
+note: trait bound `slice::sort::shared::smallsort::verify::sorting_q_merge_model::merge_b::MergeSnapshot: clone::Clone` was not satisfied
+    --> /home/runner/work/kani/kani/export/library/core/src/option.rs:2275:8
+     |
+2271 | const impl<T> Clone for Option<T>
+     |               -----     ---------
+...
+2275 |     T: [const] Clone + [const] Destruct,
+     |        ^^^^^^^^^^^^^ unsatisfied trait bound introduced here
+     = note: the full name for the type has been written to '/home/runner/work/_temp/ch8-q-pilot/work/6d46c17a02ac48249b413fa41c185572/cargo-target/x86_64-unknown-linux-gnu/debug/build/core/e8bbab3bb7ff7b89/out/core-e8bbab3bb7ff7b89.long-type-4661320906026803874.txt'
+     = note: consider using `--verbose` to print the full type name to the console
+     = note: this error originates in the attribute macro `crate::kani::ensures` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider annotating `slice::sort::shared::smallsort::verify::sorting_q_merge_model::merge_b::MergeSnapshot` with `#[derive(Clone)]`
+    -->  /home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_q_merge_model.rs:329:1
+     |
+ 329 +     #[derive(Clone)]
+ 330 |     pub(in crate::slice::sort::shared::smallsort) struct MergeSnapshot {
+     |
+
+For more information about this error, try `rustc --explain E0599`.
+error: Failed to execute cargo (exit status: 101). Found 1 compilation errors.
