@@ -1,4 +1,18 @@
-# CAL1 · пакет диагностики pr752, FIX3, раунд 2
+# CAL1 · пакет диагностики pr752, решение R7
+
+`READY_FOR_REVIEW`, `go=NOT_GRANTED`, `proof_credit=NONE`. Discovery и результаты harnesses остаются `UNKNOWN`. Решение R7 предусматривает один диагностический прогон после проверки diff. [Решение R7](CAL1-DECISION-R7.md) · [Ревью седьмого раунда](CAL1-REVIEW.md#седьмой-раунд--fix3--2026-11-24)
+
+| Control R7 | SHA |
+| --- | --- |
+| Commit | `0012750e1a3bbb7977fe0149e565b6b6dcd7c3c8` |
+| Tree | `c3228f13f1e3ca71fca1a4147bdb10e61cdfa428` |
+| Единственный parent | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+После сбора прямого дочернего процесса supervisor подтверждает только ранее наблюдавшихся потомков по совпадению PID и `start_id`. После `poll()`, собравшего прямого потомка, сигналы идут адресно через `_signal_owned`. Финальный `reaped` охватывает ранее наблюдавшихся потомков. В `receipt.json` и обеих сводках указано, что смена рабочего TID после выхода главного потока Linux может занизить наблюдаемый пик RSS. Для подтверждения соблюдения cap нужны данные помимо отсутствия `RSS_LIMIT`. [Supervisor](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py) · [Сводки](/root/kani-cal1-control-w11/ch8-cal1/report.py)
+
+Прошли все 64 теста `python3 -B -m unittest discover -q`. Два целевых теста проверили чужую группу без строки лидера и адресный TERM с ожиданием известного участника исходной группы. Синтетическая публикация подтвердила оговорку в receipt и обеих сводках. Diff к `988de7fc6968e87fb538b846e57e2e5eda1ffd8f` ограничен `supervisor.py`, `test_supervisor.py` и `report.py`. Сверены workflow, frozen request с roster, bundle и overlay `080a0104159fd04b6764a24f8538a97588f6612e`. Прошли `git diff --check` и `git bundle verify`. Коммиты созданы локально без push, CI и запуска Cargo, rustc, Kani или CBMC. [Целевые тесты](/root/kani-cal1-control-w11/ch8-cal1/test_supervisor.py)
+
+## Пакет FIX3, раунд 2
 
 `READY_FOR_REVIEW`, `go=NOT_GRANTED`, `proof_credit=NONE`. В Linux supervisor учитывает живые задачи после перехода лидера группы потоков в `Z`. В Linux и Darwin при переиспользовании PID он исключает старую идентичность, игнорирует постороннюю замену и принимает новую запись при подтверждённой связи с деревом запуска. Control `988de7fc6968e87fb538b846e57e2e5eda1ffd8f`, tree `f8f527c5986607d5478be625d527d1b3801b7e04`, единственный parent `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. Discovery и результаты harnesses на FIX3 имеют статус `UNKNOWN`. [Задание FIX3](CAL1-FIX3-TASK.md) · [Ревью шестого раунда](CAL1-REVIEW.md#шестой-раунд--fix3--2026-11-24) · [Аудит и проверки FIX3](CAL1-FIX3-HANDOFF.md)
 
