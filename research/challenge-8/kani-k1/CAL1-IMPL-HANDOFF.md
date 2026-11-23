@@ -1,4 +1,10 @@
-# CAL1 · пакет диагностики pr752, FIX2
+# CAL1 · пакет диагностики pr752, FIX3
+
+`READY_FOR_REVIEW`, `go=NOT_GRANTED`, `proof_credit=NONE`. После `SAMPLER_ERROR` в прогоне 45268412731 FIX3 пропускает исчезнувшую запись PID целиком и считает такие пропуски отдельно при измерении и cleanup. Control `5dd6140e7aa9225d4c1014b957bb2c65bba6c7aa`, tree `4cf6be61fff1988b22bf7f504e553361352f55d9`, единственный parent `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. Discovery и результаты harnesses на FIX3 имеют статус `UNKNOWN`. [Задание FIX3](CAL1-FIX3-TASK.md) · [Аудит и проверки FIX3](CAL1-FIX3-HANDOFF.md)
+
+Linux-стресс завершился за 182,43 с с 643 потомками, `EXITED`, exit 0, 608 валидными сэмплами и нулём пропущенных сэмплов. Зафиксированы 143 пропуска PID-записей при измерении и один при cleanup. Пик RSS 85 876 KiB при cap 163 840 KiB. Отдельный `RSS_LIMIT` сработал при 66 656 KiB и cap 24 576 KiB. В обоих сценариях `reaped=true` и `remaining_processes=[]`. Прошли 58 Python-тестов. Darwin проверен синтетически. [Результаты прогонов](CAL1-FIX3-HANDOFF.md#локальные-проверки)
+
+## Пакет FIX2
 
 `READY_FOR_REVIEW`, `go=NOT_GRANTED`, `proof_credit=NONE`. В прогоне 45262099662 ранняя компиляция overlay прошла за 34,88 с. Cfg-on discovery завершился через 987,86 с с `LIVE_MEMORY_PRESSURE` в `goto-cc` при `full avg10=0.18`, `MemAvailable=15 308 756 KiB` и пике RSS 5,56 GiB. GO четвёртого раунда относился к этому диагностическому запуску. [Задание FIX2](CAL1-FIX2-TASK.md) · [Ревью раунда 4](CAL1-REVIEW.md#четвёртый-раунд--2026-11-23) · [Setup receipt](/root/ch8-artifacts/run-45262099662/ch8-cal1-Linux-X64-45262099662-1/setup.json) · [Error receipt](/root/ch8-artifacts/run-45262099662/ch8-cal1-Linux-X64-45262099662-1/error.json)
 
