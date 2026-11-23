@@ -36,3 +36,41 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s ch8-kani5196-control  
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s ch8-q-pilot-control  # 14 tests passed
 git diff --check ccfcecba64 HEAD
 ```
+
+## Revision after planner review at `3447810e87`
+
+The `goto-cc` matcher captures each complete first-line value after `goto-cc` or `cbmc-` up to whitespace or a parenthesis, then compares it verbatim with the pin. Both review counterexamples now fail the attestation check.
+
+```text
+gcc (goto-cc 6.11.0~rc1 (cbmc-6.11.0)) 13.3.0
+gcc (goto-cc x6.11.1 (cbmc-6.11.0)) 13.3.0
+```
+
+Both regression cases reproduced the review finding on `0334677b13`. The observed `gcc (goto-cc 6.11.0 (cbmc-6.11.0)) 13.3.0` banner still passes. The frozen request refreshes the two payload hashes for the matcher and its tests.
+
+| Item | Value |
+| --- | --- |
+| Control head on `ch8-kani5196-diag-control` | `5b5aa3cb619d65378d691cf5ad05a48cce341a9c` |
+| Direct control parent | `0334677b1333c5686914a0d0014a9b0b9edfbea8` |
+| Shared control and trigger tree | `5a7cb9a17c58218475865915aa2e8326f7f0364a` |
+| Local trigger branch | `ch8-kani5196-diag-trigger3` |
+| Trigger commit | `ec1084d94f6efc7cd9b1ba58e4829d9b4551a0b0` |
+| Sole trigger parent | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+The workflow commands passed from the parent of a clean, depth-three `control` checkout of the new trigger, with `PYTHONDONTWRITEBYTECODE=1` and the workflow's expected event variables. Frozen validation checked the event and commit, changed paths, all 35 payload hashes, and all five fixture hashes. All 25 diagnostic tests passed.
+
+```bash
+python3 control/ch8-kani5196-diag-control/diagnostic.py validate
+python3 -m unittest discover -s control/ch8-kani5196-diag-control
+```
+
+The shared suites and whitespace checks passed from the control worktree.
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s ch8-kani5196-control   # 27 tests
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s ch8-q-pilot-control  # 14 tests
+git diff --check 0334677b13 HEAD
+git diff --check ccfcecba64 HEAD
+```
+
+All revision commits are local. Live attestation and diagnostic roots remain pending.
