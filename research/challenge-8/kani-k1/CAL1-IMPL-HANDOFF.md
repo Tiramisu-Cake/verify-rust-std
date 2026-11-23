@@ -1,26 +1,31 @@
 # CAL1 · пакет диагностики pr752
 
-`READY_FOR_REVIEW`, `go=NOT_GRANTED`, `proof_credit=NONE`. Пакет подготовлен локально для одного fork run. В control внесены исправления по четырём блокерам ревью `d2fb3e493c`. Следующая стадия — повторный независимый review. [Задание](CAL1-IMPL-TASK-20261123.md) · [Ревью](CAL1-REVIEW.md) · [Frozen request](/root/kani-cal1-control-w11/ch8-cal1/CI-REQUEST.json)
+`READY_FOR_REVIEW`, `go=NOT_GRANTED`, `proof_credit=NONE`. Локальный пакет после run 45249887979 восстанавливает feature gate `fn_traits`, проверяет cfg-on `core` до полного discovery и сохраняет первые ошибки обоих потоков. Ревью `4f83c2a283` относится к исходному control tree. Исправленный пакет готов к независимому ревью. [Задание](CAL1-FIX-TASK.md) · [Handoff исправления](CAL1-FIX-HANDOFF.md) · [Frozen request](/root/kani-cal1-control-w11/ch8-cal1/CI-REQUEST.json)
 
 ## Идентичность и trigger
 
 | Объект | Commit | Tree | Parent |
 | --- | --- | --- | --- |
 | std base | `dab03cf510df5c35141cde49f1368b1242f5035e` | `7fd542ad59723ff2beeacb9632fb0568e81b0655` | `1d2706e31f0cd909bd784fa43adf9a1d55be8469` |
-| std overlay | `6e5b28070d72adefae7c259c6f33ffcebcd9a314` | `d4ab1d4f0749019d9f5568bfc4c62e54066de4a2` | `dab03cf510df5c35141cde49f1368b1242f5035e` |
+| std overlay исправленный | `4afdf5f965b95446dbab90533645f43877f511be` | `3362e67c770b87934154f3de75f74ff63128c8f7` | `dab03cf510df5c35141cde49f1368b1242f5035e` |
+| std overlay прогона 45249887979 | `6e5b28070d72adefae7c259c6f33ffcebcd9a314` | `d4ab1d4f0749019d9f5568bfc4c62e54066de4a2` | `dab03cf510df5c35141cde49f1368b1242f5035e` |
 | Kani stock | `9834c96ce90ff57d8495416530b080dc3d52ce25` | `938e9932cb2127239afb4f093f6302652c053398` | `70d7da0ae18991f9604d299784b974a43636945a` |
-| Control CAL1 | `496851502d6fa6c773472ddc1981b62c9d948f3a` | `f85bab20a00b5651050733c1e2d5aedff24d140e` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
-| g0 задания | `00d3fd3df44358ef9462aab4c99ceff6d3aa08a3` | `ee304db27f6a161b7e4327caee86d78abdf2e8f4` | `39afc8dcdda99b5ab81799566620c06ba180660b` |
+| Control CAL1 исправленный | `cb4867dcd387e2062b04f4f3cbe5b439cd518597` | `fb468137deac4d0020e37897da4460649e3c83a9` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+| Control CAL1 прогона 45249887979 | `496851502d6fa6c773472ddc1981b62c9d948f3a` | `f85bab20a00b5651050733c1e2d5aedff24d140e` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+| g0 задания на исправление | `d8667dc7c3a8471cf612d2edd1ef5cc3ef8262d3` | `69fb1a850bd3642f0a85709d16e43df77167566f` | `8bfe740b784742d0a920c6aff47f7406481c1270` |
 
-- Std overlay находится в [verify-rust-std-cal1-w11](/root/verify-rust-std-cal1-w11), control в [kani-cal1-control-w11](/root/kani-cal1-control-w11). Оба checkout detached. [Bundle](/root/kani-cal1-control-w11/ch8-cal1/std-overlay.bundle) содержит только объекты overlay поверх std base. Workflow проверяет SHA-256 bundle, импортирует объекты без ref, сверяет commit/tree/parent и снимает cfg-off список на std base до переключения в detached overlay.
-- Целевой fork `Tiramisu-Cake/kani`, событие `push`, единственный ref `refs/heads/uninit-ci/ch8-q-pilot-v1`. Единственная форма trigger после решения координатора — `git commit-tree f85bab20a00b5651050733c1e2d5aedff24d140e -p 467af9cb8dba0e3be78a8d7d07672a1943c4806b` с сообщением без `[skip ci]`. Ожидаемый tree полностью совпадает с Control CAL1. Workflow на обоих jobs проверяет fork, event и полный ref, а runner проверяет push SHA и единственного родителя. [Workflow](/root/kani-cal1-control-w11/.github/workflows/ch8-q-pilot.yml)
-- При подготовке исходного пакета `git ls-remote` показал на заданном ref `6e2922538d721509e9788d00298e07a2ad99d6b7`, прямого потомка того же `467af9cb8d`. Будущий trigger будет соседним коммитом, поэтому fast-forward с того head невозможен. Решение о состоянии дорожки остаётся у координатора. Подготовительные коммиты локальны.
+- Оба checkout detached. Workflow проверяет SHA-256 bundle, импортирует объекты overlay без ref и сверяет commit/tree и единственного parent. После пробы и полного cfg-on discovery выполняется cfg-off inventory. Перед замерами runner восстанавливает точный detached overlay. [Std](/root/verify-rust-std-cal1-w11) · [Control](/root/kani-cal1-control-w11) · [Bundle](/root/kani-cal1-control-w11/ch8-cal1/std-overlay.bundle)
+- Целевой fork `Tiramisu-Cake/kani`, событие `push`, единственный ref `refs/heads/uninit-ci/ch8-q-pilot-v1`. После отдельного решения координатора форма trigger — `git commit-tree fb468137deac4d0020e37897da4460649e3c83a9 -p 467af9cb8dba0e3be78a8d7d07672a1943c4806b` с сообщением, допускающим CI. Workflow на обоих jobs проверяет fork, event и полный ref. Runner сверяет push SHA и единственного родителя. [Workflow](/root/kani-cal1-control-w11/.github/workflows/ch8-q-pilot.yml)
+- Receipt прогона 45249887979 зафиксировал предыдущий trigger `4b7e292777412a5a239d7afbf283ad08bac8e75a` с тем же родителем. Исправленный trigger будет его sibling. Состояние удалённой дорожки и разрешение на запуск остаются у координатора. [Source receipt](/root/ch8-artifacts/run-45249887979/ch8-cal1-Linux-X64-45249887979-1/source.json)
 
-SHA-256 frozen request — `de9d0586b681c86cfb85aff85eec8c5450e3d3caaad2a3101f2af60bdb9a4cfc`. SHA-256 std bundle — `4de024a3b2f844c186be8271c24ef757d402d94098c3e1b07b12a7e22dc610e8`.
+| SHA-256 | Исправленный пакет | Пакет прогона 45249887979 |
+| --- | --- | --- |
+| Frozen request | `5017a37ee49906b18c8ed0dfc59afc2217c294bf9f470d601e47c41f724b58ba` | `de9d0586b681c86cfb85aff85eec8c5450e3d3caaad2a3101f2af60bdb9a4cfc` |
+| Std bundle | `cdaf3949c8f88ddfd93572dcddd31b328eb8539373b418fb4804bbf4f015b9df` | `4de024a3b2f844c186be8271c24ef757d402d94098c3e1b07b12a7e22dc610e8` |
 
 ## Overlay и frozen roster
 
-Guard восстанавливает исходные `smallsort.rs`, `verify.rs` и `core/Cargo.toml` удалением добавленных опциональных атрибутов, деклараций четырёх модулей и одной записи `check-cfg`. Остальные tracked файлы исходной std, в том числе штатные script, workflow и tool pin, сохраняются побайтно. Все строки используют `RUSTFLAGS=--cfg=kani_smallsort_cal1`. [Guard](/root/kani-cal1-control-w11/ch8-cal1/request.py)
+Guard восстанавливает исходные `smallsort.rs`, `verify.rs` и `core/Cargo.toml` удалением добавленных опциональных атрибутов, деклараций четырёх модулей и записи `check-cfg`. В `core/src/lib.rs` он требует единственную строку `#![cfg_attr(all(kani, kani_smallsort_cal1), feature(fn_traits))]` и проверяет, что её удаление восстанавливает исходный blob побайтно. Все 11 строк roster используют `RUSTFLAGS=--cfg=kani_smallsort_cal1`. [Guard](/root/kani-cal1-control-w11/ch8-cal1/request.py) · [Feature gate](/root/verify-rust-std-cal1-w11/library/core/src/lib.rs)
 
 Полный префикс каждого селектора — `slice::sort::shared::smallsort::verify::`. Исходные cover labels зафиксированы в roster.
 
@@ -50,12 +55,19 @@ Guard восстанавливает исходные `smallsort.rs`, `verify.rs
 
 {tool}/scripts/kani verify-std -Z unstable-options -Z function-contracts
   -Z mem-predicates -Z float-lib -Z c-ffi -Z loop-contracts -Z quantifiers
+  -Z stubbing --no-assert-contracts --no-codegen --only-codegen --quiet
+  --target-dir {preflight}/kani-target {std}/library
+
+{tool}/scripts/kani verify-std -Z unstable-options -Z function-contracts
+  -Z mem-predicates -Z float-lib -Z c-ffi -Z loop-contracts -Z quantifiers
   -Z stubbing --no-assert-contracts --harness {selector} --exact --jobs=1
   --output-format=regular -Z export-json --export-json {slot}/export.json
   --verbose --target-dir {slot}/kani-target {std}/library --cbmc-args --object-bits 12
 ```
 
-Списки без cfg и с cfg выполняются на одном пути std с раздельными чистыми output/target. Для каждого измерения задаётся отдельный `CARGO_TARGET_DIR={slot}/cargo-target`; из окружения удаляются inherited `RUSTFLAGS` и `CARGO_ENCODED_RUSTFLAGS`. Stock checks, reachability, unwind и CaDiCaL остаются штатными. Uninit и validity выключены. Export сверяет exact selectors, Check/Replace, resolved unwind, solver, OB12 и включённые проверки.
+Проба `OVERLAY_COMPILE_PREFLIGHT` получает до 180 с внутри setup-дедлайна, отдельный target и `CARGO_TERM_VERBOSE=true` для записи команды компилятора. Успех требует exit 0, подтверждённого reap, наблюдения `kani-compiler` с `--crate-name core`, обоими cfg и `-Z no-codegen`, а также нуля наблюдавшихся verifier children. После пробы runner сверяет exact selector/kind по cfg-on списку, затем снимает cfg-off список и возвращает точный overlay. `common_ready` публикуется после обоих списков и сверки. [Порядок фаз и привязка к пину](CAL1-FIX-HANDOFF.md)
+
+Проба, оба списка и каждый измерительный слот получают отдельный `CARGO_TARGET_DIR`. Runner очищает inherited `RUSTFLAGS` и `CARGO_ENCODED_RUSTFLAGS` перед установкой cfg. Stock checks, reachability, unwind и CaDiCaL остаются штатными. Uninit и validity выключены. Export сверяет exact selectors, Check/Replace, resolved unwind, solver, OB12 и включённые проверки.
 
 Batch содержит ровно `NET-U8-N08` и `NET-U8-N09` в этом порядке. Допуск требует завершённых singleton-терминалов с полными receipts, сумму wall с запасом 30 с в 600 с, и сумму изолированных пиков ≤80% начального доступного batch cap данной платформы. При недопуске batch получает `NOT_RUN`, список корней сохраняется. На Ubuntu команда использует `KANI_JOBS=2` и `--jobs=2`. В одном macOS job команды идут последовательно с незаданным `KANI_JOBS` и `-j`, затем с `KANI_JOBS=1` и `--jobs=1`. Каждая команда использует повторённый `--harness` и общий `--exact`. Все batch-варианты используют `terse` и stock export. Pinned Kani требует `terse` при многопоточном `--jobs`. Совпадение составов и наличия результата фиксируется отдельно. [Сбор argv](/root/kani-cal1-control-w11/ch8-cal1/run.py)
 
@@ -71,7 +83,7 @@ Supervisor проверяет доступную память и давлени�
 ## Артефакт и локальные проверки
 
 - `index.json` связывает run/attempt, trigger, source/checkouts, версии, frozen request, размеры и SHA-256 members и все ожидаемые слоты. Setup receipt связывает launcher, pinned nightly, CBMC, goto-cc/goto-instrument, установленный Kissat и чистоту Kani до/после. Версия используемой CaDiCaL берётся из native solver banner при наличии. Первые строки version probes сохраняются даже при отклонённом пине. [Баннер goto-cc](https://github.com/diffblue/cbmc/blob/cbmc-6.11.0/src/goto-cc/gcc_mode.cpp#L323-L333) · [Версия CaDiCaL](https://github.com/diffblue/cbmc/blob/cbmc-6.11.0/src/solvers/sat/satcheck_cadical.cpp#L38-L41)
+- При ошибке сборки Kani, ранней пробы или discovery `setup.json` сохраняет отдельные первые ошибки stdout и stderr, до 80 строк и 16 KiB на поток. При отсутствии заголовка сохраняется помеченный префикс. Итог Cargo доступен в отдельном хвосте stderr. В `error.json` есть фаза, указатель на запись и распознанное первичное сообщение. [Проекция диагностик](/root/kani-cal1-control-w11/ch8-cal1/setup_diagnostics.py)
 - На слот сохраняются `receipt.json`, bounded `projection.json` и для batch `timeline.json`. Singleton содержит native checks/covers с ID, status, description и location плюс stock totals. Batch содержит stock totals и идентификаторы, метки отдельных свойств при terse остаются `UNKNOWN`. Receipt хранит отдельно фазу stdout с доступным native timestamp и фазу sampler с временем monotonic. В частичном итоге с нетаймированной строкой stdout отображается наблюдение sampler с его временем. Compile/symex/SSA/SAT записываются при наблюдаемом источнике. Окно под projection — до 4 MiB, суммарно до 96 MiB на job. Index, summary и receipts сохраняются при усечении.
 - `VERIFIED` и `FAILED` описывают наблюдаемые согласованные терминалы Kani. `TIMEOUT`, `RSS_LIMIT`, pressure/cleanup, сигнал, setup failure, `NOT_STARTED`, `NOT_RUN` и `INCOMPLETE` сохраняют причины и доступные частичные сведения. Отсечённые длительности остаются censored. `SUMMARY.md/json` сравнивают по каждой ОС standard + contract в штатном порядке, `ceil(total/4)`, перемещения и вклад выбранных корней. Отдельно приведены холодная компиляция, native verifier work/span, полный wall и наблюдённый batch. Для каждой метрики с выбранными корнями `UNKNOWN` означает отсутствие завершённых значений. Частичный агрегат показывает долю замеров и ID недоступных и отсечённых корней. Абсолютный прогноз и stock baseline macOS jobs=1 имеют статус `UNKNOWN`. Замер macOS p2 от 45173593629 закреплён в request. [Штатный run](https://github.com/model-checking/verify-rust-std/actions/runs/45173593629)
-- `git diff --check` для обоих commits, PyYAML и `bash -n` для обоих jobs, статическая проверка окон и условий финализации и upload. Предыдущая валидация overlay включает layout, 11 selector/roles/unwind, pinned rustfmt новых Rust-файлов и replay bundle на отдельном shallow base. `cd /root/kani-cal1-control-w11/ch8-cal1 && PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v` — 35 прошедших тестов. Новые сценарии покрывают исчерпание окна аттестации с публикацией сохранённых слотов, общий дедлайн проверок checkout, Darwin warning/critical с достаточным резервом и ошибки pressure probe, regular и terse jobs=1 при таймауте, а также `UNKNOWN` и покрытие частичных агрегатов.
-- Реальные GitHub hosted Linux/macOS setup, компиляция overlay и результаты проверок ожидают запуска после review и отдельного решения. Локальная валидация ограничена Git, разбором исходников, форматированием и синтетическими тестами.
+- Для исправления прошли 43 offline-теста Python, replay bundle на shallow std base, synthetic trigger на итоговом control, `git diff --check`, PyYAML и `bash -n` для обоих jobs. Сравнение с исходным пакетом подтвердило сохранение измерительных функций, roster, часов слотов, аттестации, RSS и upload. Фактический compile PASS исправленного overlay остаётся критерием будущего hosted запуска. [Подробности проверок](CAL1-FIX-HANDOFF.md)
