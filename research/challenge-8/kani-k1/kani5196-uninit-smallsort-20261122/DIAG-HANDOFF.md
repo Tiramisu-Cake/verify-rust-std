@@ -1,6 +1,6 @@
 # Standalone kani5196 diagnostic handoff
 
-`status=READY` for coordinator review of the statically validated control candidate. `go=NOT_GRANTED`. `proof_credit=NONE`.
+`status=READY` for coordinator re-review of the statically validated follow-up. `go=NOT_GRANTED`. `proof_credit=NONE`. The planner's NO-GO reviewed the original candidate `f58dc11f4e6b20de31bb59ec372a8e91dd7ac2cd`. [Planner review at g0 commit 14b0ad03f7](DIAG-REVIEW.md)
 
 ## Control identity
 
@@ -8,14 +8,25 @@
 | --- | --- |
 | Worktree | `/root/kani-ch8-kani5196-diag-control-20261123` |
 | Local branch | `ch8-kani5196-diag-control` |
-| Commit | `f58dc11f4e6b20de31bb59ec372a8e91dd7ac2cd` |
-| Tree | `b3d9ffb77c631555d493fcd27ebe1011ec4cf941` |
-| Direct parent | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+| Local fix commit | `8ca646c22ee7d6fb5d2d51b7eebd90bf142b38f2` |
+| Local fix direct parent | `f58dc11f4e6b20de31bb59ec372a8e91dd7ac2cd` |
+| Exact trigger tree, shared with the local fix | `a98c4fe00f9f15f5f50fb1b5a16ffe89f4ecec96` |
+| Exact trigger direct parent, pinned as `control_parent` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
 | Author | `Tiramisu-Cake <igkharin@gmail.com>` |
-| Request SHA-256 | `9f353b02df6a096c64fa408a929c42ae4b63ed0b47390f34448d5344d702fde4` |
+| Request SHA-256 | `9aab99b1ccd650d6fe1f489ddbb3c4964a409293d79ad835160c6419a3433e41` |
 | Workflow SHA-256 | `8362ebadbe1e0802366c13be8ee83254011a2c12bb040473f72095292dc17aa5` |
 
-The local commit uses `[skip ci]`. The reviewed trigger must use the exact tree and direct parent above. The event gate compares checkout HEAD to `GITHUB_SHA` and requires attempt `1`, a push to `refs/heads/uninit-ci/ch8-q-pilot-v1` in `Tiramisu-Cake/kani`, and the existing serial `ch8-s2-fork` concurrency group with cancellation disabled. The control branch remains local. The coordinator owns review, the fork slot and dispatch. [Workflow](/root/kani-ch8-kani5196-diag-control-20261123/.github/workflows/ch8-q-pilot.yml) · [Frozen request](/root/kani-ch8-kani5196-diag-control-20261123/ch8-kani5196-diag-control/CI-REQUEST.json)
+The local fix uses `[skip ci]`. For authorized dispatch, the coordinator must construct a separate trigger commit with the exact trigger tree and sole parent above. The gate compares checkout HEAD to `GITHUB_SHA` and checks the full payload diff against that parent. It requires attempt `1` and a push to `refs/heads/uninit-ci/ch8-q-pilot-v1` in `Tiramisu-Cake/kani`. The workflow uses the serial `ch8-s2-fork` concurrency group with cancellation disabled. The control branch remains local. The coordinator owns review, the fork slot and dispatch. [Workflow](/root/kani-ch8-kani5196-diag-control-20261123/.github/workflows/ch8-q-pilot.yml) · [Frozen request](/root/kani-ch8-kani5196-diag-control-20261123/ch8-kani5196-diag-control/CI-REQUEST.json)
+
+## Review findings and fixes
+
+| Review finding | Fix | Regression or check |
+| --- | --- | --- |
+| The three Rust 2015 standalone fixtures could not resolve `core`. | Declare `extern crate core;` in ITER, SELECT and SLICE. Refresh source digests, operation anchors, and observer coordinates. The standalone canary inputs remain verbatim. | Frozen fixture and named anchor checks passed. Live compilation is pending. |
+| SLICE-CHECK treated the stock mangled name as the declared `writer` path. | Match the declared `writer` in stock metadata and bind its exact emitted assigns symbol through the pinned DFCC command for the same prepared GOTO. Require the rooted fixture call, generated helper and wrapped writer path to the typed write. | The mangled helper binds. A different exported helper, an unrelated helper named by both stock and DFCC, and a different GOTO path each fail. |
+| Both `caller_location` guards missed their attested source. A separate rooted call could stand in for the guard's own origin. | Match the attested `kani-compiler/src/intrinsics.rs` key. Bind each false assertion to its own source and descriptor with the pinned memory-initialization hook or intrinsic codegen lowering. Pointer guards require the corresponding containing helper and a pinned source coordinate. | Both native descriptors bind at the erased operation. An unrelated rooted call, wrong intrinsic source line, live guard, and non-false instruction are rejected. |
+| A measured SUCCESS could have unexercised observers. | Require satisfied required covers and successful required assertions for measured SUCCESS. A measured FAILURE preserves entry and return statuses for review of the target alarm. | Unreachable or unsatisfiable return covers and an unreachable assertion block comparison on SUCCESS. A FAILURE with a target alarm preserves the satisfied entry and unreachable return. |
+| Aggregate-cap behavior lacked a finalization regression. | Exercise finalization with a reduced aggregate budget that includes the index and all pair receipts. | Optional projections drop first. When a required projection drops, the index and pair agree on the gap and the pair becomes incomplete. Pair hashes and total published bytes are checked. |
 
 ## Roster and invocation
 
@@ -37,9 +48,9 @@ Run the first two rows ON in order. Run the remaining rows in order, OFF then ON
 | --- | --- |
 | `main.rs`, verbatim pinned canary | `3e71829b6ee39601ad29546aefb71ae861505bd9b4b555c36ea9d595468d63bb` |
 | `nested-unions.expected`, verbatim pinned expectations | `7c4b4bd80f002d4dc0c8c0180f8c01dbfcee18da9dc1a6ac967cac24282d5bcd` |
-| `iter.rs` | `be08bba3f7b9c6f286c278cea81feaa9f8515a01e0fab1b147b7f6076cb2f8fd` |
-| `select.rs` | `ecccbf211a05bad83ff49b5292462071c0609c297b16073a6f373b3f461e7e14` |
-| `slice.rs` | `2703ef9f125a76536bd22586ef5f32132e0b59995222a1b4ddb6a0855c9d1fd3` |
+| `iter.rs` | `6a36f2a4cc988ff3e09e3f5d67a9bbe91b112f9246ca314eba2f3a205050a61d` |
+| `select.rs` | `75b3bdb7dd1287891db2ae8c78e559b41ab397d216a6151484829dc6b0c73d1b` |
+| `slice.rs` | `973d57a7c28952bb6a833e2cdea77f62641e37722837d033c1077433b143b226` |
 
 The request contains the full normalized argv array per root, named fixture coordinates, assertion lines and coverage labels. The runner substitutes the attested launcher and the private fixture and export paths.
 
@@ -79,12 +90,14 @@ The calibration policy requires the exact two `std::ptr::read::<u32>` IDs at the
 
 ## Local validation
 
-- 20 diagnostic Python tests passed. They cover the exact roster and pair mode delta, compiler and backend argv identity, separate callee/fixture coordinates, wrong or ambiguous target, extra and missing failures, guard acceptance and rejection, successful and deliberate negative exits under supervision, watchdog and RSS cleanup, inspector cutoff, admission reserves, and projection caps.
+- All 24 diagnostic Python tests passed, including the Check-symbol, guard-origin, measured-observer, and finalization cases above.
 - The 22 accepted campaign tests and 14 inherited v22 supervisor tests passed.
-- Workflow YAML and shell syntax, Python AST, exact pinned tool commit/tree/source hashes, fixture digests, and `git diff --check` passed. A depth-three local clone passed the synthetic trigger gate and rejected a mismatched trigger SHA and a retry attempt.
-- Local work used Git, static checks and synthetic Python only. CI dispatch remains pending.
+- Workflow YAML and run-step shell syntax, Python AST, exact pinned tool commit and tree, all 41 pinned tool file hashes, payload and fixture digests, frozen fixture anchors, and `git diff --check` passed.
+- All four prior CAL-POS structured guard descriptors matched the pinned tool lowering with local comparison source anchors and synthetic instruction coordinates. Live prepared GOTO and sysroot attestation remain pending.
+- A depth-three local checkout of a synthetic trigger with the exact tree and parent passed the event gate. The gate rejected the local fix commit's direct parent, a mismatched event SHA, a mismatched ref, and attempt `2`.
+- Validation used Git, static checks and synthetic Python. The fork dispatch and native calibration remain pending.
 
-## Changed paths
+## Trigger payload paths relative to the trigger parent
 
 - `.github/workflows/ch8-q-pilot.yml`
 - `ch8-kani5196-diag-control/CI-REQUEST.json`
