@@ -149,3 +149,11 @@ Diff `c93b068fcc..5dd6140e7a` ограничен supervisor, его тестам
 `churn` создал и собрал 643 потомка. Процесс, державший 24 576 KiB затронутых страниц, показал собственный RSS 39 020 KiB.
 
 Diff `5dd6140e7a..988de7fc69` содержит только `supervisor.py` и `test_supervisor.py`. Сверены пороги и лимиты supervisor, часы и workflow. Совпали SHA-256 frozen request `bd375fc094fc0c63f913efcc05278ea45fa0851b4285f367a5403ce77e078647` и bundle `27cb6c5fc420ba32f1b9266d3c7d66451e176a63a0ba2ba70a74405c39472d61`. Overlay `080a0104159fd04b6764a24f8538a97588f6612e`, tree `96f95b8082983b57f203b0e3e12151552dba0f76`. Прошли `git diff --check`, `git bundle verify`, layout guard и локальная проверка точного push-события. Guard отклонил подменённый `GITHUB_SHA`. [Frozen request](/root/kani-cal1-control-w11/ch8-cal1/CI-REQUEST.json) · [Часы](/root/kani-cal1-control-w11/ch8-cal1/run.py:61)
+
+### Проверка diff после седьмого раунда · 2026-11-24
+
+**GO** для одного диагностического прогона. `proof_credit=NONE`. Проверен diff `988de7fc69..0012750e1a`. Tree `c3228f13f1e3ca71fca1a4147bdb10e61cdfa428`, единственный родитель `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. Overlay `080a010415`, frozen request с roster, bundle и workflow совпали с пакетом седьмого раунда. [Решение R7](CAL1-DECISION-R7.md) · [Handoff](CAL1-IMPL-HANDOFF.md)
+
+После сбора прямого дочернего процесса cleanup сверяет PID и `start_id` ранее наблюдавшихся потомков и отправляет сигналы адресно через `_signal_owned`. Оба целевых теста прошли. Чужая группа без строки лидера осталась нетронутой, а известный участник исходной группы получил адресный TERM, после которого cleanup дождался его выхода. Прошли все 64 теста пакета и `git diff --check`.
+
+Синтетическая публикация подтвердила оговорки о границе reap и о возможном занижении пика RSS в `receipt.json`, `SUMMARY.json` и `SUMMARY.md`. Для подтверждения соблюдения cap нужны данные помимо отсутствия `RSS_LIMIT`.
