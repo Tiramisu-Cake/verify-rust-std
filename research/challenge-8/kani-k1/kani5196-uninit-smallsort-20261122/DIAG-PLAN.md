@@ -1,0 +1,47 @@
+# Standalone kani5196 diagnostic plan
+
+Run one serial fork job to isolate the three initialization alarms from run `45077134698`. Determine for each whether the same typed check fails in isolation, whether the read is valid, and whether the fixture is sufficient for an upstream tool report. Use Kani `bcdc1a0f8dc566654da1f18b4e502f0f4e7ad40a`, tree `15816aaf3b6dfa4855452e34825073db8ca6760f`, with its pinned `nightly-2026-11-19` and CBMC 6.11.0. Build the tool once and run standalone `.rs` inputs against its installed sysroot. N18, the older head, and the trait Check function-pointer blocker are deferred. This diagnostic gives `proof_credit=NONE`. [Analysis and follow-ups](ANALYSIS.md#follow-up-and-item-1)
+
+## Roster
+
+Run the two ON canaries first, then each pair in table order, OFF followed by ON. Within a pair use the same source, selector, tool, unwind and checker options. ON adds `-Z uninit-checks`. Each root has private working, target and evidence paths. OFF and initialized controls are expected to pass with the stated coverage. ON reproducer outcomes are measurements.
+
+| Root | Mode | Fixture and discriminator |
+| --- | --- | --- |
+| CAL-POS | ON | Pinned `buffer_written_then_read_ok`, all four `u32` words initialized before a raw read. |
+| CAL-NEG | ON | Pinned `buffer_partly_written_ub`, slot 0 written and slot 2 read. |
+| ITER | OFF/ON | Consume `[0usize, 1]` by value through `array::IntoIter<usize, 2>`. Check both items, exhaustion and a completion cover. The suspected reads are `ptr::read::<usize>` of `*const usize` and `usize`. |
+| ITER-INIT | OFF/ON | Same values from two explicitly initialized `MaybeUninit<usize>` slots. Read by direct indexed `assume_init_read` and check both values and completion. This keeps the typed read and removes the iterator conversion and transfer. |
+| SELECT | OFF/ON | Use the sysroot's public `core::hint::select_unpredictable` on two distinct thin `*const u64` pointers to live, initialized objects. A symbolic `bool` chooses the pointer. Check identity and the pointed-to value, with covers for both inputs and both returns. Seek the selected `MaybeUninit<*const u64>` to `*const u64` conversion and its typed pointer check. |
+| SELECT-INIT | OFF/ON | Same inputs and observers. Select the initialized plain pointer with `if`, then use `MaybeUninit::new` and immediate `assume_init`. This keeps the typed conversion and removes the intrinsic's by-value wrapper transfer. |
+| SLICE-CHECK | OFF/ON | `proof_for_contract` on the actual tiny destination writer, using the uninitialized destination geometry below. Observe source frame and return. |
+| SLICE-REPLACE | OFF/ON | `stub_verified` on that writer at the same call, with the destination initially unwritten. Seek the `write_any_slice::<u64>` check on its `*mut [u64]` argument. |
+| SLICE-INIT | OFF/ON | Same Replace call and summary, with all eight destination words explicitly initialized before the call. Keep the frame and return observers. |
+
+SLICE uses `[MaybeUninit<u64>; 48]`, with `[32,40)` initialized before making the source slice and `[0,8)` allocated and writable as the raw destination. The contract's `modifies` constructs `ptr::slice_from_raw_parts_mut(dst, src.len())`. Require readable source and a valid, aligned, disjoint write range. The actual writer uses per-word raw writes from the initialized source. The harness observes the source frame and return. It makes no typed reference to the unwritten region and no destination read or init postcondition. Keep the raw address and length distinct from the destination bytes when tracing the alarm. If the generated helper's `(*slice).fill_with(...)` introduces an invalid access, record it as a model defect. Its validity must be checked independently of the user fixture's write-only contract. [Original slice and pointer candidates](ANALYSIS.md#m8-r-replace-slice-pointer-and-real-sort4-pointer-selection) · [Pinned slice model](/root/kani-5196-uninit-tool-20261122/library/kani_core/src/lib.rs:711)
+
+## Calibration and source binding
+
+Copy the pinned `tests/expected/uninit/nested-unions/main.rs` verbatim. Bind each exact root's single fixture read (lines 43 and 52) to its compiled `std::ptr::read::<u32>` call or inlined instruction, then bind that operation to the two native `safety_check` records. Preserve the native callee locations in the sysroot. The expected IDs are `std::ptr::read::<u32>.safety_check.1` (`*const u32`) and `.4` (`u32`). Require SUCCESS for both on CAL-POS (exit 0) and exactly those two failures on CAL-NEG (exit 1), with regular/stock/exit reconciliation and no other failure. Pin the fixture and expected file digests. [Prior calibration gap](ANALYSIS.md#calibration) · [Pinned canaries](/root/kani-5196-uninit-tool-20261122/tests/expected/uninit/nested-unions/main.rs:34)
+
+For this diagnostic calibration, accept reported unsupported guards with status SUCCESS and verified provenance. List each guard's ID, native location, status and originating operation, with an anchor for the pinned hook's fail-on-execution lowering. Check occurrences of `same_allocation`, the Rust unwind guard and `caller_location` against the actual emitted operations and pinned code. Any unresolved guard, unsuccessful guard, extra failure, incomplete inventory or ambiguous read binding keeps calibration `INCOMPLETE`. Keep this rule and its applied instances in the calibration record. [Pinned unsupported hook](/root/kani-5196-uninit-tool-20261122/kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs:226)
+
+## Evidence and offline decisions
+
+Retain full scoped property inventories in regular and stock projections, exact selectors, source and tool identities, commands, phase and resource receipts, cover statuses, and typed binding excerpts. Use the prepared GOTO consumed by the actual checker to bind fixture call or inlining site, monomorphic callee, and the relevant read or model instruction. For SELECT and ITER, attest the installed sysroot implementation and check for the original typed path. A different spelling or line can be reconciled by the typed instructions and source. A materially different compiled path or missing anchor is an evidence gap. For SLICE record Check versus Replace selection, the generated `modifies` pointer construction and the `write_any_slice::<u64>` call. Report native IDs as emitted.
+
+Collect bounded witness fields when available for the failing instruction, path, pointer or object, width or shadow mask, and last write or transfer. Mark each unavailable field. `trace_available` records availability only. A statically unique typed path and a complete source-level initialization argument can suffice if they account for every execution of the failing operation. An ambiguous site or object needs scoped witness evidence. Require SUCCESS on the intended typed reads of each initialized ON control and confirm that those operations remain in its compiled path. Use entry and return covers and assertion reachability to distinguish a real exercised path from a cut caused by the alarm. Record solver or runner cutoffs, unsupported operations and evidence gaps separately.
+
+| Offline verdict | Required evidence |
+| --- | --- |
+| `TOOL_FALSE_POSITIVE` | Calibration accepted, the relevant OFF and initialized control pairs complete as expected, and ON fails at a bound read whose address, live object and accessed representation are initialized and valid under the reproduced path. Explain the initialization chain and retain the exact standalone source and invocation. |
+| `GENERATED_MODEL_DEFECT` | ON fails on the bound Replace path and the lowering or helper introduces an invalid operation despite valid fixture inputs and contract domain. Identify the first invalid operation. Keep this verdict separate from a misreported initialized read. |
+| `FIXTURE_DEFECT` | The fixture itself has an invalid operation or fails the required domain before the reported site. Describe the source defect and withhold tool attribution. |
+| `NOT_REPRODUCED` | Calibration accepted and both modes complete on the intended bound path with expected assertions, checks and coverage. This result applies to the standalone fixture. |
+| `INCONCLUSIVE` | Calibration, matching, execution, required controls or validity evidence is incomplete. State the smallest next discriminator. |
+
+## Budget and dispatch
+
+One `ubuntu-24.04` job in the existing serial fork lane, `$0` GCB. Use 90 s Kani / 120 s child watchdog for the two canaries and 60 s / 90 s for the fourteen diagnostic invocations. Default unwind is 8 for canaries and 16 for diagnostics, with CaDiCaL and object bits 12 throughout. Keep the established 8 GiB child, 12 GiB outer and 2 GiB runner reserve. Reserve per root 3 s startup, 6 s child cleanup, 8 s outer reap and 15 s total for bounded GOTO inspection including its cleanup. With 30 minutes for setup, 2,012 s for the roster, 9 minutes for finalization and 30 s launch headroom, the 75-minute job has 118 s spare. The standalone canaries previously took seconds, and the watchdogs bound the new fixtures. [Prior run results](ANALYSIS.md#timing-n18-cutoff-and-older-head-compile-blocker)
+
+The worker hands off a reviewed control candidate for the coordinator's single dispatch and offline review. All research, ledger, control and trigger commit messages must avoid a hash sign immediately followed by a number. Use names such as `kani5196`, `pr752` and `issue56`. Add `[skip ci]` to documentation and local control commits. [Worker task](DIAG-IMPL-TASK.md)
