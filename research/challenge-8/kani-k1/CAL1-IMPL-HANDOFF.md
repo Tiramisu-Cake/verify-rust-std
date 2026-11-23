@@ -1,8 +1,23 @@
-# CAL1 · пакет диагностики pr752, раунд 4
+# CAL1 · пакет диагностики pr752, FIX2
+
+`READY_FOR_REVIEW`, `go=NOT_GRANTED`, `proof_credit=NONE`. В прогоне 45262099662 ранняя компиляция overlay прошла за 34,88 с. Cfg-on discovery завершился через 987,86 с с `LIVE_MEMORY_PRESSURE` в `goto-cc` при `full avg10=0.18`, `MemAvailable=15 308 756 KiB` и пике RSS 5,56 GiB. GO четвёртого раунда относился к этому диагностическому запуску. [Задание FIX2](CAL1-FIX2-TASK.md) · [Ревью раунда 4](CAL1-REVIEW.md#четвёртый-раунд--2026-11-23) · [Setup receipt](/root/ch8-artifacts/run-45262099662/ch8-cal1-Linux-X64-45262099662-1/setup.json) · [Error receipt](/root/ch8-artifacts/run-45262099662/ch8-cal1-Linux-X64-45262099662-1/error.json)
+
+| Control FIX2 | SHA |
+| --- | --- |
+| Commit | `c93b068fcc2bc7e1e9b723d6d4ad72743e520ddc` |
+| Tree | `b455c846b09cc0a669e3a2fa853438745a233a37` |
+| Единственный parent | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+| Диапазон diff | `bba444231c320a41a9add48bb7caad56b268dbee..c93b068fcc2bc7e1e9b723d6d4ad72743e520ddc` |
+
+В diff входят два файла. На Linux допуск процесса и batch классифицируют снимок по `full avg10 >= 5.0%`. При работе `LIVE_MEMORY_PRESSURE` требует не менее трёх последовательных высоких сэмплов за интервал не менее 2,0 с по монотонным часам. Низкий сэмпл сбрасывает серию. Receipt сохраняет `pressure_avg10`, а при подтверждённом стопе также `pressure_high_samples` и `pressure_high_seconds`. Предел RSS, резерв памяти и ошибки PSI-пробы срабатывают сразу. [Supervisor](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py) · [Синтетические тесты](/root/kani-cal1-control-w11/ch8-cal1/test_supervisor.py)
+
+Прошли 48 локальных Python-тестов (`python3 -m unittest discover -v`), включая синтетические сценарии Linux и macOS, и `git diff --check`. Сверены overlay `080a0104159fd04b6764a24f8538a97588f6612e`, SHA-256 frozen request и bundle. FIX2 подготовлен локально. Discovery и результаты harnesses для FIX2 остаются `UNKNOWN`.
+
+## Пакет раунда 4
 
 `READY_FOR_REVIEW`, `go=NOT_GRANTED`, `proof_credit=NONE`. Раунд 4 устраняет блокер из ревью `5cc886b894`. В `cal1.rs` четыре функции SmallSort импортируются через `super::super`. Пакет сохраняет feature gate `fn_traits`, раннюю пробу cfg-on `core` перед полным discovery и сохранение первых ошибок обоих потоков. [Ревью третьего раунда](CAL1-REVIEW.md#третий-раунд--2026-11-23) · [Задание](CAL1-FIX-TASK.md) · [Handoff предыдущего исправления](CAL1-FIX-HANDOFF.md) · [Frozen request](/root/kani-cal1-control-w11/ch8-cal1/CI-REQUEST.json)
 
-## Идентичность и trigger
+## Идентичность и trigger раунда 4
 
 | Объект | Commit | Tree | Parent |
 | --- | --- | --- | --- |
@@ -15,8 +30,8 @@
 | g0 задания на исправление | `d8667dc7c3a8471cf612d2edd1ef5cc3ef8262d3` | `69fb1a850bd3642f0a85709d16e43df77167566f` | `8bfe740b784742d0a920c6aff47f7406481c1270` |
 
 - Оба checkout detached. Workflow проверяет SHA-256 bundle, импортирует объекты overlay без ref и сверяет commit/tree и единственного parent. После пробы и полного cfg-on discovery выполняется cfg-off inventory. Перед замерами runner восстанавливает точный detached overlay. [Std](/root/verify-rust-std-cal1-w11) · [Control](/root/kani-cal1-control-w11) · [Bundle](/root/kani-cal1-control-w11/ch8-cal1/std-overlay.bundle)
-- Целевой fork `Tiramisu-Cake/kani`, событие `push`, единственный ref `refs/heads/uninit-ci/ch8-q-pilot-v1`. После отдельного решения координатора форма trigger — `git commit-tree e1b1a7e80ceb1d69c96540abbdf7806b36c6b8a6 -p 467af9cb8dba0e3be78a8d7d07672a1943c4806b` с сообщением, допускающим CI. Workflow на обоих jobs проверяет fork, event и полный ref. Runner сверяет push SHA и единственного родителя. [Workflow](/root/kani-cal1-control-w11/.github/workflows/ch8-q-pilot.yml)
-- Receipt прогона 45249887979 зафиксировал предыдущий trigger `4b7e292777412a5a239d7afbf283ad08bac8e75a` с тем же родителем. Исправленный trigger будет его sibling. Состояние удалённой дорожки и разрешение на запуск остаются у координатора. [Source receipt](/root/ch8-artifacts/run-45249887979/ch8-cal1-Linux-X64-45249887979-1/source.json)
+- Целевой fork `Tiramisu-Cake/kani`, событие `push`, единственный ref `refs/heads/uninit-ci/ch8-q-pilot-v1`. В прогоне 45262099662 trigger `d3461349bdc357f030efdbcfceda272088485ff3` использовал tree `e1b1a7e80ceb1d69c96540abbdf7806b36c6b8a6` и единственного родителя `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. Workflow на обоих jobs проверяет fork, event и полный ref. Runner сверяет push SHA и единственного родителя. [Workflow](/root/kani-cal1-control-w11/.github/workflows/ch8-q-pilot.yml) · [Source receipt](/root/ch8-artifacts/run-45262099662/ch8-cal1-Linux-X64-45262099662-1/source.json)
+- Receipt прогона 45249887979 зафиксировал предыдущий trigger `4b7e292777412a5a239d7afbf283ad08bac8e75a` с тем же родителем. [Source receipt](/root/ch8-artifacts/run-45249887979/ch8-cal1-Linux-X64-45249887979-1/source.json)
 
 | SHA-256 | Пакет раунда 4 | Пакет прогона 45249887979 |
 | --- | --- | --- |
