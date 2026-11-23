@@ -112,3 +112,23 @@ The calibration policy requires the exact two `std::ptr::read::<u32>` IDs at the
 - `ch8-kani5196-diag-control/native_binding.py`
 - `ch8-kani5196-diag-control/test_diagnostic.py`
 - `ch8-kani5196-diag-control/test_native_binding.py`
+
+## Version attestation fix after run 45136593581
+
+The authorized run used trigger `eeb622ce9ff21a1542068caf1b6360fee622c688` and tree `a98c4fe00f9f15f5f50fb1b5a16ffe89f4ecec96`. The stock tool build exited successfully. Build and attest stopped after about 399 seconds of setup when the `goto-cc` probe required the literal `(goto-cc 6.11.0)` banner. The index records all 16 roots as `NOT_RUN` with `BUILD_STEP_FAILURE`. Proof credit is `NONE`. [Structured index](/root/ch8-artifacts/run-45136593581/ch8-kani5196-diag-45136593581-1/index.json)
+
+Setup, launch, and close now validate exact release tokens for `cbmc`, `goto-cc`, `goto-instrument`, Kissat, and the Kani launcher. This accepts `6.11.0 (cbmc-6.11.0)` for `goto-cc` and rejects different, suffixed, conflicting, or missing releases. The Rust check uses the verbose nightly release, full commit, commit date, and host. The launcher’s reported Rust release and commit abbreviation are checked against that compiler identity. Launch and close also recheck the resolved executable paths and digests and the installed and Kani compiler sysroots. The setup receipt publishes `version_first_lines` with the untrimmed first stdout line of each version probe, including empty strings on successful probes with empty output.
+
+| Item | Fixed value |
+| --- | --- |
+| Local control branch | `ch8-kani5196-diag-control` |
+| Local fix commit | `ccfcecba6462553327c867ad04765fa94f02dc53` |
+| Local fix direct parent | `8ca646c22ee7d6fb5d2d51b7eebd90bf142b38f2` |
+| New trigger tree | `739723840c3a54b7d9485e1b71c39d73c9c02164` |
+| Sole trigger parent | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+| Request SHA-256 | `362ffb9a0785da6fcffe52009e28b8b3ac9f09c0aaa49e33f591569925079733` |
+| Workflow SHA-256 | `8362ebadbe1e0802366c13be8ee83254011a2c12bb040473f72095292dc17aa5` |
+
+The frozen trigger diff adds `ch8-kani5196-control/campaign.py`, `ch8-kani5196-control/tool_attestation.py`, and `ch8-kani5196-control/test_tool_attestation.py` to the paths listed above. A local synthetic commit using the new tree and sole trigger parent passed the event gate, all 35 payload hashes, fixture checks, and all 41 pinned tool file hashes. The event gate rejected the local fix's direct parent. All 25 diagnostic, 26 shared campaign and attestation, and 14 inherited supervisor Python tests passed. The version tests cover realistic output, wrong and empty output, Rust commit drift, and executable digest drift.
+
+The fix is ready for coordinator review with `go=NOT_GRANTED`. Live attestation and the 16-root run remain pending. The control branch is local and dispatch remains with the coordinator.
