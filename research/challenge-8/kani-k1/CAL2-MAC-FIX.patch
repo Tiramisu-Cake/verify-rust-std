@@ -1,0 +1,922 @@
+diff --git a/.github/workflows/ch8-q-pilot.yml b/.github/workflows/ch8-q-pilot.yml
+index 848cc35931efea5e216aab4dceca0f4462542b0d..370607b3f8b26d883ca5ac5ecbdf9c15ebd0d5d4 100644
+--- a/.github/workflows/ch8-q-pilot.yml
++++ b/.github/workflows/ch8-q-pilot.yml
+@@ -12,11 +12,11 @@ defaults:
+   run:
+     shell: bash
+ jobs:
+-  ubuntu:
++  macos:
+     if: ${{ github.repository == 'Tiramisu-Cake/kani' && github.event_name == 'push' && github.ref == 'refs/heads/uninit-ci/ch8-q-pilot-v1' && github.run_attempt == '1' }}
+-    runs-on: ubuntu-24.04
++    runs-on: macos-latest
+     timeout-minutes: 225
+-    steps: &cal2_steps
++    steps:
+       - name: Start the monotonic job clock
+         timeout-minutes: 1
+         run: |
+@@ -89,8 +89,3 @@ jobs:
+           path: ${{ env.CAL2_STATE }}/artifact/
+           if-no-files-found: error
+           retention-days: 7
+-  macos:
+-    if: ${{ github.repository == 'Tiramisu-Cake/kani' && github.event_name == 'push' && github.ref == 'refs/heads/uninit-ci/ch8-q-pilot-v1' && github.run_attempt == '1' }}
+-    runs-on: macos-latest
+-    timeout-minutes: 225
+-    steps: *cal2_steps
+diff --git a/ch8-cal1/supervisor.py b/ch8-cal1/supervisor.py
+index 9ea118631b72a10d15c8ef1fd488fc5673f00757..9c9165e4f0b384574a829bd6846e4352fc86ab22 100644
+--- a/ch8-cal1/supervisor.py
++++ b/ch8-cal1/supervisor.py
+@@ -22,6 +22,8 @@ TIMELINE_LIMIT = 128
+ SAMPLE_INTERVAL = 0.3
+ TERM_GRACE = 5.0
+ KILL_GRACE = 5.0
++DARWIN_PS_TIMEOUT = 1.0
++DARWIN_RSS_MAX_GAP = 2.0
+ LINUX_PRESSURE_THRESHOLD = 5.0  # PSI full avg10, in percent
+ LINUX_PRESSURE_MIN_SAMPLES = 3
+ LINUX_PRESSURE_MIN_SECONDS = 2.0
+@@ -39,6 +41,10 @@ class SupervisorError(RuntimeError):
+     pass
+
+
++class DarwinCensusTimeout(SupervisorError):
++    pass
++
++
+ class Timeline(list):
+     def __init__(self):
+         super().__init__()
+@@ -175,9 +181,12 @@ def _linux_table(on_pid_skip=None):
+
+
+ def _darwin_table(timeout=.5):
+-    proc = subprocess.run(["ps", "-axww", "-o", "pid=,ppid=,pgid=,rss=,stat=,lstart=,comm="],
+-                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+-                          check=True, timeout=max(.01, timeout), env=os.environ | {"LC_ALL": "C"})
++    try:
++        proc = subprocess.run(["ps", "-axww", "-o", "pid=,ppid=,pgid=,rss=,stat=,lstart=,comm="],
++                              stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
++                              check=True, timeout=timeout, env=os.environ | {"LC_ALL": "C"})
++    except subprocess.TimeoutExpired as exc:
++        raise DarwinCensusTimeout(f"Darwin ps census timed out after {timeout:.3f} s") from exc
+     return _parse_darwin_table(proc.stdout)
+
+
+@@ -308,12 +317,22 @@ def _signal_group(proc, sig):
+     return _send_signal(os.killpg, proc.pid, sig)
+
+
+-def _signal_owned(record, sig, timeout=.25, *, on_pid_skip=None):
++def _remaining_timeout(deadline, maximum):
++    remaining = deadline - time.monotonic()
++    if remaining <= 0:
++        raise SupervisorError("Darwin census deadline exhausted")
++    return min(maximum, remaining)
++
++
++def _signal_owned(record, sig, timeout=.25, *, deadline=None, on_pid_skip=None):
+     """Signal only a PID whose current start identity matches our observation."""
+     pid = record["pid"]
+
+     def still_owned():
+-        current = process_table(timeout=timeout, on_pid_skip=on_pid_skip).get(pid)
++        budget = timeout if deadline is None else _remaining_timeout(deadline, timeout)
++        current = process_table(timeout=budget, on_pid_skip=on_pid_skip).get(pid)
++        if deadline is not None and time.monotonic() >= deadline:
++            raise SupervisorError("Darwin PID identity check exceeded phase deadline")
+         return current is not None and current["start_id"] == record["start_id"] and _is_live(current)
+
+     if not still_owned():
+@@ -353,24 +372,37 @@ def _owned_live(table, pgid, known):
+ def _shutdown(proc, known, timeline, deadline, term_grace, kill_grace, *, on_pid_skip=None):
+     """Signal the group until the direct child is reaped, then use known identities."""
+     errors = []
++    darwin = sys_platform() == "darwin"
++    if darwin:
++        end_term = min(deadline - kill_grace, time.monotonic() + term_grace)
++        # Leave part of KILL for collecting the child, then an independent final ps.
++        reap_until = deadline - min(DARWIN_PS_TIMEOUT, kill_grace / 2)
++        end_kill = reap_until - min(.05, kill_grace / 4)
++    else:
++        reap_until, end_kill = deadline, deadline - .05
+
+-    def census():
++    def census(until, maximum):
+         pgid = proc.pid if proc.poll() is None else None
+         if pgid is None:
+             known.pop(proc.pid, None)
+-        table = process_table(timeout=min(.25, max(.01, deadline - time.monotonic())),
+-                              on_pid_skip=on_pid_skip)
++        timeout = (_remaining_timeout(until, maximum) if darwin else
++                   min(.25, max(.01, deadline - time.monotonic())))
++        table = process_table(timeout=timeout, on_pid_skip=on_pid_skip)
++        if darwin and time.monotonic() >= until:
++            raise SupervisorError("Darwin census exceeded phase deadline")
+         return _owned_live(table, pgid, known)
+
+-    def observe():
++    def observe(until, maximum=DARWIN_PS_TIMEOUT):
+         try:
+-            return census()
++            return census(until, maximum)
+         except (OSError, ValueError, SupervisorError, subprocess.SubprocessError) as exc:
+             if len(errors) < 8:
+                 errors.append(f"{type(exc).__name__}: {exc}"[:300])
+             return None
+
+-    def stop(sig, label, records):
++    def stop(sig, label, records, until):
++        if darwin and time.monotonic() >= until:
++            return
+         _event(timeline, label, pgid=proc.pid)
+         group_signal_allowed = proc.poll() is None
+         if group_signal_allowed:
+@@ -381,37 +413,43 @@ def _shutdown(proc, known, timeline, deadline, term_grace, kill_grace, *, on_pid
+         candidates = records if records is not None else list(known.values())
+         for row in candidates:
+             if (row["pid"] == proc.pid or (group_signal_allowed and row["pgid"] == proc.pid)
+-                    or time.monotonic() >= deadline):
++                    or time.monotonic() >= until):
+                 continue
+             try:
+-                if _signal_owned(row, sig, min(.25, max(.01, deadline - time.monotonic())),
+-                                 on_pid_skip=on_pid_skip):
++                if darwin:
++                    sent = _signal_owned(row, sig, DARWIN_PS_TIMEOUT, deadline=until, on_pid_skip=on_pid_skip)
++                else:
++                    sent = _signal_owned(row, sig, min(.25, max(.01, deadline - time.monotonic())),
++                                         on_pid_skip=on_pid_skip)
++                if sent:
+                     _event(timeline, f"{label}_DESCENDANT", pid=row["pid"])
+             except (OSError, ValueError, SupervisorError, subprocess.SubprocessError) as exc:
+                 if len(errors) < 8:
+                     errors.append(f"{type(exc).__name__}: {exc}"[:300])
+
+     def wait_until(until):
+-        remaining = observe()
++        remaining = observe(until) if not darwin or time.monotonic() < until else None
+         while (remaining is None or remaining or proc.returncode is None) and time.monotonic() < until:
+             time.sleep(min(.04, max(0, until - time.monotonic())))
+-            remaining = observe()
++            if not darwin or time.monotonic() < until:
++                remaining = observe(until)
+         return remaining
+
+-    live = observe()
++    live = observe(end_term if darwin else deadline, .25)
+     had_live_descendant = bool(live and any(row["pid"] != proc.pid for row in live))
+     if proc.returncode is None or live is None or live:
+-        stop(signal.SIGTERM, "TERM", live)
+-        end_term = min(deadline - kill_grace, time.monotonic() + term_grace)
++        stop(signal.SIGTERM, "TERM", live, end_term if darwin else deadline)
++        if not darwin:
++            end_term = min(deadline - kill_grace, time.monotonic() + term_grace)
+         live = wait_until(end_term)
+         if proc.returncode is None or live is None or live:
+-            stop(signal.SIGKILL, "KILL", live)
+-            live = wait_until(deadline - .05)
++            stop(signal.SIGKILL, "KILL", live, end_kill if darwin else deadline)
++            live = wait_until(end_kill)
+     try:
+-        proc.wait(timeout=max(0, deadline - time.monotonic()))
++        proc.wait(timeout=max(0, reap_until - time.monotonic()))
+     except subprocess.TimeoutExpired:
+         errors.append("direct child did not reap by slot deadline")
+-    live = observe()
++    live = observe(deadline)
+     remaining = [row["pid"] for row in live] if live is not None else None
+     # After wait, the final census can confirm only previously observed descendants.
+     return proc.returncode is not None and remaining == [], remaining, errors, had_live_descendant
+@@ -443,6 +481,7 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+     directory = Path(directory)
+     directory.mkdir(parents=True, exist_ok=True)
+     started = time.monotonic()
++    darwin = sys_platform() == "darwin"
+     result = {"status": "NOT_STARTED", "argv": list(argv), "monotonic_start": started,
+               "monotonic_end": None, "wall_seconds": None, "exit_code": None,
+               "signal": None, "reaped": False, "rss_peak_kib": None,
+@@ -478,6 +517,12 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+     high_pressure_started = None
+     high_pressure_samples = 0
+     stop_at = max(time.monotonic(), deadline - term_grace - kill_grace)
++    recovering = False
++    census = None
++    if darwin:
++        census = {"ps_timeout_seconds": DARWIN_PS_TIMEOUT, "rss_gap_limit_seconds": DARWIN_RSS_MAX_GAP,
++                  "ps_timeouts": 0, "recoveries": 0, "max_gap_seconds": None, "last_timeout": None}
++        result["darwin_census"] = census
+
+     def count_sample_pid_skip():
+         result["sample_pid_records_skipped"] += 1
+@@ -485,8 +530,44 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+     def count_cleanup_pid_skip():
+         result["cleanup_pid_records_skipped"] += 1
+
++    def memory_call(until=None):
++        if memory_probe:
++            return memory_probe()
++        timeout = (min(.5, max(.01, stop_at - time.monotonic())) if until is None else
++                   _remaining_timeout(until, .5))
++        return memory_snapshot(timeout=timeout)
++
++    def live_memory(until=None):
++        snapshot = memory_call(until)
++        if (not isinstance(snapshot, dict) or
++                type(snapshot.get("physical_kib")) is not int or
++                type(snapshot.get("available_kib")) is not int or
++                snapshot["physical_kib"] <= 0 or snapshot["available_kib"] < 0 or
++                snapshot["available_kib"] > snapshot["physical_kib"]):
++            raise SupervisorError("live memory sampler returned invalid record")
++        pressure = pressure_probe() if pressure_probe else snapshot.get("pressure")
++        if pressure not in ("CLEAR", "PRESSURE"):
++            raise SupervisorError("live memory pressure is unknown or invalid")
++        result["memory"] = snapshot | {"pressure": pressure}
++        result["minimum_available_kib"] = min(result["minimum_available_kib"], snapshot["available_kib"])
++        result["pressure"] = pressure
++        return snapshot, pressure
++
++    def stop_for_memory(snapshot, pressure_confirmed):
++        if pressure_confirmed:
++            result["stop_reason"] = "LIVE_MEMORY_PRESSURE"
++            _event(timeline, "LIVE_MEMORY_PRESSURE", memory=result["memory"])
++        elif snapshot["available_kib"] < reserve_kib:
++            result["stop_reason"] = "LIVE_MEMORY_RESERVE"
++        return result["stop_reason"] is not None
++
++    def check_recovery(until):
++        if proc.poll() is not None:
++            raise SupervisorError("child exited before Darwin census recovery")
++        if time.monotonic() >= until:
++            raise SupervisorError("Darwin census recovery deadline exhausted")
++
+     try:
+-        memory_call = memory_probe or (lambda: memory_snapshot(timeout=min(.5, max(.01, stop_at-time.monotonic()))))
+         snapshot = memory_call()
+         if not isinstance(snapshot, dict):
+             raise SupervisorError("memory sampler returned invalid record")
+@@ -516,6 +597,7 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+             _event(timeline, "ADMISSION_REJECTED", reason=result["stop_reason"])
+             return _finish(result)
+         stdout_path, stderr_path = directory / "stdout.log", directory / "stderr.log"
++        child_started = last_rss_at = time.monotonic()
+         proc = subprocess.Popen(list(argv), cwd=cwd, env=dict(env), stdin=subprocess.DEVNULL,
+                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
+         result.update(status="RUNNING", pid=proc.pid, pgid=proc.pid)
+@@ -544,23 +626,59 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+         for reader in readers:
+             reader.start()
+         _event(timeline, "START", pid=proc.pid, pgid=proc.pid)
+-        injected_sampler = sampler
+         # Preserve the requested cleanup window inside the absolute slot deadline.
+         while True:
+             now = time.monotonic()
+-            if now >= stop_at:
+-                result["stop_reason"] = "TIMEOUT"
+-                break
+-            result["samples_attempted"] += 1
+             try:
+-                sample = (injected_sampler(proc.pid, proc.pid) if injected_sampler else
+-                          _default_sample(proc.pid, known,
+-                                          timeout=min(.5, max(.01, stop_at-time.monotonic())),
+-                                          on_pid_skip=count_sample_pid_skip))
++                if now >= stop_at and not recovering:
++                    if darwin and not sample_timestamps:
++                        raise SupervisorError("stop deadline reached before first Darwin RSS sample")
++                    result["stop_reason"] = "TIMEOUT"
++                    break
++                if darwin:
++                    census_until = min(stop_at, last_rss_at + DARWIN_RSS_MAX_GAP)
++                    if recovering:
++                        check_recovery(census_until)
++                    timeout = _remaining_timeout(census_until, DARWIN_PS_TIMEOUT)
++                else:
++                    timeout = min(.5, max(.01, stop_at - time.monotonic()))
++                result["samples_attempted"] += 1
++                try:
++                    sample = (sampler(proc.pid, proc.pid) if sampler else
++                              _default_sample(proc.pid, known, timeout=timeout, on_pid_skip=count_sample_pid_skip))
++                except DarwinCensusTimeout as exc:
++                    if not darwin or sampler:
++                        raise
++                    census["ps_timeouts"] += 1
++                    census["last_timeout"] = {"at": time.monotonic(), "timeout_seconds": timeout,
++                                              "reason": "PS_CENSUS_TIMEOUT"}
++                    _event(timeline, "PS_CENSUS_TIMEOUT", retry=recovering, timeout_seconds=timeout)
++                    if recovering:
++                        raise SupervisorError("Darwin ps census retry timed out") from exc
++                    recovering = True
++                    result["sampler_valid"] = False
++                    check_recovery(census_until)
++                    live_snapshot, current_pressure = live_memory(census_until)
++                    check_recovery(census_until)
++                    if stop_for_memory(live_snapshot, current_pressure == "PRESSURE"):
++                        break
++                    continue
+                 sampled_at = time.monotonic()
++                if darwin:
++                    if recovering:
++                        check_recovery(census_until)
++                    elif sampled_at >= last_rss_at + DARWIN_RSS_MAX_GAP:
++                        raise SupervisorError("Darwin RSS observation budget exhausted")
++                    elif sampled_at >= stop_at:
++                        if not sample_timestamps:
++                            raise SupervisorError("stop deadline reached before first Darwin RSS sample")
++                        result["stop_reason"] = "TIMEOUT"
++                        break
+                 if (not isinstance(sample, dict) or type(sample.get("rss_kib")) is not int
+                         or sample["rss_kib"] < 0 or not isinstance(sample.get("pids"), list)):
+                     raise SupervisorError("RSS sampler returned invalid sample")
++                if recovering and not sample["pids"]:
++                    raise SupervisorError("Darwin census retry did not observe any owned live process")
+                 records = sample.get("records", [])
+                 if not isinstance(records, list):
+                     raise SupervisorError("RSS sampler returned invalid process records")
+@@ -607,27 +725,22 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+                 elif count != previous_cbmc_count:
+                     _event(timeline, "CBMC_COUNT", count=count, pids="UNKNOWN")
+                 previous_cbmc_count = count
++                if darwin:
++                    census["max_gap_seconds"] = max(census["max_gap_seconds"] or 0, sampled_at - last_rss_at)
++                    last_rss_at = sampled_at
++                    if recovering:
++                        census["recoveries"] += 1
++                        _event(timeline, "PS_CENSUS_RECOVERED")
++                        recovering = False
+                 if diagnostics is not None and "diagnostic_error" not in result:
+                     try:
+                         diagnostics.observe(sample, sampled_at)
+                     except Exception as exc:
+                         result["diagnostic_error"] = f"{type(exc).__name__}: {exc}"[:300]
+-                live_snapshot = memory_call()
+-                if (not isinstance(live_snapshot, dict) or
+-                        type(live_snapshot.get("physical_kib")) is not int or
+-                        type(live_snapshot.get("available_kib")) is not int or
+-                        live_snapshot["physical_kib"] <= 0 or live_snapshot["available_kib"] < 0 or
+-                        live_snapshot["available_kib"] > live_snapshot["physical_kib"]):
+-                    raise SupervisorError("live memory sampler returned invalid record")
+-                current_pressure = pressure_probe() if pressure_probe else live_snapshot.get("pressure")
+-                if current_pressure not in ("CLEAR", "PRESSURE"):
+-                    raise SupervisorError("live memory pressure is unknown or invalid")
+-                result["memory"] = live_snapshot | {"pressure": current_pressure}
+-                result["minimum_available_kib"] = min(result["minimum_available_kib"], live_snapshot["available_kib"])
+-                result["pressure"] = current_pressure
++                live_snapshot, current_pressure = live_memory()
+                 result["sampler_valid"] = True
+                 result["samples_succeeded"] += 1
+-                sample_timestamps.append(now)
++                sample_timestamps.append(sampled_at if darwin else now)
+                 pressure_confirmed = current_pressure == "PRESSURE"
+                 if "pressure_avg10" in live_snapshot:
+                     if pressure_confirmed:
+@@ -644,12 +757,7 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+                     else:
+                         high_pressure_started = None
+                         high_pressure_samples = 0
+-                if pressure_confirmed:
+-                    result["stop_reason"] = "LIVE_MEMORY_PRESSURE"
+-                    _event(timeline, "LIVE_MEMORY_PRESSURE", memory=result["memory"])
+-                    break
+-                if live_snapshot["available_kib"] < reserve_kib:
+-                    result["stop_reason"] = "LIVE_MEMORY_RESERVE"
++                if stop_for_memory(live_snapshot, pressure_confirmed):
+                     break
+                 if sample["rss_kib"] > effective:
+                     result["stop_reason"] = "RSS_LIMIT"
+@@ -672,7 +780,10 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+                 result["signal"] = -rc if rc < 0 else None
+                 result["stop_reason"] = "EXITED"
+                 break
+-            time.sleep(max(0, min(now + sample_interval, stop_at) - time.monotonic()))
++            next_sample = min(now + sample_interval, stop_at)
++            if darwin:
++                next_sample = min(next_sample, last_rss_at + DARWIN_RSS_MAX_GAP)
++            time.sleep(max(0, next_sample - time.monotonic()))
+     except BaseException as exc:
+         result["stop_reason"] = result["stop_reason"] or "SUPERVISOR_ERROR"
+         result["supervisor_error"] = f"{type(exc).__name__}: {str(exc)[:512]}"
+@@ -681,6 +792,8 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+     finally:
+         if proc is not None:
+             observation_end = time.monotonic()
++            if darwin:
++                census["max_gap_seconds"] = max(census["max_gap_seconds"] or 0, observation_end - last_rss_at)
+             reaped, remaining, errors, surviving = _shutdown(
+                 proc, known, timeline, deadline, term_grace, kill_grace, on_pid_skip=count_cleanup_pid_skip)
+             result["reaped"], result["remaining_processes"], result["cleanup_errors"] = reaped, remaining, errors
+@@ -706,7 +819,17 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+             _event(timeline, "REAP", reaped=reaped, remaining_count=len(remaining) if remaining is not None else None)
+     if pending_exception is not None:
+         raise pending_exception
+-    if sample_timestamps:
++    if darwin and proc is not None:
++        # Count attempted and scheduled samples on the same scale. A lost ps
++        # can already occupy a scheduled slot, so don't add the two counts.
++        expected = max(result["samples_attempted"], math.ceil((observation_end - child_started) / sample_interval))
++        success = result["samples_succeeded"]
++        result["samples_expected"] = expected
++        result["samples_missed"] = expected - success
++        result["missed_sample_fraction"] = (expected - success) / expected if expected else None
++        if success > 1:
++            result["sampling_cadence_seconds"] = (sample_timestamps[-1] - sample_timestamps[0]) / (success - 1)
++    elif sample_timestamps:
+         span = sample_timestamps[-1] - sample_timestamps[0]
+         expected = max(result["samples_attempted"], 1 + math.floor(span / sample_interval))
+         success = result["samples_succeeded"]
+diff --git a/ch8-cal1/test_darwin_supervisor.py b/ch8-cal1/test_darwin_supervisor.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..1750eb8d3663ffd6914e241bac41532f65aec4b9
+--- /dev/null
++++ b/ch8-cal1/test_darwin_supervisor.py
+@@ -0,0 +1,335 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++
++"""Exercise the real Darwin census and shutdown logic with a simulated clock and OS."""
++
++from contextlib import ExitStack
++import io
++import os
++from pathlib import Path
++import signal
++import subprocess
++import tempfile
++import unittest
++from unittest.mock import Mock, patch
++
++import supervisor
++
++
++CENSUS = ["ps", "-axww", "-o", "pid=,ppid=,pgid=,rss=,stat=,lstart=,comm="]
++INIT = "1 0 1 200 Ss Mon Nov 23 10:00:00 2026 launchd\n"
++LEADER = "10 1 10 {rss} Ss Mon Nov 23 10:00:01 2026 python\n"
++ESCAPED = "11 10 11 75 S Mon Nov 23 10:00:02 2026 python\n"
++REUSED = "11 1 11 1000 S Mon Nov 23 10:00:03 2026 unrelated\n"
++CLEAR = {"physical_kib": 1000, "available_kib": 800, "pressure": "CLEAR"}
++
++
++class DarwinSimulation:
++    def __init__(self, test, live=(), *, cleanup=None, exit_at=float("inf"), ignore_term=False):
++        self.test = test
++        self.now = 0.0
++        self.exit_at = exit_at
++        self.ignore_term = ignore_term
++        self.live = iter(live)
++        self.cleanup = cleanup
++        self.cleaning = False
++        self.ps_calls = []
++        self.signals = []
++        self.proc = Mock(pid=10, returncode=None, stdout=io.BytesIO(), stderr=io.BytesIO())
++        self.proc.poll.side_effect = self.poll
++        self.proc.wait.side_effect = self.wait
++
++    def advance(self, seconds):
++        self.now += seconds
++
++    def poll(self):
++        if self.now >= self.exit_at and self.proc.returncode is None:
++            self.proc.returncode = 0
++        return self.proc.returncode
++
++    def wait(self, timeout):
++        if self.poll() is not None:
++            return self.proc.returncode
++        self.now = min(self.now + timeout, self.exit_at)
++        if self.poll() is None:
++            raise subprocess.TimeoutExpired("child", timeout)
++        return self.proc.returncode
++
++    def ps(self, argv, *, timeout, check, env, **kwargs):
++        self.test.assertEqual(argv, CENSUS)
++        self.test.assertTrue(check)
++        self.test.assertEqual(env["LC_ALL"], "C")
++        self.test.assertGreater(timeout, 0)
++        self.ps_calls.append((self.cleaning, self.now, timeout))
++        if self.cleaning and self.cleanup:
++            content = self.cleanup(self, timeout)
++        else:
++            activity = None if self.cleaning else next(self.live, None)
++            if activity == "timeout":
++                return self.ps_timeout(timeout)
++            if isinstance(activity, Exception):
++                raise activity
++            delay, rss, extra = activity or (.01, 40, "")
++            self.advance(delay)
++            content = INIT + (LEADER.format(rss=rss) if self.now < self.exit_at else "") + extra
++        return subprocess.CompletedProcess(argv, 0, stdout=content)
++
++    def ps_timeout(self, timeout):
++        self.advance(timeout)
++        raise subprocess.TimeoutExpired(CENSUS, timeout)
++
++    def group_signal(self, pid, sig):
++        self.test.assertEqual(pid, self.proc.pid)
++        self.test.assertIsNone(self.proc.returncode)
++        self.signals.append((self.now, "group", sig))
++        if sig == signal.SIGKILL or not self.ignore_term:
++            self.exit_at = self.now
++
++    def pid_signal(self, pid, sig):
++        self.signals.append((self.now, pid, sig))
++
++    def run(self, *, stop_at=4, term_grace=2, kill_grace=2, memory=None, sampler=None):
++        shutdown = supervisor._shutdown
++
++        def cleanup(*args, **kwargs):
++            self.cleaning = True
++            return shutdown(*args, **kwargs)
++
++        with ExitStack() as stack:
++            root = Path(stack.enter_context(tempfile.TemporaryDirectory()))
++            clock = stack.enter_context(patch.object(supervisor, "time"))
++            clock.monotonic.side_effect = lambda: self.now
++            clock.sleep.side_effect = self.advance
++            for target, name, options in (
++                (supervisor, "sys_platform", {"return_value": "darwin"}),
++                (supervisor, "_shutdown", {"side_effect": cleanup}),
++                (subprocess, "run", {"side_effect": self.ps}),
++                (subprocess, "Popen", {"return_value": self.proc}),
++                (os, "kill", {"side_effect": self.pid_signal}),
++                (os, "killpg", {"side_effect": self.group_signal}),
++            ):
++                stack.enter_context(patch.object(target, name, **options))
++            return supervisor.run(["child"], cwd=root, env={}, directory=root, nominal_kib=100, reserve_kib=100,
++                                  deadline=stop_at + term_grace + kill_grace, term_grace=term_grace,
++                                  kill_grace=kill_grace, memory_probe=memory or (lambda: CLEAR), sampler=sampler)
++
++    def live_calls(self):
++        return [(at, timeout) for cleaning, at, timeout in self.ps_calls if not cleaning]
++
++    def cleanup_calls(self):
++        return [(at, timeout) for cleaning, at, timeout in self.ps_calls if cleaning]
++
++
++class DarwinSupervisorTests(unittest.TestCase):
++    def test_slow_native_command_is_valid_and_normal_stop_stays_timeout(self):
++        sim = DarwinSimulation(self, [(.8, 50, "")])
++        result = sim.run(stop_at=.91)
++        self.assertEqual(result["stop_reason"], "TIMEOUT", result)
++        self.assertTrue(result["sampler_valid"] and result["reaped"], result)
++        self.assertAlmostEqual(sim.live_calls()[0][1], .91)
++        self.assertEqual(result["rss_peak_kib"], 50)
++        self.assertAlmostEqual(result["darwin_census"]["max_gap_seconds"], .8)
++        self.assertEqual(result["darwin_census"]["ps_timeouts"], 0)
++
++    def test_retry_is_immediate_and_a_fresh_sample_checks_rss_cap(self):
++        sim = DarwinSimulation(self, [(.05, 50, ""), "timeout", (.35, 101, "")])
++        memory_times = []
++
++        def memory():
++            memory_times.append(sim.now)
++            sim.advance(.1 if len(memory_times) == 3 else 0)
++            return CLEAR
++
++        result = sim.run(memory=memory)
++        self.assertEqual(result["stop_reason"], "RSS_LIMIT", result)
++        self.assertTrue(result["sampler_valid"] and result["reaped"], result)
++        self.assertEqual(result["rss_peak_kib"], 101)
++        self.assertEqual((result["samples_attempted"], result["samples_succeeded"], result["samples_missed"]), (3, 2, 4))
++        self.assertEqual(result["samples_expected"], 6)
++        self.assertAlmostEqual(sim.live_calls()[2][0], 1.4)
++        self.assertAlmostEqual(sim.live_calls()[2][1], .65)
++        self.assertAlmostEqual(memory_times[2], 1.3)
++        self.assertAlmostEqual(memory_times[3], 1.75)
++        self.assertAlmostEqual(result["sampling_cadence_seconds"], 1.7)
++        census = result["darwin_census"]
++        self.assertEqual((census["ps_timeouts"], census["recoveries"]), (1, 1))
++        self.assertEqual(census["last_timeout"]["reason"], "PS_CENSUS_TIMEOUT")
++        self.assertAlmostEqual(census["max_gap_seconds"], 1.7)
++
++    def test_two_separate_series_recover_and_resume_cadence(self):
++        sim = DarwinSimulation(self, ["timeout", (.2, 50, ""), "timeout", (.2, 60, "")])
++        result = sim.run(stop_at=3.1)
++        self.assertEqual(result["stop_reason"], "TIMEOUT", result)
++        self.assertTrue(result["sampler_valid"] and result["reaped"], result)
++        self.assertEqual(result["rss_peak_kib"], 60)
++        self.assertEqual(result["darwin_census"]["ps_timeouts"], 2)
++        self.assertEqual(result["darwin_census"]["recoveries"], 2)
++        self.assertAlmostEqual(sim.live_calls()[2][0], 1.3)
++        self.assertAlmostEqual(sim.live_calls()[4][0], 2.6)
++        self.assertAlmostEqual(result["wall_seconds"], 3.1, delta=.1)
++
++    def test_unrecovered_census_fails_closed_and_keeps_previous_peak(self):
++        for live, stop_at, exit_at, error, peak, attempts, gap in (
++            ([(.05, 50, ""), "timeout", "timeout"], 4, float("inf"), "retry timed out", 50, 3, 2),
++            (["timeout", "timeout"], 4, float("inf"), "retry timed out", None, 2, 2),
++            (["timeout"], .8, float("inf"), "recovery deadline", None, 1, .8),
++            (["timeout", "timeout"], 1.4, float("inf"), "retry timed out", None, 2, 1.4),
++            (["timeout", (1.01, 111, "")], 4, float("inf"), "recovery deadline", None, 2, 2.01),
++            (["timeout"], 4, .5, "child exited", None, 1, 1),
++            ([(.05, 50, ""), "timeout", (.4, 111, "")], 4, 1.6, "child exited", 50, 3, 1.65),
++        ):
++            with self.subTest(live=live, stop_at=stop_at, exit_at=exit_at):
++                sim = DarwinSimulation(self, live, exit_at=exit_at)
++                result = sim.run(stop_at=stop_at)
++                self.assertEqual(result["stop_reason"], "SAMPLER_ERROR", result)
++                self.assertIn(error, result["sampler_error"])
++                self.assertFalse(result["sampler_valid"])
++                self.assertTrue(result["reaped"], result)
++                self.assertEqual(result["rss_peak_kib"], peak)
++                self.assertEqual(result["samples_attempted"], attempts)
++                self.assertEqual(result["darwin_census"]["recoveries"], 0)
++                self.assertAlmostEqual(result["darwin_census"]["max_gap_seconds"], gap)
++                self.assertLessEqual(result["monotonic_end"], stop_at + 4)
++                if stop_at == 1.4:
++                    self.assertAlmostEqual(sim.live_calls()[1][1], .4)
++
++    def test_first_sample_or_retry_cannot_arrive_after_its_budget(self):
++        sim = DarwinSimulation(self, [(.81, 111, "")])
++        result = sim.run(stop_at=.8)
++        self.assertEqual(result["stop_reason"], "SAMPLER_ERROR", result)
++        self.assertIn("before first Darwin RSS sample", result["sampler_error"])
++        self.assertIsNone(result["rss_peak_kib"])
++        self.assertTrue(result["reaped"])
++
++        sim = DarwinSimulation(self, ["timeout"])
++
++        def slow_memory():
++            if sim.now > 0:
++                sim.advance(1)
++            return CLEAR
++
++        result = sim.run(memory=slow_memory)
++        self.assertEqual(result["stop_reason"], "SAMPLER_ERROR", result)
++        self.assertIn("recovery deadline", result["sampler_error"])
++        self.assertEqual(result["samples_attempted"], 1)
++        self.assertTrue(result["reaped"])
++        self.assertEqual(result["darwin_census"]["max_gap_seconds"], 2)
++
++    def test_memory_guards_stop_during_the_gap_and_after_recovery(self):
++        for snapshot, expected in ((CLEAR | {"pressure": "PRESSURE"}, "LIVE_MEMORY_PRESSURE"),
++                                   (CLEAR | {"available_kib": 99}, "LIVE_MEMORY_RESERVE")):
++            for recovered in (False, True):
++                with self.subTest(expected=expected, recovered=recovered):
++                    sim = DarwinSimulation(self, [(.05, 50, ""), "timeout", (.1, 101, "")])
++                    readings = iter([CLEAR, CLEAR] + ([CLEAR] if recovered else []) + [snapshot])
++                    result = sim.run(memory=lambda: next(readings))
++                    self.assertEqual(result["stop_reason"], expected, result)
++                    self.assertTrue(result["reaped"], result)
++                    self.assertEqual(result["sampler_valid"], recovered)
++                    self.assertEqual(result["samples_attempted"], 3 if recovered else 2)
++                    self.assertEqual(result["rss_peak_kib"], 101 if recovered else 50)
++                    self.assertEqual(result["darwin_census"]["recoveries"], int(recovered))
++
++    def test_non_census_errors_fail_immediately(self):
++        for error in (subprocess.CalledProcessError(1, CENSUS), OSError("ps launch failed"), "bad snapshot", ""):
++            with self.subTest(error=error):
++                if isinstance(error, str):
++                    sim = DarwinSimulation(self)
++                    native_ps = sim.ps
++
++                    def ps(*args, **kwargs):
++                        result = native_ps(*args, **kwargs)
++                        if not sim.cleaning:
++                            result.stdout = error
++                        return result
++
++                    sim.ps = ps
++                else:
++                    sim = DarwinSimulation(self, [error])
++                result = sim.run()
++                self.assertEqual(result["stop_reason"], "SAMPLER_ERROR", result)
++                self.assertEqual(result["samples_attempted"], 1)
++                self.assertEqual(result["darwin_census"]["ps_timeouts"], 0)
++                self.assertFalse(result["sampler_valid"])
++                self.assertTrue(result["reaped"], result)
++
++        for live in ([], ["timeout"]):
++            with self.subTest(live=live):
++                memory = Mock(side_effect=[CLEAR, subprocess.TimeoutExpired("memory_pressure", .5)])
++                result = DarwinSimulation(self, live).run(memory=memory)
++                self.assertEqual(result["stop_reason"], "SAMPLER_ERROR", result)
++                self.assertIn("memory_pressure", result["sampler_error"])
++                self.assertEqual(result["samples_attempted"], 1)
++                self.assertEqual(result["darwin_census"]["ps_timeouts"], len(live))
++                self.assertEqual(result["darwin_census"]["recoveries"], 0)
++                self.assertFalse(result["sampler_valid"])
++                self.assertTrue(result["reaped"], result)
++
++    def test_cleanup_timeout_does_not_block_anchored_term_or_final_reap(self):
++        def cleanup(sim, timeout):
++            if len(sim.cleanup_calls()) == 1:
++                sim.ps_timeout(timeout)
++            sim.advance(.6)
++            return INIT
++
++        sim = DarwinSimulation(self, [(.05, 101, "")], cleanup=cleanup)
++        result = sim.run()
++        self.assertEqual(result["stop_reason"], "RSS_LIMIT", result)
++        self.assertTrue(result["reaped"], result)
++        self.assertEqual(sim.signals, [(.3, "group", signal.SIGTERM)])
++        self.assertEqual([budget for _, budget in sim.cleanup_calls()], [.25, 1, 1])
++        self.assertEqual(len(result["cleanup_errors"]), 1)
++        self.assertEqual(result["darwin_census"]["ps_timeouts"], 0)
++
++    def test_cleanup_rejects_late_observation_and_reserves_kill_and_final(self):
++        def cleanup(sim, timeout):
++            call = len(sim.cleanup_calls())
++            if call == 1:
++                return INIT + LEADER.format(rss=101)
++            if call == 5:
++                sim.advance(timeout + .001)
++                return INIT
++            sim.ps_timeout(timeout)
++
++        sim = DarwinSimulation(self, [(.05, 101, "")], cleanup=cleanup, ignore_term=True)
++        result = sim.run(stop_at=.5, term_grace=1.5, kill_grace=2)
++        self.assertEqual(result["stop_reason"], "REAP_UNVERIFIED", result)
++        self.assertEqual(result["primary_stop_reason"], "RSS_LIMIT")
++        self.assertFalse(result["reaped"])
++        self.assertIsNone(result["remaining_processes"])
++        (term_at, _, term), (kill_at, _, kill) = sim.signals
++        self.assertEqual((term, kill), (signal.SIGTERM, signal.SIGKILL))
++        self.assertAlmostEqual(term_at, .05)
++        self.assertAlmostEqual(kill_at, 1.55)
++        first, term1, term2, kill1, kill2, final = sim.cleanup_calls()
++        self.assertAlmostEqual(first[1], .25)
++        self.assertAlmostEqual(term1[1], 1)
++        self.assertAlmostEqual(sum(term2), kill_at)
++        self.assertAlmostEqual(kill1[1], 1)
++        self.assertAlmostEqual(sum(kill2), 2.95)
++        self.assertLessEqual(sum(final), 4)
++        self.assertAlmostEqual(final[1], 1)
++
++    def test_cleanup_does_not_signal_unconfirmed_or_reused_pid(self):
++        for identity in ("reuse", "timeout", "late"):
++            with self.subTest(identity=identity):
++                def cleanup(sim, timeout):
++                    call = len(sim.cleanup_calls())
++                    if call == 1:
++                        return INIT + LEADER.format(rss=50) + ESCAPED
++                    if call == 2:
++                        if identity == "timeout":
++                            sim.ps_timeout(timeout)
++                        if identity == "late":
++                            sim.advance(timeout + .01)
++                            return INIT + ESCAPED
++                        return INIT + REUSED
++                    return INIT + REUSED
++
++                sim = DarwinSimulation(self, [(.05, 50, ESCAPED)], cleanup=cleanup)
++                result = sim.run(term_grace=.5)
++                self.assertEqual(result["stop_reason"], "RSS_LIMIT", result)
++                self.assertTrue(result["reaped"], result)
++                self.assertEqual(sim.signals, [(.05, "group", signal.SIGTERM)])
++                self.assertAlmostEqual(sim.cleanup_calls()[1][1], .5)
++                self.assertEqual(bool(result["cleanup_errors"]), identity != "reuse")
+diff --git a/ch8-cal1/test_run.py b/ch8-cal1/test_run.py
+index 537fb1c656a3700f95536e0c27c6e9c7d22c13ed..83dfe313754861b9a6882e73ab240dcd043de738 100644
+--- a/ch8-cal1/test_run.py
++++ b/ch8-cal1/test_run.py
+@@ -189,6 +189,58 @@ class ControlTests(unittest.TestCase):
+                 self.assertEqual(record["sha256"], spec.sha256(artifact / rel))
+                 self.assertEqual(record["bytes"], (artifact / rel).stat().st_size)
+
++    def test_darwin_finish_distinguishes_interrupted_and_unstarted_slots(self):
++        with tempfile.TemporaryDirectory() as test_path:
++            state = Path(test_path)
++            self.exercise_prepare(state, system="Darwin")
++            first, second, *_ = run.expected_slots(self.frozen, "Darwin")
++            deadline = run.time.monotonic() + first[3] + 20
++            with patch.object(run, "invoke", side_effect=KeyboardInterrupt), self.assertRaises(KeyboardInterrupt):
++                run.measure_slot(state, state / "std", state / "tool", self.frozen, first,
++                                 spec.LIMITS["Darwin"], deadline)
++            report.finish(state, self.frozen, "Darwin")
++            artifact = state / "artifact"
++            index = spec.read(artifact / "index.json")
++            self.assertEqual([row["outcome"] for row in index["slots"]], ["INCOMPLETE"] + ["NOT_STARTED"] * 12)
++            entered = spec.read(artifact / "slots" / first[0] / "receipt.json")
++            unstarted = spec.read(artifact / "slots" / second[0] / "receipt.json")
++            self.assertEqual(entered["reason"], "INTERRUPTED_BEFORE_RECEIPT")
++            self.assertAlmostEqual(entered["slot_deadline_monotonic"] - entered["started_monotonic"], first[3])
++            self.assertEqual(unstarted["reason"], "MEASUREMENT_INTERRUPTED")
++            self.assertNotIn("started_monotonic", unstarted)
++            for row in (entered, unstarted):
++                self.assertNotIn("child", row)
++
++    def test_darwin_receipt_preserves_census_failure_and_blocks_later_slots(self):
++        with tempfile.TemporaryDirectory() as test_path:
++            state = Path(test_path)
++            run.dump(state / "setup.json", {"status": "READY"})
++            first, *rest = run.expected_slots(self.frozen, "Darwin")
++            census = {"ps_timeout_seconds": 1, "rss_gap_limit_seconds": 2, "ps_timeouts": 2,
++                      "recoveries": 0, "max_gap_seconds": 2,
++                      "last_timeout": {"at": 2, "timeout_seconds": 1, "reason": "PS_CENSUS_TIMEOUT"}}
++            child = {"status": "INCOMPLETE", "reaped": False, "sampler_valid": False,
++                     "stop_reason": "REAP_UNVERIFIED", "primary_stop_reason": "SAMPLER_ERROR",
++                     "darwin_census": census, "timeline": [{"event": "PS_CENSUS_TIMEOUT"}]}
++            boundaries = {"slots_deadline": run.time.monotonic() + first[3] + 20, "verify_deadline": 0}
++            with (patch.object(run, "platform_name", return_value="Darwin"), patch.object(spec, "identity"),
++                  patch.object(run, "invoke", return_value=child) as invoke,
++                  patch.object(run, "close_measurements") as close,
++                  self.assertRaisesRegex(run.RunError, "PROCESS_CLEANUP_COULD_NOT_BE_VERIFIED")):
++                run.measure(state, state / "std", state / "tool", self.frozen, boundaries)
++            invoke.assert_called_once()
++            close.assert_not_called()
++            path = state / "artifact" / "slots"
++            record = spec.read(path / first[0] / "receipt.json")
++            self.assertEqual(record["outcome"], "REAP_UNVERIFIED")
++            self.assertEqual(record["child"]["primary_stop_reason"], "SAMPLER_ERROR")
++            self.assertEqual(record["child"]["darwin_census"], census)
++            self.assertNotIn("timeline", record["child"])
++            for key, *_ in rest:
++                record = spec.read(path / key / "receipt.json")
++                self.assertEqual(record["outcome"], "NOT_STARTED")
++                self.assertEqual(record["reason"], "PROCESS_CLEANUP_COULD_NOT_BE_VERIFIED")
++
+     def test_overlay_manifest_and_core_feature_gate_must_recover_base_blobs_exactly(self):
+         root = "library/core/src/slice/sort/shared/smallsort"
+         core = "library/core/src/lib.rs"
+@@ -476,11 +528,14 @@ class ControlTests(unittest.TestCase):
+             self.assertEqual(len(discovery["unmeasured_registrations"]), 2)
+             self.assertFalse((state / "setup").exists())
+
+-    def test_macos_gates_are_independent_of_linux_failure_and_caps_are_stage_local(self):
++    def test_macos_only_workflow_and_stage_local_caps(self):
+         workflow = (spec.REPO / ".github/workflows/ch8-q-pilot.yml").read_text()
+         job_guards = [line for line in workflow.splitlines() if line.startswith("    if: ")]
+-        self.assertEqual(len(job_guards), 2)
+-        self.assertEqual(job_guards[0], job_guards[1])
++        self.assertEqual(len(job_guards), 1)
++        self.assertIn(f"github.ref == '{spec.REF}'", job_guards[0])
++        self.assertIn("github.run_attempt == '1'", job_guards[0])
++        self.assertIn("  macos:\n", workflow)
++        self.assertNotIn("  ubuntu:\n", workflow)
+         self.assertNotIn("needs:", workflow)
+         self.assertNotIn("needs.", workflow)
+         with tempfile.TemporaryDirectory() as test_path:
+diff --git a/ch8-cal1/test_supervisor.py b/ch8-cal1/test_supervisor.py
+index 9e51d9ad1f06d986d9b78dfc9690348d523ef49f..e795a0308798d3349673ad0e8004cafc575496fe 100644
+--- a/ch8-cal1/test_supervisor.py
++++ b/ch8-cal1/test_supervisor.py
+@@ -33,13 +33,20 @@ class SupervisorTests(unittest.TestCase):
+     def invoke(self, code, **kwargs):
+         deadline = kwargs.pop("deadline", time.monotonic() + 4)
+         sample_interval = kwargs.pop("sample_interval", .03)
++        term_grace = kwargs.pop("term_grace", .2)
++        kill_grace = kwargs.pop("kill_grace", .5)
+         kwargs.setdefault("memory_probe", self.memory)
+         return supervisor.run(
+             [sys.executable, "-c", code], cwd=self.root, env=os.environ.copy(),
+             directory=self.root / "out", deadline=deadline,
+             nominal_kib=4_000_000, reserve_kib=1_000_000,
+-            sample_interval=sample_interval, term_grace=.2,
+-            kill_grace=.5, **kwargs)
++            sample_interval=sample_interval, term_grace=term_grace,
++            kill_grace=kill_grace, **kwargs)
++
++    def descendant_deadlines(self, seconds):
++        if sys.platform == "darwin":
++            return {"deadline": time.monotonic() + 8, "term_grace": 2, "kill_grace": 2}
++        return {"deadline": time.monotonic() + seconds}
+
+     def test_linux_and_darwin_rss_fixtures(self):
+         self.assertEqual(supervisor.parse_linux_status_rss("Name:\tpython\nVmRSS:\t12345 kB\n"), 12345)
+@@ -59,10 +66,13 @@ class SupervisorTests(unittest.TestCase):
+
+     def test_deadline_terminates_and_reaps_descendant_group(self):
+         code = """import subprocess,sys,time
+-subprocess.Popen([sys.executable,'-c','import signal,time; signal.signal(signal.SIGTERM, signal.SIG_IGN); time.sleep(30)'])
++import pathlib
++worker = 'import pathlib,signal,time; signal.signal(signal.SIGTERM, signal.SIG_IGN); pathlib.Path("ready").touch(); time.sleep(30)'
++subprocess.Popen([sys.executable, '-c', worker])
+ time.sleep(30)
+ """
+-        result = self.invoke(code, deadline=time.monotonic() + 1.0)
++        result = self.invoke(code, **self.descendant_deadlines(1.0))
++        self.assertTrue((self.root / "ready").exists(), result)
+         self.assertEqual(result["stop_reason"], "TIMEOUT")
+         self.assertTrue(result["reaped"], result)
+         self.assertEqual(result["remaining_processes"], [])
+@@ -230,9 +240,10 @@ time.sleep(30)
+                 with patch.object(subprocess, "run", return_value=subprocess.CompletedProcess([], 0, stdout=malformed)):
+                     with self.assertRaisesRegex(supervisor.SupervisorError, "Darwin ps process table"):
+                         supervisor._signal_owned(record, signal.SIGTERM)
+-            for error in (subprocess.TimeoutExpired("ps", .25), subprocess.CalledProcessError(1, "ps"),
+-                          ProcessLookupError(errno.ESRCH, "ps launch failed")):
+-                with patch.object(subprocess, "run", side_effect=error), self.assertRaises(type(error)):
++            for error, expected in ((subprocess.TimeoutExpired("ps", .25), supervisor.DarwinCensusTimeout),
++                                    (subprocess.CalledProcessError(1, "ps"), subprocess.CalledProcessError),
++                                    (ProcessLookupError(errno.ESRCH, "ps launch failed"), ProcessLookupError)):
++                with patch.object(subprocess, "run", side_effect=error), self.assertRaises(expected):
+                     supervisor._signal_owned(record, signal.SIGTERM)
+             kill.assert_not_called()
+
+@@ -392,11 +403,12 @@ time.sleep(30)
+
+     def test_escaped_descendant_is_killed_by_its_owned_pid(self):
+         code = """import subprocess,sys,time
+-code='import signal,time; signal.signal(signal.SIGTERM, signal.SIG_IGN); time.sleep(30)'
++code='import pathlib,signal,time; signal.signal(signal.SIGTERM, signal.SIG_IGN); pathlib.Path("ready").touch(); time.sleep(30)'
+ subprocess.Popen([sys.executable,'-c',code], start_new_session=True)
+ time.sleep(30)
+ """
+-        result = self.invoke(code, deadline=time.monotonic() + 1.25)
++        result = self.invoke(code, **self.descendant_deadlines(1.25))
++        self.assertTrue((self.root / "ready").exists(), result)
+         self.assertEqual(result["stop_reason"], "TIMEOUT", result)
+         self.assertTrue(result["reaped"], result)
+         self.assertEqual(result["remaining_processes"], [])
