@@ -1,21 +1,21 @@
 # REV2 fallback · четвёртый диагностический пакет
 
-**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`. Локальная стадия pr752, kani5196 и issue56 завершена. Следующий этап — независимое diff-ревью воркером 13 и отдельный GO. [Задание](REV2-FALLBACK-BATCH4-TASK.md) · [Разбор batch3](REV2-FALLBACK-BATCH3-ANALYSIS.md)
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`. Локальный FIX1 для pr752, kani5196 и issue56 завершён. Следующий этап — независимое diff-ревью FIX1 и отдельный GO. [Задание FIX1](REV2-FALLBACK-BATCH4-FIX1-TASK.md) · [Ревью batch4](REV2-FALLBACK-BATCH4-REVIEW.md) · [Задание batch4](REV2-FALLBACK-BATCH4-TASK.md) · [Разбор batch3](REV2-FALLBACK-BATCH3-ANALYSIS.md)
 
 ## Коммиты и замороженные входы
 
 | Объект | Commit | Tree | Единственный parent |
 | --- | --- | --- | --- |
 | Std overlay | `2130533d334d18919f39e03a80642ff2be6eea62` | `d1c3b7a820b7818864181146226c48f88203711a` | `7419ecfa6a2acea1adf1f98d3de5a253d8d716b3` |
-| Control | `6a0f06860aa40b3782f44fc75c805f5f7633e324` | `f8e22128059bb595229dfdfbe8c284d954141d5f` | `7d991c2515b9203dfee2da1276c423188bcf7a23` |
-| Будущий trigger | Формируется после GO | `f8e22128059bb595229dfdfbe8c284d954141d5f` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+| Control FIX1 | `1837006f431591aa542dc9ba8c48015f50331c8b` | `30e0ff0cae9f96164713fd1a41c94cc127677c82` | `6a0f06860aa40b3782f44fc75c805f5f7633e324` |
+| Будущий trigger | Формируется после GO | `30e0ff0cae9f96164713fd1a41c94cc127677c82` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
 
-Std — worktree `/root/verify-rust-std-rev2-fallback-w11`, ветка `work/rev2-fallback-w11`. Control — worktree `/root/kani-rev2-fallback-control-w11`, ветка `work/rev2-fallback-control-w11`. Handoff фиксируется поверх g0 `1c4a5d8f2a62505d86862b4391f2eb5fc8ca866b`. [Std overlay](/root/verify-rust-std-rev2-fallback-w11/library/core/src/slice/sort/shared/smallsort/verify/fallback_rev2.rs) · [Control runner](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_run.py)
+Std — worktree `/root/verify-rust-std-rev2-fallback-w11`, ветка `work/rev2-fallback-w11`. Control — worktree `/root/kani-rev2-fallback-control-w11`, ветка `work/rev2-fallback-control-w11`. Handoff FIX1 фиксируется поверх g0 `a3daf936d433c8110190e2d5f176462eae60ad7c`. [Std overlay](/root/verify-rust-std-rev2-fallback-w11/library/core/src/slice/sort/shared/smallsort/verify/fallback_rev2.rs) · [Control runner](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_run.py)
 
 ```bash
 git -C /root/verify-rust-std-rev2-fallback-w11 diff 7419ecfa6a2acea1adf1f98d3de5a253d8d716b3 2130533d334d18919f39e03a80642ff2be6eea62
-git -C /root/kani-rev2-fallback-control-w11 diff 7d991c2515b9203dfee2da1276c423188bcf7a23 6a0f06860aa40b3782f44fc75c805f5f7633e324
-git -C /root/kani-rev2-fallback-control-w11 diff 467af9cb8dba0e3be78a8d7d07672a1943c4806b f8e22128059bb595229dfdfbe8c284d954141d5f
+git -C /root/kani-rev2-fallback-control-w11 diff 6a0f06860aa40b3782f44fc75c805f5f7633e324 1837006f431591aa542dc9ba8c48015f50331c8b
+git -C /root/kani-rev2-fallback-control-w11 diff 467af9cb8dba0e3be78a8d7d07672a1943c4806b 30e0ff0cae9f96164713fd1a41c94cc127677c82
 ```
 
 | Вход | SHA-256 |
@@ -50,6 +50,8 @@ Bundle рекламирует только новый overlay как `HEAD`. И�
 
 Для контроля сохраняются отдельно технический исход и совпадение ожидания. Приёмка требует точного селектора, `VERIFICATION:- FAILED`, stock `COMPLETED/FAILURE`, exit 1 и подтверждённого reap. Полный инвентарь должен согласоваться между regular и export по агрегатам, отказавшим и недостижимым ID и удовлетворённым covers. Ровно один отказ должен принадлежать мономорфизации `::<true>` на закреплённой координате, с одинаковыми ID и метаданными обоих источников. `SUMMARY.json` содержит отдельную запись контроля. Отсечка, лишний или чужой отказ и неожиданный результат оставляют `expectation_matches=false`. Принятый ожидаемый `FAILED` позволяет продолжить измерения и характеризует чувствительность oracle. [Сверка regular/export](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_projection.py)
 
+FIX1 требует stock `failure_kind` со значением `PANICS_ONLY` или `OTHER`, отсутствие диагностики ошибки анализа в regular и согласованную singleton summary по вердикту, checks и covers. При `failure_kind=ERROR` с согласованными терминалами receipt и summary сохраняют фактический `FAILED` и `expectation_matches=false`. Причина отказа в приёмке указана в receipt. [Приёмка LSB-контроля](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_projection.py)
+
 ## Профиль и часы
 
 Одна Ubuntu 24.04 job с верхней границей 140 минут. Setup занимает до 45:00 от epoch, включая один preflight с лимитом 180 с и один cfg-on discovery. Четыре окна по 600 с и четыре интервала по 10 с дают границу измерений 85:40. Пост-аттестация заканчивается к 87:40, финализация к 92:40 и upload к 99:40. Девятиминутный резерв заканчивается к 108:40, остаток до job cap — 31:20. Внутри каждого окна 5 с оставлены для записи receipt.
@@ -64,9 +66,11 @@ Bundle рекламирует только новый overlay как `HEAD`. И�
 
 Подготовка, показ и потоковый отбор вместе используют до 45 с в остатке слота под тем же supervisor. Временные caps — 64 MiB stdout и 1 MiB stderr, сериализованный фрагмент — до 1 MiB, слот — 4 MiB, job — 96 MiB. Receipt и regular/export имеют приоритет. Полный дамп остаётся в приватном scratch до очистки. Wall и RSS инспекции записываются отдельно. Пробел сохраняет исход Check, а неподтверждённый reap останавливает кампанию и оставляет scratch по правилам FIX.
 
+При дедлайне первого прохода receipt ставит `FUNCTION_BLOCK_DEADLINE` для закрытых, но ещё не перечитанных блоков, текущего блока и ролей из непрочитанного хвоста. При дедлайне повторного чтения уже собранные целые блоки сохраняются. `FUNCTION_HEADER_NOT_FOUND` используется после полного сканирования. [Причины пропусков](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_native.py) · [Receipt инспекции](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_inspection.py)
+
 ## Локальная проверка
 
-- Std diff добавляет только два корня и их общий harness в `fallback_rev2.rs`. Проверены cfg, исходная регистрация, полный домен, pre-state, типизированное равенство и статический выбор порчи. `rustfmt 1.8.0 --edition 2024 --check` и `git diff --check` прошли.
-- `python3 -B -m unittest discover -s ch8-cal1 -q` — 165 тестов прошли. Покрыты shallow chain и cfg-off, exact argv/роли/часы, четыре именных `NOT_STARTED` при раннем отказе, принятый и отклонённые контроли, продолжение после reap, непрерывность и координаты блоков, хеши, пропуск, cap, дедлайн и сохранение Check.
-- Точное будущее дерево прошло gate с синтетическим push и указанным единственным parent. Старый и пустой tree pin, другой event и attempt 2 отклонены. Suite проверил также чужие SHA/ref/repository и неверные родители. PyYAML и `bash -n` прошли для workflow из будущего дерева и всех шести shell-шагов. `git diff --check` прошёл для обоих локальных diff и будущего дерева относительно trigger parent.
+- FIX1 сохраняет std на проверенном overlay `2130533d33`, request и bundle сверены побайтно с базой control.
+- `python3 -B -m unittest discover -s ch8-cal1 -q` — 167 тестов прошли. Синтетические сценарии проверили `failure_kind=ERROR` с единственным отказом, диагностику regular, отсутствующее и неизвестное значение `failure_kind`, противоречивую singleton summary, дедлайн после закрытия root внутри dispatcher и дедлайн повторного чтения. У Check сохраняется исход `VERIFIED`.
+- Точное будущее дерево прошло gate с синтетическим push и указанным единственным parent. Старый и пустой tree pin отклонены. Suite проверил также другой event, attempt 2, чужие SHA/ref/repository и неверные родители. PyYAML и `bash -n` прошли для workflow из будущего дерева и всех шести shell-шагов. `git diff --check` прошёл для FIX1 и будущего дерева относительно trigger parent.
 - CI, push, Cargo, rustc, Kani, CBMC и нативный инспектор не запускались. Результаты измерений и материал для ручной привязки DFCC появятся в разрешённой job.
