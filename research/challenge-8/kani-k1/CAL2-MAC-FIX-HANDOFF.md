@@ -1,5 +1,24 @@
 # CAL2 · исправление Darwin census и подготовка повтора macOS
 
+## FIX7 · таймаут попытки и бюджет Darwin census
+
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
+
+В run 45328274264 overlay `kani list` остановился с `SAMPLER_ERROR`. Receipt содержит 764 успешных сэмпла из 765 попыток, один таймаут `ps` в 1,0 с, максимальный интервал без валидного RSS 2,005 с и `retry=false`. Засчитано 0. [Задание FIX7](CAL2-MAC-FIX7-TASK.md) · [Запись запуска](CH8-DISPATCH-LEDGER.md#L268)
+
+На Darwin build, compile preflight, оба `kani list`, singleton и batch используют до 1,5 с на попытку `ps` и до 5,0 с с последнего валидного RSS или запуска child. Эти лимиты записываются в `child.darwin_census`. После первого таймаута проверки давления и резерва предшествуют одному немедленному повтору. `stop_at` ограничивает обе попытки, а свежий сэмпл проходит проверки давления, резерва и RSS cap. Пока child жив, второй таймаут или исчерпание бюджета дают `SAMPLER_ERROR`. Интервал 0,3 с, две проверки памяти по 0,5 с и две попытки по 1,5 с суммарно занимают 4,3 с по номинальным лимитам. Предельный таймаут `ps` при очистке составляет 1,0 с. [Supervisor](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:25)
+
+Регрессия на FIX6 получила `SAMPLER_ERROR`, а на FIX7 первая попытка исчерпала 1,5 с, повтор занял 1,4 с и восстановил RSS после интервала 3,15 с. Итог `EXITED`, `sampler_valid=true`, `reaped=true`. Проверены значения в receipt, обрезка по `stop_at` и бюджету RSS, второй таймаут и срабатывание guards. [Тесты Darwin](/root/kani-cal1-control-w11/ch8-cal1/test_darwin_supervisor.py:354)
+
+| Объект | Commit | Tree | Единственный parent |
+| --- | --- | --- | --- |
+| Control FIX7 | `52b3048ca119828d41d383f3c85dac51313c4aba` | `99b2ac1b5f39f953c1b91d0f20cfc9a88ed7d132` | `9d4da664deda47f3d3be7857afde3ddea28c0e0f` |
+| Локальный review-trigger, `local/cal2-mac-fix7-trigger-review` | `8b659edb1454280542ee4755dda7fa505bf1ce9e` | `99b2ac1b5f39f953c1b91d0f20cfc9a88ed7d132` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+Полный `timeout 120s python3 -B -m unittest discover -q` на Linux с Python 3.12.3 прошёл, 105 тестов за 14,328 с. С подменой `sys.platform` на `darwin` прошли 99 тестов из 105 за 7,320 с, шесть пропущены. Вне фикстур зарегистрировано ноль вызовов `ps`. `git diff --check` прошёл для дельты FIX7 и дельты trigger от его родителя. Diff между control и trigger пуст. Нативный macOS suite, CI, push, Cargo, rustc, Kani и CBMC на этой стадии не запускались.
+
+Ревью ограничено diff `9d4da664de..52b3048ca1`. Блокируют выход за пределы параметров Darwin census и их тестов, изменение Linux, ослабление RSS-стопа или guards и повтор, который по построению не укладывается в бюджет.
+
 ## FIX6 · платформенные границы тестов supervisor
 
 **READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
