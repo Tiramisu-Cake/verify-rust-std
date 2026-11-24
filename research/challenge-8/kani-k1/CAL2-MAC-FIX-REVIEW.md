@@ -1,5 +1,24 @@
 # CAL2 · независимое ревью Darwin census
 
+## Round 5 (diff FIX5)
+
+**GO** для диагностического повтора macOS с trigger `c2ba01e79a`. Блокирующих замечаний по diff нет. `proof_credit=NONE`. [Задание FIX5](CAL2-MAC-FIX5-TASK.md) · [Правило блокировки](CAL2-MAC-FIX4-TASK.md) · [Handoff FIX5](CAL2-MAC-FIX-HANDOFF.md)
+
+**Подслучай Б закрыт.** В независимой симуляции после первого сэмпла 50 KiB `ps` достиг таймаута в 1,300 с. Статус выхода direct child стал доступен в 1,325 с, а повтор вернул живой PID 11 в 1,350 с при границе RSS 2,010 с. При cap 100 KiB получены `RSS_LIMIT` с пиком 175 KiB и `EXITED` с пиком 75 KiB. Варианты с потомком 175 KiB при давлении и при доступных 99 KiB с резервом 100 KiB дали соответственно `LIVE_MEMORY_PRESSURE` и `LIVE_MEMORY_RESERVE`. Во всех четырёх вариантах `sampler_valid=true`, два успешных сэмпла, один таймаут и одно восстановление. На тех же входах FIX4 и FIX2 дали `SAMPLER_ERROR` с прежним пиком 50 KiB. [Путь снимка](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:695) · [Порядок guards](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:800) · [Регрессия FIX5](/root/kani-cal1-control-w11/ch8-cal1/test_darwin_supervisor.py:208)
+
+**Регрессий относительно FIX4 и FIX2 в проверяемой дельте не выявлено.** `keep_sample` разрешает продолжение для непустого снимка с подтверждённым выходом direct child. Далее действуют проверка срока восстановления, учёт RSS и прежний порядок guards. В полном suite прошли проверки FIX4 для штатного снимка и повторного `poll()` при исчерпании бюджета. В независимой симуляции поздний результат как за `stop_at`, так и за RSS gap в FIX4 и FIX5 дал `SAMPLER_ERROR` с пиком 50 KiB и без засчитанного восстановления. [Проверка выхода и бюджета](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:578) · [Регрессия FIX4](/root/kani-cal1-control-w11/ch8-cal1/test_darwin_supervisor.py:229)
+
+**Подтверждение очистки сохранено.** В suite прошли проверки FIX2 после таймаута раннего cleanup census для пустой группы и оставшегося живого PID 11. Отдельно проверил путь FIX5, на котором впервые увиденный в повторном снимке потомок пережил очистку. После reap direct child сигналы TERM и KILL адресовались PID 11 после проверки его идентичности. Итог `REAP_UNVERIFIED`, `primary_stop_reason=RSS_LIMIT`, `reaped=false`, `remaining_processes=[11]`. [Очистка](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:411) · [Регрессии FIX2](/root/kani-cal1-control-w11/ch8-cal1/test_darwin_supervisor.py:456)
+
+**Неблокирующие ограничения.**
+
+- Подслучай А принят планером и отражён одной фразой в `REAP_SCOPE` receipts. Пустой снимок после подтверждённого выхода direct child может дать `EXITED` без проверки текущего давления и резерва. В симуляции оба варианта дали `EXITED` с одним успешным сэмплом, как в FIX4. FIX2 выполнял соответствующую проверку памяти. [Ограничение в receipts](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:36)
+- `ps` и публикация статуса для `poll()` разнесены во времени. Выход до получения свежего повторного снимка или публикация статуса после первой проверки снимка могут дать `SAMPLER_ERROR` вместе с `exit_code=0`. Пауза планировщика на границе `stop_at` или RSS gap по-прежнему может дать `TIMEOUT` либо `SAMPLER_ERROR` в зависимости от фазы наблюдения. [Проверки восстановления](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:596) · [Проверки срока снимка](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:730)
+
+**Границы и идентичность.** Diff `7572d0b50c..3b8ef79474` затрагивает только `ch8-cal1/supervisor.py` и `ch8-cal1/test_darwin_supervisor.py`. Единственный родитель control — `7572d0b50c`. Единственный родитель trigger — `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. У control и trigger общий tree `fc080e629bb11e291ce0481eab269ea5cea651a2`, diff между деревьями пустой.
+
+**Локальные проверки.** Полный suite `timeout 120s python3 -B -m unittest discover -q` прошёл на Linux с Python 3.12.3, 104 теста за 15,810 с. Нативный Linux `rss-stop` дал `RSS_LIMIT` с пиком 67 484 KiB при cap 24 576 KiB, `sampler_valid=true`, `reaped=true`, `remaining_processes=[]` и `cleanup_errors=[]`. `git diff --check` прошёл для дельты FIX5, diff trigger от его родителя, рабочей копии control и записи ревью. Darwin проверен синтетически. CI, push, Cargo, rustc, Kani и CBMC не запускались.
+
 ## Round 4 (diff FIX4)
 
 **CHANGES_REQUIRED** · `go=NOT_GRANTED` · `proof_credit=NONE`.
