@@ -1,5 +1,30 @@
 # CAL2 · независимое ревью Darwin census
 
+## Round 8 (diff FIX8)
+
+**GO** для диагностического повтора macOS с trigger `a9fd8e9797`. Блокирующих замечаний по дельте `52b3048ca1..1b65866c1b` нет. `proof_credit=NONE`. [Задание FIX8](CAL2-MAC-FIX8-TASK.md) · [Handoff FIX8 в `fee5a4a1ab`](CAL2-MAC-FIX-HANDOFF.md#fix8--окно-setup-и-состав-macos)
+
+**Окно и порядок.** Единственный job macOS сохраняет потолок 225 минут. Таймаут шага `prepare` и общий дедлайн setup от monotonic epoch составляют 65 минут. Overlay и base discovery используют этот общий дедлайн и сверяют полный набор регистраций и providers. Проверил порядок и прежние окна каждого слота.
+
+| Порядок | Слот | Окно, с |
+| ---: | --- | ---: |
+| 1 | `NET-U8-N08` | 300 |
+| 2 | `NET-U8-N09` | 300 |
+| 3 | `batch-auto` | 600 |
+| 4 | `batch-jobs1` | 600 |
+| 5 | `NET-N25` | 480 |
+| 6 | `NET-U64-N13` | 720 |
+| 7 | `MERGE-N32` (Below) | 780 |
+| 8 | `GEN-N16-SMALL` | 720 |
+
+Перед первым batch прежний admission проверяет полные singleton-терминалы N8/N9, замеренные wall и RSS и запас ресурсов. Синтетика с полным окном setup провела восемь слотов и запустила последний ровно на latest start. Проверка через 0,01 с отклонила бы этот запуск. Бюджет `65 + 55 + 20 + 2 + 12 + 9` минут и восемь резервов запуска по 10 с дают **164 мин 20 с из 225**, остаток **60 мин 40 с**. Предельные отметки от epoch составляют 141:20 для слотов, 143:20 для аттестации и 155:20 для финализации и загрузки. [Часы](/root/kani-cal1-control-w11/ch8-cal1/run.py:61) · [Admission](/root/kani-cal1-control-w11/ch8-cal1/run.py:503) · [Workflow](/root/kani-cal1-control-w11/.github/workflows/ch8-q-pilot.yml)
+
+**Request и инварианты.** SHA-256 request изменился с `5b0fd89dfd2933c3b2768240c99b3b00d0770ec6004b763244ac00d6a3d25a9c` на `95ac71eae782ceb314724ebbfb70e4a53eee086eb1cbed83a910b15e410a0b8b`. Обратное применение ровно четырёх изменений, `limits.Darwin.setup_seconds`, `limits.Darwin.singletons_seconds`, `roster.Darwin` и `darwin_excluded`, восстанавливает прежний blob побайтно. Оба блока Linux и 12 из 17 объектов записей совпадают побайтно. У пяти исключённых записей весь JSON-объект сдвинут на два пробела влево при переносе в `darwin_excluded`. После снятия этого общего отступа байты совпадают. Отдельная сверка FIX7/FIX8 дала те же часы Linux, шесть слотов, argv, discovery и сценарий партиций. Census в `supervisor.py` побайтно совпадает с FIX7, все caps и резервы ресурсов прежние. Bundle побайтно прежний с SHA-256 `747bed56fb2c137caf90dadc52802b42406840f9240dda3f58a370a33662a481`. [Frozen request](/root/kani-cal1-control-w11/ch8-cal1/CI-REQUEST.json)
+
+**Receipts и партиции.** Для каждого из `S13-N13`, `S13-N17`, `S13-N32-R`, `NET-U64-N32` и `GEN-N16-WIDE` проверены собственный `slots/<id>/receipt.json` и запись в индексе со статусом `NOT_RUN` и причиной `EXCLUDED_BY_PLAN`, в том числе после сбоя setup и при недоступном request. Сценарий Darwin сохраняет порядок регистраций. Временные агрегаты используют фактические singleton-наблюдения с wall, валидным RSS и подтверждённой очисткой. Отсечённые замеры отмечены отдельно, а корни без наблюдений перечислены как `UNKNOWN` в JSON и Markdown. [Публикация](/root/kani-cal1-control-w11/ch8-cal1/report.py:365) · [Сценарий](/root/kani-cal1-control-w11/ch8-cal1/report.py:74)
+
+**Идентичность и проверки.** Control `1b65866c1b037767d7ccf3262d05098ed9b2dc2b` имеет единственного родителя `52b3048ca119828d41d383f3c85dac51313c4aba`. Trigger `a9fd8e97974276902cf35b497a636b8ef447eb41` имеет единственного родителя `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. Общий tree `339e8a63e08d068fec5973e896d8481fc8651978`, diff между ними пуст. `git diff --check` прошёл для дельты FIX8, дельты trigger от родителя и записи ревью. PyYAML подтвердил единственное изменение таймаута шага с 45 до 65 минут, `bash -n` прошёл для шести shell-шагов. YAML gate принял точное событие и отклонил пять вариантов. `run.py pins` на изолированном detached checkout принял точный trigger и отклонил десять вариантов, включая тот же tree с другим родителем. Полный suite `timeout 120s python3 -B -m unittest discover -q` на Linux с Python 3.12.3 прошёл, 107 тестов за 15,531 с. С подменой `sys.platform` на `darwin` прошёл 101 тест, шесть пропущены, 7,511 с. Проверка Darwin синтетическая.
+
 ## Round 7 (diff FIX7)
 
 **GO** для диагностического повтора macOS с trigger `8b659edb14`. Блокирующих замечаний по diff нет. `proof_credit=NONE`. [Задание FIX7](CAL2-MAC-FIX7-TASK.md) · [Handoff FIX7 в `d777252979`](CAL2-MAC-FIX-HANDOFF.md#fix7--таймаут-попытки-и-бюджет-darwin-census)
