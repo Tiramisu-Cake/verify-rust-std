@@ -1,5 +1,22 @@
 # CAL2 · исправление Darwin census и подготовка повтора macOS
 
+## FIX5 · снимок с живым потомком после таймаута `ps`
+
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
+
+Повтор `ps` в пределах бюджета восстановления передаёт снимок с живыми участниками группы проверкам давления, резерва и RSS даже при доступном статусе выхода direct child. При cap 100 KiB снимок с потомком 175 KiB даёт `RSS_LIMIT` с пиком 175 KiB. Снимок 75 KiB при нормальной памяти даёт `EXITED` с валидным сэмплом. Давление и недостаточный резерв сохраняют приоритет. Во всех четырёх вариантах учтены два успешных сэмпла и одно восстановление. [Код](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:587) · [Регрессия](/root/kani-cal1-control-w11/ch8-cal1/test_darwin_supervisor.py:208)
+
+Ограничение А зафиксировано в `REAP_SCOPE` receipts. Пустой снимок группы после выхода direct child может дать `EXITED` без проверки текущего давления или резерва. [Строка receipts](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:36)
+
+| Объект | Commit | Tree | Единственный parent |
+| --- | --- | --- | --- |
+| Control FIX5 | `3b8ef79474793719f7e5969d5465a72a95377784` | `fc080e629bb11e291ce0481eab269ea5cea651a2` | `7572d0b50c67e8f5d5aa1376936d3d2345a6ee51` |
+| Локальный review-trigger, `local/cal2-mac-fix5-trigger-review` | `c2ba01e79ad1b89e36c55664ee9c61e15c68a547` | `fc080e629bb11e291ce0481eab269ea5cea651a2` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+Полный `timeout 120s python3 -B -m unittest discover -q` на Linux с Python 3.12.3 прошёл, 104 теста за 14,628 с. Darwin проверен синтетически. Нативный Linux `rss-stop` дал `RSS_LIMIT`, пик 67 404 KiB при cap 24 576 KiB, `sampler_valid=true`, `reaped=true`, `remaining_processes=[]`, `cleanup_errors=[]`. `git diff --check` прошёл для рабочей копии control, дельты FIX5 и diff trigger от его родителя. Diff между control и trigger пуст. CI, push, Cargo, rustc, Kani и CBMC не запускались.
+
+Следующее ревью охватывает только подслучай Б и строку ограничения А в diff `7572d0b50c..3b8ef7947`. Блокируют незакрытый подслучай Б, регрессии относительно FIX2 за пределами принятого ограничения и ослабление RSS-стопа, проверок давления или резерва либо подтверждения очистки. [Задание FIX5](CAL2-MAC-FIX5-TASK.md) · [Ревью Round 4](CAL2-MAC-FIX-REVIEW.md#round-4-diff-fix4)
+
 ## FIX4 · проверки снимка и выход на границе бюджета
 
 **READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
