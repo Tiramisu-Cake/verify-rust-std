@@ -1,0 +1,8 @@
+# REV2 fallback control · FIX2 после Round 2
+
+Закрой оставшийся пункт 2 ревью новым локальным commit поверх `d5910e387248acc8531aa8752b72ddbe3746dc9a` в `/root/kani-rev2-fallback-control-w11`. Пункты 1 и 3 закрыты, их не трогать. [Round 2](REV2-FALLBACK-CONTROL-REVIEW.md#round-2--fix1) · [FIX1](REV2-FALLBACK-CONTROL-FIX1-TASK.md)
+
+- Нарушение дедлайна записи не должно терять уже вычисленный исход слота. На `AFTER_CHILD` и `FINAL` опубликованный receipt содержит последнее вычисленное состояние: outcome, stop reason, пик группы и scope, effective cap, фазу, подтверждение reap, а на `FINAL` также проекцию, VT и covers. К этому добавляется отметка `slot_window_exceeded` с фактическим моментом завершения записи. Простое решение предпочтительнее: например, писать receipt без прерывания и затем фиксировать превышение, либо сохранять компактный снимок состояния в записи о превышении и импортировать его в `finish`. Outcome не переписывать.
+- Регрессии на сохранённый артефакт: таймаут staging на `AFTER_CHILD` с `RSS_LIMIT` и подтверждённым reap, таймаут staging на `FINAL` с `VERIFIED` и пятью covers. Проверить outcome, cutoff/reap, обязательные поля, отметку превышения и `NOT_STARTED` для оставшихся слотов. RSS-стоп, guards, подтверждение cleanup и tree pin не ослаблять.
+
+Обнови handoff: новый control commit, tree и будущий trigger tree, diff `d5910e3872..<новый>`, результаты Python suite, `git diff --check`, YAML и `bash -n`. Пакет остаётся `READY_FOR_REVIEW`, `go=NOT_GRANTED`, `proof_credit=NONE`. Cargo, rustc, Kani, CBMC, CI и push не запускать. Коммиты с `[skip ci]`, автор Tiramisu-Cake <igkharin@gmail.com>, без знака решётки непосредственно перед цифрой.
