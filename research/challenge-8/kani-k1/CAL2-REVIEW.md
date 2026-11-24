@@ -1,5 +1,21 @@
 # CAL2 · независимое ревью
 
+## Round 2 (diff FIX1)
+
+**GO по FIX1.** Все три замечания Round 1 закрыты. Проверена дельта `7393c84144..cd987bae7c` по заданию FIX1 и handoff `9651efad61`. Семь изменённых файлов относятся к этим трём исправлениям и их регрессиям. `proof_credit=NONE`, фактические результаты CAL2 `UNKNOWN`. [Задание FIX1](CAL2-FIX-TASK.md) · [Handoff FIX1](CAL2-HANDOFF.md#fix1)
+
+1. **Отказ запуска PSS-потока.** Исключение из `Thread.start()` даёт `pss_kib=null` и `PROBE_START_FAILED` во всех шести Linux receipts. При отказе только PSS-потока штатный supervisor измерил и очистил шесть дочерних Python-процессов при синтетическом снимке доступной памяти. Все четыре A/B-слота сохранили RSS-телеметрию. Отдельно проверены receipts для пропуска по latest start и для остановки после ошибки sampler. [Measure](/root/kani-cal1-control-w11/ch8-cal1/run.py:535) · [Регрессия](/root/kani-cal1-control-w11/ch8-cal1/test_run.py:541)
+2. **Побайтное сравнение manifest.** Guard удаляет две точные cfg-декларации и сравнивает остальной Git blob с base. Закреплённый overlay `043a1f19f9` принят. В изолированном Git-индексе на этом overlay обе мутации отклонены с ошибкой manifest — лишняя пустая строка в конце и удалённый последний LF. [Layout guard](/root/kani-cal1-control-w11/ch8-cal1/request.py:181)
+3. **Наблюдаемый unwind при отсечке.** Сверен формат stdout по stock Kani `9834c96ce9`. При `TIMEOUT` с неполным export и `RSS_LIMIT` без export обязательный receipt сохраняет значение из полной строки запуска CBMC и источник `NATIVE_CBMC_COMMAND` с потоком и номером строки. Проверены приоритет целочисленного stock-значения, fallback при `null` и неверных типах в неполном export и неизвестный unwind без однозначной привязки. Fallback применяется к последовательным режимам `singleton` и `batch-jobs1`. [Привязка команды](/root/kani-cal1-control-w11/ch8-cal1/native_metrics.py:55) · [Регрессия receipts](/root/kani-cal1-control-w11/ch8-cal1/test_run.py:704)
+
+### Сверка и локальные проверки
+
+- Control `cd987bae7c35e7a5ba7de540488b58e9a2e26120` и trigger `7572c48869196484135158878d058a17d9c520e7` имеют tree `19420792d055b068bbfc80b05d1826c957fe9c31`. Единственный parent control — `7393c841446064bffc9d8b1d13a4d68db83cb8f1`, единственный parent trigger — `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. Оба коммита содержат `[skip ci]`.
+- `CI-REQUEST.json` и `std-overlay.bundle` побайтно совпадают в control и trigger обоих раундов. SHA-256 request `5b0fd89dfd2933c3b2768240c99b3b00d0770ec6004b763244ac00d6a3d25a9c`, bundle `747bed56fb2c137caf90dadc52802b42406840f9240dda3f58a370a33662a481`.
+- Полный suite `python3 -B -m unittest discover -q` в `ch8-cal1` — **82/82**. `git diff --check` прошёл для дельты control, дельты между trigger обоих раундов и нового trigger относительно parent.
+- Нативные `rss-stop`, `pid-race` и `churn` прошли с `sampler_valid=true` и `reaped=true`. `rss-stop` дал `RSS_LIMIT` и `SIGTERM` при пике 63 516 KiB и cap 24 576 KiB. `pid-race` завершился `EXITED` с одной пропущенной PID-записью. `churn` завершился `EXITED` за 182,37 с с 643 потомками, 608 валидными census, 0 пропущенных сэмплов и 119 пропущенными PID-записями.
+- Cargo, rustc, Kani, CBMC и CI не запускались. Push не выполнялся. Изменён только этот документ ревью.
+
 ## Round 1 (independent)
 
 **CHANGES_REQUIRED** · `go=NOT_GRANTED` · `proof_credit=NONE`. Проверены задание `77d42f5b2e`, handoff `f0d2d2817f`, зафиксированные Git-объекты и локальные тесты. Фактические результаты CAL2 остаются `UNKNOWN`.
