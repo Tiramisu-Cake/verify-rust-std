@@ -2,6 +2,31 @@
 
 **READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`. Пакет содержит независимые jobs Ubuntu и macOS. Фактические discovery, свойства и ресурсные результаты CAL2 имеют статус `UNKNOWN`. [Задание](CAL2-TASK.md) · [Разбор CAL1](CAL1-RESULTS-ANALYSIS.md)
 
+## FIX1
+
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`. Исправлены три замечания Round 1. Дельта для ревью — `7393c84144..cd987bae7c`. [Задание FIX1](CAL2-FIX-TASK.md) · [Round 1](CAL2-REVIEW.md#round-1-independent)
+
+| Объект | Commit | Tree | Единственный parent |
+| --- | --- | --- | --- |
+| Control FIX1 | `cd987bae7c35e7a5ba7de540488b58e9a2e26120` | `19420792d055b068bbfc80b05d1826c957fe9c31` | `7393c841446064bffc9d8b1d13a4d68db83cb8f1` |
+| Trigger `local/cal2-fix1-trigger-review` | `7572c48869196484135158878d058a17d9c520e7` | `19420792d055b068bbfc80b05d1826c957fe9c31` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+| Std overlay CAL2 | `043a1f19f9d36eb1666979f97b8e7e483ab41c5e` | `1361a0da67b9bd21fc7c77a941582d0fd17b9a8d` | `080a0104159fd04b6764a24f8538a97588f6612e` |
+
+| Файл | SHA-256 |
+| --- | --- |
+| `CI-REQUEST.json` | `5b0fd89dfd2933c3b2768240c99b3b00d0770ec6004b763244ac00d6a3d25a9c` |
+| `std-overlay.bundle` | `747bed56fb2c137caf90dadc52802b42406840f9240dda3f58a370a33662a481` |
+
+Request и bundle совпадают с Round 1 побайтно. Control и trigger имеют один tree. Оба коммита используют `[skip ci]`.
+
+- Отказ старта потока PSS даёт `pss_kib=null` и `PROBE_START_FAILED` с текстом ошибки до 300 символов в каждом receipt Linux measure. Четыре A/B-слота продолжают записывать RSS из штатного census. Инъекция отказа вызвала все шесть слотов с прежними параметрами guard и позволила завершить аттестацию в синтетическом сценарии.
+- Layout guard читает Git blobs и сравнивает manifest побайтно после удаления двух точных строк cfg. Лишняя пустая строка и удаление последнего LF отклоняются. Закреплённый overlay `043a1f19f9` проходит.
+- При `TIMEOUT` или `RSS_LIMIT` и неполном либо отсутствующем export обязательный receipt сохраняет `resolved_unwind` из полной verbose-строки CBMC после точного маркера селектора. `resolved_unwind_source` указывает `NATIVE_CBMC_COMMAND`, поток `stdout` и номер строки. Stock-значение имеет приоритет. Fallback действует в singleton и `batch-jobs1`, где команда привязывается к селектору по порядку stdout. При неоднозначности или отсутствии наблюдения unwind остаётся неизвестным.
+
+- Полный локальный suite `python3 -B -m unittest discover -q` прошёл, **82/82**. Проверены обе отсечки, неизвестный unwind при неоднозначном выводе, обе мутации manifest и отказ старта потока PSS на входе `measure`. Darwin проверен синтетически.
+- Нативные `rss-stop`, `pid-race` и `churn` прошли с `sampler_valid=true` и `reaped=true`. `rss-stop` дал `RSS_LIMIT` и `SIGTERM` при 63 608 KiB и cap 24 576 KiB. `pid-race` завершился `EXITED` с 6 пропущенными PID-записями. `churn` завершился `EXITED` за 182,37 с с 608 валидными census, 0 пропущенных сэмплов и 110 пропущенными PID-записями. Созданы 643 потомка, пик 73 368 KiB при cap 163 840 KiB.
+- Прошли `git diff --check`, `git bundle verify` и импорт на shallow std base без записи refs. Сверены хэши, ancestry, tree, layout и guard на checkout нового trigger с синтетическим push event. Подмены SHA, ref и attempt отклонены. YAML и 12 shell-шагов прошли статическую проверку. Cargo, rustc, Kani, CBMC, CI и push не запускались.
+
 ## Замороженные входы
 
 | Объект | Commit | Tree | Единственный parent |
