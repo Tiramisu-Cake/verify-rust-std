@@ -1,20 +1,23 @@
 # REV2 fallback · Ubuntu control для воркера 13
 
-**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`. Пакет замораживает один диагностический run и три singleton. Фактические discovery, compile, proof outcomes, native binding, VT и RSS остаются `UNKNOWN`. Задание взято из g0 `694a6046aeb243efb9e77abd40fed709ad10b514`. [Задание](REV2-FALLBACK-CONTROL-TASK.md) · [Source handoff](REV2-FALLBACK-HANDOFF.md)
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`. Пакет замораживает один диагностический run и три singleton. Фактические discovery, compile, proof outcomes, native binding, VT и RSS остаются `UNKNOWN`. Исходное задание закреплено в g0 `694a6046aeb243efb9e77abd40fed709ad10b514`, FIX1 — в `ad8223b9dbfaca9d268a76df298147a8fd36b79e`. [Задание FIX1](REV2-FALLBACK-CONTROL-FIX1-TASK.md) · [Замечания ревью](REV2-FALLBACK-CONTROL-REVIEW.md) · [Source handoff](REV2-FALLBACK-HANDOFF.md)
 
 ## Git и замороженные входы
 
 | Объект | Commit | Tree | Единственный parent |
 | --- | --- | --- | --- |
 | CAL2 FIX8 | `1b65866c1b037767d7ccf3262d05098ed9b2dc2b` | `339e8a63e08d068fec5973e896d8481fc8651978` | `52b3048ca119828d41d383f3c85dac51313c4aba` |
-| Локальный REV2 control | `210a1d74b37c81e0451ae8f8b311130308bec8f3` | `7adcda65704085f19769a73cdb23cf3672c491f1` | `1b65866c1b037767d7ccf3262d05098ed9b2dc2b` |
-| Будущий trigger | после GO | `7adcda65704085f19769a73cdb23cf3672c491f1` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+| Исходный REV2 control | `210a1d74b37c81e0451ae8f8b311130308bec8f3` | `7adcda65704085f19769a73cdb23cf3672c491f1` | `1b65866c1b037767d7ccf3262d05098ed9b2dc2b` |
+| Локальный REV2 control FIX1 | `d5910e387248acc8531aa8752b72ddbe3746dc9a` | `f75ae0336b0bf7b8a26be01400f629ed3dfd4ee3` | `210a1d74b37c81e0451ae8f8b311130308bec8f3` |
+| Будущий trigger | после GO | `f75ae0336b0bf7b8a26be01400f629ed3dfd4ee3` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
 | Опубликованная std база | `dab03cf510df5c35141cde49f1368b1242f5035e` | `7fd542ad59723ff2beeacb9632fb0568e81b0655` | `1d2706e31f0cd909bd784fa43adf9a1d55be8469` |
 | Std промежуточный кандидат | `dfdc70f8ccce6365f88fa489968508fa326ec60f` | `9f967855a6e6b71a7f81ecbc81e45a4d388443aa` | `dab03cf510df5c35141cde49f1368b1242f5035e` |
 | Std overlay | `fb82da3c788c0e705cd598abee723200c0f28c42` | `4329b593bdb0d4f3972452648396170f94adea8e` | `dfdc70f8ccce6365f88fa489968508fa326ec60f` |
 | Stock tool | `9834c96ce90ff57d8495416530b080dc3d52ce25` | `938e9932cb2127239afb4f093f6302652c053398` | `70d7da0ae18991f9604d299784b974a43636945a` |
 
-Control находится в `/root/kani-rev2-fallback-control-w11`, ветка `work/rev2-fallback-control-w11`. Diff для воркера 13 — `1b65866c1b037767d7ccf3262d05098ed9b2dc2b..210a1d74b37c81e0451ae8f8b311130308bec8f3`. Родитель trigger имеет tree `cf85db18831eea84e66723b16de37da08ef5fdd3`. Локальный control использует `[skip ci]` и автора `Tiramisu-Cake <igkharin@gmail.com>`. [Workflow](/root/kani-rev2-fallback-control-w11/.github/workflows/ch8-q-pilot.yml) · [Runner](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_run.py)
+Control находится в `/root/kani-rev2-fallback-control-w11`, ветка `work/rev2-fallback-control-w11`. Diff FIX1 для воркера 13 — `210a1d74b37c81e0451ae8f8b311130308bec8f3..d5910e387248acc8531aa8752b72ddbe3746dc9a`. Родитель trigger имеет tree `cf85db18831eea84e66723b16de37da08ef5fdd3`. Локальный control использует `[skip ci]` и автора `Tiramisu-Cake <igkharin@gmail.com>`. [Workflow](/root/kani-rev2-fallback-control-w11/.github/workflows/ch8-q-pilot.yml) · [Runner](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_run.py)
+
+Перед будущим dispatch координатор сверяет созданный trigger с одобренными tree и parent и закрепляет `f75ae0336b0bf7b8a26be01400f629ed3dfd4ee3` в Actions variable репозитория `Tiramisu-Cake/kani` с именем `CH8_REV2_FALLBACK_TRIGGER_TREE` на весь run. Workflow передаёт её в `REV2_FALLBACK_TRIGGER_TREE`. Внешний pin позволяет вычислить tree после сборки коммита и сверять весь tree без циклической зависимости. `pins` и остальные команды требуют заданный корректный pin и сверяют с ним checkout. Локальная стадия использовала переменную только в синтетических событиях. [Guard](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_request.py:87) · [Workflow](/root/kani-rev2-fallback-control-w11/.github/workflows/ch8-q-pilot.yml)
 
 | Вход | SHA-256 |
 | --- | --- |
@@ -62,15 +65,20 @@ s_u64="$work/u64_n07"
 
 Setup использует номинал 10 GiB, каждый singleton 6 GiB. Effective cap равен `min(nominal, available − 2 GiB)` по sampled group RSS, с прежними live guards. CAL2 supervisor, инструментальная аттестация и нативный CNF-парсер побайтово совпадают с FIX8. Из каждого окна 600 с последние 5 с выделены на проекцию и receipt. TERM/KILL и reap проходят внутри дедлайна supervisor. После RSS/TIMEOUT следующий слот допускается при валидном сэмплере и подтверждённой очистке. При потере resource control, drift пинов или недоказанной очистке оставшиеся строки получают именные `NOT_STARTED` с причиной.
 
+Запись временного файла receipt ограничена остатком окна. Runner повторно сверяет часы перед атомарной заменой и измеряет её завершение. При просрочке кампания сохраняет последнее техническое состояние и метку `receipt_deadline`, останавливает следующие слоты и выдаёт им именные `NOT_STARTED`. Метка содержит `slot_window_exceeded`, дедлайн и момент завершения записи или `null`, если атомарной замены не было. `finish` добавляет её к receipt и в сводку. [Запись receipt](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_run.py:206) · [Финализатор](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_report.py)
+
 `VERIFIED` требует согласованных regular/export терминалов, свойств и пяти уникальных достигнутых covers. `120 с VT` и `4 GiB` выводятся как ориентиры. Receipt сохраняет exact argv, cfg, jobs, OB, resolved unwind и его источник, wall/VT, compile и phase, sampled peak, effective cap, cleanup, CNF/phase markers и компактную выборку native property ID/status/location. Для Cell проекция связывает stock `target_fn` и `contracted_function_name` с verbose цепочкой goto-cc, DFCC и CBMC для одного prepared path. Она сохраняет координаты и доступные записи native ensures, assigns и frame, включая кандидаты DFCC. При отсутствии или неоднозначности нужного якоря binding остаётся `UNKNOWN` независимо от времени и технического исхода. Для примитивов фиксируются stock Proof и отсутствие Replace. [Projection](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_projection.py) · [Binding](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_binding.py)
 
 Артефакт `ch8-rev2-fallback-<os>-<arch>-<run>-<attempt>` содержит компактные структурированные receipts, до 4 MiB на опциональную CAL2 projection и до 96 MiB на весь job. `index.json` содержит SHA-256 и размеры членов. При ограничении бюджета удаляются опциональные проекции, а обязательные поля остаются в receipts. Setup failure публикует ограниченную диагностику, включая первые ошибки компилятора при их наличии. [Publication](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_report.py)
 
+`pins` выставляет `trigger_admitted` после GitHub/Git guard и до проверки request и bundle. При ошибке входов подготовка и измерения пропускаются, а `finish` сверяет допуск и публикует `error.json` и три именных `NOT_STARTED` из доверенного roster. Upload требует допуска trigger и успешного `finish`. Отказ trigger guard оставляет публикацию закрытой. [Workflow](/root/kani-rev2-fallback-control-w11/.github/workflows/ch8-q-pilot.yml) · [Runner](/root/kani-rev2-fallback-control-w11/ch8-cal1/fallback_run.py)
+
 ## Локальная проверка и передача
 
-- `python3 -B -m unittest discover -s ch8-cal1 -q` — **132 теста прошли**, включая точный порядок и argv, мутации пинов/cfg/селекторов/режима/unwind, shallow import, границы часов и caps, отсечки и reap, частичные receipts, удаление проекции, усечение и потерю нативных якорей.
-- `git diff --check` прошёл для control и trigger tree от их родителей. PyYAML подтвердил Ubuntu job, push/ref gate, read-only permissions и общую очередь `ch8-s2-fork`. `bash -n` прошёл для шести shell-шагов.
-- В отдельном временном Git checkout `fallback_run.py pins` принял synthetic push с точным trigger tree и единственным parent. Проверка отклонила подмены SHA, ref, event, attempt, тот же tree с parent FIX8 и синтетический commit с несколькими parents.
+- `python3 -B -m unittest discover -s ch8-cal1 -q` — **136 тестов прошли**. `git diff --check` прошёл для FIX1 и будущего trigger tree от их родителей. PyYAML проверил YAML из trigger tree, включая внешний pin и условия допуска, `finish` и upload. `bash -n` прошёл для шести shell-шагов.
+- Production entry point `fallback_run.py pins` принял synthetic push с полным tree FIX1 и единственным parent. Tree с одним добавленным файлом отклонён при том же sole parent и согласованных SHA, ref и event. Синтетика также отклонила отсутствующий pin, другой parent, перепутанные поля события и commit с несколькими parents.
+- Синтетическая атомарная запись receipt завершилась на `1600.1` при дедлайне `1600.0`. Опубликованы метка превышения и исход `RSS_LIMIT`. Отсечённая запись временного файла сохранила предыдущий технический receipt. В обоих случаях два оставшихся слота получили `NOT_STARTED`.
+- Для двух допущенных синтетических triggers проверены порча request и порча bundle. CLI `pins` сохранил допуск и завершился с ошибкой, а CLI `finish` собрал индекс, `error.json` и три именных `NOT_STARTED`. YAML пропускает setup и слоты при ошибке `pins` и допускает upload после такого `finish`.
 - Стадия выполнена локально. CI, push, ledger и запуски Cargo, rustc, Kani и CBMC отсутствуют.
 
 Следующий шаг — независимое diff-ревью воркера 13 и отдельный GO планера. Координатор может создать фактический trigger после GO и завершения macOS run `45338903191`. Допустим один attempt на `refs/heads/uninit-ci/ch8-q-pilot-v1` в `Tiramisu-Cake/kani`, в общей очереди, без повтора. Фактический trigger использует указанные tree и единственного parent и сообщение без метки пропуска CI.
