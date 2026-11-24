@@ -1,5 +1,45 @@
 # CAL2 · исправление Darwin census и подготовка повтора macOS
 
+## FIX6 · платформенные границы тестов supervisor
+
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
+
+На базе FIX5 подмена платформы на Darwin воспроизвела сбой из run 45326209217. На отметке 2,25 с в тесте Linux PSI получен `SAMPLER_ERROR` с `Darwin census deadline exhausted`. FIX6 меняет только `ch8-cal1/test_supervisor.py`. На Linux все тесты продолжают использовать прежние проверки, включая нативный census там, где он использовался. [Задание FIX6](CAL2-MAC-FIX6-TASK.md) · [Тесты supervisor](/root/kani-cal1-control-w11/ch8-cal1/test_supervisor.py)
+
+Семь тестов с одиночным дочерним процессом на Darwin используют синтетический снимок очистки. Запуск, сигналы и сбор direct child остаются реальными. Фикстура подставляет синтетический RSS, когда тест сам его не задаёт. [Фикстура](/root/kani-cal1-control-w11/ch8-cal1/test_supervisor.py:46)
+
+| Тест | Решение на Darwin |
+| --- | --- |
+| `test_lost_sampler_fails_closed_and_cleans_process` | Синтетическая ошибка sampler и снимок очистки |
+| `test_live_reserve_stops_without_reducing_admitted_rss_twice` | Заданный тестом RSS и синтетический снимок очистки |
+| `test_linux_low_psi_allows_admission_and_live_progress` | Синтетические RSS и снимок очистки |
+| `test_linux_reserve_and_rss_stop_immediately` | Заданный тестом RSS и синтетический снимок очистки |
+| `test_invalid_linux_psi_is_an_immediate_probe_error` | Синтетические RSS и снимок очистки в варианте с запущенным child |
+| `test_darwin_live_pressure_stops_with_sufficient_reserve` | Синтетические RSS и снимок очистки |
+| `test_phase_transitions_and_bounded_output` | Заданные тестом RSS и фазы, синтетический снимок очистки |
+
+На Darwin пропускаются шесть тестов.
+
+| Тест | Причина | Skip |
+| --- | --- | --- |
+| `test_linux_live_pressure_requires_consecutive_samples_over_two_seconds` | Контролируемые часы проверяют Linux PSI с нативным `/proc` | FIX6 |
+| `test_deadline_terminates_and_reaps_descendant_group` | Нативный Linux census группы, сигналы TERM/KILL | FIX6 |
+| `test_escaped_descendant_is_killed_by_its_owned_pid` | Нативный Linux census и адресная остановка потомка | FIX6 |
+| `test_linux_receipt_counts_pid_records_in_sampling_and_cleanup` | Нативный Linux `/proc` и счётчики PID | Прежний |
+| `test_escaped_descendant_survives_its_thread_leader_until_signalled` | Linux procfs и subreaper | Прежний |
+| `test_blocked_probe_does_not_delay_rss_stop_or_reap` | Linux `/proc`, PSS и очистка | Прежний |
+
+В `test_darwin_supervisor.py` все 20 тестов прошли с управляемыми часами и снимками `ps`, включая границу 2,0 с, повтор census и очистку. Тесты запуска и receipts в `test_run.py` с подменёнными часами используют заглушки на границах запуска, слотов или `invoke`. Тесты admission без запуска child и тесты supervisor с уже подменённым снимком процессов обходятся без нативного `ps`.
+
+| Объект | Commit | Tree | Единственный parent |
+| --- | --- | --- | --- |
+| Control FIX6 | `9d4da664deda47f3d3be7857afde3ddea28c0e0f` | `57f6bf5e94019da6b48dd634702c344a9833d6de` | `3b8ef79474793719f7e5969d5465a72a95377784` |
+| Локальный review-trigger, `local/cal2-mac-fix6-trigger-review` | `f56f4b8f8ea17de3f91d9abf757e90e9a64d3716` | `57f6bf5e94019da6b48dd634702c344a9833d6de` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+Полный `timeout 120s python3 -B -m unittest discover -q` на Linux с Python 3.12.3 прошёл, 104 теста за 16,387 с. При подмене `sys.platform` на `darwin` до discovery прошли 98 тестов из 104 за 9,408 с, шесть пропущены. Перехват `subprocess.run` зафиксировал ноль вызовов `ps` вне фикстур. Нативный macOS suite ожидает согласованного запуска. `git diff --check` прошёл для дельты FIX6 и trigger от его родителя. Diff между control и trigger пуст. CI, push, Cargo, rustc, Kani и CBMC не запускались.
+
+Ревью охватывает diff тестов `3b8ef79474..9d4da664d`. Блокируют изменения боевого кода, ослабление проверок на Linux и оставшаяся зависимость теста на Darwin от скорости нативного `ps` или от правила 2,0 с.
+
 ## FIX5 · снимок с живым потомком после таймаута `ps`
 
 **READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
