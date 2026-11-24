@@ -1,5 +1,32 @@
 # CAL2 · исправление Darwin census и подготовка повтора macOS
 
+## FIX2 · три блокирующих замечания
+
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
+
+Следующее ревью ограничено diff `526c2760b1..eaa02a0286` в трёх Python-файлах. Применение приложенного diff к `526c2760b1` во временном Git index воспроизвело общий tree control и review-trigger. [Задание FIX2](CAL2-MAC-FIX2-TASK.md) · [Независимое ревью](CAL2-MAC-FIX-REVIEW.md) · [Diff FIX2](CAL2-MAC-FIX2.patch)
+
+1. После сбоя раннего Darwin census финальный снимок после сбора direct child проверяет живых участников исходного PGID вместе с ранее наблюдавшимися потомками. Живой участник PGID или отсутствие валидного финального снимка дают `REAP_UNVERIFIED`. Адресные сигналы после reap по-прежнему требуют ранее наблюдавшийся PID и совпадающий start identity. Регрессия воспроизводит TERM, который завершает лидера и оставляет ранее неизвестный PID 11 в группе.
+2. Оба нативных теста сохраняют настоящий `ps`, окно 8 с, проверки готовности потомка и TERM/KILL. При своевременных сэмплах ожидается `TIMEOUT`. На Darwin тесты допускают `SAMPLER_ERROR` после хотя бы одного валидного сэмпла только для таймаута census или его повторной попытки у `stop_at`. Управляемые часы воспроизводят пять сэмплов по 0,70 с с последним бюджетом 0,50 с и вариант с усечённым бюджетом retry. Боевая политика дедлайна прежняя.
+3. Darwin census без записи о живом direct child даёт `SAMPLER_ERROR` и `sampler_valid=false`. Снимок не засчитывается, не обновляет бюджет наблюдения и сохраняет предыдущий пик, включая `null` до первого валидного сэмпла. Регрессии охватывают первый census, пропуск после валидного RSS, retry и снимок, в котором виден только участник группы.
+
+| Объект | Commit | Tree | Единственный parent |
+| --- | --- | --- | --- |
+| Control FIX2 | `eaa02a02867ab600e23060aef32ba2c17749b8ec` | `9eeeaa580d555cf2190382edbc2f77457382144d` | `526c2760b1e009593336bc2f295ded9851547337` |
+| Локальный review-trigger, `local/cal2-mac-fix2-trigger-review` | `c954f901abe134f40539069e0a7c186b1c452518` | `9eeeaa580d555cf2190382edbc2f77457382144d` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+| Файл | SHA-256 |
+| --- | --- |
+| `CAL2-MAC-FIX2.patch` | `5ed33e76fdca49bc2ef1f0cf14a4ffe9cf0b6772d2d6befa7e64ee4be9cd53f7` |
+| `CI-REQUEST.json` | `5b0fd89dfd2933c3b2768240c99b3b00d0770ec6004b763244ac00d6a3d25a9c` |
+| `std-overlay.bundle` | `747bed56fb2c137caf90dadc52802b42406840f9240dda3f58a370a33662a481` |
+
+Сверка Git подтвердила идентичность workflow, request, bundle, overlay, Ubuntu-профиля, roster и расписания с исходным control. `git diff --check` прошёл для control и review-trigger. Коммиты используют `[skip ci]` и автора `Tiramisu-Cake <igkharin@gmail.com>`.
+
+Полный `python3 -B -m unittest discover -q` под `timeout 120s` на Linux с Python 3.12.3 прошёл, 97 тестов за 13,996 с. Нативный Linux `rss-stop` вернул `RSS_LIMIT`, пик 66 804 KiB при cap 24 576 KiB, `sampler_valid=true`, `reaped=true`, `remaining_processes=[]` и `cleanup_errors=[]`. Darwin-ветви проверены синтетически. Нативный Darwin suite и длительность раннего self-test ожидают согласованного запуска на macOS. CI, push, Cargo, rustc, Kani и CBMC не запускались.
+
+## Исходный handoff Darwin
+
 **READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
 
 В run 45307150788 macOS остановился на раннем self-test до setup и discovery. По ledger два нативных теста дедлайна получили `SAMPLER_ERROR` из-за таймаута общего `ps`. Кандидат даёт один немедленный повтор в пределах исходного окна. [Задание](CAL2-MAC-FIX-TASK.md) · [Разбор CAL2](CAL2-RESULTS-ANALYSIS.md) · [Исходный handoff](CAL2-HANDOFF.md)

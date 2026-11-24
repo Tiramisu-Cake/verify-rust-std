@@ -1,0 +1,226 @@
+diff --git a/ch8-cal1/supervisor.py b/ch8-cal1/supervisor.py
+index 9c9165e4f0b384574a829bd6846e4352fc86ab22..e739d7a7164d61142468a0fecd0ae387d08e5d20 100644
+--- a/ch8-cal1/supervisor.py
++++ b/ch8-cal1/supervisor.py
+@@ -33,8 +33,9 @@ DEAD_STATES = ("Z", "X", "x")
+ RSS_CAVEAT = ("On Linux, worker TID turnover after the main thread exits can give a live process zero RSS "
+               "in a sample. The observed peak RSS may be underestimated. Confirming compliance with the RSS cap "
+               "requires evidence beyond the absence of RSS_LIMIT.")
+-REAP_SCOPE = ("After the direct child is reaped, cleanup confirms only previously observed descendants "
+-              "by PID and start identity and signals them individually.")
++REAP_SCOPE = ("After the direct child is reaped, cleanup signals only previously observed descendants "
++              "individually by PID and start identity. On Darwin, if the initial cleanup census fails, "
++              "final confirmation also checks for live members of the original process group.")
+
+
+ class SupervisorError(RuntimeError):
+@@ -381,7 +382,7 @@ def _shutdown(proc, known, timeline, deadline, term_grace, kill_grace, *, on_pid
+     else:
+         reap_until, end_kill = deadline, deadline - .05
+
+-    def census(until, maximum):
++    def census(until, maximum, *, confirm_group):
+         pgid = proc.pid if proc.poll() is None else None
+         if pgid is None:
+             known.pop(proc.pid, None)
+@@ -390,11 +391,17 @@ def _shutdown(proc, known, timeline, deadline, term_grace, kill_grace, *, on_pid
+         table = process_table(timeout=timeout, on_pid_skip=on_pid_skip)
+         if darwin and time.monotonic() >= until:
+             raise SupervisorError("Darwin census exceeded phase deadline")
+-        return _owned_live(table, pgid, known)
+-
+-    def observe(until, maximum=DARWIN_PS_TIMEOUT):
++        records = _owned_live(table, pgid, known)
++        if confirm_group and pgid is None:
++            # Possible group survivors can block final confirmation but are never signal targets.
++            owned_pids = {row["pid"] for row in records}
++            records.extend(row for row in table.values()
++                           if row["pgid"] == proc.pid and row["pid"] not in owned_pids and _is_live(row))
++        return records
++
++    def observe(until, maximum=DARWIN_PS_TIMEOUT, *, confirm_group=False):
+         try:
+-            return census(until, maximum)
++            return census(until, maximum, confirm_group=confirm_group)
+         except (OSError, ValueError, SupervisorError, subprocess.SubprocessError) as exc:
+             if len(errors) < 8:
+                 errors.append(f"{type(exc).__name__}: {exc}"[:300])
+@@ -436,6 +443,7 @@ def _shutdown(proc, known, timeline, deadline, term_grace, kill_grace, *, on_pid
+         return remaining
+
+     live = observe(end_term if darwin else deadline, .25)
++    confirm_group = darwin and live is None
+     had_live_descendant = bool(live and any(row["pid"] != proc.pid for row in live))
+     if proc.returncode is None or live is None or live:
+         stop(signal.SIGTERM, "TERM", live, end_term if darwin else deadline)
+@@ -449,9 +457,8 @@ def _shutdown(proc, known, timeline, deadline, term_grace, kill_grace, *, on_pid
+         proc.wait(timeout=max(0, reap_until - time.monotonic()))
+     except subprocess.TimeoutExpired:
+         errors.append("direct child did not reap by slot deadline")
+-    live = observe(deadline)
+-    remaining = [row["pid"] for row in live] if live is not None else None
+-    # After wait, the final census can confirm only previously observed descendants.
++    live = observe(deadline, confirm_group=confirm_group)
++    remaining = sorted(row["pid"] for row in live) if live is not None else None
+     return proc.returncode is not None and remaining == [], remaining, errors, had_live_descendant
+
+
+@@ -677,8 +684,9 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+                 if (not isinstance(sample, dict) or type(sample.get("rss_kib")) is not int
+                         or sample["rss_kib"] < 0 or not isinstance(sample.get("pids"), list)):
+                     raise SupervisorError("RSS sampler returned invalid sample")
+-                if recovering and not sample["pids"]:
+-                    raise SupervisorError("Darwin census retry did not observe any owned live process")
++                if (darwin and not sampler and proc.pid not in sample["pids"]
++                        and (recovering or proc.poll() is None)):
++                    raise SupervisorError("Darwin census did not observe the live direct child")
+                 records = sample.get("records", [])
+                 if not isinstance(records, list):
+                     raise SupervisorError("RSS sampler returned invalid process records")
+diff --git a/ch8-cal1/test_darwin_supervisor.py b/ch8-cal1/test_darwin_supervisor.py
+index 1750eb8d3663ffd6914e241bac41532f65aec4b9..a2296ac1dbabd5bc8a19647226c30127538c1d1b 100644
+--- a/ch8-cal1/test_darwin_supervisor.py
++++ b/ch8-cal1/test_darwin_supervisor.py
+@@ -20,6 +20,7 @@ CENSUS = ["ps", "-axww", "-o", "pid=,ppid=,pgid=,rss=,stat=,lstart=,comm="]
+ INIT = "1 0 1 200 Ss Mon Nov 23 10:00:00 2026 launchd\n"
+ LEADER = "10 1 10 {rss} Ss Mon Nov 23 10:00:01 2026 python\n"
+ ESCAPED = "11 10 11 75 S Mon Nov 23 10:00:02 2026 python\n"
++ORPHAN = "11 1 10 75 S Mon Nov 23 10:00:02 2026 python\n"
+ REUSED = "11 1 11 1000 S Mon Nov 23 10:00:03 2026 unrelated\n"
+ CLEAR = {"physical_kib": 1000, "available_kib": 800, "pressure": "CLEAR"}
+
+@@ -71,7 +72,8 @@ class DarwinSimulation:
+                 raise activity
+             delay, rss, extra = activity or (.01, 40, "")
+             self.advance(delay)
+-            content = INIT + (LEADER.format(rss=rss) if self.now < self.exit_at else "") + extra
++            leader = LEADER.format(rss=rss) if rss is not None and self.now < self.exit_at else ""
++            content = INIT + leader + extra
+         return subprocess.CompletedProcess(argv, 0, stdout=content)
+
+     def ps_timeout(self, timeout):
+@@ -131,6 +133,47 @@ class DarwinSupervisorTests(unittest.TestCase):
+         self.assertAlmostEqual(result["darwin_census"]["max_gap_seconds"], .8)
+         self.assertEqual(result["darwin_census"]["ps_timeouts"], 0)
+
++    def test_slow_census_can_hit_the_stop_deadline_after_valid_samples(self):
++        for valid_count, timeouts, error in (
++            (5, 1, "Darwin census recovery deadline exhausted"),
++            (4, 2, "Darwin ps census retry timed out"),
++        ):
++            with self.subTest(timeouts=timeouts):
++                sim = DarwinSimulation(self, [(.7, 50, "")] * valid_count + ["timeout"] * timeouts)
++                result = sim.run(stop_at=4)
++                self.assertEqual(result["stop_reason"], "SAMPLER_ERROR", result)
++                self.assertEqual(result["sampler_error"], f"SupervisorError: {error}")
++                self.assertFalse(result["sampler_valid"])
++                self.assertTrue(result["reaped"])
++                self.assertEqual(result["samples_succeeded"], valid_count)
++                self.assertEqual(result["rss_peak_kib"], 50)
++                census = result["darwin_census"]
++                self.assertEqual(census["ps_timeouts"], timeouts)
++                self.assertEqual(census["last_timeout"]["reason"], "PS_CENSUS_TIMEOUT")
++                self.assertAlmostEqual(census["last_timeout"]["at"], 4)
++                self.assertAlmostEqual(sim.live_calls()[-1][1], .5 if timeouts == 1 else .2)
++
++    def test_census_without_live_direct_child_record_is_not_a_sample(self):
++        no_child = (.01, None, "")
++        for live, stop_at, attempts, succeeded, peak in (
++            ([no_child] * 4, .91, 1, 0, None),
++            ([(.05, 50, ""), no_child], 4, 2, 1, 50),
++            (["timeout", no_child], 4, 2, 0, None),
++            ([(.01, None, ORPHAN)], .91, 1, 0, None),
++        ):
++            with self.subTest(live=live):
++                sim = DarwinSimulation(self, live)
++                result = sim.run(stop_at=stop_at)
++                self.assertEqual(result["stop_reason"], "SAMPLER_ERROR", result)
++                self.assertIn("did not observe the live direct child", result["sampler_error"])
++                self.assertFalse(result["sampler_valid"])
++                self.assertTrue(result["reaped"])
++                self.assertEqual(result["samples_attempted"], attempts)
++                self.assertEqual(result["samples_succeeded"], succeeded)
++                self.assertEqual(result["rss_peak_kib"], peak)
++                self.assertEqual(result["peak_rss_kib"], peak)
++                self.assertEqual(result["darwin_census"]["recoveries"], 0)
++
+     def test_retry_is_immediate_and_a_fresh_sample_checks_rss_cap(self):
+         sim = DarwinSimulation(self, [(.05, 50, ""), "timeout", (.35, 101, "")])
+         memory_times = []
+@@ -281,6 +324,22 @@ class DarwinSupervisorTests(unittest.TestCase):
+         self.assertEqual(len(result["cleanup_errors"]), 1)
+         self.assertEqual(result["darwin_census"]["ps_timeouts"], 0)
+
++    def test_cleanup_timeout_requires_final_group_check_after_child_reap(self):
++        def cleanup(sim, timeout):
++            if len(sim.cleanup_calls()) == 1:
++                sim.ps_timeout(timeout)
++            self.assertIsNotNone(sim.proc.returncode)
++            return INIT + ORPHAN
++
++        sim = DarwinSimulation(self, [(.05, 101, "")], cleanup=cleanup)
++        result = sim.run()
++        self.assertEqual(result["stop_reason"], "REAP_UNVERIFIED", result)
++        self.assertEqual(result["primary_stop_reason"], "RSS_LIMIT")
++        self.assertFalse(result["reaped"])
++        self.assertEqual(result["remaining_processes"], [11])
++        self.assertEqual(sim.signals, [(.3, "group", signal.SIGTERM)])
++        self.assertEqual([budget for _, budget in sim.cleanup_calls()], [.25, 1, 1])
++
+     def test_cleanup_rejects_late_observation_and_reserves_kill_and_final(self):
+         def cleanup(sim, timeout):
+             call = len(sim.cleanup_calls())
+diff --git a/ch8-cal1/test_supervisor.py b/ch8-cal1/test_supervisor.py
+index e795a0308798d3349673ad0e8004cafc575496fe..babce250d463078d8824f60bd6a316b310b772d6 100644
+--- a/ch8-cal1/test_supervisor.py
++++ b/ch8-cal1/test_supervisor.py
+@@ -48,6 +48,23 @@ class SupervisorTests(unittest.TestCase):
+             return {"deadline": time.monotonic() + 8, "term_grace": 2, "kill_grace": 2}
+         return {"deadline": time.monotonic() + seconds}
+
++    def assert_descendant_deadline(self, result, deadlines):
++        self.assertGreater(result["samples_succeeded"], 0, result)
++        if sys.platform == "darwin" and result["stop_reason"] == "SAMPLER_ERROR":
++            self.assertFalse(result["sampler_valid"], result)
++            self.assertIn(result["sampler_error"], (
++                "SupervisorError: Darwin census recovery deadline exhausted",
++                "SupervisorError: Darwin ps census retry timed out",
++            ), result)
++            timeout = result["darwin_census"]["last_timeout"]
++            self.assertIsNotNone(timeout, result)
++            self.assertEqual(timeout["reason"], "PS_CENSUS_TIMEOUT", result)
++            stop_at = deadlines["deadline"] - deadlines["term_grace"] - deadlines["kill_grace"]
++            self.assertGreaterEqual(timeout["at"], stop_at, result)
++        else:
++            self.assertEqual(result["stop_reason"], "TIMEOUT", result)
++            self.assertTrue(result["sampler_valid"], result)
++
+     def test_linux_and_darwin_rss_fixtures(self):
+         self.assertEqual(supervisor.parse_linux_status_rss("Name:\tpython\nVmRSS:\t12345 kB\n"), 12345)
+         with self.assertRaises(supervisor.SupervisorError):
+@@ -71,9 +88,10 @@ worker = 'import pathlib,signal,time; signal.signal(signal.SIGTERM, signal.SIG_I
+ subprocess.Popen([sys.executable, '-c', worker])
+ time.sleep(30)
+ """
+-        result = self.invoke(code, **self.descendant_deadlines(1.0))
++        deadlines = self.descendant_deadlines(1.0)
++        result = self.invoke(code, **deadlines)
+         self.assertTrue((self.root / "ready").exists(), result)
+-        self.assertEqual(result["stop_reason"], "TIMEOUT")
++        self.assert_descendant_deadline(result, deadlines)
+         self.assertTrue(result["reaped"], result)
+         self.assertEqual(result["remaining_processes"], [])
+         self.assertEqual([e["event"] for e in result["timeline"] if e["event"] in ("TERM", "KILL")],
+@@ -407,9 +425,10 @@ code='import pathlib,signal,time; signal.signal(signal.SIGTERM, signal.SIG_IGN);
+ subprocess.Popen([sys.executable,'-c',code], start_new_session=True)
+ time.sleep(30)
+ """
+-        result = self.invoke(code, **self.descendant_deadlines(1.25))
++        deadlines = self.descendant_deadlines(1.25)
++        result = self.invoke(code, **deadlines)
+         self.assertTrue((self.root / "ready").exists(), result)
+-        self.assertEqual(result["stop_reason"], "TIMEOUT", result)
++        self.assert_descendant_deadline(result, deadlines)
+         self.assertTrue(result["reaped"], result)
+         self.assertEqual(result["remaining_processes"], [])
+         self.assertIn("KILL_DESCENDANT", [entry["event"] for entry in result["timeline"]])
