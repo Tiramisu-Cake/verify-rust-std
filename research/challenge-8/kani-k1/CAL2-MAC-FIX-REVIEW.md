@@ -1,5 +1,27 @@
 # CAL2 · независимое ревью Darwin census
 
+## Round 4 (diff FIX4)
+
+**CHANGES_REQUIRED** · `go=NOT_GRANTED` · `proof_credit=NONE`.
+
+1. **Открыт — два пути обходят guards после валидного снимка.** Исходный сценарий Round 3 теперь проходит. При cap 100 KiB штатный снимок с живым потомком 175 KiB и доступным статусом выхода direct child даёт `RSS_LIMIT` с пиком 175 KiB. Варианты с давлением и низким резервом сохраняют приоритет соответствующих guards. [Регрессии FIX4](/root/kani-cal1-control-w11/ch8-cal1/test_darwin_supervisor.py:171)
+
+   - **Регрессия FIX2 при пустой группе.** После первого сэмпла 50 KiB валидный `ps` вернул только `launchd` в 0,310 с. Статус выхода direct child был доступен с 0,305 с. При `PRESSURE` или доступной памяти 99 KiB при резерве 100 KiB FIX2 сделал третье чтение памяти и вернул соответственно `LIVE_MEMORY_PRESSURE` или `LIVE_MEMORY_RESERVE`. FIX4 в обоих случаях вернул `EXITED`, `sampler_valid=true` и `reaped=true`, пропустив чтение памяти и оставив `samples_succeeded=1` вместо 2. Вариант с `CLEAR` сохранил `EXITED`, но также потерял успешный сэмпл. Пустой список живых участников при подтверждённом выходе даёт RSS 0 и по-прежнему требует проверки pressure и reserve. [Ранний выход](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:699) · [Guards](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:799)
+   - **Повтор после таймаута `ps` отбрасывает снимок с живым потомком.** После сэмпла 50 KiB следующий вызов `ps` достиг таймаута в 1,300 с. Повтор завершился в 1,350 с при границе RSS 2,010 с и вернул живой PID 11 исходной PGID с RSS 175 KiB. Статус выхода direct child был доступен с 1,325 с. При cap 100 KiB и `CLEAR` FIX4 вернул `SAMPLER_ERROR` (`child exited before Darwin census recovery`), `sampler_valid=false`, пик 50 KiB и один успешный сэмпл. В вариантах с `PRESSURE` и резервом ниже порога чтение памяти после повтора также не состоялось. FIX2 давал ту же ошибку. Пункт 1 FIX4 требует довести этот своевременный снимок до guards, присвоив `RSS_LIMIT` либо соответствующую причину остановки по памяти. Исключение срабатывает раньше проверки `keep_sample`. [Проверка выхода](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:586) · [Разбор снимка после повтора](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:695)
+
+2. **Закрыт — повторная проверка перед `Darwin census deadline exhausted`.** Независимо воспроизвёл паузу с 0,790 до 0,801 с при `stop_at=0,800` с в двух точках расчёта бюджета, перед retry `ps` и перед нативной веткой memory probe с подменённым источником памяти. При доступном с 0,795 с статусе обе дали `EXITED` с пиком 50 KiB и `reaped=true`. При живом child обе сохранили `SAMPLER_ERROR` с точным сообщением об исчерпании бюджета. В каждой симуляции было ровно две попытки `ps`. [Перепроверка статуса](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:577) · [Вызов перед probe](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:714)
+
+**Подтверждение очистки.** В полном suite прошли случаи таймаута раннего census с последующим подтверждением пустой группы и с оставшимся живым PID 11. Во втором случае `REAP_UNVERIFIED` сохраняет `primary_stop_reason=RSS_LIMIT` и `remaining_processes=[11]`. [Регрессии cleanup](/root/kani-cal1-control-w11/ch8-cal1/test_darwin_supervisor.py:435)
+
+**Неблокирующие ограничения для receipts.**
+
+- Снимок `ps` и публикация статуса для `poll()` разнесены во времени. При выходе после последней проверки receipt может содержать `exit_code=0` вместе с `TIMEOUT` или ошибкой невосстановленного census. Если при восстановлении после таймаута `ps` проверка видит выход до получения свежего снимка, возможен `SAMPLER_ERROR`. [Проверки восстановления](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:595) · [Запись статуса при очистке](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:851)
+- Пауза планировщика после расчёта положительного таймаута может сдвинуть запуск или доставку результата `ps` за границу `stop_at` либо RSS gap. На границе результат зависит от фазы наблюдения. Обычный stop может дать `TIMEOUT`, а просроченное наблюдение или восстановление может дать `SAMPLER_ERROR`. [Бюджет вызова](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:665) · [Проверка времени снимка](/root/kani-cal1-control-w11/ch8-cal1/supervisor.py:729)
+
+**Границы diff и идентичность.** Дельта `7cd3929f69..7572d0b50c` затрагивает только `ch8-cal1/supervisor.py` и `ch8-cal1/test_darwin_supervisor.py`. Control `7572d0b50c` имеет единственного родителя `7cd3929f69`, trigger `09cb47a896` имеет единственного родителя `467af9cb8d`. Их общий tree `6496aa3d9fd84e02ee3d1afe74d195d89c3f7505`, diff между ними пустой. Patch из handoff `9cb5679c7d` воспроизвёл тот же tree в отдельном индексе. [Задание FIX4](CAL2-MAC-FIX4-TASK.md) · [Handoff FIX4](CAL2-MAC-FIX-HANDOFF.md) · [Patch FIX4](CAL2-MAC-FIX4.patch)
+
+**Локальные проверки.** Полный suite `timeout 120s python3 -B -m unittest discover -q` прошёл на Linux с Python 3.12.3, 103 теста за 16,539 с. Нативный Linux `rss-stop` дал `RSS_LIMIT`, пик 65 940 KiB при cap 24 576 KiB, `sampler_valid=true`, `reaped=true`, `remaining_processes=[]` и `cleanup_errors=[]`. `git diff --check` прошёл для дельты FIX4, diff trigger от его родителя, рабочего дерева control и записи ревью. Darwin проверен синтетически. CI, push, Cargo, rustc, Kani и CBMC не запускались.
+
 ## Round 3 (diff FIX3)
 
 **CHANGES_REQUIRED** · `go=NOT_GRANTED` · `proof_credit=NONE`.
