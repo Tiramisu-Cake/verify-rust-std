@@ -1,0 +1,201 @@
+diff --git a/ch8-cal1/supervisor.py b/ch8-cal1/supervisor.py
+index 4c511fcc10ec49558a7edc69fb7e16f78961c994..009b0571c37501855a21da7ea8b544110e864a60 100644
+--- a/ch8-cal1/supervisor.py
++++ b/ch8-cal1/supervisor.py
+@@ -539,15 +539,15 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+     def count_cleanup_pid_skip():
+         result["cleanup_pid_records_skipped"] += 1
+ 
+-    def memory_call(until=None):
++    def memory_call(timeout=None):
+         if memory_probe:
+             return memory_probe()
+-        timeout = (min(.5, max(.01, stop_at - time.monotonic())) if until is None else
+-                   _remaining_timeout(until, .5))
++        if timeout is None:
++            timeout = min(.5, max(.01, stop_at - time.monotonic()))
+         return memory_snapshot(timeout=timeout)
+ 
+-    def live_memory(until=None):
+-        snapshot = memory_call(until)
++    def live_memory(timeout=None):
++        snapshot = memory_call(timeout)
+         if (not isinstance(snapshot, dict) or
+                 type(snapshot.get("physical_kib")) is not int or
+                 type(snapshot.get("available_kib")) is not int or
+@@ -570,19 +570,32 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+             result["stop_reason"] = "LIVE_MEMORY_RESERVE"
+         return result["stop_reason"] is not None
+ 
+-    def census_child_exited():
++    def record_census_exit():
++        result["stop_reason"] = "EXITED"
++        result["sampler_valid"] = bool(sample_timestamps)
++
++    def census_timeout(until, maximum):
++        try:
++            return _remaining_timeout(until, maximum)
++        except SupervisorError:
++            if proc.poll() is None:
++                raise
++            record_census_exit()
++            return None
++
++    def census_child_exited(*, keep_sample=False):
+         if proc.poll() is None:
+             return False
+         if recovering and not missing_child_in_gap:
+             raise SupervisorError("child exited before Darwin census recovery")
+-        result["stop_reason"] = "EXITED"
+-        result["sampler_valid"] = bool(sample_timestamps)
++        if not keep_sample:
++            record_census_exit()
+         return True
+ 
+     def check_recovery(until, *, fresh_sample=False):
+         expired = time.monotonic() >= until
+-        # Check the guards for an in-budget snapshot that resolves a missing child.
+-        if (expired or not fresh_sample or not missing_child_in_gap) and census_child_exited():
++        # An in-budget recovery sample goes through the guards before the exit check.
++        if (expired or not fresh_sample) and census_child_exited():
+             return False
+         if expired:
+             raise SupervisorError("Darwin census recovery deadline exhausted")
+@@ -660,7 +673,9 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+                     census_until = min(stop_at, last_rss_at + DARWIN_RSS_MAX_GAP)
+                     if recovering and not check_recovery(census_until):
+                         break
+-                    timeout = _remaining_timeout(census_until, DARWIN_PS_TIMEOUT)
++                    timeout = census_timeout(census_until, DARWIN_PS_TIMEOUT)
++                    if timeout is None:
++                        break
+                 else:
+                     timeout = min(.5, max(.01, stop_at - time.monotonic()))
+                 result["samples_attempted"] += 1
+@@ -682,12 +697,15 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+                             or sample["rss_kib"] < 0 or not isinstance(sample.get("pids"), list)):
+                         raise SupervisorError("RSS sampler returned invalid sample")
+                     if darwin and not sampler and proc.pid not in sample["pids"]:
+-                        if census_child_exited():
++                        # A reaped child can leave live descendants in the snapshot.
++                        keep_sample = bool(sample["pids"])
++                        if not census_child_exited(keep_sample=keep_sample):
++                            census["ps_missing_child"] += 1
++                            _event(timeline, "PS_CENSUS_MISSING_CHILD", retry=recovering)
++                            missing_child_in_gap = True
++                            retry_error = "Darwin census retry did not observe the live direct child"
++                        elif not keep_sample:
+                             break
+-                        census["ps_missing_child"] += 1
+-                        _event(timeline, "PS_CENSUS_MISSING_CHILD", retry=recovering)
+-                        missing_child_in_gap = True
+-                        retry_error = "Darwin census retry did not observe the live direct child"
+                 if retry_error is not None:
+                     if recovering:
+                         if missing_child_in_gap and census_child_exited():
+@@ -697,7 +715,12 @@ def run(argv, *, cwd, env, directory, deadline, nominal_kib, reserve_kib,
+                     result["sampler_valid"] = False
+                     if not check_recovery(census_until):
+                         break
+-                    live_snapshot, current_pressure = live_memory(census_until)
++                    memory_timeout = None
++                    if not memory_probe:
++                        memory_timeout = census_timeout(census_until, .5)
++                        if memory_timeout is None:
++                            break
++                    live_snapshot, current_pressure = live_memory(memory_timeout)
+                     if not check_recovery(census_until):
+                         break
+                     if stop_for_memory(live_snapshot, current_pressure == "PRESSURE"):
+diff --git a/ch8-cal1/test_darwin_supervisor.py b/ch8-cal1/test_darwin_supervisor.py
+index 43c02665add51d1a08a075bb15183c7cabef0c6c..b1fbbf9c739e119c2617f426e6170f468f7da6c6 100644
+--- a/ch8-cal1/test_darwin_supervisor.py
++++ b/ch8-cal1/test_darwin_supervisor.py
+@@ -169,22 +169,73 @@ class DarwinSupervisorTests(unittest.TestCase):
+         self.assertAlmostEqual(census["max_gap_seconds"], .06)
+ 
+     def test_fresh_retry_checks_rss_even_if_child_exits_after_snapshot(self):
+-        sim = DarwinSimulation(self, [MISSING_CHILD, (.05, 101, "")], exit_at=.07)
+-        ps = sim.ps
++        for miss, exit_at in ((MISSING_CHILD, .07), ("timeout", 1.06)):
++            with self.subTest(miss=miss):
++                sim = DarwinSimulation(self, [miss, (.05, 101, "")], exit_at=exit_at)
++                ps = sim.ps
++
++                def publish_snapshot(*args, **kwargs):
++                    snapshot = ps(*args, **kwargs)
++                    if not sim.cleaning and len(sim.live_calls()) == 2:
++                        sim.advance(.02)
++                    return snapshot
++
++                sim.ps = publish_snapshot
++                result = sim.run()
++                self.assertEqual(result["stop_reason"], "RSS_LIMIT", result)
++                self.assertEqual(result["rss_peak_kib"], 101)
++                self.assertEqual(result["darwin_census"]["recoveries"], 1)
++                self.assertTrue(result["sampler_valid"] and result["reaped"], result)
++                self.assertEqual(sim.signals, [])
+ 
+-        def publish_snapshot(*args, **kwargs):
+-            snapshot = ps(*args, **kwargs)
+-            if not sim.cleaning and len(sim.live_calls()) == 2:
+-                sim.advance(.02)
+-            return snapshot
++    def test_live_descendant_snapshot_checks_guards_when_direct_child_exits(self):
++        descendant = ORPHAN.replace(" 75 S ", " 175 S ")
++        for snapshot, expected in ((CLEAR, "RSS_LIMIT"),
++                                   (CLEAR | {"pressure": "PRESSURE"}, "LIVE_MEMORY_PRESSURE"),
++                                   (CLEAR | {"available_kib": 99}, "LIVE_MEMORY_RESERVE")):
++            with self.subTest(expected=expected):
++                sim = DarwinSimulation(self, [(.01, 50, ""), (.01, None, descendant)], exit_at=.305)
++                readings = iter([CLEAR, CLEAR, snapshot])
++                result = sim.run(memory=lambda: next(readings))
++                self.assertEqual(result["stop_reason"], expected, result)
++                self.assertEqual(result["rss_peak_kib"], 175)
++                self.assertEqual(result["samples_succeeded"], 2)
++                self.assertEqual(result["darwin_census"]["ps_missing_child"], 0)
++                self.assertEqual(result["exit_code"], 0)
++                self.assertTrue(result["sampler_valid"] and result["reaped"], result)
++                self.assertEqual(sim.signals, [])
+ 
+-        sim.ps = publish_snapshot
+-        result = sim.run()
+-        self.assertEqual(result["stop_reason"], "RSS_LIMIT", result)
+-        self.assertEqual(result["rss_peak_kib"], 101)
+-        self.assertEqual(result["darwin_census"]["recoveries"], 1)
+-        self.assertTrue(result["sampler_valid"] and result["reaped"], result)
+-        self.assertEqual(sim.signals, [])
++    def test_retry_budget_expiration_rechecks_direct_child_exit(self):
++        remaining_timeout = supervisor._remaining_timeout
++        for exit_at, expected in ((.795, "EXITED"), (float("inf"), "SAMPLER_ERROR")):
++            with self.subTest(expected=expected):
++                sim = DarwinSimulation(self, [(.01, 50, ""), (.49, None, "")], exit_at=exit_at)
++
++                def timeout_after_pause(deadline, maximum):
++                    if not sim.cleaning and len(sim.live_calls()) == 2:
++                        self.assertAlmostEqual(sim.now, .790)
++                        sim.advance(.011)
++                    return remaining_timeout(deadline, maximum)
++
++                with patch.object(supervisor, "_remaining_timeout", side_effect=timeout_after_pause):
++                    result = sim.run(stop_at=.8)
++
++                self.assertEqual(result["stop_reason"], expected, result)
++                self.assertEqual(len(sim.live_calls()), 2)
++                self.assertEqual(result["samples_attempted"], 2)
++                self.assertEqual(result["samples_succeeded"], 1)
++                self.assertEqual(result["rss_peak_kib"], 50)
++                self.assertEqual(result["darwin_census"]["ps_missing_child"], 1)
++                self.assertEqual(result["darwin_census"]["recoveries"], 0)
++                self.assertTrue(result["reaped"], result)
++                if expected == "EXITED":
++                    self.assertTrue(result["sampler_valid"], result)
++                    self.assertEqual(result["exit_code"], 0)
++                    self.assertNotIn("sampler_error", result)
++                    self.assertEqual(sim.signals, [])
++                else:
++                    self.assertFalse(result["sampler_valid"], result)
++                    self.assertEqual(result["sampler_error"], "SupervisorError: Darwin census deadline exhausted")
+ 
+     def test_missing_child_can_exit_without_another_valid_sample(self):
+         for exit_at, retry, attempts, misses in (
