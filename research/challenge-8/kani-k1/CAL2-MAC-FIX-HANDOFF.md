@@ -1,5 +1,48 @@
 # CAL2 · исправление Darwin census и подготовка повтора macOS
 
+## FIX8 · окно setup и состав macOS
+
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
+
+В run 45331131850 overlay `kani list` завершился за 1315 с с пиком 3,27 GB. Дедлайн setup остановил base `kani list` на 1025 с. Darwin census отработал без таймаутов `ps`. Засчитано 0. FIX8 даёт обоим нативным `kani list` общий дедлайн 65 минут от начала job и ставит таймаут 65 минут на шаг `prepare` в единственном macOS job. [Задание FIX8](CAL2-MAC-FIX8-TASK.md) · [Запись запуска](CH8-DISPATCH-LEDGER.md#L269) · [Workflow](/root/kani-cal1-control-w11/.github/workflows/ch8-q-pilot.yml)
+
+| Порядок | Слот | Окно, с |
+| ---: | --- | ---: |
+| 1 | `NET-U8-N08` | 300 |
+| 2 | `NET-U8-N09` | 300 |
+| 3 | `batch-auto` | 600 |
+| 4 | `batch-jobs1` | 600 |
+| 5 | `NET-N25` | 480 |
+| 6 | `NET-U64-N13` | 720 |
+| 7 | `MERGE-N32` (`Below`) | 780 |
+| 8 | `GEN-N16-SMALL` | 720 |
+
+Batch по-прежнему допускается по двум полным singleton-терминалам N8/N9, измеренным wall/RSS и проверке запаса ресурсов. План занимает 163 мин (`65 + 55 + 20 + 2 + 12 + 9`). С учётом 10 с на каждый из восьми запусков он занимает 164 мин 20 с из 225. От начала job границы слотов, аттестации и финализации приходятся на 141:20, 143:20 и 155:20. Latest start вычитает из границы слотов окно соответствующего слота и 10 с. Синтетика исчерпала окно setup и все окна слотов, включая запуск последнего ровно на границе latest start. [Часы и порядок слотов](/root/kani-cal1-control-w11/ch8-cal1/run.py:61) · [Синтетика](/root/kani-cal1-control-w11/ch8-cal1/test_run.py)
+
+`S13-N13`, `S13-N17`, `S13-N32-R`, `NET-U64-N32` и `GEN-N16-WIDE` получают отдельные receipts `NOT_RUN / EXCLUDED_BY_PLAN`, включая публикацию после сбоя setup. Discovery по-прежнему проверяет все регистрации и providers. Распределение по партициям использует порядок регистраций. В расчёт времени на Darwin входят только singleton-наблюдения с зафиксированным wall, валидным RSS и подтверждённой очисткой. Отсечённые замеры отражаются отдельно от завершённых длительностей. Корни без наблюдений перечислены с `UNKNOWN` в JSON и Markdown. [Публикация receipts и сценарий](/root/kani-cal1-control-w11/ch8-cal1/report.py)
+
+Frozen request SHA-256 `5b0fd89dfd2933c3b2768240c99b3b00d0770ec6004b763244ac00d6a3d25a9c` → `95ac71eae782ceb314724ebbfb70e4a53eee086eb1cbed83a910b15e410a0b8b`. Diff показывает изменения полей request.
+
+```diff
++ limits.Darwin.setup_seconds = 3900
+- limits.Darwin.singletons_seconds = 8340
++ limits.Darwin.singletons_seconds = 3300
+- roster.Darwin = [NET-U8-N08, NET-U8-N09, S13-N13, S13-N17, S13-N32-R, MERGE-N32, NET-N25, NET-U64-N13, NET-U64-N32, GEN-N16-SMALL, GEN-N16-WIDE]
++ roster.Darwin = [NET-U8-N08, NET-U8-N09, NET-N25, NET-U64-N13, MERGE-N32, GEN-N16-SMALL]
++ darwin_excluded = [S13-N13, S13-N17, S13-N32-R, NET-U64-N32, GEN-N16-WIDE]
+```
+
+Все поля записей корней совпали с FIX7. Полный diff доступен через `git -C /root/kani-cal1-control-w11 diff 52b3048ca1..1b65866c1b -- ch8-cal1/CI-REQUEST.json`. Сверка с FIX7 подтвердила Linux roster, argv, часы и сценарий партиций, frozen caps и побайтовое совпадение кода census и bundle. SHA-256 bundle `747bed56fb2c137caf90dadc52802b42406840f9240dda3f58a370a33662a481`. [Frozen request](/root/kani-cal1-control-w11/ch8-cal1/CI-REQUEST.json)
+
+| Объект | Commit | Tree | Единственный parent |
+| --- | --- | --- | --- |
+| Control FIX8 | `1b65866c1b037767d7ccf3262d05098ed9b2dc2b` | `339e8a63e08d068fec5973e896d8481fc8651978` | `52b3048ca119828d41d383f3c85dac51313c4aba` |
+| Локальный review-trigger, `local/cal2-mac-fix8-trigger-review` | `a9fd8e97974276902cf35b497a636b8ef447eb41` | `339e8a63e08d068fec5973e896d8481fc8651978` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+На Linux с Python 3.12.3 прошли 107 тестов за 15,086 с. С подменой `sys.platform` на `darwin` прошёл 101 тест из 107 за 8,212 с, шесть пропущены. Перехват `subprocess.run` запрещал нативный `ps` вне фикстур. `git diff --check` прошёл для control и trigger от их родителей. Diff между control и trigger пуст. PyYAML подтвердил один macOS job с 11 шагами и единственным изменением `prepare` с 45 до 65 минут. `bash -n` прошёл для шести shell-шагов. YAML gate принял один точный push и отклонил пять вариантов. `run.py pins` принял detached review-trigger, подтвердил commit, tree, parent и пины, отклонил десять вариантов, включая тот же tree с неверным parent. Нативный Darwin suite, CI, push, Cargo, rustc, Kani и CBMC локально не запускались.
+
+Ревью охватывает только diff `52b3048ca1..1b65866c1b`. Блокируют отклонение от заданного состава или окон, превышение 225 минут, изменение Linux, Darwin census или caps.
+
 ## FIX7 · таймаут попытки и бюджет Darwin census
 
 **READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
