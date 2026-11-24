@@ -1,5 +1,20 @@
 # CAL2 · исправление Darwin census и подготовка повтора macOS
 
+## FIX3 · единичный пропуск direct child
+
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
+
+Следующее ревью охватывает пункт 3 Round 2 и diff `eaa02a0286..7cd3929f6`. Patch воспроизводит общий tree control и локального trigger при применении к `eaa02a0286` во временном Git index. SHA-256 patch `1c686e1e5ab59555a1033093afb3fec47a2d27816e4ef47ab4cc63faba60c07e`. [Задание FIX3](CAL2-MAC-FIX3-TASK.md) · [Ревью Round 2](CAL2-MAC-FIX-REVIEW.md#round-2-diff-fix2) · [Diff FIX3](CAL2-MAC-FIX3.patch)
+
+Если census вернул снимок без live-записи direct child, а `poll()` ещё не получил статус выхода, supervisor учитывает пропуск и сразу переходит к общему пути одного повтора. Валидный снимок требуется для обновления пика RSS, счётчика успешных сэмплов и отметки последнего RSS. Вызов `ps` ограничен 1,0 с, остатком до `stop_at` и остатком 2,0 с от последнего валидного RSS или запуска child. Свежий снимок с child проходит guards. Повторный пропуск или исчерпание бюджета дают `SAMPLER_ERROR`, если повторная проверка ещё не видит статус выхода после пропуска. При подтверждённом выходе supervisor возвращает `EXITED` и сохраняет предыдущий пик. Receipts отдельно учитывают `ps_missing_child` и `ps_timeouts`.
+
+| Объект | Commit | Tree | Единственный parent |
+| --- | --- | --- | --- |
+| Control FIX3 | `7cd3929f69f41f8dde76082f21b748fb552fb046` | `b6705a8145d410de573d66be769548a869af3d32` | `eaa02a02867ab600e23060aef32ba2c17749b8ec` |
+| Локальный review-trigger, `local/cal2-mac-fix3-trigger-review` | `a2e5bdc67a5c05ccdaddacafb9bc91458c5854e6` | `b6705a8145d410de573d66be769548a869af3d32` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+`timeout 120s python3 -B -m unittest discover -q` на Linux с Python 3.12.3 прошёл, 101 тест за 14,459 с. Синтетический Darwin покрывает стартовый пропуск, публикацию статуса выхода во время повтора, проверку свежего RSS, два пропуска в одной серии и обе границы бюджета. Нативный Linux `rss-stop` дал `RSS_LIMIT`, пик 67 328 KiB при cap 24 576 KiB, `sampler_valid=true`, `reaped=true`, `remaining_processes=[]`, `cleanup_errors=[]`. `git diff --check` прошёл для рабочей копии, diff FIX3 и diff trigger от его родителя. CI, push, Cargo, rustc, Kani и CBMC не запускались.
+
 ## FIX2 · три блокирующих замечания
 
 **READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
