@@ -568,6 +568,18 @@ define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n4, 4);
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n5, 5);
 define_fallback_property_harness!(fallback_sorted_permutation_u8_u64_n6, 6);
 
+#[kani::proof]
+#[kani::unwind(34)]
+fn fallback_sorted_permutation_u8_n7() {
+    fallback_route_properties::<u8, _, 7>(lt_u8);
+}
+
+#[kani::proof]
+#[kani::unwind(34)]
+fn fallback_sorted_permutation_u64_n7() {
+    fallback_route_properties::<u64, _, 7>(lt_u64);
+}
+
 // Drop values can have padding; test tag multiplicity rather than bytewise equality.
 struct DropTaggedValue {
     key: u64,
