@@ -2,6 +2,8 @@
 
 **READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
 
+Актуальные идентичности пакета приведены в разделе [FIX1](#fix1).
+
 Локальный пакет содержит одну Ubuntu job и шесть замороженных слотов. Задание сверено с g0 `a7e5a01d5f`, handoff добавлен поверх текущей g0. Следующий шаг — независимое diff-ревью и отдельный GO. Компиляция на пине, нативный discovery, новые ID, вердикты и ресурсы ожидают будущего допуска. [Задание](REV2-S13-GEOMETRIES-TASK.md) · [Разбор exact S13/base1](REV2-S13-BINDING-RESULTS-ANALYSIS.md)
 
 ## Идентичности
@@ -142,3 +144,29 @@ Receipts сохраняют VT, RSS группы и CBMC, наблюдения �
 - Пакетный bundle проверен с `bundle verify` и `unbundle` на отдельном depth-1 checkout точной CI-базы `dab03cf510`. Единственный advertised ref — overlay `HEAD`, все tree/parent и layout guard совпали. HEAD, существующие refs и shallow boundary сохранились. Дополнительная временная проверка инкрементального delta `32c2857f4b..overlay` на точной depth-1 S13-binding базе дала те же гарантии refs и parent. В пакет входит один bundle.
 
 Cargo, rustc, Kani и CBMC локально не запускались. Пакет остался локальным, без push, CI и публикации. Все три пакетных коммита и handoff используют `[skip ci]` и автора `Tiramisu-Cake <igkharin@gmail.com>`.
+
+## FIX1
+
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`. NO-GO из ревью g0 `c04d5a4f12` относится к исходному дереву R1. FIX1 готов к повторному diff-ревью. [Ревью R1](REV2-S13-GEOMETRIES-REVIEW.md)
+
+- **B1.** `report.finish` удаляет оставшиеся частичные файлы receipt через переменную `partial_path`. `pending` сохраняет словарь отложенных записей. Регрессионный тест воспроизводит `AttributeError` на R1. На FIX1 при наличии частичного `receipt.tmp` проходят `pins` и `finish`, сохраняются истинный `FAILED`, `EXIT_1`, подтверждённый reap и пометки позднего receipt. `index.json` содержит результат и SHA-256 финального receipt, а временный файл удалён. Условия upload проверены по YAML и результатам синтетических шагов. [Исправление B1](/root/kani-rev2-s13-geometries-fix1-control-w14/ch8-cal1/report.py:202) · [Регрессия](/root/kani-rev2-s13-geometries-fix1-control-w14/ch8-cal1/test_run.py:563)
+- **Замечание 1.** Внутренний дедлайн равен `min(receipt_publication_deadline, finish_start + 290 с)`. Отсчёт начинается при входе в CLI шага, 10 с оставлены до 5-минутного таймаута Actions. Alarm охватывает повторную проверку tree и receipt допуска, загрузку request и формирование артефакта. Тесты проверяют выбор обеих границ и отказ, если отчёт завершился позже выбранной границы. [Дедлайн](/root/kani-rev2-s13-geometries-fix1-control-w14/ch8-cal1/run.py:621) · [Проверка часов](/root/kani-rev2-s13-geometries-fix1-control-w14/ch8-cal1/test_run.py:609)
+
+В Python-обвязке `ch8-cal1` и используемом парсере `ch8-kani5196-control/evidence.py` проверены привязки имён в циклах, `with` и `except` с последующим чтением. Для срабатываний в `tool_attestation.attest` и `evidence.stock_export` последующие чтения используют собственные переменные своих циклов. Других случаев перезаписи живого значения по схеме B1 не найдено.
+
+| Объект | Worktree и ref | Commit | Tree | Единственный parent |
+| --- | --- | --- | --- | --- |
+| Control FIX1 | `/root/kani-rev2-s13-geometries-fix1-control-w14`, `work/rev2-s13-geometries-fix1-control-w14` | `efaf43d82324fd4d76d07e6bf77bbc7a78434700` | `0d4e157ede9479cd50de0c8df3755e40fd85cbd1` | `7eb91451d891bfdd802591b30b065f941c51b019` |
+| Review-trigger FIX1 | `/root/kani-rev2-s13-geometries-fix1-trigger-w14`, detached sparse checkout, `local/rev2-s13-geometries-fix1-trigger-review` | `f8695c617cd7dcf757a9dab23db81f3f6b8d4005` | `0d4e157ede9479cd50de0c8df3755e40fd85cbd1` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+Std остаётся `217b8efaa6c9c0d6e5d44f77e98d74bd5493360a`. Workflow, request и bundle побайтно совпадают с R1. Пересчитаны полные SHA-256.
+
+| Вход | SHA-256 |
+| --- | --- |
+| `CI-REQUEST.json` | `f60a71e65ad2f9c595db00321fa8e9570f839ef3df27725f19d7c7a5d9d869e8` |
+| Canonical roster | `6f22724a84cd44811834005ba5c2300395e2f64b31e3631cc93c6c8c90f386f5` |
+| `std-overlay.bundle` | `922639b173b623e69c97013a8be83c993efd4d73c04135146e227ea689b0fc16` |
+
+Локальный gate принимает FIX1 с его точным tree pin и отклоняет pin R1. Значение для отдельного GO — `CH8_REV2_S13_GEOMETRIES_TRIGGER_TREE=0d4e157ede9479cd50de0c8df3755e40fd85cbd1`. Переменная Actions не менялась. Оба локальных пакетных коммита и коммит handoff имеют `[skip ci]`. [Workflow FIX1](/root/kani-rev2-s13-geometries-fix1-control-w14/.github/workflows/ch8-q-pilot.yml) · [Request FIX1](/root/kani-rev2-s13-geometries-fix1-control-w14/ch8-cal1/CI-REQUEST.json)
+
+Полный Python suite прошёл с обычными часами (100/100) и с monotonic от 60,000004 с (100/100). YAML проверен с запретом дубликатов ключей. `bash -n` прошёл для всех шести `run`-блоков. `git diff --check` прошёл для control, review-trigger и handoff. Push, CI и публикации не было.
