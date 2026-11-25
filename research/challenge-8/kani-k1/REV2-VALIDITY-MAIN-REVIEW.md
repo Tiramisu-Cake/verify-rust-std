@@ -24,3 +24,13 @@
 - **Риск компиляции.** Найден не был: пути к приватным элементам родителя видимы ребёнку, на `validity_main` извне не ссылаются, bounds, imports и unsafe в порядке.
 - **Gate.** Пин берётся только из `vars.CH8_REV2_VALIDITY_MAIN_TRIGGER_TREE`. Отклоняются пустой, укороченный, чужой и отсутствующий пин, изменённое дерево с согласованным trailer и неверный parent. Caps 4 GiB на слот, резерв 2 GiB, setup 10 GiB, окна A 45+10+5+5 с и B 180+10+5+5 с. План 133:30 при job 140 мин.
 - **Команды.** Suite 99/99 на shared clone trigger, в том числе с `time.monotonic` от 60 с (на копии без `.git` 98/99 из-за среды). Прошли rustfmt `--check`, `git diff --check` на трёх диапазонах, YAML и `bash -n` для 7 шагов. Cargo, rustc, Kani, CBMC, Miri, CI и push не запускались.
+
+## R2 · FIX1
+
+**GO** на control FIX1 `3ca002452456f9fdfe303ad01acd439960833429` и trigger `59477c90275fd5e2db710947a25e4c56cd1d2954` с tree `697dc737fe3bda41f4070ad2d65c123c5c4d615a`. У control единственный parent `caaa716bc3`, у trigger — `467af9cb8d`. Блокеров нет.
+
+- **Фаза B.** Setup ограничен минимумом из прежнего дедлайна и старта шага + 30 мин, слоты — минимумом из дедлайна и конца setup + 40 мин. Худший случай около 72 мин при таймауте шага 80 мин. Фаза A ограничена так же: около 19,5 мин при шаге 21 мин. План 133,5 мин укладывается в job 140 мин. Тест `StepBudgetTests` действительно ловит прежние 75 мин.
+- **Проба rustup.** `MissingComponents` даёт `LOCAL_COMPONENT_MISSING`, таймаут — `TOOLCHAIN_PROBE_TIMEOUT`, прочий сбой — `TOOLCHAIN_PROBE_FAILED`. Тесты покрывают все три случая.
+- **Неизменное.** CI-REQUEST, bundle, fixture, `request.py`, `verdict.py`, `native_properties.py` и `supervisor.py` совпадают с R1. Gate принимает новый pin и отклоняет старый `00220e…`.
+- **Проверки.** Suite 102/102 с обычными часами и с часами от 60 с. Прошли YAML, `bash -n` для 7 шагов и `git diff --check`.
+- **Trigger.** Review-trigger содержит `[skip ci]`. Для запуска нужен пересозданный коммит с тем же tree и parent `467af9cb8d`.
