@@ -24,3 +24,14 @@
 - **Риск компиляции.** Не найден: импорты и видимость повторяют уже компилировавшиеся модули.
 - **Control.** Gate отклоняет неверные pin и изменённое дерево с согласованным trailer. План 88:30 укладывается в job 90 мин. Все таймауты шагов, кроме finish (замечание 1), не короче бюджетов.
 - **Команды.** Suite 98/98 с обычными часами и с часами от 60 с. Прошли YAML, `bash -n`, `git diff --check` и rustfmt `--check` новых файлов.
+
+## R2 · FIX1
+
+**GO** на один диагностический Ubuntu-прогон. Control `efaf43d82324fd4d76d07e6bf77bbc7a78434700`, tree `0d4e157ede9479cd50de0c8df3755e40fd85cbd1`, parent `7eb91451d8`. Review-trigger `f8695c617c` с тем же tree и parent `467af9cb…`. Std `217b8efaa6`. Pin для запуска: `CH8_REV2_S13_GEOMETRIES_TRIGGER_TREE=0d4e157ede9479cd50de0c8df3755e40fd85cbd1`.
+
+- **B1 исправлен.** В `report.py:203` переменная цикла переименована в `partial_path`. Воспроизведение даёт `finish OK`, исход `FAILED` сохранён, `.tmp` удалён, `index.json` записан. Новый тест падает на старом коде с тем же `AttributeError`.
+- **Дедлайн finish.** Равен `min(epoch+4350, start+290)`, где start берётся при входе в CLI. Тесты проходят на обеих ветках, старый код не выдерживает новый тест.
+- **Затенение имён.** AST-сканирование `run.py`, `report.py`, `results.py` и `request.py` других случаев не нашло.
+- **Неизменное.** Workflow, CI-REQUEST, bundle, `request.py` и `results.py` побайтно совпадают с R1, хэши `f60a71e6…` и `922639b1…` прежние, Std не менялся.
+- **Проверки.** Suite 100/100 с обычными часами и с часами от 60 с, `git diff --check` проходит.
+- **Запуск.** Нужен новый trigger-коммит без `[skip ci]`. FIX1 лежит в worktree `/root/kani-rev2-s13-geometries-fix1-control-w14`.
