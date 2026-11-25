@@ -1,6 +1,18 @@
 # REV2 · валидность на Kani main · handoff
 
-**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE` · актуальный control — **FIX1 `3ca0024524`**, tree `697dc737fe`.
+
+## FIX1 после ревью R1
+
+Ревью R1 дало GO_WITH_NITS без блокеров с одним исправлением до запуска. [Ревью](REV2-VALIDITY-MAIN-REVIEW.md)
+
+- **Таймаут шага фазы B.** Шаг может стартовать задолго до своих абсолютных окон: после быстрой фазы A примерно на epoch+10 мин. При этом окна тянулись до 79:30 для list, 119:30 для слотов и 121:30 для аттестации, а шаг обрывался через 75 мин. Теперь `phase_b` ограничивает B setup как `min(b_setup_deadline, старт шага + 30 мин)`, а цепочку слотов — `min(phase_b_deadline, конец setup + 12 × 200 с)`. Финальная аттестация, как и прежде, идёт не дольше 120 с. Фаза A так же ограничена `min(phase_a_deadline, старт + 18 × 65 с)`. Верхняя граница шага B — 30:00 + 40:00 + 2:00 = 72:00, `timeout-minutes` поднят с 75 до 80. Абсолютная граница сохраняется: при самом позднем старте B на 49:30 шаг кончается до 129:30, что меньше job 140 мин.
+- **Тест согласованности.** `step_budgets()` даёт бюджет каждого шага от его старта. Тест разбирает таймауты шагов и job из текста workflow без PyYAML. Он требует таймаут не меньше бюджета, с запасом 60 с для A и 300 с для B на checkout, identity с submodules и удаление scratch. План job и поздний старт B также должны укладываться в 140 мин. Прежнее значение 75 мин тест отвергает. Отдельный тест проверяет относительные окна B и сохранение более ранних абсолютных.
+- **Классификация `rustup component list`.** `MissingComponents` даёт `LOCAL_COMPONENT_MISSING`, `AttestationTimeout` — `TOOLCHAIN_PROBE_TIMEOUT`, прочий сбой пробы — `TOOLCHAIN_PROBE_FAILED`. Тесты покрывают все три случая и разбор списка компонентов.
+- **Без изменений.** CI-REQUEST.json `7ccf98c4…c53474`, bundle `f0ed6816…63cf`, fixture, Std overlay, roster и правила решения. Патч `caaa716bc3..3ca0024524` воспроизвёл tree `697dc737fe` во временном Git index. [Diff FIX1](/root/rev2-validity-main-review/control-fix1-from-r1.patch)
+- **Проверки FIX1.** `python3 -B -m unittest discover` дал **102/102**, блок self-test с часами от 60 с — тоже 102/102. На detached review-trigger `59477c9027` прошёл `run.py pins` с внешним tree pin, затем self-test из workflow, 102/102 за 17,0 с. Checkout остался чистым, прежний tree pin `00220e7ead` отклонён. PyYAML разобрал workflow без дублей, семь shell-блоков прошли `bash -n`, `git diff --check` чист.
+- **Trigger для запуска.** Review-trigger `59477c9027` содержит `[skip ci]` по правилу локальных коммитов, а такой push не запустит workflow. Координатор пересоздаёт коммит запуска с тем же tree `697dc737fe3bda41f4070ad2d65c123c5c4d615a`, единственным parent `467af9cb8d` и сообщением без `[skip ci]`. После GO variable `CH8_REV2_VALIDITY_MAIN_TRIGGER_TREE` задаётся этим tree.
+- ON-positive MATCH по-прежнему не требует `read_binding=OBSERVED`. Утверждение о проверке конкретного чтения опирается на `read_binding`, чувствительность дают четыре отрицательных случая.
 
 Локальный вердикт о совместимости Kani main `8c6dba5935` с неизменённым Std `dab03cf510`: **UNKNOWN**, установить локально нельзя. Сборка Kani, cargo, rustc, Kani и CBMC здесь не запускались, локального rustup-toolchain нет. Совместимость проверяет фаза 0 CI-пакета, фазы A и B стартуют только после её `PASS`. [Задание](REV2-VALIDITY-MAIN-IMPL-TASK.md) · [Уточнение координатора](REV2-VALIDITY-MAIN-COORD-NOTE.md)
 
@@ -24,10 +36,12 @@
 | Std base | `dab03cf510df5c35141cde49f1368b1242f5035e` | `7fd542ad59723ff2beeacb9632fb0568e81b0655` | `1d2706e31f0cd909bd784fa43adf9a1d55be8469` |
 | Std overlay 1, корни | `c7993fe252b849c462d770ddba8ac7bc95769f9e` | `88d49939084b62550e1dc3f103b0055fcb16ffcb` | `dab03cf510df5c35141cde49f1368b1242f5035e` |
 | Std overlay 2, типизированные чтения | `75ab1822ac0cf10d905ecb8975c2bf0eda35c3a2` | `6e6134cd1c9a36750981a61f8fcc763013f532ad` | `c7993fe252b849c462d770ddba8ac7bc95769f9e` |
-| Control | `caaa716bc3856d1e6ec460a74cb22fd36e9200d6` | `00220e7ead711ba57bf64f4e07b97d360f047d49` | `0dcc435f7d3f7e73a7ae362445e385e1747cedc9` (control FIX3) |
-| Локальный review-trigger | `24e1a7715c16c2f02ed8e273f3c0fa7e98df6d7d` | `00220e7ead711ba57bf64f4e07b97d360f047d49` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+| Control R1 | `caaa716bc3856d1e6ec460a74cb22fd36e9200d6` | `00220e7ead711ba57bf64f4e07b97d360f047d49` | `0dcc435f7d3f7e73a7ae362445e385e1747cedc9` (control FIX3) |
+| **Control FIX1** | `3ca002452456f9fdfe303ad01acd439960833429` | `697dc737fe3bda41f4070ad2d65c123c5c4d615a` | `caaa716bc3856d1e6ec460a74cb22fd36e9200d6` |
+| Review-trigger FIX1 | `59477c90275fd5e2db710947a25e4c56cd1d2954` | `697dc737fe3bda41f4070ad2d65c123c5c4d615a` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+| Review-trigger R1, устарел | `24e1a7715c16c2f02ed8e273f3c0fa7e98df6d7d` | `00220e7ead711ba57bf64f4e07b97d360f047d49` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
 
-- Worktrees: [Kani main](/root/kani-rev2-validity-main-tool-w11) и [Std base](/root/verify-rust-std-rev2-validity-base-w11) — detached на пинах. [Std](/root/verify-rust-std-rev2-validity-main-w11) — ветка `work/rev2-validity-main-std-w11`, [control](/root/kani-rev2-validity-main-control-w11) — ветка `work/rev2-validity-main-control-w11`. Trigger лежит в `local/rev2-validity-main-trigger-review`.
+- Worktrees: [Kani main](/root/kani-rev2-validity-main-tool-w11) и [Std base](/root/verify-rust-std-rev2-validity-base-w11) — detached на пинах. [Std](/root/verify-rust-std-rev2-validity-main-w11) — ветка `work/rev2-validity-main-std-w11`, [control](/root/kani-rev2-validity-main-control-w11) — ветка `work/rev2-validity-main-control-w11`. Triggers лежат в `local/rev2-validity-main-fix1-trigger-review` и, для R1, в `local/rev2-validity-main-trigger-review`.
 - Патчи воспроизвели оба tree во временных Git index. [Std от base](/root/rev2-validity-main-review/std-overlay-from-base.patch) · [Control от FIX3](/root/rev2-validity-main-review/control-from-fix3.patch) · [Модуль корней](/root/verify-rust-std-rev2-validity-main-w11/library/core/src/slice/sort/shared/smallsort/validity_main.rs) · [Fixture](/root/kani-rev2-validity-main-control-w11/ch8-rev2-validity/validity_fixture.rs)
 
 | Файл control | SHA-256 |
@@ -35,7 +49,7 @@
 | [CI-REQUEST.json](/root/kani-rev2-validity-main-control-w11/ch8-rev2-validity/CI-REQUEST.json) | `7ccf98c499d2e32e220cd971c73929bbb3152302b71892ab6f06ca4e82c53474` |
 | [std-overlay.bundle](/root/kani-rev2-validity-main-control-w11/ch8-rev2-validity/std-overlay.bundle) | `f0ed681607511d1bea506094a371c9b7ac2082674595996e47d27377483a63cf` |
 | [validity_fixture.rs](/root/kani-rev2-validity-main-control-w11/ch8-rev2-validity/validity_fixture.rs) | `eb9575b09117594fa57ea5c3dc64752b37f41584c232c25b476dddb6b35a1f16` |
-| [ch8-q-pilot.yml](/root/kani-rev2-validity-main-control-w11/.github/workflows/ch8-q-pilot.yml) | `231fafe4a0e7a8e0b9c7f5addaeb0f9100ea2ce2eca52d458c5f6475e1aab245` |
+| [ch8-q-pilot.yml](/root/kani-rev2-validity-main-control-w11/.github/workflows/ch8-q-pilot.yml), FIX1 | `7435e7014456b9afdeae2d2d09dccf6fe57789970f6a67a7c7d433f135ade3e9` |
 
 Digest roster в `request.py` — `6a89e1e970d44938bef0bd2864d235d4f69f1e8cd46c1648adf3c7c87862deea`.
 
@@ -48,7 +62,7 @@ Digest roster в `request.py` — `6a89e1e970d44938bef0bd2864d235d4f69f1e8cd46c1
 
 ## Пакет и gate
 
-Workflow `CH8 SmallSort REV2 validity on Kani main`, одна job `ubuntu-24.04`, `timeout-minutes: 140`. Push gate прежний: `Tiramisu-Cake/kani`, событие `push`, `refs/heads/uninit-ci/ch8-q-pilot-v1`, attempt `1`, `contents: read`. После отдельного GO координатор задаёт Actions variable `CH8_REV2_VALIDITY_MAIN_TRIGGER_TREE` полным tree `00220e7ead711ba57bf64f4e07b97d360f047d49`. `check_trigger` сверяет tree checkout, SHA из `after` payload и sole parent `467af9cb8d`. Пустой, отсутствующий или чужой pin даёт отказ без outputs и `artifact/`. Finalize идёт только при `trigger_admitted=true`, upload — только после успешного finalize. [Workflow](/root/kani-rev2-validity-main-control-w11/.github/workflows/ch8-q-pilot.yml) · [Gate](/root/kani-rev2-validity-main-control-w11/ch8-rev2-validity/request.py)
+Workflow `CH8 SmallSort REV2 validity on Kani main`, одна job `ubuntu-24.04`, `timeout-minutes: 140`. Push gate прежний: `Tiramisu-Cake/kani`, событие `push`, `refs/heads/uninit-ci/ch8-q-pilot-v1`, attempt `1`, `contents: read`. После отдельного GO координатор задаёт Actions variable `CH8_REV2_VALIDITY_MAIN_TRIGGER_TREE` полным tree FIX1 `697dc737fe3bda41f4070ad2d65c123c5c4d615a`. `check_trigger` сверяет tree checkout, SHA из `after` payload и sole parent `467af9cb8d`. Пустой, отсутствующий или чужой pin даёт отказ без outputs и `artifact/`. Finalize идёт только при `trigger_admitted=true`, upload — только после успешного finalize. [Workflow](/root/kani-rev2-validity-main-control-w11/.github/workflows/ch8-q-pilot.yml) · [Gate](/root/kani-rev2-validity-main-control-w11/ch8-rev2-validity/request.py)
 
 | Шаг | Что делает | Блокирует |
 | --- | --- | --- |
@@ -105,12 +119,13 @@ Workflow `CH8 SmallSort REV2 validity on Kani main`, одна job `ubuntu-24.04`
 | --- | --- | ---: |
 | Checkout, deps, build, attestation, base preflight | 30:00, preflight до 300 с | 30:00 |
 | A: 18 × (45 + 10 reap + 5 receipt + 5 запуск) | 19:30 | 49:30 |
-| B setup: overlay preflight до 300 с + cfg-on list | 30:00 | 79:30 |
-| B: 12 × (180 + 10 + 5 + 5) | 40:00 | 119:30 |
+| B setup: overlay preflight до 300 с + cfg-on list, также не дольше 30:00 от старта шага | 30:00 | 79:30 |
+| B: 12 × (180 + 10 + 5 + 5), также не дольше 40:00 от конца setup | 40:00 | 119:30 |
 | Финальная аттестация | 2:00 | 121:30 |
 | Finalize + upload | 5:00 + 7:00 | 133:30 |
 | Предел job | запас 6:30 | 140:00 |
 
+- Таймауты шагов FIX1: фаза 0 — 30 мин, A — 21 мин при бюджете 19:30, B — 80 мин при бюджете 72:00, finalize — 5 мин, job — 140 мин. Самотест связывает их с бюджетами.
 - Оценка задания 110–120 мин уточнена до верхней границы 133,5 мин. Причина — фактические 881 с одного cfg-on list в FIX3 (`45661535099`, setup 1183 с: build 139 с, preflight 26 с, list 881 с при 6,2 GiB) и 5 с запуска на слот. Окна абсолютны от epoch, свободное время ранних фаз переходит к поздним.
 - Ожидаемая фактическая длительность при сходящихся корнях — 45–70 мин: до фазы 0 около 2,5 мин, фаза 0 около 3–5 мин, A около 3–6 мин, B setup около 15,5 мин, B 12–39 мин. Номинал группы для setup — 10 GiB, для слотов 4 GiB, резерв ОС 2 GiB. Ресурсный результат Ubuntu не закрывает критерий macOS.
 
