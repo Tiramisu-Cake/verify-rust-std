@@ -1,6 +1,6 @@
 # REV2 · ранговая индукция для actual merge N32
 
-1. **Merge 16+16 — да, как составное исследовательское свидетельство после независимого ревью.** Для exact `bidirectional_merge::<u8, KeyLess<u8>>` на V34/base1 связка даёт нормальный возврат, 32 инициализированных выходных байта в числовом порядке, полное мультимножество, source/q frame и CAL1-пост. **Вся `small_sort_network` N32 — допуск открыт.** Нужен exact consumer с привязкой обеих половин, шести actual вставок, merge, copy-back и различающего контроля общего поста.
+1. **Merge 16+16 — принят независимым ревью как составное исследовательское свидетельство.** Для exact `bidirectional_merge::<u8, KeyLess<u8>>` на V34/base1 связка даёт нормальный возврат, 32 инициализированных выходных байта в числовом порядке, полное мультимножество, source/q frame и CAL1-пост. **Вся `small_sort_network` N32 — допуск открыт.** До работы над exact consumer требуется согласовать правило композиции. [Независимое ревью](REV2-MERGE-RANK-INDUCTION-REVIEW.md)
 2. **`stub_verified(bidirectional_merge)` — оснований пока нет.** Нужен успешный exact `proof_for_contract(bidirectional_merge)` для совпадающего контракта и достижимого домена потребителя либо отдельно проверенный механизм передачи именно этого составного свидетельства в Replace. Текущий пост наблюдает один q за вызов. Если потребителю нужен полный байтовый пост непосредственно от Replace, контракт должен гарантировать его в каждом отдельном вызове.
 
 `go=NOT_GRANTED`, `proof_credit=NONE`. Scope — чётный N32, exact comparator, исходник FIX3 и указанный ниже профиль. Задание g0 `7ff7c21cc6ac65e802f6c5d5e4ab6598ed255e6c`. [Задание](REV2-MERGE-RANK-INDUCTION-TASK.md) · [Решение по инвариантному маршруту](REV2-MERGE-INVARIANT-RESULTS-ANALYSIS.md#решение-и-оценка)
@@ -117,16 +117,20 @@ Exact consumer должен связать эти посты на одном и�
 
 ## Воспроизведение привязки
 
-Ниже проверка идентичности Git blobs. `candidate` по умолчанию означает HEAD эталонного FIX3 worktree. Для повторного использования поставить в `candidate` exact commit предполагаемого consumer, доступный в общей Std object database. Скрипт проверяет и исходники самих шагов, и их регистрацию, примитивы памяти и адресную обвязку. При дельте нужен разбор изменившихся тел, активных атрибутов и зависимостей. Идентичность blobs сама проверяет только исходник. Применимость по-прежнему требует совпадающих типов, профиля, `len=32`, доступа к двум инициализированным sorted halves V34/base1, независимого q и отдельного scratch с правом записи. Связь вызываемых тел с селектором FIX3 дана импортами, exact cfg, отсутствием Replace в строке слота и нативными anchors.
+Ниже проверка Git blobs и SHA-256 двух членов индекса run `45661535099`. В примере `candidate` явно задан полным SHA FIX3 для воспроизведения исходной привязки. Для проверки переноса подставить полный SHA exact commit предполагаемого consumer из общей Std object database. Список включает исходники шагов, регистрации модуля и cfg, сравнения, обход диапазона, арифметику, примитивы памяти и адресную обвязку. При дельте нужен разбор изменившихся тел, активных атрибутов и зависимостей. Применимость требует совпадающих типов, профиля, `len=32`, доступа к двум инициализированным sorted halves V34/base1, независимого q и отдельного scratch с правом записи. Связь вызываемых тел с селектором FIX3 дана импортами, exact cfg, отсутствием Replace в строке слота и нативными anchors.
 
 ```bash
 (
     set -euo pipefail
     repo=/root/verify-rust-std-rev2-network-providers-fix3-w11
     fix3=32129c149a15fb1b60a7314e738f3cb466d076e5
-    candidate=HEAD
+    candidate=32129c149a15fb1b60a7314e738f3cb466d076e5
+    [[ "$candidate" =~ ^[0-9a-f]{40}$ ]]
+    test "$(git -C "$repo" rev-parse --verify "$candidate^{commit}")" = "$candidate"
     test "$(git -C "$repo" rev-parse "$fix3^{tree}")" = 1b0cc32c571b370178e64f2b8c79773d2ce27051
-    set -- library/core/src/slice/sort/shared/smallsort.rs \
+    set -- library/core/Cargo.toml \
+        library/core/src/cmp.rs library/core/src/iter/range.rs library/core/src/num/uint_macros.rs \
+        library/core/src/slice/sort/shared/mod.rs library/core/src/slice/sort/shared/smallsort.rs \
         library/core/src/slice/sort/shared/smallsort/verify.rs \
         library/core/src/slice/sort/shared/smallsort/verify/rev2_provider_cost.rs \
         library/core/src/slice/sort/shared/smallsort/verify/cal1_model.rs \
@@ -134,7 +138,7 @@ Exact consumer должен связать эти посты на одном и�
         library/core/src/slice/mod.rs library/core/src/slice/raw.rs \
         library/core/src/mem/maybe_uninit.rs library/core/src/ub_checks.rs \
         library/core/src/ptr/{mod,const_ptr,mut_ptr}.rs library/core/src/intrinsics/mod.rs
-    git -C "$repo" diff --exit-code "$fix3" "$candidate" -- "$@"
+    git -C "$repo" diff --no-ext-diff --no-textconv --exit-code "$fix3" "$candidate" -- "$@"
     git -C "$repo" ls-tree -r "$fix3" -- "$@"
 
     control=/root/kani-rev2-network-providers-fix3-control-w11
@@ -144,7 +148,30 @@ Exact consumer должен связать эти посты на одном и�
     test "$(git -C "$control" rev-parse "$trigger^{tree}")" = 8ec7f5a766154288b8b441be85f34103dc80a12e
     request=b38f8f428f2d6a4a2ba736f2d763dad4087ad51d23822a8327f4edc9b1d64e06
     test "$(git -C "$control" show "$trigger:ch8-cal1/CI-REQUEST.json" | sha256sum)" = "$request  -"
+
+    cd /root/ch8-artifacts/run-45661535099/ch8-rev2-provider-cost-Linux-X64-45661535099-1
+    sha256sum --check <<'SHA256'
+0de6374172c70f58a11f24a25782b15e76cfd42bdc594c24f2b193ecd1fedc9a  slots/M32-PAIR-STEP/receipt.json
+a145b13ad498cca1015b300d6e1122eb72fa61906ebb3f8bc279d1fbfdcec7a9  slots/M32-PAIR-STEP/projection.json
+SHA256
+    printf 'BIND_OK %s\n' "$candidate"
 )
 ```
 
-Команда прошла для FIX3. Отдельный офлайн-перебор проверил формулы на всех 23 409 парах неубывающих половин длины 16 над `{0,1,255}`. На каждом шаге сверены оба записанных края с отсортированными ключами позиций, на выходе — обе формулы разрезов и Mask/Below при q из `{0,1,2,255}`. Встретились все 17 разрезов по числу левых позиций в прямом префиксе, ties в обоих направлениях и чтение кандидатов, ранее выбранных встречным проходом. Произвольные байты покрывает приведённая индукция.
+Для FIX3 после списка blobs команда печатает `OK` для receipt и projection, затем `BIND_OK 32129c149a15fb1b60a7314e738f3cb466d076e5`.
+
+## Офлайн-перебор формул
+
+Скрипт перебирает все 23 409 пары неубывающих половин длины 16 над `{0,1,255}`. На каждом шаге он сверяет домен счётчиков, оба записанных края с отсортированными ключами позиций и пустой интервал между ними. На выходе он проверяет обе формулы разрезов и Mask/Below при q из `{0,1,2,255}`. Произвольные байты покрывает приведённая индукция. [Скрипт](check_rev2_merge_rank_induction.py)
+
+Команда из корня g0
+
+```bash
+python3 research/challenge-8/kani-k1/check_rev2_merge_rank_induction.py
+```
+
+Ожидаемый вывод
+
+```text
+23409 pairs; all 17 cuts; both ties and opposite-side reads observed
+```
