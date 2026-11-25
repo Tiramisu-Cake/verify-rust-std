@@ -2,7 +2,9 @@
 
 **READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`.
 
-Пакет FIX1 подготовлен по заданию из g0 `95b665431b872a8047169825555e5123d13603c3` после NO-GO исходного control `bccbabf84d77fbc227862b5650baab506f3f580f`. Исправлены оба блокера ревью. Rust, Std, request, bundle, roster, пины, caps, окна и код supervisor побайтно совпадают с проверенным пакетом. Compile preflight, discovery, исходы свойств и ресурсные измерения имеют статус `UNKNOWN` до первого согласованного прогона. [FIX1](REV2-NETWORK-PROVIDERS-FIX1-TASK.md) · [Ревью](REV2-NETWORK-PROVIDERS-REVIEW.md) · [Исходное задание](REV2-NETWORK-PROVIDERS-TASK.md) · [Лимиты владельца](OWNER-DECISION-LIMITS-20261125.md)
+Run `45654643427` на FIX1 завершился до setup и не засчитан. Ранний self-test дал 89/90. Compile preflight, discovery, результаты свойств и ресурсные измерения остаются `UNKNOWN`. [Ledger](CH8-DISPATCH-LEDGER.md) · [FIX1](REV2-NETWORK-PROVIDERS-FIX1-TASK.md) · [Ревью](REV2-NETWORK-PROVIDERS-REVIEW.md) · [Исходное задание](REV2-NETWORK-PROVIDERS-TASK.md)
+
+На FIX1 сбой воспроизведён локально с `time.monotonic()` около 60 с. В тесте был положительный синтетический `epoch=1000`. `report.finish()` перечитывал его после снятия подмены часов, поэтому `run.clocks()` сравнивал 1000 с часами свежей машины. FIX2 держит синтетическую шкалу до конца `report.finish()` и сверяет границы в `index.json` с границами измерений. Ранний self-test запускает весь suite в Python-процессе с монотонной шкалой, начатой на 60 с. Проверка `0 < epoch <= time.monotonic()` в боевом `run.clocks()` и часы job сохранены побайтно.
 
 ## Ревизии и файлы для ревью
 
@@ -12,12 +14,12 @@
 | Std CAL1 | `080a0104159fd04b6764a24f8538a97588f6612e` | `96f95b8082983b57f203b0e3e12151552dba0f76` | `dab03cf510df5c35141cde49f1368b1242f5035e` |
 | Std CAL2 | `043a1f19f9d36eb1666979f97b8e7e483ab41c5e` | `1361a0da67b9bd21fc7c77a941582d0fd17b9a8d` | `080a0104159fd04b6764a24f8538a97588f6612e` |
 | Std REV2 | `2dc2ca13fc12cf2c644faf982245740b20ca0f93` | `6b55a33da0ee7877caa06ca258ea1e43a1c4f0fb` | `043a1f19f9d36eb1666979f97b8e7e483ab41c5e` |
-| Control REV2 FIX1 | `7cc92ab05856667a9993b5e8027f2c1e3e3a27fc` | `49aa679193b4a7803178cce0a7f4342540f9c01d` | `bccbabf84d77fbc227862b5650baab506f3f580f` |
-| Локальный review-trigger FIX1 | `46407faadcb0fa136d15222425be65e86a3195c3` | `49aa679193b4a7803178cce0a7f4342540f9c01d` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+| Control REV2 FIX2 | `cdd188a0a8c987c04cb5722a89b3533e3c72015d` | `86085469ca0ecd74b1b9c99b63793d6b31ffa2a2` | `7cc92ab05856667a9993b5e8027f2c1e3e3a27fc` |
+| Локальный review-trigger FIX2 | `727c2977a1c8955f3a258e74b1a0bbde057d94b5` | `86085469ca0ecd74b1b9c99b63793d6b31ffa2a2` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
 | Stock Kani | `9834c96ce90ff57d8495416530b080dc3d52ce25` | `938e9932cb2127239afb4f093f6302652c053398` | `70d7da0ae18991f9604d299784b974a43636945a` |
 
 - Std `rev2-network-providers-w11` от CAL2. [Worktree](/root/verify-rust-std-rev2-network-providers-w11) · [Diff от CAL2](/root/rev2-network-providers-review/std-from-cal2.patch) · [Четыре корня](/root/verify-rust-std-rev2-network-providers-w11/library/core/src/slice/sort/shared/smallsort/verify/rev2_provider_cost.rs)
-- Control `work/rev2-network-providers-control-w11` поверх проверенного `bccbabf84d`. Локальный FIX1 trigger находится в `local/rev2-network-providers-fix1-trigger-review`. Изменения для повторного ревью — `bccbabf84d..7cc92ab058`. [Worktree](/root/kani-rev2-network-providers-control-w11) · [Diff FIX1](/root/rev2-network-providers-review/control-fix1-from-reviewed.patch) · [Diff FIX1 trigger от sole parent](/root/rev2-network-providers-review/trigger-fix1-from-sole-parent.patch)
+- Control `work/rev2-network-providers-control-w11` поверх FIX1. Локальный FIX2 trigger находится в `local/rev2-network-providers-fix2-trigger-review`. Diff `7cc92ab058..cdd188a0a` ограничен `ch8-cal1/test_run.py` и ранним self-test в `.github/workflows/ch8-q-pilot.yml`. [Worktree](/root/kani-rev2-network-providers-control-w11) · [Diff FIX2](/root/rev2-network-providers-review/control-fix2-from-fix1.patch) · [Diff FIX2 trigger от sole parent](/root/rev2-network-providers-review/trigger-fix2-from-sole-parent.patch)
 
 | Файл | SHA-256 |
 | --- | --- |
@@ -26,7 +28,7 @@
 
 Bundle требует `dab03cf510df5c35141cde49f1368b1242f5035e`, рекламирует один `HEAD` Std REV2 и содержит три последовательных overlay commit. Guard сверяет SHA-256, commit/tree/sole parent всей цепочки, список refs bundle и layout. Разрешённый push gate использует `Tiramisu-Cake/kani`, событие `push`, `refs/heads/uninit-ci/ch8-q-pilot-v1`, attempt `1` и `contents: read`. Checkout в `control` берёт `github.sha`. [Workflow](/root/kani-rev2-network-providers-control-w11/.github/workflows/ch8-q-pilot.yml) · [Guard](/root/kani-rev2-network-providers-control-w11/ch8-cal1/request.py)
 
-После отдельного GO координатор задаёт Actions variable `CH8_REV2_PROVIDER_COST_TRIGGER_TREE` полным проверенным tree `49aa679193b4a7803178cce0a7f4342540f9c01d`. Sole parent будущего trigger — `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. Workflow передаёт переменную как `REV2_PROVIDER_COST_TRIGGER_TREE`. `check_trigger` и `identity` сравнивают с ней checkout, а SHA сверяется с `after` payload. Пустой, отсутствующий, неверно оформленный или несовпадающий pin даёт отказ. Finalize требует `trigger_admitted=true` от `pins` и заново проверяет привязку, upload требует успешного finalize. Отказ gate оставляет job без публикации. Trailer больше не участвует в допуске. Новые локальные коммиты используют `[skip ci]` и авторство `Tiramisu-Cake <igkharin@gmail.com>`.
+После отдельного GO координатор задаёт Actions variable `CH8_REV2_PROVIDER_COST_TRIGGER_TREE` полным проверенным tree `86085469ca0ecd74b1b9c99b63793d6b31ffa2a2`. Sole parent будущего trigger — `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. Workflow передаёт переменную как `REV2_PROVIDER_COST_TRIGGER_TREE`. `check_trigger` и `identity` сравнивают с ней checkout, а SHA сверяется с `after` payload. Пустой, отсутствующий, неверно оформленный или несовпадающий pin даёт отказ. Finalize требует `trigger_admitted=true` от `pins` и заново проверяет привязку, upload требует успешного finalize. Отказ gate оставляет job без публикации. Trailer больше не участвует в допуске. Новые локальные коммиты используют `[skip ci]` и авторство `Tiramisu-Cake <igkharin@gmail.com>`.
 
 ## Точный roster и домены
 
@@ -69,7 +71,12 @@ Bundle требует `dab03cf510df5c35141cde49f1368b1242f5035e`, реклами
 
 Внутри каждого окна 180 с cold wall, 10 с TERM/KILL/reap и 5 с на receipt. Сбор компактной телеметрии, `results.project` и публикация необязательных файлов имеют абсолютный предел за секунду до дедлайна слота. Последняя секунда зарезервирована для сериализации и атомарной записи обязательного receipt. На медленной проекции сохраняются доступная телеметрия, причина отсечки и данные reap, а `projection_budget_exhausted` отмечает пропуск проекции. Фактический момент завершения атомарной записи фиксируется после rename. Если запись прервана по дедлайну, повтор идёт после цепочки слотов. Финализация добавляет `receipt_write_completed_monotonic`, `slot_elapsed_seconds` и `receipt_deadline_exceeded` без пересчёта outcome. Cold targets остаются вне `artifact/` до teardown одноразового runner. Короткая отсечка продолжает roster после подтверждённого reap и проверки следующего окна. `REAP_UNVERIFIED` и отказ supervisor блокируют последующие запуски и финальные tool probes. Проекции сохраняют фактические argv, cfg, OB, geometry, точную причину и фазу, symex/SSA/первую CNF либо причину её отсутствия, group/CBMC RSS до завершения процесса выдачи и PSS с координатами census. В регулярной проекции сохраняются exact ID, Location и status, в stock export сохраняются состояние, метаданные и failure/cover evidence. При частичном capture receipt держит доступные полевые свидетельства и явно указывает их охват. Компактные receipts переживают обрезку optional проекций и timelines. Лимиты составляют 4 MiB на проекцию и 96 MiB на job. Upload ограничен `artifact/`, полные логи и GOTO лежат в рабочем каталоге слота. [Супервизор](/root/kani-rev2-network-providers-control-w11/ch8-cal1/supervisor.py) · [Проекция результатов](/root/kani-rev2-network-providers-control-w11/ch8-cal1/results.py) · [Отчёт](/root/kani-rev2-network-providers-control-w11/ch8-cal1/report.py)
 
-## Локальные проверки
+## Локальные проверки FIX2
+
+- На точном `shallow detached` FIX2 trigger выполнен shell-блок `pins` из workflow с синтетическим push и правильным внешним tree pin. Ранний self-test со стартом монотонных часов на 60 с прошёл **90/90** за 33,431 с. Обычный `python3 -B -m unittest discover -q` на том же checkout также прошёл **90/90** за 31,742 с. При часах на 60 с production guard отклонил нулевой, отрицательный, будущий и нечисловой `epoch`. Проверка остальных тестов не выявила смешения синтетических и реальных шкал. Нативные тесты задают относительные дедлайны, а сценарии с абсолютными значениями используют подмену часов или передают метки как данные.
+- PyYAML разобрал workflow без дубликатов ключей, шесть shell-блоков прошли `bash -n`. `git diff --check` прошёл для FIX2 и review-trigger. Оба патча FIX2 воспроизвели дерево `86085469ca0ecd74b1b9c99b63793d6b31ffa2a2` во временных Git index. Request, bundle и их SHA-256 совпали с FIX1. Код runner, supervisor и report совпал с FIX1 побайтно.
+
+## Проверки исходного пакета и FIX1
 
 - `rustfmt --check` прошёл для `smallsort.rs`, `smallsort/verify.rs` и `rev2_provider_cost.rs` через `/root/rustfmt-toolchains/nightly-2026-11-19/bin/rustfmt --edition 2024 --config use_small_heuristics=Max --config skip_children=true,reorder_modules=false`. `git diff --check` прошёл на Std, FIX1 и FIX1 trigger. Оба патча FIX1 воспроизвели зафиксированный tree во временном Git index. SHA-256 request и bundle совпали с ревью.
 - Снятие opt-in атрибутов восстанавливает Git blob `smallsort.rs` побайтно до CAL2 и Std base. Регистрация REV2 и одна lint-декларация снимаются до точных CAL2 blobs. Штатный Std workflow побайтно совпадает с базой. Сверены четыре исходные регистрации, covers, 45 call sites, 16 пар scratch и границы независимых up/down счётчиков. `git bundle verify` и импорт на shallow Std base подтвердили один prereq, один `HEAD`, ancestry и отсутствие новых refs.
@@ -77,7 +84,7 @@ Bundle требует `dab03cf510df5c35141cde49f1368b1242f5035e`, реклами
 - На фактическом `run.py pins` согласованный внешний pin разрешил checkout. Отсутствие pin и неверные значения отклонены. Отдельная регрессия изменила `run.py` и создала коммит с согласованным trailer при правильных fork/event/ref/attempt/SHA/sole parent. `pins` и `finish` отклонили новое дерево, пригодных для публикации outputs и `artifact/` не появилось.
 - При старте на границе 45 мин первые три synthetic слота вернули `TIMEOUT` после 180 с и подтверждённого 10-секундного reap. Каждая 16-секундная проекция прервана, receipts сохранили `TIMEOUT` и были атомарно записаны в своё окно. Четвёртый слот стартовал до latest start. Дополнительная регрессия подтвердила late commit в `195.25` с флагом превышения и сохранением `RSS_LIMIT`. Прерванная запись повторилась после запуска всех четырёх слотов.
 
-Cargo, rustc, Kani, CBMC, CI, push и публикация в этом этапе не запускались.
+В FIX2 Cargo, rustc, Kani и CBMC локально не запускались. Push, CI и публикации не было.
 
 ## Критерии после первого прогона
 
