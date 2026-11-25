@@ -2,6 +2,8 @@
 
 **READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`. Ревью допускает диагностическую пару после отдельного разрешения на точное дерево пакета. Компиляция, native binding, исходы и профиль ресурсов имеют статус `UNKNOWN`. [Независимое ревью Std](REV2-MERGE-INVARIANT-REVIEW.md) · [Handoff инварианта](REV2-MERGE-INVARIANT-HANDOFF.md)
 
+Актуальные идентичности и результаты проверки приведены в [FIX1](#fix1--закрытие-двух-блокеров-r2). Разделы исходного пакета сохраняют данные для сверки с R2.
+
 ## Идентичности
 
 | Объект | Commit | Tree | Единственный parent |
@@ -54,3 +56,33 @@ Ubuntu 24.04, stock Kani и CBMC 6.11.0/CaDiCaL, OB12, unwind 36, `--exact --job
 - `git bundle verify`, `list-heads` и `unbundle` прошли на bare shallow base глубины 2 с общим object store. Сверены требуемый base, advertised HEAD, commit/tree/parent пяти overlays, сохранение refs и точный source layout.
 - `rustfmt --check` прошёл для обоих Std деревьев заданным `nightly-2026-11-19` с `use_small_heuristics=Max`, `skip_children=true,reorder_modules=false`. `git diff --check` прошёл для positive, step control, пакета, trigger и этого handoff.
 - Использовались только статические проверки, Python-тесты и локальный Git. Cargo, rustc, Kani, CBMC, CI, push и публикация не выполнялись.
+
+## FIX1 · закрытие двух блокеров R2
+
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`. Исправлены дедлайны команд и изоляция записей receipt. Ревью FIX1 и отдельное разрешение на запуск ещё требуются. Компиляция, нативная привязка, исходы и ресурсы остаются `UNKNOWN`. [Ревью R2](REV2-MERGE-INVARIANT-REVIEW.md#r2--пакет-запуска)
+
+| Объект | Commit | Tree | Единственный parent |
+| --- | --- | --- | --- |
+| Ревью R2 в g0 | `a9cc59fc3f1ad42944ed0f61801d736af5f3c542` | `ca1e6dc23fbae25d8fec407eeb72cbf629436a56` | `619dafe3c07adcc9bd73bbc9ccc36140ef9c64a5` |
+| Control FIX1 | `7c65c0dc91962d2f9f04ed8ccff99161b2cc4539` | `e9398b66b409436c5b68ba7c206dfbb7f4d04713` | `765bc94c259ae5ee3d2da6ac346c1e44f7591345` |
+| Локальный review-trigger FIX1 | `80817b3c6b6919e9d3e4f86a508a9c6245dfd5eb` | `e9398b66b409436c5b68ba7c206dfbb7f4d04713` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+Control в `/root/kani-rev2-merge-invariant-control-w15` на ветке `work/rev2-merge-invariant-control-w15`. Для review-trigger используется ref `refs/heads/review/rev2-merge-invariant-trigger-fix1-w15`. После отдельного разрешения ожидаемый независимый pin — `CH8_REV2_MERGE_INVARIANT_TRIGGER_TREE=e9398b66b409436c5b68ba7c206dfbb7f4d04713`.
+
+| Вход или diff | SHA-256 |
+| --- | --- |
+| Дельта control от R2 | `05f5c17e98abf336fe71055129741d6302df329c6600c7405beb330e03828b73` |
+| Дельта FIX1 review-trigger от его parent | `ba720cd14af6a29d6220d9a84e22d43939b9d9524e5c36da287359749ac62b32` |
+| Workflow | `227e64bb861b47010c27951dec261b5329363161b78bbc3d5d1c873a3e993f18` |
+| Frozen request | `210b1a4e2b361141a16fe705e839086b48e896a46b8934333a4b11cac349b914` |
+| Канонический roster | `9ffaf488c02754d61ad469e39f461353cc8060d21854701cc464cc0bacd61e6a` |
+| Std bundle | `e9dede6ff871b6f82e88d7eafba7686ae0a5f98c1b5fd41f772b5e8cd1386325` |
+
+Хеши diff получены для пар parent/commit из таблицы с флагами Git `--no-ext-diff --no-textconv --binary --full-index --no-color --no-renames --src-prefix=a/ --dst-prefix=b/ --no-indent-heuristic --diff-algorithm=myers -U3`. Пины Std, Kani и профиль обоих слотов сверены по frozen request. [Control](/root/kani-rev2-merge-invariant-control-w15/ch8-cal1/run.py) · [Frozen request](/root/kani-rev2-merge-invariant-control-w15/ch8-cal1/CI-REQUEST.json)
+
+1. `sources` и `finish` вычисляют дедлайн из одного monotonic старта команды до gate. Формула — `min(абсолютный дедлайн фазы, start + внутренний бюджет, start + таймаут workflow − 10 с)`. Для `sources` бюджет 120 с при 180 с в workflow, для `finish` 720 с при 780 с. Под этим таймером выполняются сверка фактического дерева, чтение исходного trigger receipt, загрузка запроса и основная работа. Каждая Git-команда gate получает таймаут не выше остатка этого окна. `finish` использует тот же таймер для сборки отчёта. Абсолютная граница `finish` — 65:50, затем upload получает свои 7 мин внутри общего окна. [Таймер команд](/root/kani-rev2-merge-invariant-control-w15/ch8-cal1/run.py:666) · [Gate](/root/kani-rev2-merge-invariant-control-w15/ch8-cal1/request.py:157)
+2. Время завершившейся атомарной записи сохраняется отдельно для каждого слота, раньше отложенных retry. Ошибки retry и записи журнала обрабатываются по слотам. При неудаче retry журнал первого слота содержит `RETRY_FAILED`, обе ошибки записи и снимок фактического исхода. `finish` переносит его в receipt без отметки завершения. Успешный второй слот сохраняет `COMMITTED`, точное время и флаг превышения своего дедлайна. Ошибка финализации сообщается после обработки меток обоих слотов. [Журнал слотов](/root/kani-rev2-merge-invariant-control-w15/ch8-cal1/run.py:467) · [Сборка receipt](/root/kani-rev2-merge-invariant-control-w15/ch8-cal1/report.py:208)
+
+Python 3.12 suite прошёл **106/106** за 24,058 с на обычных часах и **106/106** за 23,572 с со шкалой `time.monotonic() = 60 + elapsed` через shell-блок `pins` на exact shallow detached review-trigger FIX1. Тесты покрывают все 11 таймаутов шагов и лимит job, медленный Git-gate на обоих entrypoints, ограничение по абсолютной фазе и по внешнему таймауту с запасом, а также сценарий с ошибкой первого retry и сохранёнными метками второго слота. Синтетический stale pin был отклонён командами `pins`, `sources` и `finish`. С верным pin синтетический `finish` сформировал два `NOT_STARTED` без выполнения proof.
+
+YAML разобран с запретом дублирующихся ключей. `bash -n` прошёл для шести shell-блоков. `git diff --check` прошёл для control, review-trigger и handoff. Все коммиты локальные с `[skip ci]`. Cargo, rustc, Kani, CBMC, CI и push не запускались.
