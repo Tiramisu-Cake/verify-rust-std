@@ -133,3 +133,36 @@ NOT_RUN: Kani, CBMC, cargo, rustc, `run.py pins`, YAML, `bash -n`, фактич�
 - **Suite:** 133/133 OK.
 
 NOT_RUN: Kani, CBMC, cargo, rustc, `run.py pins`, `static_import`, YAML, `bash -n`, реальное поведение фазы B.
+
+## R6 · FIX6
+
+**GO_WITH_NITS**, блокеров нет, B1 из R5 закрыт без ослабления. Ревьюер Claude (smallsort-reviewer, read-only), 2026-11-26.
+
+Пины:
+- control `1338213af771e2658a3f81a5f720be7765b7eb86`, tree `756dea4a28c9ae012881fe36aa1542d749c78fec`;
+- overlay `4beda039e6a399f7d38de9cbe987973cd59d0bdd`, tree `400f0d8e4c`;
+- review-trigger `379a15f3034c54ab64e413b361b728641acc81fe`, sole parent `467af9cb8d`.
+
+Хэши request `ab4550ea…8c62`, roster `2747be36…81a4` и bundle `49f0fba0…795e` пересчитаны и совпадают.
+
+### Неблокирующее
+
+1. Bounded publish может не сохранить допущенное свойство в `native.properties` (`verdict.py:449`). Останутся ID в `observed.admitted_unreachable` и счётчик. Для аудита добавить координаты допущенных мест в `wanted_locations`.
+2. `verdict._admitted_error` (`verdict.py:311-324`) не проверяет `negative`. Это закрыто только в request (`request.py:353`).
+3. Отсутствие недостижимого `mutable cast` у char-корней выведено только статически, их receipts обрезаны TIMEOUT. При ошибке будет ложный MISMATCH, ложного MATCH не будет.
+
+### Проверено
+
+- **Дельты.** Overlay: +1/−4 в `validity_main.rs`. Control: 7 файлов, workflow и tool bundle не тронуты. `frozen()` и digest совпадают, авторство в порядке.
+- **B1, синтетика на `verdict.decide` по реальным записям n19 ON.**
+  - Точное место со статусом SUCCESS → MATCH.
+  - Без argv → UNKNOWN.
+  - FAILURE, UNDETERMINED, ERROR, другой тип, длина, координата, ID, функция, файл, дубликат, лишнее свойство или FAILURE → MISMATCH.
+  - n18 с FAILURE → `MATCH_KNOWN_LIMITATION`, n18 со SUCCESS → MISMATCH.
+- **Достижимость.** Место `:423:28` стоит после `if no_merge { return; }`.
+- **Другие корни.** У n03 и n02 `mutable cast` нет. Через `small_sort_network` идут только n10 и n18.
+- **Старые замечания.** R5-3, R5-6 и R5-2 закрыты.
+- **Replay.** A — 18/18, B — без падений.
+- **Suite и rustfmt.** Suite 139/139 OK. rustfmt не даёт новых отличий.
+
+NOT_RUN: Kani, CBMC, cargo, rustc; `static_import`, `check_trigger`, `run.py pins`; YAML и `bash -n`. ID свойства у n10 на реальном прогоне не проверен: если он не `.1`, получится MISMATCH, а не ложный MATCH.
