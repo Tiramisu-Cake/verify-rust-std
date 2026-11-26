@@ -19,3 +19,15 @@
 - 118/118 на шкалах default/1/5/60 с; rustfmt, `git diff --check`, YAML, `bash -n`; авторство Tiramisu-Cake, `[skip ci]`.
 
 Не запускалось: cargo, rustc, Kani, CBMC, CI, `pins` с payload.
+
+## R2 после FIX1 — **GO**
+
+Control `302604ce810495c342282fba17cbdaea9aaf8cc5` (tree `b235397dd83b5ee85a53d56ebe40e01f547e8403`, parent `fd941d9493`), review-trigger `e9e81a222e` (тот же tree, sole parent `467af9cb8d`), handoff g0 `38d6be8947`, Std `ea34c58ab9` без изменений. Блокеров нет.
+
+- Дельта R1→FIX1: только `results.py` (+2/−2) и `test_results.py` (+26); CI-REQUEST, bundle, workflow, `request.py` — те же blobs. `results.py:109` требует `copy_back is False` для шести frozen слотов.
+- Мутации (scratch): возврат к проверке типа bool и «любой bool» роняют тест copy_back на всех 6 подтестах; игнор строки 587 и снятие проверки строки роняют тест сдвига якоря.
+- Хэши request `62aba996…`, bundle `2033e104…`, roster `e097e28d…`, bindings `05b42ed7…`; `test_supervisor.py` `df63a457…`.
+- 120/120 на шкалах default/1/5/60 с; YAML, `bash -n`, AST, `git diff --check` чисты.
+- Handoff: все пять пунктов FIX1 отражены (внешний перенос базы + индукция по циклу, init external при uninit OFF, rel13 нативно / rel14–15 офлайн, run 45829863637 success 8/8, диапазон `[begin, tail−1]`). Авторство Tiramisu-Cake, `[skip ci]`.
+
+Неблокирующее: тест сдвига якоря покрывает только `S13-B14-SWAP` (B15/B16 без мутационного теста); suite локально 37–42 с при таймауте 90 с.
