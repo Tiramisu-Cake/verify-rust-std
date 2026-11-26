@@ -2,6 +2,8 @@
 
 **READY_FOR_REVIEW · `go=NOT_GRANTED` · `proof_credit=NONE`.** Подготовлен локальный пакет из 12 последовательных слотов для одной Ubuntu 24.04 job. Домен — инициализированный V34, реальные `u8/KeyLess<u8>` с числовым `<` и независимый `q: u8`. Для нативного прогона требуется отдельное ревью и GO. Сквозные корни, copy-back и контроли N22–N25 входят в следующий пакет. [Задание](REV2-N22-N25-PROVIDERS-TASK.md) · [Допуск N20/N21](REV2-N20-N21-ADMISSION.md) · [Правило композиции](REV2-COMPOSITION-RULE.md)
 
+Актуальные пины, общий дедлайн finish/upload-gate и результаты повторных проверок приведены в [FIX1](#fix1).
+
 ## Пины пакета
 
 | Роль и локальный worktree | Commit | Tree | Sole parent |
@@ -141,3 +143,29 @@ Actual comparator cover `cal1_model.rs:28:9`, числовой `<` в FnMut на
 - Synthetic push прошёл pins и finish, результат `PROVIDERS_OPEN` с 12 `NOT_STARTED`, проверены 15 членов индекса. Все 14 негативных проверок отклонили подмены tree, старую переменную, чужой payload SHA или изменённый trigger admission receipt. `git diff --check` прошёл для Std, control, trigger относительно sole parent и handoff.
 
 Нативный compile preflight, cfg discovery и все 12 новых terminal receipts ожидают отдельного GO. Коммиты локальные, с `[skip ci]`, автор Tiramisu-Cake. Push, CI, изменения Actions variables и локальные запуски cargo, rustc, Kani и CBMC отсутствуют.
+
+## FIX1
+
+**READY_FOR_REVIEW · `go=NOT_GRANTED` · `proof_credit=NONE`.** Исправлены B1 и N1 из [ревью R1](REV2-N22-N25-PROVIDERS-REVIEW.md). Пины ниже относятся к новому кандидату.
+
+- **B1.** Из четырёх `actual_pair_step_nN` удалены requires `numeric_halves_ordered_raw` и сам helper. В каждом Check остались ограничения на счётчики, readable source, writable scratch, disjoint и modifies ровно двух целей. Числовой порядок половин остаётся предпосылкой в каждом harness. Два actual вызова, утверждения о курсорах, min/max, covers и grouped anchors сохранены. [Provider-модуль FIX1](/root/verify-rust-std-rev2-n22-n25-providers-fix1-w14/library/core/src/slice/sort/shared/smallsort/verify/rev2_n22_n25_providers.rs:121)
+- **N1.** `finish` ограничен пятью минутами от входа и общим cutoff **97:55** от epoch. Этот же cutoff проверяет `upload-gate`. Между cutoff и абсолютной границей upload 105:00 остаются 7:05, включая 5 с на переход к upload. Тест завершает synthetic finish ровно на cutoff, проверяет допуск upload-gate в этот момент и отказ после сдвига на 0,01 с. Внешние таймауты finish/upload остаются 6/7 мин. План 114:00 и жёсткий предел job 120:00 сохранены. [Дедлайн в runner](/root/kani-rev2-n22-n25-providers-fix1-control-w14/ch8-cal1/run.py:116) · [Тест общей границы](/root/kani-rev2-n22-n25-providers-fix1-control-w14/ch8-cal1/test_run.py:922)
+
+| Роль и локальный worktree | Commit | Tree | Sole parent |
+| --- | --- | --- | --- |
+| [Std FIX1](/root/verify-rust-std-rev2-n22-n25-providers-fix1-w14) · detached sparse | `b076d2ff4ed720930e2de62d70c0bbd1bb0308d5` | `33cd29a7756b24febf399932f86d8d09892653f7` | `000e6c4bf6ef0436e83e745618c077d988543169` |
+| [Control FIX1](/root/kani-rev2-n22-n25-providers-fix1-control-w14) · work/rev2-n22-n25-providers-fix1-control-w14 | `279c2200a8ecab1ee0e9057c86d771ff6e6c963e` | `ac6176ac55522c8a78d9cd9418077fe8bd62a391` | `2404b83ff5adcc969939764f405670c00c0bfcaa` |
+| [Review-trigger FIX1](/root/kani-rev2-n22-n25-providers-fix1-trigger-w14/control) · detached, ref review/rev2-n22-n25-providers-fix1-trigger-w14 | `cda0264fa4fc395e91471ed6d03c9b6268c11553` | `ac6176ac55522c8a78d9cd9418077fe8bd62a391` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+Ожидаемый независимый tree pin для FIX1 — `CH8_REV2_N22_N25_PROVIDERS_TRIGGER_TREE=ac6176ac55522c8a78d9cd9418077fe8bd62a391`. Порядок 12 слотов, targets, кадры исполнения и требования к результатам сохранены. Blob provider-модуля FIX1 — `3d83992d8fda0a78cb8b388f54db81bc90e751a7`. Остальные pinned source blobs совпадают с таблицей выше. Контрактные координаты modifies/начала Check: N22 `125:1 / 126:1`, N23 `245:1 / 246:1`, N24 `472:1 / 473:1`, N25 `592:1 / 593:1`. Все координаты native labels, включая столбцы, закреплены в новом request.
+
+| Вход FIX1 | SHA-256 |
+| --- | --- |
+| [Frozen request](/root/kani-rev2-n22-n25-providers-fix1-control-w14/ch8-cal1/CI-REQUEST.json) | `315ec4cc344ad5bb295c1f9fa3b7c300cf28a6fe71130e7beed457f24608666e` |
+| Canonical JSON roster | `277f161758d63dd582f88300ee030a9005a5e134236fc6574dcb8f193a1d1db5` |
+| [Std overlay bundle](/root/kani-rev2-n22-n25-providers-fix1-control-w14/ch8-cal1/std-overlay.bundle), 43 834 байта | `c0901c55157caf46ea15047b0bb1e0aafb6cd61ffee6aafa41fac5eb9f7b60ea` |
+| Canonical JSON source bindings | `4ed84e2bd54bf1c3aedb76c49db283d3ecb24fa93a9d11c1d0eedce5b3f244bb` |
+
+Независимый shallow bare import без alternates сверил prerequisite, единственный объявленный HEAD, 15 commit/tree/sole-parent и прежние cfg layouts. Все 65 actual source и 166 native label координат сверены с новым кандидатом. Отдельный сдвиг каждого столбца на +1 отклонён. Rustfmt, YAML, восемь shell-блоков, Python AST, проверка затенения имён и `git diff --check` прошли.
+
+В точном блоке pins на финальном detached trigger последовательно прошли по 115 тестов на обычной шкале и 60/5/1 с. Время suite — 26.122 / 27.917 / 26.316 / 26.713 с, всего pins — 109.476 с. Synthetic pins/finish выдал 12 `NOT_STARTED` и индекс из 15 членов с совпавшими размерами и SHA-256. Пройдены 17 отрицательных проверок trigger, включая отказ при подаче tree прежнего кандидата. Нативные preflight, discovery и измерения ожидают отдельного GO. Push, CI и локальные запуски cargo, rustc, Kani и CBMC отсутствуют.
