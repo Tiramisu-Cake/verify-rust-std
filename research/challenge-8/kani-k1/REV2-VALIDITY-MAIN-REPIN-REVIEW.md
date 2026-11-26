@@ -19,3 +19,25 @@
 - 109/109 (кроме флейка п. 1); YAML, `bash -n`, `git diff --check`, rustfmt; авторство Tiramisu-Cake, `[skip ci]`.
 
 Не проверяемо локально: выдача GitHub `f94155ef29` по SHA, submodules в CI, сборка на 11-21, компиляция merge.
+
+## R2 · FIX2
+
+**GO_WITH_NITS**, блокеров нет · ревьюер Claude (smallsort-reviewer, read-only), 2026-11-26 · control `bf4e1d882a6a7247a87a7dac5890738507eb4d06` (tree `6d51ab4ed08f87d01d9be5f783c63f751a08e3ac`, sole parent `e4b3eced27`), review-trigger `13e1ebf83ade3d25dbd6a4ee6d5e7b61c40ba8c2` (тот же tree, sole parent `467af9cb8d`), handoff g0 `5f6ed8542f`.
+
+### Неблокирующее
+
+1. `test_sources.py`, `test_upstream_probe_and_blob_reads_are_bounded_by_the_sources_deadline`: второй `assertEqual(calls, [])` после `git_blob` ничего не проверяет, потому что подменён только `subprocess.run`, а `git_blob` вызывает `check_output`. Отсутствие запуска доказывает сам `TimeoutError`, так как `bounded()` вычисляется до вызова. Поведение верное, утверждение избыточно.
+2. `test_sources.py`, fetch-сценарий: срез `cmd[5::len(cmd)-6]` хрупок к изменению argv. Яснее проверять `cmd[5] == "fetch"` и `cmd[-1] == refspec`.
+3. Stress-доказательства: `summary.txt` собран из логов после прогона, формат не совпадает с `printf` в `stress.sh`. Диапазон load 3,3–7,3 в файлах не зафиксирован. SHA в логах нет, привязка к `bf4e1d882a` косвенная, по времени. Все 24 `run-*.log` заканчиваются `Ran 110 tests … OK`.
+
+### Проверено
+
+- Дельта `e4b3eced27..bf4e1d882a` — один коммит, только `request.py`, `test_sources.py`, `test_supervisor.py`. `supervisor.py`, workflow, `CI-REQUEST.json`, bundles, overlay, fixture и roster не изменились. Trees и blob'ы совпадают с handoff. Авторство Tiramisu-Cake, `[skip ci]`.
+- `test_supervisor.py` побайтно равен `df63a457`. Этот blob ревьюился вместе с тем же `supervisor.py` `151af5b128`. Escaped-descendant строже R1: timeline ровно TERM_DESCENDANT → KILL_DESCENDANT на один PID/start_id, `reaped=true`, пустые `remaining_processes` и `cleanup_errors`, `waitpid` −SIGKILL. Сигналы и census идут через настоящий код.
+- `test_sources.py`: точный путь `^bundle prerequisite <sha> is missing$` при подменённом `ensure_upstream`; для неизвестного SHA ожидается `CalledProcessError` именно из `fetch`.
+- `request.py`: `bounded()` бросает исключение до запуска процесса при исчерпанном дедлайне. Таймаут `git_probe` не превращается в «missing». Все вызовы на пути `sources` (`run.py:238-262`) передают deadline, фиксированных 30 с на этом пути не осталось.
+- Suite: прогон ревьюера в копии `git archive` дал 110 тестов с одной ошибкой. Предположительная причина — `test_run.py:269` требует git-checkout. Координатор повторил прогон в чистом `git clone` с detached `bf4e1d882a` (tree `6d51ab4ed0`): **110/110 OK за 36,5 с**.
+
+Не проверялось: `run.py pins`, `static_import.py`, повторный stress. Workflow не менялся.
+
+Решение координатора: замечания 1–3 не влияют на запуск, повторный FIX не нужен. Пакет передаётся планеру на GO.
