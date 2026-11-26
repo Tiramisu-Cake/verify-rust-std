@@ -1,0 +1,33 @@
+# REV2 · исследовательский допуск N17
+
+**Строка к утверждению координатором.** Run `45732377113`, attempt 1, дал `COMPOSITE_WITHIN_PROFILE`, все три слота `MATCHED`. Диагностический `proof_credit=NONE`. [Правило композиции](REV2-COMPOSITION-RULE.md) · [Независимое ревью маршрута и пакета](REV2-N17-REVIEW.md)
+
+| Область | Свидетельство | Пост на нормальном возврате |
+| --- | --- | --- |
+| Фактический `small_sort_network::<u8, KeyLess<u8>>` на `&mut v[1..18]` в инициализированном V34, произвольные полные байты, числовое `<`, независимый `q: u8` | Составное свидетельство. Exact S13 `(1,17)` и байтовый swap Check дают пороговый перенос на префикс из 13 байтов. Native byte Proof закрывает actual driver с четырьмя вставками. Native битовый Proof и различающий контроль исполняют всю ветку `no_merge`. | Активные 17 байтов численно упорядочены и сохраняют полное входное мультимножество. `v[0]`, `v[18..34]` и q неизменны. Область допуска ограничена исследовательским профилем ниже. Для `stub_verified` и штатного покрытия pr752 нужны отдельные свидетельства. |
+
+## Привязка рёбер
+
+| Ребро | Нативная опора и внешний аргумент |
+| --- | --- |
+| S13 | `S13-B01-L17-BITS` (`45688753097`, plain Proof, 4/4 covers) проверяет actual S13, битовый порядок, popcount и frame. `S13-SWAP-LEAF` (`45661535099`, Check, 6/6) даёт точный `min/max`, q-frame и байтовый frame для `0 ≤ a < b < 13` на base1. В `smallsort.rs:395–397` вызов получает весь регион длины 17, и все 45 пар на строках 612–656 попадают в домен листа. На каждом пороге `[byte ≥ t]` выходы `min/max` проецируются в AND/OR. Порядок всех проекций даёт числовой порядок, а сохранение пороговых счётчиков даёт все кратности в `v[1..14]`. Четыре хвостовых байта и frame сохраняются. [Опоры и проверенные anchors](REV2-N17-HANDOFF.md#идентичность-источников-и-исторические-anchors) |
+| Вставки | Вызов на `smallsort.rs:405` использует тот же `v[1..18]` с offset 13, что и `n17_insert_bytes` на `rev2_n17.rs:23`. Пост S13 устанавливает единственное предусловие byte Proof, числовой порядок первых 13 байтов. Driver вызывает actual `insert_tail` на rel13–16, абсолютные 14–17. После rel16 указатель равен `v_end` на абсолютном индексе 18. Байтовый Proof даёт порядок всех 17 байтов, равенство `C(q)=count(byte<q)`, q-frame и внешний frame. Для фиксированного входа компаратор не зависит от q, поэтому разности `C(b+1)-C(b)` дают кратности байтов до 254, а `17-C(255)` даёт кратность 255. У driver есть cover четвёртого сдвига, основанный на `before[17] < before[13]` и сохранении исходного максимума первыми тремя вставками. Различающий контроль стоит на общем посте сети. [Byte Proof](/root/verify-rust-std-rev2-n17-w14/library/core/src/slice/sort/shared/smallsort/verify/rev2_n17.rs:16) · [Аргумент четвёртого сдвига](REV2-N17-HANDOFF.md#граф-actual-вызова) |
+| Возврат и контроль | При `len=17` истинно `no_merge`, поэтому возврат на `smallsort.rs:407–408` идёт сразу после driver. На этом пути отсутствуют записи в scratch, второй регион, merge и copy-back. Сохранение инициализации следует из семантики фактических записей. Сквозной битовый Proof охватывает все 17-битовые входы с произвольным внешним frame и q. Контроль использует тот же helper с маской `0x0000_0001`. После actual возврата ожидается `0x0001_0000`, а `v[1] ^= 1` даёт `0x0001_0001`. Общий пост отвергает этот результат при сохранённых q и frame. [Общий helper](/root/verify-rust-std-rev2-n17-w14/library/core/src/slice/sort/shared/smallsort/verify/rev2_n17.rs:56) |
+
+На Std `49811849392302943d45b02beb4b0403509b9447`, tree `642b76724b9a702ec7f600059a615ad3438d6719`, blobs `smallsort.rs` (`0b77c3dbb3b767ba35281a2a686aa477ff1344c5`) и `cal1_model.rs` (`236394dcfb1ff571ee6f816391f7b2e00cc9e630`) совпадают с обеими опорами S13. Blob нового helper `rev2_n17.rs` — `54012b888edc7580a5ee028c2b08e70d98c6ae45`. [Координаты вызовов и исходники](REV2-N17-HANDOFF.md#граф-actual-вызова)
+
+## Нативные результаты и профиль
+
+Префикс exact selectors и ID новых корней — `slice::sort::shared::smallsort::verify::rev2_n17::`. Все три plain Proof завершились с полными проекциями, без stubs и loop contracts. В таблице приведены координаты regular в `rev2_n17.rs`. Stock export подтверждает terminal verdict, covers и тот же ID, класс и строку единственного отказа. Успешные assertions установлены по regular, stock хранит агрегированные успехи.
+
+| Слот и selector | Нативный исход и свойства | Covers | VT / cold wall / пик RSS группы |
+| --- | --- | ---: | --- |
+| `N17-INSERT-BYTES` · `n17_insert_bytes` | `VERIFIED`, exit 0. `n17_insert_bytes.assertion.2/.3/.4/.5` на 25:5, 26:5, 31:5, 32:5 — `SUCCESS` для порядка, `count(<q)`, q-frame и V34 frame. | 3/3 | 19,111 с / 51,041 с / 2,10 GiB |
+| `N17-ACTUAL-BITS` · `n17_actual_bits` | `VERIFIED`, exit 0. `check_network::<false>.assertion.4/.7/.9` на 75:5, 76:5, 87:5 — `SUCCESS` для q-frame, V34 frame и общего поста. | 4/4 | 23,187 с / 54,942 с / 2,51 GiB |
+| `N17-WITNESS-CORRUPT` · `n17_witness_corrupt` | `FAILED`, exit 1. Единственный `FAILURE` — `check_network::<true>.assertion.9`, `REV2_N17_ACTUAL_CANONICAL_SORTED_POPCOUNT`, 87:5. Assertions .4 и .7 сохраняют `SUCCESS`. | 4/4 | 15,127 с / 48,940 с / 2,48 GiB |
+
+У byte Proof достигнуты comparator, fourth shift и normal return. У обоих битовых корней дополнительно достигнут mixed input. Условия сдвига привязаны к фактическому четвёртому вызову через исходник, а covers фиксируют достижимость этих условий. [Сводка](/root/ch8-artifacts/run-45732377113/ch8-rev2-n17-Linux-X64-45732377113-1/SUMMARY.md)
+
+Ubuntu X64, stock Kani `9834c96ce90ff57d8495416530b080dc3d52ce25`, CBMC 6.11.0/CaDiCaL 3.0.0, OB12, unwind36, jobs=1, `--no-assert-contracts`, штатные safety/overflow/unwind, uninit/validity OFF. У всех трёх подтверждены sampler и reap, receipts своевременны, финальная аттестация `COMPLETE`. Наблюдаемые пики ниже cap 4 GiB, VT ниже 120 с. Сохраняется оговорка Linux sampler о возможном недоучёте RSS при смене потоков после выхода главного потока. [Сводка измерений](/root/ch8-artifacts/run-45732377113/ch8-rev2-n17-Linux-X64-45732377113-1/SUMMARY.md)
+
+Сверены размеры и SHA-256 всех 17 членов опубликованного индекса, его SHA-256 `cf4d1805d42eb2405bf278459de981e4cf72d07c060f2ae90506d538fc432440`. Trigger `e65e5657bff2ec18d1e0663c36ebfc9a2ecf5ad9`, tree, parent, frozen request, roster, bundle и Std совпали с GO. У обеих исторических опор заново сверены хэши индексов, receipts и projections. [Индекс N17](/root/ch8-artifacts/run-45732377113/ch8-rev2-n17-Linux-X64-45732377113-1/index.json) · [GO](REV2-N17-GO.md) · [Хэши опор S13](REV2-N17-HANDOFF.md#идентичность-источников-и-исторические-anchors)
