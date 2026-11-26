@@ -1,6 +1,6 @@
 # REV2 · валидность на Kani main с nightly 11-21 · handoff
 
-**READY_FOR_REVIEW** (FIX3) · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger **Item 2** · control **`0a4f85d930`**, tree `c575224396`, review-trigger `0aa3c3071c` ([FIX3](#fix3-после-run-45857466917)). Разделы до FIX2 описывают R1-кандидат: control `e4b3eced27`, tree `817a5db4e9`. FIX2: control `bf4e1d882a`, tree `6d51ab4ed0`. Инструмент в отчётах — **«Kani main `8c6dba5935` с nightly-2026-11-21»**: это не upstream-коммит, а локальный кандидат `4caf097d84`. [Задание](REV2-VALIDITY-MAIN-REPIN-TASK.md) · [Записка координатора](COORD-NOTE-20261126-VALIDITY-PIN-AND-KANI5196-RECHECK.md) · [FIX1](REV2-VALIDITY-MAIN-HANDOFF.md)
+**READY_FOR_REVIEW** (FIX4) · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger **Item 2** · control **`e2a3e6d48e`**, tree `f46e65c42c`, review-trigger `b0ce856748` ([FIX4](#fix4-после-ревью-r3)). FIX3: control `0a4f85d930`, tree `c575224396`. Разделы до FIX2 описывают R1-кандидат: control `e4b3eced27`, tree `817a5db4e9`. FIX2: control `bf4e1d882a`, tree `6d51ab4ed0`. Инструмент в отчётах — **«Kani main `8c6dba5935` с nightly-2026-11-21»**: это не upstream-коммит, а локальный кандидат `4caf097d84`. [Задание](REV2-VALIDITY-MAIN-REPIN-TASK.md) · [Записка координатора](COORD-NOTE-20261126-VALIDITY-PIN-AND-KANI5196-RECHECK.md) · [FIX1](REV2-VALIDITY-MAIN-HANDOFF.md)
 
 Совместимость пары до CI остаётся **UNKNOWN**. Cargo, rustc, сборка Kani, Kani и CBMC локально не запускались, toolchain не ставился. Push, CI, изменений Actions variables, обновления ветки pr752 и публикаций не было.
 
@@ -356,5 +356,102 @@ Suite: 119/119 за 36 с, на свежей шкале от 60 с — 119/119 �
 
 - **Фаза B.** По заданию B сохраняет правило одного свойства. Если на typed read в `validity_main.rs` Kani тоже поставит пару, `vv_stable_char_n09_corrupt` ON даст `MISMATCH`, а позитивные B — `read_binding=UNKNOWN`. Такой результат стал бы привязанным свидетельством для группы B следующим FIX.
 - **Guards в Std-коде B.** Если B встретит семейство вне четырёх установленных, его `SUCCESS` блокирует по строгому правилу. Это ожидаемо и потребует разбора emit site.
+
+Push, CI, Actions variables, cargo/rustc/Kani/CBMC не запускались. Публикаций не было.
+
+## FIX4 после ревью R3
+
+[Задание FIX4](REV2-VALIDITY-MAIN-REPIN-FIX4-TASK.md) · [Ревью R3](REV2-VALIDITY-MAIN-REPIN-REVIEW.md#r3--fix3). Дельта FIX3 сохранена. Kani, Std merge, overlay, bundles, fixture, roster, selectors, режимы, argv и workflow не менялись.
+
+### 1. Структурная группа typed read в фазе B (блокер B1)
+
+**Сверка по `check_values.rs` кандидата `4caf097d84`.** Чтения B `validity_main.rs:111` (`stable_char_n09_body::<CORRUPT_OUTPUT>`, общее для `vv_stable_char_n09` и `_corrupt`) и `:153` (`vv_sort8_char_n08`) имеют ту же форму, что чтения A, — `copy (*p)`, где `p` — временный `*const char`.
+
+- `visit_operand` вызывает `check_untyped_read` (`:1054-1056`). Для `Deref` `may_be_untyped` истинно (`:656-659`), `char` sized, его требования непусты. Получается `UntypedRead` (`:696-707`): проверка «не untyped или значение валидно» без assume (`:225-262`).
+- Затем `with_access(Read)` → `visit_place`. Место `[Deref]` проходит точный путь (`:976-980`), первый projection — `Deref` локала-указателя. Значит, `check_place_access` (`:819-827`) → `check_place_value` → `DerefValidity` (`:796-810`).
+- Для `char` это один `ValidValueReq` с двумя интервалами (`:424-431`), то есть одна проверка на каждую операцию. Сообщения одинаковые: `` Undefined Behavior: Invalid value of type `char` `` (`:140,255`).
+- Обе операции вставляются перед одной инструкцией, поэтому у них один span, одна функция и класс `safety_check`. Одна MIR-инструкция даёт два свойства, сколько бы раз её ни исполнял цикл `:152-153`.
+- **Column.** Это 1-based позиция `*` в полной строке источника, как 29 в A:
+  - `:111` — 4 + 21 + 1 = **26**;
+  - `:153` — 8 + 21 + 1 = **30**.
+
+  Новая проверка в `check_coordinates` сверяет это на этапе `sources`: в строке ровно одна `*`, и её позиция равна закреплённому column. Проверка действует для групп A и структур B. Статический импорт на реальном overlay `bc866f8dfa` её прошёл (`coordinates: PASS`), а неверный column 29 для `:153` отвергнут.
+- **Внутренние чтения (`internal_reads`, `smallsort.rs`).** Формы вроде `is_less(&*a, &*b)` — заимствование через сырой указатель (`Rvalue::Ref`, `SharedBorrow`, `:1231`). Ветка `Rvalue::Ref` для них пропускает `check_untyped_read` (`:1210-1212`), остаётся только `DerefValidity` через `check_place_access`. Это одно свойство на операнд, не пара.
+
+  `tail.read()`/`ptr::read(..)` читают внутри `core::ptr::read`, свойство там имеет location `ptr/mod.rs`, а не строку `smallsort.rs`. Внутренние чтения в решение не входят: они публикуются как сопоставленные или `UNKNOWN` по строке. Правило пары к ним не применяется, менять ничего не нужно.
+
+**Правило.** Request получил ключ `read_structures` для трёх `char`-корней B: column 26/26/30, class `safety_check`, type `char`, count 2. ID в нём нет. `slots()` даёт `read_structure` только ON-слотам. Требования:
+- на `row.read` (file + line) ровно два validity-свойства;
+- у обоих column равен закреплённому, функция F из location одна;
+- ID различны и каждый `fullmatch` `re.escape(F) + r'\.safety_check\.[0-9]+'`;
+- класс `safety_check` и в поле, и в ID;
+- description ровно `` Undefined Behavior: Invalid value of type `char` ``.
+
+Для отрицательного слота дополнительно:
+- множество всех `FAILURE` равно этой паре, обе `FAILURE`;
+- нужный cover `SATISFIED`;
+- terminal `FAILED`, exit ≠ 0.
+
+Одно или три свойства, другой column, функция, тип или класс, ID вне F, дубликат ID, посторонний `FAILURE` или отсутствие cover дают `MISMATCH`. У положительных слотов `read_binding=OBSERVED` только при этой структуре, иначе `UNKNOWN`.
+
+Корни `bool` и `NonZeroU8` (`:54`, `:70`, `:179`) сохраняют правило одного свойства. Это положительные слоты, поэтому пара там даст только `read_binding=UNKNOWN`, вердикт не изменится. Строка с одновременно `read_group` и `read_structure` даёт `UNKNOWN`.
+
+**Остаточный риск.** Column 26 для `:111` получен так же, как в A: инициализация `let x = unsafe { *p }`, совпавшая с наблюдением 29. Для `:153` форма другая: присваивание `output[i] = unsafe { *p }`. Её column 30 выведен из того же правила (span хвостового выражения блока), но прогоном не подтверждён. Если он окажется другим, `vv_sort8_char_n08` ON получит `read_binding=UNKNOWN`, а MATCH сохранится. Единственный отрицательный слот B читает `:111`.
+
+### 2. Порядок решений (R3, неблокирующее 1)
+
+Ветка «guard не установлен → `UNKNOWN`» вынесена в конец. Она лишь удерживает уже полученный `MATCH`. Раньше неё решаются:
+- блокирующий `unsupported_construct`;
+- неверный terminal или код;
+- `FAILURE` не там, где ожидается, `UNDETERMINED` в положительном слоте;
+- отсутствующий cover.
+
+Все они дают `MISMATCH` и при неподтверждённом профиле. Пример: проваленная unwind-проверка в положительном слоте теперь `MISMATCH`, а состояние `NOT_SUCCESS` по-прежнему публикуется в `unwinding_assertions`.
+
+### 3. Флаги CBMC (R3, неблокирующее 2)
+
+К отсекаемым добавлены `--depth`, `--unwindset`, `--no-assertions` и `--cover`, вместе с прежними `--no-unwinding-assertions` и `--partial-loops`. Флаг совпадает и как точный токен, и в форме `flag=value`. Проверяются CBMC argv и argv Kani (через `--cbmc-args`), в argv Kani дополнительно `--no-default-checks`/`--no-unwinding-checks`.
+
+Белый список я не выбрал. Argv фиксирован запросом, а профиль уже требует `--unwind <n>` и `--no-self-loops-to-assumptions`, поэтому чёрный список здесь закрывает все известные способы ослабить границу.
+
+### 4. Тесты и проверки
+
+- `test_verdict.py`, 26 тестов.
+  - B-структура: пара → `MATCH`/`OBSERVED`/`STRUCTURAL`. Отвергаются: одно, три, другой column, другая функция, ID вне F, дубликат ID, другой тип, другой класс, `SUCCESS` у одной из пары, посторонний `FAILURE` — всё `MISMATCH`. Отсутствие cover — `MISMATCH` с `missing_covers`. У положительного одно свойство или другой column дают `UNKNOWN`. Одновременные group и structure дают отказ.
+  - Порядок решений: проваленная или `UNDETERMINED` unwind-проверка, recursion и посторонний assertion в положительном слоте — `MISMATCH` с профилем и без. У отрицательного без профиля `FAILURE` не там, неверный terminal и отсутствие cover — `MISMATCH`, точная пара — `UNKNOWN`. Пара с `UNDETERMINED`-unwind даёт `UNKNOWN` (`NOT_SUCCESS`).
+  - Флаги: `--depth`, `--unwindset` (и с `=`), `--no-assertions`, `--cover`, `--depth` через argv Kani — guard `UNKNOWN`.
+- `test_run.py`:
+  - синтетический Kani выдаёт структурную пару для трёх `char`-корней B, все 30 слотов `MATCH`;
+  - сдвиг отступа строки чтения при том же тексте отвергается как `pinned read column`;
+  - проваленный unwind в e2e — `MISMATCH`.
+- Suite 121/121 штатно и дважды на свежей шкале от 60 с (31–32 с). На checkout trigger — 121/121, checkout чистый. YAML, `bash -n` для семи shell-блоков, `git diff --check` — чисто.
+- **Офлайн-replay 18 receipts A** скриптом FIX3 (`python3 -I`): **18/18 `MATCH`**, 8 `OBSERVED`. Вывод побайтно совпал с FIX3 (`58aafc31…f06a`). [Вывод](/root/rev2-validity-repin-review/fix4-replay.out)
+- Статический импорт на реальных объектах: `PASS`, координаты и column `PASS`. [Вывод](/root/rev2-validity-repin-review/static_import-fix4.out)
+- `run.py pins` на detached trigger `b0ce856748`: tree `f46e65c42c` допущен, outputs `std=dab03cf510`, `tool=8c6dba5935`. Tree FIX3 `c575224396` отклонён без outputs и receipt.
+
+### 5. Пины FIX4
+
+| Объект | Значение |
+| --- | --- |
+| Control | **`e2a3e6d48e98693074f51e93369917948f6790bf`**, tree **`f46e65c42c7ddb45a725569265b8dc7c0fd7a88a`**, parent `0a4f85d930` |
+| Review-trigger (`[skip ci]`) | **`b0ce856748185bdfa3ac20969cbaa72f13841272`**, tree `f46e65c42c`, sole parent `467af9cb8dba0e3be78a8d7d07672a1943c4806b`, ref `local/rev2-validity-repin-fix4-trigger-review` |
+| `CH8_REV2_VALIDITY_REPIN_TRIGGER_TREE` (меняет координатор после GO) | **`f46e65c42c7ddb45a725569265b8dc7c0fd7a88a`** |
+| `CI-REQUEST.json` | SHA-256 **`bdd69de4e0245ad241b22b144a104fdb69256d6c2fb1620d26eda57ccf76a6a2`** (было `553e9cd8…fcf3`). Дельта — ключ `read_structures`, `read_groups` не изменился |
+| Roster digest | `6a89e1e970d44938bef0bd2864d235d4f69f1e8cd46c1648adf3c7c87862deea`, без изменений |
+| Blobs | `verdict.py` `e37dd3bf…`, `request.py` `cb694efb…`, `test_verdict.py` `46ce8d6b…`, `test_run.py` `a156b6ea…`; `run.py` без изменений |
+
+Дельта `0a4f85d930..e2a3e6d48e`:
+
+| Файл | Строк добавлено / удалено |
+| --- | --- |
+| `CI-REQUEST.json` | +20 / −0 |
+| `request.py` | +18 / −0 |
+| `verdict.py` | +67 / −16 |
+| `test_verdict.py` | +104 / −4 |
+| `test_run.py` | +21 / −7 |
+
+[Patch](/root/rev2-validity-repin-review/control-fix4-from-fix3.patch), SHA-256 `199adf9c…c7d3`. Author и committer обоих коммитов — Tiramisu-Cake <igkharin@gmail.com>, `[skip ci]`, без решётки перед цифрой.
+
+R3 неблокирующие 3 (семейства по тексту) и 4 (replay A — проверка согласованности) остаются как отмечено: их снимет следующий прогон.
 
 Push, CI, Actions variables, cargo/rustc/Kani/CBMC не запускались. Публикаций не было.
