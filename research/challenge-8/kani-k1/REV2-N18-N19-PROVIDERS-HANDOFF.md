@@ -2,6 +2,8 @@
 
 **`READY_FOR_REVIEW` · `go=NOT_GRANTED` · `proof_credit=NONE`.** Подготовлен локальный пакет из шести exact singleton для Ubuntu 24.04. Входы — произвольный инициализированный V34, `u8/KeyLess<u8>` с числовым `<` и независимый `q: u8`. До отдельного GO требуются независимое ревью исходников и контрольных пинов. Результаты новых нативных слотов открыты. [Задание](REV2-N18-N19-PROVIDERS-TASK.md) · [План](REV2-N18-N31-PLAN.md) · [Правило композиции](REV2-COMPOSITION-RULE.md)
 
+Актуальный локальный пакет для ревью описан в разделе [FIX1](#fix1--self-test-на-свежих-часах).
+
 ## Presort и правая вставка
 
 Обе длины берут ветку `len >= 18`, `len_div_2=9`. Actual сеть сначала делает reborrow `v[1..10]`, затем `v[10..19]` при N18 или `v[10..20]` при N19. У каждой половины длина от 9 до 10, поэтому сеть выбирает `sort9_optimal`, а затем driver с `offset=9`. Guard sort9 пропускает все эти длины. Driver сразу выходит по `tail == v_end` при длине 9. При длине 10 он вызывает `insert_tail` один раз, rel9 / abs19, после чего `tail == v_end`. [Actual dispatch](/root/verify-rust-std-rev2-n18-n19-providers-w14/library/core/src/slice/sort/shared/smallsort.rs:367) · [Sort9](/root/verify-rust-std-rev2-n18-n19-providers-w14/library/core/src/slice/sort/shared/smallsort.rs:522) · [Driver](/root/verify-rust-std-rev2-n18-n19-providers-w14/library/core/src/slice/sort/shared/smallsort.rs:742)
@@ -103,3 +105,36 @@ Setup сохраняет ранний compile preflight нового cfg до 18
 - Exact локальный review-trigger с синтетическим push payload прошёл `pins` и `finish`. Индекс содержит шесть `NOT_STARTED`, `proof_credit=NONE`, ожидаемые три хэша входов и девять подтверждённых хэшей членов. Для `pins`, `sources` и `finish` отдельно отклонены tree базы control, произвольный tree, только старое имя pin и изменённый payload SHA. Всего 12 отказов в gates.
 
 Нативная компиляция, discovery, фактические ID новых нативных свойств и ресурсные результаты остаются открыты до отдельного GO. Пакет и review-trigger остались локальными. Actions variables, CI и запуск Cargo, rustc, Kani, CBMC находились за границей этапа.
+
+## FIX1 · self-test на свежих часах
+
+**`READY_FOR_REVIEW` · `go=NOT_GRANTED` · `proof_credit=NONE`.** Run `45747815553` остановился на self-test до setup и запуска всех шести корней. В ledger записан расход 0. Отдельный GO для исходного tree относился к этому одному прогону. [Запись dispatch](CH8-DISPATCH-LEDGER.md) · [Исходный GO](REV2-N18-N19-PROVIDERS-GO.md)
+
+В трёх тестах первое чтение `clocks()` происходило до установки mock. При `epoch=60` и uptime меньше 60 с боевой gate корректно возвращал `ValueError: invalid job epoch`. На исходном control все три ошибки воспроизвелись локально на обеих шкалах от 1 и 5 с. В FIX1 тесты выбора дедлайна `finish`, ограничения latest starts и входных дедлайнов `pins/sources` используют подмену с первого чтения `clocks()`. Тот же clock обслуживает все последующие чтения, включая `report.finish`. Аудит прошёл по прямым вызовам `clocks`, входам через `run.main`, повторным чтениям в `report.finish` и отдельному `job_boundary` кампании kani5196. Фикстуры либо держат синтетическую шкалу на всём интервале использования своего epoch, либо пишут epoch из текущего `time.monotonic()`. Других незамоканных сравнений с фиксированным epoch не найдено. Боевой `run.py` побайтно совпадает с базой, а новый тест требует отказа для нуля, отрицательного, неконечного и будущего epoch и допускает равенство текущим часам. [Тесты FIX1](/root/kani-rev2-n18-n19-providers-fix1-control-w14/ch8-cal1/test_run.py:313)
+
+| Локальная шкала | Полный suite | Время suite |
+| --- | ---: | ---: |
+| Обычная | 108/108 | 25,070 с |
+| Старт с 60 с | 108/108 | 23,641 с |
+| Старт с 1 с | 108/108 | 24,159 с |
+| Старт с 5 с | 108/108 | 24,581 с |
+
+Последовательное исполнение self-test блока workflow заняло 99,542 с. Четыре watchdog по 90+5 с вместе с 45 с для `pins` укладываются в 425 с, оставляя 55 с во внешнем окне 8 мин. Общий setup сохраняет 50 мин от epoch. YAML, `bash -n`, разбор встроенного Python и `git diff --check` прошли. Локальный review-trigger прошёл `pins` и `finish` на шкале от 1 с с шестью `NOT_STARTED`. `pins`, `sources` и `finish` отклонили прежний tree и подменённый payload SHA. [Workflow FIX1](/root/kani-rev2-n18-n19-providers-fix1-control-w14/.github/workflows/ch8-q-pilot.yml:44)
+
+| Роль и worktree FIX1 | Commit | Tree | Sole parent |
+| --- | --- | --- | --- |
+| [Control](/root/kani-rev2-n18-n19-providers-fix1-control-w14), `work/rev2-n18-n19-providers-fix1-control-w14` | `9882b587d310eba6dba6f93b95b5523853a990af` | `3df8288611361bb173f727e2271d8e71985abdcc` | `eb182675da584aa3177ee45a3ef110828db292db` |
+| [Review-trigger](/root/kani-rev2-n18-n19-providers-fix1-trigger-w14/control), detached, ref `review/rev2-n18-n19-providers-fix1-trigger-w14` | `f391b3e46d1cfe8696f41524aa8489387a69200f` | `3df8288611361bb173f727e2271d8e71985abdcc` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+| [Std](/root/verify-rust-std-rev2-n18-n19-providers-w14) | `86ea7aa5b773888e52f9fb78fda38d5cbff9ea61` | `63b199cc33052d6390fd0fdaa2b5c36962545fc4` | `49811849392302943d45b02beb4b0403509b9447` |
+
+Ожидаемое внешнее значение `CH8_REV2_N18_N19_PROVIDERS_TRIGGER_TREE` для FIX1 — `3df8288611361bb173f727e2271d8e71985abdcc`. Подтверждены SHA-256 frozen request, roster и bundle исходного пакета.
+
+| Вход FIX1 | SHA-256 |
+| --- | --- |
+| [Frozen request](/root/kani-rev2-n18-n19-providers-fix1-control-w14/ch8-cal1/CI-REQUEST.json) | `8aaf773d0481446f05f1af4c71b531a2e43c1873cb0d9e543b5d1baf95e09bab` |
+| Canonical roster | `90a4aa58d539ca95e0264ea56b6cbc8b67eb275339caa76ddd1d0395d08ce23a` |
+| [Std overlay bundle](/root/kani-rev2-n18-n19-providers-fix1-control-w14/ch8-cal1/std-overlay.bundle) | `06b310eb8de2dddf3e3e64468cf084c18d972ba57eaaed5b54c163239c0eb1ab` |
+| Workflow FIX1 | `21578b571c32219160081e776bef164f952affc8a56f8b33cfd23169e73a9082` |
+| `test_run.py` FIX1 | `b99867e6b28a6ccdcf9abdf38bc194c3b0be846af2281b2dbbbd5df4bd29763d` |
+
+FIX1 подготовлен локально. Результаты нативных слотов открыты до независимого ревью и нового GO.
