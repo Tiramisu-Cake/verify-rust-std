@@ -1,0 +1,7 @@
+# kani5196 · решение по повтору ITER/SELECT
+
+**GO** на один Ubuntu-прогон восьми standalone корней без повтора, Item 1, `proof_credit=NONE`. Control `5ff3ce873558c80003b32851bc2223988f098ca4`, локальный review-trigger `1db313afad71517f56e1f91d6b552d2415582274`, общий tree `e1791b8ff50ed9d6b486acfee8d2c687ee22d6a8`. Sole parent триггера `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. SHA-256 request `600e301506ff42bc037209a31818a53ba44d90367dee3a5c4a71d48fd53c0db3`. Tool `1c6e63b1f786612b7302df6c94abe5248906de12`, tree `724e184dc3978a7c2f08059a556eb1a291ca3b7f`, nightly-2026-11-23. [Ревью R1](DIAG-RECHECK-REVIEW.md) · [Handoff](DIAG-RECHECK-HANDOFF.md)
+
+Для этого диагностического прогона принимаю унаследованный gate. Он проверяет fork, push ref, attempt 1, равенство checkout и `GITHUB_SHA`, sole parent, набор путей и хэши payload из request. Связь с tree из ревью устанавливает координатор перед push. Сверить tree и единственного родителя нового trigger без `[skip ci]`, отправить именно этот SHA в `Tiramisu-Cake/kani` на `refs/heads/uninit-ci/ch8-q-pilot-v1` и сверить SHA/tree/parent и request SHA-256 в опубликованном индексе. Проверенный tree, полный request hash, 35 хэшей payload и четыре пары argv совпали. Отдельной автоматической проверки tree по Actions variable у пакета нет.
+
+При разборе учесть, что на новом пине fixture `assert!` приходит как класс `panic` с префиксом `assertion failed: `. Это учтено в сопоставлении нативных свойств. [Ревью сопоставления](DIAG-RECHECK-REVIEW.md#неблокирующее)
