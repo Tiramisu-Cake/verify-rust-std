@@ -4,7 +4,11 @@
 
 Пакет готов к независимому ревью. Четыре positive и четыре различающих контроля заморожены в одном Ubuntu job. Нативные compile preflight, discovery и измерения consumer остаются открыты до отдельного GO. Основание переноса на полные байты изложено ниже. Наблюдения по опорам относятся к их собственным запускам. [Задание](REV2-N22-N25-CONSUMER-TASK.md) · [Правило композиции](REV2-COMPOSITION-RULE.md) · [Результаты FIX1](REV2-N22-N25-PROVIDERS-RESULTS-ANALYSIS.md)
 
-## Пины
+Актуальный кандидат и результаты повторных проверок приведены в разделе [FIX1](#fix1). Ревью R1 признало содержание пакета корректным и остановило допуск из-за авторства трёх коммитов. [Ревью R1](REV2-N22-N25-CONSUMER-REVIEW.md) · [Задание FIX1](REV2-N22-N25-CONSUMER-FIX1-TASK.md)
+
+## Пины R1
+
+Исторические пины первого кандидата. Ссылки на worktrees ведут к текущему FIX1.
 
 | Роль и worktree | Commit | Tree | Sole parent |
 | --- | --- | --- | --- |
@@ -25,11 +29,11 @@
 
 [Frozen request](/root/kani-rev2-n22-n25-consumer-control-w14/ch8-cal1/CI-REQUEST.json) · [Bundle](/root/kani-rev2-n22-n25-consumer-control-w14/ch8-cal1/std-overlay.bundle)
 
-Ожидаемый независимый pin `CH8_REV2_N22_N25_CONSUMER_TRIGGER_TREE=a5aab1d9c4f10794dcf8eb6e5d92926cac1ed850` передаётся в runner как `REV2_N22_N25_CONSUMER_TRIGGER_TREE`. `pins`, `sources` и `finish` требуют clean detached checkout, точный tree, sole parent, репозиторий `Tiramisu-Cake/kani`, push `refs/heads/uninit-ci/ch8-q-pilot-v1`, attempt 1 и равенство HEAD, `GITHUB_SHA` и payload `after`. Последующие стадии сверяют trigger receipt. `sources` проверяет цепочку overlay и координаты. `finish` повторяет сверку пинов и координат при полном source receipt. [Trigger gates](/root/kani-rev2-n22-n25-consumer-control-w14/ch8-cal1/run.py:731)
+В R1 независимый pin `CH8_REV2_N22_N25_CONSUMER_TRIGGER_TREE=a5aab1d9c4f10794dcf8eb6e5d92926cac1ed850` передавался в runner как `REV2_N22_N25_CONSUMER_TRIGGER_TREE`. `pins`, `sources` и `finish` требуют clean detached checkout, точный tree, sole parent, репозиторий `Tiramisu-Cake/kani`, push `refs/heads/uninit-ci/ch8-q-pilot-v1`, attempt 1 и равенство HEAD, `GITHUB_SHA` и payload `after`. Последующие стадии сверяют trigger receipt. `sources` проверяет цепочку overlay и координаты. `finish` повторяет сверку пинов и координат при полном source receipt. [Trigger gates](/root/kani-rev2-n22-n25-consumer-control-w14/ch8-cal1/run.py:731)
 
 ## Рёбра для полного байтового домена
 
-Все целевые рёбра относятся к Std consumer из таблицы пинов. Вход на каждом N — actual `small_sort_network::<u8, KeyLess<u8>>` на инициализированном V34, активный `v[1..1+N]`, независимый `q: u8`. `KeyLess<u8>::call_mut` читает два значения, возвращает числовое `a < b` и сохраняет q. Обозначения S и D означают начало активного среза и начало отдельной scratch32. Итоговый пост на нормальном возврате — порядок по числовому значению, полное мультимножество активных байтов и frame `q, v[0], v[1+N..34]`.
+Все целевые рёбра относятся к Std consumer FIX1. Вход на каждом N — actual `small_sort_network::<u8, KeyLess<u8>>` на инициализированном V34, активный `v[1..1+N]`, независимый `q: u8`. `KeyLess<u8>::call_mut` читает два значения, возвращает числовое `a < b` и сохраняет q. Обозначения S и D означают начало активного среза и начало отдельной scratch32. Итоговый пост на нормальном возврате — порядок по числовому значению, полное мультимножество активных байтов и frame `q, v[0], v[1+N..34]`.
 
 | Файл | Blob на Std consumer | Actual координаты |
 | --- | --- | --- |
@@ -170,6 +174,8 @@ Actual `smallsort.rs:1027:24–1036:13` получает обе границы �
 | 23 | `0x000f_f9ff` → `0x007f_ffe0` → `0x007f_ffe1` | Слева 9+9, справа 9+9+9 | Левый, `(8,3,2,9)`, `S+8` |
 | 22 | `0x000f_f9ff` → `0x003f_fff0` → `0x003f_fff1` | 9+9 с каждой стороны | — |
 
+Covers `LEFT_ALL_TAIL_SHIFTS`, `RIGHT_ALL_TAIL_SHIFTS`, `RIGHT_S13_PREFIX13_INVERSION` и `ODD_*_REMAINDER` проверяют предикаты входной маски после actual возврата. Сам путь внутри сети привязан офлайн по actual расписанию, сдвигам и ранговому ходу курсоров.
+
 У каждой S9 половины первые девять байтов witness — единицы, хвост — нули. Первая вставка сравнивает 0 с 1 и сдвигает девять единиц до начала. Следующие проходят те же девять единиц и останавливаются у уже вставленного нуля, восстанавливая дыру после нулевого префикса. У N25 справа двенадцать единиц и один конечный ноль дают исходную инверсию префикса13 и actual S13 перед пустым driver. Контрольные маски дают левый остаток на нечётных N. Sentinel-маски из таблицы нечётного центра дают правый остаток только в обязательном наборе positive. Офлайн сверка прочитала 25/45 пар из фактического исходника, повторила сдвиги, результаты и все 23/25 терминальных сигнатур нечётных N на канонических отсортированных половинах.
 
 ## Профиль и окна
@@ -186,11 +192,48 @@ Ubuntu 24.04, одна job с пределом 120 мин. Stock Kani по пи�
 
 Сохраняются атомарная запись disposition/reap до projection, ограниченные receipt/retry, 4 MiB на projection и 96 MiB на artifact. После неподтверждённого reap следующие слоты получают `PROCESS_CLEANUP_COULD_NOT_BE_VERIFIED`. Приёмка `CONSUMER_PAIRS_WITHIN_PROFILE` требует восемь exact `MATCHED`, полные anchors и covers, timely receipts, подтверждённые sampler/reap, лимиты каждого слота и своевременную финальную аттестацию. `proof_credit=NONE` сохраняется и при диагностическом успехе. [Часы](/root/kani-rev2-n22-n25-consumer-control-w14/ch8-cal1/run.py:99) · [Приёмка](/root/kani-rev2-n22-n25-consumer-control-w14/ch8-cal1/report.py:108)
 
-## Локальная валидация
+## Локальная валидация R1
 
 - Вручную проверены Rust-видимость actual функции через `super::super`, доступность `KeyLess<u8>::with_q/q` и корневой `cfg(kani)`. Std delta ограничена новым модулем, регистрацией под всей унаследованной цепочкой cfg и декларацией check-cfg. При снятии добавлений восстанавливаются исходные blobs registry/manifest. Runtime, существующие контракты и provider-модули побайтно совпали. `rustfmt --check` прошёл установленным nightly-2026-11-19 с `--edition 2024 --config use_small_heuristics=Max,skip_children=true,reorder_modules=false`. `git diff --check`, YAML с уникальными ключами, `bash -n` для восьми shell-блоков и Python AST прошли.
 - Bare shallow Std depth 2 получен по локальному Git transport без alternates. `bundle verify/list-heads/unbundle` прошли. Для проверки bare-импорта вместо рабочих копий и submodules использованы прямые проверки local base и объектов. Сверены 16 commit/tree/sole-parent, cfg-off blobs, 85 source координат и 70 native label координат с учётом специализаций. Каждый отдельный сдвиг столбца на +1 отклонён. HEAD, refs и shallow boundary сохранились.
 - На финальном detached trigger точный workflow block `pins` завершился за 100,463 с. Последовательно прошли по 116 тестов на обычной шкале и свежих шкалах 1/5/60 с. Время suite 24,217 / 24,435 / 24,231 / 25,187 с. Blob `ch8-cal1/test_supervisor.py` в Control и trigger — `df63a457c3adf648d360f3d559d5d40ef00a9427`.
 - Синтетика проверила exact cfg-off/on delta из восьми plain Proof с сохранением унаследованного inventory, ранний staged preflight, foreign geometry/instance, неверный столбец, потерю copy-back и odd cover, посторонний failure, поздний receipt и latch после потери reap. `finish` и `upload-gate` прошли ровно на общем cutoff с переходом 5 с до upload и отказом после сдвига на 0,01 с. На detached trigger также отклонены 32 мутации gate, payload, tree и admission receipt. Synthetic finish дал 8 `NOT_STARTED`, 4 `OPEN` пары и 12 членов индекса с совпавшими размерами и SHA-256.
 
-CI, push, изменение Actions variables и локальные запуски cargo, rustc, Kani и CBMC не выполнялись. Локальные коммиты Std, Control, review-trigger и handoff помечены `[skip ci]`. Независимое ревью и GO остаются отдельными решениями.
+CI, push, изменение Actions variables и локальные запуски cargo, rustc, Kani и CBMC не выполнялись. Локальные коммиты Std, Control, review-trigger и handoff R1 помечены `[skip ci]`. Независимое ревью и GO остаются отдельными решениями.
+
+## FIX1
+
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`
+
+Автор и коммиттер Std, Control и локального review-trigger — `Tiramisu-Cake <igkharin@gmail.com>`. Tree Std совпадает с R1. Работа выполнена поверх задания g0 `44221a04536055efa1dd143b764aad96b904fc90`. Handoff R1 `ca3e7862f2749e23a9684e094921a341a659fa5b` сохранён в истории g0. [Задание FIX1](REV2-N22-N25-CONSUMER-FIX1-TASK.md)
+
+| Роль и worktree | Commit | Tree | Sole parent |
+| --- | --- | --- | --- |
+| [Std](/root/verify-rust-std-rev2-n22-n25-consumer-w14), `work/rev2-n22-n25-consumer-w14` | `8fe1b01f0a85ee60118d1813d6b74645e4594213` | `f754c01d0ed26cb8d4e28c81efe8467cdf97d034` | `b076d2ff4ed720930e2de62d70c0bbd1bb0308d5` |
+| [Control](/root/kani-rev2-n22-n25-consumer-control-w14), `work/rev2-n22-n25-consumer-control-w14` | `fd941d949379ac437b9071cf9a1e636ae72aee5b` | `f4d42df994425e251022feeedcfd89e608b3d17a` | `279c2200a8ecab1ee0e9057c86d771ff6e6c963e` |
+| [Detached review-trigger](/root/kani-rev2-n22-n25-consumer-trigger-w14/control), ref `review/rev2-n22-n25-consumer-trigger-w14` | `8a8bddf892308c1556b723d7540e378ad49badcf` | `f4d42df994425e251022feeedcfd89e608b3d17a` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+Ожидаемое значение независимого pin — `CH8_REV2_N22_N25_CONSUMER_TRIGGER_TREE=f4d42df994425e251022feeedcfd89e608b3d17a`. Runner получает его как `REV2_N22_N25_CONSUMER_TRIGGER_TREE` для `pins`, `sources` и `finish`.
+
+| Замороженный вход | SHA-256 |
+| --- | --- |
+| [CI-REQUEST.json](/root/kani-rev2-n22-n25-consumer-control-w14/ch8-cal1/CI-REQUEST.json) | `a21b91c9de484d6400a241c495b95791172d031f4a2cee49e2219fb594a07d2d` |
+| Roster, canonical JSON | `ccc8db596f3e9b61299057b4c23f9747af4dc85d62b70456e1bfcaf30ad76bf6` |
+| [std-overlay.bundle](/root/kani-rev2-n22-n25-consumer-control-w14/ch8-cal1/std-overlay.bundle), 45 631 байт | `7768ed33b33812682e393222079e1a199eb2cde27bedd58f82d23cbf2be88dee` |
+| Source bindings, canonical JSON | `6fb605dd5ad65f9e61a67b21e82e6aaa90cd762fccf47f54f1e94ad9f92bbb4b` |
+
+### Дельта от R1
+
+- Std пересоздан с исправленным авторством. `git diff` между двумя Std-коммитами пуст. Пины roster, source bindings, восемь root selectors, координаты, actual runtime, контракты и опоры совпадают побайтно.
+- В Control изменены четыре файла. Пересобран `std-overlay.bundle`, его SHA-256 и Std commit обновлены в `request.py` и `CI-REQUEST.json`. Source gate требует ключ `historical_blobs` и выдаёт явную ошибку при его отсутствии до чтения Git. Добавлен тест этого отказа в `test_run.py`. Профиль и часы совпадают с R1. [Source gate](/root/kani-rev2-n22-n25-consumer-control-w14/ch8-cal1/request.py:448) · [Тест](/root/kani-rev2-n22-n25-consumer-control-w14/ch8-cal1/test_run.py:223)
+- В описании covers путей отмечены предикаты входной маски и офлайн-привязка каждого пути. [Exact roster и контрольные пути](#exact-roster-и-контрольные-пути)
+
+### Повторная локальная валидация
+
+- `rustfmt --check` на новом модуле и registry, `git diff --check`, YAML с уникальными ключами, `bash -n` для восьми shell-блоков и Python AST прошли. Видимость Rust, cfg и побайтное совпадение Std с R1 сверены. Blob `test_supervisor.py` в Control и trigger равен `df63a457c3adf648d360f3d559d5d40ef00a9427`.
+- Bundle импортирован в свежий bare shallow depth 2 без alternates. Проверены единственный заявленный HEAD, prerequisite, 16 пар commit/tree с sole parent, cfg-off blobs, исторические blobs и 85 source координат. Все 70 native координат прошли проверку, каждый отдельный сдвиг столбца на +1 отклонён. HEAD, refs и shallow boundary сохранились.
+- Офлайн повторно сверены контрольные маски, сдвиги, оба нечётных центра и sentinel. Хэши четырёх исторических индексов и 32 членов receipt/projection совпали.
+- Точный workflow block `pins` на финальном detached trigger прошёл за 156,821 с. По 117/117 тестов прошли последовательно на обычной и свежих шкалах 1/5/60 с. Время suite 28,423 / 43,811 / 41,043 / 36,292 с. Сценарии включают отсутствие `historical_blobs`, чужую геометрию, сдвиг столбца, потерю copy-back или odd cover, лишний failure, поздний receipt, потерю reap и общий cutoff finish/upload с 5 с на переход.
+- В синтетике `pins`, `sources` и `finish` отклонили поданный tree R1. Всего проверены 35 отказов для trigger, payload и admission receipt. Синтетический finish дал 8 `NOT_STARTED`, 4 `OPEN` пары и 12 членов индекса со сверенными размерами и SHA-256.
+
+CI, push, изменения Actions variables и локальные запуски cargo, rustc, Kani и CBMC не выполнялись. Нативный preflight, discovery и измерения ожидают отдельного GO.
