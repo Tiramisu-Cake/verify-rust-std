@@ -49,3 +49,46 @@ Linux 6.8.0-136-generic, x86-64, два CPU, Python 3.12.3. Для native исп
 В целевой серии G — готовность group, E — escaped PID, Z-T и Z-K — threaded TERM и KILL. На native база зафиксировала TERM на +0,741 с и отсутствие маркера ready в group-сценарии. В escaped PID стадия KILL началась на +1,797 с при deadline 1,25 с, события `KILL_DESCENDANT` не было, остался PID/start ID `765577/317004970`. Внешний subreaper собрал его после прогона. Во всех успешных полных и целевых прогонах кандидата внешний сбор не потребовался. [Независимый native-прогон базы](/root/kani-rev2-supervisor-selftest-review-evidence/base-target-native-1.log)
 
 Выполнены только локальные проверки Python и Git. Область проверки — Linux self-test. `proof_credit=NONE`.
+
+## R2 · FIX1
+
+**GO для test-only FIX1 `637387c038`.** Повторное ревью по handoff g0 `7c5de1ac44`. [Handoff FIX1](REV2-SUPERVISOR-SELFTEST-HANDOFF.md#fix1--переход-leader-после-выбора-и-reap-на-границе-receipt)
+
+| Control | Commit | Tree |
+| --- | --- | --- |
+| Исходная база | `6a599af76402e61eef6746c32d7500b6ac101945` | `13057fe3d9479899217b3ab3b048d9a6571ec3a3` |
+| Единственный родитель FIX1 | `9742981711df98bac6667a285a86d6f79e9465b1` | `6069fdd68d36d649d277e88e7fe73ef8cac54dd4` |
+| FIX1 | `637387c038e5e3b4f68c2868e9b3376504c105ac` | `e1f6e46c794862f07888efe2312d653c5d3bb3cf` |
+
+В обоих сравнениях `git diff-tree -r` показывает только `ch8-cal1/test_supervisor.py`. `git diff --check` прошёл для обеих пар. Байты `supervisor.py`, `run.py`, `results.py`, `report.py`, `request.py`, request JSON и bundle совпали в объектах базы и FIX1 и в их локальных worktree. Workflow, production caps/deadlines, roster и пины Std совпали по деревьям. Тестовый blob FIX1 — `df63a457c3adf648d360f3d559d5d40ef00a9427`.
+
+### Два блокера предыдущего ревью
+
+1. **Переход при повторной проверке адресата.** После первого нативного census supervisor выбирает живого leader для TERM, затем обёртка инициирует переход в Z. Тест проверяет прежний PID/start ID, живой поток и положительный RSS. В настоящий `_signal_owned` уходит исходный ряд, поэтому нативная перепроверка видит смену состояния при той же идентичности. В ветке с намеренно пропущенным TERM тест требует выбор и реальный KILL того же PID/start ID в состоянии Z. Контроль прошёл с S → Z и start ID `317541134` в обеих записях. Повтор инъекции R1, отвергающей адресата при смене состояния, показал S → Z с прежним start ID `317541513`. FIX1 упал в TERM-ветке на неожиданном KILL. [Контроль](/root/kani-rev2-supervisor-selftest-r2-evidence/transition-observe-fix1.log) · [Инъекция](/root/kani-rev2-supervisor-selftest-r2-evidence/transition-fault-fix1.log)
+2. **Reap на границе receipt.** После возврата успешного receipt первый `waitpid(WNOHANG)` вызывается один раз до остальных утверждений. Проверяются PID и статус завершения от требуемого сигнала. Аварийное ожидание осталось в `finally`. Повтор инъекции R1 дал успешный receipt при живом потоке и `waitid=None`. Первый `waitpid(WNOHANG)` вернул 0, тест упал на границе receipt. После аварийной очистки детей не осталось. [Инъекция](/root/kani-rev2-supervisor-selftest-r2-evidence/reap-fault-fix1.log)
+
+Атомарный `ready` и первый нативный сэмпл по-прежнему предшествуют сдвигу часов к TIMEOUT. FIX1 исключает из бюджета только ожидание управляемого перехода leader, ограниченное шестью секундами. Нативный выбор адресата, перепроверки при сигналинге, сигналы и cleanup идут в реальном темпе. Окна TERM/KILL сохраняют 0,5/6 с. Условия receipt, сигналов и идентичности остались обязательными. Контроль с задержкой 0,8 с перед публикацией готовности и ещё 0,8 с перед `pthread_exit` прошёл все три теста потомков и обе ветки threaded. [Инъекция задержек](/root/kani-rev2-supervisor-selftest-r2-evidence/delay-fix1.log)
+
+### Независимые серии на базе и FIX1
+
+Linux x86-64, два CPU, Python 3.12.3. Использованы точные команды discovery из pins для native и bootstrap workflow для стартов 60, 5 и 1 с. Watchdog — `timeout --kill-after=5s 90s` на каждую копию. Под дозированной нагрузкой на каждом CPU один burner с циклом 5 мс busy / 25 мс sleep. Последовательно suite привязаны к CPU 0, порядок база/FIX1 чередуется по шкалам. В параллельном блоке для каждой версии одновременно стартуют четыре suite, по одной на шкалу. На CPU 0 идут native и 5 с, на CPU 1 — 60 и 1 с. В первом ревью при нагрузке 15/15 мс на тех же двух CPU часть из четырёх параллельных копий упиралась в watchdog. Для R2 выбран меньший duty cycle, одинаковый для базы и FIX1. [Харнесс](/root/kani-rev2-supervisor-selftest-r2-evidence/matrix.py) · [JSONL и имена логов](/root/kani-rev2-supervisor-selftest-r2-evidence/results.jsonl)
+
+| Версия и режим | Native | 60 с | 5 с | 1 с |
+| --- | --- | --- | --- | --- |
+| База · последовательно | 113/113 · 29.268 | 113/113 · 27.620 | 113/113 · 30.159 | 113/113 · 29.621 |
+| FIX1 · последовательно | 113/113 · 28.868 | 113/113 · 28.193 | 113/113 · 31.238 | 113/113 · 28.015 |
+| База · параллельно | 113/113 · 60.899 | exit 1 (Z-K) · 58.347 | exit 1 (E) · 60.461 | 113/113 · 59.067 |
+| FIX1 · параллельно | 113/113 · 57.696 | 113/113 · 58.541 | 113/113 · 57.512 | 113/113 · 58.119 |
+
+В параллельных запусках базы на 60 и 5 с исходный `TIMEOUT` перешёл в `REAP_UNVERIFIED`. В threaded-ветке на 60 с стадия KILL началась на +1,613 с при дедлайне 1,45 с. В escaped PID на 5 с она началась на +1,397 с при дедлайне 1,25 с. События `KILL_DESCENDANT` в обоих receipt отсутствовали. [База, 60 с](/root/kani-rev2-supervisor-selftest-r2-evidence/base-parallel-60-2.log) · [База, 5 с](/root/kani-rev2-supervisor-selftest-r2-evidence/base-parallel-5-3.log)
+
+В целевой серии три теста потомков, включая обе threaded-ветки, выполнялись последовательно на CPU 0 с четырьмя непрерывными busy-loop процессами. Для базы и FIX1 использованы одинаковые watchdog, affinity и нагрузка. Исход и длительность в секундах.
+
+| Версия и режим | Native | 60 с | 5 с | 1 с |
+| --- | --- | --- | --- | --- |
+| База | exit 1 (G, E, Z-K) · 11.350 | exit 1 (G, E) · 11.391 | exit 1 (G, E, Z-K) · 10.210 | exit 1 (G, E, Z-K) · 10.722 |
+| FIX1 | 3/3 · 13.832 | 3/3 · 15.041 | 3/3 · 15.004 | 3/3 · 13.890 |
+
+G — готовность group, E — escaped PID, Z-T и Z-K — threaded TERM и KILL. После полных suite базы внешний subreaper собрал 15 процессов в состоянии Z и один в состоянии S. В сериях FIX1 внешний сбор не потребовался. Во всех 24 прогонах обеих ревизий watchdog не сработал. Длительности в таблицах указаны в секундах.
+
+Проверка выполнена локально средствами Python и Git. Область решения GO — исправление self-test. `proof_credit=NONE`.
