@@ -41,3 +41,28 @@
 Не проверялось: `run.py pins`, `static_import.py`, повторный stress. Workflow не менялся.
 
 Решение координатора: замечания 1–3 не влияют на запуск, повторный FIX не нужен. Пакет передаётся планеру на GO.
+
+## R3 · FIX3
+
+**NO-GO для запуска**, один блокер в фазе B. Сама дельта FIX3 корректна: гейт `unsupported_construct` и группы A приняты бы как GO_WITH_NITS. Ревьюер Claude (smallsort-reviewer, read-only), 2026-11-26. Control `0a4f85d930e47ffad9062131e6f57c6bde5989e6` (tree `c5752243969498403dc09f21404030ab702523ee`), review-trigger `0aa3c3071c`, request SHA-256 `553e9cd8…0fcf3`, handoff g0 `d4b8210a80`.
+
+### Блокер
+
+**B1. Отрицательный контроль B почти наверняка даст MISMATCH** (`verdict.py:191-192`, `request.py:86-95,516`). Чтение B `validity_main.rs:111` (`*values.as_ptr()`) — такой же typed read `char` через сырой указатель, как в A. `check_values.rs` ставит на него две проверки без assume: `UntypedRead` (`:1054-1056,695-707`; `may_be_untyped` на любом `Deref`, `:656-659`) и `DerefValidity` (`:976-980,819-827,796-810`). Для `char` это один `ValidValueReq` (`:424-431`). Обе проверки получают FAILURE на одних и тех же путях (`transform/mod.rs:141`). Корни B группы не имеют, поэтому `vv_stable_char_n09_corrupt` ON уйдёт в MISMATCH, а положительные получат `read_binding=UNKNOWN`. Вывод по исходникам, прогоном не воспроизводился. Нужен FIX4 со структурным правилом для B, которое не требует знать ID заранее.
+
+### Неблокирующее
+
+1. `verdict.py:405-408`: ветка `guarded and not bound_complete → UNKNOWN` проверяется раньше positive/negative, поэтому реальный FAILURE при неподтверждённом профиле выдаётся как UNKNOWN. Это fail-closed, но с потерей информации. Сначала вычислять условия MISMATCH.
+2. `verdict.py:50,171`: флаги CBMC проверяются по чёрному списку, `--depth`, `--unwindset`, `--no-assertions` и `--cover` не отсекаются. Риск низкий при фиксированном argv.
+3. `verdict.py:35-40`: семейства `kani_same_allocation_guard` и untyped-guard сверяются только по тексту.
+4. Группы A взяты из того же прогона, поэтому replay — проверка согласованности.
+
+### Проверено
+
+- Дельта — 6 файлов (`CI-REQUEST.json`, `request.py`, `run.py`, `verdict.py`, два теста). Остальное не изменилось.
+- Trees, parent, авторство и `[skip ci]` в порядке. SHA-256 request совпадает, `load()` сверяет `read_groups`.
+- Все координаты в исходниках Kani `4caf097d84` подтверждены. SUCCESS у `assert(false)` при включённых unwinding assertions означает недостижимость в пределах границ. Whitelist задан через `fullmatch`.
+- Независимый офлайн-replay: **18/18 MATCH**. Контрфактические прогоны: без групп — 15/18, без профиля — 0/18 (UNKNOWN), с `--no-unwinding-assertions` — 0/18 (UNKNOWN).
+- Unittest 119/119 OK.
+
+NOT_RUN: Kani, CBMC, cargo, rustc, `run.py pins`, YAML, `bash -n`, фактическое поведение фазы B.
