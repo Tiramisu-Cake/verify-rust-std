@@ -88,3 +88,48 @@ NOT_RUN: Kani, CBMC, cargo, rustc, `run.py pins`, YAML, `bash -n`, фактич�
 - Unittest 121/121 OK.
 
 NOT_RUN: Kani, CBMC, cargo, rustc, `run.py pins`, YAML, `bash -n`, фактическое поведение фазы B.
+
+## R5 · FIX5
+
+**NO-GO**, один блокер. Ревьюер Claude (smallsort-reviewer, read-only), 2026-11-26.
+- Control `fc3a0e654efe2076c5e9d0139ac6cd8d5b62eae2` (tree `e9b8b464573e3bb534df18c8ab86f2508366c6c5`, parent `e2a3e6d48e`).
+- Overlay `fe3fe324bfccaf309b5c5e20ce28dccd7759b45c` (parent `bc866f8dfa`).
+- Review-trigger `a41dcc74de`.
+- Хэши request, roster и bundle совпадают.
+
+### Блокер
+
+**B1. `vv_network_nonzero_n10` ON почти наверняка даст MISMATCH.**
+- n10 и n18 вызывают один экземпляр `small_sort_network::<NonZero<u8>, …>`. Проверка на приведении `smallsort.rs:423:28` ставится в тело функции независимо от длины (`check_values.rs:1114-1119`).
+- При len=10 эта точка недостижима. На этом пине недостижимые emit-места выводятся как SUCCESS.
+- Семейства `mutable cast` нет в `UNSUPPORTED_FAMILIES` (`verdict.py:25-40`), а у n10 нет pin. Поэтому свойство попадает в `blocking_unsupported` (`verdict.py:506-508`).
+- Синтетика на настоящем `decide` дала MISMATCH. В `test_run.py:663-675` у n10 этого свойства нет, поэтому suite дефект не ловит.
+
+Нужно точное допущение для n10 ON:
+- ровно одно свойство: ID, функция, `:423:28`, описание `[NonZero<u8>; 32]`;
+- статус только SUCCESS при подтверждённом unwind-профиле;
+- синтетика и мутации.
+
+### Неблокирующее
+
+1. Холодный cap фазы A снижен с 45 до 30 с (`request.py:153-155`). Запас большой, максимум 0,95 с. **Координатор принимает.**
+2. Ранговый домен `char` (`validity_main.rs:51-60`): положительные ON ловят nondet/uninit-чтения, но не перемешивание байтов. Оговорить в результатах.
+3. Covers n18 (`validity_main.rs:224-231`) стоят до вызова, cover «split into two 9 element halves» тавтологичен. Переименовать или убрать.
+4. Порядок импортов в overlay при edition 2021 был и в `bc866f8dfa`; с `style_edition=2024` файл чистый.
+5. Шаблон типа probe, возможно, узок для «голого» `NonZero<u8>`. Влияет только на негейтящий probe.
+6. У `cbmc_ignoring_warnings` нет флага полноты захвата.
+
+### Проверено
+
+- **Дельты.** Overlay: изменён только `validity_main.rs`, `smallsort.rs` не тронут, bundle в порядке. Control: 10 файлов, Kani и merge не изменились. Авторство в порядке.
+- **Fixture.**
+  - Указатель берётся до порчи и до чтения.
+  - `bool` везде сравнивается через u8.
+  - Corrupt — без функциональной проверки. n10 идёт по no-merge, n18 только ON.
+  - Probe совпадают с разбором. `check_coordinates` PASS.
+- **Гейт.** Pinned-классы строгие, общее правило unsupported не ослаблено.
+- **Часы.** 8340 ≤ 8400 с.
+- **Replay A:** 18/18 без изменений; B старых receipts без падений.
+- **Suite:** 133/133 OK.
+
+NOT_RUN: Kani, CBMC, cargo, rustc, `run.py pins`, `static_import`, YAML, `bash -n`, реальное поведение фазы B.
