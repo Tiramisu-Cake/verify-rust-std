@@ -1,6 +1,6 @@
 # REV2 · валидность на Kani main с nightly 11-21 · handoff
 
-**READY_FOR_REVIEW** (FIX4) · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger **Item 2** · control **`e2a3e6d48e`**, tree `f46e65c42c`, review-trigger `b0ce856748` ([FIX4](#fix4-после-ревью-r3)). FIX3: control `0a4f85d930`, tree `c575224396`. Разделы до FIX2 описывают R1-кандидат: control `e4b3eced27`, tree `817a5db4e9`. FIX2: control `bf4e1d882a`, tree `6d51ab4ed0`. Инструмент в отчётах — **«Kani main `8c6dba5935` с nightly-2026-11-21»**: это не upstream-коммит, а локальный кандидат `4caf097d84`. [Задание](REV2-VALIDITY-MAIN-REPIN-TASK.md) · [Записка координатора](COORD-NOTE-20261126-VALIDITY-PIN-AND-KANI5196-RECHECK.md) · [FIX1](REV2-VALIDITY-MAIN-HANDOFF.md)
+**READY_FOR_REVIEW** (FIX5) · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger **Item 2** · control **`fc3a0e654e`**, tree `e9b8b46457`, review-trigger `a41dcc74de`, Std overlay `fe3fe324bf` ([FIX5](#fix5-по-разбору-фазы-b)). FIX4: control `e2a3e6d48e`, tree `f46e65c42c`. FIX3: control `0a4f85d930`, tree `c575224396`. Разделы до FIX2 описывают R1-кандидат: control `e4b3eced27`, tree `817a5db4e9`. FIX2: control `bf4e1d882a`, tree `6d51ab4ed0`. Инструмент в отчётах — **«Kani main `8c6dba5935` с nightly-2026-11-21»**: это не upstream-коммит, а локальный кандидат `4caf097d84`. [Задание](REV2-VALIDITY-MAIN-REPIN-TASK.md) · [Записка координатора](COORD-NOTE-20261126-VALIDITY-PIN-AND-KANI5196-RECHECK.md) · [FIX1](REV2-VALIDITY-MAIN-HANDOFF.md)
 
 Совместимость пары до CI остаётся **UNKNOWN**. Cargo, rustc, сборка Kani, Kani и CBMC локально не запускались, toolchain не ставился. Push, CI, изменений Actions variables, обновления ветки pr752 и публикаций не было.
 
@@ -455,3 +455,231 @@ Push, CI, Actions variables, cargo/rustc/Kani/CBMC не запускались. 
 R3 неблокирующие 3 (семейства по тексту) и 4 (replay A — проверка согласованности) остаются как отмечено: их снимет следующий прогон.
 
 Push, CI, Actions variables, cargo/rustc/Kani/CBMC не запускались. Публикаций не было.
+
+## FIX5 по разбору фазы B
+
+[Задание FIX5](REV2-VALIDITY-MAIN-REPIN-FIX5-TASK.md) · [Разбор фазы B](REV2-VALIDITY-MAIN-REPIN-B-ANALYSIS.md) (g0 `daf13e3d1a`). Пакет собран по разделу 4 разбора. Kani-кандидат `4caf097d84` и Std merge `7f961eda87` не менялись, bundle Kani тот же.
+
+### 1. Overlay `validity_main.rs`
+
+Новый коммит **`fe3fe324bf`** (tree `0289b60ea3`) поверх `bc866f8dfa`. Меняется только диагностический модуль (+83/−27, blob `141b3d3128`). Delta merge → overlay — те же три пути: `M Cargo.toml`, `M smallsort.rs`, `A validity_main.rs`. `smallsort.rs` не тронут, поэтому все внутренние координаты, включая `:423`, прежние.
+
+- **Чтение через заранее взятый указатель.** Во всех корнях B указатель берётся отдельной строкой: `let values_ptr = values.as_ptr();`, в `stable` — `as_mut_ptr()` до порчи. Строка чтения — `let first = unsafe { *values_ptr };`, а в `sort8` — `output[i] = unsafe { *dst_ptr.add(i) };`. Проверки `[T; N]` от autoref остаются на строке взятия указателя. На строке чтения — только пара элемента.
+- **`bool`.** `bool_less(a, b) = (*a as u8) < (*b as u8)`. `check_sorted_and_full_multiset` получает компаратор `less: F` (`F: Fn(&T, &T) -> bool`, без function pointer) и проверяет сортированность им. Граница `T: Copy + Eq`. Covers `vv_swap_bool_n02` тоже переведены на `bool_less`.
+- **Ранговый домен.**
+  - `ranked_chars::<N>()`: `kani::any::<[char; N]>()` плюс `assume(c as u32 < N)`. Используется в `vv_stable_char_n09`/`_corrupt` (< 9) и `vv_sort8_char_n08` (< 8).
+  - `ranked_nonzero::<N>()`: `get() ≤ N`. Используется в network n10/n18.
+  - Обоснование ранговым аргументом — в комментарии модуля.
+  - `vv_fallback_nonzero_n03` не тронут, кроме формы чтения.
+- **Corrupt.** `stable_char_n09_body::<true>` пропускает функциональную проверку: остаются covers, порча через `values_ptr.cast::<u8>()` и типизированное чтение.
+- **Network.**
+  - `vv_network_nonzero_n10` — no-merge: `sort9_optimal` и один `insert_tail` (ветка `region.len() >= 9`).
+  - `vv_network_nonzero_n18` — merge, только ON. Covers до приведения: «split into two 9 element halves» и «right last element precedes left first element». Cover «… even merge, copy-back returned» закреплён как UNREACHABLE.
+- **Формат.** rustfmt `nightly-2026-11-19` с настройками rust-lang (`style_edition 2024`, `use_small_heuristics = "Max"`), под которые старый файл проходит без диффа: `FMT_OK`.
+- **Bundle `std-overlay.bundle`.** Prerequisites прежние (`dab03cf510`, `f94155ef29`), HEAD `fe3fe324bf`, SHA-256 **`92e618444d81d3595ebf0d0c0bf120ff57ef45a681f2a4569b006ae09957bae2`**.
+- **Цифры запроса.**
+  - `OVERLAY_DELTA_SHA256` — `a61e0eb4…df1a`;
+  - `OVERLAY_CHAIN` получил третью пару;
+  - комментарий у `OVERLAY_SOURCE_CHAIN` уточнён: FIX1-реплей — первые два коммита.
+
+### 2. Fixture A: четыре probe
+
+`validity_fixture.rs` +41 строка, SHA-256 `948abd15…f8ad`, rustfmt Kani — чисто. Существующие девять корней и их строки не сдвинуты: probes дописаны в конец.
+
+| Probe | OFF | ON |
+| --- | --- | --- |
+| `bool_order_probe`: `kani::assert((a < b) == (!a && b), …)`, `:178:5` | `ASSERTION_FAILURE_PINNED` | `ASSERTION_FAILURE_PINNED` |
+| `bool_order_u8_control`: то же через `as u8` | SUCCESS | SUCCESS |
+| `array_elem_cast_nonzero`: `MaybeUninit<[NonZeroU8; 4]>` → `*mut NonZeroU8`, запись, `:198:19` | SUCCESS | `UNSUPPORTED_PINNED`, cover `write_complete` UNREACHABLE |
+| `array_elem_cast_u8_control`: то же для `u8` | SUCCESS | SUCCESS |
+
+У `array_elem_cast_nonzero` cover `write_complete` — off-only. Это допускается только потому, что тот же cover назван в unreachable-списке pin.
+
+**Probes не гейтят.** Они решаются как любой слот, но `run_phase` считает их отдельно: `probe_status` в `phase-A.json`, `phases.A_probes` в `SUMMARY.json`. Статус фазы A считается только по 18 прежним слотам, поэтому неожиданный исход probe не блокирует B. В `diagnostic_status` probes входят: `EXPECTED_OUTCOMES` требует и `A_probes=PASS`. Тест закрепляет все три свойства.
+
+Тип в описании unsupported для standalone crate заранее не известен (в `core` он печатается как `num::nonzero::NonZero<u8>`). Поэтому fixture-pin задан `fullmatch`-шаблоном: путь `(core::|std::)?num::(nonzero::)?NonZero<u8>`, длина `4`. Тип и длина фиксированы, допускается только вариант пути. Шаблон записан литералом, а не через `re.escape`, чтобы frozen JSON не зависел от версии Python.
+
+### 3. Гейт
+
+**Классы** (`verdict.py`). Pin задаётся в request `pinned_failures[root][mode]` с ключами `kind, class, function, file, line, column, anchor, description | description_pattern, unreachable_covers`.
+
+Свойство совпадает с pin, только если совпадают все поля:
+- file по суффиксу, line и column;
+- функция из location — точно;
+- class и в поле, и в ID;
+- ID — `fullmatch` `re.escape(function).class.N`;
+- description — точно, либо `fullmatch` шаблона.
+
+Решение для pinned-слота:
+- terminal `FAILED` и exit ≠ 0, иначе MISMATCH;
+- ровно одно совпадение, со статусом `FAILURE`, и множество всех `FAILURE` равно ему, иначе MISMATCH;
+- нет другого статуса вне SUCCESS/UNREACHABLE и нет validity-свойств в OFF, иначе MISMATCH;
+- если всё выполнено: `ASSERTION_FAILURE_PINNED` → `MATCH`, `UNSUPPORTED_PINNED` → **`MATCH_KNOWN_LIMITATION`**;
+- каждый `unreachable_covers` присутствует и весь UNREACHABLE, иначе MISMATCH; при скрытии bounded publish — UNKNOWN;
+- обязательные covers и правило «guard не установлен → UNKNOWN» действуют как прежде и для `MATCH_KNOWN_LIMITATION`.
+
+**Общее правило unsupported не ослаблено.** Из него выводится только одно свойство: единственное совпадение с unsupported-pin, и только при статусе `FAILURE`. Второе совпадение, совпадение со статусом SUCCESS, другой unsupported `FAILURE`, другой тип или координата оставляют прежний MISMATCH «reachable or undecided unsupported_construct».
+
+Валидация строки (`_pinned_error`) возвращает UNKNOWN, если:
+- unsupported-pin стоит в OFF;
+- assertion-pin задаёт unreachable covers;
+- pin на validity-negative;
+- unreachable cover одновременно обязательный;
+- не совпадает пара kind/class, ключи или column < 1;
+- шаблон не компилируется.
+
+Request (`check_expectations`) отвергает:
+- pin на negative, неизвестном корне или в незапускаемом режиме;
+- лишние ключи, неизвестный kind, несоответствие class;
+- пустые, повторные или неизвестные mode-наборы;
+- probe вне фазы A.
+
+**Координаты на этапе `sources`.** `check_coordinates` сверяет: `anchor` начинается ровно с закреплённого column закреплённой строки, а каждый unreachable cover встречается в источнике один раз. Проверено на реальном overlay:
+- `smallsort.rs:423:28` начинается с `stack_array.as_mut_ptr() as *mut T;`;
+- в fixture `:178:5` и `:198:19`.
+
+**`read_structures` — для всех семи корней B.**
+
+| Корень | Чтение | Column | Type |
+| --- | --- | --- | --- |
+| `vv_swap_bool_n02` | `:80` | 26 | `bool` |
+| `vv_fallback_nonzero_n03` | `:97` | 26 | `num::nonzero::NonZero<u8>` |
+| `vv_stable_char_n09` / `_corrupt` | `:143` | 26 | `char` |
+| `vv_sort8_char_n08` | `:186` | 30 | `char` |
+| `vv_network_nonzero_n10` | `:210` | 26 | `num::nonzero::NonZero<u8>` |
+| `vv_network_nonzero_n18` | `:235` | 26 | `num::nonzero::NonZero<u8>` |
+
+Count у всех 2. Load требует, чтобы структуры покрывали ровно все чтения B. Строки типа для `NonZero` взяты из описаний receipts run 45870184232: `:70:26`, `:179:26`.
+
+**`cbmc_ignoring_warnings`** (non-gating) в `native_metrics` по stdout и stderr: число вхождений `warning: ignoring` по всему захвату (длинные JSON-строки не теряются) и координата первого, без текста выражения.
+
+**Режимы.** `ROOT_MODES = {vv_network_nonzero_n18: ["on"]}`. `slots()` порождает слоты по режимам, `phase_slot_count` считает их сумму. В слотах и receipts появились поля `probe` и `pinned`.
+
+### 4. Roster и ожидания
+
+**A — 26 слотов.** 18 прежних, без изменений (8 закреплённых групп чтения, 3 отрицательных ON), плюс 8 probe-слотов из таблицы выше.
+
+**B — 13 слотов:**
+
+| Корень | OFF | ON |
+| --- | --- | --- |
+| `vv_swap_bool_n02` | SUCCESS | SUCCESS, структура `bool` |
+| `vv_fallback_nonzero_n03` | SUCCESS | SUCCESS, структура `NonZero<u8>` |
+| `vv_stable_char_n09` | SUCCESS | SUCCESS, структура `char` |
+| `vv_stable_char_n09_corrupt` | SUCCESS | **FAILURE** = ровно пара `char` на `:143` |
+| `vv_sort8_char_n08` | SUCCESS | SUCCESS, структура `char` |
+| `vv_network_nonzero_n10` | SUCCESS | SUCCESS, структура `NonZero<u8>` |
+| `vv_network_nonzero_n18` | — | **`UNSUPPORTED_PINNED`** → `MATCH_KNOWN_LIMITATION`, без validity-кредита |
+
+Строки `writes` и `internal_reads` для n10/n18 взяты из n19 по маршруту:
+- n10: swap `:497-498`, вставка `:682`, `:362`; чтения `:483`, `:496`, `:666`, `:675`, `:691`;
+- n18: только swap `:497-498`; чтения `:483`, `:496`.
+
+Запись порчи — новая строка `validity_main.rs`. Корни собраны скриптом из FIX4-запроса и текстов источников: [build_roots.py](/root/rev2-validity-repin-review/fix5/build_roots.py).
+
+### 5. Часы
+
+| Блок | FIX4 | FIX5 |
+| --- | --- | --- |
+| Phase 0 | 1800 | 1800 |
+| A (слоты × (cold + reap 10 + receipt 5 + headroom 5)) | 18 × 65 = 1170 | **26 × 50 = 1300** |
+| B setup | 1800 | 1800 |
+| B | 12 × 200 = 2400 | **13 × 200 = 2600** (+195 окна +5 headroom) |
+| Post-attestation, finalize, publication | 120 + 300 + 420 | без изменений |
+| Сумма / job 140 мин | 8010 / 8400 | **8340 / 8400**, запас 60 с |
+
+С прежним A cold 45 с план занял бы 8730 с и не уложился бы в 140 мин: +520 с на 8 probe-слотов и +200 на B. Поэтому **A cold cap снижен с 45 до 30 с**. Обоснование: в run 45857466917 и run 45870184232 самый долгий из 36 A-слотов шёл 0,95 с cold wall. Пределы B не менялись: 180 с cold wall, 120 с VT, caps 4 GiB на слот и 10 GiB на setup.
+
+Таймауты шагов workflow: `phase-a` 21 → **23** мин (бюджет 1300 + 60 с), `phase-b` 80 → **81** мин (1800 + 2600 + 120 + 300 с). Job по-прежнему 140 мин. Тест бюджетов шагов это проверяет.
+
+Альтернатива, если координатор не хочет трогать A cap: убрать `vv_sort8_char_n08` OFF (12 слотов B). Тогда понадобилось бы ещё снизить phase 0 (наблюдалось 207–234 с из 1800).
+
+### 6. Тесты и replay
+
+**Синтетика новых классов** (`test_verdict.PinnedFailureTests`, 8 тестов):
+- **точное свойство:** assertion OFF/ON → `MATCH`; unsupported → `MATCH_KNOWN_LIMITATION`; шаблон принимает три рендеринга пути и отвергает `[u8; 4]`;
+- **лишний FAILURE:** посторонний assertion, второй unsupported `FAILURE` на другой строке, двойное точное совпадение, `UNDETERMINED`-проверка — MISMATCH;
+- **другой тип или координата:** длина 31, `NonZero<u16>`, другой construct, line ± 1, column ± 1, другая функция (другой компаратор), другой файл, класс в ID, чужое описание assertion — MISMATCH, `matched_ids` пуст;
+- **cover reachable у `UNSUPPORTED_PINNED`:** SATISFIED / UNSATISFIABLE / UNDETERMINED → MISMATCH с `reached_covers`; отсутствующий cover → MISMATCH; обязательный cover по-прежнему обязателен;
+- **terminal и код:** pin со статусом SUCCESS и terminal SUCCESSFUL, FAILED с exit 0 — MISMATCH; pinned unsupported со статусом SUCCESS — MISMATCH по общему правилу;
+- **guard:** `MATCH_KNOWN_LIMITATION` без наблюдаемого профиля → UNKNOWN;
+- **валидация:** девять видов неверной строки → UNKNOWN.
+
+**Run-уровень** (`test_run.py`):
+- все 39 синтетических слотов дают ожидаемое: n18 — `MATCH_KNOWN_LIMITATION`, остальные `MATCH`, `read_binding=OBSERVED` у каждого ON с чтением;
+- probe с неподтверждённой гипотезой → A `PASS`, `A_probes=UNEXPECTED`, B запускается и даёт `PASS`, `diagnostic_status=INCOMPLETE_OR_UNEXPECTED`; гейтящий слот по-прежнему гейтит;
+- n18 без приведения и с достигнутым cover → MISMATCH, receipt несёт `pinned`;
+- сдвиг строки probe → `pinned failure coordinate`, переименованный unreachable cover → `cover description`;
+- `check_expectations` отвергает 12 мутаций;
+- счётчик `warning: ignoring` находит вхождение и в строке длиннее 4096 байт, текст не публикует;
+- мутации запроса: `pinned_failures`, `probes`, `root_modes`, `read_structures`, off-only cover без pin;
+- часы и бюджеты шагов пересчитаны.
+
+**Suite 133/133:**
+- штатно — 34 с;
+- дважды на свежей шкале от 60 с — 32 и 33 с;
+- на checkout trigger `a41dcc74de` — 133/133, checkout чистый.
+
+YAML разбирается, `bash -n` по всем семи `run`-блокам чисто, `git diff --check` чисто, rustfmt нового Rust-кода: `FMT_OK` для overlay и fixture.
+
+**Replay A** (`python3 -I`, receipts как данные). Скрипт FIX3 `reclassify.py`, у которого изменён только фильтр roster: строки берутся из FIX5-запроса для корней прогона, и они проверяются на равенство корням `request.json` прогона ([reclassify5.py](/root/rev2-validity-repin-review/fix5/reclassify5.py)).
+- **run 45870184232: 18/18 MATCH**, вывод побайтно равен выводу того же скрипта с FIX4-control (`0a243b90…`);
+- run 45857466917: 18/18 MATCH, побайтно `58aafc31…` (как в FIX3/FIX4).
+
+**Replay B run 45870184232.** Строки — FIX4-ряды самого прогона, verdict — FIX5 ([replay.py](/root/rev2-validity-repin-review/fix5/replay.py), [вывод](/root/rev2-validity-repin-review/fix5/replay-B-45870184232-run-rows.out)). Гейт не падает, все 12 исходов совпадают с CI:
+- `swap_bool` OFF/ON — MISMATCH (terminal);
+- fallback OFF/ON — MATCH;
+- семь TIMEOUT — INCOMPLETE;
+- network n19 ON — MISMATCH (unsupported).
+
+**Pin на реальном выводе.** Pin n18 перенесён на receipt n19 ON с его собственным пост-merge cover ([вывод](/root/rev2-validity-repin-review/fix5/pin-on-n19.out)):
+- точный pin → **`MATCH_KNOWN_LIMITATION`**: ID, функция, координата и описание `[NonZero<u8>; 32]` совпадают с реальным выводом Kani;
+- line+1, длина 31, достигнутый cover → MISMATCH.
+
+Решение принято по 256 опубликованным записям из 1651; в CI гейт видит все.
+
+**Статический импорт** на реальных объектах (чистые shallow-репозитории, точные базы, без alternates): `PASS`; bundle-импорт `fe3fe324bf`, delta merge → overlay, координаты, column и pins — `PASS` ([вывод](/root/rev2-validity-repin-review/static_import-fix5.out)).
+
+**`check_trigger` на detached trigger `a41dcc74de`:** tree `e9b8b46457` допущен, parent `467af9cb8d`; tree FIX4 `f46e65c42c` отклонён («trigger tree mismatch»).
+
+### 7. Риски
+
+- **`bool_order_probe`** — гипотеза разбора. Если `<` на `c_bool` всё же кодируется, probe даст MISMATCH и `A_probes=UNEXPECTED`, но B пройдёт. Тогда `vv_swap_bool_n02` покажет, был ли дефект в обмене.
+- **Описание в fixture** может отличаться от шаблона сильнее, чем вариантом пути. Тогда `array_elem_cast_nonzero` ON даст MISMATCH и только `A_probes=UNEXPECTED`.
+- **Время B.** Ранговый домен должен снять финальный UNSAT, но прогоном это не подтверждено. При TIMEOUT следующий шаг из разбора — разделить корни на validity-only и функциональные. n18 ON обрезается на `:423`, как n19 ON (85 с).
+- **Column 30 для `:186`** (`output[i] = …`) выведен, но не подтверждён, как и `:153` в FIX4. При расхождении только `read_binding=UNKNOWN` у положительного `sort8` ON.
+- **Запас часов** — 60 с. Пределы расчётные и не зависят от длительности слотов.
+
+### 8. Пины FIX5
+
+| Объект | Значение |
+| --- | --- |
+| Std overlay | **`fe3fe324bfccaf309b5c5e20ce28dccd7759b45c`**, tree **`0289b60ea3228cf2fbac93865b33cd5564dc9de1`**, parent `bc866f8dfa`; chain `cac978ee46` → `bc866f8dfa` → `fe3fe324bf` |
+| `std-overlay.bundle` | SHA-256 **`92e618444d81d3595ebf0d0c0bf120ff57ef45a681f2a4569b006ae09957bae2`** |
+| Overlay delta (`--raw`) | SHA-256 `a61e0eb406a91c82f443085cf595bb280690ab187fb9fcb47d14142d3dbadf1a` |
+| Fixture | SHA-256 `948abd1573a0a41644d9987899da2426a37d12198988695d8c939523977bf8ad` |
+| Roster digest | `1f5826b797c510cefae04d1fdb69f50e36e9fd7f61895e2202efe9a99e5daeea` |
+| `CI-REQUEST.json` | SHA-256 **`ebd7d551946e0e4b731fc428197b0778423087467e6f830fc80216d016b17f68`** |
+| Control | **`fc3a0e654efe2076c5e9d0139ac6cd8d5b62eae2`**, tree **`e9b8b464573e3bb534df18c8ab86f2508366c6c5`**, parent `e2a3e6d48e` |
+| Review-trigger (`[skip ci]`) | **`a41dcc74deb282a1f22de64092a2cb2251b8fed0`**, tree `e9b8b46457`, sole parent `467af9cb8dba0e3be78a8d7d07672a1943c4806b`, ref `local/rev2-validity-repin-fix5-trigger-review` |
+| `CH8_REV2_VALIDITY_REPIN_TRIGGER_TREE` (меняет координатор после GO) | **`e9b8b464573e3bb534df18c8ab86f2508366c6c5`** |
+| Kani, Std merge, tool bundle | без изменений: `4caf097d84`, `7f961eda87`, `51ba5593…6843` |
+
+Diffstat control от FIX4:
+
+| Файл | Строки |
+| --- | --- |
+| `verdict.py` (`3a365a844a`) | +99 / −6 |
+| `request.py` (`9c45d2692c`) | +113 / −24 |
+| `run.py` (`b972182cc6`) | +17 / −9 |
+| `native_metrics.py` (`58223492d4`) | +12 / −0 |
+| `validity_fixture.rs` (`674ceb2f4d`) | +41 / −0 |
+| `CI-REQUEST.json` (`4bcbf741c5`) | +225 / −54 |
+| `test_verdict.py` (`f72f851556`) | +158 / −0 |
+| `test_run.py` (`0f8f4e6c14`) | +175 / −26 |
+| `ch8-q-pilot.yml` (`c7ee165b06`) | +3 / −3 |
+| `std-overlay.bundle` | заменён |
+
+[Patch control](/root/rev2-validity-repin-review/control-fix5-from-fix4.patch), SHA-256 `c4b51c2d…ab7b`. [Patch overlay](/root/rev2-validity-repin-review/fix5/std-overlay-fix5-from-fix4.patch), SHA-256 `5341fab5…f6c7`. Author и committer overlay, control и trigger — Tiramisu-Cake <igkharin@gmail.com>, `[skip ci]`, без решётки перед цифрой.
+
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger Item 2. Push, CI, Actions variables, cargo/rustc/Kani/CBMC не запускались, toolchain не ставился (rustfmt — локальный бинарь, разрешённый владельцем). Публикаций не было.
