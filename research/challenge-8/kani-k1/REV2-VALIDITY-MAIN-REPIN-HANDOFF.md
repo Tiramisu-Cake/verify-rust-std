@@ -1,6 +1,6 @@
 # REV2 · валидность на Kani main с nightly 11-21 · handoff
 
-**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger **Item 2** · control **`e4b3eced27`**, tree `817a5db4e9`. Инструмент в отчётах — **«Kani main `8c6dba5935` с nightly-2026-11-21»**: это не upstream-коммит, а локальный кандидат `4caf097d84`. [Задание](REV2-VALIDITY-MAIN-REPIN-TASK.md) · [Записка координатора](COORD-NOTE-20261126-VALIDITY-PIN-AND-KANI5196-RECHECK.md) · [FIX1](REV2-VALIDITY-MAIN-HANDOFF.md)
+**READY_FOR_REVIEW** (FIX2) · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger **Item 2** · control **`bf4e1d882a`**, tree `6d51ab4ed0`, review-trigger `13e1ebf83a` ([FIX2](#fix2-после-ревью-r1)). Разделы ниже до FIX2 описывают R1-кандидат: control `e4b3eced27`, tree `817a5db4e9`. Инструмент в отчётах — **«Kani main `8c6dba5935` с nightly-2026-11-21»**: это не upstream-коммит, а локальный кандидат `4caf097d84`. [Задание](REV2-VALIDITY-MAIN-REPIN-TASK.md) · [Записка координатора](COORD-NOTE-20261126-VALIDITY-PIN-AND-KANI5196-RECHECK.md) · [FIX1](REV2-VALIDITY-MAIN-HANDOFF.md)
 
 Совместимость пары до CI остаётся **UNKNOWN**. Cargo, rustc, сборка Kani, Kani и CBMC локально не запускались, toolchain не ставился. Push, CI, изменений Actions variables, обновления ветки pr752 и публикаций не было.
 
@@ -112,3 +112,84 @@ Std компилируется toolchain Kani: `kani-driver` вызывает `c
 - `UNCHANGED_STD_COMPILE` на чистом merge: передать первую диагностику с `file:line` и выпуском rustc. Std-фазы не запускаются, пока merge не компилируется.
 - Сбой импорта (`SOURCES_NOT_COMPLETED`, например недоступный fetch upstream): в `error.json` будет точное сообщение. Повтор без изменения пакета.
 - Merge пригоден для будущего обновления pr752 отдельным шагом. Ветка pr752 не тронута.
+
+## FIX2 после ревью R1
+
+[Задание FIX2](REV2-VALIDITY-MAIN-REPIN-FIX2-TASK.md) · [Ревью R1](REV2-VALIDITY-MAIN-REPIN-REVIEW.md). Kani-кандидат, Std merge, overlay, оба bundle, fixture, roster, workflow и `CI-REQUEST.json` не изменились.
+
+| Объект | R1 | FIX2 |
+| --- | --- | --- |
+| Control | `e4b3eced27aef7a926ae90b82a21411fcde24cc4` / tree `817a5db4e9eedc486148ec6018b9ce35685c0a93` | **`bf4e1d882a6a7247a87a7dac5890738507eb4d06`** / tree **`6d51ab4ed08f87d01d9be5f783c63f751a08e3ac`**, sole parent `e4b3eced27` |
+| Review-trigger (`[skip ci]`) | `0650c59e24` | **`13e1ebf83ade3d25dbd6a4ee6d5e7b61c40ba8c2`**, tree `6d51ab4ed0`, sole parent `467af9cb8dba0e3be78a8d7d07672a1943c4806b`, ref `local/rev2-validity-repin-fix2-trigger-review` |
+| Значение `CH8_REV2_VALIDITY_REPIN_TRIGGER_TREE` | `817a5db4e9…` | **`6d51ab4ed08f87d01d9be5f783c63f751a08e3ac`** |
+| `request.py` | — | blob `9355c6192452c0f4f1d55e9aa3860801086f292c` |
+| `test_sources.py` | — | blob `cb53bdc5714c3493a2eb030c6356feccd66df7a1` |
+| `test_supervisor.py` | `5f7889280b9cac99471eda153a2477bfa49313c4` | **`df63a457c3adf648d360f3d559d5d40ef00a9427`** |
+| Без изменений | `supervisor.py` `151af5b128…`, request SHA-256 `005ebf08…1fbe`, Std bundle `fbcab32c…ff9e`, Kani bundle `51ba5593…6843`, fixture `eb9575b0…`, workflow | те же |
+
+Дельта `e4b3eced27..bf4e1d882a` затрагивает только три файла: `request.py` +35/−20, `test_sources.py` +54/−3, `test_supervisor.py` +222/−116. [Patch](/root/rev2-validity-repin-review/control-fix2-from-r1.patch), SHA-256 `d8fe4899…95a8`. Коммит от Tiramisu-Cake <igkharin@gmail.com> (автор и коммиттер), `[skip ci]`, без решётки перед цифрой.
+
+### 1. Флейк escaped-descendant
+
+**Причина.** Это тайминг теста, а не дефект supervisor. Старый тест ставил абсолютный дедлайн `+1,25 с` при TERM 0,2 с и KILL 0,5 с. В этот бюджет должны уложиться запуск двух Python-процессов, публикация `ready` и полный нативный census. Выборочный KILL по PID/start ID требует ещё двух census. Под нагрузкой бюджет кончается раньше, чем supervisor успевает отправить KILL_DESCENDANT. Supervisor при этом поступает правильно: он честно сообщает `REAP_UNVERIFIED` с живым потомком в `remaining_processes`. Production-гонки 5+5 с этот тест не измеряет.
+
+**Воспроизведение до правки** на `5f78892…`: 10 прогонов только этого теста подряд под двумя busy-loop на 2 CPU (load 3–5). Итог: **9 падений из 10**, все `REAP_UNVERIFIED != TIMEOUT`. По receipt: START→REAP занимал 1,4–3,2 с, `KILL_DESCENDANT` не было ни разу, потомок оставался живым. В трёх случаях из девяти census до TERM вообще не увидел отделившегося потомка, `TERM_DESCENDANT` отсутствует. [Логи](/root/rev2-validity-repin-review/fix2-evidence/targeted/)
+
+**Правка.** Побайтно принят reviewed-образец `df63a457c3adf648d360f3d559d5d40ef00a9427` из control-пакетов q-pilot, `/root/kani-rev2-n22-n25-consumer-control-w14/ch8-cal1/`, коммит `8e1603eef9`. Он прошёл [ревью self-test](REV2-SUPERVISOR-SELFTEST-REVIEW.md): R2 GO для `637387c038`. В g0 он принят в `423f971b2e` при том же исходном blob `5f78892…`. [Обоснование и сохранённые проверки](REV2-SUPERVISOR-SELFTEST-HANDOFF.md#сохранённые-проверки).
+
+Что меняется по сути:
+- Worker атомарно публикует PID после `SIG_IGN`.
+- Тестовые часы переходят к TIMEOUT только после того, как нативный census увидел этот PID с нужными PPID и PGID.
+- Затем TERM 0,5 с и KILL 6 с идут в реальном темпе через настоящий `_signal_owned`.
+- Тест требует: TERM_DESCENDANT и KILL_DESCENDANT на тот же PID/start ID, `reaped=true`, пустые `remaining_processes` и `cleanup_errors`, статус `waitpid` −SIGKILL.
+- Тестовый subreaper убирает orphan-процессы при падении.
+
+`supervisor.py` (`151af5b128…`) не менялся: дефекта supervisor не найдено. После правки тот же целевой тест под той же нагрузкой прошёл **10/10**.
+
+**Серия полного suite под нагрузкой.**
+- **24 прогона подряд**, на каждом 110 тестов. Нечётные — `python3 -m unittest discover`, чётные — блок self-test из workflow с часами от 60 с.
+- Фон: два `python3 -c 'while True: pass'` на 2 CPU всю серию, load average в начале прогонов 3,3–7,3.
+- Результат: **24/24 OK**, 0 failures, 0 errors, 0 skipped. Время suite 45,5–76,7 с, медиана около 61 с. Это меньше трёх минут, которые даёт шаг `pins`.
+- [Сводка и логи](/root/rev2-validity-repin-review/fix2-evidence/stress/summary.txt) · [скрипт](/root/rev2-validity-repin-review/fix2-evidence/stress.sh)
+
+### 2. Точный путь отказа при отсутствующем upstream
+
+В R1 `import_bundle` проверял prerequisite через `git cat-file -t`. Для отсутствующего объекта эта команда падала `CalledProcessError`, поэтому сообщение «bundle prerequisite … is missing» было недостижимо. Теперь отсутствие проверяет `git_probe(cat-file -e)`, и отказ идёт с этим сообщением до `bundle verify`/`unbundle`. Отдельная проверка типа выдаёт «is not a commit».
+
+Тест `test_unconfirmed_parent_or_prerequisite_is_rejected` проверяет два точных пути:
+- **`ensure_upstream` подменён без fetch.** Ожидается `ValueError` ровно `^bundle prerequisite <upstream> is missing$`. Подмена вызвана один раз, upstream и overlay в Std-checkout отсутствуют, refs нет, `source.json` в состоянии `RUNNING`.
+- **Upstream SHA, которого remote не выдаёт.** Ожидается `CalledProcessError` именно из команды `fetch` с refspec `+<sha>:refs/ch8-rev2/upstream`. Refs нет, записи `upstream` в `source.json` нет.
+
+На старом `request.py` первый сценарий падает с `CalledProcessError` из `cat-file -t`.
+
+### 3. Проба `cat-file -e` ограничена дедлайном `sources`
+
+- Общая функция `bounded(deadline, 30)` используется в `git`, новом `git_probe` и `git_blob`.
+- Проба upstream в `ensure_upstream` и проверка prerequisites в `import_bundle` идут через `git_probe` с дедлайном шага.
+- В том же шаге дедлайн теперь получают и чтения `git_blob`/`mode` в `check_tool_patch`, `std_pins` и `check_overlay_layout`. Раньше у них были фиксированные 30 с.
+- После дедлайна процесс не запускается, сразу `TimeoutError("git deadline exhausted")`.
+
+Новый тест `test_upstream_probe_and_blob_reads_are_bounded_by_the_sources_deadline` проверяет:
+- исчерпанный дедлайн не порождает ни одного `subprocess.run`, ни для пробы, ни для `git_blob`;
+- при окне 5 с проба `cat-file -e` получает timeout ≤ 5 с, остальные git-вызовы `ensure_upstream` тоже.
+
+На старом коде тест падает: проба уходила с `timeout=30` даже при исчерпанном окне.
+
+### Повторные проверки
+
+- Без фоновой нагрузки (load около 2,9): `python3 -B -m unittest discover` — 110/110 за 33 с. Блок workflow с часами от 60 с — 110/110 дважды, 29 и 31 с.
+- Статический импорт на реальных объектах (`static_import.py`, чистые shallow-репозитории без alternates): **PASS**. Головы Kani `4caf097d84` и Std `7f961eda87`, overlay `bc866f8dfa`, координаты PASS. Вывод совпадает с R1 везде, кроме времени. [Вывод](/root/rev2-validity-repin-review/static_import-fix2.out)
+- `run.py pins` на detached trigger `13e1ebf83a` с синтетическим push:
+  - tree `6d51ab4ed0` допущен, outputs `std=dab03cf510`, `tool=8c6dba5935`;
+  - tree R1 `817a5db4e9` отклонён: `trigger tree mismatch`;
+  - одна старая переменная отклонена: `missing or malformed`;
+  - при отказе нет ни outputs, ни receipt.
+- Self-test на checkout trigger: 110/110, checkout чистый.
+- Workflow не менялся. PyYAML разобрал его, `bash -n` прошёл для семи shell-блоков, `git diff --check` чист. Rust-файлы не менялись, поэтому rustfmt не запускался.
+
+### Для координатора
+
+- Перед запуском значение `CH8_REV2_VALIDITY_REPIN_TRIGGER_TREE` должно быть `6d51ab4ed08f87d01d9be5f783c63f751a08e3ac`, а не `817a5db4e9…` из R1. Для запуска нужен новый коммит без `[skip ci]` с этим tree и родителем `467af9cb8d`.
+- Совет из R1 в силе: после GO очистить старую `CH8_REV2_VALIDITY_MAIN_TRIGGER_TREE`, сейчас `697dc737fe`.
+- Пункт 4 ревью, отсутствие `kani-verifier` в `8c6dba5935`, только информационный и правки не требует.
+- Push, CI, изменений Actions variables, cargo/rustc/Kani/CBMC, установки toolchain и публикаций не было. Совместимость пары остаётся **UNKNOWN** до фазы 0.
