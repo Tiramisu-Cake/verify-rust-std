@@ -25,6 +25,13 @@ assert run.judge("SUCCESS", 1, False, p)[0] == "MISMATCH"
 ok = "Check 1: x.cover.1\n\t - Status: SATISFIED\n\t - Description: \"c\"\n\nVERIFICATION:- SUCCESSFUL\n"
 assert run.judge("SUCCESS", 0, False, run.parse(ok))[0] == "MATCH"
 assert run.judge("SUCCESS", 0, True, run.parse(ok))[0] == "MISMATCH"
+# SUCCESS needs parsed checks and every cover SATISFIED
+assert run.judge("SUCCESS", 0, False, run.parse("VERIFICATION:- SUCCESSFUL\n"))[0] == "MISMATCH"
+assert run.judge("SUCCESS", 0, False, run.parse(ok.replace("SATISFIED", "UNSATISFIABLE")))[0] == "MISMATCH"
+assert run.judge("SUCCESS", 0, False, run.parse(ok.replace("x.cover.1", "x.assertion.1")))[0] == "MISMATCH"
+assert run.judge("SUCCESS", 0, False, run.parse(ok.replace("Check 1: x.cover.1\n\t - Status: SATISFIED\n\t - Description: \"c\"\n\n", "Check 1: x.cover.1\n\t - Status: SATISFIED\n\nCheck 2: x.cover.2\n\t - Status: UNREACHABLE\n\n")))[0] == "MISMATCH"
+# limits fit the 20 min probes step
+assert sum(c[-1] for c in run.COMMANDS) + 4 * run.VERSION_LIMIT <= 20 * 60 - 60
 cast = f"""Check 1: array_elem_cast_nonzero.unsupported_construct.1
 \t - Status: FAILURE
 \t - Description: "{run.CAST_TEXT}"
@@ -70,8 +77,19 @@ with tempfile.TemporaryDirectory() as d:
     ev.unlink()
 md = run.summary_markdown({"status": "MATCH", "trigger": {"commit": "c", "tree": "t", "run_id": "1", "attempt": "1"}, "sources": run.SOURCES,
     "commands": [{"command": "kani a | b", "exit": 1, "timed_out": False, "terminal": "FAILED", "failed": run.parse(cast)["failed"], "covers": run.parse(cast)["covers"], "expectation": "e", "verdict": "MATCH"},
-                 {"command": "kani v", "exit": 1, "timed_out": False, "terminal": "FAILED", "failed": [], "covers": [], "expectation": "e", "verdict": "OBSERVE", "bytes": {"stdout": 1, "stderr": 0},
+                 {"command": "kani v", "exit": 1, "timed_out": False, "terminal": "FAILED", "failed": [], "covers": [], "expectation": "e", "verdict": "OBSERVE", "timed_out": False, "bytes": {"stdout": 1, "stderr": 0},
                   "ignoring": {"count": 1, "by_stream": {"stdout": 1, "stderr": 0}, "first_three": [{"stream": "stdout", "text": "warning: ignoring lt", "truncated_at_bytes": None}]}}],
     "versions": {"kani": {"argv": ["kani", "--version"], "exit": 0, "stdout": "kani 0.67.0\n"}}})
 assert "kani a \\| b" in md and "warning: ignoring lt" in md
+# incremental summary: INCOMPLETE without the scan row renders, state dir comes from RUNNER_TEMP
+with tempfile.TemporaryDirectory() as d:
+    d = Path(d); s = {"status": "INCOMPLETE", "trigger": {"commit": "c", "tree": "t", "run_id": "1", "attempt": "1"}, "sources": run.SOURCES,
+                      "commands": [], "versions": {}}
+    text = run.write_summary(d, s)
+    assert "INCOMPLETE" in text and "0 of 6 run" in text and "Not run yet." in text and json.loads((d / "summary.json").read_text())["status"] == "INCOMPLETE"
+    old_env = os.environ.get("RUNNER_TEMP"); os.environ["RUNNER_TEMP"] = str(d)
+    try: assert run.state_dir() == d / "ch8-issue-repro" and (d / "ch8-issue-repro").is_dir()
+    finally:
+        if old_env is None: os.environ.pop("RUNNER_TEMP")
+        else: os.environ["RUNNER_TEMP"] = old_env
 print("selftest OK")
