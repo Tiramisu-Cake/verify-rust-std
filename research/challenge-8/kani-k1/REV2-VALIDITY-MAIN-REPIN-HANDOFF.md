@@ -376,7 +376,7 @@ Push, CI, Actions variables, cargo/rustc/Kani/CBMC не запускались. 
   - `:153` — 8 + 21 + 1 = **30**.
 
   Новая проверка в `check_coordinates` сверяет это на этапе `sources`: в строке ровно одна `*`, и её позиция равна закреплённому column. Проверка действует для групп A и структур B. Статический импорт на реальном overlay `bc866f8dfa` её прошёл (`coordinates: PASS`), а неверный column 29 для `:153` отвергнут.
-- **Внутренние чтения (`internal_reads`, `smallsort.rs`).** Формы вроде `is_less(&*a, &*b)` — заимствование через сырой указатель (`Rvalue::Ref`, `SharedBorrow`, `:1231`). Ветка `Rvalue::Ref` для них пропускает `check_untyped_read` (`:1210-1212`), остаётся только `DerefValidity` через `check_place_access`. Это одно свойство на операнд, не пара.
+- **Внутренние чтения (`internal_reads`, `smallsort.rs`).** Формы вроде `is_less(&*a, &*b)` — заимствование через сырой указатель (`Rvalue::Ref`, `SharedBorrow`, `:1231`). Ветка `Rvalue::Ref` для них пропускает `check_untyped_read` (`:1213-1216`), остаётся только `DerefValidity` через `check_place_access`. Это одно свойство на операнд, не пара.
 
   `tail.read()`/`ptr::read(..)` читают внутри `core::ptr::read`, свойство там имеет location `ptr/mod.rs`, а не строку `smallsort.rs`. Внутренние чтения в решение не входят: они публикуются как сопоставленные или `UNKNOWN` по строке. Правило пары к ним не применяется, менять ничего не нужно.
 
