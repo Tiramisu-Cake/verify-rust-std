@@ -2,6 +2,8 @@
 
 **`READY_FOR_REVIEW` · `go=NOT_GRANTED` · `proof_credit=NONE`.** Локальный пакет из шести последовательных слотов для Ubuntu 24.04. Домен — инициализированный V34, `u8/KeyLess<u8>` с числовым `<` и независимый `q: u8`. Нативная компиляция, измерения и результаты новых корней ожидают отдельного GO после независимого ревью. [Задание](REV2-N20-N21-PROVIDERS-TASK.md) · [Допуск N18/N19](REV2-N18-N19-ADMISSION.md)
 
+Актуальные пины control и локального review-trigger приведены в [FIX1](#fix1).
+
 ## Presort и вставки
 
 | Длина | Левая половина | Правая половина |
@@ -74,7 +76,7 @@ Std CI-base `dab03cf510df5c35141cde49f1368b1242f5035e`, tree `7fd542ad59723ff2be
 | `verify/rev2_n20_n21_providers.rs` | `c88c3a1240181b0949be7cd7154de20ff83304b3` |
 | `verify/rev2_n18_n19_providers.rs` | `9f5f22527656fd0b9b6afa879d7b8bb7574ff5c3` |
 | `verify/rev2_n18_n19_consumer.rs` | `fa87c0d702815dbc9da4393d911bd32273de8c1f` |
-| `verify/rev2_provider_cost.rs` | `c1f34296a2ff77b5f40f73155a238dd77094fd8cf` |
+| `verify/rev2_provider_cost.rs` | `c1f34296a2ff77b5cfe4b1e045c70d28bb50e6de` |
 | `verify/cal1_model.rs` | `236394dcfb1ff571ee6f816391f7b2e00cc9e630` |
 | `verify/cal1_q_merge_model.rs` | `d3c2a137f7332d79e7ce8596a517fd8b5f2dbe19` |
 | `library/core/src/ptr/mod.rs` | `9220ac5ab6cb3a09bb91e28c9cc8c83cfe06b1e6` |
@@ -129,3 +131,28 @@ Actual `smallsort.rs`, компаратор и FIX3 contract model совпад�
 Detached review-trigger на шкале от 1 с прошёл `pins` и `finish` с синтетическим push payload. Получены шесть `NOT_STARTED`, `proof_credit=NONE`, `PROVIDERS_OPEN`, три подтверждённых входных SHA-256 и девять проверенных хэшей членов артефакта. `pins`, `sources` и `finish` отклонили tree базы, посторонний tree, прежнее имя переменной и подменённый payload SHA. `sources` и `finish` также отклонили изменённый admission receipt. Всего 14 ожидаемых отказов.
 
 `git diff --check` прошёл для Std, control, review-trigger относительно его sole parent и handoff. Коммиты пакета локальные, с `[skip ci]`. Проверки этого этапа были статическими и синтетическими. Push, CI, изменения Actions variables и локальный запуск cargo, rustc, Kani или CBMC не выполнялись.
+
+## FIX1
+
+**`READY_FOR_REVIEW` · `go=NOT_GRANTED` · `proof_credit=NONE`.** Добавлен синтетический `test_source_coordinate_gate_reads_call_indentation` для `check_native_coordinates`. Он принимает многострочный cover на 3:9 и assert на 7:5, отдельно отклоняет сдвиг каждого закреплённого столбца на +1, иной отступ каждого вызова и перенос метки actual компаратора на другую строку. Blob `rev2_provider_cost.rs` в таблице исправлен и сверен на Std HEAD и FIX3. [Тест](/root/kani-rev2-n20-n21-providers-fix1-control-w14/ch8-cal1/test_run.py:156) · [Ревью R1](REV2-N20-N21-PROVIDERS-REVIEW.md)
+
+| Роль и локальный worktree | Commit | Tree | Sole parent |
+| --- | --- | --- | --- |
+| [Control FIX1](/root/kani-rev2-n20-n21-providers-fix1-control-w14) · `work/rev2-n20-n21-providers-fix1-control-w14` | `2954a195a5997631fe21169493637531bcc21765` | `f56b8ec3d5a8564a4076f3867e35ecb0b8e813c3` | `414f0060c5eea9aded387c0431d9aae8b13a9870` |
+| [Review-trigger FIX1](/root/kani-rev2-n20-n21-providers-fix1-trigger-w14/control) · detached, ref `review/rev2-n20-n21-providers-fix1-trigger-w14` | `df7c2f16105e2897f3b4fd60ef1bb251512bdae1` | `f56b8ec3d5a8564a4076f3867e35ecb0b8e813c3` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+Control diff от R1 включает только `ch8-cal1/test_run.py`. Std и SHA-256 request, roster и bundle совпадают с таблицами выше. Ожидаемое внешнее значение `CH8_REV2_N20_N21_PROVIDERS_TRIGGER_TREE` для FIX1 — `f56b8ec3d5a8564a4076f3867e35ecb0b8e813c3`. Синтетический payload локального trigger на шкале 1 с прошёл `pins` и `finish` с шестью `NOT_STARTED`, тремя проверенными входными SHA-256 и девятью хэшами членов. `pins`, `sources` и `finish` отклонили tree R1, произвольный tree, прежнее имя переменной и подмену SHA. `sources` и `finish` также отклонили изменённый admission receipt.
+
+Полный suite выполнен последовательно на четырёх шкалах.
+
+| Шкала `monotonic` | Тесты | Время unittest |
+| --- | ---: | ---: |
+| Обычная | 110/110 | 33,123 с |
+| 60 с + elapsed | 110/110 | 35,513 с |
+| 5 с + elapsed | 110/110 | 32,423 с |
+| 1 с + elapsed, первый проход | 109/110 | 37,866 с |
+| 1 с + elapsed, повтор | 110/110 | 33,579 с |
+
+В первом проходе на шкале 1 с унаследованный `test_deadline_terminates_and_reaps_descendant_group` не получил файл `ready` до отсечки. Supervisor вернул `TIMEOUT` и `reaped=true`. Повторный полный suite на 1 с прошёл. Тесты supervisor оставлены на R1 для отдельной стабилизации.
+
+`git diff --check` прошёл для control FIX1, trigger относительно sole parent и handoff. Все коммиты локальные, с `[skip ci]`. Push, CI и изменения Actions variables не выполнялись.
