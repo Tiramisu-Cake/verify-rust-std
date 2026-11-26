@@ -26,3 +26,20 @@
 - **Координаты.** Пройдены `check_native_coordinates` и `check_source_bindings` (166 + 65).
 - **Control.** План 114:00 при job 120:00.
 - **Тесты и статика.** Suite 114/114 на четырёх шкалах. YAML, `bash -n`, `git diff --check` и rustfmt чистые.
+
+## R2 · FIX1
+
+**GO на один Ubuntu-прогон.**
+
+| Объект | Commit | Tree | Parent |
+| --- | --- | --- | --- |
+| Std FIX1 | `b076d2ff4ed720930e2de62d70c0bbd1bb0308d5` | `33cd29a7756b24febf399932f86d8d09892653f7` | `000e6c4bf6` |
+| Control | `279c2200a8ecab1ee0e9057c86d771ff6e6c963e` | `ac6176ac55522c8a78d9cd9418077fe8bd62a391` | `2404b83ff5` |
+| Trigger | `cda0264fa4fc395e91471ed6d03c9b6268c11553` | тот же | `467af9cb8d` |
+
+Request `315ec4cc…08666e`, bundle `c0901c55…7b60ea`. Переменная Actions: `CH8_REV2_N22_N25_PROVIDERS_TRIGGER_TREE=ac6176ac55522c8a78d9cd9418077fe8bd62a391`.
+
+- **B1 исправлен.** Удалены 27 строк: helper и четыре requires. Шаги `actual_pair_step_n22..n25` теперь в форме FIX3 и отличаются от неё только литералами и именами. Порядок половин задаётся только в fixture.
+- **N1 исправлен.** У `finish` и `upload-gate` общий дедлайн 97:55. Граничный тест допускает upload ровно на границе и отказывает через 0,01 с.
+- **Перезаморозка ограничена заявленными изменениями.** Оба гейта координат проходят на Std FIX1.
+- **Тесты и статика.** Suite 115/115 на четырёх шкалах. `git diff --check` и rustfmt чистые.
