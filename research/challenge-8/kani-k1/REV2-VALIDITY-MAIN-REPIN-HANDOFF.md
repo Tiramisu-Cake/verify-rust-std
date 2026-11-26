@@ -1,6 +1,6 @@
 # REV2 · валидность на Kani main с nightly 11-21 · handoff
 
-**READY_FOR_REVIEW** (FIX2) · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger **Item 2** · control **`bf4e1d882a`**, tree `6d51ab4ed0`, review-trigger `13e1ebf83a` ([FIX2](#fix2-после-ревью-r1)). Разделы ниже до FIX2 описывают R1-кандидат: control `e4b3eced27`, tree `817a5db4e9`. Инструмент в отчётах — **«Kani main `8c6dba5935` с nightly-2026-11-21»**: это не upstream-коммит, а локальный кандидат `4caf097d84`. [Задание](REV2-VALIDITY-MAIN-REPIN-TASK.md) · [Записка координатора](COORD-NOTE-20261126-VALIDITY-PIN-AND-KANI5196-RECHECK.md) · [FIX1](REV2-VALIDITY-MAIN-HANDOFF.md)
+**READY_FOR_REVIEW** (FIX3) · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger **Item 2** · control **`0a4f85d930`**, tree `c575224396`, review-trigger `0aa3c3071c` ([FIX3](#fix3-после-run-45857466917)). Разделы до FIX2 описывают R1-кандидат: control `e4b3eced27`, tree `817a5db4e9`. FIX2: control `bf4e1d882a`, tree `6d51ab4ed0`. Инструмент в отчётах — **«Kani main `8c6dba5935` с nightly-2026-11-21»**: это не upstream-коммит, а локальный кандидат `4caf097d84`. [Задание](REV2-VALIDITY-MAIN-REPIN-TASK.md) · [Записка координатора](COORD-NOTE-20261126-VALIDITY-PIN-AND-KANI5196-RECHECK.md) · [FIX1](REV2-VALIDITY-MAIN-HANDOFF.md)
 
 Совместимость пары до CI остаётся **UNKNOWN**. Cargo, rustc, сборка Kani, Kani и CBMC локально не запускались, toolchain не ставился. Push, CI, изменений Actions variables, обновления ветки pr752 и публикаций не было.
 
@@ -193,3 +193,168 @@ Std компилируется toolchain Kani: `kani-driver` вызывает `c
 - Совет из R1 в силе: после GO очистить старую `CH8_REV2_VALIDITY_MAIN_TRIGGER_TREE`, сейчас `697dc737fe`.
 - Пункт 4 ревью, отсутствие `kani-verifier` в `8c6dba5935`, только информационный и правки не требует.
 - Push, CI, изменений Actions variables, cargo/rustc/Kani/CBMC, установки toolchain и публикаций не было. Совместимость пары остаётся **UNKNOWN** до фазы 0.
+
+## FIX3 после run 45857466917
+
+[Задание FIX3](REV2-VALIDITY-MAIN-REPIN-FIX3-TASK.md), включая раздел «Уточнение по опубликованным receipts» (g0 `214d45d613`) · [Артефакты](/root/ch8-artifacts/run-45857466917/ch8-rev2-validity-repin-Linux-X64-45857466917-1/).
+
+### Результат прогона
+
+Фаза 0 — **PASS**: Kani `0.68.0 (4caf097)` на nightly-2026-11-21, CBMC 6.11.0, чистый Std merge `7f961eda87` скомпилирован. Пара совместима.
+
+Фаза A — 18/18 `MISMATCH`, хотя нативные terminal и коды выхода совпали с ожиданием во всех 18 слотах. Причин две:
+- гейт `unsupported_construct`: в каждом слоте 2–4 таких свойства со статусом `SUCCESS`;
+- у трёх invalid-read ON по два `FAILURE` на одном typed read, а правило FIX1 требовало ровно один.
+
+Фаза B — `NOT_RUN` по гейту A. Receipts и решение ledger остаются историческими записями, я их не менял.
+
+### 1. Почему `SUCCESS`, а не `UNREACHABLE`
+
+Ответ по исходникам кандидата `4caf097d84`.
+
+- **Какое утверждение генерируется.** Все emit sites класса `unsupported_construct` на пине сводятся к `assert(false); assume(false)` в той точке, где выполнилась бы неподдерживаемая операция. Обёртка `codegen_assert_assume` для не-`Panic` классов — `assert.rs:137-174`. Emit sites:
+  - `codegen_unimplemented_stmt` (`assert.rs:334-353`). Через него идёт `caller_location`: `intrinsics.rs:298` → `intrinsic.rs:769`.
+  - `codegen_mimic_unimplemented` (`assert.rs:363-380`).
+  - Вызов foreign-функции (`foreign_function.rs:262-277`).
+  - `codegen_fatal_error` для неподдерживаемого intrinsic (`intrinsic.rs:100-104` → `assert.rs:276-284`).
+  - Hook `UnsupportedCheck` (`hooks.rs:242-283`). Его вызывают `kani::unsupported` (`kani_core/src/mem.rs:197,268`, `iter.rs:159`) и вставки valid-value pass: `UnsupportedCheck` (`check_values.rs:150-155,355-366`), `unsupported_check_if` (`:263-270,277-320`) и `kani_intrinsics.rs:182-192`.
+- **Парной reach-проверки нет.** `codegen_reachability_check` (`assert.rs:239-262`) вызывается только для `Assert`-терминаторов и assert/cover-hooks (`statement.rs:584`, `hooks.rs:118,230,388`). Kani-driver ставит `UNREACHABLE` только свойству с парной reach-проверкой со статусом `SUCCESS` (`cbmc_property_renderer.rs:540-575,669-690`). Поэтому у класса `unsupported_construct` статус `UNREACHABLE` на этом пине не возникает никогда. Гейт FIX1 «только `UNREACHABLE`» здесь невыполним.
+- **Что означает `SUCCESS`.** CBMC доказал, что ни один путь в пределах границ не достигает этого `assert(false)`. Если хоть одно такое свойство `FAILURE` с текстом «is not currently supported by Kani», driver переводит все `SUCCESS` в `UNDETERMINED` (`:542-575`). Для условных семейств недостижима именно guarded-ветка, а сама функция может исполняться:
+  - `same_allocation` — ветка, где ни один указатель не allocated (`mem.rs:266-270`);
+  - untyped read — ветка `untyped` в `SwitchInt` (`check_values.rs:263-270,295-318`).
+- **Unwinding assertions.** Kani передаёт CBMC только отрицательный флаг `--no-unwinding-assertions`, когда unwinding checks выключены. Когда они включены, он добавляет `--no-self-loops-to-assumptions` (`call_cbmc.rs:351-355`, `args/mod.rs:617-631`). Значит, при включённых проверках assertions даёт умолчание CBMC 6. Во всех 18 профилях `OBSERVED`:
+  - есть `--unwind 16` и `--no-self-loops-to-assumptions`;
+  - нет `--no-unwinding-assertions` и `--partial-loops`;
+  - в argv Kani нет `--no-unwinding-checks` и `--no-default-checks`.
+
+  Unwind records среди свойств нет ни в одном слоте. CBMC создаёт unwinding assertion там, где путь упирается в границу, поэтому отсутствие записей означает, что граница не срезала ни одного пути. Обязательный `unwind.SUCCESS` здесь был бы ложным блокером. Проваленная unwinding assertion сама переводит все `SUCCESS` в `UNDETERMINED` (`:544,565-569`).
+
+Итог: `SUCCESS` у свойства установленного семейства означает «guarded-точка недостижима» при двух условиях: unwinding assertions подтверждённо включены, и ни одна unwind-проверка не провалена и не `UNDETERMINED`.
+
+### 2. Гейт
+
+`verdict.py`, функция `decide()` выделена из `project()`.
+
+- `UNREACHABLE` чисто, как раньше. `SUCCESS` чисто, только если свойство относится к установленному семейству: класс `unsupported_construct` и в поле, и в точном ID, плюс `fullmatch` описания одного из четырёх семейств пина:
+  - `intrinsic_caller_location`;
+  - `foreign_call` (`Rust`/`C`, issue `new/choose`/`2423`);
+  - `kani_same_allocation_guard` — точное сообщение `mem.rs:268`;
+  - `untyped_read_validity_guard` (`check_values.rs:265-268`).
+- `SUCCESS` установленного семейства требует подтверждённого профиля, иначе `UNKNOWN`:
+  - наблюдённая CBMC-команда передаётся из `native_profile`, только при состоянии `OBSERVED`;
+  - в ней `--unwind <n>` и `--no-self-loops-to-assumptions`, нет `--no-unwinding-assertions`/`--partial-loops`;
+  - в argv Kani нет отключающих флагов;
+  - все unwind/recursion records `SUCCESS`.
+- `FAILURE`, `UNDETERMINED`, `ERROR`, неизвестный статус, неизвестное семейство и совпадение только по словам «unsupported construct» в описании дают `MISMATCH`, как в FIX1. Правило общее для фаз A и B.
+- `run.py`: профиль считается до вердикта. Противоречие CBMC-команды запросу даёт `MISMATCH` и тогда, когда вердикт был `UNKNOWN` из-за неподтверждённого guard.
+
+### 3. Привязанная группа typed read (второй блокер)
+
+Kani ставит на одно typed read через сырой указатель две проверки с одним сообщением и одним span:
+- `UntypedRead`: `visit_operand` → `check_untyped_read` (`check_values.rs:1054-1056,696-707`), условие «не untyped или значение валидно» (`:225-262`);
+- `DerefValidity`: вложенный `visit_place` → `check_place_access` → `check_place_value` (`:976-980,819-827,796-810`).
+
+Обе используют один `build_limits` для `char` с двумя интервалами (`:421-431`), так что это не две половины диапазона.
+
+- **Request.** Добавлен ключ `read_groups`, roster и его digest `6a89e1e9…` не изменились. Для каждого из восьми A-корней с typed read закреплены column 29, class `safety_check`, type `char`, function = имя корня и точные ID. Пары ID: `.8`/`.11` у `copy_valid_read`, `.6`/`.9` у `nonoverlap_valid_read`, `.5`/`.8` у остальных шести. Файл и строку задаёт `read` корня. `load()` требует, чтобы группы покрывали ровно A-корни с read. `slots()` даёт `read_group` только ON-слотам A.
+- **ON-negative MATCH.** Множество всех `FAILURE` совпадает с группой, все свойства группы `FAILURE`, cover сырой записи до чтения `SATISFIED`. Отказ дают:
+  - сдвиг строки или столбца, другая функция, другой тип или класс;
+  - пропуск или переименование ID;
+  - третий отказ на месте или посторонний отказ;
+  - `SUCCESS` у одной проверки пары.
+- **Positive ON.** `read_binding=OBSERVED` только при полной опубликованной группе, иначе `UNKNOWN`. OFF и ON raw-only дают `NOT_REQUESTED`.
+- **Фаза B** без группы сохраняет прежнее правило: одно свойство на read, один отказ.
+
+Группы взяты из этого же прогона. Повтор на тех же receipts — проверка согласованности, а не независимое свидетельство. Независимой проверкой будет следующий прогон.
+
+### 4. Офлайн-переклассификация
+
+Скрипт `/root/rev2-validity-repin-review/fix3-offline/reclassify.py` читает 18 receipts как данные. Он запускается через `python3 -I` из отдельного каталога, без инструментов, и импортирует только `request.py`/`verdict.py` из control `0a4f85d930`.
+- Строки roster берутся из FIX3-request. Roots совпадают с `request.json` прогона, отличие только в `read_groups`.
+- CBMC argv берётся из `native_profile` каждого receipt.
+- Результаты: [вывод](/root/rev2-validity-repin-review/fix3-offline/reclassify.out), SHA-256 `58aafc31…f06a`; скрипт `7a1a6135…506a`.
+
+| Слот A | Expected | Terminal | CI | FIX3 | read_binding (ID группы) | Guards `SUCCESS` по семействам |
+| --- | --- | --- | --- | --- | --- | --- |
+| `copy_valid_read-off` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | NOT_REQUESTED (—) | foreign_call 1, intrinsic_caller_location 1, kani_same_allocation_guard 1 |
+| `copy_valid_read-on` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | OBSERVED (`.8`, `.11`) | foreign_call 1, intrinsic_caller_location 1, kani_same_allocation_guard 1 |
+| `copy_invalid_read-off` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | NOT_REQUESTED (—) | foreign_call 1, intrinsic_caller_location 1 |
+| `copy_invalid_read-on` | FAILURE | `FAILED`, код 1 | MISMATCH | **MATCH** | OBSERVED (`.5`, `.8`) | foreign_call 1, intrinsic_caller_location 1 |
+| `nonoverlap_valid_read-off` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | NOT_REQUESTED (—) | foreign_call 1, intrinsic_caller_location 1 |
+| `nonoverlap_valid_read-on` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | OBSERVED (`.6`, `.9`) | foreign_call 1, intrinsic_caller_location 1, untyped_read_validity_guard 2 · усечение: 1 из 257, см. ниже |
+| `nonoverlap_invalid_read-off` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | NOT_REQUESTED (—) | foreign_call 1, intrinsic_caller_location 1 |
+| `nonoverlap_invalid_read-on` | FAILURE | `FAILED`, код 1 | MISMATCH | **MATCH** | OBSERVED (`.5`, `.8`) | foreign_call 1, intrinsic_caller_location 1 |
+| `copy_overwritten-off` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | NOT_REQUESTED (—) | foreign_call 1, intrinsic_caller_location 1 |
+| `copy_overwritten-on` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | OBSERVED (`.5`, `.8`) | foreign_call 1, intrinsic_caller_location 1 |
+| `write_bytes_zero-off` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | NOT_REQUESTED (—) | foreign_call 1, intrinsic_caller_location 1 |
+| `write_bytes_zero-on` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | OBSERVED (`.5`, `.8`) | foreign_call 1, intrinsic_caller_location 1 |
+| `write_bytes_raw_only-off` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | NOT_REQUESTED (—) | foreign_call 1, intrinsic_caller_location 1 |
+| `write_bytes_raw_only-on` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | NOT_REQUESTED (—) | foreign_call 1, intrinsic_caller_location 1 |
+| `write_bytes_valid_read-off` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | NOT_REQUESTED (—) | foreign_call 1, intrinsic_caller_location 1 |
+| `write_bytes_valid_read-on` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | OBSERVED (`.5`, `.8`) | foreign_call 1, intrinsic_caller_location 1 |
+| `write_bytes_invalid_read-off` | SUCCESS | `SUCCESSFUL`, код 0 | MISMATCH | **MATCH** | NOT_REQUESTED (—) | foreign_call 1, intrinsic_caller_location 1 |
+| `write_bytes_invalid_read-on` | FAILURE | `FAILED`, код 1 | MISMATCH | **MATCH** | OBSERVED (`.5`, `.8`) | foreign_call 1, intrinsic_caller_location 1 |
+
+**Итог: 18/18 `MATCH`.** Все 8 ON-слотов с read дают `OBSERVED`, OFF и raw-only — `NOT_REQUESTED`.
+
+У трёх negative выполнены cover сырой записи до чтения: `raw_copy_complete_before_read` у обоих copy-корней и `raw_write_complete_before_read` у `write_bytes_invalid_read`. Профиль `OBSERVED` во всех 18, unwinding `ENABLED_ALL_SUCCESS`, unwind records 0.
+
+Контрфактический прогон с `--no-groups`, только с исправлением гейта, оставляет три negative в `MISMATCH`. Это подтверждает второй блокер. [Вывод](/root/rev2-validity-repin-review/fix3-offline/reclassify-no-groups.out)
+
+**Усечение в `A-nonoverlap_valid_read-on`.** Свойств 257, опубликовано 256 (`MAX_EVIDENCE`). Разность полных `status_counts` receipt и сохранённого инвентаря — один `SUCCESS`. Сохранились:
+- validity 31/31;
+- unsupported 4/4 (foreign, caller_location и два untyped-read guard);
+- failures 0/0, covers 2/2;
+- обе проверки typed read на `:59`, `.6` и `.9`.
+
+Пропущенная запись — чистая проверка вне anchors, поэтому решение `MATCH`. Пометка `binding_hidden_by_bounded_publish` сохранена. Если бы счётчики не сошлись, скрипт выдал бы `UNKNOWN`.
+
+### 5. Тесты
+
+Новые тесты в `test_verdict.py` (24, было 16):
+- `SUCCESS` всех четырёх семейств при подтверждённом профиле — без unwind records и с `unwind.SUCCESS`;
+- `FAILURE`/`UNDETERMINED`/`ERROR`/неизвестный статус блокируют;
+- неподтверждённое семейство, чужое сообщение `kani::unsupported` и совпадение только по описанию блокируют;
+- `SUCCESS` без профиля, без `--unwind` или маркера, с `--no-unwinding-assertions`/`--partial-loops`/`--no-unwinding-checks`/`--no-default-checks`, с проваленной или `UNDETERMINED` unwind- или recursion-проверкой даёт `UNKNOWN`;
+- группа negative: девять отвергаемых вариантов и обязательный cover сырой записи;
+- полнота группы для `OBSERVED`;
+- правило одного свойства без группы (B);
+- валидация `read_group` и `decide()`.
+
+В `test_run.py` синтетический Kani теперь выдаёт закреплённую пару, foreign-guard `SUCCESS` и маркер unwinding во всех слотах. Добавлен e2e-тест: профиль без маркера даёт `UNKNOWN`, `--no-unwinding-assertions` — `MISMATCH` по профилю, проваленный `unwind` — не `MATCH`.
+
+Suite: 119/119 за 36 с, на свежей шкале от 60 с — 119/119 дважды (38 с). На checkout trigger — тоже 119/119. YAML, `bash -n` для семи shell-блоков, `git diff --check` — чисто. Workflow не менялся.
+
+### 6. Пины FIX3
+
+| Объект | Значение |
+| --- | --- |
+| Control | **`0a4f85d930e47ffad9062131e6f57c6bde5989e6`**, tree **`c5752243969498403dc09f21404030ab702523ee`**, parent `bf4e1d882a` |
+| Review-trigger (`[skip ci]`) | **`0aa3c3071c62808ed896519a752743e4bdf99804`**, tree `c575224396`, sole parent `467af9cb8dba0e3be78a8d7d07672a1943c4806b`, ref `local/rev2-validity-repin-fix3-trigger-review` |
+| Новое значение `CH8_REV2_VALIDITY_REPIN_TRIGGER_TREE` (меняет координатор после GO) | **`c5752243969498403dc09f21404030ab702523ee`** |
+| `CI-REQUEST.json` | SHA-256 **`553e9cd83cd4f0b9b280f0e445081e9a25b666d92df0f8bbdd7d4c0daf30fcf3`** (было `005ebf08…1fbe`), единственная дельта — ключ `read_groups` |
+| Roster digest | `6a89e1e970d44938bef0bd2864d235d4f69f1e8cd46c1648adf3c7c87862deea`, без изменений |
+| Blobs | `verdict.py` `40a166aa…`, `request.py` `d01a9070…`, `run.py` `a49d4d2f…`, `test_verdict.py` `eae1d6fd…`, `test_run.py` `def13033…` |
+| Без изменений | Kani `4caf097d84`, Std merge `7f961eda87`, overlay `bc866f8dfa`, bundles `fbcab32c…`/`51ba5593…`, fixture `eb9575b0…`, roster, selectors, режимы, argv, workflow, `supervisor.py` |
+
+Дельта `bf4e1d882a..0a4f85d930`:
+
+| Файл | Строк добавлено / удалено |
+| --- | --- |
+| `CI-REQUEST.json` | +82 / −0 |
+| `request.py` | +14 / −0 |
+| `run.py` | +7 / −3 |
+| `test_run.py` | +47 / −10 |
+| `test_verdict.py` | +172 / −1 |
+| `verdict.py` | +201 / −32 |
+
+[Patch](/root/rev2-validity-repin-review/control-fix3-from-fix2.patch), SHA-256 `d2e41500…df6e`. Author и committer обоих коммитов — Tiramisu-Cake <igkharin@gmail.com>, `[skip ci]`, без решётки перед цифрой.
+
+`run.py pins` на detached trigger `0aa3c3071c`: tree `c575224396` допущен, outputs `std=dab03cf510`, `tool=8c6dba5935`. Tree FIX2 `6d51ab4ed0` отклонён (`trigger tree mismatch`), без outputs и receipt. Checkout чистый.
+
+### Риски следующего прогона
+
+- **Фаза B.** По заданию B сохраняет правило одного свойства. Если на typed read в `validity_main.rs` Kani тоже поставит пару, `vv_stable_char_n09_corrupt` ON даст `MISMATCH`, а позитивные B — `read_binding=UNKNOWN`. Такой результат стал бы привязанным свидетельством для группы B следующим FIX.
+- **Guards в Std-коде B.** Если B встретит семейство вне четырёх установленных, его `SUCCESS` блокирует по строгому правилу. Это ожидаемо и потребует разбора emit site.
+
+Push, CI, Actions variables, cargo/rustc/Kani/CBMC не запускались. Публикаций не было.
