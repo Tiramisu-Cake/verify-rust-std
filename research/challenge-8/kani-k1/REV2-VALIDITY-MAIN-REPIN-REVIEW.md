@@ -66,3 +66,25 @@
 - Unittest 119/119 OK.
 
 NOT_RUN: Kani, CBMC, cargo, rustc, `run.py pins`, YAML, `bash -n`, фактическое поведение фазы B.
+
+## R4 · FIX4
+
+**GO_WITH_NITS**, блокеров нет, B1 из R3 закрыт. Ревьюер Claude (smallsort-reviewer, read-only), 2026-11-26. Control `e2a3e6d48e98693074f51e93369917948f6790bf` (tree `f46e65c42c7ddb45a725569265b8dc7c0fd7a88a`, parent `0a4f85d930`), review-trigger `b0ce856748185bdfa3ac20969cbaa72f13841272` (тот же tree, sole parent `467af9cb8d`), request SHA-256 `bdd69de4e0245ad241b22b144a104fdb69256d6c2fb1620d26eda57ccf76a6a2`.
+
+### Неблокирующее
+
+1. Column 30 для `validity_main.rs:153` (`vv_sort8_char_n08`) выведен, прогоном не подтверждён. При расхождении положительный слот получит `read_binding=UNKNOWN`, MATCH сохранится.
+2. MATCH отрицательного B зависит от того, что на `:111` будет ровно два validity-свойства. Исходники и A это подтверждают. Иначе получится fail-closed MISMATCH и потребуется FIX5, ложного MATCH не будет.
+3. Чёрный список флагов CBMC неполный (`--symex-complexity-limit`). Риск низкий: argv закреплён, а `native_profile` ловит основные отключающие флаги.
+4. Отрицательная ветка отвергает только `ERROR`, посторонний `UNDETERMINED` вне пары пропускается (`verdict.py:465`). Так было и до FIX4.
+
+### Проверено
+
+- Дельта — 5 файлов, в request изменился только ключ `read_structures`. Авторство, `[skip ci]`, trees и SHA request в порядке.
+- Правило пары (`verdict.py:189-216,227-228,457-468,492-493`) не слабее задания. F предсказуема: у 1065 из 1065 свойств A префикс ID равен функции из location. Для `:111` это `…validity_main::stable_char_n09_body::<true>`. Пара на `:111` следует из исходников (`UntypedRead` + `DerefValidity`). Других validity-проверок в теле нет, MIR-инлайна нет.
+- Columns: `:111` → 26, `:153` → 30, `check_coordinates` на overlay PASS.
+- Порядок решений: guard-ветка срабатывает только при MATCH. Флаги ловятся и токеном, и в форме `=`.
+- Независимый офлайн-replay A: 18/18 MATCH. Синтетика B: пара даёт MATCH; варианты с 1 или 3 свойствами, другим column, F, ID, типом, лишним FAILURE, без cover или с terminal SUCCESS дают MISMATCH.
+- Unittest 121/121 OK.
+
+NOT_RUN: Kani, CBMC, cargo, rustc, `run.py pins`, YAML, `bash -n`, фактическое поведение фазы B.
