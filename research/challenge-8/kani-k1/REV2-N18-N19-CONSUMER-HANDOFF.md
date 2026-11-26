@@ -2,6 +2,8 @@
 
 **`READY_FOR_REVIEW` · `go=NOT_GRANTED` · `proof_credit=NONE`.** Один локальный Ubuntu-пакет из четырёх exact singleton для actual `small_sort_network::<u8, KeyLess<u8>>`. Положительные корни берут все канонические входы, отрицательные меняют первый активный байт после actual возврата. Пост для произвольных `u8` опирается на нативные опоры и приведённые ниже внешние рёбра. Новые нативные исходы, ресурсы и допуск открыты. [Задание](REV2-N18-N19-CONSUMER-TASK.md) · [Разбор опор](REV2-N18-N19-PROVIDERS-RESULTS-ANALYSIS.md) · [Правило композиции](REV2-COMPOSITION-RULE.md)
 
+Актуальные пины, координаты и проверки приведены в разделе [FIX1](#fix1--координаты-меток). Пины и координаты в исходном описании относятся к R1. Локальные пути sparse worktrees теперь указывают на FIX1.
+
 ## Рёбра N18
 
 | Ребро | Привязка на pinned Std |
@@ -142,6 +144,37 @@ Runner пишет атомарный checkpoint с process outcome и reap до 
 | Старт с 5 с | 111/111 | 24,281 с |
 
 Пакет сдаётся на независимое ревью. Открыты нативная компиляция и discovery, фактические ID и статусы новых корней, сверка grouped properties copy-back на обеих длинах, ресурсы, финальная аттестация и независимый допуск. Отдельный GO остаётся у владельца. Новых запусков Cargo, rustc, Kani, CBMC или CI, push и изменений Actions variables в этом этапе не было.
+
+## FIX1 · координаты меток
+
+**`READY_FOR_REVIEW` · `go=NOT_GRANTED` · `proof_credit=NONE`.** R1 получил NO-GO из-за B1. На exact R1 воспроизведено расхождение `74:5` в gate и `74:9` у actual вызова cover. В FIX1 frozen request задаёт `[line, column]` для каждой метки корня. Regular gate и fixture берут обе координаты из этой записи. Sentinel cover остаётся в ветке `!CORRUPT` и теперь записан одним вызовом на `75:9`. У обоих N19 координаты q-frame, V34 frame и общего поста сдвинулись на `80:5`, `81:5` и `83:5`. Координаты N18 прежние, у всех меток сверены строка и столбец. Изменение Std касается только нового harness-модуля, runtime и контракты совпадают с R1 побайтно. [Ревью R1](REV2-N18-N19-CONSUMER-REVIEW.md#блокер) · [Sentinel cover FIX1](/root/verify-rust-std-rev2-n18-n19-consumer-w14/library/core/src/slice/sort/shared/smallsort/verify/rev2_n18_n19_consumer.rs:75)
+
+`sources` после импорта bundle сверяет полный набор меток и координаты по pinned Rust blobs. Столбец вычисляется по отступу начала вызова, в том числе у многострочного cover. Для обоих контролей сверяется согласованность координаты общего поста с `expected_failure`. На bare shallow Std-base проверены все 13 различных consumer-меток во всех четырёх строках roster и отдельная метка actual компаратора. Подмена столбца любой consumer-метки отклонена. В suite отдельно проверены многострочный вызов с вложенным отступом и synthetic projection sentinel. `75:9` даёт `MATCHED`, `75:5` даёт `MISMATCHED`. [Проверка Rust-исходника](/root/kani-rev2-n18-n19-consumer-control-w14/ch8-cal1/request.py) · [Регрессия проекции](/root/kani-rev2-n18-n19-consumer-control-w14/ch8-cal1/test_results.py)
+
+| Роль FIX1 | Commit | Tree | Sole parent |
+| --- | --- | --- | --- |
+| [Std](/root/verify-rust-std-rev2-n18-n19-consumer-w14) | `959087ac8632c68d8a6f0e28f58a8708475d564b` | `2123d3d5a77af26c6faf2d98d031904e75771300` | `a6f189eecbee57fe7517547bf7461c9dd2897e27` |
+| [Control](/root/kani-rev2-n18-n19-consumer-control-w14) | `6a599af76402e61eef6746c32d7500b6ac101945` | `13057fe3d9479899217b3ab3b048d9a6571ec3a3` | `33db7a6351c4549098c52ce0e245fd072eb2152f` |
+| [Review-trigger](/root/kani-rev2-n18-n19-consumer-trigger-w14/control) · detached, `review/rev2-n18-n19-consumer-fix1-trigger-w14` | `cc2e579079a0e5186792d2db29a55c91961cf7fc` | `13057fe3d9479899217b3ab3b048d9a6571ec3a3` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+Ожидаемое внешнее значение `CH8_REV2_N18_N19_CONSUMER_TRIGGER_TREE` для отдельного будущего GO равно `13057fe3d9479899217b3ab3b048d9a6571ec3a3`. Новый blob consumer `fa87c0d702815dbc9da4393d911bd32273de8c1f`. Bundle хранит цепочку из 11 overlay-коммитов. На shallow depth 2 прошли `bundle verify`, `list-heads`, `unbundle`, сверка commit/tree/sole-parent и layout. HEAD, refs и shallow boundary совпали до и после импорта. Старый trigger сохраняется по локальному ref R1.
+
+| Вход FIX1 | SHA-256 |
+| --- | --- |
+| [Frozen request](/root/kani-rev2-n18-n19-consumer-control-w14/ch8-cal1/CI-REQUEST.json) | `349eb9073b87f640fd11e088771555e42da0bfc0fa44e2dab0b019ab8629ec97` |
+| Canonical roster | `71325b6799aa4b110dbad10ab932980aaf68f34bdb1e5e169d460a1ee3737d18` |
+| [Std overlay bundle](/root/kani-rev2-n18-n19-consumer-control-w14/ch8-cal1/std-overlay.bundle), 29 742 байта | `22395b189a428dab799750c154604b050313c6e96cd2824a758aa2a070361262` |
+
+На точном FIX1 review-trigger полный блок pins прошёл за 98,839 с. `pins` и `finish` отдельно прошли на monotonic 1 с. Все четыре synthetic receipts остались `NOT_STARTED`, хэши индекса сверены по членам. `pins`, `sources` и `finish` отклонили R1 tree и подменённый payload SHA. `rustfmt --check`, `git diff --check`, YAML и `bash -n` прошли.
+
+| Шкала | Полный suite | Время |
+| --- | ---: | ---: |
+| Обычная | 113/113 | 23,849 с |
+| Старт с 60 с | 113/113 | 24,351 с |
+| Старт с 1 с | 113/113 | 24,626 с |
+| Старт с 5 с | 113/113 | 23,708 с |
+
+Нативная проверка FIX1 и повторное независимое ревью остаются открыты. Push, CI, изменения Actions variables и локальные запуски Cargo, rustc, Kani и CBMC отсутствовали.
 
 ## Офлайн-смета следующего пакета N20/N21
 
