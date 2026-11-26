@@ -1,6 +1,6 @@
 # REV2 · валидность на Kani main с nightly 11-21 · handoff
 
-**READY_FOR_REVIEW** (FIX5) · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger **Item 2** · control **`fc3a0e654e`**, tree `e9b8b46457`, review-trigger `a41dcc74de`, Std overlay `fe3fe324bf` ([FIX5](#fix5-по-разбору-фазы-b)). FIX4: control `e2a3e6d48e`, tree `f46e65c42c`. FIX3: control `0a4f85d930`, tree `c575224396`. Разделы до FIX2 описывают R1-кандидат: control `e4b3eced27`, tree `817a5db4e9`. FIX2: control `bf4e1d882a`, tree `6d51ab4ed0`. Инструмент в отчётах — **«Kani main `8c6dba5935` с nightly-2026-11-21»**: это не upstream-коммит, а локальный кандидат `4caf097d84`. [Задание](REV2-VALIDITY-MAIN-REPIN-TASK.md) · [Записка координатора](COORD-NOTE-20261126-VALIDITY-PIN-AND-KANI5196-RECHECK.md) · [FIX1](REV2-VALIDITY-MAIN-HANDOFF.md)
+**READY_FOR_REVIEW** (FIX6) · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger **Item 2** · control **`1338213af7`**, tree `756dea4a28`, review-trigger `379a15f303`, Std overlay `4beda039e6` ([FIX6](#fix6-после-ревью-r5)). FIX5: control `fc3a0e654e`, tree `e9b8b46457`, overlay `fe3fe324bf`. FIX4: control `e2a3e6d48e`, tree `f46e65c42c`. FIX3: control `0a4f85d930`, tree `c575224396`. Разделы до FIX2 описывают R1-кандидат: control `e4b3eced27`, tree `817a5db4e9`. FIX2: control `bf4e1d882a`, tree `6d51ab4ed0`. Инструмент в отчётах — **«Kani main `8c6dba5935` с nightly-2026-11-21»**: это не upstream-коммит, а локальный кандидат `4caf097d84`. [Задание](REV2-VALIDITY-MAIN-REPIN-TASK.md) · [Записка координатора](COORD-NOTE-20261126-VALIDITY-PIN-AND-KANI5196-RECHECK.md) · [FIX1](REV2-VALIDITY-MAIN-HANDOFF.md)
 
 Совместимость пары до CI остаётся **UNKNOWN**. Cargo, rustc, сборка Kani, Kani и CBMC локально не запускались, toolchain не ставился. Push, CI, изменений Actions variables, обновления ветки pr752 и публикаций не было.
 
@@ -683,3 +683,115 @@ Diffstat control от FIX4:
 [Patch control](/root/rev2-validity-repin-review/control-fix5-from-fix4.patch), SHA-256 `c4b51c2d…ab7b`. [Patch overlay](/root/rev2-validity-repin-review/fix5/std-overlay-fix5-from-fix4.patch), SHA-256 `5341fab5…f6c7`. Author и committer overlay, control и trigger — Tiramisu-Cake <igkharin@gmail.com>, `[skip ci]`, без решётки перед цифрой.
 
 **READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger Item 2. Push, CI, Actions variables, cargo/rustc/Kani/CBMC не запускались, toolchain не ставился (rustfmt — локальный бинарь, разрешённый владельцем). Публикаций не было.
+
+## FIX6 после ревью R5
+
+[Задание FIX6](REV2-VALIDITY-MAIN-REPIN-FIX6-TASK.md) · [Ревью R5](REV2-VALIDITY-MAIN-REPIN-REVIEW.md#r5--fix5). Остальная дельта FIX5 сохранена. Kani-кандидат, Std merge, fixture, часы и workflow не менялись.
+
+### 1. B1: точное допущение недостижимого приведения у n10 ON
+
+**Причина.** `small_sort_network::<NonZero<u8>, …nonzero_less…>` — один экземпляр для n10 и n18. Valid-value pass ставит проверку `mutable cast` на `smallsort.rs:423:28` в тело при любой длине (`check_values.rs:1114-1119`). Маршрут n10 (no-merge) до неё не доходит. `assert(false); assume(false)` без reach-проверки поэтому выводится как SUCCESS, а общее правило unsupported его блокирует.
+
+**Правило.** В request добавлен ключ `admitted_unreachable`: `vv_network_nonzero_n10` → `on` → одно место. Это `NETWORK_CAST_SITE` — общее описание точки, из которого собран и pin n18 — плюс точный ID:
+- ID `small_sort_network::<num::nonzero::NonZero<u8>, for<'a, 'b> fn(&'a num::nonzero::NonZero<u8>, &'b num::nonzero::NonZero<u8>) -> bool {slice::sort::shared::smallsort::validity_main::nonzero_less}>.unsupported_construct.1`;
+- `smallsort.rs:423:28`, anchor `stack_array.as_mut_ptr() as *mut T;`;
+- функция — точно;
+- класс `unsupported_construct` и в поле, и в ID;
+- описание ровно «… `mutable cast` for `*mut [num::nonzero::NonZero<u8>; 32]`».
+
+**Решение** (`verdict.py`).
+- Допускается, только если таким местом является ровно одно свойство и его статус **SUCCESS**.
+- Тогда оно добавляется к guard-списку. Значит, как у семейств FIX3, оно чисто только при подтверждённом unwind-профиле, иначе MATCH удерживается до UNKNOWN.
+- Иной статус (FAILURE, UNDETERMINED, ERROR), иной тип или длина, line, column, файл, функция, номер ID или второе такое свойство не допускаются. Общее правило даёт MISMATCH.
+- В `observed` публикуются `admitted_unreachable` (допущенные ID) и счётчик `admitted_unreachable_site` в `unsupported_guards`.
+
+**Ограничения.**
+- Request: допуск только для ON, на корне без negative и без pinned failure в том же слоте; ключи точные; ID обязан быть `function.unsupported_construct.N`.
+- Verdict: та же валидация строки, при ошибке — UNKNOWN.
+- Anchor проверяется в `check_coordinates` на этапе `sources`.
+
+**Сверка с реальным выводом.** Место сопоставлено с записью Kani в receipt n19 ON run 45870184232, тот же экземпляр функции ([вывод](/root/rev2-validity-repin-review/fix6/site-on-n19.out)). ID с номером `.1`, координата, функция и описание совпали точно. Там запись — FAILURE, поэтому строка в форме n10 её не допускает: MISMATCH «reachable or undecided unsupported_construct».
+
+**Другие корни B** (receipts run 45870184232). `vv_fallback_nonzero_n03` ON: 6 unsupported, все из семейств (`foreign_call`, `intrinsic_caller_location`, `kani_same_allocation_guard`, `untyped_read_validity_guard` × 3), `mutable cast` нет. Fallback идёт через `insertion_sort_shift_left`, не через `small_sort_network`. У `vv_swap_bool_n02` ON то же: 6 семейных.
+
+В текущем roster через `small_sort_network` на нишевом типе идут только n10 и n18. У n18 точка достижима и закреплена как FAILURE (`UNSUPPORTED_PINNED`, без изменений). Stable- и `sort8`-корни идут через `small_sort_general_with_scratch` и `sort8_stable`, где приведения к `*mut T` из массива с нишей нет:
+- `:268` — цель `MaybeUninit<T>`, требования пусты;
+- `:295` — источник `MaybeUninit<T>`, требования пусты.
+
+Receipts этих корней обрезаны по TIMEOUT, поэтому вывод здесь статический.
+
+### 2. R5-3: covers n18
+
+Overlay **`4beda039e6`** (tree `400f0d8e4c`) поверх `fe3fe324bf`. Тавтологичный cover «split into two 9 element halves» удалён. Комментарий в корне фиксирует, что достижимость `:423` устанавливает закреплённый FAILURE.
+
+Остался один cover до вызова — «right last element precedes left first element», он зависит от входа. Чтение n18 сдвинулось на `:232`. rustfmt — `FMT_OK`. Bundle пересобран, prerequisites прежние.
+
+### 3. R5-6: полнота захвата у `cbmc_ignoring_warnings`
+
+К записи добавлены `capture_complete` (полнота захвата потока по `stream_metrics`: захват полный, без усечения и ошибки) и `count_is_lower_bound`. Тест проверяет три неполных случая: усечение, ошибка захвата и неполный поток.
+
+### 4. Прочее
+
+- **R5-1** принято координатором: cap A 30 с.
+- **R5-4, R5-5** — без изменений.
+- **Оговорка R5-2 (ранговый домен `char`).** Положительные ON-слоты с рангами ловят nondet и неинициализированные чтения, а также чтения untyped-байтов. Перемешивание байтов внутри значения на ранговом входе почти не наблюдаемо: при значениях < 9 три старших байта нулевые, и их перестановка с младшим даёт либо то же значение, либо значение вне ранга. Поэтому сохранение байтов внутри `char` эти слоты не доказывают. Отрицательный контроль от домена не зависит. Сохранность значений в целом проверяет функциональная проверка OFF/ON (multiset по рангам).
+
+### 5. Синтетика и проверки
+
+`test_verdict.AdmittedUnreachableTests` (5 тестов):
+- **точное место со статусом SUCCESS** → MATCH, `admitted_unreachable` и счётчик опубликованы;
+- **без профиля** → UNKNOWN;
+- **без допуска**, то есть форма FIX5 → MISMATCH «reachable or undecided…» (воспроизводит B1);
+- **FAILURE, UNDETERMINED, ERROR** → MISMATCH;
+- **длина 31, `[char; 32]`, line 424, column 27, другой файл, другая функция (`NonZero<u16>`), ID `.2`** → MISMATCH;
+- **дубликат точного места, второе недостижимое приведение рядом, посторонний FAILURE** → MISMATCH;
+- **валидация:** OFF-строка, строка с pin, ID чужой функции, не-список, нет ключа, иной класс → UNKNOWN.
+
+`test_run.py`:
+- синтетический Kani выдаёт место у n10 ON со статусом SUCCESS. Все 39 слотов дают ожидаемое: n10 ON — MATCH, n18 ON — по-прежнему `MATCH_KNOWN_LIMITATION`;
+- e2e-мутации n10 (FAILURE, другой тип, другой column) → MISMATCH;
+- строка n10 без допуска → MISMATCH;
+- `check_expectations` отвергает ещё 6 мутаций допуска;
+- мутации frozen request: column, допуск на n18, удаление ключа;
+- полнота захвата счётчика.
+
+Suite **139/139**: штатно 31 с, дважды на свежей шкале от 60 с — 30 и 31 с. На checkout trigger `379a15f303` — 139/139, checkout чистый. YAML разбирается, `bash -n` по семи `run`-блокам чисто, `git diff --check` чисто. Новый Rust только в overlay, rustfmt `FMT_OK`.
+
+**Replay** (`python3 -I`, receipts как данные):
+- **A**, run 45870184232 и run 45857466917: 18/18 MATCH, побайтно равно FIX4 (`0a243b90…` и `58aafc31…`);
+- **B**, run 45870184232 по строкам самого прогона: без падений, побайтно равно FIX5. Это 12 исходов CI: 2 MISMATCH у `swap_bool`, 2 MATCH у fallback, 7 INCOMPLETE, MISMATCH у n19 ON;
+- pin n18 на реальном n19 ON — побайтно равно FIX5 (`MATCH_KNOWN_LIMITATION`).
+
+**Статический импорт** на реальных объектах: `PASS`, координаты `PASS`, overlay `4beda039e6`, bundle `49f0fba0…` ([вывод](/root/rev2-validity-repin-review/static_import-fix6.out)).
+
+**`check_trigger` на `379a15f303`:** tree `756dea4a28` допущен, parent `467af9cb8d`; tree FIX5 `e9b8b46457` отклонён.
+
+### 6. Пины FIX6
+
+| Объект | Значение |
+| --- | --- |
+| Std overlay | **`4beda039e6a399f7d38de9cbe987973cd59d0bdd`**, tree **`400f0d8e4c51c56f3124b6137e81fb40a47926be`**, parent `fe3fe324bf`; module blob `861512a5de` |
+| `std-overlay.bundle` | SHA-256 **`49f0fba0ce45fe95399d251b0f54e4e221e1758182b38ea789f79a4dc815795e`** |
+| Overlay delta (`--raw`) | SHA-256 `1dd3f61434cb581223d6b0980fbf8809dd8e7e8a988524737ac77e6fe31cee84` |
+| Fixture | без изменений, `948abd15…f8ad` |
+| Roster digest | `2747be369e0b994e3e44d74f3e1cd42fca766238324fbea2e58ac9ed5f7a81a4` |
+| `CI-REQUEST.json` | SHA-256 **`ab4550ea8eb95111033fd1f7d7cd54074212a4914b3dac5666036c43d3168c62`**; дельта: overlay-пины, ключ `admitted_unreachable`, строка n18 |
+| Control | **`1338213af771e2658a3f81a5f720be7765b7eb86`**, tree **`756dea4a28c9ae012881fe36aa1542d749c78fec`**, parent `fc3a0e654e` |
+| Review-trigger (`[skip ci]`) | **`379a15f3034c54ab64e413b361b728641acc81fe`**, tree `756dea4a28`, sole parent `467af9cb8dba0e3be78a8d7d07672a1943c4806b`, ref `local/rev2-validity-repin-fix6-trigger-review` |
+| `CH8_REV2_VALIDITY_REPIN_TRIGGER_TREE` (меняет координатор после GO) | **`756dea4a28c9ae012881fe36aa1542d749c78fec`** |
+
+Diffstat control от FIX5:
+
+| Файл | Строки |
+| --- | --- |
+| `verdict.py` (`a7eec2fcf7`) | +40 / −2 |
+| `request.py` (`748452fed2`) | +44 / −13 |
+| `native_metrics.py` (`851416e5d8`) | +4 / −3 |
+| `CI-REQUEST.json` (`d4a5badca9`) | +24 / −5 |
+| `test_verdict.py` (`97a5ba15fd`) | +80 / −0 |
+| `test_run.py` (`943221c5e0`) | +75 / −3 |
+| `std-overlay.bundle` | заменён |
+
+[Patch control](/root/rev2-validity-repin-review/control-fix6-from-fix5.patch), SHA-256 `8936f6ff…d1d2`. [Patch overlay](/root/rev2-validity-repin-review/fix6/std-overlay-fix6-from-fix5.patch), SHA-256 `4f467b75…fcd3`. Author и committer overlay, control и trigger — Tiramisu-Cake <igkharin@gmail.com>, `[skip ci]`, без решётки перед цифрой.
+
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger Item 2. Push, CI, Actions variables, cargo/rustc/Kani/CBMC не запускались. Публикаций не было.
