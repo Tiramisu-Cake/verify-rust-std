@@ -2,11 +2,13 @@
 
 **READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`
 
+Актуальные пины и повторная валидация приведены в [FIX1](#fix1). R1 получил GO с неблокирующими замечаниями. [Ревью R1](REV2-N26-N31-HALVES-REVIEW.md)
+
 Один офлайн-пакет Ubuntu с шестью обязательными корнями S13. Правые вставки закрываются офлайн переносом с B17/L16 и индукцией по actual циклу. Состав зафиксирован до discovery. Нативные preflight, discovery и измерения этого пакета ожидают отдельного GO. Следующие пакеты покрывают merge pair, нечётный центр, copy-back, сквозные корни и контроли. [Задание](REV2-N26-N31-HALVES-TASK.md) · [Правило композиции](REV2-COMPOSITION-RULE.md)
 
 ## Базы
 
-Задание g0 `13da20e6a37f5200d7618c85a9a2f9f52a7b0806`, blob `c5d431766d9d98e07c65f6970e993dd7ffae1541`. Входной HEAD g0 `e869692e3dd9aa7d92e90fe178d2f57ee03b0d19` содержит R2 GO для consumer FIX1. Пины задания совпадают с выбранным пакетом N22–N25 перед B. Std FIX1 `8fe1b01f0a85ee60118d1813d6b74645e4594213` / `f754c01d0ed26cb8d4e28c81efe8467cdf97d034`, Control FIX1 `fd941d949379ac437b9071cf9a1e636ae72aee5b` / `f4d42df994425e251022feeedcfd89e608b3d17a`. Отдельный pin предыдущего trigger требует тот же Control tree. В ledger записан фактический предшественник перед B, run `45829863637`. Локальный объект его payload `f898afc9baf7463e489d8414d20e4b08d135b6c8` имеет tree `f4d42df994425e251022feeedcfd89e608b3d17a` и sole parent `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. Request и bundle совпадают с FIX1 по SHA-256 из GO. Запись ledger на момент сверки — `running`. Порядок fork lane — consumer N22–N25 → B (ITER/SELECT) → A (валидность) → этот пакет. [FIX1 handoff](REV2-N22-N25-CONSUMER-HANDOFF.md#fix1) · [FIX1 GO](REV2-N22-N25-CONSUMER-GO.md) · [R2](REV2-N22-N25-CONSUMER-REVIEW.md#r2-после-fix1--go) · [Ledger](CH8-DISPATCH-LEDGER.md)
+Задание g0 `13da20e6a37f5200d7618c85a9a2f9f52a7b0806`, blob `c5d431766d9d98e07c65f6970e993dd7ffae1541`. Входной HEAD g0 `e869692e3dd9aa7d92e90fe178d2f57ee03b0d19` содержит R2 GO для consumer FIX1. Пины задания совпадают с выбранным пакетом N22–N25 перед B. Std FIX1 `8fe1b01f0a85ee60118d1813d6b74645e4594213` / `f754c01d0ed26cb8d4e28c81efe8467cdf97d034`, Control FIX1 `fd941d949379ac437b9071cf9a1e636ae72aee5b` / `f4d42df994425e251022feeedcfd89e608b3d17a`. Отдельный pin предыдущего trigger требует тот же Control tree. В ledger записан фактический предшественник перед B, run `45829863637`. Локальный объект его payload `f898afc9baf7463e489d8414d20e4b08d135b6c8` имеет tree `f4d42df994425e251022feeedcfd89e608b3d17a` и sole parent `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. Request и bundle совпадают с FIX1 по SHA-256 из GO. По ledger run завершился со статусом `success`, 8/8 `MATCHED`, `CONSUMER_PAIRS_WITHIN_PROFILE` и аттестацией `COMPLETE`. Порядок fork lane — consumer N22–N25 → B (ITER/SELECT) → A (валидность) → этот пакет. [FIX1 handoff](REV2-N22-N25-CONSUMER-HANDOFF.md#fix1) · [FIX1 GO](REV2-N22-N25-CONSUMER-GO.md) · [R2](REV2-N22-N25-CONSUMER-REVIEW.md#r2-после-fix1--go) · [Ledger](CH8-DISPATCH-LEDGER.md)
 
 ## Рёбра для actual половин
 
@@ -86,13 +88,13 @@ Check использует прежнее предусловие FIX3 и нат�
 Обе исторические опоры N32 вызывают `insertion_sort_shift_left::<u8, KeyLess<u8>>` с тем же offset 13 на полностью инициализированном V34. Левая использует B01/L16, правая B17/L16. Перед шагом rel=r префикс `[base,base+r)` упорядочен, инициализирован и содержит исходные значения обработанных r позиций с их кратностями. Хвост `[base+r,end)` и V34 вне половины сохраняют исходные байты. Это верно при r=13 после S13.
 
 - `begin=base`, `end=base+len` и `tail=base+13` образуются внутри одного живого среза и общей аллокации V34. `tail` разыменовывается только при `tail!=end`. Для L13 адреса равны сразу, поэтому driver возвращается без вызова `insert_tail`. L14/L15/L16 заканчиваются на собственном one-past-end после одного, двух или трёх шагов.
-- Если `tail≥predecessor`, ранний возврат удлиняет упорядоченный префикс без записей. Иначе `tail.read()` сохраняет байт в отдельном живом `ManuallyDrop` и образует gap на tail. На каждом сдвиге `[sift,sift+1)` копируется в соседний `[sift+1,sift+2)`. Источник и цель различны, все источники инициализированы и лежат в `[begin,tail]`. Затем gap переходит в sift. Проверка `sift==begin` выполняется до вычитания. Иначе поиск останавливается при первом predecessor ≤ tmp. Сдвигаются только байты, строго большие tmp.
+- Если байт в `tail` не меньше предшественника, ранний возврат удлиняет упорядоченный префикс без записей. Иначе `tail.read()` сохраняет байт в отдельном живом `ManuallyDrop` и образует gap на tail. На каждом сдвиге `[sift,sift+1)` копируется в соседний `[sift+1,sift+2)`. Источник и цель различны. Источник каждого сдвига инициализирован и лежит в `[begin, tail−1]`. Все цели сдвигов лежат в `[begin+1, tail]`. Затем gap переходит в sift. Проверка `sift==begin` выполняется до вычитания. Иначе поиск останавливается при первом predecessor ≤ tmp. Сдвигаются только байты, строго большие tmp.
 - `CopyOnDrop` до возврата записывает tmp в последний gap. Tmp остаётся живым до Drop и находится в отдельном объекте, поэтому источник и назначение этой копии не пересекаются. В итоге `[base,base+r+1)` снова инициализирован, упорядочен и сохраняет кратности, а необработанный суффикс и все внешние ячейки неизменны. Этот промежуточный пост следует из шага индукции.
 - `KeyLess::call_mut` читает операнды и сравнивает их через `<` независимо от q. Нативные драйверы проверяют итоговый порядок, `C(q)=count(x<q)`, q/V34 frame и normal return. Для одного и того же входа результат независим от q, значит `C(b+1)−C(b)` даёт кратность b при `b<255`, а `L−C(255)` — кратность 255. Для коротких путей тот же вывод следует из промежуточного поста после соответствующего шага. [Actual driver](/root/verify-rust-std-rev2-n26-n31-halves-w15/library/core/src/slice/sort/shared/smallsort.rs:742) · [Шаг вставки](/root/verify-rust-std-rev2-n26-n31-halves-w15/library/core/src/slice/sort/shared/smallsort.rs:701) · [Восстановление gap](/root/verify-rust-std-rev2-n26-n31-halves-w15/library/core/src/slice/sort/shared/smallsort.rs:357)
 
 Слева B01/L14 и B01/L15 используют первые одну и две итерации исторического B01/L16 с теми же адресами rel13/14. Соответствующие порядки и кратности установлены индукцией для остановок на abs15 и abs16. Исторический B01/L16 проверяет итог после третьего шага. [Ревью коротких путей](REV2-N13-N16-OFFLINE-REVIEW.md)
 
-Справа каждый адрес `17+j` из исторической области B17/L16 заменяется на `B+j` для требуемых `0≤j≤len`. Сохраняются порядок, разность двух соседних адресов и внутрисрезовая принадлежность. Исторический one-past-end 33 заменяется на соответствующий `B+len` из таблицы рёбер, с которым сравнивается tail. Адрес tmp по-прежнему вне V34. Остальные ячейки V34 могут содержать произвольные байты и не участвуют в сдвиге. Для B16/L16 это перенос всего пути с той же длиной и offset, а для L14/L15 — перенос первых одного/двух шагов с собственным end. [Драйверы N32](REV2-N32-CONSUMER-RESULTS-ANALYSIS.md)
+Справа применяется внешний шаг композиции **external base translation + loop induction**. Инициализация правой половины, временного байта и источников чтения на каждом шаге установлена внешним аргументом при `uninit OFF` (`init external under uninit OFF`). Он использует инициализированный V34, диапазон источников сдвига и восстановление gap до перехода к следующей итерации. Каждый адрес `17+j` из исторической области B17/L16 заменяется на `B+j` для требуемых `0≤j≤len`. Сохраняются порядок, разность двух соседних адресов и внутрисрезовая принадлежность. Исторический one-past-end 33 заменяется на соответствующий `B+len` из таблицы рёбер, с которым сравнивается tail. Адрес tmp по-прежнему вне V34. Остальные ячейки V34 могут содержать произвольные байты и не участвуют в сдвиге. Для B16/L16 это перенос всего пути с той же длиной и offset, а для L14/L15 — перенос первых одного/двух шагов с собственным end. У исторического B17/L16 cover `REV2_N32_INSERT_SHIFT` подтверждает сдвиг только на rel13. Достижимость сдвига на rel14 и rel15 установлена офлайн. В качестве свидетеля достаточно 13 байтов со значением 3 и хвоста `2, 1, 0`. На каждом существующем шаге его байт строго меньше предшественника со значением 3. [Драйверы N32](REV2-N32-CONSUMER-RESULTS-ANALYSIS.md)
 
 | Проверенный кандидат | Решение до заморозки |
 | --- | --- |
@@ -171,7 +173,7 @@ Stock объект Check связывается с нативным contract sym
 
 Внутренний `measure` — 1415 с (23:35) от входа, включая до 60 с на входной gate, 1230 с окон, до 120 с на аттестацию и 5 с на journal. Внешний таймаут — 36 мин. `finish` ограничен 300 с от входа и общим cutoff. После общего cutoff предусмотрены 5 с на переход и до 420 с на upload. Таймеры и roster выведены из frozen request. Для `PROVIDERS_WITHIN_PROFILE` нужны все шесть exact слотов с полным своевременным receipt, нативными anchors, подтверждённым sampler/reap и выполненными лимитами, а также финальная аттестация `COMPLETE`.
 
-## Пины пакета
+## Пины R1
 
 | Роль | Commit | Tree | Sole parent |
 | --- | --- | --- | --- |
@@ -181,7 +183,7 @@ Stock объект Check связывается с нативным contract sym
 
 Std CI-base — `dab03cf510df5c35141cde49f1368b1242f5035e` / tree `7fd542ad59723ff2beeacb9632fb0568e81b0655`. Все три коммита сверены до заморозки через `git show -s --format='%an <%ae> | %cn <%ce>'`. Автор и коммиттер каждого коммита — `Tiramisu-Cake <igkharin@gmail.com>`. Коммит handoff использует те же author и committer. Все новые сообщения содержат `[skip ci]` и используют форму идентификаторов без решётки перед цифрой.
 
-Независимый pin для ревью — `CH8_REV2_N26_N31_HALVES_TRIGGER_TREE=22b10aa3749096a520f265b2e64f1b386f575250`. Workflow передаёт его как `REV2_N26_N31_HALVES_TRIGGER_TREE` в `pins`, `sources` и `finish`. Gate принимает чистый detached checkout с этим tree, единственным ожидаемым parent и `HEAD == GITHUB_SHA == payload.after`. Дополнительные условия — `Tiramisu-Cake/kani`, push на `refs/heads/uninit-ci/ch8-q-pilot-v1`, attempt 1. `sources` и `finish` сверяют admission receipt. После сборки инструмента ранний compile preflight с первыми ошибками rustc предшествует cfg-off/on discovery. Дельта discovery ограничена тремя Check и тремя Proof с точным file, selector, kind и Check target. Прежний inventory сравнивается целиком по этим полям. [Workflow](/root/kani-rev2-n26-n31-halves-trigger-w15/control/.github/workflows/ch8-q-pilot.yml) · [Trigger gate](/root/kani-rev2-n26-n31-halves-control-w15/ch8-cal1/request.py)
+Независимый pin R1 — `CH8_REV2_N26_N31_HALVES_TRIGGER_TREE=22b10aa3749096a520f265b2e64f1b386f575250`. Workflow передаёт его как `REV2_N26_N31_HALVES_TRIGGER_TREE` в `pins`, `sources` и `finish`. Gate принимает чистый detached checkout с этим tree, единственным ожидаемым parent и `HEAD == GITHUB_SHA == payload.after`. Дополнительные условия — `Tiramisu-Cake/kani`, push на `refs/heads/uninit-ci/ch8-q-pilot-v1`, attempt 1. `sources` и `finish` сверяют admission receipt. После сборки инструмента ранний compile preflight с первыми ошибками rustc предшествует cfg-off/on discovery. Дельта discovery ограничена тремя Check и тремя Proof с точным file, selector, kind и Check target. Прежний inventory сравнивается целиком по этим полям. [Workflow](/root/kani-rev2-n26-n31-halves-trigger-w15/control/.github/workflows/ch8-q-pilot.yml) · [Trigger gate](/root/kani-rev2-n26-n31-halves-control-w15/ch8-cal1/request.py)
 
 | Замороженный вход | SHA-256 |
 | --- | --- |
@@ -192,7 +194,7 @@ Std CI-base — `dab03cf510df5c35141cde49f1368b1242f5035e` / tree `7fd542ad59723
 
 Canonical JSON для двух digest использует сортировку ключей и разделители `(",", ":")`. Blob `ch8-cal1/test_supervisor.py` на обоих деревьях Control и trigger равен `df63a457c3adf648d360f3d559d5d40ef00a9427`.
 
-## Локальная валидация
+## Локальная валидация R1
 
 - Проверены Rust-видимость actual функций через `super::super`, доступность `KeyLess<u8>::with_q/q` из соседнего модуля, attrs, внешний `cfg(kani)` и цепочка cfg нового модуля. От FIX1 меняются только регистрация модуля, check-cfg и новый verification-only файл. Снятие вставок побайтно восстанавливает registry и manifest. Отдельный Python перебор 8 192 масок проверил 45 сравнений, извлечённых из actual расписания.
 - `rustfmt --check` для нового модуля и registry прошёл бинарником nightly-2026-11-19 с `--edition 2024 --config use_small_heuristics=Max,skip_children=true,reorder_modules=false`. Прошли `git diff --check`, YAML с запретом дубликатов ключей, `bash -n` для восьми shell-блоков и Python AST для 15 файлов.
@@ -201,3 +203,30 @@ Canonical JSON для двух digest использует сортировку 
 - На финальном detached trigger выполнен точный shell-блок `pins` с синтетическим GitHub payload. Прошли последовательно 118/118 тестов на обычной шкале и при старте с 1, 5 и 60 с. Время suite по порядку — 24,658 / 24,384 / 23,747 / 24,788 с. Полный shell-блок завершился за 100,149 с.
 - Синтетика отклонила wrong tree/payload, неверный Check target/kind/file, чужой base и отдельно чужую длину при том же base, сдвиг столбца и потерю обязательного anchor/cover. Различены late receipt и неподтверждённый reap. Общий cutoff `finish`/`upload-gate` проверен с резервом 5 с на переход. Синтетический CLI `finish` и `upload-gate` отработали на допущенном trigger. Получены шесть `NOT_STARTED`, `PROVIDERS_OPEN` и девять членов индекса со сверенными размерами и SHA-256.
 - Нативные compile preflight, discovery и измерения имеют статус `NOT_RUN`. Локальная работа выполнена без CI, push, изменений Actions variables и запуска cargo, rustc, Kani или CBMC.
+
+## FIX1
+
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE`
+
+Выполнено задание g0 `5d59065e7d31aade0cc602c55f88c684f64e4328`. Для каждого из шести frozen half-root slots валидатор требует `copy_back=false`. Негативный тест меняет этот флаг на `true` у каждого слота. Второй тест принимает исходную проекцию `S13-B14-SWAP`, сдвигает якорь `ptr::copy_nonoverlapping::<u8>.precondition_instance.1` с `ptr/mod.rs:587:14` на `588:14` и требует `MISMATCHED` с неполными mandatory anchors. Дельта Control от R1 состоит из `ch8-cal1/results.py` и `ch8-cal1/test_results.py`. Офлайн-привязка правых вставок уточнена в разделе [Actual вставки](#actual-вставки-и-решение-по-roster). [Задание FIX1](REV2-N26-N31-HALVES-FIX1-TASK.md)
+
+| Роль | Commit | Tree | Sole parent |
+| --- | --- | --- | --- |
+| [Std](/root/verify-rust-std-rev2-n26-n31-halves-w15) | `ea34c58ab95b4cbccd9acaa3080597b8b2517a87` | `75c4a374a0c906c989e2770a26990c7cdc6cdf83` | `8fe1b01f0a85ee60118d1813d6b74645e4594213` |
+| [Control FIX1](/root/kani-rev2-n26-n31-halves-fix1-control-w15), `work/rev2-n26-n31-halves-fix1-control-w15` | `302604ce810495c342282fba17cbdaea9aaf8cc5` | `b235397dd83b5ee85a53d56ebe40e01f547e8403` | `fd941d949379ac437b9071cf9a1e636ae72aee5b` |
+| [Detached review-trigger FIX1](/root/kani-rev2-n26-n31-halves-fix1-trigger-w15/control), ref `review/rev2-n26-n31-halves-fix1-trigger-w15` | `e9e81a222ef86379c0cbbabbfb5580afda138468` | `b235397dd83b5ee85a53d56ebe40e01f547e8403` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+Ожидаемый независимый pin для FIX1 — `CH8_REV2_N26_N31_HALVES_TRIGGER_TREE=b235397dd83b5ee85a53d56ebe40e01f547e8403`. Std, request, roster, source bindings, workflow и bundle побайтно совпадают с R1. Автор и коммиттер новых Control, review-trigger и g0 handoff — `Tiramisu-Cake <igkharin@gmail.com>`. Новые commit messages содержат `[skip ci]`.
+
+| Замороженный вход | SHA-256 |
+| --- | --- |
+| [CI-REQUEST.json](/root/kani-rev2-n26-n31-halves-fix1-control-w15/ch8-cal1/CI-REQUEST.json) | `62aba9968f429c46cbcddc2485b1dfb8fdf99bb53560d4fa2a764746416a2564` |
+| Roster, canonical JSON | `e097e28d327c11481824c7fd95df9c2be66936186b99b0da4a953c09c730b4c9` |
+| [std-overlay.bundle](/root/kani-rev2-n26-n31-halves-fix1-control-w15/ch8-cal1/std-overlay.bundle) | `2033e104fffe29918a14bb2e94b156999d532bb1673f4becf71d5a62f4da3588` |
+| Source bindings, canonical JSON | `05b42ed7e1b159e493371b9366232e256221bdb8ba6c02562377069ef153b07c` |
+
+`test_supervisor.py` в Control и trigger имеет blob `df63a457c3adf648d360f3d559d5d40ef00a9427`. Оба регрессионных теста прошли на FIX1. В изолированной копии восстановление проверки только на тип bool привело к отказу первого теста, а отключение сверки локации выбранного Check-свойства привело к отказу второго.
+
+На финальном detached trigger прошёл точный shell-блок `pins` с синтетическим payload. На обычной шкале и свежих шкалах 1, 5 и 60 с последовательно прошли 120/120 тестов. Время suite по порядку — 30,082 / 32,145 / 41,278 / 48,737 с. Полный блок завершился за 155,420 с. Синтетические `finish` и `upload-gate` прошли, индекс содержит девять членов со сверенными SHA-256, для шести слотов записан `NOT_STARTED`.
+
+Прошли YAML без дубликатов ключей, `bash -n` всех восьми shell-блоков, Python AST и `git diff --check`. Работа выполнена офлайн без CI, push, изменений Actions variables и запусков cargo, rustc, Kani или CBMC.
