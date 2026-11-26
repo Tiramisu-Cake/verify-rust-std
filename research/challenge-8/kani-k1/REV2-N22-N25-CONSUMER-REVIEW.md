@@ -24,3 +24,15 @@
 - Сообщения коммитов: `[skip ci]`, без решётки перед цифрой.
 
 Не запускалось: cargo, rustc, Kani, CBMC, CI, нативный compile, discovery, замеры.
+
+## R2 после FIX1 — **GO**
+
+Кандидат: Std `8fe1b01f0a85ee60118d1813d6b74645e4594213` (tree `f754c01d0e`), Control `fd941d949379ac437b9071cf9a1e636ae72aee5b` (tree `f4d42df994425e251022feeedcfd89e608b3d17a`), review-trigger `8a8bddf892` (тот же tree, sole parent `467af9cb8d`), handoff g0 `5fc356ec55`. Блокирующих замечаний нет.
+
+- Автор и коммиттер Std, Control, trigger и g0 `44221a0453`/`5fc356ec55` — Tiramisu-Cake; все 16 Std-коммитов `dab03cf510..8fe1b01f0a` — Tiramisu-Cake; сообщения с `[skip ci]`, без решётки перед цифрой.
+- `git diff 2f73485a5d 8fe1b01f0a` пуст, tree тот же; rustfmt и `git diff --check` чисты.
+- Дельта Control `e3dcce70be..fd941d9493` — ровно 4 файла: CI-REQUEST (overlay и bundle SHA), `request.py` (OVERLAY/BUNDLE_SHA256, обязательный `historical_blobs` до вызова git), `test_run.py` (различающий тест), bundle. `git bundle verify`: prerequisite `dab03cf510`, единственный head `8fe1b01f0a`.
+- SHA-256 пересчитаны независимо: request `a21b91c9…`, bundle `7768ed33…`, roster `ccc8db59…`, bindings `6fb605dd…`; совпадают с `ROSTER_DIGEST`/`SOURCE_BINDINGS_DIGEST`.
+- `test_supervisor.py` blob `df63a457…`; 117/117 на шкалах default/1/5/60 с (`python3 -I -B`, клон trigger); YAML и 8 shell-блоков валидны.
+
+Неблокирующее: локально suite на штатной шкале шёл 71 с при таймауте шага 90 с (на шкалах 1/5/60 — 37–44 с; в handoff 28–44 с). Вероятно, нагрузка машины; при таймауте `pins` учитывать это.
