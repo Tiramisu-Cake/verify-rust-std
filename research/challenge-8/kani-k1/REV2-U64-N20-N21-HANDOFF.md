@@ -11,7 +11,7 @@
 
 Рабочие ветки `work/rev2-u64-n20-n21-std-w13` и `work/rev2-u64-n20-n21-control-w13`. Std проверен по снимку выше. Control готовится поверх N18/N19 FIX1 с сохранением 110 исторических записей discovery и их Check targets. Хэши релизного request, roster, bindings, bundle и дерево review-trigger ожидают выбора состава после сверки. [Std](/root/verify-rust-std-rev2-u64-n20-n21-w13) · [Control](/root/kani-rev2-u64-n20-n21-control-w13)
 
-Exact selector prefix — `slice::sort::shared::smallsort::verify::rev2_u64_n20_n21::`. Координаты ниже относятся к закреплённому снимку пяти plain Proof. Столбец постов и covers равен 5. Общий cover `REV2_U64_N13_COMPARATOR_CALLED` расположен на `rev2_u64_n13.rs:9:5`.
+Exact selector prefix — `slice::sort::shared::smallsort::verify::rev2_u64_n20_n21::`. Координаты ниже относятся к закреплённому снимку пяти plain Proof. Все перечисленные вызовы постов и covers начинаются в столбце 5. Общий cover `REV2_U64_N13_COMPARATOR_CALLED` расположен на `rev2_u64_n13.rs:9:5`.
 
 | Слот | Суффикс selector | Посты | Covers кроме компаратора |
 | --- | --- | --- | --- |
@@ -31,7 +31,8 @@ Exact selector prefix — `slice::sort::shared::smallsort::verify::rev2_u64_n20_
 - Сверены 25 фактических пар и все 512 масок на каждой из геометрий B01/L09, B01/L10, B11/L11, B11/L10. Модель сдвигов проверила по 12 012 случаев на rel9 и 18 018 на rel10 с шестью значениями, включая края `u64` и числа по обе стороны `2^63`.
 - Сверены по 385 состояний адресов пары на N20 и N21, все 21 состояние центра и 184 756/352 716 чередований рангов половин. Это проверки геометрии и индукции по исходнику.
 - Локальный smoke bundle Std объявил единственный HEAD и prerequisite `dab03cf510df5c35141cde49f1368b1242f5035e`. Shallow checkout с глубиной 2 проверил и распаковал цепочку из 25 overlay-коммитов с ожидаемым tree/parent. Эти входы относятся к снимку пяти plain Proof.
-- Изолированный синтетический набор на пяти корнях подтвердил source bindings, старые и новые координаты, exact discovery 110 → 115, отрицательные контроли для ID/координат, typed copy, scoped assigns в исторических Check и границы срока receipts/reap/attestation/publication. На обычной шкале прошли 128 из 128 тестов. Blob `test_supervisor.py` — `df63a457c3adf648d360f3d559d5d40ef00a9427`.
+- Изолированный синтетический набор на пяти корнях подтвердил source bindings, старые и новые координаты, exact discovery 110 → 115, отрицательные контроли для ID/координат, typed copy, scoped assigns в исторических Check и сроки receipts/reap/attestation/publication. Прошли 128 из 128 тестов последовательно на обычной шкале и на свежих шкалах 1/5/60 с. Время suite 33,140 / 35,442 / 36,377 / 34,818 с. Blob `test_supervisor.py` — `df63a457c3adf648d360f3d559d5d40ef00a9427`.
+- Синтетический detached trigger принял `pins`, `sources`, `finish`, `upload-gate` и `upload-check`, а `pins/sources/finish` отвергли подмену дерева. Локальные `std` и `tool` сверены как чистые detached checkouts с ожидаемыми commit/tree. Инициализация submodules исключена из этой локальной симуляции. Индекс сохранил пять pre-measure исходов `NOT_STARTED`.
 - Локальная работа ограничена Git, rustfmt, статической сверкой и синтетикой. Нативный compile preflight, discovery Kani и измерения остаются открытыми. CI, push и изменения Actions variables отсутствуют.
 
 ## Геометрия половин и sort9
