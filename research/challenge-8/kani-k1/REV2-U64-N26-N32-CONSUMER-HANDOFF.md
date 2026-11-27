@@ -1,6 +1,6 @@
 # REV2 · составной consumer u64 N26–N32
 
-**`PENDING_PROVIDER_RESULT` · Item 2 · `go=NOT_GRANTED` · `proof_credit=NONE`.**
+**`READY_FOR_REVIEW` · Item 2 · `go=NOT_GRANTED` · `proof_credit=NONE`.**
 
 Одна Ubuntu job содержит семь контролей с порчей после возврата фактической сети и семь локальных copy-back/frame. У контроля на каждую длину один фиксированный активный вход. Локальная копия принимает произвольные полные слова scratch-префикса и V34. Связь с полным доменом сети требует нативных опор и внешних шагов ниже. Запуск требует независимого ревью, отдельного GO и очереди координатора. [Задание](REV2-U64-N26-N32-CONSUMER-TASK.md) · [Правило композиции](REV2-COMPOSITION-RULE.md) · [Допуск N22–N25](REV2-U64-N22-N25-ADMISSION.md)
 
@@ -128,8 +128,18 @@ R1 принял эти рёбра по исходнику при выполне�
 
 B01 bits/swap взяты из `45919454859/1`, B01 REL13/14/15 из `45933888115/1`. У обеих попыток сверены индексы `6d7e603aa2fe26dd62c0f41725d664bf726be89836c16c35efbe641f3a0661f9` и `50ba454bc3106f76ea6cb83717280fb6f13cb4c5d6b67ad6d41bdfa3a0ea14e3`. Все пять bounded receipts и projections совпали с индексами по размерам и SHA-256. У них `VERIFIED/MATCHED`, exit 0, полные нативные якоря и covers, штатный профиль, своевременный receipt, sampler/reap и аттестация `COMPLETE`. B01 bits использует посты `79:5, 86:5, 87:5`, swap — `35:5, 36:5, 42:5`. Каждый REL использует посты `69:5, 75:5` в `check_insert::<R>`. В текущем Std actual runtime и typed-copy blobs совпадают с историческими. Отличие исторического и текущего N13 blobs — видимость `pub(super)` у того же компаратора. [Допуск B01 S13](REV2-U64-N13-ADMISSION.md) · [Допуск B01 REL13/14/15](REV2-U64-N14-N17-ADMISSION.md)
 
-`45985715566/1` — `PENDING_PROVIDER_RESULT`. Привязка к receipts/projections и статус каждого нового ребра ожидают итог запуска. Роли ниже описывают exact слоты по FIX1. [FIX1](REV2-U64-N26-N32-PROVIDERS-HANDOFF.md#fix1)
+`45985715566/1` · Ubuntu X64 · job `success` · диагноз публикации `U64_N26_N32_PROVIDERS_WITHIN_PROFILE` · SHA-256 индекса `90d30f581460d473d8913b0901ae0be2e5c493852d01fb80c587e70f05a487e5`. Trigger `59958991f8f64dae4e9bfaed67e3035415b0ab52`, tree `dcccfc903bb1953d2184282c5fc1da5067e6f6bb`, sole parent `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. Std `72bb79d26dd495d0461c6e6d3c05d21c2d1b1878` / `c513d0ec1a137457add28b2b9ee9c47ac23642d3`, stock tool и метаданные source/discovery/attestation совпали с FIX1. Request `3d97d7898abc2e77cbeb9f5431672aa2b361f6e90cef65b1ca2d74f643699043`, roster `5b12d12a4d8c131a1477c2e083444473fba248bae26ecc4aa38e0d153ddf0ae3`, bundle `d9b308422fdb10153ea07b4a953b46467edccca5b2b208e8ee1799412919a38f`, bindings `9fd4a201951ab0fd799474fe935e20300fac5478d78c2b52ad67d03e1ff71b95`. [FIX1](REV2-U64-N26-N32-PROVIDERS-HANDOFF.md#fix1) · [Опубликованный индекс](/root/ch8-artifacts/run-45985715566/ch8-rev2-u64-n26-n32-providers-Linux-X64-45985715566-1/index.json)
 
+Инвентарь содержит 62 опубликованных структурированных члена общим размером 7 875 315 байтов. Сверены имена, размеры и SHA-256 всех членов, включая 18 receipts, 18 projections и 18 timelines. Все 18 слотов дали `VERIFIED/MATCHED`, exit 0. Сверены exact Proof/Check target, regular и stock, нативные посты и covers, профиль, sampler/reap и своевременная запись. Заключительная аттестация `COMPLETE` уложилась в своё окно. Подтверждены чистые Std и stock checkouts, рекурсивные submodules и повторная сверка runtime identity. Наблюдались CBMC 6.11.0, CaDiCaL 3.0.0, OB12 и unwind36 со штатными safety, overflow, unwinding, undefined-function и assertion-reach ON и uninit/validity OFF. [Сводка](/root/ch8-artifacts/run-45985715566/ch8-rev2-u64-n26-n32-providers-Linux-X64-45985715566-1/SUMMARY.json) · [Аттестация](/root/ch8-artifacts/run-45985715566/ch8-rev2-u64-n26-n32-providers-Linux-X64-45985715566-1/attestation.json)
+
+Для каждой пары и каждого центра подтверждены scoped `memcpy.assigns.1/.2`, шесть typed-copy properties и четыре успешных unwind. У трёх центров `checked_write_set.copy_sites` содержит собственные вызовы и `transcribes: smallsort.rs:1034:13`. У восьми bits/swap проверены обе typed-copy группы и включённый stock unwind. Выведенных unwind assertions в этих восьми проекциях не было.
+
+| Роли | Слоты | VT, с | Cold wall, с | Пик RSS группы / CBMC, GiB |
+| --- | ---: | ---: | ---: | ---: |
+| PAIR-STEP | 7 | 56,14–65,48 | 92,15–100,25 | 2,179–2,551 / 0,869–0,883 |
+| ODD-CENTER | 3 | 10,93–11,44 | 46,84–48,33 | 2,177–2,515 / 0,311–0,339 |
+| S13 bits | 4 | 39,92–44,06 | 70,54–76,24 | 2,230–2,473 / 2,222–2,234 |
+| S13 swap | 4 | 4,44–5,35 | 35,43–36,33 | 2,154–2,591 / 0,233–0,238 |
 
 ### N26
 
@@ -137,9 +147,9 @@ B01 bits/swap взяты из `45919454859/1`, B01 REL13/14/15 из `45933888115
 | --- | --- | --- |
 | Левая S13 bits | `45919454859/1` · `U64-N13-S13-BITS` · 4/4 covers | `c3ca8085ba45dc01aed62164c46e46ca7d307b3c5544a150c5b72ce63f5bf560` / `9eca670c5f5854ff679a613e2c374df929c0a86e4dd9d5fbcbe05155958d1da5` |
 | Левая полноширинная swap | `45919454859/1` · `U64-N13-SWAP` · 5/5 covers | `91947328f3ea3d2fac94785b058317c8eb7de31b3cbcd72905e07043573bec11` / `48eddb1e4074f2efa334f76b0c6d554fbeb06dea21a196055ccc5148cd8650fc` |
-| Правая S13 bits | `45985715566/1` · `U64-S13-B14-L14-BITS` | Ожидается итог |
-| Правая полноширинная swap | `45985715566/1` · `U64-S13-B14-SWAP` | Ожидается итог |
-| Пара merge | `45985715566/1` · `U64-N26-PAIR-STEP` | Ожидается итог |
+| Правая S13 bits | `45985715566/1` · `U64-S13-B14-L14-BITS` · 4/4 covers | `2f0b11329ea97e8ba6a5967ec3dd5f1b8c06331769b9dc3975b87de11d918c6b` / `f2b4b95d2296cf5d39d01e682930c2cdd570ad1cf4fc8ee87149e84ac96f7e87` |
+| Правая полноширинная swap | `45985715566/1` · `U64-S13-B14-SWAP` · 5/5 covers | `f00920a303a4350492d33f0ca6704379efaaa7676fe07a3b1440ce46d235bc6f` / `7c78fcdd9caa966166d6694bd4777471781cfc9297331b5e13fbfb36faa02851` |
+| Пара merge | `45985715566/1` · `U64-N26-PAIR-STEP` · 10/10 covers | `1fb1ae31b7bddca5b96a6386921237d5d01833dd2d4fc7fb8ba4ad3760659fb1` / `09f9e03535278316d3f320f33f8e868c48e2d50110452531fa6565ca1290184b` |
 | Copy-back / различающий контроль | `U64-N26-COPY-BACK-FRAME` / `U64-N26-WITNESS-CORRUPT` | Корни consumer, запланированы |
 
 1. Применить B01 S13 к левым 13 и B14 S13 к правым 13 словам.
@@ -153,11 +163,11 @@ B01 bits/swap взяты из `45919454859/1`, B01 REL13/14/15 из `45933888115
 | --- | --- | --- |
 | Левая S13 bits | `45919454859/1` · `U64-N13-S13-BITS` · 4/4 covers | `c3ca8085ba45dc01aed62164c46e46ca7d307b3c5544a150c5b72ce63f5bf560` / `9eca670c5f5854ff679a613e2c374df929c0a86e4dd9d5fbcbe05155958d1da5` |
 | Левая полноширинная swap | `45919454859/1` · `U64-N13-SWAP` · 5/5 covers | `91947328f3ea3d2fac94785b058317c8eb7de31b3cbcd72905e07043573bec11` / `48eddb1e4074f2efa334f76b0c6d554fbeb06dea21a196055ccc5148cd8650fc` |
-| Правая S13 bits | `45985715566/1` · `U64-S13-B14-L14-BITS` | Ожидается итог |
-| Правая полноширинная swap | `45985715566/1` · `U64-S13-B14-SWAP` | Ожидается итог |
+| Правая S13 bits | `45985715566/1` · `U64-S13-B14-L14-BITS` · 4/4 covers | `2f0b11329ea97e8ba6a5967ec3dd5f1b8c06331769b9dc3975b87de11d918c6b` / `f2b4b95d2296cf5d39d01e682930c2cdd570ad1cf4fc8ee87149e84ac96f7e87` |
+| Правая полноширинная swap | `45985715566/1` · `U64-S13-B14-SWAP` · 5/5 covers | `f00920a303a4350492d33f0ca6704379efaaa7676fe07a3b1440ce46d235bc6f` / `7c78fcdd9caa966166d6694bd4777471781cfc9297331b5e13fbfb36faa02851` |
 | REL13, исторический B01 для переноса на B14 | `45933888115/1` · `U64-INSERT-REL13` · 6/6 covers | `fecb9cbd6806997e1fe122a1ae744b507b5739e6441e142c5c4d6bea3b002099` / `eb991572a24721ec4fc05312872ceeeca3ea5080c2ff684f1340b7cac86f3db8` |
-| Пара merge | `45985715566/1` · `U64-N27-PAIR-STEP` | Ожидается итог |
-| Нечётный центр | `45985715566/1` · `U64-N27-ODD-CENTER` | Ожидается итог |
+| Пара merge | `45985715566/1` · `U64-N27-PAIR-STEP` · 10/10 covers | `86989634626f78de334dd50f6a01980e496cb2071a6639d5bd036a6694db9b1b` / `8fb5e9e68638ee5692b28be8e7e18bae91c258576932840f466f00b552ee2d9d` |
+| Нечётный центр | `45985715566/1` · `U64-N27-ODD-CENTER` · 4/4 covers | `6b1e612b1bf6d01bd20e3f60ea7b0ff91cec46756b9cf9d9e0d553988ab97528` / `07c5121030d2a38962c1173c6fd033ae7f0ff3c78009c1ee7fee3c674be7d064` |
 | Copy-back / различающий контроль | `U64-N27-COPY-BACK-FRAME` / `U64-N27-WITNESS-CORRUPT` | Корни consumer, запланированы |
 
 1. Применить B01 S13 к левым 13 и B14 S13 к правым 14 словам.
@@ -171,10 +181,10 @@ B01 bits/swap взяты из `45919454859/1`, B01 REL13/14/15 из `45933888115
 | --- | --- | --- |
 | Левая S13 bits | `45919454859/1` · `U64-N13-S13-BITS` · 4/4 covers | `c3ca8085ba45dc01aed62164c46e46ca7d307b3c5544a150c5b72ce63f5bf560` / `9eca670c5f5854ff679a613e2c374df929c0a86e4dd9d5fbcbe05155958d1da5` |
 | Левая полноширинная swap | `45919454859/1` · `U64-N13-SWAP` · 5/5 covers | `91947328f3ea3d2fac94785b058317c8eb7de31b3cbcd72905e07043573bec11` / `48eddb1e4074f2efa334f76b0c6d554fbeb06dea21a196055ccc5148cd8650fc` |
-| Правая S13 bits | `45985715566/1` · `U64-S13-B15-L15-BITS` | Ожидается итог |
-| Правая полноширинная swap | `45985715566/1` · `U64-S13-B15-SWAP` | Ожидается итог |
+| Правая S13 bits | `45985715566/1` · `U64-S13-B15-L15-BITS` · 4/4 covers | `fb38dbf891438c82e48b69bd4cfcfb98bef179b37ab17b4fef852267ca3145f8` / `b9a6cd63bb0a04f7abca7a4fca3c3de28b75d2509e588f83b5ad9e44e7fcb64f` |
+| Правая полноширинная swap | `45985715566/1` · `U64-S13-B15-SWAP` · 5/5 covers | `b789918e780600c4e0776086408b87fd937d425016ff9a4e56fe5f145bece1fb` / `ca56b8e901fa8ccbc01f54580c10b6428419b040646f052861998c12b801648f` |
 | REL13, левая B01 и основание переноса на B15 | `45933888115/1` · `U64-INSERT-REL13` · 6/6 covers | `fecb9cbd6806997e1fe122a1ae744b507b5739e6441e142c5c4d6bea3b002099` / `eb991572a24721ec4fc05312872ceeeca3ea5080c2ff684f1340b7cac86f3db8` |
-| Пара merge | `45985715566/1` · `U64-N28-PAIR-STEP` | Ожидается итог |
+| Пара merge | `45985715566/1` · `U64-N28-PAIR-STEP` · 10/10 covers | `c4172b928b1d75282ef30545e8239ee6e69afbb73da30e24deed836481f32253` / `68987cb4ab8c21d71936ed258b3815486e241c02ffbc8bb997308fc962edc309` |
 | Copy-back / различающий контроль | `U64-N28-COPY-BACK-FRAME` / `U64-N28-WITNESS-CORRUPT` | Корни consumer, запланированы |
 
 1. Применить B01 S13 к левым 14 и B15 S13 к правым 14 словам.
@@ -188,12 +198,12 @@ B01 bits/swap взяты из `45919454859/1`, B01 REL13/14/15 из `45933888115
 | --- | --- | --- |
 | Левая S13 bits | `45919454859/1` · `U64-N13-S13-BITS` · 4/4 covers | `c3ca8085ba45dc01aed62164c46e46ca7d307b3c5544a150c5b72ce63f5bf560` / `9eca670c5f5854ff679a613e2c374df929c0a86e4dd9d5fbcbe05155958d1da5` |
 | Левая полноширинная swap | `45919454859/1` · `U64-N13-SWAP` · 5/5 covers | `91947328f3ea3d2fac94785b058317c8eb7de31b3cbcd72905e07043573bec11` / `48eddb1e4074f2efa334f76b0c6d554fbeb06dea21a196055ccc5148cd8650fc` |
-| Правая S13 bits | `45985715566/1` · `U64-S13-B15-L15-BITS` | Ожидается итог |
-| Правая полноширинная swap | `45985715566/1` · `U64-S13-B15-SWAP` | Ожидается итог |
+| Правая S13 bits | `45985715566/1` · `U64-S13-B15-L15-BITS` · 4/4 covers | `fb38dbf891438c82e48b69bd4cfcfb98bef179b37ab17b4fef852267ca3145f8` / `b9a6cd63bb0a04f7abca7a4fca3c3de28b75d2509e588f83b5ad9e44e7fcb64f` |
+| Правая полноширинная swap | `45985715566/1` · `U64-S13-B15-SWAP` · 5/5 covers | `b789918e780600c4e0776086408b87fd937d425016ff9a4e56fe5f145bece1fb` / `ca56b8e901fa8ccbc01f54580c10b6428419b040646f052861998c12b801648f` |
 | REL13, левая B01 и основание переноса на B15 | `45933888115/1` · `U64-INSERT-REL13` · 6/6 covers | `fecb9cbd6806997e1fe122a1ae744b507b5739e6441e142c5c4d6bea3b002099` / `eb991572a24721ec4fc05312872ceeeca3ea5080c2ff684f1340b7cac86f3db8` |
 | REL14, исторический B01 для переноса на B15 | `45933888115/1` · `U64-INSERT-REL14` · 6/6 covers | `edf1a43b5daba77d9d3ebd1066041ca5112f5cedb7333cbbee935b19afac9100` / `53bf38c78c2314fb11a7429f30b6286b489e00759a8f0033c947ccd5e5ff4a5c` |
-| Пара merge | `45985715566/1` · `U64-N29-PAIR-STEP` | Ожидается итог |
-| Нечётный центр | `45985715566/1` · `U64-N29-ODD-CENTER` | Ожидается итог |
+| Пара merge | `45985715566/1` · `U64-N29-PAIR-STEP` · 10/10 covers | `bc6e057d627c28bed11c78b64144534bb590a53b54c22a89e162802b38fd1927` / `7931a076f9638894b60b412e2c66bc75b6a14fc785319238b3a68822001057c5` |
+| Нечётный центр | `45985715566/1` · `U64-N29-ODD-CENTER` · 4/4 covers | `ee4c6bce18563c44a4f42d92ae5fa79c9b7e0350f2e44cb7dfe3a80aae3844e3` / `f187f9fde6fce447bccbe3d038a054db1d6cfc2ec017d1179880a0ad404a6199` |
 | Copy-back / различающий контроль | `U64-N29-COPY-BACK-FRAME` / `U64-N29-WITNESS-CORRUPT` | Корни consumer, запланированы |
 
 1. Применить B01 S13 к левым 14 и B15 S13 к правым 15 словам.
@@ -207,11 +217,11 @@ B01 bits/swap взяты из `45919454859/1`, B01 REL13/14/15 из `45933888115
 | --- | --- | --- |
 | Левая S13 bits | `45919454859/1` · `U64-N13-S13-BITS` · 4/4 covers | `c3ca8085ba45dc01aed62164c46e46ca7d307b3c5544a150c5b72ce63f5bf560` / `9eca670c5f5854ff679a613e2c374df929c0a86e4dd9d5fbcbe05155958d1da5` |
 | Левая полноширинная swap | `45919454859/1` · `U64-N13-SWAP` · 5/5 covers | `91947328f3ea3d2fac94785b058317c8eb7de31b3cbcd72905e07043573bec11` / `48eddb1e4074f2efa334f76b0c6d554fbeb06dea21a196055ccc5148cd8650fc` |
-| Правая S13 bits | `45985715566/1` · `U64-S13-B16-L16-BITS` | Ожидается итог |
-| Правая полноширинная swap | `45985715566/1` · `U64-S13-B16-SWAP` | Ожидается итог |
+| Правая S13 bits | `45985715566/1` · `U64-S13-B16-L16-BITS` · 4/4 covers | `4a49b3af629e9412a55fd55053af7d6b923bf274a5190b3c80a6d616b2ec9720` / `5b34328b0d7cbb8d90ee836f2bc7ccc3774a33309255a5cfbf22d9189a32869d` |
+| Правая полноширинная swap | `45985715566/1` · `U64-S13-B16-SWAP` · 5/5 covers | `3606082c7edce6e880faf96d572a771267bb6ef935033bb43b084b9a9907c58f` / `96cc39c790de369ec3c1b5f9b0c742adf4abddbd05a92bea319603882daea6dc` |
 | REL13, левая B01 и основание переноса на B16 | `45933888115/1` · `U64-INSERT-REL13` · 6/6 covers | `fecb9cbd6806997e1fe122a1ae744b507b5739e6441e142c5c4d6bea3b002099` / `eb991572a24721ec4fc05312872ceeeca3ea5080c2ff684f1340b7cac86f3db8` |
 | REL14, левая B01 и основание переноса на B16 | `45933888115/1` · `U64-INSERT-REL14` · 6/6 covers | `edf1a43b5daba77d9d3ebd1066041ca5112f5cedb7333cbbee935b19afac9100` / `53bf38c78c2314fb11a7429f30b6286b489e00759a8f0033c947ccd5e5ff4a5c` |
-| Пара merge | `45985715566/1` · `U64-N30-PAIR-STEP` | Ожидается итог |
+| Пара merge | `45985715566/1` · `U64-N30-PAIR-STEP` · 10/10 covers | `ff7fc9e670046607ee313957fed0f8a0b718a9982936bfa9d2df8e66efb96e30` / `10df314fa93c7ddb06bc51c4078cb346b17db522db615ed4916dd487cf77bcba` |
 | Copy-back / различающий контроль | `U64-N30-COPY-BACK-FRAME` / `U64-N30-WITNESS-CORRUPT` | Корни consumer, запланированы |
 
 1. Применить B01 S13 к левым 15 и B16 S13 к правым 15 словам.
@@ -225,13 +235,13 @@ B01 bits/swap взяты из `45919454859/1`, B01 REL13/14/15 из `45933888115
 | --- | --- | --- |
 | Левая S13 bits | `45919454859/1` · `U64-N13-S13-BITS` · 4/4 covers | `c3ca8085ba45dc01aed62164c46e46ca7d307b3c5544a150c5b72ce63f5bf560` / `9eca670c5f5854ff679a613e2c374df929c0a86e4dd9d5fbcbe05155958d1da5` |
 | Левая полноширинная swap | `45919454859/1` · `U64-N13-SWAP` · 5/5 covers | `91947328f3ea3d2fac94785b058317c8eb7de31b3cbcd72905e07043573bec11` / `48eddb1e4074f2efa334f76b0c6d554fbeb06dea21a196055ccc5148cd8650fc` |
-| Правая S13 bits | `45985715566/1` · `U64-S13-B16-L16-BITS` | Ожидается итог |
-| Правая полноширинная swap | `45985715566/1` · `U64-S13-B16-SWAP` | Ожидается итог |
+| Правая S13 bits | `45985715566/1` · `U64-S13-B16-L16-BITS` · 4/4 covers | `4a49b3af629e9412a55fd55053af7d6b923bf274a5190b3c80a6d616b2ec9720` / `5b34328b0d7cbb8d90ee836f2bc7ccc3774a33309255a5cfbf22d9189a32869d` |
+| Правая полноширинная swap | `45985715566/1` · `U64-S13-B16-SWAP` · 5/5 covers | `3606082c7edce6e880faf96d572a771267bb6ef935033bb43b084b9a9907c58f` / `96cc39c790de369ec3c1b5f9b0c742adf4abddbd05a92bea319603882daea6dc` |
 | REL13, левая B01 и основание переноса на B16 | `45933888115/1` · `U64-INSERT-REL13` · 6/6 covers | `fecb9cbd6806997e1fe122a1ae744b507b5739e6441e142c5c4d6bea3b002099` / `eb991572a24721ec4fc05312872ceeeca3ea5080c2ff684f1340b7cac86f3db8` |
 | REL14, левая B01 и основание переноса на B16 | `45933888115/1` · `U64-INSERT-REL14` · 6/6 covers | `edf1a43b5daba77d9d3ebd1066041ca5112f5cedb7333cbbee935b19afac9100` / `53bf38c78c2314fb11a7429f30b6286b489e00759a8f0033c947ccd5e5ff4a5c` |
 | REL15, исторический B01 для переноса на B16 | `45933888115/1` · `U64-INSERT-REL15` · 6/6 covers | `e123a1f34f425a157eb977801e43781417fca28f37b60bd7bc3c0d701c314933` / `4148c468785e207f323bbe0e3778c2bb369a4a4f98e922116c5737cb6ecfc552` |
-| Пара merge | `45985715566/1` · `U64-N31-PAIR-STEP` | Ожидается итог |
-| Нечётный центр | `45985715566/1` · `U64-N31-ODD-CENTER` | Ожидается итог |
+| Пара merge | `45985715566/1` · `U64-N31-PAIR-STEP` · 10/10 covers | `ff82b7ca659141b22c3f3a0f8855910e2cc65204ae96a25a3e3d234fa9995929` / `05a22ba38e82a1b0441d237bbe44dcd0727875c2c92a6cb24478f98b843b0009` |
+| Нечётный центр | `45985715566/1` · `U64-N31-ODD-CENTER` · 4/4 covers | `48257f5c46d1fd0997e9642a5b33422efbb7972294581fa4fd608904eef440da` / `6cc9c8da10f4ac20d392b1f839e21f4e1b794e0284cf6440dc890780a79203d4` |
 | Copy-back / различающий контроль | `U64-N31-COPY-BACK-FRAME` / `U64-N31-WITNESS-CORRUPT` | Корни consumer, запланированы |
 
 1. Применить B01 S13 к левым 15 и B16 S13 к правым 16 словам.
@@ -245,18 +255,20 @@ B01 bits/swap взяты из `45919454859/1`, B01 REL13/14/15 из `45933888115
 | --- | --- | --- |
 | Левая S13 bits | `45919454859/1` · `U64-N13-S13-BITS` · 4/4 covers | `c3ca8085ba45dc01aed62164c46e46ca7d307b3c5544a150c5b72ce63f5bf560` / `9eca670c5f5854ff679a613e2c374df929c0a86e4dd9d5fbcbe05155958d1da5` |
 | Левая полноширинная swap | `45919454859/1` · `U64-N13-SWAP` · 5/5 covers | `91947328f3ea3d2fac94785b058317c8eb7de31b3cbcd72905e07043573bec11` / `48eddb1e4074f2efa334f76b0c6d554fbeb06dea21a196055ccc5148cd8650fc` |
-| Правая S13 bits | `45985715566/1` · `U64-S13-B17-L16-BITS` | Ожидается итог |
-| Правая полноширинная swap | `45985715566/1` · `U64-S13-B17-SWAP` | Ожидается итог |
+| Правая S13 bits | `45985715566/1` · `U64-S13-B17-L16-BITS` · 4/4 covers | `6204462eec88a7e08eaf3f68654ff48f2b19d80c950acdcb3482faa9f941a0ff` / `bd470b24cf629e15c92ba0cbc4c5b92f4d46f40bc1c56c0449490f93272d4ea5` |
+| Правая полноширинная swap | `45985715566/1` · `U64-S13-B17-SWAP` · 5/5 covers | `f57bcf13793b0f8f102b3d2e71d82d7c3be4e17386a7cbcf207f0d44c14031df` / `3e2158f3cefb56c1d10e7351584d9fb0f68fb90eb7e94258574a6dd4523cd8e7` |
 | REL13, левая B01 и основание переноса на B17 | `45933888115/1` · `U64-INSERT-REL13` · 6/6 covers | `fecb9cbd6806997e1fe122a1ae744b507b5739e6441e142c5c4d6bea3b002099` / `eb991572a24721ec4fc05312872ceeeca3ea5080c2ff684f1340b7cac86f3db8` |
 | REL14, левая B01 и основание переноса на B17 | `45933888115/1` · `U64-INSERT-REL14` · 6/6 covers | `edf1a43b5daba77d9d3ebd1066041ca5112f5cedb7333cbbee935b19afac9100` / `53bf38c78c2314fb11a7429f30b6286b489e00759a8f0033c947ccd5e5ff4a5c` |
 | REL15, левая B01 и основание переноса на B17 | `45933888115/1` · `U64-INSERT-REL15` · 6/6 covers | `e123a1f34f425a157eb977801e43781417fca28f37b60bd7bc3c0d701c314933` / `4148c468785e207f323bbe0e3778c2bb369a4a4f98e922116c5737cb6ecfc552` |
-| Пара merge | `45985715566/1` · `U64-N32-PAIR-STEP` | Ожидается итог |
+| Пара merge | `45985715566/1` · `U64-N32-PAIR-STEP` · 10/10 covers | `31e64e4ace154d0ece93b771976849ef8e704f5f0d72991b9a6d79a65e35d39d` / `3212a0d82b25934ebcf7d2160e51c8a4899b72466f32209c82fd7f950358a378` |
 | Copy-back / различающий контроль | `U64-N32-COPY-BACK-FRAME` / `U64-N32-WITNESS-CORRUPT` | Корни consumer, запланированы |
 
 1. Применить B01 S13 к левым 16 и B17 S13 к правым 16 словам.
 2. Передать префиксы драйверу offset 13. Слева rel 13, 14, 15, справа переносы rel 13, 14, 15.
 3. Применить exact N32 pair в 16 ранговых шагах. Курсоры достигают ends после пар.
 4. После заполнения `D[0..32]` связать локальную и actual копии на 256 байтов и вывести frame.
+
+Индекс, нативная привязка и профиль подтверждены для всех требуемых рёбер провайдеров. Copy-back и контроль каждой длины ожидают собственный запуск consumer.
 
 ## Профиль запуска
 
