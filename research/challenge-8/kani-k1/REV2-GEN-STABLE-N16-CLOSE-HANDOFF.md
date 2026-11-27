@@ -2,6 +2,8 @@
 
 **READY_FOR_REVIEW · Item 2 · `go=NOT_GRANTED` · `proof_credit=NONE`.**
 
+Актуальные пины и проверки находятся в разделе [FIX1](#fix1). Пакет R1 получил NO-GO. [Ревью R1](REV2-GEN-STABLE-N16-CLOSE-REVIEW.md)
+
 Локальный пакет содержит две левые опоры, три литеральных правых fill и два различающих контроля фактических trait-маршрутов. Следующие этапы требуют независимого ревью и отдельного GO координатора. Нативная компиляция cfg-on и результаты семи слотов остаются открытыми. [Задание](REV2-GEN-STABLE-N16-CLOSE-TASK.md) · [Правило составного допуска](REV2-COMPOSITION-RULE.md)
 
 ## Пины пакета
@@ -141,3 +143,41 @@ SHA-256 `source_bindings` пилота и FIX1 соответственно `04e
 - На точном detached review-trigger с синтетическим push прошли `pins`, `sources`, `finish`, `upload-gate` и `upload-check`. В локальном `sources` рекурсивная submodule-проверка заменена проверкой чистых detached Std/tool с точными commit/tree. Синтетический `finish` создал семь `NOT_STARTED` receipts. Подмены tree, payload, схемы индекса, admission и индексированного receipt отклонены. Оба поздних upload-гейта отклонены.
 - На том же trigger Python 3.12.3 последовательно прошёл четыре suite. Обычная шкала 139/139 за 57,618 с. Старт с 1 с — 139/139 за 57,399 с, с 5 с — 139/139 за 57,821 с, с 60 с — 139/139 за 62,977 с. Синтетика проверила discovery 171 → 178, неправильный kind/selector/source/Check target и точное `standard harness has a contract target` для исторического plain selector cfg-off и нового CLOSE plain selector cfg-on. Проверены потеря typed-copy/post/return, неверный unwind, чужой или второй отказ, неполная проекция, поздний receipt, потеря reap/attestation, несовпадение индекса и поздний upload.
 - `test_supervisor.py` сохранил blob `df63a457c3adf648d360f3d559d5d40ef00a9427`. Пакет подготовлен локально без Cargo, rustc, Kani, CBMC, CI, push и изменения Actions variables. Все четыре итоговых коммита имеют `[skip ci]` и author/committer `Tiramisu-Cake <igkharin@gmail.com>`.
+
+## FIX1
+
+**READY_FOR_REVIEW · Item 2 · `go=NOT_GRANTED` · `proof_credit=NONE`.** Основание g0 `916655ee36bab21b8c388fd24ab3b1c8aa9cea77`. На строке 1085 корня `GEN-N16-WIDE-FILL-R48-REL5` цикл подсчёта позиции использует `0..5` для `old: [Wide; 5]`, максимальный индекс 4. В комментариях на строках 948, 1022 и 1095 транскрипция уточнена до `smallsort.rs:329`. Эти четыре строки составляют всю дельту Std от R1. [Ревью R1](REV2-GEN-STABLE-N16-CLOSE-REVIEW.md) · [Исправленный rel5](/root/verify-rust-std-rev2-gen-stable-n16-close-fix1-w13/library/core/src/slice/sort/shared/smallsort/verify/rev2_gen_stable_n16_pilot.rs:1085)
+
+| Роль | Commit | Tree | Единственный parent |
+| --- | --- | --- | --- |
+| [Std FIX1](/root/verify-rust-std-rev2-gen-stable-n16-close-fix1-w13) | `e8e8af6d3b4c77ce0ee25066e9c97b6df3fd222e` | `f48157264ed99a8bd5b5faa4c38709eef61c0b47` | `a7df430f35dca8e0a6372fe8410229277974194a` |
+| [Control FIX1](/root/kani-rev2-gen-stable-n16-close-fix1-control-w13) | `ad7e2ba127919b463a395819c94a30225b844b90` | `8fff1fc16152df0c6febf8bac6729199a12407be` | `8a7094b777061721cfcf8c7848aa55c3f901b709` |
+| [Review-trigger FIX1, detached](/root/kani-rev2-gen-stable-n16-close-fix1-trigger-w13/control) | `f546e8873c35e49a7113394c37d63ef9526f964e` | `8fff1fc16152df0c6febf8bac6729199a12407be` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+| Вход | SHA-256 |
+| --- | --- |
+| [CI-REQUEST.json](/root/kani-rev2-gen-stable-n16-close-fix1-trigger-w13/control/ch8-cal1/CI-REQUEST.json) | `c3049756a255b08e58d8def88cc626e338ca2f8ba3be8ea0533c79a58d634f9e` |
+| Exact roster, канонический JSON | `0701391f3495aefc7215367d522c7759aa66d937d3de97156dd151bf3111b85b` |
+| Source bindings, канонический JSON | `d320686c751aab6b376175f38a1b7bee2b9e9b10eeb48e131d495c9bff0bcfb7` |
+| [Std bundle](/root/kani-rev2-gen-stable-n16-close-fix1-trigger-w13/control/ch8-cal1/std-overlay.bundle), 87 143 байта | `8668301c8ae16e69749462341b411e206b22bd8bb01b53b819ca6d1305ff05a7` |
+
+Независимый pin FIX1 — `CH8_REV2_GEN_STABLE_N16_CLOSE_TRIGGER_TREE=8fff1fc16152df0c6febf8bac6729199a12407be`. Новый blob модуля `cfafc360819a4011590a8cf8624dd2f22d29b37e`. Bundle объявляет единственный `HEAD` и содержит 32 последовательных overlay-коммита поверх CI-base `dab03cf510df5c35141cde49f1368b1242f5035e`. Цепочка явно сверяет R1 перед FIX1. Проверены точный префикс до CLOSE и все 1 150 литеральных координат. Exact roster, аргументы, часы и исторические привязки из предыдущих разделов применяются к FIX1.
+
+### Аудит индексов
+
+| Корни и наблюдатели | Сверенные границы локальных массивов |
+| --- | --- |
+| Левый S8 | Frame V18 и его копии использует индексы 0–17. Пары исходных слов доходят до 8, dst до 7. Tmp читается в `D[16..20]` и `D[20..24]`. Scratch-frame с `8+i` и `24+i` при `i<8` доходит до 15 и 31 в D32. |
+| Левый Wide S4 | Исходная четвёрка использует V18 индексы 1–4, пары результата и поиск меток используют D48 индексы 0–3. Frame D48 разбит на `4..32` и `32..48`. |
+| Wide rel5, rel6 и rel7 | Для `R=5/6/7` массив `old` имеет ровно `R` элементов из `D[8..8+R]`. При `i∈1..R` допустимы `i−1` и `i`. Подсчёт по `0..R` даёт `0≤pos≤R`. При `j∈0..R+1` ветка `j<pos` допускает `old[j]`, ветка `j>pos` даёт `0≤j−1<R`, а ветка равенства берёт `x`. Чтение `scratch[8+j]` доходит до 13/14/15 соответственно. Инициализация и frame проверены в D48, включая `END=14/15/16`. |
+| Stable u64 witness и `active_u64_mask` | Наполнение и маска используют индексы 1–16 в V18. Соседние сравнения имеют `i+1≤16`, сдвиг в маске имеет максимум 15. Фиксированные frame и индекс порчи лежат в V18. |
+| Wide witness и его наблюдатели | `keys[i % 8]` даёт 0–7 для массива длиной 8. Соседние сравнения и поиск меток в активном V18 имеют максимум 16. `wide_v` и `wide_v_frame` используют 0–17. Индексы обмена 6 и 7 лежат в активном срезе. |
+
+По исходнику сверены все 34 цикла семи корней и десять циклов пяти наблюдателей и инициализаторов. Три специализации scratch frame проверены отдельно. Новый source gate читает список элементов `old` и объявление D48 и сверяет шесть литеральных проходов в каждом fill. Он отклонил исходный R1 на rel5 с `old=5, scratch=48`. Регрессия проверяет для каждого из rel5/6/7 лишнюю итерацию подсчёта, неверное начало сравнения соседей, лишнюю итерацию поста и scratch-цикла и потерю элемента `old`. [Source gate](/root/kani-rev2-gen-stable-n16-close-fix1-trigger-w13/control/ch8-cal1/request.py) · [Синтетика](/root/kani-rev2-gen-stable-n16-close-fix1-trigger-w13/control/ch8-cal1/test_run.py)
+
+### Валидация FIX1
+
+- Rustfmt `nightly-2026-11-19` с `use_small_heuristics=Max`, `git diff --check`, YAML с уникальными ключами и восемь блоков `bash -n` прошли. `test_supervisor.py` имеет blob `df63a457c3adf648d360f3d559d5d40ef00a9427`.
+- Depth-2 Std checkout без alternates принял bundle. На точном detached trigger синтетические `pins`, `sources`, `finish`, `upload-gate` и `upload-check` прошли с явной локальной заменой рекурсивной проверки submodules на проверку чистых detached Std/tool и их commit/tree. Проверены 30 blobs и семь `NOT_STARTED` receipts. Чужой tree, payload, `transcribes`, подмены индекса и receipt, поздний upload отклонены.
+- Полный suite Python 3.12.3 прошёл последовательно на точном trigger. Обычная шкала 140/140 за 59,477 с, старт с 1 с 140/140 за 57,160 с, с 5 с 140/140 за 57,123 с, с 60 с 140/140 за 56,013 с.
+- Нативная компиляция cfg-on и исходы семи слотов ожидают независимого ревью FIX1 и отдельного GO координатора. Локальная стадия выполнила только статические и синтетические проверки. CI, push и изменения Actions variables не выполнялись. Все четыре коммита FIX1 имеют `[skip ci]` и author/committer `Tiramisu-Cake <igkharin@gmail.com>`.
