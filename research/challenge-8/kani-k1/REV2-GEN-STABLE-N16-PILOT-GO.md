@@ -8,3 +8,12 @@
 - **Trigger.** Новый коммит без `[skip ci]` с этим tree и единственным родителем `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. `CH8_REV2_GEN_STABLE_N16_PILOT_TRIGGER_TREE` → `9021966b36dcbbf0a7f36d9065bd0dae580a4e98`.
 - **Входы.** Std `14a5a7322a`, request `c105664a…`, bundle `c11285e3…`, stock Kani `9834c96ce9`.
 - **Ожидание.** Шесть слотов VERIFIED (sort8 FULL/BITS, Wide sort4 со стабильностью, Wide fill rel4, две пары merge scratch → v); в пределах 120 с VT / 4 GiB / 180 с cold.
+
+## FIX1
+
+**GO** на один диагностический Ubuntu-прогон без повтора, Item 2, `proof_credit=NONE`. Решение координатора 2026-11-27; задание FIX1 планера `86e0c6a5a1`; [ревью R2](REV2-GEN-STABLE-N16-PILOT-REVIEW.md#r2--fix1).
+
+- **Control.** `bcf4fd366d1fc3fe4e045bb8c6f3b54189a92435`, tree `981944277c` (полный — в handoff FIX1).
+- **Trigger.** Новый коммит без `[skip ci]` с этим tree и единственным родителем `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. `CH8_REV2_GEN_STABLE_N16_PILOT_FIX1_TRIGGER_TREE` → tree Control.
+- **Входы.** Std `5a8702f59a`, request `83e332c9…`, bundle `ded7e86e…`, stock Kani `9834c96ce9`.
+- **Ожидание.** Два Check VERIFIED (Wide merge_up и merge_down раздельно); в пределах 120 с VT / 4 GiB / 180 с cold.
