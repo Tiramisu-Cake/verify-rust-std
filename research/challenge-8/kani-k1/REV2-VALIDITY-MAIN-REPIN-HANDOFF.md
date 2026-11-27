@@ -1,6 +1,6 @@
 # REV2 · валидность на Kani main с nightly 11-21 · handoff
 
-**READY_FOR_REVIEW** (FIX6) · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger **Item 2** · control **`1338213af7`**, tree `756dea4a28`, review-trigger `379a15f303`, Std overlay `4beda039e6` ([FIX6](#fix6-после-ревью-r5)). FIX5: control `fc3a0e654e`, tree `e9b8b46457`, overlay `fe3fe324bf`. FIX4: control `e2a3e6d48e`, tree `f46e65c42c`. FIX3: control `0a4f85d930`, tree `c575224396`. Разделы до FIX2 описывают R1-кандидат: control `e4b3eced27`, tree `817a5db4e9`. FIX2: control `bf4e1d882a`, tree `6d51ab4ed0`. Инструмент в отчётах — **«Kani main `8c6dba5935` с nightly-2026-11-21»**: это не upstream-коммит, а локальный кандидат `4caf097d84`. [Задание](REV2-VALIDITY-MAIN-REPIN-TASK.md) · [Записка координатора](COORD-NOTE-20261126-VALIDITY-PIN-AND-KANI5196-RECHECK.md) · [FIX1](REV2-VALIDITY-MAIN-HANDOFF.md)
+**READY_FOR_REVIEW** (FIX7) · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger **Item 2** · control **`008d4e16a7`**, tree `3181cc4a23`, review-trigger `5327ba35e7`, Std overlay `30545a3ce3` ([FIX7](#fix7-timeout-фазы-b)). FIX6: control `1338213af7`, tree `756dea4a28`, overlay `4beda039e6`. FIX5: control `fc3a0e654e`, tree `e9b8b46457`, overlay `fe3fe324bf`. FIX4: control `e2a3e6d48e`, tree `f46e65c42c`. FIX3: control `0a4f85d930`, tree `c575224396`. Разделы до FIX2 описывают R1-кандидат: control `e4b3eced27`, tree `817a5db4e9`. FIX2: control `bf4e1d882a`, tree `6d51ab4ed0`. Инструмент в отчётах — **«Kani main `8c6dba5935` с nightly-2026-11-21»**: это не upstream-коммит, а локальный кандидат `4caf097d84`. [Задание](REV2-VALIDITY-MAIN-REPIN-TASK.md) · [Записка координатора](COORD-NOTE-20261126-VALIDITY-PIN-AND-KANI5196-RECHECK.md) · [FIX1](REV2-VALIDITY-MAIN-HANDOFF.md)
 
 Совместимость пары до CI остаётся **UNKNOWN**. Cargo, rustc, сборка Kani, Kani и CBMC локально не запускались, toolchain не ставился. Push, CI, изменений Actions variables, обновления ветки pr752 и публикаций не было.
 
@@ -793,5 +793,137 @@ Diffstat control от FIX5:
 | `std-overlay.bundle` | заменён |
 
 [Patch control](/root/rev2-validity-repin-review/control-fix6-from-fix5.patch), SHA-256 `8936f6ff…d1d2`. [Patch overlay](/root/rev2-validity-repin-review/fix6/std-overlay-fix6-from-fix5.patch), SHA-256 `4f467b75…fcd3`. Author и committer overlay, control и trigger — Tiramisu-Cake <igkharin@gmail.com>, `[skip ci]`, без решётки перед цифрой.
+
+**READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger Item 2. Push, CI, Actions variables, cargo/rustc/Kani/CBMC не запускались. Публикаций не было.
+
+## FIX7: TIMEOUT фазы B
+
+[Задание FIX7](REV2-VALIDITY-MAIN-REPIN-FIX7-TASK.md) · [Ревью R6](REV2-VALIDITY-MAIN-REPIN-REVIEW.md#r6--fix6) · [Артефакты run 45886041869](/root/ch8-artifacts/run-45886041869/ch8-rev2-validity-repin-Linux-X64-45886041869-1/). Без изменений: Kani-кандидат `4caf097d84`, Std merge `7f961eda87`, workflow, gate (`verdict.py`, `run.py`, правила `request.py`), fixture, пределы и часы. Roster и все строки request тоже не изменились, roster digest прежний. Меняются только overlay, его bundle и пины overlay.
+
+### 1. Разбор TIMEOUT по receipts
+
+Receipts читались как данные ([скрипт](/root/rev2-validity-repin-review/fix7/b_table.py), [вывод](/root/rev2-validity-repin-review/fix7/b_table.out)).
+
+**Как считалось.**
+- У слотов, которые завершились, разница cold wall − VT равна 31,6–34,3 с, медиана 32,1 с. Это сборка до старта CBMC. Значит, у TIMEOUT-слотов на CBMC пришлось около 148 с.
+- Все четыре TIMEOUT-слота отсечены на 180 с cold wall в фазе `cbmc`. VT в них не напечатан, поэтому `resource_status=CENSORED`.
+- Число начатых solve — это число строк CNF, включая опущенные bounded publish.
+- В ON маркеры обрезаны (`markers_omitted` 36–61). Видны только первые шесть решений. Поэтому для последнего solve в ON даны верхняя граница и оценка, в которой каждый скрытый solve длится как медиана видимых.
+
+| Слот | Symex, steps | Первая CNF (vars / clauses) | Solve | Последний solve к отсечке / VT | CBMC / group peak, GiB |
+| --- | --- | --- | --- | --- | --- |
+| **stable_char_n09 OFF** | 1,97 с, 71 488 | 411 317 / 1 137 724 | 4 завершены (4,34; 0,03; 0,02; 0,05 с), пятый начат | **≈ 141 с**, не завершён | 0,81 / 1,98 |
+| **stable_char_n09 ON** | 6,79 с, 267 831 | 1 109 956 / 4 648 508 | 17 начато; видны 28,3 с, затем 2,2–2,7 с каждый | ≤ 99 с, ≈ 76 с | 2,50 / 2,51 |
+| **network_nonzero_n10 OFF** | 5,38 с, 99 702 | 385 649 / 557 577 | 6 завершены (0,56; 0,02–0,19 с), седьмой начат | **≈ 141 с**, не завершён | 0,42 / 1,98 |
+| **network_nonzero_n10 ON** | 11,93 с, 330 627 | 1 133 266 / 4 984 069 | 15 начато; видны 44,5 с, затем 4,4–5,0 с каждый | ≤ 67 с, ≈ 32 с | 2,19 / 2,20 |
+| stable_char_n09_corrupt OFF | 1,13 с, 47 590 | 314 131 / 831 104 | 4 (2,15 с, затем ≤ 0,54 с) | VT **7,4 с**, cold 39,0 | 0,57 / 1,97 |
+| stable_char_n09_corrupt ON | 2,91 с, 124 969 | 640 115 / 2 016 755 | 21 (8,3 с, затем 0,04–0,07 с) | VT **26,4 с**, cold 59,7 | 1,47 / 2,11 |
+| sort8_char_n08 OFF | 1,61 с, 62 322 | 319 529 / 770 150 | 7 (1,38 с, затем ≤ 0,08 с), последний ≈ 59 с | VT 62,5 с, cold 94,3 | 0,43 / 1,97 |
+| sort8_char_n08 ON | 5,07 с, 225 892 | 868 686 / 3 234 071 | 18 (15,1 с, затем 1,2–1,3 с), последний ≈ 70 с | VT 110,4 с, cold 142,6 | 1,39 / 2,25 |
+| network_nonzero_n18 ON | 7,79 с, 246 119 | 894 347 / 2 237 931 | 16 (7,3 с, затем 0,5–0,8 с) | VT 40,4 с, cold 74,7 | 1,24 / 2,10 |
+
+**Выводы.**
+1. **Память не ограничивала.** Максимум 2,51 GiB при пределе 4 GiB.
+2. **OFF.** Symex, SSA и первые 4–6 solve укладываются примерно в 7 с. Остальные около 141 с уходят на последний solve. Это финальный UNSAT по функциональной проверке, то есть сортированности и кратностям. Ранговый домен FIX5 его не снял: первая CNF у n09 OFF почти та же, что в run 45870184232 (403 953 / 1 124 783). У `sort8` ранги помогли (было TIMEOUT, стало VT 62,5 с), у n9 и n10 нет.
+3. **Тот же маршрут без функциональной проверки укладывается с большим запасом.** `vv_stable_char_n09` и `vv_stable_char_n09_corrupt` — экземпляры одного `stable_char_n09_body::<CORRUPT_OUTPUT>`. До FIX7 они различались только функциональной проверкой и записью четырёх байтов. Цена проверки по этой паре:
+   - OFF: steps +50 %, переменные +31 %, клаузы +37 %; последний solve ≥ 141 с против 0,54 с;
+   - ON: steps +114 %, переменные +73 %, клаузы +130 %; первый solve 28,3 против 8,3 с, каждый следующий 2,2–2,7 против 0,04–0,07 с.
+4. **В ON дорожает каждый solve, а не только финальный.** Функциональная проверка в ON сама инструментирована: N² чтений `sorted[j]`/`original[j]` и autoref массивов получают проверки валидности. У n10 ON промежуточные solve идут по 4,4–5,0 с на CNF 1,13 M / 4,98 M.
+5. **Сеть — то же самое.** n18 ON идёт через тот же экземпляр `small_sort_network` и выполняет два `sort9_optimal` до приведения, а функциональная проверка после `assume(false)` недостижима. Слот уложился в VT 40,4 с. Значит, у n10 время уходит на проверку, а не на маршрут.
+6. **Меньшая длина на тех же маршрутах не помогает.**
+   - n9 — минимальная stable-длина с ветвью `sort4_stable`, вставкой хвоста и нечётным merge. При 8 вставки нет и merge чётный, а при длине < 8 нет `sort4`.
+   - n10 — минимальная сетевая длина с `sort9_optimal` и вставкой. При 9 вставки нет, а при < 9 сети нет вовсе: это маршрут вставок, как у fallback.
+   - Функциональный UNSAT даже у меньшего аналога `sort8` занимает около 59 с в OFF и около 70 с в ON.
+
+Оговорка: в OFF-слотах с TIMEOUT последняя строка stdout — «Running propositional reduction» следующего solve, его строки CNF нет. Где именно внутри этого solve уходит время, receipt не показывает.
+
+### 2. Выбранный roster
+
+**Выбор: разделение по содержанию корня, без новых слотов.** Положительные `vv_stable_char_n09` и `vv_network_nonzero_n10` становятся validity-only на тех же длинах и маршрутах, пары OFF/ON сохраняются. Порядок и кратности на этих двух маршрутах в пакете больше не проверяются.
+
+Overlay **`30545a3ce3`** поверх `4beda039e6`, +5/−5, только `validity_main.rs`:
+- в `stable_char_n09_body` ветка `if !CORRUPT_OUTPUT { check_sorted_and_full_multiset(...) }` заменена четырьмя строками комментария;
+- в `vv_network_nonzero_n10` вызов проверки заменён одной строкой комментария.
+
+**Номера всех строк модуля не изменились.** Поэтому прежними остались чтения `:143`, `:186`, `:210`, `:232`, запись `:131`, строки request, `read_structures`, covers, pin n18, допуск n10 и roster digest. Ранговый вход сохранён: у stable он общий с отрицательным контролем, а ближайший аналог n10 по данным, n18 ON, тоже ранговый. Оговорка R5-2 остаётся в силе.
+
+**Почему так.**
+- **Данные.** Отрицательный контроль на том же теле укладывается с большим запасом (п. 1.3).
+- **Один маршрут с контролем.** После FIX7 положительный корень и `_corrupt` различаются только записью четырёх байтов перед чтением и текстом cover. Маршрут, внутренние чтения и строка `:143` у них общие, ID пары различаются только экземпляром `<false>`/`<true>`.
+- **Пара `_corrupt` не меняется по смыслу.** Для неё убранная ветка была мёртвой: `if !true`. В run 45886041869 свойства `check_sorted_and_full_multiset::<char, 9, …>` в опубликованной части receipt `_corrupt` ON имеют статус SUCCESS: шесть проверок `char` и один семейный unsupported `untyped_read_validity_guard`. Пара FAILURE на `:143` и функция `stable_char_n09_body::<true>` прежние. Номер свойства после `.safety_check.` может сдвинуться, но гейт проверяет его шаблоном `[0-9]+` (`verdict.py:226`).
+
+**Отвергнуто.**
+- **Меньшая длина** — см. п. 1.6.
+- **Отдельный функциональный OFF-корень.**
+  - Workflow не меняется, поэтому B ограничена 13 слотами по 200 с. Новый корень мог бы только заменить существующий слот, и для его длины нет данных о времени.
+  - Для сети нет более короткой длины с `sort9`.
+  - Функциональная проверка `sort4_stable` с `bidirectional_merge` на `char` уже есть в `vv_sort8_char_n08` (MATCH OFF/ON), вставок — в `vv_fallback_nonzero_n03`, обмена — в `vv_swap_bool_n02`.
+- **Иная форма входа**, например различные ранги с проверкой `output[i] == i`. Данных, что такая форма уложится, нет. Это была бы третья догадка подряд после рангов FIX5.
+
+**Что теряется.** В положительных ON-слотах этих двух корней потребительское чтение покрывает только элемент 0 выхода и внутренние чтения маршрута. Раньше функциональная проверка читала весь выход, но такие слоты ни разу не завершились за три прогона. У отрицательного контроля так было и раньше.
+
+### 3. Ожидания
+
+Исходы и гейт для всех 13 слотов B прежние. Цифры для изменённых слотов — оценки по аналогам, прогоном не подтверждены.
+
+| Слот | Исход | Аналог | Оценка |
+| --- | --- | --- | --- |
+| `vv_stable_char_n09` OFF | SUCCESS, `MATCH` | `_corrupt` OFF | VT ≈ 7 с, cold ≈ 40 с, CBMC ≈ 0,6 GiB |
+| `vv_stable_char_n09` ON | SUCCESS, структура `char` на `:143`, `read_binding=OBSERVED` | `_corrupt` ON | VT ≈ 26 с, cold ≈ 60 с, ≈ 1,5 GiB |
+| `vv_network_nonzero_n10` OFF | SUCCESS, `MATCH` | маршрут OFF без проверки (symex 5,4 с) | VT ≤ 20 с |
+| `vv_network_nonzero_n10` ON | SUCCESS, допуск `:423:28` SUCCESS, структура `NonZero<u8>` | n18 ON (два `sort9` против одного) | VT 20–40 с, cold ≤ 75 с, ≤ 1,3 GiB |
+
+**Риск.** `vv_sort8_char_n08` ON шёл VT 110,4 из 120 с и cold 142,6 из 180 с. По заданию пару не трогаю.
+- VT > 120 даёт только `resource_status=OVER_LIMIT`: статус фазы считается по вердиктам (`run.py:505-514`, `:672`).
+- Cold > 180 даёт TIMEOUT, тогда B=UNEXPECTED. Запас 37 с.
+
+### 4. Дельта gate
+
+**Нет.** Новых слотов нет, новых веток решения тоже, поэтому синтетика не добавлялась. В control меняются только:
+- `request.py`: пятая пара `OVERLAY_CHAIN`, комментарии, `OVERLAY_DELTA_SHA256`, `BUNDLE_SHA256`;
+- `CI-REQUEST.json`: ключи `overlay_chain`, `overlay_delta_sha256`, `bundle_sha256`;
+- `std-overlay.bundle`.
+
+Неблокирующие R6-1…3 (аудит допущенного места в `wanted_locations`, `negative` в `_admitted_error`, статический вывод для char-корней) не трогал: они не относятся к FIX7. Для R6-3 FIX7 даёт данные: в receipts `_corrupt` OFF/ON и `sort8` OFF/ON run 45886041869 свойств `mutable cast` нет, unsupported только из семейств.
+
+### 5. Тесты и проверки
+
+- **Suite 139/139:** штатно 48 с, дважды на свежей шкале от 60 с — 47 и 48 с. На checkout trigger `5327ba35e7` — 139/139 за 40 с, checkout чистый ([логи](/root/rev2-validity-repin-review/fix7/)).
+- **Прочее:** YAML разбирается (12 шагов, без дублей ключей), `bash -n` по семи `run`-блокам чисто, `git diff --check` чисто. rustfmt `nightly-2026-11-19` (`style_edition 2024`, `use_small_heuristics = "Max"`): `FMT_OK` для старого и нового `validity_main.rs`.
+- **Статический импорт** на реальных объектах: `PASS`. Bundle `6e37fa5c…`, HEAD и identity overlay `30545a3ce3`, delta — те же три пути, координаты `PASS`, объявленные toolchains overlay равны ([вывод](/root/rev2-validity-repin-review/fix7/static_import-fix7.out)).
+- **`check_trigger` на `5327ba35e7`:** tree `3181cc4a23` допущен, parent `467af9cb8d`; tree FIX6 `756dea4a28` отклонён («trigger tree mismatch»).
+- **Replay A** (`python3 -I`, `fix5/reclassify5.py`), вывод FIX7 побайтно равен выводу с control FIX6:
+  - run 45857466917 — 18/18 MATCH (`58aafc31…`);
+  - run 45870184232 — 18/18 MATCH (`0a243b90…`), оба равны и сохранённым выводам FIX6;
+  - run 45886041869 — 26/26: 25 MATCH и `array_elem_cast_nonzero` ON `MATCH_KNOWN_LIMITATION` (`734e0790…`), всё как в CI.
+- **Replay B run 45886041869**, строки FIX7 равны строкам прогона ([replay7.py](/root/rev2-validity-repin-review/fix7/replay7.py), [вывод](/root/rev2-validity-repin-review/fix7/replayB7-45886041869.out)). Падений нет, 12 из 13 исходов равны CI.
+  - `_corrupt` ON офлайн даёт UNKNOWN. Bounded publish оставил 256 из 1615 записей, и среди опущенных 2 из 5 covers, а офлайн-правило в таком случае консервативно. В CI гейт видел полный вывод и дал MATCH.
+- **Replay B run 45870184232** по строкам прогона побайтно равен FIX6 (`efa968e8…`).
+
+NOT_RUN: Kani, CBMC, cargo, rustc; replay новых корней невозможен, receipts для них нет.
+
+### 6. Пины FIX7
+
+| Объект | Значение |
+| --- | --- |
+| Std overlay | **`30545a3ce32c6327608859e65a46fd7795e4c033`**, tree **`392daa3a1d79d05d8955e88bf40d07ab087ae2db`**, parent `4beda039e6`; module blob `8c524cc203`; chain `cac978ee46` → `bc866f8dfa` → `fe3fe324bf` → `4beda039e6` → `30545a3ce3` |
+| `std-overlay.bundle` | SHA-256 **`6e37fa5ce2aa8e1351fab60a5b750accd9749a00a4f0b5e32e46aa950054b71d`**, v2, prerequisites `f94155ef29`, `dab03cf510`, один `HEAD` |
+| Overlay delta (`--raw`) | SHA-256 `fc91b739fe3efca594de179a2127156771a196a32fcb0ce3a2944cabaaf32a04` |
+| Fixture, roster digest | без изменений: `948abd15…f8ad`, `2747be36…81a4` |
+| `CI-REQUEST.json` | SHA-256 **`949ed18f17761584227f8c1741f7ad3e383e6bae3a823fb0c2b0c1053fc5d986`** |
+| Control | **`008d4e16a7cda26e26502d253f497d9299b96fbb`**, tree **`3181cc4a239a6fc83e80c89e0f3490f79ebe5990`**, parent `1338213af7` |
+| Review-trigger (`[skip ci]`) | **`5327ba35e7d3940196236708db7b6522aea141f8`**, tree `3181cc4a23`, sole parent `467af9cb8dba0e3be78a8d7d07672a1943c4806b`, ref `local/rev2-validity-repin-fix7-trigger-review` |
+| `CH8_REV2_VALIDITY_REPIN_TRIGGER_TREE` (меняет координатор после GO) | **`3181cc4a239a6fc83e80c89e0f3490f79ebe5990`** |
+| Kani, Std merge, tool bundle, workflow | без изменений: `4caf097d84`, `7f961eda87`, `51ba5593…6843`, `ch8-q-pilot.yml` |
+
+Diffstat control от FIX6: `request.py` +5/−4, `CI-REQUEST.json` +6/−2, `std-overlay.bundle` заменён (7960 → 9237 байт).
+
+[Patch control](/root/rev2-validity-repin-review/control-fix7-from-fix6.patch), SHA-256 `f43b7f28…d00f`. [Patch overlay](/root/rev2-validity-repin-review/fix7/std-overlay-fix7-from-fix6.patch), SHA-256 `bda71c7b…c28f`. Author и committer overlay, control и trigger — Tiramisu-Cake <igkharin@gmail.com>, `[skip ci]`, без решётки перед цифрой.
+
+**Решения, принятые самостоятельно:**
+- validity-only вместо OFF-корня с функциональной проверкой;
+- сохранение рангового входа;
+- сохранение номеров строк через комментарии;
+- R6-1…3 не трогал.
 
 **READY_FOR_REVIEW** · `go=NOT_GRANTED` · `proof_credit=NONE` · ledger Item 2. Push, CI, Actions variables, cargo/rustc/Kani/CBMC не запускались. Публикаций не было.
