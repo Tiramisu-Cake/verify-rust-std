@@ -2,7 +2,7 @@
 
 **READY_FOR_REVIEW · Item 2 · `go=NOT_GRANTED` · `proof_credit=NONE`.**
 
-Актуальные пины и проверки находятся в разделе [FIX1](#fix1). Пакет R1 получил NO-GO. [Ревью R1](REV2-GEN-STABLE-N16-CLOSE-REVIEW.md)
+Пины повтора Wide witness находятся в разделе [FIX2](#fix2--wide-witness-на-литеральном-входе). Раздел [FIX1](#fix1) фиксирует пакет семи слотов из run 46073528434. Пакет R1 получил NO-GO. [Ревью R1](REV2-GEN-STABLE-N16-CLOSE-REVIEW.md)
 
 Локальный пакет содержит две левые опоры, три литеральных правых fill и два различающих контроля фактических trait-маршрутов. Следующие этапы требуют независимого ревью и отдельного GO координатора. Нативная компиляция cfg-on и результаты семи слотов остаются открытыми. [Задание](REV2-GEN-STABLE-N16-CLOSE-TASK.md) · [Правило составного допуска](REV2-COMPOSITION-RULE.md)
 
@@ -181,3 +181,92 @@ SHA-256 `source_bindings` пилота и FIX1 соответственно `04e
 - Depth-2 Std checkout без alternates принял bundle. На точном detached trigger синтетические `pins`, `sources`, `finish`, `upload-gate` и `upload-check` прошли с явной локальной заменой рекурсивной проверки submodules на проверку чистых detached Std/tool и их commit/tree. Проверены 30 blobs и семь `NOT_STARTED` receipts. Чужой tree, payload, `transcribes`, подмены индекса и receipt, поздний upload отклонены.
 - Полный suite Python 3.12.3 прошёл последовательно на точном trigger. Обычная шкала 140/140 за 59,477 с, старт с 1 с 140/140 за 57,160 с, с 5 с 140/140 за 57,123 с, с 60 с 140/140 за 56,013 с.
 - Нативная компиляция cfg-on и исходы семи слотов ожидают независимого ревью FIX1 и отдельного GO координатора. Локальная стадия выполнила только статические и синтетические проверки. CI, push и изменения Actions variables не выполнялись. Все четыре коммита FIX1 имеют `[skip ci]` и author/committer `Tiramisu-Cake <igkharin@gmail.com>`.
+
+## FIX2 · Wide witness на литеральном входе
+
+**READY_FOR_REVIEW · Item 2 · `go=NOT_GRANTED` · `proof_credit=NONE`.** Подготовлен один Ubuntu-слот для actual unstable Wide. Основание g0 `51510618533428430d2341bc8756f04c7a50952a`. Нативная компиляция cfg-on и результат нового слота ожидают независимого ревью и отдельного GO координатора. [Задание](REV2-GEN-STABLE-N16-CLOSE-TASK.md)
+
+| Роль | Commit | Tree | Единственный parent |
+| --- | --- | --- | --- |
+| [Std FIX2](/root/verify-rust-std-rev2-gen-stable-n16-close-fix2-w13) | `cebdba9913d72c892eb6701d9a989bb2a9830768` | `eb6a2ab705d354dc3394f022466594d9aa0d2e4f` | `e8e8af6d3b4c77ce0ee25066e9c97b6df3fd222e` |
+| [Control FIX2](/root/kani-rev2-gen-stable-n16-close-fix2-control-w13) | `274370cb7b6692543e2d7d3400951724e236108a` | `079d7a986f15bc2fd0acb7f32d162ea5a81e7358` | `ad7e2ba127919b463a395819c94a30225b844b90` |
+| [Review-trigger FIX2, detached](/root/kani-rev2-gen-stable-n16-close-fix2-trigger-w13/control) | `46f1604664466573fb0f4a9f692a1dbeec938c6e` | `079d7a986f15bc2fd0acb7f32d162ea5a81e7358` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+| Вход | SHA-256 |
+| --- | --- |
+| [CI-REQUEST.json](/root/kani-rev2-gen-stable-n16-close-fix2-trigger-w13/control/ch8-cal1/CI-REQUEST.json) | `8d99d839f225d25b7a4a3c6e567516e2a9fd5699f39cceab53e4578edacadf6c` |
+| Exact roster, канонический JSON | `9241da1124f35a1ce9ade90d3ab7eddcb457a5df5c4627fba0ae1463f559a38f` |
+| Source bindings, канонический JSON | `cd5dc905e4fa060a8e48523b8cb7d718e6ded3a33eb36e3b3650cd00ec091a2e` |
+| [Std bundle](/root/kani-rev2-gen-stable-n16-close-fix2-trigger-w13/control/ch8-cal1/std-overlay.bundle), 90 391 байт | `be5158b40c8214051066fbad3ba4cd9be5e3f583c9c49ad17b676f04d2372213` |
+
+Независимый pin — `CH8_REV2_GEN_STABLE_N16_CLOSE_WIDE_WITNESS_TRIGGER_TREE=079d7a986f15bc2fd0acb7f32d162ea5a81e7358`. Bundle объявляет один `HEAD` и связывает 33 последовательных overlay-коммита поверх `dab03cf510df5c35141cde49f1368b1242f5035e`. Gated stages связывают чистый detached HEAD, `GITHUB_SHA`, payload `after`, дерево и sole parent для `Tiramisu-Cake/kani`, push на `refs/heads/uninit-ci/ch8-q-pilot-v1`, attempt 1. Upload-gate повторно сверяет admission и индекс `smallsort-rev2-gen-stable-n16-close-wide-witness-artifact-v1` с четырьмя хэшами и инвентарём.
+
+### Свидетельство предыдущего run
+
+Сверены SHA-256 и размеры всех 29 индексированных членов `46073528434/1`. SHA-256 индекса `514b1c6027d64ad0b0c49906635458a81b85443a6a69e83e56c3b8b09f6612b1`, trigger `0dd57db790ac246cbe7e0a80f369c83b9bc3e051` / tree `8fff1fc16152df0c6febf8bac6729199a12407be`. `COMPLETE` attestation своевременна, SHA-256 `e8d5a398c8be0640a27e67d02f1ed615781e689451d287b55d27bdcd72059b1b`. Исторический roster и source bindings совпали с digest из FIX1. У шести ролей сверены selectors, пустые targets, regular post anchors, stock covers, типизированные copy и unwind, своевременность receipts, sampler, reap и лимиты профиля. [Индекс run](/root/ch8-artifacts/run-46073528434/ch8-rev2-gen-stable-n16-close-Linux-X64-46073528434-1/index.json)
+
+| Исторический слот | Результат | VT / cold, с | Covers | SHA-256 receipt / projection |
+| --- | --- | ---: | ---: | --- |
+| `GEN-N16-S8-L32-FULL` | `VERIFIED/MATCHED` | 57.024 / 89.460 | 4/4 | `f8e396cb3dca824afd4f142b5e51b5c9681e847f00e28814e10d08335f7a781f` / `3d8f397e096c4a53291a37e16adc8d3a7fb909962029245159da89d10060ce9c` |
+| `GEN-N16-WIDE-S4-L48` | `VERIFIED/MATCHED` | 26.615 / 57.938 | 4/4 | `d85d6fa42ab80dfca035c8bb1e5998d8eb15196643a57a6db593aafe695a84e8` / `e32cffd133cb67480734f98f5be145ef0547c670f764af4fcaa6ff85aab5e7c1` |
+| `GEN-N16-WIDE-FILL-R48-REL7` | `VERIFIED/MATCHED` | 17.914 / 49.235 | 5/5 | `3755d815fd5115ceb5f42c50942e08780f4b757de64e9846c67d1555254f40bc` / `cfecc3a12528ec2fae0febac7f27b14620dc2615e3c107cafffa3ccbf8b4ce54` |
+| `GEN-N16-WIDE-FILL-R48-REL6` | `VERIFIED/MATCHED` | 16.867 / 48.335 | 5/5 | `a0cbea8c063f6fa43f3ff5e23a57cb7715075930b823db597b0e242fef3f5b6c` / `7393f49cbc41b35ab606c1e205e7f024d4352239f0582e6ebb5ab40ead824a04` |
+| `GEN-N16-WIDE-FILL-R48-REL5` | `VERIFIED/MATCHED` | 13.833 / 45.033 | 5/5 | `10b3ee941d81f0907a8d04440573ef5be773291e53e97a85e61343acd95a2abe` / `936a84e57486b3907cc1588e94cc94b9bff7cdb2b8d8f72acb20fab8d613c8ee` |
+| `GEN-N16-STABLE-U64-WITNESS-CORRUPT` | `FAILED/MATCHED` | 13.747 / 45.029 | 2/2 | `96ca55f0ac1011fd2e9ec40e68152a04c37ce5f0396fb90c56133729bc64fe51` / `c1fdc0696d0b8a2ebe94603735ad1746f88b7b8cf789e59530723958fb2348ea` |
+
+Исходный `GEN-N16-WIDE-WITNESS-CORRUPT` сохраняет `RSS_LIMIT/UNAVAILABLE`. Cold 69,943 с, первая CNF 5 426 466 / 26 524 158, после неё два запроса с ростом на одну переменную и один дизъюнкт. Стоп после построения CNF в SAT. Group RSS при стопе 4 206 104 KiB, CBMC в том же сэмпле 4 025 648 KiB. Пик CBMC 4 041 560 KiB с PSS 4 038 093 KiB. Sampler и reap подтверждены, терминальный VT отсутствует. Место расхода памяти внутри CBMC остаётся неизвестным. SHA-256 receipt `9bd84a4e24b60066c2035f0e02ef16c82477a2ad25845251523bef89366d8c96`, projection `d801dee1a6c8c5adc29193be23f04cdc047d08666c95ac7228488cd0f579cd70`. [Receipt](/root/ch8-artifacts/run-46073528434/ch8-rev2-gen-stable-n16-close-Linux-X64-46073528434-1/slots/GEN-N16-WIDE-WITNESS-CORRUPT/receipt.json)
+
+### Один активный корень
+
+`GEN-N16-WIDE-WITNESS-LITERAL-CORRUPT` использует exact selector `slice::sort::shared::smallsort::verify::rev2_gen_stable_n16_pilot::close_witness_fix1::gen_n16_wide_witness_literal_corrupt`, plain Proof, пустые targets и Replace, `copy_back=false`. Cfg-off содержит 178 исторических записей; cfg-on сохраняет их и добавляет один новый root. Исходные семь CLOSE-ролей сверяются на Std FIX1, включая R2 gate для rel5/6/7. Активный roster содержит только новый selector.
+
+Входной `V18` задан из констант, с `key=[1,0,1,0,0,0,0,0]` в каждой половине, позиционными метками 0–15 и полным `payload=0x8000_0000_0000_0100+tag`. Канарейки `(2,16,0x1111_2222_3333_4444)` и `(3,17,0xaaaa_bbbb_cccc_dddd)` сравниваются по всем полям до и после порчи. Actual unstable trait на `:1302` идёт через `smallsort.rs:134–139` и `:213–224` к private general со scratch48, двумя S4, четырьмя fill на половину и merge обратно в активный V. Переиспользованы `Wide` (24 байта, align 8, Copy+Freeze), `wide_less` и скалярный `same_wide`.
+
+Обе ожидаемые последовательности берут целые записи из `INPUT` по константным индексам. До порчи метки `[1,3,4,5,6,7,9,11,12,13,14,15,0,2,8,10]`. Порча обменивает полные `v[6]`, `v[7]`, поэтому во второй последовательности метки 7 и 9 обменены вместе с исходными payload. Первый элемент проверяется напрямую, потом один проход `1..16` проверяет остальные поля по позиции, порядок ключей, порядок меток при равных ключах и наличие различимых равных записей. Максимумы индексов 16 в V18 и 15 в expected16. Сравнения полных записей выполняются по трём полям. В предпроверках контролируется точная пара перед обменом. После него сохраняются ключевой порядок и кратности каждой полной записи, а только порядок меток этой пары нарушен.
+
+| Привязка в `rev2_gen_stable_n16_pilot.rs` | Координаты |
+| --- | --- |
+| Cfg и модуль, Proof, unwind36 и actual вызов | 1238:1, 1239:1; 1297:5, 1298:5, 1302:9 |
+| Cover компаратора, возврата и различимых равных записей | 35:5, 1303:9, 1314:9 |
+| Пять успешных assertions до обмена | 1306:9, 1307:9, 1308:9, 1309:9, 1313:9 |
+| Обмен, три успешных assertions после обмена | 1316–1318; 1320:9, 1321:9, 1322:9 |
+| Единственный ожидаемый `FAILURE` класса `assertion` | 1323:9, `GEN_N16_WIDE_STABLE_EQUAL_KEYS` |
+
+Все восемь меток `GEN_N16_WIDE_BEFORE_*` и `GEN_N16_WIDE_AFTER_*` сохранены. Исторические одноимённые свойства сверяются в прежней области, а retry требует свои координаты, функцию и exact selector. Regular и stock export сверяют ID, класс, файл, строку и метку единственного ожидаемого отказа. Typed-copy инстанс `ptr::copy_nonoverlapping::<slice::sort::shared::smallsort::verify::rev2_gen_stable_n16_pilot::Wide>` сохраняет шесть групп на `ptr/mod.rs:587:14`, actual sites S4, fill, gap и merge те же, что у старого witness. Все выведенные unwind properties требуют `SUCCESS`. Blob модуля `d435da74596f31296c2ec0dbc7e5faa601e70d77`, `core/Cargo.toml` blob `7092ebf17edbadf8f8cad8ebe03a0b2770718240`, check-cfg на 78. [Std](/root/verify-rust-std-rev2-gen-stable-n16-close-fix2-w13/library/core/src/slice/sort/shared/smallsort/verify/rev2_gen_stable_n16_pilot.rs:1238)
+
+### Профиль и часы
+
+Одна Ubuntu 24.04 X64 job до 90 мин, stock Kani `9834c96ce90ff57d8495416530b080dc3d52ce25`, tree `938e9932cb2127239afb4f093f6302652c053398`, CBMC 6.11.0/CaDiCaL, OB12, unwind36. Safety, overflow, unwinding, undefined-function и assertion-reach включены. Uninit и validity выключены. Ресурсные лимиты 120 с VT, 180 с cold wall, 4 GiB group RSS, резерв ОС 2 GiB. CWD, Cargo/Kani targets, tmp и export изолированы. Cfg-on имеет 30 флагов, cfg-off опускает последнюю добавленную cfg.
+
+```bash
+"$tool/scripts/kani" verify-std -Z unstable-options -Z function-contracts \
+  -Z mem-predicates -Z float-lib -Z c-ffi -Z loop-contracts -Z quantifiers -Z stubbing \
+  --no-assert-contracts --harness "$selector" --exact --jobs=1 --output-format=regular \
+  -Z export-json --export-json "$slot/export.json" --verbose \
+  --target-dir "$slot/kani-target" "$std/library" --cbmc-args --object-bits 12
+```
+
+Cfg-on compile preflight до обоих list использует те же verify `-Z` без export-json, `--no-assert-contracts --no-codegen --only-codegen --quiet --target-dir "$preflight/kani-target" "$std/library"` и предел 180 с. Первые rustc diagnostics сохраняются. Discovery использует `"$tool/scripts/kani" list -Z function-contracts -Z mem-predicates -Z float-lib -Z c-ffi -Z loop-contracts -Z quantifiers -Z stubbing "$std/library" --std --format json` в обоих cfg.
+
+| Стадия | Дедлайн от начала job | Лимит |
+| --- | --- | --- |
+| Prepare | 54:00 | Внешний timeout 56 мин |
+| Identity gate и latest start | 55:00 | До 60 с с начала measure |
+| Единственное окно | 58:25 | 205 с |
+| Финальная аттестация | 60:25 | Measure 6:30 внутренний, 9 мин внешний |
+| Finish и upload-gate | 65:20 | 5 с запаса на запуск upload |
+| Upload | 72:25 | Внешние 7 мин |
+| План с резервом | 78:25 | Job 90 мин |
+
+`GEN_STABLE_N16_CLOSE_WIDE_WITNESS_WITHIN_PROFILE` требует одного своевременного `FAILED/MATCHED` с exit 1, полного receipt и projection, трёх covers, sampler/reap, лимитов и своевременной аттестации `COMPLETE`. Сохранены checkpoint исхода и reap до проекции, ограничение повтора receipt дедлайном, caps 4/96 MiB. При cutoff отчёт сохраняет первую CNF, SAT-маркеры, group и CBMC RSS/PSS. Неатомарная выборка Linux при смене TID может занизить RSS.
+
+При повторном cutoff контрольное ребро Wide остаётся открытым. Канарейки свидетельствуют о frame только двух заданных записей на одном входе. Перенос на произвольные внешние записи, нормальный полный пост N16 и исследовательский допуск требуют отдельной сверки составного графа. Шесть исторических ролей переиспользуются без новых измерений.
+
+### Валидация FIX2
+
+- Проверка по Rust-исходнику восстановила 18 входных записей и обе 16-записные перестановки, проверила ключи, метки, payload, точную пару обмена и оба диапазона индексов. После обмена ровно одна соседняя пара с равным ключом имеет убывающие метки. Проверены видимость ancestor trait и унаследованных имён, TOML, rustfmt `nightly-2026-11-19` с `use_small_heuristics=Max`, YAML с уникальными ключами, восемь блоков `bash -n` и `git diff --check`.
+- Дельта Std состоит из одного append-only модуля и одной строки check-cfg. Сохранён байтовый префикс исходного файла со всеми семью ролями, включая rel5. Depth-2 Std checkout без alternates принял bundle, сохранил исходный HEAD и shallow boundary. Source gate сверил 33 commit/tree/parent, 30 текущих blobs и 1 171 литеральную координату.
+- На точном detached trigger синтетические `pins`, `sources`, `finish`, `upload-gate` и `upload-check` прошли. Локальная проверка submodules заменена проверкой чистых detached Std/tool с точными commit/tree. `finish` сформировал один `NOT_STARTED` receipt. Отклонены tree FIX1, чужой payload, подмена индекса и индексированного receipt, поздний upload и ошибочный `transcribes` исторических fill.
+- Синтетика проверила исчезновение исторического корня, точное `standard harness has a contract target` в обоих cfg, missing before/after anchors, старые координаты одноимённого свойства, чужой и второй failure, неполный receipt, превышение лимита, потерю reap и аттестации. Blob `test_supervisor.py` равен `df63a457c3adf648d360f3d559d5d40ef00a9427`.
+- Полный suite Python 3.12.3 прошёл последовательно на точном trigger. Обычная шкала 141/141 за 55,210 с, старт с 1 с 141/141 за 52,982 с, с 5 с 141/141 за 53,203 с, с 60 с 141/141 за 53,415 с.
+- Локальная стадия использовала статические и синтетические проверки без Cargo, rustc, Kani, CBMC, CI, push и изменений Actions variables. Все четыре итоговых коммита имеют `[skip ci]` и author/committer `Tiramisu-Cake <igkharin@gmail.com>`.
