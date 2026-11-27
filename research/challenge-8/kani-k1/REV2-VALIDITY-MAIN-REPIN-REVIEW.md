@@ -166,3 +166,14 @@ NOT_RUN: Kani, CBMC, cargo, rustc, `run.py pins`, `static_import`, YAML, `bash -
 - **Suite и rustfmt.** Suite 139/139 OK. rustfmt не даёт новых отличий.
 
 NOT_RUN: Kani, CBMC, cargo, rustc; `static_import`, `check_trigger`, `run.py pins`; YAML и `bash -n`. ID свойства у n10 на реальном прогоне не проверен: если он не `.1`, получится MISMATCH, а не ложный MATCH.
+
+## R7 · FIX7
+
+Независимое ревью (Claude, `smallsort-reviewer`) 2026-11-27. **GO_WITH_NITS**, блокеров нет. Пины: control `008d4e16a7cda26e26502d253f497d9299b96fbb` / tree `3181cc4a239a6fc83e80c89e0f3490f79ebe5990`, review-trigger `5327ba35e7`, overlay `30545a3ce3`, request `949ed18f…d986`, bundle `6e37fa5c…b71d`. Все SHA-256, bundle (HEAD `30545a3ce3`, prerequisites `f94155ef29`, `dab03cf510`), цепочка overlay, авторы и сообщения коммитов сверены. Suite 139/139 на свежем клоне trigger. Координаты B пересчитаны независимо, ошибок 0. В request и verdict функциональных ожиданий для двух изменённых слотов нет.
+
+1. **Риск: запас `vv_sort8_char_n08` ON** (cold 142,6/180 с, VT 110,4/120 с в 45886041869). TIMEOUT этого слота разбирать как ресурсный, не как результат по валидности.
+2. Nit: оценки времени n10 не имеют прямого аналога (оговорено в handoff).
+3. Nit: позитивный MATCH не требует `read_binding`. При разборе прогона отдельно проверить `read_binding=OBSERVED` у `vv_stable_char_n09` ON.
+4. Nit: комментарий overlay `validity_main.rs:115-116` («final UNSAT alone») неточен для ON.
+5. На будущее: вернуть чтение всего выхода в validity-only корнях (сдвигает строки, не для FIX7).
+6. Риск R6 по ID допуска n10 снят: pinned FAILURE n18 ON в 45886041869 имеет ровно ожидаемый ID на `smallsort.rs:423:28`.
