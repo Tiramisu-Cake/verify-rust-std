@@ -2,6 +2,8 @@
 
 **`READY_FOR_REVIEW` · `go=NOT_GRANTED` · `proof_credit=NONE`.** w13, будущий учёт — Item 2. Пакет содержит три последовательных холодных singleton на Ubuntu X64. Компиляция, фактический discovery, нативные результаты и измерения остаются открытыми до независимого ревью и отдельного GO координатора. [Задание](REV2-U64-N13-TASK.md) · [Лимиты](OWNER-DECISION-LIMITS-20261125.md)
 
+Актуальный кандидат для повторного ревью — [FIX1](#fix1). Пины и результаты R1 приведены в исходных разделах.
+
 ## Пины и worktrees
 
 | Объект | Commit | Tree | Единственный parent кандидата |
@@ -134,3 +136,42 @@ S13 получает тот же тип, срез и компаратор. Би�
 3. После успешной диагностики отдельно решить исследовательский допуск N13 на заявленной области. Перенос на соседние длины и заявления о покрытии pr752 требуют своих оснований.
 
 Локально выполнены Git, статическая проверка и Python/shell синтетика. Cargo, rustc, Kani, CBMC и CI не запускались. Push, изменения Actions variables и учёт в действующем ledger отсутствуют.
+
+## FIX1
+
+**`READY_FOR_REVIEW` · `go=NOT_GRANTED` · `proof_credit=NONE`.** FIX1 отвечает на R1 `NO-GO` в g0 `8bb79ac422`. Пины и якоря ниже действуют для повторного ревью. [Ревью R1](REV2-U64-N13-REVIEW.md)
+
+В общем S13 helper frame сравнивает `v[0]` отдельно и сводит 20 скалярных равенств `v[i] == before[i]` для `14 ≤ i < 34` в один assertion. Так проверяются те же 21 внешних элемента, а путь `BytewiseEq → compare_bytes → memcmp` на 160 байт устранён. Сверка всего модуля обнаружила только скалярные сравнения. Явные циклы идут по 34 элементам в swap-frame, по 13 при инициализации битов, по 20 в S13 frame и по 13 в оракуле маски. У pinned `Arbitrary` для массива `u64` используется специализация `any_raw_array`. Синтетическая мутация старшего бита на каждой из 34 позиций нарушает frame ровно на 21 внешней позиции. В фикстуре `U64_N13_ROWS` у `ptr::copy::<u64>` теперь `core/src/ptr/mod.rs:682:9`. [S13 frame](/root/verify-rust-std-rev2-u64-n13-w13-fix1/library/core/src/slice/sort/shared/smallsort/verify/rev2_u64_n13.rs:74) · [Фикстура](/root/kani-rev2-u64-n13-control-w13-fix1/ch8-cal1/test_results.py:371)
+
+FIX1 собран в отдельных worktrees от тех же баз Std и Control. Это сохраняет одно overlay-ребро от Std базы, исходную цепочку загрузки bundle и доступность кандидата R1 по его пинам. Profile, selectors, covers, исторические roster и Actions variable сохраняют параметры R1.
+
+| Объект | Commit | Tree | Sole parent |
+| --- | --- | --- | --- |
+| [Std FIX1](/root/verify-rust-std-rev2-u64-n13-w13-fix1), `work/rev2-u64-n13-std-w13-fix1` | `4d6dd509956dff820a596ff1af9c0aae347aca26` | `b0dc6d628690b7bc58225e2f60503ed4f8ae32b3` | `ee9eccad17d08988300e5b9e9e18d821889cdc92` |
+| [Control FIX1](/root/kani-rev2-u64-n13-control-w13-fix1), `work/rev2-u64-n13-control-w13-fix1` | `ed62c6a5c94bc2b676d2b9cdb698fcbc7dc3ad79` | `71b1cbd433b47a9ccc6a26ef33aa1f8e2c6c9a7b` | `17d0184168945306f80352c70993c215bef40c92` |
+| [Review-trigger FIX1](/root/kani-rev2-u64-n13-trigger-w13-fix1/control), detached, ref `review/rev2-u64-n13-trigger-w13-fix1` | `b0c84653de330d6315e07ad8f9ee1c8a649fb4b9` | `71b1cbd433b47a9ccc6a26ef33aa1f8e2c6c9a7b` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+Новый blob `rev2_u64_n13.rs` — `6658b28d64647aa6e11c5bee3c71a135f09b2a6c`. Ожидаемый tree для `CH8_REV2_U64_N13_TRIGGER_TREE` — tree Control FIX1 из таблицы.
+
+| Замороженный вход FIX1 | SHA-256 |
+| --- | --- |
+| [CI-REQUEST.json](/root/kani-rev2-u64-n13-control-w13-fix1/ch8-cal1/CI-REQUEST.json) | `2200182ab39c2979957431753bb88fe8915d7b332abfd4fc1593eb667392baeb` |
+| Exact roster | `7aae46a6279ee88ecd1f894db37c0c9756f81cdb9c3399e0144b25199c035c88` |
+| Source bindings | `44cb323b8f236aa86a21968bbd6be60cee207e765f3eb7fbe154a8ab1a6a3401` |
+| [std-overlay.bundle](/root/kani-rev2-u64-n13-control-w13-fix1/ch8-cal1/std-overlay.bundle), 57 859 байт | `1e3fff444b88c58ffd7b5f765be04474147d07a08bc2d04c4168ae827f0bb3da` |
+
+Новые координаты класса assertion в `rev2_u64_n13.rs` действуют для обеих мономорфизаций `check_s13::<false>` и `check_s13::<true>`. Координаты roots и covers сохраняют значения R1.
+
+| Native label | Line:column | BITS / CORRUPT |
+| --- | --- | --- |
+| `REV2_U64_N13_S13_V34_FRAME` | `79:5` | `SUCCESS` / `SUCCESS` |
+| `REV2_U64_N13_S13_CANONICAL_OUTPUT` | `86:5` | `SUCCESS` / `SUCCESS` |
+| `REV2_U64_N13_S13_SORTED_POPCOUNT` | `87:5` | `SUCCESS` / единственный ожидаемый `FAILURE` |
+
+Pinned rustfmt, `git diff --check`, YAML, восемь `bash -n` и 15 Python AST прошли. Shallow bundle проверен и распакован от прежней загрузочной базы. Сверены 21 commit/tree/parent, 338 текстовых и 288 нативных якорей. Все 22 мутации столбцов новых якорей отклонены. Статическая модель повторно проверила 45 actual пар и 8 192/8 192 масок. Контрольная последовательность `0x0001 → 0x1000 → 0x1001` воспроизведена.
+
+`test_supervisor.py` сохранён с blob `df63a457c3adf648d360f3d559d5d40ef00a9427`. На чистом detached review-trigger suite последовательно прошёл 124/124 теста на обычной и каждой из свежих шкал 1/5/60 с. Время — 35,762 / 33,470 / 33,035 / 31,900 с соответственно.
+
+Синтетический detached trigger принял `pins` при +2 с, `finish` при +4300 с, `upload-gate` при +4330 с и `upload-check` при +4755 с. Шаги с превышением cutoff на 0,01 с отклонены. `finish` отклонил изменённый admission receipt. В синтетическом индексе сверены SHA-256 и размеры семи членов и три роли `OPEN`.
+
+FIX1 ожидает повторного независимого ревью. Compile preflight, discovery, нативные свойства и ресурсные показатели остаются открытыми. Cargo, rustc, Kani, CBMC, CI, push и обновление Actions variables локально не выполнялись.
