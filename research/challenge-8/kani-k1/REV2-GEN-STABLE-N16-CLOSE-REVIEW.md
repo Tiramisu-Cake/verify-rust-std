@@ -16,3 +16,13 @@
 - Std-дельта — один файл, 4 строки: `:1085` `for i in 0..5` (блокер R1-1 закрыт) и три comment-only `Transcription of smallsort.rs:329` (nit R1-2).
 - Control: новые пины overlay/bundle/bindings, `CLOSE_R1_OVERLAY` как историческая ступень с проверкой «меняется только модуль», новый gate `check_close_fill_bounds` сверяет литеральные границы шести циклов каждого rel5/6/7 с длинами `old` и scratch48, синтетика отклоняет дрейф границ.
 - На точном trigger `f546e8873c` в отдельном клоне: SHA-256 request и bundle совпали с handoff, `test_run`/`test_results` — OK.
+
+## R3 · FIX2 (Wide witness на литеральном входе)
+
+Независимое ревью (Claude, `smallsort-reviewer`) 2026-11-28. **GO_WITH_NITS**, блокеров нет. Пины: Std `cebdba9913d72c892eb6701d9a989bb2a9830768` / tree `eb6a2ab7…`, parent `e8e8af6d3b`; Control `274370cb7b6692543e2d7d3400951724e236108a` / tree `079d7a986f15bc2fd0acb7f32d162ea5a81e7358`, parent `ad7e2ba127`; review-trigger `46f1604664` (тот же tree, sole parent `467af9cb8d`); request `8d99d839…`, bundle `be5158b4…` (90 391 байт, HEAD `cebdba9913`); задание g0 `5151061853`, handoff g0 `41107e4b0f`.
+
+1. Nit. Выходные проверки не различают маршрут: stable fallback дал бы тот же выход на этом входе. Маршрут general/scratch48/sort4 фиксируют константные проверки `rev2_gen_stable_n16_pilot.rs:23–33` и исходная привязка, а не прогон. Отметить одной фразой в итоговом разборе.
+2. Nit. Метки `GEN_N16_WIDE_{BEFORE,AFTER}_RECORDS_BY_TAG` теперь означают позиционное равенство полных записей с `EXPECTED`/`CORRUPTED`; новая координата и selector исключают путаницу со старым корнем.
+3. Операционно. Workflow читает только `CH8_REV2_GEN_STABLE_N16_CLOSE_WIDE_WITNESS_TRIGGER_TREE` — выставить `079d7a986f` при GO.
+
+Проверено и в порядке: Std-дельта — check-cfg и добавленный модуль, старый файл (49 352 байта) — побайтный префикс; без `kani::any`, `wide_v()`, `assume`, stubs; маршрут `:1302` → `:213–224` → general; независимая Python-модель actual кода (sort4, `insert_tail`, merge с tie-правилами) дала `[1,3,4,5,6,7,9,11,12,13,14,15,0,2,8,10]` = стабильная сортировка; до обмена пять assertion истинны, после обмена v[6]/v[7] ложна только последняя `stable` (`:1323`), covers до неё — единственный отказ; только скалярные `same_wide`, циклы ≤15; честная маркировка как single-trace контроль; discovery 178 + 1, gate координат, rel5/6/7 bounds, точное сообщение `standard harness has a contract target`; часы; авторы, `[skip ci]`, без решётки; `test_results`/`test_run`/`test_telemetry` 89/89.
