@@ -105,3 +105,110 @@ Cfg-on compile preflight до обоих list использует те же ver
 - На точном review-trigger прошёл self-test workflow с Python 3.12.3. Штатная шкала 135/135 за 52,689 с, старт от 1 с 135/135 за 54,830 с, от 5 с 135/135 за 53,596 с и от 60 с 135/135 за 53,646 с. Проверены discovery 163 → 169, чужой selector/Check target, потеря стабильности, frame, typed-copy, scoped assigns, cursor и return anchors, выход из профиля, поздний receipt, потеря reap и аттестации. Проверены уникальные ключи YAML, восемь блоков `bash -n`, синтаксис Python и `git diff --check`.
 - На detached review-trigger пройдены `pins`, `sources`, `finish`, `upload-gate` и `upload-check` с синтетическим push. Для Std и tool `sources` сверял чистые detached checkout и точные commit/tree, подменив рекурсивную проверку submodules для локальных shallow копий. Синтетический finish сформировал шесть `NOT_STARTED` receipts и диагноз `GEN_STABLE_N16_PILOT_OPEN`. Неверные tree и payload отклонены четырьмя входами. Upload-gate отклонил подмену admission receipt, схемы индекса и индексированного receipt. Просроченные upload-gate и upload-check отклонены.
 - `test_supervisor.py` сохранён с blob `df63a457c3adf648d360f3d559d5d40ef00a9427`. Std, Control, review-trigger и g0 коммиты записаны от `Tiramisu-Cake <igkharin@gmail.com>` с `[skip ci]`. Для пакета выполнялись локальные статические и синтетические проверки без Cargo, rustc, Kani, CBMC, CI, push или изменения Actions variables.
+
+## FIX1 · раздельные Wide merge_up и merge_down
+
+**READY_FOR_REVIEW · Item 2 · `go=NOT_GRANTED` · `proof_credit=NONE`.**
+
+FIX1 содержит два Check с полным доменом своего направления. Нативная компиляция и измерения этого пакета относятся к стадии после независимого ревью и отдельного GO. [Задание FIX1](REV2-GEN-STABLE-N16-PILOT-TASK.md#fix1--раздельные-wide-merge_up-и-merge_down)
+
+### Сверка опор 46054351048/1
+
+Индекс SHA-256 `3e856c127e21aebd3e37a9a8a909b36aba2e922cd22b6e1066a80139d9ecd7d9`. Сверены размеры и SHA-256 26/26 структурированных файлов, исходные blobs и координаты, request, roster, bindings и bundle. Фактический trigger `9e57088dade0aa932b83bca98d97fe02ae4963f5` имеет дерево `9021966b36dcbbf0a7f36d9065bd0dae580a4e98` и единственного parent `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. Std и stock tool совпадают с пинами исходного пилота. Аттестация `COMPLETE`. [Индекс исторического запуска](/root/ch8-artifacts/run-46054351048/ch8-rev2-gen-stable-n16-pilot-Linux-X64-46054351048-1/index.json)
+
+| Исторический слот | Исход в индексе | VT / cold wall, с | Covers |
+| --- | --- | --- | --- |
+| `GEN-N16-S8-R32-FULL` | VERIFIED/MATCHED в профиле | 61,478 / 104,168 | 4/4 |
+| `GEN-N16-S8-R32-BITS` | VERIFIED/MATCHED в профиле | 37,174 / 79,564 | 4/4 |
+| `GEN-N16-WIDE-S4-R48` | VERIFIED/MATCHED в профиле | 34,052 / 76,557 | 4/4 |
+| `GEN-N16-WIDE-FILL-R48-REL4` | VERIFIED/MATCHED в профиле | 19,990 / 62,452 | 5/5 |
+| `GEN-N16-U64-S32-MERGE-PAIR` | VERIFIED/MATCHED в профиле | 93,489 / 140,479 | 10/10 |
+| `GEN-N16-WIDE-S48-MERGE-PAIR` | TIMEOUT в CBMC, неполная проекция | неизвестно / 180,000 | итоговые нативные covers отсутствуют |
+
+В проекциях исторических Wide S4 и fill подтверждены шесть typed-copy свойств с полным именем Wide-инстанса, используемым в FIX1. Пара Wide имела первую CNF 1 533 969 переменных / 7 656 396 дизъюнктов и пик группы 2 906 460 KiB. Эти числа служат ориентиром при чтении двух будущих receipts. Исходный Wide pair сохраняется в discovery с историческим TIMEOUT. Успешные опоры, включая u64 pair, сохраняют исходные selectors, координаты, профиль и receipts. [Сводка исторического запуска](/root/ch8-artifacts/run-46054351048/ch8-rev2-gen-stable-n16-pilot-Linux-X64-46054351048-1/SUMMARY.md)
+
+### Пины FIX1
+
+| Роль | Commit | Tree | Единственный parent |
+| --- | --- | --- | --- |
+| [Std FIX1](/root/verify-rust-std-rev2-gen-stable-n16-pilot-fix1-w13) | `5a8702f59ae309b8069d380b1e3887fd48c2564b` | `76ff14e1811ae4115aa1aeef2ae42986d21d3c50` | `14a5a7322a050c7d5028054acc5825172d43c14c` |
+| [Control FIX1](/root/kani-rev2-gen-stable-n16-pilot-fix1-control-w13) | `bcf4fd366d1fc3fe4e045bb8c6f3b54189a92435` | `981944277c90a3ed6d9667967d8ed2494109ee4e` | `046b1e0f8457390b1e6ffea9dd779a0a4acc053e` |
+| [Review-trigger FIX1, detached](/root/kani-rev2-gen-stable-n16-pilot-fix1-trigger-w13/control) | `f3b6b688630a4ea6f777fded2be151217c50815a` | `981944277c90a3ed6d9667967d8ed2494109ee4e` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+Основание g0 `86e0c6a5a1a90a372e12d2a77302c9b576df8f73`, ветка `experiment/kani-k1-kani3300g0-20261111`. Bundle FIX1 содержит одну ссылку `HEAD` и 30 overlay-коммитов поверх CI-base `dab03cf510df5c35141cde49f1368b1242f5035e` / `7fd542ad59723ff2beeacb9632fb0568e81b0655`. Stock Kani `9834c96ce90ff57d8495416530b080dc3d52ce25` / `938e9932cb2127239afb4f093f6302652c053398`.
+
+| Вход | SHA-256 |
+| --- | --- |
+| [CI-REQUEST.json](/root/kani-rev2-gen-stable-n16-pilot-fix1-trigger-w13/control/ch8-cal1/CI-REQUEST.json) | `83e332c97f9ce196447f44caf05b878d74f066935c9c543b6d23a75e5dcabce7` |
+| Exact roster, канонический JSON | `a5949152efec39e80362507c3a07a8d5b6b51ec0521e31f9a981cee33d3d29ff` |
+| Source bindings, канонический JSON | `33318eebbe632b9afee1719c1db4b83523733171482bfcf6cf581f2e4913db76` |
+| [Std bundle](/root/kani-rev2-gen-stable-n16-pilot-fix1-trigger-w13/control/ch8-cal1/std-overlay.bundle), 83 486 байтов | `ded7e86e5d42644ac00f9c555a3b97d8aaa0585ec653d7809fa251e39d6fc704` |
+
+Независимый tree pin `CH8_REV2_GEN_STABLE_N16_PILOT_FIX1_TRIGGER_TREE=981944277c90a3ed6d9667967d8ed2494109ee4e`. Допуск требует fork `Tiramisu-Cake/kani`, push на `refs/heads/uninit-ci/ch8-q-pilot-v1`, attempt 1, совпадение чистого detached HEAD, `GITHUB_SHA` и payload `after`. Индекс `smallsort-rev2-gen-stable-n16-pilot-fix1-artifact-v1` связывает четыре хэша, точные source pins, admission receipt и инвентарь. Upload-gate повторно сверяет индекс и admission receipt. [Workflow FIX1](/root/kani-rev2-gen-stable-n16-pilot-fix1-trigger-w13/control/.github/workflows/ch8-q-pilot.yml)
+
+### Roster, координаты и композиция
+
+Префикс selector и exact target `slice::sort::shared::smallsort::verify::rev2_gen_stable_n16_pilot::fix1::`. Discovery сохраняет 169 исторических записей и добавляет два ProofForContract с одной точной целью каждый. Только эти два корня входят в измерительный roster, ожидаемый исход обоих `VERIFIED/MATCHED`, exit 0. [Модуль Std FIX1](/root/verify-rust-std-rev2-gen-stable-n16-pilot-fix1-w13/library/core/src/slice/sort/shared/smallsort/verify/rev2_gen_stable_n16_pilot.rs)
+
+| Слот | Суффикс selector и root | Суффикс Check target и cfg_attr | Actual copy site | Latest start |
+| --- | --- | --- | --- | --- |
+| `GEN-N16-WIDE-S48-MERGE-UP` | `gen_n16_wide_s48_merge_up`, 599:5 | `actual_merge_up_wide_s48`, 561:5 | `smallsort.rs:885:9` | 55:00 |
+| `GEN-N16-WIDE-S48-MERGE-DOWN` | `gen_n16_wide_s48_merge_down`, 696:5 | `actual_merge_down_wide_s48`, 658:5 | `smallsort.rs:918:9` | 58:25 |
+
+| Привязка в Rust-модуле | Up | Down |
+| --- | --- | --- |
+| Actual вызов | 588:13 | 685:13 |
+| Read / write / disjoint / три курсора | 578:13, 582:13, 583:13, 590:13 | 675:13, 679:13, 680:13, 687:13 |
+| Value / V frame / scratch frame | 627:9, 645:9, 646:9 | 725:9, 743:9, 744:9 |
+| Covers left, right, tie с разными метками, k=0, k=7, возврат | 647:9, 648:9, 649:9, 653:9, 654:9, 655:9 | 745:9, 746:9, 747:9, 751:9, 752:9, 753:9 |
+| Cover actual компаратора `GEN_N16_WIDE_COMPARATOR_CALLED` | 35:5 | 35:5 |
+
+Оба корня требуют stock target, `single_top_level_call`, `no_recursive_call`, scoped `memcpy.assigns.1/.2` и шесть typed-copy свойств `ptr::copy_nonoverlapping::<slice::sort::shared::smallsort::verify::rev2_gen_stable_n16_pilot::Wide>` на `ptr/mod.rs:587:14`. Один actual copy site закреплён за каждым Check. Все выведенные unwind checks должны иметь `SUCCESS` при stock `unwinding=ON`.
+
+| Исходник | Git blob |
+| --- | --- |
+| `rev2_gen_stable_n16_pilot.rs`, cfg на 557, `mod fix1` на 558 | `fc42d3e4977443e4a01e0bdf4394ba2303d17e0f` |
+| `core/Cargo.toml`, check-cfg на 76 | `21f3b4d868a8d124b68cd78560875ab9b7f2ff7d` |
+| `verify.rs` | `10e8612240fa99cfd5c6e2c4b1908450f4d15f3a` |
+| `smallsort.rs` | `0b77c3dbb3b767ba35281a2a686aa477ff1344c5` |
+| `ptr/mod.rs` | `9220ac5ab6cb3a09bb91e28c9cc8c83cfe06b1e6` |
+
+| Шаг | Домен и назначения | Точный локальный пост |
+| --- | --- | --- |
+| Up | `S=v[1..17].as_mut_ptr()`, отдельный scratch48, `D[0..16]` инициализирован. `0≤a≤k<8`, `b=k−a`. Чтения `D[a],D[8+b]`, единственная цель `S[k]`, `modifies(s.wrapping_add(k))`. | Сравнивает ключи и копирует все три поля выбранной записи. При tie выбирает левую. Инкрементируется выбранный курсор, конечный dst `S+k+1`. Scratch48 и остальная V18 сохраняются. |
+| Down | Та же геометрия, произвольная начальная V18. `0≤c≤k<8`, `d=k−c`. Чтения `D[7−c],D[15−d]`, единственная цель `S[15−k]`, `modifies(s.wrapping_add(15 - k))`. | При tie копирует все три поля правой записи. Выбранный курсор двигается на wrapping −1, конечный dst `S+14−k`. Scratch48 и остальная V18 сохраняются. |
+
+При фиксированном k допустимые a и c образуют декартово произведение. Внешняя композиция применяет два поста к 204 комбинациям пары из 36 состояний up и 36 down. Up сохраняет D, поэтому down получает исходный scratch. Его произвольная V18 допускает уже записанный up результат. Назначения `k∈[0,7]` и `15−k∈[8,15]` различны, поэтому down сохраняет запись up. Вместе получаются два точных значения, обе тройки курсоров и frame пары. Actual цикл на `smallsort.rs:1022–1025` вызывает up затем down. Общий компаратор читает ключи и сравнивает их числовым `<`. Ребро опирается на будущую приёмку обоих Check, отдельный инвариант цикла и терминальный пост N16 остаются открыты. [Actual цикл](/root/verify-rust-std-rev2-gen-stable-n16-pilot-fix1-w13/library/core/src/slice/sort/shared/smallsort.rs:1022)
+
+### Профиль и локальная валидация
+
+Одна `ubuntu-24.04` X64 job до 90 мин. CBMC 6.11.0/CaDiCaL, OB12, unwind36, `KANI_JOBS=1`. Каждый слот получает 120 с VT, 180 с cold wall, 4 GiB RSS группы, резерв ОС 2 GiB. Safety, overflow, unwinding, undefined-function, assertion-reach ON. Uninit и validity OFF. Actual helpers в Original, две локальные обёртки в Check, пустые Replace/stubs/loop contracts. Холодные CWD, Cargo/Kani targets, tmp и export разделены. В request закреплены 28 cfg.
+
+```bash
+"$tool/scripts/kani" verify-std -Z unstable-options -Z function-contracts \
+  -Z mem-predicates -Z float-lib -Z c-ffi -Z loop-contracts -Z quantifiers -Z stubbing \
+  --no-assert-contracts --harness "$selector" --exact --jobs=1 --output-format=regular \
+  -Z export-json --export-json "$slot/export.json" --verbose \
+  --target-dir "$slot/kani-target" "$std/library" --cbmc-args --object-bits 12
+```
+
+Ранний cfg-on compile preflight с `--no-assert-contracts --no-codegen --only-codegen --quiet` до обоих list, предел 180 с. Первые rustc diagnostics сохраняются при ошибке. Аргументы list и `-Z` совпадают с основной стадией пилота.
+
+| Стадия | Граница от старта | Окно |
+| --- | --- | --- |
+| Prepare | 54:00 | Внешний timeout 56 мин |
+| Measure identity gate | 55:00 | До 60 с от входа в measure |
+| Два слота | 61:50 | По 205 с. 180 с cold wall, 10 с reap, 5 с receipt, 10 с запаса старта |
+| Аттестация | 63:50 | Measure 9:55 внутренний, 12 мин внешний |
+| Finish и upload-gate | 68:45 | Внешние 6 и 1 мин, 5 с запаса старта upload |
+| Upload | 75:50 | Внешние 7 мин |
+| План с резервом | 81:50 | Job 90 мин |
+
+`GEN_STABLE_N16_PILOT_FIX1_WITHIN_PROFILE` требует двух своевременных `VERIFIED/MATCHED` с полными нативными свойствами и covers, sampler/reap и аттестацией `COMPLETE`. Checkpoint исхода и reap сохраняется до проекции. Неустановленный reap блокирует следующий слот. Повтор receipt ограничен окном и сохраняет late. Caps 4 MiB на проекцию и 96 MiB на публикацию. По каждому слоту отчёт хранит первую CNF, до семи последующих маркеров на поток и число опущенных маркеров, VT, cold wall, фазу, group/CBMC RSS, доступные CBMC PSS и covers. Неатомарная выборка Linux может занизить RSS при смене TID. Снижение CNF служит диагностикой.
+
+- Проверены rustfmt `nightly-2026-11-19` с `use_small_heuristics=Max` до снятия координат, TOML и Rust-видимость. Исходный модуль сохранён точным байтовым префиксом, check-cfg добавлен одной строкой. Сравнения скалярные. Scratch48 инициализируется и проверяется литеральными интервалами `0..32` и `32..48`. Остальные проходы по 18 элементам. Stock Kani понижает повтор `[MaybeUninit::uninit(); 48]` в константу массива, typed copy использует тот же CBMC `memcpy` из исходного пилота. Source-level циклы укладываются в unwind36. Сгенерированные unwind checks проверяет нативный gate.
+- Статическая модель прошла 36/36 up, 36/36 down и 204/204 сочетания пары, проверила адреса, непересечение назначений, tie на различимых записях и сохранение записи up после down.
+- Source gate сверил 30 commit/tree/parent, 30 текущих blobs и 1115 координат. Исторические строки и bindings сохранены. Подмены исходного layout и направления typed copy отклонены. Depth-2 Std без alternates принял bundle, сохранил HEAD базы и shallow boundary.
+- На точном detached review-trigger прошёл self-test workflow с Python 3.12.3. Штатная шкала 137/137 за 52,964 с, старт от 1 с 137/137 за 53,323 с, от 5 с 137/137 за 52,006 с и от 60 с 137/137 за 52,252 с. Синтетика проверила discovery 169 → 171, чужой selector/target, потерю typed-copy и scoped assigns, подмену направления, обязательные посты и unwind, лимиты, поздний receipt, reap и аттестацию. Проверены YAML с уникальными ключами, восемь блоков `bash -n`, синтаксис Python и `git diff --check`.
+- С синтетическим push на точном review-trigger пройдены `pins`, `sources`, `finish`, `upload-gate` и `upload-check`. В `sources` рекурсивная проверка submodules заменена локальной проверкой чистых detached Std/tool и их точных commit/tree. Синтетический finish сформировал два `NOT_STARTED` receipts. Старое дерево, неверный payload, подмены admission receipt, схемы индекса и индексированного receipt, поздний upload-gate и upload-check отклонены.
+- `test_supervisor.py` сохранил blob `df63a457c3adf648d360f3d559d5d40ef00a9427`. Пакет подготовлен локально без Cargo, rustc, Kani, CBMC, CI, push и изменения Actions variables. Все четыре локальных коммита имеют `[skip ci]` и авторство `Tiramisu-Cake <igkharin@gmail.com>`.
