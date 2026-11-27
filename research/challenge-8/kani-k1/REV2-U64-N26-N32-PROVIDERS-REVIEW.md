@@ -13,3 +13,13 @@
 7. Операционно: новый trigger без `[skip ci]`.
 
 Проверено и в порядке: геометрия против `smallsort.rs:383–425, :1000–1042` для N26–N32; 45 пар; pair/центр по шаблону N25/N23; компаратор; посты и covers; только скалярные сравнения, циклы ≤34; стоимость PAIR m13–16 VT 55–70 с, S13 B14–B17 ~48 с / ~2,46 GiB; часы 18 слотов, резерв 136:30 ≤ 140 мин; Std-дельта 3 файла, rustfmt чист; все SHA-256 и 64-hex хэши handoff; авторы; suite 130/130.
+
+## R2 · FIX1
+
+Независимое повторное ревью (Claude, `smallsort-reviewer`) 2026-11-27. **GO_WITH_NITS**, блокеров и should-fix нет. Пины: Std `72bb79d26d` (без изменений), Control FIX1 `f50d86dffac4c1265797189511feaec8bba9d09b` / tree `dcccfc903bb1953d2184282c5fc1da5067e6f6bb`, review-trigger `68aa2e4b93`, request `3d97d789…9043`, handoff g0 `a4fc7f66e7`.
+
+- R1-1 исправлено: `copy_sites` центров N27/N29/N31 — собственные сайты модуля `:1018:9/:1104:9/:1190:9` с `transcribes: smallsort.rs:1034:13`; receipt (`checked_write_set`) больше не заявляет нативную привязку; новый тест отличает исправленную версию от R1.
+- R1-2 исправлено: ссылка на несуществующее ревью удалена, приёмка девяти переносов ссылается на R1.
+- R1-3…6 исправлены. Diff Control ограничен `CI-REQUEST.json`, `request.py`, `test_results.py`; selectors, исходы, covers, лимиты, workflow прежние.
+- SHA-256 request, roster `5b12d12a…`, bindings `9fd4a201…`, bundle `d9b30842…` (HEAD `72bb79d26d`); trigger tree == Control tree; авторы; suite 131/131.
+- Nit: новые проверки gate/layout не покрыты тестами suite (ревьюер проверил подмены скриптом); имена `actual_odd_center_n27/29/31` оставлены, как у N23/N25.
