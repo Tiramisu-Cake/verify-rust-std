@@ -1,39 +1,73 @@
 # REV2 · полноширинные опоры сети u64 N20/N21
 
-**Промежуточная сдача · Item 2 · `go=NOT_GRANTED` · `proof_credit=NONE`.** Пять plain Proof готовы к ревью исходников. Пакет из восьми слотов ожидает сообщение координатора с итогом N18/N19, run `45938919685`. Последняя доступная запись в g0 — `4480a0d373` о старте. Нативные результаты N18/N19 пока неизвестны. До сверки результата левое ребро `U64-S9-B01-L09-BITS` и три рёбра слияния N20/N21 открыты. [Задание](REV2-U64-N20-N21-TASK.md) · [Ledger](CH8-DISPATCH-LEDGER.md#L311)
+**`READY_FOR_REVIEW` · Item 2 · `go=NOT_GRANTED` · `proof_credit=NONE`.** Заморожен один Ubuntu-пакет из трёх Check слияния и пяти plain Proof для sort9, swap и вставок. Локальные статические и синтетические проверки завершены. Нативные исходы N20/N21, независимое ревью и отдельный GO открыты. [Задание](REV2-U64-N20-N21-TASK.md)
 
-## Пины и готовая часть
+## Исход N18/N19 и выбор формы
 
-| Объект | Commit | Tree | Parent |
+Run `45938919685`, attempt 1, локально сверён по опубликованным bounded receipts и summary координатора. Trigger `aa538f575425fdad8546449ef15bf8fbff1aee34`, tree `74f90d62acda5157906272454ec9d6c4bb9819db` и четыре хэша FIX1 совпали с пинами. Размеры и SHA-256 сводки и семи receipts совпали с индексом. Диагноз `U64_N18_N19_PROVIDERS_WITHIN_PROFILE`, 7/7 `VERIFIED/MATCHED`, полные проекции, все ожидаемые covers, валидный sampler, reap и аттестация `COMPLETE`. У обоих pair и центра подтверждены два scoped `memcpy.assigns` и шесть свойств типизированной копии полного `u64`. [Ledger, g0 `378788216e`](CH8-DISPATCH-LEDGER.md#L311) · [Summary](/root/ch8-artifacts/run-45938919685/ch8-rev2-u64-n18-n19-Linux-X64-45938919685-1/SUMMARY.json) · [Index](/root/ch8-artifacts/run-45938919685/ch8-rev2-u64-n18-n19-Linux-X64-45938919685-1/index.json)
+
+| Предыдущий слот | VT, с | Cold wall, с | CBMC RSS, KiB |
+| --- | ---: | ---: | ---: |
+| N18 pair | 69,50 | 114,07 | 921 480 |
+| N19 pair | 68,67 | 113,17 | 912 116 |
+| N19 odd center | 13,94 | 57,65 | |
+| N19 insert right | 4,39 | 44,44 | |
+| S9 B01/L09 bits | 33,80 | 73,85 | 1 444 352 |
+| S9 B10/L10 bits | 40,81 | 80,76 | 1 426 956 |
+| S9 B10 swap | 4,68 | 44,15 | |
+
+У более дорогой пары остаётся 50,50 с до лимита VT и 65,93 с до лимита cold wall. Выбраны отдельные литеральные N20 и N21 Check той же формы с символическими `k,a,c`. Дополнительное значение k увеличивает число состояний с 285 до 385. Каждый Check по-прежнему выполняет два actual шага с четырьмя адресами чтения и двумя адресами записи для полных u64. До измерения стоимость N20/N21 открыта. При отсечке receipts сохраняют достигнутую фазу, CNF, память и reap для решения о границах k или разделении up/down.
+
+Левый `U64-S9-B01-L09-BITS` имеет `VERIFIED/MATCHED`, четыре covers и полные нативные якоря. Его перенос на B01/L10 использует общий guard и тот же граф 25 пар. Полноширинный swap-лист B01 из N13 связывает эту геометрию с числовым сравнением `u64_less`. B10 из N19 сохраняет собственную геометрию. [Левый receipt](/root/ch8-artifacts/run-45938919685/ch8-rev2-u64-n18-n19-Linux-X64-45938919685-1/slots/U64-S9-B01-L09-BITS/receipt.json) · [Лист N13](REV2-U64-N13-ADMISSION.md#нативная-сверка)
+
+## Worktrees и замороженные входы
+
+| Роль | Commit | Tree | Единственный parent |
 | --- | --- | --- | --- |
-| Std, пять plain Proof, ref `checkpoint/rev2-u64-n20-n21-plain-w13` | `e655182541177fff44ee0b43e57a490367175793` | `89a489771b3c029ce420c875dbffd7016347df5f` | `c8eefae4c8073cff31e5576b372d5105b52797a1` |
-| Control, база черновика | `44aa6a2273588502083e47e204730dd67e0fba51` | `74f90d62acda5157906272454ec9d6c4bb9819db` | `d81a8587933a38aa05b9deb136878ec804c6852a` |
+| [Std](/root/verify-rust-std-rev2-u64-n20-n21-w13), `work/rev2-u64-n20-n21-std-w13` | `b09c6f22bfbd1ce8eb6afccf96df6b9a2ad3c54b` | `a784a8d12b2d7439233385ffa25f512e4f2c623b` | `c8eefae4c8073cff31e5576b372d5105b52797a1` |
+| [Control](/root/kani-rev2-u64-n20-n21-control-w13), `work/rev2-u64-n20-n21-control-w13` | `c4da71875efe80ebcfe78094afe6889a902d2da5` | `0d0857a039e5ffa263414952de49b716e3371c25` | `44aa6a2273588502083e47e204730dd67e0fba51` |
+| [Review-trigger](/root/kani-rev2-u64-n20-n21-trigger-w13/control), detached, ref `review/rev2-u64-n20-n21-trigger-w13` | `3ef1c394934f8917c687568381cadaaeaa5d7c59` | `0d0857a039e5ffa263414952de49b716e3371c25` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
 
-Рабочие ветки `work/rev2-u64-n20-n21-std-w13` и `work/rev2-u64-n20-n21-control-w13`. Std проверен по снимку выше. Control готовится поверх N18/N19 FIX1 с сохранением 110 исторических записей discovery и их Check targets. Хэши релизного request, roster, bindings, bundle и дерево review-trigger ожидают выбора состава после сверки. [Std](/root/verify-rust-std-rev2-u64-n20-n21-w13) · [Control](/root/kani-rev2-u64-n20-n21-control-w13)
+Std база FIX1 имеет tree `4f9687a4edccf69ef86ee8b4c2e01de9b3517539`, Control база FIX1 — `74f90d62acda5157906272454ec9d6c4bb9819db`. Bundle объявляет только `HEAD`, prerequisite CI-base `dab03cf510df5c35141cde49f1368b1242f5035e` / tree `7fd542ad59723ff2beeacb9632fb0568e81b0655` и 25 последовательных overlay-коммитов. Stock Kani `9834c96ce90ff57d8495416530b080dc3d52ce25` / tree `938e9932cb2127239afb4f093f6302652c053398`.
 
-Exact selector prefix — `slice::sort::shared::smallsort::verify::rev2_u64_n20_n21::`. Координаты ниже относятся к закреплённому снимку пяти plain Proof. Все перечисленные вызовы постов и covers начинаются в столбце 5. Общий cover `REV2_U64_N13_COMPARATOR_CALLED` расположен на `rev2_u64_n13.rs:9:5`.
+| Вход | SHA-256 |
+| --- | --- |
+| [CI-REQUEST.json](/root/kani-rev2-u64-n20-n21-trigger-w13/control/ch8-cal1/CI-REQUEST.json) | `48f143cc26c31c0d08feda5ea38ff7323ce531bb6b734c4cc68b8046f7843a6c` |
+| Exact roster, канонический JSON | `efe927152ff12c20ecb150ed7a04353dc68e500ae6b83158f91974742551bbb8` |
+| Source bindings, канонический JSON | `80fa49500d68fd1488bbd2ea133950cc60cfb4899d7d32eaa9f1bf478c616a8e` |
+| [std-overlay.bundle](/root/kani-rev2-u64-n20-n21-trigger-w13/control/ch8-cal1/std-overlay.bundle), 69 520 байт | `02e9cbbdc2d2528f0e15dbdb3b1448ca90289ad5e095cc16be31bfe9705ef1ef` |
+| [Workflow](/root/kani-rev2-u64-n20-n21-trigger-w13/control/.github/workflows/ch8-q-pilot.yml) | `4b244fe5fbbb685c580f16790266877f7b50023fd9af3def51406d0dcd9c29f7` |
 
-| Слот | Суффикс selector | Посты | Covers кроме компаратора |
-| --- | --- | --- | --- |
-| `U64-S9-B11-L11-BITS` | `u64_s9_b11_l11_bits` | 30/31/36, каноничность, порядок и popcount, frame | 18/19/37, смешанный вход, инверсия, возврат |
-| `U64-S9-B11-SWAP` | `u64_s9_b11_swap` | 59/60/65, min, max, frame | 50/51/52/66, `>`, `<`, `==`, возврат |
-| `U64-B01-INSERT-REL9` | `u64_b01_insert_rel9` | 125/134 в `check_insert::<1, 9>`, карта и frame | 104–107/135 |
-| `U64-B11-INSERT-REL9` | `u64_b11_insert_rel9` | 125/134 в `check_insert::<11, 9>`, карта и frame | 104–107/135 |
-| `U64-B11-INSERT-REL10` | `u64_b11_insert_rel10` | 125/134 в `check_insert::<11, 10>`, карта и frame | 104–107/135 |
+Git blobs `smallsort.rs` — `0b77c3dbb3b767ba35281a2a686aa477ff1344c5`, `ptr/mod.rs` — `9220ac5ab6cb3a09bb91e28c9cc8c83cfe06b1e6`, новый модуль — `5af7b8f629e6b218c5c4ccb7672aa5754fb9fecb`, реестр — `58fdf01ac881ffcd424f8d55df52049d4e97dce7`, `core/Cargo.toml` — `3352dde8a37775ee4eae790d90e678f93d3b5cd8`. Регистрация внутри `cfg(kani)` требует `kani_smallsort_rev2_u64_n13` и `kani_smallsort_rev2_u64_n20_n21`. Удаление добавленных строк регистрации и check-cfg побайтно восстанавливает файлы базы. Runtime, контракты и старые модули совпадают по байтам.
 
-[Модуль](/root/verify-rust-std-rev2-u64-n20-n21-w13/library/core/src/slice/sort/shared/smallsort/verify/rev2_u64_n20_n21.rs)
+## Roster и нативные координаты
 
-Плановый профиль для полного пакета зафиксирован заданием. Для каждого корня `--harness "$selector" --exact --jobs=1 --no-assert-contracts --output-format=regular -Z export-json --export-json "$slot/export.json" --verbose --target-dir "$slot/kani-target" "$std/library" --cbmc-args --object-bits 12` поверх `verify-std` и прежнего набора `-Z`. Обе группы получают unwind36. На слот предусмотрено 120 с VT, 4 GiB RSS группы, 180 с cold wall и отдельно 10 с reap, 5 с receipt и 10 с запаса старта. [Профиль и отсечки](REV2-U64-N20-N21-TASK.md#control-и-handoff)
+Exact selector prefix — `slice::sort::shared::smallsort::verify::rev2_u64_n20_n21::`. Все строки ожидают exit 0, `VERIFIED`, `copy_back=false` и покрытие всех covers. Discovery при включении нового cfg добавляет пять plain Proof и три Check к 110 историческим REV2-записям. Сопоставляются вид, selector, файл и targets. Stock Check привязан к одной точной цели. У plain targets пусты. Существующие функции идут в Original с `--no-assert-contracts`. [Std-модуль](/root/verify-rust-std-rev2-u64-n20-n21-w13/library/core/src/slice/sort/shared/smallsort/verify/rev2_u64_n20_n21.rs) · [Frozen roster](/root/kani-rev2-u64-n20-n21-trigger-w13/control/ch8-cal1/CI-REQUEST.json)
 
-## Выполненные офлайн-проверки
+| Слот | Суффикс selector, root | Check target, `cfg_attr` / `modifies` | Посты / covers | Latest start |
+| --- | --- | --- | ---: | --- |
+| `U64-N20-PAIR-STEP` | `u64_n20_pair_step`, 202:1 | `actual_pair_step_n20`, 153:1 / 159:5 | 8 / 10 | 55:00 |
+| `U64-N21-PAIR-STEP` | `u64_n21_pair_step`, 305:1 | `actual_pair_step_n21`, 256:1 / 262:5 | 8 / 10 | 58:25 |
+| `U64-N21-ODD-CENTER` | `u64_n21_odd_center`, 395:1 | `actual_odd_center_n21`, 359:1 / 365:5 | 8 / 4 | 61:50 |
+| `U64-S9-B11-L11-BITS` | `u64_s9_b11_l11_bits`, 16:1 | Plain | 3 / 4 | 65:15 |
+| `U64-S9-B11-SWAP` | `u64_s9_b11_swap`, 49:1 | Plain | 3 / 5 | 68:40 |
+| `U64-B01-INSERT-REL9` | `u64_b01_insert_rel9`, 78:1 | Plain | 2 / 6 | 72:05 |
+| `U64-B11-INSERT-REL9` | `u64_b11_insert_rel9`, 84:1 | Plain | 2 / 6 | 75:30 |
+| `U64-B11-INSERT-REL10` | `u64_b11_insert_rel10`, 90:1 | Plain | 2 / 6 | 78:55 |
 
-- Закреплённый rustfmt `nightly-2026-11-19`, edition 2024 и `use_small_heuristics=Max`. Удаление новой пары cfg/mod и check-cfg побайтно восстанавливает файлы базы. При отдельном форматировании реестра с отключённым обходом дочерних модулей разница от форматированной базы также ограничена регистрацией. Rust runtime, контракты и прежние проверочные модули совпадают по байтам. `git diff --check`, TOML, YAML и `bash -n` прошли.
-- Сверены 25 фактических пар и все 512 масок на каждой из геометрий B01/L09, B01/L10, B11/L11, B11/L10. Модель сдвигов проверила по 12 012 случаев на rel9 и 18 018 на rel10 с шестью значениями, включая края `u64` и числа по обе стороны `2^63`.
-- Сверены по 385 состояний адресов пары на N20 и N21, все 21 состояние центра и 184 756/352 716 чередований рангов половин. Это проверки геометрии и индукции по исходнику.
-- Локальный smoke bundle Std объявил единственный HEAD и prerequisite `dab03cf510df5c35141cde49f1368b1242f5035e`. Shallow checkout с глубиной 2 проверил и распаковал цепочку из 25 overlay-коммитов с ожидаемым tree/parent. Эти входы относятся к снимку пяти plain Proof.
-- Изолированный синтетический набор на пяти корнях подтвердил source bindings, старые и новые координаты, exact discovery 110 → 115, отрицательные контроли для ID/координат, typed copy, scoped assigns в исторических Check и сроки receipts/reap/attestation/publication. Прошли 128 из 128 тестов последовательно на обычной шкале и на свежих шкалах 1/5/60 с. Время suite 33,140 / 35,442 / 36,377 / 34,818 с. Blob `test_supervisor.py` — `df63a457c3adf648d360f3d559d5d40ef00a9427`.
-- Синтетический detached trigger принял `pins`, `sources`, `finish`, `upload-gate` и `upload-check`, а `pins/sources/finish` отвергли подмену дерева. Локальные `std` и `tool` сверены как чистые detached checkouts с ожидаемыми commit/tree. Инициализация submodules исключена из этой локальной симуляции. Индекс сохранил пять pre-measure исходов `NOT_STARTED`.
-- Локальная работа ограничена Git, rustfmt, статической сверкой и синтетикой. Нативный compile preflight, discovery Kani и измерения остаются открытыми. CI, push и изменения Actions variables отсутствуют.
+| Якорь | Координаты |
+| --- | --- |
+| Общий `N13_COMPARATOR_CALLED` | `rev2_u64_n13::u64_less`, 9:5, все строки кроме odd center |
+| Pair N20 и N21, `UP_CURSORS` / `DOWN_CURSORS` | 181:9 / 191:9 и 284:9 / 294:9 внутри соответствующего Check target |
+| Pair N20 и N21, read / write / disjoint / up / down / frame | 209/213/217/242/243/244 и 312/316/320/345/346/347, столбец 5 |
+| Pair N20 и N21, up left/right, down left/right, up/down tie, k=0/9, return | 245–253 и 348–356, столбец 5 |
+| Odd center, read / write / disjoint / selected source / value / left end / right end / frame | 402/406/410/428/429/430/434/438, столбец 5 |
+| Odd center, left/right/sentinel/return | 439–442, столбец 5 |
+| Bits B11, canonical / sorted popcount / frame и mixed / inversion / return | 37/38/43 и 25/26/44, столбец 5 |
+| Swap B11, min / max / frame и greater / less / equal / return | 66/67/72 и 57/58/59/73, столбец 5 |
+| Вставки, exact mapping / frame и no shift / max shift / interior / after equal / return | 132/141 и 111/112/113/114/142, столбец 5, `check_insert::<1, 9>`, `::<11, 9>`, `::<11, 10>` соответственно |
+
+Пары используют actual копии `smallsort.rs:885:9` и `:918:9`. Транскрипция центра копирует на `rev2_u64_n20_n21.rs:386:9` по форме `smallsort.rs:1034:13`. Каждый Check требует `single_top_level_call` и `no_recursive_call` на своём атрибуте, scoped `memcpy.assigns.1/.2` на builtin 46/47 и шесть успешных grouped `ptr::copy_nonoverlapping::<u64>` на `ptr/mod.rs:587:14`. Курсоры пары привязаны к closure того же target. Regular сохраняет отдельные ID, координаты и статусы. Stock даёт exact target, проверки, terminal и cover ID для сопоставления. Все выведенные unwind свойства должны иметь `SUCCESS` при stock `unwinding=ON`. [Правило grouped properties](item2-audit-response-20261120/GROUPED-PROPERTY-DECISION.md)
 
 ## Геометрия половин и sort9
 
@@ -85,3 +119,40 @@ Up advance может дать левый `S+10` и правый `S+20` (one-pas
 | Pair/center source frame | `0..34` при применении формы Check. Указатели строятся напрямую из ограниченных счётчиков. |
 | DFCC write-set assignment/deallocation | Сканируется `contract_assigns.max_elems`; pair имеет два targets, center один. Пустой окружающий set тоже возможен. При кодогенерации учитывается unwind36, фактические выведенные свойства должны быть SUCCESS. Эти циклы относятся к Check. |
 | Caller и merge в композиции | Две итерации presort driver, 1+1 / 1+2 вызовов вставки, 10 пар, в N21 одна прямая ветвь центра. Циклы driver и общего merge относятся к внешнему выводу. |
+
+## Ubuntu job и абсолютные границы
+
+Одна job `ubuntu-24.04` X64, 110 мин. CBMC 6.11.0/CaDiCaL, OB12, unwind36, safety/overflow/unwinding/undefined-function/assertion-reach ON, uninit/validity OFF. RUSTFLAGS содержат 23 cfg в порядке frozen roster, последним `--cfg=kani_smallsort_rev2_u64_n20_n21`. На singleton используются отдельные холодные CWD, cargo target, Kani target, tmp и export, `KANI_JOBS=1`, `CARGO_TARGET_DIR=$slot/cargo-target`, `TMPDIR=TMP=TEMP=$slot/tmp`.
+
+```bash
+"$tool/scripts/kani" verify-std -Z unstable-options -Z function-contracts \
+  -Z mem-predicates -Z float-lib -Z c-ffi -Z loop-contracts -Z quantifiers -Z stubbing \
+  --no-assert-contracts --harness "$selector" --exact --jobs=1 --output-format=regular \
+  -Z export-json --export-json "$slot/export.json" --verbose \
+  --target-dir "$slot/kani-target" "$std/library" --cbmc-args --object-bits 12
+```
+
+Prepare запускает cfg-on compile preflight после сборки stock Kani и checkout overlay, до discovery. Preflight имеет предел 180 с, `--no-codegen --only-codegen --quiet`, отдельный target и запись первых rustc diagnostics при отказе. Discovery выполняет cfg-off и cfg-on list. Сопоставление проверяет 110 исторических записей и дельту до 118. [Раннер](/root/kani-rev2-u64-n20-n21-trigger-w13/control/ch8-cal1/run.py)
+
+| Стадия | Абсолютная граница | Внешнее окно |
+| --- | --- | --- |
+| Prepare | 54:00 | 56 мин |
+| Measure identity gate | до 55:00, до 60 с от входа | в measure |
+| Восемь слотов по 205 с | 82:20 | measure 32 мин, внутренний 30:25 |
+| Итоговая аттестация | 84:20 | в measure |
+| Finish и upload-gate | 89:15 | 6 и 1 мин |
+| Конец upload | 96:20 | 7 мин |
+| План с резервом 6 мин | 102:20 | job 110 мин |
+
+На слот 120 с VT, 4 GiB RSS группы, 180 с cold wall, 10 с на reap, 5 с на receipt и 10 с запаса старта. Резерв ОС 2 GiB. Checkpoint сохраняет исход процесса и reap перед проекцией. Последующие слоты блокируются при отсутствии подтверждения reap. Ограниченный повтор записи в finish сохраняет отметку об опоздании. Caps проекции и артефакта 4/96 MiB. Отчёт сохраняет фазу, первую CNF, VT, cold wall, RSS/PSS группы и CBMC и открытые опоры для каждой длины. Linux sampler может недоучесть RSS при смене TID. Для `U64_N20_N21_PROVIDERS_WITHIN_PROFILE` нужны восемь `VERIFIED/MATCHED`, полные своевременные проекции и receipts, лимиты, sampler/reap и своевременная аттестация `COMPLETE`. [Профиль](/root/kani-rev2-u64-n20-n21-trigger-w13/control/ch8-cal1/report.py)
+
+У `pins/sources/finish` независимый `CH8_REV2_U64_N20_N21_TRIGGER_TREE` с ожидаемым tree `0d0857a039e5ffa263414952de49b716e3371c25`. Гейты требуют `Tiramisu-Cake/kani`, событие push attempt 1 на `refs/heads/uninit-ci/ch8-q-pilot-v1`, совпадение detached HEAD с payload и `GITHUB_SHA`, чистое дерево и единственный parent из таблицы. Перед публикацией повторно сверяется admission receipt. [Trigger gate](/root/kani-rev2-u64-n20-n21-trigger-w13/control/ch8-cal1/request.py)
+
+## Офлайн-валидация
+
+- Закреплённый rustfmt `nightly-2026-11-19 --edition 2024 --config use_small_heuristics=Max` применён до вычисления координат. Форматирование реестра сверено с его форматированной базой при отключённом обходе дочерних модулей. Граница cfg, Rust-видимость, побайтный runtime diff, TOML, YAML, восемь блоков `bash -n` и `git diff --check` проверены.
+- Сверены 25 фактических пар и по 512 масок на четырёх геометриях B01/L09, B01/L10, B11/L11, B11/L10. Модель сдвигов прошла 12 012 случаев для каждой rel9 и 18 018 для rel10 с шестью значениями, включая края `u64` и значения по обе стороны `2^63`. Сверены по 385 адресных состояний, 21 состояние нечётного центра и 184 756/352 716 ранговых чередований N20/N21. Модели служат офлайн-проверкой адресов и композиции.
+- Проверка frozen inputs привязала source blobs, расписания, исторические и новые координаты постов, covers и exact Check definition/modifies. Shallow checkout CI-base глубины 2 проверил bundle, распаковал 25 overlay-коммитов и сверил цепочку tree/parent.
+- Detached review-trigger принял `pins` при +2 с, `sources` при +30 с, `finish` при +5100 с, `upload-gate` при +5150 с и `upload-check` при +5775 с. Подменённые дерево и payload SHA отклонены в трёх гейтах, изменённый admission receipt — в `sources/finish`, публикация после +5780,01 с — в `upload-check`. Тестовый индекс сохранил восемь `NOT_STARTED`. Синтетические локальные std/tool прошли detached identity; рекурсивная инициализация submodules исключена из этой симуляции.
+- На замороженном detached review-trigger последовательно прошли 128/128 тестов на обычной шкале и каждой из свежих шкал 1/5/60 с. Время suite 80,176 / 59,834 / 50,503 / 81,673 с. Синтетика покрыла exact roster, Check targets и scoped anchors, типизированные копии, профили, receipt/reap/attestation и cutoff. Blob `test_supervisor.py` в Control и trigger равен `df63a457c3adf648d360f3d559d5d40ef00a9427`.
+- Std, Control и review-trigger имеют author и committer `Tiramisu-Cake <igkharin@gmail.com>`. Работа выполнена офлайн через Git, rustfmt, статическую сверку и синтетику. Нативный compile preflight, discovery и восемь исходов остаются задачами следующего этапа после GO. Сквозные positive/control и copy-back остаются отдельным пакетом.
