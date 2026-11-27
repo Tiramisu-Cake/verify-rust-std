@@ -1,6 +1,6 @@
 # REV2 · составной consumer u64 N22–N25
 
-**`WAITING_FOR_PROVIDER_RESULT` · Item 2 · `go=NOT_GRANTED` · `proof_credit=NONE`.**
+**`READY_FOR_REVIEW` · Item 2 · `go=NOT_GRANTED` · `proof_credit=NONE`.**
 
 Пакет содержит четыре контроля фактической сети с порчей после возврата и четыре локальных корня copy-back/frame. Кандидат на исследовательский допуск связывает для каждого активного `v[1..1+N]` в инициализированном `V=[u64;34]` нативные опоры и внешний вывод о полном числовом порядке, сохранении всех кратностей и скалярном frame внешних слов на нормальном возврате `small_sort_network::<u64, _>(…, &mut u64_less)`. Запуск требует независимого ревью, отдельного GO координатора и свободной ветки. [Задание](REV2-U64-N22-N25-CONSUMER-TASK.md) · [Правило композиции](REV2-COMPOSITION-RULE.md)
 
@@ -48,7 +48,7 @@
 | Единственный failure `REV2_U64_Nxx_ACTUAL_SORTED_POPCOUNT` | N22 `84:9`, N23 `86:9`, N24 `88:9`, N25 `90:9`, класс `assertion`. Regular и stock сверяются по ID, описанию, классу и источнику. |
 | Локальная typed copy | `130:14` в `check_copy_back::<N>`, `ptr::copy_nonoverlapping::<u64>(scratch_base, dest, N)`. |
 | Локальные `DEST_EQUALS_SOURCE`, `SOURCE_PREFIX_FRAME`, `V34_FRAME`, `AFTER_COPY_BACK_FRAME` | `139:5`, `140:5`, `143:5`, `144:5` в `check_copy_back::<N>`. |
-| Grouped typed copy | Шесть SUCCESS `ptr::copy_nonoverlapping::<u64>` в `ptr/mod.rs:587:14` с regular/stock ID. Все выведенные unwind checks SUCCESS при stock unwinding ON. |
+| Grouped typed copy | Шесть SUCCESS `ptr::copy_nonoverlapping::<u64>` в `ptr/mod.rs:587:14` в regular. Все выведенные unwind checks SUCCESS при stock unwinding ON. |
 
 У actual вызова `smallsort.rs:425:9` копируются N слов из отдельного scratch32 в `v[1..1+N]`. Покрытие `AFTER_COPY_BACK` идёт после обычного возврата, actual тело прошло безусловную копию `:425:9`, а grouped ID относится к семейству typed копий `u64`, общему для нескольких вызовов. Source blob с безусловным call и достижение возврата связывают grouped evidence с этим маршрутом. У локального корня один typed call с теми же type/count, 8-байтовым выравниванием и раздельными живыми объектами. Scratch-префикс инициализируется независимыми полными `u64`, остаток scratch находится вне чтений. Посты локального корня вместе с внешним аргументом об инициализации объединяют полный домен префикса и скалярный frame. [Actual копия](/root/verify-rust-std-rev2-u64-n22-n25-consumer-w15/library/core/src/slice/sort/shared/smallsort.rs:425)
 
@@ -68,7 +68,25 @@
 
 Все пять исторических projections сверены с regular/stock и receipt по индексам. В каждом случае `VERIFIED/MATCHED`, exit 0, полный набор anchors/covers, sampler/reap, своевременные receipt и аттестация `COMPLETE`. VT 3,612–33,798 с, cold wall 34,827–73,852 с и пик группового RSS 2,133–2,440 GiB.
 
-Ожидается итог `45967622962/1` от координатора. Таблица задаёт привязку к исходникам из закреплённого source roster. Нативный результат каждой новой строки пока `OPEN`.
+### Нативные опоры из `45967622962/1`
+
+Ubuntu X64, job success, `U64_N22_N25_PROVIDERS_WITHIN_PROFILE`. Все 13 слотов дали `VERIFIED/MATCHED` с exit 0. Сверены exact Proof/Check, штатные covers, нативные свойства, полный и своевременный receipt/projection, sampler/reap и профиль 120 с VT, 180 с cold wall, 4 GiB группового RSS. Аттестация `COMPLETE` в своём окне подтвердила runtime identity, чистые Std/stock checkouts и рекурсивные submodules. Stock Kani совпадает с заданным пином. Фактические CBMC 6.11.0/CaDiCaL 3.0.0, OB12, unwind36, включённые safety, overflow, unwinding, undefined-function и assertion-reach совпадают с профилем. Uninit и validity выключены.
+
+Фактический push trigger `54398dd58a6d7069d980d85e1ed04112f7e05ed8`, tree `6b9a8245426143527186a7095e8fbf5623578527`, sole parent `467af9cb8dba0e3be78a8d7d07672a1943c4806b`. В `source.json`, индексе и Git совпадают trigger SHA, одобренное дерево Control, fork `Tiramisu-Cake/kani`, ref `refs/heads/uninit-ci/ch8-q-pilot-v1` и attempt 1. Std providers `a1335f8e11960150afda1d00d60c72b4362e3cec`, tree `a04025df1dddb1668c12219307c943a23ee9382a`. Закреплённый provider roster побайтно совпадает с унаследованной записью consumer source bindings в каноническом JSON. Нативный discovery сохраняет 118 исторических записей, добавляет семь plain Proof и шесть exact Check и даёт все 131 запись для cfg-off consumer.
+
+Сверены размеры и SHA-256 всех 47 опубликованных членов, включая 13 receipts, 13 projections и 13 timelines. Полный инвентарь совпадает с индексом, общий размер членов 5 510 065 байтов. Имя схемы `smallsort-rev2-u64-n14-n17-artifact-v1` унаследовано report.py закреплённого provider trigger. Идентичность пакета задают trigger, пины и четыре входных хэша. [Индекс](/root/ch8-artifacts/run-45967622962/ch8-rev2-u64-n22-n25-providers-Linux-X64-45967622962-1/index.json) · [Сводка](/root/ch8-artifacts/run-45967622962/ch8-rev2-u64-n22-n25-providers-Linux-X64-45967622962-1/SUMMARY.md) · [Аттестация](/root/ch8-artifacts/run-45967622962/ch8-rev2-u64-n22-n25-providers-Linux-X64-45967622962-1/attestation.json)
+
+| Индекс и входы providers | SHA-256 |
+| --- | --- |
+| Индекс | `ee6471da3ec55c4aad35f38d0757c4c92b5934ba89405f11feddf6ee1c42d05b` |
+| CI-REQUEST.json trigger | `3bd9e509fb9928b714387f0668e492a30744f56efb1eb5cb65d2afc32fefc17f` |
+| Exact roster, канонический JSON | `732a0e571059dac2d2d87a2ccf35ac3db16117deb5e68320edd9482f23367fa2` |
+| Source bindings, канонический JSON | `93472677859106782b2ef71e81676b157628c7172d2cb3be6951fa99ddfccfb9` |
+| Std bundle | `d4e71162210e0a084996e67000b677339e963933b643c02d45c04456087a3cdc` |
+| SUMMARY.json | `b9965a9607c03dd878e3b0809b1cd81895eb1d11e030e3c6877d96f2d2ff959b` |
+| source.json | `3d160352a793dd982e1415be51077eb54d9cba84a519de211b463a570bf7a470` |
+| discovery.json | `d7646c09dfd31276406ff4811cf089d6366b734363b8ba62f8f7f01304dd3000` |
+| attestation.json | `f42a9591ade042555a736e81853aab2cacf03a713dbbdff4107d9ba8c6c5200a` |
 
 | Нативная опора | Exact корень и тип | Root / Check target | Зависимые N |
 | --- | --- | --- | --- |
@@ -86,14 +104,32 @@
 | Odd center N23 | `u64_n23_odd_center`, Check | 687:1 / `actual_odd_center_n23` 653:1 | 23 |
 | Odd center N25 | `u64_n25_odd_center`, Check | 773:1 / `actual_odd_center_n25` 739:1 | 25 |
 
-Общий префикс provider selector `slice::sort::shared::smallsort::verify::rev2_u64_n22_n25_providers::`. Связывание Check требует свойств `single_top_level_call` и `no_recursive_call` на атрибуте цели, scoped `memcpy.assigns.1/.2` на builtin 46/47, typed copy `u64` на `ptr/mod.rs:587:14` и успешных выведенных unwind checks. Парные проверки курсоров стоят на 269:9/279:9, 372:9/382:9, 475:9/485:9 и 578:9/588:9. Actual typed copy пары в `smallsort.rs:885:9` и `918:9`. Центры воспроизводят `smallsort.rs:1034:13` на 680:9 и 766:9 с covers левой, правой стороны и sentinel. При дорогой форме пары первый запасной вариант из R1 разделяет up/down. [R1](/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/REV2-U64-N22-N25-PROVIDERS-REVIEW.md)
+Общий префикс provider selector `slice::sort::shared::smallsort::verify::rev2_u64_n22_n25_providers::`. Для каждого из шести Check сопоставлены stock-цель и regular `single_top_level_call` и `no_recursive_call` на её атрибуте, оба scoped `memcpy.assigns.1/.2` на builtin 46/47, шесть `SUCCESS` typed-copy свойств `ptr::copy_nonoverlapping::<u64>` на `ptr/mod.rs:587:14` и четыре успешных выведенных unwind checks. Парные курсоры и значения совпали с exact anchors на 269:9/279:9, 372:9/382:9, 475:9/485:9, 578:9/588:9 и с выходными постами. Actual typed copy пары в `smallsort.rs:885:9` и `918:9`. Центры воспроизводят `smallsort.rs:1034:13` на 680:9 и 766:9 с постами значения и обоих ends, covers левой и правой сторон и sentinel. Для plain Proof сверены скалярные посты bits/swap/вставок и frame. При выходе будущей формы пары за профиль первый вариант из R1 разделяет up/down. [R1](REV2-U64-N22-N25-PROVIDERS-REVIEW.md) · [Exact anchors](REV2-U64-N22-N25-PROVIDERS-HANDOFF.md#roster-и-нативные-якоря)
 
-| N | Исторические опоры | Новые опоры | Actual witness | Local copy-back | Внешнее ребро |
-| --- | --- | --- | --- | --- | --- |
-| 22 | B01 swap, S9 L09, rel9 сверены | B12 S9/swap, B01 rel10, pair N22 ожидают итог | OPEN, слот ожидает запуска | OPEN, слот ожидает запуска | Переносы по длине, B12 rel9/10, ранги и копия ожидают ревью |
-| 23 | B01 swap, S9 L09, rel9 сверены | B12 S9/swap, B01 rel10/11, pair и odd N23 ожидают итог | OPEN, слот ожидает запуска | OPEN, слот ожидает запуска | Переносы по длине, B12 rel9/10/11, ранги и копия ожидают ревью |
-| 24 | B01 swap, S9 L09, rel9 сверены | B13 S9/B13 swap, B01 rel10/11, pair N24 ожидают итог | OPEN, слот ожидает запуска | OPEN, слот ожидает запуска | Перенос по длине, B13 rel9/10/11, ранги и копия ожидают ревью |
-| 25 | B01 swap, S9 L09, rel9 сверены | B13 S13/B13 swap, B01 rel10/11, pair и odd N25 ожидают итог | OPEN, слот ожидает запуска | OPEN, слот ожидает запуска | Перенос по длине, нулевой правый driver, ранги и копия ожидают ревью |
+| Слот providers | Covers | VT / cold, с | Пик RSS group / CBMC, KiB | SHA-256 receipt / projection |
+| --- | --- | --- | --- | --- |
+| `U64-N25-PAIR-STEP` | 10/10 | 61,381 / 97,855 | 2 602 096 / 919 320 | `ccc3e7a99a7d51fa36236dfe2995977e0b523c5df5a8a6fdbd9cb0a16568f784` / `a0d03a26e8d8637fb7de3603c5b4e4bddfb6e2721ecaae831409b53ec9a454f8` |
+| `U64-N24-PAIR-STEP` | 10/10 | 58,425 / 95,452 | 2 284 048 / 908 928 | `33fa1565438fb7d040bf2e02443d352f5129fb67e63c0223e27e34cc5728a5f2` / `d8891c655a53324c26898fa45a91d06209fa3406adbbb11727732b6e77f06a07` |
+| `U64-N23-PAIR-STEP` | 10/10 | 59,717 / 96,354 | 2 288 204 / 923 888 | `4f6a33e8edcbe10809bd72e6e57e666a603a013ae4323058bc8853180efeb3f7` / `e88512dbab86450e65bd688bf2ce524ec0867209f9298e1fcc3ac966a332ae89` |
+| `U64-N22-PAIR-STEP` | 10/10 | 55,189 / 91,246 | 2 518 580 / 912 628 | `a173decaa61c0bf7239155d842554b0f020697e545ee3dd6fc8584122026f649` / `d623ad3745c17c94abc1ae399bb5e85b1f50bcef532680dbc43bf51bb38cb97d` |
+| `U64-N25-ODD-CENTER` | 4/4 | 11,117 / 47,134 | 2 274 964 / 318 952 | `0406f0aab6abdb39fce6d9201b9ba851f1af05c4acc490e46739c3cbde3121fe` / `4da5d155610c29a5f7f4831b8a14b5b2d473901abd3c10213673a2cac87f85a4` |
+| `U64-N23-ODD-CENTER` | 4/4 | 10,837 / 47,133 | 2 420 432 / 323 136 | `16f2d97b09af9efdc92d89bfd8a6c1cd963c35f17d858289db372c0105775289` / `1dfe6e0a4a83bc28b87968b493e703493611ff61270e52a55ae9392e493c5ba1` |
+| `U64-S13-B13-L13-BITS` | 4/4 | 47,782 / 78,652 | 2 576 460 / 2 370 856 | `764d1b01acd16f6b74dc2568a44527a5bf922094965f757805e2a14590dc7e90` / `baaf43c7353752c311c3a20c6b54ec96f620b3412de4c14c14388b03c6424d4d` |
+| `U64-S13-B13-SWAP` | 5/5 | 4,767 / 35,429 | 2 238 716 / 260 168 | `bb4d81ee407fa690c3800495a27d6ba9e28437d5625287e95404da82493988c3` / `4186bfab744a7c952d1641f86a38e7634845307823c69c27e4f5a856c0ef1bde` |
+| `U64-S9-B13-L12-BITS` | 4/4 | 30,744 / 60,943 | 2 250 908 / 1 517 448 | `f630416700d78bcaccbf498a98e98e99c1abfcb711280a865f21f5b63ab92d5c` / `dfc32601e7f2d008a72ccb9489c2ee6de800d5e2870ec4776bc845023ff951b1` |
+| `U64-S9-B12-L12-BITS` | 4/4 | 27,324 / 58,538 | 2 515 852 / 1 406 776 | `31c3311e518bf44f15c434608ef99269e20381ee25136bec1225662238106bce` / `993f0e70ab8d115acd5feac63df68bfe180e7ea988e176875ff5ea539653c245` |
+| `U64-S9-B12-SWAP` | 5/5 | 3,815 / 34,830 | 2 238 312 / 258 080 | `188ffbe8616a50953c3a2adc46509d860008f8315f8266884fe7adeba60e2822` / `d6f4bddfcaf0729e3720b03f38690fce281817f39299b8d537608562b28919a0` |
+| `U64-B01-INSERT-REL11` | 6/6 | 3,128 / 34,533 | 2 248 804 / 117 380 | `8cf65d97223201f1d8607ade70398ba6f6c0ba1145f3392ca06c9ae504f5f986` / `387ee1920e944f13ade4b95364e2032de4fa9c658d40ed2cdf95933927510cb2` |
+| `U64-B01-INSERT-REL10` | 6/6 | 3,311 / 35,427 | 2 252 900 / 111 732 | `859bf0e0b0b150b98ab2f2326f7f78d9b6ab556acd73e8175f8e27d96f13f546` / `1f688e679dae543d3a39f8ff5077c88c6190030e5d46d70832d654144db65f34` |
+
+| N | Нативные опоры сверены | Actual witness consumer | Local copy-back consumer | Внешние рёбра к ревью |
+| --- | --- | --- | --- | --- |
+| 22 | B01 swap/S9/rel9/10, B12 S9/swap, pair N22 | OPEN, слот ожидает запуска | OPEN, слот ожидает запуска | Переносы по длине, B12 rel9/10, ранговая индукция и copy-back |
+| 23 | B01 swap/S9/rel9–11, B12 S9/swap, pair и odd N23 | OPEN, слот ожидает запуска | OPEN, слот ожидает запуска | Переносы по длине, B12 rel9–11, ранговая индукция, центр и copy-back |
+| 24 | B01 swap/S9/rel9–11, B13 S9/swap, pair N24 | OPEN, слот ожидает запуска | OPEN, слот ожидает запуска | Перенос по длине, B13 rel9–11, ранговая индукция и copy-back |
+| 25 | B01 swap/S9/rel9–11, B13 S13/swap, pair и odd N25 | OPEN, слот ожидает запуска | OPEN, слот ожидает запуска | Перенос по длине, нулевой правый driver, ранговая индукция, центр и copy-back |
+
+Нативные предпосылки providers доступны для всех четырёх длин. Исследовательский допуск каждой длины остаётся открытым до независимого вердикта по внешним рёбрам и двух нативных consumer-слотов этой длины.
 
 ## Половины и правые вставки
 
@@ -110,7 +146,7 @@
 
 Для каждого relR и каждой правой базы отображение `1+j ↔ B+j` при `0≤j≤R` действует внутри одной живой V34. Перенос на B12 равен 88 байтам, на B13 — 96 байтам. Все адреса 8-байтово выровнены. Сканирование от `tail−1` использует те же полные строгие сравнения `x < word`, поэтому равные остаются перед вставляемым x. Проверка `sift==begin` срабатывает при том же `j=0`. При сдвиге `B+j → B+j+1` два диапазона по восемь байтов смежны и раздельны. Отдельный tmp `CopyOnDrop` держит x при любом логическом gap и при выходе записывает его ровно в gap. Ранний возврат оставляет регион прежним. Совпадение относительных чтений, сравнений, шагов и записей сохраняет точное отображение префикса и все слова за tail, включая следующий вход. [Actual insert и driver](/root/verify-rust-std-rev2-u64-n22-n25-consumer-w15/library/core/src/slice/sort/shared/smallsort.rs:677)
 
-Независимому ревьюеру нужен отдельный вердикт по каждому из шести рёбер.
+Просьба к независимому ревьюеру дать отдельный вердикт по каждому из шести рёбер.
 
 | Ребро | Занятые индексы B01 ↔ B | Зависимые N | Запасной exact plain Proof для отдельного малого пакета |
 | --- | --- | --- | --- |
