@@ -52,7 +52,7 @@
 | Контроль: canonical / expected mask до порчи | `111:5` / `112:5`, тот же instance. |
 | Контроль: порча / V34 frame / canonical после порчи | `114:5` / `116:5` / `118:5`, тот же instance. |
 | Контроль: `REV2_U64_Nxx_ACTUAL_SORTED_POPCOUNT` | N26 `120:9`, N27 `122:9`, N28 `124:9`, N29 `126:9`, N30 `128:9`, N31 `130:9`, N32 `132:9`. Требуется единственный `FAILURE` класса `assertion` с одним ID, меткой, файлом и строкой в regular и stock. |
-| Локальный typed copy | `172:14`, `check_copy_back::<N>`. Actual runtime copy на `smallsort.rs:425:9`. |
+| Локальный typed copy | `172:14`, `check_copy_back::<N>`, transcribes `smallsort.rs:425:9` в фиксированной геометрии scratch32/V34. Применимость `:425` к произвольным словам — внешний шаг 5 (правка координатора по R1-1). |
 | Локальные посты `DEST_EQUALS_SOURCE`, `SOURCE_PREFIX_FRAME`, `V34_FRAME` и cover `AFTER_COPY_BACK_FRAME` | `181:5`, `182:5`, `185:5`, `186:5` того же instance. |
 | Grouped typed copy | Во всех 14 слотах требуются шесть `SUCCESS` для `ptr::copy_nonoverlapping::<u64>` на `ptr/mod.rs:587:14` и `SUCCESS` у всех выведенных unwind checks при stock unwinding ON. |
 
