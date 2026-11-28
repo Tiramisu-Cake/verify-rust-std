@@ -2,7 +2,7 @@
 
 **READY_FOR_REVIEW · Item 2 · `go=NOT_GRANTED` · `proof_credit=NONE`.**
 
-Действующие пины пакета находятся в разделе [FIX1](#fix1--окно-разбора-spill-и-замечания-r1). Таблицы ниже фиксируют пакет R1. [Ревью R1](REV2-GEN-STABLE-WIDE-WITNESS-N12-N16-REVIEW.md)
+Действующие пины пакета находятся в разделе [FIX2](#fix2--поиск-cnf-по-всему-префиксу-spill). Таблицы ниже фиксируют пакет R1, раздел FIX1 — первый раунд исправлений. [Ревью R1](REV2-GEN-STABLE-WIDE-WITNESS-N12-N16-REVIEW.md)
 
 Подготовлен один Ubuntu-пакет из двух последовательных singleton. Первым идёт stock N12 `GEN-N12-WIDE-WITNESS-LITERAL-CORRUPT`. Вторым идёт exact FIX2 N16 `GEN-N16-WIDE-WITNESS-LITERAL-CORRUPT` за отложенным relay stdout CBMC. Relay стоит в PATH только у дочернего процесса N16. N12 даёт контроль для будущей строки допуска N12. N16 измеряет, снимает ли разнесение работы CBMC и разбора его JSON превышение 4 GiB. Допуск N16 по-прежнему требует завершённого нативного `FAILED/MATCHED` на N16. Исторический `RSS_LIMIT` run 46081825138 остаётся в ledger. Нативная компиляция и результаты ожидают независимого ревью и отдельного GO координатора. Исполнитель стадии — Claude Code, pane 11. [Задание](REV2-GEN-STABLE-WIDE-WITNESS-N12-N16-TASK.md) · [Допуск N16](REV2-GEN-STABLE-N16-ADMISSION.md)
 
@@ -164,6 +164,33 @@ Cfg-off содержит 180 исторических записей: 178 пре
 
 Валидация FIX1: 169 тестов, из них 23 в `test_relay.py`. На точном detached trigger повторены `pins`, `sources`, `finish` с двумя `NOT_STARTED`, `upload-gate` и `upload-check`. Отклонены tree и payload trigger R1, подмена индекса и receipt, поздний upload. Std-checkout сохранил HEAD `dab03cf510`, shallow boundary и отсутствие refs. `git diff --check` пройден. Blob `test_supervisor.py` по-прежнему `df63a457c3adf648d360f3d559d5d40ef00a9427`. Полный suite прошёл последовательно на trigger с лимитом 90 с: обычная шкала 169/169 за 69,189 с, старт с 1 с 169/169 за 68,531 с, с 5 с 169/169 за 68,012 с, с 60 с 169/169 за 72,010 с. Без Cargo, rustc, Kani, CBMC, CI, push в Kani и изменений Actions variables. Коммиты Control и trigger имеют `[skip ci]` и author/committer `Tiramisu-Cake <igkharin@gmail.com>`.
 
+## FIX2 · поиск CNF по всему префиксу spill
+
+**READY_FOR_REVIEW · `go=NOT_GRANTED` · `proof_credit=NONE`.** Основание — delta-ревью R2 (g0 `1590a213d5`), GO_WITH_NITS, до dispatch исправить (a) и (b). Proof-лимиты, Std, roster, bindings, bundle, relay и CI-REQUEST не изменены. Control получил новый коммит поверх FIX1 без force. Review-trigger новый, с тем же sole parent.
+
+| Роль | Commit | Tree | Единственный parent |
+| --- | --- | --- | --- |
+| Std N12, без изменений | `b465318cc95001c651011c2e5579bba12669b467` | `9d4c78baf73fae2b15f29c2c81730399e1a2d9fa` | `bec3b6ee805fd3640da34e20482a3de647b3c865` |
+| [Control FIX2](/root/kani-rev2-gen-stable-wide-witness-n12-n16-control-w11) | `588fc98143a3321d58d58407c916da621b70cccb` | `664f75885c8aafa7b4df8d82e9c8b7e0eb102593` | `b5e6c89c0e06cc55e264c4d297086e3ae629300a` |
+| [Review-trigger FIX2, detached](/root/kani-rev2-gen-stable-wide-witness-n12-n16-trigger-w11/control) | `f0f51bd6de4ce617eeef205b897c4489f9b58201` | `664f75885c8aafa7b4df8d82e9c8b7e0eb102593` | `467af9cb8dba0e3be78a8d7d07672a1943c4806b` |
+
+| Вход | SHA-256 |
+| --- | --- |
+| CI-REQUEST.json, без изменений | `1247e9e65a6be3fe41862b3559f6996284024d1d3ee3e03bbaf9546ecd4ba3f9` |
+| Exact roster, канонический JSON | `7f4ae44e4063234934ed4cbcb3cec182a8ebe15cbba0e4845262acdcc8bea9cb` |
+| Source bindings, канонический JSON | `8df3d8ed069a47ecbb993a86a864cde54c111a45c7bce06ef8870f4ede597929` |
+| Std bundle, 92 368 байт | `45dfe97fa55e311f7a9a8f99fa0c32042c64e51cc02850ca5af77f356ebe8711` |
+| `cbmc_relay.py` | `c8b4c070dbd12a8acafa4b23df0b74833b600333f539b66fc9d27eccee3613b7` |
+
+Независимый pin — `CH8_REV2_GEN_STABLE_WIDE_WITNESS_N12_N16_TRIGGER_TREE=664f75885c8aafa7b4df8d82e9c8b7e0eb102593`. Дельта Control затрагивает `stdout_relay.py`, `run.py`, `test_relay.py` и шаг `pins` в workflow.
+
+1. **(a) CNF по всему префиксу.** Общий разбор сообщений с лимитами 16 384 сообщения и 1 MiB текста убран. Вместо него один целевой regex идёт по всем 16 MiB префикса. Он принимает только нативные сообщения размера и фазы: CNF, `Starting Bounded Model Checking`, `Runtime Symex/Convert SSA/Solver/decision procedure`, `size of program expression`, `Generated … VCC(s)`, `converting SSA`, `Running propositional reduction`, `Solving with …`, cover/reachability и `VERIFICATION:-`. Обычные сообщения вроде `Unwinding loop …` отбрасываются на первом байте, поэтому бюджет не расходуют. Найденные маркеры в исходном порядке идут в штатный `stream_metrics`, и контекст `INITIAL_SOLVE` сохраняется. Предел скана — 4 096 нативных сообщений. Причина отсутствия CNF теперь различается: `CNF_NOT_FOUND_BEFORE_MARKER_SCAN_LIMIT` при достигнутом пределе, `NO_RECOGNIZED_NATIVE_MARKER_IN_PREFIX` при отсутствии любых нативных маркеров, иначе `NO_CNF_IN_PREFIX`. В receipt пишутся `messages`, `native_messages`, `marker_scan_limit_reached` и `prefix_complete`. [Скан](/root/kani-rev2-gen-stable-wide-witness-n12-n16-control-w11/ch8-cal1/stdout_relay.py:212)
+2. **Тест (a).** Spill на 17 MiB: версия CBMC, `Starting Bounded Model Checking`, 8 000 реалистичных строк `Unwinding loop … insert_tail …` (больше 2 MiB текста), затем symex, VCC, SSA, propositional reduction, CaDiCaL и CNF 4 956 964 / 25 517 502, дальше трасса. Под реальным окном `receipt_seconds − 1 с` `drain_spill` находит CNF с `INITIAL_SOLVE`, все восемь маркеров по порядку и 8 010 сообщений, причины нет. На реализации FIX1 тот же тест падает: CNF не найден. Отдельный тест проверяет все три причины. Время скана 16 MiB: 0,21 с для сплошных `Unwinding loop`, 0,07 с для 16 MiB нативных сообщений до предела, 0,10 с для трассы без сообщений. Прежний тест худшего случая через `measure_slot` и `RSS_LIMIT` проходит в новой форме: CNF найден, предел скана отмечен.
+3. **(b) Таймаут self-test.** В шаге `pins` оба `timeout --kill-after=5s` подняты с 90 с до 150 с. Внешний timeout шага 8 мин и все proof-лимиты не менялись. При наблюдённых 69–78 с на прогон четыре прогона занимают около 5 мин и укладываются в шаг. Только если все прогоны одновременно подойдут к 150 с, раньше сработает timeout шага. Это всё ещё дешёвый отказ до измерений.
+4. **(c) Сделано.** Если relay установлен, но доставка не оценивалась, receipt пишет `stdout_delivery=NOT_JUDGED`, а не `INSTALLED`. Вердикт по-прежнему требует `COMPLETE` от `collect`.
+
+Валидация FIX2: 171 тест, из них 25 в `test_relay.py`. На точном detached trigger повторены `pins`, `sources`, `finish`, `upload-gate` и `upload-check`. Отклонены tree и payload trigger FIX1, подмена индекса и receipt, поздний upload. Std-checkout сохранил HEAD `dab03cf510` и отсутствие refs. `git diff --check` пройден. Blob `test_supervisor.py` равен `df63a457c3adf648d360f3d559d5d40ef00a9427`. Полный suite прошёл последовательно на trigger с лимитом 150 с: обычная шкала 171/171 за 69,023 с, старт с 1 с 171/171 за 71,458 с, с 5 с 171/171 за 77,714 с, с 60 с 171/171 за 75,158 с. Без Cargo, rustc, Kani, CBMC, CI, push в Kani и изменений Actions variables. Коммиты Control и trigger имеют `[skip ci]` и author/committer `Tiramisu-Cake <igkharin@gmail.com>`.
+
 ## Дальше
 
-Delta-ревью FIX1 тем же reviewer, затем отдельный GO координатора на установку tree variable `4d4e7f5b3b…` и push review-trigger `60650bf250`.
+Delta-ревью FIX2 тем же reviewer, затем отдельный GO координатора на установку tree variable `664f75885c…` и push review-trigger `f0f51bd6de`.
