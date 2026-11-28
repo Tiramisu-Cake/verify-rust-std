@@ -12,3 +12,16 @@
 NOT_RUN: rustc/Cargo/Kani/CBMC (компиляция, discovery 181/186, нативные координаты), rustfmt, YAML, `bash -n`, shallow fetch bundle, прогоны suite со сдвигом часов; память контроля N14 — оценка.
 
 Решение координатора: GO. Nit 1 — правка текста handoff после прогона, на tree не влияет.
+
+## R2 · строки допуска Wide N12 и N14 (ревизия 35bb108caa)
+
+Независимое ревью (тот же `smallsort-reviewer`) 2026-11-28. **Wide N12 — APPROVE. Wide N14 — APPROVE_WITH_NITS.** Блокеров и should-fix нет.
+
+- Q1 — подтверждено артефактами: индекс `46121678583/1` 23/23 по размеру и SHA-256, attestation COMPLETE, пины overlay/tool/bindings `caca8508`/roster `2cb3104a`/bundle `8c7a8b2d`/relay `c8b4c070`/request `bfa5a790`; CBMC 6.11.0, CaDiCaL 3.0.0, Kani 0.68.0 (9834c96). Четыре Check: VERIFIED/MATCHED, exit 0, covers 7/7, все READ/WRITE/DISJOINT/CURSORS SUCCESS в экземпляре проверки контракта (копии в исходном теле UNREACHABLE — обычная картина), VALUE/V_FRAME/SCRATCH_FRAME, `single_top_level_call`, `no_recursive_call`, `memcpy.assigns`, unwind — SUCCESS; таблица `:20–23` совпадает с receipts. Контроль N14: FAILED/MATCHED, exit 1, единственный FAILURE `.assertion.25` `GEN_N14_WIDE_STABLE_EQUAL_KEYS` line 1939, пять пред- и три постпроверки SUCCESS, covers 3/3, VT 30,169 / cold 62,463 с, 3 286 116 KiB; relay COMPLETE 556 167 725/556 167 725 байт, SHA `21bc1d13…`, CBMC 10, wait done раньше первого байта replay. Контроль N12 `46111911533/1`: 14/14, `.assertion.25` line 1493, stock pipe, 88,0 %. Опоры `46054351048/1` (26/26) и `46073528434/1` (29/29) MATCHED; их Std — предки `93d0c4a`, тот же blob `smallsort.rs` `0b77c3db`, модуль — побайтный префикс, строки `:267`, `:1009`, `:1082` стабильны.
+- Q2 — прецедент выполнен: собственные нативные merge Check в точной геометрии, опоры S4/fill с принятым офлайн-переносом (R3 для N12, R1 для N14), собственный нативный контроль той же длины. Метки честные. Композиция 6+6 и 7+7 полна: индукция пар → ранги даёт a+c=b+d=m, обе проверки курсоров на `smallsort.rs:1042` проходят; длины чётные, центр `:1031–1036` не исполняется; копирования назад на нормальном пути нет (merge пишет в V, затем `mem::forget` на `:347`); канарейки — V-frame плюс адресный довод.
+- Nit N14 (`ADMISSION.md:10`, `:29`): нет явного ограничения как у N16 (`REV2-GEN-STABLE-N16-ADMISSION.md:77`): 4 GiB только с relay; stock pipe не измерен и по экстраполяции (N12: Kani ~1,4 GiB поверх CBMC; N14 с relay: CBMC 3 258 284 KiB) вероятно выше лимита; pr752/upstream CI не опираются.
+- Q3 — правка п. 3 HANDOFF (`:93`) закрывает nit 1 R1.
+
+NOT_RUN: rustc/Kani/CBMC, сырые логи, spill; оценка stock-pipe для N14 — экстраполяция; содержимое assertions опор не выводилось заново.
+
+Решение координатора: обе строки утверждены; ограничение N14 внесено в абзац утверждения в `ADMISSION.md`.
