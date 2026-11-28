@@ -1,0 +1,10 @@
+# REV2 Wide N10 stability witness · ревью
+
+## R1
+
+Независимое ревью (Claude, `smallsort-reviewer`) 2026-11-28. **GO_WITH_NITS**, блокеров нет. Пины: Std `bec3b6ee805fd3640da34e20482a3de647b3c865` / tree `7ba43a3e19`, parent `cebdba9913`; Control `e54fde9f4c9c8e24085c6953f25c0d036c586a30` / tree `6d353bd8a1e1f587dc772a7a2958edc55ee78d9e`, parent `274370cb7b`; review-trigger `5652a9c5d4` (тот же tree, sole parent `467af9cb8d`); request `da2a7c14…`, roster `528906a5…`, bindings `2fb54e89…`, bundle `ea580502…` (89 404 байта, HEAD `bec3b6ee80`); задание g0 `e8d06aefc3`, handoff g0 `5b9de61adb`. Исполнитель — pane 11 (Claude Code), Codex w13 остановлен фильтром.
+
+1. Nit. `ch8-cal1/request.py` `check_n10_witness_source` не проверяет, какой массив получает каждый `observe` (`&EXPECTED` до обмена, `&CORRUPTED` после); перестановку аргументов поймали бы только замороженный SHA и координаты. Добавить проверки подстрок при следующей правке.
+2. Nit. Оракул ожидаемого порядка в Control — Python `sorted` (стабильный по ключу), а не модель алгоритма; расхождение с actual кодом дало бы второй отказ и `OPEN`. Независимая модель ревьюера совпала.
+
+Проверено и в порядке: Std-дельта — добавленный `mod n10_wide_witness` (`:1327–1409`) и check-cfg, старый файл — побайтный префикс, `smallsort.rs` без изменений; маршрут `:134–139 → :213–224 → :261–273`, fallback на N10 недостижим, S8 закрыт, два `sort4_stable`, fill `4..5`, пять пар merge; независимая Python-модель — выход `[1,3,4,6,8,9,0,2,5,7]` = стабильная сортировка (стабильна на всех 3^10 ключевых шаблонах), после порчи `[1,3,6,4,8,9,0,2,5,7]` ломается только `STABLE_EQUAL_KEYS` на `:1407:9`, последний и единственный отказ; только скалярные сравнения, циклы ≤9; discovery 179 + 1, лимиты, часы, отдельная переменная tree; проверка submodules в CI не обойдена (`identity()` по умолчанию `check_submodules=True`, workflow `submodules: recursive`); suite 143/143; маркировка — только диагностика, N16 остаётся OPEN; авторы, `[skip ci]`, без решётки и Co-Authored-By.
