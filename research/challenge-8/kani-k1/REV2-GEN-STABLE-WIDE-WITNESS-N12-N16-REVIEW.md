@@ -16,3 +16,16 @@
 NOT_RUN: rustfmt, source gate, discovery против реальных rustc/Kani, GH Actions, receipt FIX2 (равенство argv опирается на fixture).
 
 Решение координатора: GO откладывается до исправления п. 1 (дешёвое исправление против дорогого прогона, диагностика — цель слота). П. 2–4 исправить в том же раунде, п. 5–6 — по усмотрению исполнителя.
+
+## R2 · delta FIX1
+
+Delta-ревью (тот же `smallsort-reviewer`) 2026-11-28. **GO_WITH_NITS**, все находки R1 исправлены. Пины: Control `b5e6c89c0e06cc55e264c4d297086e3ae629300a` / tree `4d4e7f5b3b4ccb6fc112eb5b93645d8052c801e0`, parent `507a01258f` (fast-forward); review-trigger `60650bf250f7021623eac6e54993f66e98b05608`, тот же tree, sole parent `467af9cb8d`. CI-REQUEST `1247e9e65a6be3fe41862b3559f6996284024d1d3ee3e03bbaf9546ecd4ba3f9` (дельта — одна строка, SHA relay), relay `c8b4c070dbd12a8acafa4b23df0b74833b600333f539b66fc9d27eccee3613b7`; Std/roster/bindings/bundle без изменений. Лимиты: 120 с VT, 4 GiB, 180 с cold, `receipt_seconds` 5 — без изменений.
+
+Проверено: census прикрепляется сразу после reap (`run.py:729-734`), разбор spill после проекции в пределах прежнего окна (`run.py:771-783`), удаление spill после receipt (`run.py:797-802`); данные префикса не влияют на вердикт; текст REPLAY_INCOMPLETE и тест EPIPE; `ignore_termination()` перед `stop_child`, relay не делает exec после SIG_IGN, восстановление обработчиков только в fixture; `stdout_delivery` в receipt/`expected_result`/SUMMARY; отказ tmpfs/ramfs не задевает ext4/xfs. `test_relay` 23/23, suite 169 за 62 с.
+
+Nits:
+- (a) `stdout_relay.py:195-217`: лимит текста 1 MiB обычно срабатывает раньше лимита 16 384 сообщений (реалистичные `Unwinding loop …` — 7 768 сообщений), CNF после них не находится, причина пишется как `NO_RECOGNIZED_NATIVE_MARKER_IN_PREFIX`. Предложено: отдельная причина или дешёвый `re.search` CNF по всем 16 MiB.
+- (b) Таймаут self-test в `.github/workflows/ch8-q-pilot.yml:51-55` 90 с → ~150 с; шаг 8 мин помещается, proof-лимиты не меняются.
+- (c) Косметика: `stdout_delivery=INSTALLED`, если `collect` не выполнялся; не `COMPLETE`, вердикт не затронут.
+
+Решение координатора: (a) и (b) исправить раундом FIX2 до dispatch. CNF на N16 теперь доступен только через spill (вывод CBMC больше не идёт в Kani вживую), и это главная диагностика при RSS_LIMIT. (b) дешевле, чем новый trigger после таймаута. (c) по усмотрению.
