@@ -29,3 +29,9 @@ Nits:
 - (c) Косметика: `stdout_delivery=INSTALLED`, если `collect` не выполнялся; не `COMPLETE`, вердикт не затронут.
 
 Решение координатора: (a) и (b) исправить раундом FIX2 до dispatch. CNF на N16 теперь доступен только через spill (вывод CBMC больше не идёт в Kani вживую), и это главная диагностика при RSS_LIMIT. (b) дешевле, чем новый trigger после таймаута. (c) по усмотрению.
+
+## R3 · delta FIX2 (координатор)
+
+Delta-проверка координатора 2026-11-28. **GO.** Control `588fc98143a3321d58d58407c916da621b70cccb` / tree `664f75885c8aafa7b4df8d82e9c8b7e0eb102593`, parent `b5e6c89c0e` (fast-forward), автор/коммиттер Tiramisu-Cake, `[skip ci]`. Review-trigger `f0f51bd6de4ce617eeef205b897c4489f9b58201`, тот же tree, sole parent `467af9cb8d`, чистый. CI-REQUEST `1247e9e6…` и relay `c8b4c070…` пересчитаны, без изменений.
+
+Дельта: (a) `stdout_relay.py` — один regex только по нативным сообщениям размера/фаз CBMC по всему 16 MiB префиксу, предел 4 096 нативных сообщений, отдельные причины `CNF_NOT_FOUND_BEFORE_MARKER_SCAN_LIMIT` / `NO_RECOGNIZED_NATIVE_MARKER_IN_PREFIX` / `NO_CNF_IN_PREFIX`; влияет только на диагностику, вердикт по-прежнему требует delivery `COMPLETE`. Тест: 8 000 строк `Unwinding loop` перед CNF в 17 MiB spill (на FIX1 падает). (b) Таймауты self-test в workflow 90 → 150 с; proof-лимиты, `receipt_seconds` и шаг 8 мин не тронуты. (c) `stdout_delivery=NOT_JUDGED` вместо `INSTALLED`, если доставка не оценивалась (`run.py:785-790`).
