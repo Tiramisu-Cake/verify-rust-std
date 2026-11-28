@@ -14,3 +14,16 @@
 NOT_RUN: rustc/Cargo/Kani/CBMC/rustfmt (компиляция, discovery 186/193, нативные координаты, ресурсы N32), YAML, `bash -n`, прогоны со сдвигом часов, shallow fetch bundle.
 
 Решение координатора: GO откладывается до раунда правок. Nit 3 — ровно сценарий CI (первый прогон на свежем checkout); причину выяснить и устранить. Nit 2 — поднять timeout pins до 10 мин. Nit 1 и 4 — в том же раунде.
+
+## R2 · FIX1 (handoff 0e40b67200)
+
+Тот же `smallsort-reviewer`, 2026-11-28. **GO**, новых замечаний нет. Пины пересчитаны: Control `79a5ec2fb89f643559e44bdab0f534d6e827ec08` / tree `c1bbb6dbe41ce69c93a65b42fb45655d78da2aac`, sole parent `ec27bc206c` (fast-forward); review-trigger `e9206385e8d02e62af407ce568db253683ce4215`, тот же tree, sole parent `467af9cb8d`. Без изменений: Std `88d05a138c`, CI-REQUEST `eddd1856…`, bundle `c806269c…`, relay `c8b4c070…`, roster `5845e394…` и bindings `623ae996…` (внутри неизменного CI-REQUEST, константы `request.py` не правились). Гигиена двух новых коммитов в порядке.
+
+- Diff `ec27bc2`→`79a5ec2`: три файла, +7/−9. `ch8-q-pilot.yml:46` — timeout pins 8 → 10 мин (nit 2). `request.py:1774–1777` — арифметический цикл заменён комментарием об инварианте рендера, побайтное сравнение и `fill.count(...)` сохранены (nit 1). `test_relay.py:124–127` — cap тестовой фикстуры `RelayFixture` 64 → 24 MiB, `disk_reserve_bytes` 1 MiB и `term_grace` 0,5 без изменений.
+- Nit 3: объяснение исполнителя согласуется с кодом. `stdout_relay.py:112–113` требует свободного места ≥ cap + reserve; для прежней фикстуры это 68 157 440 байт — ровно число из ошибки; корень сервера был заполнен почти на 100 %. Крупнейший синтетический поток 22 260 361 байт (≈21,23 MiB) < 24 MiB. Смысл тестов сохранён: нижняя граница 16 MiB (`:164`), собственный cap 1 MiB в тесте остановки (`:246`), тест резерва (`:306`), тесты spill-prefix 17 MiB не зависят от cap. Боевые значения (chunk 64 KiB, cap 4 GiB, reserve 2 GiB) проверяются в `:826–827`; frozen-request по-прежнему отвергает relay на любом слоте и cap 8 GiB; в N32 relay ни на одном слоте.
+- Nit 4: три правки текста handoff внесены (`:74`, `:38`, comparator cover `rev2_gen_stable_n16_pilot.rs:35:5`).
+- Свежий depth-2 clone trigger `e9206385e8`, около 1,3 GiB свободно: suite 181/181 за 93,2 с с первого прогона.
+
+NOT_RUN: rustc/Cargo/Kani/CBMC; воспроизведение нехватки места на ext4-образе 100 MiB; шаг pins с четырьмя шкалами (исполнитель сообщает 361 с), CLI trigger, YAML, `bash -n`. Выводы R1 по модулю Std и runner сохраняются: Std, CI-REQUEST, roster, bindings, bundle и лимиты побайтно те же.
+
+Решение координатора: GO, [REV2-GEN-STABLE-N32-PILOT-GO.md](REV2-GEN-STABLE-N32-PILOT-GO.md).
